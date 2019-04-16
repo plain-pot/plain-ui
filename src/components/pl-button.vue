@@ -3,12 +3,16 @@
         <slot>
             {{label}}
         </slot>
+        <pl-loading v-if="loading"/>
     </button>
 </template>
 
 <script>
+    import PlLoading from "./pl-loading";
+
     export default {
         name: "pl-button",
+        components: {PlLoading},
         props: {
             type: {type: String, default: 'fill'},
             color: {type: String, default: 'primary'},
@@ -17,8 +21,6 @@
             label: {type: String},
 
             loading: {type: Boolean},                                       //loading 图标
-            loadingType: {type: String, default: 'default'},                //loading默认类型
-            loadingColor: {type: String, default: 'white'},                 //loading默认颜色
             long: {type: Boolean,},                                         //长按钮
             padding: {type: Boolean, default: true},                        //左右边距
 
@@ -30,6 +32,10 @@
                     `pl-color-${this.color}`,
                     `pl-shape-${this.shape}`,
                     `pl-size-${this.size}`,
+                    
+                    {
+                        'pl-button-long': this.long
+                    },
                 ]
             }
         },

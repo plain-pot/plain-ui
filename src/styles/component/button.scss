@@ -4,6 +4,7 @@
     padding: 0 plVar(padding);
     cursor: pointer;
     min-width: 68px;
+    background: transparent;
     @include plColors {
       &.pl-color-#{$key} {
         outline-color: $colorDeep;
@@ -14,6 +15,9 @@
           bottom: 1px;
         }
       }
+    }
+    &.pl-button-long {
+      width: 100%;
     }
   }
 }
