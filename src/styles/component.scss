@@ -6,6 +6,7 @@
 @import "./component/tab";
 @import "./component/box";
 @import "./component/button";
+@import "./component/loading";
 
 @mixin component-mixin {
   @include component-icon;
@@ -16,4 +17,5 @@
   @include component-tab;
   @include component-box;
   @include component-button;
+  @include component-loading;
 }

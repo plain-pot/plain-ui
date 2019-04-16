@@ -1,0 +1,10 @@
+@mixin component-loading {
+  .pl-loading {
+    position: relative;
+    width: 1.2em;
+    height: 1.2em;
+    display: inline-block;
+    vertical-align: center;
+    color: inherit;
+  }
+}
