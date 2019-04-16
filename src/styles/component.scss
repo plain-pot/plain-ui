@@ -1,0 +1,7 @@
+@import "./component/icon";
+@import "./component/scroll";
+
+@mixin component-mixin {
+  @include component-icon;
+  @include component-scroll;
+}

@@ -1,0 +1,47 @@
+@mixin component-icon {
+  .pl-icon {
+    vertical-align: bottom;
+    display: inline;
+    position: relative;
+    width: plVar(iconSize);
+    height: plVar(iconSize);
+    @include transition-all;
+
+    .pl-icon-svg {
+      width: plVar(iconSize);
+      height: plVar(iconSize);
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+      position: relative;
+
+      &.pl-icon-loading {
+        animation: rotating 1s linear infinite;
+      }
+
+      @keyframes rotating {
+        from {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(180deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
+
+    &.pl-icon-enable-hover:hover {
+      cursor: pointer;
+      user-select: none;
+      transform: scale(1.3);
+
+      &:active {
+        &:before {
+          background-color: #eae3f2;
+        }
+      }
+    }
+  }
+}

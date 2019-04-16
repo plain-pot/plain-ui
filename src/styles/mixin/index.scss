@@ -1,0 +1,18 @@
+@mixin transition-all {
+  transition: all 0.15s;
+}
+
+@mixin transition-all-cubic-bezier {
+  transition: all 1s cubic-bezier(.28, 1.03, 0, .99);
+}
+
+@mixin public-style {
+  font-family: Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-weight: 400;
+}

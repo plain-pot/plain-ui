@@ -4,15 +4,19 @@
             app-header
         </div>
         <div class="app-body">
-            <div class="app-left"></div>
+            <div class="app-left">
+                <app-menu/>
+            </div>
             <div class="app-right"></div>
         </div>
     </div>
 </template>
 
 <script>
+    import AppMenu from "./home/app-menu";
     export default {
         name: "App",
+        components: {AppMenu},
         data() {
             return {
                 img: require('portal/asserts/background.jpg')
@@ -45,7 +49,7 @@
                 align-items: center;
                 justify-content: space-between;
                 box-sizing: border-box;
-                padding: 0 plVar(paddingMedium);
+                padding: 0 plVar(padding);
                 box-shadow: plVar(boxShadow);
             }
 
@@ -53,6 +57,7 @@
                 flex: 1;
                 display: flex;
                 position: relative;
+                overflow: hidden;
                 z-index: 0;
                 .app-left {
                     width: 250px;

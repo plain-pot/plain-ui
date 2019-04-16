@@ -1,4 +1,6 @@
+@import "./mixin/index";
 @import "./theme";
+@import "./component";
 
 @function plVar($key) {
   @if (map_has_key($curTheme, $key)) {
@@ -37,6 +39,6 @@
 
 @mixin plUseTheme($theme:()) {
   @include plThemeGenerator($theme, false) {
-    @include componentMixin;
+    @include component-mixin;
   }
 }
