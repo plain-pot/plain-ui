@@ -6,7 +6,7 @@
                        :value="currentValue"
                        @input="p_clickMenu"
                        @close="p_close"
-                       @contextmenu="p_close"
+                       @dblclick="p_close"
                        ref="header"/>
         <div class="pl-nav-tab-content">
             <component v-for="(page,index) in pageStack"

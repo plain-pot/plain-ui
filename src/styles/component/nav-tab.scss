@@ -12,6 +12,7 @@
       box-sizing: border-box;
       overflow: hidden;
       border-top: none;
+      border-radius: plVar(borderFillet);
       .pl-nav-tab-item {
         height: 100%;
         overflow: auto;

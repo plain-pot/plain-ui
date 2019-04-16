@@ -1,4 +1,4 @@
-@mixin component-tab{
+@mixin component-tab {
   .pl-tabs {
     display: block;
     width: 100%;
@@ -14,15 +14,12 @@
     display: block;
     .pl-item {
       display: inline-block;
-      margin-right: 16px;
-      padding-bottom: 16px;
-
+      margin-right: plVar(padding);
+      margin-bottom: plVar(paddingSmall);
+      border-radius: plVar(borderFillet);
       &.pl-tab-header-item-active {
         color: plVar(colorTitle);
         background-color: plVar(backgroundColorLighter);
-        &:before {
-          bottom: -17px;
-        }
       }
       &:hover:not(.pl-tab-header-item-active) {
         background-color: plVar(backgroundColorDeeper);

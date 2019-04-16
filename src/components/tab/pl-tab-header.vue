@@ -10,7 +10,7 @@
                  :class="{'pl-tab-header-item-active':index === currentValue}">
             <div class="pl-tab-header-item"
                  @click="p_click(item,index)"
-                 @contextmenu.prevent.stop="p_contextmenu(item,index)">
+                 @dblclick="p_dblclick(item,index)">
                 <div class="pl-tab-header-item-content">
                     <div class="pl-tab-header-item-text">
                         <pl-tooltip-text :content="item" show-overflow-tooltip/>
@@ -49,8 +49,8 @@
             p_close(item, index) {
                 this.$emit('close', {item, index})
             },
-            p_contextmenu(item, index) {
-                this.$emit('contextmenu', {item, index})
+            p_dblclick(item, index) {
+                this.$emit('dblclick', {item, index})
             },
         }
     }
