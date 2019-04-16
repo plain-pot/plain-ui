@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "element-resize-detector": "^1.1.15",
+    "scroll": "^3.0.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
+    "fecha": "^3.0.2",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"
