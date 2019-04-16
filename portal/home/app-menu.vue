@@ -23,14 +23,14 @@
             return {
                 menuGroups: [
                     {
-                        title: 'BasicTable',
+                        title: '表格（新）',
                         menus: [
                             {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/base-table/demo-base-table', complete: true},
                             {title: 'BaseTable基础表格列', icon: 'pl-table-solid', page: '/base-table/demo-base-table-column', complete: true},
                         ],
                     },
                     {
-                        title: 'BaseTable',
+                        title: '表格',
                         menus: [
                             {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/table/demo-base-table', complete: true},
                             {title: 'BaseTable基础表格编辑', icon: 'pl-table-solid', page: '/table/demo-base-table-edit', complete: true},
@@ -40,14 +40,14 @@
                         ],
                     },
                     {
-                        title: 'Basic',
+                        title: '测试',
                         menus: [
                             {title: 'Test测试', icon: 'pl-tools', page: '/normal/demo-test', complete: true},
                             {title: 'Test测试2', icon: 'pl-tools', page: '/normal/demo-test2', complete: true},
                         ],
                     },
                     {
-                        title: 'Basic',
+                        title: '基础',
                         menus: [
                             {title: 'Color颜色', icon: 'pl-color', page: '/normal/demo-color', complete: true},
                             {title: 'Icon图标', icon: 'pad-font-colors', page: '/normal/demo-icon', complete: true},
@@ -56,7 +56,7 @@
                         ],
                     },
                     {
-                        title: 'Form',
+                        title: '表单',
                         menus: [
                             {title: 'Input输入框', icon: 'pl-edit-square-light', page: '/normal/demo-input', complete: true},
                             {title: 'Textarea文本域', icon: 'pl-textarea', page: '/normal/demo-textarea', complete: true},
@@ -76,7 +76,7 @@
                         ],
                     },
                     {
-                        title: 'Data',
+                        title: '数据视图',
                         menus: [
                             {title: 'List列表', icon: 'pl-list', page: '/normal/demo-list', complete: true},
                             {title: 'Tag标签', icon: 'pl-icon-tag', page: '/normal/demo-tag', complete: true},
@@ -90,7 +90,7 @@
                         ],
                     },
                     {
-                        title: 'Service',
+                        title: '服务',
                         menus: [
                             {title: '$message消息服务', icon: 'pad-message', page: '/normal/demo-message', complete: true},
                             {title: '$dialog对话框服务', icon: 'pl-window', page: '/normal/demo-dialog-service', complete: true},
@@ -99,7 +99,7 @@
                         ],
                     },
                     {
-                        title: 'Navigation',
+                        title: '导航',
                         menus: [
                             {title: 'Tabs页签', icon: 'pl-tabs', page: '/normal/demo-tabs', complete: true},
                             {title: 'TabsHeader页签标题', icon: 'pl-tabs', page: '/normal/demo-tab-header', complete: true},
@@ -112,7 +112,7 @@
                         ],
                     },
                     {
-                        title: 'Others',
+                        title: '其他',
                         menus: [
                             {title: 'Scroll滚动条', icon: 'icon-scroll', page: '/normal/demo-scroll', complete: true},
                             {title: 'Dialog对话框', icon: 'pl-window', page: '/normal/demo-dialog', complete: true},
