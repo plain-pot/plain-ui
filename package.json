@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build:page": "vue-cli-service build --analysis",
+    "build": "vue-cli-service build --target lib --name plain-ui src/index.js --dest dist --analysis",
+    "start": "npm run serve"
   },
   "dependencies": {
     "core-js": "^2.6.5",
