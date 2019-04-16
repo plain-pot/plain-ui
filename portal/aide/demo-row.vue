@@ -38,7 +38,7 @@
             .demo-row-title {
                 display: flex;
                 align-items: center;
-                color: plVar(colorprimaryLight);
+                color: plVar(colorPrimaryLight);
                 border-bottom: solid 1px plVar(backgroundColor);
                 padding-bottom: plVar(padding);
                 span {

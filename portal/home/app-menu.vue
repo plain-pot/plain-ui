@@ -165,12 +165,12 @@
                 .app-menu-segment-line {
                     flex: 1;
                     height: 1px;
-                    background-color: plVar(colorPrimary);
+                    background-color: plVar(backgroundColorLighter);
                 }
                 span {
                     margin: 0 plVar(padding);
                     font-size: plVar(fontLarge);
-                    color: plVar(colorPrimary)
+                    color: plVar(colorPrimaryLight)
                 }
             }
         }
