@@ -1,0 +1,42 @@
+@import "./theme";
+
+@function plVar($key) {
+  @if (map_has_key($curTheme, $key)) {
+    @return map-get($curTheme, $key);
+  } @else {
+    @return map-get($theme-default, $key);
+  }
+}
+
+@mixin plThemeGenerator($theme,$appendDefaultTheme:true) {
+  @if (length(map-keys($theme))>0 and $appendDefaultTheme) {
+    $curThemes: map-merge($themes, $theme) !global;
+  } @else {
+    $curThemes: $theme !global;
+  }
+  @each $curThemeName, $curTheme in $curThemes {
+    $curTheme: $curTheme !global;
+
+    @if (str_length($curThemeName) >0) {
+      .pl-theme-#{$curThemeName} {
+        @content;
+      }
+    } @else {
+      html {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin plThemeWrap($theme) {
+  @include plThemeGenerator($theme, true) {
+    @content;
+  }
+}
+
+@mixin plUseTheme($theme:()) {
+  @include plThemeGenerator($theme, false) {
+    @include componentMixin;
+  }
+}

@@ -1,0 +1,11 @@
+/*@formatter:off*/
+$theme-default: (
+        backgroundColor:rgba(0, 0, 0, .125),                          //背景色
+        backgroundColorLighter:rgba(255, 255, 255, .85),              //背景色亮
+        backgroundColorDeeper:rgba(255, 255, 255, .1),                //背景色暗
+        backgroundColorActive:rgba(255, 255, 255, .06),               //背景色激活
+
+        colorTitle:#ffffff,                                           //标题颜色
+        colorContent:rgba(255,255,255,.7),                            //文字色
+);
+/*@formatter:on*/

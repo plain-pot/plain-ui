@@ -1,0 +1,27 @@
+@import "../src/styles/global";
+
+/*@formatter:off*/
+$theme-custom: (
+        "red":(
+                backgroundColor:rgba(0, 0, 0, .125),                          //背景色
+                backgroundColorLighter:rgba(255, 255, 255, .85),              //背景色亮
+                backgroundColorDeeper:rgba(0, 0, 0, .2),                      //背景色暗
+                backgroundColorActive:rgba(255, 255, 255, .06),               //背景色激活
+
+                colorTitle:#ffffff,                                           //标题颜色
+                colorContent:rgba(255,255,255,.7),                            //文字色
+
+                paddingLarge:20px,
+                paddingMedium:16px,
+                paddingSmall:8px,
+
+                boxShadow:0 0 13px rgba(0, 0, 0, 0.5),
+        )
+);
+/*@formatter:on*/
+
+@mixin themeWrap {
+  @include plThemeWrap($theme-custom) {
+    @content;
+  }
+}

@@ -52,7 +52,7 @@ const option = {
     css: {
         loaderOptions: {
             sass: {
-                // data: `@import "src/styles/global.scss"; @import "demo/global.scss";@import "new-src/styles/global.scss";@import "new-demo/styles/global.scss";`
+                data: `@import "src/styles/global.scss"; @import "portal/global.scss";`
             }
         }
     },
