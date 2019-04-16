@@ -5,10 +5,10 @@
         </div>
         <div class="app-body">
             <div class="app-left">
-                <app-menu @click="menu=>$refs.tab.push(menu.page,menu.title)"/>
+                <app-menu @click="val=>$refs.tab.push(val.page,val.title)" :menu="menu"/>
             </div>
             <div class="app-right">
-                <im-nav-tab ref="tab" id="app"/>
+                <im-nav-tab ref="tab" id="app" @change="val=>menu=val"/>
             </div>
         </div>
     </div>
@@ -22,6 +22,7 @@
         components: {AppMenu},
         data() {
             return {
+                menu: {},
                 img: require('portal/asserts/background.jpg')
             }
         },

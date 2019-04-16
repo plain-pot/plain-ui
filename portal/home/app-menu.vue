@@ -7,9 +7,9 @@
                     <span>{{menuGroup.title}}</span>
                     <div class="app-menu-segment-line"></div>
                 </div>
-                <div class="app-menu-item" v-for="(menu,menuIndex) in menuGroup.menus" :key="menuIndex" @click="$emit('click',menu)">
-                    <im-icon :icon="menu.icon"/>
-                    <span>{{menu.title}}</span>
+                <div class="app-menu-item" v-for="(item,menuIndex) in menuGroup.menus" :key="menuIndex" @click="$emit('click',item)" :class="{'app-menu-item-active':menu.title==item.title}">
+                    <im-icon :icon="item.icon"/>
+                    <span>{{item.title}}</span>
                 </div>
             </div>
         </im-scroll>
@@ -19,6 +19,9 @@
 <script>
     export default {
         name: "app-menu",
+        props: {
+            menu: {},
+        },
         data() {
             return {
                 menuGroups: [
@@ -152,7 +155,7 @@
                 .pl-icon {
                     margin-right: 1em;
                 }
-                &.active, &:hover {
+                &.app-menu-item-active, &:hover {
                     background-color: plVar(backgroundColorLighter);
                     color: plVar(colorTitle);
                 }

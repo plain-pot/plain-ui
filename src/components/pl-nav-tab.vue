@@ -28,6 +28,7 @@
 
     import PlIcon from "./pl-icon";
     import PlTabHeader from "./tab/pl-tab-header";
+
     const STORAGE_KEY = 'navigator-tab';
 
     export default {
@@ -98,6 +99,7 @@
                 if (!page.component) page.component = (await this.getRegisterPageByPath(page.path)).component
                 if (!!page && !page.init) page.init = true
                 this.p_save()
+                this.$emit('change', page)
             },
             p_save() {
                 if (!this.id) return
