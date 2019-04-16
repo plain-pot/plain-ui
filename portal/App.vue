@@ -5,15 +5,18 @@
         </div>
         <div class="app-body">
             <div class="app-left">
-                <app-menu/>
+                <app-menu @click="menu=>$refs.tab.push(menu.page,menu.title)"/>
             </div>
-            <div class="app-right"></div>
+            <div class="app-right">
+                <im-nav-tab ref="tab" id="app"/>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import AppMenu from "./home/app-menu";
+
     export default {
         name: "App",
         components: {AppMenu},

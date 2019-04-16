@@ -1,0 +1,44 @@
+@mixin component-nav-tab {
+  .pl-nav-tab {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 12px;
+    .pl-nav-tab-content {
+      background-color: plVar(backgroundColorLighter);
+      flex: 1;
+      width: 100%;
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+      border-top: none;
+      .pl-nav-tab-item {
+        height: 100%;
+        overflow: auto;
+      }
+      .pl-nav-tab-content-empty {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        @include transition-all;
+        .pl-icon {
+          font-size: 50px;
+          margin-bottom: 12px;
+        }
+        span {
+          font-size: 12px;
+        }
+        &.pl-nav-tab-content-empty-hide {
+          opacity: 0;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}

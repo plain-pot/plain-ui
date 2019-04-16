@@ -12,6 +12,7 @@
     "core-js": "^2.6.5",
     "element-resize-detector": "^1.1.15",
     "scroll": "^3.0.1",
+    "tippy.js": "^4.2.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {

@@ -1,0 +1,78 @@
+@mixin component-tab{
+  .pl-tabs {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    vertical-align: middle;
+    font-size: 14px;
+    .pl-tabs-body {
+      padding: 12px;
+    }
+  }
+  .pl-tab-header {
+    @include public-style;
+    display: block;
+    .pl-item {
+      display: inline-block;
+      margin-right: 16px;
+      padding-bottom: 16px;
+
+      &.pl-tab-header-item-active {
+        color: plVar(colorTitle);
+        background-color: plVar(backgroundColorLighter);
+        &:before {
+          bottom: -17px;
+        }
+      }
+      &:hover:not(.pl-tab-header-item-active) {
+        background-color: plVar(backgroundColorDeeper);
+      }
+    }
+
+    .pl-tab-header-item {
+      padding: 0 16px;
+      font-size: 12px;
+      height: 36px;
+      line-height: 36px;
+      background-color: transparent;
+      color: plVar(fontTitle);
+      cursor: pointer;
+      width: 150px;
+      position: relative;
+
+      .pl-tab-header-item-content {
+        height: 100%;
+        line-height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .pl-tab-header-item-text {
+        flex: 1;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+
+      .pl-tab-header-item-close {
+        display: flex;
+        align-items: center;
+        margin-left: 3px;
+        line-height: initial;
+      }
+    }
+
+  }
+
+}

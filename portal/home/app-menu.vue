@@ -7,7 +7,7 @@
                     <span>{{menuGroup.title}}</span>
                     <div class="app-menu-segment-line"></div>
                 </div>
-                <div class="app-menu-item" v-for="(menu,menuIndex) in menuGroup.menus" :key="menuIndex">
+                <div class="app-menu-item" v-for="(menu,menuIndex) in menuGroup.menus" :key="menuIndex" @click="$emit('click',menu)">
                     <im-icon :icon="menu.icon"/>
                     <span>{{menu.title}}</span>
                 </div>

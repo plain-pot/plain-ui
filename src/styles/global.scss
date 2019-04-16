@@ -21,10 +21,12 @@
 
     @if (str_length($curThemeName) >0) {
       .pl-theme-#{$curThemeName} {
+        color: plVar(colorContent);
         @content;
       }
     } @else {
       html {
+        color: plVar(colorContent);
         @content;
       }
     }
