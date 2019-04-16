@@ -1,0 +1,42 @@
+@mixin component-box {
+
+  .pl-type-fill {
+    @include plColors {
+      &.pl-color-#{$key} {
+        background-color: $value;
+        color: white;
+      }
+    }
+  }
+
+  .pl-type-line {
+    @include plColors {
+      &.pl-color-#{$key} {
+        border: solid 1px $value;
+        box-sizing: border-box;
+        color: $value;
+      }
+    }
+  }
+
+  .pl-type-none {
+    @include plColors {
+      &.pl-color-#{$key} {
+        color: $value;
+      }
+    }
+  }
+
+  @include plShapes {
+    .pl-shape-#{$key} {
+      border-radius: $value;
+    }
+  }
+
+  @include plSizes {
+    .pl-size-#{$key} {
+      height: $value;
+    }
+  }
+
+}

@@ -44,3 +44,33 @@
     @include component-mixin;
   }
 }
+
+@mixin plColors {
+  @each $key in (Primary, Success, Warn, Error, Info, Disabled) {
+
+    $value: plVar(color#{$key}) !global;
+    $color: plVar(color#{$key}) !global;
+    $colorLight: plVar(color#{$key}Light) !global;
+    $colorDeep: plVar(color#{$key}Deep) !global;
+
+    $key: to_lower_case($key) !global;
+
+    @content;
+  }
+}
+
+@mixin plShapes {
+  @each $key in (None, Fillet, Round) {
+    $value: plVar(border#{$key}) !global;
+    $key: to_lower_case($key) !global;
+    @content;
+  }
+}
+
+@mixin plSizes {
+  @each $key in (Large, Default, Small) {
+    $value: plVar(size#{$key}) !global;
+    $key: to_lower_case($key) !global;
+    @content;
+  }
+}

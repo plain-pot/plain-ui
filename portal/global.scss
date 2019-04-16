@@ -7,9 +7,9 @@ $theme-custom: (
                 colorPrimaryLight: #EE46FF,                                  //颜色：基本轻
                 colorPrimaryDeep: #9817A6,                                   //颜色：基本重
                 colorPrimaryLighter: #F59AFF,                                //颜色：基本更轻
-                colorSuccess: #4af721,                                        //颜色：成功
-                colorSuccessLight: #9CFB83,                                  //颜色：成功轻
-                colorSuccessDeep: #2AA10B,                                   //颜色：成功重
+                colorSuccess: #4DDE00,                                        //颜色：成功
+                colorSuccessLight: #99EE6B,                                  //颜色：成功轻
+                colorSuccessDeep: #329000,                                   //颜色：成功重
                 colorWarn: #FF8700,                                           //颜色：警告
                 colorWarnLight: #FFBD73,                                     //颜色：警告轻
                 colorWarnDeep: #BF7C30,                                      //颜色：警告重
@@ -44,6 +44,10 @@ $theme-custom: (
                 fontLarge:16px,
                 font:14px,
                 fontSmall:12px,
+
+                sizeLarge:36px,
+                sizeDefault:28px,
+                sizeSmall:22px,
 
                 iconSize:1.2em,
 

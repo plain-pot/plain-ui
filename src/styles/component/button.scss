@@ -1,0 +1,19 @@
+@mixin component-button {
+  .pl-button {
+    border: none;
+    padding: 0 plVar(padding);
+    cursor: pointer;
+    min-width: 68px;
+    @include plColors {
+      &.pl-color-#{$key} {
+        outline-color: $colorDeep;
+        &:active {
+          background-color: $colorDeep;
+          position: relative;
+          top: 1px;
+          bottom: 1px;
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,8 @@
 @import "./component/list";
 @import "./component/tooltip";
 @import "./component/tab";
+@import "./component/box";
+@import "./component/button";
 
 @mixin component-mixin {
   @include component-icon;
@@ -12,4 +14,6 @@
   @include component-list;
   @include component-tooltip;
   @include component-tab;
+  @include component-box;
+  @include component-button;
 }
