@@ -5,11 +5,12 @@
     cursor: pointer;
     min-width: 68px;
     background: transparent;
-    vertical-align: center;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
     @include plColors {
       &.pl-color-#{$key} {
-        outline-color: $colorDeep;
         &:active {
           background-color: $colorDeep;
           position: relative;
@@ -24,8 +25,15 @@
     &.pl-button-no-padding {
       padding: 0;
     }
+    @include plSizes {
+      &.pl-button-circle.pl-size-#{$key} {
+        height: $value;
+        width: $value;
+        border-radius: $value;
+        padding: 0;
+        min-width: initial;
+      }
+    }
   }
-
-
 
 }

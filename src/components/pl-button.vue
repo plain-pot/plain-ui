@@ -1,7 +1,8 @@
 <template>
     <button class="pl-button" :class="classes">
         <slot>
-            {{label}}
+            <pl-icon v-if="!!icon" :icon="icon"/>
+            <span v-if="!!label">{{label}}</span>
         </slot>
         <pl-loading v-if="loading"/>
     </button>
@@ -9,17 +10,20 @@
 
 <script>
     import PlLoading from "./pl-loading";
+    import PlIcon from "./pl-icon";
 
     export default {
         name: "pl-button",
-        components: {PlLoading},
+        components: {PlIcon, PlLoading},
         props: {
             type: {type: String, default: 'fill'},
             color: {type: String, default: 'primary'},
             shape: {type: String, default: 'fillet'},
             size: {type: String, default: 'default'},
             label: {type: String},
+            icon: {type: String},
 
+            circle: {type: Boolean},                                        //圆形按钮
             loading: {type: Boolean},                                       //loading 图标
             long: {type: Boolean,},                                         //长按钮
             noPadding: {type: Boolean, default: true},                      //左右边距
@@ -35,6 +39,7 @@
 
                     {
                         'pl-button-long': this.long,
+                        'pl-button-circle': this.circle,
                         'pl-button-no-padding': this.noPadding,
                     },
                 ]
