@@ -15,6 +15,9 @@ const Plain = {
             return await this.p_pageRegistry(path)
         }
     },
+    log(...args){
+        console.log(...args)
+    },
 
     Vue: null,
     $utils,

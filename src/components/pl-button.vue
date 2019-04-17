@@ -1,5 +1,5 @@
 <template>
-    <button class="pl-button" :class="classes">
+    <button class="pl-button" :class="classes" :disabled="loading" @click="e=>$emit('click',e)">
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
             <span v-if="!!label">{{label}}</span>
@@ -39,6 +39,7 @@
 
                     {
                         'pl-button-long': this.long,
+                        'pl-button-loading': this.loading,
                         'pl-button-circle': this.circle,
                         'pl-button-no-padding': this.noPadding,
                     },
