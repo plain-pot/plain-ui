@@ -5,6 +5,8 @@
     cursor: pointer;
     min-width: 68px;
     background: transparent;
+    vertical-align: center;
+    display: inline-block;
     @include plColors {
       &.pl-color-#{$key} {
         outline-color: $colorDeep;
@@ -19,5 +21,11 @@
     &.pl-button-long {
       width: 100%;
     }
+    &.pl-button-no-padding {
+      padding: 0;
+    }
   }
+
+
+
 }

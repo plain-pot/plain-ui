@@ -17,6 +17,9 @@
         <im-demo-row title="长按钮">
             <im-button label="按钮" long/>
         </im-demo-row>
+        <im-demo-row title="去除边距">
+            <im-button label="按钮-按钮-按钮-按钮" noPadding/>
+        </im-demo-row>
     </div>
 </template>
 

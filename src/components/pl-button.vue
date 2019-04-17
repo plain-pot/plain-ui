@@ -22,7 +22,7 @@
 
             loading: {type: Boolean},                                       //loading 图标
             long: {type: Boolean,},                                         //长按钮
-            padding: {type: Boolean, default: true},                        //左右边距
+            noPadding: {type: Boolean, default: true},                      //左右边距
 
         },
         computed: {
@@ -32,9 +32,10 @@
                     `pl-color-${this.color}`,
                     `pl-shape-${this.shape}`,
                     `pl-size-${this.size}`,
-                    
+
                     {
-                        'pl-button-long': this.long
+                        'pl-button-long': this.long,
+                        'pl-button-no-padding': this.noPadding,
                     },
                 ]
             }
