@@ -84,7 +84,7 @@
                     &:after {
                         position: absolute;
                         right: 1px;
-                        width: 3px;
+                        width: 10px;
                         top: 0;
                         bottom: 0;
                         content: '';

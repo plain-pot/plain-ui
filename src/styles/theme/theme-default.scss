@@ -25,8 +25,9 @@ $theme-default: (
                 backgroundColorDeeper:rgba(255,255,255, .1),                    //背景色暗
                 backgroundColorActive:rgba(0, 0, 0, .3),                        //背景色激活
 
+                fontFamily: 'Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif',
                 colorTitle:black,                                               //标题颜色
-                colorContent:#666,                                              //文字色
+                colorContent:#888,                                              //文字色
 
                 boxShadow:0 0 13px rgba(0, 0, 0, 0.5),                          //阴影
 

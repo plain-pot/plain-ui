@@ -17,12 +17,13 @@
       margin-right: plVar(padding);
       margin-bottom: plVar(paddingSmall);
       border-radius: plVar(borderFillet);
+      background-color: white;
+      opacity: 0.35;
       &.pl-tab-header-item-active {
-        color: plVar(colorTitle);
-        background-color: plVar(backgroundColorLighter);
+        opacity: 1;
       }
       &:hover:not(.pl-tab-header-item-active) {
-        background-color: plVar(backgroundColorDeeper);
+        opacity: 1;
       }
     }
 
