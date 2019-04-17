@@ -1,15 +1,15 @@
 <template>
     <div class="app-menu">
-        <im-scroll>
+        <im-scroll fitHostWidth>
             <div class="app-menu-group" v-for="(menuGroup,index) in menuGroups" :key="index">
                 <div class="app-menu-segment">
-                    <div class="app-menu-segment-line"></div>
                     <span>{{menuGroup.title}}</span>
-                    <div class="app-menu-segment-line"></div>
                 </div>
-                <div class="app-menu-item" v-for="(item,menuIndex) in menuGroup.menus" :key="menuIndex" @click="$emit('click',item)" :class="{'app-menu-item-active':menu.title==item.title}">
-                    <im-icon :icon="item.icon"/>
-                    <span>{{item.title}}</span>
+                <div class="app-menu-item-wrapper">
+                    <div class="app-menu-item" v-for="(item,menuIndex) in menuGroup.menus" :key="menuIndex" @click="$emit('click',item)" :class="{'app-menu-item-active':menu.title==item.title}">
+                        <im-icon :icon="item.icon"/>
+                        <span>{{item.title}}</span>
+                    </div>
                 </div>
             </div>
         </im-scroll>
@@ -141,13 +141,14 @@
             padding: plVar(padding);
             height: 100%;
             width: 100%;
+            .app-menu-item-wrapper {
+                padding: plVar(paddingSmall) 0;
+                box-sizing: border-box;
+            }
             .app-menu-item {
-                height: 44px;
                 border-radius: plVar(borderFillet);
                 width: 100%;
-                display: flex;
-                align-items: center;
-                padding: 0 plVar(padding);
+                padding: plVar(paddingSmall) plVar(padding);
                 box-sizing: border-box;
                 font-size: plVar(fontSmall);
                 color: plVar(colorContent);
@@ -156,24 +157,18 @@
                     margin-right: 1em;
                 }
                 &.app-menu-item-active, &:hover {
-                    background-color: plVar(backgroundColorLighter);
-                    color: plVar(colorTitle);
+                    background-color: rgba(0, 0, 0, 0.3);
+                    color: white;
                 }
             }
 
             .app-menu-segment {
                 display: flex;
                 align-items: center;
-                padding: plVar(padding);
-                .app-menu-segment-line {
-                    flex: 1;
-                    height: 1px;
-                    background-color: plVar(backgroundColorLighter);
-                }
                 span {
-                    margin: 0 plVar(padding);
-                    font-size: plVar(fontLarge);
-                    color: plVar(colorPrimaryLight)
+                    font-size: plVar(fontSmall);
+                    color: plVar(colorPrimary);
+                    font-weight: 600;
                 }
             }
         }

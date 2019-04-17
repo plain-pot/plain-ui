@@ -3,54 +3,35 @@
 /*@formatter:off*/
 $theme-custom: (
         "red":(
-                colorPrimary: #B557BF,                                        //颜色：基本
-                colorPrimaryLight: #EE46FF,                                  //颜色：基本轻
-                colorPrimaryDeep: #9817A6,                                   //颜色：基本重
-                colorPrimaryLighter: #F59AFF,                                //颜色：基本更轻
-                colorSuccess: #4DDE00,                                        //颜色：成功
-                colorSuccessLight: #99EE6B,                                  //颜色：成功轻
-                colorSuccessDeep: #329000,                                   //颜色：成功重
-                colorWarn: #FF8700,                                           //颜色：警告
-                colorWarnLight: #FFBD73,                                     //颜色：警告轻
-                colorWarnDeep: #BF7C30,                                      //颜色：警告重
-                colorError: #FF1300,                                          //颜色：错误
-                colorErrorLight: #FF7D73,                                    //颜色：错误轻
-                colorErrorDeep: #BF3A30,                                     //颜色：错误重
-                colorInfo: #929292,                                           //颜色：提示
-                colorInfoLight: #C8C8C8,                                     //颜色：提示轻
-                colorInfoDeep: #6D6D6D,                                      //颜色：提示重
-                colorDisabled: #333333,                                       //颜色：禁用
-                colorDisabledLight: #999999,                                 //颜色：禁用轻
-                colorDisabledDeep: #211111,                                  //颜色：禁用重
+                colorPrimary: #B557BF,                                          //颜色：基本
+                colorPrimaryLight: #EE46FF,                                     //颜色：基本轻
+                colorPrimaryDeep: #9817A6,                                      //颜色：基本重
+                colorPrimaryLighter: #F59AFF,                                   //颜色：基本更轻
+                colorSuccess: #4DDE00,                                          //颜色：成功
+                colorSuccessLight: #99EE6B,                                     //颜色：成功轻
+                colorSuccessDeep: #329000,                                      //颜色：成功重
+                colorWarn: #FF8700,                                             //颜色：警告
+                colorWarnLight: #FFBD73,                                        //颜色：警告轻
+                colorWarnDeep: #BF7C30,                                         //颜色：警告重
+                colorError: #FF1300,                                            //颜色：错误
+                colorErrorLight: #FF7D73,                                       //颜色：错误轻
+                colorErrorDeep: #BF3A30,                                        //颜色：错误重
+                colorInfo: #929292,                                             //颜色：提示
+                colorInfoLight: #C8C8C8,                                        //颜色：提示轻
+                colorInfoDeep: #6D6D6D,                                         //颜色：提示重
+                colorDisabled: #333333,                                         //颜色：禁用
+                colorDisabledLight: #999999,                                    //颜色：禁用轻
+                colorDisabledDeep: #211111,                                     //颜色：禁用重
 
-                backgroundColor:rgba(0, 0, 0, .125),                          //背景色
-                backgroundColorLighter:rgba(255, 255, 255, .125),              //背景色亮
-                backgroundColorDeeper:rgba(0, 0, 0, .2),                      //背景色暗
-                backgroundColorActive:rgba(255, 255, 255, .06),               //背景色激活
+                backgroundColor:rgba(0, 0, 0, .125),                            //背景色
+                backgroundColorLighter:rgba(255, 255, 255, .125),               //背景色亮
+                backgroundColorDeeper:rgba(0, 0, 0, .2),                        //背景色暗
+                backgroundColorActive:rgba(255, 255, 255, .06),                 //背景色激活
 
-                colorTitle:#ffffff,                                           //标题颜色
-                colorContent:rgba(255,255,255,.7),                            //文字色
+                colorTitle:#ffffff,                                             //标题颜色
+                colorContent:rgba(255,255,255,.7),                              //文字色
 
-                boxShadow:0 0 13px rgba(0, 0, 0, 0.5),
-
-                paddingLarge:20px,
-                padding:16px,
-                paddingSmall:8px,
-
-                borderFillet:5px,
-                borderRound:100vw,
-                borderNone:0,
-
-                fontLarge:16px,
-                font:14px,
-                fontSmall:12px,
-
-                sizeLarge:36px,
-                sizeDefault:28px,
-                sizeSmall:22px,
-
-                iconSize:1.2em,
-
+                boxShadow:0 0 13px rgba(0, 0, 0, 0.5),                          //阴影
         )
 );
 /*@formatter:on*/
