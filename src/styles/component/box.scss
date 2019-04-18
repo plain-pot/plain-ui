@@ -5,6 +5,7 @@
       &.pl-color-#{$key} {
         background-color: $value;
         color: white;
+        border: solid 1px $value;
       }
     }
   }

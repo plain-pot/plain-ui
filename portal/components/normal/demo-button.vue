@@ -32,9 +32,35 @@
             <im-button label="按钮-按钮-按钮-按钮" noPadding/>
         </im-demo-row>
         <im-demo-row title="按钮组">
-            <im-button-group><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
-            <im-button-group color="warn"><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
-            <im-button-group><im-button label="北京" type="line"/><im-button label="上海" type="line"/><im-button label="广州" type="line"/></im-button-group>
+            <im-button-group>
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+        </im-demo-row>
+        <im-demo-row title="按钮组方向">
+            <im-button-group vertical>
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+            <im-button-group vertical>
+                <im-button label="北京" type="line"/>
+                <im-button label="上海" type="line"/>
+                <im-button label="广州" type="line"/>
+            </im-button-group>
+
+            <im-button-group>
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+            <im-button-group>
+                <im-button label="北京" type="line"/>
+                <im-button label="上海" type="line"/>
+                <im-button label="广州" type="line"/>
+            </im-button-group>
+
         </im-demo-row>
     </div>
 </template>
