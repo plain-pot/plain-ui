@@ -9,13 +9,14 @@
     align-items: center;
     justify-content: center;
     outline: none;
+    box-sizing: border-box;
     @include plColors {
       &.pl-color-#{$key} {
         &:active {
           background-color: $colorDeep;
           position: relative;
           top: 1px;
-          bottom: 1px;
+          left: 1px;
         }
       }
     }
@@ -40,4 +41,32 @@
     }
   }
 
+  .pl-button-group {
+    display: inline-block;
+    .pl-button {
+      border-radius: 0;
+    }
+    @include plColors {
+      &.pl-button-group-color-#{$key} {
+        .pl-button.pl-type-fill {
+          background-color: $value;
+          color: white;
+          border: none;
+          &:active{
+            background-color: $colorDeep;
+          }
+        }
+        .pl-button.pl-type-line {
+          background: transparent;
+          border: solid 1px $value;
+          color: plVar(colorContent);
+        }
+        .pl-button.pl-type-none {
+          background-color: transparent;
+          color: plVar(colorContent);
+          border: none;
+        }
+      }
+    }
+  }
 }
