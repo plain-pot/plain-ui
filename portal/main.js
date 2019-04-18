@@ -10,7 +10,7 @@ import $utils from "../src/scripts/utils";
 Vue.config.productionTip = false
 
 Vue.use(Plain, {
-    theme: 'red',
+    // theme: 'red',
     pageRegistry(path) {
         return new Promise((rs, rj) => import('portal/components' + path.replace('.vue', '') + '.vue').then(module => rs(module.default)).catch(rj))
     },

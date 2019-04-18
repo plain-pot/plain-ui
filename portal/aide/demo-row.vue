@@ -25,7 +25,6 @@
         .demo-row {
             @include public-style;
             width: 100%;
-            padding: plVar(padding);
             box-sizing: border-box;
             .demo-row-content {
                 background-color: plVar(backgroundColorDeeper);
@@ -46,7 +45,6 @@
                 }
             }
             .demo-row-body {
-                margin-top: plVar(padding);
                 & > *:not(:last-child) {
                     margin-right: 12px;
                 }

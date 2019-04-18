@@ -1,11 +1,52 @@
 /*@formatter:off*/
 $theme-default: (
-        backgroundColor:rgba(0, 0, 0, .125),                          //背景色
-        backgroundColorLighter:rgba(255, 255, 255, .85),              //背景色亮
-        backgroundColorDeeper:rgba(255, 255, 255, .1),                //背景色暗
-        backgroundColorActive:rgba(255, 255, 255, .06),               //背景色激活
+                colorPrimary: #B557BF,                                          //颜色：基本
+                colorPrimaryLight: #EE46FF,                                     //颜色：基本轻
+                colorPrimaryDeep: #9817A6,                                      //颜色：基本重
+                colorPrimaryLighter: #F59AFF,                                   //颜色：基本更轻
+                colorSuccess: #4DDE00,                                          //颜色：成功
+                colorSuccessLight: #99EE6B,                                     //颜色：成功轻
+                colorSuccessDeep: #329000,                                      //颜色：成功重
+                colorWarn: #FF8700,                                             //颜色：警告
+                colorWarnLight: #FFBD73,                                        //颜色：警告轻
+                colorWarnDeep: #BF7C30,                                         //颜色：警告重
+                colorError: #FF1300,                                            //颜色：错误
+                colorErrorLight: #FF7D73,                                       //颜色：错误轻
+                colorErrorDeep: #BF3A30,                                        //颜色：错误重
+                colorInfo: #929292,                                             //颜色：提示
+                colorInfoLight: #C8C8C8,                                        //颜色：提示轻
+                colorInfoDeep: #6D6D6D,                                         //颜色：提示重
+                colorDisabled: #333333,                                         //颜色：禁用
+                colorDisabledLight: #999999,                                    //颜色：禁用轻
+                colorDisabledDeep: #211111,                                     //颜色：禁用重
 
-        colorTitle:#ffffff,                                           //标题颜色
-        colorContent:rgba(255,255,255,.7),                            //文字色
+                backgroundColor:rgba(255, 255, 255, .125),                      //背景色
+                backgroundColorLighter:rgba(0,0,0,.025),                        //背景色亮
+                backgroundColorDeeper:rgba(255,255,255, .1),                    //背景色暗
+                backgroundColorActive:rgba(0, 0, 0, .3),                        //背景色激活
+
+                fontFamily: 'Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif',
+                colorTitle:black,                                               //标题颜色
+                colorContent:#888,                                              //文字色
+
+                boxShadow:0 0 13px rgba(0, 0, 0, 0.5),                          //阴影
+
+                paddingLarge:20px,                                              //大边距
+                padding:16px,                                                   //默认边距
+                paddingSmall:8px,                                               //小边距
+
+                borderFillet:5px,                                               //小圆角
+                borderRound:100vw,                                              //圆
+                borderNone:0,                                                   //无圆角
+
+                fontLarge:16px,                                                 //字号：大
+                font:14px,                                                      //字号：默认
+                fontSmall:12px,                                                 //字号：小
+
+                sizeLarge:36px,                                                 //大小：大
+                sizeDefault:28px,                                               //大小：默认
+                sizeSmall:22px,                                                 //大小：小
+
+                iconSize:1.2em,                                                 //图标大小
 );
 /*@formatter:on*/

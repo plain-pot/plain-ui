@@ -21,12 +21,10 @@
 
     @if (str_length($curThemeName) >0) {
       .pl-theme-#{$curThemeName} {
-        color: plVar(colorContent);
         @content;
       }
     } @else {
       html {
-        color: plVar(colorContent);
         @content;
       }
     }
@@ -42,6 +40,7 @@
 @mixin plUseTheme($theme:()) {
   @include plThemeGenerator($theme, false) {
     @include component-mixin;
+    @content;
   }
 }
 

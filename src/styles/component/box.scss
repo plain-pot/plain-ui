@@ -14,7 +14,7 @@
       &.pl-color-#{$key} {
         border: solid 1px $value;
         box-sizing: border-box;
-        color: plVar(colorContent);
+        color: $value;
       }
     }
   }
@@ -22,7 +22,7 @@
   .pl-type-none {
     @include plColors {
       &.pl-color-#{$key} {
-        color: plVar(colorContent);
+        color: $value;
       }
     }
   }

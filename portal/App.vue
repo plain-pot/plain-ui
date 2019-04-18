@@ -1,7 +1,10 @@
 <template>
-    <div class="app" :style="{backgroundImage:`url('${img}')`}">
+    <div class="app">
         <div class="app-header">
-            app-header
+            <img :src="logo" alt="plain-logo" class="logo">
+            <div>
+                <im-button v-for="theme in ['default','black','red']" :key="theme" @click="$plain.changeTheme(theme)" :label="theme"/>
+            </div>
         </div>
         <div class="app-body">
             <div class="app-left">
@@ -23,7 +26,8 @@
         data() {
             return {
                 menu: {},
-                img: require('portal/asserts/background.jpg')
+                img: require('portal/asserts/background.jpg'),
+                logo: require('portal/asserts/plain.png'),
             }
         },
     }
@@ -47,14 +51,16 @@
             .app-header {
                 height: 64px;
                 position: relative;
-                background-color: plVar(backgroundColorDeeper);
-                color: plVar(colorTitle);
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 box-sizing: border-box;
                 padding: 0 plVar(padding);
-                box-shadow: plVar(boxShadow);
+                border-bottom: 1px solid #ddd;
+                .logo {
+                    height: 80%;
+                    width: auto;
+                }
             }
 
             .app-body {
@@ -62,11 +68,28 @@
                 display: flex;
                 position: relative;
                 overflow: hidden;
-                z-index: 0;
                 .app-left {
                     width: 250px;
                     height: 100%;
-                    background-color: plVar(backgroundColorDeeper);
+                    position: relative;
+                    &:before {
+                        position: absolute;
+                        right: 0;
+                        width: 3px;
+                        top: 0;
+                        bottom: 0;
+                        content: '';
+                        box-shadow: 0 0 12px #ddd;
+                    }
+                    &:after {
+                        position: absolute;
+                        right: 1px;
+                        width: 10px;
+                        top: 0;
+                        bottom: 0;
+                        content: '';
+                        background-color: white;
+                    }
                 }
                 .app-right {
                     flex: 1;
