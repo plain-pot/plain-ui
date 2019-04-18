@@ -158,7 +158,7 @@
                 }
                 &.app-menu-item-active, &:hover {
                     background-color: plVar(colorPrimaryLighter);
-                    color: white;
+                    color: plVar(colorTitle);
                 }
             }
 
