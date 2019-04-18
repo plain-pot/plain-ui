@@ -3,7 +3,9 @@
         <div class="app-header">
             <img :src="logo" alt="plain-logo" class="logo">
             <div>
-                <im-button v-for="theme in ['default','black','red']" :key="theme" @click="$plain.changeTheme(theme)" :label="theme"/>
+                <im-button-group>
+                    <im-button v-for="theme in ['default','black','red']" :key="theme" @click="$plain.changeTheme(theme)" :label="theme"/>
+                </im-button-group>
             </div>
         </div>
         <div class="app-body">

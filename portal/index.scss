@@ -1,3 +1,6 @@
 @import "./global";
 
-@include plUseTheme($theme-custom)
+@include plUseTheme($theme-custom){
+  color: plVar(colorContent);
+  font-family: unquote(plVar(fontFamily));
+}
