@@ -24,6 +24,15 @@
           }
         }
 
+        &.pl-type-fill.pl-button-active {
+          background-color: $colorDeep;
+        }
+        &.pl-type-line, &.pl-type-none {
+          &.pl-button-active {
+            background-color: $colorLight;
+          }
+        }
+
         &:focus {
           box-shadow: 0 0 12px $colorLight;
         }
@@ -64,16 +73,25 @@
           &:active {
             background-color: $colorDeep;
           }
+          &.pl-button-active {
+            background-color: $colorDeep;
+          }
         }
         .pl-button.pl-type-line {
           background: transparent;
           border: solid 1px $value;
           color: plVar(colorPrimary);
+          &.pl-button-active {
+            background-color: $colorLight;
+          }
         }
         .pl-button.pl-type-none {
           background-color: transparent;
           color: plVar(colorPrimary);
           border: none;
+          &.pl-button-active {
+            background-color: $colorLight;
+          }
         }
       }
     }
@@ -93,6 +111,18 @@
           }
         }
       }
+      @include plShapes {
+        &.pl-button-group-shape-#{$key} {
+          .pl-button:first-child {
+            border-top-left-radius: $value;
+            border-bottom-left-radius: $value;
+          }
+          .pl-button:last-child {
+            border-top-right-radius: $value;
+            border-bottom-right-radius: $value;
+          }
+        }
+      }
     }
     &.pl-button-group.pl-button-group-vertical {
       flex-direction: column;
@@ -106,6 +136,18 @@
           }
           .pl-button:not(:last-child) {
             border-bottom-color: $colorLight;
+          }
+        }
+      }
+      @include plShapes {
+        &.pl-button-group-shape-#{$key} {
+          .pl-button:first-child {
+            border-top-left-radius: $value;
+            border-top-right-radius: $value;
+          }
+          .pl-button:last-child {
+            border-bottom-left-radius: $value;
+            border-bottom-right-radius: $value;
           }
         }
       }

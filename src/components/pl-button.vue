@@ -22,6 +22,7 @@
             size: {type: String, default: 'default'},
             label: {type: String},
             icon: {type: String},
+            active: {type: Boolean},
 
             circle: {type: Boolean},                                        //圆形按钮
             loading: {type: Boolean},                                       //loading 图标
@@ -39,6 +40,7 @@
 
                     {
                         'pl-button-long': this.long,
+                        'pl-button-active': this.active,
                         'pl-button-loading': this.loading,
                         'pl-button-circle': this.circle,
                         'pl-button-no-padding': this.noPadding,

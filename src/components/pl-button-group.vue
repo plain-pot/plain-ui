@@ -10,7 +10,7 @@
         props: {
             shape: {
                 type: String,
-                default: 'none',
+                default: 'fillet',
             },
             size: {
                 type: String,

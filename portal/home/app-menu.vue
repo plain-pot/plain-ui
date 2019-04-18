@@ -157,7 +157,7 @@
                     margin-right: 1em;
                 }
                 &.app-menu-item-active, &:hover {
-                    background-color: rgba(0, 0, 0, 0.3);
+                    background-color: plVar(colorPrimaryLighter);
                     color: white;
                 }
             }
