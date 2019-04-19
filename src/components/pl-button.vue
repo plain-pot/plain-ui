@@ -1,6 +1,6 @@
 <template>
     <button class="pl-button" :class="classes" :disabled="loading" @click="pl_click">
-        <pl-loading v-if="p_loading"/>
+        <pl-loading v-if="p_loading && !circle"/>
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
             <span v-if="!!label">{{label}}</span>
