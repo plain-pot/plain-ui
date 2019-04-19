@@ -8,7 +8,7 @@
 
                     @focus="p_focus = true"
                     @blur="p_focus = false"
-                    @keyup.enter="pl_enter"
+                    @keyup.enter="e=>pl_throttle(e,pl_enter)"
                     @keyup.space="pl_space"
                     @keyup.esc="pl_esc"
             >
@@ -22,16 +22,16 @@
 <script>
     import PlIcon from "./pl-icon";
     import PlLoading from "./pl-loading";
+    import {ThrottleMixin} from "../mixin/component-mixin";
 
     export default {
         name: "pl-input",
         components: {PlLoading, PlIcon},
+        mixins: [ThrottleMixin],
         props: {
             value: {},
             icon: {type: String},
             long: {type: Boolean},
-            loading: {type: Boolean},
-            duration: {type: Number, default: 500},                         //防止快速点击时间间隔
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
@@ -46,7 +46,6 @@
                 p_focus: false,
                 p_value: this.value,
                 p_hover: false,
-                p_loading: this.loading,
             }
         },
         computed: {
@@ -78,25 +77,12 @@
                 else this.p_value = null
             },
 
-            pl_enter(e) {
-                if (!!this.p_loading) return
-                this.p_loading = true
-                let timerWait, timerClick
-
-                timerWait = setTimeout(() => {
-                    timerWait = null
-                    if (!timerClick) this.p_loading = false
-                }, this.duration)
-
-                timerClick = setTimeout(async () => {
-                    if (!!this.$listeners.enter) {
-                        await this.$listeners.enter(e)
-                    } else {
-                        this.$emit('enter', e)
-                    }
-                    timerClick = null
-                    if (!timerWait) this.p_loading = false
-                }, 0)
+            async pl_enter(e) {
+                if (!!this.$listeners.enter) {
+                    await this.$listeners.enter(e)
+                } else {
+                    this.$emit('enter', e)
+                }
             },
             pl_space(e) {
 

@@ -1,5 +1,5 @@
 <template>
-    <button class="pl-button" :class="classes" :disabled="loading" @click="pl_click">
+    <button class="pl-button" :class="classes" :disabled="loading" @click="e=>pl_throttle(e,pl_click)">
         <pl-loading v-if="p_loading && !circle"/>
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
@@ -11,10 +11,12 @@
 <script>
     import PlLoading from "./pl-loading";
     import PlIcon from "./pl-icon";
+    import {ThrottleMixin} from "../mixin/component-mixin";
 
     export default {
         name: "pl-button",
         components: {PlIcon, PlLoading},
+        mixins: [ThrottleMixin],
         props: {
             type: {type: String, default: 'fill'},
             color: {type: String, default: 'primary'},
@@ -25,11 +27,9 @@
             active: {type: Boolean},
 
             circle: {type: Boolean},                                        //圆形按钮
-            loading: {type: Boolean},                                       //loading 图标
             long: {type: Boolean,},                                         //长按钮
             noPadding: {type: Boolean},                                     //左右边距
 
-            duration: {type: Number, default: 500},                         //防止快速点击时间间隔
         },
         computed: {
             classes() {
@@ -50,30 +50,15 @@
             }
         },
         data() {
-            return {
-                p_loading: this.loading,
-            }
+            return {}
         },
         methods: {
             async pl_click(e) {
-                if (!!this.p_loading) return
-                this.p_loading = true
-                let timerWait, timerClick
-
-                timerWait = setTimeout(() => {
-                    timerWait = null
-                    if (!timerClick) this.p_loading = false
-                }, this.duration)
-
-                timerClick = setTimeout(async () => {
-                    if (!!this.$listeners.click) {
-                        await this.$listeners.click(e)
-                    } else {
-                        this.$emit('click', e)
-                    }
-                    timerClick = null
-                    if (!timerWait) this.p_loading = false
-                }, 0)
+                if (!!this.$listeners.click) {
+                    await this.$listeners.click(e)
+                } else {
+                    this.$emit('click', e)
+                }
             },
         }
     }

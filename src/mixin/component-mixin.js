@@ -71,8 +71,8 @@ export const BoxMixin = {
                 clearIcon: this.clearIcon,
                 clearable: this.clearable,
                 loading: this.loading,
-                loadingType:this.loadingType,
-                loadingColor:this.loadingColor,
+                loadingType: this.loadingType,
+                loadingColor: this.loadingColor,
                 iconOnly: this.iconOnly,
                 readonly: this.readonly,
                 disabled: this.disabled,
@@ -131,5 +131,39 @@ export const InputMixin = {
     },
 }
 
+export const ThrottleMixin = {
+    props: {
+        loading: {type: Boolean},
+        duration: {type: Number, default: 500},                         //防止快速点击时间间隔
+    },
+    data() {
+        return {
+            p_loading: this.loading
+        }
+    },
+    watch: {
+        loading(val) {
+            this.p_loading = val
+        },
+    },
+    methods: {
+        pl_throttle(e, func) {
+            if (!!this.p_loading) return
+            this.p_loading = true
+            let timerWait, timerClick
+
+            timerWait = setTimeout(() => {
+                timerWait = null
+                if (!timerClick) this.p_loading = false
+            }, this.duration)
+
+            timerClick = setTimeout(async () => {
+                !!func && (await func(e))
+                timerClick = null
+                if (!timerWait) this.p_loading = false
+            }, 0)
+        },
+    }
+}
 
 
