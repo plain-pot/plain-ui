@@ -5,6 +5,7 @@
                     v-model="p_value"
                     :type="inputType"
                     :placeholder="placeholder"
+                    :readonly="p_loading"
 
                     @focus="p_focus = true"
                     @blur="p_focus = false"
