@@ -38,12 +38,22 @@
             <im-input loading/>
             <im-input loading type="none"/>
         </im-demo-row>
+        <im-demo-row title="节流以及回车等待">
+            <im-input @enter="$plain.log('enter')"/>
+            <im-input @enter="testWaiting"/>
+        </im-demo-row>
     </div>
 </template>
 
 <script>
     export default {
-        name: "demo-input"
+        name: "demo-input",
+        methods: {
+            async testWaiting() {
+                await this.$plain.$utils.delay(2000)
+                console.log('enter:', new Date().getTime())
+            },
+        }
     }
 </script>
 

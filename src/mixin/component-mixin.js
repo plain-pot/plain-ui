@@ -147,20 +147,20 @@ export const ThrottleMixin = {
         },
     },
     methods: {
-        pl_throttle(e, func) {
+        pl_throttle(e, func, start, end) {
             if (!!this.p_loading) return
-            this.p_loading = true
+            !start ? this.p_loading = true : start()
             let timerWait, timerClick
 
             timerWait = setTimeout(() => {
                 timerWait = null
-                if (!timerClick) this.p_loading = false
+                if (!timerClick) !end ? this.p_loading = false : end()
             }, this.duration)
 
             timerClick = setTimeout(async () => {
                 !!func && (await func(e))
                 timerClick = null
-                if (!timerWait) this.p_loading = false
+                if (!timerWait) !end ? this.p_loading = false : end()
             }, 0)
         },
     }

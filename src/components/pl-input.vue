@@ -9,8 +9,8 @@
                     @focus="p_focus = true"
                     @blur="p_focus = false"
                     @keyup.enter="e=>pl_throttle(e,pl_enter)"
-                    @keyup.space="pl_space"
-                    @keyup.esc="pl_esc"
+                    @keyup.space="e=>pl_throttle(e,pl_space,null,null)"
+                    @keyup.esc="e=>pl_throttle(e,pl_esc,null,null)"
             >
             <pl-loading v-if="p_loading" class="pl-input-loading"/>
             <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
@@ -85,10 +85,10 @@
                 }
             },
             pl_space(e) {
-
+                this.$emit('sapce', e)
             },
             pl_esc(e) {
-
+                this.$emit('esc', e)
             },
         }
     }
