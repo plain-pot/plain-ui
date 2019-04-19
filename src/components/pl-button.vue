@@ -1,6 +1,6 @@
 <template>
-    <button class="pl-button" :class="classes" :disabled="loading" @click="e=>$emit('click',e)">
-        <pl-loading v-if="loading"/>
+    <button class="pl-button" :class="classes" :disabled="loading" @click="pl_click">
+        <pl-loading v-if="p_loading"/>
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
             <span v-if="!!label">{{label}}</span>
@@ -28,6 +28,7 @@
             loading: {type: Boolean},                                       //loading 图标
             long: {type: Boolean,},                                         //长按钮
             noPadding: {type: Boolean, default: true},                      //左右边距
+            duration: {type: Number, default: 500},                         //防止快速点击时间间隔
 
         },
         computed: {
@@ -48,5 +49,32 @@
                 ]
             }
         },
+        data() {
+            return {
+                p_loading: this.loading,
+            }
+        },
+        methods: {
+            async pl_click(e) {
+                if (!!this.p_loading) return
+                this.p_loading = true
+                let timerWait, timerClick
+
+                timerWait = setTimeout(() => {
+                    timerWait = null
+                    if (!timerClick) this.p_loading = false
+                }, this.duration)
+
+                timerClick = setTimeout(async () => {
+                    if (!!this.$listeners.click) {
+                        await this.$listeners.click(e)
+                    } else {
+                        this.$emit('click', e)
+                    }
+                    timerClick = null
+                    if (!timerWait) this.p_loading = false
+                }, 0)
+            },
+        }
     }
 </script>

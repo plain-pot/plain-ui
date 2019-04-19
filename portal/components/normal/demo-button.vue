@@ -33,19 +33,55 @@
         <im-demo-row title="去除边距">
             <im-button label="按钮-按钮-按钮-按钮" noPadding/>
         </im-demo-row>
+        <im-demo-row title="节流以及自动异步等待">
+            <im-button label="节流" @click="()=>$plain.log('click:'+new Date().getTime())"/>
+            <im-button label="等待" @click="testWait"/>
+        </im-demo-row>
         <im-demo-row title="按钮组">
-            <im-button-group><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
+            <im-button-group>
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
         </im-demo-row>
         <im-demo-row title="按钮组方向">
-            <im-button-group vertical><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
-            <im-button-group vertical><im-button label="北京" type="line"/><im-button label="上海" type="line"/><im-button label="广州" type="line"/></im-button-group>
-            <im-button-group><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
-            <im-button-group><im-button label="北京" type="line"/><im-button label="上海" type="line"/><im-button label="广州" type="line"/></im-button-group>
+            <im-button-group vertical>
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+            <im-button-group vertical>
+                <im-button label="北京" type="line"/>
+                <im-button label="上海" type="line"/>
+                <im-button label="广州" type="line"/>
+            </im-button-group>
+            <im-button-group>
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+            <im-button-group>
+                <im-button label="北京" type="line"/>
+                <im-button label="上海" type="line"/>
+                <im-button label="广州" type="line"/>
+            </im-button-group>
         </im-demo-row>
         <im-demo-row title="按钮组形状">
-            <im-button-group shape="fillet"><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
-            <im-button-group shape="round"><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
-            <im-button-group shape="none"><im-button label="北京"/><im-button label="上海"/><im-button label="广州"/></im-button-group>
+            <im-button-group shape="fillet">
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+            <im-button-group shape="round">
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
+            <im-button-group shape="none">
+                <im-button label="北京"/>
+                <im-button label="上海"/>
+                <im-button label="广州"/>
+            </im-button-group>
         </im-demo-row>
         <im-demo-row title="按钮激活状态">
             <im-button label="active" active/>
@@ -71,6 +107,12 @@
                 active: '上海',
             }
         },
+        methods: {
+            async testWait() {
+                await this.$plain.$utils.delay(2000)
+                console.log('done')
+            },
+        }
     }
 </script>
 
