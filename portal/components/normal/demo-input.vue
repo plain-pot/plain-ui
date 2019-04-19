@@ -3,6 +3,9 @@
         <im-demo-row title="基本用法">
             <im-input/>
         </im-demo-row>
+        <im-demo-row title="鼠标悬浮的时候自动获取焦点">
+            <im-input focusOnHover/>
+        </im-demo-row>
         <im-demo-row title="类型">
             <im-input type="fill"/>
             <im-input type="line"/>

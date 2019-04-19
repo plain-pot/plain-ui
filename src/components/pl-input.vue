@@ -2,6 +2,7 @@
     <div class="pl-input" :class="classes" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave">
         <div class="pl-input-inner">
             <input
+                    ref="input"
                     v-model="p_value"
                     :type="inputType"
                     :placeholder="placeholder"
@@ -45,6 +46,7 @@
 
             inputType: {type: String, default: 'text'},
             placeholder: {type: String, default: '点击输入...'},
+            focusOnHover: {type: Boolean},
         },
         data() {
             return {
@@ -70,6 +72,7 @@
         },
         methods: {
             pl_mouseenter(e) {
+                !!this.focusOnHover && this.$refs.input.focus()
                 this.p_hover = true
                 this.$emit('hoverChange', true)
             },
