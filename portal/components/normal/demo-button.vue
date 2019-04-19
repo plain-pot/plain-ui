@@ -4,7 +4,7 @@
             <im-button label="按钮" @click="$plain.log('click')"/>
         </im-demo-row>
         <im-demo-row title="颜色">
-            <im-button label="按钮" v-for="item in ['primary','success','warn','error','info','disabled']" :label="item" :color="item" :key="item"/>
+            <im-button v-for="item in ['primary','success','warn','error','info','disabled']" :label="item" :color="item" :key="item"/>
         </im-demo-row>
         <im-demo-row title="大小">
             <im-button label="大" size="large"/>
