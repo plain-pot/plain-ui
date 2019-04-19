@@ -5,9 +5,9 @@
     justify-content: center;
     vertical-align: middle;
     box-sizing: border-box;
-    padding: 0 plVar(padding);
+    padding: 0 plVar(paddingSmall);
     background-color: white;
-    box-sizing: border-box;
+    width: 200px;
     input {
       border: none;
       outline: none;
@@ -32,7 +32,9 @@
             color: mix($value, white, 30%);
           }
         }
-
+        .pl-input-close{
+          background-color: $value;
+        }
       }
       &.pl-color-#{$key} {
         &.pl-input-focus {
@@ -44,6 +46,26 @@
     @include plSizes {
       &.pl-size-#{$key} {
         font-size: $value/2.5;
+      }
+    }
+
+    .pl-input-inner {
+      width: 100%;
+      position: relative;
+      .pl-input-close {
+        position: absolute;
+        right: 1px;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background-color: white;
+      }
+    }
+    &.pl-input-icon {
+      input {
+        width: calc(100% - 1.5em);
       }
     }
   }

@@ -1,20 +1,28 @@
 <template>
-    <div class="pl-input" :class="classes">
-        <input
-                v-model="p_value"
-                :type="inputType"
-                :placeholder="placeholder"
-                @focus="p_focus = true"
-                @blur="p_focus = false"
-        >
+    <div class="pl-input" :class="classes" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave">
+        <div class="pl-input-inner">
+            <input
+                    v-model="p_value"
+                    :type="inputType"
+                    :placeholder="placeholder"
+                    @focus="p_focus = true"
+                    @blur="p_focus = false"
+            >
+            <pl-icon :icon="icon" v-if="!!icon"/>
+            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-if="!!p_value && p_hover" @click="pl_clear"/>
+        </div>
     </div>
 </template>
 
 <script>
+    import PlIcon from "./pl-icon";
+
     export default {
         name: "pl-input",
+        components: {PlIcon},
         props: {
             value: {},
+            icon: {type: String},
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
@@ -28,6 +36,7 @@
             return {
                 p_focus: false,
                 p_value: this.value,
+                p_hover: false,
             }
         },
         computed: {
@@ -38,10 +47,25 @@
                     `pl-shape-${this.shape}`,
                     `pl-size-${this.size}`,
                     {
-                        'pl-input-focus': this.p_focus
+                        'pl-input-focus': this.p_focus,
+                        'pl-input-icon': !!this.icon,
                     },
                 ]
             },
         },
+        methods: {
+            pl_mouseenter(e) {
+                this.p_hover = true
+                this.$emit('hoverChange', true)
+            },
+            pl_mouseleave(e) {
+                this.p_hover = false
+                this.$emit('hoverChange', false)
+            },
+            pl_clear(e) {
+                if (!!this.$listeners.clear) this.$listeners.clear(e)
+                else this.p_value = null
+            },
+        }
     }
 </script>
