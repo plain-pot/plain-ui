@@ -42,6 +42,26 @@
             <im-input @enter="$plain.log('enter')"/>
             <im-input @enter="testWaiting"/>
         </im-demo-row>
+        <im-demo-row title="键盘事件">
+            <im-button-group>
+                <im-button label="enter" type="line"/>
+                <im-button label="space" type="line"/>
+                <im-button label="esc" type="line"/>
+                <im-button label="up" type="line"/>
+                <im-button label="down" type="line"/>
+                <im-button label="left" type="line"/>
+                <im-button label="right" type="line"/>
+            </im-button-group>
+            <im-input
+                    @enter="$plain.log('enter')"
+                    @space="$plain.log('space')"
+                    @esc="$plain.log('esc')"
+                    @up="$plain.log('up')"
+                    @down="$plain.log('down')"
+                    @left="$plain.log('left')"
+                    @right="$plain.log('right')"
+            />
+        </im-demo-row>
     </div>
 </template>
 
