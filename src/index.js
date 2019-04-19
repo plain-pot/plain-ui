@@ -28,7 +28,7 @@ const Plain = {
     install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont} = {}) {
         this.Vue = Vue
         this.p_pageRegistry = pageRegistry
-        $utils.addScript('https://at.alicdn.com/t/font_948159_asue6ap7kg.js')                   //plain
+        $utils.addScript('https://at.alicdn.com/t/font_948159_p2mr7qmy7qp.js')                   //plain
         $utils.addScript('https://at.alicdn.com/t/font_1113642_w82jwgy9lk8.js')                 //ant-design
         !!iconfont && $utils.addScript(iconfont)
 

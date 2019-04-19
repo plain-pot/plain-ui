@@ -28,7 +28,7 @@
             <im-input inputType="password" :value="123456"/>
         </im-demo-row>
         <im-demo-row title="图标">
-            <im-input icon="pl-dropdown"/>
+            <im-input icon="pl-date-fill"/>
         </im-demo-row>
         <im-demo-row title="自定义删除动作">
             <im-input icon="pl-dropdown" @clear="$plain.log('clear')"/>

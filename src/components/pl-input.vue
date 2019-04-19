@@ -20,7 +20,7 @@
             >
             <pl-loading v-if="p_loading" class="pl-input-loading"/>
             <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
-            <pl-icon :icon="icon" v-else-if="!!icon"/>
+            <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
     </div>
 </template>
@@ -64,7 +64,7 @@
                     `pl-size-${this.size}`,
                     {
                         'pl-input-focus': this.p_focus,
-                        'pl-input-icon': !!this.icon,
+                        'pl-input-has-icon': !!this.icon,
                         'pl-input-long': !!this.long,
                     },
                 ]
