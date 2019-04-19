@@ -28,8 +28,8 @@
             loading: {type: Boolean},                                       //loading 图标
             long: {type: Boolean,},                                         //长按钮
             noPadding: {type: Boolean},                                     //左右边距
-            duration: {type: Number, default: 500},                         //防止快速点击时间间隔
 
+            duration: {type: Number, default: 500},                         //防止快速点击时间间隔
         },
         computed: {
             classes() {

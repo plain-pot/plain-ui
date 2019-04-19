@@ -5,8 +5,12 @@
                     v-model="p_value"
                     :type="inputType"
                     :placeholder="placeholder"
+
                     @focus="p_focus = true"
                     @blur="p_focus = false"
+                    @keyup.enter="pl_enter"
+                    @keyup.space="pl_space"
+                    @keyup.esc="pl_esc"
             >
             <pl-loading v-if="p_loading" class="pl-input-loading"/>
             <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
@@ -27,6 +31,7 @@
             icon: {type: String},
             long: {type: Boolean},
             loading: {type: Boolean},
+            duration: {type: Number, default: 500},                         //防止快速点击时间间隔
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
@@ -71,6 +76,33 @@
             pl_clear(e) {
                 if (!!this.$listeners.clear) this.$listeners.clear(e)
                 else this.p_value = null
+            },
+
+            pl_enter(e) {
+                if (!!this.p_loading) return
+                this.p_loading = true
+                let timerWait, timerClick
+
+                timerWait = setTimeout(() => {
+                    timerWait = null
+                    if (!timerClick) this.p_loading = false
+                }, this.duration)
+
+                timerClick = setTimeout(async () => {
+                    if (!!this.$listeners.enter) {
+                        await this.$listeners.enter(e)
+                    } else {
+                        this.$emit('enter', e)
+                    }
+                    timerClick = null
+                    if (!timerWait) this.p_loading = false
+                }, 0)
+            },
+            pl_space(e) {
+
+            },
+            pl_esc(e) {
+
             },
         }
     }
