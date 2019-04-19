@@ -23,6 +23,7 @@
         props: {
             value: {},
             icon: {type: String},
+            long: {type: Boolean},
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
@@ -49,6 +50,7 @@
                     {
                         'pl-input-focus': this.p_focus,
                         'pl-input-icon': !!this.icon,
+                        'pl-input-long': !!this.long,
                     },
                 ]
             },

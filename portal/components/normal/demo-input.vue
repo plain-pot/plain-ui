@@ -30,6 +30,9 @@
         <im-demo-row title="自定义删除动作">
             <im-input icon="pl-dropdown" @clear="$plain.log('clear')"/>
         </im-demo-row>
+        <im-demo-row title="长输入框">
+            <im-input long/>
+        </im-demo-row>
     </div>
 </template>
 
