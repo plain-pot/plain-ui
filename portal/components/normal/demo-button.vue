@@ -12,7 +12,7 @@
             <im-button label="小" size="small"/>
         </im-demo-row>
         <im-demo-row title="类型">
-            <im-button label="fill" type="fill" loading/>
+            <im-button label="fill" type="fill"/>
             <im-button label="line" type="line"/>
             <im-button label="none" type="none"/>
         </im-demo-row>
