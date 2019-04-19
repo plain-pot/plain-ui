@@ -33,6 +33,11 @@
         <im-demo-row title="长输入框">
             <im-input long/>
         </im-demo-row>
+        <im-demo-row title="加载中">
+            <im-input loading type="fill"/>
+            <im-input loading/>
+            <im-input loading type="none"/>
+        </im-demo-row>
     </div>
 </template>
 

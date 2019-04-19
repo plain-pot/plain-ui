@@ -32,8 +32,11 @@
             color: mix($value, white, 30%);
           }
         }
-        .pl-input-close {
+        .pl-input-close, .pl-input-loading {
           background-color: $value;
+          .pl-loading-default-item{
+            background-color: white;
+          }
         }
       }
       &.pl-color-#{$key} {
@@ -52,7 +55,7 @@
     .pl-input-inner {
       width: 100%;
       position: relative;
-      .pl-input-close {
+      .pl-input-close, .pl-input-loading {
         position: absolute;
         right: 1px;
         top: 0;

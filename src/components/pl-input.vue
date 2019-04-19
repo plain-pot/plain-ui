@@ -8,22 +8,25 @@
                     @focus="p_focus = true"
                     @blur="p_focus = false"
             >
-            <pl-icon :icon="icon" v-if="!!icon"/>
-            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-if="!!p_value && p_hover" @click="pl_clear"/>
+            <pl-loading v-if="p_loading" class="pl-input-loading"/>
+            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
+            <pl-icon :icon="icon" v-else-if="!!icon"/>
         </div>
     </div>
 </template>
 
 <script>
     import PlIcon from "./pl-icon";
+    import PlLoading from "./pl-loading";
 
     export default {
         name: "pl-input",
-        components: {PlIcon},
+        components: {PlLoading, PlIcon},
         props: {
             value: {},
             icon: {type: String},
             long: {type: Boolean},
+            loading: {type: Boolean},
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
@@ -38,6 +41,7 @@
                 p_focus: false,
                 p_value: this.value,
                 p_hover: false,
+                p_loading: this.loading,
             }
         },
         computed: {
