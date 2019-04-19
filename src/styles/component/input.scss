@@ -1,0 +1,13 @@
+@mixin component-input {
+  .pl-input {
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    input {
+      border: none;
+      outline: none;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

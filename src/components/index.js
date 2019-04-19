@@ -4,6 +4,7 @@ import navTab from './pl-nav-tab'
 import button from './pl-button'
 import buttonGroup from './pl-button-group'
 import loading from './pl-loading'
+import input from './pl-input'
 
 export default {
     icon,
@@ -12,4 +13,5 @@ export default {
     button,
     loading,
     buttonGroup,
+    input,
 }

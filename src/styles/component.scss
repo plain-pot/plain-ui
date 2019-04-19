@@ -7,6 +7,7 @@
 @import "./component/box";
 @import "./component/button";
 @import "./component/loading";
+@import "./component/input";
 
 @mixin component-mixin {
   @include component-icon;
@@ -18,4 +19,5 @@
   @include component-box;
   @include component-button;
   @include component-loading;
+  @include component-input;
 }
