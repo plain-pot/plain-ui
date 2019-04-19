@@ -1,13 +1,50 @@
 @mixin component-input {
   .pl-input {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     vertical-align: middle;
+    box-sizing: border-box;
+    padding: 0 plVar(padding);
+    background-color: white;
     box-sizing: border-box;
     input {
       border: none;
       outline: none;
-      height: 100%;
       width: 100%;
+      font-size: inherit;
+      &::-ms-clear {
+        display: none;
+      }
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0;
+      }
+    }
+    @include plColors {
+      &.pl-type-fill.pl-color-#{$key} {
+        color: mix($value, white, 10%);
+        input {
+          background-color: $value;
+          color: inherit;
+          &::placeholder {
+            color: mix($value, white, 30%);
+          }
+        }
+
+      }
+      &.pl-color-#{$key} {
+        &.pl-input-focus {
+          box-shadow: 0 0 6px $value;
+        }
+      }
+    }
+
+    @include plSizes {
+      &.pl-size-#{$key} {
+        font-size: $value/2.5;
+      }
     }
   }
 }
