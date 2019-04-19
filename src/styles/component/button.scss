@@ -10,6 +10,9 @@
     justify-content: center;
     outline: none;
     box-sizing: border-box;
+    .pl-loading {
+      margin-right: 0.5em;
+    }
     @include plColors {
       &.pl-color-#{$key} {
         &:active {
@@ -18,18 +21,35 @@
           top: 1px;
           left: 1px;
         }
+
+        &.pl-type-fill {
+          &.pl-button-active {
+            background-color: $colorDeep;
+          }
+          .pl-loading {
+            .pl-icon {
+              color: white;
+            }
+            .pl-loading-default-item {
+              background-color: white;
+            }
+          }
+        }
+
         &.pl-type-none, &.pl-type-line {
           &:active {
             background-color: $colorLight;
           }
-        }
-
-        &.pl-type-fill.pl-button-active {
-          background-color: $colorDeep;
-        }
-        &.pl-type-line, &.pl-type-none {
           &.pl-button-active {
             background-color: $colorLight;
+          }
+          .pl-loading {
+            .pl-icon {
+              color: $value;
+            }
+            .pl-loading-default-item {
+              background-color: $value;
+            }
           }
         }
 

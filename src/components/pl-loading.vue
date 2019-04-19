@@ -1,5 +1,8 @@
 <template>
-    <pl-icon class="pl-loading" loading :icon="`pl-loading-${type}`" :class="[`pl-loading-color-${color}`]"/>
+    <div class="pl-loading" :class="[`pl-loading-color-${color}`]">
+        <span class="pl-loading-default" v-if="type === 'default'"><span class="pl-loading-default-item" v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="i"></span></span>
+        <pl-icon v-else :icon="`pl-loading-${type}`" loading/>
+    </div>
 </template>
 
 <script>
@@ -10,8 +13,8 @@
         name: "pl-loading",
         components: {PlIcon},
         props: {
-            type: {type: String, default: 'section-one'},
-            color: {type: String, default: 'black'},
+            type: {type: String, default: 'default'},
+            color: {type: String, default: 'info'},
         },
     }
 </script>

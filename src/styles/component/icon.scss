@@ -1,7 +1,7 @@
 @mixin component-icon {
   .pl-icon {
-    vertical-align: bottom;
-    display: inline;
+    vertical-align: middle;
+    display: inline-block;
     position: relative;
     width: plVar(iconSize);
     height: plVar(iconSize);

@@ -18,6 +18,8 @@
         </im-demo-row>
         <im-demo-row title="加载中">
             <im-button label="按钮" loading @click="$plain.log('click')"/>
+            <im-button label="按钮" loading @click="$plain.log('click')" type="line"/>
+            <im-button label="按钮" loading @click="$plain.log('click')" type="none"/>
         </im-demo-row>
         <im-demo-row title="图标按钮">
             <im-button label="按钮" icon="pad-search"/>

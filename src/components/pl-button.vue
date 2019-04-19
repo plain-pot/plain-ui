@@ -1,10 +1,10 @@
 <template>
     <button class="pl-button" :class="classes" :disabled="loading" @click="e=>$emit('click',e)">
+        <pl-loading v-if="loading"/>
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
             <span v-if="!!label">{{label}}</span>
         </slot>
-        <pl-loading v-if="loading"/>
     </button>
 </template>
 
@@ -50,7 +50,3 @@
         },
     }
 </script>
-
-<style lang="scss">
-
-</style>
