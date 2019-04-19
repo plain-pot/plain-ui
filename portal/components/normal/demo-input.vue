@@ -65,6 +65,12 @@
                     @right="$plain.log('right')"
             />
         </im-demo-row>
+        <im-demo-row title="前置后置插槽">
+            <im-input placeholder="">
+                <div slot="prepend">http://</div>
+                <div slot="append">.com</div>
+            </im-input>
+        </im-demo-row>
     </div>
 </template>
 

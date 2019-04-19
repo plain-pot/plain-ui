@@ -7,7 +7,6 @@
     box-sizing: border-box;
     padding: 0 plVar(paddingSmall);
     background-color: white;
-    width: 200px;
     input {
       border: none;
       outline: none;
@@ -53,7 +52,7 @@
     }
 
     .pl-input-inner {
-      width: 100%;
+      flex: 1;
       position: relative;
       .pl-input-close, .pl-input-loading, .pl-input-icon {
         position: absolute;

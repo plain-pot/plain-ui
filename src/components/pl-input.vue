@@ -1,5 +1,6 @@
 <template>
-    <div class="pl-input" :class="classes" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave">
+    <div class="pl-input" :class="classes" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave" :style="{width:width}">
+        <slot name="prepend"></slot>
         <div class="pl-input-inner">
             <input
                     ref="input"
@@ -22,6 +23,7 @@
             <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
+        <slot name="append"></slot>
     </div>
 </template>
 
@@ -38,6 +40,7 @@
             value: {},
             icon: {type: String},
             long: {type: Boolean},
+            width: {type: String, default: '200px'},
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
