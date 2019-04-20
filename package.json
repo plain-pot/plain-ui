@@ -13,7 +13,8 @@
     "element-resize-detector": "^1.1.15",
     "scroll": "^3.0.1",
     "tippy.js": "^4.2.1",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-dom-portal": "^0.1.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",

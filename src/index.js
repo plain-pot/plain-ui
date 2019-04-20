@@ -1,3 +1,5 @@
+import DomPortal from 'vue-dom-portal'
+
 import './styles/index.scss'
 
 import $utils from 'src/scripts/utils'
@@ -20,12 +22,17 @@ const Plain = {
         this.$dom.addClass(document.body, `pl-theme-${theme}`)
         this.p_theme = theme
     },
-
+    nextTick() {
+        return new Promise((rs) => this.Vue.prototype.$nextTick(rs))
+    },
     Vue: null,
     $utils,
     $dom,
     $storage,
+
     install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont} = {}) {
+        Vue.use(DomPortal)
+
         this.Vue = Vue
         this.p_pageRegistry = pageRegistry
         $utils.addScript('https://at.alicdn.com/t/font_948159_p2mr7qmy7qp.js')                   //plain
