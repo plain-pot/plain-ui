@@ -4,7 +4,9 @@
         <div class="pl-input-inner">
             <input
                     ref="input"
-                    v-model="p_value"
+                    :value="p_value"
+                    @input="pl_input"
+
                     :type="inputType"
                     :placeholder="placeholder"
                     :readonly="p_loading"
@@ -58,6 +60,11 @@
                 p_hover: false,
             }
         },
+        watch: {
+            value(val) {
+                this.p_value = val
+            },
+        },
         computed: {
             classes() {
                 return [
@@ -100,6 +107,9 @@
             },
             pl_esc(e) {
                 this.$emit('esc', e)
+            },
+            pl_input(e) {
+                this.$emit('input', e.target.value)
             },
         }
     }
