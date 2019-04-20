@@ -5,7 +5,7 @@ import button from './pl-button'
 import buttonGroup from './pl-button-group'
 import loading from './pl-loading'
 import input from './pl-input'
-import popper from './pl-popper'
+import popper from './popper/pl-popper'
 
 export default {
     icon,
