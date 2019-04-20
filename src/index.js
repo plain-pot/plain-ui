@@ -1,4 +1,4 @@
-import DomPortal from 'vue-dom-portal'
+import PlDomPortal from './scripts/plain-dom-portal'
 
 import './styles/index.scss'
 
@@ -31,7 +31,7 @@ const Plain = {
     $storage,
 
     install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont} = {}) {
-        Vue.use(DomPortal)
+        Vue.directive('pl-dom', PlDomPortal)
 
         this.Vue = Vue
         this.p_pageRegistry = pageRegistry
