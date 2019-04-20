@@ -1,15 +1,14 @@
 class PlainDom {
     el = null;
     parentNode = null;
-    value = null;
+    value = false;
     container = null;
     replace = null;
 
-    constructor(el, value) {
+    constructor(el) {
         this.el = el
         this.parentNode = el.parentNode
-        this.value = value
-        this.replace = document.createElement('')
+        this.replace = document.createComment('replace')
     }
 
     getContainerByValue(value) {
@@ -18,15 +17,24 @@ class PlainDom {
         return value instanceof window.Node ? value : document.querySelector(value)
     }
 
-    update() {
-        if (this.value === false) {
-            this.parentNode.replaceChild(this.el, this.replace)
-            this.container.removeChild(this.el)
-        } else {
-            this.container = this.getContainerByValue(this.value)
+    update(value) {
+        if (this.value === value) return
+        if (!!value) {
+            this.container = this.getContainerByValue(value)
             this.parentNode.replaceChild(this.replace, this.el)
             this.container.appendChild(this.el)
+        } else {
+            this.parentNode.replaceChild(this.el, this.replace)
         }
+        this.value = value
+    }
+
+    hasNode(parent, node) {
+        for (let i = 0; i < parent.childNodes.length; i++) {
+            const childNode = parent.childNodes[i];
+            if (childNode.isEqualNode(node)) return true
+        }
+        return false
     }
 }
 
@@ -36,17 +44,15 @@ const directive = {
         if (map.has(el)) return
         const data = new PlainDom(el, value)
         map.set(el, data)
-        data.update()
+        data.update(value)
     },
     componentUpdated(el, {value}) {
         const data = map.get(el)
-        data.value = value
-        data.update()
+        data.update(value)
     },
     unbind(el) {
         const data = map.get(el)
-        data.value = false
-        data.update()
+        data.update(false)
         map.delete(el)
     },
 }

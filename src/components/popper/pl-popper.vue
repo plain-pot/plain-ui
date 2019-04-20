@@ -50,6 +50,7 @@
                 p_direction: this.direction,
                 p_align: this.align,
                 p_show: false,
+                p_replace: document.createElement('')
             }
         },
         computed: {
@@ -70,8 +71,9 @@
         },
         async mounted() {
             this.parentNode = this.popperEl.parentNode
-            this.parentNode.removeChild(this.popperEl)
+            this.parentNode.replaceChild(this.popperEl, this.p_replace)
             this.$el.appendChild(this.popperEl)
+
             await this.$plain.nextTick()
 
             console.log(this.$el.offsetWidth, this.$el.offsetHeight)

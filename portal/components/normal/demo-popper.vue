@@ -8,7 +8,7 @@
             <im-input v-model="text" color="primary"/>
 
         </im-demo-row>
-        <div style="height: 500px;background-color: #3B731D;width: 100px"></div>
+        <!--<div style="height: 500px;background-color: #3B731D;width: 100px"></div>
         <im-demo-row title="基本用法">
             <im-button label="show dom" @click="toggle" ref="button"/>
             <div style="visibility: hidden">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </im-demo-row>
-        <div style="height: 500px;background-color: #226873;width: 100px"></div>
+        <div style="height: 500px;background-color: #226873;width: 100px"></div>-->
     </div>
 </template>
 
