@@ -1,6 +1,9 @@
 <template>
     <div class="pl-popper-container">
-        <pl-popper ref="poppers" v-for="(item,index) in data" :key="index" :reference="item.reference" :popper="item.popper"/>
+        <pl-popper ref="poppers"
+                   v-for="(item,index) in data"
+                   :key="index"
+                   v-bind="item"/>
     </div>
 </template>
 
@@ -16,8 +19,11 @@
             }
         },
         methods: {
-            async newPopper(reference, popper) {
-                this.data.push({reference, popper})
+            async newPopper({reference, popper, direction, align}) {
+                direction = direction || 'bottom'
+                align = align || 'start'
+
+                this.data.push({reference, popper, direction, align})
                 await this.$plain.nextTick()
                 const popperInstance = this.$plain.$utils.findOne(this.$refs.poppers, item => item.reference === reference)
                 if (!popperInstance) throw 'create popper fail!'

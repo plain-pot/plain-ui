@@ -6,6 +6,7 @@
             <div style="visibility: hidden">
                 <div class="box" ref="box">
                     <im-icon icon="pad-star"/>
+                    <im-button label="close" @click="popper.hide()"/>
                 </div>
             </div>
         </im-demo-row>
@@ -23,7 +24,12 @@
         },
         methods: {
             async toggle() {
-                if (!this.popper) this.popper = await this.$plain.$popper.newPopper(this.$refs.button, this.$refs.box)
+                if (!this.popper) this.popper = await this.$plain.$popper.newPopper({
+                    reference: this.$refs.button,
+                    popper: this.$refs.box,
+                    direction: 'left',
+                    align: 'start'
+                })
                 this.popper.p_show ? this.popper.hide() : this.popper.show()
             },
         }
