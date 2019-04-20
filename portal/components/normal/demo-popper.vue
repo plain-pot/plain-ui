@@ -1,7 +1,7 @@
 <template>
     <div class="demo-popper">
         <im-demo-row title="基本用法">
-            <im-popper disableDestroyOnHide></im-popper>
+            <im-popper></im-popper>
         </im-demo-row>
     </div>
 </template>

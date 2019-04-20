@@ -1,8 +1,7 @@
-class PlainDomPortal {
+class PlainDom {
     el = null;
     parentNode = null;
     value = null;
-
     container = null;
 
     constructor(el, value) {
@@ -18,7 +17,7 @@ class PlainDomPortal {
     }
 
     update() {
-        const newContainer = this.getContainerByValue(value)
+        const newContainer = this.getContainerByValue(this.value)
         if (newContainer === this.container) return
         this.el.parentNode.removeChild(this.el)
         this.container = newContainer
@@ -26,23 +25,29 @@ class PlainDomPortal {
     }
 }
 
-export default {
-    map: {},
+const map = new Map()
+const directive = {
     inserted(el, {value}) {
-        if (this.map.has(el)) return
-        const data = new PlainDomPortal(el, value)
-        this.map.set(el, data)
+        if (map.has(el)) return
+        const data = new PlainDom(el, value)
+        map.set(el, data)
         data.update()
     },
     componentUpdated(el, {value}) {
-        const data = this.map.get(el)
+        const data = map.get(el)
         data.value = value
         data.update()
     },
     unbind(el) {
-        const data = this.map.get(el)
+        const data = map.get(el)
         data.value = false
         data.update()
-        this.map.delete(el)
+        map.delete(el)
+    },
+}
+
+export default {
+    install(Vue, {name = 'plain-dom'} = {}) {
+        Vue.directive(name, directive)
     },
 }
