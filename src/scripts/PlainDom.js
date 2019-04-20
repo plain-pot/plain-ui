@@ -20,6 +20,11 @@ class PlainDom {
     update(value) {
         if (this.value === value) return
         if (!!value) {
+            /*
+             *  parentNode.replaceChild(newNode, oldNode)newNode所在的父元素会自动删除newNode，所以下面只能采取这种写法
+             *  @author     martsforever
+             *  @datetime   2019/4/20 23:12
+             */
             this.container = this.getContainerByValue(value)
             this.parentNode.replaceChild(this.replace, this.el)
             this.container.appendChild(this.el)
