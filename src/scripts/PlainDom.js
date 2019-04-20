@@ -3,11 +3,13 @@ class PlainDom {
     parentNode = null;
     value = null;
     container = null;
+    replace = null;
 
     constructor(el, value) {
         this.el = el
         this.parentNode = el.parentNode
         this.value = value
+        this.replace = document.createElement('')
     }
 
     getContainerByValue(value) {
@@ -17,11 +19,14 @@ class PlainDom {
     }
 
     update() {
-        const newContainer = this.getContainerByValue(this.value)
-        if (newContainer === this.container) return
-        this.el.parentNode.removeChild(this.el)
-        this.container = newContainer
-        this.container.appendChild(this.el)
+        if (this.value === false) {
+            this.parentNode.replaceChild(this.el, this.replace)
+            this.container.removeChild(this.el)
+        } else {
+            this.container = this.getContainerByValue(this.value)
+            this.parentNode.replaceChild(this.replace, this.el)
+            this.container.appendChild(this.el)
+        }
     }
 }
 
