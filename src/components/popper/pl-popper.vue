@@ -44,6 +44,20 @@
             disabledEqual: {type: Boolean},                                         //弹出框是否与载体在方向上大小相同
             windowBoundary: {type: Boolean, default: true},                         //边界为window
         },
+        watch: {
+            p_direction() {
+                this.p_popper.destroy()
+                this.p_initPopper()
+            },
+            p_align() {
+                this.p_popper.destroy()
+                this.p_initPopper()
+            },
+            p_arrow(){
+                this.p_popper.destroy()
+                this.p_initPopper()
+            },
+        },
         data() {
             return {
                 parentNode: null,
@@ -51,6 +65,7 @@
 
                 p_direction: this.direction,
                 p_align: this.align,
+                p_arrow: this.arrow,
                 p_show: false,
                 p_replace: document.createComment('')
             }
@@ -65,7 +80,7 @@
             classes() {
                 return [
                     {
-                        'pl-popper-arrow': !!this.arrow,
+                        'pl-popper-arrow': !!this.p_arrow,
                     },
                     `pl-popper-${this.p_direction}-${this.p_align}`,
                 ]
@@ -75,21 +90,8 @@
             this.parentNode = this.popperEl.parentNode
             this.parentNode.replaceChild(this.p_replace, this.popperEl)
             this.$refs.inner.appendChild(this.popperEl)
-
             await this.$plain.nextTick()
-
-            console.log(this.$el.offsetWidth, this.$el.offsetHeight)
-
-            this.p_popper = new Popper(this.referenceEl, this.$el, {
-                placement: `${this.p_direction}-${this.p_align}`,
-                modifiers: {
-                    offset: {offset: `0,${this.offset == null ? this.arrow ? 10 : '0' : this.offset}`,},
-                    preventOverflow: this.windowBoundary ? {boundariesElement: 'window'} : null,
-                    computeStyle: {gpuAcceleration: false},
-                },
-                onUpdate: () => this.p_refresh(),
-                onCreate: () => this.p_refresh(),
-            })
+            this.p_initPopper()
         },
         methods: {
             async show() {
@@ -109,6 +111,18 @@
                 let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
                 this.p_direction = placement[0];
                 this.p_align = placement[1];
+            },
+            p_initPopper() {
+                this.p_popper = new Popper(this.referenceEl, this.$el, {
+                    placement: `${this.p_direction}-${this.p_align}`,
+                    modifiers: {
+                        offset: {offset: `0,${this.offset == null ? this.p_arrow ? 10 : '0' : this.offset}`,},
+                        preventOverflow: this.windowBoundary ? {boundariesElement: 'window'} : null,
+                        computeStyle: {gpuAcceleration: false},
+                    },
+                    onUpdate: () => this.p_refresh(),
+                    onCreate: () => this.p_refresh(),
+                })
             },
         },
     }
