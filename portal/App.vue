@@ -72,7 +72,7 @@
                 position: relative;
                 overflow: hidden;
                 .app-left {
-                    width: 250px;
+                    width: 280px;
                     height: 100%;
                     position: relative;
                     &:before {

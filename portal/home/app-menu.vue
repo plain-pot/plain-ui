@@ -7,8 +7,11 @@
                 </div>
                 <div class="app-menu-item-wrapper">
                     <div class="app-menu-item" v-for="(item,menuIndex) in menuGroup.menus" :key="menuIndex" @click="$emit('click',item)" :class="{'app-menu-item-active':menu.title==item.title}">
-                        <im-icon :icon="item.icon"/>
-                        <span>{{item.title}}</span>
+                        <div>
+                            <im-icon :icon="item.icon"/>
+                            <span>{{item.title}}</span>
+                        </div>
+                        <im-icon icon="pad-check"/>
                     </div>
                 </div>
             </div>
@@ -153,11 +156,13 @@
             .app-menu-item {
                 border-radius: plVar(borderFillet);
                 width: 100%;
-                padding: plVar(paddingSmall) plVar(padding);
+                padding: plVar(paddingSmall) 0 plVar(paddingSmall) plVar(padding);
                 box-sizing: border-box;
                 font-size: plVar(fontSmall);
                 color: plVar(colorContent);
                 cursor: pointer;
+                display: flex;
+                justify-content: space-between;
                 .pl-icon {
                     margin-right: 1em;
                 }
