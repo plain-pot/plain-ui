@@ -14,10 +14,6 @@
     import PlScroll from "../pl-scroll";
     import {MountedMixin} from "../../mixin/component-mixin";
 
-    const POPOVER_TRIGGER = {
-        CLICK: 'click',
-        HOVER: 'hover',
-    }
     const POPOVER_DIRECTION = {
         TOP: 'top',
         BOTTOM: 'bottom',
@@ -48,15 +44,17 @@
             windowBoundary: {type: Boolean, default: true},                         //边界为window
         },
         watch: {
-            p_direction() {
+            direction(val) {
+                this.p_direction = val
                 this.p_popper.destroy()
                 this.p_initPopper()
             },
-            p_align() {
+            align(val) {
+                this.p_align = val
                 this.p_popper.destroy()
                 this.p_initPopper()
             },
-            p_arrow() {
+            arrow() {
                 this.p_popper.destroy()
                 this.p_initPopper()
             },
@@ -68,7 +66,6 @@
 
                 p_direction: this.direction,
                 p_align: this.align,
-                p_arrow: this.arrow,
                 p_show: false,
                 p_replace: document.createComment('')
             }
@@ -83,7 +80,7 @@
             classes() {
                 return [
                     {
-                        'pl-popper-arrow': !!this.p_arrow,
+                        'pl-popper-arrow': !!this.arrow,
                     },
                     `pl-popper-${this.p_direction}-${this.p_align}`,
                 ]
@@ -129,7 +126,7 @@
                 this.p_popper = new Popper(this.referenceEl, this.$el, {
                     placement: `${this.p_direction}-${this.p_align}`,
                     modifiers: {
-                        offset: {offset: `0,${this.offset == null ? this.p_arrow ? 10 : '0' : this.offset}`,},
+                        offset: {offset: `0,${this.offset == null ? this.arrow ? 10 : '0' : this.offset}`,},
                         preventOverflow: this.windowBoundary ? {boundariesElement: 'window'} : null,
                         computeStyle: {gpuAcceleration: false},
                     },
