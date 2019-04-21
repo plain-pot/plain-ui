@@ -11,10 +11,13 @@
         <div style="height: 500px;background-color: #3B731D;width: 100px"></div>
         <im-demo-row title="基本用法">
             <im-button label="show dom" @click="toggle" ref="button"/>
-            <div style="display: none">
+            <im-button label="destroy" @click="popper.destroy()"/>
+            <im-input v-model="text"/>
+            <div>
                 <div class="box" ref="box">
                     <im-icon icon="pad-star"/>
                     <im-button label="close" @click="popper.hide()"/>
+                    <im-input v-model="text"/>
                 </div>
             </div>
         </im-demo-row>
@@ -38,8 +41,8 @@
                     reference: this.$refs.button,
                     popper: this.$refs.box,
                     direction: 'bottom',
-                    align: 'end',
-                    arrow:true,
+                    align: 'start',
+                    arrow: true,
                 })
                 this.popper.p_show ? this.popper.hide() : this.popper.show()
             },

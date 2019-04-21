@@ -1,8 +1,10 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
         <div class="pl-popper" v-show="p_show" :class="classes">
-            <div>direction:{{p_direction}}</div>
-            <div>align:{{p_align}}</div>
+            <div class="pl-popper-inner" ref="inner">
+                <div>direction:{{p_direction}}</div>
+                <div>align:{{p_align}}</div>
+            </div>
         </div>
     </transition>
 </template>
@@ -72,7 +74,7 @@
         async mounted() {
             this.parentNode = this.popperEl.parentNode
             this.parentNode.replaceChild(this.p_replace, this.popperEl)
-            this.$el.appendChild(this.popperEl)
+            this.$refs.inner.appendChild(this.popperEl)
 
             await this.$plain.nextTick()
 
@@ -115,12 +117,12 @@
 <style lang="scss">
     .pl-popper {
         position: relative;
-        transition: .25s cubic-bezier(.24,.22,.015,1.56);
+        transition: .25s cubic-bezier(.24, .22, .015, 1.56);
         transition-property: transform, opacity;
         border-radius: 4px;
 
         $popper-arrow-size: 6px;
-        $popper-back-ground: #ddd;
+        $popper-back-ground: white;
         $popper-scale-animates: (
                 top-start:(
                         transform-origin:bottom left,
@@ -272,7 +274,7 @@
             $type-object: map_get($popper-scale-animates, $key);
             background-color: $popper-back-ground;
             &.pl-popper-#{$key} {
-                box-shadow: map_get($type-object, box-shadow-x) map_get($type-object, box-shadow-y) 12px 0 rgba(0, 0, 0, .1);
+                box-shadow: map_get($type-object, box-shadow-x) map_get($type-object, box-shadow-y) 5px 0 #999;
                 transform-origin: map_get($type-object, transform-origin);
                 &.pl-popover-animate-drop-enter-active, &.pl-popover-animate-drop-leave-active {
                     transform: map_get($type-object, active-transform);
@@ -291,16 +293,19 @@
                     opacity: 0;
                 }
                 &.pl-popper-arrow {
-                    &::after {
-                        content: " ";
-                        position: absolute;
-                        border: $popper-arrow-size solid;
+                    .pl-popper-inner {
+                        position: relative;
+                        &::after {
+                            content: " ";
+                            position: absolute;
+                            border: $popper-arrow-size solid;
 
-                        top: map_get($type-object, arrow-top);
-                        bottom: map_get($type-object, arrow-bottom);
-                        left: map_get($type-object, arrow-left);
-                        right: map_get($type-object, arrow-right);
-                        border-color: map_get($type-object, arrow-border-color);
+                            top: map_get($type-object, arrow-top);
+                            bottom: map_get($type-object, arrow-bottom);
+                            left: map_get($type-object, arrow-left);
+                            right: map_get($type-object, arrow-right);
+                            border-color: map_get($type-object, arrow-border-color);
+                        }
                     }
                 }
             }
