@@ -132,7 +132,7 @@
             async test(num) {
                 if (!this.option[num].reference) this.option[num].reference = this.$refs[`button${num}`]
                 if (!this.option[num].popper) this.option[num].popper = this.$refs[`popper${num}`]
-                if (!this.popper[num]) this.popper[num] = await this.$plain.$popper.newPopper(this.option[num])
+                this.popper[num] = await this.$plain.$popper.getPopper(this.option[num])
 
                 this.popper[num].p_show ? this.popper[num].hide() : this.popper[num].show()
             },

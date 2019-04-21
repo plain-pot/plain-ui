@@ -49,22 +49,18 @@
         watch: {
             direction(val) {
                 this.p_direction = val
-                this.p_popper.destroy()
                 this.p_initPopper()
             },
             align(val) {
                 this.p_align = val
-                this.p_popper.destroy()
                 this.p_initPopper()
             },
             arrow() {
-                this.p_popper.destroy()
                 this.p_initPopper()
             },
         },
         data() {
             return {
-                parentNode: null,
                 p_popper: null,
 
                 p_direction: this.direction,
@@ -80,6 +76,9 @@
             },
             popperEl() {
                 return !!this.popper.$el ? this.popper.$el : this.popper
+            },
+            parentNode() {
+                return !this.popperEl ? null : this.popperEl.parentNode
             },
             classes() {
                 return [
@@ -104,12 +103,7 @@
             },
         },
         async mounted() {
-            this.parentNode = this.popperEl.parentNode
-            this.parentNode.replaceChild(this.p_replace, this.popperEl)
-            this.$refs.inner.appendChild(this.popperEl)
-            await this.$plain.nextTick()
-            this.p_initPopper()
-            window.addEventListener('click', this.p_clickWindow)
+            this.p_init()
         },
         methods: {
             async show() {
@@ -122,15 +116,33 @@
                 await this.$plain.nextTick()
             },
             destroy() {
-                this.parentNode.replaceChild(this.popperEl, this.p_replace)
-                this.p_popper.destroy()
+                this.p_destroy()
             },
+            reload() {
+                this.p_init()
+            },
+
+            async p_init() {
+                if (!!this.p_popper) this.p_destroy()
+                this.parentNode.replaceChild(this.p_replace, this.popperEl)
+                this.$refs.inner.appendChild(this.popperEl)
+                await this.$plain.nextTick()
+                this.p_initPopper()
+                window.addEventListener('click', this.p_clickWindow)
+            },
+            async p_destroy() {
+                this.parentNode.replaceChild(this.popperEl, this.p_replace)
+                this.p_destroyPopper()
+                window.removeEventListener('click', this.p_clickWindow)
+            },
+
             p_refresh() {
                 let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
                 this.p_direction = placement[0];
                 this.p_align = placement[1];
             },
             p_initPopper() {
+                !!this.p_popper && (this.p_destroyPopper())
                 this.p_popper = new Popper(this.referenceEl, this.$el, {
                     placement: `${this.p_direction}-${this.p_align}`,
                     modifiers: {
@@ -141,6 +153,10 @@
                     onUpdate: () => this.p_refresh(),
                     onCreate: () => this.p_refresh(),
                 })
+            },
+            p_destroyPopper() {
+                this.p_popper.destroy()
+                this.p_popper = null
             },
             p_transitionend() {
                 this.isOpen = this.p_show

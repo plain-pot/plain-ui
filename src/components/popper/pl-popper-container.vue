@@ -32,6 +32,20 @@
                 if (!popperInstance) throw 'create popper fail!'
                 return popperInstance
             },
+
+            async getPopper(props) {
+                const poppers = this.$refs.poppers || []
+                let popperInstance = this.$plain.$utils.findOne(poppers, item => !item.isOpen)
+                if (!popperInstance) {
+                    popperInstance = await this.newPopper(props)
+                } else {
+                    await popperInstance.destroy()
+                    const itemData = this.$plain.$utils.findOne(this.data, item => item.id === popperInstance.id)
+                    itemData.props = props
+                    await popperInstance.reload()
+                }
+                return popperInstance
+            },
         },
     }
 </script>
