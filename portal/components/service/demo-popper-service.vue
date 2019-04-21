@@ -3,7 +3,7 @@
         <im-demo-row title="基本用法">
             <im-button label="show dom" @click="test(1)" ref="button1"/>
             <div>
-                <div class="box" ref="popper1" style="background-color: #f2f2f2;padding: 12px;border-radius: 4px">
+                <div class="box" ref="popper1" style="padding: 12px;border-radius: 4px">
                     <im-icon icon="pad-star"/>
                     <im-button label="popper content" icon="pad-search"/>
                 </div>

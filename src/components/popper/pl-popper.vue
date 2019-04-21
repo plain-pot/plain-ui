@@ -35,7 +35,7 @@
             popper: {},
             direction: {type: String, default: POPOVER_DIRECTION.BOTTOM},           //弹出框的方向：top|bottom|left|right
             align: {type: String, default: POPOVER_ALIGN.START},                    //弹出框的对其方式
-            arrow: {type: Boolean},                                                 //弹出框是否带小三角
+            arrow: {type: Boolean, default: true},                                  //弹出框是否带小三角
             offset: {type: Number},                                                 //弹出框与载体的距离
             animate: {type: String, default: 'drop'},                               //弹出框显隐动画
             height: {default: 180},                                                 //弹出框的高度
@@ -156,6 +156,7 @@
         transition: .25s cubic-bezier(.24, .22, .015, 1.56);
         transition-property: transform, opacity;
         border-radius: 4px;
+        z-index: 99999;
 
         $popper-arrow-size: 6px;
         $popper-back-ground: white;
@@ -164,145 +165,121 @@
                         transform-origin:bottom left,
                         active-transform:scaleY(1),
                         inactive-transform:scaleY(0),
-                        arrow-top:inherit,
-                        arrow-bottom:-$popper-arrow-size*2,
-                        arrow-left:$popper-arrow-size,
-                        arrow-right:inherit,
-                        arrow-border-color:$popper-back-ground transparent transparent transparent,
-                        box-shadow-x:0,
-                        box-shadow-y:-2px,
+                        direction:'bottom',
+                        align:'left',
+                        alignValue:16px,
+                        zeroWidth:'border-bottom-width',
+                        borderColor:'border-top-color',
                 ),
                 top-center:(
                         transform-origin:bottom center,
                         active-transform:scaleY(1),
                         inactive-transform:scaleY(0),
-                        arrow-top:inherit,
-                        arrow-bottom:-$popper-arrow-size*2,
-                        arrow-left:calc(50% - #{$popper-arrow-size}),
-                        arrow-right:inherit,
-                        arrow-border-color:$popper-back-ground transparent transparent transparent,
-                        box-shadow-x:0,
-                        box-shadow-y:-2px,
+                        direction:'bottom',
+                        align:'left',
+                        alignValue:calc(50% - #{$popper-arrow-size/2}),
+                        zeroWidth:'border-bottom-width',
+                        borderColor:'border-top-color',
                 ),
                 top-end:(
                         transform-origin:bottom right,
                         active-transform:scaleY(1),
                         inactive-transform:scaleY(0),
-                        arrow-top:inherit,
-                        arrow-bottom:-$popper-arrow-size*2,
-                        arrow-left:inherit,
-                        arrow-right:$popper-arrow-size,
-                        arrow-border-color:$popper-back-ground transparent transparent transparent,
-                        box-shadow-x:0,
-                        box-shadow-y:-2px,
+                        direction:'bottom',
+                        align:'right',
+                        alignValue:16px,
+                        zeroWidth:'border-bottom-width',
+                        borderColor:'border-top-color',
                 ),
                 bottom-start:(
                         transform-origin:top left,
                         active-transform:scaleY(1),
                         inactive-transform:scaleY(0),
-                        arrow-top:-$popper-arrow-size*2,
-                        arrow-bottom:inherit,
-                        arrow-left:$popper-arrow-size,
-                        arrow-right:inherit,
-                        arrow-border-color:transparent transparent $popper-back-ground transparent,
-                        box-shadow-x:0,
-                        box-shadow-y:2px,
+                        direction:'top',
+                        align:'left',
+                        alignValue:16px,
+                        zeroWidth:'border-top-width',
+                        borderColor:'border-bottom-color',
                 ),
                 bottom-center:(
                         transform-origin:top center,
                         active-transform:scaleY(1),
                         inactive-transform:scaleY(0),
-                        arrow-top:-$popper-arrow-size*2,
-                        arrow-bottom:inherit,
-                        arrow-left:calc(50% - #{$popper-arrow-size}),
-                        arrow-right:inherit,
-                        arrow-border-color:transparent transparent $popper-back-ground transparent,
-                        box-shadow-x:0,
-                        box-shadow-y:2px,
+                        direction:'top',
+                        align:'left',
+                        alignValue:calc(50% - #{$popper-arrow-size/2}),
+                        zeroWidth:'border-top-width',
+                        borderColor:'border-bottom-color',
                 ),
                 bottom-end:(
                         transform-origin:top right,
                         active-transform:scaleY(1),
                         inactive-transform:scaleY(0),
-                        arrow-top:-$popper-arrow-size*2,
-                        arrow-bottom:inherit,
-                        arrow-left:inherit,
-                        arrow-right:$popper-arrow-size,
-                        arrow-border-color:transparent transparent $popper-back-ground transparent,
-                        box-shadow-x:0,
-                        box-shadow-y:2px,
+                        direction:'top',
+                        align:'right',
+                        alignValue:16px,
+                        zeroWidth:'border-top-width',
+                        borderColor:'border-bottom-color',
                 ),
                 left-start:(
                         transform-origin:right top,
                         active-transform:scaleX(1),
                         inactive-transform:scaleX(0),
-                        arrow-top:$popper-arrow-size,
-                        arrow-bottom:inherit,
-                        arrow-left:inherit,
-                        arrow-right:-$popper-arrow-size*2,
-                        arrow-border-color:transparent transparent transparent $popper-back-ground,
-                        box-shadow-x:-2px,
-                        box-shadow-y:0,
+                        direction:'right',
+                        align:'top',
+                        alignValue:16px,
+                        zeroWidth:'border-right-width',
+                        borderColor:'border-left-color',
                 ),
                 left-center:(
                         transform-origin:right center,
                         active-transform:scaleX(1),
                         inactive-transform:scaleX(0),
-                        arrow-top:calc(50% - #{$popper-arrow-size}),
-                        arrow-bottom:inherit,
-                        arrow-left:inherit,
-                        arrow-right:-$popper-arrow-size*2,
-                        arrow-border-color:transparent transparent transparent $popper-back-ground,
-                        box-shadow-x:-2px,
-                        box-shadow-y:0,
+                        direction:'right',
+                        align:'top',
+                        alignValue:calc(50% - #{$popper-arrow-size/2}),
+                        zeroWidth:'border-right-width',
+                        borderColor:'border-left-color',
                 ),
                 left-end:(
                         transform-origin:right bottom,
                         active-transform:scaleX(1),
                         inactive-transform:scaleX(0),
-                        arrow-top:inherit,
-                        arrow-bottom:$popper-arrow-size,
-                        arrow-left:inherit,
-                        arrow-right:-$popper-arrow-size*2,
-                        arrow-border-color:transparent transparent transparent $popper-back-ground,
-                        box-shadow-x:-2px,
-                        box-shadow-y:0,
+                        direction:'right',
+                        align:'bottom',
+                        alignValue:16px,
+                        zeroWidth:'border-right-width',
+                        borderColor:'border-left-color',
                 ),
                 right-start:(
                         transform-origin:left top,
                         active-transform:scaleX(1),
                         inactive-transform:scaleX(0),
-                        arrow-top:$popper-arrow-size,
-                        arrow-bottom:inherit,
-                        arrow-left:-$popper-arrow-size*2,
-                        arrow-right:inherit,
-                        arrow-border-color:transparent $popper-back-ground transparent transparent,
-                        box-shadow-x:2px,
-                        box-shadow-y:0,
+                        direction:'left',
+                        align:'top',
+                        alignValue:16px,
+                        zeroWidth:'border-left-width',
+                        borderColor:'border-right-color',
                 ),
                 right-center:(
                         transform-origin:left center,
                         active-transform:scaleX(1),
                         inactive-transform:scaleX(0),
-                        arrow-top:calc(50% - #{$popper-arrow-size}),
-                        arrow-bottom:inherit,
-                        arrow-left:-$popper-arrow-size*2,
-                        arrow-right:inherit,
-                        arrow-border-color:transparent $popper-back-ground transparent transparent,
-                        box-shadow-x:2px,
-                        box-shadow-y:0,
+                        direction:'left',
+                        align:'top',
+                        alignValue:calc(50% - #{$popper-arrow-size/2}),
+                        zeroWidth:'border-left-width',
+                        borderColor:'border-right-color',
                 ),
                 right-end:(
                         transform-origin:left bottom,
                         active-transform:scaleX(1),
                         inactive-transform:scaleX(0),
-                        arrow-top:inherit,
-                        arrow-bottom:$popper-arrow-size,
-                        arrow-left:-$popper-arrow-size*2,
-                        arrow-right:inherit,
-                        arrow-border-color:transparent $popper-back-ground transparent transparent,
-                        box-shadow-x:2px,
-                        box-shadow-y:0,
+                        direction:'left',
+                        align:'bottom',
+                        alignValue:16px,
+                        zeroWidth:'border-left-width',
+                        borderColor:'border-right-color',
                 ),
         );
 
@@ -310,7 +287,8 @@
             $type-object: map_get($popper-scale-animates, $key);
             background-color: $popper-back-ground;
             &.pl-popper-#{$key} {
-                box-shadow: map_get($type-object, box-shadow-x)/2 map_get($type-object, box-shadow-y)/2 3px 0 #ccc;
+                box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+                border: 1px solid #e4e7ed;
                 border-radius: 4px;
                 transform-origin: map_get($type-object, transform-origin);
                 &.pl-popover-animate-drop-enter-active, &.pl-popover-animate-drop-leave-active {
@@ -330,19 +308,18 @@
                     opacity: 0;
                 }
                 &.pl-popper-arrow {
-                    .pl-popper-inner {
-                        position: relative;
-                        &::after {
-                            content: " ";
-                            position: absolute;
-                            border: $popper-arrow-size solid;
+                    &::after {
+                        border: $popper-arrow-size solid transparent;
+                        content: '';
+                        position: absolute;
+                        display: block;
+                        width: 0;
+                        height: 0;
 
-                            top: map_get($type-object, arrow-top);
-                            bottom: map_get($type-object, arrow-bottom);
-                            left: map_get($type-object, arrow-left);
-                            right: map_get($type-object, arrow-right);
-                            border-color: map_get($type-object, arrow-border-color);
-                        }
+                        #{map_get($type-object, direction)}: -6px;
+                        #{map_get($type-object, align)}: #{map_get($type-object, alignValue)};
+                        #{map_get($type-object, zeroWidth)}: 0;
+                        #{map_get($type-object, borderColor)}: white;
                     }
                 }
             }
