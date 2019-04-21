@@ -126,7 +126,7 @@
     .demo-popper {
         @at-root .box {
             /*background-color: #f2f2f2;*/
-            height: 100px;
+            height: 300px;
             width: 250px;
             padding: 12px;
             border-radius: 4px;

@@ -1,10 +1,12 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
-        <div class="pl-popper" v-show="p_show" :class="classes">
-            <div class="pl-popper-inner" ref="inner">
-                <div>direction:{{p_direction}}</div>
-                <div>align:{{p_align}}</div>
-            </div>
+        <div class="pl-popper" v-show="p_show" :class="classes" :style="styles">
+            <pl-scroll :scrollbar-size="6">
+                <div class="pl-popper-inner" ref="inner">
+                    <div>direction:{{p_direction}}</div>
+                    <div>align:{{p_align}}</div>
+                </div>
+            </pl-scroll>
         </div>
     </transition>
 </template>
@@ -12,6 +14,7 @@
 <script>
 
     import Popper from 'popper.js'
+    import PlScroll from "../pl-scroll";
 
     const POPOVER_TRIGGER = {
         CLICK: 'click',
@@ -31,6 +34,7 @@
 
     export default {
         name: "pl-popper",
+        components: {PlScroll},
         props: {
             reference: {},
             popper: {},
@@ -53,7 +57,7 @@
                 this.p_popper.destroy()
                 this.p_initPopper()
             },
-            p_arrow(){
+            p_arrow() {
                 this.p_popper.destroy()
                 this.p_initPopper()
             },
@@ -84,6 +88,12 @@
                     },
                     `pl-popper-${this.p_direction}-${this.p_align}`,
                 ]
+            },
+            styles() {
+                const ret = {}
+                !!this.height && (ret.height = this.$plain.$utils.unit(this.height))
+                !!this.width && (ret.width = this.$plain.$utils.unit(this.width))
+                return ret
             },
         },
         async mounted() {
