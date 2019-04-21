@@ -126,6 +126,12 @@
                             {title: 'Collapse折叠面板', icon: 'pl-collapse', page: '/normal/demo-collapse', complete: true},
                         ],
                     },
+                    {
+                        title: '指令',
+                        menus: [
+                            {title: 'PlainDom', icon: 'icon-scroll', page: '/directive/demo-plain-dom', complete: true},
+                        ],
+                    },
                 ],
             }
         },
