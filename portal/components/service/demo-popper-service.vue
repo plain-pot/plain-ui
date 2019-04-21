@@ -2,9 +2,10 @@
     <div class="demo-popper-service">
         <im-demo-row title="基本用法">
             <im-button label="show dom" @click="test1(1)" ref="button1"/>
-            <div class="box-wrapper">
-                <div class="box" ref="popper1">
+            <div>
+                <div class="box" ref="popper1" style="background-color: #f2f2f2;padding: 12px;border-radius: 4px">
                     <im-icon icon="pad-star"/>
+                    <im-button label="popper content" icon="pad-search"/>
                 </div>
             </div>
         </im-demo-row>
@@ -162,7 +163,7 @@
     .demo-popper-service {
         @at-root .box {
             /*background-color: #f2f2f2;*/
-            height: 300px;
+            height: 150px;
             width: 250px;
             padding: 12px;
             border-radius: 4px;

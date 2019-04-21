@@ -2,10 +2,7 @@
     <transition :name="`pl-popover-animate-${animate}`">
         <div class="pl-popper" v-show="p_show" :class="classes" :style="styles">
             <pl-scroll :scrollbar-size="6">
-                <div class="pl-popper-inner" ref="inner">
-                    <div>direction:{{p_direction}}</div>
-                    <div>align:{{p_align}}</div>
-                </div>
+                <div class="pl-popper-inner" ref="inner"></div>
             </pl-scroll>
         </div>
     </transition>
