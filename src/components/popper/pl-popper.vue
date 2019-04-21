@@ -40,8 +40,10 @@
             animate: {type: String, default: 'drop'},                               //弹出框显隐动画
             height: {default: 180},                                                 //弹出框的高度
             width: {default: 180},                                                  //弹出框的宽度
-            disabledEqual: {type: Boolean},                                         //弹出框是否与载体在方向上大小相同
             windowBoundary: {type: Boolean, default: true},                         //边界为window
+            relate: {type: Array, default: () => []},                               //点击外部元素的时候，relate中数组的元素不会触发关闭动作
+            disabledEqual: {type: Boolean},                                         //弹出框是否与载体在方向上大小相同
+            disabledHideOnClickOutside: {type: Boolean},                            //禁用点击外部的时候关闭
         },
         watch: {
             direction(val) {
@@ -95,6 +97,9 @@
             p_vertical() {
                 return this.$plain.$utils.oneOf(this.p_direction, ['top', 'bottom'])
             },
+            p_relate() {
+                return [this.referenceEl, this.popperEl, ...(this.relate || [])]
+            },
         },
         async mounted() {
             this.parentNode = this.popperEl.parentNode
@@ -102,6 +107,7 @@
             this.$refs.inner.appendChild(this.popperEl)
             await this.$plain.nextTick()
             this.p_initPopper()
+            window.addEventListener('click', this.p_clickWindow)
         },
         methods: {
             async show() {
@@ -134,6 +140,12 @@
                     onCreate: () => this.p_refresh(),
                 })
             },
+            async p_clickWindow(e) {
+                if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()
+            },
+        },
+        beforeDestroy() {
+            window.removeEventListener('click', this.p_clickWindow)
         },
     }
 </script>

@@ -99,10 +99,11 @@
                 option: {
                     1: {},
                     2: {
-                        disabledEqual: true,
                         arrow: true,
                         direction: 'bottom',
                         align: 'start',
+                        disabledHideOnClickOutside: true,
+                        disabledEqual: true,
                     },
                     3: {},
                     4: {
