@@ -15,8 +15,8 @@ class PopperService {
         document.body.appendChild(this.container.$el)
     }
 
-    async newPopper({reference, popper, direction, align} = {}) {
-        return await this.container.newPopper({reference, popper, direction, align})
+    async newPopper(props) {
+        return await this.container.newPopper(props)
     }
 }
 

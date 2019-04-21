@@ -8,17 +8,17 @@
             <im-input v-model="text" color="primary"/>
 
         </im-demo-row>
-        <!--<div style="height: 500px;background-color: #3B731D;width: 100px"></div>
+        <div style="height: 500px;background-color: #3B731D;width: 100px"></div>
         <im-demo-row title="基本用法">
             <im-button label="show dom" @click="toggle" ref="button"/>
-            <div style="visibility: hidden">
+            <div style="display: none">
                 <div class="box" ref="box">
                     <im-icon icon="pad-star"/>
                     <im-button label="close" @click="popper.hide()"/>
                 </div>
             </div>
         </im-demo-row>
-        <div style="height: 500px;background-color: #226873;width: 100px"></div>-->
+        <div style="height: 500px;background-color: #226873;width: 100px"></div>
     </div>
 </template>
 
@@ -37,8 +37,9 @@
                 if (!this.popper) this.popper = await this.$plain.$popper.newPopper({
                     reference: this.$refs.button,
                     popper: this.$refs.box,
-                    direction: 'left',
-                    align: 'start'
+                    direction: 'bottom',
+                    align: 'end',
+                    arrow:true,
                 })
                 this.popper.p_show ? this.popper.hide() : this.popper.show()
             },
@@ -49,7 +50,7 @@
 <style lang="scss">
     .demo-popper {
         @at-root .box {
-            background-color: #f2f2f2;
+            /*background-color: #f2f2f2;*/
             height: 100px;
             width: 250px;
             padding: 12px;

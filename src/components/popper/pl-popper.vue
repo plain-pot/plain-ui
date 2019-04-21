@@ -50,7 +50,7 @@
                 p_direction: this.direction,
                 p_align: this.align,
                 p_show: false,
-                p_replace: document.createElement('')
+                p_replace: document.createComment('')
             }
         },
         computed: {
@@ -71,7 +71,7 @@
         },
         async mounted() {
             this.parentNode = this.popperEl.parentNode
-            this.parentNode.replaceChild(this.popperEl, this.p_replace)
+            this.parentNode.replaceChild(this.p_replace, this.popperEl)
             this.$el.appendChild(this.popperEl)
 
             await this.$plain.nextTick()
@@ -98,9 +98,10 @@
             async hide() {
                 this.p_show = false
                 await this.$plain.nextTick()
-                this.p_popper.update()
             },
             destroy() {
+                this.parentNode.replaceChild(this.popperEl, this.p_replace)
+                this.p_popper.destroy()
             },
             p_refresh() {
                 let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
@@ -113,13 +114,13 @@
 
 <style lang="scss">
     .pl-popper {
-        background-color: white;
-        box-shadow: 0 0 5px #ddd;
         position: relative;
-        transition: all .15s linear;
+        transition: .25s cubic-bezier(.24,.22,.015,1.56);
+        transition-property: transform, opacity;
+        border-radius: 4px;
 
         $popper-arrow-size: 6px;
-        $popper-back-ground: white;
+        $popper-back-ground: #ddd;
         $popper-scale-animates: (
                 top-start:(
                         transform-origin:bottom left,
@@ -269,6 +270,7 @@
 
         @each $key, $type in $popper-scale-animates {
             $type-object: map_get($popper-scale-animates, $key);
+            background-color: $popper-back-ground;
             &.pl-popper-#{$key} {
                 box-shadow: map_get($type-object, box-shadow-x) map_get($type-object, box-shadow-y) 12px 0 rgba(0, 0, 0, .1);
                 transform-origin: map_get($type-object, transform-origin);

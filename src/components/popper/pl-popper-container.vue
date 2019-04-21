@@ -19,13 +19,13 @@
             }
         },
         methods: {
-            async newPopper({reference, popper, direction, align}) {
-                direction = direction || 'bottom'
-                align = align || 'start'
+            async newPopper(props) {
+                props.direction = props.direction || 'bottom'
+                props.align = props.align || 'start'
 
-                this.data.push({reference, popper, direction, align})
+                this.data.push(props)
                 await this.$plain.nextTick()
-                const popperInstance = this.$plain.$utils.findOne(this.$refs.poppers, item => item.reference === reference)
+                const popperInstance = this.$plain.$utils.findOne(this.$refs.poppers, item => item.reference === props.reference)
                 if (!popperInstance) throw 'create popper fail!'
                 return popperInstance
             },
