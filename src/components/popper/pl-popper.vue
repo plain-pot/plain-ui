@@ -1,6 +1,6 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
-        <div class="pl-popper" v-show="p_show" :class="classes" :style="styles">
+        <div class="pl-popper" v-show="p_show" :class="classes" :style="styles" @transitionend="p_transitionend">
             <pl-scroll :scrollbar-size="6">
                 <div class="pl-popper-inner" ref="inner"></div>
             </pl-scroll>
@@ -31,6 +31,7 @@
         mixins: [MountedMixin],
         components: {PlScroll},
         props: {
+            id: {},
             reference: {},
             popper: {},
             direction: {type: String, default: POPOVER_DIRECTION.BOTTOM},           //弹出框的方向：top|bottom|left|right
@@ -69,7 +70,8 @@
                 p_direction: this.direction,
                 p_align: this.align,
                 p_show: false,
-                p_replace: document.createComment('')
+                p_replace: document.createComment(''),
+                isOpen: false,
             }
         },
         computed: {
@@ -139,6 +141,9 @@
                     onUpdate: () => this.p_refresh(),
                     onCreate: () => this.p_refresh(),
                 })
+            },
+            p_transitionend() {
+                this.isOpen = this.p_show
             },
             async p_clickWindow(e) {
                 if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()

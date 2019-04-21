@@ -3,7 +3,8 @@
         <pl-popper ref="poppers"
                    v-for="(item,index) in data"
                    :key="index"
-                   v-bind="item"/>
+                   :id="item.id"
+                   v-bind="item.props"/>
     </div>
 </template>
 
@@ -23,9 +24,11 @@
                 props.direction = props.direction || 'bottom'
                 props.align = props.align || 'start'
 
-                this.data.push(props)
+                const newItem = {id: this.$plain.$utils.uuid(), props}
+                this.data.push(newItem)
                 await this.$plain.nextTick()
-                const popperInstance = this.$plain.$utils.findOne(this.$refs.poppers, item => item.reference === props.reference)
+                const poppers = this.$refs.poppers || []
+                const popperInstance = this.$plain.$utils.findOne(poppers, item => item.id === newItem.id)
                 if (!popperInstance) throw 'create popper fail!'
                 return popperInstance
             },
