@@ -274,7 +274,8 @@
             $type-object: map_get($popper-scale-animates, $key);
             background-color: $popper-back-ground;
             &.pl-popper-#{$key} {
-                box-shadow: map_get($type-object, box-shadow-x) map_get($type-object, box-shadow-y) 5px 0 #999;
+                box-shadow: map_get($type-object, box-shadow-x)/2 map_get($type-object, box-shadow-y)/2 3px 0 #ccc;
+                border-radius: 4px;
                 transform-origin: map_get($type-object, transform-origin);
                 &.pl-popover-animate-drop-enter-active, &.pl-popover-animate-drop-leave-active {
                     transform: map_get($type-object, active-transform);
