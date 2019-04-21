@@ -1,6 +1,6 @@
 <template>
     <button class="pl-button" :class="classes" :disabled="loading" @click="e=>pl_throttle(e,pl_click)">
-        <pl-loading v-if="p_loading && !circle"/>
+        <pl-loading v-if="(loading || timerHandler) && !circle"/>
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
             <span v-if="!!label">{{label}}</span>
@@ -25,6 +25,7 @@
             label: {type: String},
             icon: {type: String},
             active: {type: Boolean},
+            loading: {type: Boolean},
 
             circle: {type: Boolean},                                        //圆形按钮
             long: {type: Boolean,},                                         //长按钮

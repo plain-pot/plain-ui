@@ -9,19 +9,19 @@
 
                     :type="inputType"
                     :placeholder="placeholder"
-                    :readonly="p_loading"
+                    :readonly="loading || timerWait || timerHandler"
 
                     @focus="p_focus = true"
                     @blur="p_focus = false"
                     @keyup.enter="e=>pl_throttle(e,pl_enter)"
-                    @keyup.space="e=>pl_throttle(e,pl_space,()=>null,()=>null)"
-                    @keyup.esc="e=>pl_throttle(e,pl_esc,()=>null,()=>null)"
+                    @keyup.space="e=>pl_throttle(e,pl_space)"
+                    @keyup.esc="e=>pl_throttle(e,pl_esc)"
                     @keydown.up="e=>$emit('up',e)"
                     @keydown.down="e=>$emit('down',e)"
                     @keydown.left="e=>$emit('left',e)"
                     @keydown.right="e=>$emit('right',e)"
             >
-            <pl-loading v-if="p_loading" class="pl-input-loading"/>
+            <pl-loading v-if="loading || timerWait || timerHandler" class="pl-input-loading"/>
             <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
@@ -43,6 +43,7 @@
             icon: {type: String},
             long: {type: Boolean},
             width: {type: String, default: '200px'},
+            loading: {type: Boolean},
 
             type: {type: String, default: 'line'},
             color: {type: String, default: 'info'},
@@ -109,7 +110,8 @@
                 this.$emit('esc', e)
             },
             pl_input(e) {
-                this.$emit('input', e.target.value)
+                this.p_value = e.target.value
+                this.$emit('input', this.p_value)
             },
         }
     }

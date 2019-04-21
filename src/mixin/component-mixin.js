@@ -133,34 +133,24 @@ export const InputMixin = {
 
 export const ThrottleMixin = {
     props: {
-        loading: {type: Boolean},
         duration: {type: Number, default: 500},                         //防止快速点击时间间隔
     },
     data() {
         return {
-            p_loading: this.loading
+            timerWait: null,
+            timerHandler: null,
         }
     },
-    watch: {
-        loading(val) {
-            this.p_loading = val
-        },
-    },
     methods: {
-        pl_throttle(e, func, start, end) {
-            if (!!this.p_loading) return
-            !start ? this.p_loading = true : start()
-            let timerWait, timerClick
-
-            timerWait = setTimeout(() => {
-                timerWait = null
-                if (!timerClick) !end ? this.p_loading = false : end()
+        pl_throttle(e, func) {
+            if (!!this.timerWait || !!this.timerHandler) return
+            this.timerWait = setTimeout(() => {
+                this.timerWait = null
             }, this.duration)
 
-            timerClick = setTimeout(async () => {
+            this.timerHandler = setTimeout(async () => {
                 !!func && (await func(e))
-                timerClick = null
-                if (!timerWait) !end ? this.p_loading = false : end()
+                this.timerHandler = null
             }, 0)
         },
     }
