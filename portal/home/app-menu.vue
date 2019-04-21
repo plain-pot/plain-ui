@@ -94,15 +94,7 @@
                             {title: 'Steps步骤条', icon: 'pl-step', page: '/normal/demo-step', complete: false},
                         ],
                     },
-                    {
-                        title: '服务',
-                        menus: [
-                            {title: '$message消息服务', icon: 'pad-message', page: '/normal/demo-message', complete: false},
-                            {title: '$dialog对话框服务', icon: 'pl-window', page: '/normal/demo-dialog-service', complete: false},
-                            {title: '$notice通知', icon: 'pad-bell', page: '/normal/demo-notice', complete: false},
-                            {title: '$menu右击菜单', icon: 'pl-menu', page: '/normal/demo-context-menu', complete: false},
-                        ],
-                    },
+
                     {
                         title: '导航',
                         menus: [
@@ -127,6 +119,16 @@
                             {title: 'Card卡片', icon: 'pl-card', page: '/normal/demo-card', complete: false},
                             {title: 'Carousel轮播', icon: 'pl-carousel', page: '/normal/demo-carousel', complete: false},
                             {title: 'Collapse折叠面板', icon: 'pl-collapse', page: '/normal/demo-collapse', complete: false},
+                        ],
+                    },
+                    {
+                        title: '服务',
+                        menus: [
+                            {title: '$message消息服务', icon: 'pad-message', page: '/normal/demo-message', complete: false},
+                            {title: '$dialog对话框服务', icon: 'pl-window', page: '/normal/demo-dialog-service', complete: false},
+                            {title: '$notice通知', icon: 'pad-bell', page: '/normal/demo-notice', complete: false},
+                            {title: '$menu右击菜单', icon: 'pl-menu', page: '/normal/demo-context-menu', complete: false},
+                            {title: '$popper下拉菜单', icon: 'pl-menu', page: '/service/demo-popper-service', complete: true},
                         ],
                     },
                     {

@@ -15,6 +15,7 @@
 
     import Popper from 'popper.js'
     import PlScroll from "../pl-scroll";
+    import {MountedMixin} from "../../mixin/component-mixin";
 
     const POPOVER_TRIGGER = {
         CLICK: 'click',
@@ -34,6 +35,7 @@
 
     export default {
         name: "pl-popper",
+        mixins: [MountedMixin],
         components: {PlScroll},
         props: {
             reference: {},
@@ -93,7 +95,11 @@
                 const ret = {}
                 !!this.height && (ret.height = this.$plain.$utils.unit(this.height))
                 !!this.width && (ret.width = this.$plain.$utils.unit(this.width))
+                if (!this.disabledEqual && this.p_mounted) ret[this.p_vertical ? 'width' : 'height'] = `${this.referenceEl[this.p_vertical ? 'offsetWidth' : 'offsetHeight']}px`
                 return ret
+            },
+            p_vertical() {
+                return this.$plain.$utils.oneOf(this.p_direction, ['top', 'bottom'])
             },
         },
         async mounted() {
