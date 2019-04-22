@@ -4,11 +4,12 @@
 
 /*缩放*/
 .pl-transition-scale-enter-active, .pl-transition-scale-leave-active {
-  transition: .25s cubic-bezier(.24, .22, .015, 1.56) !important;
+  @include transition-all;
+  transform: scale(1);
 }
 
 .pl-transition-scale-enter, .pl-transition-scale-leave-to {
-  transform: scale(0.5);
+  transform: scale(0.6);
   opacity: 0;
 }
 
