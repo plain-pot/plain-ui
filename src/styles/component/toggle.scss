@@ -1,0 +1,88 @@
+@mixin component-toggle {
+  .pl-toggle {
+    background-color: #f2f2f2;
+    position: relative;
+    transition: background-color .3s;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+
+    @include plSizes {
+      &.pl-toggle-size-#{$key} {
+        height: $value;
+        width: $value*52/32;
+        border-radius: plVar(borderRound);
+        &.pl-toggle-on {
+          .pl-toggle-circle {
+            left: $value/2+6;
+          }
+        }
+        .pl-toggle-circle {
+          right: $value/2+6;
+          border-radius: plVar(borderRound);
+        }
+
+        &.pl-toggle-active {
+          .pl-toggle-circle {
+            right: $value/2;
+          }
+
+          &.pl-toggle-on .pl-toggle-circle {
+            left: $value/2;
+          }
+        }
+      }
+    }
+
+    &:before {
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      top: 2px;
+      bottom: 2px;
+      border-radius: 16px;
+      background-color: #fff;
+      content: "";
+      /*transform: scale3d(1, 1, 1);*/
+      transform: scaleX(1);
+      transition: transform .3s;
+    }
+
+    &.pl-toggle-on {
+      &:before {
+        transform: scale3d(0, 0, 0);
+      }
+
+      .pl-toggle-circle {
+        right: 2px;
+      }
+
+      @include plColors {
+        &.pl-toggle-color-#{$key} {
+          background-color: $value;
+        }
+      }
+    }
+
+    .pl-toggle-circle {
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      bottom: 2px;
+      background: white;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .16), 0 3px 1px rgba(0, 0, 0, .1);
+      transition: all 0.3s;
+    }
+
+    &.pl-toggle-active {
+      .pl-toggle-circle {
+        left: 2px;
+      }
+
+      &.pl-toggle-on .pl-toggle-circle {
+        right: 2px;
+      }
+    }
+  }
+}

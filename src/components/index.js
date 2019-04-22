@@ -8,6 +8,8 @@ import input from './pl-input'
 import popper from './popper/pl-popper'
 import dropdown from './dropdown/pl-dropdown'
 import dropdownItem from './dropdown/pl-dropdown-item'
+import toggle from './pl-toggle'
+
 
 export default {
     icon,
@@ -20,4 +22,5 @@ export default {
     popper,
     dropdown,
     dropdownItem,
+    toggle,
 }
