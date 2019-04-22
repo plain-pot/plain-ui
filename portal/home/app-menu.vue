@@ -134,7 +134,7 @@
                     {
                         title: '指令',
                         menus: [
-                            {title: 'PlainDom', icon: 'icon-scroll', page: '/directive/demo-plain-dom', complete: false},
+                            {title: 'PlainDom', icon: 'icon-scroll', page: '/directive/demo-plain-dom', complete: true},
                         ],
                     },
                 ],
