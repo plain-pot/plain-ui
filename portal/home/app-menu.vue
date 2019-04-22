@@ -114,6 +114,7 @@
                             {title: 'Scroll滚动条', icon: 'icon-scroll', page: '/normal/demo-scroll', complete: false},
                             {title: 'Dialog对话框', icon: 'pl-window', page: '/normal/demo-dialog', complete: false},
                             {title: 'Tooltip文字提示', icon: 'pl-tooltip', page: '/normal/demo-tooltip', complete: false},
+                            {title: 'Dropdown悬浮层', icon: 'pl-popper', page: '/normal/demo-dropdown', complete: true},
                             {title: 'Popover弹出框', icon: 'pl-popper', page: '/normal/demo-popover', complete: false},
                             {title: 'Popper悬浮框', icon: 'pl-popper', page: '/normal/demo-popper', complete: true},
                             {title: 'Card卡片', icon: 'pl-card', page: '/normal/demo-card', complete: false},

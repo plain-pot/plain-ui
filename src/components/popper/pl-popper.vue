@@ -1,7 +1,7 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
         <div class="pl-popper" v-show="p_show" :class="classes" :style="styles" @transitionend="p_transitionend">
-            <pl-scroll :scrollbar-size="6">
+            <pl-scroll :scrollbar-size="6" :fit-width="width === null" :fit-height="height === null">
                 <div class="pl-popper-inner" ref="inner"></div>
             </pl-scroll>
         </div>
@@ -185,6 +185,7 @@
 <style lang="scss">
     .pl-popper {
         position: relative;
+        box-sizing: border-box;
         transition: .25s cubic-bezier(.24, .22, .015, 1.56);
         transition-property: transform, opacity;
         border-radius: 4px;

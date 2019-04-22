@@ -6,6 +6,7 @@ import buttonGroup from './pl-button-group'
 import loading from './pl-loading'
 import input from './pl-input'
 import popper from './popper/pl-popper'
+import dropdown from './dropdown/pl-dropdown'
 
 export default {
     icon,
@@ -16,4 +17,5 @@ export default {
     buttonGroup,
     input,
     popper,
+    dropdown,
 }
