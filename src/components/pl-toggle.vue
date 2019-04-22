@@ -1,7 +1,7 @@
 <template>
-    <div class="pl-toggle" :class="classes" @click="p_click" @mousedown="p_mousedown" @mouseup="p_mouseup">
+    <button class="pl-toggle" :class="classes" @click="p_click" @mousedown="p_mousedown" @mouseup="p_mouseup">
         <div class="pl-toggle-circle"></div>
-    </div>
+    </button>
 </template>
 
 <script>
