@@ -63,9 +63,9 @@
                 ];
             },
             checkAllStatus() {
-                if (this.p_radios.every(radio => radio.currentValue)) return 'all'
-                if (this.p_radios.some(radio => radio.currentValue)) return 'some'
-                if (this.p_radios.every(radio => !radio.currentValue)) return 'none'
+                if (this.p_radios.every(radio => radio.p_value)) return 'all'
+                if (this.p_radios.some(radio => radio.p_value)) return 'some'
+                if (this.p_radios.every(radio => !radio.p_value)) return 'none'
             },
         },
         methods: {
@@ -78,9 +78,9 @@
             updateRadios() {
                 this.p_radios.forEach(radio => {
                     if (!!this.multiple) {
-                        radio.currentValue = this.$plain.$utils.oneOf(radio.id, this.multipleValue);
+                        radio.p_value = this.$plain.$utils.oneOf(radio.id, this.multipleValue);
                     } else {
-                        radio.currentValue = (radio.id === this.singleValue);
+                        radio.p_value = (radio.id === this.singleValue);
                     }
                 });
             },

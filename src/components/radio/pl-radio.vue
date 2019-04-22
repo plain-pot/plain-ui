@@ -97,8 +97,8 @@
             },
             styles() {
                 let styles = {};
-                !!this.p_activeColor && (!!this.currentValue) && (styles.color = `${this.p_activeColor} !important`);
-                !!this.p_inactiveColor && (!this.currentValue) && (styles.color = `${this.p_inactiveColor} !important`);
+                !!this.p_activeColor && (!!this.p_value) && (styles.color = `${this.p_activeColor} !important`);
+                !!this.p_inactiveColor && (!this.p_value) && (styles.color = `${this.p_inactiveColor} !important`);
                 return styles;
             },
         },

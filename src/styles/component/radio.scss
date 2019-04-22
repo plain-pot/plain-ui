@@ -13,6 +13,7 @@
       width: plVar(iconSize);
       height: plVar(iconSize);
       position: relative;
+      color: inherit;
       .pl-radio-icon {
         position: absolute;
         top: 0;
@@ -22,9 +23,7 @@
 
     @include plColors {
       &.pl-radio-color-#{$key} {
-        .pl-radio-icon-wrapper {
-          color: $value;
-        }
+        color: $value;
         &:focus, &:active {
           .pl-radio-icon-wrapper {
             .pl-radio-icon {
@@ -65,6 +64,24 @@
             }
           }
         }
+      }
+    }
+  }
+  .pl-radio-group {
+    @include public-style;
+    display: inline-flex;
+
+    &.pl-radio-group-horizontal {
+      .pl-radio:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
+
+    &.pl-radio-group-vertical {
+      flex-direction: column;
+
+      .pl-radio:not(:last-child) {
+        margin-bottom: 1em;
       }
     }
   }
