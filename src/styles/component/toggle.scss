@@ -86,7 +86,11 @@
         &.pl-toggle-on {
           background-color: $value;
         }
-
+        &:focus {
+          .pl-toggle-circle {
+            background: radial-gradient(closest-corner, mix($value, white, 50%), mix($value, white, 10%), white);
+          }
+        }
       }
     }
   }
