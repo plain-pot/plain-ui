@@ -1,0 +1,55 @@
+.collapse-transition {
+  transition: 0.15s height ease-in-out, 0.15s padding-top ease-in-out, 0.15s padding-bottom ease-in-out;
+}
+
+/*缩放*/
+.pl-transition-scale-enter-active, .pl-transition-scale-leave-active {
+  transform: scale(1);
+  @include transition-all;
+}
+
+.pl-transition-scale-enter, .pl-transition-scale-leave-to {
+  transform: scale(0.6);
+  opacity: 0;
+}
+
+/*缩放过度*/
+.pl-popover-scale-enter-active, .pl-popover-scale-leave-active {
+  transition: all .1s linear;
+  opacity: 1;
+}
+
+.pl-popover-scale-enter, .pl-popover-scale-leave-to {
+  opacity: 0;
+  transform: scale(0.75, 0.75);
+}
+
+/*透明度*/
+.pl-transition-fade-enter-active, .pl-transition-fade-leave-active {
+  opacity: 1;
+  @include transition-all;
+}
+
+.pl-transition-fade-enter, .pl-transition-fade-leave-to {
+  opacity: 0;
+}
+
+/*移动*/
+.pl-transition-from-bottom-enter-active, .pl-transition-from-bottom-leave-active {
+  @include transition-all;
+}
+
+.pl-transition-from-bottom-enter, .pl-transition-from-bottom-leave-to {
+  transform: translateY(36px);
+  opacity: 0;
+}
+
+/*从右往左*/
+.pl-transition-from-right-active, .pl-transition-from-leave-active {
+  @include transition-all;
+}
+
+.pl-transition-from-right-enter, .pl-transition-from-right-leave-to {
+  transform: translateX(36px);
+  opacity: 0;
+}

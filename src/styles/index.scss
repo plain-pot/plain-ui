@@ -1,4 +1,5 @@
 @import "./global";
+@import "transition";
 
 @include plUseTheme($themes) {
   color: plVar(colorContent);

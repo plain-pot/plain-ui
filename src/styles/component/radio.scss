@@ -1,83 +1,56 @@
 @mixin component-radio {
   .pl-radio {
     @include public-style;
-    min-width: plVar(iconSize);
-    height: plVar(iconSize);
-    position: relative;
     cursor: pointer;
     user-select: none;
-    padding-left: plVar(iconSize);
     display: inline-flex;
     align-items: center;
+    border: none;
+    outline: none;
+    background-color: transparent;
 
-    .pl-icon {
-      position: absolute;
-      left: 0;
-      top: 0;
-      @include transition-all;
-    }
-
-    &.pl-radio-active {
-      .pl-radio-icon-active {
-        transform: scale(1);
-      }
-
-      .pl-radio-icon-inactive {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-    }
-
-    &.pl-radio-inactive {
-      .pl-radio-icon-active {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-
-      .pl-radio-icon-inactive {
-        transform: scale(1);
+    .pl-radio-icon-wrapper {
+      width: plVar(iconSize);
+      height: plVar(iconSize);
+      position: relative;
+      .pl-radio-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
 
     @include plColors {
       &.pl-radio-color-#{$key} {
-        color: $value;
-        &:active {
-          color: $colorDeep;
+        .pl-radio-icon-wrapper {
+          color: $value;
+        }
+        &:focus {
+          .pl-radio-icon-wrapper {
+            &::before {
+              position: absolute;
+              left: 5px;
+              right: 5px;
+              top: 5px;
+              bottom: 5px;
+              content: '';
+              box-shadow: 0 0 9px 3px $value;
+            }
+          }
         }
       }
     }
 
     @include plSizes {
       &.pl-radio-size-#{$key} {
-        font-size: $value/1.8;
+        .pl-radio-icon-wrapper {
+          font-size: $value/1.8;
+        }
         .pl-radio-label {
           font-size: $value/1.6;
           margin-left: 0.25em;
+          color: plVar(colorContent);
         }
-      }
-    }
-
-    &.pl-radio-color-disabled {
-      cursor: not-allowed;
-    }
-
-  }
-  .pl-radio-group {
-    @include public-style;
-    display: inline-flex;
-
-    &.pl-radio-group-horizontal {
-      .pl-radio:not(:last-child) {
-        margin-right: 1em;
-      }
-    }
-
-    &.pl-radio-group-vertical {
-      flex-direction: column;
-
-      .pl-radio:not(:last-child) {
-        margin-bottom: 1em;
       }
     }
   }

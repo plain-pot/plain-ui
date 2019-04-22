@@ -1,17 +1,22 @@
 <template>
-    <div class="pl-radio"
-         @click="p_click"
-         :class="classes"
-         :style="styles">
-        <pl-icon :icon="p_activeIcon" class="pl-radio-icon-active"/>
-        <pl-icon :icon="p_inactiveIcon" class="pl-radio-icon-inactive"/>
+    <button class="pl-radio"
+            @click="p_click"
+            :class="classes"
+            :style="styles">
+        <div class="pl-radio-icon-wrapper">
+            <transition name="pl-transition-scale">
+                <pl-icon :icon="p_activeIcon" class="pl-radio-icon" v-if="p_value" key="active"/>
+                <pl-icon :icon="p_inactiveIcon" class="pl-radio-icon" v-else key="inactive"/>
+            </transition>
+        </div>
         <span v-if="!!label" class="pl-radio-label">{{label}}</span>
-    </div>
+    </button>
 </template>
 
 <script>
 
     import PlIcon from "../pl-icon";
+
     export default {
         name: "pl-radio",
         components: {PlIcon},
@@ -35,6 +40,7 @@
             return {
                 p_group: null,
                 currentValue: this.value,
+                p_value: this.value,
             }
         },
         watch: {
@@ -100,7 +106,7 @@
         },
         methods: {
             p_click(e) {
-                if (!!this.disabled || !!this.readonly) return;
+                /*if (!!this.disabled || !!this.readonly) return;
                 if (!!this.p_group) {
                     if (!this.p_group.multiple) {
                         if (!!this.currentValue) return
@@ -110,10 +116,10 @@
                         if (!this.currentValue) this.p_group.multipleValue.push(this.id);
                         else this.$plain.$utils.removeFromArray(this.p_group.multipleValue, this.id);
                     }
-                }
-                this.currentValue = !this.currentValue;
+                }*/
+                this.p_value = !this.p_value;
                 this.$emit('click', e);
-                this.$emit('change', this.currentValue);
+                this.$emit('change', this.p_value);
             },
         }
     }
