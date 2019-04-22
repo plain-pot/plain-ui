@@ -14,7 +14,7 @@
     "popper.js": "^1.15.0",
     "scroll": "^3.0.1",
     "tippy.js": "^4.2.1",
-    "vue": "^2.6.10",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
