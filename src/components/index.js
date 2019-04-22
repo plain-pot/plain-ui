@@ -7,6 +7,7 @@ import loading from './pl-loading'
 import input from './pl-input'
 import popper from './popper/pl-popper'
 import dropdown from './dropdown/pl-dropdown'
+import dropdownItem from './dropdown/pl-dropdown-item'
 
 export default {
     icon,
@@ -18,4 +19,5 @@ export default {
     input,
     popper,
     dropdown,
+    dropdownItem,
 }

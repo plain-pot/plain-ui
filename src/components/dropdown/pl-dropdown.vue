@@ -12,27 +12,40 @@
 </template>
 
 <script>
+    import {MountedMixin} from "../../mixin/component-mixin";
+
     export default {
         name: "pl-dropdown",
+        mixins: [MountedMixin],
+        props: {
+            height: {default: '200px'},
+            width: {default: '150px'},
+        },
         data() {
             return {
                 option: null,
                 popper: null,
             }
         },
+        computed: {
+            popperOption() {
+                if (!this.p_mounted) return {}
+                return {
+                    reference: this.$refs.reference,
+                    popper: this.$refs.popper,
+                    disabledEqual: true,
+                    height: this.height,
+                    width: this.width,
+                    arrow: true,
+                }
+            },
+        },
         mounted() {
-            this.option = {
-                reference: this.$refs.reference,
-                popper: this.$refs.popper,
-                disabledEqual: true,
-                // height:null,
-                // width:null,
-                arrow:true,
-            }
+            this.option = {}
         },
         methods: {
             async p_click() {
-                !this.popper && (this.popper = await this.$plain.$popper.getPopper(this.option))
+                !this.popper && (this.popper = await this.$plain.$popper.getPopper(this.popperOption))
                 this.popper.p_show ? this.popper.hide() : this.popper.show()
             },
         },
@@ -45,7 +58,12 @@
             display: none;
         }
         @at-root .pl-dropdown-popper {
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+            padding: 12px;
         }
     }
 </style>

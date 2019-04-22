@@ -30,7 +30,7 @@
             circle: {type: Boolean},                                        //圆形按钮
             long: {type: Boolean,},                                         //长按钮
             noPadding: {type: Boolean},                                     //左右边距
-
+            textAlign: {type: String, default: 'center'},
         },
         computed: {
             classes() {
@@ -39,6 +39,7 @@
                     `pl-color-${this.color}`,
                     `pl-shape-${this.shape}`,
                     `pl-size-${this.size}`,
+                    `pl-align-${this.textAlign}`,
 
                     {
                         'pl-button-long': this.long,

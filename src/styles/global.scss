@@ -50,6 +50,7 @@
     $value: plVar(color#{$key}) !global;
     $color: plVar(color#{$key}) !global;
     $colorLight: plVar(color#{$key}Light) !global;
+    $colorLighter: plVar(color#{$key}Lighter) !global;
     $colorDeep: plVar(color#{$key}Deep) !global;
 
     $key: to_lower_case($key) !global;

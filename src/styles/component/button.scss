@@ -14,6 +14,17 @@
     .pl-loading {
       margin-right: 0.5em;
     }
+
+    &.pl-align-left {
+      justify-content: flex-start;
+    }
+    &.pl-align-center {
+      justify-content: center;
+    }
+    &.pl-align-right {
+      justify-content: flex-end;
+    }
+
     @include plColors {
       &.pl-color-#{$key} {
         &:active {
@@ -39,10 +50,10 @@
 
         &.pl-type-none, &.pl-type-line {
           &:active {
-            background-color: $colorLight;
+            background-color: $colorLighter;
           }
           &.pl-button-active {
-            background-color: $colorLight;
+            background-color: $colorLighter;
           }
           .pl-loading {
             .pl-icon {
@@ -106,16 +117,16 @@
           background: transparent;
           border: solid 1px $value;
           color: plVar(colorPrimary);
-          &.pl-button-active {
-            background-color: $colorLight;
+          &.pl-button-active, &:active {
+            background-color: $colorLighter;
           }
         }
         .pl-button.pl-type-none {
           background-color: transparent;
           color: plVar(colorPrimary);
           border: none;
-          &.pl-button-active {
-            background-color: $colorLight;
+          &.pl-button-active, &:active {
+            background-color: $colorLighter;
           }
         }
       }
