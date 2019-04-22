@@ -16,10 +16,12 @@
 <script>
 
     import PlIcon from "../pl-icon";
+    import {ValueMixin} from "../../mixin/component-mixin";
 
     export default {
         name: "pl-radio",
         components: {PlIcon},
+        mixins: [ValueMixin],
         props: {
             value: {},                                          //当前值
             id: {},                                             //当前id，只有与radioGroup一起使用才有效
@@ -39,18 +41,34 @@
         data() {
             return {
                 p_group: null,
-                currentValue: this.value,
                 p_value: this.value,
+                p_watchValue: false,
             }
         },
         watch: {
             value(val) {
-                const v = !!this.currentValue ? this.trueValue : this.falseValue
-                val !== v && (this.currentValue = val === this.trueValue)
+                const v = !!this.p_value ? this.trueValue : this.falseValue
+                val !== v && (this.p_value = val === this.trueValue)
             },
-            currentValue(val) {
-                this.$emit('input', !!val ? this.trueValue : this.falseValue)
-            },
+        },
+        mounted() {
+            if (!!this.isCheckAllRadio) return
+            this.p_group = this.$plain.$dom.findComponentUpward(this, 'pl-radio-group');
+            if (!!this.p_group) {
+                this.p_group.p_addRadio(this)
+                if (this.p_group.multiple) {
+                    if (!this.id) {
+                        console.error(`radio must have id when radio-p_group's multiple is true!`);
+                        return;
+                    }
+                    this.p_value = this.$plain.$utils.oneOf(this.id, this.p_group.multipleValue);
+                } else {
+                    this.p_value = this.p_group.singleValue === this.id;
+                }
+            }
+        },
+        beforeDestroy() {
+            !!this.p_group && (this.p_group.p_removeRadio(this))
         },
         computed: {
             p_size() {
@@ -73,7 +91,6 @@
             },
             classes() {
                 return [
-                    `pl-radio-${!!this.currentValue ? 'active' : 'inactive'}`,
                     `pl-radio-color-${!!this.disabled ? 'disabled' : this.p_color}`,
                     `pl-radio-size-${this.p_size}`,
                 ]
@@ -85,41 +102,26 @@
                 return styles;
             },
         },
-        mounted() {
-            if (!!this.isCheckAllRadio) return
-            this.p_group = this.$plain.$dom.findComponentUpward(this, 'pl-radio-group');
-            if (!!this.p_group) {
-                this.p_group.p_addRadio(this)
-                if (this.p_group.multiple) {
-                    if (!this.id) {
-                        console.error(`radio must have id when radio-p_group's multiple is true!`);
-                        return;
-                    }
-                    this.currentValue = this.$plain.$utils.oneOf(this.id, this.p_group.multipleValue);
-                } else {
-                    this.currentValue = this.p_group.singleValue === this.id;
-                }
-            }
-        },
-        beforeDestroy() {
-            !!this.p_group && (this.p_group.p_removeRadio(this))
-        },
         methods: {
             p_click(e) {
-                /*if (!!this.disabled || !!this.readonly) return;
+                if (!!this.disabled || !!this.readonly) return;
                 if (!!this.p_group) {
                     if (!this.p_group.multiple) {
-                        if (!!this.currentValue) return
-                        this.p_group.p_radios.forEach(radio => radio !== this && (radio.currentValue = false))
+                        if (!!this.p_value) return
+                        this.p_group.p_radios.forEach(radio => radio !== this && (radio.p_value = false))
                         this.p_group.singleValue = this.id
                     } else {
-                        if (!this.currentValue) this.p_group.multipleValue.push(this.id);
+                        if (!this.p_value) this.p_group.multipleValue.push(this.id);
                         else this.$plain.$utils.removeFromArray(this.p_group.multipleValue, this.id);
                     }
-                }*/
+                }
                 this.p_value = !this.p_value;
                 this.$emit('click', e);
                 this.$emit('change', this.p_value);
+                this.p_emitValue()
+            },
+            p_emitValue() {
+                this.$emit('input', !!this.p_value ? this.trueValue : this.falseValue)
             },
         }
     }

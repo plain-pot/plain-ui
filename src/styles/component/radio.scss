@@ -25,17 +25,9 @@
         .pl-radio-icon-wrapper {
           color: $value;
         }
-        &:focus {
-          .pl-radio-icon-wrapper {
-            &::before {
-              position: absolute;
-              left: 5px;
-              right: 5px;
-              top: 5px;
-              bottom: 5px;
-              content: '';
-              box-shadow: 0 0 9px 3px $value;
-            }
+        &:focus, &:active {
+          .pl-radio-icon-wrapper{
+            color: $colorDeep;
           }
         }
       }
