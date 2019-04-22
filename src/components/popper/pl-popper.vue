@@ -45,6 +45,9 @@
             relate: {type: Array, default: () => []},                               //点击外部元素的时候，relate中数组的元素不会触发关闭动作
             disabledEqual: {type: Boolean},                                         //弹出框是否与载体在方向上大小相同
             disabledHideOnClickOutside: {type: Boolean},                            //禁用点击外部的时候关闭
+
+            parentNode: {},
+            data: {},
         },
         watch: {
             direction(val) {
@@ -61,25 +64,16 @@
         },
         data() {
             return {
+                isOpen: false,
                 p_popper: null,
-
+                p_show: false,
                 p_direction: this.direction,
                 p_align: this.align,
-                p_show: false,
                 p_replace: document.createComment(''),
-                isOpen: false,
+                elMap: null,
             }
         },
         computed: {
-            referenceEl() {
-                return !!this.reference.$el ? this.reference.$el : this.reference
-            },
-            popperEl() {
-                return !!this.popper.$el ? this.popper.$el : this.popper
-            },
-            parentNode() {
-                return !this.popperEl ? null : this.popperEl.parentNode
-            },
             classes() {
                 return [
                     {
@@ -89,17 +83,19 @@
                 ]
             },
             styles() {
+                if (!this.elMap) return {}
                 const ret = {}
                 !!this.height && (ret.height = this.$plain.$utils.unit(this.height))
                 !!this.width && (ret.width = this.$plain.$utils.unit(this.width))
-                if (!this.disabledEqual && this.p_mounted) ret[this.p_vertical ? 'width' : 'height'] = `${this.referenceEl[this.p_vertical ? 'offsetWidth' : 'offsetHeight']}px`
+                if (!this.disabledEqual && this.p_mounted) ret[this.p_vertical ? 'width' : 'height'] = `${this.elMap.reference[this.p_vertical ? 'offsetWidth' : 'offsetHeight']}px`
                 return ret
             },
             p_vertical() {
                 return this.$plain.$utils.oneOf(this.p_direction, ['top', 'bottom'])
             },
             p_relate() {
-                return [this.referenceEl, this.popperEl, ...(this.relate || [])]
+                if (!this.elMap) return []
+                return [this.elMap.reference, this.elMap.popper, ...(this.relate || [])]
             },
         },
         async mounted() {
@@ -115,24 +111,34 @@
                 this.p_show = false
                 await this.$plain.nextTick()
             },
-            destroy() {
-                this.p_destroy()
+            async destroy() {
+                await this.p_destroy()
             },
             reload() {
                 this.p_init()
             },
 
             async p_init() {
-                if (!!this.p_popper) this.p_destroy()
-                this.parentNode.replaceChild(this.p_replace, this.popperEl)
-                this.$refs.inner.appendChild(this.popperEl)
-                await this.$plain.nextTick()
+                if (!!this.elMap) await this.p_destroy()
+
+                this.elMap = {
+                    reference: this.p_getEl(this.reference),
+                    popper: this.p_getEl(this.popper),
+                    replace: document.createComment(''),
+                    parentNode: this.p_getEl(this.popper).parentNode,
+                }
+                this.elMap.parentNode.replaceChild(this.elMap.replace, this.elMap.popper)
+                this.$refs.inner.appendChild(this.elMap.popper)
                 this.p_initPopper()
                 window.addEventListener('click', this.p_clickWindow)
             },
             async p_destroy() {
-                this.parentNode.replaceChild(this.popperEl, this.p_replace)
+                if (!this.elMap) return
+                if (this.isOpen) await this.hide()
+                this.elMap.parentNode.replaceChild(this.elMap.popper, this.elMap.replace)
                 this.p_destroyPopper()
+                this.elMap = null
+                this.data.props = null
                 window.removeEventListener('click', this.p_clickWindow)
             },
 
@@ -142,8 +148,9 @@
                 this.p_align = placement[1];
             },
             p_initPopper() {
+                if (!this.elMap) return
                 !!this.p_popper && (this.p_destroyPopper())
-                this.p_popper = new Popper(this.referenceEl, this.$el, {
+                this.p_popper = new Popper(this.elMap.reference, this.$el, {
                     placement: `${this.p_direction}-${this.p_align}`,
                     modifiers: {
                         offset: {offset: `0,${this.offset == null ? this.arrow ? 10 : '0' : this.offset}`,},
@@ -160,9 +167,13 @@
             },
             p_transitionend() {
                 this.isOpen = this.p_show
+                // console.log(this.isOpen)
             },
             async p_clickWindow(e) {
                 if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()
+            },
+            p_getEl(target) {
+                return target.$el || target
             },
         },
         beforeDestroy() {
@@ -338,7 +349,7 @@
                         width: 0;
                         height: 0;
 
-                        #{map_get($type-object, direction)}: -6px;
+                        #{map_get($type-object, direction)}: -5px;
                         #{map_get($type-object, align)}: #{map_get($type-object, alignValue)};
                         #{map_get($type-object, zeroWidth)}: 0;
                         #{map_get($type-object, borderColor)}: white;
