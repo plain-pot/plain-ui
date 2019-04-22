@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-form-item">
+    <div class="pl-form-item" :class="{'pl-form-item-block':block}">
         <div :style="labelWrapperStyles" class="pl-form-item-label">
             <span ref="label">{{label}}</span>
         </div>
@@ -12,6 +12,7 @@
         name: "pl-form-item",
         props: {
             label: {},
+            block: {type: Boolean},
         },
         data() {
             return {
@@ -54,6 +55,9 @@
         .pl-form-item-label {
             display: inline-block;
             white-space: nowrap;
+        }
+        &.pl-form-item-block {
+            display: block !important;
         }
     }
 </style>
