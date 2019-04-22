@@ -65,7 +65,7 @@
                         menus: [
                             {title: 'Input输入框', icon: 'pl-edit-square-light', page: '/normal/demo-input', complete: true},
                             {title: 'Textarea文本域', icon: 'pl-textarea', page: '/normal/demo-textarea', complete: false},
-                            {title: 'Radio单复选框', icon: 'pl-circle-radio', page: '/normal/demo-radio', complete: false},
+                            {title: 'Radio单复选框', icon: 'pl-circle-radio', page: '/normal/demo-radio', complete: true},
                             {title: 'InputNumber数字输入', icon: 'pl-number', page: '/normal/demo-number', complete: false},
                             {title: 'Loading加载', icon: 'pl-loading-section-three', page: '/normal/demo-loading', complete: true},
                             {title: 'Select下拉选择', icon: 'pad-down', page: '/normal/demo-select', complete: false},

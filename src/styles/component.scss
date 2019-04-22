@@ -9,6 +9,7 @@
 @import "./component/loading";
 @import "./component/input";
 @import "./component/toggle";
+@import "./component/radio";
 
 @mixin component-mixin {
   @include component-icon;
@@ -22,4 +23,5 @@
   @include component-loading;
   @include component-input;
   @include component-toggle;
+  @include component-radio;
 }

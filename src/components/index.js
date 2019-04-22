@@ -9,6 +9,8 @@ import popper from './popper/pl-popper'
 import dropdown from './dropdown/pl-dropdown'
 import dropdownItem from './dropdown/pl-dropdown-item'
 import toggle from './pl-toggle'
+import radio from './radio/pl-radio'
+import radioGroup from './radio/pl-radio-group'
 
 
 export default {
@@ -23,4 +25,6 @@ export default {
     dropdown,
     dropdownItem,
     toggle,
+    radio,
+    radioGroup,
 }
