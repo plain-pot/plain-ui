@@ -34,7 +34,7 @@
                 </im-form-column>
             </im-form>
         </im-demo-row>
-        <im-demo-row title="列布局">
+        <!--<im-demo-row title="列布局">
             <im-form>
                 <im-form-column>
                     <im-form-item label="用户名："><im-input/></im-form-item>
@@ -64,7 +64,7 @@
                     </im-form-item>
                 </im-form-column>
             </im-form>
-        </im-demo-row>
+        </im-demo-row>-->
     </div>
 </template>
 

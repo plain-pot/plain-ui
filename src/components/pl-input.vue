@@ -26,18 +26,20 @@
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
         <slot name="append"></slot>
+        <pl-edit-control v-bind="editBinding" :value="p_value"/>
     </div>
 </template>
 
 <script>
     import PlIcon from "./pl-icon";
     import PlLoading from "./pl-loading";
-    import {ThrottleMixin} from "../mixin/component-mixin";
+    import {EditMixin, ThrottleMixin} from "../mixin/component-mixin";
+    import PlEditControl from "./form/pl-edit-control";
 
     export default {
         name: "pl-input",
-        components: {PlLoading, PlIcon},
-        mixins: [ThrottleMixin],
+        components: {PlEditControl, PlLoading, PlIcon},
+        mixins: [ThrottleMixin, EditMixin],
         props: {
             value: {},
             icon: {type: String},
