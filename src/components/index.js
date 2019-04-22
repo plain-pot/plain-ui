@@ -11,6 +11,9 @@ import dropdownItem from './dropdown/pl-dropdown-item'
 import toggle from './pl-toggle'
 import radio from './radio/pl-radio'
 import radioGroup from './radio/pl-radio-group'
+import form from './form/pl-form'
+import formItem from './form/pl-form-item'
+import formColumn from './form/pl-form-column'
 
 
 export default {
@@ -27,4 +30,7 @@ export default {
     toggle,
     radio,
     radioGroup,
+    form,
+    formItem,
+    formColumn,
 }

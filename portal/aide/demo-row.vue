@@ -40,6 +40,7 @@
                 color: plVar(colorPrimaryDeep);
                 border-bottom: solid 1px plVar(backgroundColor);
                 padding-bottom: plVar(padding);
+                font-weight: bold;
                 span {
                     margin-right: 12px;
                 }
