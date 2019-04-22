@@ -3,7 +3,7 @@
         <pl-tab-header clear-icon
                        :data="pageStack.map(page=>page.title)"
                        :ids="pageStack.map(page=>page.id)"
-                       :value="currentValue"
+                       :value="p_value"
                        @input="p_clickMenu"
                        @close="p_close"
                        @dblclick="p_close"
@@ -15,7 +15,7 @@
                        :param="page.param || {}"
                        :is="page.component"
                        v-if="page.init"
-                       v-show="currentValue === index"/>
+                       v-show="p_value === index"/>
             <div class="pl-nav-tab-content-empty" :class="{'pl-nav-tab-content-empty-hide':!!pageStack && pageStack.length>0}">
                 <pl-icon icon="pl-nothing"/>
                 <span>空空如也</span>
@@ -28,11 +28,13 @@
 
     import PlIcon from "./pl-icon";
     import PlTabHeader from "./tab/pl-tab-header";
+    import {ValueMixin} from "../mixin/component-mixin";
 
     const STORAGE_KEY = 'navigator-tab';
 
     export default {
         name: "pl-nav-tab",
+        mixins: [ValueMixin],
         components: {PlTabHeader, PlIcon},
         props: {
             value: {type: Number},                                              //当前显示的页面索引
@@ -43,17 +45,14 @@
         },
         watch: {
             value(val) {
-                if (this.currentValue !== val && val >= 0 && val < this.pageStack.length) {
+                if (this.p_value !== val && val >= 0 && val < this.pageStack.length) {
                     this.p_clickMenu(val)
                 }
-            },
-            currentValue(val) {
-                this.$emit('input', val)
             },
         },
         data() {
             let pageStack = []
-            let currentValue = this.value;
+            let p_value = this.value;
             let tabsStorage, selfStorage;
 
             let hasStorage = false;
@@ -75,9 +74,11 @@
 
             return {
                 pageStack,
-                currentValue,
+                p_value,
                 tabsStorage,
                 selfStorage,
+
+                p_watchValue: false,
             }
         },
         methods: {
@@ -86,24 +87,25 @@
                 return {component, path}
             },
             p_close({index}) {
-                let nextIndex = this.currentValue
-                if (index <= this.currentValue) nextIndex--;
+                let nextIndex = this.p_value
+                if (index <= this.p_value) nextIndex--;
                 this.pageStack.splice(index, 1)
                 if (nextIndex < 0 && this.pageStack.length > 0) nextIndex = 0
                 this.p_clickMenu(nextIndex)
             },
             async p_clickMenu(index) {
-                this.currentValue = index
+                this.p_value = index
                 const page = this.pageStack[index]
                 if (!page) return
                 if (!page.component) page.component = (await this.getRegisterPageByPath(page.path)).component
                 if (!!page && !page.init) page.init = true
                 this.p_save()
                 this.$emit('change', page)
+                this.p_emitValue()
             },
             p_save() {
                 if (!this.id) return
-                this.selfStorage.index = this.currentValue;
+                this.selfStorage.index = this.p_value;
                 this.selfStorage.pageStack = this.pageStack.map(({title, path, param}) => {
                     return {title, path, param}
                 })
@@ -115,7 +117,10 @@
                     for (let i = 0; i < this.pageStack.length; i++) {
                         const page = this.pageStack[i];
                         if (page.path === path) {
-                            this.currentValue = i
+                            this.p_value = i
+                            this.p_save()
+                            this.$emit('change', page)
+                            this.p_emitValue()
                             return
                         }
                     }
@@ -130,8 +135,10 @@
                     init: true,
                     id: this.$plain.$utils.uuid()
                 })
-                this.currentValue = this.pageStack.length - 1
+                this.p_value = this.pageStack.length - 1
                 this.p_save()
+                this.$emit('change', this.pageStack[this.pageStack.length - 1])
+                this.p_emitValue()
             },
         }
     }

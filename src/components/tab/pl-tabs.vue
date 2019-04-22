@@ -1,7 +1,7 @@
 <template>
     <div class="pl-tabs" :style="styles">
         <div class="pl-tabs-header">
-            <pl-tab-header :data="titles" :value="currentValue" @click="p_click"/>
+            <pl-tab-header :data="titles" :value="p_value" @click="p_click"/>
         </div>
         <div class="pl-tabs-body">
             <slot></slot>
@@ -11,9 +11,11 @@
 
 <script>
     import PlTabHeader from "./pl-tab-header";
+    import {ValueMixin} from "../../mixin/component-mixin";
 
     export default {
         name: "pl-tabs",
+        mixins:[ValueMixin],
         components: {PlTabHeader},
         props: {
             value: {type: Number,},
@@ -21,17 +23,12 @@
             height: {type: Number | String, default: 300},
         },
         watch: {
-            value(val) {
-                this.currentValue !== val && (this.currentValue = val)
-            },
-            currentValue(val) {
-                this.$emit('input', val)
+            p_value() {
                 this.update()
             },
         },
         data() {
             return {
-                currentValue: null,
                 items: [],
             }
         },
@@ -48,7 +45,7 @@
         methods: {
             update() {
                 this.items.forEach((item, index) => {
-                    const show = index === this.currentValue
+                    const show = index === this.p_value
                     const next = () => item.show = show
                     if (show && !item.p_initialized) {
                         item.p_initialized = true
@@ -66,11 +63,12 @@
                 this.items.splice(this.items.indexOf(item), 1)
             },
             p_click({item, index}) {
-                if (this.currentValue !== index) this.currentValue = index
+                if (this.p_value !== index) this.p_value = index
+                this.p_emitValue()
             },
         },
         mounted() {
-            this.currentValue = this.value == null ? this.items.length > 0 ? 0 : null : this.value
+            this.p_value = this.value == null ? this.items.length > 0 ? 0 : null : this.value
         },
     }
 </script>

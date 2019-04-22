@@ -27,7 +27,7 @@
         },
         computed: {
             on() {
-                return this.currentValue === this.trueValue
+                return this.p_value === this.trueValue
             },
             classes() {
                 return [
@@ -45,7 +45,8 @@
         methods: {
             p_click() {
                 if (this.readonly || this.disabled) return
-                this.currentValue = !this.on ? this.trueValue : this.falseValue
+                this.p_value = !this.on ? this.trueValue : this.falseValue
+                this.p_emitValue()
             },
             p_mousedown() {
                 this.p_active = true

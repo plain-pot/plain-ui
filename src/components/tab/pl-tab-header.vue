@@ -7,7 +7,7 @@
         </pl-item>
         <pl-item v-for="(item,index) in data"
                  :key="!!ids&&ids[index]?ids[index]:item"
-                 :class="{'pl-tab-header-item-active':index === currentValue}">
+                 :class="{'pl-tab-header-item-active':index === p_value}">
             <div class="pl-tab-header-item"
                  @click="p_click(item,index)"
                  @dblclick="p_dblclick(item,index)">
@@ -43,7 +43,8 @@
         },
         methods: {
             p_click(item, index) {
-                this.currentValue = index
+                this.p_value = index
+                this.p_emitValue()
                 this.$emit('click', {item, index})
             },
             p_close(item, index) {

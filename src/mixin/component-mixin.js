@@ -4,18 +4,19 @@ export const ValueMixin = {
     },
     watch: {
         value(val) {
-            this.p_watchValue && val !== this.currentValue && (this.currentValue = val)
-        },
-        currentValue(val) {
-            this.p_watchCurrentValue && this.$emit('input', val)
+            this.p_watchValue && val !== this.p_value && (this.p_value = val)
         },
     },
     data() {
         return {
-            currentValue: this.value,
+            p_value: this.value,
             p_watchValue: true,
-            p_watchCurrentValue: true,
         }
+    },
+    methods:{
+      p_emitValue(){
+          this.$emit('input', this.p_value)
+      },
     },
 }
 
