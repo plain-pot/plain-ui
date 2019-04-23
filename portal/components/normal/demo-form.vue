@@ -1,10 +1,14 @@
 <template>
     <div class="demo-form">
-        <im-demo-row title="基本用法">
-            <im-form >
+        <!--<im-demo-row title="基本用法">
+            <im-form>
                 <im-form-column>
-                    <im-form-item label="普通输入框："><im-input required/></im-form-item>
-                    <im-form-item label="输入框（密码）："><im-input inputType="password"/></im-form-item>
+                    <im-form-item label="普通输入框：">
+                        <im-input required/>
+                    </im-form-item>
+                    <im-form-item label="输入框（密码）：">
+                        <im-input inputType="password"/>
+                    </im-form-item>
                     <im-form-item label="复选框（单选）：">
                         <im-radio-group>
                             <im-radio id="man" label="男"/>
@@ -25,7 +29,27 @@
                         <im-toggle/>
                     </im-form-item>
 
-                    <im-form-item >
+                    <im-form-item>
+                        <im-button-group>
+                            <im-button label="重置"/>
+                            <im-button label="登录"/>
+                        </im-button-group>
+                    </im-form-item>
+                </im-form-column>
+            </im-form>
+        </im-demo-row>-->
+
+        <im-demo-row title="校验">
+            <im-form>
+                <im-form-column>
+                    <im-form-item label="必输："><im-input required/></im-form-item>
+                    <im-form-item label="长度5-10："><im-input rules="length:5,10"/></im-form-item>
+                    <im-form-item label="邮箱："><im-input rules="email"/></im-form-item>
+                    <im-form-item label="手机号码："><im-input rules="phone"/></im-form-item>
+                    <im-form-item label="QQ号码："><im-input rules="qq"/></im-form-item>
+                    <im-form-item label="身份证号："><im-input rules="cardId"/></im-form-item>
+                    <im-form-item label="自定义正则表达式："><im-input rules="email"/></im-form-item>
+                    <im-form-item>
                         <im-button-group>
                             <im-button label="重置"/>
                             <im-button label="登录"/>
@@ -34,6 +58,7 @@
                 </im-form-column>
             </im-form>
         </im-demo-row>
+
         <!--<im-demo-row title="列布局">
             <im-form>
                 <im-form-column>
@@ -71,9 +96,9 @@
 <script>
     export default {
         name: "demo-form",
-        data(){
-            return{
-                textAlign:'right',
+        data() {
+            return {
+                textAlign: 'right',
             }
         },
     }

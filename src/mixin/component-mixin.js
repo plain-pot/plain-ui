@@ -25,7 +25,7 @@ export const EditMixin = {
         disabled: {type: Boolean, default: null},                       //是否禁用
         readonly: {type: Boolean, default: null},                       //是否只读
         required: {type: Boolean},                                      //是否必输
-        rules: {type: Array},                                           //校验规则
+        rules: {},                                                      //校验规则
         validFunc: {type: Function},                                    //自定义验证函数
         validOnInit: {type: Boolean},                                   //是否在初始化的时候进行校验
     },

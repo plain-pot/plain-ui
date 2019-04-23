@@ -27,9 +27,10 @@
         },
         computed: {
             p_rules() {
-                let ret = []
+                let ret = [], rules;
+                rules = this.$plain.$utils.typeOf(this.rules) === 'string' ? [this.rules] : this.rules
                 !!this.required && ret.push('required')
-                !!this.rules && (ret = ret.concat(this.rules))
+                !!this.rules && (ret = ret.concat(rules))
                 return ret.length === 0 ? null : ret
             },
         },
@@ -45,8 +46,6 @@
         },
         mounted() {
             !!this.validOnInit && this.valid()
-
-            console.log(this)
         },
     }
 </script>
