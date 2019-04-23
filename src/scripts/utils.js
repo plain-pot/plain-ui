@@ -1,6 +1,7 @@
 import fecha from 'fecha'
 import DM from 'deepmerge'
 import keyboard from './keyboard'
+import {parseJson} from "./json-parse";
 
 const SPECIAL_CHARS_REGEXP = /([:\-_]+(.))/g;
 const MOZ_HACK_REGEXP = /^moz([A-Z])/;
@@ -542,6 +543,7 @@ const $utils = {
     encodeUrl,
     decodeUrl,
     copyToClipboard,
+    parseJson,
 }
 
 export default $utils
