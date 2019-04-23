@@ -1,5 +1,5 @@
 <template>
-    <transition name="pl-transition-scale">
+    <transition name="pl-edit-scale">
         <div class="pl-edit-control" v-show="!isValid">
             <span>{{validMsg}}</span>
         </div>

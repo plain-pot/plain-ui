@@ -4,7 +4,6 @@
     width: max-content;
     background-color: plVar(colorErrorLight);
     color: white;
-    padding: 0 2px;
     font-size: 12px;
     /* 定位 */
     position: absolute;
@@ -12,10 +11,12 @@
     top: calc(100% + 3px);
     right: 0;
     border-radius: 4px;
-    transform-origin: top;
+    transform: scale(0.75);
+    padding: 3px 6px;
+    transform-origin: top right;
+    @include transition-all;
     span {
       display: inline-block;
-      transform: scale(0.75);
     }
     &::after {
       content: " ";
@@ -24,6 +25,11 @@
       right: 10%;
       border: 3px solid transparent;
       border-bottom-color: plVar(colorErrorLight);
+    }
+
+    &.pl-edit-scale-enter, &.pl-edit-scale-leave-to {
+      transform: scale(0);
+      opacity: 0;
     }
   }
 }
