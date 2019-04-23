@@ -3,7 +3,7 @@
         <im-demo-row title="基本用法">
             <im-form >
                 <im-form-column>
-                    <im-form-item label="普通输入框："><im-input/></im-form-item>
+                    <im-form-item label="普通输入框："><im-input required/></im-form-item>
                     <im-form-item label="输入框（密码）："><im-input inputType="password"/></im-form-item>
                     <im-form-item label="复选框（单选）：">
                         <im-radio-group>

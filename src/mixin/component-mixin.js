@@ -41,6 +41,8 @@ export const EditMixin = {
         return {
             p_disabled: this.disabled,
             p_readonly: this.readonly,
+
+            isValid: true,
         }
     },
     computed: {
@@ -59,6 +61,11 @@ export const EditMixin = {
                 ret[item] = this[item]
                 return ret
             }, {})
+        },
+        editListening() {
+            return {
+                'update:isValid': (val) => this.isValid = val,
+            }
         },
     },
 }

@@ -19,7 +19,7 @@ const validate = {
             /*必输校验*/
             name: 'required',
             execute(val, params) {
-                return {isValid: val != null, validMsg: '必填',}
+                return {isValid: !!val, validMsg: '必填',}
             },
         },
         {
@@ -123,14 +123,14 @@ const validate = {
      * @param ruleNames 校验规则名称或者校验规则数组，形如 'required' 或者 ['required','length:5,10']
      */
     validate(val, ruleNames) {
-        ruleNames = typeOf(ruleNames) === 'array' ? ruleNames : [ruleNames]
+        ruleNames = $utils.typeOf(ruleNames) === 'array' ? ruleNames : [ruleNames]
         for (let i = 0; i < ruleNames.length; i++) {
             const result = this.analysisRuleName(ruleNames[i])(val)
-            if (!!result && !result.validate) {
+            if (!!result && !result.isValid) {
                 return result
             }
         }
-        return null
+        return {isValid: true, validMsg: null}
     }
 }
 

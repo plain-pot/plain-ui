@@ -1,0 +1,29 @@
+@mixin component-form {
+  .pl-edit-control {
+    visibility: visible;
+    width: max-content;
+    background-color: plVar(colorErrorLight);
+    color: white;
+    padding: 0 4px;
+    font-size: 12px;
+    /* 定位 */
+    position: absolute;
+    z-index: 1;
+    top: calc(100% + 3px);
+    right: 0;
+    border-radius: 4px;
+    transform-origin: top;
+    span {
+      display: inline-block;
+      transform: scale(0.75);
+    }
+    &::after {
+      content: " ";
+      position: absolute;
+      bottom: 100%;
+      right: 10%;
+      border: 3px solid transparent;
+      border-bottom-color: plVar(colorErrorLight);
+    }
+  }
+}

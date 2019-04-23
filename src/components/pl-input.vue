@@ -26,7 +26,7 @@
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
         <slot name="append"></slot>
-        <pl-edit-control v-bind="editBinding" :value="p_value"/>
+        <pl-edit-control v-bind="editBinding" v-on="editListening" :value="p_value"/>
     </div>
 </template>
 
@@ -72,7 +72,7 @@
             classes() {
                 return [
                     `pl-type-${this.type}`,
-                    `pl-color-${this.color}`,
+                    `pl-color-${!this.isValid ? 'error' : this.color}`,
                     `pl-shape-${this.shape}`,
                     `pl-size-${this.size}`,
                     {
