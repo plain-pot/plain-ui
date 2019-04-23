@@ -9,7 +9,8 @@
 
                     :type="inputType"
                     :placeholder="placeholder"
-                    :readonly="loading || timerWait || timerHandler"
+                    :readonly="p_readonly || loading || timerWait || timerHandler"
+                    :disabled="p_disabled"
 
                     @focus="p_focus = true"
                     @blur="p_focus = false"

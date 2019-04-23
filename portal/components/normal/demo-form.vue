@@ -40,20 +40,43 @@
         </im-demo-row>-->
 
         <im-demo-row title="校验">
-            <im-form>
+            <im-form ref="form">
                 <im-form-column>
-                    <im-form-item label="必输："><im-input required/></im-form-item>
-                    <im-form-item label="长度5-10，字符串："><im-input rules="length:{max:10,min:5}"/></im-form-item>
-                    <im-form-item label="长度5-10，对象："><im-input :rules="{rule:'length',max:10,min:5}"/></im-form-item>
-                    <im-form-item label="邮箱："><im-input rules="email"/></im-form-item>
-                    <im-form-item label="手机号码："><im-input rules="phone"/></im-form-item>
-                    <im-form-item label="QQ号码："><im-input rules="qq"/></im-form-item>
-                    <im-form-item label="身份证号："><im-input rules="cardId"/></im-form-item>
-                    <im-form-item label="自定义正则表达式："><im-input :rules="{rule:'regexp',reg:'^(www\\.)[1-9a-zA-Z]+(\\.com)$',msg:'自定义正则表达式校验不正确'}"/></im-form-item>
+                    <im-form-item label="必输：">
+                        <im-input required/>
+                    </im-form-item>
+                    <im-form-item label="长度5-10，字符串：">
+                        <im-input rules="length:{max:10,min:5}"/>
+                    </im-form-item>
+                    <im-form-item label="长度5-10，对象：">
+                        <im-input :rules="{rule:'length',max:10,min:5}"/>
+                    </im-form-item>
+                    <im-form-item label="邮箱：">
+                        <im-input rules="email"/>
+                    </im-form-item>
+                    <im-form-item label="手机号码：">
+                        <im-input rules="phone"/>
+                    </im-form-item>
+                    <im-form-item label="QQ号码：">
+                        <im-input rules="qq"/>
+                    </im-form-item>
+                    <im-form-item label="身份证号：">
+                        <im-input rules="cardId"/>
+                    </im-form-item>
+                    <im-form-item label="自定义正则表达式：">
+                        <im-input :rules="{rule:'regexp',reg:'^(www\\.)[1-9a-zA-Z]+(\\.com)$',msg:'自定义正则表达式校验不正确'}"/>
+                    </im-form-item>
+                    <im-form-item label="多重校验【必输，手机号码】：">
+                        <im-input :rules="['phone','required']"/>
+                    </im-form-item>
                     <im-form-item>
                         <im-button-group>
-                            <im-button label="重置"/>
-                            <im-button label="登录"/>
+                            <im-button label="校验" @click="pl_valid"/>
+                            <im-button label="取消校验状态"/>
+                            <im-button label="禁用"/>
+                            <im-button label="取消禁用"/>
+                            <im-button label="只读"/>
+                            <im-button label="取消只读"/>
                         </im-button-group>
                     </im-form-item>
                 </im-form-column>
@@ -102,6 +125,11 @@
                 textAlign: 'right',
             }
         },
+        methods: {
+            pl_valid() {
+                console.log(this.$refs.form.valid() ? 'pass' : 'not pass')
+            },
+        }
     }
 </script>
 

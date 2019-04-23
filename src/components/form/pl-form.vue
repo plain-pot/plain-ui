@@ -29,6 +29,18 @@
             },
         },
         methods: {
+            valid() {
+                const items = this.findComponentsDownward(this, 'pl-edit-control')
+                let isValid = true, validMsg = null;
+                for (let item of items) {
+                    const {isValid: i, validMsg: v} = item.valid()
+                    if (!i && isValid) {
+                        isValid = false
+                        validMsg = v
+                    }
+                }
+                return {isValid, validMsg}
+            },
             pl_addItem(item) {
                 this.items.push(item)
             },

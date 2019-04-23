@@ -7,7 +7,16 @@ import $utils from './utils'
  */
 function findComponentsDownward(context, componentName) {
     return context.$children.reduce((components, child) => {
-        if (child.$options.name === componentName) components.push(child);
+        switch ($utils.typeOf(componentName)) {
+            case 'string':
+                if (child.$options.name === componentName) components.push(child);
+                break;
+            case 'function':
+                if (componentName(child)) components.push(child)
+                break
+            default :
+                console.error('invalid param:', componentName)
+        }
         const foundChilds = findComponentsDownward(child, componentName);
         return components.concat(foundChilds);
     }, []);
