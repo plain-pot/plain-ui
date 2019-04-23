@@ -21,6 +21,9 @@
         -webkit-appearance: none !important;
         margin: 0;
       }
+      &:disabled {
+        background-color: initial;
+      }
     }
     @include plColors {
       &.pl-type-fill.pl-color-#{$key} {
@@ -73,6 +76,17 @@
     }
     &.pl-input-long {
       width: 100%;
+    }
+    &.pl-input-disabled {
+      background-color: plVar(colorDisabledLight);
+      &, & input {
+        cursor: not-allowed;
+      }
+    }
+    &.pl-input-readonly{
+      &, & input {
+        cursor: unset;
+      }
     }
   }
 }

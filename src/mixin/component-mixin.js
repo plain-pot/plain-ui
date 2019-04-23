@@ -65,6 +65,8 @@ export const EditMixin = {
         editListening() {
             return {
                 'update:isValid': (val) => this.isValid = val,
+                'update:p_disabled': (val) => this.p_disabled = val,
+                'update:p_readonly': (val) => this.p_readonly = val,
             }
         },
     },

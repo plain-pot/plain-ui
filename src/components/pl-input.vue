@@ -80,6 +80,8 @@
                         'pl-input-focus': this.p_focus,
                         'pl-input-has-icon': !!this.icon,
                         'pl-input-long': !!this.long,
+                        'pl-input-disabled': !!this.p_disabled,
+                        'pl-input-readonly': !!this.p_readonly,
                     },
                 ]
             },

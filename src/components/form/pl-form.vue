@@ -30,7 +30,7 @@
         },
         methods: {
             valid() {
-                const items = this.findComponentsDownward(this, 'pl-edit-control')
+                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
                 let isValid = true, validMsg = null;
                 for (let item of items) {
                     const {isValid: i, validMsg: v} = item.valid()
@@ -40,6 +40,18 @@
                     }
                 }
                 return {isValid, validMsg}
+            },
+            cancelValid() {
+                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
+                items.forEach(item => item.cancelValid())
+            },
+            setDisabled(flag = true) {
+                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
+                items.forEach(item => item.setDisabled(flag))
+            },
+            setReadonly(flag = true) {
+                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
+                items.forEach(item => item.setReadonly(flag))
             },
             pl_addItem(item) {
                 this.items.push(item)

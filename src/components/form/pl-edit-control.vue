@@ -32,7 +32,18 @@
                 this.isValid = isValid
                 this.validMsg = validMsg
                 this.$emit('update:isValid', this.isValid)
-                return isValid
+                return {isValid, validMsg}
+            },
+            cancelValid() {
+                this.isValid = true
+                this.validMsg = null
+                this.$emit('update:isValid', this.isValid)
+            },
+            setDisabled(flag = true) {
+                this.$emit('update:p_disabled', flag)
+            },
+            setReadonly(flag = true) {
+                this.$emit('update:p_readonly', flag)
             },
         },
         mounted() {

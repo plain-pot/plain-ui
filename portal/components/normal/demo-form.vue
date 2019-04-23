@@ -72,11 +72,11 @@
                     <im-form-item>
                         <im-button-group>
                             <im-button label="校验" @click="pl_valid"/>
-                            <im-button label="取消校验状态"/>
-                            <im-button label="禁用"/>
-                            <im-button label="取消禁用"/>
-                            <im-button label="只读"/>
-                            <im-button label="取消只读"/>
+                            <im-button label="取消校验状态" @click="$refs.form.cancelValid()"/>
+                            <im-button label="禁用" @click="$refs.form.setDisabled()"/>
+                            <im-button label="取消禁用" @click="$refs.form.setDisabled(false)"/>
+                            <im-button label="只读" @click="$refs.form.setReadonly()"/>
+                            <im-button label="取消只读" @click="$refs.form.setReadonly(false)"/>
                         </im-button-group>
                     </im-form-item>
                 </im-form-column>
