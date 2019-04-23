@@ -70,17 +70,19 @@
                         <im-input :rules="['phone','required']"/>
                     </im-form-item>
                     <im-form-item>
-                        <im-button-group>
-                            <im-button label="校验" @click="pl_valid"/>
-                            <im-button label="取消校验状态" @click="$refs.form.cancelValid()"/>
-                            <im-button label="禁用" @click="$refs.form.setDisabled()"/>
-                            <im-button label="取消禁用" @click="$refs.form.setDisabled(false)"/>
-                            <im-button label="只读" @click="$refs.form.setReadonly()"/>
-                            <im-button label="取消只读" @click="$refs.form.setReadonly(false)"/>
-                        </im-button-group>
+                        <im-button label="保存" @click="$plain.log('save')"/>
+                        <im-button label="提交"/>
                     </im-form-item>
                 </im-form-column>
             </im-form>
+            <im-button-group>
+                <im-button label="校验" @click="pl_valid"/>
+                <im-button label="取消校验状态" @click="$refs.form.cancelValid()"/>
+                <im-button label="禁用" @click="$refs.form.setDisabled()"/>
+                <im-button label="取消禁用" @click="$refs.form.setDisabled(false)"/>
+                <im-button label="只读" @click="$refs.form.setReadonly()"/>
+                <im-button label="取消只读" @click="$refs.form.setReadonly(false)"/>
+            </im-button-group>
         </im-demo-row>
 
         <!--<im-demo-row title="列布局">
@@ -127,7 +129,8 @@
         },
         methods: {
             pl_valid() {
-                console.log(this.$refs.form.valid() ? 'pass' : 'not pass')
+                const {isValid, validMsg} = this.$refs.form.valid()
+                console.log(isValid ? 'pass' : validMsg)
             },
         }
     }

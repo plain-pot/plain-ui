@@ -80,6 +80,14 @@
     &.pl-button-no-padding {
       padding: 0;
     }
+    &.pl-button-disabled {
+      background-color: plVar(colorDisabled);
+      border: solid 1px plVar(colorDisabledDeep);
+      cursor: not-allowed;
+      &:active{
+        background-color: plVar(colorDisabled);
+      }
+    }
     @include plSizes {
       &.pl-button-circle.pl-size-#{$key} {
         height: $value;
