@@ -23,7 +23,7 @@
                     @keydown.right="e=>$emit('right',e)"
             >
             <pl-loading v-if="loading || timerWait || timerHandler" class="pl-input-loading"/>
-            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!!p_value && p_hover" @click="pl_clear"/>
+            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click="pl_clear"/>
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
         <slot name="append"></slot>
