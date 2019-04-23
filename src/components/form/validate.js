@@ -107,7 +107,13 @@ const validate = {
      * @param ruleName 校验规则名称，形如length:5,10
      */
     analysisRuleName(ruleName) {
-        let [name, params] = ruleName.split(ruleSeparator)
+        let name, params, ruleSeparatorIndex, paramsSeparatorIndex;
+        ruleSeparatorIndex = ruleName.indexOf(ruleSeparator)
+        name = ruleName.substring(0, ruleSeparatorIndex)
+        params = JSON.parse(ruleName.substring(ruleSeparatorIndex + 1, ruleName.length))
+
+        console.log(name, params, ruleName.substring(ruleSeparatorIndex + 1, ruleName.length))
+
         const ruleIndex = this.ruleNames.indexOf(name)
         if (ruleIndex === -1) {
             console.error(`[${name}]校验规则不存在`)
