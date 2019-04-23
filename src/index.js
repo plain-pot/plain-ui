@@ -1,13 +1,23 @@
 import PlainDom from './scripts/PlainDom'
 import './styles/index.scss'
 import components from './components/index'
-import getService from './scripts/service'
+import Service from './scripts/service'
 
 const Plain = {
     Vue: null,
     p_pageRegistry: null,
     p_theme: null,
     p_rootOption: null,
+
+    TYPE: {
+        white: {icon: 'pad-info-circle-fill', color: 'white'},
+        black: {icon: 'pad-info-circle-fill', color: 'black'},
+        info: {icon: 'pad-info-circle-fill', color: 'primary'},
+        warn: {icon: 'pad-warning-circle-fill', color: 'warn'},
+        success: {icon: 'pad-check-circle-fill', color: 'success'},
+        error: {icon: 'pad-close-circle-fill', color: 'error'},
+        help: {icon: 'pad-question-circle-fill', color: 'info'},
+    },
 
     /*注册页面*/
     async pageRegistry(path) {
@@ -39,7 +49,7 @@ const Plain = {
         this.p_rootOption = rootOption
         this.p_pageRegistry = pageRegistry
 
-        Object.assign(this, getService(this))
+        Service(this)
 
         this.$utils.addScript('https://at.alicdn.com/t/font_948159_p2mr7qmy7qp.js')                   //plain
         this.$utils.addScript('https://at.alicdn.com/t/font_1113642_w82jwgy9lk8.js')                 //ant-design

@@ -125,7 +125,7 @@
                     {
                         title: '服务',
                         menus: [
-                            {title: '$message消息服务', icon: 'pad-message', page: '/normal/demo-message', complete: false},
+                            {title: '$message消息服务', icon: 'pad-message', page: '/normal/demo-message', complete: true},
                             {title: '$dialog对话框服务', icon: 'pl-window', page: '/normal/demo-dialog-service', complete: false},
                             {title: '$notice通知', icon: 'pad-bell', page: '/normal/demo-notice', complete: false},
                             {title: '$menu右击菜单', icon: 'pl-menu', page: '/normal/demo-context-menu', complete: false},
