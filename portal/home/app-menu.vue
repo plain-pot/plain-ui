@@ -83,7 +83,7 @@
                     {
                         title: '数据视图',
                         menus: [
-                            {title: 'List列表', icon: 'pl-list', page: '/normal/demo-list', complete: false},
+                            {title: 'List列表', icon: 'pl-list', page: '/normal/demo-list', complete: true},
                             {title: 'Tag标签', icon: 'pl-icon-tag', page: '/normal/demo-tag', complete: false},
                             {title: 'Progress进度条', icon: 'pl-progress', page: '/normal/demo-progress', complete: false},
                             {title: 'Tree树形组件', icon: 'pl-tree', page: '/normal/demo-tree', complete: false},
