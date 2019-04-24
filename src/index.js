@@ -39,8 +39,12 @@ const Plain = {
         return new Promise((rs) => this.Vue.prototype.$nextTick(rs))
     },
     /*创建vue组件实例*/
-    newInstance(component) {
-        return new this.Vue(Object.assign({}, component, this.p_rootOption)).$mount()
+    newInstance(component, el) {
+        if (!el) {
+            el = document.createElement('div')
+            document.body.appendChild(el)
+        }
+        return (new this.Vue({render: h => h(component), el, ...this.p_rootOption}).$mount()).$children[0]
     },
     install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont, rootOption} = {},) {
         Vue.use(PlainDom)

@@ -19,7 +19,7 @@ class MessageService {
     }
 
     newInstance(horizontal, vertical) {
-        const instance = this.$plain.newInstance(PlMessageContainer).$mount()
+        const instance = this.$plain.newInstance(PlMessageContainer)
         instance.p_horizontal = horizontal
         instance.p_vertical = vertical
         this.el.appendChild(instance.$el)

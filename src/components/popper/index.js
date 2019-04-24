@@ -10,9 +10,8 @@ class PopperService {
     }
 
     async init() {
-        await this.$plain.nextTick()
         this.container = this.$plain.newInstance(PopperContainer)
-        document.body.appendChild(this.container.$el)
+        console.log(this.container)
     }
 
     async newPopper(props) {
