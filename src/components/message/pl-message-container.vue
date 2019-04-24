@@ -1,6 +1,6 @@
 <template>
     <div class="pl-message-container"
-         :style="containerStyles">
+         :class="classes">
         <pl-list direction="top">
             <pl-item v-for="(item,index) in messages" :key="item.id">
                 <pl-message-item :text="item.text" :type="item.type" :time="item.time" :done="item.done" :click="item.click" @done="done(item,index)"/>
@@ -21,26 +21,19 @@
             horizontal: {type: String, default: 'center'},
             vertical: {type: String, default: 'start'},
             messages: {type: Array, default: () => []},
+            duration: {default: '30px'},
         },
         computed: {
-            position() {
-                return {
-                    [this.targetHorizontal === 'end' ? 'right' : 'left']: this.targetHorizontal === 'center' ? '50%' : '20px',
-                    [this.targetVertical === 'end' ? 'bottom' : 'top']: this.targetVertical === 'center' ? '50%' : '20px',
-                }
-            },
-            containerStyles() {
-                const styles = {}
-                styles[this.targetHorizontal === 'end' ? 'right' : 'left'] = this.targetHorizontal === 'center' ? '50%' : '20px'
-                styles[this.targetVertical === 'end' ? 'bottom' : 'top'] = this.targetVertical === 'center' ? '50%' : '20px'
-                styles.transform = `translate(${this.targetHorizontal === 'center' ? '-50%' : '0'},${this.targetVertical === 'center' ? '-50%' : '0'})`
-                return styles;
-            },
             targetVertical() {
                 return this.p_vertical || this.vertical
             },
             targetHorizontal() {
                 return this.p_horizontal || this.horizontal
+            },
+            classes() {
+                return [
+                    `pl-message-container-${this.targetHorizontal}-${this.targetVertical}`
+                ]
             },
         },
         data() {
