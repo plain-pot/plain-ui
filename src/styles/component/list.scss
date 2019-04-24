@@ -4,7 +4,13 @@
   }
 
   .pl-list {
-    display: inline-block;
+    display: block;
+    width: 100%;
+    position: relative;
+    .pl-item-block {
+      display: block;
+      width: 100% !important;
+    }
   }
 
   $directions: (

@@ -21,11 +21,14 @@
             </im-button-group>
         </im-demo-row>
         <im-demo-row>
-            <im-list :direction="direction">
-                <im-item v-for="(item,index) in cities" :key="item.name" class="test-item"
-                           @click="handleClick(item,index)">{{item.name}}
-                </im-item>
-            </im-list>
+            <div style="width: 500px">
+                <im-list :direction="direction">
+                    <im-item v-for="(item,index) in cities" :key="item.name" class="test-item"
+                             block
+                             @click="handleClick(item,index)">{{item.name}}
+                    </im-item>
+                </im-list>
+            </div>
         </im-demo-row>
     </div>
 </template>
@@ -77,7 +80,6 @@
             padding: 12px;
             color: white;
             background-color: plVar(colorPrimary);
-            display: inline-block !important;
         }
     }
 

@@ -14,6 +14,8 @@ import radioGroup from './radio/pl-radio-group'
 import form from './form/pl-form'
 import formItem from './form/pl-form-item'
 import formColumn from './form/pl-form-column'
+import list from './list/pl-list'
+import item from './list/pl-item'
 
 
 export default {
@@ -33,4 +35,6 @@ export default {
     form,
     formItem,
     formColumn,
+    list,
+    item,
 }
