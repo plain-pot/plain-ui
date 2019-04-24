@@ -25,7 +25,9 @@
         </im-demo-row>
         <im-demo-row>
             <im-button @click="$message.show('操作成功！',{time:1000,done:()=>$plain.log('done')})" label="一秒后自动关闭"/>
-            <im-button @click="dontAutoClose" label="不自动关闭"/>
+            <im-button @click="$message.show('操作成功！',{time:null})" label="不自动关闭"/>
+            <im-button @click="$message.show('操作成功！',{done:()=>$message.show('done')})" label="监听结束事件"/>
+            <im-button @click="$message.show('操作成功！',{click:()=>$message.show('click')})" label="监听点击事件"/>
         </im-demo-row>
     </div>
 </template>
@@ -34,17 +36,6 @@
 
     export default {
         name: "demo-message",
-        methods: {
-            dontAutoClose() {
-                this.msg = this.$message.show('操作成功！', {
-                    time: null,
-                    click: () => {
-                        console.log('click');
-                        this.$message.close(this.msg)
-                    }
-                })
-            },
-        }
     }
 </script>
 

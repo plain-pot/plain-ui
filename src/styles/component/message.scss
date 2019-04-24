@@ -50,6 +50,20 @@
     white-space: nowrap;
     border-radius: 4px;
     border: solid 1px;
+    pointer-events: auto;
+    cursor: pointer;
+    min-width: 300px;
+    display: flex;
+    justify-content: space-between;
+    & > * {
+      vertical-align: middle;
+    }
+    .pl-message-item-icon {
+      margin-right: 0.5em;
+    }
+    .pl-message-item-close {
+      margin-left: 0.5em;
+    }
 
     @include plColors {
       &.pl-message-item-color-#{$key} {
