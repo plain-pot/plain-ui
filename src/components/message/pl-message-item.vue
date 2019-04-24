@@ -5,7 +5,7 @@
             <pl-icon :icon="TYPE[type].icon" class="pl-message-item-icon"/>
             <span>{{text}}</span>
         </div>
-        <pl-icon icon="pad-close" class="pl-message-item-close" @click="close"/>
+        <pl-icon icon="pad-close" class="pl-message-item-close" @click.stop="close"/>
     </div>
 </template>
 
