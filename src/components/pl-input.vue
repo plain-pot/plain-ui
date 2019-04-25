@@ -98,7 +98,10 @@
             },
             pl_clear(e) {
                 if (!!this.$listeners.clear) this.$listeners.clear(e)
-                else this.p_value = null
+                else {
+                    this.p_value = null
+                    this.$emit('input', null)
+                }
             },
 
             async pl_enter(e) {

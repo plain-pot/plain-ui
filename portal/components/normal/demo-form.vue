@@ -74,6 +74,11 @@
                         <im-button label="提交"/>
                     </im-form-item>
                 </im-form-column>
+                <im-form-column>
+                    <im-form-item label="文本域">
+                        <im-textarea required/>
+                    </im-form-item>
+                </im-form-column>
             </im-form>
             <im-button-group>
                 <im-button label="校验" @click="pl_valid"/>

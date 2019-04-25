@@ -12,6 +12,7 @@
 @import "./component/radio";
 @import "./component/form";
 @import "./component/message";
+@import "./component/textarea";
 
 @mixin component-mixin {
   @include component-icon;
@@ -28,4 +29,5 @@
   @include component-radio;
   @include component-form;
   @include component-message;
+  @include component-textarea;
 }

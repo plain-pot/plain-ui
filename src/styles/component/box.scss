@@ -4,8 +4,10 @@
     @include plColors {
       &.pl-color-#{$key} {
         background-color: $value;
-        color: white;
         border: solid 1px $value;
+        &, & input, & textarea {
+          color: white;
+        }
       }
     }
   }
@@ -15,7 +17,9 @@
       &.pl-color-#{$key} {
         border: solid 1px $value;
         box-sizing: border-box;
-        color: $value;
+        &, & input, & textarea {
+          color: $colorDeep;
+        }
       }
     }
   }
@@ -23,7 +27,9 @@
   .pl-type-none {
     @include plColors {
       &.pl-color-#{$key} {
-        color: $value;
+        &, & input, & textarea {
+          color: $colorDeep;
+        }
       }
     }
   }

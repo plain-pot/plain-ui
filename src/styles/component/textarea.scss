@@ -1,0 +1,39 @@
+@mixin component-textarea {
+  .pl-textarea {
+    display: inline-block;
+    position: relative;
+
+    textarea {
+      outline: none;
+      display: inline-flex;
+      border: none;
+      height: initial;
+      padding: 6px;
+      box-sizing: border-box;
+      vertical-align: top;
+      font-family: inherit;
+      @include plColors {
+        &.pl-color-#{$key} {
+          &.pl-textarea-focus {
+            box-shadow: 0 0 6px $value;
+          }
+        }
+      }
+
+      &.pl-textarea-long {
+        width: 100% !important;
+      }
+      &.pl-textarea-disabled {
+        background-color: plVar(colorDisabledLight);
+        cursor: not-allowed;
+      }
+
+      @include plSizes {
+        &.pl-size-#{$key} {
+          font-size: $value/2.5;
+        }
+      }
+    }
+  }
+
+}
