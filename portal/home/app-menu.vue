@@ -111,7 +111,7 @@
                     {
                         title: '其他',
                         menus: [
-                            {title: 'Scroll滚动条', icon: 'icon-scroll', page: '/normal/demo-scroll', complete: false},
+                            {title: 'Scroll滚动条', icon: 'icon-scroll', page: '/normal/demo-scroll', complete: true},
                             {title: 'Dialog对话框', icon: 'pl-window', page: '/normal/demo-dialog', complete: false},
                             {title: 'Tooltip文字提示', icon: 'pl-tooltip', page: '/normal/demo-tooltip', complete: false},
                             {title: 'Dropdown悬浮层', icon: 'pl-popper', page: '/normal/demo-dropdown', complete: true},
