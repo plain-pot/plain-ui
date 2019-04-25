@@ -48,7 +48,7 @@
                     {
                         title: '测试',
                         menus: [
-                            {title: 'Test测试', icon: 'pl-tools', page: '/normal/demo-test', complete: false},
+                            {title: 'Test测试', icon: 'pl-tools', page: '/normal/demo-test', complete: true},
                             {title: 'Test测试2', icon: 'pl-tools', page: '/normal/demo-test2', complete: false},
                         ],
                     },
