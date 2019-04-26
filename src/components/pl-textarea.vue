@@ -31,7 +31,7 @@
             value: {},
 
             cols: {},
-            rows: {default: 3},
+            rows: {default: 5},
             long: {type: Boolean},
             width: {default: '200px'},
             placeholder: {default: '点击输入文本...'},
