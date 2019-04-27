@@ -15,8 +15,8 @@ class SelectService {
 
     }
 
-    async select(option) {
-        return await this.controller.select(option)
+    async getSelect(option) {
+        return await this.controller.getSelect(option)
     }
 }
 

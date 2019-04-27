@@ -16,14 +16,14 @@
             }
         },
         methods: {
-            async select(option) {
+            async getSelect() {
                 let service = !this.$refs.services ? null : this.$plain.$utils.findOne(this.$refs.services, item => !item.popper || !item.popper.isOpen)
                 if (!service) {
                     this.items.push(this.items.length + 1)
                     await this.$plain.nextTick()
                     service = this.$plain.$utils.findOne(this.$refs.services, item => !item.popper || !item.popper.isOpen)
                 }
-                return await service.select(option)
+                return service
             },
         }
     }

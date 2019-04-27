@@ -32,7 +32,7 @@
         data() {
             return {
                 popper: null,
-                p_show: false,
+                isOpen: false,
                 hoverIndex: 0,
 
                 option: {},
@@ -48,10 +48,21 @@
                     this.popper = await this.$plain.$popper.getPopper({
                         ...option,
                         popper: this.$el,
+                        onOpen: () => {
+                            this.isOpen = true
+                            !!option.onOpen && option.onOpen()
+                        },
+                        onClose: () => {
+                            this.isOpen = false
+                            !!option.onClose && option.onClose()
+                        },
                     })
                     this.popper.show()
                     this.rs = rs
                 })
+            },
+            hide() {
+                this.popper.hide()
             },
             pl_click(item) {
                 !!this.rs && this.rs(item)

@@ -21,67 +21,54 @@
         name: "demo-select-service",
         data() {
             return {
-                select: {},
-
-                option0: {
-                    data: [
-                        {name: '上海', val: 'shanghai'},
-                        {name: '北京', val: 'beijing'},
-                        {name: '广州', val: 'guangzhou'},
-                    ],
-                    labelKey: 'name',
-                    valueKey: 'val'
-                },
-                option1: {
-                    data: [
-                        {name: '上海', val: 'shanghai'},
-                        {name: '北京', val: 'beijing'},
-                        {name: '广州', val: 'guangzhou'},
-                    ],
-                    labelKey: 'name',
-                    valueKey: 'val'
-                },
+                selectService: {},
                 option2: {
                     data: [
-                        {name: '华盛顿', val: 'huashengdun'},
-                        {name: '纽约', val: 'niuyue'},
-                        {name: '佛罗里达', val: 'fololida'},
+                        {name: '湖南', val: '1'},
+                        {name: '湖北', val: '2'},
+                        {name: '江西', val: '3'},
+                        {name: '山东', val: '4'},
+                        {name: '山西', val: '5'},
+                        {name: '广西', val: '6'},
+                        {name: '安徽', val: '7'},
+                        {name: '河北', val: '8'},
+                        {name: '河南', val: '9'},
+                        {name: '广东', val: '10'},
                     ],
-                    labelKey: 'name',
-                    valueKey: 'val',
                 },
                 option3: {
-                    data: [
-                        {name: '华盛顿', val: 'huashengdun'},
-                        {name: '纽约', val: 'niuyue'},
-                        {name: '佛罗里达', val: 'fololida'},
-                    ],
-                    labelKey: 'name',
-                    valueKey: 'val',
                     disabledEqual: true,
                     width: '200px',
                     height: '150px',
                     arrow: true,
                 },
                 option4: {
-                    data: [
-                        {name: '华盛顿', val: 'huashengdun'},
-                        {name: '纽约', val: 'niuyue'},
-                        {name: '佛罗里达', val: 'fololida'},
-                    ],
-                    labelKey: 'name',
-                    valueKey: 'val',
                     searchInput: true,
                 },
             }
         },
         methods: {
-            select(num) {
-                this[`option${num}`].reference = this.$refs[`button${num}`]
-                this.select[num] = this.$plain.$select.select(this[`option${num}`]).then(ret => {
-                    console.log('done', {...ret})
-                    this.$message.show(ret.name)
-                })
+            async select(num) {
+                if (!this.selectService[num]) {
+                    this.selectService[num] = await this.$plain.$select.getSelect()
+                    !this[`option${num}`] && (this[`option${num}`] = {})
+                    !this[`option${num}`].reference && (this[`option${num}`].reference = this.$refs[`button${num}`])
+                    this.selectService[num].select(Object.assign({}, {
+                        data: [
+                            {name: '上海', val: 'shanghai'},
+                            {name: '北京', val: 'beijing'},
+                            {name: '广州', val: 'guangzhou'},
+                        ],
+                        labelKey: 'name',
+                        valueKey: 'val',
+                        onClose: () => this.selectService[num] = null
+                    }, this[`option${num}`])).then(ret => {
+                        console.log('done', {...ret})
+                        this.$message.show(ret.name)
+                    })
+                } else {
+                    this.selectService[num].hide()
+                }
             },
         }
     }
