@@ -4,7 +4,8 @@
              v-for="(item,index) in option.data"
              :key="index"
              :class="{'pl-select-service-item-inner-hover':index === hoverIndex}"
-             @mouseenter="hoverIndex = index">
+             @mouseenter="hoverIndex = index"
+             @click="pl_click(item)">
             <div class="pl-select-service-item-inner">
                 <span>{{!!option.labelKey?item[option.labelKey]:item}}</span>
             </div>
@@ -22,21 +23,29 @@
                 hoverIndex: 0,
 
                 option: {},
+                rs: null,
             }
         },
         methods: {
             async select(option) {
-                this.option = Object.assign({
-                    data: [],
-                    labelKey: null,
-                    valueKey: null
-                }, option)
-                // console.log(option)
-                this.popper = await this.$plain.$popper.getPopper({
-                    reference: option.reference,
-                    popper: this.$el,
+                return new Promise(async rs => {
+                    this.option = Object.assign({
+                        data: [],
+                        labelKey: null,
+                        valueKey: null
+                    }, option)
+                    // console.log(option)
+                    this.popper = await this.$plain.$popper.getPopper({
+                        ...option,
+                        popper: this.$el,
+                    })
+                    this.popper.show()
+                    this.rs = rs
                 })
-                this.popper.show()
+            },
+            pl_click(item) {
+                !!this.rs && this.rs(item)
+                this.popper.hide()
             },
         },
     }

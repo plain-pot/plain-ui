@@ -1,7 +1,7 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
         <div class="pl-popper" v-show="p_show" :class="classes" :style="styles" @transitionend="p_transitionend">
-            <pl-scroll :scrollbar-size="6" :fit-width="width === null" :fit-height="height === null">
+            <pl-scroll :scrollbar-size="6" :fit-width="width == null" :fit-height="width == null" :fit-host-width="width != null" :fit-host-height="height != null">
                 <div class="pl-popper-inner" ref="inner"></div>
             </pl-scroll>
         </div>

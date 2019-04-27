@@ -1,8 +1,11 @@
 <template>
     <div class="demo-select-service">
         <im-demo-row title="基本用法">
-            <im-button label="选择" @click="select(1)" ref="button1"/>
-            <im-button label="选择" @click="select(2)" ref="button2"/>
+            <im-button label="TEST1" @click="select(1)" ref="button1"/>
+            <im-button label="TEST2" @click="select(2)" ref="button2"/>
+        </im-demo-row>
+        <im-demo-row>
+            <im-button label="测试popper参数" @click="select(3)" ref="button3"/>
         </im-demo-row>
     </div>
 </template>
@@ -28,14 +31,29 @@
                         {name: '佛罗里达', val: 'fololida'},
                     ],
                     labelKey: 'name',
-                    valueKey: 'val'
+                    valueKey: 'val',
+                },
+                option3: {
+                    data: [
+                        {name: '华盛顿', val: 'huashengdun'},
+                        {name: '纽约', val: 'niuyue'},
+                        {name: '佛罗里达', val: 'fololida'},
+                    ],
+                    labelKey: 'name',
+                    valueKey: 'val',
+                    disabledEqual: true,
+                    width: '200px',
+                    height: '150px',
+                    arrow:true,
                 },
             }
         },
         methods: {
-            async select(num) {
+            select(num) {
                 this[`option${num}`].reference = this.$refs[`button${num}`]
-                await  this.$plain.$select.select(this[`option${num}`])
+                this.$plain.$select.select(this[`option${num}`]).then(ret => {
+                    console.log('done', {...ret})
+                })
             },
         }
     }
