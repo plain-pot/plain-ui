@@ -12,6 +12,7 @@
         </im-demo-row>
         <im-demo-row title="搜索框">
             <im-button label="toggle" @click="select(4)" ref="button4"/>
+            <im-button label="toggle" @click="select(5)" ref="button5"/>
         </im-demo-row>
     </div>
 </template>
@@ -24,16 +25,9 @@
                 selectService: {},
                 option2: {
                     data: [
-                        {name: '湖南', val: '1'},
-                        {name: '湖北', val: '2'},
-                        {name: '江西', val: '3'},
-                        {name: '山东', val: '4'},
-                        {name: '山西', val: '5'},
-                        {name: '广西', val: '6'},
-                        {name: '安徽', val: '7'},
-                        {name: '河北', val: '8'},
-                        {name: '河南', val: '9'},
-                        {name: '广东', val: '10'},
+                        {name: '上海', val: 'shanghai'},
+                        {name: '北京', val: 'beijing'},
+                        {name: '广州', val: 'guangzhou'},
                     ],
                 },
                 option3: {
@@ -43,6 +37,11 @@
                     arrow: true,
                 },
                 option4: {
+                    searchInput: true,
+                },
+                option5: {
+                    disabledEqual: true,
+                    width: '200px',
                     searchInput: true,
                 },
             }
@@ -55,9 +54,16 @@
                     !this[`option${num}`].reference && (this[`option${num}`].reference = this.$refs[`button${num}`])
                     this.selectService[num].select(Object.assign({}, {
                         data: [
-                            {name: '上海', val: 'shanghai'},
-                            {name: '北京', val: 'beijing'},
-                            {name: '广州', val: 'guangzhou'},
+                            {name: '湖南', val: '1'},
+                            {name: '湖北', val: '2'},
+                            {name: '江西', val: '3'},
+                            {name: '山东', val: '4'},
+                            {name: '山西', val: '5'},
+                            {name: '广西', val: '6'},
+                            {name: '安徽', val: '7'},
+                            {name: '河北', val: '8'},
+                            {name: '河南', val: '9'},
+                            {name: '广东', val: '10'},
                         ],
                         labelKey: 'name',
                         valueKey: 'val',

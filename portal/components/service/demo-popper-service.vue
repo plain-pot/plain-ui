@@ -140,6 +140,15 @@
             </div>
         </im-demo-row>
 
+        <im-demo-row title="适应内容高度">
+            <im-button label="show dom" @click="test(15)" ref="button15"/>
+            <div>
+                <div class="box" ref="popper15" style="padding: 12px;border-radius: 4px;height: 400px">
+                    <im-icon icon="pad-star"/>
+                    <im-button label="popper content" icon="pad-search"/>
+                </div>
+            </div>
+        </im-demo-row>
     </div>
 </template>
 
@@ -195,6 +204,11 @@
                         width: '200px',
                         disabledEqual: true,
                     },
+                    15: {
+                        width: null,
+                        height: null,
+                        disabledEqual: true,
+                    },
                 }
             }
         },
@@ -219,6 +233,7 @@
             width: 250px;
             padding: 12px;
             border-radius: 4px;
+            box-sizing: border-box;
         }
         .box-wrapper {
             /*display: none;*/

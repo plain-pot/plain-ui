@@ -132,8 +132,10 @@
                 this.contentWidth = 0
                 this.contentHeight = 0
                 await this.$plain.nextTick()
+                await this.$plain.nextTick()
                 this._contentResize(this.$refs.content)
                 this._hostResize(this.$refs.host)
+                this.scrollTop(0, 0)
             },
             _contentResize(el) {
                 this.contentWidth = el.offsetWidth;

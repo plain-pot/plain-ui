@@ -43,6 +43,7 @@
         methods: {
             async select(option) {
                 return new Promise(async rs => {
+                    this.hoverIndex = 0
                     this.option = Object.assign({}, defaultOption, option)
                     // console.log(option)
                     this.popper = await this.$plain.$popper.getPopper({
