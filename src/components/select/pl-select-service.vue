@@ -1,5 +1,8 @@
 <template>
     <div class="pl-select-service">
+        <div class="pl-select-service-item" v-show="option.searchInput">
+            <pl-input v-model="searchText" long :width="null"/>
+        </div>
         <div class="pl-select-service-item"
              v-for="(item,index) in option.data"
              :key="index"
@@ -14,8 +17,18 @@
 </template>
 
 <script>
+    import PlInput from "../pl-input";
+
+    const defaultOption = {
+        data: [],
+        labelKey: null,
+        valueKey: null,
+        searchInput: false,
+    }
+
     export default {
         name: "pl-select-service",
+        components: {PlInput},
         data() {
             return {
                 popper: null,
@@ -24,16 +37,13 @@
 
                 option: {},
                 rs: null,
+                searchText: null,
             }
         },
         methods: {
             async select(option) {
                 return new Promise(async rs => {
-                    this.option = Object.assign({
-                        data: [],
-                        labelKey: null,
-                        valueKey: null
-                    }, option)
+                    this.option = Object.assign({}, defaultOption, option)
                     // console.log(option)
                     this.popper = await this.$plain.$popper.getPopper({
                         ...option,
