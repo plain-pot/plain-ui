@@ -55,7 +55,7 @@ const Plain = {
 
         Service(this)
 
-        this.$utils.addScript('https://at.alicdn.com/t/font_948159_p2mr7qmy7qp.js')                   //plain
+        this.$utils.addScript('https://at.alicdn.com/t/font_948159_sskx2vv336s.js')                   //plain
         this.$utils.addScript('https://at.alicdn.com/t/font_1113642_w82jwgy9lk8.js')                 //ant-design
         !!iconfont && this.$utils.addScript(iconfont)
 

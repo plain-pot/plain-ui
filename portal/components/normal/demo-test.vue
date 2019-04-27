@@ -12,6 +12,26 @@
 </template>
 
 <script>
+
+    import Vue from 'vue'
+
+    const component = {
+        data() {
+            return {
+                a: 1,
+                b: 2,
+                c: 3,
+            }
+        },
+    }
+
+    class Option extends Vue {
+        constructor(_option) {
+            super(component)
+            Object.assign(this, _option)
+        }
+    }
+
     export default {
         name: "demo-test",
         data() {
@@ -36,6 +56,12 @@
                 const ret = this.option.enable.apply(this)
                 return ret
             },
+        },
+        mounted() {
+            const a = new Option({
+                a:true,
+            })
+            console.log(a)
         },
     }
 </script>
