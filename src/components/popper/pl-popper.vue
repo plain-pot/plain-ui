@@ -46,6 +46,9 @@
             disabledEqual: {type: Boolean},                                         //弹出框是否与载体在方向上大小相同
             disabledHideOnClickOutside: {type: Boolean},                            //禁用点击外部的时候关闭
 
+            onOpen: {type: Function},                                               //打开之后的动作
+            onClose: {type: Function},                                              //关闭之后的动作
+
             parentNode: {},
             data: {},
         },
@@ -106,10 +109,12 @@
                 this.p_show = true
                 await this.$plain.nextTick()
                 this.p_popper.update()
+                !!this.onOpen && this.onOpen()
             },
             async hide() {
                 this.p_show = false
                 await this.$plain.nextTick()
+                !!this.onClose && this.onClose()
             },
             async destroy() {
                 await this.p_destroy()
@@ -167,7 +172,7 @@
             },
             p_transitionend() {
                 this.isOpen = this.p_show
-                // console.log(this.isOpen)
+                // console.log('p_transitionend', this.isOpen)
             },
             async p_clickWindow(e) {
                 if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()
