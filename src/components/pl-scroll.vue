@@ -128,6 +128,13 @@
             },
         },
         methods: {
+            async refreshSize() {
+                this.contentWidth = 0
+                this.contentHeight = 0
+                await this.$plain.nextTick()
+                this._contentResize(this.$refs.content)
+                this._hostResize(this.$refs.host)
+            },
             _contentResize(el) {
                 this.contentWidth = el.offsetWidth;
                 this.contentHeight = el.offsetHeight;

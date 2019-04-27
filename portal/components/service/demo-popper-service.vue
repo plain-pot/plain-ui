@@ -130,6 +130,16 @@
             </div>
         </im-demo-row>
 
+        <im-demo-row title="测试滚动条">
+            <im-button label="show dom" @click="test(14)" ref="button14"/>
+            <div>
+                <div class="box" ref="popper14" style="padding: 12px;border-radius: 4px;height: 400px">
+                    <im-icon icon="pad-star"/>
+                    <im-button label="popper content" icon="pad-search"/>
+                </div>
+            </div>
+        </im-demo-row>
+
     </div>
 </template>
 
@@ -173,14 +183,18 @@
                         height: '200px',
                         width: '150px',
                         disabledEqual: true,
-                        onOpen(){
+                        onOpen() {
                             this.$message.show('open')
                         },
                         onClose() {
                             this.$message.show('close')
                         },
                     },
-
+                    14: {
+                        height: '200px',
+                        width: '200px',
+                        disabledEqual: true,
+                    },
                 }
             }
         },
