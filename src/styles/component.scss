@@ -13,6 +13,7 @@
 @import "./component/form";
 @import "./component/message";
 @import "./component/textarea";
+@import "./component/select";
 
 @mixin component-mixin {
   @include component-icon;
@@ -30,4 +31,5 @@
   @include component-form;
   @include component-message;
   @include component-textarea;
+  @include component-select;
 }

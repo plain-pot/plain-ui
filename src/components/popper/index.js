@@ -11,7 +11,6 @@ class PopperService {
 
     async init() {
         this.container = this.$plain.newInstance(PopperContainer)
-        console.log(this.container)
     }
 
     async newPopper(props) {

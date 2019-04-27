@@ -95,7 +95,7 @@
             },
             p_relate() {
                 if (!this.elMap) return []
-                return [this.elMap.reference, this.elMap.popper, ...(this.relate || [])]
+                return [this.elMap.reference, this.$el, ...(this.relate || [])]
             },
         },
         async mounted() {
