@@ -12,10 +12,10 @@
       }
       &.pl-select-service-item-inner-hover {
         .pl-select-service-item-inner{
-          background-color: plVar(colorPrimaryLight);
+          background-color: plVar(colorPrimaryLighter);
           cursor: pointer;
-          color: white;
           border-radius: plVar(borderFillet);
+          color: black;
         }
       }
     }
