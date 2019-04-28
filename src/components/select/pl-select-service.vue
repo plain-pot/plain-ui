@@ -1,8 +1,5 @@
 <template>
     <div class="pl-select-service">
-        <div class="pl-select-service-item" v-show="option.searchInput">
-            <pl-input v-model="searchText" long :width="null"/>
-        </div>
         <div class="pl-select-service-item"
              v-for="(item,index) in option.data"
              :key="index"
