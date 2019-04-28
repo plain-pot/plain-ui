@@ -49,10 +49,12 @@
                         onOpen: () => {
                             this.isOpen = true
                             !!option.onOpen && option.onOpen()
+                            window.addEventListener('keydown', this.pl_keyup)
                         },
                         onClose: () => {
                             this.isOpen = false
                             !!option.onClose && option.onClose()
+                            window.removeEventListener('keydown', this.pl_keyup)
                         },
                     })
                     this.popper.show()
@@ -62,10 +64,24 @@
             hide() {
                 this.popper.hide()
             },
+
+            next() {
+                this.hoverIndex < (this.option.data.length - 1) && this.hoverIndex++
+            },
+            prev() {
+                this.hoverIndex > 0 && this.hoverIndex--
+            },
             pl_click(item) {
                 !!this.rs && this.rs(item)
                 this.popper.hide()
             },
+            pl_keyup(e) {
+                e.keyCode === 38 && this.prev()
+                e.keyCode === 40 && this.next()
+            },
+        },
+        beforeDestroy() {
+            window.removeEventListener('keydown', this.pl_keyup)
         },
     }
 </script>

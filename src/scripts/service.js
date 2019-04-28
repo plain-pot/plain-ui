@@ -4,6 +4,7 @@ import $storage from './storage'
 import $valid from '../components/form/validate'
 import {MessageService} from "../components/message";
 import {SelectService} from "../components/select";
+import $keyboard from './keyboard'
 
 import {PopperService} from "../components/popper";
 
@@ -20,6 +21,7 @@ export default function ($plain) {
             $popper,
             $valid,
             $select,
+            $keyboard,
         },
         outer: {
             $message,
