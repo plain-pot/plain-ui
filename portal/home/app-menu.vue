@@ -120,6 +120,7 @@
                             {title: 'Card卡片', icon: 'pl-card', page: '/normal/demo-card', complete: false},
                             {title: 'Carousel轮播', icon: 'pl-carousel', page: '/normal/demo-carousel', complete: false},
                             {title: 'Collapse折叠面板', icon: 'pl-collapse', page: '/normal/demo-collapse', complete: false},
+                            {title: 'Dom', icon: 'icon-scroll', page: '/directive/demo-plain-dom', complete: true},
                         ],
                     },
                     {
@@ -136,7 +137,6 @@
                     {
                         title: '指令',
                         menus: [
-                            {title: 'PlainDom', icon: 'icon-scroll', page: '/directive/demo-plain-dom', complete: true},
                         ],
                     },
                 ],

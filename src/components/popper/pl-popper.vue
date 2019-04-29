@@ -73,6 +73,7 @@
                 p_direction: this.direction,
                 p_align: this.align,
                 p_replace: document.createComment(''),
+                p_zIndex: null,
                 elMap: null,
             }
         },
@@ -91,6 +92,7 @@
                 !!this.height && (ret.height = this.$plain.$utils.unit(this.height))
                 !!this.width && (ret.width = this.$plain.$utils.unit(this.width))
                 if (!this.disabledEqual && this.p_mounted) ret[this.p_vertical ? 'width' : 'height'] = `${this.elMap.reference[this.p_vertical ? 'offsetWidth' : 'offsetHeight']}px`
+                ret.zIndex = this.p_zIndex
                 return ret
             },
             p_vertical() {
@@ -111,6 +113,7 @@
                 this.p_popper.update()
                 this.$refs.scroll.refreshSize()
                 !!this.onOpen && this.onOpen()
+                this.p_zIndex = this.$plain.getZIndex()
             },
             async hide() {
                 this.p_show = false
@@ -331,22 +334,27 @@
                 border: 1px solid #e4e7ed;
                 border-radius: 4px;
                 transform-origin: map_get($type-object, transform-origin);
+
                 &.pl-popover-animate-drop-enter-active, &.pl-popover-animate-drop-leave-active {
                     transform: map_get($type-object, active-transform);
                     opacity: 1;
                 }
+
                 &.pl-popover-animate-drop-enter, &.pl-popover-animate-drop-leave-to {
                     transform: map_get($type-object, inactive-transform);
                     opacity: 0;
                 }
+
                 &.pl-popover-animate-scale-enter-active, &.pl-popover-animate-scale-leave-active {
                     transform: scale(1);
                     opacity: 1;
                 }
+
                 &.pl-popover-animate-scale-enter, &.pl-popover-animate-scale-leave-to {
                     transform: scale(0.6);
                     opacity: 0;
                 }
+
                 &.pl-popper-arrow {
                     &::after {
                         border: $popper-arrow-size solid transparent;
