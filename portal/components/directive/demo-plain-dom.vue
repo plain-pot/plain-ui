@@ -1,10 +1,13 @@
 <template>
     <div class="demo-plain-dom">
         <im-demo-row>
-            <im-button label="toggle" @click="under = !under"/>
-            <div v-plain-dom="under" :class="{'fixed-box':under}">
-                <im-input v-model="text"/>
-            </div>
+            <im-button label="UNDER" @click="under = !under"/>
+            <im-button label="INIT" @click="init = !init"/>
+            <pl-dom :value="under" v-if="init">
+                <div :class="{'fixed-box':under}">
+                    <im-input v-model="text"/>
+                </div>
+            </pl-dom>
             <im-input v-model="text" color="primary"/>
 
         </im-demo-row>
@@ -29,12 +32,16 @@
 </template>
 
 <script>
+    import PlDom from "../../../src/components/pl-dom";
+
     export default {
         name: "demo-plain-dom",
+        components: {PlDom},
         data() {
             return {
                 text: null,
                 under: false,
+                init: true,
 
                 text1: 'hello',
                 parentNode: null,
