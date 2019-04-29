@@ -103,6 +103,7 @@
                 p_watchValue: false,
                 p_isFull: this.full,
                 p_initialized: this.initialized || this.value,
+                p_activeElement: null,
 
                 keyboardListener: {
                     'enter': () => {
@@ -171,11 +172,14 @@
                     this.p_initialized = true
                     this.$nextTick(() => next())
                 } else next()
+
+                this.p_activeElement = document.activeElement
+                !!this.p_activeElement && this.p_activeElement.blur()
             },
             hide() {
                 this.p_value = false
                 !!this.destroyOnHide && setTimeout(() => this.p_initialized = false, this.$plain.transitionTime)
-                setTimeout(() => this.$plain.zIndex -= 3, this.$plain.transitionTime)
+                !!this.p_activeElement && this.p_activeElement.focus()
             },
             p_clickShadow(e) {
                 if (!this.$refs.content.contains(e.target)) {
