@@ -33,7 +33,7 @@
             <im-button label="最大化" @click="$dialog.show('Hello world',{full:true})"/>
         </im-demo-row>
         <im-demo-row title="确认以及取消按钮">
-            <im-button label="确认以及取消按钮" @click="$dialog.show('Hello world',{confirmButton:true,cancelButton:true,onConfirm:()=>log('confirm'),onCancel:()=>log('cancel')})"/>
+            <im-button label="确认以及取消按钮" @click="$dialog.show('Hello world',{confirmButton:true,cancelButton:true,onConfirm:()=>$message.show('confirm'),onCancel:()=>$message.show('cancel')})"/>
         </im-demo-row>
         <im-demo-row title="无关闭按钮">
             <im-button label="无关闭按钮" @click="$dialog.show('Hello world',{noClose:true})"/>

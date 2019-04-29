@@ -47,7 +47,7 @@
                 !!this.option.onConfirm && this.option.onConfirm(this.option.message)
             },
             pl_cancel() {
-                !!this.option.cancel && this.option.cancel()
+                !!this.option.onCancel && this.option.onCancel()
             },
         },
     }
