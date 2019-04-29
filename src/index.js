@@ -8,6 +8,7 @@ const Plain = {
     p_pageRegistry: null,
     p_theme: null,
     p_rootOption: null,
+    p_zIndex: null,
 
     TYPE: {
         white: {icon: 'pad-info-circle-fill', color: 'white'},
@@ -46,16 +47,20 @@ const Plain = {
         }
         return (new this.Vue({render: h => h(component), el, ...this.p_rootOption}).$mount()).$children[0]
     },
-    install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont, rootOption} = {},) {
+    getZIndex() {
+        return this.p_zIndex = this.p_zIndex + 1
+    },
+    install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont, rootOption, zIndex = 3000} = {},) {
         Vue.use(PlainDom)
 
         this.Vue = Vue
         this.p_rootOption = rootOption
         this.p_pageRegistry = pageRegistry
+        this.p_zIndex = zIndex
 
         Service(this)
 
-        this.$utils.addScript('https://at.alicdn.com/t/font_948159_sskx2vv336s.js')                   //plain
+        this.$utils.addScript('https://at.alicdn.com/t/font_948159_9jgozvpudu.js')                   //plain
         this.$utils.addScript('https://at.alicdn.com/t/font_1113642_w82jwgy9lk8.js')                 //ant-design
         !!iconfont && this.$utils.addScript(iconfont)
 

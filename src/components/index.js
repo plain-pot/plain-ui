@@ -17,6 +17,7 @@ import formColumn from './form/pl-form-column'
 import list from './list/pl-list'
 import item from './list/pl-item'
 import textarea from './pl-textarea'
+import dialog from './dialog/pl-dialog'
 
 
 export default {
@@ -39,4 +40,5 @@ export default {
     list,
     item,
     textarea,
+    dialog,
 }

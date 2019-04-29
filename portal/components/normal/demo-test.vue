@@ -8,6 +8,9 @@
             <im-radio v-model="option.insertable" label="active1"/>
             <im-radio v-model="option.updatebale" label="active2"/>
         </im-demo-row>
+        <im-demo-row>
+            {{message}}
+        </im-demo-row>
     </div>
 </template>
 
@@ -36,6 +39,7 @@
         name: "demo-test",
         data() {
             return {
+                message:'bearer 4a9b32f4-3536-444b-a5ac-1d9cf9daa026↵2019-04-29 15:23:47: \'Cannot read property \'style\' of null   ↵↵    at renderUI (http://localhost:8080/static/lib/ue/ueditor.all.js:32753:22)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:54: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:55: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:55: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:55: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:59: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:59: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:59: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:00: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:00: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:00: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:07: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:16: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵',
                 active1: true,
                 active2: false,
                 option: {
@@ -59,7 +63,7 @@
         },
         mounted() {
             const a = new Option({
-                a:true,
+                a: true,
             })
             console.log(a)
         },
