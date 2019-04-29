@@ -1,42 +1,43 @@
 <template>
-    <transition :name="transition">
-        <div class="pl-dialog"
-             :class="classes"
-             v-show="p_value"
-             v-plain-dom="transferDom"
-             :style="styles"
-             @click="p_clickShadow"
-             @mouseenter="pl_mouseenter"
-             @mouseleave="pl_mouseleave">
-            <div class="pl-dialog-content"
-                 ref="content"
-                 v-if="p_initialized"
-                 @click.stop="p_clickContent"
-                 :style="contentStyles">
-                <div class="pl-dialog-head" v-if="!noHeader">
-                    <div class="pl-dialog-title">
-                        <pl-icon :icon="TYPE[type]" v-if="!!type" class="pl-dialog-type-icon"/>
-                        <span>{{title}}</span>
+    <pl-dom :value="transferDom">
+        <transition :name="transition">
+            <div class="pl-dialog"
+                 :class="classes"
+                 v-show="p_value"
+                 :style="styles"
+                 @click="p_clickShadow"
+                 @mouseenter="pl_mouseenter"
+                 @mouseleave="pl_mouseleave">
+                <div class="pl-dialog-content"
+                     ref="content"
+                     v-if="p_initialized"
+                     @click.stop="p_clickContent"
+                     :style="contentStyles">
+                    <div class="pl-dialog-head" v-if="!noHeader">
+                        <div class="pl-dialog-title">
+                            <pl-icon :icon="TYPE[type]" v-if="!!type" class="pl-dialog-type-icon"/>
+                            <span>{{title}}</span>
+                        </div>
+                        <div class="pl-dialog-head-operator">
+                            <!--<pl-icon icon="pl-minimize"/>-->
+                            <pl-icon icon="pl-max" v-show="!p_isFull && !!max" @click="p_isFull=true"/>
+                            <pl-icon icon="pl-min" v-show="!!p_isFull && !!max" @click="p_isFull=false"/>
+                            <pl-icon icon="pad-close-circle-fill" @click="hide" class="pl-dialog-close-icon" v-if="!noClose" hover/>
+                        </div>
                     </div>
-                    <div class="pl-dialog-head-operator">
-                        <!--<pl-icon icon="pl-minimize"/>-->
-                        <pl-icon icon="pl-max" v-show="!p_isFull && !!max" @click="p_isFull=true"/>
-                        <pl-icon icon="pl-min" v-show="!!p_isFull && !!max" @click="p_isFull=false"/>
-                        <pl-icon icon="pad-close-circle-fill" @click="hide" class="pl-dialog-close-icon" v-if="!noClose" hover/>
+                    <div class="pl-dialog-body" :style="bodyStyles">
+                        <slot></slot>
                     </div>
-                </div>
-                <div class="pl-dialog-body" :style="bodyStyles">
-                    <slot></slot>
-                </div>
-                <div class="pl-dialog-foot" :class="[`pl-dialog-foot-align-${footAlign}`]" v-if="!noFooter && (cancelButton || confirmButton || !!$slots.foot)">
-                    <slot name="foot">
-                        <pl-button box-type="line" label="取消" @click="p_cancel" v-if="!!cancelButton"/>
-                        <pl-button label="确认" @click="p_confirm" v-if="!!confirmButton"/>
-                    </slot>
+                    <div class="pl-dialog-foot" :class="[`pl-dialog-foot-align-${footAlign}`]" v-if="!noFooter && (cancelButton || confirmButton || !!$slots.foot)">
+                        <slot name="foot">
+                            <pl-button box-type="line" label="取消" @click="p_cancel" v-if="!!cancelButton"/>
+                            <pl-button label="确认" @click="p_confirm" v-if="!!confirmButton"/>
+                        </slot>
+                    </div>
                 </div>
             </div>
-        </div>
-    </transition>
+        </transition>
+    </pl-dom>
 </template>
 
 <script>
@@ -44,10 +45,11 @@
     import keyboard from 'src/scripts/keyboard'
     import PlIcon from "../pl-icon";
     import PlButton from "../pl-button";
+    import PlDom from "../pl-dom";
 
     export default {
         name: "pl-dialog",
-        components: {PlButton, PlIcon},
+        components: {PlDom, PlButton, PlIcon},
         mixins: [ValueMixin],
         props: {
             type: {type: String, default: 'info'},                                              //标题类型 info|success|warn|error|help
@@ -168,9 +170,7 @@
                 if (!this.p_initialized) {
                     this.p_initialized = true
                     this.$nextTick(() => next())
-                }
-                else next()
-
+                } else next()
             },
             hide() {
                 this.p_value = false
@@ -205,7 +205,6 @@
         },
         beforeDestroy() {
             keyboard.removeListener(this.keyboardListener)
-            !!this.$el && this.$el.parentNode.removeChild(this.$el)
         },
     }
 </script>

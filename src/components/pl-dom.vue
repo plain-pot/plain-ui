@@ -48,5 +48,7 @@
 </script>
 
 <style lang="scss">
-
+    .pl-dom {
+        display: inline-block;
+    }
 </style>

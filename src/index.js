@@ -1,4 +1,3 @@
-import PlainDom from './scripts/PlainDom'
 import './styles/index.scss'
 import components from './components/index'
 import Service from './scripts/service'
@@ -51,8 +50,6 @@ const Plain = {
         return this.p_zIndex = this.p_zIndex + 1
     },
     install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont, rootOption, zIndex = 3000} = {},) {
-        Vue.use(PlainDom)
-
         this.Vue = Vue
         this.p_rootOption = rootOption
         this.p_pageRegistry = pageRegistry
