@@ -2,9 +2,9 @@
     <div class="pl-select-service">
         <div class="pl-select-service-item"
              v-for="(item,index) in option.data"
+             ref="items"
              :key="index"
              :class="{'pl-select-service-item-inner-hover':index === hoverIndex}"
-             @mouseenter="hoverIndex = index"
              @click="pl_click(item)">
             <div class="pl-select-service-item-inner">
                 <span>{{!!option.labelKey?item[option.labelKey]:item}}</span>
@@ -35,6 +35,25 @@
                 option: {},
                 rs: null,
                 searchText: null,
+                activeElement: null,
+
+                keyboardListener: {
+                    'enter': () => {
+                        this.pl_click(this.option.data[this.hoverIndex])
+                    },
+                    'space': () => {
+                        this.pl_click(this.option.data[this.hoverIndex])
+                    },
+                    'esc': () => {
+                        !!this.popper && this.popper.hide()
+                    },
+                    'up': () => {
+                        this.prev()
+                    },
+                    'down': () => {
+                        this.next()
+                    }
+                }
             }
         },
         methods: {
@@ -49,12 +68,15 @@
                         onOpen: () => {
                             this.isOpen = true
                             !!option.onOpen && option.onOpen()
-                            window.addEventListener('keydown', this.pl_keyup)
+                            this.$plain.$keyboard.addListener(this.keyboardListener)
+                            this.activeElement = document.activeElement
+                            !!this.activeElement && this.activeElement.blur()
                         },
                         onClose: () => {
                             this.isOpen = false
                             !!option.onClose && option.onClose()
-                            window.removeEventListener('keydown', this.pl_keyup)
+                            this.$plain.$keyboard.removeListener(this.keyboardListener)
+                            !!this.activeElement && this.activeElement.focus()
                         },
                     })
                     this.popper.show()
@@ -66,22 +88,33 @@
             },
 
             next() {
-                this.hoverIndex < (this.option.data.length - 1) && this.hoverIndex++
+                if (this.hoverIndex < (this.option.data.length - 1)) {
+                    this.hoverIndex++
+                    const item = this.$refs.items[this.hoverIndex]
+                    const wrapper = this.popper.$refs.scroll.$refs.wrapper
+                    const duration = item.offsetTop + item.offsetHeight - wrapper.offsetHeight
+                    if (duration > 0) {
+                        wrapper.scrollTop = duration
+                    }
+                }
             },
             prev() {
-                this.hoverIndex > 0 && this.hoverIndex--
+                if (this.hoverIndex > 0) {
+                    this.hoverIndex--
+                    const item = this.$refs.items[this.hoverIndex]
+                    const wrapper = this.popper.$refs.scroll.$refs.wrapper
+                    if (wrapper.scrollTop > item.offsetTop) {
+                        wrapper.scrollTop = item.offsetTop
+                    }
+                }
             },
             pl_click(item) {
                 !!this.rs && this.rs(item)
                 this.popper.hide()
             },
-            pl_keyup(e) {
-                e.keyCode === 38 && this.prev()
-                e.keyCode === 40 && this.next()
-            },
         },
         beforeDestroy() {
-            window.removeEventListener('keydown', this.pl_keyup)
+            this.$plain.$keyboard.removeListener(this.keyboardListener)
         },
     }
 </script>

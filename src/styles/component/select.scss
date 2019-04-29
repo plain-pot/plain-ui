@@ -2,16 +2,19 @@
 
   .pl-select-service {
     box-sizing: border-box;
+
     .pl-select-service-item {
       font-size: 12px;
       padding: 3px 3px;
+
       .pl-select-service-item-inner {
         width: 100%;
         box-sizing: border-box;
         padding: 3px 6px;
       }
-      &.pl-select-service-item-inner-hover {
-        .pl-select-service-item-inner{
+
+      &:hover, &.pl-select-service-item-inner-hover {
+        .pl-select-service-item-inner {
           background-color: plVar(colorPrimaryLight);
           cursor: pointer;
           border-radius: plVar(borderFillet);
