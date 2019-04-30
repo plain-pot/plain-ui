@@ -27,3 +27,8 @@ const ins = new VUe({
 }).$mount()
 return ins.$children[0]
 ```
+
+
+#### Select的上下键移动选择项的问题
+在实现select service的时候，发现上下键盘移动的话，由于鼠标也有一个hover效果，导致上下移动的时候会有一闪一闪的问题，观察了一下element-ui的
+之后，心里平衡了很多，因为element-ui的问题更严重，上下移动到需要滑动的时候，会直接跳回鼠标的位置；
