@@ -94,7 +94,7 @@
                     const wrapper = this.popper.$refs.scroll.$refs.wrapper
                     const duration = item.offsetTop + item.offsetHeight - wrapper.offsetHeight
                     if (duration > 0) {
-                        wrapper.scrollTop = duration
+                        this.popper.$refs.scroll.scrollTop(duration, 50)
                     }
                 }
             },
@@ -104,7 +104,7 @@
                     const item = this.$refs.items[this.hoverIndex]
                     const wrapper = this.popper.$refs.scroll.$refs.wrapper
                     if (wrapper.scrollTop > item.offsetTop) {
-                        wrapper.scrollTop = item.offsetTop
+                        this.popper.$refs.scroll.scrollTop(item.offsetTop, 50)
                     }
                 }
             },
