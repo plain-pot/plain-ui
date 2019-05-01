@@ -101,8 +101,11 @@
                     const wrapper = this.popper.$refs.scroll.$refs.wrapper
                     const duration = item.offsetTop + item.offsetHeight - wrapper.offsetHeight
                     if (duration > 0) {
-                        this.popper.$refs.scroll.scrollTop(duration, 50)
+                        this.popper.$refs.scroll.scrollTop(duration, 25)
                     }
+                } else {
+                    this.hoverIndex = 0
+                    this.popper.$refs.scroll.scrollTop(0, 25)
                 }
             },
             prev() {
@@ -111,8 +114,11 @@
                     const item = this.$refs.items[this.hoverIndex]
                     const wrapper = this.popper.$refs.scroll.$refs.wrapper
                     if (wrapper.scrollTop > item.offsetTop) {
-                        this.popper.$refs.scroll.scrollTop(item.offsetTop, 50)
+                        this.popper.$refs.scroll.scrollTop(item.offsetTop, 25)
                     }
+                } else {
+                    this.hoverIndex = this.option.data.length - 1
+                    this.popper.$refs.scroll.scrollTop(this.$refs.items[this.$refs.items.length - 1].offsetTop, 25)
                 }
             },
             pl_click(item) {
