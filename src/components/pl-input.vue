@@ -12,13 +12,14 @@
                     :readonly="p_readonly || loading || timerWait || timerHandler"
                     :disabled="p_disabled"
 
+                    @click="pl_click"
                     @focus="pl_focus"
                     @blur="pl_blur"
                     @keyup.enter="e=>pl_throttle(e,pl_enter)"
                     @keyup.esc="e=>pl_throttle(e,pl_esc)"
-                    @keyup.space="e=>$emit('space',e)"
-                    @keydown.up="e=>$emit('up',e)"
-                    @keydown.down="e=>$emit('down',e)"
+                    @keyup.space="pl_space"
+                    @keydown.up="pl_up"
+                    @keydown.down="pl_down"
                     @keydown.left="e=>$emit('left',e)"
                     @keydown.right="e=>$emit('right',e)"
             >
@@ -56,12 +57,14 @@
             inputType: {type: String, default: 'text'},
             placeholder: {type: String, default: '点击输入...'},
             focusOnHover: {type: Boolean},
+            suggestion: {default: null},
         },
         data() {
             return {
                 p_focus: false,
                 p_value: this.value,
                 p_hover: false,
+                p_select: null,
             }
         },
         watch: {
@@ -105,6 +108,8 @@
             },
 
             async pl_enter(e) {
+                !!this.p_select && this.p_select.confirm()
+                await this.$plain.nextTick()
                 if (!!this.$listeners.enter) {
                     await this.$listeners.enter(e)
                 } else {
@@ -113,6 +118,7 @@
             },
             pl_space(e) {
                 this.$emit('space', e)
+                !!this.p_select && this.p_select.confirm()
             },
             pl_esc(e) {
                 this.$emit('esc', e)
@@ -121,14 +127,40 @@
                 this.p_value = e.target.value
                 this.$emit('input', this.p_value)
             },
-            pl_focus(e) {
+            async pl_focus(e) {
                 this.p_focus = true
                 this.$emit('focus', e)
+                this.pl_openSuggestion()
             },
             pl_blur(e) {
                 this.p_focus = false
                 this.$emit('blur ', e)
-
+            },
+            pl_up(e) {
+                this.$emit('up', e)
+                !!this.p_select && this.p_select.prev()
+            },
+            pl_down(e) {
+                this.$emit('down', e)
+                !!this.p_select && this.p_select.next()
+            },
+            pl_click(e) {
+                this.$emit('click', e)
+                this.pl_openSuggestion()
+            },
+            async pl_openSuggestion(){
+                if (!!this.suggestion) {
+                    if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
+                    this.p_select.select({
+                        reference: this.$el,
+                        autoFocus: false,
+                        data: this.suggestion,
+                        onClose: () => this.p_select = null,
+                    }).then(e => {
+                        this.p_value = e
+                        this.$emit('input', this.p_value)
+                    })
+                }
             },
         }
     }

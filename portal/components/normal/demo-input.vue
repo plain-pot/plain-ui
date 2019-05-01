@@ -1,6 +1,6 @@
 <template>
     <div class="demo-input">
-        <im-demo-row title="基本用法">
+        <!--<im-demo-row title="基本用法">
             <im-input/>
         </im-demo-row>
         <im-demo-row title="鼠标悬浮的时候自动获取焦点">
@@ -70,6 +70,9 @@
                 <div slot="prepend">http://</div>
                 <div slot="append">.com</div>
             </im-input>
+        </im-demo-row>-->
+        <im-demo-row title="推荐输入">
+            <im-input :suggestion="suggestionData"/>
         </im-demo-row>
     </div>
 </template>
@@ -77,6 +80,16 @@
 <script>
     export default {
         name: "demo-input",
+        data() {
+            return {
+                suggestionData: [
+                    '北京',
+                    '上海',
+                    '广州',
+                    '乌鲁木齐',
+                ]
+            }
+        },
         methods: {
             async testWaiting() {
                 await this.$plain.$utils.delay(2000)

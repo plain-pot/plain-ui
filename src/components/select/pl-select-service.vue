@@ -21,6 +21,7 @@
         labelKey: null,
         valueKey: null,
         searchInput: false,
+        autoFocus: true,
     }
 
     export default {
@@ -39,10 +40,10 @@
 
                 keyboardListener: {
                     'enter': () => {
-                        this.pl_click(this.option.data[this.hoverIndex])
+                        this.confirm()
                     },
                     'space': () => {
-                        this.pl_click(this.option.data[this.hoverIndex])
+                        this.confirm()
                     },
                     'esc': () => {
                         !!this.popper && this.popper.hide()
@@ -68,15 +69,19 @@
                         onOpen: () => {
                             this.isOpen = true
                             !!option.onOpen && option.onOpen()
-                            this.$plain.$keyboard.addListener(this.keyboardListener)
-                            this.activeElement = document.activeElement
-                            !!this.activeElement && this.activeElement.blur()
+                            if (this.option.autoFocus) {
+                                this.$plain.$keyboard.addListener(this.keyboardListener)
+                                this.activeElement = document.activeElement
+                                !!this.activeElement && this.activeElement.blur()
+                            }
                         },
                         onClose: () => {
                             this.isOpen = false
                             !!option.onClose && option.onClose()
-                            this.$plain.$keyboard.removeListener(this.keyboardListener)
-                            !!this.activeElement && this.activeElement.focus()
+                            if (this.option.autoFocus) {
+                                this.$plain.$keyboard.removeListener(this.keyboardListener)
+                                !!this.activeElement && this.activeElement.focus()
+                            }
                         },
                     })
                     this.popper.show()
@@ -86,7 +91,9 @@
             hide() {
                 this.popper.hide()
             },
-
+            confirm() {
+                this.pl_click(this.option.data[this.hoverIndex])
+            },
             next() {
                 if (this.hoverIndex < (this.option.data.length - 1)) {
                     this.hoverIndex++
