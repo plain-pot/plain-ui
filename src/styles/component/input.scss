@@ -8,43 +8,58 @@
     padding: 0 plVar(paddingSmall);
     background-color: white;
     position: relative;
+
     input {
       border: none;
       outline: none;
       width: 100%;
       font-size: inherit;
+
       &::-ms-clear {
         display: none;
       }
+
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {
         -webkit-appearance: none !important;
         margin: 0;
       }
+
       &:disabled {
         background-color: initial;
       }
     }
+
     @include plColors {
       &.pl-type-fill.pl-color-#{$key} {
         color: mix($value, white, 10%);
+
         input {
           background-color: $value;
           color: inherit;
+
           &::placeholder {
             color: mix($value, white, 30%);
           }
         }
+
         .pl-input-close, .pl-input-loading {
           background-color: $value;
+
           .pl-loading-default-item {
             background-color: white;
           }
         }
+
+        &.pl-input-focus {
+          box-shadow: 0 0 6px $value;
+          border-color: $value;
+        }
       }
       &.pl-color-#{$key} {
         &.pl-input-focus {
-          box-shadow: 0 0 6px $value;
+          box-shadow: 0 0 6px plVar(colorPrimary);
+          border-color: plVar(colorPrimary);
         }
       }
     }
@@ -58,6 +73,7 @@
     .pl-input-inner {
       flex: 1;
       position: relative;
+
       .pl-input-close, .pl-input-loading, .pl-input-icon {
         position: absolute;
         right: 1px;
@@ -69,21 +85,26 @@
         background-color: white;
       }
     }
+
     &.pl-input-has-icon {
       input {
         width: calc(100% - 1.5em);
       }
     }
+
     &.pl-input-long {
       width: 100%;
     }
+
     &.pl-input-disabled {
       background-color: plVar(colorDisabledLight);
+
       &, & input {
         cursor: not-allowed;
       }
     }
-    &.pl-input-readonly{
+
+    &.pl-input-readonly {
       &, & input {
         cursor: unset;
       }

@@ -13,12 +13,9 @@
       box-sizing: border-box;
       vertical-align: top;
       font-family: inherit;
-      @include plColors {
-        &.pl-color-#{$key} {
-          &.pl-textarea-focus {
-            box-shadow: 0 0 6px $value;
-          }
-        }
+      &.pl-textarea-focus {
+        box-shadow: 0 0 6px plVar(colorPrimary);
+        border-color: plVar(colorPrimary);
       }
 
       &.pl-textarea-long {

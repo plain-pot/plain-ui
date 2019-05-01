@@ -12,8 +12,8 @@
                     :readonly="p_readonly || loading || timerWait || timerHandler"
                     :disabled="p_disabled"
 
-                    @focus="p_focus = true"
-                    @blur="p_focus = false"
+                    @focus="pl_focus"
+                    @blur="pl_blur"
                     @keyup.enter="e=>pl_throttle(e,pl_enter)"
                     @keyup.esc="e=>pl_throttle(e,pl_esc)"
                     @keyup.space="e=>$emit('space',e)"
@@ -120,6 +120,15 @@
             pl_input(e) {
                 this.p_value = e.target.value
                 this.$emit('input', this.p_value)
+            },
+            pl_focus(e) {
+                this.p_focus = true
+                this.$emit('focus', e)
+            },
+            pl_blur(e) {
+                this.p_focus = false
+                this.$emit('blur ', e)
+
             },
         }
     }
