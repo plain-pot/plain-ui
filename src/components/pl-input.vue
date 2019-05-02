@@ -148,10 +148,10 @@
                 this.$emit('click', e)
                 this.pl_openSuggestion()
             },
-            async pl_openSuggestion(){
+            async pl_openSuggestion() {
                 if (!!this.suggestion) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
-                    this.p_select.select({
+                    !this.p_select.isOpen && this.p_select.select({
                         reference: this.$el,
                         autoFocus: false,
                         data: this.suggestion,
