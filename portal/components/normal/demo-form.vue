@@ -43,7 +43,7 @@
             <im-form ref="form">
                 <im-form-column>
                     <im-form-item label="必输：">
-                        <im-input required/>
+                        <im-input required :suggestion="['广州','北京','上海']"/>
                     </im-form-item>
                     <im-form-item label="长度5-10，字符串：">
                         <im-input rules="length:{max:10,min:5}"/>

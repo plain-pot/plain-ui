@@ -116,9 +116,11 @@
                     this.$emit('input', null)
                 }
             },
-
             async pl_enter(e) {
-                !!this.p_select && this.p_select.confirm()
+                if (!!this.suggestion) {
+                    if (!!this.p_select) this.p_select.confirm()
+                    else this.pl_openSuggestion()
+                }
                 await this.$plain.nextTick()
                 if (!!this.$listeners.enter) {
                     await this.$listeners.enter(e)
@@ -158,6 +160,7 @@
                 this.pl_openSuggestion()
             },
             async pl_openSuggestion() {
+                if (this.p_readonly || this.p_disabled) return
                 if (!!this.suggestionData) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
                     !this.p_select.isOpen && this.p_select.select({
@@ -167,7 +170,6 @@
                         onClose: () => this.p_select = null,
                     }).then(e => {
                         this.p_value = e
-                        console.log(this.p_value)
                         this.$emit('input', this.p_value)
                     })
                 }
