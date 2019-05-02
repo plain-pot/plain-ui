@@ -91,8 +91,8 @@
             hide() {
                 this.popper.hide()
             },
-            confirm() {
-                this.pl_click(this.option.data[this.hoverIndex])
+            confirm(autoClose = true) {
+                this.pl_click(this.option.data[this.hoverIndex], autoClose)
             },
             next() {
                 if (this.hoverIndex < (this.option.data.length - 1)) {
@@ -121,9 +121,9 @@
                     this.popper.$refs.scroll.scrollTop(this.$refs.items[this.$refs.items.length - 1].offsetTop, 25)
                 }
             },
-            pl_click(item) {
+            pl_click(item, autoClose = true) {
                 !!this.rs && this.rs(item)
-                this.popper.hide()
+                !!autoClose && this.popper.hide()
             },
         },
         beforeDestroy() {

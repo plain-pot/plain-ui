@@ -118,7 +118,6 @@
             },
             pl_space(e) {
                 this.$emit('space', e)
-                !!this.p_select && this.p_select.confirm()
             },
             pl_esc(e) {
                 this.$emit('esc', e)
@@ -127,7 +126,7 @@
                 this.p_value = e.target.value
                 this.$emit('input', this.p_value)
             },
-            async pl_focus(e) {
+            pl_focus(e) {
                 this.p_focus = true
                 this.$emit('focus', e)
                 this.pl_openSuggestion()
@@ -137,10 +136,12 @@
                 this.$emit('blur ', e)
             },
             pl_up(e) {
+                e.preventDefault()
                 this.$emit('up', e)
                 !!this.p_select && this.p_select.prev()
             },
             pl_down(e) {
+                e.preventDefault()
                 this.$emit('down', e)
                 !!this.p_select && this.p_select.next()
             },
@@ -158,6 +159,7 @@
                         onClose: () => this.p_select = null,
                     }).then(e => {
                         this.p_value = e
+                        console.log(this.p_value)
                         this.$emit('input', this.p_value)
                     })
                 }

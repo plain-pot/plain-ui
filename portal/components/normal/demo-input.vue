@@ -72,7 +72,8 @@
             </im-input>
         </im-demo-row>-->
         <im-demo-row title="推荐输入">
-            <im-input :suggestion="suggestionData"/>
+            <span>{{suggestVal}}</span>:
+            <im-input :suggestion="suggestionData" v-model="suggestVal"/>
         </im-demo-row>
     </div>
 </template>
@@ -82,6 +83,7 @@
         name: "demo-input",
         data() {
             return {
+                suggestVal: null,
                 suggestionData: [
                     '北京',
                     '上海',
