@@ -1,6 +1,6 @@
 <template>
     <div class="demo-input">
-        <!--<im-demo-row title="基本用法">
+        <im-demo-row title="基本用法">
             <im-input/>
         </im-demo-row>
         <im-demo-row title="鼠标悬浮的时候自动获取焦点">
@@ -70,7 +70,7 @@
                 <div slot="prepend">http://</div>
                 <div slot="append">.com</div>
             </im-input>
-        </im-demo-row>-->
+        </im-demo-row>
         <im-demo-row title="推荐输入">
             <im-input :suggestion="data.map(item=>item.name)" v-model="suggestVal"/>
             <span>{{suggestVal}}</span>

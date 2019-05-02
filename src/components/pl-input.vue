@@ -141,6 +141,7 @@
             },
             pl_esc(e) {
                 this.$emit('esc', e)
+                if (!!this.p_select) this.p_select.hide()
             },
             pl_input(e) {
                 this.p_value = e.target.value

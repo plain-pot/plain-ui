@@ -128,6 +128,7 @@
                 }
             },
             pl_click(item, autoClose = true) {
+                if (!item) return
                 !!this.rs && this.rs(item)
                 !!autoClose && this.popper.hide()
             },
