@@ -58,6 +58,8 @@
             placeholder: {type: String, default: '点击输入...'},
             focusOnHover: {type: Boolean},
             suggestion: {default: null},
+            suggestionLabelKey: {default: null},
+            suggestionFilter: {default: null},
         },
         data() {
             return {
@@ -96,7 +98,13 @@
             suggestionData() {
                 if (!this.suggestion) return null
                 if (!this.p_value) return this.suggestion
-                return this.suggestion.filter(item => item.indexOf(this.p_value) > -1)
+                return this.suggestion.filter(item => {
+                    if (!!this.suggestionFilter) return this.suggestionFilter(item, this.p_value)
+                    if (!!this.suggestionLabelKey) {
+                        return item[this.suggestionLabelKey].indexOf(this.p_value) > -1
+                    } else
+                        return item.indexOf(this.p_value) > -1
+                })
             },
         },
         methods: {
@@ -146,6 +154,7 @@
             pl_blur(e) {
                 this.p_focus = false
                 this.$emit('blur ', e)
+                if (!!this.p_select) this.p_select.hide()
             },
             pl_up(e) {
                 this.$emit('up', e)
@@ -167,9 +176,11 @@
                         reference: this.$el,
                         autoFocus: false,
                         data: this.suggestionData,
+                        labelKey: this.suggestionLabelKey,
+                        slot: this.$scopedSlots.suggestion,
                         onClose: () => this.p_select = null,
                     }).then(e => {
-                        this.p_value = e
+                        this.p_value = !!this.suggestionLabelKey ? e[this.suggestionLabelKey] : e
                         this.$emit('input', this.p_value)
                     })
                 }

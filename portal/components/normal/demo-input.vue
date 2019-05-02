@@ -72,8 +72,28 @@
             </im-input>
         </im-demo-row>-->
         <im-demo-row title="推荐输入">
-            <im-input :suggestion="suggestionData" v-model="suggestVal"/>
+            <im-input :suggestion="data.map(item=>item.name)" v-model="suggestVal"/>
             <span>{{suggestVal}}</span>
+        </im-demo-row>
+        <im-demo-row title="推荐输入，自定义渲染内容">
+            <im-input :suggestion="data" suggestionLabelKey="name">
+                <template v-slot:suggestion="{item,index}">
+                    <div class="demo-input-suggestion">
+                        <div class="demo-input-suggestion-title">{{item.name}}</div>
+                        <div class="demo-input-suggestion-desc">{{item.desc}}</div>
+                    </div>
+                </template>
+            </im-input>
+        </im-demo-row>
+        <im-demo-row title="推荐输入，自定义筛选逻辑">
+            <im-input :suggestion="data" suggestionLabelKey="name" :suggestionFilter="suggestionFilter">
+                <template v-slot:suggestion="{item,index}">
+                    <div class="demo-input-suggestion">
+                        <div class="demo-input-suggestion-title">{{item.name}}</div>
+                        <div class="demo-input-suggestion-desc">{{item.desc}}</div>
+                    </div>
+                </template>
+            </im-input>
         </im-demo-row>
     </div>
 </template>
@@ -84,27 +104,27 @@
         data() {
             return {
                 suggestVal: null,
-                suggestionData: [
-                    '北京',
-                    '上海',
-                    '广州',
-                    '乌鲁木齐',
-                    '仁川',
-                    '四川',
-                    '南昌',
-                    '南京',
-                    '无锡',
-                    '汕头',
-                    '天津',
-                    '南宁',
-                    '北海',
-                ]
+                data: [
+                    {name: '湖南', desc: '金三角建材城', val: '1'},
+                    {name: '湖北', desc: '中豪装饰城', val: '2'},
+                    {name: '江西', desc: '红星美凯龙', val: '3'},
+                    {name: '山东', desc: '大红房装饰城', val: '4'},
+                    {name: '山西', desc: '红星美凯龙和平商场', val: '5'},
+                    {name: '广西', desc: '红星美凯龙方北商场', val: '6'},
+                    {name: '安徽', desc: '怀特装饰城', val: '7'},
+                    {name: '河北', desc: '红房子家居广场', val: '8'},
+                    {name: '河南', desc: '758陶瓷市场', val: '9'},
+                    {name: '广东', desc: '好家居装饰城', val: '10'},
+                ],
             }
         },
         methods: {
             async testWaiting() {
                 await this.$plain.$utils.delay(2000)
                 console.log('enter:', new Date().getTime())
+            },
+            suggestionFilter(item, val) {
+                return item.name.indexOf(val) > -1 || item.desc.indexOf(val) > -1
             },
         }
     }
@@ -113,5 +133,18 @@
 <style lang="scss">
     .demo-input {
         /*background-color: #3B731D;*/
+
+    }
+
+    .demo-input-suggestion {
+        .demo-input-suggestion-title {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .demo-input-suggestion-desc {
+            font-size: 12px;
+            color: #999;
+        }
     }
 </style>
