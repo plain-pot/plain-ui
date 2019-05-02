@@ -71,6 +71,11 @@
             value(val) {
                 this.p_value = val
             },
+            p_value() {
+                if (!!this.suggestion && !!this.p_select) {
+                    this.p_select.option.data = this.suggestionData
+                }
+            },
         },
         computed: {
             classes() {
@@ -87,6 +92,11 @@
                         'pl-input-readonly': !!this.p_readonly,
                     },
                 ]
+            },
+            suggestionData() {
+                if (!this.suggestion) return null
+                if (!this.p_value) return this.suggestion
+                return this.suggestion.filter(item => item.indexOf(this.p_value) > -1)
             },
         },
         methods: {
@@ -136,12 +146,10 @@
                 this.$emit('blur ', e)
             },
             pl_up(e) {
-                e.preventDefault()
                 this.$emit('up', e)
                 !!this.p_select && this.p_select.prev()
             },
             pl_down(e) {
-                e.preventDefault()
                 this.$emit('down', e)
                 !!this.p_select && this.p_select.next()
             },
@@ -150,12 +158,12 @@
                 this.pl_openSuggestion()
             },
             async pl_openSuggestion() {
-                if (!!this.suggestion) {
+                if (!!this.suggestionData) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
                     !this.p_select.isOpen && this.p_select.select({
                         reference: this.$el,
                         autoFocus: false,
-                        data: this.suggestion,
+                        data: this.suggestionData,
                         onClose: () => this.p_select = null,
                     }).then(e => {
                         this.p_value = e

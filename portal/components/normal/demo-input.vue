@@ -72,8 +72,8 @@
             </im-input>
         </im-demo-row>-->
         <im-demo-row title="推荐输入">
-            <span>{{suggestVal}}</span>:
             <im-input :suggestion="suggestionData" v-model="suggestVal"/>
+            <span>{{suggestVal}}</span>
         </im-demo-row>
     </div>
 </template>
