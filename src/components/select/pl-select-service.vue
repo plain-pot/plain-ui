@@ -7,7 +7,9 @@
              :class="{'pl-select-service-item-inner-hover':index === hoverIndex}"
              @click="pl_click(item)">
             <div class="pl-select-service-item-inner">
-                <span>{{!!option.labelKey?item[option.labelKey]:item}}</span>
+                <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}"/>
+                <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}"/>
+                <span v-else>{{!!option.labelKey?item[option.labelKey]:item}}</span>
             </div>
         </div>
     </div>
@@ -15,6 +17,8 @@
 
 <script>
     import PlInput from "../pl-input";
+    import PlRenderFunc from "../render/pl-render-func";
+    import PlScopeSlot from "../render/pl-scope-slot";
 
     const defaultOption = {
         data: [],
@@ -22,11 +26,13 @@
         valueKey: null,
         searchInput: false,
         autoFocus: true,
+        render: null,
+        slot: null,
     }
 
     export default {
         name: "pl-select-service",
-        components: {PlInput},
+        components: {PlScopeSlot, PlRenderFunc, PlInput},
         data() {
             return {
                 popper: null,
