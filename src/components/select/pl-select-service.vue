@@ -105,9 +105,9 @@
                     this.hoverIndex++
                     const item = this.$refs.items[this.hoverIndex]
                     const wrapper = this.popper.$refs.scroll.$refs.wrapper
-                    const duration = item.offsetTop + item.offsetHeight - wrapper.offsetHeight
-                    if (duration > 0) {
-                        this.popper.$refs.scroll.scrollTop(duration, 25)
+                    const scrollTop = item.offsetTop + item.offsetHeight - wrapper.offsetHeight
+                    if (scrollTop > 0 && scrollTop > wrapper.scrollTop) {
+                        this.popper.$refs.scroll.scrollTop(scrollTop, 25)
                     }
                 } else {
                     this.hoverIndex = 0
