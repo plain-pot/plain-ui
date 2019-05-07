@@ -22,9 +22,10 @@
                     @keydown.down="pl_down"
                     @keydown.left="e=>$emit('left',e)"
                     @keydown.right="e=>$emit('right',e)"
+                    @keydown.tab="pl_tab"
             >
             <pl-loading v-if="loading || timerWait || timerHandler" class="pl-input-loading"/>
-            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click="pl_clear"/>
+            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click.stop="pl_clear"/>
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
         <slot name="append"></slot>
@@ -155,7 +156,6 @@
             pl_blur(e) {
                 this.p_focus = false
                 this.$emit('blur ', e)
-                if (!!this.p_select) this.p_select.hide()
             },
             pl_up(e) {
                 this.$emit('up', e)
@@ -164,6 +164,9 @@
             pl_down(e) {
                 this.$emit('down', e)
                 !!this.p_select && this.p_select.next()
+            },
+            pl_tab() {
+                !!this.p_select && this.p_select.hide()
             },
             pl_click(e) {
                 this.$emit('click', e)

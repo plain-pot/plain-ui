@@ -31,7 +31,7 @@
         mixins: [MountedMixin, ValueMixin],
         components: {PlScroll},
         props: {
-            reference: {type: Object},
+            reference: {},
 
             direction: {type: String, default: POPOVER_DIRECTION.BOTTOM},           //弹出框的方向：top|bottom|left|right
             align: {type: String, default: POPOVER_ALIGN.START},                    //弹出框的对其方式
