@@ -1,5 +1,32 @@
 @mixin component-select {
 
+  .pl-select {
+  }
+
+  .pl-select-item {
+    height: 100%;
+    width: 100%;
+
+    .pl-button {
+      height: initial;
+      width: initial;
+      display: inline;
+      color: inherit !important;
+      min-width: inherit;
+
+      &:focus {
+        box-shadow: none !important;
+        top: 0;
+        bottom: 0;
+      }
+    }
+
+    &.pl-select-item-checked {
+      background-color: plVar(colorPrimaryLighter) !important;
+      color: plVar(colorPrimaryDeep) !important;
+    }
+  }
+
   .pl-select-service {
     box-sizing: border-box;
 
@@ -8,17 +35,22 @@
       padding: 3px 3px;
 
       .pl-select-service-item-inner {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 6px 6px;
+        display: block;
+        & > div {
+          padding: 6px 6px;
+          box-sizing: border-box;
+          border-radius: plVar(borderFillet);
+        }
       }
 
       &:hover, &.pl-select-service-item-inner-hover {
         .pl-select-service-item-inner {
-          background-color: plVar(backgroundColorLight);
-          cursor: pointer;
-          border-radius: plVar(borderFillet);
-          color: black;
+          & > div {
+            background-color: plVar(backgroundColorLight);
+            cursor: pointer;
+            border-radius: plVar(borderFillet);
+            color: black;
+          }
         }
       }
     }

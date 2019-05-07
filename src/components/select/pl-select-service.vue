@@ -7,11 +7,9 @@
                  :key="index"
                  :class="{'pl-select-service-item-inner-hover':index === hoverIndex}"
                  @click="pl_click(item)">
-                <div class="pl-select-service-item-inner">
-                    <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}"/>
-                    <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}"/>
-                    <span v-else>{{!!option.labelKey?item[option.labelKey]:item}}</span>
-                </div>
+                <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}" class="pl-select-service-item-inner"/>
+                <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}" class="pl-select-service-item-inner"/>
+                <span class="pl-select-service-item-inner" v-else>{{!!option.labelKey?item[option.labelKey]:item}}</span>
             </div>
         </div>
     </pl-popper>

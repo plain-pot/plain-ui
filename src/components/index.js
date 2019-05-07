@@ -1,3 +1,5 @@
+import $utils from '../scripts/utils'
+
 import icon from './pl-icon'
 import scroll from './pl-scroll'
 import navTab from './pl-nav-tab'
@@ -18,9 +20,9 @@ import list from './list/pl-list'
 import item from './list/pl-item'
 import textarea from './pl-textarea'
 import dialog from './dialog/pl-dialog'
+import select from './select/pl-select'
 
-
-export default {
+const components = {
     icon,
     scroll,
     navTab,
@@ -41,4 +43,14 @@ export default {
     item,
     textarea,
     dialog,
+    select,
 }
+
+export function getComponents(prefix = 'pl'){
+    return Object.keys(components).reduce((ret, key) => {
+        ret[`${prefix}-${$utils.getKebabCase(key)}`] = components[key]
+        return ret
+    }, {})
+}
+
+export default components
