@@ -9,7 +9,7 @@
 
                     :type="inputType"
                     :placeholder="placeholder"
-                    :readonly="p_readonly || loading || timerWait || timerHandler"
+                    :readonly="inputReadonly || p_readonly || loading || timerWait || timerHandler"
                     :disabled="p_disabled"
 
                     @click="pl_click"
@@ -56,11 +56,13 @@
             size: {type: String, default: 'default'},
 
             inputType: {type: String, default: 'text'},
+            inputReadonly: {type: Boolean},
             placeholder: {type: String, default: '点击输入...'},
             focusOnHover: {type: Boolean},
             suggestion: {default: null},
             suggestionLabelKey: {default: null},
             suggestionFilter: {default: null},
+            open: {type: Function},
         },
         data() {
             return {
@@ -171,6 +173,7 @@
             pl_click(e) {
                 this.$emit('click', e)
                 this.pl_openSuggestion()
+                if (!!this.open && !this.p_readonly && !this.p_disabled) this.open()
             },
             async pl_openSuggestion() {
                 if (this.p_readonly || this.p_disabled) return
