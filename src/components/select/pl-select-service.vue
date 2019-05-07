@@ -1,5 +1,5 @@
 <template>
-    <pl-popper ref="popper" @open="pl_open" @close="pl_close" v-bind="option.popper" :reference="option.reference">
+    <pl-popper ref="popper" @open="pl_open" @close="pl_close" v-bind="option.popper" :reference="option.reference" class="pl-select-service">
         <div class="pl-select-service">
             <div class="pl-select-service-item"
                  v-for="(item,index) in option.data"
