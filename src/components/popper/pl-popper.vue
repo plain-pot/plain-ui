@@ -147,6 +147,8 @@
                 this.p_popper = null
             },
             p_transitionend() {
+                if (this.isOpen === this.p_value) return
+
                 this.isOpen = this.p_value
                 // console.log('p_transitionend', this.isOpen)
                 if (this.isOpen) {

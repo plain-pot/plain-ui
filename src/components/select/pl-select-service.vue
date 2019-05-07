@@ -1,24 +1,27 @@
 <template>
-    <div class="pl-select-service">
-        <div class="pl-select-service-item"
-             v-for="(item,index) in option.data"
-             ref="items"
-             :key="index"
-             :class="{'pl-select-service-item-inner-hover':index === hoverIndex}"
-             @click="pl_click(item)">
-            <div class="pl-select-service-item-inner">
-                <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}"/>
-                <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}"/>
-                <span v-else>{{!!option.labelKey?item[option.labelKey]:item}}</span>
+    <pl-popper ref="popper" @open="isOpen = true" @close="isOpen = false">
+        <div class="pl-select-service">
+            <div class="pl-select-service-item"
+                 v-for="(item,index) in option.data"
+                 ref="items"
+                 :key="index"
+                 :class="{'pl-select-service-item-inner-hover':index === hoverIndex}"
+                 @click="pl_click(item)">
+                <div class="pl-select-service-item-inner">
+                    <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}"/>
+                    <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}"/>
+                    <span v-else>{{!!option.labelKey?item[option.labelKey]:item}}</span>
+                </div>
             </div>
         </div>
-    </div>
+    </pl-popper>
 </template>
 
 <script>
     import PlInput from "../pl-input";
     import PlRenderFunc from "../render/pl-render-func";
     import PlScopeSlot from "../render/pl-scope-slot";
+    import PlPopper from "../popper/pl-popper";
 
     const defaultOption = {
         data: [],
@@ -32,7 +35,7 @@
 
     export default {
         name: "pl-select-service",
-        components: {PlScopeSlot, PlRenderFunc, PlInput},
+        components: {PlPopper, PlScopeSlot, PlRenderFunc, PlInput},
         data() {
             return {
                 popper: null,
