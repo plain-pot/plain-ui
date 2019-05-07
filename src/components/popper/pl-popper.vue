@@ -46,8 +46,10 @@
             relate: {type: Array, default: () => []},                               //点击外部元素的时候，relate中数组的元素不会触发关闭动作
             zIndex: {type: Number, default: 9999},                                  //基础zIndex
 
-            onOpen: {type: Function},                                               //打开之后的动作
-            onClose: {type: Function},                                              //关闭之后的动作
+            onOpen: {type: Function},                                               //打开动画结束之后的动作
+            onClose: {type: Function},                                              //关闭动画结束之后的动作
+            onShow: {type: Function},                                               //打开立即执行动作
+            onHide: {type: Function},                                               //关闭立即执行动作
         },
         watch: {
             direction(val) {
@@ -114,11 +116,13 @@
                 this.p_popper.update()
                 this.$refs.scroll.refreshSize()
                 this.p_zIndex = this.$plain.getZIndex()
+                !!this.onShow && this.onShow()
                 this.pl_event()
             },
             async hide() {
                 this.p_value = false
                 await this.$plain.nextTick()
+                !!this.onHide && this.onHide()
                 this.pl_event()
             },
             async toggle() {

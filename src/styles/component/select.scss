@@ -1,6 +1,15 @@
 @mixin component-select {
 
+  .pl-icon .pl-input-icon {
+    @include transition-all-cubic-bezier;
+    transform: rotate(0);
+  }
   .pl-select {
+    &.pl-select-open {
+      .pl-icon.pl-input-icon {
+        transform: rotate(180deg);
+      }
+    }
   }
 
   .pl-select-item {
@@ -36,6 +45,7 @@
 
       .pl-select-service-item-inner {
         display: block;
+
         & > div {
           padding: 6px 6px;
           box-sizing: border-box;

@@ -1,5 +1,6 @@
 <template>
     <pl-input class="pl-select"
+              :class="{'pl-select-open':isShow}"
               :value="p_showValue"
               ref="input"
               inputReadonly
@@ -7,6 +8,7 @@
               :disabled="disabled"
               :required="required"
               :open="pl_open"
+              icon="pl-down"
 
               @clear="pl_clear"
               @up="!!p_select && p_select.prev()"
@@ -55,6 +57,7 @@
         data() {
             return {
                 p_select: null,
+                isShow: false,
             }
         },
         methods: {
@@ -68,6 +71,10 @@
                     // slot: this.$scopedSlots.default,
                     render: this.pl_render,
                     onClose: () => this.p_select = null,
+                    popper: {
+                        onShow: () => this.isShow = true,
+                        onHide: () => this.isShow = false,
+                    }
                 }).then(e => {
                     this.p_value = this.pl_getValue(e)
                     this.$emit('input', this.p_value)

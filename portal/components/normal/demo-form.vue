@@ -78,6 +78,9 @@
                     <im-form-item label="文本域">
                         <im-textarea required/>
                     </im-form-item>
+                    <im-form-item label="下拉选择框">
+                        <im-select required :data="['北京','上海','广州','南京','南昌']"/>
+                    </im-form-item>
                 </im-form-column>
             </im-form>
             <im-button-group>
