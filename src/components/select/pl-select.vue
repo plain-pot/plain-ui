@@ -12,6 +12,7 @@
               @up="!!p_select && p_select.prev()"
               @down="!!p_select && p_select.next()"
               @enter="pl_enter"
+              @tab="!!p_select && p_select.hide()"
     />
 </template>
 

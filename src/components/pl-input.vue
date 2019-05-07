@@ -167,7 +167,8 @@
                 this.$emit('down', e)
                 !!this.p_select && this.p_select.next()
             },
-            pl_tab() {
+            pl_tab(e) {
+                this.$emit('tab', e)
                 !!this.p_select && this.p_select.hide()
             },
             pl_click(e) {
