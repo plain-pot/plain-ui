@@ -1,6 +1,6 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
-        <div class="pl-popper" v-show="p_value" :class="classes" :style="styles" @transitionend="p_transitionend">
+        <div class="pl-popper" v-show="p_value" :class="classes" :style="styles">
             <pl-scroll :scrollbar-size="6" ref="scroll" fit-host-width>
                 <slot></slot>
             </pl-scroll>
@@ -108,15 +108,18 @@
         },
         methods: {
             async show() {
+                if (!this.p_popper) this.p_initPopper()
                 this.p_value = true
                 await this.$plain.nextTick()
                 this.p_popper.update()
                 this.$refs.scroll.refreshSize()
                 this.p_zIndex = this.$plain.getZIndex()
+                this.pl_event()
             },
             async hide() {
                 this.p_value = false
                 await this.$plain.nextTick()
+                this.pl_event()
             },
             async toggle() {
                 return this.p_value ? (await this.hide()) : (await this.show())
@@ -146,20 +149,19 @@
                 this.p_popper.destroy()
                 this.p_popper = null
             },
-            p_transitionend() {
-                if (this.isOpen === this.p_value) return
-
-                this.isOpen = this.p_value
-                // console.log('p_transitionend', this.isOpen)
-                if (this.isOpen) {
-                    !!this.onOpen && (this.onOpen())
-                    this.$emit('open')
-                    this.$emit('input', true)
-                } else {
-                    !!this.onClose && (this.onClose())
-                    this.$emit('close')
-                    this.$emit('input', false)
-                }
+            pl_event() {
+                setTimeout(() => {
+                    this.isOpen = this.p_value
+                    if (this.isOpen) {
+                        !!this.onOpen && (this.onOpen())
+                        this.$emit('open')
+                        this.$emit('input', true)
+                    } else {
+                        !!this.onClose && (this.onClose())
+                        this.$emit('close')
+                        this.$emit('input', false)
+                    }
+                }, 250)
             },
             async p_clickWindow(e) {
                 if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()

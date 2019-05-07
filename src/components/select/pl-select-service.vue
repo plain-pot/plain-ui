@@ -1,5 +1,5 @@
 <template>
-    <pl-popper ref="popper" @open="isOpen = true" @close="isOpen = false">
+    <pl-popper ref="popper" @open="pl_open" @close="pl_close" v-bind="option.popper" :reference="option.reference">
         <div class="pl-select-service">
             <div class="pl-select-service-item"
                  v-for="(item,index) in option.data"
@@ -24,10 +24,11 @@
     import PlPopper from "../popper/pl-popper";
 
     const defaultOption = {
+        reference: null,
         data: [],
+        popper: null,
         labelKey: null,
         valueKey: null,
-        searchInput: false,
         autoFocus: true,
         render: null,
         slot: null,
@@ -42,9 +43,9 @@
                 isOpen: false,
                 hoverIndex: 0,
 
-                option: {},
+                option: {...defaultOption},
+
                 rs: null,
-                searchText: null,
                 activeElement: null,
 
                 keyboardListener: {
@@ -66,33 +67,15 @@
                 }
             }
         },
+        mounted() {
+            this.popper = this.$refs.popper
+        },
         methods: {
             async select(option) {
                 return new Promise(async rs => {
                     this.hoverIndex = 0
                     this.option = Object.assign({}, defaultOption, option)
-                    // console.log(option)
-                    this.popper = await this.$plain.$popper.getPopper({
-                        ...option,
-                        popper: this.$el,
-                        onOpen: () => {
-                            this.isOpen = true
-                            !!option.onOpen && option.onOpen()
-                            if (this.option.autoFocus) {
-                                this.$plain.$keyboard.addListener(this.keyboardListener)
-                                this.activeElement = document.activeElement
-                                !!this.activeElement && this.activeElement.blur()
-                            }
-                        },
-                        onClose: () => {
-                            this.isOpen = false
-                            !!option.onClose && option.onClose()
-                            if (this.option.autoFocus) {
-                                this.$plain.$keyboard.removeListener(this.keyboardListener)
-                                !!this.activeElement && this.activeElement.focus()
-                            }
-                        },
-                    })
+                    await this.$plain.nextTick()
                     this.popper.show()
                     this.rs = rs
                 })
@@ -134,6 +117,25 @@
                 if (!item) return
                 !!this.rs && this.rs(item)
                 !!autoClose && this.popper.hide()
+            },
+            pl_open() {
+                // console.log('pl_open')
+                this.isOpen = true
+                !!this.option.onOpen && this.option.onOpen()
+                if (this.option.autoFocus) {
+                    this.$plain.$keyboard.addListener(this.keyboardListener)
+                    this.activeElement = document.activeElement
+                    !!this.activeElement && this.activeElement.blur()
+                }
+            },
+            pl_close() {
+                // console.log('pl_close')
+                this.isOpen = false
+                !!this.option.onClose && this.option.onClose()
+                if (this.option.autoFocus) {
+                    this.$plain.$keyboard.removeListener(this.keyboardListener)
+                    !!this.activeElement && this.activeElement.focus()
+                }
             },
         },
         beforeDestroy() {
