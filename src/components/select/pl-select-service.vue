@@ -9,7 +9,7 @@
                  @click="pl_click(item)">
                 <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}" class="pl-select-service-item-inner"/>
                 <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}" class="pl-select-service-item-inner"/>
-                <span class="pl-select-service-item-inner" v-else>{{!!option.labelKey?item[option.labelKey]:item}}</span>
+                <div class="pl-select-service-item-inner" v-else><div>{{!!option.labelKey?item[option.labelKey]:item}}</div></div>
             </div>
         </div>
     </pl-popper>

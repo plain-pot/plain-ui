@@ -9,6 +9,9 @@
               :open="pl_open"
 
               @clear="pl_clear"
+              @up="!!p_select && p_select.prev()"
+              @down="!!p_select && p_select.next()"
+              @enter="pl_enter"
     />
 </template>
 
@@ -94,6 +97,14 @@
             },
             pl_getShowValue(item) {
                 return !!this.labelKey ? item[this.labelKey] : item
+            },
+            pl_enter() {
+                if (!!this.p_select) {
+                    this.p_select.confirm()
+                } else {
+                    const {p_readonly, p_disabled} = this.$refs.input
+                    if (!p_readonly && !p_disabled) this.pl_open()
+                }
             },
         }
     }
