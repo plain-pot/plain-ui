@@ -1,0 +1,45 @@
+@mixin component-card {
+  .pl-card {
+    @include public-style;
+    @include transition-all;
+    border: solid 1px plVar(colorBorder);
+    display: inline-block;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &.pl-card-shadow-always {
+      box-shadow: plVar(boxShadow);
+    }
+
+    &.pl-card-shadow-hover {
+      &:hover {
+        box-shadow: plVar(boxShadow);
+      }
+    }
+
+    &.pl-card-shadow-never {
+      box-shadow: initial;
+    }
+  }
+
+  .pl-card-content {
+    @include public-style;
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+
+  .pl-card-header {
+    @include public-style;
+    height: 44px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    padding: 0 16px;
+    border-bottom: solid 1px plVar(colorBorder);
+    color: plVar(colorTitle);
+  }
+}
