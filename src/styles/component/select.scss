@@ -22,8 +22,8 @@
     }
 
     &.pl-select-item-checked {
-      background-color: plVar(colorPrimaryLight) !important;
-      color: plVar(colorPrimaryDeep) !important;
+      background-color: plVar(colorPrimaryLight);
+      color: plVar(colorPrimaryDeep);
     }
   }
 

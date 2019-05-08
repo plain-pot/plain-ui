@@ -109,7 +109,7 @@
                 })
             },
             pl_clear() {
-                this.p_value = null
+                this.p_value = !this.multiple ? null : []
                 this.$emit('input', this.p_value)
             },
             pl_render(h, {item}) {
