@@ -61,7 +61,7 @@
                     const value = this.pl_getValue(item)
                     const showValue = this.pl_getShowValue(item)
                     if (!this.multiple) {
-                        if(value === this.p_value){
+                        if (value === this.p_value) {
                             return showValue
                         }
                     } else if (this.p_value.indexOf(value) > -1) {
@@ -87,7 +87,6 @@
                     autoFocus: false,
                     data: this.data,
                     labelKey: this.labelKey,
-                    // slot: this.$scopedSlots.default,
                     render: this.pl_render,
                     onClose: () => this.p_select = null,
                     autoClose: !this.multiple,
@@ -115,7 +114,7 @@
                 this.p_value = !this.multiple ? null : []
                 this.$emit('input', this.p_value)
             },
-            pl_render(h, {item}) {
+            pl_render(h, {item, index}) {
                 const val = this.pl_getValue(item)
                 const isChecked = !this.multiple ? val === this.p_value : this.p_value.indexOf(val) > -1
                 const cls = [
@@ -128,7 +127,9 @@
                 return (
                     <div class={cls}>
                         {!!this.multiple && <pl-icon icon={isChecked ? 'pad-check-square-fill' : 'pl-square-light'}/>}
-                        <span>{this.pl_getShowValue(item)}</span>
+                        <div class="pl-select-item-content">
+                            {!!this.$scopedSlots.default ? <pl-scope-slot scope-slot-func={this.$scopedSlots.default} data={{item, index}}/> : this.pl_getShowValue(item)}
+                        </div>
                     </div>
                 )
             },

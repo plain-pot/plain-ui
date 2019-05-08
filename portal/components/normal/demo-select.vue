@@ -16,6 +16,20 @@
             <im-select :data="data" labelKey="trainno12306" valueKey="trainno" v-model="val[2]" multiple/>
             <im-select :data="data" labelKey="trainno12306" valueKey="trainno" v-model="val[2]" multiple/>
         </im-demo-row>
+        <im-demo-row title="自定义渲染内容">
+            <im-select :data="data" labelKey="trainno12306" valueKey="trainno" v-model="val[2]" multiple>
+                <template slot-scope="{item,index}">
+                    <div class="demo-select-item-line">
+                        <span>{{item.trainno12306}}</span>
+                        <span>{{item.departuretime}}</span>
+                    </div>
+                    <div class="demo-select-item-line">
+                        <span>{{item.station}} - {{item.endstation}}</span>
+                        <span>{{item.arrivaltime}}</span>
+                    </div>
+                </template>
+            </im-select>
+        </im-demo-row>
     </div>
 </template>
 
@@ -34,5 +48,8 @@
 </script>
 
 <style lang="scss">
-
+    .demo-select-item-line {
+        display: flex;
+        justify-content: space-between;
+    }
 </style>

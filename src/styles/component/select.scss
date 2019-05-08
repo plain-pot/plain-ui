@@ -15,6 +15,9 @@
   .pl-select-item {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
     .pl-icon {
       vertical-align: text-bottom;
@@ -24,6 +27,14 @@
     &.pl-select-item-checked {
       background-color: plVar(colorPrimaryLight);
       color: plVar(colorPrimaryDeep);
+    }
+
+    .pl-select-item-content{
+      flex: 1;
+      .pl-scope-slot, .pl-render-func {
+        display: block;
+        flex: 1;
+      }
     }
   }
 
