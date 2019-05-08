@@ -8,15 +8,44 @@
     right: 30px;
     pointer-events: none;
 
+    .pl-list {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+
+      .pl-item {
+        margin-bottom: plVar(padding);
+      }
+    }
+
+    $map: (
+            start:flex-start,
+            center:center,
+            end:flex-end,
+    );
+
+    @each $vertical, $value in (start, center, end) {
+      @each $horizontal, $value in (start, center, end) {
+        &.pl-notice-container-#{$vertical}-#{$horizontal} {
+          .pl-list {
+            align-items: map_get($map, $horizontal);
+            justify-content: map_get($map, $vertical);
+          }
+        }
+      }
+    }
+
     .pl-notice {
       @include public-style;
       padding: plVar(padding);
       white-space: nowrap;
       background-color: white;
       min-width: 300px;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+      box-shadow: plVar(boxShadow);
       display: inline-block;
       pointer-events: auto;
+      border-radius: plVar(borderFillet);
 
       @include plColors {
         &.pl-notice-#{$key} {
@@ -43,10 +72,15 @@
           white-space: nowrap;
           align-items: center;
 
+          .pl-icon {
+            vertical-align: text-bottom;
+            margin-right: 0.5em;
+          }
         }
 
         .pl-notice-close-icon {
           @include transition-all;
+          color: plVar(colorError);
 
           &:hover {
             transform: scale(1.2);
@@ -56,6 +90,14 @@
 
       .pl-notice-body {
         font-size: 12px;
+      }
+
+      @include plColors {
+        &.pl-notice-color-#{$key} {
+          .pl-notice-title .pl-icon {
+            color: $value;
+          }
+        }
       }
     }
   }

@@ -8,8 +8,9 @@ class NoticeService {
         message: null,
         type: 'info',
         title: '提示',
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: 'start',
+        horizontal: 'end',
+        time: 3000,
     }
 
     constructor($plain) {
@@ -27,9 +28,10 @@ class NoticeService {
         if (this.$plain.$utils.typeOf(message) === 'object') {
             option = message
         } else {
-            option = {message}
+            option = Object.assign({}, option, {message})
         }
         option = Object.assign({}, this.defaultOption, option)
+
         if (!this.containerMap[`${option.vertical}-${option.horizontal}`]) {
             this.containerMap[`${option.vertical}-${option.horizontal}`] = this.newContainer(option.vertical, option.horizontal)
         }

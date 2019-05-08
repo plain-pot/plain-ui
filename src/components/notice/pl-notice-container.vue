@@ -2,8 +2,8 @@
     <div class="pl-notice-container"
          :class="classes">
         <pl-list direction="top">
-            <pl-item v-for="(item) in items" :key="item.id">
-                <pl-notice v-bind="item" :data="item"/>
+            <pl-item v-for="(item,index) in items" :key="item.id">
+                <pl-notice v-bind="item" :data="item" @done="pl_done(index)"/>
             </pl-item>
         </pl-list>
     </div>
@@ -26,13 +26,18 @@
         },
         computed: {
             classes() {
-
+                return [
+                    `pl-notice-container-${this.vertical}-${this.horizontal}`
+                ]
             },
         },
         methods: {
             show(option) {
                 option.id = this.$plain.$utils.uuid()
                 this.items.push(option)
+            },
+            pl_done(index) {
+                this.items.splice(index, 1)
             },
         }
     }

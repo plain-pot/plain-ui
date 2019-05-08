@@ -9,7 +9,7 @@
                 <pl-icon :icon="TYPE[type].icon"/>
                 <span>{{title}}</span>
             </div>
-            <pl-icon icon="pad-close" class="pl-notice-close-icon" @click="close" hover/>
+            <pl-icon icon="pad-close-circle-fill" class="pl-notice-close-icon" @click="close" hover/>
         </div>
         <div class="pl-notice-body">
             <span v-if="!!message">{{message}}</span>
@@ -51,7 +51,7 @@
                 this.$emit('done')
             },
             resetTimer() {
-                if (this.time !== null) this.timer = setTimeout(() => {
+                if (this.time != null) this.timer = setTimeout(() => {
                     this.$emit('done',)
                     !!this.done && (this.done())
                 }, this.time)
