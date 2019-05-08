@@ -16,18 +16,9 @@
     height: 100%;
     width: 100%;
 
-    .pl-button {
-      height: initial;
-      width: initial;
-      display: inline;
-      color: inherit !important;
-      min-width: inherit;
-
-      &:focus {
-        box-shadow: none !important;
-        top: 0;
-        bottom: 0;
-      }
+    .pl-icon {
+      vertical-align: text-bottom;
+      margin-right: 0.5em;
     }
 
     &.pl-select-item-checked {

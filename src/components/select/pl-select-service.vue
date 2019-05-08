@@ -32,6 +32,8 @@
         autoFocus: true,
         render: null,
         slot: null,
+        autoClose: true,
+        onConfirm: null,
     }
 
     export default {
@@ -83,8 +85,8 @@
             hide() {
                 this.popper.hide()
             },
-            confirm(autoClose = true) {
-                this.pl_click(this.option.data[this.hoverIndex], autoClose)
+            confirm() {
+                this.pl_click(this.option.data[this.hoverIndex])
             },
             next() {
                 if (this.hoverIndex < (this.option.data.length - 1)) {
@@ -113,10 +115,11 @@
                     this.popper.$refs.scroll.scrollTop(this.$refs.items[this.$refs.items.length - 1].offsetTop, 25)
                 }
             },
-            pl_click(item, autoClose = true) {
+            pl_click(item) {
                 if (!item) return
                 !!this.rs && this.rs(item)
-                !!autoClose && this.popper.hide()
+                !!this.option.autoClose && this.popper.hide()
+                !!this.option.onConfirm && this.option.onConfirm(item)
             },
             pl_open() {
                 // console.log('pl_open')

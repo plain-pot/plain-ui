@@ -15,6 +15,8 @@
               @down="!!p_select && p_select.next()"
               @enter="pl_enter"
               @tab="!!p_select && p_select.hide()"
+              @esc="!!p_select && p_select.hide()"
+              @space="pl_space"
     />
 </template>
 
@@ -31,14 +33,22 @@
             data: {type: Array, default: () => []},
             labelKey: {type: String},
             valueKey: {type: String},
+            multiple: {type: Boolean},
 
             readonly: {type: Boolean},
             disabled: {type: Boolean},
             required: {type: Boolean},
         },
         watch: {
-            value(val) {
-                this.p_value = this.$plain.$utils.deepCopy(val)
+            value: {
+                immediate: true,
+                handler(val) {
+                    if (!this.multiple) {
+                        this.p_value = val
+                    } else {
+                        this.p_value = this.$plain.$utils.deepCopy(val || [])
+                    }
+                }
             },
         },
         computed: {
@@ -48,10 +58,15 @@
                     const item = this.data[i];
                     const value = this.pl_getValue(item)
                     if (value === this.p_value) {
-                        showValues.push(this.pl_getShowValue(item))
+                        const showValue = this.pl_getShowValue(item)
+                        if (!this.multiple) {
+                            return showValue
+                        } else {
+                            showValues.push(showValue)
+                        }
                     }
                 }
-                return showValues.join(',')
+                return showValues
             },
         },
         data() {
@@ -72,13 +87,25 @@
                     // slot: this.$scopedSlots.default,
                     render: this.pl_render,
                     onClose: () => this.p_select = null,
+                    autoClose: !this.multiple,
                     popper: {
                         onShow: () => this.isShow = true,
                         onHide: () => this.isShow = false,
-                    }
-                }).then(e => {
-                    this.p_value = this.pl_getValue(e)
-                    this.$emit('input', this.p_value)
+                    },
+                    onConfirm: (e) => {
+                        const value = this.pl_getValue(e)
+                        if (!this.multiple) {
+                            this.p_value = value
+                        } else {
+                            const index = this.p_value.indexOf(value)
+                            if (index > -1) {
+                                this.p_value.splice(index, 1)
+                            } else {
+                                this.p_value.push(value)
+                            }
+                        }
+                        this.$emit('input', this.p_value)
+                    },
                 })
             },
             pl_clear() {
@@ -86,21 +113,23 @@
                 this.$emit('input', this.p_value)
             },
             pl_render(h, {item}) {
+                const val = this.pl_getValue(item)
+                const isChecked = !this.multiple ? val === this.p_value : this.p_value.indexOf(val) > -1
+                const cls = [
+                    'pl-select-item',
+                    {
+                        'pl-select-item-checked': isChecked,
+                    }
+                ]
+
                 return (
-                    <div class={this.pl_itemClass(item)}>
+                    <div class={cls}>
+                        {!!this.multiple && <pl-icon icon={isChecked ? 'pad-check-square-fill' : 'pl-square-light'}/>}
                         <span>{this.pl_getShowValue(item)}</span>
                     </div>
                 )
             },
-            pl_itemClass(item) {
-                const val = this.pl_getValue(item)
-                return [
-                    'pl-select-item',
-                    {
-                        'pl-select-item-checked': val === this.p_value
-                    }
-                ]
-            },
+
             pl_getValue(item) {
                 return !!this.valueKey ? item[this.valueKey] : item
             },
@@ -108,6 +137,18 @@
                 return !!this.labelKey ? item[this.labelKey] : item
             },
             pl_enter() {
+                if (!!this.p_select) {
+                    if (!this.multiple) {
+                        this.p_select.confirm()
+                    } else {
+                        this.p_select.hide()
+                    }
+                } else {
+                    const {p_readonly, p_disabled} = this.$refs.input
+                    if (!p_readonly && !p_disabled) this.pl_open()
+                }
+            },
+            pl_space() {
                 if (!!this.p_select) {
                     this.p_select.confirm()
                 } else {
