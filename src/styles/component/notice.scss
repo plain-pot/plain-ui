@@ -1,9 +1,62 @@
 @mixin component-notice {
-  position: fixed;
-  z-index: 9999;
-  top: 30px;
-  bottom: 30px;
-  left: 30px;
-  right: 30px;
-  pointer-events: none;
+  .pl-notice-container {
+    position: fixed;
+    z-index: 9999;
+    top: 30px;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    pointer-events: none;
+
+    .pl-notice {
+      @include public-style;
+      padding: plVar(padding);
+      white-space: nowrap;
+      background-color: white;
+      min-width: 300px;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+      display: inline-block;
+      pointer-events: auto;
+
+      @include plColors {
+        &.pl-notice-#{$key} {
+          .pl-notice-head {
+            .pl-notice-title {
+              color: $value;
+            }
+          }
+        }
+      }
+
+      .pl-notice-head {
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: plVar(padding);
+
+        .pl-notice-title {
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          align-items: center;
+
+        }
+
+        .pl-notice-close-icon {
+          @include transition-all;
+
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+      }
+
+      .pl-notice-body {
+        font-size: 12px;
+      }
+    }
+  }
 }

@@ -7,7 +7,7 @@
         <div class="pl-notice-head" v-if="!noHeader">
             <div class="pl-notice-title">
                 <pl-icon :icon="TYPE[type].icon"/>
-                {{title}}
+                <span>{{title}}</span>
             </div>
             <pl-icon icon="pad-close" class="pl-notice-close-icon" @click="close" hover/>
         </div>

@@ -15,6 +15,7 @@
 @import "./component/textarea";
 @import "./component/select";
 @import "./component/dialog";
+@import "./component/notice";
 
 @mixin component-mixin {
   @include component-icon;
@@ -34,4 +35,5 @@
   @include component-textarea;
   @include component-select;
   @include component-dialog;
+  @include component-notice;
 }
