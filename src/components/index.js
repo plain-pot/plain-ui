@@ -21,6 +21,9 @@ import item from './list/pl-item'
 import textarea from './pl-textarea'
 import dialog from './dialog/pl-dialog'
 import select from './select/pl-select'
+import collapse from './collapse/pl-collapse'
+import collapseGroup from './collapse/pl-collapse-group'
+import collapseTransition from './collapse/pl-collapse-transition'
 
 const components = {
     icon,
@@ -44,9 +47,12 @@ const components = {
     textarea,
     dialog,
     select,
+    collapse,
+    collapseGroup,
+    collapseTransition,
 }
 
-export function getComponents(prefix = 'pl'){
+export function getComponents(prefix = 'pl') {
     return Object.keys(components).reduce((ret, key) => {
         ret[`${prefix}-${$utils.getKebabCase(key)}`] = components[key]
         return ret
