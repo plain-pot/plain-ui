@@ -16,6 +16,7 @@
 @import "./component/select";
 @import "./component/dialog";
 @import "./component/collapse";
+@import "./component/carousel";
 
 @mixin component-mixin {
   @include component-icon;
@@ -36,4 +37,5 @@
   @include component-select;
   @include component-dialog;
   @include component-collapse;
+  @include component-carousel;
 }

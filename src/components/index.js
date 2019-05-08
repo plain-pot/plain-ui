@@ -24,6 +24,7 @@ import select from './select/pl-select'
 import collapse from './collapse/pl-collapse'
 import collapseGroup from './collapse/pl-collapse-group'
 import collapseTransition from './collapse/pl-collapse-transition'
+import carousel from './pl-carousel'
 
 const components = {
     icon,
@@ -50,6 +51,7 @@ const components = {
     collapse,
     collapseGroup,
     collapseTransition,
+    carousel,
 }
 
 export function getComponents(prefix = 'pl') {
