@@ -38,7 +38,7 @@
         },
         watch: {
             value(val) {
-
+                this.p_value = this.$plain.$utils.deepCopy(val)
             },
         },
         computed: {
@@ -58,6 +58,7 @@
             return {
                 p_select: null,
                 isShow: false,
+                p_watchValue: false,
             }
         },
         methods: {
@@ -87,7 +88,7 @@
             pl_render(h, {item}) {
                 return (
                     <div class={this.pl_itemClass(item)}>
-                        <pl-button type="none" noPadding>{this.pl_getShowValue(item)}</pl-button>
+                        <span>{this.pl_getShowValue(item)}</span>
                     </div>
                 )
             },
