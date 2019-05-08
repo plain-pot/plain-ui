@@ -6,11 +6,9 @@ import {MessageService} from "../components/message";
 import {SelectService} from "../components/select";
 import $keyboard from './keyboard'
 import {DialogService} from "../components/dialog";
-import {PopperService} from "../components/popper";
 import {NoticeService} from "../components/notice";
 
 export default function ($plain) {
-    const $popper = new PopperService($plain)
     const $message = new MessageService($plain)
     const $select = new SelectService($plain)
     const $dialog = new DialogService($plain)
@@ -21,7 +19,6 @@ export default function ($plain) {
             $utils,
             $dom,
             $storage,
-            $popper,
             $valid,
             $select,
             $keyboard,

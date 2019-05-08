@@ -10,10 +10,6 @@
         <im-demo-row title="测试popper参数">
             <im-button label="toggle" @click="select(3)" ref="button3"/>
         </im-demo-row>
-        <im-demo-row title="搜索框">
-            <im-button label="toggle" @click="select(4)" ref="button4"/>
-            <im-button label="toggle" @click="select(5)" ref="button5"/>
-        </im-demo-row>
         <im-demo-row title="移动选择项">
             <im-button label="toggle" @click="select(6)" ref="button6"/>
         </im-demo-row>
@@ -37,22 +33,27 @@
                     ],
                 },
                 option3: {
-                    disabledEqual: true,
-                    width: '200px',
-                    height: '150px',
-                    arrow: true,
+                    popper:{
+                        disabledEqual: true,
+                        width: '200px',
+                        height: '150px',
+                        arrow: true,
+                    },
                 },
                 option4: {
                     searchInput: true,
                 },
                 option5: {
-                    disabledEqual: true,
-                    width: '200px',
-                    searchInput: true,
+                   popper:{
+                       disabledEqual: true,
+                       width: '200px',
+                   }
                 },
                 option7: {
-                    width: '150px',
-                    disabledEqual: true,
+                    popper:{
+                        width: '150px',
+                        disabledEqual: true,
+                    },
                     render(h, {item, index}) {
                         return <div class="demo-select-item">
                             <div class="demo-select-item-title">{item.name}</div>

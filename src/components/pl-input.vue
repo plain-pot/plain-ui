@@ -9,7 +9,7 @@
 
                     :type="inputType"
                     :placeholder="placeholder"
-                    :readonly="p_readonly || loading || timerWait || timerHandler"
+                    :readonly="inputReadonly || p_readonly || loading || timerWait || timerHandler"
                     :disabled="p_disabled"
 
                     @click="pl_click"
@@ -22,9 +22,10 @@
                     @keydown.down="pl_down"
                     @keydown.left="e=>$emit('left',e)"
                     @keydown.right="e=>$emit('right',e)"
+                    @keydown.tab="pl_tab"
             >
-            <pl-loading v-if="loading || timerWait || timerHandler" class="pl-input-loading"/>
-            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click="pl_clear"/>
+            <pl-loading v-if="!this.p_readonly&&!this.p_disabled&&(loading || timerWait || timerHandler)" class="pl-input-loading"/>
+            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click.stop="pl_clear"/>
             <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
         </div>
         <slot name="append"></slot>
@@ -55,11 +56,13 @@
             size: {type: String, default: 'default'},
 
             inputType: {type: String, default: 'text'},
+            inputReadonly: {type: Boolean},
             placeholder: {type: String, default: '点击输入...'},
             focusOnHover: {type: Boolean},
             suggestion: {default: null},
             suggestionLabelKey: {default: null},
             suggestionFilter: {default: null},
+            open: {type: Function},
         },
         data() {
             return {
@@ -155,7 +158,6 @@
             pl_blur(e) {
                 this.p_focus = false
                 this.$emit('blur ', e)
-                if (!!this.p_select) this.p_select.hide()
             },
             pl_up(e) {
                 this.$emit('up', e)
@@ -165,9 +167,14 @@
                 this.$emit('down', e)
                 !!this.p_select && this.p_select.next()
             },
+            pl_tab(e) {
+                this.$emit('tab', e)
+                !!this.p_select && this.p_select.hide()
+            },
             pl_click(e) {
                 this.$emit('click', e)
                 this.pl_openSuggestion()
+                if (!!this.open && !this.p_readonly && !this.p_disabled) this.open()
             },
             async pl_openSuggestion() {
                 if (this.p_readonly || this.p_disabled) return

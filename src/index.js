@@ -1,5 +1,5 @@
 import './styles/index.scss'
-import components from './components/index'
+import {getComponents} from './components/index'
 import Service from './scripts/service'
 
 const Plain = {
@@ -62,7 +62,8 @@ const Plain = {
         !!iconfont && this.$utils.addScript(iconfont)
 
         this.changeTheme(theme)
-        Object.keys(components).forEach(key => Vue.component(`${prefix}-${this.$utils.getKebabCase(key)}`, components[key]))
+        const components = getComponents(prefix)
+        Object.keys(components).forEach(key => Vue.component(key, components[key]))
 
         Vue.prototype.$plain = this
     },

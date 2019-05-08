@@ -49,6 +49,6 @@
 
 <style lang="scss">
     .pl-dom {
-        display: inline-block;
+        display: inline;
     }
 </style>

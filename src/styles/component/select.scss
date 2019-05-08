@@ -1,5 +1,43 @@
 @mixin component-select {
 
+  .pl-icon .pl-input-icon {
+    @include transition-all-cubic-bezier;
+    transform: rotate(0);
+  }
+  .pl-select {
+    &.pl-select-open {
+      .pl-icon.pl-input-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .pl-select-item {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .pl-icon {
+      vertical-align: text-bottom;
+      margin-right: 0.5em;
+    }
+
+    &.pl-select-item-checked {
+      background-color: plVar(colorPrimaryLight);
+      color: plVar(colorPrimaryDeep);
+    }
+
+    .pl-select-item-content{
+      flex: 1;
+      .pl-scope-slot, .pl-render-func {
+        display: block;
+        flex: 1;
+      }
+    }
+  }
+
   .pl-select-service {
     box-sizing: border-box;
 
@@ -8,17 +46,23 @@
       padding: 3px 3px;
 
       .pl-select-service-item-inner {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 6px 6px;
+        display: block;
+
+        & > div {
+          padding: 6px 6px;
+          box-sizing: border-box;
+          border-radius: plVar(borderFillet);
+        }
       }
 
       &:hover, &.pl-select-service-item-inner-hover {
         .pl-select-service-item-inner {
-          background-color: plVar(backgroundColorLight);
-          cursor: pointer;
-          border-radius: plVar(borderFillet);
-          color: black;
+          & > div {
+            background-color: plVar(backgroundColorLight);
+            cursor: pointer;
+            border-radius: plVar(borderFillet);
+            color: black;
+          }
         }
       }
     }

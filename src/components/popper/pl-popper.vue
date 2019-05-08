@@ -1,8 +1,8 @@
 <template>
     <transition :name="`pl-popover-animate-${animate}`">
-        <div class="pl-popper" v-show="p_show" :class="classes" :style="styles" @transitionend="p_transitionend">
+        <div class="pl-popper" v-show="p_value" :class="classes" :style="styles">
             <pl-scroll :scrollbar-size="6" ref="scroll" fit-host-width>
-                <div class="pl-popper-inner" ref="inner"></div>
+                <slot></slot>
             </pl-scroll>
         </div>
     </transition>
@@ -12,7 +12,7 @@
 
     import Popper from 'popper.js'
     import PlScroll from "../pl-scroll";
-    import {MountedMixin} from "../../mixin/component-mixin";
+    import {MountedMixin, ValueMixin} from "../../mixin/component-mixin";
 
     const POPOVER_DIRECTION = {
         TOP: 'top',
@@ -28,29 +28,28 @@
 
     export default {
         name: "pl-popper",
-        mixins: [MountedMixin],
+        mixins: [MountedMixin, ValueMixin],
         components: {PlScroll},
         props: {
-            id: {},
             reference: {},
-            popper: {},
+
             direction: {type: String, default: POPOVER_DIRECTION.BOTTOM},           //弹出框的方向：top|bottom|left|right
             align: {type: String, default: POPOVER_ALIGN.START},                    //弹出框的对其方式
             arrow: {type: Boolean},                                                 //弹出框是否带小三角
-            offset: {type: Number},                                                 //弹出框与载体的距离
+            offset: {type: Number,default:2},                                       //弹出框与载体的距离
             animate: {type: String, default: 'drop'},                               //弹出框显隐动画
             height: {default: 180},                                                 //弹出框的高度
             width: {default: 180},                                                  //弹出框的宽度
             windowBoundary: {type: Boolean, default: true},                         //边界为window
-            relate: {type: Array, default: () => []},                               //点击外部元素的时候，relate中数组的元素不会触发关闭动作
             disabledEqual: {type: Boolean},                                         //弹出框是否与载体在方向上大小相同
             disabledHideOnClickOutside: {type: Boolean},                            //禁用点击外部的时候关闭
+            relate: {type: Array, default: () => []},                               //点击外部元素的时候，relate中数组的元素不会触发关闭动作
+            zIndex: {type: Number, default: 9999},                                  //基础zIndex
 
-            onOpen: {type: Function},                                               //打开之后的动作
-            onClose: {type: Function},                                              //关闭之后的动作
-
-            parentNode: {},
-            data: {},
+            onOpen: {type: Function},                                               //打开动画结束之后的动作
+            onClose: {type: Function},                                              //关闭动画结束之后的动作
+            onShow: {type: Function},                                               //打开立即执行动作
+            onHide: {type: Function},                                               //关闭立即执行动作
         },
         watch: {
             direction(val) {
@@ -64,17 +63,17 @@
             arrow() {
                 this.p_initPopper()
             },
+            reference() {
+                this.p_initPopper()
+            },
         },
         data() {
             return {
                 isOpen: false,
                 p_popper: null,
-                p_show: false,
                 p_direction: this.direction,
                 p_align: this.align,
-                p_replace: document.createComment(''),
                 p_zIndex: null,
-                elMap: null,
             }
         },
         computed: {
@@ -87,79 +86,59 @@
                 ]
             },
             styles() {
-                if (!this.elMap) return {}
+                if (!this.p_mounted || !this.referenceEl) return
                 const ret = {}
                 !!this.height && (ret.height = this.$plain.$utils.unit(this.height))
                 !!this.width && (ret.width = this.$plain.$utils.unit(this.width))
-                if (!this.disabledEqual && this.p_mounted) ret[this.p_vertical ? 'width' : 'height'] = `${this.elMap.reference[this.p_vertical ? 'offsetWidth' : 'offsetHeight']}px`
-                ret.zIndex = this.p_zIndex
+                if (!this.disabledEqual && this.p_mounted) ret[this.p_vertical ? 'width' : 'height'] = `${this.referenceEl[this.p_vertical ? 'offsetWidth' : 'offsetHeight']}px`
+                ret.zIndex = this.p_zIndex + this.zIndex
                 return ret
             },
             p_vertical() {
                 return this.$plain.$utils.oneOf(this.p_direction, ['top', 'bottom'])
             },
             p_relate() {
-                if (!this.elMap) return []
-                return [this.elMap.reference, this.$el, ...(this.relate || [])]
+                return [this.referenceEl, this.$el, ...(this.relate || [])]
+            },
+            referenceEl() {
+                if (!this.p_mounted) return
+                return !this.reference ? null : (this.reference.$el || this.reference)
             },
         },
         async mounted() {
-            this.p_init()
+            window.addEventListener('click', this.p_clickWindow)
         },
         methods: {
             async show() {
-                this.p_show = true
+                if (!this.p_popper) this.p_initPopper()
+                this.p_value = true
                 await this.$plain.nextTick()
                 this.p_popper.update()
                 this.$refs.scroll.refreshSize()
-                !!this.onOpen && this.onOpen()
                 this.p_zIndex = this.$plain.getZIndex()
+                !!this.onShow && this.onShow()
+                this.pl_event()
             },
             async hide() {
-                this.p_show = false
+                this.p_value = false
                 await this.$plain.nextTick()
-                !!this.onClose && this.onClose()
+                !!this.onHide && this.onHide()
+                this.pl_event()
             },
-            async destroy() {
-                await this.p_destroy()
+            async toggle() {
+                return this.p_value ? (await this.hide()) : (await this.show())
             },
             reload() {
-                this.p_init()
-            },
-
-            async p_init() {
-                if (!!this.elMap) await this.p_destroy()
-
-                this.elMap = {
-                    reference: this.p_getEl(this.reference),
-                    popper: this.p_getEl(this.popper),
-                    replace: document.createComment(''),
-                    parentNode: this.p_getEl(this.popper).parentNode,
-                }
-                this.elMap.parentNode.replaceChild(this.elMap.replace, this.elMap.popper)
-                this.$refs.inner.appendChild(this.elMap.popper)
                 this.p_initPopper()
-                window.addEventListener('click', this.p_clickWindow)
             },
-            async p_destroy() {
-                if (!this.elMap) return
-                if (this.isOpen) await this.hide()
-                this.elMap.parentNode.replaceChild(this.elMap.popper, this.elMap.replace)
-                this.p_destroyPopper()
-                this.elMap = null
-                this.data.props = null
-                window.removeEventListener('click', this.p_clickWindow)
-            },
-
             p_refresh() {
                 let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
                 this.p_direction = placement[0];
                 this.p_align = placement[1];
             },
             p_initPopper() {
-                if (!this.elMap) return
                 !!this.p_popper && (this.p_destroyPopper())
-                this.p_popper = new Popper(this.elMap.reference, this.$el, {
+                this.p_popper = new Popper(this.referenceEl, this.$el, {
                     placement: `${this.p_direction}-${this.p_align}`,
                     modifiers: {
                         offset: {offset: `0,${this.offset == null ? this.arrow ? 10 : '0' : this.offset}`,},
@@ -174,15 +153,22 @@
                 this.p_popper.destroy()
                 this.p_popper = null
             },
-            p_transitionend() {
-                this.isOpen = this.p_show
-                // console.log('p_transitionend', this.isOpen)
+            pl_event() {
+                setTimeout(() => {
+                    this.isOpen = this.p_value
+                    if (this.isOpen) {
+                        !!this.onOpen && (this.onOpen())
+                        this.$emit('open')
+                        this.$emit('input', true)
+                    } else {
+                        !!this.onClose && (this.onClose())
+                        this.$emit('close')
+                        this.$emit('input', false)
+                    }
+                }, 250)
             },
             async p_clickWindow(e) {
                 if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()
-            },
-            p_getEl(target) {
-                return target.$el || target
             },
         },
         beforeDestroy() {
