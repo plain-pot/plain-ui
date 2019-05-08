@@ -7,6 +7,7 @@
               :readonly="readonly"
               :disabled="disabled"
               :required="required"
+              :placeholder="placeholder"
               :open="pl_open"
               icon="pl-down"
 
@@ -35,6 +36,7 @@
             valueKey: {type: String},
             multiple: {type: Boolean},
 
+            placeholder: {default: '请选择...'},
             readonly: {type: Boolean},
             disabled: {type: Boolean},
             required: {type: Boolean},
@@ -57,20 +59,21 @@
                 for (let i = 0; i < this.data.length; i++) {
                     const item = this.data[i];
                     const value = this.pl_getValue(item)
-                    if (value === this.p_value) {
-                        const showValue = this.pl_getShowValue(item)
-                        if (!this.multiple) {
+                    const showValue = this.pl_getShowValue(item)
+                    if (!this.multiple) {
+                        if(value === this.p_value){
                             return showValue
-                        } else {
-                            showValues.push(showValue)
                         }
+                    } else if (this.p_value.indexOf(value) > -1) {
+                        showValues.push(showValue)
                     }
                 }
-                return showValues
+                return showValues.join(',')
             },
         },
         data() {
             return {
+                p_value: [],
                 p_select: null,
                 isShow: false,
                 p_watchValue: false,
