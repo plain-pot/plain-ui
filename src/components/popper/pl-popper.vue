@@ -36,7 +36,7 @@
             direction: {type: String, default: POPOVER_DIRECTION.BOTTOM},           //弹出框的方向：top|bottom|left|right
             align: {type: String, default: POPOVER_ALIGN.START},                    //弹出框的对其方式
             arrow: {type: Boolean},                                                 //弹出框是否带小三角
-            offset: {type: Number},                                                 //弹出框与载体的距离
+            offset: {type: Number,default:2},                                                 //弹出框与载体的距离
             animate: {type: String, default: 'drop'},                               //弹出框显隐动画
             height: {default: 180},                                                 //弹出框的高度
             width: {default: 180},                                                  //弹出框的宽度
