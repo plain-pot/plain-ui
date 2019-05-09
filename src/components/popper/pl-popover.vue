@@ -9,7 +9,7 @@
                @hide="e=>$emit('hide',e)"
 
     >
-        <pl-scroll :scrollbar-size="6" ref="scroll">
+        <pl-scroll :scrollbar-size="6" ref="scroll" v-bind="scroll">
             <slot></slot>
         </pl-scroll>
     </pl-popper>
@@ -26,6 +26,8 @@
         props: {
             reference: {},
             popper: {},
+            scroll: {},
+
             defaultPopper: {
                 default: () => ({})
             },
