@@ -21,6 +21,13 @@ import item from './list/pl-item'
 import textarea from './pl-textarea'
 import dialog from './dialog/pl-dialog'
 import select from './select/pl-select'
+import collapse from './collapse/pl-collapse'
+import collapseGroup from './collapse/pl-collapse-group'
+import collapseTransition from './collapse/pl-collapse-transition'
+import carousel from './pl-carousel'
+import card from './card/pl-card'
+import cardHeader from './card/pl-card-header'
+import cardContent from './card/pl-card-content'
 
 const components = {
     icon,
@@ -44,9 +51,16 @@ const components = {
     textarea,
     dialog,
     select,
+    collapse,
+    collapseGroup,
+    collapseTransition,
+    carousel,
+    card,
+    cardHeader,
+    cardContent,
 }
 
-export function getComponents(prefix = 'pl'){
+export function getComponents(prefix = 'pl') {
     return Object.keys(components).reduce((ret, key) => {
         ret[`${prefix}-${$utils.getKebabCase(key)}`] = components[key]
         return ret

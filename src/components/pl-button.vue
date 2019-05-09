@@ -28,7 +28,7 @@
             color: {type: String, default: 'primary'},
             shape: {type: String, default: 'fillet'},
             size: {type: String, default: 'default'},
-            label: {type: String},
+            label: {},
             icon: {type: String},
             active: {type: Boolean},
             loading: {type: Boolean},
