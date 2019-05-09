@@ -49,6 +49,9 @@
             hide() {
                 this.p_popper.hide()
             },
+            toggle() {
+                this.p_popper.toggle()
+            },
             pl_show(e) {
                 this.$refs.scroll.refreshSize()
                 this.$emit('show', e)
