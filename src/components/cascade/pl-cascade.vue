@@ -1,18 +1,18 @@
 <template>
-    <pl-input :icon="p_suffixIcon"
+    <pl-input icon="pad-doubledown"
               :value="p_showLabel"
               @clear="p_clear"
               class="pl-cascade"
+              :class="{'pl-cascade-show':isShow}"
               @click="pl_click">
         <pl-popper ref="popper"
+                   slot="prepend"
                    :height="28*5"
                    :width="null"
-                   disabled-equal
                    :reference="p_reference"
-                   slot="prepend"
-
-                   @open="isOpen = true"
-                   @close="isOpen = false"
+                   disabled-equal
+                   @show="isShow = true"
+                   @hide="isShow = false"
         >
             <div class="pl-cascade-popper">
                 <pl-cascade-option :cascade-width="cascadeWidth"
@@ -58,7 +58,7 @@
         },
         data() {
             return {
-                isOpen: false,
+                isShow: false,
                 p_value: this.$plain.$utils.deepCopy(this.value),
                 p_tempValue: this.$plain.$utils.deepCopy(this.value),
                 p_reference: null
@@ -73,9 +73,6 @@
                 } else {
                     return array[array.length - 1][this.labelKey]
                 }
-            },
-            p_suffixIcon() {
-                return this.isOpen ? 'pad-doubleup' : 'pad-doubledown'
             },
         },
         mounted() {

@@ -1,6 +1,6 @@
 <template>
     <div class="pl-cascade-option" :style="{width:`${cascadeWidth}px`}" v-if="!!data && data.length>0">
-        <pl-scroll fit-host-width>
+        <pl-scroll fit-host-width :scrollbar-size="6">
             <pl-cascade-option-item v-for="(item,index) in data"
                                     :key="item[valueKey]+index"
 

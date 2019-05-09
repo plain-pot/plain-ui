@@ -131,7 +131,7 @@
                             {title: '$dialog对话框服务', icon: 'pl-window', page: '/service/demo-dialog-service', complete: true},
                             {title: '$notice通知', icon: 'pad-bell', page: '/service/demo-notice-service', complete: true},
                             {title: '$menu右击菜单', icon: 'pl-menu', page: '/normal/demo-context-menu', complete: false},
-                            {title: '$popper下拉菜单', icon: 'pl-menu', page: '/service/demo-popper-service', complete: true},
+                            {title: '$popper下拉菜单', icon: 'pl-menu', page: '/service/demo-popper-service', complete: false},
                         ],
                     },
                     {
