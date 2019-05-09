@@ -2,7 +2,7 @@
     <div class="pl-cascade-option-item" @click="p_click" :class="classes">
         <span class="pl-cascade-option-item-label">{{data[labelKey]}}</span>
         <!--[{{!p_dataLoaded}}-{{p_hasChildren}}-->
-        <pl-icon class="pl-cascade-option-item-icon" icon="pad-right" v-if="!p_dataLoaded || p_hasChildren"/>
+        <pl-icon class="pl-cascade-option-item-icon" icon="pl-right" v-if="!p_dataLoaded || p_hasChildren"/>
     </div>
 </template>
 
