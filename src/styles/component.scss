@@ -19,6 +19,7 @@
 @import "./component/carousel";
 @import "./component/card";
 @import "./component/notice";
+@import "./component/cascade";
 
 @mixin component-mixin {
   @include component-icon;
@@ -42,5 +43,6 @@
   @include component-carousel;
   @include component-card;
   @include component-notice;
+  @include component-cascade;
 
 }

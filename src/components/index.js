@@ -28,6 +28,7 @@ import carousel from './pl-carousel'
 import card from './card/pl-card'
 import cardHeader from './card/pl-card-header'
 import cardContent from './card/pl-card-content'
+import cascade from './cascade/pl-cascade'
 
 const components = {
     icon,
@@ -58,6 +59,7 @@ const components = {
     card,
     cardHeader,
     cardContent,
+    cascade,
 }
 
 export function getComponents(prefix = 'pl') {
