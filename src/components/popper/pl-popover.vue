@@ -1,6 +1,15 @@
 <template>
-    <pl-popper v-bind="popperBinding" ref="popper">
-        <pl-scroll>
+    <pl-popper v-bind="popperBinding"
+               ref="popper"
+               @mounted="e=>p_popper=e"
+               @open="e=>$emit('open', e)"
+               @close="e=>$emit('close',e)"
+
+               @show="pl_show"
+               @hide="e=>$emit('hide',e)"
+
+    >
+        <pl-scroll :scrollbar-size="6" ref="scroll">
             <slot></slot>
         </pl-scroll>
     </pl-popper>
@@ -21,11 +30,28 @@
                 default: () => ({})
             },
         },
+        data() {
+            return {
+                p_popper: null
+            }
+        },
         computed: {
             popperBinding() {
                 return Object.assign({
                     reference: this.reference,
                 }, this.defaultPopper, this.popper)
+            },
+        },
+        methods: {
+            show() {
+                this.p_popper.show()
+            },
+            hide() {
+                this.p_popper.hide()
+            },
+            pl_show(e) {
+                this.$refs.scroll.refreshSize()
+                this.$emit('show', e)
             },
         },
     }

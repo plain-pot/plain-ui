@@ -80,9 +80,11 @@ export const MountedMixin = {
     },
     mounted() {
         this.p_mounted = true
+        this.$emit('mounted', this)
     },
     beforeDestroy() {
         this.p_mounted = false
+        this.$emit('destroyed', this)
     },
 }
 

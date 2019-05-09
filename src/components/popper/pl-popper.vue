@@ -117,12 +117,14 @@
                 await this.$plain.nextTick()
                 this.p_popper.update()
                 this.p_zIndex = this.$plain.getZIndex()
+                this.$emit('show')
                 !!this.onShow && this.onShow()
                 this.pl_event()
             },
             async hide() {
                 this.p_value = false
                 await this.$plain.nextTick()
+                this.$emit('hide')
                 !!this.onHide && this.onHide()
                 this.pl_event()
             },

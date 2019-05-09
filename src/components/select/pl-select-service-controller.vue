@@ -21,7 +21,7 @@
                 if (!service) {
                     this.items.push(this.items.length + 1)
                     await this.$plain.nextTick()
-                    service = this.$plain.$utils.findOne(this.$refs.services, item => !item.popper || !item.popper.isOpen)
+                    service = this.$plain.$utils.findOne(this.$refs.services, item => !item.popover || !item.isOpen)
                 }
                 return service
             },
