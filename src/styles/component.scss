@@ -20,6 +20,7 @@
 @import "./component/card";
 @import "./component/notice";
 @import "./component/cascade";
+@import "./component/popover";
 
 @mixin component-mixin {
   @include component-icon;
@@ -44,5 +45,6 @@
   @include component-card;
   @include component-notice;
   @include component-cascade;
+  @include component-popover;
 
 }
