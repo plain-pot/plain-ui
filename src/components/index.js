@@ -8,6 +8,7 @@ import buttonGroup from './pl-button-group'
 import loading from './pl-loading'
 import input from './pl-input'
 import popper from './popper/pl-popper'
+import popover from './popper/pl-popover'
 import dropdown from './dropdown/pl-dropdown'
 import dropdownItem from './dropdown/pl-dropdown-item'
 import toggle from './pl-toggle'
@@ -39,6 +40,7 @@ const components = {
     buttonGroup,
     input,
     popper,
+    popover,
     dropdown,
     dropdownItem,
     toggle,

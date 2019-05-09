@@ -11,7 +11,7 @@ const isProduction = !!arg.production
 const option = {
     publicPath: './',
     outputDir: $utils.resolve('page'),
-    productionSourceMap: isProduction,
+    productionSourceMap: !isProduction,
     devServer: {
         port: '8888',
     },
@@ -57,7 +57,7 @@ const option = {
         ]
     },
     css: {
-        sourceMap: isProduction,
+        sourceMap: !isProduction,
         loaderOptions: {
             sass: {
                 data: `@import "src/styles/global.scss"; @import "portal/global.scss";`
