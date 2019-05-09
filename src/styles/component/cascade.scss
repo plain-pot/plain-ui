@@ -38,6 +38,10 @@
       padding: 6px 6px;
       cursor: pointer;
 
+      .pl-cascade-option-item-label{
+        flex: 1;
+      }
+
       .pl-cascade-option-item-icon {
         transform: scale(0.9);
         color: #AAA;

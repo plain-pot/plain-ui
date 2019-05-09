@@ -15,6 +15,16 @@
         <im-demo-row title="动态加载数据">
             <im-cascade :data="cascadeData" label-key="label" children-key="children" value-key="value" :loadDataFunc="loadDataFunc"/>
         </im-demo-row>
+        <im-demo-row title="自定义渲染内容">
+            <im-cascade :data="cascadeData" label-key="label" children-key="children" value-key="value">
+                <template slot-scope="{item}">
+                    <div class="demo-cascade-box">
+                        <div>{{item.label}}</div>
+                        <div>{{item.value}}</div>
+                    </div>
+                </template>
+            </im-cascade>
+        </im-demo-row>
     </div>
 </template>
 
@@ -124,5 +134,10 @@
 </script>
 
 <style lang="scss">
-
+    .demo-cascade-box {
+        & > div:nth-child(2) {
+            font-size: 12px;
+            color: #999;
+        }
+    }
 </style>

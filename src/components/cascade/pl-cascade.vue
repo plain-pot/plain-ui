@@ -23,6 +23,7 @@
                                    :disabled-key="disabledKey"
                                    :current="p_tempValue[0]"
                                    :load-data-func="loadDataFunc"
+                                   :scope-slot="$scopedSlots.default"
                                    @select="itemData => p_select(itemData,0)"
                                    @done="itemData => p_done(itemData)"/>
                 <pl-cascade-option
@@ -36,6 +37,7 @@
                         :disabled-key="disabledKey"
                         :current="p_tempValue[index+1]"
                         :load-data-func="loadDataFunc"
+                        :scope-slot="$scopedSlots.default"
                         @select="itemData => p_select(itemData,index+1)"
                         @done="itemData => p_done(itemData)"/>
             </div>

@@ -13,6 +13,7 @@ const CascadeMixin = {
 
         /*cascade不能配置的属性*/
         current: {},
+        scopeSlot: {},
     }
 }
 

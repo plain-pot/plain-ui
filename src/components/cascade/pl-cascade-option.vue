@@ -11,6 +11,7 @@
                                     :disabled-key="disabledKey"
                                     :current="current"
                                     :load-data-func="loadDataFunc"
+                                    :scope-slot="scopeSlot"
 
                                     @click="component=>p_click(item,component)"/>
         </pl-scroll>

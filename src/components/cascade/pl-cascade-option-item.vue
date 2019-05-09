@@ -1,6 +1,9 @@
 <template>
     <div class="pl-cascade-option-item" @click="p_click" :class="classes">
-        <span class="pl-cascade-option-item-label">{{data[labelKey]}}</span>
+        <div class="pl-cascade-option-item-label">
+            <pl-scope-slot v-if="scopeSlot" :scope-slot-func="scopeSlot" :data="{item:data}"/>
+            <span v-else>{{data[labelKey]}}</span>
+        </div>
         <!--[{{!p_dataLoaded}}-{{p_hasChildren}}-->
         <pl-icon class="pl-cascade-option-item-icon" icon="pl-right" v-if="!p_dataLoaded || p_hasChildren"/>
     </div>
@@ -9,10 +12,11 @@
 <script>
     import {CascadeMixin} from "./index";
     import PlIcon from "../pl-icon";
+    import PlScopeSlot from "../render/pl-scope-slot";
 
     export default {
         name: "pl-cascade-option-item",
-        components: {PlIcon},
+        components: {PlScopeSlot, PlIcon},
         mixins: [CascadeMixin],
         data() {
             return {
