@@ -1,10 +1,13 @@
 <template>
-    <pl-input icon="pad-doubledown"
-              :value="p_showLabel"
-              @clear="p_clear"
-              class="pl-cascade"
-              :class="{'pl-cascade-show':isShow}"
-              @click="pl_click">
+    <pl-input
+            ref="input"
+            icon="pad-doubledown"
+            :value="p_showLabel"
+            @clear="p_clear"
+            class="pl-cascade"
+            :class="{'pl-cascade-show':isShow}"
+            v-bind="simpleBinding"
+            @click="pl_click">
         <pl-popper ref="popper"
                    slot="prepend"
                    :height="28*5"
@@ -50,11 +53,12 @@
     import {CascadeMixin} from "./index";
     import PlPopper from "../popper/pl-popper";
     import PlInput from "../pl-input";
+    import {SimpleEditMixin} from "../../mixin/component-mixin";
 
     export default {
         name: "pl-cascade",
         components: {PlInput, PlPopper, PlCascadeOption},
-        mixins: [CascadeMixin],
+        mixins: [CascadeMixin, SimpleEditMixin],
         props: {
             value: {type: Array, default: () => []},                                //双向绑定的数据
         },
@@ -101,7 +105,9 @@
             },
             pl_click() {
                 this.$emit('click')
-                this.$refs.popper.show()
+                if (!this.$refs.input.p_readonly && !this.$refs.input.p_disabled) {
+                    this.$refs.popper.show()
+                }
             },
         }
     }
