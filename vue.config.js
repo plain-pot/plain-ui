@@ -6,10 +6,12 @@ const arg = $utils.decodeArgv()
 /*添加插件*/
 const plugins = []
 !!arg.analysis && plugins.push(new BundleAnalyzerPlugin({analyzerPort: '9999'}))                        //如果命令行参数中存在analysis，则启用webpack-bundle-analysis插件分析打包数据
+const isProduction = !!arg.production
 
 const option = {
-    baseUrl: './',
+    publicPath: './',
     outputDir: $utils.resolve('page'),
+    productionSourceMap: isProduction,
     devServer: {
         port: '8888',
     },
@@ -30,6 +32,11 @@ const option = {
         },
     },
     configureWebpack: {
+        externals: {
+            ...(isProduction ? {
+                'vue': 'Vue'
+            } : {})
+        },
         resolve: {
             extensions: ['.js', '.vue', '.json'],
             alias: {
@@ -50,6 +57,7 @@ const option = {
         ]
     },
     css: {
+        sourceMap: isProduction,
         loaderOptions: {
             sass: {
                 data: `@import "src/styles/global.scss"; @import "portal/global.scss";`
