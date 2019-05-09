@@ -117,10 +117,7 @@
                     for (let i = 0; i < this.pageStack.length; i++) {
                         const page = this.pageStack[i];
                         if (page.path === path) {
-                            this.p_value = i
-                            this.p_save()
-                            this.$emit('change', page)
-                            this.p_emitValue()
+                            this.p_clickMenu(i)
                             return
                         }
                     }
