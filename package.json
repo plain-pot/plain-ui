@@ -13,7 +13,7 @@
     "element-resize-detector": "^1.1.15",
     "popper.js": "^1.15.0",
     "scroll": "^3.0.1",
-    "tippy.js": "^4.2.1",
+    "tippy.js": "^4.3.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {

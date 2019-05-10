@@ -1,5 +1,7 @@
 import './styles/index.scss'
 import {getComponents} from './components/index'
+import {getDirectives} from "./scripts/directives";
+
 import Service from './scripts/service'
 
 const Plain = {
@@ -64,6 +66,8 @@ const Plain = {
         this.changeTheme(theme)
         const components = getComponents(prefix)
         Object.keys(components).forEach(key => Vue.component(key, components[key]))
+        const directives = getDirectives(prefix)
+        Object.keys(directives).forEach(key => Vue.directive(key, directives[key]))
 
         Vue.prototype.$plain = this
     },
