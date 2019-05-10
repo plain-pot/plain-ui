@@ -33,6 +33,7 @@ import cascade from './cascade/pl-cascade'
 import tooltip from './tooltip/pl-tooltip'
 import number from './pl-number'
 import slider from './pl-slider'
+import rate from './pl-rate'
 
 const components = {
     icon,
@@ -68,6 +69,7 @@ const components = {
     cascade,
     number,
     slider,
+    rate,
 }
 
 export function getComponents(prefix = 'pl') {

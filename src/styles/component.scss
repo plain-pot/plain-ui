@@ -24,6 +24,7 @@
 @import "./component/tooltip";
 @import "./component/number";
 @import "./component/slider";
+@import "./component/rate";
 
 
 @mixin component-mixin {
@@ -53,6 +54,7 @@
   @include component-tooltip;
   @include component-number;
   @include component-slider;
+  @include component-rate;
 
 
 }
