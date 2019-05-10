@@ -71,7 +71,7 @@
                             {title: 'Select下拉选择', icon: 'pad-down', page: '/normal/demo-select', complete: true},
                             {title: 'Cascade级联选择', icon: 'pad-doubledown', page: '/normal/demo-cascade', complete: true},
                             {title: 'Toggle开关切换', icon: 'pl-toggle', page: '/normal/demo-toggle', complete: true},
-                            {title: 'Slider滑块', icon: 'pl-slider', page: '/normal/demo-slider', complete: false},
+                            {title: 'Slider滑块', icon: 'pl-slider', page: '/normal/demo-slider', complete: true},
                             {title: 'Timer时间选择', icon: 'pl-time-circle-light', page: '/normal/demo-time', complete: false},
                             {title: 'Date日期选择', icon: 'pl-date-fill', page: '/normal/demo-date', complete: false},
                             {title: 'Rate评分', icon: 'pad-star', page: '/normal/demo-rate', complete: false},
