@@ -8,6 +8,7 @@ import buttonGroup from './pl-button-group'
 import loading from './pl-loading'
 import input from './pl-input'
 import popper from './popper/pl-popper'
+import popover from './popper/pl-popover'
 import dropdown from './dropdown/pl-dropdown'
 import dropdownItem from './dropdown/pl-dropdown-item'
 import toggle from './pl-toggle'
@@ -28,6 +29,7 @@ import carousel from './pl-carousel'
 import card from './card/pl-card'
 import cardHeader from './card/pl-card-header'
 import cardContent from './card/pl-card-content'
+import cascade from './cascade/pl-cascade'
 import tooltip from './tooltip/pl-tooltip'
 
 const components = {
@@ -39,6 +41,7 @@ const components = {
     buttonGroup,
     input,
     popper,
+    popover,
     dropdown,
     dropdownItem,
     toggle,
@@ -60,6 +63,7 @@ const components = {
     cardHeader,
     cardContent,
     tooltip,
+    cascade,
 }
 
 export function getComponents(prefix = 'pl') {

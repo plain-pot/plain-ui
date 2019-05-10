@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:page": "vue-cli-service build --analysis",
-    "build": "vue-cli-service build --target lib --name plain-ui src/index.js --dest dist --analysis",
+    "build": "vue-cli-service build --target lib --name plain-ui src/index.js --dest dist --analysis --prod",
     "start": "npm run serve"
   },
   "dependencies": {

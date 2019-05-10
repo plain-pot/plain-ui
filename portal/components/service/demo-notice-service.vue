@@ -22,7 +22,7 @@
             <im-button @click="$notice.show('操作成功！',{horizontal:'end',vertical:'end'})" label="右下"/>
         </im-demo-row>
         <im-demo-row title="关闭时间与不自动关闭">
-            <im-button @click="$notice.show('操作成功！',{time:1000,done:()=>log('done')})" label="一秒后自动关闭"/>
+            <im-button @click="$notice.show('操作成功！',{time:1000,done:()=>$message.show('done')})" label="一秒后自动关闭"/>
             <im-button @click="dontAutoClose" label="不自动关闭"/>
         </im-demo-row>
         <im-demo-row title="标题">

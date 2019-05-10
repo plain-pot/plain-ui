@@ -6,6 +6,7 @@
                 <span>悬浮框内容</span>
             </im-popper>
         </im-demo-row>
+
         <im-demo-row title="调整间距offset=20">
             <im-button label="toggle" ref="btn3" @click="$refs.popper3.toggle()"/>
             <im-popper :reference="reference[3]" ref="popper3" :offset="20">
@@ -63,6 +64,14 @@
             </im-popper>
         </im-demo-row>
 
+        <im-demo-row title="测试初始化与销毁">
+            <im-button label="toggle" ref="btn9" @click="$refs.popper9.toggle()"/>
+            <im-button @click="init = !init">init:{{init}}</im-button>
+            <im-popper :reference="reference[9]" ref="popper9" v-if="init">
+                <span>悬浮框内容</span>
+            </im-popper>
+        </im-demo-row>
+
     </div>
 </template>
 
@@ -76,6 +85,7 @@
                 direction: 'bottom',
                 align: 'start',
                 arrow: true,
+                init: true,
             }
         },
         mounted() {

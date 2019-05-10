@@ -1,0 +1,60 @@
+@mixin component-cascade {
+  .pl-cascade {
+    .pl-icon .pl-input-icon {
+      @include transition-all-cubic-bezier;
+      transform: rotate(0);
+    }
+
+    &.pl-cascade-show {
+      .pl-icon.pl-input-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .pl-cascade-popper {
+    height: 100%;
+    display: flex;
+
+    .pl-cascade-option {
+      &:not(:last-child) {
+        border-right: solid 1px #f2f2f2;
+      }
+    }
+  }
+
+  .pl-cascade-option {
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+    .pl-cascade-option-item {
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 6px 6px;
+      cursor: pointer;
+
+      .pl-cascade-option-item-label{
+        flex: 1;
+      }
+
+      .pl-cascade-option-item-icon {
+        transform: scale(0.9);
+        color: #AAA;
+      }
+
+      &:hover, &.pl-cascade-option-item-active {
+        background-color: plVar(colorPrimaryLighter);
+      }
+
+      &.pl-cascade-option-item-disabled {
+        background-color: plVar(colorDisabledLight);
+        color: #AAA;
+      }
+    }
+  }
+}

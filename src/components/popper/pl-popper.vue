@@ -1,18 +1,18 @@
 <template>
-    <transition :name="`pl-popover-animate-${animate}`">
-        <div class="pl-popper" v-show="p_value" :class="classes" :style="styles">
-            <pl-scroll :scrollbar-size="6" ref="scroll" fit-host-width>
+    <pl-dom v-if="p_init">
+        <transition :name="`pl-popover-animate-${animate}`">
+            <div class="pl-popper" v-show="p_value" :class="classes" :style="styles" ref="popper">
                 <slot></slot>
-            </pl-scroll>
-        </div>
-    </transition>
+            </div>
+        </transition>
+    </pl-dom>
 </template>
 
 <script>
 
     import Popper from 'popper.js'
-    import PlScroll from "../pl-scroll";
     import {MountedMixin, ValueMixin} from "../../mixin/component-mixin";
+    import PlDom from "../pl-dom";
 
     const POPOVER_DIRECTION = {
         TOP: 'top',
@@ -28,15 +28,15 @@
 
     export default {
         name: "pl-popper",
+        components: {PlDom},
         mixins: [MountedMixin, ValueMixin],
-        components: {PlScroll},
         props: {
             reference: {},
 
             direction: {type: String, default: POPOVER_DIRECTION.BOTTOM},           //弹出框的方向：top|bottom|left|right
             align: {type: String, default: POPOVER_ALIGN.START},                    //弹出框的对其方式
             arrow: {type: Boolean},                                                 //弹出框是否带小三角
-            offset: {type: Number,default:2},                                       //弹出框与载体的距离
+            offset: {type: Number, default: 2},                                       //弹出框与载体的距离
             animate: {type: String, default: 'drop'},                               //弹出框显隐动画
             height: {default: 180},                                                 //弹出框的高度
             width: {default: 180},                                                  //弹出框的宽度
@@ -54,21 +54,22 @@
         watch: {
             direction(val) {
                 this.p_direction = val
-                this.p_initPopper()
+                this.init()
             },
             align(val) {
                 this.p_align = val
-                this.p_initPopper()
+                this.init()
             },
             arrow() {
-                this.p_initPopper()
+                this.init()
             },
             reference() {
-                this.p_initPopper()
+                this.init()
             },
         },
         data() {
             return {
+                p_init: false,
                 isOpen: false,
                 p_popper: null,
                 p_direction: this.direction,
@@ -98,30 +99,32 @@
                 return this.$plain.$utils.oneOf(this.p_direction, ['top', 'bottom'])
             },
             p_relate() {
-                return [this.referenceEl, this.$el, ...(this.relate || [])]
+                return [this.referenceEl, this.$refs.popper, ...(this.relate || [])]
             },
             referenceEl() {
                 if (!this.p_mounted) return
                 return !this.reference ? null : (this.reference.$el || this.reference)
             },
         },
-        async mounted() {
-            window.addEventListener('click', this.p_clickWindow)
-        },
         methods: {
             async show() {
-                if (!this.p_popper) this.p_initPopper()
+                if (!this.p_init) {
+                    this.p_init = true
+                    await this.$plain.nextTick()
+                }
+                if (!this.p_popper) this.init()
                 this.p_value = true
                 await this.$plain.nextTick()
                 this.p_popper.update()
-                this.$refs.scroll.refreshSize()
                 this.p_zIndex = this.$plain.getZIndex()
+                this.$emit('show')
                 !!this.onShow && this.onShow()
                 this.pl_event()
             },
             async hide() {
                 this.p_value = false
                 await this.$plain.nextTick()
+                this.$emit('hide')
                 !!this.onHide && this.onHide()
                 this.pl_event()
             },
@@ -129,16 +132,12 @@
                 return this.p_value ? (await this.hide()) : (await this.show())
             },
             reload() {
-                this.p_initPopper()
+                this.init()
             },
-            p_refresh() {
-                let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
-                this.p_direction = placement[0];
-                this.p_align = placement[1];
-            },
-            p_initPopper() {
-                !!this.p_popper && (this.p_destroyPopper())
-                this.p_popper = new Popper(this.referenceEl, this.$el, {
+            init() {
+                if (!this.p_init) return
+                this.destroy()
+                this.p_popper = new Popper(this.referenceEl, this.$refs.popper, {
                     placement: `${this.p_direction}-${this.p_align}`,
                     modifiers: {
                         offset: {offset: `0,${this.offset == null ? this.arrow ? 10 : '0' : this.offset}`,},
@@ -148,10 +147,19 @@
                     onUpdate: () => this.p_refresh(),
                     onCreate: () => this.p_refresh(),
                 })
+                window.addEventListener('click', this.p_clickWindow)
             },
-            p_destroyPopper() {
-                this.p_popper.destroy()
-                this.p_popper = null
+            destroy() {
+                if (!!this.p_popper) {
+                    this.p_popper.destroy()
+                    this.p_popper = null
+                }
+                window.removeEventListener('click', this.p_clickWindow)
+            },
+            p_refresh() {
+                let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
+                this.p_direction = placement[0];
+                this.p_align = placement[1];
             },
             pl_event() {
                 setTimeout(() => {
@@ -172,12 +180,138 @@
             },
         },
         beforeDestroy() {
-            window.removeEventListener('click', this.p_clickWindow)
+            this.destroy()
         },
     }
 </script>
 
 <style lang="scss">
+
+    $popper-arrow-size: 6px;
+    $popper-back-ground: white;
+    $popper-scale-animates: (
+            top-start:(
+                    transform-origin:bottom left,
+                    active-transform:scaleY(1),
+                    inactive-transform:scaleY(0),
+                    direction:'bottom',
+                    align:'left',
+                    alignValue:16px,
+                    zeroWidth:'border-bottom-width',
+                    borderColor:'border-top-color',
+            ),
+            top-center:(
+                    transform-origin:bottom center,
+                    active-transform:scaleY(1),
+                    inactive-transform:scaleY(0),
+                    direction:'bottom',
+                    align:'left',
+                    alignValue:calc(50% - #{$popper-arrow-size/2}),
+                    zeroWidth:'border-bottom-width',
+                    borderColor:'border-top-color',
+            ),
+            top-end:(
+                    transform-origin:bottom right,
+                    active-transform:scaleY(1),
+                    inactive-transform:scaleY(0),
+                    direction:'bottom',
+                    align:'right',
+                    alignValue:16px,
+                    zeroWidth:'border-bottom-width',
+                    borderColor:'border-top-color',
+            ),
+            bottom-start:(
+                    transform-origin:top left,
+                    active-transform:scaleY(1),
+                    inactive-transform:scaleY(0),
+                    direction:'top',
+                    align:'left',
+                    alignValue:16px,
+                    zeroWidth:'border-top-width',
+                    borderColor:'border-bottom-color',
+            ),
+            bottom-center:(
+                    transform-origin:top center,
+                    active-transform:scaleY(1),
+                    inactive-transform:scaleY(0),
+                    direction:'top',
+                    align:'left',
+                    alignValue:calc(50% - #{$popper-arrow-size/2}),
+                    zeroWidth:'border-top-width',
+                    borderColor:'border-bottom-color',
+            ),
+            bottom-end:(
+                    transform-origin:top right,
+                    active-transform:scaleY(1),
+                    inactive-transform:scaleY(0),
+                    direction:'top',
+                    align:'right',
+                    alignValue:16px,
+                    zeroWidth:'border-top-width',
+                    borderColor:'border-bottom-color',
+            ),
+            left-start:(
+                    transform-origin:right top,
+                    active-transform:scaleX(1),
+                    inactive-transform:scaleX(0),
+                    direction:'right',
+                    align:'top',
+                    alignValue:16px,
+                    zeroWidth:'border-right-width',
+                    borderColor:'border-left-color',
+            ),
+            left-center:(
+                    transform-origin:right center,
+                    active-transform:scaleX(1),
+                    inactive-transform:scaleX(0),
+                    direction:'right',
+                    align:'top',
+                    alignValue:calc(50% - #{$popper-arrow-size/2}),
+                    zeroWidth:'border-right-width',
+                    borderColor:'border-left-color',
+            ),
+            left-end:(
+                    transform-origin:right bottom,
+                    active-transform:scaleX(1),
+                    inactive-transform:scaleX(0),
+                    direction:'right',
+                    align:'bottom',
+                    alignValue:16px,
+                    zeroWidth:'border-right-width',
+                    borderColor:'border-left-color',
+            ),
+            right-start:(
+                    transform-origin:left top,
+                    active-transform:scaleX(1),
+                    inactive-transform:scaleX(0),
+                    direction:'left',
+                    align:'top',
+                    alignValue:16px,
+                    zeroWidth:'border-left-width',
+                    borderColor:'border-right-color',
+            ),
+            right-center:(
+                    transform-origin:left center,
+                    active-transform:scaleX(1),
+                    inactive-transform:scaleX(0),
+                    direction:'left',
+                    align:'top',
+                    alignValue:calc(50% - #{$popper-arrow-size/2}),
+                    zeroWidth:'border-left-width',
+                    borderColor:'border-right-color',
+            ),
+            right-end:(
+                    transform-origin:left bottom,
+                    active-transform:scaleX(1),
+                    inactive-transform:scaleX(0),
+                    direction:'left',
+                    align:'bottom',
+                    alignValue:16px,
+                    zeroWidth:'border-left-width',
+                    borderColor:'border-right-color',
+            ),
+    );
+
     .pl-popper {
         position: relative;
         box-sizing: border-box;
@@ -185,136 +319,11 @@
         transition-property: transform, opacity;
         border-radius: 4px;
         z-index: 99999;
-
-        $popper-arrow-size: 6px;
-        $popper-back-ground: white;
-
-        $popper-scale-animates: (
-                top-start:(
-                        transform-origin:bottom left,
-                        active-transform:scaleY(1),
-                        inactive-transform:scaleY(0),
-                        direction:'bottom',
-                        align:'left',
-                        alignValue:16px,
-                        zeroWidth:'border-bottom-width',
-                        borderColor:'border-top-color',
-                ),
-                top-center:(
-                        transform-origin:bottom center,
-                        active-transform:scaleY(1),
-                        inactive-transform:scaleY(0),
-                        direction:'bottom',
-                        align:'left',
-                        alignValue:calc(50% - #{$popper-arrow-size/2}),
-                        zeroWidth:'border-bottom-width',
-                        borderColor:'border-top-color',
-                ),
-                top-end:(
-                        transform-origin:bottom right,
-                        active-transform:scaleY(1),
-                        inactive-transform:scaleY(0),
-                        direction:'bottom',
-                        align:'right',
-                        alignValue:16px,
-                        zeroWidth:'border-bottom-width',
-                        borderColor:'border-top-color',
-                ),
-                bottom-start:(
-                        transform-origin:top left,
-                        active-transform:scaleY(1),
-                        inactive-transform:scaleY(0),
-                        direction:'top',
-                        align:'left',
-                        alignValue:16px,
-                        zeroWidth:'border-top-width',
-                        borderColor:'border-bottom-color',
-                ),
-                bottom-center:(
-                        transform-origin:top center,
-                        active-transform:scaleY(1),
-                        inactive-transform:scaleY(0),
-                        direction:'top',
-                        align:'left',
-                        alignValue:calc(50% - #{$popper-arrow-size/2}),
-                        zeroWidth:'border-top-width',
-                        borderColor:'border-bottom-color',
-                ),
-                bottom-end:(
-                        transform-origin:top right,
-                        active-transform:scaleY(1),
-                        inactive-transform:scaleY(0),
-                        direction:'top',
-                        align:'right',
-                        alignValue:16px,
-                        zeroWidth:'border-top-width',
-                        borderColor:'border-bottom-color',
-                ),
-                left-start:(
-                        transform-origin:right top,
-                        active-transform:scaleX(1),
-                        inactive-transform:scaleX(0),
-                        direction:'right',
-                        align:'top',
-                        alignValue:16px,
-                        zeroWidth:'border-right-width',
-                        borderColor:'border-left-color',
-                ),
-                left-center:(
-                        transform-origin:right center,
-                        active-transform:scaleX(1),
-                        inactive-transform:scaleX(0),
-                        direction:'right',
-                        align:'top',
-                        alignValue:calc(50% - #{$popper-arrow-size/2}),
-                        zeroWidth:'border-right-width',
-                        borderColor:'border-left-color',
-                ),
-                left-end:(
-                        transform-origin:right bottom,
-                        active-transform:scaleX(1),
-                        inactive-transform:scaleX(0),
-                        direction:'right',
-                        align:'bottom',
-                        alignValue:16px,
-                        zeroWidth:'border-right-width',
-                        borderColor:'border-left-color',
-                ),
-                right-start:(
-                        transform-origin:left top,
-                        active-transform:scaleX(1),
-                        inactive-transform:scaleX(0),
-                        direction:'left',
-                        align:'top',
-                        alignValue:16px,
-                        zeroWidth:'border-left-width',
-                        borderColor:'border-right-color',
-                ),
-                right-center:(
-                        transform-origin:left center,
-                        active-transform:scaleX(1),
-                        inactive-transform:scaleX(0),
-                        direction:'left',
-                        align:'top',
-                        alignValue:calc(50% - #{$popper-arrow-size/2}),
-                        zeroWidth:'border-left-width',
-                        borderColor:'border-right-color',
-                ),
-                right-end:(
-                        transform-origin:left bottom,
-                        active-transform:scaleX(1),
-                        inactive-transform:scaleX(0),
-                        direction:'left',
-                        align:'bottom',
-                        alignValue:16px,
-                        zeroWidth:'border-left-width',
-                        borderColor:'border-right-color',
-                ),
-        );
+        word-break: break-word;
+        background-color: $popper-back-ground;
 
         @each $key, $type in $popper-scale-animates {
             $type-object: map_get($popper-scale-animates, $key);
-            background-color: $popper-back-ground;
             &.pl-popper-#{$key} {
                 box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
                 border: 1px solid #e4e7ed;

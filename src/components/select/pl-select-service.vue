@@ -1,5 +1,5 @@
 <template>
-    <pl-popper ref="popper" @open="pl_open" @close="pl_close" v-bind="option.popper" :reference="option.reference" class="pl-select-service">
+    <pl-popover ref="popover" @show="pl_open" @close="pl_close" v-bind="popoverBinding" :reference="option.reference" class="pl-select-service">
         <div class="pl-select-service">
             <div class="pl-select-service-item"
                  v-for="(item,index) in option.data"
@@ -14,19 +14,19 @@
                 </div>
             </div>
         </div>
-    </pl-popper>
+    </pl-popover>
 </template>
 
 <script>
     import PlInput from "../pl-input";
     import PlRenderFunc from "../render/pl-render-func";
     import PlScopeSlot from "../render/pl-scope-slot";
-    import PlPopper from "../popper/pl-popper";
+    import PlPopover from "../popper/pl-popover";
 
     const defaultOption = {
         reference: null,
         data: [],
-        popper: null,
+        popover: null,
         labelKey: null,
         valueKey: null,
         autoFocus: true,
@@ -38,10 +38,10 @@
 
     export default {
         name: "pl-select-service",
-        components: {PlPopper, PlScopeSlot, PlRenderFunc, PlInput},
+        components: {PlPopover, PlScopeSlot, PlRenderFunc, PlInput},
         data() {
             return {
-                popper: null,
+                popover: null,
                 isOpen: false,
                 hoverIndex: 0,
 
@@ -58,7 +58,7 @@
                         this.confirm()
                     },
                     'esc': () => {
-                        !!this.popper && this.popper.hide()
+                        !!this.popover && this.popover.hide()
                     },
                     'up': () => {
                         this.prev()
@@ -69,8 +69,16 @@
                 }
             }
         },
+        computed: {
+            popoverBinding() {
+                return {
+                    popper: this.option.popper,
+                    popover: this.option.popover,
+                }
+            },
+        },
         mounted() {
-            this.popper = this.$refs.popper
+            this.popover = this.$refs.popover
         },
         methods: {
             async select(option) {
@@ -78,12 +86,12 @@
                     this.hoverIndex = 0
                     this.option = Object.assign({}, defaultOption, option)
                     await this.$plain.nextTick()
-                    this.popper.show()
+                    this.popover.show()
                     this.rs = rs
                 })
             },
             hide() {
-                this.popper.hide()
+                this.popover.hide()
             },
             confirm() {
                 this.pl_click(this.option.data[this.hoverIndex])
@@ -92,33 +100,33 @@
                 if (this.hoverIndex < (this.option.data.length - 1)) {
                     this.hoverIndex++
                     const item = this.$refs.items[this.hoverIndex]
-                    const wrapper = this.popper.$refs.scroll.$refs.wrapper
+                    const wrapper = this.popover.$refs.scroll.$refs.wrapper
                     const scrollTop = item.offsetTop + item.offsetHeight - wrapper.offsetHeight
                     if (scrollTop > 0 && scrollTop > wrapper.scrollTop) {
-                        this.popper.$refs.scroll.scrollTop(scrollTop, 25)
+                        this.popover.$refs.scroll.scrollTop(scrollTop, 25)
                     }
                 } else {
                     this.hoverIndex = 0
-                    this.popper.$refs.scroll.scrollTop(0, 25)
+                    this.popover.$refs.scroll.scrollTop(0, 25)
                 }
             },
             prev() {
                 if (this.hoverIndex > 0) {
                     this.hoverIndex--
                     const item = this.$refs.items[this.hoverIndex]
-                    const wrapper = this.popper.$refs.scroll.$refs.wrapper
+                    const wrapper = this.popover.$refs.scroll.$refs.wrapper
                     if (wrapper.scrollTop > item.offsetTop) {
-                        this.popper.$refs.scroll.scrollTop(item.offsetTop, 25)
+                        this.popover.$refs.scroll.scrollTop(item.offsetTop, 25)
                     }
                 } else {
                     this.hoverIndex = this.option.data.length - 1
-                    this.popper.$refs.scroll.scrollTop(this.$refs.items[this.$refs.items.length - 1].offsetTop, 25)
+                    this.popover.$refs.scroll.scrollTop(this.$refs.items[this.$refs.items.length - 1].offsetTop, 25)
                 }
             },
             pl_click(item) {
                 if (!item) return
                 !!this.rs && this.rs(item)
-                !!this.option.autoClose && this.popper.hide()
+                !!this.option.autoClose && this.popover.hide()
                 !!this.option.onConfirm && this.option.onConfirm(item)
             },
             pl_open() {

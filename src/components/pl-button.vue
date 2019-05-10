@@ -1,5 +1,6 @@
 <template>
     <button class="pl-button"
+            :type="buttonType"
             :class="classes"
             :readonly="p_readonly || loading"
             :disabled="p_disabled"
@@ -38,6 +39,7 @@
             long: {type: Boolean,},                                         //长按钮
             noPadding: {type: Boolean},                                     //左右边距
             textAlign: {type: String, default: 'center'},
+            buttonType: {type: String, default: 'button'},
         },
         computed: {
             classes() {

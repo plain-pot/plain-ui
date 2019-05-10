@@ -72,6 +72,23 @@ export const EditMixin = {
     },
 }
 
+export const SimpleEditMixin = {
+    props: {
+        disabled: {type: Boolean, default: null},                       //是否禁用
+        readonly: {type: Boolean, default: null},                       //是否只读
+        required: {type: Boolean, default: null},                       //是否必输
+    },
+    computed: {
+        simpleBinding() {
+            return {
+                readonly: this.readonly,
+                disabled: this.disabled,
+                required: this.required,
+            }
+        },
+    },
+}
+
 export const MountedMixin = {
     data() {
         return {
@@ -80,9 +97,11 @@ export const MountedMixin = {
     },
     mounted() {
         this.p_mounted = true
+        this.$emit('mounted', this)
     },
     beforeDestroy() {
         this.p_mounted = false
+        this.$emit('destroyed', this)
     },
 }
 

@@ -18,7 +18,11 @@
 @import "./component/collapse";
 @import "./component/carousel";
 @import "./component/card";
+@import "./component/notice";
+@import "./component/cascade";
+@import "./component/popover";
 @import "./component/tooltip";
+
 
 @mixin component-mixin {
   @include component-icon;
@@ -41,5 +45,10 @@
   @include component-collapse;
   @include component-carousel;
   @include component-card;
+  @include component-notice;
+  @include component-cascade;
+  @include component-popover;
   @include component-tooltip;
+
+
 }
