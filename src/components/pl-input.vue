@@ -24,9 +24,13 @@
                     @keydown.right="e=>$emit('right',e)"
                     @keydown.tab="pl_tab"
             >
-            <pl-loading v-if="!this.p_readonly&&!this.p_disabled&&(loading || timerWait || timerHandler)" class="pl-input-loading"/>
-            <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click.stop="pl_clear"/>
-            <pl-icon :icon="icon" v-else-if="!!icon" class="pl-input-icon"/>
+            <div class="pl-input-controller">
+                <pl-loading v-if="!this.p_readonly&&!this.p_disabled&&(loading || timerWait || timerHandler)" class="pl-input-loading"/>
+                <pl-icon icon="pad-close-circle-fill" class="pl-input-close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click.stop="pl_clear"/>
+                <slot name="icon" v-else-if="!!icon || !!$slots.icon">
+                    <pl-icon :icon="icon" class="pl-input-icon"/>
+                </slot>
+            </div>
         </div>
         <slot name="append"></slot>
         <pl-edit-control v-bind="editBinding" v-on="editListening" :value="p_value"/>

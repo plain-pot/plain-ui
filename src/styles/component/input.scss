@@ -74,15 +74,20 @@
       flex: 1;
       position: relative;
 
-      .pl-input-close, .pl-input-loading, .pl-input-icon {
+      .pl-input-controller {
         position: absolute;
-        right: 1px;
+        right: 0;
         top: 0;
         bottom: 0;
+        width: plVar(iconSize);
         display: flex;
         align-items: center;
         cursor: pointer;
         background-color: transparent;
+
+        & > * {
+          background-color: white;
+        }
       }
     }
 
