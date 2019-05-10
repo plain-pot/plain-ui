@@ -13,7 +13,7 @@ const option = {
     outputDir: $utils.resolve('page'),
     productionSourceMap: !isProduction,
     devServer: {
-        port: '8888',
+        port: '7555',
     },
     pages: {
         index: {
