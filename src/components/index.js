@@ -31,6 +31,7 @@ import cardHeader from './card/pl-card-header'
 import cardContent from './card/pl-card-content'
 import cascade from './cascade/pl-cascade'
 import tooltip from './tooltip/pl-tooltip'
+import number from './pl-number'
 
 const components = {
     icon,
@@ -64,6 +65,7 @@ const components = {
     cardContent,
     tooltip,
     cascade,
+    number,
 }
 
 export function getComponents(prefix = 'pl') {

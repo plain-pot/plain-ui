@@ -1,0 +1,48 @@
+@mixin component-number {
+  .pl-number {
+    .pl-number-controller {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      cursor: pointer;
+      width: plVar(iconSize);
+      user-select: none;
+
+      position: absolute;
+      right: plVar(paddingSmall);
+      top: 0;
+
+      .pl-icon:active {
+        background-color: #f2f2f2;
+      }
+
+      .pl-icon:not(:last-child) {
+        margin-bottom: 1px;
+      }
+
+      .pl-number-icon-up, .pl-number-icon-down {
+        position: relative;
+      }
+
+      .pl-number-icon-up {
+        top: 3px;
+      }
+
+      .pl-number-icon-down {
+        bottom: 3px;
+      }
+    }
+
+    @include plSizes {
+      &.pl-size-#{$key} {
+        .pl-number-controller {
+          font-size: $value/3.5;
+          transform: scale(0.7);
+        }
+      }
+    }
+  }
+
+}

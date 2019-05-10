@@ -22,6 +22,7 @@
 @import "./component/cascade";
 @import "./component/popover";
 @import "./component/tooltip";
+@import "./component/number";
 
 
 @mixin component-mixin {
@@ -49,6 +50,7 @@
   @include component-cascade;
   @include component-popover;
   @include component-tooltip;
+  @include component-number;
 
 
 }
