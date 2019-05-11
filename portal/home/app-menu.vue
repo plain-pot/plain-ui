@@ -75,7 +75,7 @@
                             {title: 'Timer时间选择', icon: 'pl-time-circle-light', page: '/normal/demo-time', complete: false},
                             {title: 'Date日期选择', icon: 'pl-date-fill', page: '/normal/demo-date', complete: false},
                             {title: 'Rate评分', icon: 'pad-star', page: '/normal/demo-rate', complete: true},
-                            {title: 'ColorPicker颜色选择', icon: 'pl-color', page: '/normal/demo-color-picker', complete: false},
+                            {title: 'ColorPicker颜色选择', icon: 'pl-color', page: '/normal/demo-color-picker', complete: true},
                             {title: 'Transform穿梭框', icon: 'pl-exchange', page: '/normal/demo-icon', complete: false},
                             {title: 'Form表单', icon: 'pl-form', page: '/normal/demo-form', complete: true},
                         ],
