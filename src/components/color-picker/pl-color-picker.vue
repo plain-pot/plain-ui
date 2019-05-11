@@ -6,7 +6,8 @@
             v-bind="inputBinding"
             keyboard
             @enter="e => p_value = e.target.value"
-            @clear="pl_clear">
+            @clear="pl_clear"
+            @click="pl_click">
         <pl-popover
                 ref="popover"
                 slot="prepend"
