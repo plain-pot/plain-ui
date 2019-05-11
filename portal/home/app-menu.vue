@@ -88,7 +88,7 @@
                             {title: 'Progress进度条', icon: 'pl-progress', page: '/normal/demo-progress', complete: false},
                             {title: 'Tree树形组件', icon: 'pl-tree', page: '/normal/demo-tree', complete: false},
                             {title: 'Pagination分页', icon: 'pl-book2', page: '/normal/demo-page-bar', complete: false},
-                            {title: 'Badge标记', icon: 'pl-badge', page: '/normal/demo-badge', complete: false},
+                            {title: 'Badge标记', icon: 'pl-badge', page: '/normal/demo-badge', complete: true},
                             {title: 'ScrollOption滚动选择', icon: 'icon-scroll', page: '/normal/demo-scroll-option', complete: true},
                             {title: 'Mavon编辑器', icon: 'icon-code', page: '/normal/demo-mavon', complete: false},
                             {title: 'Steps步骤条', icon: 'pl-step', page: '/normal/demo-step', complete: false},
