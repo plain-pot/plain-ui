@@ -22,13 +22,13 @@
 <script>
     import PlTimePanel from "./pl-time-panel";
     import PlInput from "../pl-input";
-    import {MountedMixin, ValueMixin} from "../../mixin/component-mixin";
+    import {MountedMixin, SimpleEditMixin, ValueMixin} from "../../mixin/component-mixin";
     import PlPopper from "../popper/pl-popper";
 
     export default {
         name: "pl-time",
         components: {PlPopper, PlInput, PlTimePanel},
-        mixins: [MountedMixin, ValueMixin],
+        mixins: [MountedMixin, ValueMixin, SimpleEditMixin],
         props: {
             max: {type: String},                                                    //最大值
             min: {type: String},                                                    //最小值
@@ -42,7 +42,7 @@
             inputBinding() {
                 return Object.assign({
                     inputReadonly: true,
-                }, this.input)
+                }, this.simpleBinding, this.input)
             },
             popperBinding() {
                 return {

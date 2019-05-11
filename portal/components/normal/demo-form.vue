@@ -101,6 +101,9 @@
                     <im-form-item label="颜色选择器">
                         <im-color-picker required/>
                     </im-form-item>
+                    <im-form-item label="时间选择器">
+                        <im-time required/>
+                    </im-form-item>
 
                 </im-form-column>
             </im-form>
