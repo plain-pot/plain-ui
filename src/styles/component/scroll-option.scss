@@ -1,16 +1,18 @@
-@mixin component-scroll-option{
+@mixin component-scroll-option {
   .pl-scroll-option {
     @include public-style;
     height: 100%;
     overflow: hidden;
     position: relative;
     display: inline-block;
+
     .pl-scroll-option-wrapper {
       width: calc(100% + 17px);
       height: 100%;
       overflow-y: scroll;
       position: absolute;
       top: 0;
+
       .pl-scroll-option-item {
         width: 100%;
         display: flex;
@@ -31,32 +33,40 @@
         &:hover {
           color: black;
         }
+
         &.pl-scroll-option-item-disabled {
           color: #ddd;
         }
+
         &.pl-scroll-option-item-active {
           color: black;
         }
       }
     }
+
     &.pl-scroll-option-shadow {
       .pl-scroll-option-shadow-top {
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.025), transparent);
       }
+
       .pl-scroll-option-shadow-bottom {
         background: linear-gradient(to top, rgba(0, 0, 0, 0.025), transparent);
       }
     }
+
     .pl-scroll-option-shadow-top, .pl-scroll-option-shadow-bottom {
       position: absolute;
       left: 0;
       right: 0;
-      z-index: -1;
+      pointer-events: none;
+      z-index: 1;
     }
+
     .pl-scroll-option-shadow-top {
       top: 0;
       border-bottom: solid #f2f2f2 1px;
     }
+
     .pl-scroll-option-shadow-bottom {
       bottom: 0;
       border-top: solid #f2f2f2 1px;
