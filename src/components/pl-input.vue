@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-input" :class="classes" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave" :style="{width:width}">
+    <div class="pl-input" :class="classes" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave" :style="{width:$plain.$utils.unit(width)}">
         <slot name="prepend"></slot>
         <div class="pl-input-inner">
             <input
@@ -51,7 +51,7 @@
             value: {},
             icon: {type: String},
             long: {type: Boolean},
-            width: {type: String, default: '200px'},
+            width: {default: '200px'},
             loading: {type: Boolean},
 
             type: {type: String, default: 'line'},

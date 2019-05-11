@@ -34,6 +34,7 @@ import tooltip from './tooltip/pl-tooltip'
 import number from './pl-number'
 import slider from './pl-slider'
 import rate from './pl-rate'
+import colorPicker from './color-picker/pl-color-picker'
 
 const components = {
     icon,
@@ -70,6 +71,7 @@ const components = {
     number,
     slider,
     rate,
+    colorPicker,
 }
 
 export function getComponents(prefix = 'pl') {
