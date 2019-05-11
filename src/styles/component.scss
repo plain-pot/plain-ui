@@ -28,6 +28,7 @@
 @import "./component/color-picker";
 @import "./component/scroll-option";
 @import "./component/badge";
+@import "./component/time";
 
 
 @mixin component-mixin {
@@ -61,6 +62,7 @@
   @include component-color-picker;
   @include component-scroll-option;
   @include component-badge;
+  @include component-time;
 
 
 }
