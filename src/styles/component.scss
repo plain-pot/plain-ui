@@ -27,6 +27,7 @@
 @import "./component/rate";
 @import "./component/color-picker";
 @import "./component/scroll-option";
+@import "./component/badge";
 
 
 @mixin component-mixin {
@@ -59,6 +60,7 @@
   @include component-rate;
   @include component-color-picker;
   @include component-scroll-option;
+  @include component-badge;
 
 
 }

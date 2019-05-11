@@ -36,6 +36,7 @@ import slider from './pl-slider'
 import rate from './pl-rate'
 import colorPicker from './color-picker/pl-color-picker'
 import scrollOption from './scroll-option/pl-scroll-option'
+import badge from './pl-badge'
 
 const components = {
     icon,
@@ -74,6 +75,7 @@ const components = {
     rate,
     colorPicker,
     scrollOption,
+    badge,
 }
 
 export function getComponents(prefix = 'pl') {
