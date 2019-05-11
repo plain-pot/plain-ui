@@ -42,7 +42,6 @@
         computed: {
             popoverBinding() {
                 return {
-                    arrow: true,
                     disabledEqual: true,
                     width: 250,
                     height: this.enableAlpha ? 358 : 342,
