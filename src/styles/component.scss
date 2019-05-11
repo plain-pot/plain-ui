@@ -26,6 +26,7 @@
 @import "./component/slider";
 @import "./component/rate";
 @import "./component/color-picker";
+@import "./component/scroll-option";
 
 
 @mixin component-mixin {
@@ -57,6 +58,7 @@
   @include component-slider;
   @include component-rate;
   @include component-color-picker;
+  @include component-scroll-option;
 
 
 }
