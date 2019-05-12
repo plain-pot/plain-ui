@@ -6,6 +6,7 @@
   .pl-time-panel {
     @include public-style;
     display: inline-block;
+    width: 100%;
 
     .pl-time-panel-label-wrapper {
       height: 40px;
