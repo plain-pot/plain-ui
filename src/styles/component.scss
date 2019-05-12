@@ -29,6 +29,7 @@
 @import "./component/scroll-option";
 @import "./component/badge";
 @import "./component/time";
+@import "./component/date";
 
 
 @mixin component-mixin {
@@ -63,6 +64,7 @@
   @include component-scroll-option;
   @include component-badge;
   @include component-time;
+  @include component-date;
 
 
 }

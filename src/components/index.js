@@ -38,6 +38,7 @@ import colorPicker from './color-picker/pl-color-picker'
 import scrollOption from './scroll-option/pl-scroll-option'
 import badge from './pl-badge'
 import time from './time/pl-time'
+import date from './date/pl-date'
 
 const components = {
     icon,
@@ -78,6 +79,7 @@ const components = {
     scrollOption,
     badge,
     time,
+    date,
 }
 
 export function getComponents(prefix = 'pl') {
