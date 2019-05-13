@@ -117,6 +117,9 @@
                             <im-radio v-for="(item) in ['北京','上海','广州','南京']" :key="item" :id="item" :label="item"/>
                         </im-radio-group>
                     </im-form-item>
+                    <im-form-item label="开关">
+                        <im-toggle/>
+                    </im-form-item>
 
 
                 </im-form-column>
