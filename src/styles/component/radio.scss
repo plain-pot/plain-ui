@@ -25,15 +25,7 @@
       &.pl-radio-color-#{$key} {
         color: $value;
         &:focus, &:active {
-          .pl-radio-icon-wrapper {
-            .pl-radio-icon {
-              &:before {
-                position: absolute;
-                content: '';
-                box-shadow: 0 0 4px 2px $value;
-              }
-            }
-          }
+          color: $colorDeep;
         }
       }
     }
@@ -47,22 +39,6 @@
           font-size: $value/2;
           margin-left: 0.25em;
           color: plVar(colorContent);
-        }
-
-        &:focus, &:active {
-          .pl-radio-icon-wrapper {
-            .pl-radio-icon {
-              &:before {
-                position: absolute;
-                content: '';
-                top: 2*$value/28+1;
-                bottom: 2*$value/28+1;
-                left: 2*$value/28+1;
-                right: 2*$value/28+1;
-                box-shadow: 0 0 3px 1px $value;
-              }
-            }
-          }
         }
       }
     }
