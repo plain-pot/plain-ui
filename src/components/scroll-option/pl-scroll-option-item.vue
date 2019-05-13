@@ -1,6 +1,6 @@
 <template>
     <div class="pl-scroll-option-item"
-         @click="!disabled && $emit('click')"
+         @click.stop="!disabled && $emit('click')"
          :style="styles"
          :class="{
             'pl-scroll-option-item-disabled':disabled,

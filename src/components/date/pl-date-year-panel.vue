@@ -3,7 +3,8 @@
         <pl-scroll ref="scrollbar"
                    fit-host-width
                    @vertical-scroll-top="p_addPreviousYears"
-                   @vertical-scroll-bottom="p_addNextYears">
+                   @vertical-scroll-bottom="p_addNextYears"
+                   :scrollbar-size="6">
             <div class="pl-date-year-panel-content">
                 <div class="pl-date-year-panel-item-wrapper" v-for="(item,index) in list" :key="index">
                     <div class="pl-date-year-panel-item"
