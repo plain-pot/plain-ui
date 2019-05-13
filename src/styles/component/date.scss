@@ -186,7 +186,7 @@ $dateInnerItemSize: 26px;
     display: inline-block;
     .pl-date-panel-body {
       width: $dateItemSize*7+16px;
-      height: $dateItemSize*7+16px+6*6;
+      height: $dateItemSize*7+6*6;
     }
   }
 
