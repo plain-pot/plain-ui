@@ -108,6 +108,11 @@
       &, & input {
         cursor: not-allowed;
       }
+      .pl-input-controller{
+        & > * {
+          background-color: transparent !important;
+        }
+      }
     }
 
     &.pl-input-readonly {

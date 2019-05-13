@@ -6,7 +6,7 @@
             @clear="p_clear"
             class="pl-cascade"
             :class="{'pl-cascade-show':isShow}"
-            v-bind="simpleBinding"
+            v-bind="inputBinding"
             @click="pl_click">
         <pl-popper ref="popper"
                    slot="prepend"
@@ -61,6 +61,7 @@
         mixins: [CascadeMixin, SimpleEditMixin],
         props: {
             value: {type: Array, default: () => []},                                //双向绑定的数据
+            input: {},
         },
         data() {
             return {
@@ -79,6 +80,11 @@
                 } else {
                     return array[array.length - 1][this.labelKey]
                 }
+            },
+            inputBinding() {
+                return Object.assign({}, {
+                    inputReadonly: true,
+                }, this.simpleBinding, this.input)
             },
         },
         mounted() {

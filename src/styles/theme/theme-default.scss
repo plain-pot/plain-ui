@@ -2,7 +2,7 @@
 $theme-default: (
                 colorPrimary: #3E97EC,                                          //颜色：基本
                 colorPrimaryLight: #dff3ff,                                     //颜色：基本轻
-                colorPrimaryDeep: #4F81B1,                                      //颜色：基本重
+                colorPrimaryDeep: #2c6fb1,                                      //颜色：基本重
                 colorPrimaryLighter: #eff8ff,                                   //颜色：基本更轻
                 colorSuccess: #42E67F,                                          //颜色：成功
                 colorSuccessLight: #93F3B7,                                     //颜色：成功轻
@@ -13,13 +13,13 @@ $theme-default: (
                 colorWarnLighter: #F4E692,                                        //颜色：警告轻
                 colorWarnDeep: #AFA14F,                                         //颜色：警告重
                 colorError: #FF6235,                                            //颜色：错误
-                colorErrorLight: #FFA990,                                       //颜色：错误轻
-                colorErrorLighter: #FFA990,                                       //颜色：错误轻
+                colorErrorLight: #ffdfdc,                                       //颜色：错误轻
+                colorErrorLighter: #ffedef,                                       //颜色：错误轻
                 colorErrorDeep: #BF674D,                                        //颜色：错误重
-                colorInfo: #929292,                                             //颜色：提示
-                colorInfoLight: #C8C8C8,                                        //颜色：提示轻
-                colorInfoLighter: #C8C8C8,                                        //颜色：提示轻
-                colorInfoDeep: #6D6D6D,                                         //颜色：提示重
+                colorInfo: #dcdfe4,                                             //颜色：提示
+                colorInfoLight: #e7eaef,                                        //颜色：提示轻
+                colorInfoLighter: #f1f4f9,                                        //颜色：提示轻
+                colorInfoDeep: #A7A8AB,                                         //颜色：提示重
                 colorDisabled: #d2d2d2,                                         //颜色：禁用
                 colorDisabledLight: #f2f2f2,                                    //颜色：禁用轻
                 colorDisabledLighter: white,                                    //颜色：禁用轻
@@ -35,6 +35,7 @@ $theme-default: (
                 colorTitle:black,                                               //标题颜色
                 colorSubTitle:#606060,                                               //标题颜色
                 colorContent:#888,                                              //文字色
+                colorContentSub:#aaa,                                              //文字色
                 colorBorder:#e2e2e2,                                              //文字色
 
                 boxShadow:0 2px 12px 0 rgba(0, 0, 0, .1),                          //阴影

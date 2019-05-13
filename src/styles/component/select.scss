@@ -5,9 +5,14 @@
     transform: rotate(0);
   }
   .pl-select {
+    .pl-input-icon {
+      transition: initial !important;
+      transform: scale(0.8);
+    }
+
     &.pl-select-open {
-      .pl-icon.pl-input-icon {
-        transform: rotate(180deg);
+      .pl-input-icon {
+        transform: scale(0.8) rotate(180deg);
       }
     }
   }
@@ -29,8 +34,9 @@
       color: plVar(colorPrimaryDeep);
     }
 
-    .pl-select-item-content{
+    .pl-select-item-content {
       flex: 1;
+
       .pl-scope-slot, .pl-render-func {
         display: block;
         flex: 1;

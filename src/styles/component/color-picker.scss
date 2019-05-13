@@ -1,0 +1,161 @@
+@mixin component-color-picker {
+  .pl-color-picker {
+    padding-right: 0;
+
+    .pl-color {
+      height: 100% !important;
+
+      .pl-icon {
+        color: white;
+      }
+    }
+  }
+  .pl-color {
+    overflow: hidden;
+    background-size: 10px;
+    cursor: pointer;
+
+    .pl-color-inner {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .pl-color-alpha-slider {
+    width: 100%;
+    height: 10px;
+    position: relative;
+    cursor: pointer;
+    background-size: 10px 10px;
+
+    .pl-color-alpha-slider-shadow {
+      height: 100%;
+    }
+
+    .pl-color-alpha-slider-thumb {
+      display: inline-block;
+      height: 100%;
+      width: 8px;
+      background-color: white;
+      position: absolute;
+      top: 0;
+      border: solid 1px plVar(colorInfo);
+      box-sizing: border-box;
+    }
+  }
+  .pl-color-hue-slider {
+    background: linear-gradient(90deg, red 0, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, red);
+    width: 100%;
+    height: 10px;
+    position: relative;
+    cursor: pointer;
+
+    .pl-color-hue-slider-thumb {
+      display: inline-block;
+      height: 100%;
+      width: 8px;
+      background-color: white;
+      position: absolute;
+      top: 0;
+      border: solid 1px plVar(colorInfo);
+      box-sizing: border-box;
+    }
+  }
+  .pl-color-history {
+    @include public-style;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+
+    .pl-color-history-item {
+      $itemSize: 24px;
+      width: $itemSize;
+      height: $itemSize;
+      border-radius: $itemSize;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &.pl-color-history-current {
+        $currentItemSize: 30px;
+        width: $currentItemSize;
+        height: $currentItemSize;
+        border-radius: $currentItemSize;
+      }
+
+      &:not(last-child) {
+        margin-right: 6px;
+      }
+    }
+  }
+  .pl-color-picker-panel {
+    @include public-style;
+    display: inline-flex;
+    flex-direction: column;
+    width: 250px;
+
+    & > *:not(last-child) {
+      margin-bottom: 6px;
+    }
+
+    .pl-color-picker-panel-operate {
+      padding: 0 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .pl-button {
+        padding: 0 12px;
+        min-width: initial;
+      }
+    }
+  }
+  .pl-color-sv-picker {
+    width: 100%;
+    position: relative;
+
+    .pl-color-sv-picker-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .pl-color-sv-picker-white {
+      background: linear-gradient(to right, white, rgba(255, 255, 255, 0));
+    }
+
+    .pl-color-sv-picker-black {
+      background: linear-gradient(to top, black, rgba(255, 255, 255, 0));
+    }
+
+    .pl-color-sv-picker-thumb-panel {
+      background: transparent;
+      cursor: pointer;
+
+      .pl-color-sv-picker-thumb-wrapper {
+        width: 1px;
+        height: 1px;
+        overflow: visible;
+        background-color: black;
+        position: absolute;
+
+        .pl-color-sv-picker-thumb {
+          $thumb-size: 10px;
+          height: $thumb-size;
+          width: $thumb-size;
+          background-color: white;
+          border-radius: $thumb-size;
+          box-shadow: 0 0 2px #999;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+  .pl-color-picker-popover {
+    @include public-style;
+    display: inline-block;
+  }
+}

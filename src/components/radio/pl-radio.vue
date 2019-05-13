@@ -10,18 +10,20 @@
             </transition>
         </div>
         <span v-if="!!label" class="pl-radio-label">{{label}}</span>
+        <pl-edit-control ref="edit" v-bind="editBinding" v-on="editListening" :value="p_value"/>
     </button>
 </template>
 
 <script>
 
     import PlIcon from "../pl-icon";
-    import {ValueMixin} from "../../mixin/component-mixin";
+    import {EditMixin, ValueMixin} from "../../mixin/component-mixin";
+    import PlEditControl from "../form/pl-edit-control";
 
     export default {
         name: "pl-radio",
-        components: {PlIcon},
-        mixins: [ValueMixin],
+        components: {PlEditControl, PlIcon},
+        mixins: [ValueMixin, EditMixin],
         props: {
             value: {},                                          //当前值
             id: {},                                             //当前id，只有与radioGroup一起使用才有效
@@ -43,6 +45,7 @@
                 p_group: null,
                 p_value: this.value,
                 p_watchValue: false,
+                p_edit: null,
             }
         },
         watch: {
@@ -50,6 +53,9 @@
                 const v = !!this.p_value ? this.trueValue : this.falseValue
                 val !== v && (this.p_value = val === this.trueValue)
             },
+        },
+        created() {
+            this.p_edit = this.$refs.edit
         },
         mounted() {
             if (!!this.isCheckAllRadio) return
@@ -91,7 +97,7 @@
             },
             classes() {
                 return [
-                    `pl-radio-color-${!!this.disabled ? 'disabled' : this.p_color}`,
+                    `pl-radio-color-${!!this.p_disabled ? 'disabled' : this.p_color}`,
                     `pl-radio-size-${this.p_size}`,
                 ]
             },
@@ -104,7 +110,7 @@
         },
         methods: {
             p_click(e) {
-                if (!!this.disabled || !!this.readonly) return;
+                if (!!this.p_disabled || !!this.p_readonly) return;
                 if (!!this.p_group) {
                     if (!this.p_group.multiple) {
                         if (!!this.p_value) return

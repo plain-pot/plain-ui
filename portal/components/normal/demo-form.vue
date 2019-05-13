@@ -98,16 +98,39 @@
                     <im-form-item label="折叠组件">
                         <im-cascade :data="cascadeData" label-key="label" children-key="children" value-key="value" required/>
                     </im-form-item>
+                    <im-form-item label="颜色选择器">
+                        <im-color-picker required/>
+                    </im-form-item>
+                    <im-form-item label="时间选择器">
+                        <im-time required/>
+                    </im-form-item>
+                    <im-form-item label="日期选择器">
+                        <im-date required/>
+                    </im-form-item>
+                    <im-form-item label="复选框">
+                        <im-radio-group multiple>
+                            <im-radio v-for="(item) in ['北京','上海','广州','南京']" :key="item" :id="item" :label="item"/>
+                        </im-radio-group>
+                    </im-form-item>
+                    <im-form-item label="单选框">
+                        <im-radio-group>
+                            <im-radio v-for="(item) in ['北京','上海','广州','南京']" :key="item" :id="item" :label="item"/>
+                        </im-radio-group>
+                    </im-form-item>
+                    <im-form-item label="开关">
+                        <im-toggle/>
+                    </im-form-item>
+
 
                 </im-form-column>
             </im-form>
             <im-button-group>
                 <im-button label="校验" @click="pl_valid"/>
                 <im-button label="取消校验状态" @click="$refs.form.cancelValid()"/>
-                <im-button label="禁用" @click="$refs.form.setDisabled()"/>
-                <im-button label="取消禁用" @click="$refs.form.setDisabled(false)"/>
-                <im-button label="只读" @click="$refs.form.setReadonly()"/>
-                <im-button label="取消只读" @click="$refs.form.setReadonly(false)"/>
+                <im-button label="禁用" @click="disabled=true;$refs.form.setDisabled()" :active="disabled"/>
+                <im-button label="取消禁用" @click="disabled=false;$refs.form.setDisabled(false)" :active="!disabled"/>
+                <im-button label="只读" @click="readonly=true;$refs.form.setReadonly()" :active="readonly"/>
+                <im-button label="取消只读" @click="readonly=false;$refs.form.setReadonly(false)" :active="!readonly"/>
             </im-button-group>
         </im-demo-row>
 
@@ -154,6 +177,8 @@
             return {
                 textAlign: 'right',
                 data: [...TableData],
+                disabled: false,
+                readonly: false,
                 cascadeData: [{
                     value: 'beijing',
                     label: '北京',

@@ -1,0 +1,23 @@
+@mixin component-rate {
+  .pl-rate {
+    @include public-style;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    .pl-rate-active {
+      white-space: nowrap;
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    @include plColors {
+      &.pl-rate-color-#{$key}{
+        color: $value;
+      }
+    }
+  }
+}

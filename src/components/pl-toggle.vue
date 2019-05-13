@@ -1,16 +1,19 @@
 <template>
     <button class="pl-toggle" :class="classes" @click="p_click" @mousedown="p_mousedown" @mouseup="p_mouseup">
         <div class="pl-toggle-circle"></div>
+        <pl-edit-control v-bind="editBinding" v-on="editListening" :value="p_value"/>
     </button>
 </template>
 
 <script>
 
-    import {ValueMixin} from "../mixin/component-mixin";
+    import {EditMixin, ValueMixin} from "../mixin/component-mixin";
+    import PlEditControl from "./form/pl-edit-control";
 
     export default {
         name: "pl-toggle",
-        mixins: [ValueMixin],
+        components: {PlEditControl},
+        mixins: [ValueMixin, EditMixin],
         props: {
             size: {type: String, default: 'default'},                   //大小
             color: {type: String, default: 'primary'},                  //颜色
@@ -36,15 +39,15 @@
                     {
                         'pl-toggle-on': !!this.on,
                         'pl-toggle-active': this.p_active,
-                        'pl-toggle-readonly': this.readonly,
-                        'pl-toggle-disabled': this.disabled,
+                        'pl-toggle-readonly': this.p_readonly,
+                        'pl-toggle-disabled': this.p_disabled,
                     }
                 ]
             },
         },
         methods: {
             p_click() {
-                if (this.readonly || this.disabled) return
+                if (this.p_readonly || this.p_disabled) return
                 this.p_value = !this.on ? this.trueValue : this.falseValue
                 this.p_emitValue()
             },

@@ -82,7 +82,7 @@
     }
     &.pl-button-disabled {
       background-color: plVar(colorDisabled);
-      border: solid 1px plVar(colorDisabledDeep);
+      border: solid 1px plVar(colorDisabled);
       cursor: not-allowed;
       &:active{
         background-color: plVar(colorDisabled);

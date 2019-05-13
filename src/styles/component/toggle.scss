@@ -15,11 +15,13 @@
         height: $value;
         width: $value*52/32;
         border-radius: plVar(borderRound);
+
         &.pl-toggle-on {
           .pl-toggle-circle {
             left: $value/2+6;
           }
         }
+
         .pl-toggle-circle {
           right: $value/2+6;
           border-radius: plVar(borderRound);
@@ -86,6 +88,7 @@
         &.pl-toggle-on {
           background-color: $value;
         }
+
         &:focus {
           .pl-toggle-circle {
             background: radial-gradient(closest-corner, mix($value, white, 50%), mix($value, white, 10%), white);
@@ -93,5 +96,13 @@
         }
       }
     }
+
+    &.pl-toggle-disabled {
+      background-color: plVar(colorDisabled) !important;
+      &::before{
+        background-color: plVar(colorDisabled) !important;
+      }
+    }
   }
+
 }

@@ -52,6 +52,10 @@
             onHide: {type: Function},                                               //关闭立即执行动作
         },
         watch: {
+            value(val) {
+                if (!!val) this.show()
+                else this.hide()
+            },
             direction(val) {
                 this.p_direction = val
                 this.init()

@@ -20,7 +20,7 @@
         methods: {
             p_add(collapse) {
                 this.items.push(collapse);
-                if (!!collapse.currentValue) {
+                if (!!collapse.p_value) {
                     this.stack.push(collapse);
                 }
             },
@@ -31,7 +31,7 @@
                 if (!val) {
                     this.stack.push(collapse);
                     if (!!this.limit && this.limit > 0 && this.stack.length > this.limit) {
-                        this.stack.shift().currentValue = false;
+                        this.stack.shift().p_value = false;
                     }
                 } else {
                     this.stack.splice(this.stack.indexOf(collapse), 1);

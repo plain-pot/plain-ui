@@ -32,6 +32,13 @@ import cardContent from './card/pl-card-content'
 import cascade from './cascade/pl-cascade'
 import tooltip from './tooltip/pl-tooltip'
 import number from './pl-number'
+import slider from './pl-slider'
+import rate from './pl-rate'
+import colorPicker from './color-picker/pl-color-picker'
+import scrollOption from './scroll-option/pl-scroll-option'
+import badge from './pl-badge'
+import time from './time/pl-time'
+import date from './date/pl-date'
 
 const components = {
     icon,
@@ -66,6 +73,13 @@ const components = {
     tooltip,
     cascade,
     number,
+    slider,
+    rate,
+    colorPicker,
+    scrollOption,
+    badge,
+    time,
+    date,
 }
 
 export function getComponents(prefix = 'pl') {

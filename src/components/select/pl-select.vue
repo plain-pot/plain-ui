@@ -9,7 +9,7 @@
               :required="required"
               :placeholder="placeholder"
               :open="pl_open"
-              icon="pl-down"
+              icon="pl-triangle-down-fill"
 
               @clear="pl_clear"
               @up="!!p_select && p_select.prev()"

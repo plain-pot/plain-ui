@@ -23,6 +23,13 @@
 @import "./component/popover";
 @import "./component/tooltip";
 @import "./component/number";
+@import "./component/slider";
+@import "./component/rate";
+@import "./component/color-picker";
+@import "./component/scroll-option";
+@import "./component/badge";
+@import "./component/time";
+@import "./component/date";
 
 
 @mixin component-mixin {
@@ -51,6 +58,13 @@
   @include component-popover;
   @include component-tooltip;
   @include component-number;
+  @include component-slider;
+  @include component-rate;
+  @include component-color-picker;
+  @include component-scroll-option;
+  @include component-badge;
+  @include component-time;
+  @include component-date;
 
 
 }
