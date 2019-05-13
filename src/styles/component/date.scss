@@ -21,10 +21,11 @@ $dateInnerItemSize: 26px;
     font-size: 12px;
     box-sizing: border-box;
     display: inline-flex;
-    width: $dateItemSize*7;
+    width: $dateItemSize*7+16px;
     flex-wrap: wrap;
     color: plVar(colorContentSub);
     user-select: none;
+    padding: 0 8px;
 
     .pl-date-day-panel-item-wrapper {
       height: $dateItemSize;
@@ -94,7 +95,7 @@ $dateInnerItemSize: 26px;
   .pl-date-header {
     @include public-style;
     height: 40px;
-    width: $dateItemSize*7;
+    width: $dateItemSize*7+16px;
     display: flex;
     flex-direction: row;
     user-select: none;
@@ -184,8 +185,8 @@ $dateInnerItemSize: 26px;
     width: 196px;
     display: inline-block;
     .pl-date-panel-body {
-      width: $dateItemSize*7;
-      height: $dateItemSize*7+6*6;
+      width: $dateItemSize*7+16px;
+      height: $dateItemSize*7+16px+6*6;
     }
   }
 
