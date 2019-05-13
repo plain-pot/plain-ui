@@ -2,7 +2,7 @@
   .pl-edit-control {
     visibility: visible;
     width: max-content;
-    background-color: plVar(colorErrorLight);
+    background-color: plVar(colorError);
     color: white;
     font-size: 12px;
     /* 定位 */
@@ -24,7 +24,7 @@
       bottom: 100%;
       right: 10%;
       border: 3px solid transparent;
-      border-bottom-color: plVar(colorErrorLight);
+      border-bottom-color: plVar(colorError);
     }
 
     &.pl-edit-scale-enter, &.pl-edit-scale-leave-to {
