@@ -510,6 +510,26 @@ function copyToClipboard(text, success, error) {
     document.body.removeChild(textArea);
 }
 
+function chunk(array, size) {
+    // #1
+    size = Math.max(size, 0)
+    const length = array == null ? 0 : array.length
+    if (!length || size < 1) {
+        return []
+    }
+
+    // #2
+    let index = 0
+    let resIndex = 0
+    const result = new Array(Math.ceil(length / size))
+
+    // #3
+    while (index < length) {
+        result[resIndex++] = array.slice(index, index += size)
+    }
+    return result
+}
+
 const $utils = {
     getKebabCase,                               //驼峰命名转横杠命名
     camelCase,                                  //转为驼峰命名
@@ -544,6 +564,7 @@ const $utils = {
     decodeUrl,
     copyToClipboard,
     parseJson,
+    chunk,
 }
 
 export default $utils

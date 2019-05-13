@@ -28,8 +28,18 @@
     export default {
         name: "demo-test2",
         mounted() {
-            const tab = new NavigatorTab({id: this.$plain.$utils.uuid(), path: 'hello'})
-            console.log(tab)
+            // const tab = new NavigatorTab({id: this.$plain.$utils.uuid(), path: 'hello'})
+            // console.log(tab)
+            const list = []
+            let i = 0
+            while (i < 100) {
+                list.push(i)
+                i++
+            }
+            console.log(list)
+            const chunks = this.$plain.$utils.chunk(list, 20)
+            console.log(chunks
+            )
         },
     }
 </script>
