@@ -12,7 +12,7 @@
         <div class="pl-date-day-panel-item-wrapper"
              v-for="(item,index) in days"
              :key="index"
-             @click="p_clickItem(item)"
+             @click.stop="p_clickItem(item)"
              @mouseenter="p_hoverItem(item)">
             <div class="pl-date-day-panel-item"
                  :class="{

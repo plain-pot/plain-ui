@@ -14,7 +14,7 @@
                             'pl-date-year-panel-item-now':nowYear===item,
                             'pl-date-year-panel-item-disabled':(!!maxYear && item>maxYear) || (!!minyear && item<minyear),
                          }"
-                         @click="p_clickItem(item,index)">
+                         @click.stop="p_clickItem(item,index)">
                         {{item}}
                     </div>
                 </div>

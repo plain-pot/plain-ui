@@ -3,7 +3,7 @@
         <div class="pl-date-month-panel-content-wrapper">
             <div class="pl-date-month-panel-item-wrapper"
                  v-for="(item,index) in list"
-                 @click="p_clickItem(item)"
+                 @click.stop="p_clickItem(item)"
                  :key="index">
                 <div class="pl-date-month-panel-item"
                      :class="{
