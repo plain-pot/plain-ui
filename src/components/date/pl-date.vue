@@ -59,12 +59,12 @@
     import PlDateRangePanel from "./pl-date-range-panel";
     import PlInput from "../pl-input";
     import PlPopper from "../popper/pl-popper";
-    import {MountedMixin} from "../../mixin/component-mixin";
+    import {MountedMixin, SimpleEditMixin} from "../../mixin/component-mixin";
 
     export default {
         name: "pl-date",
         components: {PlPopper, PlInput, PlDateRangePanel, PlDateSinglePanel, PlDatePanel},
-        mixins:[MountedMixin],
+        mixins:[MountedMixin,SimpleEditMixin],
         props: {
             value: {type: String,},
             start: {type: String},

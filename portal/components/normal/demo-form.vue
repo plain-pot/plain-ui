@@ -104,6 +104,9 @@
                     <im-form-item label="时间选择器">
                         <im-time required/>
                     </im-form-item>
+                    <im-form-item label="日期选择器">
+                        <im-date required/>
+                    </im-form-item>
 
                 </im-form-column>
             </im-form>
