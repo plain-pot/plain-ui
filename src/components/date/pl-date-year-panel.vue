@@ -73,7 +73,6 @@
                 this.start = this.value - Math.floor(this.num * 1.5)
                 for (let i = this.start; i < this.start + this.num * 3; i++) this.list.push(i)
                 this.$nextTick(() => this.p_value = this.value)
-                this.p_emitValue()
             },
             /*
              *  更新滚动条位置，
