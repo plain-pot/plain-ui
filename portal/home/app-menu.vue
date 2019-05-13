@@ -49,7 +49,7 @@
                         title: '测试',
                         menus: [
                             {title: 'Test测试', icon: 'pl-tools', page: '/normal/demo-test', complete: true},
-                            {title: 'Test测试2', icon: 'pl-tools', page: '/normal/demo-test2', complete: false},
+                            {title: 'Test测试2', icon: 'pl-tools', page: '/normal/demo-test2', complete: true},
                         ],
                     },
                     {
@@ -76,7 +76,6 @@
                             {title: 'Date日期选择', icon: 'pl-date-fill', page: '/normal/demo-date', complete: true},
                             {title: 'Rate评分', icon: 'pad-star', page: '/normal/demo-rate', complete: true},
                             {title: 'ColorPicker颜色选择', icon: 'pl-color', page: '/normal/demo-color-picker', complete: true},
-                            {title: 'Transform穿梭框', icon: 'pl-exchange', page: '/normal/demo-icon', complete: false},
                             {title: 'Form表单', icon: 'pl-form', page: '/normal/demo-form', complete: true},
                         ],
                     },
@@ -92,6 +91,7 @@
                             {title: 'ScrollOption滚动选择', icon: 'icon-scroll', page: '/normal/demo-scroll-option', complete: true},
                             {title: 'Mavon编辑器', icon: 'icon-code', page: '/normal/demo-mavon', complete: false},
                             {title: 'Steps步骤条', icon: 'pl-step', page: '/normal/demo-step', complete: false},
+                            {title: 'Transform穿梭框', icon: 'pl-exchange', page: '/normal/demo-icon', complete: false},
                         ],
                     },
 
