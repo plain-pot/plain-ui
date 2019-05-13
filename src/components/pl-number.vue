@@ -11,10 +11,12 @@
               @click="e=>$emit('click',e)"
     >
         <div slot="append" class="pl-number-controller" v-if="!noController">
-            <pl-icon class="pl-number-icon-up" icon="pl-triangle-up-fill"
-                     @click.stop="e=>!disabled&&!readonly&&p_add(e)"/>
-            <pl-icon class="pl-number-icon-down" icon="pl-triangle-down-fill"
-                     @click.stop="e=>!disabled&&!readonly&&p_subtract(e)"/>
+            <div class="pl-number-up" @click.stop="e=>!disabled&&!readonly&&p_add(e)">
+                <pl-icon class="pl-number-icon-up" icon="pl-up"/>
+            </div>
+            <div class="pl-number-down" @click.stop="e=>!disabled&&!readonly&&p_subtract(e)">
+                <pl-icon class="pl-number-icon-down" icon="pl-down"/>
+            </div>
         </div>
     </pl-input>
 </template>
