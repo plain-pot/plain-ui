@@ -30,6 +30,7 @@
 @import "./component/badge";
 @import "./component/time";
 @import "./component/date";
+@import "./component/tree";
 
 
 @mixin component-mixin {
@@ -65,6 +66,7 @@
   @include component-badge;
   @include component-time;
   @include component-date;
+  @include component-tree;
 
 
 }

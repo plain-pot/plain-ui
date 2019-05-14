@@ -1,0 +1,52 @@
+@mixin component-tree {
+  .pl-tree {
+    @include public-style;
+    height: 100%;
+  }
+  .pl-tree-node {
+    @include public-style;
+    user-select: none;
+
+    .pl-tree-node-icon {
+      @include transition-all-cubic-bezier;
+      transform: scale(0.7);
+    }
+
+    .pl-tree-node-content {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      padding-left: 6px;
+      box-sizing: border-box;
+
+      &:hover {
+        color: plVar(colorPrimary);
+      }
+
+      &.pl-tree-node-empty-text {
+        padding-left: 1em;
+      }
+
+      .pl-radio {
+        margin-right: 5px;
+        color: plVar(colorContent) !important;
+      }
+    }
+
+    .pl-tree-node-wrapper {
+      width: 100%;
+      padding: 0 18px;
+    }
+
+    &.pl-tree-node-open {
+      & > .pl-tree-node-content {
+        color: plVar(colorPrimary);
+      }
+
+      & > .pl-tree-node-content > .pl-tree-node-icon {
+        transform: scale(0.7) rotate(90deg);
+      }
+    }
+  }
+
+}

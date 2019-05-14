@@ -39,6 +39,7 @@ import scrollOption from './scroll-option/pl-scroll-option'
 import badge from './pl-badge'
 import time from './time/pl-time'
 import date from './date/pl-date'
+import tree from './tree/pl-tree'
 
 const components = {
     icon,
@@ -80,6 +81,7 @@ const components = {
     badge,
     time,
     date,
+    tree,
 }
 
 export function getComponents(prefix = 'pl') {
