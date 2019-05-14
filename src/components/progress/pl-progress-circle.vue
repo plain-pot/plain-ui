@@ -19,15 +19,20 @@
             size: {type: Number, default: 100},
             lineSize: {type: Number, default: 6},
             startAngle: {type: Number, default: -0.5 * Math.PI},
-            speed: {type: Number, default: 3},
-            outerColor: {type: String, default: '#f2f2f2'},
-            innerColor: {type: String, default: '#42E67F'},
+            speed: {type: Number},
+            outerColor: {type: String},
+            innerColor: {type: String},
         },
         data() {
             return {
                 ctx: null,
                 animatePercent: 0,
             }
+        },
+        watch:{
+          value(){
+              this.reload()
+          },
         },
         computed: {
             arcParam() {
