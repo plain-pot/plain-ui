@@ -45,7 +45,8 @@
                 return {
                     disabledEqual: true,
                     width: 250,
-                    height: this.enableAlpha ? 358 : 342,
+                    height: (this.enableAlpha ? 358 : 342) + 2,
+
                 }
             },
             inputBinding() {
