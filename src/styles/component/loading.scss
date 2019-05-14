@@ -52,10 +52,10 @@
     @include plColors {
       &.pl-loading-color-#{$key} {
         .pl-loading-default-item {
-          background-color: $value;
+          background-color: $colorDeep;
         }
         .pl-icon {
-          color: $value;
+          color: $colorDeep;
         }
       }
     }

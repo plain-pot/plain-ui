@@ -17,83 +17,55 @@
 
         <im-demo-row title="类型">
             <im-demo-row-item title="fill">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-type="fill"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,type:'fill'}" :key="index"/>
             </im-demo-row-item>
             <im-demo-row-item title="line">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-type="line"/>
-            </im-demo-row-item>
-            <im-demo-row-item title="dashed">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-type="dashed"/>
-            </im-demo-row-item>
-            <im-demo-row-item title="none">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-type="none"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,type:'line'}" :key="index" box-type="line"/>
             </im-demo-row-item>
         </im-demo-row>
 
         <im-demo-row title="颜色">
             <im-demo-row-item title="line">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-type="line"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,type:'line'}" :key="index"/>
             </im-demo-row-item>
         </im-demo-row>
         <im-demo-row title="形状">
             <im-demo-row-item title="none">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-shape="none"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,shape:'none'}" :key="index"/>
             </im-demo-row-item>
             <im-demo-row-item title="fillet">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-shape="fillet"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,shape:'fillet'}" :key="index"/>
             </im-demo-row-item>
             <im-demo-row-item title="round">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-shape="round"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,shape:'round'}" :key="index"/>
             </im-demo-row-item>
         </im-demo-row>
         <im-demo-row title="大小">
             <im-demo-row-item title="large">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-size="large"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,size:'large'}" :key="index"/>
             </im-demo-row-item>
             <im-demo-row-item title="default">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-size="default"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,size:'default'}" :key="index"/>
             </im-demo-row-item>
             <im-demo-row-item title="small">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" box-size="small"/>
+                <im-number v-for="(item,index) in colors" :input="{color:item,size:'small'}" :key="index"/>
             </im-demo-row-item>
         </im-demo-row>
 
-        <im-demo-row title="前置图标以及后置图标">
-            <im-demo-row title="前置后置icon">
-                <im-number v-for="(item,index) in colors" :box-color="item" :key="index" prefix-icon="pl-date-fill" suffix-icon="pad-search"/>
-            </im-demo-row>
-        </im-demo-row>
         <im-demo-row title="加载图标">
-            <im-number v-for="(item,index) in colors" :box-color="item" :key="index" loading/>
+            <im-number v-for="(item,index) in colors" :input="{color:item,loading:true}" :key="index"/>
         </im-demo-row>
 
         <im-demo-row title="禁用样式">
-            <im-number v-for="(item,index) in colors" :box-color="item" :key="index" disabled value="111" @click="log('click')" @clear="log('clear')"/>
+            <im-number v-for="(item,index) in colors" :input="{color:item}" :key="index" disabled value="111" @click="log('click')" @clear="log('clear')"/>
         </im-demo-row>
         <im-demo-row title="只读">
-            <im-number v-for="(item,index) in colors" :box-color="item" :key="index" readonly value="111" @click="log('click')" @clear="log('clear')"/>
+            <im-number v-for="(item,index) in colors" :input="{color:item}" :key="index" readonly value="111" @click="log('click')" @clear="log('clear')"/>
         </im-demo-row>
-        <im-demo-row title="去除默认padding">
-            <im-number v-for="(item,index) in colors" :box-color="item" :key="index" :padding="false"/>
-        </im-demo-row>
-        <im-demo-row title="长输入框">
-            <im-number long/>
-        </im-demo-row>
-        <im-demo-row title="设定宽度">
-            <im-number :width="300"/>
-        </im-demo-row>
-        <im-demo-row title="校验">
-            <im-number required ref="box"/>
-        </im-demo-row>
+
         <im-demo-row title="输入框类型">
-            <im-number type="password"/>
-            <im-number type="number"/>
-        </im-demo-row>
-        <im-demo-row title="鼠标移动到上方的时候自动获取焦点">
-            <im-number focus-on-hover/>
-        </im-demo-row>
-        <im-demo-row title="空值占位符">
-            <im-number placeholder="输入xxx"/>
+            <im-number :input="{inputType:'password',placeholder:'password'}"/>
+            <im-number :input="{inputType:'number',placeholder:'number'}"/>
         </im-demo-row>
     </div>
 </template>

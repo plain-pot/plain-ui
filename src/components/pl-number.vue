@@ -3,7 +3,7 @@
               class="pl-number"
               :value="p_value"
               icon
-              v-bind="simpleBinding"
+              v-bind="inputBinding"
 
               @up="p_add"
               @down="p_subtract"
@@ -31,6 +31,7 @@
         mixins: [SimpleEditMixin, ValueMixin],
         components: {PlIcon, PlInput},
         props: {
+            input: {},
 
             step: {type: Number, default: 1},
             min: {type: Number},
@@ -41,6 +42,11 @@
             return {
                 p_timer: null,
             }
+        },
+        computed: {
+            inputBinding() {
+                return Object.assign({}, this.simpleBinding, this.input)
+            },
         },
         methods: {
             p_add() {
