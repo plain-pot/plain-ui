@@ -14,7 +14,7 @@
         <pl-color-alpha-slider ref="alpha" :color="color.hex" v-model="color.alpha" v-if="color.enableAlpha" @change="color.updateByAlpha()"/>
         <pl-color-history ref="history" :current="color.color" @select="p_selectHistory"/>
         <div class="pl-color-picker-panel-operate">
-            <pl-input :value="color._value" :width="184" @enter="p_enter" @clear="val=>color._value = null" keyboard box-shape="round"/>
+            <pl-input :value="color._value" :width="184" @enter="p_enter" @clear="val=>color._value = null" input-readonly/>
             <pl-button label="确定" box-shape="round" @click="p_confirm"/>
         </div>
     </div>

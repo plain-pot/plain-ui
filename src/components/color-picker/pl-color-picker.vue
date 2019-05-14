@@ -51,7 +51,6 @@
             },
             inputBinding() {
                 return Object.assign({
-                    inputReadonly: true,
                 }, this.input, this.simpleBinding)
             },
             p_reference() {
