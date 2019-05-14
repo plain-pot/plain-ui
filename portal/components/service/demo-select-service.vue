@@ -16,6 +16,11 @@
         <im-demo-row title="自定义渲染内容，渲染函数">
             <im-button label="toggle" @click="select(7)" ref="button7"/>
         </im-demo-row>
+        <im-demo-row title="指定任意目标">
+            <i @click="select(8)" ref="button8">
+                普通文本
+            </i>
+        </im-demo-row>
     </div>
 </template>
 
@@ -33,7 +38,7 @@
                     ],
                 },
                 option3: {
-                    popper:{
+                    popper: {
                         disabledEqual: true,
                         width: '200px',
                         height: '150px',
@@ -44,13 +49,13 @@
                     searchInput: true,
                 },
                 option5: {
-                   popper:{
-                       disabledEqual: true,
-                       width: '200px',
-                   }
+                    popper: {
+                        disabledEqual: true,
+                        width: '200px',
+                    }
                 },
                 option7: {
-                    popper:{
+                    popper: {
                         width: '150px',
                         disabledEqual: true,
                     },
