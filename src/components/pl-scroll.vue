@@ -48,9 +48,12 @@
             fitHeight: {type: Boolean},                                     //高度为内容高度
             fitHostWidth: {type: Boolean},                                  //宽度为宿主宽度
             fitHostHeight: {type: Boolean},                                 //高度为宿主高度
+            bottomScrollDuration: {type: Number, default: 20},              //距离底部bottomScrollDuration个像素，派发滚动到底部事件
+            topScrollDuration: {type: Number, default: 20},                 //距离底部topScrollDuration个像素，派发滚动到顶部事件
         },
         data() {
             return {
+                p_verticalPosition: 'top',
                 contentWrapperScrollTop: 0,
                 contentWrapperScrollLeft: 0,
                 contentWidth: 0,
@@ -149,8 +152,30 @@
                 this.contentWrapperScrollTop = e.target.scrollTop;
                 this.contentWrapperScrollLeft = e.target.scrollLeft;
                 this.$emit('scroll', e);
-                if (this.contentWrapperScrollTop === (this.contentHeight - this.hostHeight)) this.$emit('vertical-scroll-bottom');
-                if (this.contentWrapperScrollTop === 0) this.$emit('vertical-scroll-top');
+
+                if (this.p_verticalPosition === 'top' && this.contentWrapperScrollTop > this.topScrollDuration) {
+                    /*进入center*/
+                    this.$emit('vertical-scroll-center')
+                    this.p_verticalPosition = 'center'
+                } else if (this.p_verticalPosition === 'center') {
+                    // console.log(this.contentHeight - this.hostHeight - this.contentWrapperScrollTop, this.bottomScrollDuration)
+                    if (this.contentWrapperScrollTop < this.topScrollDuration) {
+                        /*进入top*/
+                        this.$emit('vertical-scroll-top')
+                        this.p_verticalPosition = 'top'
+                    } else if (this.contentHeight - this.hostHeight - this.contentWrapperScrollTop < this.bottomScrollDuration) {
+                        /*进入bottom*/
+                        this.$emit('vertical-scroll-bottom')
+                        this.p_verticalPosition = 'bottom'
+                    }
+
+                } else if (this.p_verticalPosition === 'bottom') {
+                    if (this.contentHeight - this.hostHeight - this.contentWrapperScrollTop > this.bottomScrollDuration) {
+                        /*进入center*/
+                        this.$emit('vertical-scroll-center')
+                        this.p_verticalPosition = 'center'
+                    }
+                }
             },
             vIndicatorDragStart(e) {
                 this.draging = true
