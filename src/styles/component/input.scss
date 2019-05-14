@@ -60,7 +60,7 @@
       &.pl-color-#{$key} {
         input{
           &::placeholder {
-            color: mix($value, white, 85%);
+            color: mix($value, white, 90%);
           }
         }
         &.pl-input-focus {
