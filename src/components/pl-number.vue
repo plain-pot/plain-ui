@@ -12,10 +12,10 @@
               @clear="pl_clear"
     >
         <div slot="append" class="pl-number-controller" v-if="!noController">
-            <div class="pl-number-up" @click.stop="e=>!disabled&&!readonly&&p_add(e)">
+            <div class="pl-number-up" @click.stop="e=>p_add(e)">
                 <pl-icon class="pl-number-icon-up" icon="pl-up"/>
             </div>
-            <div class="pl-number-down" @click.stop="e=>!disabled&&!readonly&&p_subtract(e)">
+            <div class="pl-number-down" @click.stop="e=>p_subtract(e)">
                 <pl-icon class="pl-number-icon-down" icon="pl-down"/>
             </div>
         </div>
@@ -76,7 +76,6 @@
             },
             p_validate(val) {
                 if (val == null || val === '') return null
-                val = val - 0
                 if (this.max != null && val > this.max) return this.max
                 if (this.min != null && val < this.min) return this.min
                 return val

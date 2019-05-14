@@ -4,6 +4,10 @@
             <im-number v-model="val1"/>
             <im-button>val1:{{val1}}</im-button>
         </im-demo-row>
+        <im-demo-row title="保留3位小数">
+            <im-number v-model="val3" :fixed="3"/>
+            <im-button>val1:{{val3}}</im-button>
+        </im-demo-row>
         <im-demo-row title="加减大小间隔">
             <im-number :step="100"/>
         </im-demo-row>
@@ -78,6 +82,7 @@
                 colors: ['primary', 'success', 'warn', 'error', 'info'],
                 val1: null,
                 val2: null,
+                val3: null,
             }
         },
     }
