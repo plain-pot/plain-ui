@@ -20,11 +20,12 @@
             value: {type: Number, default: 100},
             type: {type: String, default: 'bar'},
             outerColor: {type: String, default: '#f2f2f2'},
-            innerColor: {type: String, default: '#42E67F'},
+            innerColor: {type: String, default: '#3E97EC'},
             speed: {type: Number, default: 3},
             status: {type: String, default: 'normal'},
             successColor: {type: String, default: '#42E67F'},
             errorColor: {type: String, default: '#FF6235'},
+            inlineText: {type: Boolean},
         },
         computed: {
             publicBinding() {
@@ -36,6 +37,7 @@
                     status: this.status,
                     successColor: this.successColor,
                     errorColor: this.errorColor,
+                    inlineText: this.inlineText,
                 }
             },
         },

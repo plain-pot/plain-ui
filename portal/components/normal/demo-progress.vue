@@ -10,7 +10,10 @@
             <im-progress  :value="100" status="success"/>
             <im-progress  :value="25" status="error"/>
         </im-demo-row>
-
+        <im-demo-row title="内部文字">
+            <im-progress inlineText :value="30"/>
+            <im-progress inlineText :value="10"/>
+        </im-demo-row>
         <im-demo-row title="圆形进度条">
             <im-progress type="circle" :value="80"/>
         </im-demo-row>

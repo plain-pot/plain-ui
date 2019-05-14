@@ -1,7 +1,7 @@
 @mixin component-progress {
   .pl-progress {
     display: inline-block;
-    vertical-align: center;
+    vertical-align: middle;
 
     .pl-progress-circle {
       position: relative;
@@ -19,7 +19,7 @@
     }
 
     .pl-progress-bar {
-      display: inline-flex;
+      display: flex;
       align-items: center;
 
       .pl-progress-bar-content {
@@ -32,10 +32,24 @@
 
       .pl-progress-bar-outer {
         flex: 1;
+        display: inline-flex;
+        align-items: center;
 
         .pl-progress-bar-inner {
           height: 100%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: flex-end;
+
           @include transition-all-cubic-bezier;
+
+          .pl-progress-bar-content {
+            text-align: right;
+
+            span {
+              color: white;
+            }
+          }
         }
       }
     }
