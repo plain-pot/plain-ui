@@ -1,10 +1,14 @@
 <template>
     <div class="demo-progress">
         <im-demo-row title="基本用法">
-            <im-progress ref="progress1" :value="100"/>
-            <div>
-                <im-button label="reload" @click="$refs.progress1.reload()"/>
-            </div>
+            <im-progress ref="progress1" :value="65"/>
+        </im-demo-row>
+        <im-demo-row title="自定义颜色">
+            <im-progress innerColor="blueviolet" outerColor="#ddd" :value="30"/>
+        </im-demo-row>
+        <im-demo-row title="状态">
+            <im-progress  :value="100" status="success"/>
+            <im-progress  :value="25" status="error"/>
         </im-demo-row>
 
         <im-demo-row title="圆形进度条">
@@ -20,5 +24,4 @@
 </script>
 
 <style lang="scss">
-
 </style>

@@ -22,6 +22,9 @@
             outerColor: {type: String, default: '#f2f2f2'},
             innerColor: {type: String, default: '#42E67F'},
             speed: {type: Number, default: 3},
+            status: {type: String, default: 'normal'},
+            successColor: {type: String, default: '#42E67F'},
+            errorColor: {type: String, default: '#FF6235'},
         },
         computed: {
             publicBinding() {
@@ -30,6 +33,9 @@
                     outerColor: this.outerColor,
                     innerColor: this.innerColor,
                     speed: this.speed,
+                    status: this.status,
+                    successColor: this.successColor,
+                    errorColor: this.errorColor,
                 }
             },
         },

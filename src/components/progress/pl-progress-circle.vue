@@ -20,8 +20,9 @@
             lineSize: {type: Number, default: 6},
             startAngle: {type: Number, default: -0.5 * Math.PI},
             speed: {type: Number},
-            outerColor: {type: String},
-            innerColor: {type: String},
+            outerColor: {},
+            innerColor: {},
+            status: {},
         },
         data() {
             return {
@@ -29,10 +30,10 @@
                 animatePercent: 0,
             }
         },
-        watch:{
-          value(){
-              this.reload()
-          },
+        watch: {
+            value() {
+                this.reload()
+            },
         },
         computed: {
             arcParam() {
