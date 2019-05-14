@@ -129,7 +129,6 @@
                             {title: '$select选择服务', icon: 'pad-message', page: '/service/demo-select-service', complete: true},
                             {title: '$dialog对话框服务', icon: 'pl-window', page: '/service/demo-dialog-service', complete: true},
                             {title: '$notice通知', icon: 'pad-bell', page: '/service/demo-notice-service', complete: true},
-                            {title: '$popper下拉菜单', icon: 'pl-menu', page: '/service/demo-popper-service', complete: false},
                         ],
                     },
                     {
