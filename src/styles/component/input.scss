@@ -32,15 +32,27 @@
     }
 
     @include plColors {
+      &.pl-color-#{$key} {
+        input {
+          &::placeholder {
+            color: mix($value, white, 90%);
+          }
+        }
+
+        &.pl-input-focus {
+          box-shadow: 0 0 6px plVar(colorPrimary);
+          border-color: plVar(colorPrimary);
+        }
+      }
       &.pl-type-fill.pl-color-#{$key} {
-        color: mix($value, white, 10%);
+        color: white;
 
         input {
           background-color: $value;
           color: inherit;
 
           &::placeholder {
-            color: mix($value, white, 30%);
+            color: mix(white, $value, 90%);
           }
         }
 
@@ -55,17 +67,6 @@
         &.pl-input-focus {
           box-shadow: 0 0 6px $value;
           border-color: $value;
-        }
-      }
-      &.pl-color-#{$key} {
-        input{
-          &::placeholder {
-            color: mix($value, white, 90%);
-          }
-        }
-        &.pl-input-focus {
-          box-shadow: 0 0 6px plVar(colorPrimary);
-          border-color: plVar(colorPrimary);
         }
       }
     }
@@ -113,7 +114,8 @@
       &, & input {
         cursor: not-allowed;
       }
-      .pl-input-controller{
+
+      .pl-input-controller {
         & > * {
           background-color: transparent !important;
         }
