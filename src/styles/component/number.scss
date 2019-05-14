@@ -10,21 +10,18 @@
       height: 100%;
       box-sizing: border-box;
 
-      .pl-icon:active {
-        background-color: #f2f2f2;
-        color: #999;
-      }
-
       .pl-number-up, .pl-number-down {
         height: 50%;
         width: 100%;
         display: flex;
-        align-content: center;
+        align-items: center;
         justify-content: center;
         position: relative;
+        user-select: none;
 
-        .pl-icon {
-          transform: scale(0.7);
+        &:active {
+          background-color: #666;
+          color: #333;
         }
       }
 
