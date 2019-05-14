@@ -9,7 +9,7 @@
                @hide="e=>$emit('hide',e)"
 
     >
-        <pl-scroll :scrollbar-size="6" ref="scroll" v-bind="scroll">
+        <pl-scroll :scrollbar-size="6" ref="scroll" v-bind="scroll" fit-host-width>
             <slot></slot>
         </pl-scroll>
     </pl-popper>

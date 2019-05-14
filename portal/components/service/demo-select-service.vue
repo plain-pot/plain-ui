@@ -21,6 +21,9 @@
                 普通文本
             </i>
         </im-demo-row>
+        <im-demo-row title="使用渲染函数自动以下拉内容">
+            <im-button label="toggle" @click="select(9)" ref="button9"/>
+        </im-demo-row>
     </div>
 </template>
 
@@ -63,6 +66,15 @@
                         return <div class="demo-select-item">
                             <div class="demo-select-item-title">{item.name}</div>
                             <div class="demo-select-item-desc">{item.desc}</div>
+                        </div>
+                    },
+                },
+                option9: {
+                    content(h) {
+                        return <div style="width:100%">
+                            <im-radio/>
+                            <im-toggle/>
+                            <im-button label="hello"/>
                         </div>
                     },
                 },

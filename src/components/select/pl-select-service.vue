@@ -1,7 +1,9 @@
 <template>
     <pl-popover ref="popover" @show="pl_open" @close="pl_close" v-bind="popoverBinding" :reference="option.reference" class="pl-select-service">
         <div class="pl-select-service">
-            <div class="pl-select-service-item"
+            <pl-render-func v-if="option.content" :render-func="option.content"/>
+            <div v-else
+                 class="pl-select-service-item"
                  v-for="(item,index) in option.data"
                  ref="items"
                  :key="index"
