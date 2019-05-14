@@ -160,8 +160,8 @@
                 this.pl_openSuggestion()
             },
             pl_blur(e) {
+                this.$emit('blur', e)
                 this.p_focus = false
-                this.$emit('blur ', e)
             },
             pl_up(e) {
                 this.$emit('up', e)

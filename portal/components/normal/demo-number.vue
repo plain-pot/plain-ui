@@ -7,7 +7,7 @@
         <im-demo-row title="加减大小间隔">
             <im-number :step="100"/>
         </im-demo-row>
-        <im-demo-row title="最大最小值">
+        <im-demo-row title="最大500,最小值100">
             <im-number :min="100" :max="500" v-model="val2"/>
             <im-button>val2:{{val2}}</im-button>
         </im-demo-row>
