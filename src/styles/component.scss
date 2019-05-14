@@ -31,6 +31,7 @@
 @import "./component/time";
 @import "./component/date";
 @import "./component/tree";
+@import "./component/progress";
 
 
 @mixin component-mixin {
@@ -67,6 +68,7 @@
   @include component-time;
   @include component-date;
   @include component-tree;
+  @include component-progress;
 
 
 }

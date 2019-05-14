@@ -40,6 +40,7 @@ import badge from './pl-badge'
 import time from './time/pl-time'
 import date from './date/pl-date'
 import tree from './tree/pl-tree'
+import progress from './progress/pl-progress'
 
 const components = {
     icon,
@@ -82,6 +83,7 @@ const components = {
     time,
     date,
     tree,
+    progress,
 }
 
 export function getComponents(prefix = 'pl') {

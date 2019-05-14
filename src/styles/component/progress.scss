@@ -1,0 +1,19 @@
+@mixin component-progress {
+  .pl-progress {
+    display: inline-block;
+    vertical-align: center;
+    .pl-progress-circle {
+      position: relative;
+      .pl-progress-circle-label {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
