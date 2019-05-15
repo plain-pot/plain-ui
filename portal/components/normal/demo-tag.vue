@@ -39,6 +39,10 @@
                 <im-tag-input :value="['北京','上海','广州']" input width="100%"/>
             </im-demo-row-item>
         </im-demo-row>
+
+        <im-demo-row title="标签输入框，自定义处理添加删除动作">
+            <im-tag-input :value="val2" :onCreate="val=>val2.push('hello:'+val)" :onRemove="(item,index)=>val2.splice(index,1)" input/>
+        </im-demo-row>
     </div>
 </template>
 
@@ -48,6 +52,7 @@
         data() {
             return {
                 val: ['北京', '上海', '广州'],
+                val2: ['北京', '上海', '广州'],
                 colors: ['primary', 'success', 'warn', 'error', 'info', 'disabled']
             }
         },

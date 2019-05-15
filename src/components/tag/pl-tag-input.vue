@@ -22,6 +22,8 @@
             close: {type: Boolean, default: true},
             width: {type: String, default: '200px'},
             input: {type: Boolean},
+            onCreate: {type: Function},
+            onRemove: {type: Function},
         },
         data() {
             return {
@@ -44,12 +46,20 @@
             },
         },
         methods: {
-            pl_close(item, index) {
-                this.p_value.splice(index, 1)
+            async pl_close(item, index) {
+                if (!!this.onRemove) {
+                    await this.onRemove(item, index)
+                } else {
+                    this.p_value.splice(index, 1)
+                }
                 this.$emit('input', this.p_value)
             },
-            pl_enter() {
-                this.p_value.push(this.p_text)
+            async pl_enter() {
+                if (!!this.onCreate) {
+                    await this.onCreate(this.p_text)
+                } else {
+                    this.p_value.push(this.p_text)
+                }
                 this.p_text = null
                 this.$emit('input', this.p_value)
             },
