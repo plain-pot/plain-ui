@@ -24,10 +24,10 @@
                     @keydown.right="e=>$emit('right',e)"
                     @keydown.tab="pl_tab"
             >
-            <div class="pl-input-controller">
-                <pl-loading v-if="!this.p_readonly&&!this.p_disabled&&(loading || timerWait || timerHandler)" class="pl-input-loading"/>
-                <pl-icon icon="pad-close-circle-fill" class="pl-input-close" key="close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover && !noClear" @click.stop="pl_clear"/>
-                <slot name="icon" v-else-if="!!icon || !!$slots.icon">
+            <div class="pl-input-controller" v-if="!!controller">
+                <pl-loading v-if="controller === 'loading'" class="pl-input-loading"/>
+                <pl-icon icon="pad-close-circle-fill" class="pl-input-close" key="close" v-else-if="controller === 'clear'" @click.stop="pl_clear"/>
+                <slot name="icon" v-else-if="controller === 'icon'">
                     <pl-icon :icon="icon" class="pl-input-icon" key="icon"/>
                 </slot>
             </div>
@@ -113,6 +113,12 @@
                     } else
                         return item.indexOf(this.p_value) > -1
                 })
+            },
+            controller() {
+                if (!this.p_readonly && !this.p_disabled && (this.loading || this.timerWait || this.timerHandler)) return 'loading'
+                if (!this.p_disabled && !this.p_readonly && !!this.p_value && this.p_hover && !this.noClear) return 'clear'
+                if (!!this.icon || !!this.$slots.icon) return 'icon'
+                return null
             },
         },
         methods: {

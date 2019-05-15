@@ -34,7 +34,7 @@
 
             <div class="pl-pagination-jump-wrapper">
                 <span>前往</span>
-                <pl-input :width="40" :value="p_page" :placeholder="null" class="pl-pagination-jump-input" :clear-icon="null"/>
+                <pl-input :width="40" :value="p_page" :placeholder="null" class="pl-pagination-jump-input" noClear/>
                 <span>页</span>
             </div>
         </div>
