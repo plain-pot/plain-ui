@@ -1,7 +1,11 @@
 <template>
-    <button class="pl-tag-input" :class="classes" :style="{width:width}">
-        <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
-        <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
+    <button class="pl-tag-input" :class="classes" :style="{width:width}" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave">
+        <div class="pl-tag-input-content">
+            <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
+            <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
+        </div>
+        <pl-icon icon="pad-close-circle-fill" v-if="p_hover && !!icon && !!p_value.join('')" class="pl-tag-input-clear-icon" @click="pl_clear"/>
+        <pl-icon :icon="icon" v-else-if="icon"/>
         <pl-edit-control ref="edit" v-bind="editBinding" v-on="editListening" :value="p_value.join('')"/>
     </button>
 </template>
@@ -10,10 +14,11 @@
     import PlTag from "./pl-tag";
     import PlEditControl from "../form/pl-edit-control";
     import {EditMixin} from "../../mixin/component-mixin";
+    import PlIcon from "../pl-icon";
 
     export default {
         name: "pl-tag-input",
-        components: {PlEditControl, PlTag},
+        components: {PlIcon, PlEditControl, PlTag},
         mixins: [EditMixin],
         props: {
             color: {type: String, default: 'info'},
@@ -21,6 +26,7 @@
             value: {type: Array, default: () => []},
             close: {type: Boolean, default: true},
             width: {type: String, default: '200px'},
+            icon: {type: String, default: 'pad-tag'},
             input: {type: Boolean},
             onCreate: {type: Function},
             onRemove: {type: Function},
@@ -30,6 +36,7 @@
                 p_focus: false,
                 p_value: [...(this.value || [])],
                 p_text: null,
+                p_hover: false,
             }
         },
         watch: {
@@ -46,6 +53,13 @@
             },
         },
         methods: {
+            async pl_clear() {
+                if (!!this.$listeners.clear) this.$listeners.clear(e)
+                else {
+                    this.p_value = []
+                    this.$emit('input', null)
+                }
+            },
             async pl_close(item, index) {
                 if (!!this.onRemove) {
                     await this.onRemove(item, index)
@@ -63,6 +77,14 @@
                 this.p_text = null
                 this.$emit('input', this.p_value)
             },
+            pl_mouseenter(e) {
+                this.p_hover = true
+                this.$emit('mouseenter', e)
+            },
+            pl_mouseleave(e) {
+                this.p_hover = false
+                this.$emit('mouseleave', e)
+            },
         },
     }
 </script>
@@ -77,8 +99,8 @@
             vertical-align: middle;
             align-items: center;
             justify-content: flex-start;
-            flex-wrap: wrap;
             min-height: 28px;
+            font-size: 11.2px;
             position: relative;
 
             .pl-tag:not(:last-child) {
@@ -93,6 +115,18 @@
                 width: 100px;
             }
 
+            .pl-tag-input-content {
+                flex: 1;
+                display: inline-flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .pl-tag-input-clear-icon {
+                cursor: pointer;
+            }
+
             @include plColors {
                 &.pl-tag-input-color-#{$key} {
                     border: solid 1px $value;
@@ -100,7 +134,8 @@
 
                     .pl-tag-input-el {
                         color: inherit;
-                        border: solid 1px $value;
+                        border: solid 1px rgba($value, 0.4);
+                        flex: 1;
                     }
                 }
             }

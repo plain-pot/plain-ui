@@ -23,6 +23,11 @@
         <im-demo-row title="标签输入框">
             <im-tag-input :value="['北京','上海','广州']"/>
         </im-demo-row>
+
+        <im-demo-row title="标签输入框">
+            <im-tag-input :value="['北京','上海','广州']" icon="pad-search"/>
+        </im-demo-row>
+
         <im-demo-row title="标签输入框颜色">
             <im-tag-input :value="['北京','上海','广州']" v-for="item in colors" :key="item" :color="item"/>
         </im-demo-row>

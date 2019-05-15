@@ -25,10 +25,11 @@
     import PlInput from "../pl-input";
     import {ValueMixin} from "../../mixin/component-mixin";
     import PlButton from "../pl-button";
+    import PlTagInput from "../tag/pl-tag-input";
 
     export default {
         name: "pl-select",
-        components: {PlButton, PlInput},
+        components: {PlTagInput, PlButton, PlInput},
         mixins: [ValueMixin],
         props: {
             data: {type: Array, default: () => []},

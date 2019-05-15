@@ -119,10 +119,12 @@
                 !!this.focusOnHover && this.$refs.input.focus()
                 this.p_hover = true
                 this.$emit('hoverChange', true)
+                this.$emit('mouseenter', e)
             },
             pl_mouseleave(e) {
                 this.p_hover = false
                 this.$emit('hoverChange', false)
+                this.$emit('mouseleave', e)
             },
             pl_clear(e) {
                 if (!!this.$listeners.clear) this.$listeners.clear(e)
