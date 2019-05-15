@@ -85,15 +85,14 @@
                         <im-select required :data="['北京','上海','广州','南京','南昌']"/>
                     </im-form-item>
                     <im-form-item label="下拉选择框：多选">
-                        <im-select :data="data" labelKey="trainno12306" valueKey="trainno" multiple required>
+                        <im-select :data="data" labelKey="name" valueKey="value" multiple required>
                             <template slot-scope="{item,index}">
                                 <div class="demo-select-item-line">
-                                    <span>{{item.trainno12306}}</span>
-                                    <span>{{item.departuretime}}</span>
+                                    <span>{{item.name}}</span>
+                                    <span>{{item.position}}</span>
                                 </div>
                                 <div class="demo-select-item-line">
-                                    <span>{{item.station}} - {{item.endstation}}</span>
-                                    <span>{{item.arrivaltime}}</span>
+                                    <span>{{item.value}}</span>
                                 </div>
                             </template>
                         </im-select>
@@ -182,7 +181,18 @@
         data() {
             return {
                 textAlign: 'right',
-                data: [...TableData],
+                data: [
+                    {name: '北京', value: 'beijing', position: '华北'},
+                    {name: '天津', value: 'tianjin', position: '华北'},
+                    {name: '上海', value: 'shanghai', position: '华东'},
+                    {name: '江苏', value: 'jiangsu', position: '华东'},
+                    {name: '广东', value: 'guangdong', position: '华南'},
+                    {name: '广西', value: 'guangxi', position: '华南'},
+                    {name: '黑龙江', value: 'heilongjiang', position: '东北'},
+                    {name: '辽宁', value: 'liaoning', position: '东北'},
+                    {name: '重庆', value: 'chongqing', position: '西南'},
+                    {name: '四川', value: 'sichuan', position: '西南'},
+                ],
                 disabled: false,
                 readonly: false,
                 cascadeData: [{
@@ -274,7 +284,7 @@
         methods: {
             pl_valid() {
                 const {isValid, validMsg} = this.$refs.form.valid()
-                console.log(isValid ? 'pass' : validMsg)
+                isValid ? this.$message.show('校验通过') : console.log(validMsg)
             },
         }
     }
@@ -282,5 +292,10 @@
 
 <style lang="scss">
     .demo-form {
+    }
+
+    .demo-select-item-line {
+        display: flex;
+        justify-content: space-between;
     }
 </style>

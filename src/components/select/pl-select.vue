@@ -27,6 +27,9 @@
             class="pl-select"
             :class="{'pl-select-open':isShow}"
             :value="p_showValue"
+            :readonly="readonly"
+            :disabled="disabled"
+            :required="required"
             @click="pl_enter"
             icon="pl-triangle-down-fill"
             @clear="pl_clear"
@@ -77,19 +80,21 @@
         computed: {
             p_showValue() {
                 const showValues = []
+                let showValue = null
                 for (let i = 0; i < this.data.length; i++) {
                     const item = this.data[i];
                     const value = this.pl_getValue(item)
-                    const showValue = this.pl_getShowValue(item)
+                    const itemShowValue = this.pl_getShowValue(item)
                     if (!this.multiple) {
                         if (value === this.p_value) {
-                            return showValue
+                            showValue = itemShowValue
+                            break
                         }
                     } else if (this.p_value.indexOf(value) > -1) {
-                        showValues.push(showValue)
+                        showValues.push(itemShowValue)
                     }
                 }
-                return showValues
+                return !this.multiple ? showValue : showValues
             },
         },
         data() {

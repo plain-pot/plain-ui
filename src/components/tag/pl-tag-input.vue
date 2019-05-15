@@ -56,7 +56,7 @@
         computed: {
             classes() {
                 return [
-                    `pl-tag-input-color-${this.color}`,
+                    `pl-tag-input-color-${!this.isValid ? 'error' : this.color}`,
                     `pl-shape-${this.shape}`,
                     {
                         'pl-tag-input-disabled': this.p_disabled,
