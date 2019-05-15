@@ -17,7 +17,7 @@
         name: "pl-message-item",
         components: {PlIcon},
         props: {
-            text: {type: String},
+            text: {},
             type: {type: String},
             time: {type: Number},
             done: {type: Function},

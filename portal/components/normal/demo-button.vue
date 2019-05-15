@@ -3,6 +3,9 @@
         <im-demo-row title="基本用法">
             <im-button label="按钮" @click="$plain.log('click')"/>
         </im-demo-row>
+        <im-demo-row title="监听键盘事件">
+            <im-button label="按钮" @keydown.prevent="e=>$message.show(e.keyCode)"/>
+        </im-demo-row>
         <im-demo-row title="颜色">
             <im-button v-for="item in ['primary','success','warn','error','info','disabled']" :label="item" :color="item" :key="item"/>
         </im-demo-row>
