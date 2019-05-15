@@ -13,8 +13,8 @@
             <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
             <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
         </div>
-        <pl-icon icon="pad-close-circle-fill" v-if="!p_disabled&&!p_readonly&&p_hover&&!!icon&&!!p_value.join('')" class="pl-tag-input-clear-icon" @click.stop="pl_clear"/>
-        <pl-icon :icon="icon" v-else-if="icon"/>
+        <pl-icon icon="pad-close-circle-fill" v-if="!p_disabled&&!p_readonly&&p_hover&&!!icon&&!!p_value.join('')" class="pl-tag-input-clear-icon" @click.stop="pl_clear" key="clear"/>
+        <pl-icon :icon="icon" v-else-if="icon" class="pl-tag-input-icon" key="normal"/>
         <pl-edit-control ref="edit" v-bind="editBinding" v-on="editListening" :value="p_value.join('')"/>
     </button>
 </template>
@@ -58,6 +58,9 @@
                 return [
                     `pl-tag-input-color-${this.color}`,
                     `pl-shape-${this.shape}`,
+                    {
+                        'pl-tag-input-disabled': this.p_disabled,
+                    },
                 ]
             },
         },
@@ -154,6 +157,15 @@
             &:focus {
                 border-color: plVar(colorPrimary);
                 color: plVar(colorPrimaryDeep);
+            }
+
+            &.pl-tag-input-disabled {
+                background-color: plVar(colorDisabledLight);
+
+                .pl-tag-input-el {
+                    background-color: transparent;
+                    border: none;
+                }
             }
         }
     }

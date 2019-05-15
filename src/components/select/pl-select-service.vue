@@ -49,7 +49,7 @@
                 hoverIndex: 0,
 
                 option: {...defaultOption},
-
+                watchData: null,
                 rs: null,
                 activeElement: null,
 
@@ -80,6 +80,18 @@
                 }
             },
         },
+        watch: {
+            watchData: {
+                deep: true,
+                async handler(val) {
+                    // console.log('watchData change', val)
+                    if (!!this.isOpen) {
+                        await this.$plain.nextTick()
+                        this.$refs.popover.$refs.popper.p_popper.update()
+                    }
+                },
+            },
+        },
         mounted() {
             this.popover = this.$refs.popover
         },
@@ -88,6 +100,7 @@
                 return new Promise(async rs => {
                     this.hoverIndex = 0
                     this.option = Object.assign({}, defaultOption, option)
+                    this.watchData = option.watchData
                     await this.$plain.nextTick()
                     this.popover.show()
                     this.rs = rs

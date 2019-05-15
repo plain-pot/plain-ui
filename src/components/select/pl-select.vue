@@ -24,6 +24,8 @@
     <pl-tag-input
             v-else
             ref="input"
+            class="pl-select"
+            :class="{'pl-select-open':isShow}"
             :value="p_showValue"
             @click="pl_enter"
             icon="pl-triangle-down-fill"
@@ -63,6 +65,7 @@
             value: {
                 immediate: true,
                 handler(val) {
+                    if (this.p_value === val) return
                     if (!this.multiple) {
                         this.p_value = val
                     } else {
@@ -107,6 +110,7 @@
                     labelKey: this.labelKey,
                     render: this.pl_render,
                     autoClose: !this.multiple,
+                    watchData: this.p_value,
                     popper: {
                         onShow: () => this.isShow = true,
                         onHide: () => this.isShow = false,
@@ -130,6 +134,7 @@
             },
             pl_clear() {
                 this.p_value = !this.multiple ? null : []
+                !!this.p_select && (this.p_select.watchData = this.p_value)
                 this.$emit('input', this.p_value)
             },
             pl_render(h, {item, index}) {

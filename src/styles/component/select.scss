@@ -5,12 +5,12 @@
     transform: rotate(0);
   }
   .pl-select {
-    .pl-input-icon {
+    .pl-input-icon, .pl-tag-input-icon {
       transform: scale(0.8);
     }
 
     &.pl-select-open {
-      .pl-input-icon {
+      .pl-input-icon, .pl-tag-input-icon {
         transform: scale(0.8) rotate(180deg);
       }
     }
