@@ -84,8 +84,9 @@
         computed: {
             inputBinding() {
                 return Object.assign({
+                    noClear: true,
                     size: 'small',
-                    width: 80
+                    width: 90
                 }, this.input)
             },
             totalPage() {

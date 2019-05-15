@@ -26,7 +26,7 @@
             >
             <div class="pl-input-controller">
                 <pl-loading v-if="!this.p_readonly&&!this.p_disabled&&(loading || timerWait || timerHandler)" class="pl-input-loading"/>
-                <pl-icon icon="pad-close-circle-fill" class="pl-input-close" key="close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover" @click.stop="pl_clear"/>
+                <pl-icon icon="pad-close-circle-fill" class="pl-input-close" key="close" v-else-if="!p_disabled && !p_readonly && !!p_value && p_hover && !noClear" @click.stop="pl_clear"/>
                 <slot name="icon" v-else-if="!!icon || !!$slots.icon">
                     <pl-icon :icon="icon" class="pl-input-icon" key="icon"/>
                 </slot>
@@ -59,6 +59,7 @@
             shape: {type: String, default: 'fillet'},
             size: {type: String, default: 'default'},
 
+            noClear: {type: Boolean},
             inputType: {type: String, default: 'text'},
             inputReadonly: {type: Boolean},
             placeholder: {type: String, default: '点击输入...'},
