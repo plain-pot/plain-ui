@@ -10,6 +10,7 @@
             @mouseleave="pl_mouseleave"
             @click="e=>$emit('click',e)">
         <div class="pl-tag-input-content">
+            <span class="pl-tag-input-placeholder" v-if="!p_value || p_value.length===0">{{placeholder}}</span>
             <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
             <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
         </div>
@@ -36,6 +37,7 @@
             close: {type: Boolean, default: true},
             width: {type: String, default: '200px'},
             icon: {type: String, default: 'pad-tag'},
+            placeholder: {type: String},
             input: {type: Boolean},
             onCreate: {type: Function},
             onRemove: {type: Function},
@@ -150,6 +152,10 @@
                         color: inherit;
                         border: solid 1px rgba($value, 0.4);
                         flex: 1;
+                    }
+
+                    .pl-tag-input-placeholder {
+                        color: mix($value, white, 90%);
                     }
                 }
             }

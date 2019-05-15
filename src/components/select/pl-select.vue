@@ -30,6 +30,7 @@
             :readonly="readonly"
             :disabled="disabled"
             :required="required"
+            :placeholder="placeholder"
             @click="pl_enter"
             icon="pl-triangle-down-fill"
             @clear="pl_clear"

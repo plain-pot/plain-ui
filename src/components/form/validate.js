@@ -17,7 +17,7 @@ const validate = {
             /*必输校验*/
             name: 'required',
             execute(val) {
-                return {isValid: !!val, validMsg: '必填',}
+                return {isValid: val != null && val !== '', validMsg: '必填',}
             },
         },
         {
