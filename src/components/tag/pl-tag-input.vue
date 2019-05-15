@@ -54,6 +54,7 @@
         },
         methods: {
             async pl_clear() {
+                if (!!this.p_disabled || !!this.p_readonly) return
                 if (!!this.$listeners.clear) this.$listeners.clear(e)
                 else {
                     this.p_value = []
