@@ -4,7 +4,7 @@
             <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
             <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
         </div>
-        <pl-icon icon="pad-close-circle-fill" v-if="p_hover && !!icon && !!p_value.join('')" class="pl-tag-input-clear-icon" @click="pl_clear"/>
+        <pl-icon icon="pad-close-circle-fill" v-if="!p_disabled&&!p_readonly&&p_hover&&!!icon&&!!p_value.join('')" class="pl-tag-input-clear-icon" @click="pl_clear"/>
         <pl-icon :icon="icon" v-else-if="icon"/>
         <pl-edit-control ref="edit" v-bind="editBinding" v-on="editListening" :value="p_value.join('')"/>
     </button>
