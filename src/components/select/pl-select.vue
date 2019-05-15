@@ -1,23 +1,40 @@
 <template>
-    <pl-input class="pl-select"
-              :class="{'pl-select-open':isShow}"
-              :value="p_showValue"
-              ref="input"
-              inputReadonly
-              :readonly="readonly"
-              :disabled="disabled"
-              :required="required"
-              :placeholder="placeholder"
-              :open="pl_open"
-              icon="pl-triangle-down-fill"
+    <pl-input
+            v-if="!multiple"
+            class="pl-select"
+            :class="{'pl-select-open':isShow}"
+            :value="p_showValue"
+            ref="input"
+            inputReadonly
+            :readonly="readonly"
+            :disabled="disabled"
+            :required="required"
+            :placeholder="placeholder"
+            :open="pl_open"
+            icon="pl-triangle-down-fill"
 
-              @clear="pl_clear"
-              @up="!!p_select && p_select.prev()"
-              @down="!!p_select && p_select.next()"
-              @enter="pl_enter"
-              @tab="!!p_select && p_select.hide()"
-              @esc="!!p_select && p_select.hide()"
-              @space="pl_space"
+            @clear="pl_clear"
+            @up="!!p_select && p_select.prev()"
+            @down="!!p_select && p_select.next()"
+            @enter="pl_enter"
+            @tab="!!p_select && p_select.hide()"
+            @esc="!!p_select && p_select.hide()"
+            @space="pl_space"
+    />
+    <pl-tag-input
+            v-else
+            ref="input"
+            :value="p_showValue"
+            @click="pl_enter"
+            icon="pl-triangle-down-fill"
+            @clear="pl_clear"
+            :onRemove="pl_onRemove"
+            @keyup.up.prevent="!!p_select && p_select.prev()"
+            @keydown.down.prevent="!!p_select && p_select.next()"
+            @keyup.tab.prevent="!!p_select && p_select.hide()"
+            @keyup.esc.prevent="!!p_select && p_select.hide()"
+            @keyup.space.prevent="pl_space"
+
     />
 </template>
 
@@ -69,7 +86,7 @@
                         showValues.push(showValue)
                     }
                 }
-                return showValues.join(',')
+                return showValues
             },
         },
         data() {
@@ -89,12 +106,12 @@
                     data: this.data,
                     labelKey: this.labelKey,
                     render: this.pl_render,
-                    onClose: () => this.p_select = null,
                     autoClose: !this.multiple,
                     popper: {
                         onShow: () => this.isShow = true,
                         onHide: () => this.isShow = false,
                     },
+                    onClose: () => this.p_select = null,
                     onConfirm: (e) => {
                         const value = this.pl_getValue(e)
                         if (!this.multiple) {
@@ -160,6 +177,9 @@
                     const {p_readonly, p_disabled} = this.$refs.input
                     if (!p_readonly && !p_disabled) this.pl_open()
                 }
+            },
+            pl_onRemove(item, index) {
+                this.p_value.splice(index, 1)
             },
         }
     }

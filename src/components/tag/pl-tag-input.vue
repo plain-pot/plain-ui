@@ -1,10 +1,19 @@
 <template>
-    <button class="pl-tag-input" :class="classes" :style="{width:width}" @mouseenter="pl_mouseenter" @mouseleave="pl_mouseleave">
+    <button class="pl-tag-input"
+            :class="classes"
+            :style="{width:width}"
+            :disabled="p_disabled"
+            :readonly="p_readonly"
+            @keydown="e=>$emit('keydown',e)"
+            @keyup="e=>$emit('keyup',e)"
+            @mouseenter="pl_mouseenter"
+            @mouseleave="pl_mouseleave"
+            @click="e=>$emit('click',e)">
         <div class="pl-tag-input-content">
             <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
             <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
         </div>
-        <pl-icon icon="pad-close-circle-fill" v-if="!p_disabled&&!p_readonly&&p_hover&&!!icon&&!!p_value.join('')" class="pl-tag-input-clear-icon" @click="pl_clear"/>
+        <pl-icon icon="pad-close-circle-fill" v-if="!p_disabled&&!p_readonly&&p_hover&&!!icon&&!!p_value.join('')" class="pl-tag-input-clear-icon" @click.stop="pl_clear"/>
         <pl-icon :icon="icon" v-else-if="icon"/>
         <pl-edit-control ref="edit" v-bind="editBinding" v-on="editListening" :value="p_value.join('')"/>
     </button>
@@ -53,7 +62,7 @@
             },
         },
         methods: {
-            async pl_clear() {
+            async pl_clear(e) {
                 if (!!this.p_disabled || !!this.p_readonly) return
                 if (!!this.$listeners.clear) this.$listeners.clear(e)
                 else {

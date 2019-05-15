@@ -36,6 +36,7 @@
         slot: null,
         autoClose: true,
         onConfirm: null,
+        onClose: null,
     }
 
     export default {
