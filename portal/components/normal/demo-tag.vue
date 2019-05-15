@@ -13,6 +13,16 @@
         <im-demo-row title="大小尺寸">
             <im-tag v-for="item in ['large','default','small']" :key="item" :label="item" :size="item"/>
         </im-demo-row>
+        <im-demo-row title="自定义渲染内容">
+            <im-tag>
+                <im-icon icon="pad-plus"/>
+                <span>搜索</span>
+                <im-icon icon="pad-search"/>
+            </im-tag>
+        </im-demo-row>
+        <im-demo-row title="标签输入框">
+            <im-tag-input :data="['北京','上海','广州']"/>
+        </im-demo-row>
     </div>
 </template>
 

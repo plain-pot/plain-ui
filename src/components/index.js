@@ -42,6 +42,7 @@ import date from './date/pl-date'
 import tree from './tree/pl-tree'
 import progress from './progress/pl-progress'
 import tag from './tag/pl-tag'
+import tagInput from './tag/pl-tag-input'
 
 const components = {
     icon,
@@ -86,6 +87,7 @@ const components = {
     tree,
     progress,
     tag,
+    tagInput,
 }
 
 export function getComponents(prefix = 'pl') {
