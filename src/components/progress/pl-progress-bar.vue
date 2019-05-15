@@ -4,16 +4,16 @@
             <div class="pl-progress-bar-inner" :style="innerStyles">
                 <div v-if="inlineText && value>20">
                     <div class="pl-progress-bar-content">
-                        <pl-icon v-if="status === 'success'" icon="pad-check-circle-fill" class="pl-progress-bar-icon-success" :style="{color:successColor}"/>
-                        <pl-icon v-else-if="status === 'error'" icon="pad-close-circle-fill" class="pl-progress-bar-icon-error" :style="{color:iconColor}"/>
+                        <pl-icon v-if="status === 'success'" icon="pad-check" class="pl-progress-bar-icon-success" :style="{color:'white'}"/>
+                        <pl-icon v-else-if="status === 'error'" icon="pad-close" class="pl-progress-bar-icon-error" :style="{color:'white'}"/>
                         <span v-else>{{value}}%</span>
                     </div>
                 </div>
             </div>
             <div v-if="inlineText && value<20">
                 <div class="pl-progress-bar-content">
-                    <pl-icon v-if="status === 'success'" icon="pad-check-circle-fill" class="pl-progress-bar-icon-success" :style="{color:successColor}"/>
-                    <pl-icon v-else-if="status === 'error'" icon="pad-close-circle-fill" class="pl-progress-bar-icon-error" :style="{color:iconColor}"/>
+                    <pl-icon v-if="status === 'success'" icon="pad-check" class="pl-progress-bar-icon-success" :style="{color:successColor}"/>
+                    <pl-icon v-else-if="status === 'error'" icon="pad-close" class="pl-progress-bar-icon-error" :style="{color:iconColor}"/>
                     <span v-else>{{value}}%</span>
                 </div>
             </div>

@@ -2,17 +2,22 @@
     <div class="pl-progress-circle">
         <canvas ref="canvas" :height="size" :width="size"></canvas>
         <div class="pl-progress-circle-label">
-            <slot :animatePercent="animatePercent" :value="value">
+            <slot :animatePercent="animatePercent" :value="value" v-if="status === 'normal'">
                 <span>{{animatePercent}}</span>%
             </slot>
+            <pl-icon icon="pad-check" v-if="status === 'success'" :style="{color:successColor}"/>
+            <pl-icon icon="pad-close" v-else-if="status === 'error'" :style="{color: errorColor}"/>
         </div>
     </div>
 </template>
 
 
 <script>
+    import PlIcon from "../pl-icon";
+
     export default {
         name: "pl-progress-circle",
+        components: {PlIcon},
         props: {
             value: {type: Number, default: 100},
             fontSize: {type: Number, default: 14},
@@ -23,6 +28,8 @@
             outerColor: {},
             innerColor: {},
             status: {},
+            successColor: {},
+            errorColor: {},
         },
         data() {
             return {
@@ -67,7 +74,7 @@
             //绘制蓝色外圈
             drawInnerCircle(animatePercent) {
                 this.ctx.save();
-                this.ctx.strokeStyle = this.innerColor;
+                this.ctx.strokeStyle = this.status === 'normal' ? this.innerColor : this.status === 'success' ? this.successColor : this.errorColor
                 this.ctx.lineWidth = this.lineSize;
                 this.ctx.lineCap = 'round';
                 this.ctx.beginPath();
