@@ -38,8 +38,9 @@
             }
         },
         watch: {
-            value() {
-                this.reload()
+            value(val) {
+                this.animatePercent = val
+                this.draw(val)
             },
         },
         computed: {

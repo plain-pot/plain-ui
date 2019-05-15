@@ -34,6 +34,7 @@
         flex: 1;
         display: inline-flex;
         align-items: center;
+        overflow: hidden;
 
         .pl-progress-bar-inner {
           height: 100%;

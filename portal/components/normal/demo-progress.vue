@@ -7,8 +7,8 @@
             <im-progress innerColor="blueviolet" outerColor="#ddd" :value="30"/>
         </im-demo-row>
         <im-demo-row title="状态">
-            <im-progress  :value="100" status="success"/>
-            <im-progress  :value="25" status="error"/>
+            <im-progress :value="100" status="success"/>
+            <im-progress :value="25" status="error"/>
         </im-demo-row>
         <im-demo-row title="内部文字">
             <im-progress inlineText :value="30"/>
@@ -22,12 +22,25 @@
             <im-progress type="circle" :value="100" status="success"/>
             <im-progress type="circle" :value="20" status="error"/>
         </im-demo-row>
+        <im-demo-row title="测试数据绑定">
+            <div>
+                <im-slider v-model="val"/>
+            </div>
+            <im-progress :value="val"/>
+            <im-progress :value="val" inlineText/>
+            <im-progress :value="val" type="circle"/>
+        </im-demo-row>
     </div>
 </template>
 
 <script>
     export default {
-        name: "demo-progress"
+        name: "demo-progress",
+        data() {
+            return {
+                val: 20,
+            }
+        },
     }
 </script>
 
