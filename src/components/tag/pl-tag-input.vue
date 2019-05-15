@@ -70,6 +70,7 @@
                 this.$emit('input', this.p_value)
             },
             async pl_enter() {
+                if (!this.p_text) return
                 if (!!this.onCreate) {
                     await this.onCreate(this.p_text)
                 } else {
