@@ -12,6 +12,7 @@
             :placeholder="placeholder"
             :open="pl_open"
             icon="pl-triangle-down-fill"
+            v-bind="input"
 
             @clear="pl_clear"
             @up="!!p_select && p_select.prev()"
@@ -31,6 +32,7 @@
             :disabled="disabled"
             :required="required"
             :placeholder="placeholder"
+            v-bind="input"
             @click="pl_enter"
             icon="pl-triangle-down-fill"
             @clear="pl_clear"
@@ -59,6 +61,7 @@
             labelKey: {type: String},
             valueKey: {type: String},
             multiple: {type: Boolean},
+            input:{},
 
             placeholder: {default: '请选择...'},
             readonly: {type: Boolean},

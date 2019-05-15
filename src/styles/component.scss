@@ -33,6 +33,7 @@
 @import "./component/tree";
 @import "./component/progress";
 @import "./component/tag";
+@import "./component/pagination";
 
 
 @mixin component-mixin {
@@ -71,6 +72,7 @@
   @include component-tree;
   @include component-progress;
   @include component-tag;
+  @include component-pagination;
 
 
 }

@@ -1,0 +1,73 @@
+@mixin component-pagination {
+  .pl-pagination {
+    @include public-style;
+    display: inline-flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .pl-pagination-left {
+      display: inline-flex;
+      align-items: center;
+
+      .pl-pagination-operation {
+        padding: 0 2em;
+        display: flex;
+        align-items: center;
+
+        .pl-pagination-operate-num-wrapper {
+          display: flex;
+          align-items: center;
+          padding: 0 1em;
+
+          .pl-pagination-operate-num {
+            width: 30px;
+            text-align: center;
+          }
+        }
+      }
+
+      .pl-pagination-operate-icon, .pl-pagination-operate-num {
+        cursor: pointer;
+        color: plVar(colorInfo);
+
+        &:hover {
+          color: plVar(colorPrimary);
+        }
+
+        &.pl-pagination-operate-num-active {
+          color: plVar(colorPrimary);
+        }
+
+        &.pl-pagination-operate-refresh-icon {
+          margin-left: 2em;
+        }
+
+        &.pl-icon-loading {
+          color: plVar(colorPrimary);
+        }
+      }
+
+      .pl-pagination-jump-wrapper {
+        .pl-pagination-jump-input {
+          border: none;
+
+          .pl-input-el {
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .pl-pagination-right {
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+
+      .pl-box, .pl-box-content {
+        width: fit-content !important;
+      }
+    }
+  }
+}

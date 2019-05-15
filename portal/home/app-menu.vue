@@ -86,7 +86,7 @@
                             {title: 'Tag标签', icon: 'pl-icon-tag', page: '/normal/demo-tag', complete: true},
                             {title: 'Progress进度条', icon: 'pl-progress', page: '/normal/demo-progress', complete: true},
                             {title: 'Tree树形组件', icon: 'pl-tree', page: '/normal/demo-tree', complete: true},
-                            {title: 'Pagination分页', icon: 'pl-book2', page: '/normal/demo-page-bar', complete: false},
+                            {title: 'Pagination分页', icon: 'pl-book2', page: '/normal/demo-pagination', complete: true},
                             {title: 'Badge标记', icon: 'pl-badge', page: '/normal/demo-badge', complete: true},
                             {title: 'ScrollOption滚动选择', icon: 'icon-scroll', page: '/normal/demo-scroll-option', complete: true},
                             {title: 'Steps步骤条', icon: 'pl-step', page: '/normal/demo-step', complete: false},
