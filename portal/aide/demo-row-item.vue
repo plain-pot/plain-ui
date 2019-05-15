@@ -37,6 +37,7 @@
                 color: plVar(colorTitle);
             }
             .demo-row-item-content {
+                flex: 1;
                 & > * {
                     margin-right: 12px;
                 }

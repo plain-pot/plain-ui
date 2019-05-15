@@ -110,6 +110,9 @@
                     <im-form-item label="日期选择器">
                         <im-date required/>
                     </im-form-item>
+                    <im-form-item label="标签输入框">
+                        <im-tag-input required input/>
+                    </im-form-item>
                     <im-form-item label="复选框">
                         <im-radio-group multiple>
                             <im-radio v-for="(item) in ['北京','上海','广州','南京']" :key="item" :id="item" :label="item"/>

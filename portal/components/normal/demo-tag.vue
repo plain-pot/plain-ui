@@ -21,7 +21,23 @@
             </im-tag>
         </im-demo-row>
         <im-demo-row title="标签输入框">
-            <im-tag-input :data="['北京','上海','广州']"/>
+            <im-tag-input :value="['北京','上海','广州']"/>
+        </im-demo-row>
+        <im-demo-row title="标签输入框颜色">
+            <im-tag-input :value="['北京','上海','广州']" v-for="item in colors" :key="item" :color="item"/>
+        </im-demo-row>
+
+        <im-demo-row title="标签输入框，可输入">
+            <im-tag-input v-model="val" input/>
+            <im-tag-input v-model="val" input/>
+        </im-demo-row>
+        <im-demo-row title="标签输入框，设置宽度">
+            <im-demo-row-item title="width=null">
+                <im-tag-input :value="['北京','上海','广州']" input width/>
+            </im-demo-row-item>
+            <im-demo-row-item title="width=100%">
+                <im-tag-input :value="['北京','上海','广州']" input width="100%"/>
+            </im-demo-row-item>
         </im-demo-row>
     </div>
 </template>
@@ -31,6 +47,7 @@
         name: "demo-tag",
         data() {
             return {
+                val: ['北京', '上海', '广州'],
                 colors: ['primary', 'success', 'warn', 'error', 'info', 'disabled']
             }
         },

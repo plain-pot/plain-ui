@@ -1,9 +1,9 @@
 <template>
-    <div class="pl-tag" :class="classes" @click="e=>$emit('click',e)">
+    <div class="pl-tag" :class="classes" @click="e=>!disabled && !readonly &&$emit('click',e)">
         <slot>
             <span>{{label}}</span>
         </slot>
-        <pl-icon icon="pad-close-circle-fill" v-if="close" hover class="pl-tag-close" @click.stop="e=>$emit('close',e)"/>
+        <pl-icon icon="pad-close-circle-fill" v-if="close" hover class="pl-tag-close" @click.stop="e=>!disabled && !readonly && $emit('close',e)"/>
     </div>
 </template>
 
@@ -18,12 +18,17 @@
             size: {type: String, default: 'small'},
             label: {type: String,},
             close: {type: Boolean},
+            disabled: {type: Boolean},
+            readonly: {type: Boolean},
         },
         computed: {
             classes() {
                 return [
                     `pl-tag-color-${this.color}`,
                     `pl-tag-size-${this.size}`,
+                    {
+                        'pl-tag-disabled': this.disabled
+                    },
                 ]
             },
         },
@@ -63,6 +68,11 @@
                     height: $value;
                     padding: 0 #{$value - 16px};
                 }
+            }
+
+            &.pl-tag-disabled {
+                cursor: not-allowed;
+                color: plVar(colorDisabled);
             }
         }
     }
