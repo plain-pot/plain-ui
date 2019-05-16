@@ -31,7 +31,7 @@
         },
         methods: {
             show(message, option) {
-                option = option || []
+                option = option || {}
                 switch (this.$plain.$utils.typeOf(message)) {
                     case 'string':
                         option.message = message

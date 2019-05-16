@@ -1,9 +1,9 @@
 <template>
     <div class="pl-message-item"
          :class="[`pl-message-item-color-${TYPE[type].color}`]" @click="pl_click">
-        <div>
-            <pl-icon :icon="TYPE[type].icon" class="pl-message-item-icon"/>
-            <span>{{text}}</span>
+        <div class="pl-message-item-content">
+            <pl-icon :icon="icon || TYPE[type].icon" class="pl-message-item-icon"/>
+            <span>{{message}}</span>
         </div>
         <pl-icon icon="pad-close" class="pl-message-item-close" @click.stop="close"/>
     </div>
@@ -17,8 +17,9 @@
         name: "pl-message-item",
         components: {PlIcon},
         props: {
-            text: {},
+            message: {},
             type: {type: String},
+            icon: {type: String},
             time: {type: Number},
             done: {type: Function},
             click: {type: Function},

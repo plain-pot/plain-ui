@@ -1,69 +1,103 @@
 <template>
     <div class="pl-dropdown">
-        <div class="pl-dropdown-reference" @click="p_click" ref="reference">
+        <div ref="reference"
+             class="pl-dropdown-reference"
+             @click="p_click"
+        >
             <slot></slot>
         </div>
-        <div class="pl-dropdown-popper-wrapper">
+        <pl-popover ref="popover"
+                    :reference="!p_mounted?null:$refs.reference"
+                    v-bind="popoverBinding">
             <div class="pl-dropdown-popper" ref="popper">
                 <slot name="popper"></slot>
             </div>
-        </div>
+        </pl-popover>
     </div>
 </template>
 
 <script>
     import {MountedMixin} from "../../mixin/component-mixin";
+    import PlPopover from "../popper/pl-popover";
 
     export default {
         name: "pl-dropdown",
+        components: {PlPopover},
         mixins: [MountedMixin],
         props: {
-            height: {default: '200px'},
-            width: {default: '150px'},
+            popover: {},
         },
         data() {
             return {
-                option: null,
-                popper: null,
+                p_popover: null,
             }
         },
         computed: {
-            popperOption() {
-                if (!this.p_mounted) return {}
-                return {
-                    reference: this.$refs.reference,
-                    popper: this.$refs.popper,
-                    disabledEqual: true,
-                    height: this.height,
-                    width: this.width,
-                    arrow: true,
-                }
+            popoverBinding() {
+                return Object.assign({
+                    popper: {
+                        arrow: true,
+                        disabledEqual: true,
+                        height: '200px',
+                        width: '150px',
+                    },
+                }, this.popover)
             },
         },
         mounted() {
-            this.option = {}
+            this.p_popover = this.$refs.popover
         },
         methods: {
+            show() {
+                this.p_popover.show()
+            },
+            hide() {
+                this.p_popover.hide()
+            },
             async p_click() {
-                !this.popper && (this.popper = await this.$plain.$popper.getPopper(this.popperOption))
-                this.popper.p_show ? this.popper.hide() : this.popper.show()
+                if (!!this.p_popover.p_popper.p_value) {
+                    this.p_popover.hide()
+                } else {
+                    this.p_popover.show()
+                }
             },
         },
     }
 </script>
 
 <style lang="scss">
-    .pl-dropdown {
-        .pl-dropdown-popper-wrapper {
-            display: none;
+    @include themeWrap {
+        .pl-dropdown {
+            .pl-dropdown-popper-wrapper {
+                display: none;
+            }
         }
-        @at-root .pl-dropdown-popper {
+        .pl-dropdown-popper {
             display: inline-flex;
             flex-direction: column;
             box-sizing: border-box;
             height: 100%;
             width: 100%;
-            padding: 12px;
+            padding: 3px 3px;
+
+            .pl-dropdown-item {
+                .pl-dropdown-item-content {
+                    padding: 6px 6px;
+                    font-size: 12px;
+                    color: plVar(colorContent);
+                    border-radius: plVar(borderFillet);
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: plVar(colorPrimaryLighter);
+                        color: plVar(colorPrimaryDeep);
+                    }
+
+                    .pl-dropdown-item-icon {
+                        margin-right: 6px;
+                    }
+                }
+            }
         }
     }
 </style>

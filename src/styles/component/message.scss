@@ -55,12 +55,17 @@
     min-width: 300px;
     display: flex;
     justify-content: space-between;
-    & > * {
-      vertical-align: middle;
+
+    .pl-message-item-content {
+      & > * {
+        vertical-align: middle;
+      }
     }
+
     .pl-message-item-icon {
       margin-right: 0.5em;
     }
+
     .pl-message-item-close {
       margin-left: 0.5em;
     }
@@ -73,12 +78,14 @@
         box-shadow: 0 2px 12px 0 $value;
       }
     }
+
     &.pl-message-item-color-black {
       background-color: #333333;
       color: white;
       border-color: #000000;
       box-shadow: 0 2px 12px 0 #333333;
     }
+
     &.pl-message-item-color-white {
       background-color: white;
       color: plVar(colorContent);

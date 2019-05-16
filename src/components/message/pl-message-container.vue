@@ -3,7 +3,7 @@
          :class="classes">
         <pl-list direction="top">
             <pl-item v-for="(item,index) in messages" :key="item.id">
-                <pl-message-item :text="item.text" :type="item.type" :time="item.time" :done="item.done" :click="item.click" @done="done(item,index)"/>
+                <pl-message-item :message="item.message" :type="item.type" :time="item.time" :done="item.done" :click="item.click" :icon="item.icon" @done="done(item,index)"/>
             </pl-item>
         </pl-list>
     </div>
