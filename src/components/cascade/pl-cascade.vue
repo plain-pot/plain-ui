@@ -10,7 +10,7 @@
             @click="pl_click">
         <pl-popper ref="popper"
                    slot="prepend"
-                   :height="28*5"
+                   :height="28*7"
                    :width="null"
                    :reference="p_reference"
                    disabled-equal
