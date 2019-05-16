@@ -21,7 +21,9 @@
                 </div>
                 <pl-icon icon="pad-right-circle-fill" class="pl-pagination-operate-icon" @click.stop="$emit('next')"/>
             </div>
-            <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading" @click="$emit('refresh')"/>
+            <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" v-if="!loading" @click="$emit('refresh')"/>
+            <pl-loading v-if="!!loading" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon"/>
+
             <div class="pl-pagination-jump-wrapper">
                 <span>第</span>
                 <pl-number no-controller :input="{width:40,placeholder:null,noClear:true}" v-model="p_page" class="pl-pagination-jump-input" @enter="pl_enter"/>
@@ -49,10 +51,11 @@
     import PlIcon from "./pl-icon";
     import PlSelect from "./select/pl-select";
     import PlNumber from "./pl-number";
+    import PlLoading from "./pl-loading";
 
     export default {
         name: "pl-pagination",
-        components: {PlNumber, PlSelect, PlIcon},
+        components: {PlLoading, PlNumber, PlSelect, PlIcon},
         props: {
             size: {type: Number, default: 10},
             page: {type: Number, default: 1},
