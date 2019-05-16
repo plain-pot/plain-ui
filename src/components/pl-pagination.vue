@@ -23,7 +23,7 @@
             </div>
             <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading"/>
             <div class="pl-pagination-jump-wrapper">
-                <span>前往</span>
+                <span>第</span>
                 <pl-number no-controller :input="{width:40,placeholder:null,noClear:true}" :value="p_page" class="pl-pagination-jump-input"/>
                 <span>页</span>
             </div>
