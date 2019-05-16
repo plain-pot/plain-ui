@@ -139,10 +139,14 @@
             align-items: center;
             justify-content: space-between;
 
+            $borderColor:plVar(colorInfoLight);
+            $borderTopVal:6px;
+            $borderBottomVal:6px;
+
             .pl-pagination-left {
                 display: inline-flex;
                 align-items: center;
-                border: solid 1px plVar(colorInfoLight);
+                border: solid 1px $borderColor;
                 box-sizing: border-box;
                 padding: 1px 0;
                 border-radius: plVar(borderFillet);
@@ -157,10 +161,10 @@
                     &:after {
                         width: 1px;
                         position: absolute;
-                        top: 0;
-                        bottom: 0;
+                        top: $borderTopVal;
+                        bottom: $borderBottomVal;
                         right: 0;
-                        background-color: plVar(colorInfo);
+                        background-color: $borderColor;
                         content: '';
                     }
 
@@ -170,7 +174,7 @@
                         padding: 0 1em;
 
                         .pl-pagination-operate-num {
-                            width: 30px;
+                            padding: 0 12px;
                             text-align: center;
                         }
                     }
@@ -209,20 +213,20 @@
                     &:before {
                         width: 1px;
                         position: absolute;
-                        top: 0;
-                        bottom: 0;
+                        top: $borderTopVal;
+                        bottom: $borderBottomVal;
                         left: 0;
-                        background-color: plVar(colorInfo);
+                        background-color: $borderColor;
                         content: '';
                     }
 
                     &:after {
                         width: 1px;
                         position: absolute;
-                        top: 0;
-                        bottom: 0;
+                        top: $borderTopVal;
+                        bottom: $borderBottomVal;
                         right: 0;
-                        background-color: plVar(colorInfo);
+                        background-color: $borderColor;
                         content: '';
                     }
 
