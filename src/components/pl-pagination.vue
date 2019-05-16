@@ -130,6 +130,7 @@
             async pl_enter() {
                 await this.$plain.nextTick()
                 await this.$plain.nextTick()
+                if (!this.p_page) this.p_page = 1
                 this.p_clickPage(this.p_page)
             },
             pl_sizeChange(e) {
