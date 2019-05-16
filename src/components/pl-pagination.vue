@@ -138,6 +138,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+            user-select: none;
 
             $borderColor: plVar(colorInfoLight);
             $borderTopVal: 6px;
