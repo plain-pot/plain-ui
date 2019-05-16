@@ -6,7 +6,7 @@
                 <div class="pl-pagination-operate-num-wrapper">
                     <template v-if="p_page-availablePage-1>0">
                         <div class="pl-pagination-operate-num" @click="p_clickPage(1)">1</div>
-                        <pl-icon icon="pl-more-solid"/>
+                        <pl-icon icon="pl-more-solid" class="pl-pagination-more-icon"/>
                     </template>
                     <div v-for="(item,index) in pages" :key="index"
                          class="pl-pagination-operate-num"
@@ -15,7 +15,7 @@
                         {{item}}
                     </div>
                     <template v-if="p_page+availablePage+1<=totalPage">
-                        <pl-icon icon="pl-more-solid"/>
+                        <pl-icon icon="pl-more-solid" class="pl-pagination-more-icon"/>
                         <div class="pl-pagination-operate-num" @click="p_clickPage(totalPage)">{{totalPage}}</div>
                     </template>
                 </div>
@@ -139,9 +139,9 @@
             align-items: center;
             justify-content: space-between;
 
-            $borderColor:plVar(colorInfoLight);
-            $borderTopVal:6px;
-            $borderBottomVal:6px;
+            $borderColor: plVar(colorInfoLight);
+            $borderTopVal: 6px;
+            $borderBottomVal: 6px;
 
             .pl-pagination-left {
                 display: inline-flex;
@@ -180,9 +180,16 @@
                     }
                 }
 
+                .pl-pagination-operate-icon {
+                    color: plVar(colorInfoDeep);
+                }
+
+                .pl-pagination-operate-num, .pl-pagination-more-icon {
+                    color: plVar(colorInfo);
+                }
+
                 .pl-pagination-operate-icon, .pl-pagination-operate-num {
                     cursor: pointer;
-                    color: plVar(colorInfo);
 
                     &:hover {
                         color: plVar(colorPrimary);
@@ -233,6 +240,7 @@
                     .pl-pagination-jump-input {
                         border: none;
                         padding-right: 6px;
+
                         input {
                             text-align: center;
                         }
