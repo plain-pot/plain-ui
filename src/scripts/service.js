@@ -1,6 +1,6 @@
 import $utils from './utils'
 import $dom from './dom'
-import $storage from './storage'
+import {StorageService} from './storage'
 import $valid from '../components/form/validate'
 import {MessageService} from "../components/message";
 import {SelectService} from "../components/select";
@@ -13,6 +13,7 @@ export default function ($plain) {
     const $select = new SelectService($plain)
     const $dialog = new DialogService($plain)
     const $notice = new NoticeService($plain)
+    const $storage = new StorageService($plain)
 
     const service = {
         inner: {
