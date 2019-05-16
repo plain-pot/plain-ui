@@ -1,12 +1,15 @@
 <template>
     <div class="pl-step" :class="classes">
         <div class="pl-step-icon-wrapper">
-            <pl-icon icon="pad-close-circle-fill" v-if="status === 'error'"/>
-            <pl-icon icon="pad-check-circle-fill" v-else-if="status === 'success'"/>
-            <pl-icon :icon="icon" v-else-if="!!icon"/>
-            <div class="pl-step-number" v-else-if="p_index!=null">
-                {{p_index+1}}
+            <div class="pl-step-icon-content">
+                <pl-icon icon="pad-close-circle-fill" v-if="status === 'error'"/>
+                <pl-icon icon="pad-check-circle-fill" v-else-if="status === 'success'"/>
+                <pl-icon :icon="icon" v-else-if="!!icon"/>
+                <div class="pl-step-number" v-else-if="p_index!=null">
+                    {{p_index+1}}
+                </div>
             </div>
+            <div class="pl-step-title-line" v-if="!!p_container && p_container.vertical && (p_container.reverse?!isFirst:!isLast)"></div>
         </div>
         <div class="pl-step-body">
             <div class="pl-step-title-wrapper">
@@ -15,7 +18,7 @@
                         {{title}}
                     </slot>
                 </div>
-                <div class="pl-step-title-line" v-if="!isLast"></div>
+                <div class="pl-step-title-line" v-if="!isLast && !!p_container && !p_container.vertical"></div>
             </div>
             <div class="pl-step-content">
                 <slot name="content">
@@ -48,6 +51,9 @@
             isLast() {
                 if (!this.p_container) return false
                 return this.p_index === this.p_container.items.length - 1
+            },
+            isFirst() {
+                return this.p_index === 0
             },
             isActive() {
                 if (!this.p_container) return false

@@ -41,6 +41,38 @@
                 <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :icon="item.icon" :status="val === index?'success':null"/>
             </im-step-container>
         </im-demo-row>
+
+        <im-demo-row title="纵向步骤条">
+            <im-demo-row-item>
+                <im-step-container :value="val" vertical>
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :status="val === index?'success':null"/>
+                </im-step-container>
+            </im-demo-row-item>
+            <im-demo-row-item>
+                <im-step-container :value="val" vertical mini>
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :status="val === index?'success':null"/>
+                </im-step-container>
+            </im-demo-row-item>
+            <im-demo-row-item>
+                <im-step-container :value="val" vertical mini>
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :icon="item.icon" :key="index" :status="val === index?'success':null"/>
+                </im-step-container>
+            </im-demo-row-item>
+            <im-demo-row-item>
+                <im-step-container :value="val" vertical>
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :icon="item.icon" :status="val === index?'error':null"/>
+                </im-step-container>
+                <im-step-container :value="val" vertical>
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :icon="item.icon" :status="val === index?'success':null"/>
+                </im-step-container>
+            </im-demo-row-item>
+        </im-demo-row>
+
+        <im-demo-row title="纵向反转">
+            <im-step-container :value="val" vertical reverse>
+                <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :status="val === index?'success':null"/>
+            </im-step-container>
+        </im-demo-row>
     </div>
 </template>
 

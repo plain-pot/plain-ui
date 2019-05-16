@@ -11,9 +11,10 @@
         name: "pl-step-container",
         mixins: [ThrottleMixin],
         props: {
-            direction: {type: String, default: 'horizontal'},
+            vertical: {type: Boolean},
             value: {},
-            mini: {type: Boolean}
+            mini: {type: Boolean},
+            reverse: {type: Boolean},
         },
         data() {
             return {
@@ -23,8 +24,11 @@
         computed: {
             classes() {
                 return [
-                    `pl-step-container-${this.direction}`,
+                    `pl-step-container-${this.vertical ? 'vertical' : 'horizontal'}`,
                     `pl-step-size-${this.mini ? 'mini' : 'default'}`,
+                    {
+                        'pl-step-container-reverse': this.reverse,
+                    },
                 ]
             },
         },
@@ -99,62 +103,94 @@
                         flex: 1;
                         display: flex;
                         color: plVar(colorContentSub);
+                    }
+                }
 
-                        .pl-step-body {
-                            flex: 1;
+                &.pl-step-container-vertical {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
 
-                            .pl-step-title-wrapper {
-                                font-weight: bold;
-                                font-size: 14px;
-                                display: flex;
-                                align-items: center;
-                                padding-right: $largePadding;
-                                padding-bottom: smallPadding;
-                                height: $titleHeight;
+                    &.pl-step-container-reverse {
+                        flex-direction: column-reverse;
+                    }
 
-                                .pl-step-title-line {
-                                    height: 1px;
-                                    flex: 1;
-                                    background-color: plVar(colorContentSub);
-                                }
-                            }
-
-                            .pl-step-title, .pl-step-content {
-                                padding: 0 $largePadding;
-                                box-sizing: border-box;
-                                letter-spacing: 1px;
-                                color: inherit;
-                            }
-
-                            .pl-step-content {
-                                font-size: $contentFontSize;
-                            }
-                        }
+                    .pl-step {
+                        width: 100%;
+                        display: flex;
 
                         .pl-step-icon-wrapper {
-                            height: $titleHeight;
-                            width: $titleHeight;
                             display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            color: inherit;
+                            flex-direction: column;
+                            align-items: stretch;
 
-                            .pl-icon {
-                                font-size: $iconFontSize;
+                            .pl-step-title-line {
+                                flex: 1;
+                                width: 1px;
+                                background-color: plVar(colorContentSub);
+                                align-self: center;
                             }
                         }
 
-                        .pl-step-number {
-                            height: $numberSize;
-                            width: $numberSize;
-                            border-radius: $numberSize;
-                            border: solid 1px plVar(colorContentSub);
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            color: inherit;
+                        .pl-step-body {
+                            padding-bottom: $smallPadding;
                         }
                     }
+                }
+
+                .pl-step-body {
+                    flex: 1;
+
+                    .pl-step-title-wrapper {
+                        font-weight: bold;
+                        font-size: 14px;
+                        display: flex;
+                        align-items: center;
+                        padding-right: $largePadding;
+                        padding-bottom: $smallPadding;
+                        height: $titleHeight;
+
+                        .pl-step-title-line {
+                            height: 1px;
+                            flex: 1;
+                            background-color: plVar(colorContentSub);
+                        }
+                    }
+
+                    .pl-step-title, .pl-step-content {
+                        padding: 0 $largePadding;
+                        box-sizing: border-box;
+                        letter-spacing: 1px;
+                        color: inherit;
+                    }
+
+                    .pl-step-content {
+                        font-size: $contentFontSize;
+                    }
+                }
+
+                .pl-step-icon-content {
+                    height: $titleHeight;
+                    width: $titleHeight;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: inherit;
+
+                    .pl-icon {
+                        font-size: $iconFontSize;
+                    }
+                }
+
+                .pl-step-number {
+                    height: $numberSize;
+                    width: $numberSize;
+                    border-radius: $numberSize;
+                    border: solid 1px plVar(colorContentSub);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: inherit;
                 }
             }
 
