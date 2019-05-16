@@ -73,6 +73,33 @@
                 <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :status="val === index?'success':null"/>
             </im-step-container>
         </im-demo-row>
+
+        <im-demo-row title="自定义标题以及内容">
+            <im-demo-row-item>
+                <im-step-container :value="val">
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :status="val === index?'success':null">
+                        <div slot="title">
+                            【标题】:{{item.title}}
+                        </div>
+                        <div slot="content">
+                            【内容】：{{item.content}}
+                        </div>
+                    </im-step>
+                </im-step-container>
+            </im-demo-row-item>
+            <im-demo-row-item>
+                <im-step-container :value="val" vertical>
+                    <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :status="val === index?'success':null">
+                        <div slot="title">
+                            【标题】:{{item.title}}
+                        </div>
+                        <div slot="content">
+                            【内容】：{{item.content}}
+                        </div>
+                    </im-step>
+                </im-step-container>
+            </im-demo-row-item>
+        </im-demo-row>
     </div>
 </template>
 
