@@ -16,6 +16,23 @@
                 </template>
             </im-dropdown>
         </im-demo-row>
+        <im-demo-row title="分割线">
+            <im-dropdown>
+                <im-button label="toggle"/>
+                <template slot="popper">
+                    <im-dropdown-item v-for="item in data" :label="item.name" :key="item.name" @click="$message.show({message:item.name,icon:item.icon})" :icon="item.icon" :baseLine="item.name === '谷歌'"/>
+                </template>
+            </im-dropdown>
+        </im-demo-row>
+
+        <im-demo-row title="任意目标">
+            <im-dropdown>
+                <span>toggle</span>
+                <template slot="popper">
+                    <im-dropdown-item v-for="item in data" :label="item.name" :key="item.name" @click="$message.show(item.name)"/>
+                </template>
+            </im-dropdown>
+        </im-demo-row>
     </div>
 </template>
 

@@ -68,6 +68,9 @@
 <style lang="scss">
     @include themeWrap {
         .pl-dropdown {
+            display: inline-block;
+            vertical-align: middle;
+            outline: none;
             .pl-dropdown-popper-wrapper {
                 display: none;
             }
@@ -96,6 +99,12 @@
                     .pl-dropdown-item-icon {
                         margin-right: 6px;
                     }
+                }
+                .pl-dropdown-item-line{
+                    width: 100%;
+                    height: 1px;
+                    background-color: plVar(colorBorder);
+                    margin: 6px 0;
                 }
             }
         }

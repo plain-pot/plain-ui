@@ -4,6 +4,7 @@
             <pl-icon v-if="!!icon" :icon="icon" class="pl-dropdown-item-icon"/>
             <slot>{{label}}</slot>
         </div>
+        <div class="pl-dropdown-item-line" v-if="baseLine"></div>
     </div>
 </template>
 
@@ -18,6 +19,7 @@
             label: {},
             icon: {},
             disabledHideOnClick: {type: Boolean},
+            baseLine: {type: Boolean},
         },
         data() {
             return {
