@@ -1,12 +1,16 @@
 @mixin component-tab {
   .pl-tabs {
-    display: block;
+    display: flex;
     width: 100%;
     box-sizing: border-box;
     vertical-align: middle;
     font-size: 14px;
+    flex-direction: column;
     .pl-tabs-body {
+      flex: 1;
       padding: 12px;
+      background-color: white;
+      border-radius: plVar(borderFillet);
     }
   }
   .pl-tab-header {
@@ -14,7 +18,7 @@
     display: block;
     .pl-item {
       display: inline-block;
-      margin-right: plVar(padding);
+      margin-right: plVar(paddingSmall);
       margin-bottom: plVar(paddingSmall);
       border-radius: plVar(borderFillet);
       background-color: white;

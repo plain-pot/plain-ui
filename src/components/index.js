@@ -46,6 +46,8 @@ import tagInput from './tag/pl-tag-input'
 import pagination from './pl-pagination'
 import step from './step/pl-step'
 import stepContainer from './step/pl-step-container'
+import tabs from './tab/pl-tabs'
+import tab from './tab/pl-tab'
 
 const components = {
     icon,
@@ -94,6 +96,8 @@ const components = {
     pagination,
     step,
     stepContainer,
+    tabs,
+    tab,
 }
 
 export function getComponents(prefix = 'pl') {
