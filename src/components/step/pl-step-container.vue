@@ -37,7 +37,7 @@
             async pl_updateItemIndex() {
                 await this.$plain.nextTick()
                 let itemEls = [];
-                for (let item of  document.querySelectorAll('.pl-step')) itemEls.push(item)
+                for (let item of  this.$el.querySelectorAll('.pl-step')) itemEls.push(item)
                 this.items.forEach(item => item.p_index = itemEls.indexOf(item.$el))
             },
         },
@@ -45,6 +45,9 @@
 </script>
 
 <style lang="scss">
+
+    $titleHeight: 30px;
+
     @include themeWrap {
         .pl-step-container {
             &.pl-step-container-horizontal {
@@ -65,10 +68,9 @@
                             font-size: 14px;
                             display: flex;
                             align-items: center;
-                            box-sizing: border-box;
                             padding-right: 16px;
-                            padding-bottom: 16px;
-                            padding-top: 4px;
+                            padding-bottom: 8px;
+                            height: $titleHeight;
 
                             .pl-step-title-line {
                                 height: 1px;
@@ -82,6 +84,23 @@
                             box-sizing: border-box;
                             letter-spacing: 1px;
                             color: inherit;
+                        }
+
+                        .pl-step-content {
+                            font-size: 13px;
+                        }
+                    }
+
+                    .pl-step-icon-wrapper {
+                        height: $titleHeight;
+                        width: $titleHeight;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: inherit;
+
+                        .pl-icon {
+                            font-size: 22px;
                         }
                     }
 
@@ -109,6 +128,7 @@
                     background-color: plVar(colorPrimaryDeep);
                 }
             }
+
             .pl-step.pl-step-complete {
                 color: plVar(colorSuccessDeep);
 
