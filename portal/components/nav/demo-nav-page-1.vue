@@ -1,12 +1,12 @@
 <template>
-    <div class="pl-nav-page-item">
-        pl-nav-page-item
+    <div class="demo-nav-page-1">
+        demo-nav-page-1
     </div>
 </template>
 
 <script>
     export default {
-        name: "pl-nav-page-item"
+        name: "demo-nav-page-1"
     }
 </script>
 
