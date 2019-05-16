@@ -1,17 +1,8 @@
 <template>
     <div class="pl-pagination">
         <div class="pl-pagination-left">
-            <pl-select
-                    class="pl-pagination-select"
-                    :data="p_sizeData"
-                    label-key="label"
-                    value-key="value"
-                    v-model="p_size"
-                    :input="inputBinding"
-                    :clearable="false"
-                    :height="120"/>
             <div class="pl-pagination-operation">
-                <pl-icon icon="pad-left" class="pl-pagination-operate-icon"/>
+                <pl-icon icon="pad-left-circle-fill" class="pl-pagination-operate-icon"/>
                 <div class="pl-pagination-operate-num-wrapper">
                     <template v-if="p_page-availablePage-1>0">
                         <div class="pl-pagination-operate-num" @click="p_clickPage(1)">1</div>
@@ -28,15 +19,23 @@
                         <div class="pl-pagination-operate-num" @click="p_clickPage(totalPage)">{{totalPage}}</div>
                     </template>
                 </div>
-                <pl-icon icon="pad-right" class="pl-pagination-operate-icon"/>
-                <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading"/>
+                <pl-icon icon="pad-right-circle-fill" class="pl-pagination-operate-icon"/>
             </div>
-
+            <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading"/>
             <div class="pl-pagination-jump-wrapper">
                 <span>前往</span>
                 <pl-input :width="40" :value="p_page" :placeholder="null" class="pl-pagination-jump-input" noClear/>
                 <span>页</span>
             </div>
+            <pl-select
+                    class="pl-pagination-select"
+                    :data="p_sizeData"
+                    label-key="label"
+                    value-key="value"
+                    v-model="p_size"
+                    :input="inputBinding"
+                    :clearable="false"
+                    :height="120"/>
         </div>
 
         <div class="pl-pagination-right">
@@ -85,8 +84,8 @@
             inputBinding() {
                 return Object.assign({
                     noClear: true,
-                    size: 'small',
-                    width: 90
+                    width: 90,
+                    type: 'none',
                 }, this.input)
             },
             totalPage() {
@@ -129,3 +128,120 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @include themeWrap {
+        .pl-pagination {
+            @include public-style;
+            display: inline-flex;
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .pl-pagination-left {
+                display: inline-flex;
+                align-items: center;
+                border: solid 1px plVar(colorInfoLight);
+                box-sizing: border-box;
+                padding: 1px 0;
+                border-radius: plVar(borderFillet);
+
+                .pl-pagination-operation {
+                    display: flex;
+                    align-items: center;
+                    padding: 0 16px;
+                    position: relative;
+                    height: 28px;
+                    &:after{
+                        width: 1px;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        background-color: plVar(colorInfo);
+                        content: '';
+                    }
+
+                    .pl-pagination-operate-num-wrapper {
+                        display: flex;
+                        align-items: center;
+                        padding: 0 1em;
+
+                        .pl-pagination-operate-num {
+                            width: 30px;
+                            text-align: center;
+                        }
+                    }
+                }
+
+                .pl-pagination-operate-icon, .pl-pagination-operate-num {
+                    cursor: pointer;
+                    color: plVar(colorInfo);
+
+                    &:hover {
+                        color: plVar(colorPrimary);
+                    }
+                    &:active{
+                        color: plVar(colorPrimaryDeep);
+                    }
+
+                    &.pl-pagination-operate-num-active {
+                        color: plVar(colorPrimary);
+                    }
+
+                    &.pl-pagination-operate-refresh-icon {
+                        padding: 0 16px;
+                    }
+
+                    &.pl-icon-loading {
+                        color: plVar(colorPrimary);
+                    }
+                }
+
+                .pl-pagination-jump-wrapper {
+                    font-size: 12px;
+                    position: relative;
+                    padding: 0 16px;
+
+                    &:before {
+                        width: 1px;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        background-color: plVar(colorInfo);
+                        content: '';
+                    }
+                    &:after {
+                        width: 1px;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        background-color: plVar(colorInfo);
+                        content: '';
+                    }
+
+                    .pl-pagination-jump-input {
+                        border: none;
+
+                        input {
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+
+            .pl-pagination-right {
+                height: 100%;
+                display: inline-block;
+                vertical-align: middle;
+
+                .pl-box, .pl-box-content {
+                    width: fit-content !important;
+                }
+            }
+        }
+    }
+</style>
