@@ -24,7 +24,7 @@
             <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading"/>
             <div class="pl-pagination-jump-wrapper">
                 <span>前往</span>
-                <pl-input :width="40" :value="p_page" :placeholder="null" class="pl-pagination-jump-input" noClear/>
+                <pl-number no-controller :input="{width:40,placeholder:null,noClear:true}" :value="p_page" class="pl-pagination-jump-input"/>
                 <span>页</span>
             </div>
             <pl-select
@@ -46,12 +46,12 @@
 
 <script>
     import PlIcon from "./pl-icon";
-    import PlInput from "./pl-input";
     import PlSelect from "./select/pl-select";
+    import PlNumber from "./pl-number";
 
     export default {
         name: "pl-pagination",
-        components: {PlSelect, PlInput, PlIcon},
+        components: {PlNumber, PlSelect, PlIcon},
         props: {
             size: {type: Number, default: 10},
             page: {type: Number, default: 1},
@@ -153,7 +153,8 @@
                     padding: 0 16px;
                     position: relative;
                     height: 28px;
-                    &:after{
+
+                    &:after {
                         width: 1px;
                         position: absolute;
                         top: 0;
@@ -182,7 +183,8 @@
                     &:hover {
                         color: plVar(colorPrimary);
                     }
-                    &:active{
+
+                    &:active {
                         color: plVar(colorPrimaryDeep);
                     }
 
@@ -213,6 +215,7 @@
                         background-color: plVar(colorInfo);
                         content: '';
                     }
+
                     &:after {
                         width: 1px;
                         position: absolute;
@@ -225,7 +228,7 @@
 
                     .pl-pagination-jump-input {
                         border: none;
-
+                        padding-right: 6px;
                         input {
                             text-align: center;
                         }
