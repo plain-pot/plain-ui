@@ -11,10 +11,34 @@
             <im-step-container :value="val">
                 <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index"/>
             </im-step-container>
+            <im-step-container :value="val">
+                <im-step v-for="(item,index) in data" :title="item.title" :key="index"/>
+            </im-step-container>
         </im-demo-row>
         <im-demo-row title="设置图标">
             <im-step-container :value="val">
                 <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :icon="item.icon"/>
+            </im-step-container>
+        </im-demo-row>
+        <im-demo-row title="迷你步骤条">
+            <im-demo-row-item>
+                <im-step-container :value="val" mini>
+                    <im-step v-for="(item,index) in data" :title="item.title" :key="index" :content="item.content"/>
+                </im-step-container>
+            </im-demo-row-item>
+            <im-demo-row-item>
+                <im-step-container :value="val" mini>
+                    <im-step v-for="(item,index) in data" :title="item.title" :key="index" :icon="item.icon"/>
+                </im-step-container>
+            </im-demo-row-item>
+        </im-demo-row>
+
+        <im-demo-row title="设置状态">
+            <im-step-container :value="val">
+                <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :icon="item.icon" :status="val === index?'error':null"/>
+            </im-step-container>
+            <im-step-container :value="val">
+                <im-step v-for="(item,index) in data" :title="item.title" :content="item.content" :key="index" :icon="item.icon" :status="val === index?'success':null"/>
             </im-step-container>
         </im-demo-row>
     </div>

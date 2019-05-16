@@ -1,7 +1,9 @@
 <template>
     <div class="pl-step" :class="classes">
         <div class="pl-step-icon-wrapper">
-            <pl-icon :icon="icon" v-if="!!icon"/>
+            <pl-icon icon="pad-close-circle-fill" v-if="status === 'error'"/>
+            <pl-icon icon="pad-check-circle-fill" v-else-if="status === 'success'"/>
+            <pl-icon :icon="icon" v-else-if="!!icon"/>
             <div class="pl-step-number" v-else-if="p_index!=null">
                 {{p_index+1}}
             </div>
@@ -34,6 +36,7 @@
             icon: {type: String,},
             title: {type: String,},
             content: {type: String,},
+            status: {type: String},
         },
         data() {
             return {
@@ -59,6 +62,8 @@
                     {
                         'pl-step-active': this.isActive,
                         'pl-step-complete': this.isComplete,
+                        'pl-step-status-success': this.status === 'success',
+                        'pl-step-status-error': this.status === 'error',
                     }
                 ]
             },
