@@ -10,6 +10,7 @@
               @blur="pl_blur"
               @click="e=>$emit('click',e)"
               @clear="pl_clear"
+              @enter="pl_enter"
     >
         <div slot="append" class="pl-number-controller" v-if="!noController">
             <div class="pl-number-up" @click.stop="e=>p_add(e)">
@@ -102,6 +103,10 @@
             pl_clear() {
                 this.p_value = null
                 this.p_emitValue()
+            },
+            async pl_enter() {
+                this.$emit('enter')
+                this.pl_blur()
             },
         }
     }

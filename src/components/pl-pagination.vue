@@ -2,7 +2,7 @@
     <div class="pl-pagination">
         <div class="pl-pagination-left">
             <div class="pl-pagination-operation">
-                <pl-icon icon="pad-left-circle-fill" class="pl-pagination-operate-icon"/>
+                <pl-icon icon="pad-left-circle-fill" class="pl-pagination-operate-icon" @click.stop="$emit('prev')"/>
                 <div class="pl-pagination-operate-num-wrapper" :style="{width:!autoSize?null:`${(2*availablePage+3)*33+36}px`}">
                     <template v-if="p_page-availablePage-1>0">
                         <div class="pl-pagination-operate-num" @click="p_clickPage(1)">1</div>
@@ -19,12 +19,12 @@
                         <div class="pl-pagination-operate-num" @click="p_clickPage(totalPage)">{{totalPage}}</div>
                     </template>
                 </div>
-                <pl-icon icon="pad-right-circle-fill" class="pl-pagination-operate-icon"/>
+                <pl-icon icon="pad-right-circle-fill" class="pl-pagination-operate-icon" @click.stop="$emit('next')"/>
             </div>
-            <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading"/>
+            <pl-icon icon="pl-refresh" class="pl-pagination-operate-icon pl-pagination-operate-refresh-icon" :loading="loading" @click="$emit('refresh')"/>
             <div class="pl-pagination-jump-wrapper">
                 <span>第</span>
-                <pl-number no-controller :input="{width:40,placeholder:null,noClear:true}" :value="p_page" class="pl-pagination-jump-input"/>
+                <pl-number no-controller :input="{width:40,placeholder:null,noClear:true}" v-model="p_page" class="pl-pagination-jump-input" @enter="pl_enter"/>
                 <span>页</span>
             </div>
             <pl-select
@@ -32,7 +32,8 @@
                     :data="p_sizeData"
                     label-key="label"
                     value-key="value"
-                    v-model="p_size"
+                    :value="p_size"
+                    @input="pl_sizeChange"
                     :input="inputBinding"
                     :clearable="false"
                     :height="120"/>
@@ -124,6 +125,16 @@
         methods: {
             p_clickPage(page) {
                 this.p_page = page
+                this.$emit('jump', page)
+            },
+            async pl_enter() {
+                await this.$plain.nextTick()
+                await this.$plain.nextTick()
+                this.p_clickPage(this.p_page)
+            },
+            pl_sizeChange(e) {
+                this.p_size = e
+                this.$emit('sizeChange', e)
             },
         }
     }
