@@ -12,6 +12,9 @@
         <im-demo-row title="显示加载状态">
             <im-pagination :page="1" :size="20" :total="188" loading/>
         </im-demo-row>
+        <im-demo-row title="固定宽度">
+            <im-pagination :page="1" :size="20" :total="180" autoSize/>
+        </im-demo-row>
     </div>
 </template>
 

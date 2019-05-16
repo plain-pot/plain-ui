@@ -3,7 +3,7 @@
         <div class="pl-pagination-left">
             <div class="pl-pagination-operation">
                 <pl-icon icon="pad-left-circle-fill" class="pl-pagination-operate-icon"/>
-                <div class="pl-pagination-operate-num-wrapper">
+                <div class="pl-pagination-operate-num-wrapper" :style="{width:!autoSize?null:`${(2*availablePage+3)*33+36}px`}">
                     <template v-if="p_page-availablePage-1>0">
                         <div class="pl-pagination-operate-num" @click="p_clickPage(1)">1</div>
                         <pl-icon icon="pl-more-solid" class="pl-pagination-more-icon"/>
@@ -14,7 +14,7 @@
                          @click="p_clickPage(item)">
                         {{item}}
                     </div>
-                    <template v-if="p_page+availablePage+1<=totalPage">
+                    <template v-if="p_page+availablePage+1<=totalPage && pages[pages.length-1]!== totalPage">
                         <pl-icon icon="pl-more-solid" class="pl-pagination-more-icon"/>
                         <div class="pl-pagination-operate-num" @click="p_clickPage(totalPage)">{{totalPage}}</div>
                     </template>
@@ -59,6 +59,7 @@
             sizeData: {type: Array, default: () => [10, 20, 50, 100]},
             availablePage: {type: Number, default: 3},
             loading: {type: Boolean},
+            autoSize: {type: Boolean},
         },
         data() {
             return {
@@ -98,7 +99,6 @@
                 let begin = this.p_page - this.availablePage
                 let end = this.p_page + this.availablePage
                 if (begin < 1) {
-                    end += (1 - begin + 1)
                     begin = 1
                 }
                 if (end > this.totalPage) {
@@ -171,6 +171,7 @@
                     .pl-pagination-operate-num-wrapper {
                         display: flex;
                         align-items: center;
+                        justify-content: center;
                         padding: 0 1em;
 
                         .pl-pagination-operate-num {
