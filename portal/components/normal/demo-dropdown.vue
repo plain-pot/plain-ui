@@ -33,6 +33,14 @@
                 </template>
             </im-dropdown>
         </im-demo-row>
+        <im-demo-row title="设置popover">
+            <im-dropdown :popover="{popper:{arrow:false,disabledEqual:false}}">
+                <im-button label="toggle"/>
+                <template slot="popper">
+                    <im-dropdown-item v-for="item in data" :label="item.name" :key="item.name" @click="$message.show(item.name)" :icon="item.icon"/>
+                </template>
+            </im-dropdown>
+        </im-demo-row>
     </div>
 </template>
 
