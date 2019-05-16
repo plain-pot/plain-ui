@@ -34,6 +34,7 @@
 @import "./component/progress";
 @import "./component/tag";
 @import "./component/pagination";
+@import "./component/nav";
 
 
 @mixin component-mixin {
@@ -73,6 +74,7 @@
   @include component-progress;
   @include component-tag;
   @include component-pagination;
+  @include component-nav;
 
 
 }
