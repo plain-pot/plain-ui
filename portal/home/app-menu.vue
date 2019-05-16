@@ -89,7 +89,7 @@
                             {title: 'Pagination分页', icon: 'pl-book2', page: '/normal/demo-pagination', complete: true},
                             {title: 'Badge标记', icon: 'pl-badge', page: '/normal/demo-badge', complete: true},
                             {title: 'ScrollOption滚动选择', icon: 'icon-scroll', page: '/normal/demo-scroll-option', complete: true},
-                            {title: 'Steps步骤条', icon: 'pl-step', page: '/normal/demo-step', complete: false},
+                            {title: 'Step步骤条', icon: 'pl-step', page: '/normal/demo-step', complete: true},
                             {title: 'Transform穿梭框', icon: 'pl-exchange', page: '/normal/demo-icon', complete: false},
                         ],
                     },

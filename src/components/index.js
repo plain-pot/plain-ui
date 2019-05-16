@@ -44,6 +44,8 @@ import progress from './progress/pl-progress'
 import tag from './tag/pl-tag'
 import tagInput from './tag/pl-tag-input'
 import pagination from './pl-pagination'
+import step from './step/pl-step'
+import stepContainer from './step/pl-step-container'
 
 const components = {
     icon,
@@ -90,6 +92,8 @@ const components = {
     tag,
     tagInput,
     pagination,
+    step,
+    stepContainer,
 }
 
 export function getComponents(prefix = 'pl') {
