@@ -10,7 +10,8 @@
                  :class="{'pl-tab-header-item-active':index === p_value}">
             <div class="pl-tab-header-item"
                  @click="p_click(item,index)"
-                 @dblclick="p_dblclick(item,index)">
+                 @dblclick="p_dblclick(item,index)"
+                 @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
                 <div class="pl-tab-header-item-content">
                     <div class="pl-tab-header-item-text">
                         <pl-tooltip-text :content="item" show-overflow-tooltip/>
@@ -52,6 +53,13 @@
             },
             p_dblclick(item, index) {
                 this.$emit('dblclick', {item, index})
+            },
+            pl_contextmenu(e, item, index) {
+                let el = e.target
+                while (!!el.parentNode && !this.$plain.$dom.hasClass(el, 'pl-tab-header-item')) {
+                    el = el.parentNode
+                }
+                this.$emit('contextmenu', {e, item, index, el})
             },
         }
     }

@@ -297,10 +297,12 @@ function shuffle(array) {
  * @author  韦胜健
  * @date    2019/1/10 10:56
  */
-function findOne(array, fn) {
+function findOne(array, fn, index = false) {
     for (let i = 0; i < array.length; i++) {
         const item = array[i];
-        if (!!fn(item)) return item
+        if (!!fn(item)) {
+            return !index ? item : {item, index: i}
+        }
     }
     return null
 }

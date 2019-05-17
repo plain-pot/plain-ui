@@ -7,6 +7,7 @@
                        @input="p_clickMenu"
                        @close="p_close"
                        @dblclick="p_close"
+                       @contextmenu="({el,index})=>pl_contextmenu({el,index})"
                        ref="header"/>
         <div class="pl-nav-tab-content">
             <component v-for="(page,index) in pageStack"
@@ -79,9 +80,76 @@
                 selfStorage,
 
                 p_watchValue: false,
+                p_select: {a: null, b: null},
+                p_contextMenu: [
+                    {
+                        name: '刷新', icon: 'pad-sync', handler: (item) => {
+                            this.refresh(item.id)
+                        }
+                    },
+                    {
+                        name: '关闭', icon: 'pad-close-circle', handler: (index) => {
+                            this.close(index)
+                        }
+                    },
+                    {
+                        name: '关闭左侧标签', icon: 'pad-border-right', handler: (item, index) => {
+                            this.tabs.forEach((tab, i) => i < index && (this.p_clearPage(tab.id)))
+                            this.tabs = this.tabs.splice(index, this.tabs.length)
+                            this.push(this.tabs[0])
+                        }
+                    },
+                    {
+                        name: '关闭右侧标签', icon: 'pad-border-left', handler: (item, index) => {
+                            this.tabs.forEach((tab, i) => i > index && (this.p_clearPage(tab.id)))
+                            this.tabs = this.tabs.splice(0, index + 1)
+                            this.push(this.tabs[index])
+                        }
+                    },
+
+                    {
+                        name: '关闭其他标签', icon: 'pad-border-horizontal', handler: (item, index) => {
+                            this.tabs.forEach((tab, i) => i !== index && (this.p_clearPage(tab.id)))
+                            this.tabs = this.tabs.splice(index, 1)
+                            this.push(this.tabs[0])
+                        }
+                    },
+                ],
             }
         },
         methods: {
+            async push(path, title, param) {
+                if (!this.multiple) {
+                    for (let i = 0; i < this.pageStack.length; i++) {
+                        const page = this.pageStack[i];
+                        if (page.path === path) {
+                            this.p_clickMenu(i)
+                            return
+                        }
+                    }
+                }
+                const re = await this.getRegisterPageByPath(path)
+                if (!re) return
+                this.pageStack.push({
+                    title: title,
+                    path: re.path,
+                    component: re.component,
+                    param,
+                    init: true,
+                    id: this.$plain.$utils.uuid()
+                })
+                this.p_value = this.pageStack.length - 1
+                this.p_save()
+                this.$emit('change', this.pageStack[this.pageStack.length - 1])
+                this.p_emitValue()
+            },
+            async close(index) {
+                this.p_close({index})
+            },
+            async refresh(id) {
+
+            },
+
             async getRegisterPageByPath(path) {
                 const component = await this.$plain.pageRegistry(path)
                 return {component, path}
@@ -112,30 +180,23 @@
                 this.tabsStorage[this.id] = this.selfStorage
                 this.$plain.$storage.set(STORAGE_KEY, this.tabsStorage)
             },
-            async push(path, title, param) {
-                if (!this.multiple) {
-                    for (let i = 0; i < this.pageStack.length; i++) {
-                        const page = this.pageStack[i];
-                        if (page.path === path) {
-                            this.p_clickMenu(i)
-                            return
-                        }
-                    }
+            async pl_contextmenu({index, el}) {
+                let show = !!this.p_select.a ? 'b' : 'a'
+                let hide = !!this.p_select.a ? 'a' : 'b'
+
+                if (!!this.p_select[hide]) {
+                    this.p_select[hide].hide()
                 }
-                const re = await this.getRegisterPageByPath(path)
-                if (!re) return
-                this.pageStack.push({
-                    title: title,
-                    path: re.path,
-                    component: re.component,
-                    param,
-                    init: true,
-                    id: this.$plain.$utils.uuid()
+                this.p_select[show] = await this.$plain.$select.getSelect()
+                this.p_select[show].select({
+                    reference: el,
+                    data: this.p_contextMenu,
+                    labelKey: 'name',
+                    iconKey: 'icon',
+                    onClose: () => this.p_select[show] = null
+                }).then(ret => {
+                    ret.handler(index)
                 })
-                this.p_value = this.pageStack.length - 1
-                this.p_save()
-                this.$emit('change', this.pageStack[this.pageStack.length - 1])
-                this.p_emitValue()
             },
         }
     }
