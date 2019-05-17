@@ -89,9 +89,9 @@
                     this.$message.show(msg)
                     return Promise.reject(msg)
                 } else {
-                    this.tabs.push(tab)
+                    this.tabs.unshift(tab)
                     await this.$plain.nextTick()
-                    this.p_index = this.tabs.length - 1
+                    this.p_index = 0
                 }
                 !!this.afterOpenTab && !!this.afterOpenTab(tab)
                 this.pl_saveHistory(tab)
