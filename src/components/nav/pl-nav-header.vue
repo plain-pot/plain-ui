@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-nav-header">
+    <div class="pl-nav-header" @mousewheel="pl_mousewheel">
         <div class="pl-nav-header-item pl-nav-target"
              :class="{'pl-nav-header-item-active':index === p_value}"
              v-for="(item,index) in list"
@@ -31,14 +31,9 @@
             valueKey: {type: String},
         },
         methods: {
-            enter(el) {
-                el.style.flex = 0
-            },
-            afterEnter(el) {
-                el.style.flex = 1
-            },
-            leave(el) {
-                el.style.flex = 0
+            pl_mousewheel(e) {
+                if (this.$el.scrollWidth <= this.$el.offsetWidth) return
+                this.$el.scrollLeft = (this.$el.scrollLeft || 0) + e.deltaY/10
             },
         }
     }

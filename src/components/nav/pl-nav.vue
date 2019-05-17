@@ -333,8 +333,10 @@
 
                 .pl-nav-header {
                     width: 100%;
-                    display: flex;
-                    flex-wrap: nowrap;
+                    white-space: nowrap;
+                    height: 36px;
+                    overflow: hidden;
+
                     .pl-nav-header-item {
                         display: inline-flex;
                         cursor: pointer;
