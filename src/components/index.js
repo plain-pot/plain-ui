@@ -2,7 +2,6 @@ import $utils from '../scripts/utils'
 
 import icon from './pl-icon'
 import scroll from './pl-scroll'
-import navTab from './pl-nav-tab'
 import button from './pl-button'
 import buttonGroup from './pl-button-group'
 import loading from './pl-loading'
@@ -49,6 +48,7 @@ import stepContainer from './step/pl-step-container'
 import tabs from './tab/pl-tabs'
 import tab from './tab/pl-tab'
 import tabHeader from './tab/pl-tab-header'
+import navTab from './pl-nav-tab'
 import navPages from './nav/pl-nav-pages'
 
 const components = {
