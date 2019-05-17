@@ -31,7 +31,7 @@
                     {
                         title: '表格（新）',
                         menus: [
-                            {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/base-table/demo-base-table', complete: false},
+                            {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/table/demo-base-table', complete: true},
                             {title: 'BaseTable基础表格列', icon: 'pl-table-solid', page: '/base-table/demo-base-table-column', complete: false},
                         ],
                     },
