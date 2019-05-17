@@ -1,75 +1,136 @@
 <template>
     <div class="demo-test">
-        <im-demo-row title="测试函数绑定">
-            <im-radio :value="disabled.insertable" label="insertable"/>
-            <im-radio :value="disabled.updateable" label="updateable"/>
-        </im-demo-row>
-        <im-demo-row>
-            <im-radio v-model="option.insertable" label="active1"/>
-            <im-radio v-model="option.updatebale" label="active2"/>
-        </im-demo-row>
-        <im-demo-row>
-            {{message}}
+        <im-demo-row title="测试虚拟化加载大量数据">
+            <div class="demo-test-box">
+                <im-scroll @vertical-scroll-top="pl_scrollTop"
+                           @vertical-scroll-bottom="pl_scrollBottom"
+                           ref="scroll"
+                           :scrollbarSize="6"
+                           :topScrollDuration="3"
+                           :bottomScrollDuration="3"
+                >
+                    <div v-for="(item,index) in p_data" :key="index" class="demo-test-item" :style="{backgroundColor:(item%p_chunkSize)===0?'rgba(0,0,0,0.05)':'transparent'}">
+                        <im-icon :icon="item%2 === 0?'pad-check-square':'pad-check-square-fill'" style="margin-right: 12px"/>
+                        <span>{{item+1}}</span>
+                    </div>
+                </im-scroll>
+            </div>
+            {{p_data}}
         </im-demo-row>
     </div>
 </template>
 
 <script>
 
-    import Vue from 'vue'
-
-    const component = {
-        data() {
-            return {
-                a: 1,
-                b: 2,
-                c: 3,
-            }
-        },
-    }
-
-    class Option extends Vue {
-        constructor(_option) {
-            super(component)
-            Object.assign(this, _option)
-        }
-    }
 
     export default {
         name: "demo-test",
         data() {
+            const data = []
+            for (let i = 0; i < 100000; i++) {
+                data.push(i)
+            }
+
+            const p_chunkSize = 20
+            const chunks = this.$plain.$utils.chunk(data, p_chunkSize)
+
             return {
-                message:'bearer 4a9b32f4-3536-444b-a5ac-1d9cf9daa026↵2019-04-29 15:23:47: \'Cannot read property \'style\' of null   ↵↵    at renderUI (http://localhost:8080/static/lib/ue/ueditor.all.js:32753:22)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:54: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:55: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:55: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:55: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:59: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:59: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:23:59: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:00: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:00: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:00: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:07: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵>>>page=knowledge-form↵==>2019-04-29 15:24:16: \'Cannot read property \'removeEventListener\' of undefined   ↵    at Object.un (http://localhost:8080/static/lib/ue/ueditor.all.js:3015:21)↵<<<↵',
-                active1: true,
-                active2: false,
-                option: {
-                    insertable: true,
-                    updatebale: false,
-                    enable() {
-                        return {
-                            insertable: this.option.insertable,
-                            updateable: this.option.updatebale,
-                        }
-                    },
-                }
+                data,
+                chunks,
+                nowChunks: [],
+
+                p_data: [],
+                p_index: 0,
+                p_chunkSize,
             }
         },
-        computed: {
-            disabled() {
-                console.log('disabled calculate')
-                const ret = this.option.enable.apply(this)
-                return ret
+        created() {
+            this.p_index = 0
+            this.p_data = []
+            this.p_loadChunk(0)
+            this.p_loadChunk(1)
+        },
+        methods: {
+
+            p_loadChunk(index) {
+                const chunk = this.chunks[index]
+                this.p_data.push(...chunk)
+                this.nowChunks.push(chunk)
             },
-        },
-        mounted() {
-            const a = new Option({
-                a: true,
-            })
-            console.log(a)
-        },
+            p_loadNextPage() {
+                if (!!this.chunks[this.p_index + 2]) {
+                    /*load chunk*/
+                    const loadChunk = this.chunks[this.p_index + 2]
+                    this.p_data.push(...loadChunk)
+                    this.nowChunks.push(loadChunk)
+
+                    this.p_index++
+
+                    if (this.nowChunks.length > 3) {
+                        /*unload chunk*/
+                        const unloadChunk = this.nowChunks.shift()
+                        this.p_data.splice(0, unloadChunk.length)
+                    }
+                    return true
+                }
+            },
+            p_loadPrevPage() {
+                if (!!this.chunks[this.p_index - 2]) {
+
+                    const loadChunk = this.chunks[this.p_index - 2]
+                    this.p_data.unshift(...loadChunk)
+                    this.nowChunks.unshift(loadChunk)
+
+                    this.p_index--
+
+                    if (this.nowChunks.length > 3) {
+                        const unloadChunk = this.nowChunks.pop()
+                        this.p_data.splice(this.p_data.length - unloadChunk.length, unloadChunk.length)
+                    }
+                    return true
+                }
+            },
+
+            async pl_scrollTop() {
+                if (this.p_index > 0) {
+                    this.p_loadPrevPage() && this.startResetScrollTop()
+                }
+            },
+            async pl_scrollBottom() {
+                if ((this.p_index + 1) * this.p_chunkSize <= this.data.length) {
+                    this.p_loadNextPage() && this.startResetScrollTop()
+                }
+            },
+            startResetScrollTop() {
+                if (!this.p_count) this.p_count = 0
+                this.p_count++
+                setTimeout(() => {
+                    this.$refs.scroll.$refs.wrapper.scrollTop = this.p_chunkSize * 30
+                    if (this.p_count + 1 > 10) {
+                        this.p_count = 0
+                        return
+                    }
+                    this.startResetScrollTop()
+                }, 25)
+            },
+        }
     }
 </script>
 
 <style lang="scss">
+    .demo-test-box {
+        height: 600px;
+        width: 300px;
+        border: solid 1px #e4e7ed;
+        border-radius: 4px;
+        display: inline-block;
 
+        .demo-test-item {
+            height: 30px;
+            width: 100%;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+        }
+    }
 </style>
