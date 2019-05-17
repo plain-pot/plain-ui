@@ -12,7 +12,10 @@
                 <pl-render-func v-if="!!option.render" :render-func="option.render" :data="{item,index}" class="pl-select-service-item-inner"/>
                 <pl-scope-slot v-else-if="!!option.slot" :scope-slot-func="option.slot" :data="{item,index}" class="pl-select-service-item-inner"/>
                 <div class="pl-select-service-item-inner" v-else>
-                    <div>{{!!option.labelKey?item[option.labelKey]:item}}</div>
+                    <div class="pl-select-service-item-inner-content">
+                        <pl-icon :icon="item[option.iconKey]" v-if="!!option.iconKey"/>
+                        <span>{{!!option.labelKey?item[option.labelKey]:item}}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,6 +27,7 @@
     import PlRenderFunc from "../render/pl-render-func";
     import PlScopeSlot from "../render/pl-scope-slot";
     import PlPopover from "../popper/pl-popover";
+    import PlIcon from "../pl-icon";
 
     const defaultOption = {
         reference: null,
@@ -37,11 +41,12 @@
         autoClose: true,
         onConfirm: null,
         onClose: null,
+        iconKey: null,
     }
 
     export default {
         name: "pl-select-service",
-        components: {PlPopover, PlScopeSlot, PlRenderFunc, PlInput},
+        components: {PlIcon, PlPopover, PlScopeSlot, PlRenderFunc, PlInput},
         data() {
             return {
                 popover: null,

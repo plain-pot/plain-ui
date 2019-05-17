@@ -53,6 +53,15 @@
       .pl-select-service-item-inner {
         display: block;
 
+        .pl-select-service-item-inner-content {
+          display: flex;
+          align-items: center;
+
+          .pl-icon {
+            margin-right: 6px;
+          }
+        }
+
         & > div {
           padding: 6px 6px;
           box-sizing: border-box;

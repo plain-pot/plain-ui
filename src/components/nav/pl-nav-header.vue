@@ -5,7 +5,7 @@
              :class="{'pl-nav-header-item-active':index === p_value}"
              v-for="(item,index) in list"
              @click="$emit('click',{item,index})"
-             @contextmenu.stop.prevent="e=>$emit('contextmenu',{e,item,index,el:$refs.items[index]})"
+             @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)"
              :key="item[valueKey]">
             <div class="pl-nav-header-item-content">
                 <pl-tooltip-text show-overflow-tooltip :content="item[labelKey]"/>
@@ -35,6 +35,15 @@
             pl_mousewheel(e) {
                 if (this.$el.scrollWidth <= this.$el.offsetWidth) return
                 this.$el.scrollLeft = (this.$el.scrollLeft || 0) + e.deltaY + e.deltaX
+            },
+            pl_contextmenu(e, item, index) {
+
+                let el = e.target
+                while (!!el.parentNode && !this.$plain.$dom.hasClass(el, 'pl-nav-header-item')) {
+                    el = el.parentNode
+                }
+
+                this.$emit('contextmenu', {e, item, index, el})
             },
         }
     }

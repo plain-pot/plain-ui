@@ -62,6 +62,44 @@
                 tabs: [],
                 selfStorage: null,
                 p_index: null,
+                p_select: {
+                    a: null,
+                    b: null,
+                },
+                p_contextMenu: [
+                    {
+                        name: '刷新', icon: 'pad-sync', handler: (item) => {
+                            this.refresh(item.id)
+                        }
+                    },
+                    {
+                        name: '关闭', icon: 'pad-close-circle', handler: (item) => {
+                            this.closeTab(item.id)
+                        }
+                    },
+                    {
+                        name: '关闭左侧标签', icon: 'pad-border-right', handler: (item, index) => {
+                            this.tabs.forEach((tab, i) => i < index && (this.p_clearPage(tab.id)))
+                            this.tabs = this.tabs.splice(index, this.tabs.length)
+                            this.openTab(this.tabs[0])
+                        }
+                    },
+                    {
+                        name: '关闭右侧标签', icon: 'pad-border-left', handler: (item, index) => {
+                            this.tabs.forEach((tab, i) => i > index && (this.p_clearPage(tab.id)))
+                            this.tabs = this.tabs.splice(0, index + 1)
+                            this.openTab(this.tabs[index])
+                        }
+                    },
+
+                    {
+                        name: '关闭其他标签', icon: 'pad-border-horizontal', handler: (item, index) => {
+                            this.tabs.forEach((tab, i) => i !== index && (this.p_clearPage(tab.id)))
+                            this.tabs = this.tabs.splice(index, 1)
+                            this.openTab(this.tabs[0])
+                        }
+                    },
+                ]
             }
         },
         created() {
@@ -287,16 +325,14 @@
                 this.$refs.pages.forEach(item => item.listener.$emit(event, param))
             },
             /**
-             * 打开空白页面
+             * 清除该页签的缓存
              * @author  韦胜健
-             * @date    2019/4/1 19:21
+             * @date    2019/3/6 17:47
              */
-            pl_openBlank() {
-                this.openTab({
-                    id: this.$plain.$utils.uuid(),
-                    title: '快捷入口',
-                    path: 'blank',
-                })
+            p_clearPage(id) {
+                const componentStorage = this.getStorage(NAV_STORAGE_KEY.PAGE)
+                componentStorage[id] = null
+                this.setStorage(NAV_STORAGE_KEY.PAGE, componentStorage)
             },
             /**
              * 保存页面打开的历史
@@ -316,18 +352,21 @@
              * @date    2019/5/17 10:54
              */
             async pl_contextmenu({item, index, el}) {
-                if (!!this.p_select) {
-                    console.log(this.p_select)
-                    await this.p_select.hide()
-                    await this.$plain.nextTick()
+                let show = !!this.p_select.a ? 'b' : 'a'
+                let hide = !!this.p_select.a ? 'a' : 'b'
+
+                if (!!this.p_select[hide]) {
+                    this.p_select[hide].hide()
                 }
-                this.p_select = await this.$plain.$select.getSelect()
-                this.p_select.select({
+                this.p_select[show] = await this.$plain.$select.getSelect()
+                this.p_select[show].select({
                     reference: el,
-                    data: ['刷新', '关闭', '关闭右侧页签', '关闭左侧页签', '关闭其他页签'],
-                    onClose: () => this.p_select = null
+                    data: this.p_contextMenu,
+                    labelKey: 'name',
+                    iconKey: 'icon',
+                    onClose: () => this.p_select[show] = null
                 }).then(ret => {
-                    console.log(ret)
+                    ret.handler(item, index)
                 })
             },
         }

@@ -20,6 +20,9 @@
             <i @click="select(8)" ref="button8">
                 普通文本
             </i>
+            <i @click="select(81)" ref="button81">
+                普通文本
+            </i>
         </im-demo-row>
         <im-demo-row title="使用渲染函数自动以下拉内容">
             <im-button label="toggle" @click="select(9)" ref="button9"/>
