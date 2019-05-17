@@ -1,6 +1,6 @@
 <template>
     <div class="app-menu">
-        <im-scroll fitHostWidth>
+        <im-scroll fitHostWidth :scrollbarSize="6">
             <div class="app-menu-group" v-for="(menuGroup,index) in menuGroups" :key="index">
                 <div class="app-menu-segment">
                     <span>{{menuGroup.title}}</span>

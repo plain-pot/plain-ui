@@ -1,21 +1,25 @@
 <template>
     <div class="demo-test">
         <im-demo-row title="测试虚拟化加载大量数据">
-            <div class="demo-test-box">
-                <im-scroll @vertical-scroll-top="pl_scrollTop"
-                           @vertical-scroll-bottom="pl_scrollBottom"
-                           ref="scroll"
-                           :scrollbarSize="6"
-                           :topScrollDuration="3"
-                           :bottomScrollDuration="3"
-                >
-                    <div v-for="(item,index) in p_data" :key="index" class="demo-test-item" :style="{backgroundColor:(item%p_chunkSize)===0?'rgba(0,0,0,0.05)':'transparent'}">
-                        <im-icon :icon="item%2 === 0?'pad-check-square':'pad-check-square-fill'" style="margin-right: 12px"/>
-                        <span>{{item+1}}</span>
-                    </div>
-                </im-scroll>
+            <div style="display: flex">
+                <div class="demo-test-box">
+                    <im-scroll @vertical-scroll-top="pl_scrollTop"
+                               @vertical-scroll-bottom="pl_scrollBottom"
+                               ref="scroll"
+                               :scrollbarSize="6"
+                               :topScrollDuration="3"
+                               :bottomScrollDuration="3"
+                    >
+                        <div v-for="(item,index) in p_data" :key="index" class="demo-test-item" :style="{backgroundColor:(item%p_chunkSize)===0?'rgba(0,0,0,0.05)':'transparent'}">
+                            <im-icon :icon="item%2 === 0?'pad-check-square':'pad-check-square-fill'" style="margin-right: 12px"/>
+                            <span>{{item+1}}</span>
+                        </div>
+                    </im-scroll>
+                </div>
+                <span style="vertical-align: top">
+                {{p_data}}
+            </span>
             </div>
-            {{p_data}}
         </im-demo-row>
     </div>
 </template>
