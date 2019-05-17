@@ -7,7 +7,7 @@
                        @input="p_clickMenu"
                        @close="p_close"
                        @dblclick="p_close"
-                       @contextmenu="({el,index})=>pl_contextmenu({el,index})"
+                       @contextmenu="({el,index})=>pl_contextmenu({el,index,item:pageStack[index]})"
                        ref="header"/>
         <div class="pl-nav-tab-content">
             <component v-for="(page,index) in pageStack"
@@ -88,30 +88,30 @@
                         }
                     },
                     {
-                        name: '关闭', icon: 'pad-close-circle', handler: (index) => {
-                            this.close(index)
+                        name: '关闭', icon: 'pad-close-circle', handler: (item, index) => {
+                            this.close(item.id)
                         }
                     },
                     {
                         name: '关闭左侧标签', icon: 'pad-border-right', handler: (item, index) => {
-                            this.tabs.forEach((tab, i) => i < index && (this.p_clearPage(tab.id)))
-                            this.tabs = this.tabs.splice(index, this.tabs.length)
-                            this.push(this.tabs[0])
+                            this.pageStack = this.pageStack.splice(index, this.pageStack.length)
+                            const {path, title, param} = this.pageStack[0]
+                            this.push(path, title, param)
                         }
                     },
                     {
                         name: '关闭右侧标签', icon: 'pad-border-left', handler: (item, index) => {
-                            this.tabs.forEach((tab, i) => i > index && (this.p_clearPage(tab.id)))
-                            this.tabs = this.tabs.splice(0, index + 1)
-                            this.push(this.tabs[index])
+                            this.pageStack = this.pageStack.splice(0, index + 1)
+                            const {path, title, param} = this.pageStack[this.pageStack.length - 1]
+                            this.push(path, title, param)
                         }
                     },
 
                     {
                         name: '关闭其他标签', icon: 'pad-border-horizontal', handler: (item, index) => {
-                            this.tabs.forEach((tab, i) => i !== index && (this.p_clearPage(tab.id)))
-                            this.tabs = this.tabs.splice(index, 1)
-                            this.push(this.tabs[0])
+                            this.pageStack = this.pageStack.splice(index, 1)
+                            const {path, title, param} = this.pageStack[0]
+                            this.push(path, title, param)
                         }
                     },
                 ],
@@ -143,11 +143,15 @@
                 this.$emit('change', this.pageStack[this.pageStack.length - 1])
                 this.p_emitValue()
             },
-            async close(index) {
+            async close(id) {
+                const {index} = this.$plain.$utils.findOne(this.pageStack, item => item.id === id, true)
                 this.p_close({index})
             },
             async refresh(id) {
-
+                const {item} = this.$plain.$utils.findOne(this.pageStack, item => item.id === id, true)
+                item.init = false
+                await this.$plain.nextTick()
+                item.init = true
             },
 
             async getRegisterPageByPath(path) {
@@ -180,7 +184,7 @@
                 this.tabsStorage[this.id] = this.selfStorage
                 this.$plain.$storage.set(STORAGE_KEY, this.tabsStorage)
             },
-            async pl_contextmenu({index, el}) {
+            async pl_contextmenu({index, item, el}) {
                 let show = !!this.p_select.a ? 'b' : 'a'
                 let hide = !!this.p_select.a ? 'a' : 'b'
 
@@ -195,8 +199,17 @@
                     iconKey: 'icon',
                     onClose: () => this.p_select[show] = null
                 }).then(ret => {
-                    ret.handler(index)
+                    ret.handler(item, index)
                 })
+            },
+            pl_findPageById(id) {
+                for (let i = 0; i < this.pageStack.length; i++) {
+                    const page = this.pageStack[i];
+                    if (page.id === id) {
+                        return {page, index: i}
+                    }
+                }
+                return {}
             },
         }
     }
