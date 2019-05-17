@@ -9,7 +9,7 @@
             <div class="pl-nav-header-item-content">
                 <pl-tooltip-text show-overflow-tooltip :content="item[labelKey]"/>
                 <div class="pl-nav-header-item-close" @click.stop="$emit('close',{item,index})">
-                    <pl-icon icon="pad-close" hover/>
+                    <pl-icon :icon="index === p_value?'pad-close-circle-fill':'pad-close'" hover class="pl-nav-header-close-icon"/>
                 </div>
             </div>
         </div>

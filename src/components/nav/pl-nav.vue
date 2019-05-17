@@ -337,6 +337,10 @@
                     height: 36px;
                     overflow: hidden;
 
+                    .pl-nav-header-close-icon {
+                        opacity: 0;
+                    }
+
                     .pl-nav-header-item {
                         display: inline-flex;
                         cursor: pointer;
@@ -361,7 +365,28 @@
 
                         &.pl-nav-header-item-active {
                             background-color: white;
-                            color: plVar(colorTitle);
+
+                            .pl-nav-header-close-icon {
+                                opacity: 1;
+                            }
+
+                            .pl-tooltip-text {
+                                color: plVar(colorPrimaryDeep);
+                            }
+                        }
+
+                        &:hover {
+                            .pl-tooltip-text {
+                                color: plVar(colorPrimaryDeep);
+                            }
+
+                            .pl-nav-header-close-icon {
+                                opacity: 1;
+                            }
+                        }
+
+                        .pl-nav-header-close-icon:hover {
+                            color: plVar(colorPrimaryDeep);
                         }
                     }
                 }
