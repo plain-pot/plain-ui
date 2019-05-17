@@ -5,7 +5,7 @@
                            label-key="title"
                            value-key="id"
                            @close="pl_headCloseTab"
-                           @contextmenu="pl_headCloseTab"
+                           @contextmenu="pl_contextmenu"
                            @click="({index})=>pl_showTab(index)"
                            :value="p_index"/>
         </div>
@@ -309,6 +309,26 @@
                 this.historyStorage.unshift(tab)
                 if (this.historyStorage.length >= 10) this.historyStorage.splice(10, this.historyStorage.length)
                 this.$plain.$storage.set(NAV_STORAGE_KEY.HISTORY, this.historyStorage)
+            },
+            /**
+             * 右击菜单处理
+             * @author  韦胜健
+             * @date    2019/5/17 10:54
+             */
+            async pl_contextmenu({item, index, el}) {
+                if (!!this.p_select) {
+                    console.log(this.p_select)
+                    await this.p_select.hide()
+                    await this.$plain.nextTick()
+                }
+                this.p_select = await this.$plain.$select.getSelect()
+                this.p_select.select({
+                    reference: el,
+                    data: ['刷新', '关闭', '关闭右侧页签', '关闭左侧页签', '关闭其他页签'],
+                    onClose: () => this.p_select = null
+                }).then(ret => {
+                    console.log(ret)
+                })
             },
         }
     }

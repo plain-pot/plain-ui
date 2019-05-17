@@ -1,10 +1,11 @@
 <template>
     <div class="pl-nav-header" @mousewheel.stop.prevent="pl_mousewheel">
         <div class="pl-nav-header-item pl-nav-target"
+             ref="items"
              :class="{'pl-nav-header-item-active':index === p_value}"
              v-for="(item,index) in list"
              @click="$emit('click',{item,index})"
-             @contextmenu.stop.prevent="$emit('contextmenu',{item,index})"
+             @contextmenu.stop.prevent="e=>$emit('contextmenu',{e,item,index,el:$refs.items[index]})"
              :key="item[valueKey]">
             <div class="pl-nav-header-item-content">
                 <pl-tooltip-text show-overflow-tooltip :content="item[labelKey]"/>
