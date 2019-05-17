@@ -1,15 +1,10 @@
 <template>
-    <transition-group
-            tag="div"
-            @enter="enter"
-            @afterEnter="afterEnter"
-            @leave="leave"
-            class="pl-nav-header">
+    <div class="pl-nav-header">
         <div class="pl-nav-header-item pl-nav-target"
              :class="{'pl-nav-header-item-active':index === p_value}"
              v-for="(item,index) in list"
              @click="$emit('click',{item,index})"
-             @dblclick="$emit('dblclick',{item,index})"
+             @contextmenu.stop.prevent="$emit('contextmenu',{item,index})"
              :key="item[valueKey]">
             <div class="pl-nav-header-item-content">
                 <pl-tooltip-text show-overflow-tooltip :content="item[labelKey]"/>
@@ -18,7 +13,7 @@
                 </div>
             </div>
         </div>
-    </transition-group>
+    </div>
 </template>
 
 <script>

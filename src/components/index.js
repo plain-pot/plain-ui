@@ -50,12 +50,13 @@ import tab from './tab/pl-tab'
 import tabHeader from './tab/pl-tab-header'
 import navTab from './pl-nav-tab'
 import navPages from './nav/pl-nav-pages'
+import nav from './nav/pl-nav'
 
 const components = {
     icon, scroll, navTab, button, loading, buttonGroup, input, popper, popover, dropdown, dropdownItem, toggle,
     radio, radioGroup, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
     cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
-    step, stepContainer, tabs, tab, tabHeader, navPages,
+    step, stepContainer, tabs, tab, tabHeader, navPages, nav,
 }
 
 export function getComponents(prefix = 'pl') {

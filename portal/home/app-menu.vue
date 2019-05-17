@@ -101,6 +101,7 @@
                             {title: 'TabsHeader页签标题', icon: 'pl-tabs', page: '/normal/demo-tab-header', complete: true},
                             {title: 'NavTab页签导航', icon: 'pl-tabs', page: '/nav/demo-nav-tab', complete: true},
                             {title: 'NavPages页面导航', icon: 'pl-page', page: '/nav/demo-nav-page', complete: true},
+                            {title: 'Nav应用导航', icon: 'pl-tabs', page: '/nav/demo-nav', complete: true},
 
                         ],
                     },

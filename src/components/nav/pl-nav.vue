@@ -1,12 +1,13 @@
 <template>
     <div class="pl-nav">
         <div class="pl-nav-header-wrapper">
-            <div class="pl-nav-header-wrapper-left">
-                <pl-nav-header :list="tabs" label-key="title" value-key="id" @close="pl_headCloseTab" @dblclick="pl_headCloseTab" @click="({index})=>pl_showTab(index)" :value="p_index"/>
-            </div>
-            <div class="pl-nav-header-wrapper-right pl-nav-target" @click="pl_openBlank">
-                <pl-icon icon="pad-plus"/>
-            </div>
+            <pl-nav-header :list="tabs"
+                           label-key="title"
+                           value-key="id"
+                           @close="pl_headCloseTab"
+                           @contextmenu="pl_headCloseTab"
+                           @click="({index})=>pl_showTab(index)"
+                           :value="p_index"/>
         </div>
         <div class="pl-nav-body">
             <pl-nav-pages
@@ -312,3 +313,88 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @include themeWrap {
+        $tabColor: #eee;
+        .pl-nav {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid plVar(colorBorder);
+            box-shadow: plVar(boxShadow);
+            border-radius: plVar(borderFillet);
+
+            .pl-nav-header-wrapper {
+                background-color: #f2f2f2;
+                border-bottom: 1px solid plVar(colorBorder);
+
+                .pl-nav-header {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    .pl-nav-header-item {
+                        display: inline-flex;
+                        cursor: pointer;
+                        user-select: none;
+                        border-right: 1px solid plVar(colorBorder);
+
+                        .pl-nav-header-item-content {
+                            display: flex;
+                            width: 200px;
+                            height: 36px;
+                            align-items: center;
+                            box-sizing: border-box;
+                            padding: 0 12px;
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: plVar(colorContentSub);
+
+                            .pl-tooltip-text {
+                                flex: 1;
+                            }
+                        }
+
+                        &.pl-nav-header-item-active {
+                            background-color: white;
+                            color: plVar(colorTitle);
+                        }
+                    }
+                }
+            }
+
+            .pl-nav-body {
+                flex: 1;
+                box-sizing: border-box;
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+        }
+
+        .pl-nav-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+            background-color: white;
+            @include transition-all;
+
+            .pl-nav-page-target {
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+            }
+        }
+        .pl-nav-pages {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            overflow: hidden;
+        }
+    }
+</style>

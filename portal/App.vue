@@ -96,6 +96,7 @@
                 }
                 .app-right {
                     flex: 1;
+                    overflow: hidden;
                 }
             }
         }
