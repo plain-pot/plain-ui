@@ -42,7 +42,7 @@
         },
         methods: {
             onBack(e) {
-                this.$notice.show({title: '监听到页面二回退', message: e})
+                this.$notice.show({title: '监听到页面回退', message: e})
             },
         },
     }
