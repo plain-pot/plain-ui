@@ -53,6 +53,7 @@ import navPages from './nav/pl-nav-pages'
 import nav from './nav/pl-nav'
 
 import baseTable from './table/pl-base-table'
+import tcGroup from './table/pl-base-table-column-group'
 import {StandardColumns, formatColumnComponent} from "./table/column";
 
 const components = {
@@ -60,7 +61,7 @@ const components = {
     radio, radioGroup, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
     cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
     step, stepContainer, tabs, tab, tabHeader, navPages, nav,
-    baseTable,
+    baseTable, tcGroup,
 }
 
 export function getComponents(prefix = 'pl') {

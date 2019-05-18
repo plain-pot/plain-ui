@@ -12,15 +12,169 @@
     export default {
         name: "pl-base-table",
         components: {PlBaseTableColumnController},
+        props: {
+            beforeConfig: {type: Function},
+            config: {type: Function},
+        },
         data() {
             return {
-                originCols: null,
+                p_originCols: null,                 //原始列数据信息
+                p_cols: null,                       //处理好的列数据信息
+                p_headCols: null,                   //表头列信息
+                p_bodyCols: null,                   //表体列信息
+                p_tableWidth: null,                 //表格宽度
             }
         },
         methods: {
-            pl_collect(originCols) {
-                this.originCols = originCols
-                console.log('originCols', originCols)
+            async pl_collect(cols) {
+                /*等待属性变化完成*/
+                await this.$plain.nextTick()
+                /*原始列信息*/
+                this.p_originCols = this.pl_colsCopy(cols)
+
+                /*配置列之前处理动作*/
+                !!this.beforeConfig && this.beforeConfig(cols, this.pl_colsIterate)
+
+                /*配置列*/
+                this.pl_colsIterate(cols, (col, group, cols) => {
+                    if (col.disabledConfig) return
+                    !!this.config && this.config(col, group, cols)
+                    if (col.hide) cols.splice(cols.indexOf(col), 1)
+                })
+
+                /*---------------------------------------排序-------------------------------------------*/
+                /*递归遍历子节点，如果是多级表头，则对子列进行插入排序(因为可能会在上一步配置列中修改order排序，所以上一步递归结束之后才能进行排序操作)*/
+                this.pl_colsIterate(cols, (col, group) => {
+                    if (!!group && !!col.children && col.children.length > 0) {
+                        /*列组的话，设置子节点的fixed值为父节点的fixed值*/
+                        col.children.forEach(item => item.fixed = col.fixed)
+                        this.$plain.$utils.insertSort(col.children, this.pl_colsOrder)
+                    }
+                })
+                /*对最外层列或者列组进行插入排序*/
+                this.$plain.$utils.insertSort(cols, this.pl_colsOrder);
+
+                /*cols是已经处理好的，树状结构的列数据信息数组*/
+                this.p_cols = cols
+                this.$emit('collect', this.p_cols)
+                await this.pl_resetTableWidth()
+                console.log(this.p_headCols)
+
+            },
+
+            /*---------------------------------------列收集相关函数-------------------------------------------*/
+
+            /**
+             * 复制columns
+             * @author  韦胜健
+             * @date    2019/2/20 16:13
+             */
+            pl_colsCopy(cols) {
+                const ret = []
+                if (!cols || cols.length === 0) return ret
+                for (let i = 0; i < cols.length; i++) {
+                    const col = cols[i];
+                    if (col.group) col.children = this.pl_colsCopy(col.children)
+                    ret.push(col)
+                }
+                return ret
+            },
+            /**
+             * 递归遍历所有列以及列组
+             * @author  韦胜健
+             * @date    2019/2/20 09:45
+             */
+            pl_colsIterate(cols, fn) {
+                if (!cols || cols.length === 0) return
+                for (let i = 0; i < cols.length; i++) {
+                    const col = cols[i];
+                    const beforeLength = cols.length
+                    !!fn && fn(col, !!col.group, cols)
+                    const afterLength = cols.length
+                    i -= (afterLength - beforeLength)
+                    if (!!col.group) this.pl_colsIterate(col.children, fn)
+                }
+            },
+            /*
+             *  列排序判断函数
+             *  @author     martsforever
+             *  @datetime   2019/5/18 22:50
+             */
+            pl_colsOrder(a, b) {
+                const aOrder = a.order + (a.fixed === 'left' ? 999 : a.fixed === 'right' ? -999 : 0)
+                const bOrder = b.order + (b.fixed === 'left' ? 999 : b.fixed === 'right' ? -999 : 0)
+                return aOrder < bOrder
+            },
+            /*
+             *  计算表头列数据
+             *  @author     martsforever
+             *  @datetime   2019/5/18 23:01
+             */
+            pl_resetHeadCols() {
+                /*多级表头最大层数*/
+                let maxLevel = 1;
+                let p_cols = this.pl_colsCopy(this.p_cols)
+
+                /*计算最大层数*/
+                const calculateLevel = (cols, level) => {
+                    if (!!cols && cols.length > 0) {
+                        if (level > maxLevel) maxLevel = level
+                        cols.forEach((col) => {
+                            col.level = level - 1
+                            !!col.group && calculateLevel(col.children, level + 1)
+                        })
+                    }
+                }
+                calculateLevel(p_cols, 1)
+
+                /*计算多级表头每个单元格所占行数以及列数*/
+                const calculateSpan = (col) => {
+                    if (!!col.group) {
+                        col.children.forEach(item => calculateSpan(item))
+                        col.rowspan = 1
+                        col.colspan = 0
+                        col.children.forEach(item => col.colspan += item.colspan)
+                    } else {
+                        col.rowspan = maxLevel - col.level
+                        col.colspan = 1
+                    }
+                }
+                p_cols.forEach(i => calculateSpan(i))
+                const headCols = []
+                for (let j = 0; j < maxLevel; j++) headCols.push([])
+                /*收集多级表头渲染数据*/
+                const calculateHeadColumns = (cols) => {
+                    if (!!cols && cols.length > 0) {
+                        cols.forEach((col) => {
+                            headCols[col.level].push(col)
+                            !!col.group && calculateHeadColumns(col.children)
+                        })
+                    }
+                }
+                calculateHeadColumns(p_cols)
+                this.p_headCols = headCols
+            },
+            /*
+             *  计算表体列数据
+             *  @author     martsforever
+             *  @datetime   2019/5/18 23:02
+             */
+            pl_resetBodyCols() {
+
+            },
+
+            /*---------------------------------------其他操作函数-------------------------------------------*/
+            /*
+             *  重新计算表格宽度
+             *  @author     martsforever
+             *  @datetime   2019/5/18 22:58
+             */
+            async pl_resetTableWidth() {
+                await this.$plain.nextTick()
+                await this.$plain.nextTick()
+                // this.p_tableWidth = this.$refs.body.$el.offsetWidth
+                this.pl_resetHeadCols()
+                this.pl_resetBodyCols()
             },
         }
     }
