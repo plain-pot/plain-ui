@@ -1,23 +1,24 @@
 import $utils from '../../../scripts/utils'
 import column from './column'
 import input from './input'
+import BaseColumn from './pl-base-table-base-column'
 
-const columns = {
+const StandardColumns = {
     column,
     input,
 }
 
-const TableColumns = Object.keys(columns).reduce((ret, key) => {
-    const component = columns[key]
-    if (component.name !== 'column') {
-        component.name = `column-${key}`
-    }
-    ret[key === 'column' ? key : `column${$utils.getKebabCase(key)}`] = component
-    return ret
-}, {})
 
-// console.log(TableColumns)
+function formatColumnComponent(columns) {
+    return Object.keys(columns).reduce((ret, key) => {
+        const component = $utils.deepmerge(BaseColumn, columns[key])
+        component.name = `tc-${columns[key].name}`
+        ret[component.name] = component
+        return ret
+    }, {})
+}
 
 export {
-    TableColumns,
+    StandardColumns,
+    formatColumnComponent,
 }

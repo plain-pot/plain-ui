@@ -1,8 +1,8 @@
 <template>
     <div class="demo-base-table">
         <im-base-table>
-            <im-column title="编号" field="id"/>
-            <im-column title="姓名" field="name"/>
+            <im-tc-column title="编号" field="id"/>
+            <im-tc-column title="姓名" field="name"/>
         </im-base-table>
     </div>
 </template>

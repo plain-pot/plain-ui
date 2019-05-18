@@ -53,7 +53,7 @@ import navPages from './nav/pl-nav-pages'
 import nav from './nav/pl-nav'
 
 import baseTable from './table/pl-base-table'
-import {TableColumns} from "./table/column";
+import {StandardColumns, formatColumnComponent} from "./table/column";
 
 const components = {
     icon, scroll, navTab, button, loading, buttonGroup, input, popper, popover, dropdown, dropdownItem, toggle,
@@ -61,14 +61,18 @@ const components = {
     cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
     step, stepContainer, tabs, tab, tabHeader, navPages, nav,
     baseTable,
-    ...TableColumns,
 }
 
 export function getComponents(prefix = 'pl') {
-    return Object.keys(components).reduce((ret, key) => {
-        ret[`${prefix}-${$utils.getKebabCase(key)}`] = components[key]
+
+    const StandardColumnComponents = formatColumnComponent(StandardColumns, prefix)
+    const AllComponents = {...components, ...StandardColumnComponents}
+    const RetComponents = Object.keys(AllComponents).reduce((ret, key) => {
+        ret[`${prefix}-${$utils.getKebabCase(key)}`] = AllComponents[key]
         return ret
     }, {})
+    // console.log(RetComponents)
+    return RetComponents
 }
 
 export default components
