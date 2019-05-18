@@ -52,6 +52,10 @@ import navTab from './pl-nav-tab'
 import navPages from './nav/pl-nav-pages'
 import nav from './nav/pl-nav'
 
+import renderFunc from './render/pl-render-func'
+import scopeSlot from './render/pl-scope-slot'
+import slot from './render/pl-slot'
+
 import baseTable from './table/pl-base-table'
 import tcGroup from './table/pl-base-table-column-group'
 import {StandardColumns, formatColumnComponent} from "./table/column";
@@ -61,6 +65,7 @@ const components = {
     radio, radioGroup, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
     cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
     step, stepContainer, tabs, tab, tabHeader, navPages, nav,
+    renderFunc, scopeSlot, slot,
     baseTable, tcGroup,
 }
 
@@ -72,8 +77,12 @@ export function getComponents(prefix = 'pl') {
         ret[`${prefix}-${$utils.getKebabCase(key)}`] = AllComponents[key]
         return ret
     }, {})
+    const PlComponents = prefix === 'pl' ? {} : Object.keys(AllComponents).reduce((ret, key) => {
+        ret[`pl-${$utils.getKebabCase(key)}`] = AllComponents[key]
+        return ret
+    }, {})
     // console.log(RetComponents)
-    return RetComponents
+    return {...PlComponents, ...RetComponents}
 }
 
 export default components
