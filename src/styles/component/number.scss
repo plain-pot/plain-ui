@@ -18,6 +18,11 @@
         justify-content: center;
         position: relative;
         user-select: none;
+        font-size: 12px;
+
+        .pl-icon {
+          transform: scale(0.7);
+        }
 
         &:active {
           background-color: #666;
@@ -66,10 +71,12 @@
         }
       }
     }
+
     &.pl-type-fill {
       .pl-number-controller {
         border-left-color: white !important;
       }
+
       .pl-number-up {
         &:before {
           background-color: white !important;
