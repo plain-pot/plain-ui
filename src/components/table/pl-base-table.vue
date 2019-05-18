@@ -3,29 +3,67 @@
         <pl-base-table-column-controller @collect="pl_collect">
             <slot></slot>
         </pl-base-table-column-controller>
+        <pl-base-table-head
+                v-if="!noHeader"
+                ref="head"
+                :fixed-exist="p_fixedExist"
+                :head-columns="p_headCols"
+                :body-columns="p_bodyCols"
+                :sort-field="p_sortField"
+                :sort-desc="p_sortDesc"
+                :head-row-height="headRowHeight"
+                @mouseenter.native="p_hover = 'head'"
+        />
     </div>
 </template>
 
 <script>
     import PlBaseTableColumnController from "./pl-base-table-column-controller";
+    import {TableMixin} from "./index";
+    import PlBaseTableHead from "./pl-base-table-head";
 
     export default {
         name: "pl-base-table",
-        components: {PlBaseTableColumnController},
+        components: {PlBaseTableHead, PlBaseTableColumnController},
+        mixins: [TableMixin],
         props: {
             beforeConfig: {type: Function},
             config: {type: Function},
         },
         data() {
             return {
-                p_originCols: null,                 //原始列数据信息
-                p_cols: null,                       //处理好的列数据信息
-                p_headCols: null,                   //表头列信息
-                p_bodyCols: null,                   //表体列信息
+                p_originCols: [],                   //原始列数据信息
+                p_cols: [],                         //处理好的列数据信息
+                p_headCols: [],                     //表头列信息
+                p_bodyCols: [],                     //表体列信息
+
                 p_tableWidth: null,                 //表格宽度
+                p_sortField: this.sortField,        //排序字段
+                p_sortDesc: this.sortDesc,          //排序方式，先序降序
+                p_hover: null,                      //鼠标是否覆盖在表格上
+
             }
         },
+        computed: {
+            /*
+            *  判断左右表格是否应该存在
+            *  @author     martsforever
+            *  @datetime   2019/1/6 21:52
+            */
+            p_fixedExist() {
+                if (!this.p_cols) return {}
+                const ret = {left: false, center: false, right: false}
+                this.p_cols.forEach(col => Object.keys(ret).forEach(position => !ret[position] && (ret[position] = col.fixed === position)))
+                // console.log('==>>', ret)
+                return ret
+            },
+        },
         methods: {
+            /*
+             *  收集列信息
+             *  @author     martsforever
+             *  @datetime   2019/5/18 23:24
+             */
             async pl_collect(cols) {
                 /*等待属性变化完成*/
                 await this.$plain.nextTick()
@@ -58,8 +96,6 @@
                 this.p_cols = cols
                 this.$emit('collect', this.p_cols)
                 await this.pl_resetTableWidth()
-                console.log(this.p_headCols)
-
             },
 
             /*---------------------------------------列收集相关函数-------------------------------------------*/
@@ -175,6 +211,7 @@
                 // this.p_tableWidth = this.$refs.body.$el.offsetWidth
                 this.pl_resetHeadCols()
                 this.pl_resetBodyCols()
+                console.log(this.p_headCols)
             },
         }
     }

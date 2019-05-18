@@ -1,12 +1,6 @@
-import {getComponents} from '../index'
-import plScopeSlot from './pl-scope-slot'
 
 export default {
     name: "pl-render-func",
-    components: {
-        ...(getComponents()),
-        plScopeSlot,
-    },
     props: {
         renderFunc: {
             type: Function,
