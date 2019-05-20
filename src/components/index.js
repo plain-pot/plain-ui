@@ -74,11 +74,11 @@ export function getComponents(prefix = 'pl') {
     const StandardColumnComponents = formatColumnComponent(StandardColumns, prefix)
     const AllComponents = {...components, ...StandardColumnComponents}
     const RetComponents = Object.keys(AllComponents).reduce((ret, key) => {
-        ret[`${prefix}-${$utils.getKebabCase(key)}`] = AllComponents[key]
+        ret[`${prefix}-${$utils.kebabCase(key)}`] = AllComponents[key]
         return ret
     }, {})
     const PlComponents = prefix === 'pl' ? {} : Object.keys(AllComponents).reduce((ret, key) => {
-        ret[`pl-${$utils.getKebabCase(key)}`] = AllComponents[key]
+        ret[`pl-${$utils.kebabCase(key)}`] = AllComponents[key]
         return ret
     }, {})
     // console.log(RetComponents)

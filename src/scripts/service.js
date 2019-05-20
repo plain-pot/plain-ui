@@ -1,6 +1,5 @@
-import $utils from './utils'
-import $dom from './dom'
-import {StorageService} from './storage'
+import PlainUtils from 'plain-utils'
+
 import $valid from '../components/form/validate'
 import {MessageService} from "../components/message";
 import {SelectService} from "../components/select";
@@ -9,6 +8,10 @@ import {DialogService} from "../components/dialog";
 import {NoticeService} from "../components/notice";
 
 export default function ($plain) {
+    const StorageService = PlainUtils.StorageService
+
+    const $utils = PlainUtils.$utils
+    const $dom = PlainUtils.$dom
     const $message = new MessageService($plain)
     const $select = new SelectService($plain)
     const $dialog = new DialogService($plain)
