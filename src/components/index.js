@@ -61,7 +61,7 @@ const components = {
 
 export function getComponents(prefix = 'pl') {
     return Object.keys(components).reduce((ret, key) => {
-        ret[`${prefix}-${$utils.getKebabCase(key)}`] = components[key]
+        ret[`${prefix}-${$utils.kebabCase(key)}`] = components[key]
         return ret
     }, {})
 }

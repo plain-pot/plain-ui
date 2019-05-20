@@ -5,7 +5,7 @@ const directives = {
 }
 export function getDirectives(prefix) {
     return Object.keys(directives).reduce((ret, key) => {
-        ret[`${prefix}-${$utils.getKebabCase(key)}`] = directives[key]
+        ret[`${prefix}-${$utils.kebabCase(key)}`] = directives[key]
         return ret
     }, {})
 }

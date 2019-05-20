@@ -25,7 +25,7 @@ const com = {
     demoRowItem,
     demoChild,
 }
-Object.keys(com).forEach(key => Vue.component(`${'im'}-${$utils.getKebabCase(key)}`, com[key]))
+Object.keys(com).forEach(key => Vue.component(`${'im'}-${$utils.kebabCase(key)}`, com[key]))
 
 
 new Vue({
