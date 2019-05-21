@@ -13,21 +13,43 @@
             return {
                 a: 111,
                 b: 222,
+                c: 333,
+                d: 444,
             }
         },
         computed: {
-            ret() {
-                console.log('calc ret')
+            ab() {
+                console.log('----------------reset ab-----------------')
                 return this.a + '' + this.b
+            },
+            cd() {
+                console.log('----------------reset cd-----------------')
+                return this.c + '' + this.d
             },
         },
         mounted() {
         },
         methods: {
             test() {
-                console.log(this.ret)
-                console.log(this.ret)
-                console.log(this.ret)
+                console.log(this.ab)
+                console.log(this.ab)
+                console.log(this.ab)
+                console.log(this.ab)
+
+                console.log('set a=aaa')
+                this.a = 'aaa'
+                console.log(this.ab)
+
+                console.log('set b=bbb')
+                this.b = 'bbb'
+                console.log(this.ab)
+
+                console.log('set a=111,b=222')
+                this.a = '111'
+                this.b = '222'
+                console.log(this.ab)
+                console.log(this.ab)
+                console.log(this.ab)
             },
         }
     }
