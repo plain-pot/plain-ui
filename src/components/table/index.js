@@ -9,6 +9,7 @@ const TableMixin = {
         bodyRowHeight: {type: Number, default: 36},     //行高
         headRowHeight: {type: Number, default: 40},     //表头标题行显示高度
         noHeader: {type: Boolean},                      //不显示表头
+        fitParent: {type: Boolean},                     //表格大小填满父元素
 
         /*以下为base table不可设置属性*/
         headColumns: {type: Array},                     //渲染表格头列信息数组
