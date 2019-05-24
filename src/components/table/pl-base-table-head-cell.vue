@@ -1,15 +1,10 @@
 <template>
     <td class="pl-base-table-head-cell" :colspan="col.colspan" :rowspan="col.rowspan" @click="p_click">
         <pl-base-table-cell
-                :is-fixed="fixed === col.fixed"
-                :data="{col,prop:col.propData}"
                 :text="col.title"
+                :is-fixed="fixed === col.fixed"
                 :height="headRowHeight"
-                :width="col.width"
-                :col="col"
-
-                :default-scoped-slots="!!col.scopedSlots?col.scopedSlots.head:null"
-                :default-render-func="col.renderHead">
+                :width="col.width">
             <div class="pl-base-table-head-cell-sort" :class="classes" v-if="!!col.sort">
                 <pl-icon icon="pl-triangle-up-fill" class="pl-sort-asc-icon"/>
                 <pl-icon icon="pl-triangle-down-fill" class="pl-sort-desc-icon"/>

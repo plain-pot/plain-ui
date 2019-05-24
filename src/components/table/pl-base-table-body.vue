@@ -1,7 +1,5 @@
 <template>
     <div class="pl-base-table-body">
-
-        />
     </div>
 </template>
 

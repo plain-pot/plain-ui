@@ -2,23 +2,13 @@
     <div class="pl-base-table-cell" :style="styles">
         <template v-if="isFixed">
             <div class="pl-base-table-cell-content">
-                <keep-alive>
-                    <template v-if="!!p_editing">
-                        <pl-scope-slot v-if="editScopedSlots" :scope-slot-func="editScopedSlots" :data="p_data"/>
-                        <pl-render-func v-else-if="editRenderFunc" :render-func="editRenderFunc" :data="p_data"/>
-                        <span v-else>{{text}}</span>
-                    </template>
-                    <template v-else>
-                        <pl-scope-slot v-if="defaultScopedSlots" :scope-slot-func="defaultScopedSlots" :data="p_data"/>
-                        <pl-render-func v-else-if="defaultRenderFunc" :render-func="defaultRenderFunc" :data="p_data"/>
-                        <span v-else>{{text}}</span>
-                    </template>
-                </keep-alive>
+                <span>{{text}}</span>
             </div>
             <div class="pl-base-table-cell-content-slot">
                 <slot></slot>
             </div>
         </template>
+
     </div>
 </template>
 
