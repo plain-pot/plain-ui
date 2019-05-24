@@ -33,51 +33,14 @@
         components: {PlTooltipText, PlRenderFunc, PlScopeSlot},
         mixins: [TableMixin],
         props: {
-            data: {},                               //作用域渲染函数渲染的数据
             text: {},                               //没有有作用域渲染函数的时候显示的文本
             width: {},                              //单元格宽度
             height: {},                             //单元格高度
             isFixed: {default: false},              //是否为对应fixed table的cell
-            editing: {},                            //当前是否为编辑状态
-            col: {},                                //列信息数据
-            row: {},                                //渲染的行数据，如果是渲染表头，则该属性不存在
-
-            editScopedSlots: {type: Function},      //作用域插槽：编辑
-            defaultScopedSlots: {type: Function},   //作用域插槽：正常
-
-            editRenderFunc: {type: Function},       //渲染函数：编辑
-            defaultRenderFunc: {type: Function},    //渲染函数：正常
         },
         data() {
             return {
                 p_text: this.text,
-                p_timer: null,
-            }
-        },
-        watch: {
-            text: {
-                immediate: true,
-                handler(val) {
-                    if (!this.col.formatter && !this.col.dataType) {
-                        this.p_text = val
-                        return
-                    }
-                    if (!!this.p_timer) {
-                        clearTimeout(this.p_timer)
-                        this.p_timer = null
-                    }
-                    this.p_timer = setTimeout(async () => {
-                        if (!!this.col.formatter) {
-                            this.p_text = await this.col.formatter(val, this.data)
-                            return
-                        }
-                        if (!!this.col.dataType) {
-                            const map = {tel: 'telFormat', money: 'moneyFormat', cny: 'cnyFormat', percent: 'percentNumFormat',}
-                            if (Object.keys(map).indexOf(this.col.dataType) === -1) return Promise.reject("dataType is invalid:" + this.col.dataType)
-                            this.p_text = this.$plain.$utils[map[this.col.dataType]](val)
-                        }
-                    }, 300)
-                },
             }
         },
         computed: {
@@ -88,19 +51,7 @@
                 }
                 return styles
             },
-            p_editing() {
-                if (this.data.rowIndex == null && this.data.colIndex == null) return
-                const editable = this.editing && this.data.col.editable
-                return editable && (!this.data.col.editableFunc || this.data.col.editableFunc(this.data))
-            },
-            p_data() {
-                return {
-                    ...this.data,
-                    text: this.p_text
-                }
-            },
         },
-        methods: {}
     }
 </script>
 

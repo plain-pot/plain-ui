@@ -131,7 +131,7 @@ class TableColumnGroup {
     }
 }
 
-class TableData {
+class RowData {
     constructor(row, index, idField) {
         const id = row[idField]
         if (!id) {
@@ -142,14 +142,14 @@ class TableData {
             index,
             editRow: $utils.deepCopy(row),
             id,
-            editable: false,
             check: false,
+            editable: false,
         })
     }
 }
 
 export {
-    TableData,
+    RowData,
     TableMixin,
     PublicColumnMixin,
     ColumnGroupMixin,

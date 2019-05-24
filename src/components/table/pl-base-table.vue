@@ -29,7 +29,7 @@
 
 <script>
     import PlBaseTableColumnController from "./pl-base-table-column-controller";
-    import {TableData, TableMixin} from "./index";
+    import {RowData, TableMixin} from "./index";
     import PlBaseTableHead from "./pl-base-table-head";
     import PlBaseTableBody from "./pl-base-table-body";
 
@@ -65,7 +65,7 @@
                     if (newVal !== oldVal) {
                         /*重新创建数据*/
                         this.p_data = newVal.reduce((ret, item, index) => {
-                            ret.push(new TableData(item, index, this.id))
+                            ret.push(new RowData(item, index, this.id))
                             return ret
                         }, [])
                         console.log(this.p_data)
