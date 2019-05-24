@@ -228,7 +228,19 @@
              *  @datetime   2019/5/18 23:02
              */
             pl_resetBodyCols() {
-
+                const itar = (columns, ret) => {
+                    columns.forEach(item => {
+                        if (!!item.group) {
+                            itar(item.children, ret)
+                        } else {
+                            ret.push(item)
+                        }
+                    })
+                }
+                const cols = []
+                /*收集渲染的列*/
+                itar(this.p_cols, cols)
+                this.p_bodyCols = cols
             },
 
             /*---------------------------------------其他操作函数-------------------------------------------*/
@@ -244,6 +256,7 @@
                 this.pl_resetHeadCols()
                 this.pl_resetBodyCols()
                 console.log(this.p_headCols)
+                console.log(this.p_bodyCols)
             },
         }
     }

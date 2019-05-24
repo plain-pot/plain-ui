@@ -3,17 +3,9 @@
         <td v-for="(col,colIndex) in bodyColumns" :key="colIndex">
             <pl-base-table-cell
                     :is-fixed="fixed === col.fixed"
-                    :data="{row,editRow,rowIndex,col,colIndex,showRow,prop:col.propData}"
                     :text="showRow[col.field]"
                     :height="bodyRowHeight"
-                    :width="col.width"
-                    :col="col"
-
-                    :default-scoped-slots="col.scopedSlots.default"
-                    :default-render-func="col.renderNormal"
-                    :edit-scoped-slots="col.scopedSlots.edit"
-                    :edit-render-func="col.renderEdit"
-                    :editing="p_editing"/>
+                    :width="col.width"/>
         </td>
     </tr>
 </template>

@@ -1,13 +1,22 @@
 <template>
     <div class="pl-base-table-body">
+        <pl-base-table-body-item
+                fixed="center"
+                :body-columns="bodyColumns"
+                :data="data"
+                :body-row-height="bodyRowHeight"
+                :show-num="showNum"
+        />
     </div>
 </template>
 
 <script>
     import {TableMixin} from "./index";
+    import PlBaseTableBodyItem from "./pl-base-table-body-item";
 
     export default {
         name: "pl-base-table-body",
+        components: {PlBaseTableBodyItem},
         mixins: [
             TableMixin,
         ],
