@@ -243,11 +243,9 @@
             async pl_resetTableWidth() {
                 await this.$plain.nextTick()
                 await this.$plain.nextTick()
-                // this.p_tableWidth = this.$refs.body.$el.offsetWidth
                 this.pl_resetHeadCols()
                 this.pl_resetBodyCols()
-                console.log('p_headCols', this.p_headCols)
-                console.log('p_bodyCols', this.p_bodyCols)
+                // this.p_tableWidth = this.$refs.body.$el.offsetWidth
             },
         }
     }
