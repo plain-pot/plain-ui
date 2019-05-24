@@ -99,9 +99,14 @@
 <style lang="scss">
     .pl-base-table-head-cell {
         position: relative;
+
         &:hover {
             background-color: rgba(0, 0, 0, 0.075);
             cursor: pointer;
+
+            .pl-base-table-head-cell-sort {
+                color: #bbb;
+            }
         }
 
         .pl-base-table-head-cell-sort {
@@ -111,9 +116,35 @@
             justify-content: center;
             flex-direction: column;
             transform: scale(0.6);
+            color: transparent;
 
             .pl-sort-asc-icon, .pl-sort-desc-icon {
                 flex: 1;
+                position: relative;
+            }
+
+            .pl-sort-asc-icon {
+                top: 2px;
+            }
+
+            .pl-sort-desc-icon {
+                top: -3px;
+            }
+
+            &.pl-base-table-head-cell-sort-asc, &.pl-base-table-head-cell-sort-desc {
+                color: #bbb;
+            }
+
+            &.pl-base-table-head-cell-sort-asc {
+                .pl-sort-asc-icon {
+                    color: #333
+                }
+            }
+
+            &.pl-base-table-head-cell-sort-desc {
+                .pl-sort-desc-icon {
+                    color: #333
+                }
             }
         }
 

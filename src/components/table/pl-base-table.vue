@@ -48,19 +48,21 @@
         },
         data() {
             return {
-                p_data: [],                         //缓存数据
-                p_originCols: [],                   //原始列数据信息
-                p_cols: [],                         //处理好的列数据信息
-                p_headCols: [],                     //表头列信息
-                p_bodyCols: [],                     //表体列信息
+                p_data: [],                             //缓存数据
+                p_originCols: [],                       //原始列数据信息
+                p_cols: [],                             //处理好的列数据信息
+                p_headCols: [],                         //表头列信息
+                p_bodyCols: [],                         //表体列信息
 
-                p_tableWidth: null,                 //表格宽度
-                p_sortField: this.sortField,        //排序字段
-                p_sortDesc: this.sortDesc,          //排序方式，先序降序
-                p_hover: null,                      //鼠标是否覆盖在表格上a
+                p_tableWidth: null,                     //表格宽度
+                p_sortField: this.sortField,            //排序字段
+                p_sortDesc: this.sortDesc,              //排序方式，先序降序
+                p_initSortField: this.sortField,        //初始的时候的排序字段
+                p_initSortDesc: this.sortDesc,          //初始的时候的排序方式
 
-                p_scrollLeft: false,                   //内容是否滑动到左端
-                p_scrollRight: false,                  //内容是否滑动到右端
+                p_hover: null,                          //鼠标是否覆盖在表格上
+                p_scrollLeft: false,                    //内容是否滑动到左端
+                p_scrollRight: false,                   //内容是否滑动到右端
             }
         },
         watch: {
@@ -80,7 +82,16 @@
 
                     }
                 },
-            }
+            },
+            sortField(val) {
+                this.p_sortField = val
+            },
+            sortDesc(val) {
+                this.p_sortDesc = val
+            },
+        },
+        created() {
+            this.$on('clickTitle', this.pl_clickTitle)
         },
         computed: {
             classes() {
@@ -104,6 +115,7 @@
             },
         },
         methods: {
+            /*---------------------------------------事件处理-------------------------------------------*/
             /*
              *  收集列信息
              *  @author     martsforever
@@ -141,6 +153,26 @@
                 this.p_cols = cols
                 this.$emit('collect', this.p_cols)
                 await this.pl_resetTableWidth()
+            },
+            /*
+             *  处理点击标题排序变化事件
+             *  @author     martsforever
+             *  @datetime   2019/5/24 21:06
+             */
+            pl_clickTitle({col}) {
+                if (!col.sort || col.group) return
+                if (this.p_sortField === col.field) {
+                    if (!!this.p_sortDesc) {
+                        this.p_sortDesc = false
+                    } else {
+                        this.p_sortField = this.p_initSortField || col.field
+                        this.p_sortDesc = this.p_initSortDesc !== null ? this.p_initSortDesc : !this.p_sortDesc
+                    }
+                } else {
+                    this.p_sortField = col.field
+                    this.p_sortDesc = true
+                }
+                this.$emit('sortChange', {field: this.p_sortField, desc: this.p_sortDesc})
             },
 
             /*---------------------------------------列收集相关函数-------------------------------------------*/
@@ -287,8 +319,10 @@
                 height: 100%;
                 display: flex;
                 flex-direction: column;
+
                 .pl-base-table-body {
                     flex: 1;
+
                     .pl-base-table-body-item {
                         height: 100% !important;
                     }

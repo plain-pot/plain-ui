@@ -39,8 +39,6 @@
     .pl-base-table-head-item {
         background-color: #efefef;
         overflow: hidden;
-        font-size: 12px;
-        font-weight: bold;
 
         &.pl-base-table-head-item-left, &.pl-base-table-head-item-right {
             position: absolute;

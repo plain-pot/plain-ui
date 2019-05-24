@@ -67,6 +67,11 @@
     .pl-base-table-body {
         position: relative;
         overflow: hidden;
+
+        table {
+            font-size: 12px;
+        }
+
         .pl-base-table-body-item {
             background-color: white;
         }

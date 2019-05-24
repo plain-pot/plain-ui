@@ -45,8 +45,16 @@
 </script>
 
 <style lang="scss">
-    .pl-base-table-head {
-        position: relative;
-        overflow: hidden;
+    @include themeWrap{
+        .pl-base-table-head {
+            position: relative;
+            overflow: hidden;
+
+            table {
+                font-size: 12px;
+                font-weight: bold;
+                color: #282f4a;
+            }
+        }
     }
 </style>
