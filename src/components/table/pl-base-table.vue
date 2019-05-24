@@ -26,6 +26,7 @@
                 @scroll="e=>p_hover !== 'head' && !!$refs.head && $refs.head.$refs.scroll.setScroll({x: e.target.scrollLeft})"
                 @scrollLeft="val=>p_scrollLeft = val"
                 @scrollRight="val=>p_scrollRight = val"
+                @dblclick="$emit('dblclick',{item,index})"
         />
 
     </div>
@@ -115,6 +116,20 @@
             },
         },
         methods: {
+            /*---------------------------------------可用函数-------------------------------------------*/
+            enableEdit({item, index}) {
+                this.pl_handleData({item, index}, (sub) => sub.editable = true)
+            },
+            disableEdit({item, index}) {
+                this.pl_handleData({item, index}, (sub) => sub.editable = false)
+            },
+            saveEdit({item, index}) {
+
+            },
+            cancelEdit({item, index}) {
+
+            },
+
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
              *  收集列信息
@@ -292,6 +307,17 @@
                 this.pl_resetBodyCols()
                 // this.p_tableWidth = this.$refs.body.$el.offsetWidth
                 // console.log('this.p_headCols', this.p_headCols)
+            },
+
+            pl_handleData({item, index}, func) {
+                if (!item && index == null) {
+                    this.p_data.forEach((sub, subIndex) => func(sub, subIndex))
+                } else {
+                    if (!index) {
+                        index = this.data.indexOf(item)
+                    }
+                    func(this.p_data[index], index)
+                }
             },
         }
     }

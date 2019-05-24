@@ -16,6 +16,7 @@
                                    :row-data="item"
                                    :index="index"
                                    @click.native="pl_click(item,index)"
+                                   @dblclick.native="$emit('dblclick',{item,index})"
                                    @mouseenter.native="pl_mouseenter(item,index)"
                 />
             </table>
