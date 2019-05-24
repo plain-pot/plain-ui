@@ -271,13 +271,13 @@
             font-size: inherit;
             box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
 
+
+            .pl-scroll-horizontal-indicator {
+                z-index: 1;
+            }
             &:hover {
                 .pl-scroll-horizontal-indicator, .pl-scroll-vertical-indicator {
                     opacity: 1;
-                }
-
-                .pl-scroll-horizontal-indicator {
-                    z-index: 1;
                 }
             }
 
