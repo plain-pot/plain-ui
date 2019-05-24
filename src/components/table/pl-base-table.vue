@@ -14,6 +14,18 @@
                 :head-row-height="headRowHeight"
                 @mouseenter.native="p_hover = 'head'"
         />
+
+        <pl-base-table-body
+                ref="body"
+                :data="data"
+                :table-data="p_tableData"
+                :body-columns="p_bodyColumns"
+                :fixed-exist="p_fixedExist"
+                :row-height="rowHeight"
+                :row-num="rowNum"
+                @mouseenter.native="p_hover = 'body'"
+        />
+
     </div>
 </template>
 
@@ -21,14 +33,16 @@
     import PlBaseTableColumnController from "./pl-base-table-column-controller";
     import {TableMixin} from "./index";
     import PlBaseTableHead from "./pl-base-table-head";
+    import PlBaseTableBody from "./pl-base-table-body";
 
     export default {
         name: "pl-base-table",
-        components: {PlBaseTableHead, PlBaseTableColumnController},
+        components: {PlBaseTableBody, PlBaseTableHead, PlBaseTableColumnController},
         mixins: [TableMixin],
         props: {
             beforeConfig: {type: Function},
             config: {type: Function},
+            keyField: {type: String},
         },
         data() {
             return {
@@ -40,8 +54,7 @@
                 p_tableWidth: null,                 //表格宽度
                 p_sortField: this.sortField,        //排序字段
                 p_sortDesc: this.sortDesc,          //排序方式，先序降序
-                p_hover: null,                      //鼠标是否覆盖在表格上
-
+                p_hover: null,                      //鼠标是否覆盖在表格上a
             }
         },
         computed: {
@@ -218,9 +231,10 @@
 </script>
 
 <style lang="scss">
-    .pl-base-table {
-        border: solid 1px #f2f2f2;
-        box-sizing: border-box;
-        border-radius: 4px;
+    @include themeWrap {
+        .pl-base-table {
+            background-color: rgba(0, 0, 0, 0.01);
+            font-size: inherit;
+        }
     }
 </style>
