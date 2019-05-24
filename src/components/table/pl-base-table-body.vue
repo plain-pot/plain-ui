@@ -5,8 +5,14 @@
 </template>
 
 <script>
+    import {TableMixin} from "./index";
+
     export default {
-        name: "pl-base-table-body"
+        name: "pl-base-table-body",
+        mixins: [
+            TableMixin,
+        ],
+
     }
 </script>
 

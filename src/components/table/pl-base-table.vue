@@ -14,15 +14,13 @@
                 :head-row-height="headRowHeight"
                 @mouseenter.native="p_hover = 'head'"
         />
-
         <pl-base-table-body
                 ref="body"
-                :data="data"
-                :table-data="p_tableData"
-                :body-columns="p_bodyColumns"
+                :data="p_data"
+                :body-columns="p_bodyCols"
                 :fixed-exist="p_fixedExist"
-                :row-height="rowHeight"
-                :row-num="rowNum"
+                :body-row-height="bodyRowHeight"
+                :show-num="showNum"
                 @mouseenter.native="p_hover = 'body'"
         />
 
@@ -31,7 +29,7 @@
 
 <script>
     import PlBaseTableColumnController from "./pl-base-table-column-controller";
-    import {TableMixin} from "./index";
+    import {TableData, TableMixin} from "./index";
     import PlBaseTableHead from "./pl-base-table-head";
     import PlBaseTableBody from "./pl-base-table-body";
 
@@ -42,10 +40,11 @@
         props: {
             beforeConfig: {type: Function},
             config: {type: Function},
-            keyField: {type: String},
+            id: {type: String, required: true},
         },
         data() {
             return {
+                p_data: [],                         //缓存数据
                 p_originCols: [],                   //原始列数据信息
                 p_cols: [],                         //处理好的列数据信息
                 p_headCols: [],                     //表头列信息
@@ -55,6 +54,26 @@
                 p_sortField: this.sortField,        //排序字段
                 p_sortDesc: this.sortDesc,          //排序方式，先序降序
                 p_hover: null,                      //鼠标是否覆盖在表格上a
+            }
+        },
+        watch: {
+            data: {
+                immediate: true,
+                handler(newVal, oldVal) {
+                    console.log('data change')
+                    newVal = newVal || []
+                    if (newVal !== oldVal) {
+                        /*重新创建数据*/
+                        this.p_data = newVal.reduce((ret, item, index) => {
+                            ret.push(new TableData(item, index, this.id))
+                            return ret
+                        }, [])
+                        console.log(this.p_data)
+                    } else {
+                        /*复用数据*/
+
+                    }
+                },
             }
         },
         computed: {

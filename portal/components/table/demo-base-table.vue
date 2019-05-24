@@ -1,6 +1,6 @@
 <template>
     <div class="demo-base-table">
-        <im-base-table :data="data">
+        <im-base-table :data="data" id="trainno">
             <im-tc-group title="组一">
                 <im-tc-column title="编号" field="id"/>
                 <im-tc-column title="姓名" field="name"/>

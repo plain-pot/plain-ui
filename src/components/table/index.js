@@ -11,7 +11,6 @@ const TableMixin = {
         noHeader: {type: Boolean},                      //不显示表头
 
         /*以下为base table不可设置属性*/
-        tableData: {},                                  //表格数据
         headColumns: {type: Array},                     //渲染表格头列信息数组
         bodyColumns: {type: Array},                     //渲染表体列信息数组
         fixedExist: {type: Object},                     //固定列是否存在
@@ -132,7 +131,25 @@ class TableColumnGroup {
     }
 }
 
+class TableData {
+    constructor(row, index, idField) {
+        const id = row[idField]
+        if (!id) {
+            throw new Error(`The key field ${idField} is empty in ${JSON.stringify(row)}`)
+        }
+        Object.assign(this, {
+            row,
+            index,
+            editRow: $utils.deepCopy(row),
+            id,
+            editable: false,
+            check: false,
+        })
+    }
+}
+
 export {
+    TableData,
     TableMixin,
     PublicColumnMixin,
     ColumnGroupMixin,
