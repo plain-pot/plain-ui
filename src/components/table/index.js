@@ -145,6 +145,7 @@ class RowData {
             id,
             check: false,
             editable: false,
+            hover: false,
         })
     }
 }

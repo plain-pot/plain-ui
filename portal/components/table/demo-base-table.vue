@@ -2,8 +2,8 @@
     <div class="demo-base-table">
         <im-base-table :data="data" id="trainno">
             <im-tc-column title="类型" field="type"/>
-            <im-tc-column title="车次,fixed=left" field="trainno"/>
-            <im-tc-column title="车次,fixed=right" field="trainno"/>
+            <im-tc-column title="车次,fixed=left" field="trainno" fixed="left"/>
+            <im-tc-column title="车次,fixed=right" field="trainno" fixed="right"/>
             <im-tc-column title="用时" field="costtime"/>
             <im-tc-column title="出发站" field="station"/>
             <im-tc-column title="到达站" field="endstation"/>

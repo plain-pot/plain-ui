@@ -8,12 +8,14 @@
                 :hide-scrollbar="fixed === 'left'"
                 @scroll="e=>$emit('scroll',e)">
             <table cellspacing="0" cellpadding="0" border="0">
-                <pl-base-table-row v-for="(item) in data"
+                <pl-base-table-row v-for="(item,index) in data"
                                    :key="item.id"
                                    :body-row-height="bodyRowHeight"
                                    :body-columns="bodyColumns"
                                    :fixed="fixed"
                                    :row-data="item"
+                                   @click.native="pl_click(item,index)"
+                                   @mouseenter.native="pl_mouseenter(item,index)"
                 />
             </table>
         </pl-scroll>
@@ -47,6 +49,18 @@
                 return styles
             },
         },
+        methods: {
+            pl_click(item) {
+                this.data.forEach(itemData => {
+                    itemData.check = itemData.id === item.id
+                })
+            },
+            pl_mouseenter(item) {
+                this.data.forEach(itemData => {
+                    itemData.hover = itemData.id === item.id
+                })
+            },
+        }
     }
 </script>
 
