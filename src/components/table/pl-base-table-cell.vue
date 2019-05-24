@@ -50,6 +50,7 @@
         display: inline-flex;
         box-sizing: border-box;
         padding: 0 6px;
+        border-bottom: solid 1px #f2f2f2;
 
         .pl-base-table-cell-content {
             flex: 1;
