@@ -228,18 +228,9 @@
              *  @datetime   2019/5/18 23:02
              */
             pl_resetBodyCols() {
-                const itar = (columns, ret) => {
-                    columns.forEach(item => {
-                        if (!!item.group) {
-                            itar(item.children, ret)
-                        } else {
-                            ret.push(item)
-                        }
-                    })
-                }
-                const cols = []
                 /*收集渲染的列*/
-                itar(this.p_cols, cols)
+                const cols = []
+                this.pl_colsIterate(this.p_cols, (col, group) => !group && cols.push(col))
                 this.p_bodyCols = cols
             },
 
@@ -255,8 +246,8 @@
                 // this.p_tableWidth = this.$refs.body.$el.offsetWidth
                 this.pl_resetHeadCols()
                 this.pl_resetBodyCols()
-                console.log(this.p_headCols)
-                console.log(this.p_bodyCols)
+                console.log('p_headCols', this.p_headCols)
+                console.log('p_bodyCols', this.p_bodyCols)
             },
         }
     }

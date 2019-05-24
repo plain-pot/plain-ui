@@ -50,7 +50,6 @@
         display: inline-flex;
         box-sizing: border-box;
         padding: 0 6px;
-        border-bottom: solid 1px #f2f2f2;
 
         .pl-base-table-cell-content {
             flex: 1;
@@ -61,6 +60,12 @@
         .pl-base-table-cell-content-slot {
             display: flex;
             align-items: center;
+        }
+    }
+
+    .pl-base-table-body {
+        .pl-base-table-cell {
+            border-bottom: solid 1px #f2f2f2;
         }
     }
 </style>
