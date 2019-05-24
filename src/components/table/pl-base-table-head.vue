@@ -48,6 +48,5 @@
     .pl-base-table-head {
         position: relative;
         overflow: hidden;
-
     }
 </style>

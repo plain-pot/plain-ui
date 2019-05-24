@@ -66,7 +66,7 @@
 <style lang="scss">
     .pl-base-table-body {
         position: relative;
-
+        overflow: hidden;
         .pl-base-table-body-item {
             background-color: white;
         }

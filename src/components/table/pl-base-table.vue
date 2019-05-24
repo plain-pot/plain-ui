@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-base-table">
+    <div class="pl-base-table" :class="classes">
         <pl-base-table-column-controller @collect="pl_collect">
             <slot></slot>
         </pl-base-table-column-controller>
@@ -24,6 +24,8 @@
                 :show-num="showNum"
                 @mouseenter.native="p_hover = 'body'"
                 @scroll="e=>p_hover !== 'head' && !!$refs.head && $refs.head.$refs.scroll.setScroll({x: e.target.scrollLeft})"
+                @scrollLeft="val=>p_scrollLeft = val"
+                @scrollRight="val=>p_scrollRight = val"
         />
 
     </div>
@@ -56,6 +58,9 @@
                 p_sortField: this.sortField,        //排序字段
                 p_sortDesc: this.sortDesc,          //排序方式，先序降序
                 p_hover: null,                      //鼠标是否覆盖在表格上a
+
+                p_scrollLeft: false,                   //内容是否滑动到左端
+                p_scrollRight: false,                  //内容是否滑动到右端
             }
         },
         watch: {
@@ -78,6 +83,12 @@
             }
         },
         computed: {
+            classes() {
+                return {
+                    'pl-base-table-left-shadow': !this.p_scrollLeft,
+                    'pl-base-table-right-shadow': !this.p_scrollRight,
+                }
+            },
             /*
             *  判断左右表格是否应该存在
             *  @author     martsforever
@@ -267,6 +278,18 @@
 
                 .pl-scroll-horizontal-indicator {
                     z-index: 1;
+                }
+            }
+
+            &.pl-base-table-left-shadow {
+                .pl-base-table-body-item-left, .pl-base-table-head-item-left {
+                    box-shadow: 0 0 10px rgba(black, 0.12);
+                }
+            }
+
+            &.pl-base-table-right-shadow {
+                .pl-base-table-body-item-right, .pl-base-table-head-item-right {
+                    box-shadow: 0 0 10px rgba(black, 0.12);
                 }
             }
         }

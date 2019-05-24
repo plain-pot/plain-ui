@@ -47,12 +47,7 @@
             top: 0;
         }
 
-        &.pl-base-table-head-item-left {
-            background-color: #c9cbec;
-        }
-
         &.pl-base-table-head-item-right {
-            background-color: #c5ecde;
             right: 0;
 
             & > table {

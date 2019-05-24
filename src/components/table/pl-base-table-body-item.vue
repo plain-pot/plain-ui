@@ -51,5 +51,6 @@
 </script>
 
 <style lang="scss">
-
+    .pl-base-table-body-item {
+    }
 </style>
