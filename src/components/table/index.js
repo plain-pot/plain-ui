@@ -10,6 +10,8 @@ const TableMixin = {
         headRowHeight: {type: Number, default: 40},     //表头标题行显示高度
         noHeader: {type: Boolean},                      //不显示表头
         fitParent: {type: Boolean},                     //表格大小填满父元素
+        sortField: {type: String},                      //排序字段
+        sortDesc: {type: Boolean, default: true},       //先序降序
 
         /*以下为base table不可设置属性*/
         headColumns: {type: Array},                     //渲染表格头列信息数组
@@ -17,8 +19,6 @@ const TableMixin = {
         fixedExist: {type: Object},                     //固定列是否存在
         fixed: {type: String, default: 'center'},       //固定表格的位置:left,center,right
         hostWidth: {type: Number},                      //宿主宽度
-        sortField: {type: String},                      //排序字段
-        sortDesc: {type: Boolean, default: true},       //先序降序
     },
 }
 
