@@ -9,12 +9,14 @@
                                      :head-row-height="headRowHeight"/>
         </pl-scroll>
         <pl-base-table-head-item fixed="left"
+                                 v-if="fixedExist.left"
                                  :head-columns="headColumns"
                                  :body-columns="bodyColumns"
                                  :sort-field="sortField"
                                  :sort-desc="sortDesc"
                                  :head-row-height="headRowHeight"/>
         <pl-base-table-head-item fixed="right"
+                                 v-if="fixedExist.right"
                                  :head-columns="headColumns"
                                  :body-columns="bodyColumns"
                                  :sort-field="sortField"

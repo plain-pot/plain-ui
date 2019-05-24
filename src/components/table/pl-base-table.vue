@@ -14,7 +14,7 @@
                 :head-row-height="headRowHeight"
                 @mouseenter.native="p_hover = 'head'"
         />
-        <!--<pl-base-table-body
+        <pl-base-table-body
                 ref="body"
                 :data="p_data"
                 :body-columns="p_bodyCols"
@@ -22,7 +22,7 @@
                 :body-row-height="bodyRowHeight"
                 :show-num="showNum"
                 @mouseenter.native="p_hover = 'body'"
-        />-->
+        />
 
     </div>
 </template>
@@ -256,6 +256,16 @@
             background-color: rgba(0, 0, 0, 0.01);
             font-size: inherit;
             box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
+
+            &:hover {
+                .pl-scroll-horizontal-indicator, .pl-scroll-vertical-indicator {
+                    opacity: 1;
+                }
+
+                .pl-scroll-horizontal-indicator {
+                    z-index: 1;
+                }
+            }
         }
     }
 </style>

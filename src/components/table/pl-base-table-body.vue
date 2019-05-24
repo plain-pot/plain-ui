@@ -1,7 +1,11 @@
 <template>
     <div class="pl-base-table-body">
         <pl-base-table-body-item
-                fixed="center"
+                v-for="(fixed) in fixeds"
+                :key="fixed"
+                :ref="fixed"
+                :fixed="fixed"
+
                 :body-columns="bodyColumns"
                 :data="data"
                 :body-row-height="bodyRowHeight"
@@ -33,5 +37,30 @@
 </script>
 
 <style lang="scss">
+    .pl-base-table-body {
+        position: relative;
 
+        .pl-base-table-body-item {
+            background-color: white;
+        }
+
+        .pl-base-table-body-item-left, .pl-base-table-body-item-right {
+            position: absolute;
+            top: 0;
+        }
+        .pl-base-table-body-item-right {
+            right: 0;
+            .pl-scroll-content-wrapper {
+                position: relative;
+                .pl-scroll-content {
+                    right: 0;
+                    position: absolute;
+                    float: right;
+                    table {
+                        float: right;
+                    }
+                }
+            }
+        }
+    }
 </style>
