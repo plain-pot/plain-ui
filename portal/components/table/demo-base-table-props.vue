@@ -1,6 +1,6 @@
 <template>
     <div class="demo-base-table-props">
-        <!--<im-demo-row title="设置显示的行数来控制表格高度showNum=5">
+        <im-demo-row title="设置显示的行数来控制表格高度showNum=5">
             <im-base-table :data="data" id="trainno" :showNum="5">
                 <im-tc-column title="类型" field="type"/>
                 <im-tc-column title="车次,fixed=left" field="trainno"/>
@@ -79,7 +79,7 @@
                 <im-tc-column title="高级软卧上票价" field="pricegr1"/>
                 <im-tc-column title="高级软卧下票价" field="pricegr2"/>
             </im-base-table>
-        </im-demo-row>-->
+        </im-demo-row>
         <im-demo-row title="当前排序字段以及排序方式">
             <im-base-table :data="data" id="trainno" sortField="type" :sortDesc="true">
                 <im-tc-column title="类型" field="type"/>
