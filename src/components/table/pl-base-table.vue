@@ -218,5 +218,9 @@
 </script>
 
 <style lang="scss">
-
+    .pl-base-table {
+        border: solid 1px #f2f2f2;
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
 </style>

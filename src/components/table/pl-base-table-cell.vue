@@ -1,21 +1,23 @@
 <template>
-    <div class="pl-base-table-cell" :style="styles" :class="[`pl-base-table-cell-${col.align}`]">
+    <div class="pl-base-table-cell" :style="styles">
         <template v-if="isFixed">
-            <keep-alive>
-                <template v-if="!!p_editing">
-                    <pl-scope-slot v-if="editScopedSlots" :scope-slot-func="editScopedSlots" :data="p_data"/>
-                    <pl-render-func v-else-if="editRenderFunc" :render-func="editRenderFunc" :data="p_data"/>
-                </template>
-                <template v-else>
-                    <pl-tooltip-text :disabled="!col.tooltip"
-                                     :content="p_text"
-                                     show-overflow-tooltip>
+            <div class="pl-base-table-cell-content">
+                <keep-alive>
+                    <template v-if="!!p_editing">
+                        <pl-scope-slot v-if="editScopedSlots" :scope-slot-func="editScopedSlots" :data="p_data"/>
+                        <pl-render-func v-else-if="editRenderFunc" :render-func="editRenderFunc" :data="p_data"/>
+                        <span v-else>{{text}}</span>
+                    </template>
+                    <template v-else>
                         <pl-scope-slot v-if="defaultScopedSlots" :scope-slot-func="defaultScopedSlots" :data="p_data"/>
                         <pl-render-func v-else-if="defaultRenderFunc" :render-func="defaultRenderFunc" :data="p_data"/>
-                    </pl-tooltip-text>
-                </template>
-            </keep-alive>
-            <slot></slot>
+                        <span v-else>{{text}}</span>
+                    </template>
+                </keep-alive>
+            </div>
+            <div class="pl-base-table-cell-content-slot">
+                <slot></slot>
+            </div>
         </template>
     </div>
 </template>
@@ -28,7 +30,7 @@
 
     export default {
         name: "pl-base-table-cell",
-        components: {PlTooltipText, PlRenderFunc,  PlScopeSlot},
+        components: {PlTooltipText, PlRenderFunc, PlScopeSlot},
         mixins: [TableMixin],
         props: {
             data: {},                               //作用域渲染函数渲染的数据
@@ -101,3 +103,22 @@
         methods: {}
     }
 </script>
+
+<style lang="scss">
+    .pl-base-table-cell {
+        display: inline-flex;
+        box-sizing: border-box;
+        padding: 0 6px;
+
+        .pl-base-table-cell-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .pl-base-table-cell-content-slot {
+            display: flex;
+            align-items: center;
+        }
+    }
+</style>

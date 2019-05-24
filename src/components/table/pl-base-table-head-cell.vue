@@ -100,3 +100,38 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .pl-base-table-head-cell {
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.05);
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+            cursor: pointer;
+        }
+
+        .pl-base-table-head-cell-sort {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transform: scale(0.6);
+
+            .pl-sort-asc-icon, .pl-sort-desc-icon {
+                flex: 1;
+            }
+        }
+
+        .pl-base-table-head-cell-drag {
+            position: absolute;
+            width: 8px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: transparent;
+            cursor: w-resize;
+        }
+    }
+</style>

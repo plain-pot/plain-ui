@@ -1,6 +1,6 @@
 <template>
     <div class="demo-base-table">
-        <im-base-table>
+        <im-base-table :data="data">
             <im-tc-group title="组一">
                 <im-tc-column title="编号" field="id"/>
                 <im-tc-column title="姓名" field="name"/>
@@ -18,11 +18,22 @@
 </template>
 
 <script>
+
+    import {SimpleTableData} from "../../data";
+
     export default {
-        name: "demo-base-table"
+        name: "demo-base-table",
+        data() {
+            return {
+                data: SimpleTableData,
+            }
+        },
     }
 </script>
 
 <style lang="scss">
-
+    .demo-base-table {
+        box-sizing: border-box;
+        padding: 16px;
+    }
 </style>
