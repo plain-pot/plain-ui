@@ -1,28 +1,24 @@
 <template>
     <div class="demo-table-table-fixed">
         <im-base-table :data="data" id="trainno">
-            <im-tc-group title="组1">
-                <im-tc-column title="类型" field="type"/>
-                <im-tc-column title="车次,fixed=left" field="trainno"/>
-            </im-tc-group>
+            <im-tc-column title="类型" field="type"/>
+            <im-tc-column title="车次,fixed=left" field="trainno" fixed="left"/>
+            <im-tc-column title="车次,fixed=right" field="trainno" fixed="right"/>
+<!--            <im-tc-column title="用时" field="costtime" fixed="left"/>-->
+<!--            <im-tc-column title="出发站" field="station" fixed="right"/>-->
 
-            <im-tc-group title="组2">
-                <im-tc-column title="车次,fixed=right" field="trainno"/>
-                <im-tc-column title="用时" field="costtime"/>
-                <im-tc-column title="出发站" field="station"/>
-            </im-tc-group>
-
-            <im-tc-group title="组3">
+            <im-tc-group title="组1" fixed="left">
                 <im-tc-column title="到达站" field="endstation"/>
                 <im-tc-column title="出发时间" field="departuretime"/>
-                <im-tc-column title="到达时间" field="arrivaltime"/>
-                <im-tc-group title="组5">
-                    <im-tc-column title="顺序" field="sequenceno"/>
-                    <im-tc-column title="用时" field="costtime"/>
-                    <im-tc-column title="距离" field="distance"/>
-                </im-tc-group>
             </im-tc-group>
 
+            <im-tc-group title="组2" fixed="right">
+                <im-tc-column title="到达时间" field="arrivaltime"/>
+                <im-tc-column title="顺序" field="sequenceno"/>
+            </im-tc-group>
+
+
+            <im-tc-column title="距离" field="distance"/>
             <im-tc-column title="是否终点" field="isend"/>
             <im-tc-column title="商务座票价" field="pricesw"/>
             <im-tc-column title="特等座票价" field="pricetd"/>

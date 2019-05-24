@@ -1,8 +1,25 @@
 <template>
     <div class="pl-base-table-head" :style="styles">
-        <pl-scroll :scroll-y="false" :scroll-x="true" hide-scrollbar class="pl-base-table-head-scroll" ref="scroll" @scroll="e=>$emit('scroll',e)">
-            <pl-base-table-head-item :head-columns="headColumns" :body-columns="bodyColumns" fixed="center" :sort-field="sortField" :sort-desc="sortDesc" :head-row-height="headRowHeight"/>
+        <pl-scroll :scroll-y="false" :scroll-x="true"  class="pl-base-table-head-scroll" ref="scroll" @scroll="e=>$emit('scroll',e)">
+            <pl-base-table-head-item fixed="center"
+                                     :head-columns="headColumns"
+                                     :body-columns="bodyColumns"
+                                     :sort-field="sortField"
+                                     :sort-desc="sortDesc"
+                                     :head-row-height="headRowHeight"/>
         </pl-scroll>
+        <pl-base-table-head-item fixed="left"
+                                 :head-columns="headColumns"
+                                 :body-columns="bodyColumns"
+                                 :sort-field="sortField"
+                                 :sort-desc="sortDesc"
+                                 :head-row-height="headRowHeight"/>
+        <pl-base-table-head-item fixed="right"
+                                 :head-columns="headColumns"
+                                 :body-columns="bodyColumns"
+                                 :sort-field="sortField"
+                                 :sort-desc="sortDesc"
+                                 :head-row-height="headRowHeight"/>
     </div>
 </template>
 
@@ -24,3 +41,11 @@
         },
     }
 </script>
+
+<style lang="scss">
+    .pl-base-table-head {
+        position: relative;
+        overflow: hidden;
+
+    }
+</style>

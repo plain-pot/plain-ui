@@ -14,7 +14,7 @@
                 :head-row-height="headRowHeight"
                 @mouseenter.native="p_hover = 'head'"
         />
-        <pl-base-table-body
+        <!--<pl-base-table-body
                 ref="body"
                 :data="p_data"
                 :body-columns="p_bodyCols"
@@ -22,7 +22,7 @@
                 :body-row-height="bodyRowHeight"
                 :show-num="showNum"
                 @mouseenter.native="p_hover = 'body'"
-        />
+        />-->
 
     </div>
 </template>

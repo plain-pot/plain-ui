@@ -99,8 +99,6 @@
 <style lang="scss">
     .pl-base-table-head-cell {
         position: relative;
-        background-color: rgba(0, 0, 0, 0.05);
-
         &:hover {
             background-color: rgba(0, 0, 0, 0.075);
             cursor: pointer;

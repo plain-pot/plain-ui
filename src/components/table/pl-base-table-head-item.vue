@@ -35,3 +35,30 @@
         },
     }
 </script>
+
+<style lang="scss">
+    .pl-base-table-head-item {
+        background-color: #efefef;
+        overflow: hidden;
+        font-size: 12px;
+        font-weight: bold;
+
+        &.pl-base-table-head-item-left, &.pl-base-table-head-item {
+            position: absolute;
+            top: 0;
+        }
+
+        &.pl-base-table-head-item-left {
+            background-color: #c9cbec;
+        }
+
+        &.pl-base-table-head-item-right {
+            background-color: #c5ecde;
+            right: 0;
+
+            & > table {
+                float: right;
+            }
+        }
+    }
+</style>
