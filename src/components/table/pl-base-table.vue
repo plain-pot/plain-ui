@@ -13,6 +13,7 @@
                 :sort-desc="p_sortDesc"
                 :head-row-height="headRowHeight"
                 @mouseenter.native="p_hover = 'head'"
+                @scroll="e=>p_hover === 'head' && $refs.body.$refs.center[0].$refs.scroll.setScroll({x: e.target.scrollLeft})"
         />
         <pl-base-table-body
                 ref="body"
@@ -22,6 +23,7 @@
                 :body-row-height="bodyRowHeight"
                 :show-num="showNum"
                 @mouseenter.native="p_hover = 'body'"
+                @scroll="e=>p_hover !== 'head' && !!$refs.head && $refs.head.$refs.scroll.setScroll({x: e.target.scrollLeft})"
         />
 
     </div>
@@ -245,6 +247,7 @@
                 this.pl_resetHeadCols()
                 this.pl_resetBodyCols()
                 // this.p_tableWidth = this.$refs.body.$el.offsetWidth
+                console.log('this.p_headCols', this.p_headCols)
             },
         }
     }

@@ -5,6 +5,7 @@
                 :key="fixed"
                 :ref="fixed"
                 :fixed="fixed"
+                v-if="fixedExist[fixed]"
 
                 :body-columns="bodyColumns"
                 :data="data"

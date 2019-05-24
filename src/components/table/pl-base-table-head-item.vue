@@ -29,7 +29,7 @@
              *  @datetime   2019/1/6 21:51
              */
             width() {
-                return this.bodyColumns.reduce((ret, item) => item.fixed === this.fixed ? ret + item.width : ret, 0)
+                return this.bodyColumns.reduce((ret, item) => (item.fixed === this.fixed || this.fixed === 'center') ? ret + item.width : ret, 0)
             },
         },
     }
