@@ -3,9 +3,18 @@
         <td v-for="(col,colIndex) in bodyColumns" :key="colIndex">
             <pl-base-table-cell
                     :is-fixed="fixed === col.fixed"
-                    :text="showRow[col.field]"
                     :height="bodyRowHeight"
-                    :width="col.width"/>
+                    :width="col.width"
+                    :col="col"
+                    :col-index="colIndex"
+
+                    :data="rowData"
+                    :index="index"
+                    :default-scoped-slots="col.scopedSlots.default"
+                    :default-render-func="col.renderNormal"
+                    :edit-scoped-slots="col.scopedSlots.edit"
+                    :edit-render-func="col.renderEdit"
+            />
         </td>
     </tr>
 </template>
@@ -20,11 +29,9 @@
         mixins: [TableMixin],
         props: {
             rowData: {},
+            index: {},
         },
         computed: {
-            showRow() {
-                return this.rowData.editable ? this.rowData.editRow : this.rowData.row
-            },
             classes() {
                 return [
                     {

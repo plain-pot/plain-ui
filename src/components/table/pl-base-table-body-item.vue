@@ -14,6 +14,7 @@
                                    :body-columns="bodyColumns"
                                    :fixed="fixed"
                                    :row-data="item"
+                                   :index="index"
                                    @click.native="pl_click(item,index)"
                                    @mouseenter.native="pl_mouseenter(item,index)"
                 />
