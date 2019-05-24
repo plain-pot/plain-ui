@@ -29,20 +29,11 @@
             return {
                 menuGroups: [
                     {
-                        title: '表格（新）',
-                        menus: [
-                            {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/table/demo-base-table', complete: true},
-                            {title: 'BaseTable基础表格列', icon: 'pl-table-solid', page: '/base-table/demo-base-table-column', complete: false},
-                        ],
-                    },
-                    {
                         title: '表格',
                         menus: [
-                            {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/table/demo-base-table', complete: false},
-                            {title: 'BaseTable基础表格编辑', icon: 'pl-table-solid', page: '/table/demo-base-table-edit', complete: false},
-                            {title: 'BaseTable基础表格测试', icon: 'pl-table-solid', page: '/table/demo-base-table-test', complete: false},
-                            {title: 'BaseTable列基本属性测试', icon: 'pl-table-solid', page: '/table/demo-base-table-column-prop', complete: false},
-                            {title: 'BaseTable基础表格列测试', icon: 'pl-table-solid', page: '/table/demo-base-table-column', complete: false},
+                            {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/table/demo-base-table', complete: true},
+                            {title: 'BaseTable固定列', icon: 'pl-table-solid', page: '/table/demo-base-table-fixed', complete: true},
+                            {title: 'BaseTable基础表格列', icon: 'pl-table-solid', page: '/base-table/demo-base-table-column', complete: false},
                         ],
                     },
                     {
@@ -131,8 +122,7 @@
                     },
                     {
                         title: '指令',
-                        menus: [
-                        ],
+                        menus: [],
                     },
                 ],
             }
@@ -148,10 +138,12 @@
             padding: plVar(padding);
             height: 100%;
             width: 100%;
+
             .app-menu-item-wrapper {
                 padding: plVar(paddingSmall) 0;
                 box-sizing: border-box;
             }
+
             .app-menu-item {
                 border-radius: plVar(borderFillet);
                 width: 100%;
@@ -162,9 +154,11 @@
                 cursor: pointer;
                 display: flex;
                 justify-content: space-between;
+
                 .pl-icon {
                     margin-right: 1em;
                 }
+
                 &.app-menu-item-active, &:hover {
                     background-color: plVar(colorPrimaryLighter);
                     color: plVar(colorTitle);
@@ -174,6 +168,7 @@
             .app-menu-segment {
                 display: flex;
                 align-items: center;
+
                 span {
                     font-size: plVar(fontSmall);
                     color: plVar(colorPrimary);

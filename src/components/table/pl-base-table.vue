@@ -68,9 +68,8 @@
                             ret.push(new RowData(item, index, this.id))
                             return ret
                         }, [])
-                        console.log(this.p_data)
                     } else {
-                        /*复用数据*/
+                        // TODO 复用数据
 
                     }
                 },

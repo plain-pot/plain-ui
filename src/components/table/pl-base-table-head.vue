@@ -3,9 +3,6 @@
         <pl-scroll :scroll-y="false" :scroll-x="true" hide-scrollbar class="pl-base-table-head-scroll" ref="scroll" @scroll="e=>$emit('scroll',e)">
             <pl-base-table-head-item :head-columns="headColumns" :body-columns="bodyColumns" fixed="center" :sort-field="sortField" :sort-desc="sortDesc" :head-row-height="headRowHeight"/>
         </pl-scroll>
-        <pl-base-table-head-item :head-columns="headColumns" :body-columns="bodyColumns" fixed="left" v-if="fixedExist.left" :sort-field="sortField" :sort-desc="sortDesc" :head-row-height="headRowHeight"/>
-        <pl-base-table-head-item :head-columns="headColumns" :body-columns="bodyColumns" fixed="right" v-if="fixedExist.right" :sort-field="sortField" :sort-desc="sortDesc"
-                                 :head-row-height="headRowHeight"/>
     </div>
 </template>
 
