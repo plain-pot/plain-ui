@@ -1,6 +1,6 @@
 <template>
     <div class="pl-base-table-head" :style="styles">
-        <pl-scroll :scroll-y="false" :scroll-x="true"  class="pl-base-table-head-scroll" ref="scroll" @scroll="e=>$emit('scroll',e)">
+        <pl-scroll :scroll-y="false" :scroll-x="true" hide-scrollbar class="pl-base-table-head-scroll" ref="scroll" @scroll="e=>$emit('scroll',e)">
             <pl-base-table-head-item fixed="center"
                                      :head-columns="headColumns"
                                      :body-columns="bodyColumns"

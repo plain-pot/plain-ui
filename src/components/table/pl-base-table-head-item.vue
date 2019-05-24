@@ -29,7 +29,6 @@
              *  @datetime   2019/1/6 21:51
              */
             width() {
-                if (this.fixed === 'center') return null
                 return this.bodyColumns.reduce((ret, item) => item.fixed === this.fixed ? ret + item.width : ret, 0)
             },
         },
@@ -43,7 +42,7 @@
         font-size: 12px;
         font-weight: bold;
 
-        &.pl-base-table-head-item-left, &.pl-base-table-head-item {
+        &.pl-base-table-head-item-left, &.pl-base-table-head-item-right {
             position: absolute;
             top: 0;
         }

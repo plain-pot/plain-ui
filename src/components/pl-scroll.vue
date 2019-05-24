@@ -81,6 +81,7 @@
                 return (this.hostHeight - this.indicatorHeight) * this.contentWrapperScrollTop / (this.contentHeight - this.hostHeight);
             },
             indicatorWidth() {
+                console.log(this.contentWidth, this.hostWidth + 1)
                 return (this.contentWidth > this.hostWidth + 1) ? this.hostWidth * this.hostWidth / this.contentWidth : 0;
             },
             indicatorLeft() {
