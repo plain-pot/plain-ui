@@ -91,6 +91,7 @@
                 width = width + durX
                 width = width > 30 ? width : 30
                 this.dragColumn.width = width
+                this.p_baseTable.pl_resetFitWidth()
             },
         }
     }

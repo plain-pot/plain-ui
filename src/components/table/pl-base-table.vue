@@ -78,7 +78,7 @@
             data: {
                 immediate: true,
                 handler(newVal, oldVal) {
-                    console.log('data change')
+                    // console.log('data change')
                     newVal = newVal || []
                     if (newVal !== oldVal) {
                         /*重新创建数据*/
@@ -150,7 +150,6 @@
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
             },
-
 
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
@@ -289,6 +288,30 @@
                 return aOrder < bOrder
             },
             /*
+             *  重新计算表格宽度
+             *  @author     martsforever
+             *  @datetime   2019/5/18 22:58
+             */
+            async pl_resetTableWidth() {
+                await this.$plain.nextTick()
+                await this.$plain.nextTick()
+
+                /*计算表格宽度*/
+                this.p_tableWidth = null
+                let el = this.$el
+                while (!this.p_tableWidth && !!el.parentNode) {
+                    // console.log(el)
+                    if (el.offsetWidth > 0) {
+                        this.p_tableWidth = el.offsetWidth
+                    } else {
+                        el = el.parentNode
+                    }
+                }
+
+                this.pl_resetHeadCols()
+                this.pl_resetBodyCols()
+            },
+            /*
              *  计算表头列数据
              *  @author     martsforever
              *  @datetime   2019/5/18 23:01
@@ -347,33 +370,40 @@
                 const cols = []
                 this.pl_colsIterate(this.p_cols, (col, group) => !group && cols.push(col))
                 this.p_bodyCols = cols
+                this.pl_resetFitWidth()
+            },
+            pl_resetFitWidth() {
+                let totalColWidth = this.p_bodyCols.reduce((ret, item) => ret + item.width, 0)
+                if (totalColWidth < this.p_tableWidth) {
+                    let externalWidth = this.p_tableWidth - totalColWidth
+                    let totalColFit = this.p_bodyCols.reduce((ret, item) => ret + item.fit, 0)
+                    if (totalColFit === 0) {
+                        for (let i = this.p_bodyCols.length - 1; i >= 0; i--) {
+                            const col = this.p_bodyCols[i]
+                            if (col.fixed !== 'left' && col.fixed !== 'right') {
+                                col.fit = 1
+                                break
+                            }
+                        }
+                        totalColFit = 1
+                    }
+                    let externalChunkWidth = Math.floor(externalWidth / totalColFit) - 1
+                    let externalChunkWidthChip = externalWidth - externalChunkWidth * totalColFit
+                    let isFirstFit = true
+                    this.p_bodyCols.forEach(col => {
+                        let ew
+                        if (isFirstFit && col.fit > 0) {
+                            ew = Math.floor(col.fit * externalChunkWidth) + externalChunkWidthChip
+                            isFirstFit = false
+                        } else {
+                            ew = Math.floor(col.fit * externalChunkWidth)
+                        }
+                        col.width = this.$plain.$utils.removePx(col.width) + ew
+                    })
+                }
             },
 
             /*---------------------------------------其他操作函数-------------------------------------------*/
-            /*
-             *  重新计算表格宽度
-             *  @author     martsforever
-             *  @datetime   2019/5/18 22:58
-             */
-            async pl_resetTableWidth() {
-                await this.$plain.nextTick()
-                await this.$plain.nextTick()
-
-                /*计算表格宽度*/
-                this.p_tableWidth = null
-                let el = this.$el
-                while (!this.p_tableWidth && !!el.parentNode) {
-                    console.log(el)
-                    if (el.offsetWidth > 0) {
-                        this.p_tableWidth = el.offsetWidth
-                    } else {
-                        el = el.parentNode
-                    }
-                }
-
-                this.pl_resetHeadCols()
-                this.pl_resetBodyCols()
-            },
             /*
              *  遍历数据
              *  @author     martsforever
