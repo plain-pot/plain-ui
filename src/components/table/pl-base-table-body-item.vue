@@ -15,9 +15,9 @@
                                    :fixed="fixed"
                                    :row-data="item"
                                    :index="index"
-                                   @click.native="pl_click(item,index)"
+                                   @click.native="$emit('click',{item,index})"
                                    @dblclick.native="$emit('dblclick',{item,index})"
-                                   @mouseenter.native="pl_mouseenter(item,index)"
+                                   @mouseenter.native="$emit('mouseenter',{item,index})"
                 />
             </table>
         </pl-scroll>
@@ -51,18 +51,6 @@
                 return styles
             },
         },
-        methods: {
-            pl_click(item) {
-                this.data.forEach(itemData => {
-                    itemData.check = itemData.id === item.id
-                })
-            },
-            pl_mouseenter(item) {
-                this.data.forEach(itemData => {
-                    itemData.hover = itemData.id === item.id
-                })
-            },
-        }
     }
 </script>
 

@@ -17,10 +17,12 @@
             </im-demo-row-item>
         </im-demo-row>
 
-        <im-base-table ref="table" :data="data" id="trainno" @dblclick="pl_dblclick">
-            <im-tc-input title="类型" field="type"/>
-            <im-tc-column title="车次,fixed=left" field="trainno" fixed="left"/>
-            <im-tc-column title="车次,fixed=right" field="trainno" fixed="right"/>
+        <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick">
+            <im-tc-column title="类型" field="type"/>
+            <im-tc-column title="车次" field="trainno"/>
+            <im-tc-input title="车次" field="trainno"/>
+            <im-tc-input title="车次,fixed=left" field="trainno" fixed="left"/>
+            <im-tc-input title="车次,fixed=right" field="trainno" fixed="right"/>
             <im-tc-column title="用时" field="costtime"/>
             <im-tc-column title="出发站" field="station"/>
             <im-tc-column title="到达站" field="endstation"/>

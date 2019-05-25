@@ -26,7 +26,10 @@
                 @scroll="e=>p_hover !== 'head' && !!$refs.head && $refs.head.$refs.scroll.setScroll({x: e.target.scrollLeft})"
                 @scrollLeft="val=>p_scrollLeft = val"
                 @scrollRight="val=>p_scrollRight = val"
-                @dblclick="e=>$emit('dblclick',e)"
+
+                @click="pl_clickRow"
+                @dblclick="pl_dblClickRow"
+                @mouseenter="pl_mouseenterRow"
         />
 
     </div>
@@ -45,7 +48,12 @@
         props: {
             beforeConfig: {type: Function},
             config: {type: Function},
+
             id: {type: String, required: true},
+
+            clickRow: {type: Function},
+            dblclickRow: {type: Function},
+            mouseenterRow: {type: Function},
         },
         data() {
             return {
@@ -118,18 +126,18 @@
         methods: {
             /*---------------------------------------可用函数-------------------------------------------*/
             enableEdit({item, index}) {
-                this.pl_handleData({item, index}, (sub) => sub.editable = true)
+                this.pl_iterateData({item, index}, (sub) => sub.editable = true)
             },
             disableEdit({item, index}) {
-                this.pl_handleData({item, index}, (sub) => sub.editable = false)
+                this.pl_iterateData({item, index}, (sub) => sub.editable = false)
             },
             saveEdit({item, index}) {
-                this.pl_handleData({item, index}, (sub) => {
+                this.pl_iterateData({item, index}, (sub) => {
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.row, key, sub.editRow[key]))
                 })
             },
             cancelEdit({item, index}) {
-                this.pl_handleData({item, index}, (sub) => {
+                this.pl_iterateData({item, index}, (sub) => {
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
             },
@@ -194,9 +202,42 @@
                 }
                 this.$emit('sortChange', {field: this.p_sortField, desc: this.p_sortDesc})
             },
+            /*
+             *  处理点击行
+             *  @author     martsforever
+             *  @datetime   2019/5/25 12:10
+             */
+            pl_clickRow({item, index}) {
+                this.$emit('clickRow', {item, index})
+                if (!!this.clickRow) {
+                    this.clickRow({item, index})
+                    return
+                }
+                this.p_data.forEach(d => d.check = d.id === item.id)
+            },
+            /*
+             *  处理双击行
+             *  @author     martsforever
+             *  @datetime   2019/5/25 12:11
+             */
+            pl_dblClickRow({item, index}) {
+                this.$emit('dblclickRow', {item, index})
+            },
+            /*
+             *  处理鼠标滑过行
+             *  @author     martsforever
+             *  @datetime   2019/5/25 12:11
+             */
+            pl_mouseenterRow({item, index}) {
+                this.$emit('mouseenterRow', {item, index})
+                if (!!this.mouseenterRow) {
+                    this.mouseenterRow({item, index})
+                    return
+                }
+                this.p_data.forEach(d => d.hover = d.id === item.id)
+            },
 
             /*---------------------------------------列收集相关函数-------------------------------------------*/
-
             /**
              * 复制columns
              * @author  韦胜健
@@ -313,8 +354,12 @@
                 // this.p_tableWidth = this.$refs.body.$el.offsetWidth
                 // console.log('this.p_headCols', this.p_headCols)
             },
-
-            pl_handleData({item, index}, func) {
+            /*
+             *  遍历数据
+             *  @author     martsforever
+             *  @datetime   2019/5/25 12:09
+             */
+            pl_iterateData({item, index}, func) {
                 if (!item && index == null) {
                     this.p_data.forEach((sub, subIndex) => func(sub, subIndex))
                 } else {
