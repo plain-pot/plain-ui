@@ -2,9 +2,11 @@
     <div class="pl-base-table-cell" :style="styles">
         <template v-if="isFixed">
             <div class="pl-base-table-cell-content">
-                <span v-if="!data">{{showText}}</span>
-                <edit-content v-else-if="!data.editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="showText" key="edit"/>
-                <edit-content v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="showText" key="normal"/>
+                <keep-alive>
+                    <span v-if="!data">{{showText}}</span>
+                    <pl-base-table-cell-watcher v-else-if="!data.editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="showText" key="edit"/>
+                    <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="showText" key="normal"/>
+                </keep-alive>
             </div>
             <div class="pl-base-table-cell-content-slot">
                 <slot></slot>
@@ -18,29 +20,11 @@
     import {TableMixin} from "./index";
     import PlRenderFunc from "../render/pl-render-func";
     import PlTooltipText from "../pl-tooltip-text";
-
-    const EditContent = {
-        components: {PlRenderFunc, PlScopeSlot},
-        props: {
-            scopeSlotFunc: {},
-            renderFunc: {},
-            data: {},
-            text: {},
-        },
-        render() {
-            return (
-                <div class="pl-base-table-cell-watcher">
-                    {!!this.scopeSlotFunc && <pl-scope-slot scope-slot-func={this.scopeSlotFunc} data={this.data}/>}
-                    {!!this.renderFunc && <pl-render-func render-func={this.renderFunc} data={this.data}/>}
-                    {!this.scopeSlotFunc && !this.renderFunc && <span>{this.text}</span>}
-                </div>
-            )
-        },
-    }
+    import PlBaseTableCellWatcher from "./pl-base-table-cell-watcher";
 
     export default {
         name: "pl-base-table-cell",
-        components: {PlTooltipText, PlRenderFunc, PlScopeSlot, EditContent},
+        components: {PlBaseTableCellWatcher, PlTooltipText, PlRenderFunc, PlScopeSlot},
         mixins: [TableMixin],
         props: {
             text: {},                               //没有有作用域渲染函数的时候显示的文本

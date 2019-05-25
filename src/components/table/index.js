@@ -32,7 +32,7 @@ const ColumnPublicProps = {
     placeLeft: {type: Boolean},                         //当出现左滚动列的时候，是否自动设置为左固定列
     placeRight: {type: Boolean},                        //当出现右滚动列的时候，是否自动设置为右固定列
     hide: {type: Boolean},                              //是否隐藏
-    disabledConfig: {type: Boolean},                    //禁止配置改列
+    // disabledConfig: {type: Boolean},                    //禁止配置改列
     align: {type: String, default: 'left'},             //非编辑状态下文本对其方式
 
     search: {type: Boolean, default: true},             //可查询

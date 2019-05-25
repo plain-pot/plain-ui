@@ -2,9 +2,9 @@
     <div class="pl-base-table-head-item" :class="[`pl-base-table-head-item-${fixed}`]" :style="{width:`${width}px`}">
         <table cellspacing="0" cellpadding="0" border="0">
             <tr v-for="(row,rowIndex) in headColumns" :key="rowIndex">
-                <pl-base-table-head-cell v-for="(col) in row"
+                <pl-base-table-head-cell v-for="(col,colIndex) in row"
                                          :fixed="fixed"
-                                         :key="col.field"
+                                         :key="col.field+colIndex"
                                          :col="col"
                                          :sort-field="sortField"
                                          :sort-desc="sortDesc"
