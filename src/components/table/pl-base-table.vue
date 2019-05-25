@@ -358,10 +358,21 @@
             async pl_resetTableWidth() {
                 await this.$plain.nextTick()
                 await this.$plain.nextTick()
+
+                /*计算表格宽度*/
+                this.p_tableWidth = null
+                let el = this.$el
+                while (!this.p_tableWidth && !!el.parentNode) {
+                    console.log(el)
+                    if (el.offsetWidth > 0) {
+                        this.p_tableWidth = el.offsetWidth
+                    } else {
+                        el = el.parentNode
+                    }
+                }
+
                 this.pl_resetHeadCols()
                 this.pl_resetBodyCols()
-                // this.p_tableWidth = this.$refs.body.$el.offsetWidth
-                // console.log('this.p_headCols', this.p_headCols)
             },
             /*
              *  遍历数据
