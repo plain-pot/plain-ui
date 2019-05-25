@@ -14,7 +14,7 @@
 
                 @mouseenter.native="p_hoverFixed = fixed"
                 @scroll="e=>pl_scroll(e,fixed)"
-                @dblclick="$emit('dblclick',{item,index})"
+                @dblclick="e=>$emit('dblclick',e)"
         />
     </div>
 </template>

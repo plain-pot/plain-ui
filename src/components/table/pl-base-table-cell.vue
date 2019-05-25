@@ -29,7 +29,7 @@
         },
         render() {
             return (
-                <div className="pl-base-table-cell-content">
+                <div class="pl-base-table-cell-watcher">
                     {!!this.scopeSlotFunc && <pl-scope-slot scope-slot-func={this.scopeSlotFunc} data={this.data}/>}
                     {!!this.renderFunc && <pl-render-func render-func={this.renderFunc} data={this.data}/>}
                     {!this.scopeSlotFunc && !this.renderFunc && <span>{this.text}</span>}
@@ -104,12 +104,27 @@
             flex: 1;
             display: flex;
             align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            .pl-base-table-cell-watcher {
+                flex: 1;
+
+                .pl-render-func, .pl-scope-slot {
+                    width: 100%;
+                }
+            }
         }
 
         .pl-base-table-cell-content-slot {
             display: flex;
             align-items: center;
         }
+
+        .pl-input {
+            width: 100% !important;
+        }
+
     }
 
     .pl-base-table-body {

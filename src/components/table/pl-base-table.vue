@@ -26,7 +26,7 @@
                 @scroll="e=>p_hover !== 'head' && !!$refs.head && $refs.head.$refs.scroll.setScroll({x: e.target.scrollLeft})"
                 @scrollLeft="val=>p_scrollLeft = val"
                 @scrollRight="val=>p_scrollRight = val"
-                @dblclick="$emit('dblclick',{item,index})"
+                @dblclick="e=>$emit('dblclick',e)"
         />
 
     </div>
@@ -124,11 +124,16 @@
                 this.pl_handleData({item, index}, (sub) => sub.editable = false)
             },
             saveEdit({item, index}) {
-
+                this.pl_handleData({item, index}, (sub) => {
+                    Object.keys(sub.editRow).forEach(key => this.$set(sub.row, key, sub.editRow[key]))
+                })
             },
             cancelEdit({item, index}) {
-
+                this.pl_handleData({item, index}, (sub) => {
+                    Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
+                })
             },
+
 
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
@@ -313,8 +318,8 @@
                 if (!item && index == null) {
                     this.p_data.forEach((sub, subIndex) => func(sub, subIndex))
                 } else {
-                    if (!index) {
-                        index = this.data.indexOf(item)
+                    if (index == null) {
+                        index = this.p_data.indexOf(item)
                     }
                     func(this.p_data[index], index)
                 }

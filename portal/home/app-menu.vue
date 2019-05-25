@@ -35,6 +35,7 @@
                             {title: 'BaseTable固定列', icon: 'pl-table-solid', page: '/table/demo-base-table-fixed', complete: true},
                             {title: 'BaseTable宽高填满父元素', icon: 'pl-table-solid', page: '/table/demo-base-table-fit-parent', complete: true},
                             {title: 'BaseTable基本属性', icon: 'pl-table-solid', page: '/table/demo-base-table-props', complete: true},
+                            {title: 'BaseTable基本编辑', icon: 'pl-table-solid', page: '/table/demo-base-table-edit', complete: true},
                             {title: 'BaseTable基础表格列', icon: 'pl-table-solid', page: '/base-table/demo-base-table-column', complete: false},
                         ],
                     },
