@@ -4,7 +4,7 @@
             <div class="pl-base-table-cell-content">
                 <keep-alive>
                     <span v-if="!data">{{showText}}</span>
-                    <pl-base-table-cell-watcher v-else-if="!data.editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="showText" key="edit"/>
+                    <pl-base-table-cell-watcher v-else-if="!p_editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="showText" key="edit"/>
                     <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="showText" key="normal"/>
                 </keep-alive>
             </div>
@@ -60,15 +60,22 @@
                     `pl-base-table-cell-align-${this.col.align}`
                 ]
             },
+            p_editable() {
+                if (!this.data) return false
+                if (!this.col.editable) return false
+                return this.data.editable && !this.col.editableFunc ? true : this.col.editableFunc(this.data)
+            },
             showRow() {
                 if (!this.data) return {}
-                return this.data.editable ? this.data.editRow : this.data.row
+                return this.p_editable ? this.data.editRow : this.data.row
             },
             showText() {
                 if (!!this.p_text) return this.p_text
                 return this.showRow[this.col.field]
             },
             p_data() {
+                /*col里面的editable表示列是否可编辑*/
+                /*data中的editable表示当前行是否处于编辑状态*/
                 return {
                     ...(this.data || {}),
                     col: this.col,
@@ -79,6 +86,7 @@
                     prop: this.col.propData
                 }
             },
+
         },
     }
 </script>
@@ -136,8 +144,10 @@
 
         &.pl-base-table-cell-align-right {
             flex-direction: row-reverse;
+
             .pl-base-table-cell-content {
                 justify-content: flex-end;
+
                 .pl-base-table-cell-watcher {
                     text-align: right;
                 }
