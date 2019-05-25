@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-base-table-cell" :style="styles">
+    <div class="pl-base-table-cell" :style="styles" :class="classes">
         <template v-if="isFixed">
             <div class="pl-base-table-cell-content">
                 <keep-alive>
@@ -55,6 +55,11 @@
                 }
                 return styles
             },
+            classes() {
+                return [
+                    `pl-base-table-cell-align-${this.col.align}`
+                ]
+            },
             showRow() {
                 if (!this.data) return {}
                 return this.data.editable ? this.data.editRow : this.data.row
@@ -108,6 +113,37 @@
         .pl-input {
             width: 100% !important;
         }
+
+        &.pl-base-table-cell-align-left {
+            .pl-base-table-cell-content {
+                justify-content: flex-start;
+
+                .pl-base-table-cell-watcher {
+                    text-align: left;
+                }
+            }
+        }
+
+        &.pl-base-table-cell-align-center {
+            .pl-base-table-cell-content {
+                justify-content: center;
+
+                .pl-base-table-cell-watcher {
+                    text-align: center;
+                }
+            }
+        }
+
+        &.pl-base-table-cell-align-right {
+            flex-direction: row-reverse;
+            .pl-base-table-cell-content {
+                justify-content: flex-end;
+                .pl-base-table-cell-watcher {
+                    text-align: right;
+                }
+            }
+        }
+
 
     }
 

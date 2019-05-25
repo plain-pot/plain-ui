@@ -5,11 +5,11 @@
         </im-demo-row>
         <!--        <im-demo-row title="基本用法" v-show="isShow">-->
         <!--            <im-base-table :data="data" id="trainno">-->
-        <!--                <im-tc-column title="类型" field="type" fixed="left"/>-->
+        <!--                <im-tc-column title="类型" field="type"/>-->
         <!--                <im-tc-column title="车次" field="trainno"/>-->
         <!--                <im-tc-column title="用时" field="costtime"/>-->
         <!--                <im-tc-column title="出发站" field="station"/>-->
-        <!--                <im-tc-column title="到达站" field="endstation" fixed="right"/>-->
+        <!--                <im-tc-column title="到达站" field="endstation"/>-->
         <!--            </im-base-table>-->
         <!--        </im-demo-row>-->
 
@@ -83,19 +83,28 @@
         <!--            </im-base-table>-->
         <!--        </im-demo-row>-->
 
-        <im-demo-row>
-            <im-toggle v-model="isHide"/>
-        </im-demo-row>
-        <im-demo-row title="列隐藏显示">
+        <!--        <im-demo-row>-->
+        <!--            <im-toggle v-model="isHide"/>-->
+        <!--        </im-demo-row>-->
+        <!--        <im-demo-row title="列隐藏显示">-->
+        <!--            <im-base-table :data="data" id="trainno">-->
+        <!--                <im-tc-column title="类型" field="type" fixed="left"/>-->
+        <!--                <im-tc-column title="车次,hide=isHide" field="trainno" :hide="isHide"/>-->
+        <!--                <im-tc-column title="用时" field="costtime"/>-->
+        <!--                <im-tc-column title="出发站" field="station"/>-->
+        <!--                <im-tc-column title="到达站" field="endstation" fixed="right"/>-->
+        <!--            </im-base-table>-->
+        <!--        </im-demo-row>-->
+
+        <im-demo-row title="对其方式">
             <im-base-table :data="data" id="trainno">
-                <im-tc-column title="类型" field="type" fixed="left"/>
-                <im-tc-column title="车次,hide=isHide" field="trainno" :hide="isHide"/>
-                <im-tc-column title="用时" field="costtime"/>
+                <im-tc-column title="类型,align=right" field="type" align="right"/>
+                <im-tc-column title="车次,align=center" field="trainno" align="center"/>
+                <im-tc-column title="用时,align=left" field="costtime" align="left"/>
                 <im-tc-column title="出发站" field="station"/>
-                <im-tc-column title="到达站" field="endstation" fixed="right"/>
+                <im-tc-column title="到达站" field="endstation"/>
             </im-base-table>
         </im-demo-row>
-
     </div>
 </template>
 

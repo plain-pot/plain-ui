@@ -4,7 +4,8 @@
                 :text="col.title"
                 :is-fixed="fixed === col.fixed"
                 :height="headRowHeight"
-                :width="col.width">
+                :width="col.width"
+                :col="col">
             <div class="pl-base-table-head-cell-sort" :class="classes" v-if="!!col.sort">
                 <pl-icon icon="pl-triangle-up-fill" class="pl-sort-asc-icon"/>
                 <pl-icon icon="pl-triangle-down-fill" class="pl-sort-desc-icon"/>
