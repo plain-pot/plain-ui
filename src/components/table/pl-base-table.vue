@@ -88,7 +88,16 @@
                         }, [])
                     } else {
                         // TODO 复用数据
-
+                        const p_data = []
+                        newVal.forEach((newItem, index) => {
+                            const oldOne = this.$plain.$utils.findOne(this.p_data, i => i.row === newItem)
+                            if (!!oldOne) {
+                                p_data.push(oldOne)
+                            } else {
+                                p_data.push(new RowData(newItem, index, this.id))
+                            }
+                        })
+                        this.p_data = p_data
                     }
                 },
             },
@@ -125,18 +134,18 @@
         },
         methods: {
             /*---------------------------------------可用函数-------------------------------------------*/
-            enableEdit({item, index}) {
+            enableEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => sub.editable = true)
             },
-            disableEdit({item, index}) {
+            disableEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => sub.editable = false)
             },
-            saveEdit({item, index}) {
+            saveEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => {
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.row, key, sub.editRow[key]))
                 })
             },
-            cancelEdit({item, index}) {
+            cancelEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => {
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
