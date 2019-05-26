@@ -5,7 +5,11 @@
                 :is-fixed="fixed === col.fixed"
                 :height="headRowHeight"
                 :width="col.width"
-                :col="col">
+                :col="col"
+                :col-index="colIndex"
+
+                :default-scoped-slots="col.scopedSlots.head"
+                :default-render-func="col.renderHead">
             <div class="pl-base-table-head-cell-sort" :class="classes" v-if="!!col.sort">
                 <pl-icon icon="pl-triangle-up-fill" class="pl-sort-asc-icon"/>
                 <pl-icon icon="pl-triangle-down-fill" class="pl-sort-desc-icon"/>
@@ -28,6 +32,7 @@
         mixins: [TableMixin],
         props: {
             col: {},                                //渲染的列信息（有可能是列组）
+            colIndex: {},
         },
         data() {
             return {

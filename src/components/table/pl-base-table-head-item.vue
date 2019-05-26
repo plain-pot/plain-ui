@@ -6,6 +6,7 @@
                                          :fixed="fixed"
                                          :key="col.field+colIndex"
                                          :col="col"
+                                         :col-index="colIndex"
                                          :sort-field="sortField"
                                          :sort-desc="sortDesc"
                                          :head-row-height="headRowHeight"/>

@@ -18,12 +18,14 @@
             renderFunc: {},
             data: {},
             text: {},
+
+            noUseFormatter: {type: Boolean},
         },
         watch: {
             text: {
                 immediate: true,
                 async handler(val) {
-                    if (!!this.data.col.formatter) {
+                    if (!!this.data.col.formatter && !this.noUseFormatter) {
                         this.p_text = await this.data.col.formatter({value: val, rowData: this.data})
                     } else {
                         this.p_text = val

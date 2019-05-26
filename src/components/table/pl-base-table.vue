@@ -192,6 +192,7 @@
                 this.p_cols = cols
                 this.$emit('collect', this.p_cols)
                 await this.pl_resetTableWidth()
+                // console.log(this.p_cols)
             },
             /*
              *  处理点击标题排序变化事件

@@ -38,6 +38,7 @@
                             {title: 'BaseTable基本编辑', icon: 'pl-table-solid', page: '/table/demo-base-table-edit', complete: true},
                             {title: 'BaseTable列属性', icon: 'pl-table-solid', page: '/table/demo-base-table-column-prop', complete: true},
                             {title: 'BaseTable列动态控制', icon: 'pl-table-solid', page: '/table/demo-base-table-dynamic', complete: true},
+                            {title: 'BaseTable列插槽', icon: 'pl-table-solid', page: '/table/demo-base-table-slot', complete: true},
                         ],
                     },
                     {

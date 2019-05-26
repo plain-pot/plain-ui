@@ -3,9 +3,9 @@
         <template v-if="isFixed">
             <div class="pl-base-table-cell-content">
                 <keep-alive>
-                    <span v-if="!data">{{text}}</span>
-                    <pl-base-table-cell-watcher v-else-if="!p_editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="data.row[col.field]" key="edit"/>
-                    <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="data.editRow[col.field]" key="normal"/>
+                    <pl-base-table-cell-watcher v-if="!data" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="col.title" no-use-formatter key="head"/>
+                    <pl-base-table-cell-watcher v-else-if="!p_editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="data.row[col.field]" key="normal"/>
+                    <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="data.editRow[col.field]" key="edit"/>
                 </keep-alive>
             </div>
             <div class="pl-base-table-cell-content-slot">
@@ -19,28 +19,25 @@
     import PlScopeSlot from "../render/pl-scope-slot";
     import {TableMixin} from "./index";
     import PlRenderFunc from "../render/pl-render-func";
-    import PlTooltipText from "../pl-tooltip-text";
     import PlBaseTableCellWatcher from "./pl-base-table-cell-watcher";
 
     export default {
         name: "pl-base-table-cell",
-        components: {PlBaseTableCellWatcher, PlTooltipText, PlRenderFunc, PlScopeSlot},
+        components: {PlBaseTableCellWatcher, PlRenderFunc, PlScopeSlot},
         mixins: [TableMixin],
         props: {
-            text: {},                               //没有有作用域渲染函数的时候显示的文本
             width: {},                              //单元格宽度
             height: {},                             //单元格高度
             isFixed: {default: false},              //是否为对应fixed table的cell
+            col: {},
+            defaultScopedSlots: {type: Function},   //作用域插槽：正常
+            defaultRenderFunc: {type: Function},    //渲染函数：正常
+
             data: {},
             index: {},
-            col: {},
             colIndex: {},
-
             editScopedSlots: {type: Function},      //作用域插槽：编辑
-            defaultScopedSlots: {type: Function},   //作用域插槽：正常
-
             editRenderFunc: {type: Function},       //渲染函数：编辑
-            defaultRenderFunc: {type: Function},    //渲染函数：正常
         },
         computed: {
             styles() {
