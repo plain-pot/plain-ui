@@ -18,8 +18,10 @@
                                                 :text="data.row[col.field]"
 
                                                 :tooltip="col.tooltip"
+                                                :link="col.link"
                                                 :scope-slot-func="defaultScopedSlots"
-                                                :render-func="defaultRenderFunc"/>
+                                                :render-func="defaultRenderFunc"
+                                                :click="col.click"/>
                     <pl-base-table-cell-watcher key="edit"
                                                 v-else
                                                 :data="p_data"

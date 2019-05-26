@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-base-table-cell-watcher">
+    <div class="pl-base-table-cell-watcher" :class="{'pl-base-table-cell-watcher-link':link}" @click="e=>!!click && click({e,data:p_data})">
         <pl-scope-slot v-if="!!scopeSlotFunc" :scope-slot-func="scopeSlotFunc" :data="p_data"/>
         <pl-render-func v-else-if="renderFunc" :render-func="renderFunc" :data="p_data"/>
         <span v-else>{{p_text}}</span>
@@ -23,6 +23,8 @@
 
             noUseFormatter: {type: Boolean},
             tooltip: {type: Boolean},
+            link: {type: Boolean},
+            click: {type: Function},
         },
         watch: {
             text: {
@@ -99,10 +101,17 @@
 </script>
 
 <style lang="scss">
-    .pl-base-table-cell-watcher {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        outline: none;
+    @include themeWrap {
+        .pl-base-table-cell-watcher {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            outline: none;
+
+            &.pl-base-table-cell-watcher-link {
+                color: plVar(colorPrimary);
+                cursor: pointer;
+            }
+        }
     }
 </style>

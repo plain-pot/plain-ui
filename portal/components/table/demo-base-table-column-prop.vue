@@ -1,6 +1,6 @@
 <template>
     <div class="demo-base-table-column-prop">
-        <im-demo-row>
+        <!--<im-demo-row>
             <im-toggle v-model="isShow"/>
         </im-demo-row>
         <im-demo-row title="基本用法" v-show="isShow">
@@ -104,6 +104,16 @@
                 <im-tc-column title="出发站" field="station"/>
                 <im-tc-column title="到达站" field="endstation"/>
             </im-base-table>
+        </im-demo-row>-->
+
+        <im-demo-row title="点击样式">
+            <im-base-table :data="data" id="trainno">
+                <im-tc-column title="类型 link" field="type"/>
+                <im-tc-column title="车次" field="trainno" link :click="({data:d})=>$dialog.show(JSON.stringify(d.row),{width:'500px',height:'300px',editType:'textarea',editReadonly:true})"/>
+                <im-tc-column title="用时" field="costtime"/>
+                <im-tc-column title="出发站" field="station"/>
+                <im-tc-column title="到达站" field="endstation"/>
+            </im-base-table>
         </im-demo-row>
     </div>
 </template>
@@ -126,7 +136,11 @@
                 data,
             }
         },
-        methods: {}
+        methods: {
+            onClick() {
+                console.log(arguments)
+            },
+        }
     }
 </script>
 

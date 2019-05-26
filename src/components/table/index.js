@@ -47,7 +47,7 @@ const ColumnPublicProps = {
     formatter: {type: Function},                        //文本格式化函数，支持异步格式化
     tooltip: {type: Boolean},                           //是否tooltip显示文本
     link: {type: Boolean},                              //是否以超链接的形式展示文本，并且点击的时候回派发事件
-    clickWhenIneditable: {type: Boolean, default: true},//只有非编辑状态下才能出发点击事件，否则任何状态都会触发点击事件
+    click: {type: Function},                            //非编辑状态下点击触发动作
     showInDialog: {type: Boolean},                      //非编辑状态下是否点击后再dialog中显示
 
     required: {type: Boolean},                          //是否必输
