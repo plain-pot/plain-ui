@@ -63,7 +63,7 @@
             p_editable() {
                 if (!this.data) return false
                 if (!this.col.editable) return false
-                return this.data.editable && !this.col.editableFunc ? true : this.col.editableFunc(this.data)
+                return this.data.editable && (!this.col.editableFunc ? true : this.col.editableFunc(this.data))
             },
             showRow() {
                 if (!this.data) return {}
