@@ -3,9 +3,9 @@
         <template v-if="isFixed">
             <div class="pl-base-table-cell-content">
                 <keep-alive>
-                    <span v-if="!data">{{showText}}</span>
-                    <pl-base-table-cell-watcher v-else-if="!p_editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="showText" key="edit"/>
-                    <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="showText" key="normal"/>
+                    <span v-if="!data">{{text}}</span>
+                    <pl-base-table-cell-watcher v-else-if="!p_editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="data.row[col.field]" key="edit"/>
+                    <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="data.editRow[col.field]" key="normal"/>
                 </keep-alive>
             </div>
             <div class="pl-base-table-cell-content-slot">
@@ -42,11 +42,6 @@
             editRenderFunc: {type: Function},       //渲染函数：编辑
             defaultRenderFunc: {type: Function},    //渲染函数：正常
         },
-        data() {
-            return {
-                p_text: this.text,
-            }
-        },
         computed: {
             styles() {
                 const styles = {
@@ -69,10 +64,6 @@
                 if (!this.data) return {}
                 return this.p_editable ? this.data.editRow : this.data.row
             },
-            showText() {
-                if (!!this.p_text) return this.p_text
-                return this.showRow[this.col.field]
-            },
             p_data() {
                 /*col里面的editable表示列是否可编辑*/
                 /*data中的editable表示当前行是否处于编辑状态*/
@@ -81,7 +72,6 @@
                     col: this.col,
                     colIndex: this.colIndex,
                     showRow: this.showRow,
-                    text: this.showText,
                     rowIndex: this.index,
                     prop: this.col.prop,
                 }

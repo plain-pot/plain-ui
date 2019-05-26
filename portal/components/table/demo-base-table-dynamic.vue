@@ -23,7 +23,8 @@
             <im-tc-select title="状态" field="status" :prop="selectProp"/>
             <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="trainno" :editableFunc="staticEditableFunc"/>
             <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="trainno" :editableFunc="dynamicEditableFunc"/>
-            <im-tc-input title="用时" field="costtime"/>
+            <im-tc-input title="用时,显示值格式化" field="costtime" :formatter="formatter"/>
+            <im-tc-input title="用时,显示值异步格式化" field="costtime" :formatter="formatterSync"/>
             <im-tc-input title="出发站" field="station"/>
             <im-tc-input title="到达站" field="endstation"/>
             <im-tc-input title="出发时间" field="departuretime"/>
@@ -213,6 +214,14 @@
             dynamicEditableFunc({row}) {
                 // console.log('reset dynamicEditableFunc')
                 return row.status === 'submit'
+            },
+            async formatter({value}) {
+                return `hello, ${value}`
+            },
+            async formatterSync({value}) {
+                const delay = (Math.random() * 3000).toFixed(0)
+                await this.$plain.$utils.delay(delay)
+                return `${value},delay:${delay}`
             },
         }
     }
