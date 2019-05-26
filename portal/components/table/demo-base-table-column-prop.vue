@@ -114,13 +114,19 @@
     export default {
         name: "demo-base-table-column-prop",
         data() {
+            const data = this.$plain.$utils.deepCopy(SimpleTableData)
+
+            data.forEach(item => {
+                item.tooltip = this.$plain.$utils.uuid()
+            })
+
             return {
                 isHide: false,
                 isShow: true,
-                data: SimpleTableData,
+                data,
             }
         },
-
+        methods: {}
     }
 </script>
 

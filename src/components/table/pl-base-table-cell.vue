@@ -3,9 +3,30 @@
         <template v-if="isFixed">
             <div class="pl-base-table-cell-content">
                 <keep-alive>
-                    <pl-base-table-cell-watcher v-if="!data" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="col.title" no-use-formatter key="head"/>
-                    <pl-base-table-cell-watcher v-else-if="!p_editable" :scope-slot-func="defaultScopedSlots" :render-func="defaultRenderFunc" :data="p_data" :text="data.row[col.field]" key="normal"/>
-                    <pl-base-table-cell-watcher v-else :scope-slot-func="editScopedSlots" :render-func="editRenderFunc" :data="p_data" :text="data.editRow[col.field]" key="edit"/>
+                    <pl-base-table-cell-watcher key="head"
+                                                v-if="!data"
+                                                :data="p_data"
+                                                :text="col.title"
+                                                no-use-formatter
+
+                                                :tooltip="true"
+                                                :scope-slot-func="defaultScopedSlots"
+                                                :render-func="defaultRenderFunc"/>
+                    <pl-base-table-cell-watcher key="normal"
+                                                v-else-if="!p_editable"
+                                                :data="p_data"
+                                                :text="data.row[col.field]"
+
+                                                :tooltip="col.tooltip"
+                                                :scope-slot-func="defaultScopedSlots"
+                                                :render-func="defaultRenderFunc"/>
+                    <pl-base-table-cell-watcher key="edit"
+                                                v-else
+                                                :data="p_data"
+                                                :text="data.editRow[col.field]"
+
+                                                :scope-slot-func="editScopedSlots"
+                                                :render-func="editRenderFunc"/>
                 </keep-alive>
             </div>
             <div class="pl-base-table-cell-content-slot">
