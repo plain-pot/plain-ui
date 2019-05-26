@@ -83,7 +83,7 @@
                     showRow: this.showRow,
                     text: this.showText,
                     rowIndex: this.index,
-                    prop: this.col.propData
+                    prop: this.col.prop,
                 }
             },
 

@@ -7,7 +7,6 @@
             :renderNormal="normal"
             :renderEdit="edit"
             :renderHead="head"
-            :propData="propData || {}"
     />
 </template>
 
@@ -36,7 +35,7 @@
         methods: {
             /*@formatter:off*/
             col() {return this.$refs.column.col()},
-           /*@formatter:on*/
+            /*@formatter:on*/
         }
     }
 </script>

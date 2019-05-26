@@ -41,6 +41,7 @@ const ColumnPublicProps = {
     sortField: {type: Boolean},                         //排序字段
     editable: {type: Boolean, default: true},           //是否可编辑
     editableFunc: {type: Function},                     //是否可编辑判断函数
+    prop: {type: Object},                               //列额外数据信息
 
     dataType: {type: String},                           //数据格式化方式:tel,cny,money,percent
     formatter: {type: Function},                        //文本格式化函数，支持异步格式化
@@ -65,7 +66,6 @@ const ColumnPublicProps = {
     renderNormal: {type: Function},                     //渲染函数:非编辑状态
     renderEdit: {type: Function},                       //渲染函数：编辑状态
     renderHead: {type: Function},                       //渲染函数：列头
-    propData: {type: Object},                           //列额外数据信息
 }
 
 const RefreshProps = [
