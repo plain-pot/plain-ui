@@ -19,8 +19,10 @@
         </im-demo-row>
 
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick" :showNum="5">
-            <im-tc-input title="类型" field="type" :prop="{color:'success'}"/>
-            <im-tc-input title="车次" field="trainno"/>
+            <im-tc-column title="类型" field="type"/>
+            <im-tc-select title="状态" field="status" :prop="selectProp"/>
+            <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="trainno" :editableFunc="staticEditableFunc"/>
+            <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="trainno" :editableFunc="dynamicEditableFunc"/>
             <im-tc-input title="用时" field="costtime"/>
             <im-tc-input title="出发站" field="station"/>
             <im-tc-input title="到达站" field="endstation"/>
@@ -59,6 +61,17 @@
                 newData: [],
                 table: null,
                 index: null,
+
+                selectProp: {
+                    data: [
+                        {name: '新建', val: 'new'},
+                        {name: '已提交', val: 'submit'},
+                        {name: '已审批', val: 'accept'},
+                        {name: '已拒绝', val: 'reject'},
+                    ],
+                    labelKey: 'name',
+                    valueKey: 'val',
+                },
             }
         },
         mounted() {
@@ -155,6 +168,9 @@
              *  @datetime   2019/5/25 21:09
              */
             save() {
+                const editRowData = this.table.getEditRowData()
+                console.log(editRowData)
+
                 this.pl_checkStatus({
                     insert() {
                         for (let i = 0; i < this.newData.length; i++) {
@@ -189,6 +205,14 @@
                         this.status = this.EDIT_STATUS.MULTI_UPDATE
                     },
                 })
+            },
+            staticEditableFunc({editRow}) {
+                // console.log('reset staticEditableFunc')
+                return editRow.status === 'submit'
+            },
+            dynamicEditableFunc({row}) {
+                // console.log('reset dynamicEditableFunc')
+                return row.status === 'submit'
             },
         }
     }

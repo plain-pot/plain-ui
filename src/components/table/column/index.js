@@ -1,11 +1,14 @@
 import $utils from '../../../scripts/utils'
 import column from './column'
-import input from './input'
+import input from './edit/input'
+import select from './edit/select'
+
 import BaseColumn from './pl-base-table-base-column'
 
 const StandardColumns = {
     column,
     input,
+    select,
 }
 
 

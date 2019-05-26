@@ -1,6 +1,7 @@
 const TableData = [
     {
         "trainno": "G34",
+        "status":"reject",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -26,6 +27,7 @@ const TableData = [
     },
     {
         "trainno": "G20",
+        "status":"submit",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -51,6 +53,7 @@ const TableData = [
     },
     {
         "trainno": "G58",
+        "status":"new",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -76,6 +79,7 @@ const TableData = [
     },
     {
         "trainno": "G36",
+        "status":"submit",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -101,6 +105,7 @@ const TableData = [
     },
     {
         "trainno": "G42",
+        "status":"submit",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -126,6 +131,7 @@ const TableData = [
     },
     {
         "trainno": "G46",
+        "status":"submit",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -151,6 +157,7 @@ const TableData = [
     },
     {
         "trainno": "G38",
+        "status":"submit",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",
@@ -176,6 +183,7 @@ const TableData = [
     },
     {
         "trainno": "G168",
+        "status":"submit",
         "type": "G",
         "station": "杭州东",
         "endstation": "北京南",

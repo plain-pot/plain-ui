@@ -150,6 +150,9 @@
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
             },
+            getEditRowData() {
+                return this.p_data.filter(rowData => !!rowData.editable)
+            },
 
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
