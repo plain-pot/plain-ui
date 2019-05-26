@@ -18,6 +18,7 @@
                                                 :text="data.row[col.field]"
 
                                                 :tooltip="col.tooltip"
+                                                :show-in-dialog="col.showInDialog"
                                                 :link="col.link"
                                                 :scope-slot-func="defaultScopedSlots"
                                                 :render-func="defaultRenderFunc"

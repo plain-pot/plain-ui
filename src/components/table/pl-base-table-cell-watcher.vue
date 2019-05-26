@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-base-table-cell-watcher" :class="{'pl-base-table-cell-watcher-link':link}" @click="e=>!!click && click({e,data:p_data})">
+    <div class="pl-base-table-cell-watcher" :class="{'pl-base-table-cell-watcher-link':link}" @click="pl_click">
         <pl-scope-slot v-if="!!scopeSlotFunc" :scope-slot-func="scopeSlotFunc" :data="p_data"/>
         <pl-render-func v-else-if="renderFunc" :render-func="renderFunc" :data="p_data"/>
         <span v-else>{{p_text}}</span>
@@ -23,8 +23,10 @@
 
             noUseFormatter: {type: Boolean},
             tooltip: {type: Boolean},
+            showInDialog: {type: Boolean},
             link: {type: Boolean},
             click: {type: Function},
+
         },
         watch: {
             text: {
@@ -58,6 +60,10 @@
             },
         },
         methods: {
+            pl_click(e) {
+                !!this.showInDialog && this.$dialog.show(this.p_text, {width: '500px', height: '300px', editType: 'textarea', editReadonly: true})
+                !!this.click && this.click({e, data: this.p_data})
+            },
             pl_initTooltip() {
                 if (!!this.p_tippy) return
 
