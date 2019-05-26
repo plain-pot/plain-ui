@@ -8,7 +8,7 @@
                 :col="col"
                 :col-index="colIndex"
 
-                :default-scoped-slots="col.scopedSlots.head"
+                :default-scoped-slots="(col.scopedSlots||{}).head"
                 :default-render-func="col.renderHead">
             <div class="pl-base-table-head-cell-sort" :class="classes" v-if="!!col.sort">
                 <pl-icon icon="pl-triangle-up-fill" class="pl-sort-asc-icon"/>
