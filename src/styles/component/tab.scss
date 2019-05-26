@@ -41,6 +41,7 @@
       cursor: pointer;
       width: 150px;
       position: relative;
+      user-select: none;
 
       .pl-tab-header-item-content {
         height: 100%;
