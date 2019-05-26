@@ -201,8 +201,8 @@
                     if (!!this.p_sortDesc) {
                         this.p_sortDesc = false
                     } else {
-                        this.p_sortField = this.p_initSortField || col.field
-                        this.p_sortDesc = this.p_initSortDesc !== null ? this.p_initSortDesc : !this.p_sortDesc
+                        this.p_sortField = this.p_initSortField
+                        this.p_sortDesc = this.p_initSortDesc
                     }
                 } else {
                     this.p_sortField = col.field
