@@ -1,7 +1,7 @@
 <template>
     <div class="pl-base-table-cell-watcher">
-        <pl-scope-slot v-if="!!scopeSlotFunc" :scope-slot-func="scopeSlotFunc" :data="data"/>
-        <pl-render-func v-else-if="renderFunc" :render-func="renderFunc" :data="data"/>
+        <pl-scope-slot v-if="!!scopeSlotFunc" :scope-slot-func="scopeSlotFunc" :data="p_data"/>
+        <pl-render-func v-else-if="renderFunc" :render-func="renderFunc" :data="p_data"/>
         <span v-else>{{p_text}}</span>
     </div>
 </template>
@@ -35,6 +35,11 @@
             return {
                 p_text: this.text,
             }
+        },
+        computed: {
+            p_data() {
+                return Object.assign({}, this.data, {text: this.p_text})
+            },
         },
     }
 </script>
