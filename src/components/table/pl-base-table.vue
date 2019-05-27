@@ -145,22 +145,61 @@
         },
         methods: {
             /*---------------------------------------可用函数-------------------------------------------*/
+            /*编辑相关*/
+            /**
+             * 开启编辑功能
+             * @author  韦胜健
+             * @date    2019/5/27 20:47
+             */
             enableEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => sub.editable = true)
             },
+            /**
+             * 关闭编辑功能
+             * @author  韦胜健
+             * @date    2019/5/27 20:48
+             */
             disableEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => sub.editable = false)
             },
+            /**
+             * 保存编辑，将editRow的变化保存到row中
+             * @author  韦胜健
+             * @date    2019/5/27 20:48
+             */
             saveEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => {
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.row, key, sub.editRow[key]))
                 })
             },
+            /**
+             * 取消编辑，将editRow中的数据还原为row中的数据
+             * @author  韦胜健
+             * @date    2019/5/27 20:48
+             */
             cancelEdit({item, index} = {}) {
                 this.pl_iterateData({item, index}, (sub) => {
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
             },
+            /**
+             * 获取编辑数据，如果校验不通过，则返回promise.reject
+             * @author  韦胜健
+             * @date    2019/5/27 11:53
+             */
+            async getEditData() {
+                const {editData, validRet} = this.validData()
+                if (!validRet) return Promise.resolve(editData.map(item => item.rowData))
+                else {
+                    this.$dialog.show({
+                        type: 'error',
+                        message: `${validRet.title}：${validRet.msg}`
+                    })
+                    return Promise.reject(validRet)
+                }
+            },
+
+            /*校验相关*/
             /**
              * 获取数据，同时校验数据
              * @author  韦胜健
@@ -200,32 +239,33 @@
                 })
                 return {editData, validRet}
             },
+
+            /*获取选择数据*/
             /**
-             * 获取编辑数据，如果校验不通过，则返回promise.reject
+             * 开启选择功能
              * @author  韦胜健
-             * @date    2019/5/27 11:53
+             * @date    2019/5/27 20:49
              */
-            async getEditData() {
-                const {editData, validRet} = this.validData()
-                if (!validRet) return Promise.resolve(editData.map(item => item.rowData))
-                else {
-                    this.$dialog.show({
-                        type: 'error',
-                        message: `${validRet.title}：${validRet.msg}`
-                    })
-                    return Promise.reject(validRet)
-                }
-            },
             async startSelected() {
                 if (!!this.p_selected) return
                 this.p_selected = true
                 await this.$plain.nextTick()
             },
+            /**
+             * 关闭选择功能
+             * @author  韦胜健
+             * @date    2019/5/27 20:49
+             */
             async finishSelected() {
                 if (!this.p_selected) return
                 this.p_selected = false
                 await this.$plain.nextTick()
             },
+            /**
+             * 获取选择的数据，需要先【开启选择功能】
+             * @author  韦胜健
+             * @date    2019/5/27 20:49
+             */
             getSelected() {
                 return new Promise((rs, rj) => {
                     if (!this.p_selected) {
