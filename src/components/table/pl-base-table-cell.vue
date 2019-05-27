@@ -27,6 +27,7 @@
                                                 v-else
                                                 :data="p_data"
                                                 :text="data.editRow[col.field]"
+                                                :required="p_required"
 
                                                 :scope-slot-func="editScopedSlots"
                                                 :render-func="editRenderFunc"/>
@@ -82,6 +83,11 @@
                 if (!this.data) return false
                 if (!this.col.editable) return false
                 return this.data.editable && (!this.col.editableFunc ? true : this.col.editableFunc(this.data))
+            },
+            p_required() {
+                if (!this.data && !this.p_editable) return false
+                if (!!this.col.requiredFunc) return this.col.requiredFunc(this.data)
+                else return this.col.required
             },
             showRow() {
                 if (!this.data) return {}

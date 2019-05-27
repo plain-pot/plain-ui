@@ -20,6 +20,7 @@
             renderFunc: {},
             data: {},
             text: {},
+            required: {},
 
             noUseFormatter: {type: Boolean},
             tooltip: {type: Boolean},
@@ -56,7 +57,7 @@
         },
         computed: {
             p_data() {
-                return Object.assign({}, this.data, {text: this.p_text})
+                return Object.assign({}, this.data, {text: this.p_text, required: this.required})
             },
         },
         methods: {

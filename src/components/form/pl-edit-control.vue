@@ -19,6 +19,9 @@
             value() {
                 this.valid()
             },
+            required() {
+                this.valid()
+            },
         },
         data() {
             return {

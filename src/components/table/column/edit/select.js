@@ -20,8 +20,16 @@ export default {
     data() {
         const that = this
         return {
-            edit(h, {row, editRow, col, colIndex, require, prop}) {
-                return (<pl-select {...{props: {...prop, ...that.publicProps, value: editRow[col.field]}, on: {input: (val) => this.$set(editRow, col.field, val),}}}/>)
+            edit(h, {row, editRow, col, colIndex, require, prop, required}) {
+                return (<pl-select {...{
+                    props: {
+                        ...prop,
+                        ...that.publicProps,
+                        value: editRow[col.field],
+                        required,
+                    },
+                    on: {input: (val) => this.$set(editRow, col.field, val),}
+                }}/>)
             },
         }
     },

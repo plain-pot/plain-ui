@@ -27,8 +27,12 @@
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick" :showNum="5">
             <im-tc-input title="类型" field="type" required/>
             <im-tc-select title="状态" field="status" :prop="selectProp" required/>
-            <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="trainno" :editableFunc="staticEditableFunc"/>
-            <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="trainno" :editableFunc="dynamicEditableFunc"/>
+            <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="trainno" :editableFunc="dynamicEditableFunc"/>
+            <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="trainno" :editableFunc="staticEditableFunc"/>
+            <im-tc-input title="车次,状态编辑值为【提交】必输" width="250" field="trainno" :requiredFunc="dynamicRequiredFunc"/>
+            <im-tc-input title="车次,状态初始值值为【提交】必输" width="250" field="trainno" :requiredFunc="staticRequiredFunc"/>
+
+
             <im-tc-input title="用时,显示值格式化" field="costtime" :formatter="formatter"/>
             <im-tc-input title="用时,显示值异步格式化" field="costtime" :formatter="formatterSync"/>
             <im-tc-input title="出发站" field="station"/>
@@ -220,14 +224,21 @@
                     },
                 })
             },
-            staticEditableFunc({editRow}) {
-                // console.log('reset staticEditableFunc')
+            dynamicEditableFunc({editRow}) {
+                console.log('reset dynamicEditableFunc')
                 return editRow.status === 'submit'
             },
-            dynamicEditableFunc({row}) {
-                // console.log('reset dynamicEditableFunc')
+            staticEditableFunc({row}) {
                 return row.status === 'submit'
             },
+            dynamicRequiredFunc({editRow}) {
+                console.log('reset dynamicRequiredFunc')
+                return editRow.status === 'submit'
+            },
+            staticRequiredFunc({row}) {
+                return row.status === 'submit'
+            },
+
             async formatter({value}) {
                 return `hello, ${value}`
             },
