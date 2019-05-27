@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import PlBaseTableColumn from "../pl-base-table-column";
-    import {PublicColumnMixin} from "../index";
+    import PlBaseTableColumn from "../../pl-base-table-column";
+    import {PublicColumnMixin} from "../../index";
 
     export default {
         name: "pl-base-table-base-column",

@@ -1,12 +1,12 @@
 import $utils from '../../../scripts/utils'
-import column from './column'
-import index from './edit/index'
-import pick from './edit/pick'
+import column from './base/column'
+import index from './base'
+import pick from './base/pick'
 
 import input from './edit/input'
 import select from './edit/select'
 
-import BaseColumn from './pl-base-table-base-column'
+import BaseColumn from './base/pl-base-table-base-column'
 
 const StandardColumns = {
     pick,
