@@ -36,6 +36,8 @@
                 <slot></slot>
             </div>
         </template>
+        <!--没有下面这个span，会导致在使用左右固定列的时候，空白内容导致td有个去不掉的padding-->
+        <span v-else>&nbsp;</span>
     </div>
 </template>
 

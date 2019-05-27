@@ -58,5 +58,9 @@
 
 <style lang="scss">
     .pl-base-table-body-item {
+        & > .pl-scroll > .pl-scroll-content-wrapper > .pl-scroll-content {
+            box-sizing: border-box;
+            padding-bottom: 9px;
+        }
     }
 </style>
