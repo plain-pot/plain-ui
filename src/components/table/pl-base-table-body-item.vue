@@ -8,6 +8,7 @@
                 :hide-scrollbar="fixed === 'left'"
                 @scroll="e=>$emit('scroll',e)">
             <table cellspacing="0" cellpadding="0" border="0">
+                <pl-base-table-row-space :body-columns="bodyColumns"/>
                 <pl-base-table-row v-for="(item,index) in data"
                                    :key="item.id"
                                    :body-row-height="bodyRowHeight"
@@ -28,10 +29,11 @@
     import {TableMixin} from "./index";
     import {MountedMixin} from "../../mixin/component-mixin";
     import PlBaseTableRow from "./pl-base-table-row";
+    import PlBaseTableRowSpace from "./pl-base-table-row-space";
 
     export default {
         name: "pl-base-table-body-item",
-        components: {PlBaseTableRow},
+        components: {PlBaseTableRowSpace, PlBaseTableRow},
         mixins: [TableMixin, MountedMixin],
         computed: {
             /*
@@ -46,7 +48,7 @@
             styles() {
                 if (!this.p_mounted) return null
                 const styles = {}
-                this.showNum != null && (styles.height = `${this.showNum * this.bodyRowHeight + 9}px`)
+                this.showNum != null && (styles.height = `${this.showNum * this.bodyRowHeight + 10}px`)
                 styles.width = `${this.width}px`
                 return styles
             },

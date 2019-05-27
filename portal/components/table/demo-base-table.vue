@@ -1,6 +1,6 @@
 <template>
     <div class="demo-base-table">
-        <im-base-table :data="data" id="trainno">
+        <im-base-table :data="[]" id="trainno">
             <im-tc-column title="类型" field="type"/>
             <im-tc-column title="车次,fixed=left" field="trainno" fixed="left"/>
             <im-tc-column title="车次,fixed=right" field="trainno" fixed="right"/>
