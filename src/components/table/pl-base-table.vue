@@ -83,7 +83,9 @@
                     if (newVal !== oldVal) {
                         /*重新创建数据*/
                         this.p_data = newVal.reduce((ret, item, index) => {
-                            ret.push(new RowData(item, index, this.id))
+                            const rowData = new RowData(item, index, this.id)
+                            this.pl_reactiveData(rowData)
+                            ret.push(rowData)
                             return ret
                         }, [])
                     } else {
@@ -94,7 +96,9 @@
                             if (!!oldOne) {
                                 p_data.push(oldOne)
                             } else {
-                                p_data.push(new RowData(newItem, index, this.id))
+                                const rowData = new RowData(newItem, index, this.id)
+                                this.pl_reactiveData(rowData)
+                                p_data.push(rowData)
                             }
                         })
                         this.p_data = p_data
@@ -244,7 +248,7 @@
                 /*cols是已经处理好的，树状结构的列数据信息数组*/
                 this.p_cols = cols
                 this.$emit('collect', this.p_cols)
-                this.pl_reactiveData()
+                this.p_data.forEach(rowData => this.pl_reactiveData(rowData))
                 await this.pl_resetTableWidth()
                 // console.log(this.p_cols)
             },
@@ -482,13 +486,11 @@
              * @author  韦胜健
              * @date    2019/5/27 16:59
              */
-            pl_reactiveData() {
+            pl_reactiveData(rowData) {
                 if (!this.p_cols || this.p_cols.length === 0) return
-                this.p_data.forEach(({row, editRow}) => {
-                    this.p_cols.forEach(col => {
-                        this.$set(row, col.field, row[col.field])
-                        this.$set(editRow, col.field, row[col.field])
-                    })
+                this.p_cols.forEach(col => {
+                    this.$set(rowData.row, col.field, rowData.row[col.field])
+                    this.$set(rowData.editRow, col.field, rowData.editRow[col.field])
                 })
             },
         }
