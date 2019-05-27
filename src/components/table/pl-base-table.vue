@@ -215,9 +215,9 @@
                     return Promise.reject(validRet)
                 }
             },
-            getSelect() {
+            getSelected() {
                 return new Promise((rs, rj) => {
-                    const dataRows = this.$refs.pick.dataRows
+                    const dataRows = this.$refs.pick.getSelected()
                     if (dataRows.length === 0) {
                         const msg = '请至少选择一行数据'
                         this.$dialog.show(msg)

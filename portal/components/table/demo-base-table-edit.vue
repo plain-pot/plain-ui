@@ -17,7 +17,7 @@
                 <im-input v-model="index"/>
             </im-demo-row-item>
             <im-demo-row-item>
-                <im-button @click="getSelect" label="getSelect"/>
+                <im-button @click="getSelected" label="getSelected"/>
             </im-demo-row-item>
         </im-demo-row>
 
@@ -196,8 +196,8 @@
                     },
                 })
             },
-            async getSelect() {
-                const rowDatas = await this.table.getSelect()
+            async getSelected() {
+                const rowDatas = await this.table.getSelected()
                 this.$message.show(rowDatas.map(item => item.row.trainno).join(','))
             },
         }

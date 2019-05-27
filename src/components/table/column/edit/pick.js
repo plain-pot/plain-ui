@@ -53,6 +53,9 @@ export default {
         },
     },
     methods: {
+        getSelected() {
+
+        },
         pl_clickCheckAll() {
             switch (this.checkAllStatus) {
                 case 'all':
