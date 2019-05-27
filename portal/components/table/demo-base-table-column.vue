@@ -24,11 +24,9 @@
         </im-demo-row>
 
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick">
-            <im-tc-column title="类型" field="type"/>
-            <im-tc-column title="车次" field="trainno"/>
-            <im-tc-input title="车次" field="trainno"/>
-            <im-tc-input title="车次,fixed=left" field="trainno" fixed="left"/>
-            <im-tc-input title="车次,fixed=right" field="trainno" fixed="right"/>
+            <im-tc-date title="创建时间" field="created" required :prop="{displayFormat:'YYYY年MM月DD日'}"/>
+            <im-tc-input title="名称" field="name" required/>
+
             <im-tc-column title="用时" field="costtime"/>
             <im-tc-column title="出发站" field="station"/>
             <im-tc-column title="到达站" field="endstation"/>
@@ -162,7 +160,12 @@
              *  @author     martsforever
              *  @datetime   2019/5/25 21:09
              */
-            save() {
+            async save() {
+                const editRowData = await this.table.getEditData()
+                console.log(editRowData)
+                editRowData.forEach(({editRow}) => {
+                    editRow.type = this.$plain.$utils.uuid()
+                })
                 this.pl_checkStatus({
                     insert() {
                         for (let i = 0; i < this.newData.length; i++) {
@@ -172,12 +175,17 @@
                         this.newData = []
                     },
                     update() {
-                        this.table.saveEdit({index: this.index})
-                        this.table.disableEdit({index: this.index})
+                        editRowData.forEach(({index}) => {
+                            this.table.saveEdit({index})
+                            this.table.disableEdit({index})
+                        })
                         this.status = this.EDIT_STATUS.NORMAL
                     },
                     multiUpdate() {
-                        this.table.saveEdit()
+                        editRowData.forEach(({index}) => {
+                            this.table.saveEdit({index})
+                            this.table.disableEdit({index})
+                        })
                         this.table.disableEdit()
                     },
                     final() {

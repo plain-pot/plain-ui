@@ -5,6 +5,7 @@ import pick from './base/pick'
 
 import input from './edit/input'
 import select from './edit/select'
+import date from './edit/date'
 
 import BaseColumn from './base/pl-base-table-base-column'
 
@@ -15,6 +16,7 @@ const StandardColumns = {
 
     input,
     select,
+    date,
 }
 
 
