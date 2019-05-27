@@ -8,14 +8,16 @@ export default {
         placeLeft: {default: true},
         order: {default: 1000},
         data: {},
+        switchOnClickRow: {type: Boolean, default: true},
     },
     data() {
         const that = this
         return {
+            p_table: null,
             ids: [],
             normal(h, dataRow) {
                 return (
-                    <pl-radio value={that.ids.indexOf(dataRow.id) > -1} onInput={e => that.pl_input(e, dataRow)} onDblclick={e => e.stopPropagation()}/>
+                    <pl-radio value={that.ids.indexOf(dataRow.id) > -1} onInput={e => that.pl_input(e, dataRow)} onClick={(e) => e.stopPropagation()} onDblclick={e => e.stopPropagation()}/>
                 )
             },
             head() {
@@ -25,7 +27,22 @@ export default {
             },
         }
     },
+    watch: {
+        switchOnClickRow: {
+            immediate: true,
+            async handler(val) {
+                await this.$plain.nextTick()
+                !!val ? this.table.$on('clickRow', this.pl_clickRow) : this.table.$off('clickRow', this.pl_clickRow)
+            },
+        },
+    },
     computed: {
+        table() {
+            if (!this.p_table) {
+                this.p_table = this.$plain.$dom.findComponentUpward(this, 'pl-base-table')
+            }
+            return this.p_table
+        },
         dataIds() {
             return this.data.map(item => item.id)
         },
@@ -54,6 +71,10 @@ export default {
                 const index = this.ids.indexOf(dataRow.id)
                 index > -1 && this.ids.splice(index, 1)
             }
+        },
+        pl_clickRow({item}) {
+            const val = this.ids.indexOf(item.id) > -1
+            this.pl_input(!val, item)
         },
     },
 }

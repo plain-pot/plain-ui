@@ -294,8 +294,8 @@
              *  @author     martsforever
              *  @datetime   2019/5/25 12:10
              */
-            pl_clickRow({item, index}) {
-                this.$emit('clickRow', {item, index})
+            pl_clickRow({item, index, e}) {
+                this.$emit('clickRow', {item, index, e})
                 if (!!this.clickRow) {
                     this.clickRow({item, index})
                     return
@@ -307,18 +307,18 @@
              *  @author     martsforever
              *  @datetime   2019/5/25 12:11
              */
-            pl_dblClickRow({item, index}) {
-                this.$emit('dblclickRow', {item, index})
+            pl_dblClickRow({item, index, e}) {
+                this.$emit('dblclickRow', {item, index, e})
             },
             /*
              *  处理鼠标滑过行
              *  @author     martsforever
              *  @datetime   2019/5/25 12:11
              */
-            pl_mouseenterRow({item, index}) {
-                this.$emit('mouseenterRow', {item, index})
+            pl_mouseenterRow({item, index, e}) {
+                this.$emit('mouseenterRow', {item, index, e})
                 if (!!this.mouseenterRow) {
-                    this.mouseenterRow({item, index})
+                    this.mouseenterRow({item, index, e})
                     return
                 }
                 if (this.p_hoverIndex != null) this.p_data[this.p_hoverIndex].hover = false

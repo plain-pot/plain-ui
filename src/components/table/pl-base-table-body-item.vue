@@ -17,9 +17,9 @@
                                    :row-data="item"
                                    :index="index"
                                    :hover-index="hoverIndex"
-                                   @click.native="$emit('click',{item,index})"
-                                   @dblclick.native="$emit('dblclick',{item,index})"
-                                   @mouseenter.native="$emit('mouseenter',{item,index})"
+                                   @click.native="e=>$emit('click',{e,item,index})"
+                                   @dblclick.native="e=>$emit('dblclick',{e,item,index})"
+                                   @mouseenter.native="e=>$emit('mouseenter',{e,item,index})"
                 />
             </table>
         </pl-scroll>
