@@ -1,7 +1,8 @@
 <template>
     <div class="pl-base-table" :class="classes">
         <pl-base-table-column-controller @collect="pl_collect">
-            <pl-tc-index :page="page" :pageSize="pageSize"/>
+            <pl-tc-index :page="page" :pageSize="pageSize" v-if="index"/>
+            <pl-tc-pick ref="pick"/>
             <slot></slot>
         </pl-base-table-column-controller>
         <pl-base-table-head
@@ -56,6 +57,7 @@
 
             page: {type: Number, default: 1},
             pageSize: {type: Number, default: 0},
+            index: {type: Boolean, default: true},
         },
         data() {
             return {
@@ -210,6 +212,17 @@
                     })
                     return Promise.reject(validRet)
                 }
+            },
+            getSelect() {
+                return new Promise((rs, rj) => {
+                    const dataRows = this.$refs.pick.dataRows
+                    if (dataRows.length === 0) {
+                        const msg = '请至少选择一行数据'
+                        this.$dialog.show(msg)
+                        rj(msg)
+                    }
+                    rs(dataRows)
+                })
             },
 
 

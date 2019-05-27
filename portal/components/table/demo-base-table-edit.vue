@@ -16,6 +16,9 @@
                 </im-button-group>
                 <im-input v-model="index"/>
             </im-demo-row-item>
+            <im-demo-row-item>
+                <im-button @click="getSelect" label="getSelect"/>
+            </im-demo-row-item>
         </im-demo-row>
 
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick">
@@ -192,6 +195,10 @@
                         this.status = this.EDIT_STATUS.MULTI_UPDATE
                     },
                 })
+            },
+            async getSelect() {
+                const rowDatas = await this.table.getSelect()
+                this.$message.show(rowDatas.map(item => item.row.trainno).join(','))
             },
         }
     }
