@@ -18,6 +18,7 @@
             </im-demo-row-item>
             <im-demo-row-item>
                 <im-button @click="table.startSelected()" label="startSelected"/>
+                <im-button @click="table.finishSelected()" label="finishSelected"/>
                 <im-button @click="getSelected" label="getSelected"/>
             </im-demo-row-item>
         </im-demo-row>
