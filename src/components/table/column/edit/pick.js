@@ -14,10 +14,10 @@ export default {
         const that = this
         return {
             p_table: null,
-            ids: [],
+            p_data: [],
             normal(h, dataRow) {
                 return (
-                    <pl-radio value={that.ids.indexOf(dataRow.id) > -1} onInput={e => that.pl_input(e, dataRow)} onClick={(e) => e.stopPropagation()} onDblclick={e => e.stopPropagation()}/>
+                    <pl-radio value={that.p_dataIds.indexOf(dataRow.id) > -1} onInput={e => that.pl_input(e, dataRow)} onClick={(e) => e.stopPropagation()} onDblclick={e => e.stopPropagation()}/>
                 )
             },
             head() {
@@ -43,41 +43,49 @@ export default {
             }
             return this.p_table
         },
+        p_dataIds() {
+            if (!this.p_data) return []
+            return this.p_data.map(item => item.id)
+        },
         dataIds() {
             return this.data.map(item => item.id)
         },
         checkAllStatus() {
-            if (this.dataIds.every(id => this.ids.indexOf(id) > -1)) return 'all'
-            if (this.dataIds.some(id => this.ids.indexOf(id) > -1)) return 'some'
+            if (this.dataIds.every(id => this.p_dataIds.indexOf(id) > -1)) return 'all'
+            if (this.dataIds.some(id => this.p_dataIds.indexOf(id) > -1)) return 'some'
             return 'none'
         },
     },
     methods: {
         getSelected() {
-
+            return this.p_data.map(item => item.row)
         },
         pl_clickCheckAll() {
             switch (this.checkAllStatus) {
                 case 'all':
-                    this.$plain.$utils.removeSome(this.ids, id => this.dataIds.indexOf(id) > -1)
+                    this.$plain.$utils.removeSome(this.p_data, data => this.dataIds.indexOf(data.id) > -1)
                     break
                 case 'some':
-                    this.ids = [...this.ids, ...this.dataIds]
+                    this.p_data = [...this.data, ...this.p_data]
                     break
                 case 'none':
-                    this.ids = [...this.ids, ...this.dataIds]
+                    this.p_data = [...this.data, ...this.p_data]
             }
         },
         pl_input(val, dataRow) {
-            if (!!val) this.ids.push(dataRow.id)
+            if (!!val) this.p_data.push(dataRow)
             else {
-                const index = this.ids.indexOf(dataRow.id)
-                index > -1 && this.ids.splice(index, 1)
+                const index = this.p_dataIds.indexOf(dataRow.id)
+                index > -1 && this.p_data.splice(index, 1)
             }
         },
         pl_clickRow({item}) {
-            const val = this.ids.indexOf(item.id) > -1
+            const val = this.p_dataIds.indexOf(item.id) > -1
             this.pl_input(!val, item)
         },
     },
+    beforeDestroy() {
+        this.p_data = []
+        !!this.switchOnClickRow && this.table.$off('clickRow', this.pl_clickRow)
+    }
 }

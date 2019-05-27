@@ -2,7 +2,7 @@
     <div class="pl-base-table" :class="classes" @mouseleave="pl_mouseleave">
         <pl-base-table-column-controller @collect="pl_collect">
             <pl-tc-index :page="page" :pageSize="pageSize" v-if="index"/>
-            <pl-tc-pick ref="pick" :data="p_data"/>
+            <pl-tc-pick ref="pick" :data="p_data" v-if="p_selected"/>
             <slot></slot>
         </pl-base-table-column-controller>
         <pl-base-table-head
@@ -78,6 +78,7 @@
                 p_hoverIndex: null,                     //鼠标悬浮所在行索引
                 p_scrollLeft: false,                    //内容是否滑动到左端
                 p_scrollRight: false,                   //内容是否滑动到右端
+                p_selected: false,                      //当前是否处于多选状态
             }
         },
         watch: {
@@ -215,8 +216,24 @@
                     return Promise.reject(validRet)
                 }
             },
+            async startSelected() {
+                if (!!this.p_selected) return
+                this.p_selected = true
+                await this.$plain.nextTick()
+            },
+            async finishSelected() {
+                if (!this.p_selected) return
+                this.p_selected = false
+                await this.$plain.nextTick()
+            },
             getSelected() {
                 return new Promise((rs, rj) => {
+                    if (!this.p_selected) {
+                        const msg = '请先调用startSelected开启选择状态'
+                        console.error(msg)
+                        rj(msg)
+                        return
+                    }
                     const dataRows = this.$refs.pick.getSelected()
                     if (dataRows.length === 0) {
                         const msg = '请至少选择一行数据'
