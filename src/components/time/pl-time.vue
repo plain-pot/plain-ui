@@ -1,13 +1,14 @@
 <template>
-    <div class="pl-time" @click="pl_click">
+    <div class="pl-time">
         <slot :value="p_value">
             <pl-input
                     ref="input"
                     v-bind="inputBinding"
                     :value="p_value"
                     icon="pl-time-circle-light"
+                    @click="pl_click"
                     @clear="pl_clear"
-                    @click="pl_click"/>
+                    @tab="!!$refs.popper.p_show && $refs.popper.hide()"/>
         </slot>
         <pl-popper
                 ref="popper"
@@ -69,7 +70,7 @@
                 } else {
                     if (!!this.readonly || this.disabled) return;
                 }
-                this.$refs.popper.isOpen ?
+                !!this.$refs.popper.p_show ?
                     this.$refs.popper.hide()
                     :
                     this.$refs.popper.show()

@@ -17,11 +17,11 @@
         },
         methods: {
             async getSelect() {
-                let service = !this.$refs.services ? null : this.$plain.$utils.findOne(this.$refs.services, item => !item.isOpen)
+                let service = !this.$refs.services ? null : this.$plain.$utils.findOne(this.$refs.services, item => !item.p_show)
                 if (!service) {
                     this.items.push(this.items.length + 1)
                     await this.$plain.nextTick()
-                    service = this.$plain.$utils.findOne(this.$refs.services, item => !item.popover || !item.isOpen)
+                    service = this.$plain.$utils.findOne(this.$refs.services, item => !item.popover || !item.p_show)
                 }
                 return service
             },

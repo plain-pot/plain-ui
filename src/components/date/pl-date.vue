@@ -7,6 +7,7 @@
                 :icon="datetime?'pl-date-time-fill':'pl-date-fill'"
                 @clear="pl_clear"
                 @click="pl_click"
+                @tab="!!$refs.popper.p_show && $refs.popper.hide()"
         >
             <pl-popper
                     slot="prepend"
@@ -204,7 +205,7 @@
             pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
 
-                this.$refs.popper.isOpen ?
+                this.$refs.popper.p_show ?
                     this.$refs.popper.hide()
                     :
                     this.$refs.popper.show()

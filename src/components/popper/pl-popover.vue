@@ -3,7 +3,7 @@
                ref="popper"
                @mounted="e=>p_popper=e"
                @open="e=>$emit('open', e)"
-               @close="e=>$emit('close',e)"
+               @close="e=>{$emit('close',e);p_show = false}"
 
                @show="pl_show"
                @hide="e=>$emit('hide',e)"
@@ -34,7 +34,8 @@
         },
         data() {
             return {
-                p_popper: null
+                p_popper: null,
+                p_show: false,
             }
         },
         computed: {
@@ -57,6 +58,7 @@
             pl_show(e) {
                 this.$refs.scroll.refreshSize()
                 this.$emit('show', e)
+                this.p_show = true
             },
         },
     }

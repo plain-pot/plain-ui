@@ -2,7 +2,7 @@
     <pl-input
             v-if="!multiple"
             class="pl-select"
-            :class="{'pl-select-open':isShow}"
+            :class="{'pl-select-open':p_show}"
             :value="p_showValue"
             ref="input"
             inputReadonly
@@ -26,7 +26,7 @@
             v-else
             ref="input"
             class="pl-select"
-            :class="{'pl-select-open':isShow}"
+            :class="{'pl-select-open':p_show}"
             :value="p_showValue"
             :readonly="readonly"
             :disabled="disabled"
@@ -39,8 +39,8 @@
             :onRemove="pl_onRemove"
             @keyup.up.prevent="!!p_select && p_select.prev()"
             @keydown.down.prevent="!!p_select && p_select.next()"
-            @keyup.tab.prevent="!!p_select && p_select.hide()"
             @keyup.esc.prevent="!!p_select && p_select.hide()"
+            @keydown.tab="!!p_select && p_select.hide()"
             @keyup.space.prevent="pl_space"
 
     />
@@ -105,14 +105,14 @@
             return {
                 p_value: [],
                 p_select: null,
-                isShow: false,
+                p_show: false,
                 p_watchValue: false,
             }
         },
         methods: {
             async pl_open() {
                 if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
-                !this.p_select.isOpen ?
+                !this.p_select.p_show ?
                     this.p_select.select({
                         reference: this.$refs.input,
                         autoFocus: false,
@@ -122,8 +122,8 @@
                         autoClose: !this.multiple,
                         watchData: this.p_value,
                         popper: {
-                            onShow: () => this.isShow = true,
-                            onHide: () => this.isShow = false,
+                            onShow: () => this.p_show = true,
+                            onHide: () => this.p_show = false,
                         },
                         onClose: () => this.p_select = null,
                         onConfirm: (e) => {

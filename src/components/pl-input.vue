@@ -181,7 +181,7 @@
             },
             pl_tab(e) {
                 this.$emit('tab', e)
-                !!this.p_select && this.p_select.hide()
+                !!this.p_select && !!this.p_select.p_show && this.p_select.hide()
             },
             pl_click(e) {
                 this.$emit('click', e)
@@ -192,7 +192,7 @@
                 if (this.p_readonly || this.p_disabled) return
                 if (!!this.suggestionData) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
-                    !this.p_select.isOpen ?
+                    !this.p_select.p_show ?
                         this.p_select.select({
                             reference: this.$el,
                             autoFocus: false,

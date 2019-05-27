@@ -73,8 +73,10 @@
         },
         data() {
             return {
+                p_open: false,
+                p_show: false,
+
                 p_init: false,
-                isOpen: false,
                 p_popper: null,
                 p_direction: this.direction,
                 p_align: this.align,
@@ -122,6 +124,7 @@
                 this.p_popper.update()
                 this.p_zIndex = this.$plain.getZIndex()
                 this.$emit('show')
+                this.p_show = true
                 !!this.onShow && this.onShow()
                 this.pl_event()
             },
@@ -167,8 +170,8 @@
             },
             pl_event() {
                 setTimeout(() => {
-                    this.isOpen = this.p_value
-                    if (this.isOpen) {
+                    this.p_open = this.p_value
+                    if (this.p_open) {
                         !!this.onOpen && (this.onOpen())
                         this.$emit('open')
                         this.$emit('input', true)
@@ -176,6 +179,7 @@
                         !!this.onClose && (this.onClose())
                         this.$emit('close')
                         this.$emit('input', false)
+                        this.p_show = false
                     }
                 }, 250)
             },

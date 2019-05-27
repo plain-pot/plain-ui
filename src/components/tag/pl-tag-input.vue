@@ -4,6 +4,8 @@
             :style="{width:width}"
             :disabled="p_disabled"
             :readonly="p_readonly"
+            @focus="e=>$emit('focus',e)"
+            @blur="e=>$emit('blur',e)"
             @keydown="e=>$emit('keydown',e)"
             @keyup="e=>$emit('keyup',e)"
             @mouseenter="pl_mouseenter"
@@ -12,7 +14,7 @@
         <div class="pl-tag-input-content">
             <span class="pl-tag-input-placeholder" v-if="!p_value || p_value.length===0">{{placeholder}}</span>
             <pl-tag v-for="(item,index) in p_value" :key="index" :label="item" close @close="pl_close(item,index)" :disabled="p_disabled" :readonly="p_readonly"/>
-            <input type="text" class="pl-tag-input-el" v-if="input" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
+            <input type="text" class="pl-tag-input-el" v-if="input" @focus="p_focus=true" @blur="p_focus=false" @keyup.enter.prevent="pl_enter" v-model="p_text" :disabled="p_disabled" :readonly="p_readonly">
         </div>
         <pl-icon icon="pad-close-circle-fill" v-if="!p_disabled&&!p_readonly&&p_hover&&!!icon&&!!p_value.join('')" class="pl-tag-input-clear-icon" @click.stop="pl_clear" key="clear"/>
         <pl-icon :icon="icon" v-else-if="icon" class="pl-tag-input-icon" key="normal"/>
@@ -62,6 +64,7 @@
                     `pl-shape-${this.shape}`,
                     {
                         'pl-tag-input-disabled': this.p_disabled,
+                        'pl-tag-input-focus': this.p_focus,
                     },
                 ]
             },
@@ -160,7 +163,7 @@
                 }
             }
 
-            &:focus {
+            &:focus, &.pl-tag-input-focus {
                 border-color: plVar(colorPrimary);
                 color: plVar(colorPrimaryDeep);
             }

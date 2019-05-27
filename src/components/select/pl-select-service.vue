@@ -50,7 +50,7 @@
         data() {
             return {
                 popover: null,
-                isOpen: false,
+                p_show: false,
                 hoverIndex: 0,
 
                 option: {...defaultOption},
@@ -90,7 +90,7 @@
                 deep: true,
                 async handler(val) {
                     // console.log('watchData change', val)
-                    if (!!this.isOpen) {
+                    if (!!this.p_show) {
                         await this.$plain.nextTick()
                         this.$refs.popover.$refs.popper.p_popper.update()
                     }
@@ -152,7 +152,7 @@
             },
             pl_open() {
                 // console.log('pl_open')
-                this.isOpen = true
+                this.p_show = true
                 !!this.option.onOpen && this.option.onOpen()
                 if (this.option.autoFocus) {
                     this.$plain.$keyboard.addListener(this.keyboardListener)
@@ -162,7 +162,7 @@
             },
             pl_close() {
                 // console.log('pl_close')
-                this.isOpen = false
+                this.p_show = false
                 !!this.option.onClose && this.option.onClose()
                 if (this.option.autoFocus) {
                     this.$plain.$keyboard.removeListener(this.keyboardListener)

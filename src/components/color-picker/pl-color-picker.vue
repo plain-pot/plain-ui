@@ -7,7 +7,8 @@
             keyboard
             @enter="e => p_value = e.target.value"
             @clear="pl_clear"
-            @click="pl_click">
+            @click="pl_click"
+            @tab="!!$refs.popover.p_show && $refs.popover.hide()">
         <pl-popover
                 ref="popover"
                 slot="prepend"
@@ -65,7 +66,8 @@
             },
             pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
-                this.$refs.popover.$refs.popper.isOpen ?
+                this.$refs.input.$refs.input.focus()
+                this.$refs.popover.$refs.popper.p_show ?
                     this.$refs.popover.hide()
                     :
                     this.$refs.popover.show()

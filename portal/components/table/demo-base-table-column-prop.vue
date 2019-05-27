@@ -1,9 +1,9 @@
 <template>
     <div class="demo-base-table-column-prop">
         <!--        <im-demo-row>-->
-        <!--            <im-toggle v-model="isShow"/>-->
+        <!--            <im-toggle v-model="p_show"/>-->
         <!--        </im-demo-row>-->
-        <!--        <im-demo-row title="基本用法" v-show="isShow">-->
+        <!--        <im-demo-row title="基本用法" v-show="p_show">-->
         <!--            <im-base-table :data="data" id="trainno">-->
         <!--                <im-tc-column title="类型" field="type"/>-->
         <!--                <im-tc-column title="车次" field="trainno"/>-->
@@ -142,7 +142,7 @@
 
             return {
                 isHide: false,
-                isShow: true,
+                p_show: true,
                 data,
             }
         },

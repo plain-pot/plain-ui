@@ -3,19 +3,21 @@
             ref="input"
             icon="pad-doubledown"
             :value="p_showLabel"
-            @clear="p_clear"
             class="pl-cascade"
-            :class="{'pl-cascade-show':isShow}"
+            :class="{'pl-cascade-show':p_show}"
             v-bind="inputBinding"
-            :open="pl_click">
+            :open="pl_click"
+
+            @clear="p_clear"
+            @tab="!!$refs.popper.p_show && $refs.popper.hide()">
         <pl-popper ref="popper"
                    slot="prepend"
                    :height="28*7"
                    :width="null"
                    :reference="p_reference"
                    disabled-equal
-                   @show="isShow = true"
-                   @hide="isShow = false"
+                   @show="p_show = true"
+                   @hide="p_show = false"
         >
             <div class="pl-cascade-popper">
                 <pl-cascade-option :cascade-width="cascadeWidth"
@@ -65,7 +67,7 @@
         },
         data() {
             return {
-                isShow: false,
+                p_show: false,
                 p_value: this.$plain.$utils.deepCopy(this.value),
                 p_tempValue: this.$plain.$utils.deepCopy(this.value),
                 p_reference: null
@@ -112,7 +114,7 @@
             pl_click() {
                 this.$emit('click')
                 if (!this.$refs.input.p_readonly && !this.$refs.input.p_disabled) {
-                    !!this.$refs.popper.isOpen ?
+                    !!this.$refs.popper.p_show ?
                         this.$refs.popper.hide()
                         :
                         this.$refs.popper.show()
