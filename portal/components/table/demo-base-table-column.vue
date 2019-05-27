@@ -24,8 +24,9 @@
         </im-demo-row>
 
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick">
-            <im-tc-date title="创建时间" field="created" required :prop="{displayFormat:'YYYY年MM月DD日'}"/>
-            <im-tc-input title="名称" field="name" required/>
+            <im-tc-date title="创建时间date" field="created" required :prop="{displayFormat:'YYYY年MM月DD日'}"/>
+            <im-tc-input title="名称input" field="name" required/>
+            <im-tc-number title="顺序number" field="number" required/>
 
             <im-tc-column title="用时" field="costtime"/>
             <im-tc-column title="出发站" field="station"/>
