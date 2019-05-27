@@ -69,7 +69,10 @@
         methods: {
             async pl_click(e) {
                 if (!!this.$listeners.click) {
-                    await this.$listeners.click(e)
+                    try {
+                        await this.$listeners.click(e)
+                    } catch (e) {
+                    }
                 } else {
                     this.$emit('click', e)
                 }

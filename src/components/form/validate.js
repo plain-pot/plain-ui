@@ -1,4 +1,5 @@
 import $utils from "../../scripts/utils";
+import $dom from '../../scripts/dom'
 
 const ruleSeparator = ':';
 /**
@@ -180,7 +181,34 @@ const validate = {
             }
         }
         return {isValid: true, validMsg: null}
-    }
+    },
+
+
+    /*---------------------------------------表单校验-------------------------------------------*/
+    valid(context) {
+        const items = $dom.findComponentsDownward(context, 'pl-edit-control')
+        let isValid = true, validMsg = null;
+        for (let item of items) {
+            const {isValid: i, validMsg: v} = item.valid()
+            if (!i && isValid) {
+                isValid = false
+                validMsg = v
+            }
+        }
+        return {isValid, validMsg}
+    },
+    cancelValid(context) {
+        const items = $dom.findComponentsDownward(context, 'pl-edit-control')
+        items.forEach(item => item.cancelValid())
+    },
+    setDisabled(flag = true, context) {
+        const items = $dom.findComponentsDownward(context, 'pl-edit-control')
+        items.forEach(item => item.setDisabled(flag))
+    },
+    setReadonly(flag = true, context) {
+        const items = $dom.findComponentsDownward(context, 'pl-edit-control')
+        items.forEach(item => item.setReadonly(flag))
+    },
 }
 
 export default validate

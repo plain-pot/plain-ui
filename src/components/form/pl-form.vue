@@ -30,29 +30,19 @@
         },
         methods: {
             valid() {
-                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
-                let isValid = true, validMsg = null;
-                for (let item of items) {
-                    const {isValid: i, validMsg: v} = item.valid()
-                    if (!i && isValid) {
-                        isValid = false
-                        validMsg = v
-                    }
-                }
-                return {isValid, validMsg}
+                return this.$plain.$valid.valid(this)
             },
             cancelValid() {
-                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
-                items.forEach(item => item.cancelValid())
+                return this.$plain.$valid.cancelValid(this)
             },
             setDisabled(flag = true) {
-                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
-                items.forEach(item => item.setDisabled(flag))
+                return this.$plain.$valid.setDisabled(flag, this)
             },
             setReadonly(flag = true) {
-                const items = this.$plain.$dom.findComponentsDownward(this, 'pl-edit-control')
-                items.forEach(item => item.setReadonly(flag))
+                return this.$plain.$valid.setReadonly(flag, this)
             },
+
+
             pl_addItem(item) {
                 this.items.push(item)
             },
@@ -68,6 +58,7 @@
         & > .pl-form-item {
             margin-right: 20px;
         }
+
         .pl-form-item {
             margin-bottom: 20px;
         }
@@ -77,11 +68,13 @@
                 text-align: left;
             }
         }
+
         &.pl-form-text-align-center {
             .pl-form-item .pl-form-item-label {
                 text-align: center;
             }
         }
+
         &.pl-form-text-align-right {
             .pl-form-item .pl-form-item-label {
                 text-align: right;

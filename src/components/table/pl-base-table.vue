@@ -150,9 +150,62 @@
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
             },
-            getEditRowData() {
-                return this.p_data.filter(rowData => !!rowData.editable)
+            /**
+             * 获取数据，同时校验数据
+             * @author  韦胜健
+             * @date    2019/5/27 11:53
+             */
+            validData() {
+                /*获取处于编辑的行的index数组*/
+                const editData = this.p_data.reduce((ret, item, index) => {
+                    if (!!item.editable) {
+                        ret.push({
+                            rowData: item,
+                            index,
+                        })
+                    }
+                    return ret
+                }, [])
+
+                /*获取处于编辑的行TableRow组件实例*/
+                const editIndexList = editData.map(item => item.index)
+                const tableRows = this.$plain.$dom.findComponentsDownward(this, (com) => com.$options.name === 'pl-base-table-row' && editIndexList.indexOf(com.index) > -1)
+
+                /*校验*/
+                let validRet;
+                tableRows.forEach(tableRow => {
+                    const tableCells = this.$plain.$dom.findComponentsDownward(tableRow, (com) => com.$options.name === 'pl-base-table-cell' && !!com.p_editable)
+                    tableCells.forEach(cell => {
+                        const {isValid, validMsg} = this.$plain.$valid.valid(cell)
+                        if (isValid === false) {
+                            !validRet && (validRet = {
+                                'rowIndex': tableRow.index,
+                                'title': cell.col.title,
+                                'field': cell.col.field,
+                                msg: validMsg,
+                            })
+                        }
+                    })
+                })
+                return {editData, validRet}
             },
+            /**
+             * 获取编辑数据，如果校验不通过，则返回promise.reject
+             * @author  韦胜健
+             * @date    2019/5/27 11:53
+             */
+            async getEditData() {
+                const {editData, validRet} = this.validData()
+                if (!validRet) return Promise.resolve(editData.map(item => item.rowData))
+                else {
+                    this.$dialog.show({
+                        type: 'error',
+                        message: `${validRet.title}：${validRet.msg}`
+                    })
+                    return Promise.reject(validRet)
+                }
+            },
+
 
             /*---------------------------------------事件处理-------------------------------------------*/
             /*

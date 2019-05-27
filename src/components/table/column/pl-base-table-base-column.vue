@@ -36,7 +36,18 @@
             /*@formatter:off*/
             col() {return this.$refs.column.col()},
             /*@formatter:on*/
-        }
+        },
+        computed: {
+            publicProps() {
+                return {
+                    required: this.required,
+                    rules: this.rules,
+                    validFunc: this.validFunc,
+                    validOnInit: this.validOnInit,
+                    requiredFunc: this.requiredFunc,
+                }
+            },
+        },
     }
 </script>
 

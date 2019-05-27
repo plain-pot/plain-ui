@@ -16,11 +16,17 @@
                 </im-button-group>
                 <im-input v-model="index"/>
             </im-demo-row-item>
+            <im-demo-row-item>
+                <im-button-group>
+                    <im-button label="getEditData" @click="getEditData"/>
+                    <im-button label="validData" @click="validData"/>
+                </im-button-group>
+            </im-demo-row-item>
         </im-demo-row>
 
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick" :showNum="5">
-            <im-tc-column title="类型" field="type"/>
-            <im-tc-select title="状态" field="status" :prop="selectProp"/>
+            <im-tc-input title="类型" field="type" required/>
+            <im-tc-select title="状态" field="status" :prop="selectProp" required/>
             <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="trainno" :editableFunc="staticEditableFunc"/>
             <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="trainno" :editableFunc="dynamicEditableFunc"/>
             <im-tc-input title="用时,显示值格式化" field="costtime" :formatter="formatter"/>
@@ -168,10 +174,12 @@
              *  @author     martsforever
              *  @datetime   2019/5/25 21:09
              */
-            save() {
-                const editRowData = this.table.getEditRowData()
+            async save() {
+                const editRowData = await this.table.getEditData()
                 console.log(editRowData)
-
+                editRowData.forEach(({editRow}) => {
+                    editRow.type = this.$plain.$utils.uuid()
+                })
                 this.pl_checkStatus({
                     insert() {
                         for (let i = 0; i < this.newData.length; i++) {
@@ -181,12 +189,17 @@
                         this.newData = []
                     },
                     update() {
-                        this.table.saveEdit({index: this.index})
-                        this.table.disableEdit({index: this.index})
+                        editRowData.forEach(({index}) => {
+                            this.table.saveEdit({index})
+                            this.table.disableEdit({index})
+                        })
                         this.status = this.EDIT_STATUS.NORMAL
                     },
                     multiUpdate() {
-                        this.table.saveEdit()
+                        editRowData.forEach(({index}) => {
+                            this.table.saveEdit({index})
+                            this.table.disableEdit({index})
+                        })
                         this.table.disableEdit()
                     },
                     final() {
@@ -222,6 +235,13 @@
                 const delay = (Math.random() * 3000).toFixed(0)
                 await this.$plain.$utils.delay(delay)
                 return `${value},delay:${delay}`
+            },
+
+            async getEditData() {
+                console.log(await this.table.getEditData())
+            },
+            validData() {
+                console.log(this.table.validData())
             },
         }
     }
