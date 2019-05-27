@@ -12,7 +12,7 @@
             :placeholder="placeholder"
             :open="pl_open"
             icon="pl-triangle-down-fill"
-            v-bind="input"
+            v-bind="Object.assign({},input,simpleBinding)"
 
             @clear="pl_clear"
             @up="!!p_select && p_select.prev()"
@@ -48,14 +48,14 @@
 
 <script>
     import PlInput from "../pl-input";
-    import {ValueMixin} from "../../mixin/component-mixin";
+    import {SimpleEditMixin, ValueMixin} from "../../mixin/component-mixin";
     import PlButton from "../pl-button";
     import PlTagInput from "../tag/pl-tag-input";
 
     export default {
         name: "pl-select",
         components: {PlTagInput, PlButton, PlInput},
-        mixins: [ValueMixin],
+        mixins: [ValueMixin, SimpleEditMixin],
         props: {
             data: {type: Array, default: () => []},
             labelKey: {type: String},
@@ -64,9 +64,6 @@
             input: {},
 
             placeholder: {default: '请选择...'},
-            readonly: {type: Boolean},
-            disabled: {type: Boolean},
-            required: {type: Boolean},
         },
         watch: {
             value: {

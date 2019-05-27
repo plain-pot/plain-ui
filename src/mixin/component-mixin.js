@@ -77,6 +77,7 @@ export const SimpleEditMixin = {
         disabled: {type: Boolean, default: null},                       //是否禁用
         readonly: {type: Boolean, default: null},                       //是否只读
         required: {type: Boolean, default: null},                       //是否必输
+        validOnInit: {type: Boolean, default: null},                       //是否必输
     },
     computed: {
         simpleBinding() {
@@ -84,6 +85,7 @@ export const SimpleEditMixin = {
                 readonly: this.readonly,
                 disabled: this.disabled,
                 required: this.required,
+                validOnInit: this.validOnInit,
             }
         },
     },

@@ -53,7 +53,7 @@ const ColumnPublicProps = {
     required: {type: Boolean},                          //是否必输
     rules: {type: Array},                               //校验规则
     validFunc: {type: Function},                        //自定义验证函数
-    validOnInit: {type: Boolean},                       //是否在初始化的时候进行校验
+    validOnInit: {type: Boolean, default: true},        //是否在初始化的时候进行校验
     requiredFunc: {type: Function},                     //是否必输
 
     quickFilter: {type: Boolean, default: false},       //可快速筛选，仅值列表列有效

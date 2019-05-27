@@ -171,9 +171,11 @@
     }
 
     .pl-base-table-body {
-        .pl-base-table-cell {
-            border-bottom: solid 1px #f2f2f2;
-            box-sizing: border-box;
+        .pl-base-table-row:not(:last-child) {
+            .pl-base-table-cell {
+                border-bottom: solid 1px #f2f2f2;
+                box-sizing: border-box;
+            }
         }
     }
 </style>
