@@ -7,6 +7,8 @@ import input from './edit/input'
 import select from './edit/select'
 import date from './edit/date'
 import number from './edit/number'
+import color from './edit/color'
+import time from './edit/time'
 
 import BaseColumn from './base/pl-base-table-base-column'
 
@@ -19,6 +21,8 @@ const StandardColumns = {
     select,
     date,
     number,
+    color,
+    time,
 }
 
 

@@ -27,6 +27,9 @@
             <im-tc-date title="创建时间date" field="created" required :prop="{displayFormat:'YYYY年MM月DD日'}"/>
             <im-tc-input title="名称input" field="name" required/>
             <im-tc-number title="顺序number" field="number" required/>
+            <im-tc-select title="状态select" field="select" required :prop="selectProp"/>
+            <im-tc-color title="颜色color" field="color" required/>
+            <im-tc-time title="时间time" field="time" required/>
 
             <im-tc-column title="用时" field="costtime"/>
             <im-tc-column title="出发站" field="station"/>
@@ -66,6 +69,17 @@
                 newData: [],
                 table: null,
                 index: null,
+
+                selectProp: {
+                    data: [
+                        {name: '新建', val: 'new'},
+                        {name: '已提交', val: 'submit'},
+                        {name: '已审批', val: 'accept'},
+                        {name: '已拒绝', val: 'reject'},
+                    ],
+                    labelKey: 'name',
+                    valueKey: 'val',
+                },
             }
         },
         mounted() {
