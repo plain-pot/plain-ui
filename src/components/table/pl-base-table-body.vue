@@ -11,6 +11,7 @@
                 :data="data"
                 :body-row-height="bodyRowHeight"
                 :show-num="showNum"
+                :hover-index="hoverIndex"
 
                 @mouseenter.native="p_hoverFixed = fixed"
                 @scroll="e=>pl_scroll(e,fixed)"

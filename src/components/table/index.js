@@ -19,6 +19,7 @@ const TableMixin = {
         fixedExist: {type: Object},                     //固定列是否存在
         fixed: {type: String, default: 'center'},       //固定表格的位置:left,center,right
         hostWidth: {type: Number},                      //宿主宽度
+        hoverIndex: {type: Number},                          //当前鼠标悬浮所在行索引
     },
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-base-table" :class="classes">
+    <div class="pl-base-table" :class="classes" @mouseleave="pl_mouseleave">
         <pl-base-table-column-controller @collect="pl_collect">
             <pl-tc-index :page="page" :pageSize="pageSize" v-if="index"/>
             <pl-tc-pick ref="pick"/>
@@ -24,6 +24,7 @@
                 :fixed-exist="p_fixedExist"
                 :body-row-height="bodyRowHeight"
                 :show-num="showNum"
+                :hover-index="p_hoverIndex"
                 @mouseenter.native="p_hover = 'body'"
                 @scroll="e=>p_hover !== 'head' && !!$refs.head && $refs.head.$refs.scroll.setScroll({x: e.target.scrollLeft})"
                 @scrollLeft="val=>p_scrollLeft = val"
@@ -74,6 +75,7 @@
                 p_initSortDesc: this.sortDesc,          //初始的时候的排序方式
 
                 p_hover: null,                          //鼠标是否覆盖在表格上
+                p_hoverIndex: null,                     //鼠标悬浮所在行索引
                 p_scrollLeft: false,                    //内容是否滑动到左端
                 p_scrollRight: false,                   //内容是否滑动到右端
             }
@@ -319,7 +321,18 @@
                     this.mouseenterRow({item, index})
                     return
                 }
-                this.p_data.forEach(d => d.hover = d.id === item.id)
+                if (this.p_hoverIndex != null) this.p_data[this.p_hoverIndex].hover = false
+                this.p_hoverIndex = index
+                this.p_data[this.p_hoverIndex].hover = true
+            },
+            /**
+             * 鼠标离开表格
+             * @author  韦胜健
+             * @date    2019/5/27 18:39
+             */
+            pl_mouseleave() {
+                if (this.p_hoverIndex != null) this.p_data[this.p_hoverIndex].hover = false
+                this.p_hoverIndex = null
             },
 
             /*---------------------------------------列收集相关函数-------------------------------------------*/

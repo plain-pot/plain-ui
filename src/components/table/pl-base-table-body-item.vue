@@ -16,6 +16,7 @@
                                    :fixed="fixed"
                                    :row-data="item"
                                    :index="index"
+                                   :hover-index="hoverIndex"
                                    @click.native="$emit('click',{item,index})"
                                    @dblclick.native="$emit('dblclick',{item,index})"
                                    @mouseenter.native="$emit('mouseenter',{item,index})"
