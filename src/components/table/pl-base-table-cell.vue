@@ -15,7 +15,7 @@
                     <pl-base-table-cell-watcher key="normal"
                                                 v-else-if="!p_editable"
                                                 :data="p_data"
-                                                :text="data.row[col.field]"
+                                                :text="showRow[col.field]"
 
                                                 :tooltip="col.tooltip"
                                                 :show-in-dialog="col.showInDialog"
@@ -26,7 +26,7 @@
                     <pl-base-table-cell-watcher key="edit"
                                                 v-else
                                                 :data="p_data"
-                                                :text="data.editRow[col.field]"
+                                                :text="showRow[col.field]"
                                                 :required="p_required"
 
                                                 :scope-slot-func="editScopedSlots"
@@ -91,7 +91,7 @@
             },
             showRow() {
                 if (!this.data) return {}
-                return this.p_editable ? this.data.editRow : this.data.row
+                return this.data.editable ? this.data.editRow : this.data.row
             },
             p_data() {
                 /*col里面的editable表示列是否可编辑*/

@@ -27,10 +27,12 @@
         <im-base-table ref="table" :data="data" id="trainno" @dblclickRow="pl_dblclick" :showNum="5">
             <im-tc-input title="类型" field="type" required/>
             <im-tc-select title="状态" field="status" :prop="selectProp" required/>
-            <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="trainno" :editableFunc="dynamicEditableFunc"/>
-            <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="trainno" :editableFunc="staticEditableFunc"/>
-            <im-tc-input title="车次,状态编辑值为【提交】必输" width="250" field="trainno" :requiredFunc="dynamicRequiredFunc"/>
-            <im-tc-input title="车次,状态初始值值为【提交】必输" width="250" field="trainno" :requiredFunc="staticRequiredFunc"/>
+            <im-tc-input title="车次,状态编辑值为【提交】可编辑" width="250" field="dynamicEditableFunc" :editableFunc="dynamicEditableFunc"/>
+            <im-tc-input title="车次,状态初始值为【提交】可编辑" width="250" field="staticEditableFunc" :editableFunc="staticEditableFunc"/>
+            <im-tc-input title="车次,状态编辑值为【提交】必输" width="250" field="dynamicRequiredFunc" :requiredFunc="dynamicRequiredFunc"/>
+            <im-tc-input title="车次,状态初始值为【提交】必输" width="250" field="staticRequiredFunc" :requiredFunc="staticRequiredFunc"/>
+
+            <im-tc-input title="车次,状态编辑值为【提交】可编辑以及必输" width="250" field="dynamicRequiredFuncdynamicEditableFunc" :requiredFunc="dynamicRequiredFunc" :editableFunc="dynamicEditableFunc"/>
 
 
             <im-tc-input title="用时,显示值格式化" field="costtime" :formatter="formatter"/>
