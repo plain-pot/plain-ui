@@ -4,7 +4,7 @@
             <tr v-for="(row,rowIndex) in headColumns" :key="rowIndex">
                 <pl-base-table-head-cell v-for="(col,colIndex) in row"
                                          :fixed="fixed"
-                                         :key="(col.field||0)+colIndex"
+                                         :key="col.id"
                                          :col="col"
                                          :col-index="colIndex"
                                          :sort-field="sortField"

@@ -1,6 +1,6 @@
 <template>
     <tr class="pl-base-table-row" :class="classes">
-        <td v-for="(col,colIndex) in bodyColumns" :key="colIndex">
+        <td v-for="(col,colIndex) in bodyColumns" :key="col.id">
             <pl-base-table-cell
                     :is-fixed="fixed === col.fixed"
                     :height="bodyRowHeight"
