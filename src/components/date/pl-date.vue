@@ -64,7 +64,7 @@
     export default {
         name: "pl-date",
         components: {PlPopper, PlInput, PlDateRangePanel, PlDateSinglePanel, PlDatePanel},
-        mixins:[MountedMixin,SimpleEditMixin],
+        mixins: [MountedMixin, SimpleEditMixin],
         props: {
             value: {type: String,},
             start: {type: String},
@@ -203,7 +203,11 @@
             },
             pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
-                this.$refs.popper.show()
+
+                this.$refs.popper.isOpen ?
+                    this.$refs.popper.hide()
+                    :
+                    this.$refs.popper.show()
             },
             pl_clear() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return

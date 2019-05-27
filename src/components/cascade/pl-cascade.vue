@@ -7,7 +7,7 @@
             class="pl-cascade"
             :class="{'pl-cascade-show':isShow}"
             v-bind="inputBinding"
-            @click="pl_click">
+            :open="pl_click">
         <pl-popper ref="popper"
                    slot="prepend"
                    :height="28*7"
@@ -112,7 +112,10 @@
             pl_click() {
                 this.$emit('click')
                 if (!this.$refs.input.p_readonly && !this.$refs.input.p_disabled) {
-                    this.$refs.popper.show()
+                    !!this.$refs.popper.isOpen ?
+                        this.$refs.popper.hide()
+                        :
+                        this.$refs.popper.show()
                 }
             },
         }

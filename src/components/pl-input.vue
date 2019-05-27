@@ -166,7 +166,6 @@
             pl_focus(e) {
                 this.p_focus = true
                 this.$emit('focus', e)
-                this.pl_openSuggestion()
             },
             pl_blur(e) {
                 this.$emit('blur', e)
@@ -193,17 +192,19 @@
                 if (this.p_readonly || this.p_disabled) return
                 if (!!this.suggestionData) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
-                    !this.p_select.isOpen && this.p_select.select({
-                        reference: this.$el,
-                        autoFocus: false,
-                        data: this.suggestionData,
-                        labelKey: this.suggestionLabelKey,
-                        slot: this.$scopedSlots.suggestion,
-                        onClose: () => this.p_select = null,
-                    }).then(e => {
-                        this.p_value = !!this.suggestionLabelKey ? e[this.suggestionLabelKey] : e
-                        this.$emit('input', this.p_value)
-                    })
+                    !this.p_select.isOpen ?
+                        this.p_select.select({
+                            reference: this.$el,
+                            autoFocus: false,
+                            data: this.suggestionData,
+                            labelKey: this.suggestionLabelKey,
+                            slot: this.$scopedSlots.suggestion,
+                            onClose: () => this.p_select = null,
+                        }).then(e => {
+                            this.p_value = !!this.suggestionLabelKey ? e[this.suggestionLabelKey] : e
+                            this.$emit('input', this.p_value)
+                        })
+                        : this.p_select.hide()
                 }
             },
         }

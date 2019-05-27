@@ -69,7 +69,10 @@
                 } else {
                     if (!!this.readonly || this.disabled) return;
                 }
-                this.$refs.popper.show()
+                this.$refs.popper.isOpen ?
+                    this.$refs.popper.hide()
+                    :
+                    this.$refs.popper.show()
             },
             pl_panelInput(val) {
                 this.p_value = val

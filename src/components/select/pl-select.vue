@@ -61,7 +61,7 @@
             labelKey: {type: String},
             valueKey: {type: String},
             multiple: {type: Boolean},
-            input:{},
+            input: {},
 
             placeholder: {default: '请选择...'},
             readonly: {type: Boolean},
@@ -112,34 +112,37 @@
         methods: {
             async pl_open() {
                 if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
-                !this.p_select.isOpen && this.p_select.select({
-                    reference: this.$refs.input,
-                    autoFocus: false,
-                    data: this.data,
-                    labelKey: this.labelKey,
-                    render: this.pl_render,
-                    autoClose: !this.multiple,
-                    watchData: this.p_value,
-                    popper: {
-                        onShow: () => this.isShow = true,
-                        onHide: () => this.isShow = false,
-                    },
-                    onClose: () => this.p_select = null,
-                    onConfirm: (e) => {
-                        const value = this.pl_getValue(e)
-                        if (!this.multiple) {
-                            this.p_value = value
-                        } else {
-                            const index = this.p_value.indexOf(value)
-                            if (index > -1) {
-                                this.p_value.splice(index, 1)
+                !this.p_select.isOpen ?
+                    this.p_select.select({
+                        reference: this.$refs.input,
+                        autoFocus: false,
+                        data: this.data,
+                        labelKey: this.labelKey,
+                        render: this.pl_render,
+                        autoClose: !this.multiple,
+                        watchData: this.p_value,
+                        popper: {
+                            onShow: () => this.isShow = true,
+                            onHide: () => this.isShow = false,
+                        },
+                        onClose: () => this.p_select = null,
+                        onConfirm: (e) => {
+                            const value = this.pl_getValue(e)
+                            if (!this.multiple) {
+                                this.p_value = value
                             } else {
-                                this.p_value.push(value)
+                                const index = this.p_value.indexOf(value)
+                                if (index > -1) {
+                                    this.p_value.splice(index, 1)
+                                } else {
+                                    this.p_value.push(value)
+                                }
                             }
-                        }
-                        this.$emit('input', this.p_value)
-                    },
-                })
+                            this.$emit('input', this.p_value)
+                        },
+                    })
+                    :
+                    this.p_select.hide()
             },
             pl_clear() {
                 this.p_value = !this.multiple ? null : []

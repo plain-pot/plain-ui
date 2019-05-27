@@ -50,8 +50,7 @@
                 }
             },
             inputBinding() {
-                return Object.assign({
-                }, this.input, this.simpleBinding)
+                return Object.assign({}, this.input, this.simpleBinding)
             },
             p_reference() {
                 if (!this.p_mounted) return false
@@ -66,7 +65,10 @@
             },
             pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
-                this.$refs.popover.show()
+                this.$refs.popover.$refs.popper.isOpen ?
+                    this.$refs.popover.hide()
+                    :
+                    this.$refs.popover.show()
             },
             pl_clear() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
