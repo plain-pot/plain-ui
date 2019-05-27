@@ -1,6 +1,7 @@
 <template>
     <button class="pl-radio"
             @click="p_click"
+            @dblclick="e=>$emit('dblclick',e)"
             :class="classes"
             :style="styles">
         <div class="pl-radio-icon-wrapper">
@@ -43,16 +44,19 @@
         data() {
             return {
                 p_group: null,
-                p_value: this.value,
+                p_value: null,
                 p_watchValue: false,
                 p_edit: null,
             }
         },
         watch: {
-            value(val) {
-                const v = !!this.p_value ? this.trueValue : this.falseValue
-                val !== v && (this.p_value = val === this.trueValue)
-            },
+            value: {
+                immediate: true,
+                handler(val) {
+                    const v = !!this.p_value ? this.trueValue : this.falseValue
+                    val !== v && (this.p_value = val === this.trueValue)
+                },
+            }
         },
         created() {
             this.p_edit = this.$refs.edit
@@ -122,7 +126,7 @@
                     }
                 }
                 this.p_value = !this.p_value;
-                this.$emit('click', e);
+                this.$emit('click', e, this);
                 this.$emit('change', this.p_value);
                 this.p_emitValue()
             },

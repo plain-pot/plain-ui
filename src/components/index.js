@@ -13,6 +13,7 @@ import dropdownItem from './dropdown/pl-dropdown-item'
 import toggle from './pl-toggle'
 import radio from './radio/pl-radio'
 import radioGroup from './radio/pl-radio-group'
+import checkAll from './radio/pl-check-all'
 import form from './form/pl-form'
 import formItem from './form/pl-form-item'
 import formColumn from './form/pl-form-column'
@@ -62,7 +63,7 @@ import {StandardColumns, formatColumnComponent} from "./table/column";
 
 const components = {
     icon, scroll, navTab, button, loading, buttonGroup, input, popper, popover, dropdown, dropdownItem, toggle,
-    radio, radioGroup, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
+    radio, radioGroup, checkAll, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
     cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
     step, stepContainer, tabs, tab, tabHeader, navPages, nav,
     renderFunc, scopeSlot, slot,

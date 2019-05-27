@@ -5,7 +5,7 @@ export default {
         pageSize: {type: Number, default: 10},
 
         align: {default: 'center'},
-        width: {default: '32'},
+        width: {default: '36'},
         sort: {default: false},
         search: {default: false},
         title: {default: '#'},

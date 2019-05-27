@@ -2,7 +2,7 @@
     <div class="pl-base-table" :class="classes" @mouseleave="pl_mouseleave">
         <pl-base-table-column-controller @collect="pl_collect">
             <pl-tc-index :page="page" :pageSize="pageSize" v-if="index"/>
-            <pl-tc-pick ref="pick"/>
+            <pl-tc-pick ref="pick" :data="p_data"/>
             <slot></slot>
         </pl-base-table-column-controller>
         <pl-base-table-head
