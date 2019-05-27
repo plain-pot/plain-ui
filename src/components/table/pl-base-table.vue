@@ -244,6 +244,7 @@
                 /*cols是已经处理好的，树状结构的列数据信息数组*/
                 this.p_cols = cols
                 this.$emit('collect', this.p_cols)
+                this.pl_reactiveData()
                 await this.pl_resetTableWidth()
                 // console.log(this.p_cols)
             },
@@ -475,6 +476,20 @@
                     }
                     func(this.p_data[index], index)
                 }
+            },
+            /**
+             * 响应式格式化数据
+             * @author  韦胜健
+             * @date    2019/5/27 16:59
+             */
+            pl_reactiveData() {
+                if (!this.p_cols || this.p_cols.length === 0) return
+                this.p_data.forEach(({row, editRow}) => {
+                    this.p_cols.forEach(col => {
+                        this.$set(row, col.field, row[col.field])
+                        this.$set(editRow, col.field, row[col.field])
+                    })
+                })
             },
         }
     }
