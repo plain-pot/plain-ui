@@ -1,6 +1,7 @@
 <template>
     <div class="pl-base-table" :class="classes">
         <pl-base-table-column-controller @collect="pl_collect">
+            <pl-tc-index :page="page" :pageSize="pageSize"/>
             <slot></slot>
         </pl-base-table-column-controller>
         <pl-base-table-head
@@ -48,12 +49,13 @@
         props: {
             beforeConfig: {type: Function},
             config: {type: Function},
-
             id: {type: String, required: true},
-
             clickRow: {type: Function},
             dblclickRow: {type: Function},
             mouseenterRow: {type: Function},
+
+            page: {type: Number, default: 1},
+            pageSize: {type: Number, default: 0},
         },
         data() {
             return {

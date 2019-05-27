@@ -1,12 +1,16 @@
 import $utils from '../../../scripts/utils'
 import column from './column'
+import index from './edit/index'
+
 import input from './edit/input'
 import select from './edit/select'
 
 import BaseColumn from './pl-base-table-base-column'
 
 const StandardColumns = {
+    index,
     column,
+
     input,
     select,
 }
@@ -17,7 +21,9 @@ function formatColumnComponent(columns) {
         const component = $utils.deepmerge(BaseColumn, columns[key])
         component.name = `tc-${columns[key].name}`
         const dataFunc = component.data
-        component.data = function () {return Object.assign({edit: null, normal: null, head: null}, dataFunc.apply(this))}
+        component.data = function () {
+            return Object.assign({edit: null, normal: null, head: null}, dataFunc.apply(this))
+        }
         ret[component.name] = component
         return ret
     }, {})

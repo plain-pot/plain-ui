@@ -5,7 +5,7 @@
 
             :scopedSlots="$scopedSlots || {}"
             :renderNormal="normal"
-            :renderEdit="edit"
+            :renderEdit="edit || normal"
             :renderHead="head"
     />
 </template>
