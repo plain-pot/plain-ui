@@ -232,8 +232,19 @@
                 y != null && (this.scrollTop(y));
             },
             setScroll({x, y}) {
-                x != null && (this.$refs.wrapper.scrollLeft = x)
-                y != null && (this.$refs.wrapper.scrollTop = y)
+                if (!this.p_count) this.p_count = 0
+                this.p_count++
+                setTimeout(() => {
+                    x != null && (this.$refs.wrapper.scrollLeft = x)
+                    y != null && (this.$refs.wrapper.scrollTop = y)
+
+                    if (this.p_count + 1 > 10) {
+                        this.p_count = 0
+                        return
+                    }
+                    this.setScroll({x, y})
+                }, 25)
+
             },
             setScrollEnd({x, y}) {
                 !!x && (this.$refs.wrapper.scrollLeft = this.$refs.wrapper.scrollWidth)

@@ -92,15 +92,12 @@
              *  @datetime   2019/3/4 22:42
              */
             p_addPreviousYears() {
-                let currentScrolllTop = this.$refs.scrollbar.contentWrapperScrollTop
                 const newStart = this.start - this.num
                 for (let i = this.start - 1; i >= newStart; i--) {
                     this.list.unshift(i)
                 }
                 this.start = newStart
-                this.$nextTick(() => {
-                    this.$refs.scrollbar.$refs.wrapper.scrollTop = currentScrolllTop + this.$el.offsetHeight
-                })
+                this.$refs.scrollbar.setScroll({y: 44 * 5})
             },
             /*
              *  滚动到底部时，年份数组栈尾部添加额外年份
