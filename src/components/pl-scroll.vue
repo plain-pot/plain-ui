@@ -231,20 +231,24 @@
                 x != null && (this.scrollLeft(x));
                 y != null && (this.scrollTop(y));
             },
-            setScroll({x, y}) {
-                if (!this.p_count) this.p_count = 0
-                this.p_count++
-                setTimeout(() => {
+            setScroll({x, y}, repeat = false) {
+                const next = () => {
                     x != null && (this.$refs.wrapper.scrollLeft = x)
                     y != null && (this.$refs.wrapper.scrollTop = y)
-
-                    if (this.p_count + 1 > 10) {
-                        this.p_count = 0
-                        return
-                    }
-                    this.setScroll({x, y})
-                }, 25)
-
+                }
+                if (!repeat) next()
+                else {
+                    if (!this.p_count) this.p_count = 0
+                    this.p_count++
+                    setTimeout(() => {
+                        next()
+                        if (this.p_count + 1 >= 10) {
+                            this.p_count = 0
+                            return
+                        }
+                        this.setScroll({x, y}, repeat)
+                    }, 25)
+                }
             },
             setScrollEnd({x, y}) {
                 !!x && (this.$refs.wrapper.scrollLeft = this.$refs.wrapper.scrollWidth)

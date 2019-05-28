@@ -97,7 +97,7 @@
                     this.list.unshift(i)
                 }
                 this.start = newStart
-                this.$refs.scrollbar.setScroll({y: 44 * 5})
+                this.$refs.scrollbar.setScroll({y: 44 * 5}, true)
             },
             /*
              *  滚动到底部时，年份数组栈尾部添加额外年份
