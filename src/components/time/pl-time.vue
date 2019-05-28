@@ -59,10 +59,11 @@
                 this.p_value = null
                 this.p_emitValue()
             },
-            async p_clickLabel() {
+            async p_clickLabel(timeString) {
                 await this.$plain.nextTick()
-                this.$emit('confirm', this.p_value)
+                this.$emit('confirm', timeString)
                 this.$refs.popper.hide()
+                this.pl_panelInput(timeString)
             },
             pl_click() {
                 if (!!this.$refs.input) {

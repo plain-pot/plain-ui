@@ -137,7 +137,7 @@
             align-items: center;
         }
 
-        .pl-input {
+        .pl-input, .pl-date, .pl-time  {
             width: 100% !important;
         }
 

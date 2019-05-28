@@ -1,7 +1,7 @@
 <template>
     <div class="pl-time-panel">
         <div class="pl-time-panel-label-wrapper">
-            <div class="pl-time-panel-label" @click.stop="$emit('clickLabel')">
+            <div class="pl-time-panel-label" @click.stop="$emit('clickLabel',timeString)">
                 <span>{{timeString}}</span>
             </div>
         </div>
