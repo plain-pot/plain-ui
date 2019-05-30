@@ -120,7 +120,7 @@
         },
         watch: {
             value(val) {
-                if (val !== this.p_value) this.show(val)
+                if (val !== this.p_value) val ? this.show() : this.hide()
             },
         },
         computed: {
@@ -163,10 +163,11 @@
             },
         },
         methods: {
-            show(val = true) {
+            show() {
                 const next = () => {
                     this.p_index = this.$plain.getZIndex()
-                    this.p_value = val
+                    this.p_value = true
+                    this.$emit('input', this.p_value)
                 }
                 if (!this.p_initialized) {
                     this.p_initialized = true
@@ -180,6 +181,7 @@
                 this.p_value = false
                 !!this.destroyOnHide && setTimeout(() => this.p_initialized = false, this.$plain.transitionTime)
                 !!this.p_activeElement && this.p_activeElement.focus()
+                this.$emit('input', this.p_value)
             },
             p_clickShadow(e) {
                 if (!this.$refs.content.contains(e.target)) {
