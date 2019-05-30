@@ -25,6 +25,10 @@
         <im-demo-row title="全局派发事件，nav下可用">
             <im-button label="派发全局事件" @click="nav.emit('demo-event',message,true)"/>
         </im-demo-row>
+
+        <im-demo-row>
+            <im-button label="打开页签" @click="nav.openTab({id:'???',title:'打开页签',path:'/nav/demo-nav-page-2',param:{msg:msg}})"/>
+        </im-demo-row>
     </div>
 </template>
 

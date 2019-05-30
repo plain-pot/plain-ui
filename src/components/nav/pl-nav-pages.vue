@@ -8,7 +8,8 @@
                         :key="item.id"
                         :id="item.id"
                         :page="item"
-                        :tab="rootPage"/>
+                        :tab="rootPage"
+                        :nav="nav"/>
             </transition-group>
         </div>
     </transition>
@@ -33,6 +34,7 @@
             getComponent: {type: Function},                     //获取页面
 
             show: {default: true},
+            nav: {},
         },
         data() {
             return {

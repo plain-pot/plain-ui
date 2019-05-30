@@ -10,7 +10,7 @@
                 :path="page.path"
                 :src="page.path"
                 v-if="!!page.component && page.init"
-                :nav="nav"/>
+                :nav="p_nav"/>
     </div>
 </template>
 
@@ -20,7 +20,9 @@
         props: {
             id: {type: String, required: true},             //page的id
             page: {},                                       //page页面的数据信息
-            tab:{},
+            tab: {},
+
+            nav: {},
         },
         data() {
             const pages = this.$plain.$dom.findComponentUpward(this, 'pl-nav-pages')
@@ -29,7 +31,7 @@
             return {
                 events,
                 pages,
-                nav: {
+                p_nav: {
                     push: (...args) => pages.push(...args),
                     back: (...args) => pages.back(...args),
                     redirect: (...args) => pages.redirect(...args),
@@ -38,6 +40,21 @@
                     once: (...args) => that.once(...args),
                     off: (...args) => that.off(...args),
                     emit: (...args) => that.emit(...args),
+
+                    openTab: (...args) => this.nav.openTab(...args),
+                    closeTab: (id) => {
+                        id = id || pages.id
+                        this.nav.closeTab(id)
+                    },
+                    refresh: (id) => {
+                        id = id || pages.id
+                        this.nav.refresh(id)
+                    },
+                    update: (id, newTabData) => {
+                        id = id || pages.id
+                        this.nav.update(id, newTabData)
+                    },
+                    getCurrentTab: (...args) => this.nav.getCurrentTab(...args),
                 }
             }
         },

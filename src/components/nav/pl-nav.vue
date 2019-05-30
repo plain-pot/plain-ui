@@ -24,6 +24,7 @@
                     :get-component="pl_getComponent"
                     v-if="tab.init"
                     :show="tab.init && p_index === index"
+                    :nav="nav"
 
                     @emit="pl_emit"/>
         </div>
@@ -58,6 +59,7 @@
         data() {
             const historyStorage = this.$plain.$storage.get(NAV_STORAGE_KEY.HISTORY) || []
             return {
+                nav: this,
                 historyStorage,
                 tabs: [],
                 selfStorage: null,
