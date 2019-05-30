@@ -1,7 +1,21 @@
 {
   "name": "plain-ui",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.20",
+  "description": "A components Library based on Vue.js",
+  "main": "dist/plain-ui.umd.min.js",
+  "files": [
+    "dist",
+    "src/styles"
+  ],
+  "keywords": [
+    "vue",
+    "vue.js",
+    "component",
+    "components",
+    "ui",
+    "framework",
+    "plain"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:page": "vue-cli-service build --analysis",
