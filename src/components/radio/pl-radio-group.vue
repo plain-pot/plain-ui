@@ -46,7 +46,7 @@
                 } else {
                     if (this.singleValue !== val) this.singleValue = val;
                 }
-                this.updateRadios();
+                this.$nextTick(() => this.updateRadios());
             },
             multipleValue(val) {
                 if (JSON.stringify(val) !== JSON.stringify(this.value))
@@ -97,6 +97,10 @@
                         this.multipleValue = allIds
                 }
                 this.updateRadios()
+            },
+            async pl_change() {
+                await this.$plain.nextTick()
+                this.$emit('change', this.multiple ? this.multipleValue : this.singleValue)
             },
         },
         created() {

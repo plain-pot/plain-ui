@@ -1,57 +1,52 @@
 <template>
     <div class="demo-test2">
-        <im-button label="demo-test2" @click="test"/>
+        <im-button label="demo-test2"/>
+
+        <text-component v-model="obj"/>
     </div>
 </template>
 
 <script>
 
+    const TextComponent = {
+        props: {
+            value: {},
+        },
+        render(h) {
+            return (
+                <div>
+                    <span>TextComponent</span>
+                    {JSON.stringify(this.value)}
+                    <im-button onClick={this.click} label="set"/>
+                </div>
+            )
+        },
+        methods: {
+            click() {
+                this.value.hhh = '112132'
+                this.value.xxx = '112132'
+                Object.keys(this.value).forEach(key => {
+                    this.$set(this.value, key, this.value[key])
+                })
+                this.$emit('input', this.$plain.$utils.deepCopy(this.value))
+                setTimeout(() => {
+                    console.log(this.value)
+                }, 0)
+            },
+        }
+    }
 
     export default {
         name: "demo-test2",
+        components: {TextComponent},
         data() {
             return {
-                a: 111,
-                b: 222,
-                c: 333,
-                d: 444,
+                obj: {
+                    name: 111,
+                    desc: "xxx",
+                }
             }
         },
-        computed: {
-            ab() {
-                console.log('----------------reset ab-----------------')
-                return this.a + '' + this.b
-            },
-            cd() {
-                console.log('----------------reset cd-----------------')
-                return this.c + '' + this.d
-            },
-        },
-        mounted() {
-        },
-        methods: {
-            test() {
-                console.log(this.ab)
-                console.log(this.ab)
-                console.log(this.ab)
-                console.log(this.ab)
-
-                console.log('set a=aaa')
-                this.a = 'aaa'
-                console.log(this.ab)
-
-                console.log('set b=bbb')
-                this.b = 'bbb'
-                console.log(this.ab)
-
-                console.log('set a=111,b=222')
-                this.a = '111'
-                this.b = '222'
-                console.log(this.ab)
-                console.log(this.ab)
-                console.log(this.ab)
-            },
-        }
     }
 </script>
 

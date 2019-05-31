@@ -60,8 +60,7 @@
         },
         created() {
             this.p_edit = this.$refs.edit
-        },
-        mounted() {
+
             if (!!this.isCheckAllRadio) return
             this.p_group = this.$plain.$dom.findComponentUpward(this, 'pl-radio-group');
             if (!!this.p_group) {
@@ -124,6 +123,7 @@
                         if (!this.p_value) this.p_group.multipleValue.push(this.id);
                         else this.$plain.$utils.removeFromArray(this.p_group.multipleValue, this.id);
                     }
+                    this.p_group.pl_change()
                 }
                 this.p_value = !this.p_value;
                 this.$emit('click', e, this);
