@@ -175,12 +175,12 @@
                 } else next()
 
                 this.p_activeElement = document.activeElement
-                !!this.p_activeElement && this.p_activeElement.blur()
+                !!this.p_activeElement && this.p_activeElement.blur && this.p_activeElement.blur()
             },
             hide() {
                 this.p_value = false
                 !!this.destroyOnHide && setTimeout(() => this.p_initialized = false, this.$plain.transitionTime)
-                !!this.p_activeElement && this.p_activeElement.focus()
+                !!this.p_activeElement && this.p_activeElement.focus && this.p_activeElement.focus()
                 this.$emit('input', this.p_value)
             },
             p_clickShadow(e) {
