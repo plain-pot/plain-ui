@@ -26,19 +26,19 @@ $theme-default: (
                 colorDisabledDeep: #929292,                                     //颜色：禁用重
 
                 backgroundColor:rgba(255, 255, 255, .125),                      //背景色
-                backgroundColorLight:rgba(0,0,0,.06),                        //背景色亮
+                backgroundColorLight:rgba(0,0,0,.06),                           //背景色亮
                 backgroundColorLighter:rgba(0,0,0,.025),                        //背景色亮
                 backgroundColorDeeper:rgba(255,255,255, .1),                    //背景色暗
                 backgroundColorActive:rgba(0, 0, 0, .3),                        //背景色激活
 
                 fontFamily: 'Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif',
                 colorTitle:black,                                               //标题颜色
-                colorSubTitle:#606060,                                               //标题颜色
+                colorSubTitle:#606060,                                          //标题颜色
                 colorContent:#888,                                              //文字色
-                colorContentSub:#aaa,                                              //文字色
-                colorBorder:#e4e7ed,                                              //文字色
+                colorContentSub:#aaa,                                           //文字色
+                colorBorder:#e4e7ed,                                            //文字色
 
-                boxShadow:0 2px 12px 0 rgba(0, 0, 0, .1),                          //阴影
+                boxShadow:0 2px 12px 0 rgba(0, 0, 0, .1),                       //阴影
 
                 paddingLarge:20px,                                              //大边距
                 padding:16px,                                                   //默认边距
