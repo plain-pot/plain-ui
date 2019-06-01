@@ -1,4 +1,54 @@
 @mixin component-form {
+  .pl-form {
+    & > .pl-form-item {
+      margin-right: 20px;
+    }
+
+    .pl-form-item {
+      margin-bottom: 20px;
+    }
+
+    &.pl-form-text-align-left {
+      .pl-form-item .pl-form-item-label {
+        text-align: left;
+      }
+    }
+
+    &.pl-form-text-align-center {
+      .pl-form-item .pl-form-item-label {
+        text-align: center;
+      }
+    }
+
+    &.pl-form-text-align-right {
+      .pl-form-item .pl-form-item-label {
+        text-align: right;
+      }
+    }
+  }
+  .pl-form-column {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    .pl-form-item {
+      display: block;
+    }
+  }
+  .pl-form-item {
+    display: inline-block;
+    vertical-align: middle;
+    .pl-form-item-label {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: bolder;
+      color: plVar(colorSubTitle);
+    }
+    &.pl-form-item-block {
+      display: block !important;
+    }
+  }
+
   .pl-edit-control {
     visibility: visible;
     width: max-content;

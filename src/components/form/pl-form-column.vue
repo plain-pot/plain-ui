@@ -9,14 +9,3 @@
         name: "pl-form-column"
     }
 </script>
-
-<style lang="scss">
-    .pl-form-column {
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 20px;
-        .pl-form-item {
-            display: block;
-        }
-    }
-</style>

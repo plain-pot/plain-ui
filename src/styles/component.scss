@@ -35,6 +35,7 @@
 @import "./component/tag";
 @import "./component/pagination";
 @import "./component/nav";
+@import "./component/dropdown";
 
 
 @mixin component-mixin {
@@ -75,6 +76,7 @@
   @include component-tag;
   @include component-pagination;
   @include component-nav;
+  @include component-dropdown;
 
 
 }

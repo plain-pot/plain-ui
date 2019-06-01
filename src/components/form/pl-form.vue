@@ -52,33 +52,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    .pl-form {
-        & > .pl-form-item {
-            margin-right: 20px;
-        }
-
-        .pl-form-item {
-            margin-bottom: 20px;
-        }
-
-        &.pl-form-text-align-left {
-            .pl-form-item .pl-form-item-label {
-                text-align: left;
-            }
-        }
-
-        &.pl-form-text-align-center {
-            .pl-form-item .pl-form-item-label {
-                text-align: center;
-            }
-        }
-
-        &.pl-form-text-align-right {
-            .pl-form-item .pl-form-item-label {
-                text-align: right;
-            }
-        }
-    }
-</style>

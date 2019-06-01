@@ -47,22 +47,3 @@
         },
     }
 </script>
-
-<style lang="scss">
-    @include themeWrap{
-        .pl-form-item {
-            display: inline-block;
-            vertical-align: middle;
-            .pl-form-item-label {
-                display: inline-block;
-                white-space: nowrap;
-                font-size: 12px;
-                font-weight: bolder;
-                color: plVar(colorSubTitle);
-            }
-            &.pl-form-item-block {
-                display: block !important;
-            }
-        }
-    }
-</style>

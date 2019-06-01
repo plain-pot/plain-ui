@@ -95,18 +95,3 @@
         },
     }
 </script>
-
-<style lang="scss">
-    .pl-tooltip-text {
-        display: block;
-        height: fit-content;
-        outline: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
-        &.pl-tooltip-text-show-overflow-tooltip {
-            width: 100%;
-        }
-    }
-</style>
