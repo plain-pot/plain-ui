@@ -260,11 +260,11 @@
              *  @datetime   2019/3/31 20:51
              */
             async pl_closeTab(id) {
-                if (this.tabs.length === 1) {
+                /*if (this.tabs.length === 1) {
                     const msg = "不能关闭所有页面！"
                     this.$message.show("不能关闭所有页面！")
                     return Promise.reject(msg)
-                }
+                }*/
                 const {tab, index} = this.pl_findTabById(id)
                 if (!tab) return
 
