@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-textarea">
+    <div class="pl-textarea" :class="{'pl-textarea-long':long}">
         <textarea class=""
                   id=""
                   :cols="cols"
@@ -61,7 +61,6 @@
                     `pl-size-${this.size}`,
                     {
                         'pl-textarea-focus': this.p_focus,
-                        'pl-textarea-long': !!this.long,
                         'pl-textarea-disabled': !!this.p_disabled,
                         'pl-textarea-readonly': !!this.p_readonly,
                     }

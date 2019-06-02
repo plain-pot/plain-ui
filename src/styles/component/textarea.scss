@@ -4,6 +4,14 @@
     position: relative;
     vertical-align: top;
 
+    &.pl-textarea-long {
+      width: 100% !important;
+
+      textarea {
+        width: 100% !important;
+      }
+    }
+
     textarea {
       outline: none;
       display: inline-flex;
@@ -13,14 +21,12 @@
       box-sizing: border-box;
       vertical-align: top;
       font-family: inherit;
+
       &.pl-textarea-focus {
         box-shadow: 0 0 6px plVar(colorPrimary);
         border-color: plVar(colorPrimary);
       }
 
-      &.pl-textarea-long {
-        width: 100% !important;
-      }
       &.pl-textarea-disabled {
         background-color: plVar(colorDisabledLight);
         cursor: not-allowed;
@@ -29,6 +35,13 @@
       @include plSizes {
         &.pl-size-#{$key} {
           font-size: $value/2.5;
+        }
+      }
+      @include plColors {
+        &.pl-color-#{$key} {
+          &::placeholder {
+            color: mix($value, white, 90%);
+          }
         }
       }
     }
