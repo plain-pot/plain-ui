@@ -34,7 +34,8 @@
         data() {
             return {
                 count: 0,
-                cascadeData: [{
+                cascadeData: [
+                    {
                     value: 'beijing',
                     label: '北京',
                     children: [
