@@ -78,7 +78,6 @@
             datetime: {type: Boolean},
             range: {type: Boolean},
             view: {type: String, default: 'date'},
-            confirmButton: {type: Boolean},
 
             placeholder: {type: String, default: '请选择日期时间……'},
             inputWidth: {type: Number},
