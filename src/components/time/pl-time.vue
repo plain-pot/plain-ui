@@ -1,12 +1,11 @@
 <template>
-    <div class="pl-time">
+    <div class="pl-time" @click="pl_click">
         <slot :value="p_value">
             <pl-input
                     ref="input"
                     v-bind="inputBinding"
                     :value="p_value"
                     icon="pl-time-circle-light"
-                    @click="pl_click"
                     @clear="pl_clear"
                     @tab="!!$refs.popper.p_show && $refs.popper.hide()"/>
         </slot>
