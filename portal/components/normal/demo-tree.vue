@@ -129,10 +129,12 @@
             },
             getCheckData() {
                 const result = this.$refs.tree1.getCheckData()
+                console.log(result)
                 this.$dialog.show(JSON.stringify(result), {width: 500})
             },
             getCheckDataToTree() {
                 const result = this.$refs.tree1.getCheckData(false)
+                console.log(result)
                 this.$dialog.show(JSON.stringify(result), {width: 500})
             },
         }
