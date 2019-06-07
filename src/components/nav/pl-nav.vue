@@ -186,8 +186,8 @@
              *  @datetime   2019/3/31 20:02
              */
             getStorage(key) {
-                const storage = this.$plain.$storage.get(key) || {}
-                return !!this.storageKey ? storage[this.storageKey] : storage
+                const storage = this.$plain.$storage.get(key)
+                return (!!this.storageKey ? storage[this.storageKey] : storage) || {}
             },
             /*
              *  设置缓存
