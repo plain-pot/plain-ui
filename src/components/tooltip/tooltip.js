@@ -3,8 +3,8 @@ import $dom from '../../scripts/dom'
 import Tippy from 'tippy.js';
 
 const DEFAULT_OPTION = {
-    arrow: false,
-    placement: 'bottom',
+    arrow: true,
+    placement: 'top',
     trigger: 'mouseenter',
     theme: 'dark',
     boundary: 'window',
