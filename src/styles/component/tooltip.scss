@@ -1,13 +1,15 @@
 @mixin component-tooltip {
   .pl-tooltip {
     display: inline-block;
-    height: fit-content;
-    outline: none;
-    overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: hidden;
 
-    &.pl-tooltip-text-show-overflow-tooltip {
+    .pl-tooltip-content {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    &.pl-tooltip-show-overflow-tooltip {
       width: 100%;
     }
   }

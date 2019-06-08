@@ -3,9 +3,9 @@
          :class="{'pl-tooltip-show-overflow-tooltip':showOverflowTooltip}"
          @mouseenter="p_mouseenter"
          @mouseleave="p_mouseleave">
-        <span ref="content" class="pl-tooltip-content">
+        <div ref="content" class="pl-tooltip-content">
             <slot>{{content}}</slot>
-        </span>
+        </div>
     </div>
 </template>
 

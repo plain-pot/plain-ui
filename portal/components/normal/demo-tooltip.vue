@@ -1,6 +1,6 @@
 <template>
     <div class="demo-tooltip">
-        <im-demo-row title="提示内容">
+        <!--<im-demo-row title="提示内容">
             <im-input v-model="input"/>
         </im-demo-row>
         <im-demo-row title="基本用法">
@@ -23,7 +23,7 @@
             <im-button v-im-tooltip="{content:input,trigger:'mouseenter'}" label="mouseenter"/>
             <im-button v-im-tooltip="{content:input,trigger:'manual'}" label="manual"/>
         </im-demo-row>
-        <im-demo-row title="其他更多配置参考Tippy.js"/>
+        <im-demo-row title="其他更多配置参考Tippy.js"/>-->
         <im-demo-row title="tooltip-text组件，超长省略号显示并且鼠标悬浮时tooltip显示">
             <im-demo-row-item title="基本用法">
                 <im-tooltip :content="tooltipText"/>
