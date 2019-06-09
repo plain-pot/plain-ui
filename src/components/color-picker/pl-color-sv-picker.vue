@@ -2,7 +2,7 @@
     <div class="pl-color-sv-picker" :style="styles">
         <div class="pl-color-sv-picker-layer pl-color-sv-picker-white"></div>
         <div class="pl-color-sv-picker-layer pl-color-sv-picker-black"></div>
-        <div class="pl-color-sv-picker-layer pl-color-sv-picker-thumb-panel" @mousedown.stop="mousedown" ref="thumbPanel">
+        <div class="pl-color-sv-picker-layer pl-color-sv-picker-thumb-panel" @mousedown.stop="mousedown" ref="thumbPanel" @dblclick="pl_dblclick">
             <div class="pl-color-sv-picker-thumb-wrapper" :style="thumbWrapperStyles">
                 <div class="pl-color-sv-picker-thumb"></div>
             </div>
@@ -86,6 +86,10 @@
                 this.$emit('update:saturation', this.p_saturation)
                 this.$emit('update:value', 100 - this.p_value)
                 this.$emit('change')
+            },
+            async pl_dblclick() {
+                await this.$plain.nextTick()
+                this.$emit('dblclick')
             },
         }
     }

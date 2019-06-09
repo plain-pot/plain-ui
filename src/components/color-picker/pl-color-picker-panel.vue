@@ -9,7 +9,7 @@
             <div>color:{{color.color}}</div>
             <div>_value:{{color._value}}</div>
         </div>-->
-        <pl-color-sv-picker ref="sv" :hue.sync="color.hue" :saturation.sync="color.saturation" :value.sync="color.value" @change="color.updateByHsv()"/>
+        <pl-color-sv-picker ref="sv" :hue.sync="color.hue" :saturation.sync="color.saturation" :value.sync="color.value" @change="color.updateByHsv()" @dblclick="pl_dblclickSvPicker"/>
         <pl-color-hue-slider ref="hue" v-model="color.hue" @change="color.updateByHsv()"/>
         <pl-color-alpha-slider ref="alpha" :color="color.hex" v-model="color.alpha" v-if="color.enableAlpha" @change="color.updateByAlpha()"/>
         <pl-color-history ref="history" :current="color.color" @select="p_selectHistory"/>
@@ -77,6 +77,10 @@
             },
             p_selectHistory(color) {
                 this.color.updateByString(color)
+            },
+            async pl_dblclickSvPicker() {
+                await this.$plain.nextTick()
+                this.p_confirm()
             },
         }
     }
