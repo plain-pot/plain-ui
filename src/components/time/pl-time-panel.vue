@@ -84,6 +84,9 @@
             },
         },
         methods: {
+            update() {
+                this.$children.forEach(child => child.update())
+            },
             async p_hourInput(val) {
                 await this.$plain.nextTick()
                 if (val >= this.p_max.hour && this.p_max.hour != null) {

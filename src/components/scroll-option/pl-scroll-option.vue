@@ -84,6 +84,9 @@
             },
         },
         methods: {
+            update() {
+                this.p_updateByValue()
+            },
             /**
              * 处理滚轮滚动事件
              * @author  韦胜健

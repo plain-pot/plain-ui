@@ -1,13 +1,15 @@
 <template>
     <div class="pl-time-spin">
-        <pl-scroll-option :data="data"
-                          label-key="val"
-                          value-key="val"
-                          disabled-key="disabled"
-                          :width="width"
-                          :value="p_value"
-                          :shadow="false"
-                          @input="p_input"/>
+        <pl-scroll-option
+                ref="scroll"
+                :data="data"
+                label-key="val"
+                value-key="val"
+                disabled-key="disabled"
+                :width="width"
+                :value="p_value"
+                :shadow="false"
+                @input="p_input"/>
     </div>
 </template>
 
@@ -25,10 +27,10 @@
             max: {},
             min: {},
         },
-        watch:{
-          value(val){
-              this.p_value !== val && (this.p_value = val)
-          },
+        watch: {
+            value(val) {
+                this.p_value !== val && (this.p_value = val)
+            },
         },
         computed: {
             data() {
@@ -45,6 +47,9 @@
             },
         },
         methods: {
+            update() {
+                this.$refs.scroll.update()
+            },
             p_input(val) {
                 this.p_value = val
                 this.$emit('change', val)

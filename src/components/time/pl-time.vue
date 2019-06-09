@@ -13,7 +13,8 @@
                 ref="popper"
                 slot="prepend"
                 v-bind="popperBinding"
-                :reference="!p_mounted?null:$el">
+                :reference="!p_mounted?null:$el"
+                :onOpen="pl_open">
             <pl-time-panel :value="p_value" @input="pl_panelInput" :max="max" :min="min" ref="panel" @clickLabel="p_clickLabel"/>
         </pl-popper>
     </div>
@@ -78,6 +79,9 @@
             pl_panelInput(val) {
                 this.p_value = val
                 this.p_emitValue()
+            },
+            pl_open() {
+                this.$refs.panel.update()
             },
         },
     }
