@@ -4,7 +4,7 @@
             <slot name="left">
                 <template v-if="!hideLeftButton">
                     <pl-icon icon="pad-doubleleft" class="pl-date-header-label" @click="p_pickYear--" hover/>
-                    <pl-icon icon="pad-left" class="pl-date-header-label" @click="p_previousMonth" hover/>
+                    <pl-icon icon="pad-left" class="pl-date-header-label" @click="p_previousMonth" hover v-if="view !== 'year'"/>
                 </template>
             </slot>
         </div>
@@ -21,7 +21,7 @@
         <div class="pl-date-header-right">
             <slot name="right">
                 <template v-if="!hideRightButton">
-                    <pl-icon icon="pad-right" class="pl-date-header-label" @click="p_nextMonth" hover/>
+                    <pl-icon icon="pad-right" class="pl-date-header-label" @click="p_nextMonth" hover v-if="view !== 'year'"/>
                     <pl-icon icon="pad-doubleright" class="pl-date-header-label" @click="p_pickYear++" hover/>
                 </template>
             </slot>
@@ -32,6 +32,7 @@
 <script>
 
     import PlIcon from "../pl-icon";
+
     export default {
         name: "pl-date-header",
         components: {PlIcon},
