@@ -79,8 +79,7 @@
             range: {type: Boolean},
             view: {type: String, default: 'date'},
 
-            placeholder: {type: String, default: '请选择日期时间……'},
-            inputWidth: {type: Number},
+            input: {},
         },
         watch: {
             value(val) {
@@ -182,6 +181,7 @@
             inputBinding() {
                 return Object.assign({
                     inputReadonly: true,
+                    placeholder: '请选择日期...',
                     width: this.inputWidth != null ? this.inputWidth : this.range ? 280 : 200,
                 }, this.simpleBinding, this.input)
             },
