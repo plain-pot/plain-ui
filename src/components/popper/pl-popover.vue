@@ -9,7 +9,7 @@
                @hide="e=>$emit('hide',e)"
 
     >
-        <pl-scroll :scrollbar-size="6" ref="scroll" v-bind="scroll" fit-host-width>
+        <pl-scroll :scrollbar-size="6" ref="scroll" v-bind="scrollBinding">
             <slot></slot>
         </pl-scroll>
     </pl-popper>
@@ -43,6 +43,13 @@
                 return Object.assign({
                     reference: this.reference,
                 }, this.defaultPopper, this.popper)
+            },
+            scrollBinding() {
+                return Object.assign({
+                    scrollX: false,
+                    fitHostWidth: true,
+                    ...(this.scroll || {})
+                })
             },
         },
         methods: {

@@ -11,13 +11,12 @@
 
         <im-demo-row title="测试popper,scroll参数选项">
             <im-button ref="button2" label="toggle" @click="toggle(2)"/>
-            <im-popover ref="popover2" :reference="reference[2]" :popper="{disabledEqual:true,width:200,height:200,}" :scroll="{scrollX:true}">
+            <im-popover ref="popover2" :reference="reference[2]" :popper="{disabledEqual:true,width:200,height:200,}" :scroll="{scrollX:true,fitHostWidth:false}">
                 <div class="demo-popover-box">
                     这里是悬浮框内容
                 </div>
             </im-popover>
         </im-demo-row>
-
 
 
     </div>
