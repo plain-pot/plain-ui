@@ -68,22 +68,16 @@
 
             hoverTime() {
                 if (!this.hoverDate) return null
-                return this.hoverDate.getTime()
+                return this.getTime(this.hoverDate)
             },
             startTime() {
                 if (!this.startDate) return null
                 const date = this.$plain.$utils.deepCopy(this.startDate)
-                date.setHours(0)
-                date.setMinutes(0)
-                date.setSeconds(0)
                 return this.getTime(date)
             },
             endTime() {
                 if (!this.endDate) return null
                 const date = this.$plain.$utils.deepCopy(this.endDate)
-                date.setHours(0)
-                date.setMinutes(0)
-                date.setSeconds(0)
                 return this.getTime(date)
             },
             /*@formatter:on*/
@@ -133,7 +127,7 @@
                 const day = date.getDate()
                 const isToday = (year === this.nowYear) && (month === this.nowMonth) && (day === this.nowDay)
                 const time = this.getTime(date)
-                return {
+                const ret = {
                     year,
                     month,
                     day,
@@ -145,6 +139,7 @@
                     isOtherMonth: month !== this.selectMonth,
                     active: this.isThatDate(this.currentDate, {year, month, day}) || this.isThatDate(this.startDate, {year, month, day}) || this.isThatDate(this.endDate, {year, month, day}),
                 }
+                return ret
             },
             /*
              *  判断是否为当天

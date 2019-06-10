@@ -2,7 +2,7 @@ $dateItemSize: 32px;
 $dateBorderRadius: 4px;
 $dateInnerItemSize: 26px;
 
-@mixin component-date{
+@mixin component-date {
   .pl-date {
     @include public-style;
     display: inline-block;
@@ -10,6 +10,7 @@ $dateInnerItemSize: 26px;
 
   .pl-date-popper {
     padding: 0 8px 0px 8px;
+
     .pl-date-time {
       font-size: 12px;
       color: plVar(colorPrimary);
@@ -35,15 +36,19 @@ $dateInnerItemSize: 26px;
       justify-content: center;
       cursor: pointer;
       margin-bottom: 6px;
+
       &.pl-date-day-panel-item-wrapper-title {
         color: plVar(colorContent);
       }
+
       .pl-date-day-panel-item {
         height: $dateInnerItemSize;
         width: 100%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        font-weight: bold;
+
         .pl-date-day-panel-item-inner {
           height: $dateInnerItemSize;
           width: $dateInnerItemSize;
@@ -51,10 +56,12 @@ $dateInnerItemSize: 26px;
           align-items: center;
           justify-content: center;
           border-radius: $dateBorderRadius;
+
           .pl-date-day-panel-item-label {
             transform: scale(0.9);
           }
         }
+
         &.pl-date-day-panel-item-today {
           .pl-date-day-panel-item-inner {
             background-color: plVar(colorSuccess);
@@ -62,25 +69,32 @@ $dateInnerItemSize: 26px;
             color: white;
           }
         }
+
         &.pl-date-day-panel-item-other-month {
           color: plVar(colorDisabled);
+          font-weight: normal;
         }
-        &:hover {
+
+        &:hover:not(.pl-date-day-panel-item-disabled) {
           .pl-date-day-panel-item-inner {
             background-color: plVar(colorPrimaryLighter);
             color: plVar(colorContentSub);
           }
         }
-        &.pl-date-day-panel-item-light {
+
+        &.pl-date-day-panel-item-light:not(.pl-date-day-panel-item-disabled) {
           background-color: plVar(colorPrimaryLighter);
         }
+
         &.pl-date-day-panel-item-disabled {
+          cursor: not-allowed;
           .pl-date-day-panel-item-inner {
-            background-color: plVar(colorErrorLighter);
+            color: plVar(colorErrorLight);
             border-radius: $dateBorderRadius;
-            color: white;
+            font-weight: normal;
           }
         }
+
         &.pl-date-day-panel-item-active {
           .pl-date-day-panel-item-inner {
             background-color: plVar(colorPrimary);
@@ -99,21 +113,25 @@ $dateInnerItemSize: 26px;
     display: flex;
     flex-direction: row;
     user-select: none;
+
     .pl-date-header-left, .pl-date-header-right {
       flex: 1;
       padding: 0 6px;
       box-sizing: border-box;
       font-size: 12px;
     }
+
     .pl-date-header-center {
       .pl-date-header-label {
         padding: 4px 9px;
+
         &:hover {
           border-radius: 4px;
           background-color: plVar(colorPrimaryLighter);
         }
       }
     }
+
     .pl-date-header-left, .pl-date-header-center, .pl-date-header-right {
       height: 100%;
       display: flex;
@@ -121,18 +139,22 @@ $dateInnerItemSize: 26px;
       justify-content: center;
       color: plVar(colorContent);
       cursor: pointer;
+
       .pl-date-header-label {
         &:not(:last-child) {
           margin-right: 3px;
         }
+
         &:hover {
           color: plVar(colorPrimary);
         }
       }
     }
+
     .pl-date-header-left {
       justify-content: flex-start;
     }
+
     .pl-date-header-right {
       justify-content: flex-end;
     }
@@ -143,15 +165,18 @@ $dateInnerItemSize: 26px;
     width: 100%;
     height: 100%;
     padding: 9px;
+
     .pl-date-month-panel-content-wrapper {
       width: 100%;
       height: 100%;
+
       .pl-date-month-panel-item-wrapper {
         display: inline-flex;
         width: 33.33%;
         height: 55px;
         align-items: center;
         justify-content: center;
+
         .pl-date-month-panel-item {
           border-radius: 4px;
           cursor: pointer;
@@ -161,17 +186,21 @@ $dateInnerItemSize: 26px;
           display: flex;
           align-items: center;
           justify-content: center;
+
           &:hover, &.pl-date-month-panel-item-pick-month {
             background-color: plVar(colorPrimaryLighter);
           }
+
           &.pl-date-month-panel-item-now {
             background-color: plVar(colorSuccess);
             color: white;
           }
+
           &.pl-date-month-panel-item-active {
             background-color: plVar(colorPrimary);
             color: white;
           }
+
           &.pl-date-month-panel-item-disabled {
             background-color: plVar(colorErrorLighter);
           }
@@ -184,6 +213,7 @@ $dateInnerItemSize: 26px;
     @include public-style;
     width: 196px;
     display: inline-block;
+
     .pl-date-panel-body {
       width: $dateItemSize*7+16px;
       height: $dateItemSize*7+6*6;
@@ -193,6 +223,7 @@ $dateInnerItemSize: 26px;
   .pl-date-range-panel {
     display: inline-flex;
     align-items: center;
+
     .pl-date-range-panel-left {
       margin-right: 12px;
     }
@@ -203,8 +234,10 @@ $dateInnerItemSize: 26px;
     width: 100%;
     height: 100%;
     padding: 9px;
+
     .pl-date-year-panel-content {
       width: 100%;
+
       .pl-date-year-panel-item-wrapper {
         display: inline-flex;
         width: 33.33%;
@@ -212,21 +245,26 @@ $dateInnerItemSize: 26px;
         justify-content: center;
         height: 44px;
         font-size: 12px;
+
         .pl-date-year-panel-item {
           padding: 4px 9px;
           cursor: pointer;
           border-radius: 4px;
+
           &:hover, &.pl-date-year-panel-item-pick-year {
             background-color: plVar(colorPrimaryLighter);
           }
+
           &.pl-date-year-panel-item-now {
             background-color: plVar(colorSuccess);
             color: white;
           }
+
           &.pl-date-year-panel-item-active {
             background-color: plVar(colorPrimary);
             color: white;
           }
+
           &.pl-date-year-panel-item-disabled {
             background-color: plVar(colorErrorLighter);
           }

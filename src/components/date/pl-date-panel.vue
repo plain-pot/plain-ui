@@ -112,18 +112,10 @@
                 */
             p_getTime(date) {
                 if (!date) return null
-                /*
-                    遇到很奇怪的bug， 下面这段代码不能使用这种顺序
-                    this.tempDate.setFullYear(date.getFullYear())
-                    this.tempDate.setMonth(date.getMonth())
-                    this.tempDate.setDate(date.getDate())
-                    否则在计算到4月1号的时候，会变成5月一号
-                */
-                this.tempDate.setDate(date.getDate())
-                this.tempDate.setMonth(date.getMonth())
-                this.tempDate.setFullYear(date.getFullYear())
-                // console.log(this.tempDate.getFullYear(), this.tempDate.getMonth(), this.tempDate.getDate(), this.tempDate.getTime())
-                return this.tempDate.getTime()
+                const year = date.getFullYear()
+                const month = date.getMonth()
+                const day = date.getDate()
+                return `${this.$plain.$utils.zeroize(year)}${this.$plain.$utils.zeroize(month)}${this.$plain.$utils.zeroize(day)}` - 0
             },
         },
     }

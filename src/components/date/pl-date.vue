@@ -17,6 +17,7 @@
                     :reference="!p_mounted?null:$refs.input">
                 <div class="pl-date-popper">
                     <pl-date-range-panel
+                            ref="panel"
                             v-if="range"
                             :start.sync="p_start"
                             :end.sync="p_end"
@@ -31,6 +32,7 @@
 
                             @close="p_close"/>
                     <pl-date-single-panel
+                            ref="panel"
                             v-else
                             :value="p_value"
 
@@ -118,6 +120,8 @@
                             })
                         })
                     })
+                } else {
+                    this.$nextTick(() => !!this.$refs.panel && this.$refs.panel.p_reset())
                 }
             },
         },
@@ -133,7 +137,6 @@
                 nowYear: nowDate.getFullYear(),
                 nowMonth: nowDate.getMonth(),
                 nowDay: nowDate.getDate(),
-                timeEls: [],
             }
         },
         computed: {
@@ -283,3 +286,6 @@
         }
     }
 </script>
+
+<style lang="scss">
+</style>
