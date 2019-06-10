@@ -54,7 +54,7 @@
             },
         },
         mounted() {
-            this.p_group = this.$plain.$dom.findComponentUpward(this, 'pl-collapse-p_group');
+            this.p_group = this.$plain.$dom.findComponentUpward(this, 'pl-collapse-group');
             if (!!this.p_group) this.p_group.p_add(this)
         },
         beforeDestroy() {
