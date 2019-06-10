@@ -8,7 +8,8 @@
             </div>
         </div>
         <pl-collapse-transition v-if="p_initialized">
-            <div v-show="p_open">
+            <div v-show="p_open" class="pl-tree-node-body">
+                <div class="pl-tree-node-line"></div>
                 <div class="pl-tree-node-wrapper" v-if="!!data[childrenKey] && data[childrenKey].length>0">
                     <pl-tree-node v-for="(item,index) in data[childrenKey]"
                                   ref="nodes"
@@ -51,7 +52,7 @@
 
     export default {
         name: "pl-tree-node",
-        components: {PlIcon, PlRadio, PlCheckAll, PlCollapseTransition, },
+        components: {PlIcon, PlRadio, PlCheckAll, PlCollapseTransition,},
         mixins: [TreeMixin],
         props: {
             data: {type: Object, default: () => ({})},
@@ -221,3 +222,6 @@
         },
     }
 </script>
+
+<style lang="scss">
+</style>
