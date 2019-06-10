@@ -24,6 +24,7 @@
       position: relative;
       background-color: white;
       box-shadow: 0 2px 12px 0 rgba(white, .5);
+      overflow: hidden;
 
       @include transition-all;
 
@@ -39,6 +40,7 @@
         height: $head-height;
         font-weight: bold;
         box-sizing: border-box;
+        background-color: #f2f2f2;
 
         .pl-dialog-type-icon {
           margin-right: plVar(padding)/2;
@@ -48,7 +50,8 @@
           .pl-icon {
             @include transition-all;
             cursor: pointer;
-          color: plVar(colorSuccess);
+            color: plVar(colorSuccess);
+
             &:hover {
               transform: scale(1.3);
             }
@@ -56,7 +59,8 @@
             &:not(:first-child) {
               margin-left: 0.5em;
             }
-            &.pl-dialog-close-icon{
+
+            &.pl-dialog-close-icon {
               color: plVar(colorError);
             }
           }
@@ -71,7 +75,8 @@
       .pl-dialog-foot {
         justify-content: flex-end;
         box-sizing: border-box;
-        padding-bottom: 12px;
+        height: 40px;
+        border-top: solid 1px plVar(colorBorder);
 
         .pl-button {
           margin-left: 12px;

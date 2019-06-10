@@ -21,12 +21,29 @@
         components: {PlTextarea, PlInput, PlRenderFunc, PlDialog},
         mixins: [ValueMixin],
         data() {
-            const defaultOption = {
+
+            const defaultProps = Object.keys(PlDialog.props).reduce((ret, key) => {
+                const prop = PlDialog.props[key]
+                if (!!prop.default) {
+                    ret[key] = this.$plain.$utils.typeOf(prop.default) === 'function' ? prop.default() : prop.default
+                } else {
+                    ret[key] = null
+                }
+                return ret
+            }, {})
+
+            Object.assign(defaultProps, {
+                message: null,
+                editType: null,
                 editReadonly: false,
-            }
+                render: null,
+                onConfirm: null,
+                onCancel: null,
+            })
+
             return {
-                defaultOption,
-                option: this.$plain.$utils.deepCopy(defaultOption),
+                defaultProps,
+                option: this.$plain.$utils.deepCopy(defaultProps),
             }
         },
         methods: {
@@ -40,7 +57,7 @@
                         option = message
                         break;
                 }
-                Object.assign(this.option, this.defaultOption, option)
+                Object.assign(this.option, this.defaultProps, option)
                 this.p_value = true
             },
             pl_confirm() {
