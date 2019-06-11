@@ -21,3 +21,4 @@ yarn-error.log*
 *.sw?
 
 *.iml
+package-lock.json
