@@ -1,41 +1,41 @@
-@mixin component-step{
-  $titleHeight: 30px;
+$step-size: (
+        default:(
+                titleHeight:30px,
+                titleFontSize:15px,
+                contentFontSize:13px,
+                largePadding:16px,
+                smallPadding:8px,
+                iconFontSize:22px,
+                numberSize:24px,
+        ),
+        mini:(
+                titleHeight:20px,
+                titleFontSize:14px,
+                contentFontSize:12px,
+                largePadding:8px,
+                smallPadding:4px,
+                iconFontSize:14px,
+                numberSize:16px,
+        ),
+);
 
-  $step-size: (
-          default:(
-                  titleHeight:30px,
-                  titleFontSize:15px,
-                  contentFontSize:13px,
-                  largePadding:16px,
-                  smallPadding:8px,
-                  iconFontSize:22px,
-                  numberSize:24px,
-          ),
-          mini:(
-                  titleHeight:20px,
-                  titleFontSize:14px,
-                  contentFontSize:12px,
-                  largePadding:8px,
-                  smallPadding:4px,
-                  iconFontSize:14px,
-                  numberSize:16px,
-          ),
-  );
-
-  @mixin stepSize {
-    @each $key, $map in $step-size {
-      &.pl-step-size-#{$key} {
-        $titleHeight: map_get($map, titleHeight) !global;
-        $titleFontSize: map_get($map, titleFontSize) !global;
-        $contentFontSize: map_get($map, contentFontSize) !global;
-        $largePadding: map_get($map, largePadding) !global;
-        $smallPadding: map_get($map, smallPadding) !global;
-        $iconFontSize: map_get($map, iconFontSize) !global;
-        $numberSize: map_get($map, numberSize) !global;
-        @content;
-      }
+@mixin stepSize {
+  @each $key, $map in $step-size {
+    &.pl-step-size-#{$key} {
+      $titleHeight: map_get($map, titleHeight) !global;
+      $titleFontSize: map_get($map, titleFontSize) !global;
+      $contentFontSize: map_get($map, contentFontSize) !global;
+      $largePadding: map_get($map, largePadding) !global;
+      $smallPadding: map_get($map, smallPadding) !global;
+      $iconFontSize: map_get($map, iconFontSize) !global;
+      $numberSize: map_get($map, numberSize) !global;
+      @content;
     }
   }
+}
+
+@mixin component-step {
+  $titleHeight: 30px;
 
   @include themeWrap {
     .pl-step-container {
