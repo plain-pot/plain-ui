@@ -1,3 +1,4 @@
+@import "./transition";
 @import "./component/icon";
 @import "./component/scroll";
 @import "./component/nav-tab";
@@ -41,6 +42,8 @@
 
 
 @mixin component-mixin {
+  @include mixin-transition;
+
   @include component-icon;
   @include component-scroll;
   @include component-nav-tab;
