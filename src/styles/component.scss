@@ -36,6 +36,8 @@
 @import "./component/pagination";
 @import "./component/nav";
 @import "./component/dropdown";
+@import "./component/step";
+@import "./component/popper";
 
 
 @mixin component-mixin {
@@ -77,6 +79,8 @@
   @include component-pagination;
   @include component-nav;
   @include component-dropdown;
+  @include component-popper;
+  @include component-step;
 
 
 }
