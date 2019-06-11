@@ -56,7 +56,7 @@
                             {title: 'Color颜色', icon: 'pl-color', page: '/normal/demo-color', complete: true},
                             {title: 'Icon图标', icon: 'pad-font-colors', page: '/normal/demo-icon', complete: true},
                             {title: 'Button按钮', icon: 'pad-play-circle', page: '/normal/demo-button', complete: true},
-                            {title: 'Layout布局', icon: 'pad-play-circle', page: '/normal/demo-layout', complete: true},
+                            {title: 'Grid栅格', icon: 'pad-play-circle', page: '/normal/demo-grid', complete: true},
                         ],
                     },
                     {
