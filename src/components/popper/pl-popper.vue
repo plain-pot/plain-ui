@@ -45,6 +45,7 @@
             disabledHideOnClickOutside: {type: Boolean},                            //禁用点击外部的时候关闭
             relate: {type: Array, default: () => []},                               //点击外部元素的时候，relate中数组的元素不会触发关闭动作
             zIndex: {type: Number, default: 9999},                                  //基础zIndex
+            cls: {type: String},                                                    //样式
 
             onOpen: {type: Function},                                               //打开动画结束之后的动作
             onClose: {type: Function},                                              //关闭动画结束之后的动作
@@ -88,6 +89,7 @@
                 return [
                     {
                         'pl-popper-arrow': !!this.arrow,
+                        [this.cls]: !!this.cls,
                     },
                     `pl-popper-${this.p_direction}-${this.p_align}`,
                 ]

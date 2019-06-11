@@ -1,5 +1,5 @@
 <template>
-    <pl-popover ref="popover" @show="pl_open" @close="pl_close" v-bind="popoverBinding" :reference="option.reference" class="pl-select-service">
+    <pl-popover ref="popover" @show="pl_open" @close="pl_close" v-bind="popoverBinding" :reference="option.reference" class="pl-select-service" :popper="{cls:'pl-select-service-popper'}">
         <div class="pl-select-service">
             <pl-render-func v-if="option.content" :render-func="option.content"/>
             <div v-else
@@ -51,7 +51,7 @@
             return {
                 popover: null,
                 p_show: false,
-                hoverIndex: 0,
+                hoverIndex: null,
 
                 option: {...defaultOption},
                 watchData: null,
@@ -103,7 +103,7 @@
         methods: {
             async select(option) {
                 return new Promise(async rs => {
-                    this.hoverIndex = 0
+                    this.hoverIndex = null
                     this.option = Object.assign({}, defaultOption, option)
                     this.watchData = option.watchData
                     await this.$plain.nextTick()
@@ -118,6 +118,10 @@
                 this.pl_click(this.option.data[this.hoverIndex])
             },
             next() {
+                if (this.hoverIndex == null) {
+                    this.hoverIndex = 0
+                    return
+                }
                 if (this.hoverIndex < (this.option.data.length - 1)) {
                     this.hoverIndex++
                     const item = this.$refs.items[this.hoverIndex]
@@ -132,6 +136,10 @@
                 }
             },
             prev() {
+                if (this.hoverIndex == null) {
+                    this.hoverIndex = 0
+                    return
+                }
                 if (this.hoverIndex > 0) {
                     this.hoverIndex--
                     const item = this.$refs.items[this.hoverIndex]
@@ -177,5 +185,91 @@
 </script>
 
 <style lang="scss">
+    @include themeWrap {
+        .pl-icon .pl-input-icon {
+            @include transition-all-cubic-bezier;
+            transform: rotate(0);
+        }
+        .pl-select {
+            .pl-input-icon, .pl-tag-input-icon {
+                transform: scale(0.8);
+            }
 
+            &.pl-select-open {
+                .pl-input-icon, .pl-tag-input-icon {
+                    transform: scale(0.8) rotate(180deg);
+                }
+            }
+        }
+
+        .pl-select-item {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .pl-icon {
+                vertical-align: text-bottom;
+                margin-right: 0.5em;
+            }
+
+            &.pl-select-item-checked {
+                background-color: plVar(colorPrimary) !important;
+                color: white !important;
+            }
+
+            .pl-select-item-content {
+                flex: 1;
+                line-height: 15px;
+
+                .pl-scope-slot, .pl-render-func {
+                    display: block;
+                    flex: 1;
+                }
+            }
+        }
+
+        .pl-select-service-popper {
+            overflow: hidden;
+
+            .pl-select-service {
+                box-sizing: border-box;
+                border-radius: plVar(borderFillet);
+                overflow: hidden;
+
+                .pl-select-service-item {
+                    font-size: 12px;
+
+                    .pl-select-service-item-inner {
+                        display: block;
+
+                        .pl-select-service-item-inner-content {
+                            display: flex;
+                            align-items: center;
+
+                            .pl-icon {
+                                margin-right: 6px;
+                            }
+                        }
+
+                        & > div {
+                            padding: 12px 6px;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    &:hover, &.pl-select-service-item-inner-hover {
+                        .pl-select-service-item-inner {
+                            & > div {
+                                background-color: plVar(colorPrimaryLight);
+                                cursor: pointer;
+                                color: plVar(colorTitle);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 </style>
