@@ -37,8 +37,8 @@
   }
 }
 
-@mixin plUseTheme($theme:()) {
-  @include plThemeGenerator($theme, false) {
+@mixin plUseTheme($theme:(),$appendDefaultTheme:true) {
+  @include plThemeGenerator($theme, $appendDefaultTheme) {
     @include component-mixin;
     @content;
   }

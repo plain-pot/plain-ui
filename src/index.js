@@ -1,8 +1,10 @@
-import './styles/index.scss'
 import {getComponents} from './components/index'
 import {getDirectives} from "./scripts/directives";
-
 import Service from './scripts/service'
+
+/*这里import这个index.scss，实际上应用中还是需要import打包生成的css文件，如果应用中通过global实现自定义主题，则不需要使用再次import css文件*/
+import './styles/index.scss'
+
 
 const Plain = {
     Vue: null,
