@@ -37,146 +37,142 @@ $step-size: (
 @mixin component-step {
   $titleHeight: 30px;
 
-  @include themeWrap {
-    .pl-step-container {
+  .pl-step-container {
+    @include stepSize {
+      &.pl-step-container-horizontal {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
 
-      @include stepSize {
-        &.pl-step-container-horizontal {
-          width: 100%;
-          display: flex;
-          align-items: flex-start;
-
-          .pl-step {
-            flex: 1;
-            display: flex;
-            color: plVar(colorContentSub);
-          }
-        }
-
-        &.pl-step-container-vertical {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-
-          &.pl-step-container-reverse {
-            flex-direction: column-reverse;
-          }
-
-          .pl-step {
-            width: 100%;
-            display: flex;
-
-            .pl-step-icon-wrapper {
-              display: flex;
-              flex-direction: column;
-              align-items: stretch;
-
-              .pl-step-title-line {
-                flex: 1;
-                width: 1px;
-                background-color: plVar(colorContentSub);
-                align-self: center;
-              }
-            }
-
-            .pl-step-body {
-              padding-bottom: $smallPadding;
-            }
-          }
-        }
-
-        .pl-step-body {
+        .pl-step {
           flex: 1;
+          display: flex;
+          color: plVar(colorContentSub);
+        }
+      }
 
-          .pl-step-title-wrapper {
-            font-weight: bold;
-            font-size: 14px;
+      &.pl-step-container-vertical {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        &.pl-step-container-reverse {
+          flex-direction: column-reverse;
+        }
+
+        .pl-step {
+          width: 100%;
+          display: flex;
+
+          .pl-step-icon-wrapper {
             display: flex;
-            align-items: center;
-            padding-right: $largePadding;
-            padding-bottom: $smallPadding;
-            height: $titleHeight;
+            flex-direction: column;
+            align-items: stretch;
 
             .pl-step-title-line {
-              height: 1px;
               flex: 1;
+              width: 1px;
               background-color: plVar(colorContentSub);
+              align-self: center;
             }
           }
 
-          .pl-step-title, .pl-step-content {
-            padding: 0 $largePadding;
-            box-sizing: border-box;
-            letter-spacing: 1px;
-            color: inherit;
-          }
-
-          .pl-step-content {
-            font-size: $contentFontSize;
+          .pl-step-body {
+            padding-bottom: $smallPadding;
           }
         }
+      }
 
-        .pl-step-icon-content {
+      .pl-step-body {
+        flex: 1;
+
+        .pl-step-title-wrapper {
+          font-weight: bold;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          padding-right: $largePadding;
+          padding-bottom: $smallPadding;
           height: $titleHeight;
-          width: $titleHeight;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: inherit;
 
-          .pl-icon {
-            font-size: $iconFontSize;
+          .pl-step-title-line {
+            height: 1px;
+            flex: 1;
+            background-color: plVar(colorContentSub);
           }
         }
 
-        .pl-step-number {
-          height: $numberSize;
-          width: $numberSize;
-          border-radius: $numberSize;
-          border: solid 1px plVar(colorContentSub);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        .pl-step-title, .pl-step-content {
+          padding: 0 $largePadding;
+          box-sizing: border-box;
+          letter-spacing: 1px;
           color: inherit;
         }
-      }
 
-      .pl-step.pl-step-active {
-        color: plVar(colorPrimaryDeep) !important;
-
-        .pl-step-number {
-          border-color: plVar(colorPrimaryDeep) !important;;
-        }
-
-        .pl-step-title-line {
-          background-color: plVar(colorPrimaryDeep) !important;;
+        .pl-step-content {
+          font-size: $contentFontSize;
         }
       }
 
-      .pl-step.pl-step-complete, .pl-step.pl-step-status-success {
-        color: plVar(colorSuccessDeep) !important;;
+      .pl-step-icon-content {
+        height: $titleHeight;
+        width: $titleHeight;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: inherit;
 
-        .pl-step-number {
-          border-color: plVar(colorSuccessDeep) !important;;
-        }
-
-        .pl-step-title-line {
-          background-color: plVar(colorSuccessDeep) !important;;
-        }
-      }
-
-      .pl-step.pl-step-status-error {
-        color: plVar(colorErrorDeep) !important;;
-
-        .pl-step-number {
-          border-color: plVar(colorErrorDeep) !important;;
-        }
-
-        .pl-step-title-line {
-          background-color: plVar(colorErrorDeep) !important;;
+        .pl-icon {
+          font-size: $iconFontSize;
         }
       }
 
+      .pl-step-number {
+        height: $numberSize;
+        width: $numberSize;
+        border-radius: $numberSize;
+        border: solid 1px plVar(colorContentSub);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: inherit;
+      }
+    }
+
+    .pl-step.pl-step-active {
+      color: plVar(colorPrimaryDeep) !important;
+
+      .pl-step-number {
+        border-color: plVar(colorPrimaryDeep) !important;;
+      }
+
+      .pl-step-title-line {
+        background-color: plVar(colorPrimaryDeep) !important;;
+      }
+    }
+
+    .pl-step.pl-step-complete, .pl-step.pl-step-status-success {
+      color: plVar(colorSuccessDeep) !important;;
+
+      .pl-step-number {
+        border-color: plVar(colorSuccessDeep) !important;;
+      }
+
+      .pl-step-title-line {
+        background-color: plVar(colorSuccessDeep) !important;;
+      }
+    }
+
+    .pl-step.pl-step-status-error {
+      color: plVar(colorErrorDeep) !important;;
+
+      .pl-step-number {
+        border-color: plVar(colorErrorDeep) !important;;
+      }
+
+      .pl-step-title-line {
+        background-color: plVar(colorErrorDeep) !important;;
+      }
     }
   }
 }
