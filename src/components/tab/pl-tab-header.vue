@@ -14,7 +14,7 @@
                  @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
                 <div class="pl-tab-header-item-content">
                     <div class="pl-tab-header-item-text">
-                        <pl-tooltip-text :content="item" show-overflow-tooltip/>
+                        <pl-tooltip :content="item" show-overflow-tooltip/>
                     </div>
                     <div class="pl-tab-header-item-close" @click.stop="p_close(item,index)" v-if="clearIcon">
                         <pl-icon icon="pad-close" hover/>
@@ -30,11 +30,11 @@
     import PlIcon from "../pl-icon";
     import PlList from "../list/pl-list";
     import PlItem from "../list/pl-item";
-    import PlTooltipText from "../pl-tooltip-text";
+    import PlTooltip from "../tooltip/pl-tooltip";
 
     export default {
         name: "pl-tab-header",
-        components: {PlTooltipText, PlItem, PlList, PlIcon,},
+        components: {PlTooltip, PlItem, PlList, PlIcon,},
         mixins: [ValueMixin],
         props: {
             value: {type: Number, default: 0},

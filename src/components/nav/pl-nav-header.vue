@@ -8,7 +8,7 @@
              @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)"
              :key="item[valueKey]">
             <div class="pl-nav-header-item-content">
-                <pl-tooltip-text show-overflow-tooltip :content="item[labelKey]"/>
+                <pl-tooltip show-overflow-tooltip :content="item[labelKey]"/>
                 <div class="pl-nav-header-item-close" @click.stop="$emit('close',{item,index})">
                     <pl-icon :icon="index === p_value?'pad-close-circle-fill':'pad-close'" hover class="pl-nav-header-close-icon"/>
                 </div>
@@ -20,11 +20,11 @@
 <script>
     import {ValueMixin} from "../../mixin/component-mixin";
     import PlIcon from "../pl-icon";
-    import PlTooltipText from "../pl-tooltip-text";
+    import PlTooltip from "../tooltip/pl-tooltip";
 
     export default {
         name: "pl-nav-header",
-        components: {PlTooltipText, PlIcon},
+        components: {PlTooltip, PlIcon},
         mixins: [ValueMixin],
         props: {
             list: {type: Array, default: () => []},
