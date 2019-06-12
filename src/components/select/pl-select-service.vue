@@ -1,5 +1,5 @@
 <template>
-    <pl-popover ref="popover" @show="pl_open" @close="pl_close" v-bind="popoverBinding" :reference="option.reference" class="pl-select-service" :popper="{cls:'pl-select-service-popper'}">
+    <pl-popover ref="popover" @show="pl_open" @close="pl_close" v-bind="popoverBinding" :reference="option.reference" class="pl-select-service">
         <div class="pl-select-service">
             <pl-render-func v-if="option.content" :render-func="option.content"/>
             <div v-else
@@ -32,6 +32,7 @@
     const defaultOption = {
         reference: null,
         data: [],
+        popper: null,
         popover: null,
         labelKey: null,
         valueKey: null,
@@ -80,8 +81,11 @@
         computed: {
             popoverBinding() {
                 return {
-                    popper: this.option.popper,
                     popover: this.option.popover,
+                    popper: {
+                        ...(this.option.popper || {}),
+                        cls: 'pl-select-service-popper',
+                    }
                 }
             },
         },
