@@ -160,7 +160,8 @@
              * @author  韦胜健
              * @date    2019/3/8 09:44
              */
-            p_reset() {
+            async p_reset() {
+                await this.$plain.nextTick()
                 this.p_startData = this.decodeDateString(this.p_start)
                 this.p_endData = this.decodeDateString(this.p_end)
                 if (this.p_startData.month === 11) {
@@ -193,6 +194,7 @@
                     this.p_emitVal()
                     await this.$plain.nextTick()
                     this.$emit('close')
+                    this.$emit('change')
                     return
                 }
                 this.p_startData.date = newDate

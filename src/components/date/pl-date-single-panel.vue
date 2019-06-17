@@ -137,6 +137,7 @@
 
                 this.p_value = this.$plain.$utils.dateFormat(newDate, this.valueFormat)
                 this.$emit('close')
+                this.$emit('change')
             },
             p_timeChange(timeString) {
                 const timeDate = this.$plain.$utils.dateParse(timeString, 'HH:mm:ss')

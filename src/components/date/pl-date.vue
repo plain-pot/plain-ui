@@ -30,7 +30,8 @@
                             :datetime="datetime"
                             :decode-date-string="p_decodeDateString"
 
-                            @close="p_close"/>
+                            @close="p_close"
+                            @change="pl_change"/>
                     <pl-date-single-panel
                             ref="panel"
                             v-else
@@ -48,7 +49,8 @@
                             :decode-date-string="p_decodeDateString"
 
                             @input="p_valueChange"
-                            @close="p_close"/>
+                            @close="p_close"
+                            @change="pl_change"/>
                 </div>
             </pl-popper>
         </pl-input>
@@ -218,6 +220,7 @@
                 this.p_start = null
                 this.p_end = null
                 this.p_show = false
+                this.$nextTick(() => this.$emit('change', this.range ? {start: this.p_start, end: this.p_end} : this.p_value))
             },
             p_decodeDateString(str) {
                 const ret = {
@@ -282,6 +285,9 @@
                 }
 
                 return ret
+            },
+            pl_change(){
+                this.$nextTick(() => this.$emit('change', this.range ? {start: this.p_start, end: this.p_end} : this.p_value))
             },
         }
     }
