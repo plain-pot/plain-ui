@@ -88,6 +88,7 @@ $dateInnerItemSize: 26px;
 
         &.pl-date-day-panel-item-disabled {
           cursor: not-allowed;
+
           .pl-date-day-panel-item-inner {
             color: plVar(colorErrorLight);
             border-radius: $dateBorderRadius;
@@ -202,7 +203,9 @@ $dateInnerItemSize: 26px;
           }
 
           &.pl-date-month-panel-item-disabled {
-            background-color: plVar(colorErrorLighter);
+            color: plVar(colorError);
+            background-color: white;
+            cursor: not-allowed
           }
         }
       }
@@ -266,7 +269,9 @@ $dateInnerItemSize: 26px;
           }
 
           &.pl-date-year-panel-item-disabled {
-            background-color: plVar(colorErrorLighter);
+            color: plVar(colorError);
+            background-color: white;
+            cursor: not-allowed;
           }
         }
       }
