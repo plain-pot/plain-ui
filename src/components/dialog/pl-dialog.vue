@@ -20,9 +20,9 @@
                         </div>
                         <div class="pl-dialog-head-operator">
                             <!--<pl-icon icon="pl-minimize"/>-->
-                            <pl-icon icon="pad-plus-circle-fill" v-show="!p_isFull && !!max" @click="p_isFull=true"/>
-                            <pl-icon icon="pad-minus-circle-fill" v-show="!!p_isFull && !!max" @click="p_isFull=false"/>
-                            <pl-icon icon="pad-close-circle-fill" @click="hide" class="pl-dialog-close-icon" v-if="!noClose" hover/>
+                            <pl-icon icon="pad-plus" v-show="!p_isFull && !!max" @click="p_isFull=true"/>
+                            <pl-icon icon="pad-minus" v-show="!!p_isFull && !!max" @click="p_isFull=false"/>
+                            <pl-icon icon="pad-close" @click="hide" class="pl-dialog-close-icon" v-if="!noClose" hover/>
                         </div>
                     </div>
                     <div class="pl-dialog-body" :style="bodyStyles">
