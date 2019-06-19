@@ -38,7 +38,7 @@
       padding: 6px 6px;
       cursor: pointer;
 
-      .pl-cascade-option-item-label{
+      .pl-cascade-option-item-label {
         flex: 1;
       }
 
@@ -49,6 +49,7 @@
 
       &:hover, &.pl-cascade-option-item-active {
         background-color: plVar(colorPrimaryLighter);
+        color: plVar(colorPrimary);
       }
 
       &.pl-cascade-option-item-disabled {

@@ -169,7 +169,7 @@
 
                 &.app-menu-item-active, &:hover {
                     background-color: plVar(colorPrimaryLighter);
-                    color: plVar(colorTitle);
+                    color: plVar(colorPrimary);
                 }
             }
 

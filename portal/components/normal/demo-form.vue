@@ -123,7 +123,7 @@
                         </im-radio-group>
                     </im-form-item>
                     <im-form-item label="开关">
-                        <im-toggle/>
+                        <im-toggle :value="true"/>
                     </im-form-item>
 
 

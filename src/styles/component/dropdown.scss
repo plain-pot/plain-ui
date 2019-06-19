@@ -14,19 +14,17 @@
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    padding: 3px 3px;
 
     .pl-dropdown-item {
       .pl-dropdown-item-content {
         padding: 6px 6px;
         font-size: 12px;
         color: plVar(colorContent);
-        border-radius: plVar(borderFillet);
 
         &:hover {
           cursor: pointer;
           background-color: plVar(colorPrimaryLighter);
-          color: plVar(colorPrimaryDeep);
+          color: plVar(colorPrimary);
         }
 
         .pl-dropdown-item-icon {

@@ -78,12 +78,13 @@ $dateInnerItemSize: 26px;
         &:hover:not(.pl-date-day-panel-item-disabled) {
           .pl-date-day-panel-item-inner {
             background-color: plVar(colorPrimaryLighter);
-            color: plVar(colorContentSub);
+            color: plVar(colorPrimary);
           }
         }
 
         &.pl-date-day-panel-item-light:not(.pl-date-day-panel-item-disabled) {
           background-color: plVar(colorPrimaryLighter);
+          color: plVar(colorPrimary);
         }
 
         &.pl-date-day-panel-item-disabled {
