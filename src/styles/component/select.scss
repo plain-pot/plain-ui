@@ -29,6 +29,10 @@
     &.pl-select-item-checked {
       background-color: plVar(colorPrimary) !important;
       color: white !important;
+
+      .pl-select-check-icon {
+        color: plVar(colorPrimaryDeep) !important;
+      }
     }
 
     .pl-select-item-content {
@@ -65,7 +69,7 @@
           }
 
           & > div {
-            padding: 12px 6px;
+            padding: 6px;
             box-sizing: border-box;
           }
         }

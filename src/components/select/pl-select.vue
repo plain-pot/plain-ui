@@ -158,7 +158,7 @@
 
                 return (
                     <div class={cls}>
-                        {!!this.multiple && <pl-icon icon={isChecked ? 'pad-check-square-fill' : 'pl-square-light'}/>}
+                        {!!this.multiple && <pl-icon icon={isChecked ? 'pad-check-square-fill' : 'pl-square-light'} class="pl-select-check-icon"/>}
                         <div class="pl-select-item-content">
                             {!!this.$scopedSlots.default ? <pl-scope-slot scope-slot-func={this.$scopedSlots.default} data={{item, index}}/> : this.pl_getShowValue(item)}
                         </div>
