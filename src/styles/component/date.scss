@@ -130,6 +130,7 @@ $dateInnerItemSize: 26px;
         &:hover {
           border-radius: 4px;
           background-color: plVar(colorPrimaryLighter);
+          color: plVar(colorPrimary);
         }
       }
     }
@@ -148,6 +149,7 @@ $dateInnerItemSize: 26px;
         }
 
         &:hover {
+          color: plVar(colorPrimary);
           color: plVar(colorPrimary);
         }
       }
@@ -191,6 +193,7 @@ $dateInnerItemSize: 26px;
 
           &:hover, &.pl-date-month-panel-item-pick-month {
             background-color: plVar(colorPrimaryLighter);
+            color: plVar(colorPrimary);
           }
 
           &.pl-date-month-panel-item-now {
@@ -257,6 +260,7 @@ $dateInnerItemSize: 26px;
 
           &:hover, &.pl-date-year-panel-item-pick-year {
             background-color: plVar(colorPrimaryLighter);
+            color: plVar(colorPrimary);
           }
 
           &.pl-date-year-panel-item-now {
