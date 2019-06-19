@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-5494d41c"],{"0b32":function(n,t,a){},b247:function(n,t,a){"use strict";a.r(t);var e=function(){var n=this,t=n.$createElement,a=n._self._c||t;return a("div",{staticClass:"demo-nav-not-found"},[a("h2",[n._v("页面不存在")]),a("h4",[n._v(n._s(n.path))])])},o=[],s={name:"demo-nav-not-found",props:{path:{}}},u=s,c=(a("d603"),a("2877")),d=Object(c["a"])(u,e,o,!1,null,null,null);t["default"]=d.exports},d603:function(n,t,a){"use strict";var e=a("0b32"),o=a.n(e);o.a}}]);
-//# sourceMappingURL=chunk-5494d41c.c1d0472c.js.map
