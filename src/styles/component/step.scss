@@ -151,7 +151,19 @@ $step-size: (
       }
     }
 
-    .pl-step.pl-step-complete, .pl-step.pl-step-status-success {
+    .pl-step.pl-step-complete {
+      color: plVar(colorPrimary) !important;;
+
+      .pl-step-number {
+        border-color: plVar(colorPrimary) !important;;
+      }
+
+      .pl-step-title-line {
+        background-color: plVar(colorPrimary) !important;;
+      }
+    }
+
+    .pl-step.pl-step-status-success {
       color: plVar(colorSuccessDeep) !important;;
 
       .pl-step-number {

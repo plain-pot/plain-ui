@@ -1,25 +1,21 @@
 /*@formatter:off*/
-$theme-default: (
-                colorPrimary: #12b4a5,                                          //颜色：基本
-                colorPrimaryLight: #bad6d8,                                     //颜色：基本轻
-                colorPrimaryDeep: #067569,                                      //颜色：基本重
-                colorPrimaryLighter: #d8f9fb,                                   //颜色：基本更轻
-
-                colorSuccess: #00CC00,                                          //颜色：成功
-                colorSuccessLight: #67E667,                                     //颜色：成功轻
-                colorSuccessLighter: #d1f4d1,                                     //颜色：成功轻
-                colorSuccessDeep: #008500,                                      //颜色：成功重
-
-                colorWarn: #FF7400,                                             //颜色：警告
-                colorWarnLight: #FFB273,                                        //颜色：警告轻
-                colorWarnLighter: #fff0da,                                        //颜色：警告轻
-                colorWarnDeep: #A64B00,                                         //颜色：警告重
-
-                colorError: #FF0000,                                            //颜色：错误
-                colorErrorLight: #FF7373,                                       //颜色：错误轻
-                colorErrorLighter: #ffd8de,                                       //颜色：错误轻
-                colorErrorDeep: #A60000,                                        //颜色：错误重
-
+$theme-blue: (
+                colorPrimary: #3E97EC,                                          //颜色：基本
+                colorPrimaryLight: #dff3ff,                                     //颜色：基本轻
+                colorPrimaryDeep: #2c6fb1,                                      //颜色：基本重
+                colorPrimaryLighter: #eff8ff,                                   //颜色：基本更轻
+                colorSuccess: #42E67F,                                          //颜色：成功
+                colorSuccessLight: #93F3B7,                                     //颜色：成功轻
+                colorSuccessLighter: #e7fff5,                                     //颜色：成功轻
+                colorSuccessDeep: #50AD73,                                      //颜色：成功重
+                colorWarn: #E9D03F,                                             //颜色：警告
+                colorWarnLight: #F4E692,                                        //颜色：警告轻
+                colorWarnLighter: #fffce9,                                        //颜色：警告轻
+                colorWarnDeep: #AFA14F,                                         //颜色：警告重
+                colorError: #FF6235,                                            //颜色：错误
+                colorErrorLight: #ffdfdc,                                       //颜色：错误轻
+                colorErrorLighter: #ffedef,                                       //颜色：错误轻
+                colorErrorDeep: #BF674D,                                        //颜色：错误重
                 colorInfo: #dcdfe4,                                             //颜色：提示
                 colorInfoLight: #e7eaef,                                        //颜色：提示轻
                 colorInfoLighter: #f1f4f9,                                        //颜色：提示轻
@@ -48,7 +44,7 @@ $theme-default: (
                 padding:16px,                                                   //默认边距
                 paddingSmall:8px,                                               //小边距
 
-                borderFillet:2px,                                               //小圆角
+                borderFillet:3px,                                               //小圆角
                 borderRound:100vw,                                              //圆
                 borderNone:0,                                                   //无圆角
 

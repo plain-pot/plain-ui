@@ -4,7 +4,7 @@
             <img :src="logo" alt="plain-logo" class="logo">
             <div>
                 <im-button-group>
-                    <im-button v-for="theme in ['default','black','red']" :key="theme" @click="$plain.changeTheme(theme)" :label="theme"/>
+                    <im-button v-for="theme in ['default','blue','black','red']" :key="theme" @click="$plain.changeTheme(theme)" :label="theme"/>
                 </im-button-group>
             </div>
         </div>
@@ -51,6 +51,7 @@
             background-size: 100% 100%;
             display: flex;
             flex-direction: column;
+
             .app-header {
                 height: 64px;
                 position: relative;
@@ -60,6 +61,7 @@
                 box-sizing: border-box;
                 padding: 0 plVar(padding);
                 border-bottom: 1px solid #ddd;
+
                 .logo {
                     height: 80%;
                     width: auto;
@@ -71,10 +73,12 @@
                 display: flex;
                 position: relative;
                 overflow: hidden;
+
                 .app-left {
                     width: 280px;
                     height: 100%;
                     position: relative;
+
                     &:before {
                         position: absolute;
                         right: 0;
@@ -84,6 +88,7 @@
                         content: '';
                         box-shadow: 0 0 12px #ddd;
                     }
+
                     &:after {
                         position: absolute;
                         right: 1px;
@@ -94,6 +99,7 @@
                         background-color: white;
                     }
                 }
+
                 .app-right {
                     flex: 1;
                     overflow: hidden;

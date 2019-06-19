@@ -73,7 +73,7 @@
         &:hover, &.pl-select-service-item-inner-hover {
           .pl-select-service-item-inner {
             & > div {
-              background-color: plVar(colorPrimaryLight);
+              background-color: plVar(colorPrimaryLighter);
               cursor: pointer;
               color: plVar(colorTitle);
             }

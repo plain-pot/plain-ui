@@ -12,6 +12,7 @@
     outline: none;
     box-sizing: border-box;
     vertical-align: middle;
+
     .pl-loading {
       margin-right: 0.5em;
     }
@@ -19,9 +20,11 @@
     &.pl-align-left {
       justify-content: flex-start;
     }
+
     &.pl-align-center {
       justify-content: center;
     }
+
     &.pl-align-right {
       justify-content: flex-end;
     }
@@ -39,10 +42,12 @@
           &.pl-button-active {
             background-color: $colorDeep;
           }
+
           .pl-loading {
             .pl-icon {
               color: white;
             }
+
             .pl-loading-default-item {
               background-color: white;
             }
@@ -53,13 +58,16 @@
           &:active {
             background-color: $colorLighter;
           }
+
           &.pl-button-active {
             background-color: $colorLighter;
           }
+
           .pl-loading {
             .pl-icon {
               color: $value;
             }
+
             .pl-loading-default-item {
               background-color: $value;
             }
@@ -67,28 +75,34 @@
         }
 
         &:focus {
-          box-shadow: 0 0 2px 1px $colorDeep;
+          border-color: $colorDeep;
         }
       }
     }
+
     &.pl-button-long {
       width: 100%;
     }
+
     &.pl-button-loading {
       opacity: 0.8;
       cursor: not-allowed;
     }
+
     &.pl-button-no-padding {
       padding: 0;
     }
+
     &.pl-button-disabled {
       background-color: plVar(colorDisabled);
       border: solid 1px plVar(colorDisabled);
       cursor: not-allowed;
-      &:active{
+
+      &:active {
         background-color: plVar(colorDisabled);
       }
     }
+
     @include plSizes {
       &.pl-button-circle.pl-size-#{$key} {
         height: $value;
@@ -106,34 +120,42 @@
   .pl-button-group {
     display: inline-flex;
     vertical-align: middle;
+
     .pl-button {
       border-radius: 0;
     }
+
     @include plColors {
       &.pl-button-group-color-#{$key} {
         .pl-button.pl-type-fill {
           background-color: $value;
           border-color: $value;
           color: white;
+
           &:active {
             background-color: $colorDeep;
           }
+
           &.pl-button-active {
             background-color: $colorDeep;
           }
         }
+
         .pl-button.pl-type-line {
           background: transparent;
           border: solid 1px $value;
           color: plVar(colorPrimary);
+
           &.pl-button-active, &:active {
             background-color: $colorLighter;
           }
         }
+
         .pl-button.pl-type-none {
           background-color: transparent;
           color: plVar(colorPrimary);
           border: none;
+
           &.pl-button-active, &:active {
             background-color: $colorLighter;
           }
@@ -143,14 +165,17 @@
 
     &.pl-button-group.pl-button-group-horizontal {
       flex-direction: row;
+
       .pl-button {
         margin-left: -2px;
       }
+
       @include plColors {
         &.pl-button-group-color-#{$key} {
           .pl-button:not(:first-child) {
             border-left-color: $colorLight;
           }
+
           .pl-button:not(:last-child) {
             border-right-color: $colorLight;
           }
@@ -162,6 +187,7 @@
             border-top-left-radius: $value;
             border-bottom-left-radius: $value;
           }
+
           .pl-button:last-child {
             border-top-right-radius: $value;
             border-bottom-right-radius: $value;
@@ -169,16 +195,20 @@
         }
       }
     }
+
     &.pl-button-group.pl-button-group-vertical {
       flex-direction: column;
+
       .pl-button {
         margin-top: -2px;
       }
+
       @include plColors {
         &.pl-button-group-color-#{$key} {
           .pl-button:not(:first-child) {
             border-top-color: $colorLight;
           }
+
           .pl-button:not(:last-child) {
             border-bottom-color: $colorLight;
           }
@@ -190,6 +220,7 @@
             border-top-left-radius: $value;
             border-top-right-radius: $value;
           }
+
           .pl-button:last-child {
             border-bottom-left-radius: $value;
             border-bottom-right-radius: $value;

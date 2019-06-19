@@ -197,6 +197,9 @@
                     data: this.p_contextMenu,
                     labelKey: 'name',
                     iconKey: 'icon',
+                    popper:{
+                        height: null,
+                    },
                     onClose: () => this.p_select[show] = null
                 }).then(ret => {
                     ret.handler(item, index)

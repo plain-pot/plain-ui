@@ -77,34 +77,36 @@
 </script>
 
 <style lang="scss">
-    .demo-carousel {
-        .demo-carousel-box {
-            width: 400px;
-            height: 150px;
-            background-color: #f2f2f2;
+    @include themeWrap{
+        .demo-carousel {
+            .demo-carousel-box {
+                width: 400px;
+                height: 150px;
+                background-color: #f2f2f2;
 
-            .demo-carousel-item {
-                height: 100%;
-                width: 100%;
+                .demo-carousel-item {
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: plVar(colorPrimary);
+                    color: white;
+                    font-weight: 600;
+                }
+            }
+
+            .demo-carousel-box-hover {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #1076ca;
                 color: white;
-                font-weight: 600;
+                height: 40px;
             }
-        }
-
-        .demo-carousel-box-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            height: 40px;
         }
     }
 </style>

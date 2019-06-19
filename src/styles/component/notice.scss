@@ -80,7 +80,7 @@
 
         .pl-notice-close-icon {
           @include transition-all;
-          color: plVar(colorError);
+          color: plVar(colorContent);
 
           &:hover {
             transform: scale(1.2);

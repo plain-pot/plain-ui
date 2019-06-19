@@ -48,7 +48,7 @@
     @include public-style;
     padding: 6px 12px;
     white-space: nowrap;
-    border-radius: 4px;
+    border-radius: plVar(borderFillet);
     border: solid 1px;
     pointer-events: auto;
     cursor: pointer;
