@@ -14,6 +14,8 @@ Vue.config.productionTip = false
 Vue.use(Plain, {
     // theme: 'red',
     pageRegistry(path) {
+        const separateIndex = path.indexOf('?')
+        if (separateIndex > -1) path = path.slice(0, separateIndex)
         return new Promise((rs, rj) => import('portal/components' + path.replace('.vue', '') + '.vue').then(module => rs(module.default)).catch(rj))
     },
     prefix: 'im',

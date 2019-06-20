@@ -3,6 +3,9 @@
         <im-demo-row>
             <h2>页面一</h2>
         </im-demo-row>
+        <im-demo-row title="页面参数">
+            【{{param}}】
+        </im-demo-row>
         <im-demo-row title="下一页">
             <im-button label="下一页参数：" type="line"/>
             <im-input placeholder v-model="msg"/>
@@ -37,6 +40,7 @@
         name: "demo-nav-page-1",
         props: {
             nav: {},
+            param: {},
         },
         data() {
             return {

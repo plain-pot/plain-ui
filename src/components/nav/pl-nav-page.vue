@@ -4,7 +4,7 @@
                 class="pl-nav-page-target"
                 ref="page"
                 :is="page.component"
-                :param="page.param"
+                :param="p_param"
                 :tab="tab"
                 v-bind="page.props"
                 :path="page.path"
@@ -28,7 +28,9 @@
             const pages = this.$plain.$dom.findComponentUpward(this, 'pl-nav-pages')
             const events = []
             const that = this
+            const {param} = this.$plain.$utils.decodeUrl(this.page.path)
             return {
+                pathParam: param,
                 events,
                 pages,
                 p_nav: {
@@ -57,6 +59,11 @@
                     getCurrentTab: (...args) => this.nav.getCurrentTab(...args),
                 }
             }
+        },
+        computed: {
+            p_param() {
+                return Object.assign({}, this.pathParam, this.page.param)
+            },
         },
         methods: {
             /*

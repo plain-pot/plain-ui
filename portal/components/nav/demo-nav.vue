@@ -25,6 +25,7 @@
                 menus: [
                     {id: 'a', title: '页面一（缓存）', path: '/nav/demo-nav-page-1.vue', param: {msg: 'page1'}},
                     {id: 1, title: '页面一（不缓存）', path: '/nav/demo-nav-page-1.vue', param: {msg: 'page1'}, storage: false},
+                    {id: 1, title: '页面一(path地址带参数)', path: '/nav/demo-nav-page-1.vue?id=12345&tag=insert', param: {msg: 'page1'}},
                     {id: 2, title: 'Icon图标', path: '/normal/demo-icon', param: {msg: 'icon'}},
                     {id: 3, title: 'Button按钮', path: '/normal/demo-button', param: {msg: 'button'}},
                     {id: 4, title: 'Input输入框', path: '/normal/demo-input', param: {msg: 'input'}},
@@ -48,21 +49,26 @@
     .demo-nav {
         padding: 12px;
         box-sizing: border-box;
+
         .demo-nav-content {
             height: 100%;
             width: 100%;
             display: flex;
+
             & > div {
                 height: 100%;
             }
+
             .demo-nav-left {
                 width: 180px;
                 padding-right: 12px;
                 box-sizing: border-box;
+
                 & > * {
                     margin-bottom: 12px;
                 }
             }
+
             .demo-nav-right {
                 flex: 1;
                 overflow: hidden;
