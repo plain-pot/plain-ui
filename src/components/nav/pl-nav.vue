@@ -388,11 +388,12 @@
             display: flex;
             flex-direction: column;
             box-shadow: plVar(boxShadow);
-            border-radius: plVar(borderFillet);
             overflow: hidden;
 
             .pl-nav-header-wrapper {
                 background-color: plVar(colorPrimaryLighter);
+                border-radius: plVar(borderFillet);
+                overflow: hidden;
 
                 .pl-nav-header {
                     width: 100%;
