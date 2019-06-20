@@ -13,10 +13,13 @@ Vue.config.productionTip = false
 
 Vue.use(Plain, {
     // theme: 'red',
-    pageRegistry(path) {
+    async pageRegistry(path) {
         const separateIndex = path.indexOf('?')
         if (separateIndex > -1) path = path.slice(0, separateIndex)
-        return new Promise((rs, rj) => import('portal/components' + path.replace('.vue', '') + '.vue').then(module => rs(module.default)).catch(rj))
+        await Plain.$utils.delay(1000)
+        const component = (await import('portal/components' + path.replace('.vue', '') + '.vue')).default
+        console.log(component)
+        return component
     },
     prefix: 'im',
     iconfont: 'https://at.alicdn.com/t/font_954560_kicgud0zqeb.js',                               //自定义iconfont图表地址
