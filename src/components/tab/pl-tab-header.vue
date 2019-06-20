@@ -62,6 +62,7 @@
         methods: {
             async refreshTag() {
                 if (this.p_value == null) return
+                if (!this.$refs.text) return
                 await this.$plain.nextTick()
                 const textEl = this.$refs.text[this.p_value]
                 if (!textEl) return
