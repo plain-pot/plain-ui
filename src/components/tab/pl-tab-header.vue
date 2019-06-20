@@ -1,28 +1,31 @@
 <template>
-    <pl-list class="pl-tab-header" direction="top">
-        <pl-item v-if="!data || data.length === 0" key="empty" class="pl-tab-header-item-active">
-            <div class="pl-tab-header-item">
-                <span>无</span>
-            </div>
-        </pl-item>
-        <pl-item v-for="(item,index) in data"
-                 :key="!!ids&&ids[index]?ids[index]:item"
-                 :class="{'pl-tab-header-item-active':index === p_value}">
-            <div class="pl-tab-header-item"
-                 @click="p_click(item,index)"
-                 @dblclick="p_dblclick(item,index)"
-                 @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
-                <div class="pl-tab-header-item-content">
-                    <div class="pl-tab-header-item-text">
-                        <pl-tooltip :content="item" show-overflow-tooltip/>
-                    </div>
+    <div class="pl-tab-header">
+        <pl-list direction="top">
+            <pl-item v-if="!data || data.length === 0" key="empty" class="pl-tab-header-item-active">
+                <div class="pl-tab-header-item">
+                    <span>无</span>
+                </div>
+            </pl-item>
+            <pl-item v-for="(item,index) in data"
+                     ref="items"
+                     :key="!!ids&&ids[index]?ids[index]:item"
+                     :class="{'pl-tab-header-item-active':index === p_value}">
+                <div class="pl-tab-header-item"
+                     @click="p_click(item,index)"
+                     @dblclick="p_dblclick(item,index)"
+                     @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
+                    <span ref="text">{{item}}</span>
                     <div class="pl-tab-header-item-close" @click.stop="p_close(item,index)" v-if="clearIcon">
                         <pl-icon icon="pad-close" hover/>
                     </div>
                 </div>
-            </div>
-        </pl-item>
-    </pl-list>
+            </pl-item>
+
+        </pl-list>
+        <div class="pl-tab-header-bottom">
+            <div class="pl-tab-header-bottom-tag" :style="tagStyles"></div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -42,11 +45,38 @@
             ids: {type: Array, default: () => []},
             clearIcon: {type: Boolean,},
         },
+        data() {
+            return {
+                tagWidth: null,
+                tagLeft: null,
+            }
+        },
+        watch: {
+            data: {
+                immediate: true,
+                handler() {
+                    this.refreshTag()
+                },
+            }
+        },
         methods: {
+            async refreshTag() {
+                if (this.p_value == null) return
+                await this.$plain.nextTick()
+                const textEl = this.$refs.text[this.p_value]
+                if (!textEl) return
+                const itemEl = this.$refs.items[this.p_value].$el
+                this.tagWidth = textEl.offsetWidth
+                this.tagLeft = itemEl.offsetLeft
+
+            },
+
             p_click(item, index) {
                 this.p_value = index
                 this.p_emitValue()
                 this.$emit('click', {item, index})
+
+                this.refreshTag()
             },
             p_close(item, index) {
                 this.$emit('close', {item, index})
@@ -61,6 +91,80 @@
                 }
                 this.$emit('contextmenu', {e, item, index, el})
             },
-        }
+        },
+        computed: {
+            tagStyles() {
+                const ret = {}
+                this.tagWidth != null && (ret.width = this.$plain.$utils.unit(this.tagWidth))
+                this.tagLeft != null && (ret.left = this.$plain.$utils.unit(this.tagLeft))
+                return ret
+            },
+        },
     }
 </script>
+
+<style lang="scss">
+    @include themeWrap {
+        .pl-tab-header {
+            @include public-style;
+            display: block;
+            position: relative;
+
+            .pl-item {
+                display: inline-block;
+                background-color: white;
+
+                &.pl-tab-header-item-active {
+                    .pl-tab-header-item {
+                        color: plVar(colorPrimaryDeep);
+                    }
+                }
+            }
+
+            .pl-tab-header-item {
+                font-size: 14px;
+                color: plVar(colorContent);
+                cursor: pointer;
+                position: relative;
+                user-select: none;
+                padding: 16px 0;
+                margin-right: 48px;
+
+                &:hover {
+                    .pl-tab-header-item-close {
+                        opacity: 1;
+                    }
+                }
+
+                .pl-tab-header-item-close {
+                    position: absolute;
+                    right: -20px;
+                    top: 0;
+                    bottom: 0;
+                    display: flex;
+                    align-items: center;
+                    opacity: 0;
+                }
+            }
+
+            .pl-tab-header-bottom {
+                position: absolute;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                height: 2px;
+                content: '';
+                background-color: plVar(colorPrimaryLighter);
+
+                .pl-tab-header-bottom-tag {
+                    height: 100%;
+                    background-color: plVar(colorPrimary);
+                    position: absolute;
+                    @include transition-all;
+                }
+            }
+
+        }
+
+    }
+</style>
