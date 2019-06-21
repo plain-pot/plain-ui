@@ -61,6 +61,7 @@
         },
         methods: {
             async refreshTag() {
+                await this.$plain.nextTick()
                 if (this.p_value == null) return
                 if (!this.$refs.text) return
                 await this.$plain.nextTick()

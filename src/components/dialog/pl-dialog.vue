@@ -122,6 +122,9 @@
             value(val) {
                 if (val !== this.p_value) val ? this.show() : this.hide()
             },
+            max() {
+                this.p_isFull = null
+            },
         },
         computed: {
             classes() {

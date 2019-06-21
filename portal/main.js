@@ -18,7 +18,6 @@ Vue.use(Plain, {
         if (separateIndex > -1) path = path.slice(0, separateIndex)
         // await Plain.$utils.delay(1000)
         const component = (await import('portal/components' + path.replace('.vue', '') + '.vue')).default
-        console.log(component)
         return component
     },
     prefix: 'im',

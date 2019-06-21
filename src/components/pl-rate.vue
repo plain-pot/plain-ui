@@ -23,7 +23,7 @@
             total: {type: Number, default: 5},                              //总分
             count: {type: Number, default: 5},                              //显示图标的个数
             mode: {type: String, default: 'normal'},                        //模式，normal，all整个图标为单位，half：半个图标为单位
-            color: {type: String, default: 'warn'},                         //标准颜色
+            color: {type: String, default: 'primary'},                      //标准颜色
             activeIcon: {type: String},                                     //激活的时候的图标
             inactiveIcon: {type: String},                                   //未激活的时候的图标
         },
