@@ -1,6 +1,6 @@
 {
   "name": "plain-ui",
-  "version": "0.1.44",
+  "version": "0.1.45",
   "description": "A components Library based on Vue.js",
   "main": "dist/plain-ui.umd.min.js",
   "files": [
