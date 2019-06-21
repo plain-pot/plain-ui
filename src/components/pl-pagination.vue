@@ -30,6 +30,7 @@
                 <span>页</span>
             </div>
             <pl-select
+                    :popper="{height:null}"
                     class="pl-pagination-select"
                     :data="p_sizeData"
                     label-key="label"

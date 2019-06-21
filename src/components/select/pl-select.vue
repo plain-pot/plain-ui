@@ -62,6 +62,7 @@
             valueKey: {type: String},
             multiple: {type: Boolean},
             input: {},
+            popper: {},
 
             placeholder: {default: '请选择...'},
         },
@@ -119,6 +120,7 @@
                         autoClose: !this.multiple,
                         watchData: this.p_value,
                         popper: {
+                            ...(this.popper || {}),
                             onShow: () => this.p_show = true,
                             onHide: () => this.p_show = false,
                         },

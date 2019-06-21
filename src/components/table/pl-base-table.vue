@@ -585,10 +585,9 @@
 <style lang="scss">
     @include themeWrap {
         .pl-base-table {
-            background-color: rgba(0, 0, 0, 0.01);
+            border: solid 1px plVar(colorBorder);
+            border-radius: plVar(borderFillet);
             font-size: inherit;
-            box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
-
 
             .pl-scroll-horizontal-indicator {
                 z-index: 1;

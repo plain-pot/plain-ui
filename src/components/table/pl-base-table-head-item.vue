@@ -38,7 +38,7 @@
 
 <style lang="scss">
     .pl-base-table-head-item {
-        background-color: #efefef;
+        background-color: #f9f9f9;
         overflow: hidden;
 
         &.pl-base-table-head-item-left, &.pl-base-table-head-item-right {

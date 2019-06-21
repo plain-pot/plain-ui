@@ -52,7 +52,6 @@
 
             table {
                 font-size: 12px;
-                font-weight: bold;
                 color: #282f4a;
             }
         }
