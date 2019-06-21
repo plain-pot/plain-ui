@@ -379,4 +379,6 @@
 </script>
 
 <style lang="scss">
+    @include themeWrap {
+    }
 </style>

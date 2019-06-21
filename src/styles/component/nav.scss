@@ -10,8 +10,8 @@
     overflow: hidden;
 
     .pl-nav-header-wrapper {
-      background-color: plVar(colorPrimaryLighter);
-      border-radius: plVar(borderFillet);
+      border-radius: plVar(borderRound);
+      border: solid 1px plVar(colorBorder);
       overflow: hidden;
 
       .pl-nav-header {
@@ -28,7 +28,8 @@
           display: inline-flex;
           cursor: pointer;
           user-select: none;
-          border-right: 1px solid rgba(plVar(colorPrimary), 0.25);
+          border-right: solid 1px plVar(colorPrimaryLighter);
+          vertical-align: top;
 
           .pl-nav-header-item-content {
             display: flex;
@@ -38,8 +39,7 @@
             box-sizing: border-box;
             padding: 0 12px;
             font-size: 12px;
-            font-weight: bold;
-            color: plVar(colorPrimaryDeep);
+            color: plVar(colorContent);
 
             .pl-tooltip {
               flex: 1;
@@ -47,14 +47,14 @@
           }
 
           &.pl-nav-header-item-active {
-            background-color: plVar(colorPrimary);
+            background-color: plVar(colorPrimaryLighter);
 
             .pl-nav-header-close-icon {
               opacity: 1;
             }
 
             .pl-tooltip, .pl-nav-header-close-icon {
-              color: white;
+              color: plVar(colorPrimaryDeep);
             }
           }
 
