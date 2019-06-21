@@ -35,7 +35,7 @@
         methods: {
             pl_add(item) {
                 this.items.push(item)
-                this.pl_throttle(item, this.pl_updateItemIndex)
+                this.throttle(item, this.pl_updateItemIndex)
             },
             pl_remove(item) {
                 this.items.splice(this.items.indexOf(item), 1)

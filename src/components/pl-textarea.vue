@@ -20,13 +20,13 @@
 </template>
 
 <script>
-    import {EditMixin, ThrottleMixin} from "../mixin/component-mixin";
+    import {EditMixin} from "../mixin/component-mixin";
     import PlEditControl from "./form/pl-edit-control";
 
     export default {
         name: "pl-textarea",
         components: {PlEditControl},
-        mixins: [EditMixin, ThrottleMixin],
+        mixins: [EditMixin],
         props: {
             value: {},
 

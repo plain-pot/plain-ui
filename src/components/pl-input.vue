@@ -9,7 +9,7 @@
 
                     :type="inputType"
                     :placeholder="placeholder"
-                    :readonly="inputReadonly || p_readonly || loading || timerWait || timerHandler"
+                    :readonly="inputReadonly || p_readonly || loading || p_throttleLoading"
                     :disabled="p_disabled"
 
                     @click="pl_click"
@@ -58,6 +58,9 @@
             color: {type: String, default: 'info'},
             shape: {type: String, default: 'fillet'},
             size: {type: String, default: 'default'},
+
+            throttleSync: {default: true},
+            throttleTime: {default: 500},
 
             noClear: {type: Boolean},
             inputType: {type: String, default: 'text'},
@@ -115,7 +118,7 @@
                 })
             },
             controller() {
-                if (!this.p_readonly && !this.p_disabled && (this.loading || this.timerWait || this.timerHandler)) return 'loading'
+                if (!this.p_readonly && !this.p_disabled && (this.loading || this.p_throttleLoading)) return 'loading'
                 if (!this.p_disabled && !this.p_readonly && !!this.p_value && this.p_hover && !this.noClear) return 'clear'
                 if (!!this.icon || !!this.$slots.icon) return 'icon'
                 return null

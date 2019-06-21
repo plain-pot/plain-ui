@@ -37,8 +37,8 @@
             <im-button label="按钮-按钮-按钮-按钮" noPadding/>
         </im-demo-row>
         <im-demo-row title="节流以及自动异步等待">
-            <im-button label="节流(0.5s内只能触发一次)" @click="()=>$plain.log('click:'+new Date().getTime())"/>
-            <im-button label="等待(模拟2s之后结束请求)" @click="testWait"/>
+            <im-button label="节流(0.5s内只能触发一次)" @click="()=>$plain.log('click:'+new Date().getTime())" :throttleTime="500"/>
+            <im-button label="等待(模拟2s之后结束请求)" @click="testWait" throttleSync/>
         </im-demo-row>
         <im-demo-row title="按钮组">
             <im-button-group>

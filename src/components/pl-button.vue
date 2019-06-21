@@ -8,7 +8,7 @@
             @focus="e=>$emit('focus',e)"
             @keyup="e=>$emit('keyup',e)"
             @keydown="e=>$emit('keydown',e)">
-        <pl-loading v-if="(loading || (timerHandler && !timerWait)) && !circle"/>
+        <pl-loading v-if="(loading || p_throttleLoading) && !circle"/>
         <slot>
             <pl-icon v-if="!!icon" :icon="icon"/>
             <span v-if="!!label">{{label}}</span>

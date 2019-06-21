@@ -109,25 +109,37 @@ export const MountedMixin = {
 
 export const ThrottleMixin = {
     props: {
-        duration: {type: Number, default: 500},                         //防止快速点击时间间隔
+        throttleSync: {type: Boolean,},
+        throttleTime: {type: Number,},
     },
     data() {
         return {
-            timerWait: null,
-            timerHandler: null,
+            p_throttleLoading: null,
         }
     },
     methods: {
-        pl_throttle(e, func) {
-            if (!!this.timerWait || !!this.timerHandler) return
-            this.timerWait = setTimeout(() => {
-                this.timerWait = null
-            }, this.duration)
-
-            this.timerHandler = setTimeout(async () => {
-                !!func && (await func(e))
-                this.timerHandler = null
-            }, 0)
+        async pl_throttle(e, func) {
+            if (this.throttleTime == null && !this.throttleSync) {
+                func(e)
+            } else {
+                if (!!this.p_throttleLoading) return
+                this.p_throttleLoading = true
+                await Promise.all([this.pl_waitTime(this.throttleTime), this.pl_waitFunc(e, func)])
+                this.p_throttleLoading = false
+            }
+        },
+        async pl_waitTime(time) {
+            time != null && await this.$plain.$utils.delay(time)
+        },
+        async pl_waitFunc(e, func) {
+            !!func && await func(e)
+        },
+        throttle(param, callback, time = 500) {
+            if (!!this.p_throttleTimer) clearTimeout(this.p_throttleTimer)
+            this.p_throttleTimer = setTimeout(() => {
+                callback(param)
+                this.p_throttleTimer = null
+            }, time)
         },
     }
 }
