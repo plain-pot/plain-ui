@@ -449,7 +449,7 @@
                 while (!this.p_tableWidth && !!el.parentNode) {
                     // console.log(el)
                     if (el.offsetWidth > 0) {
-                        this.p_tableWidth = el.offsetWidth
+                        this.p_tableWidth = el.scrollWidth
                     } else {
                         el = el.parentNode
                     }
