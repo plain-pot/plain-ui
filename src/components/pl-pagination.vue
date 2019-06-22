@@ -43,7 +43,9 @@
         </div>
 
         <div class="pl-pagination-right">
-            当前显示:{{(p_page-1)*p_size+1}}-{{(p_page)*p_size}}，总共{{total}}条记录
+            <slot name="right" :start="start" :end="end">
+                当前显示:{{start}}-{{end}}，总共{{total}}条记录
+            </slot>
         </div>
     </div>
 </template>
@@ -109,8 +111,6 @@
                 if (end > this.totalPage) {
                     end = this.totalPage
                 }
-                this.begin = begin
-                this.end = end
 
                 while (begin <= end) {
                     ret.push(begin)
@@ -124,6 +124,12 @@
                     label: `${item}条/页`,
                     value: item
                 }))
+            },
+            start() {
+                return (this.p_page - 1) * this.p_size + 1
+            },
+            end() {
+                return (this.p_page) * this.p_size
             },
         },
         methods: {
