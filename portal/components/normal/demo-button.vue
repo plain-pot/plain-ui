@@ -26,6 +26,9 @@
         </im-demo-row>
         <im-demo-row title="图标按钮">
             <im-button label="按钮" icon="pad-search"/>
+
+            <im-button label="按钮" icon="pad-search" rightIcon/>
+
             <im-button icon="pad-search"/>
             <im-button icon="pad-search" circle/>
             <im-button icon="pad-search" circle size="large"/>
