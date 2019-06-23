@@ -73,15 +73,30 @@ export default {
             }
         },
         pl_input(val, dataRow) {
-            if (!!val) this.p_data.push(dataRow)
-            else {
-                const index = this.p_dataIds.indexOf(dataRow.id)
+            const index = this.p_dataIds.indexOf(dataRow.id)
+            if (!!val) {
+                index === -1 && this.p_data.push(dataRow)
+            } else {
                 index > -1 && this.p_data.splice(index, 1)
             }
         },
         pl_clickRow({item}) {
             const val = this.p_dataIds.indexOf(item.id) > -1
             this.pl_input(!val, item)
+        },
+        checkRow({id, index}) {
+            const dataRow = this.$plain.$utils.findOne(this.data, (item, i) => item.id === id || i === index)
+            if (!!dataRow) this.pl_input(true, dataRow)
+            else {
+                console.warn('no match id in data rows,id:' + id)
+            }
+        },
+        uncheckRow({id, index}) {
+            const dataRow = this.$plain.$utils.findOne(this.data, (item, i) => item.id === id || i === index)
+            if (!!dataRow) this.pl_input(false, dataRow)
+            else {
+                console.warn('no match id in data rows,id:' + id)
+            }
         },
     },
     beforeDestroy() {

@@ -283,7 +283,42 @@
                     rs(dataRows)
                 })
             },
-
+            /**
+             * 高亮选中行
+             * @author  韦胜健
+             * @date    2019/6/23 16:50
+             */
+            selectRow({id, index}) {
+                this.p_data.forEach((data, i) => {
+                    const flag = data.id === id || index === i
+                    data.check = flag
+                    if (flag) this.$emit('selectRow', data)
+                })
+            },
+            /**
+             * （复选框）选中行
+             * @author  韦胜健
+             * @date    2019/6/23 16:50
+             */
+            checkRow({id, index}) {
+                if (!this.$refs.pick) {
+                    console.warn('请先开启选择状态')
+                    return
+                }
+                this.$refs.pick.checkRow({id, index})
+            },
+            /**
+             * （复选框）取消选中行
+             * @author  韦胜健
+             * @date    2019/6/23 16:51
+             */
+            uncheckRow({id, index}) {
+                if (!this.$refs.pick) {
+                    console.warn('请先开启选择状态')
+                    return
+                }
+                this.$refs.pick.uncheckRow({id, index})
+            },
 
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
@@ -355,9 +390,9 @@
                 this.$emit('clickRow', {item, index, e})
                 if (!!this.clickRow) {
                     this.clickRow({item, index})
-                    return
+                } else {
+                    this.selectRow({id: item.id})
                 }
-                this.p_data.forEach(d => d.check = d.id === item.id)
             },
             /*
              *  处理双击行
