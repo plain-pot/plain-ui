@@ -290,11 +290,13 @@
              * @date    2019/6/23 16:50
              */
             selectRow({id, index}) {
+                let selectRow;
                 this.p_data.forEach((data, i) => {
                     const flag = data.id === id || index === i
                     data.check = flag
-                    if (flag) this.$emit('selectRow', data)
+                    if (flag) selectRow = data
                 })
+                this.$emit('selectRow', selectRow)
             },
             /**
              * （复选框）选中行
