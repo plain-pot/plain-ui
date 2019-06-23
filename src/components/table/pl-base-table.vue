@@ -101,6 +101,7 @@
                         newVal.forEach((newItem, index) => {
                             const oldOne = this.$plain.$utils.findOne(this.p_data, i => i.row === newItem)
                             if (!!oldOne) {
+                                oldOne.index = index
                                 p_data.push(oldOne)
                             } else {
                                 const rowData = new RowData(newItem, index, this.id)
