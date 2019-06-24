@@ -17,7 +17,6 @@
                 option: new PlainOption({
                     context: this,
                     module: 'lov',
-                    pageSize: 5,
                     urls: {
                         queryPage: 'lov/queryPage',
                     },
