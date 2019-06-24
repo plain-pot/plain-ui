@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue.js'
+import Vue from 'vue'
 import deepmerge from 'deepmerge'
 import {DEFAULT_URLS, DEFAULT_OPTION_PLAIN_TABLE_SERVICE, DEFAULT_OPTION_PUBLIC, DEFAULT_OPTION_PLAIN_TABLE, logOption} from "./plain-option-default";
 

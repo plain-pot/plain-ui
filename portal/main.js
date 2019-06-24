@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import './index.scss'
 import {InstallComponent} from "./components/component";
+import PlainService from './scripts/service'
 
 import Plain from "src"
 
@@ -21,6 +22,7 @@ Vue.use(Plain, {
 })
 
 InstallComponent(Vue)
+PlainService(Vue)
 
 new Vue({
     render: h => h(App),
