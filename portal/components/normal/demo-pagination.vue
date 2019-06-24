@@ -1,7 +1,8 @@
 <template>
     <div class="demo-pagination">
         <im-demo-row title="基本用法">
-            <im-pagination :page="1" :size="20" :total="188" @prev="$message.show('上一页')" @next="$message.show('下一页')" @jump="e=>$message.show('跳转'+e)" @refresh="$message.show('refresh')" @sizeChange="e=>$message.show('sizeChange'+e)"/>
+            <im-pagination :page="1" :size="20" :total="188" @prev="$message.show('上一页')" @next="$message.show('下一页')" @jump="e=>$message.show('跳转'+e)" @refresh="$message.show('refresh')"
+                           @sizeChange="e=>$message.show('sizeChange'+e)"/>
         </im-demo-row>
         <im-demo-row title="自定义页大小选项">
             <im-pagination :page="1" :size="15" :total="188" :size-data="[15,20,30,40,50,60,70]"/>
@@ -14,6 +15,13 @@
         </im-demo-row>
         <im-demo-row title="固定宽度">
             <im-pagination :page="1" :size="20" :total="180" autoSize/>
+        </im-demo-row>
+        <im-demo-row title="自定义有半部分内容">
+            <im-pagination :page="1" :size="20" :total="180">
+                <template slot="right" slot-scope="{start,end}">
+                    [{{start}}]-{{end}}
+                </template>
+            </im-pagination>
         </im-demo-row>
     </div>
 </template>

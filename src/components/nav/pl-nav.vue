@@ -156,7 +156,9 @@
                 this.pl_clearTabCache(id)
                 const {tab} = this.pl_findTabById(id)
                 tab.init = false
+                tab.id = null
                 await this.$plain.nextTick()
+                tab.id = id
                 tab.init = true
             },
             /*

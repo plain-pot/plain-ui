@@ -10,7 +10,7 @@
             @keydown="e=>$emit('keydown',e)">
         <pl-loading v-if="(loading || p_throttleLoading) && !circle"/>
         <slot>
-            <pl-icon v-if="!!icon" :icon="icon"/>
+            <pl-icon v-if="!!icon" :icon="icon" class="pl-button-icon"/>
             <span v-if="!!label">{{label}}</span>
         </slot>
         <pl-edit-control v-bind="editBinding" v-on="editListening"/>
@@ -42,6 +42,7 @@
             noPadding: {type: Boolean},                                     //左右边距
             textAlign: {type: String, default: 'center'},
             buttonType: {type: String, default: 'button'},
+            rightIcon: {type: Boolean},
         },
         computed: {
             classes() {
@@ -59,6 +60,7 @@
                         'pl-button-circle': this.circle,
                         'pl-button-no-padding': this.noPadding,
                         'pl-button-disabled': this.p_disabled,
+                        'pl-button-right-icon': this.rightIcon,
                     },
                 ]
             }

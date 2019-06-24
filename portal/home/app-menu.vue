@@ -41,6 +41,7 @@
                             {title: 'BaseTable列插槽', icon: 'pl-table-solid', page: '/table/demo-base-table-slot', complete: true},
                             {title: 'BaseTable列tooltip显示', icon: 'pl-table-solid', page: '/table/demo-base-table-tooltip', complete: true},
                             {title: 'BaseTable列组件', icon: 'pl-table-solid', page: '/table/demo-base-table-column', complete: true},
+                            {title: 'BaseTable方法', icon: 'pl-table-solid', page: '/table/demo-base-table-methods', complete: true},
                         ],
                     },
                     {

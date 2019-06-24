@@ -101,6 +101,7 @@
                         newVal.forEach((newItem, index) => {
                             const oldOne = this.$plain.$utils.findOne(this.p_data, i => i.row === newItem)
                             if (!!oldOne) {
+                                oldOne.index = index
                                 p_data.push(oldOne)
                             } else {
                                 const rowData = new RowData(newItem, index, this.id)
@@ -283,7 +284,44 @@
                     rs(dataRows)
                 })
             },
-
+            /**
+             * 高亮选中行
+             * @author  韦胜健
+             * @date    2019/6/23 16:50
+             */
+            selectRow({id, index}) {
+                let selectRow;
+                this.p_data.forEach((data, i) => {
+                    const flag = data.id === id || index === i
+                    data.check = flag
+                    if (flag) selectRow = data
+                })
+                this.$emit('selectRow', selectRow)
+            },
+            /**
+             * （复选框）选中行
+             * @author  韦胜健
+             * @date    2019/6/23 16:50
+             */
+            checkRow({id, index}) {
+                if (!this.$refs.pick) {
+                    console.warn('请先开启选择状态')
+                    return
+                }
+                this.$refs.pick.checkRow({id, index})
+            },
+            /**
+             * （复选框）取消选中行
+             * @author  韦胜健
+             * @date    2019/6/23 16:51
+             */
+            uncheckRow({id, index}) {
+                if (!this.$refs.pick) {
+                    console.warn('请先开启选择状态')
+                    return
+                }
+                this.$refs.pick.uncheckRow({id, index})
+            },
 
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
@@ -355,9 +393,9 @@
                 this.$emit('clickRow', {item, index, e})
                 if (!!this.clickRow) {
                     this.clickRow({item, index})
-                    return
+                } else {
+                    this.selectRow({id: item.id})
                 }
-                this.p_data.forEach(d => d.check = d.id === item.id)
             },
             /*
              *  处理双击行
@@ -449,7 +487,7 @@
                 while (!this.p_tableWidth && !!el.parentNode) {
                     // console.log(el)
                     if (el.offsetWidth > 0) {
-                        this.p_tableWidth = el.offsetWidth
+                        this.p_tableWidth = el.scrollWidth
                     } else {
                         el = el.parentNode
                     }
