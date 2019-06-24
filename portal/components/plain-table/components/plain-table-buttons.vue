@@ -2,11 +2,11 @@
     <div class="plain-table-buttons">
 
         <div v-show="status === 'insert'">
-            <pl-button label="取消" type="line" @click="pl_click('cancelInsert')" icon="pad-file-excel-fill"/>
+            <pl-button label="取消" type="line" @click="pl_click('cancelInsert')" icon="pad-close"/>
             <pl-button-group>
-                <pl-button label="继续新建" @click="pl_click('continueInsert')" icon="pad-file-add-fill"/>
-                <pl-button label="保存并新建" @click="pl_click('nextInsert')" icon="pad-diff-fill"/>
-                <pl-button label="保存" @click="pl_click('saveInsert')" icon="pad-file-fill"/>
+                <pl-button label="保存" @click="pl_click('saveInsert')" icon="pad-save"/>
+                <pl-button label="继续新建" @click="pl_click('continueInsert')" icon="pad-plus-circle"/>
+                <pl-button label="保存并新建" @click="pl_click('nextInsert')" icon="pad-file-add"/>
             </pl-button-group>
         </div>
         <div v-show="status === 'update'">
@@ -20,9 +20,9 @@
         <div v-show="status === 'normal'">
             <slot></slot>
             <pl-button-group>
-                <pl-button label="新建" icon="pad-file-add-fill" @click="pl_click('insert')"/>
-                <pl-button label="复制" icon="pad-snippets-fill" @click="pl_click('copy')"/>
-                <pl-button label="删除" icon="pad-delete-fill" @click="pl_click('delete')"/>
+                <pl-button label="新建" icon="pad-plus-circle" @click="pl_click('insert')"/>
+                <pl-button label="复制" icon="pad-file-copy" @click="pl_click('copy')"/>
+                <pl-button label="删除" icon="pad-delete" @click="pl_click('delete')"/>
             </pl-button-group>
             <pl-dropdown :popover="{popper:{height:null,width:100,align:'end',disabledEqual:true}}">
                 <pl-button label="更多" icon="pl-down" rightIcon/>
