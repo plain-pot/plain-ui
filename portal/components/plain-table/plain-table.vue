@@ -383,6 +383,9 @@
              * @date    2019/6/24 14:55
              */
             async pl_initKeyboard() {
+                !!this.pl_mouseenter && this.$el.removeEventListener('mouseenter', this.pl_mouseenter)
+                !!this.pl_mouseleave && this.$el.removeEventListener('mouseleave', this.pl_mouseleave)
+
                 this.pl_mouseenter = () => {
                     this.pl_keydown = (e) => {
                         const names = [];
@@ -402,10 +405,6 @@
                 this.$el.addEventListener('mouseleave', this.pl_mouseleave)
             },
         },
-        beforeDestroy() {
-            !!this.pl_mouseenter && this.$el.removeEventListener('mouseenter', this.pl_mouseenter)
-            !!this.pl_mouseleave && this.$el.removeEventListener('mouseleave', this.pl_mouseleave)
-        }
     }
 </script>
 
