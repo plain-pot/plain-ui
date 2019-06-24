@@ -34,4 +34,20 @@ export const StandardButtons = {
             this.delete()
         },
     },
+    exportButton: {
+        type: 'other',
+        label: '导出',
+        icon: 'pad-export',
+        handler() {
+            console.log('export');
+        },
+    },
+    importButton: {
+        type: 'other',
+        label: '导入',
+        icon: 'pad-Import',
+        handler() {
+            console.log('导入');
+        },
+    },
 }
