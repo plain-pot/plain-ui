@@ -29,6 +29,12 @@
             return {
                 menuGroups: [
                     {
+                        title: 'PlainTable',
+                        menus: [
+                            {title: '基础编辑', icon: 'pl-table-solid', page: '/plain-table/demo-plain-table', complete: true},
+                        ]
+                    },
+                    {
                         title: '表格',
                         menus: [
                             {title: 'BaseTable基础表格', icon: 'pl-table-solid', page: '/table/demo-base-table', complete: true},
