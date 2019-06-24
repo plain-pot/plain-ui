@@ -1,7 +1,7 @@
 <template>
     <div class="pl-tab-header">
         <div class="pl-tab-header-wrapper">
-            <div v-if="!data || data.length === 0" class="pl-tab-header-item-active">
+            <div v-if="!data || data.length === 0" class="pl-tab-header-item pl-tab-header-item-active">
                 <span>无</span>
             </div>
             <div class="pl-tab-header-item"
@@ -58,12 +58,12 @@
         },
         methods: {
             async refreshTag() {
-                /*await this.$plain.nextTick()
+                await this.$plain.nextTick()
                 await this.$plain.$utils.delay(200)
                 if (!this.$refs.items || !this.$refs.items[this.p_value]) return
-                const itemEl = this.$refs.items[this.p_value].$el
+                const itemEl = this.$refs.items[this.p_value]
                 this.tagWidth = itemEl.offsetWidth
-                this.tagLeft = itemEl.offsetLeft*/
+                this.tagLeft = itemEl.offsetLeft
             },
             p_click(item, index) {
                 this.p_value = index
