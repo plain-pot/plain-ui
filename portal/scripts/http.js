@@ -61,4 +61,8 @@ export default class HttpService {
         })
     }
 
+    async axios(...args) {
+        return await axios(...args)
+    }
+
 }
