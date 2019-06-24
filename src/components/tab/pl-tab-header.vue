@@ -1,27 +1,24 @@
 <template>
     <div class="pl-tab-header">
-        <pl-list direction="top">
-            <pl-item v-if="!data || data.length === 0" key="empty" class="pl-tab-header-item-active">
-                <div class="pl-tab-header-item">
-                    <span>无</span>
+        <div class="pl-tab-header-wrapper">
+            <div v-if="!data || data.length === 0" class="pl-tab-header-item-active">
+                <span>无</span>
+            </div>
+            <div class="pl-tab-header-item"
+                 v-for="(item,index) in data"
+                 ref="items"
+                 :key="!!ids&&ids[index]?ids[index]:item"
+                 :class="{'pl-tab-header-item-active':index === p_value}"
+                 @click="p_click(item,index)"
+                 @dblclick="p_dblclick(item,index)"
+                 @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
+                <span ref="text">{{item}}</span>
+                <div class="pl-tab-header-item-close" @click.stop="p_close(item,index)" v-if="clearIcon">
+                    <pl-icon icon="pad-close" hover/>
                 </div>
-            </pl-item>
-            <pl-item v-for="(item,index) in data"
-                     ref="items"
-                     :key="!!ids&&ids[index]?ids[index]:item"
-                     :class="{'pl-tab-header-item-active':index === p_value}">
-                <div class="pl-tab-header-item"
-                     @click="p_click(item,index)"
-                     @dblclick="p_dblclick(item,index)"
-                     @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
-                    <span ref="text">{{item}}</span>
-                    <div class="pl-tab-header-item-close" @click.stop="p_close(item,index)" v-if="clearIcon">
-                        <pl-icon icon="pad-close" hover/>
-                    </div>
-                </div>
-            </pl-item>
+            </div>
+        </div>
 
-        </pl-list>
         <div class="pl-tab-header-bottom">
             <div class="pl-tab-header-bottom-tag" :style="tagStyles"></div>
         </div>
@@ -57,27 +54,21 @@
                 handler() {
                     this.refreshTag()
                 },
-            }
+            },
         },
         methods: {
             async refreshTag() {
-                await this.$plain.nextTick()
-                if (this.p_value == null) return
-                if (!this.$refs.text) return
-                await this.$plain.nextTick()
-                const textEl = this.$refs.text[this.p_value]
-                if (!textEl) return
+                /*await this.$plain.nextTick()
+                await this.$plain.$utils.delay(200)
+                if (!this.$refs.items || !this.$refs.items[this.p_value]) return
                 const itemEl = this.$refs.items[this.p_value].$el
-                this.tagWidth = textEl.offsetWidth
-                this.tagLeft = itemEl.offsetLeft
-
+                this.tagWidth = itemEl.offsetWidth
+                this.tagLeft = itemEl.offsetLeft*/
             },
-
             p_click(item, index) {
                 this.p_value = index
                 this.p_emitValue()
                 this.$emit('click', {item, index})
-
                 this.refreshTag()
             },
             p_close(item, index) {
@@ -106,4 +97,86 @@
 </script>
 
 <style lang="scss">
+    @include themeWrap {
+        .pl-tab-header {
+            @include public-style;
+            display: block;
+            position: relative;
+
+            .pl-tab-header-wrapper {
+                width: 100%;
+
+                .pl-tab-header-item {
+                    display: inline-block;
+                    position: relative;
+                    padding: 16px 24px;
+                    min-width: 120px;
+                    cursor: pointer;
+                    user-select: none;
+
+                    .pl-tab-header-item-close {
+                        position: absolute;
+                        right: 6px;
+                        top: 0;
+                        bottom: 0;
+                        display: flex;
+                        align-items: center;
+                        opacity: 0;
+                    }
+
+                    &:after {
+                        position: absolute;
+                        top: 16px;
+                        bottom: 16px;
+                        right: 0;
+                        content: '';
+                        width: 1px;
+                        border-right: dashed 1px plVar(colorPrimaryLight);
+                    }
+
+                    &:first-child {
+                        &:before {
+                            position: absolute;
+                            top: 16px;
+                            bottom: 16px;
+                            left: 0;
+                            content: '';
+                            width: 1px;
+                            border-left: dashed 1px plVar(colorPrimaryLight);
+                        }
+                    }
+
+                    &:hover, &.pl-tab-header-item-active {
+                        color: plVar(colorPrimary);
+
+                        .pl-tab-header-item-close {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            .pl-tab-header-bottom {
+
+            }
+
+            .pl-tab-header-bottom {
+                position: absolute;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                height: 2px;
+                content: '';
+                background-color: plVar(colorPrimaryLighter);
+
+                .pl-tab-header-bottom-tag {
+                    height: 100%;
+                    background-color: plVar(colorPrimary);
+                    position: absolute;
+                    @include transition-all;
+                }
+            }
+
+        }
+    }
 </style>
