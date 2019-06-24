@@ -4,7 +4,7 @@ import './index.scss'
 
 import demoRow from './aide/demo-row'
 import demoRowItem from './aide/demo-row-item'
-import demoChild from './components/other/demo-child'
+import demoChild from './pages/other/demo-child'
 
 import Plain from "src"
 import $utils from "../src/scripts/utils";
@@ -17,7 +17,7 @@ Vue.use(Plain, {
         const separateIndex = path.indexOf('?')
         if (separateIndex > -1) path = path.slice(0, separateIndex)
         // await Plain.$utils.delay(1000)
-        const component = (await import('portal/components' + path.replace('.vue', '') + '.vue')).default
+        const component = (await import('portal/pages' + path.replace('.vue', '') + '.vue')).default
         return component
     },
     prefix: 'im',
