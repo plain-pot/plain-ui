@@ -41,7 +41,7 @@ export const StandardButtons = {
         async handler() {
             const content = await this.$http.axios({
                 method: 'post',
-                url: '/lov/export',
+                url: this.option.p_urls.export,
                 data: {
                     attrMap: {
                         id: '编号',
