@@ -44,10 +44,12 @@
 </template>
 
 <script>
+
     export default {
         name: "plain-table-buttons",
         props: {
             status: {type: String, required: true},
+            buttons: {type: Array},
         },
         methods: {
             pl_click(event) {

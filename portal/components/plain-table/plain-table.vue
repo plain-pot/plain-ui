@@ -56,7 +56,7 @@
 <script>
     import PlainOption from "./plain-option";
     import PlainTableFilter from "./filter/plain-table-filter";
-    import PlainTableButtons from "./components/plain-table-buttons";
+    import PlainTableButtons from "./components/plain-table-buttons.vue";
 
     export default {
         name: "plain-table",
@@ -78,6 +78,7 @@
                 p_allStatus,
                 p_newRows: [],
                 table: null,
+                pl_keydown: null,
             }
         },
         created() {
@@ -87,8 +88,25 @@
         mounted() {
             this.table = this.$refs.table
             this.option.table = this
+            this.pl_initKeyboard()
         },
-        computed: {},
+        computed: {
+            keydownListener() {
+                return {
+                    Enter: () => {
+                        console.log('enter')
+                    },
+                    Escape: () => {
+                        this.cancel()
+                    },
+                    'ctrl+a': (e) => {
+                        if (e.target.tagName !== 'DIV') return true
+                        console.log(e)
+                        console.log('ctrl+a')
+                    },
+                }
+            },
+        },
         methods: {
             /**
              * 根据状态执行操作
@@ -272,6 +290,12 @@
             async pl_startDelete() {
                 await this.delete()
             },
+            /**
+             * 处理键盘事件
+             * @author  韦胜健
+             * @date    2019/6/24 13:54
+             */
+
 
             /*---------------------------------------处理增删改函数-------------------------------------------*/
             async pl_insert(editData) {
@@ -309,6 +333,34 @@
                 this.selectRow({index})
             },
 
+            /*---------------------------------------其他函数-------------------------------------------*/
+            /**
+             * 初始化键盘事件
+             * @author  韦胜健
+             * @date    2019/6/24 14:55
+             */
+            async pl_initKeyboard() {
+                this.pl_mouseenter = () => {
+                    this.pl_keydown = (e) => {
+                        const names = [];
+                        e.ctrlKey && names.push('ctrl')
+                        e.altKey && names.push('alt')
+                        e.shiftKey && names.push('shift')
+                        names.push(e.key)
+                        const name = names.join('+')
+                        if (!this.keydownListener[name]) return
+                        e.returnValue = this.keydownListener[name](e, name)
+                    }
+                    window.document.addEventListener('keydown', this.pl_keydown)
+                }
+                this.pl_mouseleave = () => window.document.removeEventListener('keydown', this.pl_keydown)
+                this.$el.addEventListener('mouseenter', this.pl_mouseenter)
+                this.$el.addEventListener('mouseleave', this.pl_mouseleave)
+            },
+        },
+        beforeDestroy() {
+            !!this.pl_mouseenter && this.$el.removeEventListener('mouseenter', this.pl_mouseenter)
+            !!this.pl_mouseleave && this.$el.removeEventListener('mouseleave', this.pl_mouseleave)
         }
     }
 </script>
@@ -316,6 +368,8 @@
 <style lang="scss">
     @include themeWrap {
         .plain-table {
+            outline: none;
+
             .plain-table-head {
                 padding-bottom: plVar(padding);
                 display: flex;
