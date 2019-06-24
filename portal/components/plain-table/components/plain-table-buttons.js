@@ -42,7 +42,14 @@ export const StandardButtons = {
             const content = await this.$http.axios({
                 method: 'post',
                 url: '/lov/export',
-                data: {},
+                data: {
+                    attrMap: {
+                        id: '编号',
+                        label: '显示值',
+                        code: '代码',
+                        type: '类型',
+                    }
+                },
                 responseType: 'blob'
             })
             const blob = new Blob([content.data])
