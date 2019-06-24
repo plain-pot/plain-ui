@@ -10,7 +10,8 @@
                                  @saveUpdate="save"
                                  @delete="pl_startDelete"
 
-                                 :status="status">
+                                 :status="status"
+                                 :buttons="buttons">
                 <slot name="button"></slot>
             </plain-table-buttons>
         </div>
@@ -57,6 +58,7 @@
     import PlainOption from "./plain-option";
     import PlainTableFilter from "./filter/plain-table-filter";
     import PlainTableButtons from "./components/plain-table-buttons.vue";
+    import {StandardButtons} from "./components/plain-table-buttons.js";
 
     export default {
         name: "plain-table",
@@ -91,8 +93,46 @@
             this.pl_initKeyboard()
         },
         computed: {
+            buttons() {
+                const standardButtons = this.$plain.$utils.deepCopy(StandardButtons)
+                const optionButtons = this.option.buttons || {}
+                const allButtonNames = Array.from(new Set(Object.keys(standardButtons).concat(Object.keys(optionButtons))))
+                const buttons = []
+                allButtonNames.forEach(name => {
+                    let sb = standardButtons[name]
+                    let ob = optionButtons[name]
+                    let btn;
+                    if (ob === false) return
+                    if ((ob === true || ob == null) && !!sb) {
+                        sb.standard = true
+                        btn = sb
+                    } else {
+                        if (!sb) {
+                            btn = ob
+                        } else {
+                            btn = this.$plain.$utils.deepmerge(sb, ob)
+                        }
+                    }
+                    if (!!btn) {
+                        const oldHandler = btn.handler
+                        btn.handler = (e) => {
+                            const display = btn.display == null ? true : this.$plain.$utils.typeOf(btn.display) === 'function' ? btn.display.apply(this.option.context) : !!btn.display
+                            const disabled = btn.disabled == null ? false : this.$plain.$utils.typeOf(btn.disabled) === 'function' ? btn.disabled.apply(this.option.context) : !!btn.disabled
+                            !!display && !disabled && !!oldHandler && (e.returnValue = oldHandler.apply(!!btn.standard ? this : this.option.context, [e]))
+                        }
+                        buttons.push(btn)
+                    }
+                })
+                return buttons
+            },
             keydownListener() {
+                const buttonMap = this.buttons.reduce((ret, item) => {
+                    if (!item.key) return ret
+                    ret[item.key] = item.handler
+                    return ret
+                }, {})
                 return {
+                    ...buttonMap,
                     Enter: () => {
                         console.log('enter')
                     },
@@ -104,6 +144,9 @@
                         console.log(e)
                         console.log('ctrl+a')
                     },
+                    'ctrl+s': (e) => {
+                        this.save()
+                    }
                 }
             },
         },
@@ -349,6 +392,7 @@
                         names.push(e.key)
                         const name = names.join('+')
                         if (!this.keydownListener[name]) return
+                        console.log(name)
                         e.returnValue = this.keydownListener[name](e, name)
                     }
                     window.document.addEventListener('keydown', this.pl_keydown)

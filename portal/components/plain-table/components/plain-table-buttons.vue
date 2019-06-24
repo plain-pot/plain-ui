@@ -20,9 +20,10 @@
         <div v-show="status === 'normal'">
             <slot></slot>
             <pl-button-group>
-                <pl-button label="新建" icon="pad-plus-circle" @click="pl_click('insert')"/>
-                <pl-button label="复制" icon="pad-file-copy" @click="pl_click('copy')"/>
-                <pl-button label="删除" icon="pad-delete" @click="pl_click('delete')"/>
+                <!--                <pl-button label="新建" icon="pad-plus-circle" @click="pl_click('insert')"/>-->
+                <!--                <pl-button label="复制" icon="pad-file-copy" @click="pl_click('copy')"/>-->
+                <!--                <pl-button label="删除" icon="pad-delete" @click="pl_click('delete')"/>-->
+                <pl-button v-for="(button,index) in outerButtons" :key="index" :label="button.label" :icon="button.icon" @click="button.handler"/>
             </pl-button-group>
             <pl-dropdown :popover="{popper:{height:null,width:100,align:'end',disabledEqual:true}}">
                 <pl-button label="更多" icon="pl-down" rightIcon/>
@@ -55,7 +56,17 @@
             pl_click(event) {
                 this.$emit(event)
             },
-        }
+        },
+        computed: {
+            innerButtons() {
+                if (!this.buttons) return
+                return this.buttons.filter(btn => !!btn.inner)
+            },
+            outerButtons() {
+                if (!this.buttons) return
+                return this.buttons.filter(btn => !btn.inner)
+            },
+        },
     }
 </script>
 

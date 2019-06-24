@@ -20,7 +20,8 @@
                     pageSize: 5,
                     urls: {
                         queryPage: 'lov/queryPage',
-                    }
+                    },
+                    buttons: {}
                 })
             }
         },
