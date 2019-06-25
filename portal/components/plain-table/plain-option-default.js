@@ -12,8 +12,8 @@ export const DEFAULT_URLS = {
     batchInsert: 'batchInsert',
     batchUpdate: 'batchUpdate',
     batchDelete: 'batchDelete',
-    export: 'exp',
-    import: 'imp',
+    exp: 'exp',
+    imp: 'imp',
 }
 
 /**

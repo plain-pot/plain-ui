@@ -41,7 +41,7 @@ export const StandardButtons = {
         async handler() {
             const content = await this.$http.axios({
                 method: 'post',
-                url: this.option.p_urls.export,
+                url: this.option.p_urls.exp,
                 data: {
                     attrMap: {
                         id: '编号',
@@ -75,8 +75,29 @@ export const StandardButtons = {
         type: 'other',
         label: '导入',
         icon: 'pad-Import',
-        handler() {
+        async handler() {
             console.log('导入');
+            const file = await this.$file.getFile(false, 'excel');
+            console.log(file);
+            let param = new FormData();
+            param.append("module", "lov");
+            param.append("file", file);
+            const {data} = await this.$http.axios({
+                url: this.option.p_urls.imp,
+                method: 'post',
+                data: param,
+                headers: {"Content-Type": "multipart/form-data"},
+                onUploadProgress: e => {
+                    var completeProgress = ((e.loaded / e.total * 100) | 0) + "%";
+                    console.log(completeProgress)
+                }
+            })
+            if (data.code !== 0) {
+                this.$dialog.show('导入失败：' + data.ret)
+            } else {
+                this.$dialog.show('导入成功')
+                this.option.reload()
+            }
         },
     },
 }

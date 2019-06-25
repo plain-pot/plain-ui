@@ -63,7 +63,7 @@ export default class HttpService {
 
     async axios(...args) {
         return await axios(...args).catch(e => {
-            this.Vue.prototype.$dialog.show(JSON.stringify('数据导出失败：' + e.message), {title: '网络异常！', type: 'error'})
+            this.Vue.prototype.$dialog.show(JSON.stringify('系统异常：' + e.message), {title: '网络异常！', type: 'error'})
         })
     }
 
