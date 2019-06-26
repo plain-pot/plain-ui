@@ -1,4 +1,11 @@
 /**
+ * 复制的时候默认排除的属性
+ * @author  韦胜健
+ * @date    2019/6/26 22:33
+ */
+export const COPY_EXCLUDE_KEY = ['id', 'createdAt', 'updatedAt', 'createdBy', 'updatedBy']
+
+/**
  * 默认查询地址后缀
  * @author  韦胜健
  * @date    2019/6/20 14:17
@@ -29,6 +36,7 @@ export const DEFAULT_OPTION_PUBLIC = {
     sortDesc: true,
     pageSize: 10,
     pageOption: [5, 10, 20, 50, 100],
+    copyExcludeKey: [...COPY_EXCLUDE_KEY]
 }
 
 /**

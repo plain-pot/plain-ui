@@ -29,7 +29,7 @@ export const StandardButtons = {
         icon: 'pad-file-copy',
         key: 'ctrl+b',
         handler() {
-            console.log('复制', this)
+            this.copy()
         },
     },
     deleteButton: {

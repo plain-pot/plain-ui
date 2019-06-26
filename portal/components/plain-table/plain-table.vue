@@ -117,19 +117,13 @@
                     if (!!btn) {
                         if (!btn.type) btn.type = 'other'
                         const oldHandler = btn.handler
-                        btn.handler = (e) => {
+                        btn.handler = async (e) => {
                             const display = btn.display == null ? true : this.$plain.$utils.typeOf(btn.display) === 'function' ? btn.display.apply(this.option.context) : !!btn.display
                             const disabled = btn.disabled == null ? false : this.$plain.$utils.typeOf(btn.disabled) === 'function' ? btn.disabled.apply(this.option.context) : !!btn.disabled
                             if (!!display && !disabled && !!oldHandler) {
                                 let param;
-                                if (!!btn.needRow) {
-                                    param = this.option.selectDataRow
-                                    if (!param) {
-                                        this.$dialog.show('请选择一行数据！')
-                                        return
-                                    }
-                                }
-                                e.returnValue = oldHandler.apply(!!btn.standard ? this : this.option.context, [param])
+                                if (!!btn.needRow) param = await this.getSelectDataRow()
+                                e.returnValue = oldHandler.apply(!!btn.standard ? this : this.option.context, [param, e])
                             }
                         }
                         buttons.push(btn)
@@ -145,11 +139,11 @@
                 }, {})
                 return {
                     ...buttonMap,
-                    Enter: () => {
-                        console.log('enter')
+                    Enter: async () => {
+                        await this.save()
                     },
-                    Escape: () => {
-                        this.cancel()
+                    Escape: async () => {
+                        await this.cancel()
                     },
                     'ctrl+a': (e) => {
                         if (e.target.tagName !== 'DIV') return true
@@ -188,12 +182,11 @@
              * @author  韦胜健
              * @date    2019/6/23 11:39
              */
-            async newInsert() {
+            async newInsert(newRow) {
                 await this.$plain.nextTick()
+                newRow = newRow || {}
+                newRow.id = 'uuid' + this.$plain.$utils.uuid()
 
-                const newRow = {
-                    id: 'uuid' + this.$plain.$utils.uuid(),
-                }
                 this.p_newRows.unshift(newRow)
                 this.option.list.unshift(newRow)
                 await this.$plain.nextTick()
@@ -302,16 +295,10 @@
              * @author  韦胜健
              * @date    2019/6/23 21:03
              */
-            delete(index) {
+            async delete(index) {
                 if (index == null) {
-                    const deleteDataRow = this.option.selectDataRow
-                    if (!deleteDataRow) {
-                        const msg = '请选择要删除的一行数据！'
-                        this.$dialog.show(msg, {type: 'error'})
-                        return Promise.reject(msg)
-                    } else {
-                        index = deleteDataRow.index
-                    }
+                    const deleteDataRow = await this.getSelectDataRow('请选择要删除的一行数据！')
+                    index = deleteDataRow.index
                 }
                 this.$dialog.show(`确定要删除第${(this.option.page - 1) * this.option.pageSize + index + 1}条数据吗？`, {
                     confirmButton: true,
@@ -320,6 +307,35 @@
                         this.pl_delete(index)
                     }
                 })
+            },
+            /**
+             * 获取当前选中行
+             * @author  韦胜健
+             * @date    2019/6/26 22:24
+             */
+            async getSelectDataRow(msg = '请选择一行数据！') {
+                const selectDataRow = this.option.selectDataRow
+                if (!selectDataRow) {
+                    this.$dialog.show(msg, {type: 'error'})
+                    return Promise.reject(msg)
+                } else {
+                    return selectDataRow
+                }
+            },
+            /**
+             * 复制一行数据
+             * @author  韦胜健
+             * @date    2019/6/26 22:28
+             */
+            async copy() {
+                const selectDataRow = await this.getSelectDataRow()
+                const newRow = this.$plain.$utils.deepCopy(selectDataRow.row)
+                if (!!this.option.copyExcludeKey && this.option.copyExcludeKey.length > 0) {
+                    this.option.copyExcludeKey.forEach(key => {
+                        if (newRow.hasOwnProperty(key)) newRow[key] = null
+                    })
+                }
+                this.newInsert(newRow)
             },
 
             /*---------------------------------------处理事件-------------------------------------------*/

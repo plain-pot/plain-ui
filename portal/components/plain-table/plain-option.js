@@ -21,6 +21,7 @@ const component = {
             sortDesc: null,                 //默认排序方式
             pageSize: null,                 //页大小
             pageOption: null,               //页大小选项
+            copyExcludeKey: null,           //复制行的时候，默认不复制的属性
 
             list: [],                       //当前数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
