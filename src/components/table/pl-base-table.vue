@@ -416,7 +416,7 @@
                     this.mouseenterRow({item, index, e})
                     return
                 }
-                if (this.p_hoverIndex != null) this.p_data[this.p_hoverIndex].hover = false
+                if (this.p_hoverIndex != null && !!this.p_data[this.p_hoverIndex]) this.p_data[this.p_hoverIndex].hover = false
                 this.p_hoverIndex = index
                 this.p_data[this.p_hoverIndex].hover = true
             },

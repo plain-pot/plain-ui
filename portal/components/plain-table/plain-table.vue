@@ -152,7 +152,20 @@
                     },
                     'ctrl+s': (e) => {
                         this.save()
-                    }
+                    },
+                    ArrowDown: async () => {
+
+                    },
+                    ArrowUp: async () => {
+
+                    },
+                    ArrowLeft: async () => {
+                        await this.option.prevPage()
+                    },
+                    ArrowRight: async () => {
+                        await this.option.nextPage()
+                    },
+
                 }
             },
         },
@@ -429,8 +442,9 @@
                         e.shiftKey && names.push('shift')
                         names.push(e.key)
                         const name = names.join('+')
-                        if (!this.keydownListener[name]) return
                         console.log(name)
+                        if (!this.keydownListener[name]) return
+                        // console.log(name)
                         e.returnValue = this.keydownListener[name](e, name)
                     }
                     window.document.addEventListener('keydown', this.pl_keydown)
@@ -441,6 +455,7 @@
             },
         },
         beforeDestroy() {
+            console.log('beforeDestroy')
             console.log(!!this.pl_mouseenter)
             !!this.pl_mouseenter && this.$el.removeEventListener('mouseenter', this.pl_mouseenter)
             !!this.pl_mouseleave && this.$el.removeEventListener('mouseleave', this.pl_mouseleave)
