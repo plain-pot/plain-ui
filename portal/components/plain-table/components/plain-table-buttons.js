@@ -1,3 +1,10 @@
+export const DEFAULT_BUTTON_ORDER = {
+    insert: 100,
+    update: 50,
+    delete: 1,
+    other: -1,
+}
+
 export const StandardButtons = {
     insertButton: {
         type: 'insert',                         //按钮类型，受安全性控制
@@ -34,6 +41,67 @@ export const StandardButtons = {
             this.delete()
         },
     },
+
+    batchUpdateButton: {
+        type: 'update',
+        label: '多行编辑',
+        icon: 'pad-unorderedlist',
+        inner: true,
+        handler() {
+            this.$message.show('多行编辑')
+        },
+    },
+    batchModify: {
+        type: 'update',
+        label: '批量修改',
+        icon: 'pad-edit-square',
+        inner: true,
+        handler() {
+            this.$message.show('批量修改')
+        },
+    },
+    customFilterButton: {
+        label: '高级筛选',
+        icon: 'pad-filter',
+        inner: true,
+        handler() {
+            this.$message.show('高级筛选')
+        },
+    },
+    customSortButton: {
+        label: '高级排序',
+        icon: 'pad-sort-ascending',
+        inner: true,
+        handler() {
+            this.$message.show('高级排序')
+        },
+    },
+    configHeightButton: {
+        label: '高度设置',
+        icon: 'pad-menu',
+        inner: true,
+        handler() {
+            this.$message.show('高度设置')
+        },
+    },
+    showDetailButton: {
+        label: '记录明细',
+        icon: 'pad-detail',
+        inner: true,
+        handler() {
+            this.$message.show('记录明细')
+        },
+    },
+    showCountButton: {
+        label: '记录总数',
+        icon: 'pad-table1',
+        inner: true,
+        handler() {
+            this.$message.show('记录总数')
+        },
+    },
+
+
     exportButton: {
         type: 'other',
         label: '数据导出',
@@ -78,9 +146,9 @@ export const StandardButtons = {
         icon: 'pad-Import',
         inner: true,
         async handler() {
-            console.log('导入');
+            // console.log('导入');
             const file = await this.$file.getFile(false, 'excel');
-            console.log(file);
+            // console.log(file);
             let param = new FormData();
             param.append("module", "lov");
             param.append("file", file);
@@ -91,7 +159,7 @@ export const StandardButtons = {
                 headers: {"Content-Type": "multipart/form-data"},
                 onUploadProgress: e => {
                     var completeProgress = ((e.loaded / e.total * 100) | 0) + "%";
-                    console.log(completeProgress)
+                    console.log('completeProgress:' + completeProgress)
                 }
             })
             if (data.code !== 0) {

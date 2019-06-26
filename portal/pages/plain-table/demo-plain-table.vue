@@ -20,7 +20,16 @@
                     urls: {
                         queryPage: 'lov/queryPage',
                     },
-                    buttons: {}
+                    buttons: {
+                        clearCacheButton: {
+                            label: '清除缓存',
+                            icon: 'pad-clear',
+                            order: 200,
+                            handler() {
+                                this.$message.show('清除缓存')
+                            },
+                        }
+                    }
                 })
             }
         },

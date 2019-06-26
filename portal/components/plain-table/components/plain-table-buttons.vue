@@ -47,6 +47,8 @@
 
 <script>
 
+    import {DEFAULT_BUTTON_ORDER} from "./plain-table-buttons";
+
     export default {
         name: "plain-table-buttons",
         props: {
@@ -61,11 +63,19 @@
         computed: {
             innerButtons() {
                 if (!this.buttons) return
-                return this.buttons.filter(btn => !!btn.inner)
+                return this.buttons.filter(btn => !!btn.inner).sort((a, b) => {
+                    const ao = a.order || DEFAULT_BUTTON_ORDER[a.type]
+                    const bo = b.order || DEFAULT_BUTTON_ORDER[b.type]
+                    return bo - ao
+                })
             },
             outerButtons() {
                 if (!this.buttons) return
-                return this.buttons.filter(btn => !btn.inner)
+                return this.buttons.filter(btn => !btn.inner).sort((a, b) => {
+                    const ao = a.order || DEFAULT_BUTTON_ORDER[a.type]
+                    const bo = b.order || DEFAULT_BUTTON_ORDER[b.type]
+                    return bo - ao
+                })
             },
         },
     }

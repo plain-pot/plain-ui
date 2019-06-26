@@ -114,6 +114,7 @@
                         }
                     }
                     if (!!btn) {
+                        if (!btn.type) btn.type = 'other'
                         const oldHandler = btn.handler
                         btn.handler = (e) => {
                             const display = btn.display == null ? true : this.$plain.$utils.typeOf(btn.display) === 'function' ? btn.display.apply(this.option.context) : !!btn.display
