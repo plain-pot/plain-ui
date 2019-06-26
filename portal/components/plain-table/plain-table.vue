@@ -385,6 +385,20 @@
                         await this.$plain.nextTick()
                         window.getSelection().empty()
                     },
+                    async insert() {
+                        await this.save()
+                        this.table.enableEdit({index: dataRow.index})
+                        this.changeStatus(this.EDIT_STATUS.update)
+                        await this.$plain.nextTick()
+                        window.getSelection().empty()
+                    },
+                    async update() {
+                        await this.save()
+                        this.table.enableEdit({index: dataRow.index})
+                        this.changeStatus(this.EDIT_STATUS.update)
+                        await this.$plain.nextTick()
+                        window.getSelection().empty()
+                    },
                 })
             },
             /**
