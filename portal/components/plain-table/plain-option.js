@@ -82,6 +82,8 @@ const component = {
 
             this.list = ret
             this.page = param.query.page
+
+            this.$emit('load')
         },
         /**
          * 回到第一页重新加载数据

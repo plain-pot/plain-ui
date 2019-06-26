@@ -67,6 +67,15 @@
         props: {
             option: {require: true, type: PlainOption},
         },
+        watch: {
+            option: {
+                immediate: true,
+                async handler(newVal, oldVal) {
+                    !!oldVal && oldVal.$off('load', this.pl_onOptionLoad)
+                    !!newVal && newVal.$on('load', this.pl_onOptionLoad)
+                },
+            },
+        },
         data() {
             const EDIT_STATUS = {
                 normal: 'normal',
@@ -390,10 +399,15 @@
                 await this.delete()
             },
             /**
-             * 处理键盘事件
+             * 处理option 的load事件
              * @author  韦胜健
-             * @date    2019/6/24 13:54
+             * @date    2019/6/26 23:08
              */
+            async pl_onOptionLoad() {
+                await this.$plain.nextTick()
+                const index = this.option.list.length > 0 ? 0 : null
+                this.selectRow({index})
+            },
 
 
             /*---------------------------------------处理增删改函数-------------------------------------------*/
@@ -441,28 +455,37 @@
             async pl_initKeyboard() {
                 console.log('pl_initKeyboard')
                 this.pl_mouseenter = () => {
-                    this.pl_keydown = (e) => {
+                    if (!!this.$el.__keydown__) {
+                        return
+                    }
+                    this.$el.__keydown__ = (e) => {
                         const names = [];
                         e.ctrlKey && names.push('ctrl')
                         e.altKey && names.push('alt')
                         e.shiftKey && names.push('shift')
                         names.push(e.key)
                         const name = names.join('+')
-                        console.log(name)
-                        if (!this.keydownListener[name]) return
                         // console.log(name)
+                        if (!this.keydownListener[name]) return
+                        console.log(name)
                         e.returnValue = this.keydownListener[name](e, name)
                     }
-                    window.document.addEventListener('keydown', this.pl_keydown)
+                    window.document.addEventListener('keydown', this.$el.__keydown__)
                 }
-                this.pl_mouseleave = () => window.document.removeEventListener('keydown', this.pl_keydown)
+                this.pl_mouseleave = () => {
+                    window.document.removeEventListener('keydown', this.$el.__keydown__)
+                    this.$el.__keydown__ = null
+                }
                 this.$el.addEventListener('mouseenter', this.pl_mouseenter)
                 this.$el.addEventListener('mouseleave', this.pl_mouseleave)
             },
         },
         beforeDestroy() {
             console.log('beforeDestroy')
-            console.log(!!this.pl_mouseenter)
+            if (!!this.$el.__keydown__) {
+                window.document.removeEventListener('keydown', this.pl_keydown)
+                this.$el.__keydown__ = null
+            }
             !!this.pl_mouseenter && this.$el.removeEventListener('mouseenter', this.pl_mouseenter)
             !!this.pl_mouseleave && this.$el.removeEventListener('mouseleave', this.pl_mouseleave)
         }
