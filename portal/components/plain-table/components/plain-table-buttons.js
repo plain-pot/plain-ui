@@ -56,7 +56,16 @@ export const StandardButtons = {
             })
         },
     },
-    batchModify: {
+    formEditButton: {
+        type: 'update',
+        label: '表单编辑',
+        icon: 'pad-edit',
+        inner: true,
+        handler() {
+            this.$message.show('表单编辑')
+        },
+    },
+    batchModifyButton: {
         type: 'update',
         label: '批量修改',
         icon: 'pad-edit-square',
