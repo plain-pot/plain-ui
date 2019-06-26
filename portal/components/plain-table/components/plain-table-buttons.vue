@@ -28,7 +28,8 @@
             <pl-dropdown :popover="{popper:{height:null,width:100,align:'end',disabledEqual:true}}">
                 <pl-button label="更多" icon="pl-down" rightIcon/>
                 <div slot="popper" class="plain-table-buttons-more-popper">
-                    <pl-dropdown-item label="表单编辑" icon="pad-edit"/>
+                    <pl-dropdown-item v-for="(button,index) in innerButtons" :key="index" :label="button.label" :icon="button.icon" @click="button.handler"/>
+                    <!--<pl-dropdown-item label="表单编辑" icon="pad-edit"/>
                     <pl-dropdown-item label="多行编辑" icon="pad-unorderedlist"/>
                     <pl-dropdown-item label="批量修改" icon="pad-edit-square"/>
                     <pl-dropdown-item label="高级筛选" icon="pad-filter"/>
@@ -37,7 +38,7 @@
                     <pl-dropdown-item label="数据导入" icon="pad-Import"/>
                     <pl-dropdown-item label="高度设置" icon="pad-menu"/>
                     <pl-dropdown-item label="记录明细" icon="pad-detail"/>
-                    <pl-dropdown-item label="记录总数" icon="pad-table1"/>
+                    <pl-dropdown-item label="记录总数" icon="pad-table1"/>-->
                 </div>
             </pl-dropdown>
         </div>

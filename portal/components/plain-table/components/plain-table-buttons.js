@@ -36,8 +36,9 @@ export const StandardButtons = {
     },
     exportButton: {
         type: 'other',
-        label: '导出',
+        label: '数据导出',
         icon: 'pad-export',
+        inner: true,
         async handler() {
             const content = await this.$http.axios({
                 method: 'post',
@@ -73,8 +74,9 @@ export const StandardButtons = {
     },
     importButton: {
         type: 'other',
-        label: '导入',
+        label: '数据导入',
         icon: 'pad-Import',
+        inner: true,
         async handler() {
             console.log('导入');
             const file = await this.$file.getFile(false, 'excel');
