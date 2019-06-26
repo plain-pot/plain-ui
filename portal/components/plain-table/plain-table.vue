@@ -4,6 +4,7 @@
             <plain-table-filter/>
             <plain-table-buttons @insert="newInsert"
                                  @continueInsert="newInsert"
+                                 @nextInsert="saveAndInsert"
                                  @cancelInsert="cancel"
                                  @saveInsert="save"
                                  @cancelUpdate="cancel"
@@ -190,6 +191,15 @@
                 this.changeStatus(this.EDIT_STATUS.insert)
             },
             /**
+             * 保存并且新建
+             * @author  韦胜健
+             * @date    2019/6/26 22:07
+             */
+            async saveAndInsert() {
+                await this.save()
+                await this.newInsert()
+            },
+            /**
              * 取消
              * @author  韦胜健
              * @date    2019/6/23 16:19
@@ -220,7 +230,7 @@
              * @date    2019/6/23 16:28
              */
             async save() {
-                this.checkStatus({
+                await this.checkStatus({
                     async insert() {
                         const editDataArray = await this.table.getEditData()
                         if (editDataArray.length === 0) {
