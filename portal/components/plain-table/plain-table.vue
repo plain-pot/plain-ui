@@ -378,26 +378,23 @@
              * @date    2019/6/23 21:02
              */
             pl_dblClickRow({item: dataRow}) {
+                const next = async () => {
+                    await this.save()
+                    this.table.enableEdit({index: dataRow.index})
+                    this.changeStatus(this.EDIT_STATUS.update)
+                    await this.$plain.nextTick()
+                    window.getSelection().empty()
+                }
                 this.checkStatus({
                     async normal() {
-                        this.table.enableEdit({index: dataRow.index})
-                        this.changeStatus(this.EDIT_STATUS.update)
-                        await this.$plain.nextTick()
-                        window.getSelection().empty()
+                        await next()
                     },
                     async insert() {
-                        await this.save()
-                        this.table.enableEdit({index: dataRow.index})
-                        this.changeStatus(this.EDIT_STATUS.update)
-                        await this.$plain.nextTick()
-                        window.getSelection().empty()
+                        await next()
                     },
                     async update() {
                         await this.save()
-                        this.table.enableEdit({index: dataRow.index})
-                        this.changeStatus(this.EDIT_STATUS.update)
-                        await this.$plain.nextTick()
-                        window.getSelection().empty()
+                        await next()
                     },
                 })
             },
