@@ -154,10 +154,16 @@
                         this.save()
                     },
                     ArrowDown: async () => {
-
+                        let selectDataRow = this.option.selectDataRow
+                        if (!selectDataRow && this.option.list.length > 0) selectDataRow = {index: -1}
+                        console.log(selectDataRow.index + 1)
+                        !!selectDataRow && !!this.option.list[selectDataRow.index + 1] && this.selectRow({index: selectDataRow.index + 1})
                     },
                     ArrowUp: async () => {
-
+                        let selectDataRow = this.option.selectDataRow
+                        if (!selectDataRow && this.option.list.length > 0) selectDataRow = {index: this.option.list.length}
+                        console.log(selectDataRow.index - 1)
+                        !!selectDataRow && !!this.option.list[selectDataRow.index - 1] && this.selectRow({index: selectDataRow.index - 1})
                     },
                     ArrowLeft: async () => {
                         await this.option.prevPage()
