@@ -190,6 +190,11 @@ const component = {
             const {ret} = await this.request(this.p_urls.update, editRow)
             return ret
         },
+        async batchUpdate(dataRows) {
+            const rows = dataRows.map(({editRow}) => this.$plain.$utils.deepCopy(editRow))
+            const {ret} = await this.request(this.p_urls.batchUpdate, rows)
+            return ret
+        },
         async delete({row, index}) {
             const {ret} = await this.request(this.p_urls.delete, row)
             return ret

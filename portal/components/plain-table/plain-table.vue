@@ -280,6 +280,7 @@
                             await this.pl_update(editDataArray[0])
                         } else {
                             await this.pl_batchUpdate(editDataArray)
+                            this.$nextTick(() => this.option.load())
                         }
                     },
                     async select() {
@@ -424,7 +425,8 @@
                 this.table.saveEdit({index})
                 this.table.disableEdit({index})
             },
-            async pl_batchUpdate(editData) {
+            async pl_batchUpdate(editDataArray) {
+                await this.option.batchUpdate(editDataArray)
             },
             async pl_delete(index) {
                 const row = this.option.list[index]

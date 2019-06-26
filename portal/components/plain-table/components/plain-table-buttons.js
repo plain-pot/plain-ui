@@ -48,7 +48,12 @@ export const StandardButtons = {
         icon: 'pad-unorderedlist',
         inner: true,
         handler() {
-            this.$message.show('多行编辑')
+            this.checkStatus({
+                async normal() {
+                    this.table.enableEdit()
+                    this.changeStatus(this.EDIT_STATUS.update)
+                },
+            })
         },
     },
     batchModify: {
