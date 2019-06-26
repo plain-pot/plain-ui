@@ -120,7 +120,17 @@
                         btn.handler = (e) => {
                             const display = btn.display == null ? true : this.$plain.$utils.typeOf(btn.display) === 'function' ? btn.display.apply(this.option.context) : !!btn.display
                             const disabled = btn.disabled == null ? false : this.$plain.$utils.typeOf(btn.disabled) === 'function' ? btn.disabled.apply(this.option.context) : !!btn.disabled
-                            !!display && !disabled && !!oldHandler && (e.returnValue = oldHandler.apply(!!btn.standard ? this : this.option.context, [e]))
+                            if (!!display && !disabled && !!oldHandler) {
+                                let param;
+                                if (!!btn.needRow) {
+                                    param = this.option.selectDataRow
+                                    if (!param) {
+                                        this.$dialog.show('请选择一行数据！')
+                                        return
+                                    }
+                                }
+                                e.returnValue = oldHandler.apply(!!btn.standard ? this : this.option.context, [param])
+                            }
                         }
                         buttons.push(btn)
                     }
