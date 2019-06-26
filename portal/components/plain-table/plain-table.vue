@@ -123,7 +123,7 @@
                             if (!!display && !disabled && !!oldHandler) {
                                 let param;
                                 if (!!btn.needRow) param = await this.getSelectDataRow()
-                                e.returnValue = oldHandler.apply(!!btn.standard ? this : this.option.context, [param, e])
+                                e.returnValue = await oldHandler.apply(!!btn.standard ? this : this.option.context, [param, e])
                             }
                         }
                         buttons.push(btn)

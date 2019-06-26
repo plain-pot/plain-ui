@@ -16,7 +16,8 @@
 
       .pl-nav-tab-item {
         height: 100%;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
 
       .pl-nav-tab-content-empty {
