@@ -42,6 +42,8 @@
                 module: 'address',
                 sortField: 'code',
                 sortDesc: false,
+                showNum: 5,
+                pageSize: 5,
                 filters: [
                     {field: 'deep', value: '0'}
                 ]
