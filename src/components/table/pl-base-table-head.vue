@@ -49,6 +49,7 @@
         .pl-base-table-head {
             position: relative;
             overflow: hidden;
+            border-bottom: solid 1px plVar(colorBorder);
 
             table {
                 font-size: 12px;
