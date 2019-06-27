@@ -426,7 +426,7 @@
              * @date    2019/5/27 18:39
              */
             pl_mouseleave() {
-                if (this.p_hoverIndex != null) this.p_data[this.p_hoverIndex].hover = false
+                if (this.p_hoverIndex != null && !!this.p_data[this.p_hoverIndex]) this.p_data[this.p_hoverIndex].hover = false
                 this.p_hoverIndex = null
             },
 
