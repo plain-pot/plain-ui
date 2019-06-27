@@ -25,6 +25,9 @@ const component = {
             filters: null,                  //筛选参数
             parentOption: null,             //父表option
             map: null,                      //与父表联动的字段映射关系
+            defaultNewRow: null,            //默认新行值
+            defaultId: null,                //新建行时是否需要一个id
+            forceLoadAfterParentChange: null,//默认情况下，option所属表格没有初始化的话，option是不查询数据的，即便option父表数据发生变化，如果父表变化，需要强制查询数据，请设置该属性为true
 
             list: [],                       //当前数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
@@ -203,17 +206,46 @@ const component = {
             ret.query = query
             return ret
         },
+        /**
+         * 获取新行数据，有时候在父子表关系下，开发者需要获取新行，可以通过这个函数获取
+         * @author  韦胜健
+         * @date    2019/6/27 19:16
+         */
+        async getNewRow() {
+            const newRow = {}
+            if (!!this.parentOption) {
+                if (!this.parentOption.selectDataRow) return null
+                Object.keys(this.map).forEach(key => newRow[key] = this.parentOption.selectDataRow.row[this.map[key]])
+            }
+            if (!!this.defaultNewRow) {
+                switch (this.$plain.$utils.typeOf(this.defaultNewRow)) {
+                    case 'object':
+                        Object.assign(newRow, this.$plain.$utils.deepCopy(this.defaultNewRow))
+                        break
+                    case 'function':
+                        const defaultNewRow = await this.defaultNewRow.apply(this.context, newRow)
+                        if (!!defaultNewRow) Object.assign(newRow, defaultNewRow)
+                        break
+                }
+            }
+            if (!!this.defaultId) {
+                const {ret} = await this.request(this.p_urls.defaultId)
+                console.log(ret)
+                newRow.id = ret
+            }
+            return newRow
+        },
 
         /*---------------------------------------增删改-------------------------------------------*/
         async insert({row, editRow, index}) {
-            delete editRow.id
+            if ((editRow.id + '').indexOf('uuid') > -1) delete editRow.id
             const {ret} = await this.request(this.p_urls.insert, editRow)
             return ret
         },
         async batchInsert(dataRows) {
             const rows = dataRows.map(({editRow}) => {
                 const copyRow = this.$plain.$utils.deepCopy(editRow)
-                delete copyRow.id
+                if (copyRow.id.indexOf('uuid') > -1) delete copyRow.id
                 return copyRow
             }).reverse()
             const {ret} = await this.request(this.p_urls.batchInsert, rows)
@@ -299,6 +331,8 @@ class PlainOption extends Vue {
         if (!!this.parentOption) {
             this.parentOption.$on('selectChange', () => {
                 console.log('parent selectChange')
+                /*如果当前option所属表格没有并且没有强制查询数据，则直接返回*/
+                if (!this.p_defaultOptionType && !this.forceLoadAfterParentChange) return
                 this.reload()
             })
         }

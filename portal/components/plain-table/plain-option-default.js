@@ -21,6 +21,7 @@ export const DEFAULT_URLS = {
     batchDelete: 'batchDelete',
     exp: 'exp',
     imp: 'imp',
+    defaultId: 'defaultId',
 }
 
 /**

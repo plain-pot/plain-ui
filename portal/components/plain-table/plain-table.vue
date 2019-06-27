@@ -206,10 +206,16 @@
              * @author  韦胜健
              * @date    2019/6/23 11:39
              */
-            async newInsert(newRow) {
+            async newInsert(copyRow) {
                 await this.$plain.nextTick()
+                let newRow;
+                if (!!copyRow) {
+                    newRow = copyRow
+                } else {
+                    newRow = await this.option.getNewRow()
+                }
                 newRow = newRow || {}
-                newRow.id = 'uuid' + this.$plain.$utils.uuid()
+                newRow.id = newRow.id || 'uuid' + this.$plain.$utils.uuid()
 
                 this.p_newRows.unshift(newRow)
                 this.option.list.unshift(newRow)
