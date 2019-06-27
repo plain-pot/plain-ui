@@ -23,6 +23,8 @@ const component = {
             pageOption: null,               //页大小选项
             copyExcludeKey: null,           //复制行的时候，默认不复制的属性
             filters: null,                  //筛选参数
+            parentOption: null,             //父表option
+            map: null,                      //与父表联动的字段映射关系
 
             list: [],                       //当前数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
@@ -61,6 +63,15 @@ const component = {
          * @param   isReload        是否为重新加载数据
          */
         async load(page, isReload) {
+
+            if (!!this.parentOption && !this.parentOption.selectDataRow) {
+                this.page = 0
+                this.list = []
+                this.noMore = true
+                this.$emit('load')
+                return
+            }
+
             page = page || this.page
             const param = this.getQueryParam()
             const pageSize = param.query.pageSize
@@ -174,7 +185,19 @@ const component = {
             }
             /*筛选*/
             let filters = []
+            //option筛选
             if (!!this.filters) filters = filters.concat(this.$plain.$utils.deepCopy(this.filters))
+            //parent筛选
+            if (!!this.parentOption) {
+                const parentFilter = []
+                Object.keys(this.map || {}).forEach(key => {
+                    parentFilter.push({
+                        field: key,
+                        value: this.parentOption.selectDataRow.row[this.map[key]]
+                    })
+                })
+                filters = filters.concat(parentFilter)
+            }
             query.filters = filters
 
             ret.query = query
@@ -272,6 +295,13 @@ class PlainOption extends Vue {
         Object.assign(this, sourceOption)
 
         // this.$nextTick(() => this.logOption())
+
+        if (!!this.parentOption) {
+            this.parentOption.$on('selectChange', () => {
+                console.log('parent selectChange')
+                this.reload()
+            })
+        }
     }
 }
 
