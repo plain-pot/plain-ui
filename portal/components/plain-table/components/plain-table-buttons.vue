@@ -23,7 +23,7 @@
                 <!--                <pl-button label="新建" icon="pad-plus-circle" @click="pl_click('insert')"/>-->
                 <!--                <pl-button label="复制" icon="pad-file-copy" @click="pl_click('copy')"/>-->
                 <!--                <pl-button label="删除" icon="pad-delete" @click="pl_click('delete')"/>-->
-                <pl-button v-for="(button,index) in outerButtons" :key="index" :label="button.label" :icon="button.icon" @click="button.handler"/>
+                <pl-button v-for="(button,index) in outerButtons" :key="index" :label="button.label" :icon="button.icon" @click="button.handler" :disabled="button.disabled()" :display="button.display()"/>
             </pl-button-group>
             <pl-dropdown :popover="{popper:{height:null,width:100,align:'end',disabledEqual:true}}">
                 <pl-button label="更多" icon="pl-down" rightIcon/>

@@ -45,5 +45,8 @@
 </script>
 
 <style lang="scss">
-
+    .demo-imp-list {
+        padding: 16px 0;
+        box-sizing: border-box;
+    }
 </style>

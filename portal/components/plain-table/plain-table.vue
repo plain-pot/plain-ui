@@ -124,7 +124,28 @@
                         }
                     }
                     if (!!btn) {
-                        if (!btn.type) btn.type = 'other'
+                        if (btn.type == null) btn.type = 'other'
+                        if (btn.display == null) btn.display = true
+                        if (btn.disabled == null) btn.disabled = false
+
+                        const ctx = !!btn.standard ? this : this.option.context
+                        const oldDisplay = btn.display
+                        btn.display = () => {
+                            if (this.$plain.$utils.typeOf(oldDisplay) === 'function') {
+                                return oldDisplay.apply(ctx)
+                            } else {
+                                return oldDisplay
+                            }
+                        }
+                        const oldDisabled = btn.disabled
+                        btn.disabled = () => {
+                            if (this.$plain.$utils.typeOf(oldDisabled) === 'function') {
+                                return oldDisabled.apply(ctx)
+                            } else {
+                                return oldDisabled
+                            }
+                        }
+
                         const oldHandler = btn.handler
                         btn.handler = async (e) => {
                             const display = btn.display == null ? true : this.$plain.$utils.typeOf(btn.display) === 'function' ? btn.display.apply(this.option.context) : !!btn.display
@@ -132,7 +153,7 @@
                             if (!!display && !disabled && !!oldHandler) {
                                 let param;
                                 if (!!btn.needRow) param = await this.getSelectDataRow()
-                                e.returnValue = await oldHandler.apply(!!btn.standard ? this : this.option.context, [param, e])
+                                e.returnValue = await oldHandler.apply(ctx, [param, e])
                             }
                         }
                         buttons.push(btn)
