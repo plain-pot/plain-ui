@@ -16,6 +16,8 @@
             const impOption = new PlainOption({
                 context: this,
                 module: 'imp',
+                showNum: 5,
+                pageSize: 5,
             })
             return {
                 impOption,
