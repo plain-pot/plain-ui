@@ -330,7 +330,7 @@ class PlainOption extends Vue {
 
         if (!!this.parentOption) {
             this.parentOption.$on('selectChange', () => {
-                console.log('parent selectChange')
+                // console.log('parent selectChange')
                 /*如果当前option所属表格没有并且没有强制查询数据，则直接返回*/
                 if (!this.p_defaultOptionType && !this.forceLoadAfterParentChange) return
                 this.reload()

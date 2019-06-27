@@ -44,6 +44,7 @@
                 sortDesc: false,
                 showNum: 5,
                 pageSize: 5,
+                defaultId: true,
                 defaultNewRow: {
                     deep: '0',
                 },
@@ -58,7 +59,6 @@
                 sortDesc: false,
                 showNum: 5,
                 pageSize: 5,
-                defaultId: true,
                 defaultNewRow: {
                     deep: '1',
                 },

@@ -366,6 +366,10 @@
                         if (newRow.hasOwnProperty(key)) newRow[key] = null
                     })
                 }
+                if (!!this.option.defaultId) {
+                    const {ret} = await this.option.request(this.option.p_urls.defaultId)
+                    newRow.id = ret
+                }
                 this.newInsert(newRow)
             },
 
@@ -468,7 +472,6 @@
              * @date    2019/6/24 14:55
              */
             async pl_initKeyboard() {
-                console.log('pl_initKeyboard')
                 this.pl_mouseenter = () => {
                     if (!!this.$el.__keydown__) {
                         return
@@ -482,7 +485,7 @@
                         const name = names.join('+')
                         // console.log(name)
                         if (!this.keydownListener[name]) return
-                        console.log(name)
+                        // console.log(name)
                         e.returnValue = this.keydownListener[name](e, name)
                     }
                     window.document.addEventListener('keydown', this.$el.__keydown__)
@@ -496,7 +499,6 @@
             },
         },
         beforeDestroy() {
-            console.log('beforeDestroy')
             if (!!this.$el.__keydown__) {
                 window.document.removeEventListener('keydown', this.pl_keydown)
                 this.$el.__keydown__ = null
