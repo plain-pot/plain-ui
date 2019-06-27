@@ -2,9 +2,13 @@
     <div class="demo-table-parent-child">
         <plain-table :option="option">
             <pl-tc-column field="id" title="编号"/>
-            <pl-tc-input field="label" title="显示值" required/>
-            <pl-tc-input field="code" title="代码"/>
-            <pl-tc-input field="type" title="类型"/>
+            <pl-tc-input field="name" title="地址名称" required/>
+            <pl-tc-input field="code" title="地址代码"/>
+            <!--            <pl-tc-input field="parentName" title="父级地址名称"/>-->
+            <!--            <pl-tc-input field="parentCode" title="父级地址代码"/>-->
+            <pl-tc-input field="longitude" title="经度"/>
+            <pl-tc-input field="latitude" title="纬度"/>
+            <pl-tc-input field="deep" title="地址级别"/>
         </plain-table>
     </div>
 </template>
@@ -16,20 +20,10 @@
             return {
                 option: new PlainOption({
                     context: this,
-                    module: 'lov',
-                    urls: {
-                        queryPage: 'lov/queryPage',
-                    },
-                    buttons: {
-                        clearCacheButton: {
-                            label: '清除缓存',
-                            icon: 'pad-clear',
-                            order: 200,
-                            handler() {
-                                this.$message.show('清除缓存')
-                            },
-                        }
-                    }
+                    module: 'address',
+                    filters: [
+                        {field: 'deep', value: '0'}
+                    ]
                 })
             }
         },

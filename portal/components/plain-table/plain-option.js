@@ -22,6 +22,7 @@ const component = {
             pageSize: null,                 //页大小
             pageOption: null,               //页大小选项
             copyExcludeKey: null,           //复制行的时候，默认不复制的属性
+            filters: null,                  //筛选参数
 
             list: [],                       //当前数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
@@ -161,13 +162,20 @@ const component = {
          * @date    2019/6/21 16:45
          */
         getQueryParam() {
+            /*option参数*/
             const ret = this.$plain.$utils.deepCopy(this.param) || {}
             const query = ret.query || {}
+            /*页大小*/
             query.pageSize = this.pageSize
+            /*排序*/
             if (!!this.sortField) {
                 query.orders = query.orders || []
                 query.orders.push({field: this.sortField, desc: this.sortDesc,})
             }
+            /*筛选*/
+            let filters = []
+            if (!!this.filters) filters = filters.concat(this.$plain.$utils.deepCopy(this.filters))
+            query.filters = filters
 
             ret.query = query
             return ret
