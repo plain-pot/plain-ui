@@ -520,6 +520,10 @@
                     cursor: pointer;
                 }
             }
+
+            & + .plain-table {
+                margin-top: 16px;
+            }
         }
     }
 </style>
