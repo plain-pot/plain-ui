@@ -10,9 +10,6 @@
             <pl-tc-input field="title" title="字段标题" required/>
             <pl-tc-input field="field" title="字段属性" required/>
             <pl-tc-input field="comments" title="备注"/>
-            <pl-tc-column field="parentName" title="导入模板名称"/>
-            <pl-tc-column field="parentCode" title="导入模板代码"/>
-            <pl-tc-column field="parentId" title="导入模板编号"/>
         </plain-table>
     </div>
 </template>
@@ -34,7 +31,9 @@
                 pageSize: 5,
                 parentOption: impOption,
                 map: {
-                    parentId: 'id'
+                    parentId: 'id',
+                    parentName: 'name',
+                    parentCode: 'code',
                 },
             })
             return {
