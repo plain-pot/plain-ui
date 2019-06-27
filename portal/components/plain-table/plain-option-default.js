@@ -30,6 +30,7 @@ export const DEFAULT_URLS = {
  */
 export const DEFAULT_OPTION_PUBLIC = {
     list: [],
+    urls: {},
     showNum: 10,
     headRowHeight: 40,
     sortField: 'id',

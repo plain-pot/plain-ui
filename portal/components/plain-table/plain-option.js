@@ -99,6 +99,7 @@ const component = {
          * @date    2019/6/21 17:26
          */
         async prevPage() {
+            if (this.page === 1) return
             return await this.jumpPage(this.page - 1)
         },
         /**
@@ -107,6 +108,7 @@ const component = {
          * @date    2019/6/21 17:26
          */
         async nextPage() {
+            if (this.totalPage != null && this.page === this.totalPage) return
             return await this.jumpPage(this.page + 1)
         },
         /**
