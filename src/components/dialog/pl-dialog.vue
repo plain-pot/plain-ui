@@ -11,7 +11,7 @@
                 <div class="pl-dialog-content"
                      ref="content"
                      v-if="p_initialized"
-                     @click.stop="p_clickContent"
+                     @click="p_clickContent"
                      :style="contentStyles">
                     <div class="pl-dialog-head" v-if="!noHeader">
                         <div class="pl-dialog-title">
