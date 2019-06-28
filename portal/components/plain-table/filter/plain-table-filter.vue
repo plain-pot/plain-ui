@@ -13,12 +13,14 @@
     import FilterInput from './item/plain-table-filter-input'
     import FilterDate from './item/plain-table-filter-date'
     import FilterNumber from './item/plain-table-filter-number'
+    import FilterSelect from './item/plain-table-filter-select'
     import FilterOv from './item/plain-table-filter-ov'
 
     const SEARCH_MAP = {
         'input': FilterInput,
         'date': FilterDate,
         'number': FilterNumber,
+        'select': FilterSelect,
         'ov': FilterOv,
     }
 

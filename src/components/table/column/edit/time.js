@@ -1,5 +1,8 @@
 export default {
     name: 'time',
+    props:{
+        search: {default: false},
+    },
     data() {
         const that = this
         return {

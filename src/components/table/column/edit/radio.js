@@ -3,6 +3,7 @@ export default {
     props: {
         align: {default: 'center'},
         width: {default: 100},
+        search: {default: false},
     },
     data() {
         const that = this

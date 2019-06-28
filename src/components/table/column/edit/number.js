@@ -1,5 +1,8 @@
 export default {
     name: 'number',
+    props:{
+        searchType: {default: 'number'},
+    },
     data() {
         const that = this
         return {

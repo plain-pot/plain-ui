@@ -15,7 +15,8 @@ export default {
                     }
                 }
             },
-        }
+        },
+        searchType: {default: 'select'},
     },
     data() {
         const that = this

@@ -10,7 +10,8 @@ export default {
                     return this.$plain.$utils.dateFormat(this.$plain.$utils.dateParse(value, this.p_vf), this.p_df)
                 }
             },
-        }
+        },
+        searchType: {default: 'date'},
     },
     data() {
         const that = this

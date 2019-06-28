@@ -1,10 +1,10 @@
 <template>
-    <pl-number/>
+    <pl-select/>
 </template>
 
 <script>
     export default {
-        name: "plain-table-filter-number",
+        name: "plain-table-filter-select"
     }
 </script>
 
