@@ -6,7 +6,7 @@ export default {
     data() {
         const that = this
         return {
-            normal(h, {row, editRow, col, colIndex, require, prop, required}) {
+            normal(h, {row, editRow, showRow, col, colIndex, require, prop, required}) {
                 prop = prop || {}
                 prop.trueValue = prop.trueValue || 'Y'
                 prop.falseValue = prop.falseValue || 'N'
@@ -14,7 +14,7 @@ export default {
                     props: {
                         ...prop
                         , ...(that.publicProps || {}),
-                        value: row[col.field],
+                        value: showRow[col.field],
                         required,
                         disabled: true,
                     },
