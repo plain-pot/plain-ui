@@ -469,14 +469,20 @@
                 // console.log('collect', cols)
                 this.p_bodyCols = cols
             },
+            /**
+             * 处理筛选栏筛选参数变化事件
+             * @author  韦胜健
+             * @date    2019/6/28 14:49
+             */
             async pl_filterChange(data) {
                 const {field, type, value} = data
-                console.log(field, type, value)
+                // console.log(field, type, value)
                 if (!value) {
                     this.simpleFilters = null
                 } else {
                     const filters = []
                     switch (type) {
+                        case 'select':
                         case 'input':
                             !!value.value && filters.push({field, operator: 'like', value: value.value})
                             break
