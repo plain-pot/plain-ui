@@ -1,7 +1,7 @@
 <template>
     <div class="plain-table">
         <div class="plain-table-head">
-            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="this.option.searchField"/>
+            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="option.searchField" @searchFieldChange="val=>option.searchField = val"/>
             <plain-table-buttons @insert="newInsert"
                                  @continueInsert="newInsert"
                                  @nextInsert="saveAndInsert"

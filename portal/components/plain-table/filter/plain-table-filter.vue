@@ -1,6 +1,6 @@
 <template>
     <div class="plain-table-filter">
-        <pl-select :input="{width:120}" class="plain-table-filter-field-select plain-table-filter-clear-right-radio" :data="data" :labelKey="labelKey" :valueKey="valueKey" :value="searchField"/>
+        <pl-select :input="{width:120}" class="plain-table-filter-field-select plain-table-filter-clear-right-radio" :data="data" :labelKey="labelKey" :valueKey="valueKey" :value="searchField" @input="pl_changeSearchField"/>
         <div class="plain-table-filter-type plain-table-filter-clear-left-radio plain-table-filter-clear-right-radio">
             <component :is="searchType"/>
         </div>
@@ -43,9 +43,15 @@
                     }
                 }
                 if (!searchType) searchType = 'input'
+                console.log('searchType', searchType)
                 return SEARCH_MAP[searchType] || FilterInput
             },
         },
+        methods: {
+            pl_changeSearchField(val) {
+                this.$emit('searchFieldChange', val)
+            },
+        }
     }
 </script>
 
