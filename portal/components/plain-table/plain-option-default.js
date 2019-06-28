@@ -72,6 +72,13 @@ export const ignore_attrs = [
     '_self', '_staticTrees', '_uid', '_vnode', '_watcher', '_watchers'
 ]
 
+export const OPTION_HOOK = {
+    onBeforeLoad: null,
+    onAfterLoad: null,
+    onBeforeInsert: null,
+    onAfterInsert: null,
+}
+
 /**
  * 打印option信息
  * @author  韦胜健
