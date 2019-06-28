@@ -3,6 +3,7 @@
         <pl-form class="plain-table-form-dialog-form">
             <pl-form-column>
                 <pl-form-item v-for="(col,index) in cols" :key="index+col.field" :label="col.title+'：'">
+                    [{{dataRow.showRow[col.field]}}]
                     <pl-base-table-cell-watcher key="normal"
                                                 v-if="!editable[col.field]"
                                                 :data="{...dataRow,col}"
@@ -39,7 +40,6 @@
         },
         computed: {
             editable() {
-                if (!this.show) return {}
                 if (!this.cols || this.cols.length === 0) return {}
                 const ret = {}
                 this.cols.forEach(col => {
@@ -53,7 +53,6 @@
                 return ret
             },
             required() {
-                if (!this.show) return {}
                 if (!this.cols || this.cols.length === 0) return {}
                 const ret = {}
                 this.cols.forEach(col => {
@@ -89,7 +88,7 @@
 
             },
             pl_cancel() {
-
+                !!this.onCancel && this.onCancel()
             },
         }
     }
