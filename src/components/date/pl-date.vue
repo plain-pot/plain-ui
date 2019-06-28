@@ -221,6 +221,7 @@
                 this.p_end = null
                 this.p_show = false
                 this.$nextTick(() => this.$emit('change', this.range ? {start: this.p_start, end: this.p_end} : this.p_value))
+                this.$emit('clear')
             },
             p_decodeDateString(str) {
                 const ret = {

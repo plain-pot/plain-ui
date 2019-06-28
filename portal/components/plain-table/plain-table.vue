@@ -481,9 +481,12 @@
                             !!value.value && filters.push({field, operator: 'like', value: value.value})
                             break
                         case 'number':
-                            console.log(value, this.$plain.$utils.deepCopy(value), value.start != null, value.end != null)
                             value.start != null && filters.push({field, operator: '>', value: value.start})
                             value.end != null && filters.push({field, operator: '<', value: value.end})
+                            break;
+                        case 'date':
+                            value.start != null && filters.push({field, operator: '>=', value: value.start + " 00:00:00", dateFormat: true})
+                            value.end != null && filters.push({field, operator: '<=', value: value.end + " 23:59:59", dateFormat: true})
                             break;
                     }
                     this.option.simpleFilters = filters
