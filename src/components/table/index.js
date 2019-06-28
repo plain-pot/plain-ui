@@ -37,6 +37,7 @@ const ColumnPublicProps = {
     align: {type: String, default: 'left'},             //非编辑状态下文本对其方式
 
     search: {type: Boolean, default: true},             //可查询
+    searchType: {type: String, default: 'input'},       //查询类型
     searchField: {type: Boolean},                       //查询字段
     sort: {type: Boolean, default: true},               //可排序
     sortField: {type: Boolean},                         //排序字段
