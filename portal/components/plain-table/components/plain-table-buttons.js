@@ -126,16 +126,16 @@ export const StandardButtons = {
         icon: 'pad-export',
         inner: true,
         async handler() {
+            const queryParam = await this.option.getQueryParam()
             const content = await this.$http.axios({
                 method: 'post',
                 url: this.option.p_urls.exp,
                 data: {
-                    attrMap: {
-                        id: '编号',
-                        label: '显示值',
-                        code: '代码',
-                        type: '类型',
-                    }
+                    ...queryParam,
+                    attrMap: this.p_bodyCols.reduce((ret, item) => {
+                        ret[item.field] = item.title
+                        return ret
+                    }, {})
                 },
                 responseType: 'blob'
             })
