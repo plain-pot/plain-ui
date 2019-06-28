@@ -136,9 +136,7 @@
 
                         const oldHandler = btn.handler
                         btn.handler = async (e) => {
-                            const display = btn.display()
-                            const disabled = btn.disabled()
-                            if (!!display && !disabled && !!oldHandler) {
+                            if (!!oldHandler) {
                                 let param;
                                 if (!!btn.needRow) param = await this.getSelectDataRow()
                                 e.returnValue = await oldHandler.apply(btn.ctx, [param, e])
