@@ -187,7 +187,7 @@
                 return Object.assign({
                     inputReadonly: true,
                     placeholder: '请选择日期...',
-                    width: this.inputWidth != null ? this.inputWidth : this.range ? 280 : 200,
+                    width: this.inputWidth != null ? this.inputWidth : (this.range && this.datetime) ? 280 : 200,
                 }, this.simpleBinding, this.input)
             },
             popperBinding() {
@@ -286,7 +286,7 @@
 
                 return ret
             },
-            pl_change(){
+            pl_change() {
                 this.$nextTick(() => this.$emit('change', this.range ? {start: this.p_start, end: this.p_end} : this.p_value))
             },
         }
