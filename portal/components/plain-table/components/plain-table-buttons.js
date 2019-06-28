@@ -18,7 +18,7 @@ export const StandardButtons = {
         confirmMessage: null,                   //确认对话框信息
         key: 'ctrl+n',
         disabled() {
-            console.log('disabled')
+            // console.log('disabled')
             if (!this.option) return true
             if (!!this.option.parentOption && (!this.option.parentOption.selectDataRow || !!this.option.parentOption.loading)) return true
             return false

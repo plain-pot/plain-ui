@@ -19,6 +19,7 @@ const component = {
             loadOnStart: null,              //是否初始化的时候加载数据
             sortField: null,                //默认排序字段
             sortDesc: null,                 //默认排序方式
+            searchField: null,              //默认筛选字段
             pageSize: null,                 //页大小
             pageOption: null,               //页大小选项
             copyExcludeKey: null,           //复制行的时候，默认不复制的属性

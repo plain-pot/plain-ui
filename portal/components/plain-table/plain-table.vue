@@ -1,7 +1,7 @@
 <template>
     <div class="plain-table">
         <div class="plain-table-head">
-            <plain-table-filter/>
+            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="this.option.searchField"/>
             <plain-table-buttons @insert="newInsert"
                                  @continueInsert="newInsert"
                                  @nextInsert="saveAndInsert"
@@ -25,7 +25,8 @@
                        :sortDesc="option.sortDesc"
                        @sortChange="option.changeSort"
                        @selectRow="pl_selectRow"
-                       @dblclickRow="pl_dblClickRow">
+                       @dblclickRow="pl_dblClickRow"
+                       @bodyColsChange="pl_bodyColsChange">
             <slot></slot>
         </pl-base-table>
         <div class="plain-table-foot">
@@ -91,6 +92,7 @@
                 p_newRows: [],
                 table: null,
                 pl_keydown: null,
+                p_bodyCols: [],
             }
         },
         created() {
@@ -199,6 +201,13 @@
                     },
 
                 }
+            },
+            searchData() {
+                const ret = this.p_bodyCols.filter(col => !!col.search)
+                if (!this.option.searchField && ret.length > 0) {
+                    this.option.searchField = ret[0].field
+                }
+                return ret
             },
         },
         methods: {
@@ -446,6 +455,10 @@
                 await this.$plain.nextTick()
                 const index = this.option.list.length > 0 ? 0 : null
                 this.selectRow({index})
+            },
+            async pl_bodyColsChange(cols) {
+                console.log('collect', cols)
+                this.p_bodyCols = cols
             },
 
 

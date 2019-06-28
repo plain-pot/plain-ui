@@ -556,6 +556,7 @@
                 this.pl_colsIterate(this.p_cols, (col, group) => !group && cols.push(col))
                 this.p_bodyCols = cols
                 this.pl_resetFitWidth()
+                this.$emit('bodyColsChange', this.p_bodyCols)
             },
             pl_resetFitWidth() {
                 let totalColWidth = this.p_bodyCols.reduce((ret, item) => ret + item.width, 0)
