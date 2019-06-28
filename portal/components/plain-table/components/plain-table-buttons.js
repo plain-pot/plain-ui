@@ -64,9 +64,13 @@ export const StandardButtons = {
         type: 'update',
         label: '表单编辑',
         icon: 'pad-edit',
-        inner: true,
-        handler() {
-            this.$message.show('表单编辑')
+        inner: false,
+        needRow: true,
+        handler(dataRow) {
+            this.$plain.$formDialog.edit({
+                cols: this.p_bodyCols,
+                dataRow,
+            })
         },
     },
     batchModifyButton: {
