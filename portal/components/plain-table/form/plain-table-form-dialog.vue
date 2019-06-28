@@ -35,6 +35,8 @@
                 show: false,
                 cols: [],
                 dataRow: {},
+                onConfirm: null,
+                onCancel: null,
             }
         },
         computed: {
@@ -65,16 +67,18 @@
             },
         },
         methods: {
-            edit({cols, dataRow}) {
+            edit({cols, dataRow, onConfirm, onCancel}) {
                 this.show = true
                 // console.log({cols, dataRow})
-                this.cols = cols
+                this.onConfirm = onConfirm
+                this.onCancel = onCancel
+                this.cols = cols.filter(col => !!col.formEditable)
                 const {check, editRow, editable, hover, id, index, row} = dataRow
                 const newEditRow = this.$plain.$utils.deepCopy(editRow)
                 this.dataRow = {
                     editRow: newEditRow,
                     showRow: newEditRow,
-                    row: this.$plain.$utils.deepCopy(row),
+                    row,
                     check,
                     editable: true,
                     hover,
@@ -83,7 +87,7 @@
                 }
             },
             pl_confirm() {
-
+                !!this.onConfirm && this.onConfirm(this.dataRow)
             },
             pl_cancel() {
                 !!this.onCancel && this.onCancel()
@@ -103,8 +107,9 @@
         .pl-form-item {
             display: flex !important;
             width: 100%;
-            height: 32px;
+            height: 30px;
             align-items: center;
+            margin-bottom: 12px !important;
 
             .pl-base-table-cell-watcher {
                 flex: 1;

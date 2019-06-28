@@ -11,6 +11,7 @@ export default {
         switchOnClickRow: {type: Boolean, default: true},
         import: {default: false},
         export: {default: false},
+        formEditable: {default: false},
     },
     data() {
         const that = this

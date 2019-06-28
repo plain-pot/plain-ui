@@ -13,6 +13,7 @@ export default {
         order: {default: 999},
         import: {default: false},
         export: {default: false},
+        formEditable: {default: false},
     },
     data() {
         const that = this

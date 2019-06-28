@@ -3,6 +3,7 @@ export default {
     props: {
         import: {default: false},
         export: {default: false},
+        formEditable: {default: false},
     },
     data() {
         return {

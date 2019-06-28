@@ -43,6 +43,7 @@ const ColumnPublicProps = {
     sortField: {type: Boolean},                         //排序字段
     editable: {type: Boolean, default: true},           //是否可编辑
     editableFunc: {type: Function},                     //是否可编辑判断函数
+    formEditable: {type: Boolean, default: true},       //是否可以弹框编辑
     export: {type: Boolean, default: true},             //是否可导出
     import: {type: Boolean, default: true},             //是否可导入
     prop: {type: Object},                               //列额外数据信息

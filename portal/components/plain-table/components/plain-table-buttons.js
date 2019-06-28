@@ -64,12 +64,17 @@ export const StandardButtons = {
         type: 'update',
         label: '表单编辑',
         icon: 'pad-edit',
-        inner: false,
+        inner: true,
         needRow: true,
+        key: 'ctrl+i',
         handler(dataRow) {
             this.$plain.$formDialog.edit({
                 cols: this.p_bodyCols,
                 dataRow,
+                onConfirm: async (newDataRow) => {
+                    dataRow.editRow = newDataRow.editRow
+                    await this.pl_update(dataRow)
+                },
             })
         },
     },
