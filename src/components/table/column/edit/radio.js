@@ -7,11 +7,13 @@ export default {
     },
     data() {
         const that = this
+        const defaultProps = {
+            trueValue: 'Y',
+            falseValue: 'N',
+        }
         return {
             normal(h, {row, editRow, showRow, col, colIndex, require, prop, required}) {
-                prop = prop || {}
-                prop.trueValue = prop.trueValue || 'Y'
-                prop.falseValue = prop.falseValue || 'N'
+                prop = Object.assign({}, defaultProps, prop || {})
                 return (<pl-radio {...{
                     props: {
                         ...prop
@@ -24,9 +26,7 @@ export default {
                 }}/>)
             },
             edit(h, {row, editRow, col, colIndex, require, prop, required}) {
-                prop = prop || {}
-                prop.trueValue = prop.trueValue || 'Y'
-                prop.falseValue = prop.falseValue || 'N'
+                prop = Object.assign({}, defaultProps, prop || {})
                 return (<pl-radio {...{
                     props: {
                         ...prop
