@@ -1,7 +1,7 @@
 <template>
     <div class="plain-table-filter-number">
         <pl-number :input="{type:'none',width:'80px',noClear:true,placeholder:'最大值'}" noController v-model="filterData.start" @enter="pl_enter"/>
-        到
+        <span class="plain-table-filter-number-separator">到</span>
         <pl-number :input="{type:'none',width:'80px',noClear:true,placeholder:'最小值'}" noController v-model="filterData.end" @enter="pl_enter"/>
         <pl-icon icon="pad-close-circle-fill" class="plain-table-filter-number-clear-icon" @click="pl_clear"/>
     </div>
@@ -43,6 +43,10 @@
                 input {
                     text-align: center;
                 }
+            }
+
+            .plain-table-filter-number-separator{
+                font-size: plVar(sizeDefault)/2.5;
             }
 
             .plain-table-filter-number-clear-icon {

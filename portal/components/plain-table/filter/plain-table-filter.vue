@@ -58,7 +58,6 @@
                 this.$emit('searchFieldChange', val)
             },
             async pl_confirm() {
-                if (!!document.activeElement && !!document.activeElement.blur) document.activeElement.blur()
                 await this.$plain.nextTick()
                 const ret = {}
                 ret.field = this.searchField

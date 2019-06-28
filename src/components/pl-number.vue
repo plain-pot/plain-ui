@@ -105,8 +105,8 @@
                 this.p_emitValue()
             },
             async pl_enter() {
+                await this.pl_blur()
                 this.$emit('enter')
-                this.pl_blur()
             },
         }
     }
