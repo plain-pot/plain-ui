@@ -9,6 +9,8 @@ export default {
         order: {default: 1000},
         data: {},
         switchOnClickRow: {type: Boolean, default: true},
+        import: {default: false},
+        export: {default: false},
     },
     data() {
         const that = this

@@ -11,6 +11,8 @@ export default {
         title: {default: '#'},
         placeLeft: {default: true},
         order: {default: 999},
+        import: {default: false},
+        export: {default: false},
     },
     data() {
         const that = this

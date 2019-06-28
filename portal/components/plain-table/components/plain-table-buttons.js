@@ -133,7 +133,7 @@ export const StandardButtons = {
                 data: {
                     ...queryParam,
                     attrMap: this.p_bodyCols.reduce((ret, item) => {
-                        ret[item.field] = item.title
+                        !!item.export && (ret[item.field] = item.title)
                         return ret
                     }, {})
                 },
@@ -171,7 +171,7 @@ export const StandardButtons = {
             param.append("module", "lov");
             param.append("file", file);
             param.append("titleFieldMapJsonString", JSON.stringify(this.p_bodyCols.reduce((ret, item) => {
-                ret[item.title] = item.field
+                !!item.export && (ret[item.title] = item.field)
                 return ret
             }, {})))
             const {data} = await this.$http.axios({
