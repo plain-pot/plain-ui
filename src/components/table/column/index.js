@@ -10,6 +10,7 @@ import number from './edit/number'
 import color from './edit/color'
 import time from './edit/time'
 import radio from './edit/radio'
+import toggle from './edit/toggle'
 
 import BaseColumn from './base/pl-base-table-base-column'
 
@@ -25,6 +26,7 @@ const StandardColumns = {
     color,
     time,
     radio,
+    toggle,
 }
 
 

@@ -1,5 +1,5 @@
 export default {
-    name: 'radio',
+    name: 'toggle',
     props: {
         align: {default: 'center'},
         width: {default: 100},
@@ -11,7 +11,7 @@ export default {
                 prop = prop || {}
                 prop.trueValue = prop.trueValue || 'Y'
                 prop.falseValue = prop.falseValue || 'N'
-                return (<pl-radio {...{
+                return (<pl-toggle {...{
                     props: {
                         ...prop
                         , ...(that.publicProps || {}),
@@ -26,7 +26,7 @@ export default {
                 prop = prop || {}
                 prop.trueValue = prop.trueValue || 'Y'
                 prop.falseValue = prop.falseValue || 'N'
-                return (<pl-radio {...{
+                return (<pl-toggle {...{
                     props: {
                         ...prop
                         , ...(that.publicProps || {}),
