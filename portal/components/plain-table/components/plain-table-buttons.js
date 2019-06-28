@@ -170,6 +170,10 @@ export const StandardButtons = {
             let param = new FormData();
             param.append("module", "lov");
             param.append("file", file);
+            param.append("titleFieldMapJsonString", JSON.stringify(this.p_bodyCols.reduce((ret, item) => {
+                ret[item.title] = item.field
+                return ret
+            }, {})))
             const {data} = await this.$http.axios({
                 url: this.option.p_urls.imp,
                 method: 'post',

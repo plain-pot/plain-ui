@@ -23,7 +23,7 @@
                 module: 'imp',
                 showNum: 5,
                 pageSize: 5,
-                loadOnStart: false,
+                // loadOnStart: false,
             })
             const impItemOption = new PlainOption({
                 context: this,
@@ -36,7 +36,7 @@
                     parentName: 'name',
                     parentCode: 'code',
                 },
-                loadOnStart: false,
+                // loadOnStart: false,
             })
             return {
                 impOption,
