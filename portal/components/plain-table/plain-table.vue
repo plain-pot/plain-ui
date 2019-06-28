@@ -293,6 +293,8 @@
              * @date    2019/6/23 16:28
              */
             async save() {
+                await this.$plain.nextTick()
+                await this.$plain.$utils.delay(0)
                 await this.checkStatus({
                     async insert() {
                         const editDataArray = await this.table.getEditData()
@@ -458,7 +460,7 @@
                 this.selectRow({index})
             },
             async pl_bodyColsChange(cols) {
-                console.log('collect', cols)
+                // console.log('collect', cols)
                 this.p_bodyCols = cols
             },
 

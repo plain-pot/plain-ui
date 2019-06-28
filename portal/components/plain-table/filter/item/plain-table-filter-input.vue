@@ -1,10 +1,14 @@
 <template>
-    <pl-input/>
+    <pl-input v-model="filterData.value" @enter="$emit('confirm')"/>
 </template>
 
 <script>
     export default {
-        name: "plain-table-filter-input"
+        name: "plain-table-filter-input",
+        props: {
+            filterData: {},
+        },
+
     }
 </script>
 
