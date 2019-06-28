@@ -168,11 +168,12 @@ const component = {
          * @date    2019/6/22 22:22
          */
         async queryCount() {
-            if (this.noMore) return
+            if (this.noMore) return this.total
             const param = this.getQueryParam()
             const {ret} = await this.request(this.p_urls.queryCount, param)
             this.total = ret
             this.noMore = true
+            return this.total
         },
         /**
          * 获取分页查询参数

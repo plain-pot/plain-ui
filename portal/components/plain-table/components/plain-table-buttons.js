@@ -114,8 +114,9 @@ export const StandardButtons = {
         label: '记录总数',
         icon: 'pad-table1',
         inner: true,
-        handler() {
-            this.$message.show('记录总数')
+        async handler() {
+            const ret = await this.option.queryCount()
+            this.$dialog.show(`当前记录总数为：${ret}`)
         },
     },
 
