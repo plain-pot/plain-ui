@@ -29,6 +29,7 @@ const component = {
             defaultNewRow: null,            //默认新行值
             defaultId: null,                //新建行时是否需要一个id
             forceLoadAfterParentChange: null,//默认情况下，option所属表格没有初始化的话，option是不查询数据的，即便option父表数据发生变化，如果父表变化，需要强制查询数据，请设置该属性为true
+            rowFormatter: null,             //行数据格式化行数
 
             list: [],                       //当前数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
@@ -84,6 +85,7 @@ const component = {
             const pageSize = param.query.pageSize
             param.query.page = page
             const {ret} = await this.request(this.p_urls.queryPage, param)
+            this.pl_rowFormatter(ret, 'afterLoad')
 
             if (isReload || !this.noMore) {
                 this.total = ret.length + ((page - 1) * pageSize)
@@ -247,6 +249,7 @@ const component = {
         async insert({row, editRow, index}) {
             if ((editRow.id + '').indexOf('uuid') > -1) delete editRow.id
             const {ret} = await this.request(this.p_urls.insert, editRow)
+            this.pl_rowFormatter(ret, 'afterInsert')
             return ret
         },
         async batchInsert(dataRows) {
@@ -256,15 +259,18 @@ const component = {
                 return copyRow
             }).reverse()
             const {ret} = await this.request(this.p_urls.batchInsert, rows)
+            this.pl_rowFormatter(ret, 'afterBatchInsert')
             return ret
         },
         async update({row, editRow, index}) {
             const {ret} = await this.request(this.p_urls.update, editRow)
+            this.pl_rowFormatter(ret, 'afterUpdate')
             return ret
         },
         async batchUpdate(dataRows) {
             const rows = dataRows.map(({editRow}) => this.$plain.$utils.deepCopy(editRow))
             const {ret} = await this.request(this.p_urls.batchUpdate, rows)
+            this.pl_rowFormatter(ret, 'afterBatchUpdate')
             return ret
         },
         async delete({row, index}) {
@@ -317,6 +323,19 @@ const component = {
         pl_changeSelectRow(dataRow) {
             this.selectDataRow = dataRow
             this.$emit('selectChange', dataRow)
+        },
+        /**
+         * 格式化行数据函数
+         * @author  韦胜健
+         * @date    2019/6/28 18:01
+         */
+        pl_rowFormatter(data, type) {
+            if (!this.rowFormatter) return
+            if (this.$plain.$utils.typeOf(data) === 'array') {
+                data.forEach(itemData => this.rowFormatter.apply(this.context, [itemData, type]))
+            } else {
+                this.rowFormatter.apply(this.context, [data, type])
+            }
         },
     },
 

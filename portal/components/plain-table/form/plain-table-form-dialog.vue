@@ -103,6 +103,8 @@
         .pl-form-item {
             display: flex !important;
             width: 100%;
+            height: 32px;
+            align-items: center;
 
             .pl-base-table-cell-watcher {
                 flex: 1;
