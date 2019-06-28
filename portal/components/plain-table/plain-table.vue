@@ -418,6 +418,7 @@
              * @date    2019/6/23 21:02
              */
             pl_dblClickRow({item: dataRow}) {
+                if (!!dataRow.editable) return
                 const next = async () => {
                     await this.save()
                     this.table.enableEdit({index: dataRow.index})
