@@ -9,6 +9,7 @@ import date from './edit/date'
 import number from './edit/number'
 import color from './edit/color'
 import time from './edit/time'
+import radio from './edit/radio'
 
 import BaseColumn from './base/pl-base-table-base-column'
 
@@ -23,6 +24,7 @@ const StandardColumns = {
     number,
     color,
     time,
+    radio,
 }
 
 

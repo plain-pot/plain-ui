@@ -12,7 +12,7 @@
             <!--            <pl-tc-obj field="obj" title="对象选择框"/>-->
             <!--            <pl-tc-transfer field="transfer" title="穿梭选择框"/>-->
             <!--            <pl-tc-address field="address" title="地址选择框"/>-->
-            <!--            <pl-tc-radio field="radio" title="单选复选框"/>-->
+                        <pl-tc-radio field="radio" title="单选复选框"/>
             <!--            <pl-tc-toggle field="toggle" title="开关选择框"/>-->
         </plain-table>
     </div>
