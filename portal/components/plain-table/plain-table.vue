@@ -474,21 +474,21 @@
                 const val = data.value
                 if (!val) {
                     this.simpleFilters = null
-                    return
+                } else {
+                    const filters = []
+                    switch (data.type) {
+                        case 'input':
+                            !!val.value && filters.push({
+                                field: data.field,
+                                operator: 'like',
+                                value: data.value.value
+                            })
+                            break
+                        case 'date':
+                            break;
+                    }
+                    this.option.simpleFilters = filters
                 }
-                const filters = []
-                switch (data.type) {
-                    case 'input':
-                        !!val.value && filters.push({
-                            field: data.field,
-                            operator: 'like',
-                            value: data.value.value
-                        })
-                        break
-                    case 'date':
-                        break;
-                }
-                this.option.simpleFilters = filters
                 await this.option.reload()
             },
 

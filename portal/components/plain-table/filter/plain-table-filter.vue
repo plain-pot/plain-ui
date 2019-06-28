@@ -48,7 +48,7 @@
                     }
                 }
                 if (!searchType) searchType = 'input'
-                if (!this.filterData[this.searchField]) this.filterData[this.searchField] = {start: null, end: null, value: null}
+                if (!this.filterData[this.searchField]) this.$set(this.filterData, this.searchField, {start: null, end: null, value: null})
                 console.log('searchType', searchType)
                 return {type: searchType, component: SEARCH_MAP[searchType] || FilterInput}
             },
@@ -62,6 +62,7 @@
                 ret.field = this.searchField
                 ret.type = this.searchType.type
                 ret.value = this.filterData[this.searchField]
+                Object.keys(this.filterData).forEach(field => field !== this.searchField && (delete this.filterData[field]))
                 this.$emit('filterChange', ret)
             },
             pl_clear() {
@@ -69,6 +70,7 @@
                 ret.field = this.searchField
                 ret.type = this.searchType.type
                 ret.value = this.filterData[this.searchField]
+                Object.keys(this.filterData).forEach(field => field !== this.searchField && (delete this.filterData[field]))
                 this.$emit('filterChange', ret)
             },
         }

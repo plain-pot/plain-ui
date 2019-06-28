@@ -1,5 +1,5 @@
 <template>
-    <pl-input v-model="filterData.value" @enter="pl_enter"/>
+    <pl-input v-model="filterData.value" @enter="pl_enter" @clear="pl_clear"/>
 </template>
 
 <script>
@@ -11,6 +11,10 @@
         methods: {
             pl_enter() {
                 this.$emit('confirm')
+            },
+            pl_clear() {
+                this.filterData.value = null
+                this.$emit('clear')
             },
         }
     }
