@@ -470,21 +470,20 @@
                 this.p_bodyCols = cols
             },
             async pl_filterChange(data) {
-                console.log(data)
-                const val = data.value
-                if (!val) {
+                const {field, type, value} = data
+                console.log(field, type, value)
+                if (!value) {
                     this.simpleFilters = null
                 } else {
                     const filters = []
-                    switch (data.type) {
+                    switch (type) {
                         case 'input':
-                            !!val.value && filters.push({
-                                field: data.field,
-                                operator: 'like',
-                                value: data.value.value
-                            })
+                            !!value.value && filters.push({field, operator: 'like', value: value.value})
                             break
-                        case 'date':
+                        case 'number':
+                            console.log(value, this.$plain.$utils.deepCopy(value), value.start != null, value.end != null)
+                            value.start != null && filters.push({field, operator: '>', value: value.start})
+                            value.end != null && filters.push({field, operator: '<', value: value.end})
                             break;
                     }
                     this.option.simpleFilters = filters

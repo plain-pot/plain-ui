@@ -57,7 +57,9 @@
             pl_changeSearchField(val) {
                 this.$emit('searchFieldChange', val)
             },
-            pl_confirm() {
+            async pl_confirm() {
+                if (!!document.activeElement && !!document.activeElement.blur) document.activeElement.blur()
+                await this.$plain.nextTick()
                 const ret = {}
                 ret.field = this.searchField
                 ret.type = this.searchType.type
@@ -82,6 +84,10 @@
         .plain-table-filter {
             display: inline-block;
             position: relative;
+
+            & > * {
+                vertical-align: top;
+            }
 
             .plain-table-filter-clear-left-radio {
                 border-top-left-radius: 0;
