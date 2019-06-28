@@ -34,6 +34,7 @@
                             {title: '基础编辑', icon: 'pl-table-solid', page: '/plain-table/demo-plain-table', complete: true},
                             {title: '父子表', icon: 'pl-table-solid', page: '/plain-table/demo-table-parent-child', complete: true},
                             {title: '导入模板', icon: 'pl-table-solid', page: '/plain-table/demo-imp-list', complete: true},
+                            {title: '字段类型', icon: 'pl-table-solid', page: '/plain-table/demo-plain-table-field', complete: true},
                         ]
                     },
                     {
