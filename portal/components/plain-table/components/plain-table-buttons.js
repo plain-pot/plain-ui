@@ -17,12 +17,6 @@ export const StandardButtons = {
         inner: false,                           //在内部还是外部
         confirmMessage: null,                   //确认对话框信息
         key: 'ctrl+n',
-        disabled() {
-            // console.log('disabled')
-            if (!this.option) return true
-            if (!!this.option.parentOption && (!this.option.parentOption.selectDataRow || !!this.option.parentOption.loading)) return true
-            return false
-        },
         handler() {
             this.newInsert()
         },

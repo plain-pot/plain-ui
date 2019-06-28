@@ -20,8 +20,13 @@
         <div v-show="status === 'normal'">
             <slot></slot>
             <pl-button-group>
-                <pl-button v-for="(button,index) in outerButtons" :key="index" :label="button.label" :icon="button.icon" @click="button.handler" :disabled="button.disabled()"
-                           :display="button.display()"/>
+                <pl-button v-for="(button,index) in outerButtons"
+                           v-show="display[button.name]"
+                           :key="index"
+                           :label="button.label"
+                           :icon="button.icon"
+                           :disabled="disabled[button.name]"
+                           @click="button.handler"/>
             </pl-button-group>
             <pl-dropdown :popover="{popper:{height:null,width:100,align:'end',disabledEqual:true}}">
                 <pl-button label="更多" icon="pl-down" rightIcon/>
@@ -42,6 +47,7 @@
         props: {
             status: {type: String, required: true},
             buttons: {type: Array},
+            plainOption: {},
         },
         methods: {
             pl_click(event) {
@@ -65,6 +71,26 @@
                     return bo - ao
                 })
             },
+            disabled() {
+                return this.buttons.reduce((ret, btn) => {
+                    if (!!this.plainOption && !!this.plainOption.parentOption && (!this.plainOption.parentOption.selectDataRow || this.plainOption.parentOption.loading)) {
+                        ret[btn.name] = true
+                    } else {
+                        const disabled = btn.disabled
+                        ret[btn.name] = this.$plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled
+                    }
+                    return ret
+                }, {})
+
+            },
+            display() {
+                return this.buttons.reduce((ret, btn) => {
+                    const display = btn.display
+                    ret[btn.name] = this.$plain.$utils.typeOf(display) === 'function' ? display.apply(btn.ctx) : display
+                    return ret
+                }, {})
+            },
+
         },
     }
 </script>

@@ -1,7 +1,8 @@
 <template>
     <div class="plain-table">
         <div class="plain-table-head">
-            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="option.searchField" @searchFieldChange="val=>option.searchField = val" @filterChange="pl_filterChange"/>
+            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="option.searchField" @searchFieldChange="val=>option.searchField = val"
+                                @filterChange="pl_filterChange"/>
             <plain-table-buttons @insert="newInsert"
                                  @continueInsert="newInsert"
                                  @nextInsert="saveAndInsert"
@@ -12,7 +13,8 @@
                                  @delete="pl_startDelete"
 
                                  :status="status"
-                                 :buttons="buttons">
+                                 :buttons="buttons"
+                                 :plain-option="option">
                 <slot name="button"></slot>
             </plain-table-buttons>
         </div>
@@ -129,24 +131,8 @@
                         if (btn.type == null) btn.type = 'other'
                         if (btn.display == null) btn.display = true
                         if (btn.disabled == null) btn.disabled = false
-
-                        const ctx = !!btn.standard ? this : this.option.context
-                        const oldDisplay = btn.display
-                        btn.display = () => {
-                            if (this.$plain.$utils.typeOf(oldDisplay) === 'function') {
-                                return oldDisplay.apply(ctx)
-                            } else {
-                                return oldDisplay
-                            }
-                        }
-                        const oldDisabled = btn.disabled
-                        btn.disabled = () => {
-                            if (this.$plain.$utils.typeOf(oldDisabled) === 'function') {
-                                return oldDisabled.apply(ctx)
-                            } else {
-                                return oldDisabled
-                            }
-                        }
+                        btn.name = name
+                        btn.ctx = !!btn.standard ? this : this.option.context
 
                         const oldHandler = btn.handler
                         btn.handler = async (e) => {
@@ -155,7 +141,7 @@
                             if (!!display && !disabled && !!oldHandler) {
                                 let param;
                                 if (!!btn.needRow) param = await this.getSelectDataRow()
-                                e.returnValue = await oldHandler.apply(ctx, [param, e])
+                                e.returnValue = await oldHandler.apply(btn.ctx, [param, e])
                             }
                         }
                         buttons.push(btn)
