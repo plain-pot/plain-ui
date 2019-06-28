@@ -1,5 +1,5 @@
 <template>
-    <pl-input v-model="filterData.value" @enter="$emit('confirm')"/>
+    <pl-input v-model="filterData.value" @enter="pl_enter"/>
 </template>
 
 <script>
@@ -8,7 +8,11 @@
         props: {
             filterData: {},
         },
-
+        methods: {
+            pl_enter() {
+                this.$emit('confirm')
+            },
+        }
     }
 </script>
 

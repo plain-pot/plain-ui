@@ -2,9 +2,9 @@
     <div class="plain-table-filter">
         <pl-select :input="{width:120}" class="plain-table-filter-field-select plain-table-filter-clear-right-radio" :data="data" :labelKey="labelKey" :valueKey="valueKey" :value="searchField" @input="pl_changeSearchField"/>
         <div class="plain-table-filter-type plain-table-filter-clear-left-radio plain-table-filter-clear-right-radio">
-            <component :is="searchType" :filterData="filterData[searchField]" @confirm="pl_confirm" @clear="pl_clear"/>
+            <component :is="searchType.component" :filterData="filterData[searchField]" @confirm="pl_confirm" @clear="pl_clear"/>
         </div>
-        <pl-button label="查询" shape="none" class="plain-table-filter-search-button plain-table-filter-clear-left-radio" icon="pad-search"/>
+        <pl-button label="查询" shape="none" class="plain-table-filter-search-button plain-table-filter-clear-left-radio" icon="pad-search" @click="pl_confirm"/>
     </div>
 </template>
 
@@ -50,7 +50,7 @@
                 if (!searchType) searchType = 'input'
                 if (!this.filterData[this.searchField]) this.filterData[this.searchField] = {start: null, end: null, value: null}
                 console.log('searchType', searchType)
-                return SEARCH_MAP[searchType] || FilterInput
+                return {type: searchType, component: SEARCH_MAP[searchType] || FilterInput}
             },
         },
         methods: {
@@ -60,15 +60,15 @@
             pl_confirm() {
                 const ret = {}
                 ret.field = this.searchField
-                ret.type = this.searchType
-                ret.data = this.filterData[this.searchField]
+                ret.type = this.searchType.type
+                ret.value = this.filterData[this.searchField]
                 this.$emit('filterChange', ret)
             },
             pl_clear() {
                 const ret = {}
                 ret.field = this.searchField
-                ret.type = this.searchType
-                ret.data = this.filterData[this.searchField]
+                ret.type = this.searchType.type
+                ret.value = this.filterData[this.searchField]
                 this.$emit('filterChange', ret)
             },
         }

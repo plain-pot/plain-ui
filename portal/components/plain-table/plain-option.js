@@ -38,6 +38,9 @@ const component = {
             p_defaultOptionType: null,      //Option类型
             loading: null,                  //当前是否处于加载状态
             selectDataRow: null,            //当前选中的行数据
+
+            /*筛选*/
+            simpleFilters: null,            //筛选栏筛选参数
         }
     },
     computed: {
@@ -202,6 +205,8 @@ const component = {
                 })
                 filters = filters.concat(parentFilter)
             }
+            //筛选栏筛选
+            if (!!this.simpleFilters) filters = filters.concat(this.simpleFilters)
             query.filters = filters
 
             ret.query = query

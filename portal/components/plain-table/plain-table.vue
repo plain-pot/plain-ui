@@ -1,7 +1,7 @@
 <template>
     <div class="plain-table">
         <div class="plain-table-head">
-            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="option.searchField" @searchFieldChange="val=>option.searchField = val"/>
+            <plain-table-filter :data="searchData" labelKey="title" valueKey="field" :searchField="option.searchField" @searchFieldChange="val=>option.searchField = val" @filterChange="pl_filterChange"/>
             <plain-table-buttons @insert="newInsert"
                                  @continueInsert="newInsert"
                                  @nextInsert="saveAndInsert"
@@ -171,10 +171,11 @@
                 }, {})
                 return {
                     ...buttonMap,
-                    Enter: async () => {
+                    Enter: async (e) => {
+                        if (e.target.tagName !== 'DIV') return true
                         await this.save()
                     },
-                    Escape: async () => {
+                    Escape: async (e) => {
                         await this.cancel()
                     },
                     'ctrl+a': (e) => {
@@ -459,9 +460,36 @@
                 const index = this.option.list.length > 0 ? 0 : null
                 this.selectRow({index})
             },
+            /**
+             * 表格重新渲染收集列事件
+             * @author  韦胜健
+             * @date    2019/6/28 11:47
+             */
             async pl_bodyColsChange(cols) {
                 // console.log('collect', cols)
                 this.p_bodyCols = cols
+            },
+            async pl_filterChange(data) {
+                console.log(data)
+                const val = data.value
+                if (!val) {
+                    this.simpleFilters = null
+                    return
+                }
+                const filters = []
+                switch (data.type) {
+                    case 'input':
+                        !!val.value && filters.push({
+                            field: data.field,
+                            operator: 'like',
+                            value: data.value.value
+                        })
+                        break
+                    case 'date':
+                        break;
+                }
+                this.option.simpleFilters = filters
+                await this.option.reload()
             },
 
 
