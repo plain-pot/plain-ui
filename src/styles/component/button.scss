@@ -109,12 +109,12 @@
     }
 
     &.pl-button-disabled {
-      background-color: plVar(colorDisabled);
-      border: solid 1px plVar(colorDisabled);
-      cursor: not-allowed;
+      background-color: plVar(colorDisabled) !important;
+      border: solid 1px plVar(colorDisabled) !important;;
+      cursor: not-allowed !important;;
 
       &:active {
-        background-color: plVar(colorDisabled);
+        background-color: plVar(colorDisabled) !important;;
       }
     }
 
