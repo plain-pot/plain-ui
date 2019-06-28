@@ -48,7 +48,6 @@
                         ret[col.field] = (!col.editableFunc ? true : col.editableFunc(this.dataRow))
                     }
                 })
-                console.log('editable', ret)
                 return ret
             },
             required() {
@@ -68,7 +67,7 @@
         methods: {
             edit({cols, dataRow}) {
                 this.show = true
-                console.log({cols, dataRow})
+                // console.log({cols, dataRow})
                 this.cols = cols
                 const {check, editRow, editable, hover, id, index, row} = dataRow
                 const newEditRow = this.$plain.$utils.deepCopy(editRow)
