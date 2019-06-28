@@ -293,8 +293,8 @@
              * @date    2019/6/23 16:28
              */
             async save() {
+                if (!!document.activeElement && !!document.activeElement.blur) document.activeElement.blur()
                 await this.$plain.nextTick()
-                await this.$plain.$utils.delay(0)
                 await this.checkStatus({
                     async insert() {
                         const editDataArray = await this.table.getEditData()
