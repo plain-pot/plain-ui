@@ -1,19 +1,18 @@
 <template>
     <pl-dialog v-model="show" confirmButton cancelButton @confirm="pl_confirm" @cancel="pl_cancel" width="400px" maxHeight="500px">
-        <pl-form class="plain-table-form-dialog-form">
+        <pl-form class="plain-table-form-dialog-form" text-align="right">
             <pl-form-column>
                 <pl-form-item v-for="(col,index) in cols" :key="index+col.field" :label="col.title+'：'">
-                    [{{dataRow.showRow[col.field]}}]
                     <pl-base-table-cell-watcher key="normal"
                                                 v-if="!editable[col.field]"
-                                                :data="{...dataRow,col}"
+                                                :data="{...dataRow,col,prop:col.prop}"
                                                 :text="dataRow.showRow[col.field]"
 
                                                 :scope-slot-func="col.scopedSlots.default"
                                                 :render-func="col.renderNormal"/>
                     <pl-base-table-cell-watcher key="edit"
                                                 v-else
-                                                :data="{...dataRow,col}"
+                                                :data="{...dataRow,col,prop:col.prop}"
                                                 :text="dataRow.showRow[col.field]"
                                                 :required="required[col.field]"
 

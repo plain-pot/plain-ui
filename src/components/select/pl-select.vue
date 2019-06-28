@@ -81,6 +81,7 @@
         },
         computed: {
             p_showValue() {
+                if (!this.p_value) return null
                 const showValues = []
                 let showValue = null
                 for (let i = 0; i < this.data.length; i++) {
@@ -96,6 +97,8 @@
                         showValues.push(itemShowValue)
                     }
                 }
+                if (!this.multiple && this.p_value != null && !showValue) showValue = this.p_value
+                if (!this.multiple && this.p_value != null && showValues.length === 0) showValues.push(this.p_value)
                 return !this.multiple ? showValue : showValues
             },
         },
