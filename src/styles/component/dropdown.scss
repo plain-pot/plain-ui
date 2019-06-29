@@ -16,6 +16,14 @@
     width: 100%;
 
     .pl-dropdown-item {
+      &.pl-dropdown-item-disabled {
+        .pl-dropdown-item-content {
+          cursor: not-allowed !important;
+          background-color: plVar(colorDisabledLight) !important;;
+          color: plVar(colorContent) !important;;
+        }
+      }
+
       .pl-dropdown-item-content {
         padding: 6px 6px;
         font-size: 12px;

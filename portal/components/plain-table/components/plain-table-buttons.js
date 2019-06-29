@@ -31,6 +31,7 @@ export const StandardButtons = {
         label: '复制',
         icon: 'pad-file-copy',
         key: 'ctrl+b',
+        needRow: true,
         handler() {
             this.copy()
         },
@@ -40,6 +41,7 @@ export const StandardButtons = {
         label: '删除',
         icon: 'pad-delete',
         key: 'ctrl+d',
+        needRow: true,
         handler() {
             this.delete()
         },
@@ -50,6 +52,7 @@ export const StandardButtons = {
         label: '多行编辑',
         icon: 'pad-unorderedlist',
         inner: true,
+        needRow: true,
         handler() {
             this.checkStatus({
                 async normal() {
@@ -64,8 +67,8 @@ export const StandardButtons = {
         label: '表单编辑',
         icon: 'pad-edit',
         inner: true,
-        needRow: true,
         key: 'ctrl+i',
+        needRow: true,
         handler(dataRow) {
             this.$plain.$formDialog.edit({
                 cols: this.p_bodyCols,
@@ -82,6 +85,7 @@ export const StandardButtons = {
         label: '批量修改',
         icon: 'pad-edit-square',
         inner: true,
+        needRow: true,
         handler() {
             this.$message.show('批量修改')
         },
@@ -134,6 +138,7 @@ export const StandardButtons = {
         label: '数据导出',
         icon: 'pad-export',
         inner: true,
+        needRow: true,
         async handler() {
             const queryParam = await this.option.getQueryParam()
             const content = await this.$http.axios({
@@ -240,13 +245,18 @@ export const PlainButtonUtils = {
     },
     getButtonDisabledMap(buttons, plainOption, $plain) {
         return buttons.reduce((ret, btn) => {
-            if (!!plainOption && !!plainOption.parentOption) {
-                if ((!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading) && btn.type !== OTHER) ret[btn.name] = true
-
-            } else {
-                const disabled = btn.disabled
-                ret[btn.name] = $plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled
+            let flag = null
+            if (!!plainOption) {
+                if (btn.needRow && !plainOption.selectDataRow) flag = true
+                else if (btn.type !== OTHER && !!plainOption.parentOption && (!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading)) {
+                    flag = true
+                }
             }
+            if (flag == null) {
+                const disabled = btn.disabled
+                flag = $plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled
+            }
+            ret[btn.name] = flag == null ? false : flag
             return ret
         }, {})
     },
