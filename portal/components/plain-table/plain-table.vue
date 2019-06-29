@@ -64,6 +64,12 @@
                 </template>
             </pl-pagination>
         </div>
+        <div class="plain-table-cover" v-show="option.loading">
+            <div class="plain-table-loading">
+                <pl-loading color="primary"/>
+                <span>加载中...</span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -534,6 +540,7 @@
                         return
                     }
                     this.$el.__keydown__ = async (e) => {
+                        if (!!this.option.loading) return
                         const names = [];
                         e.ctrlKey && names.push('ctrl')
                         e.altKey && names.push('alt')
@@ -571,6 +578,7 @@
     @include themeWrap {
         .plain-table {
             outline: none;
+            position: relative;
 
             .plain-table-head {
                 padding-bottom: plVar(padding);
@@ -589,6 +597,33 @@
 
             & + .plain-table {
                 margin-top: 16px;
+            }
+
+            .plain-table-cover {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+
+                .plain-table-loading {
+                    width: 100%;
+                    height: 300px;
+                    max-height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+
+                    .pl-loading {
+                        font-size: 28px !important;
+                    }
+
+                    & > span {
+                        font-size: 14px;
+                        margin-top: 16px;
+                    }
+                }
             }
         }
     }
