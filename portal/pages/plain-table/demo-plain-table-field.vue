@@ -36,6 +36,18 @@
                         }*/
                         /*测试去掉按钮*/
                         // insertButton: false,
+                        testDisabledButton: {
+                            label: '单复选框选中时可用',
+                            disabled() {
+                                const selectDataRow = this.demoFieldOption.selectDataRow
+                                if (!selectDataRow) return true
+                                if (selectDataRow.row.radio !== 'Y') return true
+                                return false
+                            },
+                            handler() {
+                                this.$message.show('单复选框选中时可用')
+                            },
+                        },
                     }
                 }),
                 selectData: [
