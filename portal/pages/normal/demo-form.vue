@@ -112,6 +112,9 @@
                     <im-form-item label="标签输入框">
                         <im-tag-input required input/>
                     </im-form-item>
+                    <im-form-item label="对象选择框">
+                        <pl-object :option="fieldOption" :map="{name:'input',objectId:'id'}" :row="row" showField="name" required/>
+                    </im-form-item>
                     <im-form-item label="复选框">
                         <im-radio-group multiple>
                             <im-radio v-for="(item) in ['北京','上海','广州','南京']" :key="item" :id="item" :label="item"/>
@@ -279,6 +282,25 @@
                         }
                     ],
                 }],
+                row: {},
+                fieldOption: new PlainOption({
+                    context: this,
+                    module: 'demoField',
+                    renderFunc(h) {
+                        return (
+                            <div>
+                                <pl-tc-input field="input" title="输入框"/>
+                                <pl-tc-number field="number" title="数字输入框"/>
+                                <pl-tc-date field="date" title="日期选择框"/>
+                                <pl-tc-time field="time" title="时间选择框"/>
+                                <pl-tc-select field="sel" title="下拉选择框" prop={{data: [], labelKey: 'name', valueKey: 'val'}}/>
+                                <pl-tc-color field="color" title="颜色选择框"/>
+                                <pl-tc-radio field="radio" title="单选复选框"/>
+                                <pl-tc-toggle field="toggle" title="开关选择框"/>
+                            </div>
+                        )
+                    }
+                }),
             }
         },
         methods: {
