@@ -34,6 +34,7 @@
                        @dblclickRow="pl_dblClickRow"
                        @bodyColsChange="pl_bodyColsChange">
             <slot></slot>
+            <pl-render-func v-if="option.renderFunc" :render-func="option.renderFunc"/>
         </pl-base-table>
         <div class="plain-table-foot">
             <pl-pagination :page="option.page"
@@ -69,10 +70,11 @@
     import {StandardButtons} from "./components/plain-table-buttons.js";
     import {PlainButtonUtils} from "./components/plain-table-buttons";
     import {PLAIN_TABLE_STATUS, PlainTableController} from "./index";
+    import PlRenderFunc from "../../../src/components/render/pl-render-func";
 
     export default {
         name: "plain-table",
-        components: {PlainTableButtons, PlainTableFilter},
+        components: {PlRenderFunc, PlainTableButtons, PlainTableFilter},
         props: {
             option: {require: true, type: PlainOption},
         },
