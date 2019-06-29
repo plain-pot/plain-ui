@@ -7,7 +7,7 @@
                @cancel="pl_cancel"
                disabledHideOnConfirm
                width="600px">
-        <plain-table :option="option" v-if="init" ref="table" class="plain-table-service"/>
+        <plain-table :option="option" v-if="init" ref="table" class="plain-table-service" @dblclickRow="pl_dblclickRow"/>
     </pl-dialog>
 </template>
 
@@ -29,19 +29,36 @@
                 option.pl_loadDefaultOption('service')
                 Object.assign(this, {option, onConfirm, onCancel})
                 this.init = true
+
+                option.simpleFilters = null
                 option.reload()
                 await this.$plain.nextTick()
                 await this.$plain.$utils.delay(50)
                 this.show = true
             },
-            pl_confirm() {
-
+            pl_dblclickRow() {
+                if (this.option.updateable || this.option.multiSelect) return
+                else {
+                    this.pl_confirm()
+                }
+            },
+            async pl_confirm() {
+                const dataRow = await this.$refs.table.getSelected()
+                if (!dataRow || dataRow.length === 0) {
+                    const msg = '请至少选择一行数据！'
+                    this.$dialog.show(msg)
+                    throw msg
+                }
+                !!this.onConfirm && this.onConfirm(dataRow)
+                this.show = false
+                this.pl_destroy()
             },
             pl_cancel() {
-
+                !!this.onCancel && this.onCancel()
+                this.pl_destroy()
             },
             async pl_destroy() {
-                await this.$plain.delay(200)
+                await this.$plain.$utils.delay(200)
                 this.init = false
                 this.option = null
                 this.onConfirm = null

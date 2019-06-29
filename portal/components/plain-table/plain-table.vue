@@ -31,6 +31,7 @@
                        :sortDesc="option.sortDesc"
                        :bodyRowHeight="option.bodyRowHeight"
                        :headRowHeight="option.headRowHeight"
+                       :selecting="option.multiSelect"
                        @sortChange="option.changeSort"
                        @selectRow="pl_selectRow"
                        @dblclickRow="pl_dblClickRow"
@@ -356,6 +357,14 @@
                 }
             },
             /**
+             * 获取当前选中数据，多选则返回数组
+             * @author  韦胜健
+             * @date    2019/6/29 19:17
+             */
+            async getSelected() {
+                return await this.$refs.table.getSelected()
+            },
+            /**
              * 复制一行数据
              * @author  韦胜健
              * @date    2019/6/26 22:28
@@ -390,7 +399,9 @@
              * @date    2019/6/23 21:02
              */
             pl_dblClickRow({item: dataRow}) {
+                this.$emit('dblclickRow', dataRow)
                 if (!!dataRow.editable) return
+                if (!this.option.updateable) return;
                 const next = async () => {
                     await this.save()
                     this.table.enableEdit({index: dataRow.index})

@@ -38,7 +38,7 @@
         methods: {
             pl_showService() {
                 this.$object.pick(this.fieldOption, (ret) => {
-                    console.log(ret)
+                    console.log(!!ret ? {...ret.row} : null)
                 })
             },
         }

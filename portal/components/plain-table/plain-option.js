@@ -14,6 +14,7 @@ const component = {
             headRowHeight: null,            //表头行高
             noHeader: null,                 //是否不显示表头
             paginationShowNumber: null,     //分页栏是否展示数字
+            multiSelect: null,              //是否默认多选，实则默认显示多选列
 
             /*---------------------------------------增删改可用标志-------------------------------------------*/
             insertable: null,               //是否可新建

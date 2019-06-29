@@ -2,7 +2,7 @@
     <div class="pl-base-table" :class="classes" @mouseleave="pl_mouseleave">
         <pl-base-table-column-controller @collect="pl_collect">
             <pl-tc-index :page="page" :pageSize="pageSize" v-if="index"/>
-            <pl-tc-pick ref="pick" :data="p_data" v-if="p_selected"/>
+            <pl-tc-pick ref="pick" :data="p_data" v-if="p_selected || selecting"/>
             <slot></slot>
         </pl-base-table-column-controller>
         <pl-base-table-head
@@ -55,6 +55,7 @@
             clickRow: {type: Function},
             dblclickRow: {type: Function},
             mouseenterRow: {type: Function},
+            selecting: {type: Boolean},
 
             page: {type: Number, default: 1},
             pageSize: {type: Number, default: 0},
@@ -67,6 +68,7 @@
                 p_cols: [],                             //处理好的列数据信息
                 p_headCols: [],                         //表头列信息
                 p_bodyCols: [],                         //表体列信息
+                p_selectDataRow: null,                  //当前选中行数据
 
                 p_tableWidth: null,                     //表格宽度
                 p_sortField: this.sortField,            //排序字段
@@ -269,11 +271,8 @@
              */
             getSelected() {
                 return new Promise((rs, rj) => {
-                    if (!this.p_selected) {
-                        const msg = '请先调用startSelected开启选择状态'
-                        console.error(msg)
-                        rj(msg)
-                        return
+                    if (!this.p_selected && !this.selecting) {
+                        rs(this.p_selectDataRow)
                     }
                     const dataRows = this.$refs.pick.getSelected()
                     if (dataRows.length === 0) {
@@ -296,6 +295,7 @@
                     data.check = flag
                     if (flag) selectRow = data
                 })
+                this.p_selectDataRow = selectRow
                 this.$emit('selectRow', selectRow)
             },
             /**
