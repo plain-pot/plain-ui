@@ -255,6 +255,23 @@ const component = {
             const table = PlainTableController.get(this)
             return table
         },
+        /**
+         * 是否存在父表正在编辑
+         * @author  韦胜健
+         * @date    2019/6/29 17:48
+         */
+        hasParentEditing() {
+            let option = this
+            do {
+                if (option.tableStatus != null && option.tableStatus !== PLAIN_TABLE_STATUS.normal) {
+                    return true
+                } else {
+                    option = option.parentOption
+                }
+            } while (!!option)
+
+            return false
+        },
 
         /*---------------------------------------增删改-------------------------------------------*/
         async insert({row, editRow, index}) {
@@ -385,6 +402,13 @@ class PlainOption extends Vue {
                     const table = this.getTable()
                     if (!!table) table.cancel()
                 }
+            })
+            this.parentOption.$on('statusChange', () => {
+                if (this.status !== PLAIN_TABLE_STATUS.normal) {
+                    const table = this.getTable()
+                    if (!!table) table.cancel()
+                }
+                this.$emit('statusChange')
             })
         }
     }

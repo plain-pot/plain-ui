@@ -248,7 +248,7 @@ export const PlainButtonUtils = {
             let flag = null
             if (!!plainOption) {
                 if (btn.needRow && !plainOption.selectDataRow) flag = true
-                else if (btn.type !== OTHER && !!plainOption.parentOption && (!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading)) {
+                else if (btn.type !== OTHER && !!plainOption.parentOption && (!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading || plainOption.hasParentEditing())) {
                     flag = true
                 }
             }
