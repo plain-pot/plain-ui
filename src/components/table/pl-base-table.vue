@@ -284,6 +284,14 @@
                 })
             },
             /**
+             * 清除选择的数据
+             * @author  韦胜健
+             * @date    2019/6/29 20:08
+             */
+            clearSelected() {
+                !!this.$refs.pick && this.$refs.pick.clearSelected()
+            },
+            /**
              * 高亮选中行
              * @author  韦胜健
              * @date    2019/6/23 16:50

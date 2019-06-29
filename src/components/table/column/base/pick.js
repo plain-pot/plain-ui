@@ -63,6 +63,9 @@ export default {
         getSelected() {
             return this.p_data.map(item => item.row)
         },
+        clearSelected() {
+            this.p_data = []
+        },
         pl_clickCheckAll() {
             switch (this.checkAllStatus) {
                 case 'all':

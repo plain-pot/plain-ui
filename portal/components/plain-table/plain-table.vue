@@ -362,7 +362,7 @@
              * @date    2019/6/29 19:17
              */
             async getSelected() {
-                return await this.$refs.table.getSelected()
+                return await this.table.getSelected()
             },
             /**
              * 复制一行数据
@@ -383,8 +383,8 @@
                 }
                 this.newInsert(newRow)
             },
-            refresh(){
-                this.$refs.table.refresh()
+            refresh() {
+                this.table.refresh()
             },
 
             /*---------------------------------------处理事件-------------------------------------------*/
@@ -438,10 +438,11 @@
              * @author  韦胜健
              * @date    2019/6/26 23:08
              */
-            async pl_onOptionLoad() {
+            async pl_onOptionLoad(isReload) {
                 await this.$plain.nextTick()
                 const index = this.option.list.length > 0 ? 0 : null
                 this.selectRow({index})
+                if (!!isReload && !!this.table.$refs.pick) this.table.clearSelected()
             },
             /**
              * 表格重新渲染收集列事件
