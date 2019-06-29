@@ -6,7 +6,8 @@
                @confirm="pl_confirm"
                @cancel="pl_cancel"
                disabledHideOnConfirm
-               width="600px">
+               :width="p_width"
+               :height="p_height">
         <plain-table :option="option" v-if="init" ref="table" class="plain-table-service" @dblclickRow="pl_dblclickRow"/>
     </pl-dialog>
 </template>
@@ -22,7 +23,22 @@
                 option: null,
                 onConfirm: null,
                 onCancel: null,
+                width: null,
+                height: null,
             }
+        },
+        computed: {
+            p_width() {
+                if (!this.option) return '600px'
+                if (!!this.width) return this.width
+                let width = 600
+                if (!!this.option.insertable) width += 120
+                if (!!this.option.deleteable) width += 80
+                return width + 'px'
+            },
+            p_height() {
+                return this.height
+            },
         },
         methods: {
             async pick(option, onConfirm, onCancel) {
@@ -63,6 +79,8 @@
                 this.option = null
                 this.onConfirm = null
                 this.onCancel = null
+                this.width = null
+                this.height = null
             },
         }
     }
