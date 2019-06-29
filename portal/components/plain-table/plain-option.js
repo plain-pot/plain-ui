@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import deepmerge from 'deepmerge'
 import {DEFAULT_URLS, DEFAULT_OPTION_PLAIN_TABLE_SERVICE, DEFAULT_OPTION_PUBLIC, DEFAULT_OPTION_PLAIN_TABLE, logOption} from "./plain-option-default";
+import {PLAIN_TABLE_STATUS, PlainTableController} from "./index";
 
 
 const component = {
@@ -39,6 +40,7 @@ const component = {
             p_defaultOptionType: null,      //Option类型
             loading: null,                  //当前是否处于加载状态
             selectDataRow: null,            //当前选中的行数据
+            tableStatus: null,              //当前表格状态
 
             /*筛选*/
             simpleFilters: null,            //筛选栏筛选参数
@@ -244,6 +246,15 @@ const component = {
             }
             return newRow
         },
+        /**
+         * 获取使用当前option的表格
+         * @author  韦胜健
+         * @date    2019/6/29 17:17
+         */
+        getTable() {
+            const table = PlainTableController.get(this)
+            return table
+        },
 
         /*---------------------------------------增删改-------------------------------------------*/
         async insert({row, editRow, index}) {
@@ -325,6 +336,16 @@ const component = {
             this.$emit('selectChange', dataRow)
         },
         /**
+         * 处理表格状态变化事件
+         * @author  韦胜健
+         * @date    2019/6/29 12:45
+         */
+        pl_changeTableStatus(status) {
+            if (this.tableStatus === status) return
+            this.tableStatus = status
+            this.$emit('statusChange', status)
+        },
+        /**
          * 格式化行数据函数
          * @author  韦胜健
          * @date    2019/6/28 18:01
@@ -360,6 +381,10 @@ class PlainOption extends Vue {
                 /*如果当前option所属表格没有并且没有强制查询数据，则直接返回*/
                 if (!this.p_defaultOptionType && !this.forceLoadAfterParentChange) return
                 this.reload()
+                if (this.status !== PLAIN_TABLE_STATUS.normal) {
+                    const table = this.getTable()
+                    if (!!table) table.cancel()
+                }
             })
         }
     }

@@ -68,6 +68,7 @@
     import PlainTableButtons from "./components/plain-table-buttons.vue";
     import {StandardButtons} from "./components/plain-table-buttons.js";
     import {PlainButtonUtils} from "./components/plain-table-buttons";
+    import {PLAIN_TABLE_STATUS, PlainTableController} from "./index";
 
     export default {
         name: "plain-table",
@@ -85,12 +86,7 @@
             },
         },
         data() {
-            const EDIT_STATUS = {
-                normal: 'normal',
-                insert: 'insert',
-                update: 'update',
-                select: 'select',
-            }
+            const EDIT_STATUS = PLAIN_TABLE_STATUS
             const p_allStatus = Object.keys(EDIT_STATUS)
             return {
                 EDIT_STATUS,
@@ -103,6 +99,7 @@
             }
         },
         created() {
+            PlainTableController.add(this)
             this.option.pl_loadDefaultOption()
             !!this.option.loadOnStart && this.option.reload()
         },
@@ -197,6 +194,7 @@
                     throw new Error(`status[${status}] is illegal!`)
                 }
                 this.status = status
+                this.option.pl_changeTableStatus(this.status)
             },
             /**
              * 新建一行数据
@@ -538,6 +536,7 @@
             },
         },
         beforeDestroy() {
+            PlainTableController.remove(this)
             if (!!this.$el.__keydown__) {
                 window.document.removeEventListener('keydown', this.pl_keydown)
                 this.$el.__keydown__ = null
