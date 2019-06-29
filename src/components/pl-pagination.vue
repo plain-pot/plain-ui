@@ -3,7 +3,7 @@
         <div class="pl-pagination-left">
             <div class="pl-pagination-operation">
                 <pl-icon icon="pad-left-circle-fill" class="pl-pagination-operate-icon" @click.stop="$emit('prev')"/>
-                <div class="pl-pagination-operate-num-wrapper" :style="{width:!autoSize?null:`${(2*availablePage+3)*33+36}px`}">
+                <div class="pl-pagination-operate-num-wrapper" :style="{width:!autoSize?null:`${(2*availablePage+3)*33+36}px`}" v-if="showNumber">
                     <template v-if="p_page-availablePage-1>0">
                         <div class="pl-pagination-operate-num" @click="p_clickPage(1)">1</div>
                         <pl-icon icon="pl-more-solid" class="pl-pagination-more-icon"/>
@@ -67,6 +67,7 @@
             availablePage: {type: Number, default: 3},
             loading: {type: Boolean},
             autoSize: {type: Boolean},
+            showNumber: {type: Boolean, default: true},
         },
         data() {
             return {

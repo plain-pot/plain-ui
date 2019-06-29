@@ -50,6 +50,7 @@ export const DEFAULT_OPTION_PUBLIC = {
 export const DEFAULT_OPTION_PLAIN_TABLE = {
     loadOnStart: true,
     bodyRowHeight: 36,
+    paginationShowNumber: true,
 }
 
 /**
@@ -58,7 +59,7 @@ export const DEFAULT_OPTION_PLAIN_TABLE = {
  * @date    2019/6/20 14:19
  */
 export const DEFAULT_OPTION_PLAIN_TABLE_SERVICE = {
-    bodyRowHeight: 28,
+    bodyRowHeight: 30,
 }
 
 /**

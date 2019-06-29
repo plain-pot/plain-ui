@@ -12,6 +12,7 @@ const component = {
             bodyRowHeight: null,            //行高
             headRowHeight: null,            //表头行高
             noHeader: null,                 //是否不显示表头
+            paginationShowNumber: null,     //分页栏是否展示数字
 
             /*---------------------------------------业务属性-------------------------------------------*/
             context: null,                  //当前上下文

@@ -6,8 +6,7 @@
                @confirm="pl_confirm"
                @cancel="pl_cancel"
                disabledHideOnConfirm
-               disabledHideOnCancel
-               width="500px">
+               width="900px">
         <plain-table :option="option" v-if="init" ref="table"/>
     </pl-dialog>
 </template>
@@ -26,10 +25,14 @@
             }
         },
         methods: {
-            pick(option, onConfirm, onCancel) {
+            async pick(option, onConfirm, onCancel) {
+                option.pl_loadDefaultOption('service')
                 Object.assign(this, {option, onConfirm, onCancel})
-                this.show = true
                 this.init = true
+                option.reload()
+                await this.$plain.nextTick()
+                await this.$plain.$utils.delay(50)
+                this.show = true
             },
             pl_confirm() {
 
