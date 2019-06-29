@@ -63,6 +63,8 @@
             multiple: {type: Boolean},
             input: {},
             popper: {},
+            before: {type: Function},
+            after: {type: Function},
 
             placeholder: {default: '请选择...'},
         },
@@ -112,6 +114,7 @@
         },
         methods: {
             async pl_open() {
+                if (!!this.before) await this.before(this.p_value)
                 if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
                 !this.p_select.p_show ?
                     this.p_select.select({
@@ -128,7 +131,7 @@
                             onHide: () => this.p_show = false,
                         },
                         onClose: () => this.p_select = null,
-                        onConfirm: (e) => {
+                        onConfirm: async (e) => {
                             const value = this.pl_getValue(e)
                             if (!this.multiple) {
                                 this.p_value = value
@@ -141,6 +144,7 @@
                                 }
                             }
                             this.$emit('input', this.p_value)
+                            !!this.after && await this.after(this.p_value)
                         },
                     })
                     :
