@@ -14,6 +14,10 @@
 
                                  :status="status"
                                  :buttons="buttons"
+                                 :button-handler="buttonHandler"
+                                 :button-disabled="buttonDisabled"
+                                 :button-display="buttonDisplay"
+                                 :get-select-data-row="getSelectDataRow"
                                  :plain-option="option">
                 <slot name="button"></slot>
             </plain-table-buttons>
@@ -133,24 +137,50 @@
                         if (btn.disabled == null) btn.disabled = false
                         btn.name = name
                         btn.ctx = !!btn.standard ? this : this.option.context
-
-                        const oldHandler = btn.handler
-                        btn.handler = async (e) => {
-                            if (!!oldHandler) {
-                                let param;
-                                if (!!btn.needRow) param = await this.getSelectDataRow()
-                                e.returnValue = await oldHandler.apply(btn.ctx, [param, e])
-                            }
-                        }
                         buttons.push(btn)
                     }
                 })
                 return buttons
             },
+            buttonDisabled() {
+                console.log('buttonDisabled')
+                return this.buttons.reduce((ret, btn) => {
+                    if (!!this.plainOption && !!this.plainOption.parentOption && (!this.plainOption.parentOption.selectDataRow || this.plainOption.parentOption.loading)) {
+                        ret[btn.name] = true
+                    } else {
+                        const disabled = btn.disabled
+                        ret[btn.name] = this.$plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled
+                    }
+                    return ret
+                }, {})
+
+            },
+            buttonDisplay() {
+                console.log('buttonDisplay')
+                return this.buttons.reduce((ret, btn) => {
+                    const display = btn.display
+                    ret[btn.name] = this.$plain.$utils.typeOf(display) === 'function' ? display.apply(btn.ctx) : display
+                    return ret
+                }, {})
+            },
+            buttonHandler() {
+                return this.buttons.reduce((ret, btn) => {
+                    const handler = btn.handler
+                    ret[btn.name] = async (e) => {
+                        // console.log(btn.name)
+                        if (this.buttonDisabled[btn.name]) return
+                        if (!this.buttonDisplay[btn.name]) return
+                        let param;
+                        if (!!btn.needRow) param = await this.getSelectDataRow()
+                        return await handler.apply(btn.ctx, [param, e])
+                    }
+                    return ret
+                }, {})
+            },
             keydownListener() {
                 const buttonMap = this.buttons.reduce((ret, item) => {
                     if (!item.key) return ret
-                    ret[item.key] = item.handler
+                    ret[item.key] = this.buttonHandler[item.name]
                     return ret
                 }, {})
                 return {
@@ -533,7 +563,7 @@
                     if (!!this.$el.__keydown__) {
                         return
                     }
-                    this.$el.__keydown__ = (e) => {
+                    this.$el.__keydown__ = async (e) => {
                         const names = [];
                         e.ctrlKey && names.push('ctrl')
                         e.altKey && names.push('alt')
@@ -543,7 +573,7 @@
                         // console.log(name)
                         if (!this.keydownListener[name]) return
                         // console.log(name)
-                        e.returnValue = this.keydownListener[name](e, name)
+                        e.returnValue = await this.keydownListener[name](e, name)
                     }
                     window.document.addEventListener('keydown', this.$el.__keydown__)
                 }
