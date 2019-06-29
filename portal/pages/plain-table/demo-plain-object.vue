@@ -19,7 +19,7 @@
                 <pl-tc-select field="sel" title="下拉选择框" :prop="{data:selectData,labelKey:'name',valueKey:'val'}"/>
                 <!--            <pl-tc-ov field="ov" title="选项值选择框"/>-->
                 <pl-tc-color field="color" title="颜色选择框"/>
-                <pl-tc-object field="obj" title="对象选择框" :prop="{option:tableAddressOption,map:{obj:'name',objId:'id'}}"/>
+                <pl-tc-object field="objName" title="对象选择框" :prop="{option:tableAddressOption,map:{obj:'id',objName:'name'}}"/>
                 <!--            <pl-tc-address field="address" title="地址选择框"/>-->
                 <pl-tc-radio field="radio" title="单选复选框"/>
                 <pl-tc-toggle field="toggle" title="开关选择框"/>
