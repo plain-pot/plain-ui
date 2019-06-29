@@ -371,6 +371,14 @@
                 return await this.table.getSelected()
             },
             /**
+             * 清除选择数据
+             * @author  韦胜健
+             * @date    2019/6/29 21:37
+             */
+            clearSelected() {
+                return this.table.clearSelected()
+            },
+            /**
              * 复制一行数据
              * @author  韦胜健
              * @date    2019/6/26 22:28
@@ -448,7 +456,7 @@
                 await this.$plain.nextTick()
                 const index = this.option.list.length > 0 ? 0 : null
                 this.selectRow({index})
-                if (!!isReload && !!this.table.$refs.pick) this.table.clearSelected()
+                if (!!isReload && !!this.table.$refs.pick && !!this.option.clearSelectedAfterReload) this.table.clearSelected()
             },
             /**
              * 表格重新渲染收集列事件

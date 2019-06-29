@@ -54,6 +54,7 @@ export const DEFAULT_OPTION_PLAIN_TABLE = {
     insertable: true,
     updateable: true,
     deleteable: true,
+    clearSelectedAfterReload: true,
 }
 
 /**

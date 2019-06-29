@@ -1,7 +1,13 @@
 <template>
     <div class="demo-plain-object">
-        <pl-button label="单选" @click="pl_showService"/>
-        <pl-button label="多选" @click="pl_showService2"/>
+        <im-demo-row title="服务">
+            <pl-button label="单选" @click="pl_showService"/>
+            <pl-button label="多选" @click="pl_showService2"/>
+        </im-demo-row>
+        <im-demo-row title="选择框">
+            <pl-object :option="fieldOption" :map="{name:'input',objectId:'id'}" :row="row" showField="name"/>
+            <span>result:{{row}}</span>
+        </im-demo-row>
     </div>
 </template>
 
@@ -15,6 +21,8 @@
                 {name: '广州', val: 'guangzhou'},
             ]
             return {
+                row: {},
+
                 selectData,
                 fieldOption: new PlainOption({
                     context: this,
@@ -59,14 +67,13 @@
         },
         methods: {
             pl_showService() {
-                this.$object.pick(this.fieldOption, (ret) => {
-                    const msg = !!ret ? ret.row.input : 'null'
-                    this.$dialog.show(msg)
+                this.$object.pick(this.fieldOption, ({row}) => {
+                    this.$dialog.show(row.input)
                 })
             },
             pl_showService2() {
                 this.$object.pick(this.addressOption, (ret) => {
-                    const msg = ret.map((item) => item.name).join(',')
+                    const msg = ret.map((item) => item.row.name).join(',')
                     this.$dialog.show(msg)
                 })
             },

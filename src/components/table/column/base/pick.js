@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         getSelected() {
-            return this.p_data.map(item => item.row)
+            return [...(this.p_data || [])]
         },
         clearSelected() {
             this.p_data = []

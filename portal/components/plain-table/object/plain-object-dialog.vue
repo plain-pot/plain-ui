@@ -49,6 +49,7 @@
                 option.simpleFilters = null
                 option.reload()
                 await this.$plain.nextTick()
+                this.$refs.table.clearSelected()
                 this.$refs.table.refresh()
             },
             pl_dblclickRow() {

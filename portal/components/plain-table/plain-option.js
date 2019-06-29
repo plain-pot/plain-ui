@@ -39,6 +39,7 @@ const component = {
             defaultId: null,                //新建行时是否需要一个id
             forceLoadAfterParentChange: null,//默认情况下，option所属表格没有初始化的话，option是不查询数据的，即便option父表数据发生变化，如果父表变化，需要强制查询数据，请设置该属性为true
             rowFormatter: null,             //行数据格式化行数
+            clearSelectedAfterReload: null, //是否在reload重新加载数据之后清除选择的行数据
 
             list: [],                       //当前数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
