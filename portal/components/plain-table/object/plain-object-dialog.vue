@@ -1,6 +1,14 @@
 <template>
-    <pl-dialog title="请选择一行记录" v-model="show">
-        <plain-table :optio="option"/>
+    <pl-dialog title="请选择一行记录"
+               v-model="show"
+               confirmButton
+               cancelButton
+               @confirm="pl_confirm"
+               @cancel="pl_cancel"
+               disabledHideOnConfirm
+               disabledHideOnCancel
+               width="500px">
+        <plain-table :option="option" v-if="init" ref="table"/>
     </pl-dialog>
 </template>
 
@@ -10,11 +18,31 @@
         data() {
             return {
                 show: false,
+                init: false,
+
+                option: null,
+                onConfirm: null,
+                onCancel: null,
             }
         },
         methods: {
             pick(option, onConfirm, onCancel) {
+                Object.assign(this, {option, onConfirm, onCancel})
+                this.show = true
+                this.init = true
+            },
+            pl_confirm() {
 
+            },
+            pl_cancel() {
+
+            },
+            async pl_destroy() {
+                await this.$plain.delay(200)
+                this.init = false
+                this.option = null
+                this.onConfirm = null
+                this.onCancel = null
             },
         }
     }

@@ -26,3 +26,5 @@ class PlainObjectService {
         this.instance.pick(option, onConfirm, onCancel)
     }
 }
+
+export {PlainObjectService}
