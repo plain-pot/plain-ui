@@ -118,12 +118,12 @@
                 return PlainButtonUtils.getButtons(standardButtons, optionButtons, this.option, this, this.$plain)
             },
             buttonDisabled() {
-                console.log('buttonDisabled')
+                // console.log('buttonDisabled')
                 return PlainButtonUtils.getButtonDisabledMap(this.buttons, this.option, this.$plain)
 
             },
             buttonDisplay() {
-                console.log('buttonDisplay')
+                // console.log('buttonDisplay')
                 return PlainButtonUtils.getButtonDisplayMap(this.buttons, this.$plain)
             },
             buttonHandler() {
