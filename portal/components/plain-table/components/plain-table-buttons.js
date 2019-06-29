@@ -1,8 +1,13 @@
+const INSERT = 'insert'
+const UPDATE = 'update'
+const DELETE = 'delete'
+const OTHER = 'other'
+
 export const DEFAULT_BUTTON_ORDER = {
-    insert: 100,
-    update: 50,
-    delete: 1,
-    other: -1,
+    [INSERT]: 100,
+    [UPDATE]: 50,
+    [DELETE]: 1,
+    [OTHER]: -1,
 }
 
 export const StandardButtons = {
@@ -235,8 +240,9 @@ export const PlainButtonUtils = {
     },
     getButtonDisabledMap(buttons, plainOption, $plain) {
         return buttons.reduce((ret, btn) => {
-            if (!!plainOption && !!plainOption.parentOption && (!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading)) {
-                ret[btn.name] = true
+            if (!!plainOption && !!plainOption.parentOption) {
+                if ((!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading) && btn.type !== OTHER) ret[btn.name] = true
+
             } else {
                 const disabled = btn.disabled
                 ret[btn.name] = $plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled

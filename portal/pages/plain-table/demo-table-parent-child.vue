@@ -89,6 +89,20 @@
                     parentCode: 'code',
                     parentName: 'name'
                 },
+
+                buttons: {
+                    otherBtn: {
+                        label: '其他按钮',
+                        handler() {
+                        },
+                    },
+                    instBtn: {
+                        type: 'insert',
+                        label: '新建按钮',
+                        handler() {
+                        },
+                    },
+                }
             })
             return {
                 provinceOption,
