@@ -19,7 +19,7 @@
                 <pl-tc-select field="sel" title="下拉选择框" :prop="{data:selectData,labelKey:'name',valueKey:'val'}"/>
                 <!--            <pl-tc-ov field="ov" title="选项值选择框"/>-->
                 <pl-tc-color field="color" title="颜色选择框"/>
-                <pl-tc-object field="objName" title="对象选择框" :prop="{option:tableAddressOption,map:{obj:'id',objName:'name'}}"/>
+                <pl-tc-object field="objName" title="对象选择框" :prop="{option:tableAddressOption,map:{obj:'id',objName:'name'},before:beforeSelect,after:afterSelect}"/>
                 <!--            <pl-tc-address field="address" title="地址选择框"/>-->
                 <pl-tc-radio field="radio" title="单选复选框"/>
                 <pl-tc-toggle field="toggle" title="开关选择框"/>
@@ -117,6 +117,17 @@
                     const msg = ret.map((item) => item.row.name).join(',')
                     this.$dialog.show(msg)
                 })
+            },
+            beforeSelect({editRow}, value) {
+                console.log({...editRow})
+                if (editRow.radio !== 'Y') {
+                    const msg = '请选勾选【单选复选框】'
+                    this.$dialog.show(msg)
+                    return Promise.reject(msg)
+                }
+            },
+            afterSelect(dataRow, value) {
+                this.$message.show('after select:' + value)
             },
         }
     }

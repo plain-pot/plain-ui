@@ -21,6 +21,8 @@
             map: {type: Object, required: true},
             row: {type: Object, required: true},
             showField: {type: String, required: true},
+            before: {type: Function},
+            after: {type: Function},
         },
         data() {
             return {}
@@ -38,12 +40,15 @@
             },
         },
         methods: {
-            pl_click() {
+            async pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
-                this.$object.pick(this.option, ({row}) => {
+                if (!!this.before) await this.before()
+                this.$object.pick(this.option, async (dataRow) => {
+                    const row = dataRow.row
                     Object.keys(this.map).forEach(key => {
                         this.$set(this.row, key, row[this.map[key]])
                     })
+                    !!this.after && await this.after(dataRow)
                 })
             },
             pl_clear() {
