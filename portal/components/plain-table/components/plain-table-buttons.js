@@ -1,3 +1,5 @@
+import {PLAIN_TABLE_STATUS} from "../index";
+
 const INSERT = 'insert'
 const UPDATE = 'update'
 const DELETE = 'delete'
@@ -13,6 +15,7 @@ export const DEFAULT_BUTTON_ORDER = {
 export const StandardButtons = {
     insertButton: {
         type: 'insert',                         //按钮类型，受安全性控制
+        status: PLAIN_TABLE_STATUS.normal,      //表格处于何种状态时，按钮可用
         order: 100,                             //排序
         display: true,                          //是否显示
         label: '新建',                          //文本
@@ -28,6 +31,7 @@ export const StandardButtons = {
     },
     copyButton: {
         type: 'insert',
+        status: PLAIN_TABLE_STATUS.normal,
         label: '复制',
         icon: 'pad-file-copy',
         key: 'ctrl+b',
@@ -38,6 +42,7 @@ export const StandardButtons = {
     },
     deleteButton: {
         type: 'delete',
+        status: PLAIN_TABLE_STATUS.normal,
         label: '删除',
         icon: 'pad-delete',
         key: 'ctrl+d',
@@ -49,6 +54,7 @@ export const StandardButtons = {
 
     batchUpdateButton: {
         type: 'update',
+        status: PLAIN_TABLE_STATUS.normal,
         label: '多行编辑',
         icon: 'pad-unorderedlist',
         inner: true,
@@ -64,6 +70,7 @@ export const StandardButtons = {
     },
     formEditButton: {
         type: 'update',
+        status: PLAIN_TABLE_STATUS.normal,
         label: '表单编辑',
         icon: 'pad-edit',
         inner: true,
@@ -82,6 +89,7 @@ export const StandardButtons = {
     },
     batchModifyButton: {
         type: 'update',
+        status: PLAIN_TABLE_STATUS.normal,
         label: '批量修改',
         icon: 'pad-edit-square',
         inner: true,
@@ -251,6 +259,10 @@ export const PlainButtonUtils = {
                 else if (btn.type !== OTHER && !!plainOption.parentOption && (!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading || plainOption.hasParentEditing())) {
                     flag = true
                 }
+            }
+            const status = plainOption.tableStatus || PLAIN_TABLE_STATUS.normal
+            if (!!btn.status && btn.status !== status) {
+                flag = true
             }
             if (flag == null) {
                 const disabled = btn.disabled
