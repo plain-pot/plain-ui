@@ -45,12 +45,9 @@
                 option.pl_loadDefaultOption('service')
                 Object.assign(this, {option, onConfirm, onCancel})
                 this.init = true
-
+                this.show = true
                 option.simpleFilters = null
                 option.reload()
-                await this.$plain.nextTick()
-                await this.$plain.$utils.delay(50)
-                this.show = true
                 await this.$plain.nextTick()
                 this.$refs.table.refresh()
             },
