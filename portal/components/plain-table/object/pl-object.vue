@@ -41,9 +41,7 @@
             pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
                 this.$object.pick(this.option, ({row}) => {
-                    console.log({...row})
                     Object.keys(this.map).forEach(key => {
-                        console.log(key, this.map[key], row[this.map[key]])
                         this.$set(this.row, key, row[this.map[key]])
                     })
                 })
