@@ -120,17 +120,22 @@
                     let sb = standardButtons[name]
                     let ob = optionButtons[name]
                     let btn;
+
                     if (ob === false) return
-                    if ((ob === true || ob == null) && !!sb) {
-                        sb.standard = true
-                        btn = sb
+                    if (!sb) {
+                        btn = ob
+                        btn.standard = false
                     } else {
-                        if (!sb) {
-                            btn = ob
+                        if (ob === true || ob == null) {
+                            btn = sb
+                            btn.standard = true
                         } else {
+                            const oldHandler = sb.handler
                             btn = this.$plain.$utils.deepmerge(sb, ob)
+                            if (btn.handler === oldHandler) btn.standard = true
                         }
                     }
+
                     if (!!btn) {
                         if (btn.type == null) btn.type = 'other'
                         if (btn.display == null) btn.display = true

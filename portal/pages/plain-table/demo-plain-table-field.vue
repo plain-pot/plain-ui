@@ -25,7 +25,18 @@
             return {
                 demoFieldOption: new PlainOption({
                     context: this,
-                    module: 'demoField'
+                    module: 'demoField',
+                    buttons: {
+                        /*测试重载按钮属性*/
+                        /*insertButton: {
+                            handler() {
+                                this.$message.show('insertButton')
+                                console.log(this)
+                            },
+                        }*/
+                        /*测试去掉按钮*/
+                        // insertButton: false,
+                    }
                 }),
                 selectData: [
                     {name: '北京', val: 'beijing'},
