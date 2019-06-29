@@ -67,6 +67,7 @@
     import PlainTableFilter from "./filter/plain-table-filter";
     import PlainTableButtons from "./components/plain-table-buttons.vue";
     import {StandardButtons} from "./components/plain-table-buttons.js";
+    import {PlainButtonUtils} from "./components/plain-table-buttons";
 
     export default {
         name: "plain-table",
@@ -114,73 +115,19 @@
             buttons() {
                 const standardButtons = this.$plain.$utils.deepCopy(StandardButtons)
                 const optionButtons = this.option.buttons || {}
-                const allButtonNames = Array.from(new Set(Object.keys(standardButtons).concat(Object.keys(optionButtons))))
-                const buttons = []
-                allButtonNames.forEach(name => {
-                    let sb = standardButtons[name]
-                    let ob = optionButtons[name]
-                    let btn;
-
-                    if (ob === false) return
-                    if (!sb) {
-                        btn = ob
-                        btn.standard = false
-                    } else {
-                        if (ob === true || ob == null) {
-                            btn = sb
-                            btn.standard = true
-                        } else {
-                            const oldHandler = sb.handler
-                            btn = this.$plain.$utils.deepmerge(sb, ob)
-                            if (btn.handler === oldHandler) btn.standard = true
-                        }
-                    }
-
-                    if (!!btn) {
-                        if (btn.type == null) btn.type = 'other'
-                        if (btn.display == null) btn.display = true
-                        if (btn.disabled == null) btn.disabled = false
-                        btn.name = name
-                        btn.ctx = !!btn.standard ? this : this.option.context
-                        buttons.push(btn)
-                    }
-                })
-                return buttons
+                return PlainButtonUtils.getButtons(standardButtons, optionButtons, this.option, this, this.$plain)
             },
             buttonDisabled() {
                 console.log('buttonDisabled')
-                return this.buttons.reduce((ret, btn) => {
-                    if (!!this.plainOption && !!this.plainOption.parentOption && (!this.plainOption.parentOption.selectDataRow || this.plainOption.parentOption.loading)) {
-                        ret[btn.name] = true
-                    } else {
-                        const disabled = btn.disabled
-                        ret[btn.name] = this.$plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled
-                    }
-                    return ret
-                }, {})
+                return PlainButtonUtils.getButtonDisabledMap(this.buttons, this.option, this.$plain)
 
             },
             buttonDisplay() {
                 console.log('buttonDisplay')
-                return this.buttons.reduce((ret, btn) => {
-                    const display = btn.display
-                    ret[btn.name] = this.$plain.$utils.typeOf(display) === 'function' ? display.apply(btn.ctx) : display
-                    return ret
-                }, {})
+                return PlainButtonUtils.getButtonDisplayMap(this.buttons, this.$plain)
             },
             buttonHandler() {
-                return this.buttons.reduce((ret, btn) => {
-                    const handler = btn.handler
-                    ret[btn.name] = async (e) => {
-                        // console.log(btn.name)
-                        if (this.buttonDisabled[btn.name]) return
-                        if (!this.buttonDisplay[btn.name]) return
-                        let param;
-                        if (!!btn.needRow) param = await this.getSelectDataRow()
-                        return await handler.apply(btn.ctx, [param, e])
-                    }
-                    return ret
-                }, {})
+                return PlainButtonUtils.getButtonHandlerMap(this.buttons, this.buttonDisabled, this.buttonDisplay, this.getSelectDataRow, this.$plain)
             },
             keydownListener() {
                 const buttonMap = this.buttons.reduce((ret, item) => {

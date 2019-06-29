@@ -197,3 +197,72 @@ export const StandardButtons = {
         },
     },
 }
+
+export const PlainButtonUtils = {
+    getButtons(standardButtons, optionButtons, plainOption, ctx, $plain) {
+        const allButtonNames = Array.from(new Set(Object.keys(standardButtons).concat(Object.keys(optionButtons))))
+        const buttons = []
+        allButtonNames.forEach(name => {
+            let sb = standardButtons[name]
+            let ob = optionButtons[name]
+            let btn;
+
+            if (ob === false) return
+            if (!sb) {
+                btn = ob
+                btn.standard = false
+            } else {
+                if (ob === true || ob == null) {
+                    btn = sb
+                    btn.standard = true
+                } else {
+                    const oldHandler = sb.handler
+                    btn = $plain.$utils.deepmerge(sb, ob)
+                    if (btn.handler === oldHandler) btn.standard = true
+                }
+            }
+
+            if (!!btn) {
+                if (btn.type == null) btn.type = 'other'
+                if (btn.display == null) btn.display = true
+                if (btn.disabled == null) btn.disabled = false
+                btn.name = name
+                btn.ctx = !!btn.standard ? ctx : plainOption.context
+                buttons.push(btn)
+            }
+        })
+        return buttons
+    },
+    getButtonDisabledMap(buttons, plainOption, $plain) {
+        return buttons.reduce((ret, btn) => {
+            if (!!plainOption && !!plainOption.parentOption && (!plainOption.parentOption.selectDataRow || plainOption.parentOption.loading)) {
+                ret[btn.name] = true
+            } else {
+                const disabled = btn.disabled
+                ret[btn.name] = $plain.$utils.typeOf(disabled) === 'function' ? disabled.apply(btn.ctx) : disabled
+            }
+            return ret
+        }, {})
+    },
+    getButtonDisplayMap(buttons, $plain) {
+        return buttons.reduce((ret, btn) => {
+            const display = btn.display
+            ret[btn.name] = $plain.$utils.typeOf(display) === 'function' ? display.apply(btn.ctx) : display
+            return ret
+        }, {})
+    },
+    getButtonHandlerMap(buttons, disabled, display, getSelectDataRow) {
+        return buttons.reduce((ret, btn) => {
+            const handler = btn.handler
+            ret[btn.name] = async (e) => {
+                // console.log(btn.name)
+                if (disabled[btn.name]) return
+                if (!display[btn.name]) return
+                let param;
+                if (!!btn.needRow) param = await getSelectDataRow()
+                return await handler.apply(btn.ctx, [param, e])
+            }
+            return ret
+        }, {})
+    },
+}
