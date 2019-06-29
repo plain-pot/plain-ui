@@ -1,5 +1,5 @@
 <template>
-    <pl-dialog v-model="show" confirmButton cancelButton @confirm="pl_confirm" @cancel="pl_cancel" width="400px" maxHeight="500px">
+    <pl-dialog v-model="show" confirmButton cancelButton @confirm="pl_confirm" @cancel="pl_cancel" width="400px" maxHeight="500px" title="编辑">
         <pl-form class="plain-table-form-dialog-form" text-align="right">
             <pl-form-column>
                 <pl-form-item v-for="(col,index) in cols" :key="index+col.field" :label="col.title+'：'">

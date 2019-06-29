@@ -141,12 +141,12 @@
                     Escape: async (e) => {
                         await this.cancel()
                     },
-                    'ctrl+a': (e) => {
+                    'alt+a': (e) => {
                         if (e.target.tagName !== 'DIV') return true
                         console.log(e)
-                        console.log('ctrl+a')
+                        console.log('alt+a')
                     },
-                    'ctrl+s': (e) => {
+                    'alt+s': (e) => {
                         this.save()
                     },
                     ArrowDown: async () => {

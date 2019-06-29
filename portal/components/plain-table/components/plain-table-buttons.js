@@ -24,7 +24,7 @@ export const StandardButtons = {
         confirm: false,                         //是否需要确认对话框
         inner: false,                           //在内部还是外部
         confirmMessage: null,                   //确认对话框信息
-        key: 'ctrl+n',
+        key: 'alt+n',
         handler() {
             this.newInsert()
         },
@@ -34,7 +34,7 @@ export const StandardButtons = {
         status: PLAIN_TABLE_STATUS.normal,
         label: '复制',
         icon: 'pad-file-copy',
-        key: 'ctrl+b',
+        key: 'alt+b',
         needRow: true,
         handler() {
             this.copy()
@@ -45,7 +45,7 @@ export const StandardButtons = {
         status: PLAIN_TABLE_STATUS.normal,
         label: '删除',
         icon: 'pad-delete',
-        key: 'ctrl+d',
+        key: 'alt+d',
         needRow: true,
         handler() {
             this.delete()
@@ -74,7 +74,7 @@ export const StandardButtons = {
         label: '表单编辑',
         icon: 'pad-edit',
         inner: true,
-        key: 'ctrl+i',
+        key: 'alt+i',
         needRow: true,
         handler(dataRow) {
             this.$plain.$formDialog.edit({
