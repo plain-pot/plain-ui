@@ -1,6 +1,6 @@
 <template>
     <div class="pl-base-table" :class="classes" @mouseleave="pl_mouseleave">
-        <pl-base-table-column-controller @collect="pl_collect">
+        <pl-base-table-column-controller @collect="pl_collect" ref="controller">
             <pl-tc-index :page="page" :pageSize="pageSize" v-if="index"/>
             <pl-tc-pick ref="pick" :data="p_data" v-if="p_selected || selecting"/>
             <slot></slot>
@@ -322,7 +322,14 @@
                 }
                 this.$refs.pick.uncheckRow({id, index})
             },
-
+            /**
+             * 重新渲染内容
+             * @author  韦胜健
+             * @date    2019/6/29 19:52
+             */
+            refresh() {
+                this.$refs.controller.collect()
+            },
             /*---------------------------------------事件处理-------------------------------------------*/
             /*
              *  收集列信息

@@ -51,6 +51,8 @@
                 await this.$plain.nextTick()
                 await this.$plain.$utils.delay(50)
                 this.show = true
+                await this.$plain.nextTick()
+                this.$refs.table.refresh()
             },
             pl_dblclickRow() {
                 if (this.option.updateable || this.option.multiSelect) return

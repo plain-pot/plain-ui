@@ -73,7 +73,7 @@ const component = {
             const insertable = this.$plain.$utils.typeOf(this.insertable) === 'function' ? this.insertable.apply(this.context) : this.insertable
             const updateable = this.$plain.$utils.typeOf(this.updateable) === 'function' ? this.updateable.apply(this.context) : this.updateable
             const deleteable = this.$plain.$utils.typeOf(this.deleteable) === 'function' ? this.deleteable.apply(this.context) : this.deleteable
-            console.log({insertable, updateable, deleteable})
+            // console.log({insertable, updateable, deleteable})
             return {
                 [PLAIN_BUTTON_TYPE.INSERT]: insertable,
                 [PLAIN_BUTTON_TYPE.UPDATE]: updateable,

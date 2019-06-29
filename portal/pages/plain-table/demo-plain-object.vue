@@ -1,6 +1,7 @@
 <template>
     <div class="demo-plain-object">
-        <pl-button label="服务选择" @click="pl_showService"/>
+        <pl-button label="单选" @click="pl_showService"/>
+        <pl-button label="多选" @click="pl_showService2"/>
     </div>
 </template>
 
@@ -32,13 +33,41 @@
                             </div>
                         )
                     }
+                }),
+                addressOption: new PlainOption({
+                    context: this,
+                    module: 'address',
+                    multiSelect: true,
+                    filters: [
+                        {field: 'deep', value: '0'}
+                    ],
+                    renderFunc(h) {
+                        return (
+                            <div>
+                                <pl-tc-input field="name" title="地址名称" required width="100px" tooltip/>
+                                <pl-tc-input field="code" title="地址代码" width="100px" required/>
+                                <pl-tc-column field="parentName" title="父级地址名称" width="100px" tooltip/>
+                                <pl-tc-column field="parentCode" title="父级地址代码" width="100px"/>
+                                <pl-tc-input field="longitude" title="经度" width="100px"/>
+                                <pl-tc-input field="latitude" title="纬度" width="100px"/>
+                                <pl-tc-input field="deep" title="地址级别" width="100px"/>
+                            </div>
+                        )
+                    }
                 })
             }
         },
         methods: {
             pl_showService() {
                 this.$object.pick(this.fieldOption, (ret) => {
-                    console.log(!!ret ? {...ret.row} : null)
+                    const msg = !!ret ? ret.row.input : 'null'
+                    this.$dialog.show(msg)
+                })
+            },
+            pl_showService2() {
+                this.$object.pick(this.addressOption, (ret) => {
+                    const msg = ret.map((item) => item.name).join(',')
+                    this.$dialog.show(msg)
                 })
             },
         }
