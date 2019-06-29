@@ -38,7 +38,7 @@ export const DEFAULT_OPTION_PUBLIC = {
     sortDesc: true,
     pageSize: 10,
     pageOption: [5, 10, 20, 50, 100],
-    copyExcludeKey: [...COPY_EXCLUDE_KEY]
+    copyExcludeKey: [...COPY_EXCLUDE_KEY],
 }
 
 /**
@@ -51,6 +51,9 @@ export const DEFAULT_OPTION_PLAIN_TABLE = {
     loadOnStart: true,
     bodyRowHeight: 36,
     paginationShowNumber: true,
+    insertable: true,
+    updateable: true,
+    deleteable: true,
 }
 
 /**

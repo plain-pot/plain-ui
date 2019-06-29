@@ -6,8 +6,8 @@
                @confirm="pl_confirm"
                @cancel="pl_cancel"
                disabledHideOnConfirm
-               width="900px">
-        <plain-table :option="option" v-if="init" ref="table"/>
+               width="600px">
+        <plain-table :option="option" v-if="init" ref="table" class="plain-table-service"/>
     </pl-dialog>
 </template>
 
@@ -52,5 +52,11 @@
 </script>
 
 <style lang="scss">
-
+    .plain-table-service {
+        .pl-pagination-operation {
+            .pl-pagination-operate-icon:first-child {
+                margin-right: 6px !important;
+            }
+        }
+    }
 </style>

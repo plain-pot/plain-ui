@@ -2,6 +2,7 @@ import Vue from 'vue'
 import deepmerge from 'deepmerge'
 import {DEFAULT_URLS, DEFAULT_OPTION_PLAIN_TABLE_SERVICE, DEFAULT_OPTION_PUBLIC, DEFAULT_OPTION_PLAIN_TABLE, logOption} from "./plain-option-default";
 import {PLAIN_TABLE_STATUS, PlainTableController} from "./index";
+import {PLAIN_BUTTON_TYPE} from "./components/plain-table-buttons";
 
 
 const component = {
@@ -13,6 +14,11 @@ const component = {
             headRowHeight: null,            //表头行高
             noHeader: null,                 //是否不显示表头
             paginationShowNumber: null,     //分页栏是否展示数字
+
+            /*---------------------------------------增删改可用标志-------------------------------------------*/
+            insertable: null,               //是否可新建
+            updateable: null,               //是否可编辑
+            deleteable: null,               //是否可删除
 
             /*---------------------------------------业务属性-------------------------------------------*/
             context: null,                  //当前上下文
@@ -61,6 +67,17 @@ const component = {
         showTotal() {
             if (this.noMore) return this.total
             return `${this.total - 1}+`
+        },
+        enable() {
+            const insertable = this.$plain.$utils.typeOf(this.insertable) === 'function' ? this.insertable.apply(this.context) : this.insertable
+            const updateable = this.$plain.$utils.typeOf(this.updateable) === 'function' ? this.updateable.apply(this.context) : this.updateable
+            const deleteable = this.$plain.$utils.typeOf(this.deleteable) === 'function' ? this.deleteable.apply(this.context) : this.deleteable
+            console.log({insertable, updateable, deleteable})
+            return {
+                [PLAIN_BUTTON_TYPE.INSERT]: insertable,
+                [PLAIN_BUTTON_TYPE.UPDATE]: updateable,
+                [PLAIN_BUTTON_TYPE.DELETE]: deleteable,
+            }
         },
     },
     methods: {

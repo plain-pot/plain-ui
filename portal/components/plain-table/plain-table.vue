@@ -126,7 +126,7 @@
             },
             buttonDisplay() {
                 // console.log('buttonDisplay')
-                return PlainButtonUtils.getButtonDisplayMap(this.buttons, this.$plain)
+                return PlainButtonUtils.getButtonDisplayMap(this.buttons, this.$plain, this.option)
             },
             buttonHandler() {
                 return PlainButtonUtils.getButtonHandlerMap(this.buttons, this.buttonDisabled, this.buttonDisplay, this.getSelectDataRow, this.$plain)

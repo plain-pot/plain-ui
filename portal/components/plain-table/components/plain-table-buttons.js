@@ -5,6 +5,13 @@ const UPDATE = 'update'
 const DELETE = 'delete'
 const OTHER = 'other'
 
+export const PLAIN_BUTTON_TYPE = {
+    INSERT: INSERT,
+    UPDATE: UPDATE,
+    DELETE: DELETE,
+    OTHER: OTHER,
+}
+
 export const DEFAULT_BUTTON_ORDER = {
     [INSERT]: 100,
     [UPDATE]: 50,
@@ -272,10 +279,14 @@ export const PlainButtonUtils = {
             return ret
         }, {})
     },
-    getButtonDisplayMap(buttons, $plain) {
+    getButtonDisplayMap(buttons, $plain, option) {
         return buttons.reduce((ret, btn) => {
-            const display = btn.display
-            ret[btn.name] = $plain.$utils.typeOf(display) === 'function' ? display.apply(btn.ctx) : display
+            if (btn.type !== PLAIN_BUTTON_TYPE.OTHER && !option.enable[btn.type]) {
+                ret[btn.name] = false
+            } else {
+                const display = btn.display
+                ret[btn.name] = $plain.$utils.typeOf(display) === 'function' ? display.apply(btn.ctx) : display
+            }
             return ret
         }, {})
     },
