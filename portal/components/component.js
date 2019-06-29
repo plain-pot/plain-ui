@@ -6,6 +6,7 @@ import PlainTable from './plain-table/plain-table'
 import PlainOption from './plain-table/plain-option'
 
 import PlObject from './plain-table/object/pl-object'
+import object from './plain-table/object/object'
 
 export function InstallComponent(Vue) {
     const components = {
@@ -17,4 +18,8 @@ export function InstallComponent(Vue) {
     }
     Object.keys(components).forEach(key => Vue.component(key, components[key]))
     window.PlainOption = PlainOption
+}
+
+export const CustomColumns = {
+    object
 }

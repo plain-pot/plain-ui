@@ -3,6 +3,7 @@ import App from './App.vue'
 import './index.scss'
 import {InstallComponent} from "./components/component";
 import PlainService from './scripts/service'
+import {CustomColumns} from "./components/component";
 
 import Plain from "src"
 
@@ -19,6 +20,7 @@ Vue.use(Plain, {
     },
     prefix: 'im',
     iconfont: 'https://at.alicdn.com/t/font_954560_kicgud0zqeb.js',                               //自定义iconfont图表地址
+    customColumns: CustomColumns,
 })
 
 InstallComponent(Vue)

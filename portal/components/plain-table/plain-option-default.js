@@ -49,7 +49,7 @@ export const DEFAULT_OPTION_PUBLIC = {
  */
 export const DEFAULT_OPTION_PLAIN_TABLE = {
     loadOnStart: true,
-    bodyRowHeight: 36,
+    bodyRowHeight: 40,
     paginationShowNumber: true,
     insertable: true,
     updateable: true,

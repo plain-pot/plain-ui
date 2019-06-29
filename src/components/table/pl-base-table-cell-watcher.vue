@@ -114,6 +114,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             outline: none;
+            padding: 1px;
 
             &.pl-base-table-cell-watcher-link {
                 color: plVar(colorPrimary);

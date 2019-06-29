@@ -72,10 +72,11 @@ const components = {
     baseTable, tcGroup,
 }
 
-export function getComponents(prefix = 'pl') {
+export function getComponents(prefix = 'pl', customColumns) {
 
     const StandardColumnComponents = formatColumnComponent(StandardColumns, prefix)
-    const AllComponents = {...components, ...StandardColumnComponents}
+    const CustomColumnComponents = formatColumnComponent(customColumns, prefix)
+    const AllComponents = {...components, ...StandardColumnComponents, ...CustomColumnComponents}
     const RetComponents = Object.keys(AllComponents).reduce((ret, key) => {
         ret[`${prefix}-${$utils.kebabCase(key)}`] = AllComponents[key]
         return ret

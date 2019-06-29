@@ -53,7 +53,7 @@ const Plain = {
     getZIndex() {
         return this.p_zIndex = this.p_zIndex + 1
     },
-    install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont, rootOption, zIndex = 3000} = {},) {
+    install(Vue, {theme = 'default', prefix = 'pl', pageRegistry, iconfont, rootOption, zIndex = 3000, customColumns} = {}) {
         this.Vue = Vue
         this.p_rootOption = rootOption
         this.p_pageRegistry = pageRegistry
@@ -66,7 +66,7 @@ const Plain = {
         !!iconfont && this.$utils.addScript(iconfont)
 
         this.changeTheme(theme)
-        const components = getComponents(prefix)
+        const components = getComponents(prefix, customColumns)
         Object.keys(components).forEach(key => Vue.component(key, components[key]))
         const directives = getDirectives(prefix)
         Object.keys(directives).forEach(key => Vue.directive(key, directives[key]))
