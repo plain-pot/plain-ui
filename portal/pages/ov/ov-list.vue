@@ -19,6 +19,7 @@
                 option: new PlainOption({
                     context: this,
                     module: 'lov',
+                    defaultNewRow: {valid: 'Y'},
                 }),
                 parentOption: new PlainOption({
                     context: this,
