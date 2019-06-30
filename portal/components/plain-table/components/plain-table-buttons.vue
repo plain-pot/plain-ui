@@ -64,7 +64,7 @@
                 this.$emit(event)
             },
             pl_buttonClick(button, e) {
-                this.buttonHandler[button.name](e)
+                this.buttonHandler[button.name](e, true)
             },
         },
         computed: {

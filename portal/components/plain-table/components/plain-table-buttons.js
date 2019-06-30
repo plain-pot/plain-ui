@@ -293,10 +293,12 @@ export const PlainButtonUtils = {
     getButtonHandlerMap(buttons, disabled, display, getSelectDataRow) {
         return buttons.reduce((ret, btn) => {
             const handler = btn.handler
-            ret[btn.name] = async (e) => {
+            ret[btn.name] = async (e, isButtonClick) => {
                 // console.log(btn.name)
-                if (disabled[btn.name]) return
-                if (!display[btn.name]) return
+                if (!!isButtonClick) {
+                    if (disabled[btn.name]) return
+                    if (!display[btn.name]) return
+                }
                 let param;
                 if (!!btn.needRow) param = await getSelectDataRow()
                 return await handler.apply(btn.ctx, [param, e])
