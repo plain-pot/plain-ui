@@ -3,6 +3,10 @@
         <im-demo-row title="测试获取选项值服务">
             <pl-button label="获取类型：status" @click="pl_testService"/>
         </im-demo-row>
+        <im-demo-row title="下拉框">
+            <pl-ov v-model="val[0]" type="status"/>
+            [{{val[0]}}]
+        </im-demo-row>
     </div>
 </template>
 
@@ -10,7 +14,11 @@
     export default {
         name: "demo-ov",
         data() {
-            return {}
+            return {
+                val: {
+                    0: 'reject'
+                },
+            }
         },
         methods: {
             async pl_testService() {
