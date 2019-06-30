@@ -80,6 +80,9 @@
                     }
                 }
             },
+            data(val) {
+                !!this.p_select && (this.p_select.option.data = val)
+            },
         },
         computed: {
             p_showValue() {

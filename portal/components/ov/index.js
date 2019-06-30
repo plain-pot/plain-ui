@@ -24,6 +24,11 @@ class OvService {
         return await Promise.all(types.map(type => this.getByType(type)))
     }
 
+    async getByParentTypeAndCode(type, parentType, parentCode) {
+        const ret = await this.getByType(type)
+        return ret.filter(item => (item.parentType === parentType && item.parentCode === parentCode))
+    }
+
     async queryByType(type) {
         if (!!this.queryMap[type]) {
             /*当前正在查询，等待查询完毕*/
@@ -66,7 +71,7 @@ class OvService {
             } finally {
                 types.forEach(type => delete this.queryMap[type])
             }
-        }, 1000)
+        }, 500)
     }
 }
 
