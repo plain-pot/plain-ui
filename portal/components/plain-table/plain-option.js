@@ -343,9 +343,13 @@ const component = {
          */
         async request(url, param) {
             this.loading = true
-            const data = await this.$http.post(url, param)
-            this.loading = false
-            return data
+            try {
+                return await this.$http.post(url, param)
+            } catch (e) {
+                throw e
+            } finally {
+                this.loading = false
+            }
         },
 
         /*---------------------------------------不可使用函数-------------------------------------------*/
