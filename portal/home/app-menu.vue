@@ -43,6 +43,7 @@
                         title: '业务组件',
                         menus: [
                             {title: '选项值', icon: 'pl-table-solid', page: '/ov/demo-ov', complete: true},
+                            {title: '选项值列表', icon: 'pl-table-solid', page: '/ov/ov-list', complete: true},
                             {title: '地址选择器', icon: 'pl-table-solid', page: '/address/demo-address', complete: true},
                         ],
                     },
