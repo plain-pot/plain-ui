@@ -1,13 +1,29 @@
 export default {
-    name: 'object',
+    name: 'ov',
+    props: {
+        type: {type: String},
+        parentType: {},
+        parentCode: {},
+        parentCodeField: {},
+        parentMsg: {default: '请先选择父选项'},
+        formatter: {
+            default() {
+                return ({value, rowData}) => {
+                    return this.$ov.getLabel(this.type, value)
+                }
+            },
+        },
+        searchType: {default: 'ov'},
+    },
     data() {
         const that = this
         return {
             edit(h, {row, editRow, col, colIndex, require, prop, required}) {
-                return (<pl-object {...{
+                return (<pl-ov {...{
                     props: {
                         ...prop,
                         ...that.publicProps,
+                        ...that.p_props,
                         value: editRow[col.field],
                         required,
                         before: (val) => that.pl_before({row, editRow, col, colIndex, require, prop, required}, val),
@@ -19,6 +35,12 @@ export default {
                 }}/>)
             },
         }
+    },
+    computed: {
+        p_props() {
+            const {type, parentType, parentCode, parentCodeField, parentMsg} = this
+            return {type, parentType, parentCode, parentCodeField, parentMsg}
+        },
     },
     methods: {
         async pl_before(dataRow, val) {

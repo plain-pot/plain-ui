@@ -24,6 +24,15 @@ class OvService {
         return await Promise.all(types.map(type => this.getByType(type)))
     }
 
+    async getLabel(type, code) {
+        const data = await this.getByType(type)
+        for (let i = 0; i < data.length; i++) {
+            const item = data[i];
+            if (item.code === code) return item.label
+        }
+        return null
+    }
+
     async getByParentTypeAndCode(type, parentType, parentCode) {
         const ret = await this.getByType(type)
         return ret.filter(item => (item.parentType === parentType && item.parentCode === parentCode))

@@ -8,6 +8,7 @@ import PlainOption from './plain-table/plain-option'
 import PlObject from './plain-table/object/pl-object'
 import object from './plain-table/object/object-tc'
 import PlOv from './ov/pl-ov'
+import ov from './ov/ov-tc'
 
 export function InstallComponent(Vue) {
     const components = {
@@ -23,5 +24,6 @@ export function InstallComponent(Vue) {
 }
 
 export const CustomColumns = {
-    object
+    object,
+    ov,
 }

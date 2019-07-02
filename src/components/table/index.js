@@ -46,7 +46,7 @@ const ColumnPublicProps = {
     formEditable: {type: Boolean, default: true},       //是否可以弹框编辑
     export: {type: Boolean, default: true},             //是否可导出
     import: {type: Boolean, default: true},             //是否可导入
-    prop: {type: Object},                               //列额外数据信息
+    prop: {type: Object, default: () => ({})},          //列额外数据信息
 
     dataType: {type: String},                           //数据格式化方式:tel,cny,money,percent
     formatter: {type: Function},                        //文本格式化函数，支持异步格式化

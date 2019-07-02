@@ -7,7 +7,7 @@
             <pl-tc-date field="date" title="日期选择框"/>
             <pl-tc-time field="time" title="时间选择框"/>
             <pl-tc-select field="sel" title="下拉选择框" :prop="{data:selectData,labelKey:'name',valueKey:'val'}"/>
-            <!--            <pl-tc-ov field="ov" title="选项值选择框"/>-->
+            <pl-tc-ov field="ov" title="选项值选择框" type="POSTN_TYPE"/>
             <pl-tc-color field="color" title="颜色选择框"/>
             <pl-tc-object field="objName" title="对象选择框" :prop="{option:tableAddressOption,map:{obj:'id',objName:'name'}}"/>
             <!--            <pl-tc-address field="address" title="地址选择框"/>-->
