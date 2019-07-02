@@ -42,6 +42,7 @@ const component = {
             clearSelectedAfterReload: null, //是否在reload重新加载数据之后清除选择的行数据
 
             list: [],                       //当前数据
+            fixedRowData: null,             //固定在顶部的行数据
             /*---------------------------------------不可配置属性-------------------------------------------*/
             page: null,                     //当前页
             total: null,                    //当前总数

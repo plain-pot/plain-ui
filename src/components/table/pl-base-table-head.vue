@@ -6,7 +6,9 @@
                                      :body-columns="bodyColumns"
                                      :sort-field="sortField"
                                      :sort-desc="sortDesc"
-                                     :head-row-height="headRowHeight"/>
+                                     :head-row-height="headRowHeight"
+                                     :body-row-height="bodyRowHeight"
+                                     :fixed-row-data="fixedRowData"/>
         </pl-scroll>
         <pl-base-table-head-item fixed="left"
                                  v-if="fixedExist.left"
@@ -14,14 +16,18 @@
                                  :body-columns="bodyColumns"
                                  :sort-field="sortField"
                                  :sort-desc="sortDesc"
-                                 :head-row-height="headRowHeight"/>
+                                 :head-row-height="headRowHeight"
+                                 :body-row-height="bodyRowHeight"
+                                 :fixed-row-data="fixedRowData"/>
         <pl-base-table-head-item fixed="right"
                                  v-if="fixedExist.right"
                                  :head-columns="headColumns"
                                  :body-columns="bodyColumns"
                                  :sort-field="sortField"
                                  :sort-desc="sortDesc"
-                                 :head-row-height="headRowHeight"/>
+                                 :head-row-height="headRowHeight"
+                                 :body-row-height="bodyRowHeight"
+                                 :fixed-row-data="fixedRowData"/>
     </div>
 </template>
 
@@ -36,8 +42,12 @@
         mixins: [TableMixin],
         computed: {
             styles() {
+                let height = this.headColumns.length * this.headRowHeight
+                if (!!this.fixedRowData && this.fixedRowData.length > 0) {
+                    height = height + this.fixedRowData.length * this.bodyRowHeight
+                }
                 return {
-                    height: `${this.headColumns.length * this.headRowHeight}px`
+                    height: `${height}px`
                 }
             },
         },
@@ -45,7 +55,7 @@
 </script>
 
 <style lang="scss">
-    @include themeWrap{
+    @include themeWrap {
         .pl-base-table-head {
             position: relative;
             overflow: hidden;

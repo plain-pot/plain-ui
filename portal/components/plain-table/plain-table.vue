@@ -32,6 +32,7 @@
                        :bodyRowHeight="option.bodyRowHeight"
                        :headRowHeight="option.headRowHeight"
                        :selecting="option.multiSelect"
+                       :fixedRowData="option.fixedRowData"
                        @sortChange="option.changeSort"
                        @selectRow="pl_selectRow"
                        @dblclickRow="pl_dblClickRow"

@@ -11,6 +11,17 @@
                                          :sort-desc="sortDesc"
                                          :head-row-height="headRowHeight"/>
             </tr>
+            <template v-if="!!fixedRowData && fixedRowData.length>0">
+                <pl-base-table-row
+                        class="pl-base-table-row-fixed"
+                        v-for="(item,index) in fixedRowData"
+                        :key="item.id"
+                        :body-row-height="bodyRowHeight"
+                        :body-columns="bodyColumns"
+                        :fixed="fixed"
+                        :row-data="item"
+                        :index="index"/>
+            </template>
         </table>
     </div>
 </template>
@@ -18,10 +29,11 @@
 <script>
     import {TableMixin} from "./index";
     import PlBaseTableHeadCell from "./pl-base-table-head-cell";
+    import PlBaseTableRow from "./pl-base-table-row";
 
     export default {
         name: "pl-base-table-head-item",
-        components: {PlBaseTableHeadCell},
+        components: {PlBaseTableRow, PlBaseTableHeadCell},
         mixins: [TableMixin],
         computed: {
             /*
@@ -52,6 +64,10 @@
             & > table {
                 float: right;
             }
+        }
+
+        .pl-base-table-row-fixed {
+            background-color: #e6e6e6;
         }
     }
 </style>

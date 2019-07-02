@@ -18,7 +18,8 @@ export default {
     data() {
         const that = this
         return {
-            normal(h, {row, editRow, showRow, text, rowIndex, col, colIndex, prop}) {
+            normal(h, {row, editRow, showRow, text, rowIndex, col, colIndex, prop, fixedRow}) {
+                if (fixedRow) return null
                 return <span>{(that.page - 1) * that.pageSize + rowIndex + 1}</span>
             },
         }

@@ -14,6 +14,8 @@
                 :sort-field="p_sortField"
                 :sort-desc="p_sortDesc"
                 :head-row-height="headRowHeight"
+                :body-row-height="bodyRowHeight"
+                :fixed-row-data="p_fixedRowData"
                 @mouseenter.native="p_hover = 'head'"
                 @scroll="e=>p_hover === 'head' && $refs.body.$refs.center[0].$refs.scroll.setScroll({x: e.target.scrollLeft})"
         />
@@ -64,6 +66,7 @@
         data() {
             return {
                 p_data: [],                             //缓存数据
+                p_fixedRowData: [],                     //固定行缓存数据
                 p_originCols: [],                       //原始列数据信息
                 p_cols: [],                             //处理好的列数据信息
                 p_headCols: [],                         //表头列信息
@@ -113,6 +116,13 @@
                         })
                         this.p_data = p_data
                     }
+                },
+            },
+            fixedRowData: {
+                immediate: true,
+                handler(newVal) {
+                    if (!newVal || newVal.length === 0) this.p_fixedRowData = null
+                    else this.p_fixedRowData = newVal.map((item, index) => new RowData(item, index, this.id, true))
                 },
             },
             sortField(val) {
@@ -649,7 +659,7 @@
 
             &:hover {
                 .pl-scroll-horizontal-indicator, .pl-scroll-vertical-indicator {
-                    opacity: 1;
+                    opacity: 1 !important;
                 }
             }
 

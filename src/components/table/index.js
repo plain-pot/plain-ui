@@ -5,6 +5,7 @@ const TableMixin = {
     props: {
         /*一下为base table可设置属性*/
         data: {type: Array, default: () => []},         //显示的数据数组
+        fixedRowData: {type: Array},                    //固定在顶部的的行数据
         showNum: {type: Number, default: 10},           //显示的行数，超过则会出现滚动条
         bodyRowHeight: {type: Number, default: 36},     //行高
         headRowHeight: {type: Number, default: 40},     //表头标题行显示高度
@@ -142,7 +143,7 @@ class TableColumnGroup {
 }
 
 class RowData {
-    constructor(row, index, idField) {
+    constructor(row, index, idField, fixedRow = false) {
         const id = row[idField]
         if (!id) {
             throw new Error(`The key field ${idField} is empty in ${JSON.stringify(row)}`)
@@ -155,6 +156,7 @@ class RowData {
             check: false,
             editable: false,
             hover: false,
+            fixedRow,
         })
     }
 }

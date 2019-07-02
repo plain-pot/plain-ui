@@ -25,6 +25,24 @@
                 demoFieldOption: new PlainOption({
                     context: this,
                     module: 'demoField',
+                    fixedRowData: [
+                        {
+                            color: "#702B2B",
+                            createdAt: "2019-06-29 18:35:16",
+                            date: "2019-11-10",
+                            id: "1144917241272205312",
+                            input: "华为",
+                            number: "988",
+                            obj: "1144180642968240128",
+                            objName: "甘肃省",
+                            ov: "home_advisier",
+                            radio: "Y",
+                            sel: "shanghai",
+                            time: "09:01:01",
+                            toggle: "Y",
+                            updatedAt: "2019-07-02 09:40:00",
+                        }
+                    ],
                     buttons: {
                         /*测试重载按钮属性*/
                         /*insertButton: {
