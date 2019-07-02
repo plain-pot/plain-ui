@@ -123,6 +123,7 @@ class TableColumn {
         originalProps.width = context.$plain.$utils.removePx(originalProps.width)
         originalProps.id = context.$plain.$utils.uuid()
         this.originalProps = originalProps
+        this.externalProp = context.externalProp
         Object.assign(this, originalProps)
     }
 }

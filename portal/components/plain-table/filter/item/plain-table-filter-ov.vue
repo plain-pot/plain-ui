@@ -1,12 +1,26 @@
 <template>
-    <div class="plain-table-filter-ov">
-        plain-table-filter-ov
-    </div>
+    <pl-ov v-bind="prop" :value="filterData.value" @input="pl_input"/>
 </template>
 
 <script>
     export default {
-        name: "plain-table-filter-ov"
+        name: "plain-table-filter-select",
+        props: {
+            filterData: {},
+            col: {},
+        },
+        computed: {
+            prop() {
+                return {type: this.col.externalProp.type}
+            },
+        },
+        methods: {
+            pl_input(val) {
+                this.filterData.value = val
+                console.log(val)
+                this.$emit('confirm')
+            },
+        }
     }
 </script>
 

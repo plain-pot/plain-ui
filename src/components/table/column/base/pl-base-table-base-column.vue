@@ -7,6 +7,7 @@
             :renderNormal="normal"
             :renderEdit="edit || normal"
             :renderHead="head"
+            :external-prop="externalProp"
     />
 </template>
 
@@ -29,6 +30,7 @@
                 edit:null,
                 head:null,
                 /*@formatter:on*/
+                externalProp: {},
 
             }
         },

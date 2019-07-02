@@ -11,6 +11,9 @@
     export default {
         name: "pl-base-table-column",
         mixins: [PublicColumnMixin],
+        props: {
+            externalProp: {type: Object},
+        },
         watch: {
             ...Object.keys(PublicColumnMixin.props).reduce((ret, key) => {
                 ret[key] = function (val) {

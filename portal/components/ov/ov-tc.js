@@ -17,13 +17,15 @@ export default {
     },
     data() {
         const that = this
+        const {type, parentType, parentCode, parentCodeField, parentMsg} = this
+        const externalProp = {type, parentType, parentCode, parentCodeField, parentMsg}
         return {
             edit(h, {row, editRow, col, colIndex, require, prop, required}) {
                 return (<pl-ov {...{
                     props: {
                         ...prop,
                         ...that.publicProps,
-                        ...that.p_props,
+                        ...externalProp,
                         value: editRow[col.field],
                         required,
                         before: (val) => that.pl_before({row, editRow, col, colIndex, require, prop, required}, val),
@@ -34,13 +36,8 @@ export default {
                     on: {input: (val) => this.$set(editRow, col.field, val),}
                 }}/>)
             },
+            externalProp,
         }
-    },
-    computed: {
-        p_props() {
-            const {type, parentType, parentCode, parentCodeField, parentMsg} = this
-            return {type, parentType, parentCode, parentCodeField, parentMsg}
-        },
     },
     methods: {
         async pl_before(dataRow, val) {

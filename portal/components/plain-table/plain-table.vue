@@ -481,6 +481,9 @@
                     const filters = []
                     switch (type) {
                         case 'select':
+                        case 'ov':
+                            !!value.value && filters.push({field, operator: '=', value: value.value})
+                            break
                         case 'input':
                             !!value.value && filters.push({field, operator: 'like', value: value.value})
                             break

@@ -36,7 +36,7 @@ function formatColumnComponent(columns) {
         component.name = `tc-${columns[key].name}`
         const dataFunc = component.data
         component.data = function () {
-            return Object.assign({edit: null, normal: null, head: null}, dataFunc.apply(this))
+            return Object.assign({edit: null, normal: null, head: null, externalProp: {}}, dataFunc.apply(this))
         }
         ret[component.name] = component
         return ret
