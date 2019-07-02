@@ -37,6 +37,7 @@
                             {title: '字段类型', icon: 'pl-table-solid', page: '/plain-table/demo-plain-table-field', complete: true},
                             {title: '列动态控制编辑必输', icon: 'pl-table-solid', page: '/plain-table/demo-plain-table-field-dynamic', complete: true},
                             {title: '对象选择', icon: 'pl-table-solid', page: '/plain-table/demo-plain-object', complete: true},
+                            {title: '地址选择', icon: 'pl-table-solid', page: '/address/demo-address', complete: true},
                         ]
                     },
                     {
