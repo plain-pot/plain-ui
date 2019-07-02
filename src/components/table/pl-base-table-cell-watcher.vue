@@ -34,6 +34,7 @@
                 immediate: true,
                 async handler(val) {
                     if (!!this.data.col.formatter && !this.noUseFormatter) {
+                        this.p_text = null
                         this.p_text = await this.data.col.formatter({value: val, rowData: this.data})
                     } else {
                         this.p_text = val
