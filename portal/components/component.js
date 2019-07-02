@@ -6,7 +6,7 @@ import PlainTable from './plain-table/plain-table'
 import PlainOption from './plain-table/plain-option'
 
 import PlObject from './plain-table/object/pl-object'
-import object from './plain-table/object/object'
+import object from './plain-table/object/object-tc'
 import PlOv from './ov/pl-ov'
 
 export function InstallComponent(Vue) {
