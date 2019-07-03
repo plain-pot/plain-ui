@@ -8,6 +8,7 @@
                cancelButton
                @confirm="pl_confirm"
                @cancel="pl_cancel"
+               disabledHideOnConfirm
                title="选择地址">
         <div class="pl-address-modal-content">
             <pl-address-modal-item type="province" :value="data.province" @click="pl_click" @dblclick="pl_dblclick" v-show="!!view.province"/>
@@ -45,7 +46,7 @@
         methods: {
             pick({view, onConfirm, onCancel, data}) {
                 Object.assign(this, {
-                    view: view || {},
+                    view: (view || {}),
                     onConfirm: null,
                     onCancel: null,
                 }, {view, onConfirm, onCancel})
@@ -72,6 +73,19 @@
                 this.pl_confirm()
             },
             pl_confirm() {
+
+                let inValidType = null
+                Object.keys(this.view).forEach(type => {
+                    if (!inValidType && !!this.view[type] && this.data[type] == null) {
+                        inValidType = type
+                    }
+                })
+                if (!!inValidType) {
+                    const msg = `请选择${this.$address.titleMap[inValidType]}！`
+                    this.$message.show(msg, {type: 'error'})
+                    return
+                }
+
                 !!this.onConfirm && this.onConfirm(this.data)
                 this.show = false
             },

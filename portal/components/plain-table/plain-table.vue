@@ -482,6 +482,7 @@
                     const filters = []
                     switch (type) {
                         case 'select':
+                        case 'address':
                         case 'ov':
                             !!value.value && filters.push({field, operator: '=', value: value.value})
                             break

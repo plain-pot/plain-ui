@@ -13,7 +13,7 @@ export default {
                 }
             },
         },
-        // searchType: {default: 'ov'},
+        searchType: {default: 'address'},
     },
     data() {
         const that = this

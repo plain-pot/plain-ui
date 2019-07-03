@@ -1,8 +1,9 @@
 <template>
     <div class="plain-table-filter">
-        <pl-select :input="{width:120}" class="plain-table-filter-field-select plain-table-filter-clear-right-radio" :data="data" :labelKey="labelKey" :valueKey="valueKey" :value="searchField" @input="pl_changeSearchField"/>
+        <pl-select :input="{width:120}" class="plain-table-filter-field-select plain-table-filter-clear-right-radio" :data="data" :labelKey="labelKey" :valueKey="valueKey" :value="searchField"
+                   @input="pl_changeSearchField"/>
         <div class="plain-table-filter-type plain-table-filter-clear-left-radio plain-table-filter-clear-right-radio">
-            <component :is="searchData.component" :filterData="filterData[searchField]" @confirm="pl_confirm" @clear="pl_clear" :col="searchData.col"/>
+            <component :is="searchData.component" :key="searchField" :filterData="filterData[searchField]" @confirm="pl_confirm" @clear="pl_clear" :col="searchData.col"/>
         </div>
         <pl-button label="查询" shape="none" class="plain-table-filter-search-button plain-table-filter-clear-left-radio" icon="pad-search" @click="pl_confirm"/>
     </div>
@@ -15,6 +16,7 @@
     import FilterNumber from './item/plain-table-filter-number'
     import FilterSelect from './item/plain-table-filter-select'
     import FilterOv from './item/plain-table-filter-ov'
+    import FilterAddress from './item/plain-table-filter-address'
 
     const SEARCH_MAP = {
         'input': FilterInput,
@@ -22,6 +24,7 @@
         'number': FilterNumber,
         'select': FilterSelect,
         'ov': FilterOv,
+        'address': FilterAddress,
     }
 
     export default {
