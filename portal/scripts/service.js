@@ -3,6 +3,7 @@ import FileService from './file'
 import FormDialog from '../components/plain-table/form/index'
 import {PlainObjectService} from "../components/plain-table/object";
 import {OvService} from "../components/ov";
+import {AddressService} from "../components/address";
 
 export default function PlainService(Vue) {
     const $http = new HttpService(Vue)
@@ -10,12 +11,14 @@ export default function PlainService(Vue) {
     const $formDialog = new FormDialog(Vue)
     const $object = new PlainObjectService(Vue)
     const $ov = new OvService(Vue)
+    const $address = new AddressService(Vue)
 
     Object.assign(Vue.prototype, {
         $http,
         $file,
         $object,
         $ov,
+        $address,
     })
     Object.assign(Vue.prototype.$plain, {
         $formDialog,
