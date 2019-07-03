@@ -1,11 +1,12 @@
 <template>
-    <div class="pl-justify">
+    <div class="pl-justify" v-if="p_initialized">
         <div class="pl-justify-item" v-for="(item,index) in data"
              :key="index"
              ref="items"
              :name="!!labelKey?item[labelKey]:item"
              :class="{'pl-justify-item-active':value === (!!valueKey?item[valueKey]:item)}"
-             @click="pl_click(item)">
+             @click="pl_click(item)"
+             @dblclick="pl_dblclick(item)">
             {{!!labelKey?item[labelKey]:item}}
         </div>
     </div>
@@ -19,13 +20,19 @@
             labelKey: {},
             valueKey: {},
             value: {},
-            maxSpace: {type: Number, default: 24},
-            minSpace: {type: Number, default: 12},
+            maxSpace: {type: Number, default: 12},
+            minSpace: {type: Number, default: 6},
         },
         data() {
             return {
-                dialog: null
+                dialog: null,
+                p_initialized: false,
             }
+        },
+        watch: {
+            data() {
+                this.refresh()
+            },
         },
         created() {
             this.dialog = this.$plain.$dom.findComponentUpward(this, 'pl-dialog')
@@ -36,21 +43,18 @@
         },
         methods: {
             async refresh() {
+                this.p_initialized = false
+                await this.$plain.nextTick()
+                this.p_initialized = true
                 await this.$plain.nextTick()
                 await this.$plain.$utils.delay(0)
                 if (!this.$refs.items) return
                 const contentWidth = this.$el.offsetWidth
+                if (contentWidth === 0) return
                 const itemData = []
                 for (let i = 0; i < this.$refs.items.length; i++) {
                     const itemEl = this.$refs.items[i];
-                    let width;
-                    if (!!itemEl.dataset.width) {
-                        width = itemEl.dataset.width - 0
-                    } else {
-                        width = Math.ceil(itemEl.offsetWidth + 1)
-                        itemEl.dataset.width = width
-                        itemEl.style.width = width + 'px'
-                    }
+                    let width = itemEl.offsetWidth + 1;
                     itemData.push({
                         width: width,
                         el: itemEl,
@@ -85,6 +89,9 @@
             async pl_click(item) {
                 this.$emit('click', item)
             },
+            async pl_dblclick(item) {
+                this.$emit('dblclick', item)
+            },
         }
     }
 </script>
@@ -98,6 +105,7 @@
                 box-sizing: border-box;
                 margin-bottom: 1px;
                 cursor: pointer;
+                white-space: nowrap;
 
                 &:hover {
                     background-color: plVar(colorPrimaryLighter);

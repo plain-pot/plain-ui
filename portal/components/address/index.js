@@ -4,6 +4,12 @@ class AddressService {
 
     Vue
 
+    titleMap = {
+        'province': '省份',
+        'city': '城市',
+        'area': '区县',
+    }
+
     constructor(Vue) {
         this.Vue = Vue
     }
@@ -25,12 +31,20 @@ class AddressService {
 
     codeMap = {}
     queryMap = {}
-    privinceData = null
+    parentCodeMap = {}
+    provinceData = null
+
 
     delayTimer = null
 
     async getNameByCode(code) {
-        return this.codeMap[code] || await this.queryByCode(code);
+        const target = this.codeMap[code] || await this.queryByCode(code);
+        return !!target ? target.name : null
+    }
+
+    async getByParent(parent) {
+        if (!parent) return this.provinceData || await this.queryByParent(null)
+        return this.parentCodeMap[parent.code] || await this.queryByParent(parent)
     }
 
     async queryByCode(code) {
@@ -53,7 +67,7 @@ class AddressService {
             await this.$plain.nextTick()
             const codes = Object.keys(this.queryMap)
             try {
-                const {ret} = await this.queryByCodes(codes)
+                const ret = await this.queryByCodes(codes)
                 const codeMap = ret.reduce((ret, item) => {
                     ret[item.code] = item
                     return ret
@@ -69,16 +83,32 @@ class AddressService {
 
     async queryByCodes(codes) {
         const {ret} = await this.$http.post('address/queryByCodes', codes)
+        if (!!ret && ret.length > 0) {
+            ret.forEach(item => {
+                !this.codeMap[item.code] && (this.codeMap[item.code] = item)
+            })
+        }
         return ret
     }
 
     async queryByParent(address) {
         const {ret} = await this.$http.post('address/queryByParent', address)
+
+        if (address == null) {
+            this.provinceData = ret
+        } else {
+            if (!!ret && ret.length > 0) {
+                this.parentCodeMap[address.code] = ret
+            }
+        }
+        ret.forEach(item => {
+            !this.codeMap[item.code] && (this.codeMap[item.code] = item)
+        })
         return ret
     }
 
-    async pick({}) {
-        this.instance.pick({})
+    async pick() {
+        this.instance.pick(arguments[0])
     }
 }
 
