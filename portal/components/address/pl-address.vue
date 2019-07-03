@@ -35,13 +35,16 @@
             }
         },
         watch: {
-            async value(val) {
-                await this.$plain.nextTick()
-                if (!!this.p_timer) {
-                    clearTimeout(this.p_timer)
-                    this.p_timer = null
-                }
-                this.p_showValue = !!val ? await this.$address.getNameByCode(val) : null
+            value: {
+                immediate: true,
+                async handler(val) {
+                    await this.$plain.nextTick()
+                    if (!!this.p_timer) {
+                        clearTimeout(this.p_timer)
+                        this.p_timer = null
+                    }
+                    this.p_showValue = !!val ? await this.$address.getNameByCode(val) : null
+                },
             },
             parentCode() {
                 this.p_timer = setTimeout(() => {

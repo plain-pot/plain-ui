@@ -10,6 +10,7 @@ import object from './plain-table/object/object-tc'
 import PlOv from './ov/pl-ov'
 import ov from './ov/ov-tc'
 import PlAddress from './address/pl-address'
+import address from './address/addres-tc'
 
 export function InstallComponent(Vue) {
     const components = {
@@ -28,4 +29,5 @@ export function InstallComponent(Vue) {
 export const CustomColumns = {
     object,
     ov,
+    address,
 }

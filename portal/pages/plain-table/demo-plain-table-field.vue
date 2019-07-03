@@ -10,7 +10,9 @@
             <pl-tc-ov field="ov" title="选项值选择框" type="POSTN_TYPE"/>
             <pl-tc-color field="color" title="颜色选择框"/>
             <pl-tc-object field="objName" title="对象选择框" :prop="{option:tableAddressOption,map:{obj:'id',objName:'name'}}"/>
-            <!--            <pl-tc-address field="address" title="地址选择框"/>-->
+            <pl-tc-address field="province" title="地址选择：省" province/>
+            <pl-tc-address field="city" title="地址选择：市" city parentField="province"/>
+            <pl-tc-address field="area" title="地址选择：县" area parentField="city"/>
             <pl-tc-radio field="radio" title="单选复选框"/>
             <pl-tc-toggle field="toggle" title="开关选择框"/>
         </plain-table>
