@@ -2,7 +2,7 @@
     <div class="demo-plain-table-field">
         <plain-table :option="demoFieldOption">
             <!--            <pl-tc-column field="id" title="编号"/>-->
-            <pl-tc-input field="input" title="输入框"/>
+            <pl-tc-input field="input" title="输入框" required/>
             <pl-tc-number field="number" title="数字输入框"/>
             <pl-tc-date field="date" title="日期选择框"/>
             <pl-tc-time field="time" title="时间选择框"/>

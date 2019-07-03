@@ -129,14 +129,6 @@ export const StandardButtons = {
             this.$message.show('高度设置')
         },
     },
-    showDetailButton: {
-        label: '记录明细',
-        icon: 'pad-detail',
-        inner: true,
-        handler() {
-            this.$message.show('记录明细')
-        },
-    },
     showCountButton: {
         label: '记录总数',
         icon: 'pad-table1',
