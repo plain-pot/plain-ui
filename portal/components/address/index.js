@@ -1,3 +1,5 @@
+import Modal from './pl-address-modal'
+
 class AddressService {
 
     Vue
@@ -12,6 +14,13 @@ class AddressService {
 
     get $http() {
         return this.Vue.prototype.$http
+    }
+
+    _ins
+
+    get instance() {
+        if (!this._ins) this._ins = this.$plain.newInstance(Modal)
+        return this._ins
     }
 
     codeMap = {}
@@ -66,6 +75,10 @@ class AddressService {
     async queryByParent(address) {
         const {ret} = await this.$http.post('address/queryByParent', address)
         return ret
+    }
+
+    async pick({}) {
+        this.instance.pick({})
     }
 }
 

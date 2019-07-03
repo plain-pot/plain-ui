@@ -22,6 +22,10 @@
         mixins: [SimpleEditMixin],
         props: {
             input: {},
+            
+            province: {},
+            city: {},
+            area: {},
         },
         data() {
             return {
@@ -35,6 +39,7 @@
             pl_click() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
                 console.log('open')
+                this.$address.pick({})
             },
         }
     }

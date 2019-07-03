@@ -5,7 +5,7 @@
             <pl-button label="queryByParent" @click="queryByParent"/>
         </im-demo-row>
         <im-demo-row title="选择框">
-            <pl-address/>
+            <pl-address :province.sync="row.province"/>
         </im-demo-row>
     </div>
 </template>
@@ -13,6 +13,11 @@
 <script>
     export default {
         name: "demo-address",
+        data() {
+            return {
+                row: {},
+            }
+        },
         methods: {
             async queryByCodes() {
                 console.log(await this.$address.queryByCodes(['110000', '110100', '110113', '120103']))
