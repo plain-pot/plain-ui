@@ -27,7 +27,7 @@
                 demoFieldOption: new PlainOption({
                     context: this,
                     module: 'demoField',
-                    fixedRowData: [
+                    /*fixedRowData: [
                         {
                             color: "#702B2B",
                             createdAt: "2019-06-29 18:35:16",
@@ -44,7 +44,7 @@
                             toggle: "Y",
                             updatedAt: "2019-07-02 09:40:00",
                         }
-                    ],
+                    ],*/
                     buttons: {
                         /*测试重载按钮属性*/
                         /*insertButton: {
