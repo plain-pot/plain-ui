@@ -4,6 +4,9 @@
             <pl-button label="queryByCodes" @click="queryByCodes"/>
             <pl-button label="queryByParent" @click="queryByParent"/>
         </im-demo-row>
+        <im-demo-row title="选择框">
+            <pl-address/>
+        </im-demo-row>
     </div>
 </template>
 

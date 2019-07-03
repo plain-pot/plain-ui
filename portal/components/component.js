@@ -9,6 +9,7 @@ import PlObject from './plain-table/object/pl-object'
 import object from './plain-table/object/object-tc'
 import PlOv from './ov/pl-ov'
 import ov from './ov/ov-tc'
+import PlAddress from './address/pl-address'
 
 export function InstallComponent(Vue) {
     const components = {
@@ -18,6 +19,7 @@ export function InstallComponent(Vue) {
         imDemoRowItem: demoRowItem,
         PlObject,
         PlOv,
+        PlAddress,
     }
     Object.keys(components).forEach(key => Vue.component(key, components[key]))
     window.PlainOption = PlainOption
