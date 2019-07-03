@@ -115,6 +115,15 @@
                     <im-form-item label="对象选择框">
                         <pl-object :option="fieldOption" :map="{name:'input',objectId:'id'}" :row="row" showField="name" required/>
                     </im-form-item>
+                    <im-form-item label="地址选择：省">
+                        <pl-address province v-model="row.province" required/>
+                    </im-form-item>
+                    <im-form-item label="地址选择：市">
+                        <pl-address city v-model="row.city" :parentCode="row.province" required/>
+                    </im-form-item>
+                    <im-form-item label="地址选择：县">
+                        <pl-address area v-model="row.area" :parentCode="row.city" required/>
+                    </im-form-item>
                     <im-form-item label="复选框">
                         <im-radio-group multiple>
                             <im-radio v-for="(item) in ['北京','上海','广州','南京']" :key="item" :id="item" :label="item"/>
