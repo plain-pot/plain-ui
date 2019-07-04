@@ -9,6 +9,7 @@ export default {
         formatter: {
             default() {
                 return ({value, rowData}) => {
+                    if (!value) return null
                     return this.$address.getNameByCode(value)
                 }
             },

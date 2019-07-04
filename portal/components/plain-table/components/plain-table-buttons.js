@@ -99,7 +99,7 @@ export const StandardButtons = {
         status: PLAIN_TABLE_STATUS.normal,
         label: '批量修改',
         icon: 'pad-edit-square',
-        inner: false,
+        inner: true,
         needRow: true,
         async handler() {
             this.startSelect({
