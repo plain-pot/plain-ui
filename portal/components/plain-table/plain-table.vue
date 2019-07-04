@@ -11,6 +11,8 @@
                                  @cancelUpdate="cancel"
                                  @saveUpdate="save"
                                  @delete="pl_startDelete"
+                                 @confirmSelect="pl_confirmSelect"
+                                 @cancelSelect="pl_cancelSelect"
 
                                  :status="status"
                                  :buttons="buttons"
@@ -109,6 +111,9 @@
                 table: null,
                 pl_keydown: null,
                 p_bodyCols: [],
+
+                onConfirmSelect: null,
+                onCancelSelect: null,
             }
         },
         created() {
@@ -372,6 +377,19 @@
                 return await this.table.getSelected()
             },
             /**
+             * 开启多选模式
+             * @author  韦胜健
+             * @date    2019/7/4 11:16
+             */
+            async startSelect({onConfirm, onCancel}) {
+                this.onCancelSelect = null
+                this.onConfirmSelect = null
+                this.table.startSelected()
+                this.onCancelSelect = onCancel
+                this.onConfirmSelect = onConfirm
+                this.changeStatus(PLAIN_TABLE_STATUS.select)
+            },
+            /**
              * 清除选择数据
              * @author  韦胜健
              * @date    2019/6/29 21:37
@@ -501,6 +519,27 @@
                     this.option.simpleFilters = filters
                 }
                 await this.option.reload()
+            },
+            /**
+             * 确定选择
+             * @author  韦胜健
+             * @date    2019/7/4 11:14
+             */
+            async pl_confirmSelect() {
+                const dataRows = await this.getSelected();
+                !!this.onConfirmSelect && await this.onConfirmSelect(dataRows)
+                this.table.finishSelected()
+                this.changeStatus(PLAIN_TABLE_STATUS.normal)
+            },
+            /**
+             * 取消选择
+             * @author  韦胜健
+             * @date    2019/7/4 11:14
+             */
+            async pl_cancelSelect() {
+                !!this.onCancelSelect && await this.onCancelSelect()
+                this.table.finishSelected()
+                this.changeStatus(PLAIN_TABLE_STATUS.normal)
             },
 
 

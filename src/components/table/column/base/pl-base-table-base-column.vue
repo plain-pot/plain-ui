@@ -8,6 +8,7 @@
             :renderEdit="edit || normal"
             :renderHead="head"
             :external-prop="externalProp"
+            :get-fields="getFields"
     />
 </template>
 
@@ -31,7 +32,9 @@
                 head:null,
                 /*@formatter:on*/
                 externalProp: {},
-
+                getFields: () => {
+                    return [this.field]
+                }
             }
         },
         methods: {

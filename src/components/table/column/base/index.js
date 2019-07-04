@@ -14,6 +14,7 @@ export default {
         import: {default: false},
         export: {default: false},
         formEditable: {default: false},
+        batchModify: {default: false},
     },
     data() {
         const that = this

@@ -135,6 +135,7 @@
                         },
                         onClose: () => this.p_select = null,
                         onConfirm: async (e) => {
+                            const oldValue = this.p_value
                             const value = this.pl_getValue(e)
                             if (!this.multiple) {
                                 this.p_value = value
@@ -147,7 +148,7 @@
                                 }
                             }
                             this.$emit('input', this.p_value)
-                            !!this.after && await this.after(this.p_value)
+                            !!this.after && await this.after(this.p_value, oldValue)
                         },
                     })
                     :

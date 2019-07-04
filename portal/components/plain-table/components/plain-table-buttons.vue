@@ -15,7 +15,7 @@
         </div>
         <div v-show="status === 'select'">
             <pl-button label="取消" type="line" @click="pl_click('cancelSelect')"/>
-            <pl-button label="保存" @click="pl_click('confirmSelect')"/>
+            <pl-button label="确定" @click="pl_click('confirmSelect')"/>
         </div>
         <div v-show="status === 'normal'">
             <slot></slot>

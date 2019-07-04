@@ -13,6 +13,7 @@
         mixins: [PublicColumnMixin],
         props: {
             externalProp: {type: Object},
+            getFields: {type: Function},
         },
         watch: {
             ...Object.keys(PublicColumnMixin.props).reduce((ret, key) => {

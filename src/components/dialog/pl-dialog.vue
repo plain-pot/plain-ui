@@ -30,8 +30,10 @@
                     </div>
                     <div class="pl-dialog-foot" :class="[`pl-dialog-foot-align-${footAlign}`]" v-if="!noFooter && (cancelButton || confirmButton || !!$slots.foot)">
                         <slot name="foot">
+                            <slot name="footLeft"></slot>
                             <pl-button type="line" label="取消" @click="p_cancel" v-if="!!cancelButton"/>
                             <pl-button label="确认" @click="p_confirm" v-if="!!confirmButton"/>
+                            <slot name="footRight"></slot>
                         </slot>
                     </div>
                 </div>

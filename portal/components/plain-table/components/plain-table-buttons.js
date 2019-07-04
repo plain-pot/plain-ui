@@ -99,10 +99,34 @@ export const StandardButtons = {
         status: PLAIN_TABLE_STATUS.normal,
         label: '批量修改',
         icon: 'pad-edit-square',
-        inner: true,
+        inner: false,
         needRow: true,
-        handler() {
-            this.$message.show('批量修改')
+        async handler() {
+            this.startSelect({
+                onConfirm: async (dataRows) => {
+                    return new Promise((rs, rj) => {
+                        this.$plain.$batchModify.pick({
+                            columns: this.p_bodyCols,
+                            onConfirm: async (row) => {
+                                console.log({...row})
+                                dataRows.forEach(({editRow}) => Object.assign(editRow, row));
+                                try {
+                                    await this.pl_batchUpdate(dataRows);
+                                    rs()
+                                    await this.$plain.nextTick()
+                                    this.option.load()
+                                } catch (e) {
+                                    console.error(e)
+                                    rj()
+                                }
+                            },
+                            onCancel() {
+                                rs()
+                            },
+                        })
+                    })
+                }
+            })
         },
     },
     customFilterButton: {

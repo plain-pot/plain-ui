@@ -45,6 +45,7 @@ const ColumnPublicProps = {
     editable: {type: Boolean, default: true},           //是否可编辑
     editableFunc: {type: Function},                     //是否可编辑判断函数
     formEditable: {type: Boolean, default: true},       //是否可以弹框编辑
+    batchModify: {type: Boolean, default: true},        //是否可以批量修改
     export: {type: Boolean, default: true},             //是否可导出
     import: {type: Boolean, default: true},             //是否可导入
     prop: {type: Object, default: () => ({})},          //列额外数据信息
@@ -125,6 +126,7 @@ class TableColumn {
         originalProps.id = context.$plain.$utils.uuid()
         this.originalProps = originalProps
         this.externalProp = context.externalProp
+        this.getFields = context.getFields
         Object.assign(this, originalProps)
     }
 }

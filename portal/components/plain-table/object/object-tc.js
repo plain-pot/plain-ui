@@ -18,6 +18,7 @@ export default {
                     on: {input: (val) => this.$set(editRow, col.field, val),}
                 }}/>)
             },
+            getFields: () => Array.from(new Set([...Object.keys(this.prop.map || {}), this.field]))
         }
     },
     methods: {
