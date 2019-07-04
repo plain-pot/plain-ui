@@ -78,6 +78,21 @@
                 p_value: this.value,
                 p_hover: false,
                 p_select: null,
+
+                suggestionOption: {
+                    autoFocus: false,
+                    labelKey: this.suggestionLabelKey,
+                    slot: this.$scopedSlots.suggestion,
+                    onClose: () => this.p_select = null,
+                    reference: null,
+                    data: [],
+                },
+            }
+        },
+        mounted() {
+            if (!!this.suggestion) {
+                this.suggestionOption.reference = this.$el
+                this.suggestionOption.data = this.suggestionData
             }
         },
         watch: {
@@ -85,9 +100,7 @@
                 this.p_value = val
             },
             p_value() {
-                if (!!this.suggestion && !!this.p_select) {
-                    this.p_select.option.data = this.suggestionData
-                }
+                this.suggestionOption.data = this.suggestionData
             },
         },
         computed: {
@@ -196,14 +209,7 @@
                 if (!!this.suggestionData) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
                     !this.p_select.p_show ?
-                        this.p_select.select({
-                            reference: this.$el,
-                            autoFocus: false,
-                            data: this.suggestionData,
-                            labelKey: this.suggestionLabelKey,
-                            slot: this.$scopedSlots.suggestion,
-                            onClose: () => this.p_select = null,
-                        }).then(e => {
+                        this.p_select.select(this.suggestionOption).then(e => {
                             this.p_value = !!this.suggestionLabelKey ? e[this.suggestionLabelKey] : e
                             this.$emit('input', this.p_value)
                         })
