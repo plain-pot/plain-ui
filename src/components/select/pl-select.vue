@@ -15,12 +15,13 @@
             v-bind="Object.assign({},input,simpleBinding)"
 
             @clear="pl_clear"
-            @up="!!p_select && p_select.prev()"
-            @down="!!p_select && p_select.next()"
+            @up.prevent="!!p_select && p_select.prev()"
+            @down.prevent="!!p_select && p_select.next()"
             @enter="pl_enter"
             @tab="!!p_select && p_select.hide()"
             @esc="!!p_select && p_select.hide()"
             @space="pl_space"
+            @blur="pl_blur"
     />
     <pl-tag-input
             v-else
@@ -207,6 +208,9 @@
             },
             pl_onRemove(item, index) {
                 this.p_value.splice(index, 1)
+            },
+            pl_blur() {
+
             },
         }
     }

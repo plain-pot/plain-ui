@@ -54,10 +54,11 @@
                 p_show: false,
                 hoverIndex: null,
 
-                option: {...defaultOption},
                 watchData: null,
                 rs: null,
                 activeElement: null,
+
+                p_option: null,
 
                 keyboardListener: {
                     'enter': () => {
@@ -88,12 +89,15 @@
                     }
                 }
             },
+            option() {
+                const ret = Object.assign({}, defaultOption, this.p_option)
+                return ret
+            },
         },
         watch: {
             watchData: {
                 deep: true,
                 async handler(val) {
-                    // console.log('watchData change', val)
                     if (!!this.p_show) {
                         await this.$plain.nextTick()
                         this.$refs.popover.$refs.popper.p_popper.update()
@@ -108,7 +112,7 @@
             async select(option) {
                 return new Promise(async rs => {
                     this.hoverIndex = null
-                    this.option = Object.assign({}, defaultOption, option)
+                    this.p_option = option
                     this.watchData = option.watchData
                     await this.$plain.nextTick()
                     this.popover.show()
@@ -163,7 +167,6 @@
                 !!this.option.onConfirm && this.option.onConfirm(item)
             },
             pl_open() {
-                // console.log('pl_open')
                 this.p_show = true
                 !!this.option.onOpen && this.option.onOpen()
                 if (this.option.autoFocus) {
@@ -173,7 +176,6 @@
                 }
             },
             pl_close() {
-                // console.log('pl_close')
                 this.p_show = false
                 !!this.option.onClose && this.option.onClose()
                 if (this.option.autoFocus) {
