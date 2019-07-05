@@ -88,6 +88,7 @@
                 this.copyEl.style.top = this.top + 'px'
                 this.copyEl.style.transition = 'initial'
                 this.copyEl.style.pointerEvents = 'none'
+                this.copyEl.style.cursor = 'all-scroll'
                 this.copyEl.zIndex = 9999
                 document.body.append(this.copyEl)
                 window.addEventListener('mousemove', this.pl_mousemove)
@@ -118,7 +119,7 @@
                     })
                     this.dragList[this.targetIndex] = this.dragList.splice(this.switchIndex, 1, this.dragList[this.targetIndex])[0];
                     document.body.removeChild(this.copyEl)
-                    this.targetEl.style.opacity = '1'
+                    this.targetEl.style.opacity = null
                 }
                 this.targetIndex = null
                 this.switchIndex = null

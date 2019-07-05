@@ -65,6 +65,7 @@
             border: solid 1px #ddd;
             box-sizing: border-box;
             padding: 0 12px;
+            background-color: white;
         }
     }
 </style>
