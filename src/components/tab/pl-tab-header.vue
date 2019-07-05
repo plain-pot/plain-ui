@@ -101,6 +101,7 @@
             padding: 8px 16px !important;
             position: relative;
             background-color: white;
+            cursor: pointer;
 
             &:after {
                 border-right: dashed 1px plVar(colorPrimary);
