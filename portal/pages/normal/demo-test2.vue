@@ -128,6 +128,8 @@
             color: white;
             background-color: plVar(colorPrimary);
             display: inline-block !important;
+            border: solid 1px plVar(colorPrimaryDeep);
+            box-sizing: border-box;
         }
     }
 </style>
