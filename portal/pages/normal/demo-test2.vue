@@ -9,7 +9,7 @@
             <im-item
                     v-for="(item,index) in cities"
                     :key="item.name"
-                    class="test-item"
+                    class="test-item-aaa"
                     @click="pl_click(index)">
                 <span>{{item.name}}</span>
                 <span>{{item.num}}</span>
@@ -54,7 +54,7 @@
 
 <style lang="scss">
     @include themeWrap {
-        .test-item {
+        .test-item-aaa {
             height: 36px;
             width: 150px;
             margin-bottom: 12px;

@@ -35,7 +35,6 @@
                 immediate: true,
                 async handler() {
                     if (!this.draggable) return
-                    console.log('datalist change')
                     await this.$plain.nextTick()
                     Array.from(this.$el.children).forEach((el, index) => {
                         if (!!el.pl_mousedown) {

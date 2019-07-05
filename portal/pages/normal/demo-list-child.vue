@@ -21,7 +21,7 @@
             </im-button-group>
         </im-demo-row>
         <im-demo-row>
-            <im-list :direction="direction">
+            <im-list :direction="direction" draggable :dragList="cities">
                 <im-item v-for="(item,index) in cities" :key="item.name" class="test-item"
                          @click="handleClick(item,index)">{{item.name}}
                 </im-item>
