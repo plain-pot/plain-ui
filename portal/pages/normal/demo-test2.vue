@@ -1,12 +1,14 @@
 <template>
     <div class="demo-test2">
         <im-demo-row title="测试拖拽排序"></im-demo-row>
-        <im-list>
-            <im-item v-for="(item,index) in cities"
-                     :key="item.name"
-                     class="test-item"
-                     @mousedown.native="e=>pl_mousedown(e,index)"
-                     @mouseenter.native="pl_mouseenter(index)">
+        [{{switchIndex}}]--[{{targetIndex}}]
+        <im-list @mouseleave.native="switchIndex = null">
+            <im-item
+                    v-for="(item,index) in cities"
+                    :key="item.name"
+                    class="test-item"
+                    @mousedown.native="e=>pl_mousedown(e,index)"
+                    @mouseenter.native="e=>pl_mouseenter(e,index)">
                 {{item.name}}
             </im-item>
         </im-list>
@@ -20,71 +22,95 @@
         data() {
             return {
                 cities: [
-                    {name: '广州市'},
-                    {name: '上海市'},
-                    {name: '北京市'},
-                    {name: '深圳市'},
-                    {name: '长沙市'},
-                    {name: '南京市'},
+                    /*   {name: '广州市'},
+                       {name: '上海市'},
+                       {name: '北京市'},
+                       {name: '深圳市'},
+                       {name: '长沙市'},
+                       {name: '南京市'},*/
                 ],
-                copy: null,
+
+                targetEl: null,
+                copyEl: null,
+                switchEl: null,
+                targetIndex: null,
+                switchIndex: null,
+                targetTransition: null,
                 startX: null,
                 startY: null,
                 left: null,
                 top: null,
-                dragIndex: null,
+                draging: false,
             }
         },
         mounted() {
             for (let i = 0; i < 20; i++) {
-                this.cities.push({name: this.$plain.$utils.uuid()})
+                this.cities.push({name: i})
             }
         },
         methods: {
             pl_mousedown(e, index) {
-                const origin = e.target
-                const {top, left} = origin.getBoundingClientRect()
-                const copy = origin.cloneNode(true)
-                this.dragIndex = index
-                this.copy = copy
+                if (e.button !== 0) return
+                this.draging = true
+
+                this.targetEl = e.target
+                this.copyEl = this.targetEl.cloneNode(true)
+                const {top, left} = this.targetEl.getBoundingClientRect()
+                this.targetIndex = index
                 this.startX = e.clientX
                 this.startY = e.clientY
                 this.top = top
                 this.left = left
 
-                copy.style.position = 'fixed'
-                copy.style.left = this.left + 'px'
-                copy.style.top = this.top + 'px'
-                copy.style.transition = 'initial'
-                copy.style.opacity = '0.5'
-                copy.style.pointerEvents = 'none'
-                copy.zIndex = 9999
-                document.body.append(copy)
+                this.targetTransition = this.targetEl.style.transition
+                this.targetEl.style.transition = 'none'
+                this.targetEl.style.opacity = '0'
+
+                this.copyEl.style.position = 'fixed'
+                this.copyEl.style.left = this.left + 'px'
+                this.copyEl.style.top = this.top + 'px'
+                this.copyEl.style.transition = 'initial'
+                this.copyEl.style.pointerEvents = 'none'
+                this.copyEl.zIndex = 9999
+                document.body.append(this.copyEl)
                 window.addEventListener('mousemove', this.pl_mousemove)
                 window.addEventListener('mouseup', this.pl_mouseup)
                 this.$plain.$dom.enableSelectNone()
             },
             pl_mousemove(e) {
-                const durx = e.clientX - this.startX
-                const dury = e.clientY - this.startY
-                this.copy.style.left = (this.left + durx) + 'px'
-                this.copy.style.top = (this.top + dury) + 'px'
+                this.copyEl.style.left = (this.left + e.clientX - this.startX) + 'px'
+                this.copyEl.style.top = (this.top + e.clientY - this.startY) + 'px'
             },
-            pl_mouseup() {
-                this.dragIndex = null
-                document.body.removeChild(this.copy)
+            async pl_mouseup() {
+                this.draging = false
                 window.removeEventListener('mousemove', this.pl_mousemove)
-                window.removeEventListener('mousemove', this.pl_mousemove)
-                this.$plain.$dom.disabledSelectNone()
-            },
-            async pl_mouseenter(index) {
-                if (this.dragIndex == null) return
-                else {
-                    console.log('switch')
-                    this.cities[this.dragIndex] = this.cities.splice(index, 1, this.cities[this.dragIndex])[0];
-                    await this.$plain.nextTick()
-                    this.dragIndex = index
+                window.removeEventListener('mouseup', this.pl_mouseup)
+
+                this.copyEl.style.transition = 'all 0.15s linear'
+                if (this.switchIndex == null || this.switchIndex === this.targetIndex) {
+                    this.copyEl.style.left = this.left + 'px'
+                    this.copyEl.style.top = this.top + 'px'
+                } else {
+                    const {top, left} = this.switchEl.getBoundingClientRect()
+                    this.copyEl.style.left = left + 'px'
+                    this.copyEl.style.top = top + 'px'
+                    this.cities[this.targetIndex] = this.cities.splice(this.switchIndex, 1, this.cities[this.targetIndex])[0];
                 }
+                await this.$plain.$utils.delay(150)
+                this.targetIndex = null
+                this.switchIndex = null
+                this.switchEl = null
+
+                this.targetEl.style.opacity = null
+                await this.$plain.nextTick()
+                this.targetEl.style.transition = this.targetTransition
+                this.$plain.$dom.disabledSelectNone()
+                document.body.removeChild(this.copyEl)
+            },
+            async pl_mouseenter(e, index) {
+                if (!this.draging) return
+                this.switchIndex = index
+                this.switchEl = e.target
             },
         }
     }
