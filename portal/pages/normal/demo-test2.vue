@@ -5,7 +5,7 @@
             <im-toggle v-model="draggable"/>
             <span>{{cities}}</span>
         </div>
-        <im-list :dragList="cities" :draggable="draggable">
+        <im-list :dragList="cities" :draggable="draggable" @switch="pl_swicth">
             <im-item
                     v-for="(item,index) in cities"
                     :key="item.name"
@@ -43,6 +43,9 @@
         methods: {
             pl_click(index) {
                 console.log(index)
+            },
+            pl_swicth() {
+                console.log(arguments[0])
             },
         }
     }

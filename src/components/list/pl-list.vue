@@ -116,6 +116,12 @@
                     const {top, left} = this.switchEl.getBoundingClientRect()
                     this.copyEl.style.left = left + 'px'
                     this.copyEl.style.top = top + 'px'
+                    this.$emit('switch', {
+                        originIndex: this.targetIndex,
+                        originData: this.dragList[this.targetIndex],
+                        targetIndex: this.switchIndex,
+                        targetData: this.dragList[this.switchIndex]
+                    })
                     this.dragList[this.targetIndex] = this.dragList.splice(this.switchIndex, 1, this.dragList[this.targetIndex])[0];
                 }
                 await this.$plain.$utils.delay(150)
