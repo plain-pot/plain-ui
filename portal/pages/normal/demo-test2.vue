@@ -1,14 +1,17 @@
 <template>
     <div class="demo-test2">
         <im-demo-row title="测试拖拽排序"></im-demo-row>
-        [{{switchIndex}}]--[{{targetIndex}}]
+        <div>
+            {{cities}}
+        </div>
         <im-list @mouseleave.native="switchIndex = null">
             <im-item
                     v-for="(item,index) in cities"
                     :key="item.name"
                     class="test-item"
                     @mousedown.native="e=>pl_mousedown(e,index)"
-                    @mouseenter.native="e=>pl_mouseenter(e,index)">
+                    @mouseenter.native="e=>pl_mouseenter(e,index)"
+                    @click="pl_click(index)">
                 {{item.name}}
             </im-item>
         </im-list>
@@ -22,12 +25,12 @@
         data() {
             return {
                 cities: [
-                    /*   {name: '广州市'},
-                       {name: '上海市'},
-                       {name: '北京市'},
-                       {name: '深圳市'},
-                       {name: '长沙市'},
-                       {name: '南京市'},*/
+                    {name: '广州市'},
+                    {name: '上海市'},
+                    {name: '北京市'},
+                    {name: '深圳市'},
+                    {name: '长沙市'},
+                    {name: '南京市'},
                 ],
 
                 targetEl: null,
@@ -44,12 +47,13 @@
             }
         },
         mounted() {
-            for (let i = 0; i < 20; i++) {
+            /*for (let i = 0; i < 6; i++) {
                 this.cities.push({name: i})
-            }
+            }*/
         },
         methods: {
             pl_mousedown(e, index) {
+                if (!!this.draging) return;
                 if (e.button !== 0) return
                 this.draging = true
 
@@ -82,7 +86,6 @@
                 this.copyEl.style.top = (this.top + e.clientY - this.startY) + 'px'
             },
             async pl_mouseup() {
-                this.draging = false
                 window.removeEventListener('mousemove', this.pl_mousemove)
                 window.removeEventListener('mouseup', this.pl_mouseup)
 
@@ -102,15 +105,20 @@
                 this.switchEl = null
 
                 this.targetEl.style.opacity = null
-                await this.$plain.nextTick()
-                this.targetEl.style.transition = this.targetTransition
                 this.$plain.$dom.disabledSelectNone()
+                await this.$plain.$utils.delay(23)
+                this.targetEl.style.transition = this.targetTransition
                 document.body.removeChild(this.copyEl)
+                this.draging = false
             },
             async pl_mouseenter(e, index) {
                 if (!this.draging) return
                 this.switchIndex = index
                 this.switchEl = e.target
+            },
+            async pl_click(index) {
+                /*好像不会影响点击事件*/
+                console.log('click', index)
             },
         }
     }
@@ -119,17 +127,17 @@
 <style lang="scss">
     @include themeWrap {
         .test-item {
-            height: 120px;
-            width: 200px;
+            height: 36px;
+            width: 150px;
             margin-bottom: 12px;
-            margin-right: 12px;
-            border-radius: 4px;
-            padding: 12px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
             color: white;
             background-color: plVar(colorPrimary);
-            display: inline-block !important;
-            border: solid 1px plVar(colorPrimaryDeep);
             box-sizing: border-box;
+            padding: 0 12px;
         }
     }
 </style>
