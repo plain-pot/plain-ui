@@ -117,9 +117,9 @@
                         targetData: this.dragList[this.switchIndex]
                     })
                     this.dragList[this.targetIndex] = this.dragList.splice(this.switchIndex, 1, this.dragList[this.targetIndex])[0];
-                    document.body.removeChild(this.copyEl)
-                    this.targetEl.style.opacity = null
                 }
+                document.body.removeChild(this.copyEl)
+                this.targetEl.style.opacity = null
                 this.targetIndex = null
                 this.switchIndex = null
                 this.switchEl = null
@@ -130,10 +130,19 @@
                 this.switchEl = this.getItemEl(e.target)
             },
             getItemEl(el) {
-                while (!!el && !this.$plain.$dom.hasClass(el, 'pl-item')) {
+                while (!!el && !this.hasClass(el, 'pl-item')) {
                     el = el.parentNode
                 }
                 return el
+            },
+            hasClass(el, cls) {
+                if (!!el.classList && !!el.classList.value) return this.$plain.$utils.oneOf(cls, el.classList.value.split(' '));
+                else {
+                    if (!!el.className && this.$plain.$utils.typeOf(el.className) === 'string') {
+                        return el.className.split(' ').indexOf(cls) > -1
+                    }
+                    return false
+                }
             },
         }
     }

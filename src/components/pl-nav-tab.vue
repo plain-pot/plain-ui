@@ -1,8 +1,10 @@
 <template>
     <div class="pl-nav-tab" :style="{height:$plain.$utils.unit(height)}">
         <pl-tab-header clear-icon
-                       :data="pageStack.map(page=>page.title)"
-                       :ids="pageStack.map(page=>page.id)"
+                       :data="pageStack"
+                       valueKey="id"
+                       labelKey="title"
+
                        :value="p_value"
                        @input="p_clickMenu"
                        @close="p_close"
