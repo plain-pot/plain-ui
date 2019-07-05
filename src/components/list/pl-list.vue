@@ -28,7 +28,6 @@
                 startY: null,
                 left: null,
                 top: null,
-                draging: false,
             }
         },
         watch: {
@@ -72,10 +71,7 @@
         },
         methods: {
             pl_mousedown(e, index) {
-                if (!!this.draging) return;
                 if (e.button !== 0) return
-                this.draging = true
-
                 this.targetEl = e.target
                 this.copyEl = this.targetEl.cloneNode(true)
                 const {top, left} = this.targetEl.getBoundingClientRect()
@@ -85,11 +81,9 @@
                 this.top = top
                 this.left = left
 
-                this.targetTransition = this.targetEl.style.transition
-                this.targetEl.style.transition = 'none'
-                this.targetEl.style.opacity = '0'
-
+                this.targetEl.style.opacity = '0.5'
                 this.copyEl.style.position = 'fixed'
+                this.copyEl.style.opacity = '1'
                 this.copyEl.style.left = this.left + 'px'
                 this.copyEl.style.top = this.top + 'px'
                 this.copyEl.style.transition = 'initial'
@@ -123,21 +117,15 @@
                         targetData: this.dragList[this.switchIndex]
                     })
                     this.dragList[this.targetIndex] = this.dragList.splice(this.switchIndex, 1, this.dragList[this.targetIndex])[0];
+                    document.body.removeChild(this.copyEl)
+                    this.targetEl.style.opacity = '1'
                 }
-                await this.$plain.$utils.delay(150)
                 this.targetIndex = null
                 this.switchIndex = null
                 this.switchEl = null
-
-                this.targetEl.style.opacity = null
                 this.$plain.$dom.disabledSelectNone()
-                await this.$plain.$utils.delay(23)
-                this.targetEl.style.transition = this.targetTransition
-                document.body.removeChild(this.copyEl)
-                this.draging = false
             },
             pl_mouseenter(e, index) {
-                if (!this.draging) return
                 this.switchIndex = index
                 this.switchEl = e.target
             },

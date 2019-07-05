@@ -11,7 +11,8 @@
                     :key="item.name"
                     class="test-item"
                     @click="pl_click(index)">
-                {{item.name}}
+                <span>{{item.name}}</span>
+                <span>{{item.num}}</span>
             </im-item>
         </im-list>
     </div>
@@ -24,12 +25,12 @@
         data() {
             return {
                 cities: [
-                    {name: '广州市'},
-                    {name: '上海市'},
-                    {name: '北京市'},
-                    {name: '深圳市'},
-                    {name: '长沙市'},
-                    {name: '南京市'},
+                    {name: '上海市', num: 5},
+                    {name: '北京市', num: 8},
+                    {name: '广州市', num: 11},
+                    {name: '深圳市', num: 17},
+                    {name: '长沙市', num: 2},
+                    {name: '南京市', num: 0},
                 ],
 
                 draggable: true,
@@ -60,9 +61,8 @@
             border-radius: 2px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            color: white;
-            background-color: plVar(colorPrimary);
+            justify-content: space-between;
+            border: solid 1px #ddd;
             box-sizing: border-box;
             padding: 0 12px;
         }
