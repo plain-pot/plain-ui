@@ -71,7 +71,7 @@
         methods: {
             pl_mousedown(e, index) {
                 if (e.button !== 0) return
-                this.targetEl = e.target
+                this.targetEl = this.getItemEl(e.target)
                 this.copyEl = this.targetEl.cloneNode(true)
                 const {top, left} = this.targetEl.getBoundingClientRect()
                 this.targetIndex = index
@@ -127,7 +127,13 @@
             },
             pl_mouseenter(e, index) {
                 this.switchIndex = index
-                this.switchEl = e.target
+                this.switchEl = this.getItemEl(e.target)
+            },
+            getItemEl(el) {
+                while (!!el && !this.$plain.$dom.hasClass(el, 'pl-item')) {
+                    el = el.parentNode
+                }
+                return el
             },
         }
     }
