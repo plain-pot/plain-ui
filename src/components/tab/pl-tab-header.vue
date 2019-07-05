@@ -19,7 +19,7 @@
             </pl-item>
         </pl-list>
         <div class="pl-tab-header-bottom">
-
+            <div class="pl-tab-header-bottom-tag" :style="tagStyles"></div>
         </div>
     </div>
 </template>
@@ -48,7 +48,13 @@
                 tagLeft: null,
             }
         },
-
+        computed: {
+            tagStyles() {
+                return {
+                    left: `${(this.p_value || 0) * 200}px`
+                }
+            },
+        },
         methods: {
             p_click(item, index) {
                 this.p_value = index
@@ -90,6 +96,14 @@
             .pl-tab-header-bottom {
                 background-color: plVar(colorBorder);
                 height: 1px;
+
+                .pl-tab-header-bottom-tag {
+                    background-color: plVar(colorPrimary);
+                    width: 200px;
+                    height: 100%;
+                    position: relative;
+                    @include transition-all;
+                }
             }
         }
 
