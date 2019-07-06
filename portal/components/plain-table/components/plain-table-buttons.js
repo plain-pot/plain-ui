@@ -146,7 +146,7 @@ export const StandardButtons = {
         },
     },
     configHeightButton: {
-        label: '高度设置',
+        label: '个性设置',
         icon: 'pad-menu',
         inner: true,
         handler() {
