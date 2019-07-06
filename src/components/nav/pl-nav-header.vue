@@ -1,19 +1,21 @@
 <template>
     <div class="pl-nav-header" @mousewheel.stop.prevent="pl_mousewheel">
-        <div class="pl-nav-header-item pl-nav-target"
-             ref="items"
-             :class="{'pl-nav-header-item-active':index === p_value}"
-             v-for="(item,index) in list"
-             @click="$emit('click',{item,index})"
-             @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)"
-             :key="item[valueKey]">
-            <div class="pl-nav-header-item-content">
-                <pl-tooltip show-overflow-tooltip :content="item[labelKey]"/>
-                <div class="pl-nav-header-item-close" @click.stop="$emit('close',{item,index})">
-                    <pl-icon :icon="index === p_value?'pad-close-circle-fill':'pad-close'" hover class="pl-nav-header-close-icon"/>
+        <pl-list draggable :dragList="list" @switch="pl_switch">
+            <pl-item
+                    v-for="(item,index) in list"
+                    class="pl-nav-header-item pl-nav-target"
+                    :class="{'pl-nav-header-item-active':index === p_value}"
+                    @click.native="pl_click(item,index)"
+                    @contextmenu.native.stop.prevent="e=>pl_contextmenu(e,item,index)"
+                    :key="item[valueKey]">
+                <div class="pl-nav-header-item-content">
+                    <pl-tooltip show-overflow-tooltip :content="item[labelKey]"/>
+                    <div class="pl-nav-header-item-close" @click.stop="$emit('close',{item,index})">
+                        <pl-icon :icon="index === p_value?'pad-close-circle-fill':'pad-close'" hover class="pl-nav-header-close-icon"/>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </pl-item>
+        </pl-list>
     </div>
 </template>
 
@@ -44,6 +46,18 @@
                 }
 
                 this.$emit('contextmenu', {e, item, index, el})
+            },
+            pl_click(item, index) {
+                this.$emit('click', {item, index})
+            },
+            pl_switch(data) {
+                // console.log({...data}, this.data)
+                let index;
+                data.originIndex === this.p_value && (index = data.targetIndex)
+                data.targetIndex === this.p_value && (index = data.originIndex)
+                if (index != null) {
+                    this.pl_click(this.list[index], index)
+                }
             },
         }
     }
