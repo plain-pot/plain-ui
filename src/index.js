@@ -2,6 +2,10 @@ import {getComponents} from './components/index'
 import {getDirectives} from "./scripts/directives";
 import Service from './scripts/service'
 
+import {InstallComponent} from "../portal/components/component";
+import PlainService from '../portal/scripts/service'
+import {CustomColumns} from "../portal/components/component";
+
 /*这里import这个index.scss，实际上应用中还是需要import打包生成的css文件，如果应用中通过global实现自定义主题，则不需要使用再次import css文件*/
 import './styles/index.scss'
 
@@ -76,3 +80,9 @@ const Plain = {
 }
 
 export default Plain
+
+export {
+    InstallComponent,
+    PlainService,
+    CustomColumns,
+}
