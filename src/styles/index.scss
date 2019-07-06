@@ -3,7 +3,4 @@
 @include plUseTheme($themes) {
   color: plVar(colorContent);
   font-family: unquote(plVar(fontFamily));
-  body.pl-body-user-select-none, &.pl-body-user-select-none, .pl-body-user-select-none {
-    user-select: none;
-  }
 }
