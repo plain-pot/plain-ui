@@ -11,7 +11,7 @@
         name: "pl-tab",
         components: {PlTabHeader},
         props: {
-            title:{},
+            title: {},
             initialized: {type: Boolean,},
             destroyedOnHide: {type: Boolean,},
         },
@@ -20,6 +20,7 @@
                 tabs: null,
                 p_initialized: this.initialized,
                 show: false,
+                id: this.$plain.$utils.uuid()
             }
         },
         watch: {

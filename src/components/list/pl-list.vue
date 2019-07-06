@@ -34,9 +34,11 @@
             dragList: {
                 immediate: true,
                 async handler() {
-                    if (!this.draggable) return
                     await this.$plain.nextTick()
-                    Array.from(this.$el.children).forEach((el, index) => {
+                    if (!this.draggable || !this.dragList || this.dragList.length === 0) return
+                    Array.from(this.$el.children).filter(el => {
+                        return this.hasClass(el, 'pl-item') && !this.hasClass(el, 'pl-item-exclude')
+                    }).forEach((el, index) => {
                         if (!!el.pl_mousedown) {
                             el.removeEventListener('mousedown', el.pl_mousedown)
                             el.removeEventListener('mouseenter', el.pl_mouseenter)
@@ -50,6 +52,7 @@
             },
             async draggable(newVal, oldVal) {
                 if (!!newVal === !!oldVal) return
+                if (!this.dragList || this.dragList.length === 0) return
                 await this.$plain.nextTick()
                 if (!!newVal) {
                     Array.from(this.$el.children).forEach((el, index) => {
@@ -110,13 +113,15 @@
                     const {top, left} = this.switchEl.getBoundingClientRect()
                     this.copyEl.style.left = left + 'px'
                     this.copyEl.style.top = top + 'px'
+
+                    // console.log(this.targetIndex, this.switchIndex)
+                    this.dragList.splice(this.switchIndex, 0, this.dragList.splice(this.targetIndex, 1)[0])
                     this.$emit('switch', {
                         originIndex: this.targetIndex,
                         originData: this.dragList[this.targetIndex],
                         targetIndex: this.switchIndex,
                         targetData: this.dragList[this.switchIndex]
                     })
-                    this.dragList[this.targetIndex] = this.dragList.splice(this.switchIndex, 1, this.dragList[this.targetIndex])[0];
                 }
                 document.body.removeChild(this.copyEl)
                 this.targetEl.style.opacity = null

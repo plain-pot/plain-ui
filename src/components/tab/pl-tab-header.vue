@@ -1,7 +1,7 @@
 <template>
     <div class="pl-tab-header">
         <pl-list class="pl-tab-header-wrapper" direction="top" draggable :drag-list="data" @switch="pl_switch">
-            <pl-item v-if="!data || data.length === 0" class="pl-tab-header-item pl-tab-header-item-active" key="no-item">
+            <pl-item v-if="!data || data.length === 0" class="pl-item-exclude pl-tab-header-item pl-tab-header-item-active" key="no-item">
                 <span>无</span>
             </pl-item>
             <pl-item
@@ -9,9 +9,9 @@
                     v-for="(item,index) in data"
                     :key="item[valueKey]"
                     :class="{'pl-tab-header-item-active':index === p_value}"
-                    @click="p_click(item,index)"
-                    @dblclick="p_dblclick(item,index)"
-                    @contextmenu.stop.prevent="e=>pl_contextmenu(e,item,index)">
+                    @click.native="p_click(item,index)"
+                    @dblclick.native="p_dblclick(item,index)"
+                    @contextmenu.native.stop.prevent="e=>pl_contextmenu(e,item,index)">
                 <pl-tooltip :content="item[labelKey]" show-overflow-tooltip/>
                 <div class="pl-tab-header-item-close" @click.stop="p_close(item,index)" v-if="clearIcon">
                     <pl-icon icon="pad-close-circle-fill" hover/>
@@ -51,7 +51,7 @@
         computed: {
             tagStyles() {
                 return {
-                    left: `${(this.p_value || 0) * 200}px`
+                    left: `${(this.p_value || 0) * 150}px`
                 }
             },
         },
@@ -75,6 +75,7 @@
                 this.$emit('contextmenu', {e, item, index, el})
             },
             pl_switch(data) {
+                // console.log({...data}, this.data)
                 let index;
                 data.originIndex === this.p_value && (index = data.targetIndex)
                 data.targetIndex === this.p_value && (index = data.originIndex)
@@ -99,7 +100,7 @@
 
                 .pl-tab-header-bottom-tag {
                     background-color: plVar(colorPrimary);
-                    width: 200px;
+                    width: 150px;
                     height: 100%;
                     position: relative;
                     @include transition-all;
@@ -111,7 +112,7 @@
             display: inline-flex !important;
             justify-content: space-between !important;
             align-items: center !important;
-            width: 200px !important;
+            width: 150px !important;
             padding: 8px 16px !important;
             position: relative;
             background-color: white;

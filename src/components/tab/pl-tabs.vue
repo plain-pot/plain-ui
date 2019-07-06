@@ -1,7 +1,7 @@
 <template>
     <div class="pl-tabs" :style="styles">
         <div class="pl-tabs-header">
-            <pl-tab-header :data="titles" :value="p_value" @click="p_click"/>
+            <pl-tab-header :data="items" :value="p_value" @click="p_click" valueKey="id" labelKey="title"/>
         </div>
         <div class="pl-tabs-body">
             <slot></slot>
@@ -15,7 +15,7 @@
 
     export default {
         name: "pl-tabs",
-        mixins:[ValueMixin],
+        mixins: [ValueMixin],
         components: {PlTabHeader},
         props: {
             value: {type: Number,},
@@ -37,9 +37,6 @@
                 const styles = {}
                 this.height !== null && (styles.height = this.$plain.$utils.unit(this.height))
                 return styles
-            },
-            titles() {
-                return this.items.map(item => item.title)
             },
         },
         methods: {
