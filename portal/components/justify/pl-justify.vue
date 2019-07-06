@@ -98,24 +98,5 @@
 
 <style lang="scss">
     @include themeWrap {
-        .pl-justify {
-            .pl-justify-item {
-                display: inline-block;
-                padding: 4px 9px;
-                box-sizing: border-box;
-                margin-bottom: 1px;
-                cursor: pointer;
-                white-space: nowrap;
-
-                &:hover {
-                    background-color: plVar(colorPrimaryLighter);
-                }
-
-                &.pl-justify-item-active {
-                    background-color: plVar(colorPrimary);
-                    color: white;
-                }
-            }
-        }
     }
 </style>

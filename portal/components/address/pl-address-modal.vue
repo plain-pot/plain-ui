@@ -98,10 +98,5 @@
 </script>
 
 <style lang="scss">
-    .pl-address-modal {
-        .pl-address-modal-content {
-            padding: 6px 9px;
-            box-sizing: border-box;
-        }
-    }
+
 </style>

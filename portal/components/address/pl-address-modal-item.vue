@@ -59,27 +59,5 @@
 
 <style lang="scss">
     @include themeWrap {
-        .pl-address-modal-item {
-            min-height: 100px;
-
-            .pl-address-modal-item-title {
-                color: plVar(colorPrimary);
-                font-weight: bold;
-                display: flex;
-                align-items: center;
-                box-sizing: border-box;
-                padding: 3px 9px;
-
-                span {
-                    margin-right: 12px;
-                }
-
-                .pl-address-modal-item-title-right {
-                    flex: 1;
-                    height: 1px;
-                    border-bottom: dashed 1px #ddd;
-                }
-            }
-        }
     }
 </style>
