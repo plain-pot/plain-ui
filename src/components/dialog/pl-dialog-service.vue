@@ -71,21 +71,5 @@
 </script>
 
 <style lang="scss">
-    .pl-dialog-service-edit-wrapper {
-        height: 100%;
 
-        .pl-input {
-            width: 100% !important;
-        }
-
-        .pl-textarea {
-            width: 100%;
-            height: 100%;
-
-            textarea {
-                width: 100% !important;
-                height: 100% !important;
-            }
-        }
-    }
 </style>
