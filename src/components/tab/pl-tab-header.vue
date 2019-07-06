@@ -51,7 +51,7 @@
         computed: {
             tagStyles() {
                 return {
-                    left: `${(this.p_value || 0) * 150}px`
+                    left: `${(this.p_value == null || this.p_value < 0 ? 0 : this.p_value) * 150}px`
                 }
             },
         },
