@@ -68,39 +68,4 @@
 </script>
 
 <style lang="scss">
-    .pl-base-table-body {
-        position: relative;
-        overflow: hidden;
-
-        table {
-            font-size: 12px;
-        }
-
-        .pl-base-table-body-item {
-            background-color: white;
-        }
-
-        .pl-base-table-body-item-left, .pl-base-table-body-item-right {
-            position: absolute;
-            top: 0;
-        }
-
-        .pl-base-table-body-item-right {
-            right: 0;
-
-            .pl-scroll-content-wrapper {
-                position: relative;
-
-                .pl-scroll-content {
-                    right: 0;
-                    position: absolute;
-                    float: right;
-
-                    table {
-                        float: right;
-                    }
-                }
-            }
-        }
-    }
 </style>

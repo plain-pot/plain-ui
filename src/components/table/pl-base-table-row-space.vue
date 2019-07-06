@@ -16,7 +16,4 @@
 </script>
 
 <style lang="scss">
-    .pl-base-table-row-space {
-        height: 1px;
-    }
 </style>

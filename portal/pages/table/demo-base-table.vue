@@ -3,7 +3,6 @@
         <im-base-table :data="data" id="trainno" :fixedRowData="fixedRowData">
             <im-tc-column title="类型" field="type"/>
             <im-tc-column title="用时" field="costtime"/>
-
         </im-base-table>
     </div>
 </template>

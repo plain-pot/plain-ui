@@ -49,25 +49,4 @@
 </script>
 
 <style lang="scss">
-    .pl-base-table-head-item {
-        background-color: #f9f9f9;
-        overflow: hidden;
-
-        &.pl-base-table-head-item-left, &.pl-base-table-head-item-right {
-            position: absolute;
-            top: 0;
-        }
-
-        &.pl-base-table-head-item-right {
-            right: 0;
-
-            & > table {
-                float: right;
-            }
-        }
-
-        .pl-base-table-row-fixed {
-            background-color: #e6e6e6;
-        }
-    }
 </style>

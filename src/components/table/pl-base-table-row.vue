@@ -45,10 +45,5 @@
 
 <style lang="scss">
     @include themeWrap {
-        .pl-base-table-row {
-            &.pl-base-table-row-check {
-                background-color: plVar(colorPrimaryLighter);
-            }
-        }
     }
 </style>

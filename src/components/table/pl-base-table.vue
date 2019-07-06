@@ -648,46 +648,5 @@
 
 <style lang="scss">
     @include themeWrap {
-        .pl-base-table {
-            border: solid 1px plVar(colorBorder);
-            border-radius: plVar(borderFillet);
-            font-size: inherit;
-
-            .pl-scroll-horizontal-indicator {
-                z-index: 1;
-            }
-
-            &:hover {
-                .pl-scroll-horizontal-indicator, .pl-scroll-vertical-indicator {
-                    opacity: 1 !important;
-                }
-            }
-
-            &.pl-base-table-fit-parent {
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-
-                .pl-base-table-body {
-                    flex: 1;
-
-                    .pl-base-table-body-item {
-                        height: 100% !important;
-                    }
-                }
-            }
-
-            &.pl-base-table-left-shadow {
-                .pl-base-table-body-item-left, .pl-base-table-head-item-left {
-                    box-shadow: 0 0 10px rgba(black, 0.12);
-                }
-            }
-
-            &.pl-base-table-right-shadow {
-                .pl-base-table-body-item-right, .pl-base-table-head-item-right {
-                    box-shadow: 0 0 10px rgba(black, 0.12);
-                }
-            }
-        }
     }
 </style>
