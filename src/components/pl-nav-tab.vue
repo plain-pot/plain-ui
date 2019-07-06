@@ -201,8 +201,6 @@
                     iconKey: 'icon',
                     popper: {
                         height: null,
-                        width: 120,
-                        disabledEqual: true,
                     },
                     onClose: () => this.p_select[show] = null
                 }).then(ret => {
