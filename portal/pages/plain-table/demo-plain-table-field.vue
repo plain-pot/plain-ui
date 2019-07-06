@@ -27,47 +27,6 @@
                 demoFieldOption: new PlainOption({
                     context: this,
                     module: 'demoField',
-                    /*fixedRowData: [
-                        {
-                            color: "#702B2B",
-                            createdAt: "2019-06-29 18:35:16",
-                            date: "2019-11-10",
-                            id: "1144917241272205312",
-                            input: "华为",
-                            number: "988",
-                            obj: "1144180642968240128",
-                            objName: "甘肃省",
-                            ov: "home_advisier",
-                            radio: "Y",
-                            sel: "shanghai",
-                            time: "09:01:01",
-                            toggle: "Y",
-                            updatedAt: "2019-07-02 09:40:00",
-                        }
-                    ],*/
-                    buttons: {
-                        /*测试重载按钮属性*/
-                        /*insertButton: {
-                            handler() {
-                                this.$message.show('insertButton')
-                                console.log(this)
-                            },
-                        }*/
-                        /*测试去掉按钮*/
-                        // insertButton: false,
-                        testDisabledButton: {
-                            label: '单复选框选中时可用',
-                            disabled() {
-                                const selectDataRow = this.demoFieldOption.selectDataRow
-                                if (!selectDataRow) return true
-                                if (selectDataRow.row.radio !== 'Y') return true
-                                return false
-                            },
-                            handler() {
-                                this.$message.show('单复选框选中时可用')
-                            },
-                        },
-                    }
                 }),
                 selectData: [
                     {name: '北京', val: 'beijing'},
@@ -77,6 +36,9 @@
                 tableAddressOption: new PlainOption({
                     context: this,
                     module: 'address',
+                    insertable: true,
+                    updateable: true,
+                    deleteable: true,
                     filters: [
                         {field: 'deep', value: '0'}
                     ],

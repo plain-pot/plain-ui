@@ -32,7 +32,7 @@
                 if (!this.option) return '600px'
                 if (!!this.width) return this.width
                 let width = 600
-                if (!!this.option.insertable) width += 120
+                if (!!this.option.insertable) width += 180
                 if (!!this.option.deleteable) width += 80
                 return width + 'px'
             },
