@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import deepmerge from 'deepmerge'
 import {DEFAULT_URLS, DEFAULT_OPTION_PLAIN_TABLE_SERVICE, DEFAULT_OPTION_PUBLIC, DEFAULT_OPTION_PLAIN_TABLE, logOption} from "./plain-option-default";
 import {PLAIN_TABLE_STATUS, PlainTableController} from "./index";
@@ -404,39 +403,41 @@ const component = {
 
 }
 
-class PlainOption extends Vue {
-    constructor(sourceOption) {
-        super(component);
+export function getPlainOptionClass(Vue) {
+    class PlainOption extends Vue {
+        constructor(sourceOption) {
+            super(component);
 
-        if (!sourceOption.context) {
-            throw new Error('PlainOption：确实必输属性context')
-        }
+            if (!sourceOption.context) {
+                throw new Error('PlainOption：确实必输属性context')
+            }
 
-        this.sourceOption = sourceOption
-        Object.assign(this, sourceOption)
+            this.sourceOption = sourceOption
+            Object.assign(this, sourceOption)
 
-        // this.$nextTick(() => this.logOption())
+            // this.$nextTick(() => this.logOption())
 
-        if (!!this.parentOption) {
-            this.parentOption.$on('selectChange', () => {
-                // console.log('parent selectChange')
-                /*如果当前option所属表格没有并且没有强制查询数据，则直接返回*/
-                if (!this.p_defaultOptionType && !this.forceLoadAfterParentChange) return
-                this.reload()
-                if (this.status !== PLAIN_TABLE_STATUS.normal) {
-                    const table = this.getTable()
-                    if (!!table) table.cancel()
-                }
-            })
-            this.parentOption.$on('statusChange', () => {
-                if (this.status !== PLAIN_TABLE_STATUS.normal) {
-                    const table = this.getTable()
-                    if (!!table) table.cancel()
-                }
-                this.$emit('statusChange')
-            })
+            if (!!this.parentOption) {
+                this.parentOption.$on('selectChange', () => {
+                    // console.log('parent selectChange')
+                    /*如果当前option所属表格没有并且没有强制查询数据，则直接返回*/
+                    if (!this.p_defaultOptionType && !this.forceLoadAfterParentChange) return
+                    this.reload()
+                    if (this.status !== PLAIN_TABLE_STATUS.normal) {
+                        const table = this.getTable()
+                        if (!!table) table.cancel()
+                    }
+                })
+                this.parentOption.$on('statusChange', () => {
+                    if (this.status !== PLAIN_TABLE_STATUS.normal) {
+                        const table = this.getTable()
+                        if (!!table) table.cancel()
+                    }
+                    this.$emit('statusChange')
+                })
+            }
         }
     }
-}
 
-export default PlainOption
+    return PlainOption
+}

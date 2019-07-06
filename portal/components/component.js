@@ -3,7 +3,7 @@ import demoRowItem from '../aide/demo-row-item'
 import demoChild from '../pages/other/demo-child'
 
 import PlainTable from './plain-table/plain-table'
-import PlainOption from './plain-table/plain-option'
+import {getPlainOptionClass} from "./plain-table/plain-option";
 
 import PlObject from './plain-table/object/pl-object'
 import object from './plain-table/object/object-tc'
@@ -23,7 +23,7 @@ export function InstallComponent(Vue) {
         PlAddress,
     }
     Object.keys(components).forEach(key => Vue.component(key, components[key]))
-    window.PlainOption = PlainOption
+    window.PlainOption = getPlainOptionClass(Vue)
 }
 
 export const CustomColumns = {

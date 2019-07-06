@@ -40,20 +40,19 @@
                     updateable: true,
                     deleteable: true,
                     filters: [
-                        {field: 'deep', value: '0'}
+                        {field: 'deep', value: '1'}
                     ],
                     renderFunc(h) {
-                        return (
-                            <div>
-                                <pl-tc-input field="name" title="地址名称" required width="100px" tooltip/>
-                                <pl-tc-input field="code" title="地址代码" width="100px" required/>
-                                <pl-tc-column field="parentName" title="父级地址名称" width="100px" tooltip/>
-                                <pl-tc-column field="parentCode" title="父级地址代码" width="100px"/>
-                                <pl-tc-input field="longitude" title="经度" width="100px"/>
-                                <pl-tc-input field="latitude" title="纬度" width="100px"/>
-                                <pl-tc-input field="deep" title="地址级别" width="100px"/>
-                            </div>
-                        )
+
+                        return h('div', {}, [
+                            h('pl-tc-input', {props: {field: 'name', title: '地址名称', required: true, width: '100px', tooltip: true}}),
+                            h('pl-tc-input', {props: {field: 'code', title: '地址代码', required: true, width: '100px', tooltip: true}}),
+                            h('pl-tc-column', {props: {field: 'parentName', title: '父级地址名称', required: true, width: '100px', tooltip: true}}),
+                            h('pl-tc-column', {props: {field: 'parentCode', title: '父级地址代码', required: true, width: '100px', tooltip: true}}),
+                            h('pl-tc-input', {props: {field: 'longitude', title: '经度', required: true, width: '100px', tooltip: true}}),
+                            h('pl-tc-input', {props: {field: 'latitude', title: '纬度', required: true, width: '100px', tooltip: true}}),
+                            h('pl-tc-input', {props: {field: 'deep', title: '地址级别', required: true, width: '100px', tooltip: true}}),
+                        ])
                     }
                 }),
             }
