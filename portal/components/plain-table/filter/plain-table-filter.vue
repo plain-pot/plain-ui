@@ -84,36 +84,6 @@
 
 <style lang="scss">
     @include themeWrap {
-        .plain-table-filter {
-            display: inline-block;
-            position: relative;
 
-            & > * {
-                vertical-align: top;
-            }
-
-            .plain-table-filter-clear-left-radio {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-
-            .plain-table-filter-clear-right-radio {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-
-            .plain-table-filter-field-select {
-                margin-right: -1px;
-            }
-
-            .plain-table-filter-type, .plain-table-filter-field-select {
-                border-color: plVar(colorBorder) !important;
-                display: inline-block;
-            }
-
-            .plain-table-filter-search-button {
-                margin-left: -1px;
-            }
-        }
     }
 </style>

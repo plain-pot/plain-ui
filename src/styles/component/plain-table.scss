@@ -1,0 +1,180 @@
+@mixin component-plain-table {
+  .plain-table {
+    outline: none;
+    position: relative;
+
+    .plain-table-head {
+      padding-bottom: plVar(padding);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .plain-table-foot {
+      padding-top: plVar(padding);
+
+      .plain-table-pagination-no-more {
+        color: plVar(colorPrimaryDeep);
+        cursor: pointer;
+      }
+    }
+
+    & + .plain-table {
+      margin-top: 16px;
+    }
+
+    .plain-table-cover {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      .plain-table-loading {
+        width: 100%;
+        height: 300px;
+        max-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .pl-loading {
+          font-size: 28px !important;
+        }
+
+        & > span {
+          font-size: 14px;
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+  .plain-table-service {
+    .pl-pagination-operation {
+      .pl-pagination-operate-icon:first-child {
+        margin-right: 6px !important;
+      }
+    }
+  }
+  .plain-table-form-dialog-form {
+
+    .pl-form-column {
+      width: 100%;
+      margin-right: 0 !important;
+    }
+
+    .pl-form-item {
+      display: flex !important;
+      width: 100%;
+      height: 30px;
+      align-items: center;
+      margin-bottom: 12px !important;
+
+      .pl-base-table-cell-watcher {
+        flex: 1;
+
+        .pl-input, .pl-date, .pl-time {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+  .plain-table-filter {
+    display: inline-block;
+    position: relative;
+
+    & > * {
+      vertical-align: top;
+    }
+
+    .plain-table-filter-clear-left-radio {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .plain-table-filter-clear-right-radio {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .plain-table-filter-field-select {
+      margin-right: -1px;
+    }
+
+    .plain-table-filter-type, .plain-table-filter-field-select {
+      border-color: plVar(colorBorder) !important;
+      display: inline-block;
+    }
+
+    .plain-table-filter-search-button {
+      margin-left: -1px;
+    }
+  }
+  .plain-table-filter-number {
+    border-radius: plVar(borderFillet);
+    border: solid 1px plVar(colorInfo);
+    box-sizing: border-box;
+    height: plVar(sizeDefault);
+    overflow: hidden;
+    width: 200px;
+    position: relative;
+
+    .pl-number {
+      padding: 0;
+
+      input {
+        text-align: center;
+      }
+    }
+
+    .plain-table-filter-number-separator {
+      font-size: plVar(sizeDefault)/2.5;
+    }
+
+    .plain-table-filter-number-clear-icon {
+      position: absolute;
+      right: 0;
+      font-size: plVar(sizeDefault)/2.5;
+      top: 0;
+      bottom: 0;
+      align-items: center;
+      display: inline-flex;
+      height: initial;
+      opacity: 0;
+    }
+
+    &:hover {
+      .plain-table-filter-number-clear-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  .plain-table-buttons {
+    & > div > * {
+      margin-left: plVar(padding);
+    }
+  }
+  .plain-table-buttons-more-popper {
+    .pl-dropdown-item-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .pl-batch-modify-dialog-list {
+    .pl-batch-modify-dialog-item {
+      display: flex;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-bottom: 12px
+      }
+
+      .pl-batch-modify-dialog-item-edit {
+        flex: 1;
+      }
+    }
+  }
+}

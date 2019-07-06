@@ -87,11 +87,5 @@
 </script>
 
 <style lang="scss">
-    .plain-table-service {
-        .pl-pagination-operation {
-            .pl-pagination-operate-icon:first-child {
-                margin-right: 6px !important;
-            }
-        }
-    }
+
 </style>

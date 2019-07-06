@@ -28,44 +28,6 @@
 
 <style lang="scss">
     @include themeWrap {
-        .plain-table-filter-number {
-            border-radius: plVar(borderFillet);
-            border: solid 1px plVar(colorInfo);
-            box-sizing: border-box;
-            height: plVar(sizeDefault);
-            overflow: hidden;
-            width: 200px;
-            position: relative;
 
-            .pl-number {
-                padding: 0;
-
-                input {
-                    text-align: center;
-                }
-            }
-
-            .plain-table-filter-number-separator{
-                font-size: plVar(sizeDefault)/2.5;
-            }
-
-            .plain-table-filter-number-clear-icon {
-                position: absolute;
-                right: 0;
-                font-size: plVar(sizeDefault)/2.5;
-                top: 0;
-                bottom: 0;
-                align-items: center;
-                display: inline-flex;
-                height: initial;
-                opacity: 0;
-            }
-
-            &:hover {
-                .plain-table-filter-number-clear-icon {
-                    opacity: 1;
-                }
-            }
-        }
     }
 </style>

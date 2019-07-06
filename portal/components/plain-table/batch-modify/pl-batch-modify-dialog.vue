@@ -133,18 +133,4 @@
 </script>
 
 <style lang="scss">
-    .pl-batch-modify-dialog-list {
-        .pl-batch-modify-dialog-item {
-            display: flex;
-            align-items: center;
-
-            &:not(:last-child) {
-                margin-bottom: 12px
-            }
-
-            .pl-batch-modify-dialog-item-edit {
-                flex: 1;
-            }
-        }
-    }
 </style>

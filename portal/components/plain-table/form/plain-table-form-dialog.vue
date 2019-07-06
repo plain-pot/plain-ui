@@ -97,27 +97,5 @@
 </script>
 
 <style lang="scss">
-    .plain-table-form-dialog-form {
 
-        .pl-form-column {
-            width: 100%;
-            margin-right: 0 !important;
-        }
-
-        .pl-form-item {
-            display: flex !important;
-            width: 100%;
-            height: 30px;
-            align-items: center;
-            margin-bottom: 12px !important;
-
-            .pl-base-table-cell-watcher {
-                flex: 1;
-
-                .pl-input, .pl-date, .pl-time {
-                    width: 100% !important;
-                }
-            }
-        }
-    }
 </style>

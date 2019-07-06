@@ -90,18 +90,6 @@
 
 <style lang="scss">
     @include themeWrap {
-        .plain-table-buttons {
-            & > div > * {
-                margin-left: plVar(padding);
-            }
-        }
 
-        .plain-table-buttons-more-popper {
-            .pl-dropdown-item-content {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
     }
 </style>

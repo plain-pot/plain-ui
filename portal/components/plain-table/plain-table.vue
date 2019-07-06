@@ -77,7 +77,6 @@
 </template>
 
 <script>
-    import PlainOption from "./plain-option";
     import PlainTableFilter from "./filter/plain-table-filter";
     import PlainTableButtons from "./components/plain-table-buttons.vue";
     import {StandardButtons} from "./components/plain-table-buttons.js";
@@ -89,7 +88,7 @@
         name: "plain-table",
         components: {PlRenderFunc, PlainTableButtons, PlainTableFilter},
         props: {
-            option: {require: true, type: PlainOption},
+            option: {require: true},
         },
         watch: {
             option: {
@@ -628,55 +627,5 @@
 
 <style lang="scss">
     @include themeWrap {
-        .plain-table {
-            outline: none;
-            position: relative;
-
-            .plain-table-head {
-                padding-bottom: plVar(padding);
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .plain-table-foot {
-                padding-top: plVar(padding);
-
-                .plain-table-pagination-no-more {
-                    color: plVar(colorPrimaryDeep);
-                    cursor: pointer;
-                }
-            }
-
-            & + .plain-table {
-                margin-top: 16px;
-            }
-
-            .plain-table-cover {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-
-                .plain-table-loading {
-                    width: 100%;
-                    height: 300px;
-                    max-height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-
-                    .pl-loading {
-                        font-size: 28px !important;
-                    }
-
-                    & > span {
-                        font-size: 14px;
-                        margin-top: 16px;
-                    }
-                }
-            }
-        }
     }
 </style>
