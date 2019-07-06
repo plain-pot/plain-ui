@@ -14,5 +14,68 @@
     }
   }
 
+  .pl-tab-header {
+    @include public-style;
+    display: block;
+    position: relative;
 
+    .pl-tab-header-bottom {
+      background-color: plVar(colorBorder);
+      height: 1px;
+
+      .pl-tab-header-bottom-tag {
+        background-color: plVar(colorPrimary);
+        width: 150px;
+        height: 100%;
+        position: relative;
+        @include transition-all;
+      }
+    }
+  }
+
+  .pl-tab-header-item {
+    display: inline-flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 150px !important;
+    padding: 8px 16px !important;
+    position: relative;
+    background-color: white;
+    cursor: pointer;
+
+    &:after {
+      border-right: dashed 1px plVar(colorPrimary);
+      position: absolute;
+      content: '';
+      top: 6px;
+      bottom: 6px;
+      right: 0;
+      width: 1px;
+    }
+
+    &:first-child {
+      &:before {
+        border-left: dashed 1px plVar(colorPrimary);
+        position: absolute;
+        content: '';
+        top: 6px;
+        bottom: 6px;
+        left: 0;
+        width: 1px;
+      }
+    }
+
+    .pl-tab-header-item-close {
+      font-size: 12px;
+      opacity: 0;
+    }
+
+    &.pl-tab-header-item-active, &:hover {
+      color: plVar(colorPrimary);
+
+      .pl-tab-header-item-close {
+        opacity: 1;
+      }
+    }
+  }
 }
