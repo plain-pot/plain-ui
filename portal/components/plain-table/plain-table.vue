@@ -35,7 +35,7 @@
                        :headRowHeight="option.headRowHeight"
                        :selecting="option.multiSelect"
                        :fixedRowData="option.fixedRowData"
-                       @sortChange="option.changeSort"
+                       @sortChange="pl_sortChange"
                        @selectRow="pl_selectRow"
                        @dblclickRow="pl_dblClickRow"
                        @bodyColsChange="pl_bodyColsChange">
@@ -539,6 +539,12 @@
                 !!this.onCancelSelect && await this.onCancelSelect()
                 this.table.finishSelected()
                 this.changeStatus(PLAIN_TABLE_STATUS.normal)
+            },
+            async pl_sortChange(arg) {
+                this.option.changeSort(arg)
+                if (this.status !== this.EDIT_STATUS.normal) {
+                    this.cancel()
+                }
             },
 
 
