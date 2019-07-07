@@ -1,6 +1,6 @@
 <template>
     <div class="pl-nav-header" @mousewheel.stop.prevent="pl_mousewheel">
-        <pl-list draggable :dragList="list" @switch="pl_switch">
+        <pl-list draggable :dragList="list" @switch="pl_switch" direction="top">
             <pl-item
                     v-for="(item,index) in list"
                     class="pl-nav-header-item pl-nav-target"
