@@ -42,28 +42,26 @@
         computed: {
             editable() {
                 if (!this.cols || this.cols.length === 0) return {}
-                const ret = {}
-                this.cols.forEach(col => {
-                    if (!col.editable) {
-                        ret[col.field] = false
-                    } else {
-                        ret[col.field] = (!col.editableFunc ? true : col.editableFunc(this.dataRow))
-                    }
-                })
-                return ret
+                const data = this.cols.reduce((ret, col) => {
+                    const field = col.field
+                    if (col.editable === false) ret[field] = false
+                    else if (!!col.editableFunc) ret[field] = col.editableFunc(this.dataRow)
+                    else ret[field] = true
+                    return ret
+                }, {})
+                return data
             },
             required() {
                 if (!this.cols || this.cols.length === 0) return {}
-                const ret = {}
-                this.cols.forEach(col => {
+                const data = this.cols.reduce((ret, col) => {
                     const editable = this.editable[col.field]
-                    if (editable === false) {
-                        ret[col.field] = false
-                    } else {
-                        ret[col.field] = (!col.requiredFunc ? true : col.requiredFunc(this.dataRow))
-                    }
-                })
-                return ret
+                    const field = col.field
+                    if (editable === false) ret[field] = false
+                    else if (!!col.requiredFunc) ret[field] = col.requiredFunc(this.dataRow)
+                    else ret[field] = col.required
+                    return ret
+                }, {})
+                return data
             },
         },
         methods: {

@@ -3,7 +3,7 @@ import qs from 'qs'
 import deepmerge from 'deepmerge'
 
 const env = {
-    baseURL: 'http://localhost:8989/',
+    baseURL: 'http://193.112.75.134:8989/',
 }
 
 const axios = Axios.create({
