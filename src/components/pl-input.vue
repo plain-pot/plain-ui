@@ -48,29 +48,29 @@
         components: {PlEditControl, PlLoading, PlIcon},
         mixins: [ThrottleMixin, EditMixin],
         props: {
-            value: {},
-            icon: {type: String},
-            long: {type: Boolean},
-            width: {default: '200px'},
-            loading: {type: Boolean},
+            value: {},                                                              //双向绑定值
+            icon: {type: String},                                                   //后置图标
+            long: {type: Boolean},                                                  //长输入框
+            width: {default: '200px'},                                              //宽度
+            loading: {type: Boolean},                                               //显示加载状态
 
-            type: {type: String, default: 'line'},
-            color: {type: String, default: 'info'},
-            shape: {type: String, default: 'fillet'},
-            size: {type: String, default: 'default'},
+            type: {type: String, default: 'line'},                                  //样式类型
+            color: {type: String, default: 'info'},                                 //样式颜色
+            shape: {type: String, default: 'fillet'},                               //样式形状
+            size: {type: String, default: 'default'},                               //样式大小
 
-            throttleSync: {default: true},
-            throttleTime: {default: 500},
+            throttleSync: {default: true},                                          //回车异步等待
+            throttleTime: {default: 500},                                           //回车节流
 
-            noClear: {type: Boolean},
-            inputType: {type: String, default: 'text'},
-            inputReadonly: {type: Boolean},
-            placeholder: {type: String, default: '点击输入...'},
-            focusOnHover: {type: Boolean},
-            suggestion: {default: null},
-            suggestionLabelKey: {default: null},
-            suggestionFilter: {default: null},
-            open: {type: Function},
+            noClear: {type: Boolean},                                               //不显示清除按钮
+            inputType: {type: String, default: 'text'},                             //input的原生类型
+            inputReadonly: {type: Boolean},                                         //input是否只读
+            placeholder: {type: String, default: '点击输入...'},                     //空值占位符
+            focusOnHover: {type: Boolean},                                          //是否鼠标悬浮获取焦点
+
+            suggestion: {default: null},                                            //是否有推荐下拉选项
+            suggestionLabelKey: {default: null},                                    //推荐下拉选项的文本key
+            suggestionFilter: {default: null},                                      //推荐下拉选项的自定义筛选函数
         },
         data() {
             return {
@@ -79,20 +79,19 @@
                 p_hover: false,
                 p_select: null,
 
-                suggestionOption: {
-                    autoFocus: false,
-                    labelKey: this.suggestionLabelKey,
-                    slot: this.$scopedSlots.suggestion,
-                    onClose: () => this.p_select = null,
-                    reference: null,
-                    data: [],
-                },
+                p_showAllSuggestionData: true,
+                suggestionOption: null,
             }
         },
         mounted() {
-            if (!!this.suggestion) {
-                this.suggestionOption.reference = this.$el
-                this.suggestionOption.data = this.suggestionData
+            this.suggestionOption = {
+                autoFocus: false,
+                labelKey: this.suggestionLabelKey,
+                onClose: () => this.p_select = null,
+                onOpen: () => this.pl_resetSuggestionData(),
+                reference: this.$el,
+                slot: this.$scopedSlots.suggestion,
+                data: null,
             }
         },
         watch: {
@@ -100,7 +99,7 @@
                 this.p_value = val
             },
             p_value() {
-                this.suggestionOption.data = this.suggestionData
+                this.pl_resetSuggestionData()
             },
         },
         computed: {
@@ -121,7 +120,7 @@
             },
             suggestionData() {
                 if (!this.suggestion) return null
-                if (!this.p_value) return this.suggestion
+                if (this.p_value == null || !!this.p_showAllSuggestionData) return this.suggestion
                 return this.suggestion.filter(item => {
                     if (!!this.suggestionFilter) return this.suggestionFilter(item, this.p_value)
                     if (!!this.suggestionLabelKey) {
@@ -138,22 +137,21 @@
             },
         },
         methods: {
-            pl_mouseenter(e) {
-                !!this.focusOnHover && this.$refs.input.focus()
-                this.p_hover = true
-                this.$emit('hoverChange', true)
-                this.$emit('mouseenter', e)
-            },
-            pl_mouseleave(e) {
-                this.p_hover = false
-                this.$emit('hoverChange', false)
-                this.$emit('mouseleave', e)
-            },
             pl_clear(e) {
                 if (!!this.$listeners.clear) this.$listeners.clear(e)
                 else {
                     this.p_value = null
                     this.$emit('input', null)
+                }
+            },
+            /*---------------------------------------处理原生事件-------------------------------------------*/
+            pl_input(e) {
+                this.p_value = e.target.value
+                this.$emit('input', this.p_value)
+                if (!this.p_select) {
+                    this.pl_openSuggestion()
+                } else {
+                    this.p_showAllSuggestionData = false
                 }
             },
             async pl_enter(e) {
@@ -168,16 +166,23 @@
                     this.$emit('enter', e)
                 }
             },
+            pl_mouseenter(e) {
+                !!this.focusOnHover && this.$refs.input.focus()
+                this.p_hover = true
+                this.$emit('hoverChange', true)
+                this.$emit('mouseenter', e)
+            },
+            pl_mouseleave(e) {
+                this.p_hover = false
+                this.$emit('hoverChange', false)
+                this.$emit('mouseleave', e)
+            },
             pl_space(e) {
                 this.$emit('space', e)
             },
             pl_esc(e) {
                 this.$emit('esc', e)
                 if (!!this.p_select) this.p_select.hide()
-            },
-            pl_input(e) {
-                this.p_value = e.target.value
-                this.$emit('input', this.p_value)
             },
             pl_focus(e) {
                 this.p_focus = true
@@ -202,19 +207,30 @@
             pl_click(e) {
                 this.$emit('click', e)
                 this.pl_openSuggestion()
-                if (!!this.open && !this.p_readonly && !this.p_disabled) this.open()
             },
+            /**
+             * 打开推荐下拉框
+             * @author  韦胜健
+             * @date    2019/7/9 13:52
+             */
             async pl_openSuggestion() {
                 if (this.p_readonly || this.p_disabled) return
                 if (!!this.suggestionData) {
                     if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
-                    !this.p_select.p_show ?
-                        this.p_select.select(this.suggestionOption).then(e => {
-                            this.p_value = !!this.suggestionLabelKey ? e[this.suggestionLabelKey] : e
+
+                    if (!this.p_select.p_show) {
+                        this.p_showAllSuggestionData = true
+                        this.p_select.select(this.suggestionOption).then(data => {
+                            this.p_value = !!this.suggestionLabelKey ? data[this.suggestionLabelKey] : data
                             this.$emit('input', this.p_value)
                         })
-                        : this.p_select.hide()
+                    } else {
+                        this.p_select.hide()
+                    }
                 }
+            },
+            async pl_resetSuggestionData() {
+                if (!!this.suggestion) this.suggestionOption.data = this.suggestionData
             },
         }
     }
