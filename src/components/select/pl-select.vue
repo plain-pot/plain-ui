@@ -163,6 +163,7 @@
                 if (!!this.before) await this.before(this.p_value)
                 if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
                 if (!this.p_select.p_show) {
+                    this.p_option.watchData = this.p_value
                     this.p_select.select(this.p_option)
                 } else {
                     this.p_select.hide()
