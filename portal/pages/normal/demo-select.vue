@@ -12,6 +12,10 @@
             <im-select :data="data" labelKey="label" valueKey="val" readonly v-model="val[1]"/>
             <im-select :data="data" labelKey="label" valueKey="val" disabled v-model="val[1]"/>
         </im-demo-row>
+        <im-demo-row title="禁用输入筛选">
+            <im-select :data="data" labelKey="label" valueKey="val" v-model="val[1]" disabledFilter/>
+            <im-button :label="val[1]"/>
+        </im-demo-row>
         <im-demo-row title="多选">
             <im-select :data="data" labelKey="label" valueKey="val" v-model="val[2]" multiple/>
             <im-select :data="data" labelKey="label" valueKey="val" v-model="val[2]" multiple/>

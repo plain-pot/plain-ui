@@ -4,8 +4,8 @@
             ref="input"
             class="pl-select"
             :class="{'pl-select-open':p_show}"
-            :value="p_showValue"
-            inputReadonly
+            :value="p_inputValue === null?p_showValue:p_inputValue"
+            :inputReadonly="disabledFilter"
             :readonly="readonly"
             :disabled="disabled"
             :required="required"
@@ -13,7 +13,7 @@
             icon="pl-triangle-down-fill"
             v-bind="Object.assign({},input,simpleBinding)"
 
-            @click="pl_click"
+            @click="pl_open"
             @clear="pl_clear"
             @up.prevent="!!p_select && p_select.prev()"
             @down.prevent="!!p_select && p_select.next()"
@@ -21,6 +21,8 @@
             @tab="!!p_select && p_select.hide()"
             @esc="!!p_select && p_select.hide()"
             @space="pl_space"
+            @input="pl_input"
+            @blur="pl_blur"
     />
     <pl-tag-input
             v-else
@@ -36,7 +38,7 @@
             icon="pl-triangle-down-fill"
             :onRemove="pl_onRemove"
 
-            @click="pl_click"
+            @click="pl_open"
             @clear="pl_clear"
             @keyup.up.prevent="!!p_select && p_select.prev()"
             @keydown.down.prevent="!!p_select && p_select.next()"
@@ -59,6 +61,8 @@
         mixins: [ValueMixin, SimpleEditMixin],
         props: {
             data: {type: Array, default: () => []},
+            disabledFilter: {type: Boolean},
+            dataFilter: {type: Function},
             labelKey: {type: String},
             valueKey: {type: String},
             multiple: {type: Boolean},
@@ -77,6 +81,8 @@
                 p_watchValue: false,
 
                 p_option: null,
+                p_inputValue: null,
+                p_showAllData: null,
             }
         },
         mounted() {
@@ -93,7 +99,10 @@
                     onShow: () => this.p_show = true,
                     onHide: () => this.p_show = false,
                 },
-                onClose: () => this.p_select = null,
+                onClose: () => {
+                    this.p_select = null
+                    this.p_inputValue = null
+                },
                 onOpen: () => this.pl_resetOptionData(),
                 onConfirm: async (e) => {
                     const oldValue = this.p_value
@@ -110,6 +119,7 @@
                     }
                     this.$emit('input', this.p_value)
                     !!this.after && await this.after(this.p_value, oldValue)
+                    this.p_inputValue = null
                 },
             }
         },
@@ -152,17 +162,24 @@
                 return !this.multiple ? showValue : showValues
             },
             optionData() {
-                return this.data
+                if (!this.data || this.data.length === 0) return null
+                if (this.p_inputValue == null || !!this.p_showAllData) return this.data
+                return this.data.filter(item => {
+                    if (!!this.dataFilter) return this.dataFilter(this.data, this.p_value, this.p_showValue)
+                    if (!!this.labelKey) return item[this.labelKey].indexOf(this.p_inputValue) > -1
+                    else return item.indexOf(this.p_inputValue)
+                })
             },
         },
 
         methods: {
             /*---------------------------------------处理事件-------------------------------------------*/
-            async pl_click() {
+            async pl_open() {
                 if (!!this.$refs.input.p_readonly || !!this.$refs.input.p_disabled) return
                 if (!!this.before) await this.before(this.p_value)
                 if (!this.p_select) this.p_select = await this.$plain.$select.getSelect()
                 if (!this.p_select.p_show) {
+                    this.p_showAllData = true
                     this.p_option.watchData = this.p_value
                     this.p_select.select(this.p_option)
                 } else {
@@ -177,9 +194,20 @@
                         this.p_select.hide()
                     }
                 } else {
-                    const {p_readonly, p_disabled} = this.$refs.input
-                    if (!p_readonly && !p_disabled) this.pl_open()
+                    this.pl_open()
                 }
+            },
+            pl_input(val) {
+                this.p_inputValue = val
+                this.p_showAllData = false
+                if (!this.p_select) {
+                    this.pl_open()
+                } else {
+                    this.pl_resetOptionData()
+                }
+            },
+            pl_blur() {
+                this.p_inputValue = null
             },
             pl_space() {
                 if (!!this.p_select) {
