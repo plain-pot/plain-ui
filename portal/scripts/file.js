@@ -23,6 +23,7 @@ export default class FileService {
         }
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
+        input.style.display = 'none'
         document.body.appendChild(input);
         return input;
     }
