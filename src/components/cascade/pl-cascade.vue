@@ -6,7 +6,7 @@
             class="pl-cascade"
             :class="{'pl-cascade-show':p_show}"
             v-bind="inputBinding"
-            :open="pl_click"
+            @click="pl_click"
 
             @clear="p_clear"
             @tab="!!$refs.popper.p_show && $refs.popper.hide()">
