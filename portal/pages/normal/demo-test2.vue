@@ -19,6 +19,57 @@
 </template>
 
 <script>
+    const Child = {
+        render() {
+            return (<div></div>)
+        },
+        /*beforeCreate() {
+            console.log('child beforeCreated')
+        },
+        created() {
+            console.log('child created')
+        },
+        beforeMount() {
+            console.log('child beforeMount')
+        },
+        mounted() {
+            console.log('child mounted')
+        },
+        beforeDestroy() {
+            console.log('child beforeDestroy')
+        },
+        destroyed() {
+            console.log('child destroyed')
+        },*/
+    }
+
+    /*export default {
+        name: "demo-test2",
+        components: {
+            Child,
+        },
+        beforeCreate() {
+            console.log('parent beforeCreated')
+        },
+        created() {
+            console.log('parent created')
+            console.log('this.$el', this.el)
+        },
+        beforeMount() {
+            console.log('parent beforeMount')
+            console.log('this.$el', this.el)
+        },
+        mounted() {
+            console.log('parent mounted')
+            console.log('this.$el', this.el)
+        },
+        beforeDestroy() {
+            console.log('parent beforeDestroy')
+        },
+        destroyed() {
+            console.log('parent destroyed')
+        },
+    }*/
 
     export default {
         name: "demo-test2",
