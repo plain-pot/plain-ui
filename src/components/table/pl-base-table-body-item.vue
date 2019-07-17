@@ -10,7 +10,7 @@
             <table cellspacing="0" cellpadding="0" border="0">
                 <pl-base-table-row-space :body-columns="bodyColumns"/>
                 <pl-base-table-row v-for="(item,index) in data"
-                                   :key="index"
+                                   :key="item.id"
                                    :body-row-height="bodyRowHeight"
                                    :body-columns="bodyColumns"
                                    :fixed="fixed"
