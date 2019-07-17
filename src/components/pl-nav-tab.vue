@@ -152,7 +152,9 @@
             async refresh(id) {
                 const {item} = this.$plain.$utils.findOne(this.pageStack, item => item.id === id, true)
                 item.init = false
+                item.id = '?'
                 await this.$plain.nextTick()
+                item.id = id
                 item.init = true
             },
 
