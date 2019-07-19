@@ -157,14 +157,14 @@
                     onUpdate: () => this.p_refresh(),
                     onCreate: () => this.p_refresh(),
                 })
-                window.addEventListener('click', this.p_clickWindow)
+                window.addEventListener('mousedown', this.p_clickWindow, true)
             },
             destroy() {
                 if (!!this.p_popper) {
                     this.p_popper.destroy()
                     this.p_popper = null
                 }
-                window.removeEventListener('click', this.p_clickWindow)
+                window.removeEventListener('mousedown', this.p_clickWindow, true)
             },
             p_refresh() {
                 let placement = this.p_popper.popper.getAttribute('x-placement').split('-');
@@ -184,7 +184,7 @@
                         this.$emit('input', false)
                         this.p_show = false
                     }
-                }, 250)
+                }, 100)
             },
             async p_clickWindow(e) {
                 if (!this.disabledHideOnClickOutside && !this.p_relate.some(el => el.contains(e.target))) this.hide()
