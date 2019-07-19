@@ -43,7 +43,7 @@
                 STATUS: {
                     'all': 'pad-check-square-fill',
                     'some': 'pad-minus-square-fill',
-                    'none': 'pl-square',
+                    'none': 'pl-square-light',
                 },
             }
         },
