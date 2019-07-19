@@ -134,6 +134,11 @@
     word-break: break-word;
     background-color: $popper-back-ground;
 
+    &.pl-popper-is-open {
+      transition: initial !important;
+      transform-origin: initial !important;
+    }
+
     @each $key, $type in $popper-scale-animates {
       $type-object: map_get($popper-scale-animates, $key);
       &.pl-popper-#{$key} {
