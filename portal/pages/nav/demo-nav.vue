@@ -34,6 +34,7 @@
                     {id: 2, title: 'Icon替换为Button', path: '/normal/demo-button', param: {msg: 'radio'}, fill: true, refresh: true},
                     {id: 6, title: '很长很长很长很长很长很长很长很长的标题', path: '/normal/demo-button', param: {msg: 'radio'}, fill: true, refresh: true},
                     {id: 6, title: 'aaaaa', path: '/normal/demo-button', param: {msg: 'radio'}, fill: true, refresh: true},
+                    {id: 6, title: 'Select下拉框', path: '/normal/demo-select', param: {msg: 'select'}, fill: true, refresh: true},
                 ]
             }
         },

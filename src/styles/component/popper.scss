@@ -127,17 +127,13 @@
   .pl-popper {
     position: relative;
     box-sizing: border-box;
-    transition: .25s cubic-bezier(.24, .22, .015, 1.56);
+    transition: .1s linear;
     transition-property: transform, opacity;
     border-radius: 4px;
     z-index: 99999;
     word-break: break-word;
     background-color: $popper-back-ground;
 
-    &.pl-popper-is-open {
-      transition: initial !important;
-      transform-origin: initial !important;
-    }
 
     @each $key, $type in $popper-scale-animates {
       $type-object: map_get($popper-scale-animates, $key);
