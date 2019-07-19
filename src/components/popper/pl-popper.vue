@@ -89,6 +89,7 @@
                 return [
                     {
                         'pl-popper-arrow': !!this.arrow,
+                        'pl-popper-is-open': !!this.p_open,
                         [this.cls]: !!this.cls,
                     },
                     `pl-popper-${this.p_direction}-${this.p_align}`,
