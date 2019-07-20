@@ -97,6 +97,7 @@
                             {title: 'Date日期选择', icon: 'pl-date-fill', page: '/normal/demo-date', complete: true},
                             {title: 'Rate评分', icon: 'pad-star', page: '/normal/demo-rate', complete: true},
                             {title: 'ColorPicker颜色选择', icon: 'pl-color', page: '/normal/demo-color-picker', complete: true},
+                            {title: 'Upload文件上传', icon: 'pad-file', page: '/normal/demo-upload', complete: true},
                             {title: 'Form表单', icon: 'pl-form', page: '/normal/demo-form', complete: true},
                         ],
                     },
@@ -148,6 +149,7 @@
                             {title: '$select选择服务', icon: 'pad-message', page: '/service/demo-select-service', complete: true},
                             {title: '$dialog对话框服务', icon: 'pl-window', page: '/service/demo-dialog-service', complete: true},
                             {title: '$notice通知', icon: 'pad-bell', page: '/service/demo-notice-service', complete: true},
+                            {title: '$file文件服务', icon: 'pad-bell', page: '/service/demo-file', complete: true},
                         ],
                     },
                     {

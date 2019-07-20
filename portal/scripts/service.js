@@ -1,5 +1,5 @@
 import HttpService from './http'
-import FileService from './file'
+import FileService from 'src/components/file/index'
 import FormDialog from '../components/plain-table/form/index'
 import {PlainObjectService} from "../components/plain-table/object";
 import {OvService} from "../components/ov";
