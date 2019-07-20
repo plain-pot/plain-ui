@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="app-body">
-            <div class="app-left">
+            <div class="app-left hidden-xs-only">
                 <app-menu @click="val=>$refs.tab.push(val.page,val.title)" :menu="menu"/>
             </div>
             <div class="app-right">

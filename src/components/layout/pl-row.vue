@@ -161,4 +161,11 @@
         }
     }
 
+    @each $size, $px in $screens {
+        @include res(inspect($size)) {
+            .hidden-#{$size}-only {
+                display: none;
+            }
+        }
+    }
 </style>
