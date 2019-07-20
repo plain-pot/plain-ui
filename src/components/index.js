@@ -54,6 +54,7 @@ import navPages from './nav/pl-nav-pages'
 import nav from './nav/pl-nav'
 import row from './layout/pl-row'
 import col from './layout/pl-col'
+import container from './pl-container'
 
 import renderFunc from './render/pl-render-func'
 import scopeSlot from './render/pl-scope-slot'
@@ -67,7 +68,7 @@ const components = {
     icon, scroll, navTab, button, loading, buttonGroup, input, popper, popover, dropdown, dropdownItem, toggle,
     radio, radioGroup, checkAll, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
     cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
-    step, stepContainer, tabs, tab, tabHeader, navPages, nav, row, col,
+    step, stepContainer, tabs, tab, tabHeader, navPages, nav, row, col, container,
     renderFunc, scopeSlot, slot,
     baseTable, tcGroup,
 }

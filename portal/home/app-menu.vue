@@ -78,6 +78,7 @@
                             {title: 'Icon图标', icon: 'pad-font-colors', page: '/normal/demo-icon', complete: true},
                             {title: 'Button按钮', icon: 'pad-play-circle', page: '/normal/demo-button', complete: true},
                             {title: 'Grid栅格', icon: 'pad-play-circle', page: '/normal/demo-grid', complete: true},
+                            {title: 'Container容器', icon: 'pad-play-circle', page: '/normal/demo-container', complete: true},
                         ],
                     },
                     {
