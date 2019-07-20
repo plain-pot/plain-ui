@@ -95,6 +95,10 @@
         position: relative;
         display: block;
 
+        &:not(:last-child) {
+            margin-bottom: 16px;
+        }
+
         &, & * {
             box-sizing: border-box;
         }

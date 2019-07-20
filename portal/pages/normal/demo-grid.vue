@@ -3,6 +3,19 @@
     <div class="demo-layout">
         <im-demo-row title="基本用法，一共24格">
             <im-row>
+                <im-col span="24">
+                    <div class="ct-cls">col-24</div>
+                </im-col>
+            </im-row>
+            <im-row>
+                <im-col span="12">
+                    <div class="ct-cls">col-12</div>
+                </im-col>
+                <im-col span="12">
+                    <div class="ct-cls">col-12</div>
+                </im-col>
+            </im-row>
+            <im-row>
                 <im-col span="2">
                     <div class="ct-cls">col-2</div>
                 </im-col>
@@ -44,13 +57,13 @@
             <im-demo-row-item>
                 <im-row type="flex" align="middle">
                     <im-col span="2">
-                        <div class="ct-cls" style="height: 12px">col-2</div>
+                        <div class="ct-cls">col-2</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 24px">col-4</div>
+                        <div class="ct-cls" style="height: 48px">col-4</div>
                     </im-col>
                     <im-col span="6">
-                        <div class="ct-cls" style="height: 36px">col-6</div>
+                        <div class="ct-cls" style="height: 56px">col-6</div>
                     </im-col>
                     <im-col span="8">
                         <div class="ct-cls" style="height: 48px">col-8</div>
@@ -63,48 +76,48 @@
             <im-demo-row-item>
                 <im-row type="flex" justify="space-between">
                     <im-col span="2">
-                        <div class="ct-cls" style="height: 12px">col-2</div>
+                        <div class="ct-cls">col-2</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 24px">col-4</div>
+                        <div class="ct-cls" style="height: 48px">col-4</div>
                     </im-col>
                     <im-col span="6">
-                        <div class="ct-cls" style="height: 36px">col-6</div>
+                        <div class="ct-cls" style="height: 56px">col-6</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 36px">col-4</div>
+                        <div class="ct-cls">col-4</div>
                     </im-col>
                 </im-row>
             </im-demo-row-item>
             <im-demo-row-item>
                 <im-row type="flex" justify="start">
                     <im-col span="2">
-                        <div class="ct-cls" style="height: 12px">col-2</div>
+                        <div class="ct-cls">col-2</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 24px">col-4</div>
+                        <div class="ct-cls" style="height: 48px">col-4</div>
                     </im-col>
                     <im-col span="6">
-                        <div class="ct-cls" style="height: 36px">col-6</div>
+                        <div class="ct-cls" style="height: 56px">col-6</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 36px">col-4</div>
+                        <div class="ct-cls">col-4</div>
                     </im-col>
                 </im-row>
             </im-demo-row-item>
             <im-demo-row-item>
                 <im-row type="flex" align="bottom" justify="end">
                     <im-col span="2">
-                        <div class="ct-cls" style="height: 12px">col-2</div>
+                        <div class="ct-cls">col-2</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 24px">col-4</div>
+                        <div class="ct-cls" style="height: 48px">col-4</div>
                     </im-col>
                     <im-col span="6">
-                        <div class="ct-cls" style="height: 36px">col-6</div>
+                        <div class="ct-cls" style="height: 56px">col-6</div>
                     </im-col>
                     <im-col span="4">
-                        <div class="ct-cls" style="height: 36px">col-4</div>
+                        <div class="ct-cls">col-4</div>
                     </im-col>
                 </im-row>
             </im-demo-row-item>
@@ -171,13 +184,28 @@
 </script>
 
 <style lang="scss">
+    .demo-layout {
+        .demo-row .demo-row-body > * {
+            margin-right: 0 !important;
+        }
+    }
+
     @include themeWrap {
         .ct-cls {
-            background-color: plVar(colorPrimaryLighter);
+            background-color: #f2f2f2;
             height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 2px;
+        }
+
+        .pl-row {
+            .pl-col:nth-child(odd) {
+                .ct-cls {
+                    background-color: #e2e2e2;
+                }
+            }
         }
     }
 </style>
