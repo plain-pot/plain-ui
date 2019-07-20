@@ -22,17 +22,17 @@
     .demo-container {
         .left-outer, .right-outer {
             width: 100px;
-            background-color: #e2ddd4;
+            background-color: #fffaf0;
         }
 
         .left, .right {
             width: 200px;
-            background-color: #d2c4d2;
+            background-color: #ffefff;
         }
 
         .head, .foot {
             height: 100px;
-            background-color: #d4f0f2;
+            background-color: #dffdff;
         }
     }
 </style>
