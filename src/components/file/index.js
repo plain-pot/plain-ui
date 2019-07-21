@@ -29,13 +29,13 @@ class FileService {
         return this.#input
     }
 
-    getFile({multiple = false, fileType = null, validFunc = null, maxSize = null} = {}) {
+    getFile({multiple = false, accept = null, validFunc = null, maxSize = null} = {}) {
         !!multiple ? this.input.setAttribute('multiple', 'multiple') : this.input.removeAttribute('multiple')
-        if (!!fileType) {
-            if (!!this.typeKeys.indexOf(fileType) > -1) {
-                this.input.setAttribute('accept', this.type[fileType])
+        if (!!accept) {
+            if (!!this.typeKeys.indexOf(accept) > -1) {
+                this.input.setAttribute('accept', this.type[accept])
             } else {
-                this.input.setAttribute('accept', fileType)
+                this.input.setAttribute('accept', accept)
             }
         } else {
             this.input.removeAttribute('accept')
@@ -63,6 +63,17 @@ class FileService {
             }
             this.input.addEventListener('change', this.input._change);
             this.input.click()
+        })
+    }
+
+    readAsDataURL(file) {
+        return new Promise((rs, rj) => {
+            let fr = new FileReader();
+            fr.onloadend = e => {
+                rs(e.target.result);
+                fr = null;
+            };
+            fr.readAsDataURL(file);
         })
     }
 }
