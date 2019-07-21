@@ -12,7 +12,7 @@
             <im-button @click="getSingleFile({maxSize:5,multiple:true,accept:'png'})" label="获取多个文件，类型为自定义"/>
         </im-demo-row>
         <im-demo-row title="获取图片base64字符串">
-            <im-button label="展示图片" @click="showImage"/>
+            <im-button label="获取图片之后展示图片" @click="showImage"/>
             <img :src="base64" v-if="!!base64" class="image">
         </im-demo-row>
     </div>
