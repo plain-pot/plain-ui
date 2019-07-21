@@ -76,6 +76,71 @@ class FileService {
             fr.readAsDataURL(file);
         })
     }
+
+    /**
+     * 上传文件
+     * @author  韦胜健
+     * @date    2019/7/21 19:14
+     */
+    async upload({action, data, headers, withCredentials, file, filename, onProgress, onSuccess, onError} = {}) {
+        const xhr = window.hasOwnProperty('XMLHttpRequest') ? new XMLHttpRequest() : new Window.ActiveXObject('Microsoft.XMLHTTP')
+        if (!!xhr.upload) {
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.total > 0) e.percent = (e.loaded / e.total * 100).toFixed(2)
+                !!onProgress && onProgress(e)
+            })
+        }
+        if (withCredentials != null && xhr.hasOwnProperty('withCredentials')) {
+            xhr.withCredentials = withCredentials
+        }
+        if (!!headers) Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]))
+
+        xhr.onerror = (e) => !!onError && onError(e)
+        xhr.onload = () => {
+            if (xhr.status < 200 || xhr.status > 300) {
+                console.log('arguments[0]', arguments[0])
+                return onError && onError(this.getError(action, arguments[0], xhr))
+            } else {
+                !!onSuccess && onSuccess(this.getResponseBody(xhr))
+            }
+        }
+        xhr.open('post', action, true)
+
+        const formData = new FormData()
+        if (!!data) Object.keys(data).forEach(key => formData.append(key, data[key]))
+        formData.append(filename, file);
+        xhr.send(formData)
+        return xhr
+    }
+
+    getError(action, option, xhr) {
+        let message
+        if (!!xhr.response) {
+            message = xhr.message.error || xhr.response
+        } else if (!!xhr.responseText) {
+            message = xhr.responseText
+        } else {
+            message = `file to post ${action} ${xhr.status}`
+        }
+
+        const error = new Error(message)
+        error.status = xhr.status
+        error.method = 'post'
+        error.url = action
+
+        return error
+    }
+
+    getResponseBody(xhr) {
+        let result = xhr.responseText || xhr.response
+        if (!result) return result
+
+        try {
+            return JSON.parse(result)
+        } catch (e) {
+            return result
+        }
+    }
 }
 
 export default FileService
