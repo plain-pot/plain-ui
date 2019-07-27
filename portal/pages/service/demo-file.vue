@@ -15,6 +15,9 @@
             <im-button label="获取图片之后展示图片" @click="showImage"/>
             <img :src="base64" v-if="!!base64" class="image">
         </im-demo-row>
+        <im-demo-row>
+            <im-button label="上传文件" @click="uploadFile"/>
+        </im-demo-row>
     </div>
 </template>
 
@@ -35,6 +38,26 @@
                 const file = await this.$file.getFile({accept: 'image'})
                 const base64 = await this.$file.readAsDataURL(file)
                 this.base64 = base64
+            },
+            async uploadFile() {
+                const file = await this.$file.getFile()
+                await this.$file.upload({
+                    action: 'http://localhost:8989/upload/uploadFile',
+                    file,
+                    filename: 'file',
+                    data: {
+                        headId: '123',
+                    },
+                    onProgress(data) {
+                        console.log('progress', data)
+                    },
+                    onSuccess(data) {
+                        console.log('success', data)
+                    },
+                    onError(data) {
+                        console.log('error', data)
+                    },
+                })
             },
         }
     }
