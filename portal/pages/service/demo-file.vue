@@ -15,7 +15,7 @@
             <im-button label="获取图片之后展示图片" @click="showImage"/>
             <img :src="base64" v-if="!!base64" class="image">
         </im-demo-row>
-        <im-demo-row>
+        <im-demo-row title="获取文件，然后上传文件">
             <im-button label="上传文件" @click="uploadFile"/>
         </im-demo-row>
     </div>
@@ -47,6 +47,7 @@
                     filename: 'file',
                     data: {
                         headId: '123',
+                        module: 'avatar'
                     },
                     onProgress(data) {
                         console.log('progress', data)
