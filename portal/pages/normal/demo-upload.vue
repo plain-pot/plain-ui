@@ -10,7 +10,10 @@
 
 <script>
     export default {
-        name: "demo-upload"
+        name: "demo-upload",
+        data() {
+            return {}
+        },
     }
 </script>
 
