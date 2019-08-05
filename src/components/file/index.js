@@ -98,8 +98,7 @@ class FileService {
         xhr.onerror = (e) => !!onError && onError(e)
         xhr.onload = () => {
             if (xhr.status < 200 || xhr.status > 300) {
-                console.log('arguments[0]', arguments[0])
-                return onError && onError(this.getError(action, arguments[0], xhr))
+                !!onError && onError(this.getError(action, arguments[0], xhr))
             } else {
                 !!onSuccess && onSuccess(this.getResponseBody(xhr))
             }
@@ -115,8 +114,9 @@ class FileService {
 
     getError(action, option, xhr) {
         let message
+        console.log(xhr)
         if (!!xhr.response) {
-            message = xhr.message.error || xhr.response
+            message = xhr.response.error || xhr.response
         } else if (!!xhr.responseText) {
             message = xhr.responseText
         } else {
