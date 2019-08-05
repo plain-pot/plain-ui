@@ -28,7 +28,9 @@
             multipleUploadFile: {type: Boolean,},                   //是否批量上传文件
         },
         data() {
-            return {}
+            return {
+
+            }
         },
         methods: {
             async pl_click(e) {

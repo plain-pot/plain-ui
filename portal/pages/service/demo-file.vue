@@ -17,6 +17,7 @@
         </im-demo-row>
         <im-demo-row title="获取文件，然后上传文件">
             <im-button label="上传文件" @click="uploadFile"/>
+            <im-button label="上传多个文件" @click="uploadFiles"/>
         </im-demo-row>
     </div>
 </template>
@@ -42,9 +43,34 @@
             async uploadFile() {
                 const file = await this.$file.getFile()
                 await this.$file.upload({
-                    action: 'http://localhost:8989/upload/testUploadFile',
+                    action: 'http://localhost:8989/upload/uploadFile',
                     file,
                     filename: 'file',
+                    data: {
+                        headId: '123',
+                        module: 'single',
+                    },
+                    onProgress(data) {
+                        console.log('progress', data)
+                    },
+                    onSuccess(...args) {
+                        console.log('success', ...args)
+                    },
+                    onError(...args) {
+                        console.log('error', ...args)
+                    },
+                })
+            },
+            async uploadFiles() {
+                const file = await this.$file.getFile({multiple: true})
+                await this.$file.upload({
+                    action: 'http://localhost:8989/upload/uploadFiles',
+                    file,
+                    filename: 'files',
+                    data: {
+                        headId: '456',
+                        module: 'multiple',
+                    },
                     onProgress(data) {
                         console.log('progress', data)
                     },

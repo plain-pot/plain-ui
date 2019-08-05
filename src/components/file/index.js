@@ -107,7 +107,11 @@ class FileService {
 
         const formData = new FormData()
         if (!!data) Object.keys(data).forEach(key => formData.append(key, data[key]))
-        formData.append(filename, file);
+        if (this.$plain.$utils.typeOf(file) === 'array') {
+            file.forEach(f => formData.append(filename, f))
+        } else {
+            formData.append(filename, file);
+        }
         xhr.send(formData)
         return xhr
     }
