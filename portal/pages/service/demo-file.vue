@@ -42,7 +42,7 @@
             async uploadFile() {
                 const file = await this.$file.getFile()
                 await this.$file.upload({
-                    action: 'http://localhost:8989/upload/textUploadFile',
+                    action: 'http://localhost:8989/upload/testUploadFile',
                     file,
                     filename: 'file',
                     onProgress(data) {
