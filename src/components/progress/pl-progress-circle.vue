@@ -66,7 +66,7 @@
             drawOuterCircle() {
                 this.ctx.save();                                                                        //save和restore可以保证样式属性只运用于该段canvas元素
                 this.ctx.beginPath();                                                                   //开始路径
-                this.ctx.strokeStyle = this.outerColor;                                                       //设置边线的颜色
+                this.ctx.strokeStyle = this.outerColor;                                                 //设置边线的颜色
                 this.ctx.lineWidth = this.lineSize;
                 this.ctx.arc(...this.arcParam, 0, Math.PI * 2, false);                                  //画一个圆的路径
                 this.ctx.stroke();                                                                      //绘制边线

@@ -6,16 +6,20 @@
         <pl-progress-bar v-if="type === 'bar'"
                          ref="bar"
                          v-bind="publicBinding"/>
+        <pl-progress-mini v-if="type === 'mini'"
+                         ref="bar"
+                         v-bind="publicBinding"/>
     </div>
 </template>
 
 <script>
     import PlProgressCircle from "./pl-progress-circle";
     import PlProgressBar from "./pl-progress-bar";
+    import PlProgressMini from "./pl-progress-mini";
 
     export default {
         name: "pl-progress",
-        components: {PlProgressBar, PlProgressCircle},
+        components: {PlProgressMini, PlProgressBar, PlProgressCircle},
         props: {
             value: {type: Number, default: 100},
             type: {type: String, default: 'bar'},

@@ -29,7 +29,9 @@
             <im-progress :value="val"/>
             <im-progress :value="val" inlineText/>
             <im-progress :value="val" type="circle"/>
+            <im-progress type="mini" :value="val"/>
         </im-demo-row>
+
     </div>
 </template>
 
@@ -38,7 +40,7 @@
         name: "demo-progress",
         data() {
             return {
-                val: 20,
+                val: 73,
             }
         },
     }
