@@ -13,6 +13,7 @@
             value: {type: Number, default: 100},
             size: {default: 16},
             ...getDefaultProgressProps(),
+            innerColor: {type: String, default: '#999'},
         },
         watch: {
             value(val) {
@@ -98,10 +99,5 @@
     .pl-progress-mini {
         display: inline-block;
         vertical-align: middle;
-        opacity: 0.5;
-
-        &.pl-progress-mini-status-success, &.pl-progress-mini-status-error {
-            opacity: 1;
-        }
     }
 </style>

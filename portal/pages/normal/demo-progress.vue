@@ -88,6 +88,16 @@
             </im-demo-row-item>
         </im-demo-row>
 
+        <im-demo-row title="数据绑定">
+            <div>
+                <im-slider v-model="val"/>
+            </div>
+            <im-progress-bar :value="val"/>
+            <im-progress-bar :value="val" inlineText/>
+            <im-progress-circle :value="val"/>
+            <im-progress-mini type="mini" :value="val"/>
+        </im-demo-row>
+
         <!--<im-demo-row title="自定义颜色">
             <im-progress innerColor="blueviolet" outerColor="#ddd" :value="30"/>
         </im-demo-row>
