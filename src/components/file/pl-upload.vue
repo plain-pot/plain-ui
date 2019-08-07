@@ -1,16 +1,18 @@
 <template>
     <div class="pl-upload">
-        <div class="pl-upload-reference" @click="pl_click">
+        <div class="pl-upload-reference" @click="pl_clickReference">
             <slot></slot>
         </div>
         <slot name="list">
             <ul class="pl-upload-list">
                 <transition-group name="pl-upload-item-right">
                     <li v-for="(item,index) in p_value" :key="item.id" class="pl-upload-item">
-                        <pl-icon icon="pad-file-text-fill" class="pl-upload-file-icon"/>
+                        <pl-icon icon="pad-file-text" class="pl-upload-file-icon"/>
                         <div class="pl-upload-item-name">{{item.file.name}}</div>
-                        <div class="pl-upload-item-icon">
-                            <pl-icon icon="pad-close-circle-fill" class="pl-upload-item-icon-close" @click.stop="remove(item,index)" hover/>
+
+                        <div class="pl-upload-item-icon-wrapper">
+                            <pl-icon icon="pad-close" class="pl-upload-item-icon pl-upload-item-icon-close" @click.stop="pl_remove(item,index)" hover/>
+                            <pl-icon icon="pad-check-circle" class="pl-upload-item-icon pl-upload-item-icon-success" v-if="!item.status || item.status === 'success'"/>
                         </div>
                     </li>
                 </transition-group>
@@ -47,6 +49,7 @@
                 immediate: true,
                 handler(val) {
                     this.p_value = (val || [])
+                    this.p_value.forEach(item => !item.status && this.$set(item, 'status', 'success'))
                 },
             },
         },
@@ -56,7 +59,54 @@
             }
         },
         methods: {
-            async pl_click(e) {
+            upload(item) {
+                const ret = {
+                    success: [],
+                    error: [],
+                    flag: false,
+                    message: null,
+                }
+                let list = !!item ? [item] : this.p_value
+
+                if (!list || list.length === 0) {
+                    ret.message = 'upload list is empty!'
+                    return ret
+                }
+                const uploadList = list.filter(item => !!item.status && item.status !== 'success')
+                if (uploadList.length === 0) {
+                    ret.flag = true
+                    return ret
+                }
+
+                uploadList.forEach(item => {
+
+                })
+            },
+            uploadItem(item) {
+                return new Promise((rs, rj) => {
+                    this.$set(item, 'status', 'upload')
+                    this.$file.upload({
+                        action: 'http://localhost:8989/upload/testUploadFile',
+                        file: item.file,
+                        filename: 'file',
+                        data: this.param,
+                        onProgress: (data) => {
+                            this.$set(item, 'percent', data.percent - 0)
+                        },
+                        onSuccess: () => {
+                            this.$set(item, 'status', 'success')
+                            this.$message.show(`[${item.file.name}]上传成功！`, {type: 'success'})
+                            rs()
+                        },
+                        onError: () => {
+                            this.$set(item, 'status', 'error')
+                            this.$message.show(`[${item.file.name}]上传失败！`, {type: 'error'})
+                            rs()
+                        },
+                    })
+                })
+            },
+            async pl_clickReference(e) {
                 let data = await this.$file.getFile({
                     multiple: this.multiplePickFile,
                     accept: this.accept,
@@ -65,15 +115,20 @@
                 })
                 data = this.$plain.$utils.typeOf(data) === 'array' ? data : [data]
                 data.forEach((item, index) => {
-                    setTimeout(() => this.p_value.push({id: this.$plain.$utils.uuid(), file: item}), index * 50)
+                    setTimeout(() => this.p_value.push({
+                        id: this.$plain.$utils.uuid(),
+                        file: item,
+                        status: 'normal',//normal,upload,success,error
+                        percent: 0,
+                    }), index * 50)
                 })
                 this.$emit('input', this.p_value)
             },
-            remove(item, index) {
+            pl_remove(item, index) {
                 this.p_value.splice(index, 1)
                 this.$emit('input', this.p_value)
             },
-        }
+        },
     }
 </script>
 
@@ -86,6 +141,7 @@
                 margin: 0;
                 padding: 0.5em 0;
                 position: relative;
+
                 .pl-upload-item {
                     width: 300px;
                     list-style: none;
@@ -100,15 +156,28 @@
                         margin-right: 0.5em;
                     }
 
-                    .pl-upload-item-icon {
-                        width: 2em;
+                    .pl-upload-item-icon-wrapper {
+                        width: plVar(iconSize);
+                        height: plVar(iconSize);
+                        position: relative;
 
-                        .pl-upload-item-icon-close {
-                            opacity: 0;
+                        .pl-upload-item-icon {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
                             transition-property: transform;
-                            cursor: pointer;
+
+                            &.pl-upload-item-icon-success {
+                                color: plVar(colorSuccess);
+                                visibility: visible;
+                            }
+
+                            &.pl-upload-item-icon-close {
+                                visibility: hidden;
+                            }
                         }
                     }
+
 
                     .pl-upload-item-name {
                         flex: 1;
@@ -118,16 +187,22 @@
                     }
 
                     &:hover {
-                        .pl-upload-item-icon-close {
-                            opacity: 1;
+                        .pl-upload-item-icon {
+                            &.pl-upload-item-icon-success {
+                                visibility: hidden;
+                            }
+
+                            &.pl-upload-item-icon-close {
+                                visibility: visible;
+                            }
                         }
 
                         &:after {
                             position: absolute;
-                            top: -3px;
-                            bottom: -3px;
-                            left: -3px;
-                            right: -3px;
+                            top: 0;
+                            bottom: 0;
+                            left: -6px;
+                            right: -6px;
                             border-radius: plVar(borderFillet);
                             content: '';
                             cursor: pointer;

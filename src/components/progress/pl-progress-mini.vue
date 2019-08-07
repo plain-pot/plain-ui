@@ -20,6 +20,9 @@
                 this.animatePercent = val
                 this.draw(val)
             },
+            status(val) {
+                this.$nextTick(() => this.draw(this.animatePercent))
+            },
         },
         data() {
             return {
@@ -46,11 +49,7 @@
                 }
             },
             percent() {
-                if (!!this.status && this.status !== 'normal') {
-                    return 100
-                } else {
-                    return 1 - (this.animatePercent / 100)
-                }
+                return (this.animatePercent / 100)
             },
             classes() {
                 return [
@@ -99,5 +98,9 @@
     .pl-progress-mini {
         display: inline-block;
         vertical-align: middle;
+
+        canvas {
+            display: block;
+        }
     }
 </style>
