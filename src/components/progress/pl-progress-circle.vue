@@ -14,22 +14,17 @@
 
 <script>
     import PlIcon from "../pl-icon";
+    import {getDefaultProgressProps} from "./index";
 
     export default {
         name: "pl-progress-circle",
         components: {PlIcon},
         props: {
             value: {type: Number, default: 100},
-            fontSize: {type: Number, default: 14},
             size: {type: Number, default: 100},
             lineSize: {type: Number, default: 6},
             startAngle: {type: Number, default: -0.5 * Math.PI},
-            speed: {type: Number},
-            outerColor: {},
-            innerColor: {},
-            status: {},
-            successColor: {},
-            errorColor: {},
+            ...getDefaultProgressProps(),
         },
         data() {
             return {

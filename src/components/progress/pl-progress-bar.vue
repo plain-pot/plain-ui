@@ -28,21 +28,16 @@
 
 <script>
     import PlIcon from "../pl-icon";
+    import {getDefaultProgressProps} from "./index";
 
     export default {
         name: "pl-progress-bar",
         components: {PlIcon},
         props: {
-            value: {type: Number},
             width: {type: String, default: '300px'},
             height: {type: String, default: '6px'},
-            outerColor: {},
-            innerColor: {},
-            speed: {},
-            status: {},
-            successColor: {},
-            errorColor: {},
-            inlineText: {},
+            inlineText: {type: Boolean},
+            ...getDefaultProgressProps(),
         },
         computed: {
             iconColor() {

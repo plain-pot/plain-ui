@@ -40,7 +40,6 @@ import badge from './pl-badge'
 import time from './time/pl-time'
 import date from './date/pl-date'
 import tree from './tree/pl-tree'
-import progress from './progress/pl-progress'
 import tag from './tag/pl-tag'
 import tagInput from './tag/pl-tag-input'
 import pagination from './pl-pagination'
@@ -56,6 +55,9 @@ import row from './layout/pl-row'
 import col from './layout/pl-col'
 import container from './pl-container'
 import upload from './file/pl-upload'
+import progressBar from './progress/pl-progress-bar'
+import progressCircle from './progress/pl-progress-circle'
+import progressMini from './progress/pl-progress-mini'
 
 import renderFunc from './render/pl-render-func'
 import scopeSlot from './render/pl-scope-slot'
@@ -68,8 +70,8 @@ import {StandardColumns, formatColumnComponent} from "./table/column";
 const components = {
     icon, scroll, navTab, button, loading, buttonGroup, input, popper, popover, dropdown, dropdownItem, toggle,
     radio, radioGroup, checkAll, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
-    cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, progress, tag, tagInput, pagination,
-    step, stepContainer, tabs, tab, tabHeader, navPages, nav, row, col, container, upload,
+    cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree,  tag, tagInput, pagination,
+    step, stepContainer, tabs, tab, tabHeader, navPages, nav, row, col, container, upload, progressBar, progressCircle, progressMini,
     renderFunc, scopeSlot, slot,
     baseTable, tcGroup,
 }

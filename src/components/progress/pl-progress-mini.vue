@@ -1,21 +1,18 @@
 <template>
-    <canvas class="pl-progress-mini" width="300" height="300"></canvas>
+    <div class="pl-progress-mini" :class="classes">
+        <canvas class="pl-progress-mini-canvas" ref="canvas" :width="size" :height="size"></canvas>
+    </div>
 </template>
 
 <script>
+    import {getDefaultProgressProps} from "./index";
+
     export default {
         name: "pl-progress-mini",
         props: {
             value: {type: Number, default: 100},
-            outerColor: {type: String, default: '#f2f2f2'},
-            innerColor: {type: String, default: '#12b4a5'},
-            speed: {type: Number, default: 3},
-            status: {type: String, default: 'normal'},
-            successColor: {type: String, default: '#42E67F'},
-            errorColor: {type: String, default: '#FF6235'},
-            inlineText: {type: Boolean},
-
-            size: {default: 100},
+            size: {default: 16},
+            ...getDefaultProgressProps(),
         },
         watch: {
             value(val) {
@@ -30,12 +27,36 @@
             }
         },
         mounted() {
-            this.ctx = this.$el.getContext("2d")
+            this.ctx = this.$refs.canvas.getContext("2d")
             this.reload()
         },
         computed: {
             arcParam() {
                 return [this.size / 2, this.size / 2, this.size / 2, 0]
+            },
+            color() {
+                switch (this.status) {
+                    case 'success':
+                        return this.successColor
+                    case 'error':
+                        return this.errorColor
+                    default:
+                        return this.innerColor
+                }
+            },
+            percent() {
+                if (!!this.status && this.status !== 'normal') {
+                    return 100
+                } else {
+                    return 1 - (this.animatePercent / 100)
+                }
+            },
+            classes() {
+                return [
+                    {
+                        [`pl-progress-mini-status-${this.status}`]: !!this.status,
+                    },
+                ]
             },
         },
         methods: {
@@ -47,13 +68,13 @@
                 this.ctx.clearRect(0, 0, this.size, this.size)
                 this.drawSector(animatePercent)
             },
-            drawSector(animatePercent) {
+            drawSector() {
                 this.ctx.save();
 
-                this.ctx.fillStyle = 'black'
+                this.ctx.fillStyle = this.color
                 this.ctx.beginPath()
                 this.ctx.moveTo(this.size / 2, this.size / 2)
-                this.ctx.arc(...this.arcParam, (1 - (animatePercent / 100)) * Math.PI * 2, false);
+                this.ctx.arc(...this.arcParam, (this.percent) * Math.PI * 2, false);
                 this.ctx.closePath();
                 this.ctx.fill();
                 this.ctx.restore();
@@ -74,5 +95,13 @@
 </script>
 
 <style lang="scss">
+    .pl-progress-mini {
+        display: inline-block;
+        vertical-align: middle;
+        opacity: 0.5;
 
+        &.pl-progress-mini-status-success, &.pl-progress-mini-status-error {
+            opacity: 1;
+        }
+    }
 </style>
