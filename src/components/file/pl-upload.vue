@@ -4,11 +4,16 @@
             <slot></slot>
         </div>
         <slot name="list">
-            <ul>
-                <li v-for="(file,index) in p_value" :key="index">
-                    <pl-icon icon="pad-file-text-fill" class="pl-upload-file-icon"/>
-                    <span>{{file.name}}</span>
-                </li>
+            <ul class="pl-upload-list">
+                <transition-group name="pl-upload-item-right">
+                    <li v-for="(item,index) in p_value" :key="item.id" class="pl-upload-item">
+                        <pl-icon icon="pad-file-text-fill" class="pl-upload-file-icon"/>
+                        <div class="pl-upload-item-name">{{item.file.name}}</div>
+                        <div class="pl-upload-item-icon">
+                            <pl-icon icon="pad-close-circle-fill" class="pl-upload-item-icon-close" @click.stop="remove(item,index)" hover/>
+                        </div>
+                    </li>
+                </transition-group>
             </ul>
         </slot>
     </div>
@@ -59,7 +64,14 @@
                     maxSize: this.maxSize,
                 })
                 data = this.$plain.$utils.typeOf(data) === 'array' ? data : [data]
-                this.p_value.push(...data)
+                data.forEach((item, index) => {
+                    setTimeout(() => this.p_value.push({id: this.$plain.$utils.uuid(), file: item}), index * 50)
+                })
+                this.$emit('input', this.p_value)
+            },
+            remove(item, index) {
+                this.p_value.splice(index, 1)
+                this.$emit('input', this.p_value)
             },
         }
     }
@@ -69,28 +81,73 @@
     @include themeWrap {
         .pl-upload {
             display: inline-block;
-            width: 300px;
 
-            ul {
+            .pl-upload-list {
                 margin: 0;
                 padding: 0.5em 0;
-
-                li {
+                position: relative;
+                .pl-upload-item {
+                    width: 300px;
                     list-style: none;
                     height: 28px;
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    transition: all 0.15s linear;
+                    user-select: none;
 
                     .pl-upload-file-icon {
                         margin-right: 0.5em;
                     }
 
+                    .pl-upload-item-icon {
+                        width: 2em;
+
+                        .pl-upload-item-icon-close {
+                            opacity: 0;
+                            transition-property: transform;
+                            cursor: pointer;
+                        }
+                    }
+
+                    .pl-upload-item-name {
+                        flex: 1;
+                        overflow-x: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
                     &:hover {
-                        cursor: pointer;
-                        background-color: plVar(colorPrimaryLighter);
+                        .pl-upload-item-icon-close {
+                            opacity: 1;
+                        }
+
+                        &:after {
+                            position: absolute;
+                            top: -3px;
+                            bottom: -3px;
+                            left: -3px;
+                            right: -3px;
+                            border-radius: plVar(borderFillet);
+                            content: '';
+                            cursor: pointer;
+                            background-color: plVar(colorPrimaryLighter);
+                            z-index: -1;
+                        }
                     }
                 }
             }
         }
     }
+
+    .pl-upload-item-right-leave-active {
+        position: absolute !important;
+    }
+
+    .pl-upload-item-right-enter, .pl-upload-item-right-leave-to {
+        opacity: 0;
+        transform: translateX(2em);
+    }
+
+
 </style>

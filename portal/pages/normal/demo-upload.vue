@@ -2,7 +2,7 @@
     <div class="demo-upload">
         <im-demo-row title="基本用法">
             <im-upload multiplePickFile>
-                <im-button icon="pad-file" label="上传文件"/>
+                <im-button icon="pad-file" label="选择文件"/>
             </im-upload>
         </im-demo-row>
     </div>
