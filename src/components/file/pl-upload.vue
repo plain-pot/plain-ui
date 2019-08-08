@@ -10,10 +10,13 @@
                         <pl-icon icon="pad-file-text" class="pl-upload-file-icon"/>
                         <div class="pl-upload-item-name">{{item.file.name}}</div>
                         <div class="pl-upload-item-icon-wrapper">
-                            <pl-icon icon="pad-close" class="pl-upload-item-icon pl-upload-item-icon-close" @click.stop="pl_remove(item,index)" hover/>
+                            <pl-icon icon="pad-close" class="pl-upload-item-icon pl-upload-item-icon-close" @click.stop="pl_remove(item,index)" v-if="item.status!=='upload'"/>
                             <pl-icon icon="pad-check-circle" class="pl-upload-item-icon pl-upload-item-icon-success" v-if="item.status === 'success'"/>
                             <pl-icon icon="pad-close-circle" class="pl-upload-item-icon pl-upload-item-icon-error" v-if="item.status === 'error'"/>
-                            <pl-progress-mini :value="item.percent" v-if="item.status === 'upload'"/>
+                            <template v-if="item.status === 'upload'">
+                                <pl-loading v-if="item.percent<20"/>
+                                <pl-progress-mini :value="item.percent" v-else/>
+                            </template>
                         </div>
                     </li>
                 </transition-group>
@@ -36,14 +39,13 @@
             filename: {type: String, default: 'file'},              //文件上传的字段名称
             headers: {type: Object,},                               //请求头额外信息
             withCredentials: {type: Boolean,},                      //支持发送 cookie 凭证信息
-            onProgress: {type: Function,},                          //文件上传进度百分比变化钩子
-            onSuccess: {type: Function,},                           //文件上传成功钩子
-            onError: {type: Function,},                             //文件上传失败钩子
-            beforeUpload: {type: Function,},                        //文件上传之前的钩子
-            afterUpload: {type: Function,},                         //文件上传之后的钩子
             value: {type: Array},                                   //双向绑定数组数据
 
             multipleUploadFile: {type: Boolean,},                   //是否批量上传文件
+            onBeforeUploadFile: {type: Function},                   //上传文件之前钩子函数
+            onProgressUploadFile: {type: Function},                 //上传文件中钩子函数
+            onSuccessUploadFile: {type: Function},                  //上传文件成功钩子函数
+            onErrorUploadFile: {type: Function},                    //上传文件失败钩子函数
         },
         watch: {
             value: {
@@ -61,51 +63,39 @@
         },
         methods: {
             upload(item) {
-                const ret = {
-                    success: [],
-                    error: [],
-                    flag: false,
-                    message: null,
-                }
                 let list = !!item ? [item] : this.p_value
 
                 if (!list || list.length === 0) {
-                    ret.message = 'upload list is empty!'
-                    return ret
+                    return 0
                 }
                 const uploadList = list.filter(item => !!item.status && item.status !== 'success')
                 if (uploadList.length === 0) {
-                    ret.flag = true
-                    return ret
+                    return 0
                 }
-
-                uploadList.forEach(item => {
-                    this.uploadItem(item)
-                })
+                uploadList.forEach(item => this.uploadItem(item))
+                return uploadList.length
             },
-            uploadItem(item) {
-                return new Promise((rs) => {
-                    this.$set(item, 'status', 'upload')
-                    this.$file.upload({
-                        action: 'http://localhost:8989/upload/testUploadFile',
-                        file: item.file,
-                        filename: 'file',
-                        data: this.param,
-                        onProgress: (data) => {
-                            console.log(data.percent)
-                            this.$set(item, 'percent', data.percent - 0)
-                        },
-                        onSuccess: () => {
-                            this.$set(item, 'status', 'success')
-                            this.$message.show(`[${item.file.name}]上传成功！`, {type: 'success'})
-                            rs()
-                        },
-                        onError: () => {
-                            this.$set(item, 'status', 'error')
-                            this.$message.show(`[${item.file.name}]上传失败！`, {type: 'error'})
-                            rs()
-                        },
-                    })
+            async uploadItem(item) {
+                !!this.onBeforeUploadFile && await this.onBeforeUploadFile(item)
+                this.$set(item, 'status', 'upload')
+                this.$file.upload({
+                    action: this.action,
+                    file: item.file,
+                    filename: 'file',
+                    data: this.param,
+                    onProgress: (data) => {
+                        console.log(data.percent)
+                        this.$set(item, 'percent', data.percent - 0)
+                        !!this.onProgressUploadFile && this.onProgressUploadFile(item, data)
+                    },
+                    onSuccess: (data) => {
+                        this.$set(item, 'status', 'success')
+                        !!this.onSuccessUploadFile && this.onSuccessUploadFile(item, data)
+                    },
+                    onError: (data) => {
+                        this.$set(item, 'status', 'error')
+                        !!this.onErrorUploadFile && this.onErrorUploadFile(item, data)
+                    },
                 })
             },
             async pl_clickReference(e) {

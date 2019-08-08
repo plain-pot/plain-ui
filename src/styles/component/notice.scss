@@ -39,13 +39,14 @@
     .pl-notice {
       @include public-style;
       padding: plVar(padding);
-      white-space: nowrap;
       background-color: white;
       min-width: 300px;
+      max-width: 400px;
       box-shadow: plVar(boxShadow);
       display: inline-block;
       pointer-events: auto;
       border-radius: plVar(borderFillet);
+      word-break: break-all;
 
       @include plColors {
         &.pl-notice-#{$key} {
