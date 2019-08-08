@@ -9,10 +9,11 @@
                     <li v-for="(item,index) in p_value" :key="item.id" class="pl-upload-item">
                         <pl-icon icon="pad-file-text" class="pl-upload-file-icon"/>
                         <div class="pl-upload-item-name">{{item.file.name}}</div>
-
                         <div class="pl-upload-item-icon-wrapper">
                             <pl-icon icon="pad-close" class="pl-upload-item-icon pl-upload-item-icon-close" @click.stop="pl_remove(item,index)" hover/>
-                            <pl-icon icon="pad-check-circle" class="pl-upload-item-icon pl-upload-item-icon-success" v-if="!item.status || item.status === 'success'"/>
+                            <pl-icon icon="pad-check-circle" class="pl-upload-item-icon pl-upload-item-icon-success" v-if="item.status === 'success'"/>
+                            <pl-icon icon="pad-close-circle" class="pl-upload-item-icon pl-upload-item-icon-error" v-if="item.status === 'error'"/>
+                            <pl-progress-mini :value="item.percent" v-if="item.status === 'upload'"/>
                         </div>
                     </li>
                 </transition-group>
@@ -79,11 +80,11 @@
                 }
 
                 uploadList.forEach(item => {
-
+                    this.uploadItem(item)
                 })
             },
             uploadItem(item) {
-                return new Promise((rs, rj) => {
+                return new Promise((rs) => {
                     this.$set(item, 'status', 'upload')
                     this.$file.upload({
                         action: 'http://localhost:8989/upload/testUploadFile',
@@ -91,6 +92,7 @@
                         filename: 'file',
                         data: this.param,
                         onProgress: (data) => {
+                            console.log(data.percent)
                             this.$set(item, 'percent', data.percent - 0)
                         },
                         onSuccess: () => {
@@ -172,9 +174,20 @@
                                 visibility: visible;
                             }
 
+                            &.pl-upload-item-icon-error {
+                                color: plVar(colorError);
+                                visibility: visible;
+                            }
+
                             &.pl-upload-item-icon-close {
                                 visibility: hidden;
                             }
+                        }
+
+                        .pl-progress-mini {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
                         }
                     }
 
@@ -188,7 +201,7 @@
 
                     &:hover {
                         .pl-upload-item-icon {
-                            &.pl-upload-item-icon-success {
+                            &.pl-upload-item-icon-success, &.pl-upload-item-icon-error {
                                 visibility: hidden;
                             }
 
