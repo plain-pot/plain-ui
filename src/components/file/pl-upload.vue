@@ -41,6 +41,8 @@
             withCredentials: {type: Boolean,},                      //支持发送 cookie 凭证信息
             value: {type: Array},                                   //双向绑定数组数据
 
+            autoUpload: {type: Boolean, default: true},             //是否自动上传
+
             multipleUploadFile: {type: Boolean,},                   //是否批量上传文件
             onBeforeUploadFile: {type: Function},                   //上传文件之前钩子函数
             onProgressUploadFile: {type: Function},                 //上传文件中钩子函数
@@ -137,13 +139,18 @@
                 })
                 data = this.$plain.$utils.typeOf(data) === 'array' ? data : [data]
                 data.forEach((item, index) => {
-                    setTimeout(() => this.p_value.push({
-                        id: this.$plain.$utils.uuid(),
-                        name: item.name,
-                        file: item,
-                        status: 'normal',//normal,upload,success,error
-                        percent: 0,
-                    }), index * 50)
+                    setTimeout(() => {
+                        this.p_value.push({
+                            id: this.$plain.$utils.uuid(),
+                            name: item.name,
+                            file: item,
+                            status: 'normal',//normal,upload,success,error
+                            percent: 0,
+                        })
+                        if (!!this.autoUpload && index === data.length - 1) {
+                            this.upload()
+                        }
+                    }, index * 50)
                 })
                 this.$emit('input', this.p_value)
                 this.$emit('clickReference', e)

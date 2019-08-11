@@ -30,22 +30,24 @@
     export default {
         name: "demo-upload",
         data() {
+            const multipleUploadProps = {
+                action: 'http://localhost:8989/upload/testUploadFilesLimit2m',
+                multipleUploadFile: true,
+            }
+            const separateUploadProps = {
+                action: 'http://localhost:8989/upload/testUploadFileLimit2m',
+                multipleUploadFile: false,
+            }
             return {
                 selectFile: null,
                 fileList: [
                     {id: '123', name: 'demo1.txt'},
                     {id: '456', name: 'demo2.txt'},
                 ],
+                multipleUploadProps,
+                separateUploadProps,
 
-                multipleUploadProps: {
-                    action: 'http://localhost:8989/upload/testUploadFilesLimit2m',
-                    multipleUploadFile: true,
-                },
-                separateUploadProps: {
-                    action: 'http://localhost:8989/upload/testUploadFileLimit2m',
-                    multipleUploadFile: false,
-                },
-                uploadProps: null,
+                uploadProps: separateUploadProps,
             }
         },
         methods: {
