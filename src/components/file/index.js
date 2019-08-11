@@ -82,7 +82,7 @@ class FileService {
      * @author  韦胜健
      * @date    2019/7/21 19:14
      */
-    async upload({action, data, headers, withCredentials, file, filename, onProgress, onSuccess, onError} = {}) {
+    upload({action, data, headers, withCredentials, file, filename, onProgress, onSuccess, onError} = {}) {
         const xhr = window.hasOwnProperty('XMLHttpRequest') ? new XMLHttpRequest() : new Window.ActiveXObject('Microsoft.XMLHTTP')
         if (!!xhr.upload) {
             xhr.upload.addEventListener('progress', (e) => {

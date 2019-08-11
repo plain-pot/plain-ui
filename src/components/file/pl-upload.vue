@@ -6,15 +6,15 @@
         <slot name="list">
             <ul class="pl-upload-list">
                 <transition-group name="pl-upload-item-right">
-                    <li v-for="(item,index) in p_value" :key="item.id" class="pl-upload-item">
+                    <li v-for="(item,index) in p_value" :key="item.id" class="pl-upload-item" @click="e=>pl_clickItem({e,item,index})">
                         <pl-icon icon="pad-file-text" class="pl-upload-file-icon"/>
-                        <div class="pl-upload-item-name">{{item.file.name}}</div>
+                        <div class="pl-upload-item-name">{{item.name}}</div>
                         <div class="pl-upload-item-icon-wrapper">
                             <pl-icon icon="pad-close" class="pl-upload-item-icon pl-upload-item-icon-close" @click.stop="pl_remove(item,index)" v-if="item.status!=='upload'"/>
                             <pl-icon icon="pad-check-circle" class="pl-upload-item-icon pl-upload-item-icon-success" v-if="item.status === 'success'"/>
                             <pl-icon icon="pad-close-circle" class="pl-upload-item-icon pl-upload-item-icon-error" v-if="item.status === 'error'"/>
                             <template v-if="item.status === 'upload'">
-                                <pl-loading v-if="item.percent<20"/>
+                                <pl-loading v-if="item.percent==null || item.percent<20 || item.percent == 100"/>
                                 <pl-progress-mini :value="item.percent" v-else/>
                             </template>
                         </div>
@@ -61,19 +61,18 @@
                 p_value: null,
             }
         },
+        computed: {
+            p_uploadList() {
+                let list = this.p_value || []
+                return list.filter(item => !!item.status && item.status !== 'success')
+            },
+        },
         methods: {
-            upload(item) {
-                let list = !!item ? [item] : this.p_value
-
-                if (!list || list.length === 0) {
-                    return 0
-                }
-                const uploadList = list.filter(item => !!item.status && item.status !== 'success')
-                if (uploadList.length === 0) {
-                    return 0
-                }
-                uploadList.forEach(item => this.uploadItem(item))
-                return uploadList.length
+            upload() {
+                if (!this.action) throw new Error('上传地址不能为空！')
+                if (this.p_uploadList.length === 0) return 0
+                !this.multipleUploadFile ? this.p_uploadList.forEach(item => this.uploadItem(item)) : this.uploadAll()
+                return this.p_uploadList.length
             },
             async uploadItem(item) {
                 !!this.onBeforeUploadFile && await this.onBeforeUploadFile(item)
@@ -98,6 +97,37 @@
                     },
                 })
             },
+            async uploadAll() {
+                for (let i = 0; i < this.p_uploadList.length; i++) {
+                    const item = this.p_uploadList[i];
+                    !!this.onBeforeUploadFile && await this.onBeforeUploadFile(item)
+                    this.$set(item, 'status', 'upload')
+                }
+                this.$file.upload({
+                    action: this.action,
+                    file: this.p_uploadList.map(item => item.file),
+                    filename: 'files',
+                    data: this.param,
+                    onProgress: (data) => {
+                        this.p_uploadList.forEach(item => {
+                            this.$set(item, 'percent', data.percent - 0)
+                            !!this.onProgressUploadFile && this.onProgressUploadFile(item, data)
+                        })
+                    },
+                    onSuccess: (data) => {
+                        this.p_uploadList.forEach(item => {
+                            this.$set(item, 'status', 'success')
+                            !!this.onSuccessUploadFile && this.onSuccessUploadFile(item, data)
+                        })
+                    },
+                    onError: (data) => {
+                        this.p_uploadList.forEach(item => {
+                            this.$set(item, 'status', 'error')
+                            !!this.onErrorUploadFile && this.onErrorUploadFile(item, data)
+                        })
+                    }
+                })
+            },
             async pl_clickReference(e) {
                 let data = await this.$file.getFile({
                     multiple: this.multiplePickFile,
@@ -109,12 +139,17 @@
                 data.forEach((item, index) => {
                     setTimeout(() => this.p_value.push({
                         id: this.$plain.$utils.uuid(),
+                        name: item.name,
                         file: item,
                         status: 'normal',//normal,upload,success,error
                         percent: 0,
                     }), index * 50)
                 })
                 this.$emit('input', this.p_value)
+                this.$emit('clickReference', e)
+            },
+            async pl_clickItem({e, item, index}) {
+                this.$emit('clickItem', {e, item, index})
             },
             pl_remove(item, index) {
                 this.p_value.splice(index, 1)
