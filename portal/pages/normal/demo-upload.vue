@@ -5,6 +5,7 @@
                     ref="upload"
                     v-model="fileList"
                     v-bind="uploadProps"
+                    :autoUpload="autoUpload"
                     multiplePickFile
                     :maxSize="10"
                     :onSuccessUploadFile="onSuccessUploadFile"
@@ -12,14 +13,17 @@
                     @clickItem="({item})=>selectFile = item">
                 <im-button icon="pad-file" label="选择文件"/>
             </im-upload>
-            <im-demo-row-item title="单独上传某个文件">
+            <im-demo-row-item title="是否自动上传" width="200px">
+                <im-toggle v-model="autoUpload"/>
+            </im-demo-row-item>
+            <im-demo-row-item title="单独上传某个文件" width="200px">
                 <im-button label="上传" @click="testUploadItem"/>
                 {{!!selectFile?selectFile.file.name:'未选择任何文件'}}
             </im-demo-row-item>
-            <im-demo-row-item title="一次性上传文件">
+            <im-demo-row-item title="一次性上传文件" width="200px">
                 <im-button label="上传" @click="testUploadAll"/>
             </im-demo-row-item>
-            <im-demo-row-item title="分开上传所有文件">
+            <im-demo-row-item title="分开上传所有文件" width="200px">
                 <im-button label="上传" @click="testUploadSeparate"/>
             </im-demo-row-item>
         </im-demo-row>
@@ -31,11 +35,11 @@
         name: "demo-upload",
         data() {
             const multipleUploadProps = {
-                action: 'http://localhost:8989/upload/testUploadFilesLimit2m',
+                action: 'http://193.112.75.134:8989/upload/testUploadFilesLimit2m',
                 multipleUploadFile: true,
             }
             const separateUploadProps = {
-                action: 'http://localhost:8989/upload/testUploadFileLimit2m',
+                action: 'http://193.112.75.134:8989/upload/testUploadFileLimit2m',
                 multipleUploadFile: false,
             }
             return {
@@ -48,6 +52,7 @@
                 separateUploadProps,
 
                 uploadProps: separateUploadProps,
+                autoUpload: false,
             }
         },
         methods: {
