@@ -55,6 +55,7 @@ import row from './layout/pl-row'
 import col from './layout/pl-col'
 import container from './pl-container'
 import upload from './file/pl-upload'
+import img from './img/pl-img'
 import progressBar from './progress/pl-progress-bar'
 import progressCircle from './progress/pl-progress-circle'
 import progressMini from './progress/pl-progress-mini'
@@ -70,8 +71,8 @@ import {StandardColumns, formatColumnComponent} from "./table/column";
 const components = {
     icon, scroll, navTab, button, loading, buttonGroup, input, popper, popover, dropdown, dropdownItem, toggle,
     radio, radioGroup, checkAll, form, formItem, formColumn, list, item, textarea, dialog, select, collapse, collapseGroup, collapseTransition, carousel, card,
-    cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree,  tag, tagInput, pagination,
-    step, stepContainer, tabs, tab, tabHeader, navPages, nav, row, col, container, upload, progressBar, progressCircle, progressMini,
+    cardHeader, cardContent, tooltip, cascade, number, slider, rate, colorPicker, scrollOption, badge, time, date, tree, tag, tagInput, pagination,
+    step, stepContainer, tabs, tab, tabHeader, navPages, nav, row, col, container, upload, progressBar, progressCircle, progressMini, img,
     renderFunc, scopeSlot, slot,
     baseTable, tcGroup,
 }

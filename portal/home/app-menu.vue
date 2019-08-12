@@ -98,6 +98,7 @@
                             {title: 'Rate评分', icon: 'pad-star', page: '/normal/demo-rate', complete: true},
                             {title: 'ColorPicker颜色选择', icon: 'pl-color', page: '/normal/demo-color-picker', complete: true},
                             {title: 'Upload文件上传', icon: 'pad-file', page: '/normal/demo-upload', complete: true},
+                            {title: 'Img图片上传', icon: 'pad-image', page: '/normal/demo-img', complete: true},
                             {title: 'Form表单', icon: 'pl-form', page: '/normal/demo-form', complete: true},
                         ],
                     },
