@@ -195,7 +195,7 @@
                     Object.keys(sub.editRow).forEach(key => this.$set(sub.editRow, key, sub.row[key]))
                 })
             },
-            /**
+            /**w
              * 获取编辑数据，如果校验不通过，则返回promise.reject
              * @author  韦胜健
              * @date    2019/5/27 11:53
