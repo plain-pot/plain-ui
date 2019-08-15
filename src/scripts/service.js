@@ -6,6 +6,7 @@ import {SelectService} from "../components/select";
 import $keyboard from './keyboard'
 import {DialogService} from "../components/dialog";
 import {NoticeService} from "../components/notice";
+import {ImageService} from "../../src/components/img";
 
 export default function ($plain) {
     const StorageService = PlainUtils.StorageService
@@ -17,6 +18,7 @@ export default function ($plain) {
     const $dialog = new DialogService($plain)
     const $notice = new NoticeService($plain)
     const $storage = new StorageService($plain)
+    const $img = new ImageService($plain)
 
     const service = {
         inner: {
@@ -31,6 +33,7 @@ export default function ($plain) {
             $message,
             $dialog,
             $notice,
+            $img,
         },
     }
     Object.assign($plain, service.inner)

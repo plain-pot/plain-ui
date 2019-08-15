@@ -26,7 +26,8 @@
                     'error.jpg',
                     null,
                 ],
-                imgSrc: 'http://img4.imgtn.bdimg.com/it/u=508387608,2848974022&fm=26&gp=0.jpg',
+                // imgSrc: 'http://img4.imgtn.bdimg.com/it/u=508387608,2848974022&fm=26&gp=0.jpg',
+                imgSrc: 'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg?version' + Date.now(),
                 uploadOption: {
                     action: 'http://193.112.75.134:8989/upload/testUploadFileLimit2m',
                     filename: 'file',
@@ -44,9 +45,10 @@
             }
         },
         methods: {
-            changeImg(item) {
-                this.imgSrc = !!item ? `${item}?version=${Date.now()}` : null
-                console.log(this.imgSrc)
+            changeImg(item, index) {
+                // this.imgSrc = !!item ? `${item}?version=${Date.now()}` : null
+                // console.log(this.imgSrc)
+                this.$img.preview(this.imgList, index)
             },
         }
     }

@@ -154,8 +154,8 @@
                 this.$emit('input', this.p_value)
             },
 
-            pl_clickImg() {
-                this.$message.show('预览图片！')
+            pl_clickImg(index) {
+                this.$img.preview([this.p_value])
             },
         }
     }
