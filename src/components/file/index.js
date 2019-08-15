@@ -32,7 +32,7 @@ class FileService {
     getFile({multiple = false, accept = null, validFunc = null, maxSize = null} = {}) {
         !!multiple ? this.input.setAttribute('multiple', 'multiple') : this.input.removeAttribute('multiple')
         if (!!accept) {
-            if (!!this.typeKeys.indexOf(accept) > -1) {
+            if (this.typeKeys.indexOf(accept) > -1) {
                 this.input.setAttribute('accept', this.type[accept])
             } else {
                 this.input.setAttribute('accept', accept)
@@ -84,9 +84,11 @@ class FileService {
      */
     upload({action, data, headers, withCredentials, file, filename, onProgress, onSuccess, onError} = {}) {
         const xhr = window.hasOwnProperty('XMLHttpRequest') ? new XMLHttpRequest() : new Window.ActiveXObject('Microsoft.XMLHTTP')
+        xhr.open('post', action, true)
+
         if (!!xhr.upload) {
             xhr.upload.addEventListener('progress', (e) => {
-                if (e.total > 0) e.percent = (e.loaded / e.total * 100).toFixed(2)
+                if (e.total > 0) e.percent = (e.loaded / e.total * 100).toFixed(2)-0
                 !!onProgress && onProgress(e)
             })
         }
@@ -103,7 +105,6 @@ class FileService {
                 !!onSuccess && onSuccess(this.getResponseBody(xhr))
             }
         }
-        xhr.open('post', action, true)
 
         const formData = new FormData()
         if (!!data) Object.keys(data).forEach(key => formData.append(key, data[key]))
