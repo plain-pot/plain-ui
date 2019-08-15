@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="pl-img" :style="styles" @mouseenter="p_hover = true" @mouseleave="p_hover = false">
+        <div class="pl-img" :style="styles" @mouseenter="p_hover = true" @mouseleave="p_hover = false" :class="classes">
             <img :src="p_value" :alt="alt" height="100%" width="100%" class="pl-img-el" :style="imageStyles" @load="pl_imgLoad" @error="pl_imgError" @click="pl_clickImg">
 
             <div class="pl-img-loading" v-if="status === STATUS.LOADING">
@@ -9,7 +9,12 @@
 
             <div class="pl-img-empty" v-else-if="status === STATUS.EMPTY" @click="pl_uploadNew">
                 <slot name="empty">
-                    <pl-icon icon="pad-camera" class="pl-icon-camera"/>
+                    <pl-icon icon="pad-camera" class="pl-icon-tag"/>
+                </slot>
+            </div>
+            <div class="pl-img-error" v-else-if="status === STATUS.ERROR" @click="pl_uploadNew">
+                <slot name="error">
+                    <pl-icon icon="pad-close-circle" class="pl-icon-tag pl-icon-error"/>
                 </slot>
             </div>
 
@@ -134,7 +139,7 @@
                 border-radius: plVar(borderFillet);
             }
 
-            .pl-img-empty, .pl-img-loading {
+            .pl-img-empty, .pl-img-loading, .pl-img-error {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -149,13 +154,21 @@
                 background-color: rgba(black, 0.25);
             }
 
-            .pl-img-empty {
+            .pl-img-empty, .pl-img-error {
                 border: dashed $img-border-color 1px;
 
-                .pl-icon-camera {
+                .pl-icon-tag {
                     font-size: 20px;
                     color: $img-border-color;
                 }
+
+                .pl-icon-error {
+                    color: plVar(colorError) !important;
+                }
+            }
+
+            .pl-img-error {
+                border-color: plVar(colorError);
             }
 
             .pl-img-operator {
@@ -183,9 +196,15 @@
                     border-color: plVar(colorPrimary);
                 }
 
-                .pl-icon-camera {
+                .pl-icon-tag {
                     color: plVar(colorPrimary);
                     transition-property: transform;
+                }
+            }
+
+            &.pl-img-status-error {
+                img {
+                    opacity: 0;
                 }
             }
         }
