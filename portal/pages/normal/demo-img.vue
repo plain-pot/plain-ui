@@ -1,7 +1,7 @@
 <template>
     <div class="demo-img">
         <im-demo-row title="基本用法">
-            <im-img v-model="imgSrc"/>
+            <im-img v-model="imgSrc" :uploadOption="uploadOption"/>
         </im-demo-row>
         <im-demo-row>
             <div class="img-list">
@@ -27,6 +27,20 @@
                     null,
                 ],
                 imgSrc: 'http://img4.imgtn.bdimg.com/it/u=508387608,2848974022&fm=26&gp=0.jpg',
+                uploadOption: {
+                    action: 'http://193.112.75.134:8989/upload/testUploadFileLimit2m',
+                    filename: 'file',
+                    onSuccess: (data) => {
+                        if (data.code !== 0) {
+                            this.$notice.show(`文件上传失败！${data.ret}`)
+                            return false
+                        } else {
+                            this.$message.show(`文件[${data.ret.name}]上传成功！`, {type: 'success'})
+                            console.log(data.ret)
+                            return true
+                        }
+                    },
+                }
             }
         },
         methods: {

@@ -14,6 +14,7 @@
             size: {default: 16},
             ...getDefaultProgressProps(),
             innerColor: {type: String, default: '#999'},
+            reverse: {type: Boolean},
         },
         watch: {
             value(val) {
@@ -49,7 +50,7 @@
                 }
             },
             percent() {
-                return (this.animatePercent / 100)
+                return this.reverse ? ((100 - this.animatePercent) / 100) : (this.animatePercent / 100)
             },
             classes() {
                 return [
