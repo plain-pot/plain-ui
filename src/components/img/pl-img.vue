@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="pl-img" :style="styles">
+        <div class="pl-img" :style="styles" @mouseenter="p_hover = true" @mouseleave="p_hover = false">
             <img :src="p_value" :alt="alt" height="100%" width="100%" class="pl-img-el" :style="imageStyles" @load="pl_imgLoad" @error="pl_imgError" @click="pl_clickImg">
 
             <div class="pl-img-loading" v-if="status === STATUS.LOADING">
@@ -13,14 +13,16 @@
                 </slot>
             </div>
 
-            <div class="pl-img-operator" v-else-if="status !== STATUS.EMPTY && status !== STATUS.LOADING">
-                <div class="pl-img-operator-item">
-                    <pl-icon icon="pad-cloud-upload" hover @click.stop="pl_uploadNew"/>
+            <transition name="pl-img-operator-animate">
+                <div class="pl-img-operator" v-if="status !== STATUS.EMPTY && status !== STATUS.LOADING && !!p_hover">
+                    <div class="pl-img-operator-item">
+                        <pl-icon icon="pad-cloud-upload" hover @click.stop="pl_uploadNew"/>
+                    </div>
+                    <div class="pl-img-operator-item">
+                        <pl-icon icon="pad-delete-fill" hover @click.stop="pl_delete"/>
+                    </div>
                 </div>
-                <div class="pl-img-operator-item">
-                    <pl-icon icon="pad-delete-fill" hover @click.stop="pl_delete"/>
-                </div>
-            </div>
+            </transition>
         </div>
         [{{status}}]
     </div>
@@ -49,6 +51,7 @@
                 p_value: null,
                 status: STATUS.EMPTY,
                 STATUS,
+                p_hover: false,
             }
         },
         watch: {
@@ -162,8 +165,6 @@
                 right: 0;
                 top: 50%;
                 background-color: rgba(black, 0.5);
-                transition: transform 0.15s linear;
-                transform: translateY(100%);
                 display: flex;
 
                 .pl-img-operator-item {
@@ -182,15 +183,20 @@
                     border-color: plVar(colorPrimary);
                 }
 
-                .pl-img-operator {
-                    transform: translateY(0)
-                }
-
                 .pl-icon-camera {
                     color: plVar(colorPrimary);
                     transition-property: transform;
                 }
             }
         }
+    }
+
+    .pl-img-operator-animate-enter-active, .pl-img-operator-animate-leave-active {
+        transform: translateY(0);
+        transition: transform 0.15s linear;
+    }
+
+    .pl-img-operator-animate-enter, .pl-img-operator-animate-leave-to {
+        transform: translateY(100%);
     }
 </style>
