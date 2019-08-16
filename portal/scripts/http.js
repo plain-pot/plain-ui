@@ -1,16 +1,22 @@
 import Axios from 'axios'
 import qs from 'qs'
 import deepmerge from 'deepmerge'
+import getEnv from '../env'
 
-const env = {
-    // baseURL: 'http://193.112.75.134:8989/',
-    baseURL: 'http://localhost:8989/',
+let env = null
+let axios = null
+
+async function getAxios() {
+    if (!axios) {
+        env = await getEnv()
+
+        axios = Axios.create({
+            baseURL: env.server,
+            timeout: 30 * 1000,
+        })
+    }
+    return axios
 }
-
-const axios = Axios.create({
-    baseURL: env.baseURL,
-    timeout: 30 * 1000,
-})
 
 export default class HttpService {
 
@@ -19,6 +25,8 @@ export default class HttpService {
     constructor(Vue) {
         this.Vue = Vue
     }
+
+    getEnv = getEnv
 
     async get(url, data, config) {
         return this.request(url, data, config, 'get')
@@ -40,8 +48,8 @@ export default class HttpService {
 
         if (config.formRequest) data = qs.stringify(data)
 
-        return new Promise((rs, rj) => {
-            axios({
+        return new Promise(async (rs, rj) => {
+            (await getAxios())({
                 method,
                 url,
                 data,

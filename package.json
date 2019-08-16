@@ -18,9 +18,11 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build:page": "vue-cli-service build --analysis",
-    "build": "vue-cli-service build --target lib --name plain-ui src/index.js --dest dist --analysis --prod",
-    "start": "npm run serve"
+    "build:page": "cross-env env=prod vue-cli-service build --analysis",
+    "build": "vue-cli-service build --target lib --name plain-ui src/index.js --dest dist --report --prod",
+    "start": "npm run dev",
+    "dev": "cross-env env=dev npm run serve",
+    "prod": "cross-env env=prod npm run serve"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
+    "cross-env": "^5.2.0",
     "fecha": "^3.0.2",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",

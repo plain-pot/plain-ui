@@ -48,22 +48,30 @@
                 ],
                 imgSrc: 'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1327_s.jpg?version' + Date.now(),
                 imgSrc2: 'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1327_s.jpg?version' + Date.now(),
-                uploadOption: {
-                    action: 'http://193.112.75.134:8989/upload/testUploadFileLimit2m',
-                    filename: 'file',
-                    onSuccess: (data) => {
-                        if (data.code !== 0) {
-                            this.$notice.show(`文件上传失败！${data.ret}`)
-                            return false
-                        } else {
-                            this.$message.show(`文件[${data.ret.name}]上传成功！`, {type: 'success'})
-                            console.log(data.ret)
-                            return true
-                        }
-                    },
-                }
+                uploadOption: null
             }
         },
+        async created() {
+            console.log({
+                CONFIG,
+                env: await this.$http.getEnv()
+            })
+            this.uploadOption = {
+                action: `${(await this.$http.getEnv()).server}/upload/uploadFile`,
+                filename: 'file',
+                onSuccess: (data) => {
+                    if (data.code !== 0) {
+                        this.$notice.show(`文件上传失败！${data.ret}`)
+                        return false
+                    } else {
+                        this.$message.show(`文件[${data.ret.name}]上传成功！`, {type: 'success'})
+                        console.log(data.ret)
+                        return true
+                    }
+                },
+            }
+            console.log(this.uploadOption)
+        }
     }
 </script>
 

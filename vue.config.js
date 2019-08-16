@@ -1,5 +1,5 @@
+const webpack = require('webpack')
 const $utils = require('./build/build.utils')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /*获取命令行参数*/
 const arg = $utils.decodeArgv()
@@ -8,8 +8,15 @@ const plugins = []
 // !!arg.analysis && plugins.push(new BundleAnalyzerPlugin({analyzerPort: '9999'}))                        //如果命令行参数中存在analysis，则启用webpack-bundle-analysis插件分析打包数据
 const isProduction = !!arg.production
 
+console.log(`当前环境：${process.env.env}`)
+
+const config = {
+    "publicPath": "/plain/",
+    "env": `"${process.env.env}"`,
+}
+
 const option = {
-    publicPath: './',
+    publicPath: config.publicPath,
     outputDir: $utils.resolve('page'),
     productionSourceMap: !isProduction,
     devServer: {
@@ -54,6 +61,7 @@ const option = {
         },
         plugins: [
             ...plugins,
+            new webpack.DefinePlugin({"CONFIG": config})
         ]
     },
     css: {
