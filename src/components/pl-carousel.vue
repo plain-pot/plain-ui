@@ -75,6 +75,9 @@
             },
         },
         methods: {
+            refresh() {
+                this.p_containerWidth = this.$el.offsetWidth
+            },
             next() {
                 if (!this.data || this.data.length === 0) return
                 const target = this.p_value + 1

@@ -62,6 +62,7 @@
       width: 13%;
       display: flex;
       align-items: center;
+      justify-content: center;
       box-sizing: border-box;
       padding: 12px;
       color: rgba(255, 255, 255, 0.5);
@@ -69,8 +70,8 @@
       opacity: 0;
 
       .pl-icon {
-        width: 100%;
         height: auto;
+        font-size: 25px;
       }
 
       &.pl-carousel-prev-button {

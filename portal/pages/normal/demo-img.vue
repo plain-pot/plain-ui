@@ -5,7 +5,7 @@
         </im-demo-row>
         <im-demo-row>
             <div class="img-list">
-                <div class="img-item" v-for="(item,index) in  imgList" :key="index" @click="changeImg(item)">
+                <div class="img-item" v-for="(item,index) in  imgList" :key="index" @click="changeImg(item,index)">
                     <img :src="item">
                 </div>
             </div>

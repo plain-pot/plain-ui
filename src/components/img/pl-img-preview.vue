@@ -1,6 +1,6 @@
 <template>
-    <pl-dialog v-model="show" noHeader noPadding width="100vw" height="100vh" dialogClass="pl-img-preview-dialog" vertical="center" horizontal="center">
-        <pl-carousel :data="imgList" v-model="carouselIndex" ref="carousel">
+    <pl-dialog v-model="show" noHeader noPadding width="100vw" height="100vh" dialogClass="pl-img-preview-dialog" vertical="center" horizontal="center" initialized>
+        <pl-carousel :data="imgList" ref="carousel">
             <div slot-scope="{item,index}" class="pl-img-preview-item" @dblclick="pl_dblclick">
                 <img :src="item">
             </div>
@@ -15,16 +15,14 @@
             return {
                 show: false,
                 imgList: [],
-                carouselIndex: 0,
             }
         },
         methods: {
-            async preview(imgList, startIndex) {
+            async preview(imgList, startIndex = 0) {
                 this.imgList = imgList
-                this.carouselIndex = startIndex || 0
+                this.$refs.carousel.p_containerWidth = window.innerWidth
+                this.$refs.carousel.p_x = -startIndex * this.$refs.carousel.p_containerWidth
                 this.show = true
-                await this.$plain.nextTick()
-                this.$refs.carousel
             },
             pl_dblclick() {
                 this.show = false
@@ -50,6 +48,12 @@
                 object-position: center;
                 object-fit: contain;
                 pointer-events: none;
+            }
+        }
+
+        .pl-carousel-prev-button, .pl-carousel-next-button {
+            .pl-icon {
+                font-size: 50px !important;
             }
         }
     }
