@@ -1,15 +1,34 @@
 <template>
     <div class="demo-img">
-        <im-demo-row title="基本用法">
+
+        <im-demo-row title="Img基本用法">
             <im-img v-model="imgSrc" :uploadOption="uploadOption"/>
-            <im-simple-img :src="imgSrc"/>
+            <im-demo-row title="模仿图片地址切换">
+                <div class="img-list">
+                    <div class="img-item" v-for="(item,index) in  imgList" :key="index" @click="imgSrc = !!item ? `${item}?version=${Date.now()}` : null">
+                        <img :src="item">
+                    </div>
+                </div>
+            </im-demo-row>
         </im-demo-row>
-        <im-demo-row>
+
+        <im-demo-row title="图片预览">
             <div class="img-list">
-                <div class="img-item" v-for="(item,index) in  imgList" :key="index" @click="changeImg(item,index)">
+                <div class="img-item" v-for="(item,index) in  imgList" :key="index" @click="$img.preview(imgList, index)">
                     <img :src="item">
                 </div>
             </div>
+        </im-demo-row>
+
+        <im-demo-row title="简单图片">
+            <im-simple-img :src="imgSrc2"/>
+            <im-demo-row-item title="模拟图片切换">
+                <div class="img-list">
+                    <div class="img-item" v-for="(item,index) in  imgList" :key="index" @click="imgSrc2 = !!item ? `${item}?version=${Date.now()}` : null">
+                        <img :src="item">
+                    </div>
+                </div>
+            </im-demo-row-item>
         </im-demo-row>
     </div>
 </template>
@@ -27,8 +46,8 @@
                     'error.jpg',
                     null,
                 ],
-                // imgSrc: 'http://img4.imgtn.bdimg.com/it/u=508387608,2848974022&fm=26&gp=0.jpg',
-                imgSrc: 'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg?version' + Date.now(),
+                imgSrc: 'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1327_s.jpg?version' + Date.now(),
+                imgSrc2: 'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1327_s.jpg?version' + Date.now(),
                 uploadOption: {
                     action: 'http://193.112.75.134:8989/upload/testUploadFileLimit2m',
                     filename: 'file',
@@ -45,16 +64,6 @@
                 }
             }
         },
-        methods: {
-            changeImg(item, index) {
-                // this.imgSrc = !!item ? `${item}?version=${Date.now()}` : null
-                // console.log(this.imgSrc)
-                this.$img.preview(this.imgList, index)
-            },
-        },
-        mounted() {
-
-        }
     }
 </script>
 
