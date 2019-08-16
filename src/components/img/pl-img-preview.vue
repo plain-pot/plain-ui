@@ -2,7 +2,7 @@
     <pl-dialog v-model="show" noHeader noPadding width="100vw" height="100vh" dialogClass="pl-img-preview-dialog" vertical="center" horizontal="center" initialized>
         <pl-carousel :data="imgList" ref="carousel">
             <div slot-scope="{item,index}" class="pl-img-preview-item" @dblclick="pl_dblclick">
-                <img :src="item">
+                <pl-simple-img :src="item"/>
             </div>
         </pl-carousel>
     </pl-dialog>
@@ -42,7 +42,9 @@
         .pl-img-preview-item {
             height: 100%;
             width: 100%;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
                 width: 100%;
                 height: 100%;

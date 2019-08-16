@@ -2,6 +2,7 @@
     <div class="demo-img">
         <im-demo-row title="基本用法">
             <im-img v-model="imgSrc" :uploadOption="uploadOption"/>
+            <im-simple-img :src="imgSrc"/>
         </im-demo-row>
         <im-demo-row>
             <div class="img-list">
@@ -50,6 +51,9 @@
                 // console.log(this.imgSrc)
                 this.$img.preview(this.imgList, index)
             },
+        },
+        mounted() {
+
         }
     }
 </script>

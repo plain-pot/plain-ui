@@ -5,6 +5,10 @@
     display: inline-block;
     position: relative;
 
+    .pl-carousel-item {
+      vertical-align: middle;
+    }
+
     &, & .pl-carousel-content, & .pl-carousel-item {
       height: 100%;
       width: 100%;
