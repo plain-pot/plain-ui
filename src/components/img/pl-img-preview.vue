@@ -23,6 +23,7 @@
                 this.$refs.carousel.p_containerWidth = window.innerWidth
                 this.$refs.carousel.p_x = -startIndex * this.$refs.carousel.p_containerWidth
                 this.show = true
+                this.$message.show('双击关闭预览', {vertical: 'end'})
             },
             pl_dblclick() {
                 this.show = false
