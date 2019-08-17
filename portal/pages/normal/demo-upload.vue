@@ -35,11 +35,11 @@
         name: "demo-upload",
         data() {
             const multipleUploadProps = {
-                action: 'http://193.112.75.134:8989/upload/testUploadFilesLimit2m',
+                action: 'http://localhost:8989/upload/uploadFiles',
                 multipleUploadFile: true,
             }
             const separateUploadProps = {
-                action: 'http://193.112.75.134:8989/upload/testUploadFileLimit2m',
+                action: 'http://localhost:8989/upload/uploadFiles',
                 multipleUploadFile: false,
             }
             return {

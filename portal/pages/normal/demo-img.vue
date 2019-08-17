@@ -59,6 +59,9 @@
             this.uploadOption = {
                 action: `${(await this.$http.getEnv()).server}/upload/uploadFile`,
                 filename: 'file',
+                data: {
+                    module: 'test'
+                },
                 onSuccess: (data) => {
                     if (data.code !== 0) {
                         this.$notice.show(`文件上传失败！${data.ret}`)
