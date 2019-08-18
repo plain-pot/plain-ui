@@ -11,6 +11,7 @@ import PlOv from './ov/pl-ov'
 import ov from './ov/ov-tc'
 import PlAddress from './address/pl-address'
 import address from './address/addres-tc'
+import PmImg from './img/pm-img'
 
 export function InstallComponent(Vue) {
     const components = {
@@ -21,6 +22,7 @@ export function InstallComponent(Vue) {
         PlObject,
         PlOv,
         PlAddress,
+        PmImg,
     }
     Object.keys(components).forEach(key => Vue.component(key, components[key]))
     window.PlainOption = getPlainOptionClass(Vue)
