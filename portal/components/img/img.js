@@ -53,7 +53,6 @@ export default {
     },
     methods: {
         pl_customPreview(index) {
-            console.log(this.table.data, index)
             const imgList = this.table.p_data.map(({editRow}) => editRow[this.src])
             this.$img.preview(imgList, index)
         },
