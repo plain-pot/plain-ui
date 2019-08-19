@@ -23,7 +23,7 @@
 
         <div class="pl-img-uploading" v-else-if="status === STATUS.UPLOAD">
             <slot name="upload">
-                <im-progress-mini :value="uploadPercent" innerColor="black" :size="progressSize" reverse/>
+                <pl-progress-mini :value="uploadPercent" innerColor="black" :size="progressSize" reverse/>
             </slot>
         </div>
 
