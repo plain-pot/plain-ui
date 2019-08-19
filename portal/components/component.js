@@ -12,6 +12,7 @@ import ov from './ov/ov-tc'
 import PlAddress from './address/pl-address'
 import address from './address/addres-tc'
 import PmImg from './img/pm-img'
+import img from './img/img'
 
 export function InstallComponent(Vue) {
     const components = {
@@ -32,4 +33,5 @@ export const CustomColumns = {
     object,
     ov,
     address,
+    img,
 }

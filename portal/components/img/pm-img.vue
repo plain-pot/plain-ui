@@ -1,5 +1,5 @@
 <template>
-    <pl-img :value="p_src" :uploadOption="p_uploadOption"/>
+    <pl-img :value="p_src" :uploadOption="p_uploadOption" v-bind="p_imgProps" @delete="pl_delete"/>
 </template>
 
 <script>
@@ -8,6 +8,8 @@
         props: {
             id: {type: String, require: true},
             src: {type: String, require: true},
+            imgProps: {type: Object,},
+            disabled: {type: Boolean,},
 
             uploadOption: {},
         },
@@ -32,6 +34,15 @@
                 p_uploadOption: null,
             }
         },
+        computed: {
+            p_imgProps() {
+                return Object.assign({}, {
+                    height: '56px',
+                    width: '56px',
+                    disabled: this.disabled,
+                }, this.imgProps)
+            },
+        },
         async created() {
             this.p_uploadOption = Object.assign({}, {
                 action: `${(await this.$http.getEnv()).server}/upload/uploadFile`,
@@ -54,8 +65,16 @@
                     }
                 },
             }, this.uploadOption)
+        },
+        methods: {
+            pl_delete() {
+                this.p_id = null
+                this.p_src = null
+                this.$emit('update:id', this.p_id)
+                this.$emit('update:src', this.p_src)
+                this.$emit('change', {id: this.p_id, src: this.p_src})
+            },
         }
-
     }
 </script>
 

@@ -1,46 +1,43 @@
 <template>
-    <div>
-        <div class="pl-img" :style="styles" @mouseenter="p_hover = true" @mouseleave="p_hover = false" :class="classes">
-            <img :src="p_value" :alt="alt" height="100%" width="100%" class="pl-img-el" :style="imageStyles" @load="pl_imgLoad" @error="pl_imgError" @click="pl_clickImg">
+    <div class="pl-img" :style="styles" @mouseenter="p_hover = true" @mouseleave="p_hover = false" :class="classes">
+        <img :src="p_value" :alt="alt" height="100%" width="100%" class="pl-img-el" :style="imageStyles" @load="pl_imgLoad" @error="pl_imgError" @click="pl_clickImg">
 
-            <!--加载图片状态-->
-            <div class="pl-img-loading" v-if="status === STATUS.LOADING">
-                <pl-loading color="white"/>
-            </div>
-
-            <!--图片为空状态-->
-            <div class="pl-img-empty" v-else-if="status === STATUS.EMPTY" @click="pl_uploadNew">
-                <slot name="empty">
-                    <pl-icon icon="pad-camera" class="pl-icon-tag"/>
-                </slot>
-            </div>
-
-            <!--图片加载失败状态-->
-            <div class="pl-img-error" v-else-if="status === STATUS.ERROR" @click="pl_uploadNew">
-                <slot name="error">
-                    <pl-icon icon="pad-close-circle" class="pl-icon-tag pl-icon-error"/>
-                </slot>
-            </div>
-
-            <div class="pl-img-uploading" v-else-if="status === STATUS.UPLOAD">
-                <slot name="upload">
-                    <im-progress-mini :value="uploadPercent" innerColor="black" :size="progressSize" reverse/>
-                </slot>
-            </div>
-
-            <!--图片操作栏-->
-            <transition name="pl-img-operator-animate">
-                <div class="pl-img-operator" v-if="([STATUS.SUCCESS,STATUS.ERROR].indexOf(status)>-1) && !!p_hover">
-                    <div class="pl-img-operator-item">
-                        <pl-icon icon="pad-cloud-upload" hover @click.stop="pl_uploadNew"/>
-                    </div>
-                    <div class="pl-img-operator-item">
-                        <pl-icon icon="pad-delete-fill" hover @click.stop="pl_delete"/>
-                    </div>
-                </div>
-            </transition>
+        <!--加载图片状态-->
+        <div class="pl-img-loading" v-if="status === STATUS.LOADING">
+            <pl-loading color="white"/>
         </div>
-        [{{status}}]
+
+        <!--图片为空状态-->
+        <div class="pl-img-empty" v-else-if="status === STATUS.EMPTY" @click="pl_uploadNew">
+            <slot name="empty">
+                <pl-icon icon="pad-camera" class="pl-icon-tag"/>
+            </slot>
+        </div>
+
+        <!--图片加载失败状态-->
+        <div class="pl-img-error" v-else-if="status === STATUS.ERROR" @click="pl_uploadNew">
+            <slot name="error">
+                <pl-icon icon="pad-close-circle" class="pl-icon-tag pl-icon-error"/>
+            </slot>
+        </div>
+
+        <div class="pl-img-uploading" v-else-if="status === STATUS.UPLOAD">
+            <slot name="upload">
+                <im-progress-mini :value="uploadPercent" innerColor="black" :size="progressSize" reverse/>
+            </slot>
+        </div>
+
+        <!--图片操作栏-->
+        <transition name="pl-img-operator-animate">
+            <div class="pl-img-operator" v-if="([STATUS.SUCCESS,STATUS.ERROR].indexOf(status)>-1) && !!p_hover && !disabled">
+                <div class="pl-img-operator-item">
+                    <pl-icon icon="pad-cloud-upload" hover @click.stop="pl_uploadNew"/>
+                </div>
+                <div class="pl-img-operator-item">
+                    <pl-icon icon="pad-delete-fill" hover @click.stop="pl_delete"/>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -55,7 +52,8 @@
             accept: {type: String, default: 'image/gif,image/jpeg,image/jpg,image/png,image/svg'},          //选择图片的类型
             ObjectFit: {type: String, default: 'cover'},                                                    //图片object-fit样式值
             ObjectPosition: {type: String, default: 'center'},                                              //图片object-position样式值
-            uploadOption: {type: Object, require: true},                                                             //图片上传地址
+            uploadOption: {type: Object, require: true},                                                    //图片上传地址
+            disabled: {type: Boolean},                                                                      //是否禁用
         },
         data() {
             const STATUS = {
@@ -120,6 +118,7 @@
             },
 
             async pl_uploadNew() {
+                if (!!this.disabled) return
                 if (!this.uploadOption) {
                     throw new Error('uploadOption can be undefined!')
                 }
@@ -152,6 +151,7 @@
                 this.p_value = null
                 this.changeStatus(this.STATUS.EMPTY)
                 this.$emit('input', this.p_value)
+                this.$emit('delete')
             },
 
             pl_clickImg(index) {
