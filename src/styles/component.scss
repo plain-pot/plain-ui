@@ -41,6 +41,7 @@
 @import "./component/popper";
 @import "./component/table";
 @import "./component/plain-table";
+@import "./component/img";
 
 
 @mixin component-mixin {
@@ -88,6 +89,7 @@
   @include component-step;
   @include component-table;
   @include component-plain-table;
+  @include component-img;
 
 
 }

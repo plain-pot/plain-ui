@@ -1,0 +1,91 @@
+@mixin component-img {
+  $img-border-color: #ddd;
+
+  .pl-img {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+
+    .pl-img-el {
+      object-fit: cover;
+      object-position: center;
+      border-radius: plVar(borderFillet);
+    }
+
+    .pl-img-empty, .pl-img-loading, .pl-img-error, .pl-img-uploading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pl-img-loading {
+      background-color: rgba(black, 0.25);
+    }
+
+    .pl-img-empty, .pl-img-error {
+      border: dashed $img-border-color 1px;
+
+      .pl-icon-tag {
+        font-size: 20px;
+        color: $img-border-color;
+      }
+
+      .pl-icon-error {
+        color: plVar(colorError) !important;
+      }
+    }
+
+    .pl-img-error {
+      border-color: plVar(colorError);
+    }
+
+    .pl-img-operator {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 50%;
+      background-color: rgba(black, 0.5);
+      display: flex;
+
+      .pl-img-operator-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+    }
+
+    .pl-img-uploading {
+      .pl-progress-mini {
+        opacity: 0.75;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .pl-img-empty {
+        border-color: plVar(colorPrimary);
+      }
+
+      .pl-icon-tag {
+        color: plVar(colorPrimary);
+        transition-property: transform;
+      }
+    }
+
+    &.pl-img-status-error {
+      img {
+        opacity: 0;
+      }
+    }
+  }
+
+}
