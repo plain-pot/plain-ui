@@ -1,37 +1,38 @@
-@mixin component-grid {
-  $screen-sm: 768px;
-  $screen-md: 992px;
-  $screen-lg: 1200px;
-  $screen-xl: 1920px;
-  $cell-num: 24;
-  $flexs: (
-          start:(justify-content:flex-start),
-          center:(justify-content:center),
-          end:(justify-content:flex-end),
-          space-between:(justify-content:space-between),
-          space-around:(justify-content:space-around),
-          top:(align-items:flex-start),
-          middle:(align-items:center),
-          bottom:(align-items:flex-end),
-  );
-  $screens: (
-          xs:(max-width:$screen-sm),
-          sm:(min-width:$screen-sm),
-          md:(min-width:$screen-md),
-          lg:(min-width:$screen-lg),
-          xl:(min-width:$screen-xl),
-  );
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
+$screen-xl: 1920px;
+$cell-num: 24;
+$flexs: (
+        start:(justify-content:flex-start),
+        center:(justify-content:center),
+        end:(justify-content:flex-end),
+        space-between:(justify-content:space-between),
+        space-around:(justify-content:space-around),
+        top:(align-items:flex-start),
+        middle:(align-items:center),
+        bottom:(align-items:flex-end),
+);
+$screens: (
+        xs:(max-width:$screen-sm),
+        sm:(min-width:$screen-sm),
+        md:(min-width:$screen-md),
+        lg:(min-width:$screen-lg),
+        xl:(min-width:$screen-xl),
+);
 
-  @mixin res($key, $map: $screens) {
-    // 循环断点Map，如果存在则返回
-    @if map-has-key($map, $key) {
-      @media only screen and #{inspect(map-get($map, $key))} {
-        @content;
-      }
-    } @else {
-      @warn "Undefeined points: `#{$map}`";
+@mixin res($key, $map: $screens) {
+  // 循环断点Map，如果存在则返回
+  @if map-has-key($map, $key) {
+    @media only screen and #{inspect(map-get($map, $key))} {
+      @content;
     }
+  } @else {
+    @warn "Undefeined points: `#{$map}`";
   }
+}
+
+@mixin component-grid {
 
   .pl-row {
     height: auto;
