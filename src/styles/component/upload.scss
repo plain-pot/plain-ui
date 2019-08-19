@@ -1,0 +1,101 @@
+@mixin component-upload {
+  .pl-upload {
+    display: inline-block;
+
+    .pl-upload-list {
+      margin: 0;
+      padding: 0.5em 0;
+      position: relative;
+
+      .pl-upload-item {
+        width: 300px;
+        list-style: none;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        transition: all 0.15s linear;
+        user-select: none;
+
+        .pl-upload-file-icon {
+          margin-right: 0.5em;
+        }
+
+        .pl-upload-item-icon-wrapper {
+          width: plVar(iconSize);
+          height: plVar(iconSize);
+          position: relative;
+
+          .pl-upload-item-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition-property: transform;
+
+            &.pl-upload-item-icon-success {
+              color: plVar(colorSuccess);
+              visibility: visible;
+            }
+
+            &.pl-upload-item-icon-error {
+              color: plVar(colorError);
+              visibility: visible;
+            }
+
+            &.pl-upload-item-icon-close {
+              visibility: hidden;
+            }
+          }
+
+          .pl-progress-mini {
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+
+
+        .pl-upload-item-name {
+          flex: 1;
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        &:hover {
+          .pl-upload-item-icon {
+            &.pl-upload-item-icon-success, &.pl-upload-item-icon-error {
+              visibility: hidden;
+            }
+
+            &.pl-upload-item-icon-close {
+              visibility: visible;
+            }
+          }
+
+          &:after {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -6px;
+            right: -6px;
+            border-radius: plVar(borderFillet);
+            content: '';
+            cursor: pointer;
+            background-color: plVar(colorPrimaryLighter);
+            z-index: -1;
+          }
+        }
+      }
+    }
+  }
+
+  .pl-upload-item-right-leave-active {
+    position: absolute !important;
+  }
+
+  .pl-upload-item-right-enter, .pl-upload-item-right-leave-to {
+    opacity: 0;
+    transform: translateX(2em);
+  }
+}

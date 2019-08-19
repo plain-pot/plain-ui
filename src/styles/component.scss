@@ -42,7 +42,7 @@
 @import "./component/table";
 @import "./component/plain-table";
 @import "./component/img";
-
+@import "./component/upload";
 
 @mixin component-mixin {
   @include mixin-transition;
@@ -90,6 +90,7 @@
   @include component-table;
   @include component-plain-table;
   @include component-img;
+  @include component-upload;
 
 
 }
