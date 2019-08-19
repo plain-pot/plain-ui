@@ -20,6 +20,7 @@
                     module: 'demoField',
                     bodyRowHeight: 80,
                     showNum: 5,
+                    pageSize: 5,
                 }),
             }
         },

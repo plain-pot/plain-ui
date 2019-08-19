@@ -10,7 +10,7 @@
             src: {type: String, require: true},
             imgProps: {type: Object,},
             disabled: {type: Boolean,},
-
+            customPreview: {type: Function},                                                                //自定义预览函数
             uploadOption: {},
         },
         watch: {
@@ -40,6 +40,7 @@
                     height: '56px',
                     width: '56px',
                     disabled: this.disabled,
+                    customPreview: this.customPreview,
                 }, this.imgProps)
             },
         },

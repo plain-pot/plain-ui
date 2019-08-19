@@ -1,6 +1,6 @@
 <template>
     <div class="pl-img" :style="styles" @mouseenter="p_hover = true" @mouseleave="p_hover = false" :class="classes">
-        <img :src="p_value" :alt="alt" height="100%" width="100%" class="pl-img-el" :style="imageStyles" @load="pl_imgLoad" @error="pl_imgError" @click="pl_clickImg">
+        <img :src="p_value" :alt="alt" height="100%" width="100%" class="pl-img-el" :style="imageStyles" @load="pl_imgLoad" @error="pl_imgError" @click="pl_preview">
 
         <!--加载图片状态-->
         <div class="pl-img-loading" v-if="status === STATUS.LOADING">
@@ -54,6 +54,7 @@
             ObjectPosition: {type: String, default: 'center'},                                              //图片object-position样式值
             uploadOption: {type: Object, require: true},                                                    //图片上传地址
             disabled: {type: Boolean},                                                                      //是否禁用
+            customPreview: {type: Function},                                                                //自定义预览函数
         },
         data() {
             const STATUS = {
@@ -154,8 +155,9 @@
                 this.$emit('delete')
             },
 
-            pl_clickImg(index) {
-                this.$img.preview([this.p_value])
+            pl_preview() {
+                if (!!this.customPreview) this.customPreview(this.p_value)
+                else this.$img.preview([this.p_value])
             },
         }
     }
