@@ -164,16 +164,5 @@
 </script>
 
 <style lang="scss">
-    img[src=""], img:not([src]) {
-        opacity: 0;
-    }
 
-    .pl-img-operator-animate-enter-active, .pl-img-operator-animate-leave-active {
-        transform: translateY(0);
-        transition: transform 0.15s linear;
-    }
-
-    .pl-img-operator-animate-enter, .pl-img-operator-animate-leave-to {
-        transform: translateY(100%);
-    }
 </style>

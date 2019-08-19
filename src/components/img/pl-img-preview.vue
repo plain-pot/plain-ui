@@ -33,31 +33,5 @@
 </script>
 
 <style lang="scss">
-    .pl-img-preview-dialog {
-        .pl-dialog-content {
-            background-color: transparent !important;
-            box-shadow: initial !important;
-        }
 
-        .pl-img-preview-item {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            img {
-                width: 100%;
-                height: 100%;
-                object-position: center;
-                object-fit: contain;
-                pointer-events: none;
-            }
-        }
-
-        .pl-carousel-prev-button, .pl-carousel-next-button {
-            .pl-icon {
-                font-size: 50px !important;
-            }
-        }
-    }
 </style>

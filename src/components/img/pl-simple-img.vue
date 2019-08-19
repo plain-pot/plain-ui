@@ -66,24 +66,4 @@
 </script>
 
 <style lang="scss">
-    .pl-simple-img {
-        display: inline-block;
-        text-align: center;
-
-        .pl-icon {
-            font-size: 50px;
-
-            span {
-                font-size: 14px;
-            }
-        }
-
-        &.pl-simple-img-status-error {
-            color: black;
-        }
-
-        &.pl-simple-img-status-empty {
-            color: white;
-        }
-    }
 </style>

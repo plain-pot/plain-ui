@@ -1,6 +1,8 @@
 @mixin component-img {
   $img-border-color: #ddd;
 
+  /*pl-img*/
+
   .pl-img {
     display: inline-block;
     position: relative;
@@ -88,4 +90,68 @@
     }
   }
 
+  img[src=""], img:not([src]) {
+    opacity: 0;
+  }
+
+  .pl-img-operator-animate-enter-active, .pl-img-operator-animate-leave-active {
+    transform: translateY(0);
+    transition: transform 0.15s linear;
+  }
+
+  .pl-img-operator-animate-enter, .pl-img-operator-animate-leave-to {
+    transform: translateY(100%);
+  }
+
+  /*图片预览*/
+  .pl-img-preview-dialog {
+    .pl-dialog-content {
+      background-color: transparent !important;
+      box-shadow: initial !important;
+    }
+
+    .pl-img-preview-item {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-position: center;
+        object-fit: contain;
+        pointer-events: none;
+      }
+    }
+
+    .pl-carousel-prev-button, .pl-carousel-next-button {
+      .pl-icon {
+        font-size: 50px !important;
+      }
+    }
+  }
+
+  /*简单图片*/
+  .pl-simple-img {
+    display: inline-block;
+    text-align: center;
+
+    .pl-icon {
+      font-size: 50px;
+
+      span {
+        font-size: 14px;
+      }
+    }
+
+    &.pl-simple-img-status-error {
+      color: black;
+    }
+
+    &.pl-simple-img-status-empty {
+      color: white;
+    }
+  }
 }
