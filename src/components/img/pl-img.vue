@@ -84,7 +84,10 @@
         computed: {
             classes() {
                 return [
-                    `pl-img-status-${this.status.toLowerCase()}`
+                    `pl-img-status-${this.status.toLowerCase()}`,
+                    {
+                        'pl-img-disabled': this.disabled,
+                    },
                 ]
             },
             styles() {

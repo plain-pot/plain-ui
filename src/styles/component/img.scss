@@ -70,7 +70,7 @@
       }
     }
 
-    &:hover {
+    &:hover:not(.pl-img-disabled) {
       cursor: pointer;
 
       .pl-img-empty {
