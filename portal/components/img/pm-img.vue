@@ -1,5 +1,5 @@
 <template>
-    <pl-img :value="p_src" :uploadOption="uploadOption"/>
+    <pl-img :value="p_src" :uploadOption="p_uploadOption"/>
 </template>
 
 <script>
@@ -44,7 +44,12 @@
                         this.$notice.show(`文件上传失败！${data.ret}`)
                         return false
                     } else {
-                        console.log('pm img', data.ret)
+                        const info = data.ret
+                        this.p_id = info.id
+                        this.p_src = info.url
+                        this.$emit('update:id', this.p_id)
+                        this.$emit('update:src', this.p_src)
+                        this.$emit('change', {id: this.p_id, src: this.p_src})
                         return true
                     }
                 },
