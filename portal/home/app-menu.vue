@@ -29,6 +29,12 @@
             return {
                 menuGroups: [
                     {
+                        title: 'CloudMusic',
+                        menus: [
+                            {title: '网易云音乐api', icon: 'pad-play-circle-fill', page: '/cloudmusic/cloudmusic.vue', complete: true},
+                        ],
+                    },
+                    {
                         title: 'PlainTable',
                         menus: [
                             {title: '基础编辑', icon: 'pl-table-solid', page: '/plain-table/demo-plain-table', complete: true},
