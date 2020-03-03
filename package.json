@@ -13,7 +13,7 @@
     "serve": "vue-cli-service serve",
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build --report",
-    "build:dist": "vue-cli-service build --release --report",
+    "release": "vue-cli-service build --release --report",
     "check": "node build/check.entries.js"
   },
   "devDependencies": {

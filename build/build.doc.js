@@ -15,7 +15,7 @@ module.exports = {
             [PlainUI]: $utils.resolve('src/index.js'),
         },
         output: {
-            filename: `page.[name].js`,
+            filename: `[name].[hash].js`,
             libraryTarget: 'umd',
             libraryExport: 'default',
             library: ['PlainDoc', "[name]"],
