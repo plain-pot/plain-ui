@@ -1,12 +1,12 @@
 <template>
-    <div class="app">
-        <pl-button>123</pl-button>
-    </div>
+    <app-home/>
 </template>
 
 <script>
+    import AppHome from "./page/home/app-home";
     export default {
         name: "App",
+        components: {AppHome},
         props: {},
         data() {
             return {}
@@ -20,8 +20,10 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        .app{
-            height: 100%;
+        overflow: auto;
+        html{
+            overflow: scroll;
+            box-sizing: border-box;
         }
     }
 </style>
