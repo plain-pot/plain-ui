@@ -3,7 +3,7 @@
         <pl-scroll :style="styles" scrollbar-color="rgba(0,0,0,0.35)">
             <span class="app-divider"/>
             <div class="app-content-body">
-                <div class="test-block" v-for="item in 10" :key="item">{{item}}</div>
+<!--                <div class="test-block" v-for="item in 10" :key="item">{{item}}</div>-->
             </div>
         </pl-scroll>
     </div>

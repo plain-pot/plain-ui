@@ -1,0 +1,13 @@
+@import "../src/styles/base/base";
+@import "../src/styles/theme/dark";
+@import "../src/styles/theme/default";
+
+$themes: map_merge($theme-default, $theme-dark);
+
+@mixin themify {
+  @each $curThemeName, $curTheme in $themes {
+    @include generateThemeContent($curThemeName, $curTheme) {
+      @content;
+    }
+  }
+}

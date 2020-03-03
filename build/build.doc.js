@@ -43,7 +43,7 @@ module.exports = {
         sourceMap: true,
         loaderOptions: {
             sass: {
-                // prependData: `@import "home/styles/global.scss";`
+                prependData: `@import "src-doc/doc.global.scss";`
             }
         }
     },
