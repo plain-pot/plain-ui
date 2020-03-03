@@ -1,6 +1,8 @@
 <template>
     <div class="demo-button">
-        demo-button
+        <demo-row title="基本用法">
+            <pl-button/>
+        </demo-row>
     </div>
 </template>
 

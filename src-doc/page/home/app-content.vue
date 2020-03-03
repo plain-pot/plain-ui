@@ -41,7 +41,7 @@
         }
 
         .app-content-body {
-            padding: 16px;
+            padding: 16px 0;
         }
 
         .test-block {
