@@ -2,7 +2,7 @@
     <div class="demo-icon">
         <demo-row title="使用 ElementUI 标准图标">
             <div style="font-size: 30px;color: #12b4a5">
-                <i class="el-icon-plus"></i>
+                <i class="el-icon-plus"/>
             </div>
         </demo-row>
     </div>
