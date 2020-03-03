@@ -1,9 +1,10 @@
 import button from './button'
 import icon from './icon'
+import scroll from './scroll'
 
 const plugins = [
-    button,
-    icon,
+    button, icon,
+    scroll,
 ]
 
 export default {

@@ -33,6 +33,6 @@
         border-bottom: solid 1px #dcdee2;
         box-shadow: 0 0 2px 1px #f1f1f1;
         background-color: white;
-        z-index: 1;
+        z-index: 2;
     }
 </style>

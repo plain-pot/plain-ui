@@ -26,10 +26,11 @@
 
 <style lang="scss">
     .app-menu {
-        border-right: solid 1px #dcdee2;
+        border-right: solid 1px #efefef;
         position: fixed;
         left: 0;
         bottom: 0;
         background-color: white;
+        z-index: 1;
     }
 </style>

@@ -1,38 +1,11 @@
 <template>
-    <div class="app-content" :style="styles">
-        <slot name="header"/>
-        <span class="app-divider"/>
-        <div>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-            <h1>this is content</h1>
-        </div>
+    <div class="app-content">
+        <pl-scroll :style="styles" scrollbar-color="rgba(0,0,0,0.35)">
+            <span class="app-divider"/>
+            <div class="app-content-body">
+                <div class="test-block" v-for="item in 10" :key="item">{{item}}</div>
+            </div>
+        </pl-scroll>
     </div>
 </template>
 
@@ -59,6 +32,22 @@
 <style lang="scss">
     .app-content {
         width: 100%;
+        height: 100%;
         box-sizing: border-box;
+        z-index: 0;
+
+        & > .pl-scroll .pl-vertical-scrollbar-wrapper .pl-vertical-scrollbar {
+            z-index: 3;
+        }
+
+        .app-content-body {
+            padding: 16px;
+        }
+
+        .test-block {
+            height: 100px;
+            background-color: #f6f6f6;
+            margin-bottom: 10px;
+        }
     }
 </style>

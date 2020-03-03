@@ -1,6 +1,7 @@
 <template>
     <div class="app-home">
         <app-header/>
+        <app-menu/>
         <app-content/>
     </div>
 </template>
@@ -34,8 +35,10 @@
 
 <style lang="scss">
     .app-home {
+        height: 100%;
+        width: 100%;
         .app-divider {
-            background-color: #f8f8f8;
+            background-color: #efefef;
             height: 16px;
             display: block;
         }

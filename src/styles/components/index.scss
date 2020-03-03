@@ -1,5 +1,7 @@
 @import "./components/button";
+@import "./components/scroll";
 
 @mixin component-index {
   @include component-button;
+  @include component-scroll;
 }

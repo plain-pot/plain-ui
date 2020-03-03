@@ -20,10 +20,5 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        overflow: auto;
-        html{
-            overflow: scroll;
-            box-sizing: border-box;
-        }
     }
 </style>
