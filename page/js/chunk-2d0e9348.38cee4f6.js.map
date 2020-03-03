@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./portal/env/dev.js"],"names":["__webpack_require__","r","__webpack_exports__","server"],"mappings":"kHAAAA,EAAAC,EAAAC,GAAeA,EAAA,YACXC,OAAQ","file":"js/chunk-2d0e9348.38cee4f6.js","sourcesContent":["export default {\r\n    server: 'http://localhost:8989'\r\n}\r\n"],"sourceRoot":""}

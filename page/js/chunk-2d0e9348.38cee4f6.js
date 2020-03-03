@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e9348"],{"8d17":function(e,n,o){"use strict";o.r(n),n["default"]={server:"http://localhost:8989"}}}]);
-//# sourceMappingURL=chunk-2d0e9348.38cee4f6.js.map

@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c04d2"],{"40cc":function(n,t,e){"use strict";e.r(t);var c=function(){var n=this,t=n.$createElement,e=n._self._c||t;return e("div")},o=[],s={name:"test-vuex",methods:{log:function(){this.$dialog.show(this.val)},saveChange:function(n){this.$store.commit("saveChange",n)}},computed:{val:function(){}}},a=s,i=e("17cc"),u=Object(i["a"])(a,c,o,!1,null,null,null);t["default"]=u.exports}}]);
-//# sourceMappingURL=chunk-2d0c04d2.0bb606fa.js.map
