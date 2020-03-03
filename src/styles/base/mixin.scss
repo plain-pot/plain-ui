@@ -1,30 +1,32 @@
 @import "../components/index.scss";
 
 @mixin generateThemeContent($name,$theme) {
-  $globalThemes: $theme !global;
+  $globalTheme: $theme !global;
 
-  $colorPrimary: map_get($globalThemes, 'colorPrimary') !global;
-  $colorSuccess: map_get($globalThemes, 'colorSuccess') !global;
-  $colorWarn: map_get($globalThemes, 'colorWarn') !global;
-  $colorError: map_get($globalThemes, 'colorError') !global;
-  $colorInfo: map_get($globalThemes, 'colorInfo') !global;
-  $disabled: map_get($globalThemes, 'disabled') !global;
-  $disabledLight: map_get($globalThemes, 'disabledLight') !global;
-  $disabledDeep: map_get($globalThemes, 'disabledDeep') !global;
-  $font: map_get($globalThemes, 'font') !global;
-  $ibc: map_get($globalThemes, 'ibc') !global;
-  $itc: map_get($globalThemes, 'itc') !global;
-  $ipc: map_get($globalThemes, 'ipc') !global;
-  $icc: map_get($globalThemes, 'icc') !global;
-  $transitionFlexible: map_get($globalThemes, 'transitionFlexible') !global;
-  $transition: map_get($globalThemes, 'transition') !global;
+  $colorPrimary: plvar(colorPrimary) !global;
+  $colorSuccess: plvar(colorSuccess) !global;
+  $colorWarn: plvar(colorWarn) !global;
+  $colorError: plvar(colorError) !global;
+  $colorInfo: plvar(colorInfo) !global;
+  $disabled: plvar(disabled) !global;
+  $disabledLight: plvar(disabledLight) !global;
+  $disabledDeep: plvar(disabledDeep) !global;
+  $font: plvar(font) !global;
+  $ibc: plvar(ibc) !global;
+  $itc: plvar(itc) !global;
+  $ipc: plvar(ipc) !global;
+  $icc: plvar(icc) !global;
+  $transitionFlexible: plvar(transitionFlexible) !global;
+  $transition: plvar(transition) !global;
 
   @if (str_length($name)>0) {
     .theme-#{$name} {
+      font-family: $font;
       @content;
     }
   } @else {
     html {
+      font-family: $font;
       @content;
     }
   }

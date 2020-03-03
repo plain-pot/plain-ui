@@ -2,8 +2,8 @@
 $default: map_get($theme-default, '') !global;
 
 @function plvar($key) {
-  @if (map_has_key($globalThemes, $key)) {
-    @return map-get($globalThemes, $key);
+  @if (map_has_key($globalTheme, $key)) {
+    @return map-get($globalTheme, $key);
   } @else {
     @return map-get($default, $key);
   }
