@@ -1,7 +1,9 @@
 import button from './button'
+import icon from './icon'
 
 const plugins = [
     button,
+    icon,
 ]
 
 export default {
