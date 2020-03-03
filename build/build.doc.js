@@ -52,7 +52,7 @@ module.exports = {
             entry: $utils.resolve('src-doc/index.js'),
             template: 'public/index.html',
             filename: 'index.html',
-            title: $utils.name,
+            title: $utils.entryName,
             chunks: ['chunk-vendors', 'chunk-common', PlainUI, 'theme-default', 'theme-dark', 'index'],
         },
     },
