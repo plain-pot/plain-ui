@@ -1,0 +1,27 @@
+/*scale*/
+.r-transition-scale-enter-active, .r-transition-scale-leave-active {
+  transform: scale(1);
+}
+
+.r-transition-scale-enter, .r-transition-scale-leave-to {
+  transform: scale(0.75);
+  opacity: 0;
+}
+
+/*scale-y*/
+.r-transition-scale-y-enter-active, .r-transition-scale-y-leave-active {
+}
+
+.r-transition-scale-y-enter, .r-transition-scale-y-leave-to {
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+/*fade*/
+.r-transition-fade-enter-active, .r-transition-fade-leave-active {
+  opacity: 1;
+}
+
+.r-transition-fade-enter, .r-transition-fade-leave-to {
+  opacity: 0;
+}

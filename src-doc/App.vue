@@ -1,5 +1,5 @@
 <template>
-    <div class="App">
+    <div class="App theme-default">
         <h1>App</h1>
         <pl-button>123</pl-button>
     </div>

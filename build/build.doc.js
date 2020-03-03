@@ -13,6 +13,8 @@ module.exports = {
     configureWebpack: $utils.WebpackMerge(WebpackPublic, {
         entry: {
             [PlainUI]: $utils.resolve('src/index.js'),
+            'theme-default': $utils.resolve('src/styles/entry/default.scss'),
+            'theme-dark': $utils.resolve('src/styles/entry/dark.scss'),
         },
         output: {
             filename: `[name].[hash].js`,
@@ -51,7 +53,7 @@ module.exports = {
             template: 'public/index.html',
             filename: 'index.html',
             title: $utils.name,
-            chunks: ['chunk-vendors', 'chunk-common', PlainUI, 'index'],
+            chunks: ['chunk-vendors', 'chunk-common', PlainUI, 'theme-default', 'theme-dark', 'index'],
         },
     },
     chainWebpack: config => {

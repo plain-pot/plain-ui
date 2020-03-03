@@ -1,0 +1,5 @@
+@import "./components/button";
+
+@mixin component-index {
+  @include component-button;
+}

@@ -1,0 +1,75 @@
+@import "../components/index.scss";
+
+@mixin generateThemeContent($name,$theme) {
+  $globalThemes: $theme !global;
+
+  $colorPrimary: map_get($globalThemes, 'colorPrimary') !global;
+  $colorSuccess: map_get($globalThemes, 'colorSuccess') !global;
+  $colorWarn: map_get($globalThemes, 'colorWarn') !global;
+  $colorError: map_get($globalThemes, 'colorError') !global;
+  $colorInfo: map_get($globalThemes, 'colorInfo') !global;
+  $disabled: map_get($globalThemes, 'disabled') !global;
+  $disabledLight: map_get($globalThemes, 'disabledLight') !global;
+  $disabledDeep: map_get($globalThemes, 'disabledDeep') !global;
+  $font: map_get($globalThemes, 'font') !global;
+  $ibc: map_get($globalThemes, 'ibc') !global;
+  $itc: map_get($globalThemes, 'itc') !global;
+  $ipc: map_get($globalThemes, 'ipc') !global;
+  $icc: map_get($globalThemes, 'icc') !global;
+  $transitionFlexible: map_get($globalThemes, 'transitionFlexible') !global;
+  $transition: map_get($globalThemes, 'transition') !global;
+
+  @if (str_length($name)>0) {
+    .theme-#{$name} {
+      @content;
+    }
+  } @else {
+    html {
+      @content;
+    }
+  }
+}
+
+@mixin generateTheme($themes) {
+  @each $curThemeName, $curTheme in $themes {
+    @include generateThemeContent($curThemeName, $curTheme) {
+      @include component-index;
+    }
+  }
+}
+
+@mixin statusMixin($component) {
+  @each $key in (Primary, Success, Warn, Error, Info) {
+
+    $value: plvar(color#{$key}) !global;
+
+    $name: to-lower-case($key) !global;
+    &.r-#{$component}-status-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin shapeMixin($component) {
+  @each $key in (Fillet, Round, Square) {
+
+    $value: plvar(shape#{$key}) !global;
+    $name: to-lower-case($key) !global;
+
+    &.r-#{$component}-shape-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin sizeMixin($component) {
+  @each $key in (Large, Default, Small) {
+
+    $value: plvar(size#{$key}) !global;
+    $name: to-lower-case($key) !global;
+
+    &.r-#{$component}-size-#{$name} {
+      @content;
+    }
+  }
+}

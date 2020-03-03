@@ -1,0 +1,10 @@
+@import "../theme/default";
+$default: map_get($theme-default, '') !global;
+
+@function plvar($key) {
+  @if (map_has_key($globalThemes, $key)) {
+    @return map-get($globalThemes, $key);
+  } @else {
+    @return map-get($default, $key);
+  }
+}

@@ -8,8 +8,8 @@ module.exports = {
     configureWebpack: $utils.WebpackMerge(WebpackPublic, {
         entry: {
             ...$utils.getEntries('src/components'),
-            // 'theme-default': $utils.resolve('src/styles/theme/default.scss'),
-            // 'theme-dark': $utils.resolve('src/styles/theme/dark.scss'),
+            'theme-default': $utils.resolve('src/styles/entry/default.scss'),
+            'theme-dark': $utils.resolve('src/styles/entry/dark.scss'),
         },
         output: {
             filename: `[name].js`,
