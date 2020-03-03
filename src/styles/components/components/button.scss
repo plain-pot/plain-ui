@@ -1,5 +1,141 @@
 @mixin component-button {
   .pl-button {
-    background-color: $colorPrimary;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border: solid 1px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    outline: none;
+    position: relative;
+    text-align: center;
+    
+    @include sizeMixin(button){
+      height: $value;
+      line-height: $value;
+
+      &.pl-button-size-large {
+        padding: 0 32px;
+        font-size: 18px;
+      }
+      &.pl-button-size-small {
+        padding: 0 6px;
+        min-width: initial;
+        font-size: 12px;
+      }
+      &.pl-button-size-default {
+        font-size: 14px;
+      }
+
+      &.pl-button-icon-only {
+        width: $value;
+        padding: 0;
+        min-width: auto;
+
+        &.pl-button-mode-text {
+          border-radius: 100px;
+
+          &:hover {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+    }
+    
+    @include shapeMixin(button) {
+      border-radius: $value;
+    }
+    
+    &.pl-button-mode-fill {
+      padding: 0 16px;
+      min-width: 64px;
+
+      @include statusMixin(button) {
+        background-color: $value;
+        border-color: $value;
+        color: white;
+
+        &:hover {
+          background-color: rgba($value, 0.65);
+          border-color: rgba($value, 0.65);
+        }
+        &:active {
+          background-color: mix(black, $value, 20%);
+          border-color: $value;
+        }
+        &:after {
+          border-color: $value;
+        }
+
+      }
+    }
+
+    &.pl-button-mode-stroke {
+      padding: 0 16px;
+      min-width: 64px;
+
+      @include statusMixin(button) {
+        border-color: $value;
+        color: $value;
+        background-color: white;
+
+        &:hover {
+          background-color: rgba($value, 0.1);
+        }
+
+        &:active {
+          background-color: rgba($value, 0.35);
+          border-color: rgba($value, 0.35);
+        }
+
+        &:after {
+          border-color: $value;
+        }
+      }
+    }
+
+    &.pl-button-mode-text {
+      border-color: transparent;
+      background-color: transparent;
+      padding: 0;
+
+      &:not(.pl-button-icon-only) {
+        height: auto;
+        line-height: normal;
+      }
+
+      @include statusMixin(button) {
+        color: $value;
+        &:active {
+          color: rgba($value, 0.5);
+        }
+      }
+
+      &:not(.pl-button-icon-only):after {
+        display: none;
+      }
+    }
+
+    &.pl-button-disabled {
+      cursor: not-allowed;
+
+      &.pl-button-mode-fill, &.pl-button-mode-stroke {
+        border-color: #d3d3d3 !important;
+        color: #999 !important;
+        background-color: #f1f1f1 !important;
+      }
+
+      &.pl-button-mode-text {
+        color: #999 !important;
+      }
+    }
+
+    &:focus {
+      text-decoration: underline;
+    }
+
+    &.pl-button-block {
+      width: 100%;
+      display: block;
+    }
   }
 }

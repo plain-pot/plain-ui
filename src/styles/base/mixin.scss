@@ -46,7 +46,7 @@
     $value: plvar(color#{$key}) !global;
 
     $name: to-lower-case($key) !global;
-    &.r-#{$component}-status-#{$name} {
+    &.pl-#{$component}-status-#{$name} {
       @content;
     }
   }
@@ -58,7 +58,7 @@
     $value: plvar(shape#{$key}) !global;
     $name: to-lower-case($key) !global;
 
-    &.r-#{$component}-shape-#{$name} {
+    &.pl-#{$component}-shape-#{$name} {
       @content;
     }
   }
@@ -70,7 +70,7 @@
     $value: plvar(size#{$key}) !global;
     $name: to-lower-case($key) !global;
 
-    &.r-#{$component}-size-#{$name} {
+    &.pl-#{$component}-size-#{$name} {
       @content;
     }
   }

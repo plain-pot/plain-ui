@@ -30,7 +30,7 @@
         }
 
         .demo-row-content {
-            padding: 16px;
+            padding: 16px 24px;
         }
     }
 </style>
