@@ -1,9 +1,9 @@
 <template>
     <div class="app-home">
         <app-header/>
-        <app-menu @click-menu-item="menu=>this.$refs.nav.open(menu)"/>
+        <app-menu @click-menu-item="menu=>this.$refs.nav.open(menu)" :currentPath="currentPath"/>
         <app-content>
-            <app-navigator default-path="/normal/button" ref="nav"/>
+            <app-navigator default-path="/normal/button" ref="nav" @open="onOpen"/>
         </app-content>
     </div>
 </template>
@@ -23,16 +23,20 @@
         props: {},
         provide() {
             return {
-                appHome: this
-            }
+                appHome: this,}
         },
         data() {
             return {
                 appHeadSize,
                 appMenuSize,
+                currentPath: null,
             }
         },
-        methods: {},
+        methods: {
+            onOpen(path) {
+                this.currentPath = path
+            },
+        },
     }
 </script>
 

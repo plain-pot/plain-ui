@@ -7,7 +7,7 @@
                     <li v-for="menuGroup in menus" :key="menuGroup.name">
                         <div class="app-menu-group-name">{{menuGroup.name}}</div>
                         <ul>
-                            <li v-for="menu in menuGroup.children" :key="menu.title" @click="handleClickMenu(menu)">
+                            <li v-for="menu in menuGroup.children" :key="menu.title" @click="handleClickMenu(menu)" :class="{'app-menu-active':currentPath === menu.page}">
                                 <div class="app-menu-name">
                                     <span>{{menu.name}}</span>
                                     <span>{{menu.title}}</span>
@@ -30,7 +30,9 @@
         name: "app-menu",
         inject: ['appHome'],
         mixins: [EmitMixin],
-        props: {},
+        props: {
+            currentPath: {},
+        },
         emitters: {
             emitClickMenuItem: null,
         },
@@ -93,6 +95,10 @@
                 color: #9999;
             }
 
+            .app-menu-group-name + ul li {
+                transition: all 300ms linear;
+            }
+
             .app-menu-name {
                 & > span:first-child {
                     margin-right: 1em;
@@ -117,6 +123,25 @@
                     span {
                         color: rgba($colorPrimary, 0.8) !important;
                     }
+                }
+            }
+
+            .app-menu-active {
+                position: relative;
+                background-color: rgba($colorPrimary, 0.1);
+
+                span {
+                    color: $colorPrimary !important;
+                }
+
+                &:after {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 3px;
+                    background-color: $colorPrimary;
+                    content: '';
                 }
             }
         }

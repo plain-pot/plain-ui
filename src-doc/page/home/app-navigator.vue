@@ -5,10 +5,16 @@
 </template>
 
 <script>
+    import {EmitMixin} from "../../../src/utils/EmitMixin";
+
     export default {
         name: "app-navigator",
+        mixins: [EmitMixin],
         props: {
             defaultPath: {require: true},
+        },
+        emitters: {
+            emitOpen: null,
         },
         data() {
             return {
@@ -27,11 +33,19 @@
                 this.openPage(hash)
             },
             async getPageComponent(path) {
-                return (await import('src-doc/page' + path + '.vue')).default
+                try {
+                    return (await import('src-doc/page' + path + '.vue')).default
+                } catch (e) {
+                    console.log(`未找到页面：` + path)
+                    return null
+                }
             },
             async openPage(path) {
-                this.PageComponent = await this.getPageComponent(path)
+                const PageComponent = await this.getPageComponent(path)
+                if (!PageComponent) return
                 window.location.hash = decodeURI(path)
+                this.emitOpen(path)
+                this.PageComponent = PageComponent
             },
             async open(menu) {
                 const path = menu.page
