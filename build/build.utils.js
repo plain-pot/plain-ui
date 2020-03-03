@@ -88,9 +88,8 @@ module.exports = {
                 console.log(`create index file:` + p)
                 fs.writeFileSync(join(itemPath, 'index.js'), `
 import component from './pl-${item}.vue'
-
-component.install = Vue => Vue.component(component.name, component)
-export default component
+import {plugin} from "../../utils";
+export default plugin(component)
                 `.trim())
             }
         })

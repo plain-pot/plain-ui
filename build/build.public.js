@@ -16,6 +16,7 @@ module.exports = {
             'src': $utils.resolve('src'),
             'src-doc': $utils.resolve('src-doc'),
             'plain-utils': $utils.resolve('submodules/plain-utils/index.js'),
+            'plain-loading': $utils.resolve('submodules/plain-loading/index.js'),
         }
     },
     externals: {
