@@ -1,8 +1,5 @@
 import component from './pl-scroll.vue'
 import utils from '../utils'
+import {plugin} from "../../utils";
 
-component.install = Vue => {
-    Vue.use(utils)
-    Vue.component(component.name, component)
-}
-export default component
+export default plugin(component, utils)

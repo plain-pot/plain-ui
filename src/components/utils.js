@@ -1,11 +1,8 @@
 import PlainUtils from 'plain-utils'
+import {plugin} from "../utils";
 
-export default {
+export default plugin({
     install: Vue => {
-        let $plain = Vue.prototype.$plain
-        $plain = $plain || {}
-        $plain.utils = $plain.utils || PlainUtils
-
-        Vue.prototype.$plain = $plain
+        Vue.prototype.$plain.utils = PlainUtils
     }
-}
+})

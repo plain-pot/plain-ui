@@ -1,7 +1,22 @@
-import PlainUtils from 'plain-utils'
+import base from "../components/base";
 
-console.log(1,{PlainUtils})
+export function plugin(defaultPlugin, externalPlugins) {
+    return {
+        install: Vue => {
+            Vue.use(base)
 
-export {
-    PlainUtils,
+            if (!defaultPlugin.install && !!defaultPlugin.name) {
+                defaultPlugin.install = Vue => Vue.component(defaultPlugin.name, defaultPlugin)
+            }
+            Vue.use(defaultPlugin)
+
+            if (!!externalPlugins) {
+                if (Array.isArray(externalPlugins)) {
+                    externalPlugins.forEach(plugin => Vue.use(plugin))
+                } else {
+                    Vue.use(externalPlugins)
+                }
+            }
+        }
+    }
 }

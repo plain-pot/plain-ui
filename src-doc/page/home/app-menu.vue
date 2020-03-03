@@ -7,7 +7,7 @@
                     <li v-for="menuGroup in menus" :key="menuGroup.name">
                         <div class="app-menu-group-name">{{menuGroup.name}}</div>
                         <ul>
-                            <li v-for="menu in menuGroup.children" :key="menu.title">
+                            <li v-for="menu in menuGroup.children" :key="menu.title" @click="handleClickMenu(menu)">
                                 <div class="app-menu-name">
                                     <span>{{menu.name}}</span>
                                     <span>{{menu.title}}</span>
@@ -24,11 +24,16 @@
 <script>
 
     import menus from 'src-doc/menus'
+    import {EmitMixin} from "../../../src/utils/EmitMixin";
 
     export default {
         name: "app-menu",
         inject: ['appHome'],
+        mixins: [EmitMixin],
         props: {},
+        emitters: {
+            emitClickMenuItem: null,
+        },
         data() {
             return {
                 menus,
@@ -42,7 +47,11 @@
                 }
             },
         },
-        methods: {},
+        methods: {
+            handleClickMenu(menu) {
+                this.emitClickMenuItem(menu)
+            },
+        },
     }
 </script>
 
