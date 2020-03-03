@@ -15,6 +15,7 @@ module.exports = {
         alias: {
             'src': $utils.resolve('src'),
             'src-doc': $utils.resolve('src-doc'),
+            'utils': $utils.resolve('submodule/plain-utils/index.js'),
         }
     },
     externals: {
