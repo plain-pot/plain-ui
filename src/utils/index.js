@@ -5,10 +5,14 @@ export function plugin(defaultPlugin, externalPlugins) {
         install: Vue => {
             Vue.use(base)
 
-            if (!defaultPlugin.install && !!defaultPlugin.name) {
-                defaultPlugin.install = Vue => Vue.component(defaultPlugin.name, defaultPlugin)
-            }
-            Vue.use(defaultPlugin)
+            defaultPlugin = Array.isArray(defaultPlugin)?defaultPlugin:[defaultPlugin]
+
+            defaultPlugin.forEach(item=>{
+                if (!item.install && !!item.name) {
+                    item.install = Vue => Vue.component(item.name, item)
+                }
+                Vue.use(item)
+            })
 
             if (!!externalPlugins) {
                 if (Array.isArray(externalPlugins)) {
