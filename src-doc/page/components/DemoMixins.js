@@ -7,6 +7,11 @@ const DemoMixins = {
             aligns: ['left', 'center', 'right'],
         }
     },
+    methods: {
+        log(...arg) {
+            console.log(...arg)
+        },
+    },
 }
 
 export default DemoMixins

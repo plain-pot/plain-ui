@@ -10,13 +10,27 @@
 <script>
     export default {
         name: "demo-row",
+        provide() {
+            return {
+                PlDemoRow: this,
+            }
+        },
         props: {
             title: {},
         },
         data() {
-            return {}
+            return {
+                maxTitleWidth: null,
+            }
         },
-        methods: {},
+        methods: {
+            addItem(demoLine) {
+                const titleWidth = demoLine.$refs.title.offsetWidth
+                if (!this.maxTitleWidth || titleWidth > this.maxTitleWidth) {
+                    this.maxTitleWidth = titleWidth
+                }
+            },
+        },
     }
 </script>
 
@@ -31,6 +45,10 @@
 
         .demo-row-content {
             padding: 16px 24px;
+
+            & > *:not(.demo-line) {
+                margin-right: 16px;
+            }
         }
     }
 </style>

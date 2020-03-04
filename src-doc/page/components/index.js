@@ -1,7 +1,9 @@
 import DemoRow from './demo-row'
+import DemoLine from './demo-line'
 
 const Components = {
     DemoRow,
+    DemoLine,
 }
 
 export default {

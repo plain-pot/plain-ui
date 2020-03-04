@@ -8,8 +8,8 @@
     outline: none;
     position: relative;
     text-align: center;
-    
-    @include sizeMixin(button){
+
+    @include sizeMixin(button) {
       height: $value;
       line-height: $value;
 
@@ -40,11 +40,11 @@
         }
       }
     }
-    
+
     @include shapeMixin(button) {
       border-radius: $value;
     }
-    
+
     &.pl-button-mode-fill {
       padding: 0 16px;
       min-width: 64px;
@@ -137,5 +137,12 @@
       width: 100%;
       display: block;
     }
+
+    & > .pl-loading, & > .pl-icon, & > span {
+      & + * {
+        margin-left: 3px;
+      }
+    }
+
   }
 }

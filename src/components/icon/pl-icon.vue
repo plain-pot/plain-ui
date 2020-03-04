@@ -1,13 +1,13 @@
 <template>
-    <div class="pl-icon">
-        pl-icon
-    </div>
+    <i :class="icon" class="pl-icon"/>
 </template>
 
 <script>
     export default {
         name: "pl-icon",
-        props: {},
+        props: {
+            icon: {},
+        },
         data() {
             return {}
         },

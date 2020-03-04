@@ -1,9 +1,15 @@
 <template>
     <button class="pl-button plain-click-node"
             :class="classes"
-            v-click-wave="'large'">
+            v-click-wave="'large'"
+            :type="type"
+            :disabled="disabled"
+            v-bind="nativeProps"
+            @click="onClick">
+        <pl-loading type="gamma" v-if="loading"/>
         <slot>
-            <span>{{label}}</span>
+            <pl-icon :icon="icon" v-if="!!icon && !loading"/>
+            <span v-if="!!label">{{label}}</span>
         </slot>
     </button>
 </template>
