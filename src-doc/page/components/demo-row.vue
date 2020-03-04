@@ -45,7 +45,7 @@
 
         .demo-row-content {
             padding: 16px 24px;
-
+            font-size: 14px;
             & > *:not(.demo-line) {
                 margin-right: 16px;
             }
