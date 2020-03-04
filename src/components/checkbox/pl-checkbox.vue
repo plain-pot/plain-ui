@@ -1,5 +1,10 @@
 <template>
-    <div class="pl-checkbox" :class="classes" v-click-wave="{disabled:isDisabled}" tabindex="1" @click="onClick" @keydown.space="onClick">
+    <div class="pl-checkbox"
+         :class="classes"
+         v-click-wave="{disabled:isDisabled}"
+         tabindex="1"
+         @click="onClick"
+         @keydown.space="onClick">
         <span class="plain-click-node">
             <transition name="pl-transition-fade" mode="out-in">
                 <pl-checkbox-inner status="check" v-if="isChecked" key="check" :disabled="disabled"/>
