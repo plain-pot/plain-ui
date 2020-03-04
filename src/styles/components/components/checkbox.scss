@@ -5,6 +5,7 @@
     position: relative;
     display: inline-block;
     vertical-align: baseline;
+    outline: none;
 
     .plain-click-node {
       height: 1em;
@@ -44,6 +45,12 @@
         .pl-checkbox-label {
           color: $value;
         }
+      }
+    }
+
+    &:focus {
+      .pl-checkbox-label {
+        text-decoration: underline;
       }
     }
 
