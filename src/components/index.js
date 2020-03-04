@@ -3,10 +3,11 @@ import icon from './icon'
 import scroll from './scroll'
 import loading from './loading'
 import input from './input'
+import checkbox from './checkbox'
 
 const plugins = [
     button, icon,
-    input,
+    input, checkbox,
 
     scroll,
     loading

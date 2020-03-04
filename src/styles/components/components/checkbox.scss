@@ -1,0 +1,103 @@
+@mixin component-checkbox {
+  .pl-checkbox {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    vertical-align: baseline;
+
+    .plain-click-node {
+      height: 1em;
+      width: 1em;
+      display: inline-block;
+      vertical-align: -0.18em;
+    }
+
+    .pl-checkbox-inner {
+      transition: all 150ms linear;
+      float: left;
+    }
+
+    @include statusMixin(checkbox) {
+      .pl-checkbox-inner {
+        color: $value;
+      }
+    }
+
+    &.pl-checkbox-disabled {
+      cursor: not-allowed;
+      .pl-checkbox-inner {
+        color: $disabledDeep;
+      }
+    }
+  }
+
+  .pl-checkbox-inner {
+    width: 1em;
+    height: 1em;
+
+    border-radius: 2px;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: middle;
+
+    rect {
+      stroke-width: 10;
+    }
+
+    &.pl-checkbox-inner-status-check {
+      rect {
+        fill: currentColor;
+        stroke: currentColor;
+      }
+
+      .pl-checkbox-inner-check-polyline {
+        fill: transparent;
+        stroke: white;
+        stroke-width: 10;
+      }
+    }
+
+    &.pl-checkbox-inner-status-uncheck {
+      rect {
+        fill: transparent;
+        stroke: currentColor;
+      }
+    }
+
+    &.pl-checkbox-inner-status-minus {
+      rect {
+        fill: currentColor;
+        stroke: currentColor;
+      }
+
+      .pl-checkbox-inner-minus-polyline {
+        fill: currentColor;
+        stroke: white;
+        stroke-width: 10
+      }
+    }
+
+    &.pl-checkbox-inner-disabled {
+      &.pl-checkbox-inner-status-check {
+        rect {
+          fill: transparent;
+        }
+        .pl-checkbox-inner-check-polyline {
+          stroke: currentColor;
+        }
+      }
+
+      &.pl-checkbox-inner-status-minus {
+        rect {
+          fill: transparent;
+        }
+
+        .pl-checkbox-inner-minus-polyline {
+          stroke: currentColor;
+        }
+      }
+
+    }
+  }
+}

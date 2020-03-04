@@ -3,9 +3,11 @@
 @import "./components/button";
 @import "./components/scroll";
 @import "./components/input";
+@import "./components/checkbox";
 
 @mixin component-index {
   @include component-button;
   @include component-scroll;
   @include component-input;
+  @include component-checkbox;
 }
