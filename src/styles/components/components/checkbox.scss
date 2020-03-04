@@ -11,7 +11,7 @@
       height: 1em;
       width: 1em;
       display: inline-block;
-      vertical-align: -0.18em;
+      vertical-align: -0.15em;
 
       .pl-checkbox-inner {
         transition: all 150ms linear;
@@ -25,6 +25,7 @@
 
     .pl-checkbox-label {
       font-size: 0.8em;
+      display: inline-block;
     }
 
     & + .pl-checkbox {

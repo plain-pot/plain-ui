@@ -11,9 +11,9 @@
                 <pl-checkbox-inner status="uncheck" v-else key="uncheck" :disabled="disabled"/>
             </transition>
         </span>
-        <span class="pl-checkbox-label" v-if="label">
+        <div class="pl-checkbox-label" v-if="label">
             {{label}}
-        </span>
+        </div>
     </div>
 </template>
 
