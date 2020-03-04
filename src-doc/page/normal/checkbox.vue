@@ -45,6 +45,15 @@
                 <pl-checkbox-inner status="minus" :disabled="disabledFlag"/>
             </div>
         </demo-row>
+
+        <demo-row title="复选框组">
+            <pl-checkbox-group v-model="val[3]">
+                <pl-checkbox label="标签一" val="tag1"/>
+                <pl-checkbox label="标签二" val="tag2"/>
+                <pl-checkbox label="标签三" val="tag3"/>
+                {{val[3]}}
+            </pl-checkbox-group>
+        </demo-row>
     </div>
 </template>
 
@@ -58,7 +67,7 @@
         data() {
             return {
                 disabledFlag: false,
-                val:{
+                val: {
                     1: true
                 },
             }
