@@ -3,7 +3,8 @@
             :class="classes"
             v-click-wave="'large'"
             :type="type"
-            :disabled="disabled"
+            :disabled="isDisabled"
+            :readonly="isReadonly"
             v-bind="nativeProps"
             @click="onClick">
         <pl-loading type="gamma" v-if="loading"/>
@@ -16,10 +17,12 @@
 
 <script>
     import ClickWave from "../../directives/ClickWave";
+    import {EditMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-button",
         directives: {ClickWave},
+        mixins: [EditMixin],
         inject: {
             plButtonGroup: {default: null},
         },
@@ -34,8 +37,6 @@
             noPadding: {type: Boolean},
             block: {type: Boolean},
             loading: {type: Boolean},
-
-            disabled: {type: Boolean},
 
             /*---------------------------------------native-------------------------------------------*/
             type: {type: String, default: 'button'},
@@ -71,7 +72,7 @@
                         'pl-button-wave': !!this.wave,
                         'pl-button-has-icon': !!this.icon,
                         'pl-button-block': !!this.block,
-                        'pl-button-disabled': !!this.disabled,
+                        'pl-button-disabled': !!this.isDisabled,
                         'pl-button-icon-only': !!this.icon && !this.label,
                     },
                 ]
@@ -80,7 +81,9 @@
         methods: {
             /*---------------------------------------listener-------------------------------------------*/
             onClick(e) {
-                this.$emit('click', e)
+                if (this.isEditable) {
+                    this.$emit('click', e)
+                }
             },
         },
     }

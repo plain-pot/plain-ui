@@ -106,6 +106,19 @@
             </pl-button-group>
         </demo-row>
 
+        <demo-row title="按钮组禁用与只读">
+            <pl-button-group disabled>
+                <pl-button label="丛林" @click="log('丛林')"/>
+                <pl-button label="山脉" @click="log('山脉')"/>
+                <pl-button label="火山" @click="log('火山')"/>
+            </pl-button-group>
+            <pl-button-group readonly>
+                <pl-button label="丛林" @click="log('丛林')"/>
+                <pl-button label="山脉" @click="log('山脉')"/>
+                <pl-button label="火山" @click="log('火山')"/>
+            </pl-button-group>
+        </demo-row>
+
     </div>
 </template>
 

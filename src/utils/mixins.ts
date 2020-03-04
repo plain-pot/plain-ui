@@ -28,7 +28,12 @@ export const RefsMixinFactory = function (option) {
 
 export const EditMixin = {
     inject: {
-        rParentEditor: {default: null},
+        plParentEditor: {default: null},
+    },
+    provide() {
+        return {
+            plParentEditor: this
+        }
     },
     props: {
         disabled: {type: Boolean, default: null},
@@ -37,12 +42,12 @@ export const EditMixin = {
     computed: {
         isDisabled() {
             if (this.disabled !== null) return this.disabled
-            else if (!!this.rParentEditor) return this.rParentEditor.isDisabled
+            else if (!!this.plParentEditor) return this.plParentEditor.isDisabled
             return false
         },
         isReadonly() {
             if (this.readonly !== null) return this.readonly
-            else if (!!this.rParentEditor) return this.rParentEditor.isReadonly
+            else if (!!this.plParentEditor) return this.plParentEditor.isReadonly
             return false
         },
         isEditable() {
