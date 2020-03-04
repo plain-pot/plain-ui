@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-checkbox" @click="onClick" :class="classes" v-click-wave>
+    <div class="pl-checkbox" @click="onClick" :class="classes" v-click-wave="{disabled:isDisabled}">
         <span class="plain-click-node">
             <transition name="pl-transition-fade" mode="out-in">
                 <pl-checkbox-inner status="check" v-if="isChecked" key="check" :disabled="disabled"/>
@@ -15,20 +15,20 @@
 <script>
     import RCheckboxInner from "./pl-checkbox-inner";
     import ClickWave from "../../directives/ClickWave";
+    import {EmitMixin} from "../../utils/EmitMixin";
+    import {EditMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox",
         directives: {ClickWave},
         components: {RCheckboxInner},
+        mixins: [EmitMixin, EditMixin],
         props: {
             value: {},
             label: {type: String},
-
             trueValue: {default: true},
             falseValue: {default: false},
-
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
-            disabled: {type: Boolean},
         },
         data() {
             return {
@@ -46,7 +46,8 @@
                 return [
                     `pl-checkbox-status-${this.status}`,
                     {
-                        'pl-checkbox-disabled': this.disabled,
+                        'pl-checkbox-checked': this.p_value,
+                        'pl-checkbox-disabled': this.isDisabled,
                     },
                 ]
             },
@@ -56,6 +57,7 @@
         },
         methods: {
             onClick() {
+                if (!this.isEditable) return
                 this.p_value = this.isChecked ? this.falseValue : this.trueValue
                 this.$emit('input', this.p_value)
             },

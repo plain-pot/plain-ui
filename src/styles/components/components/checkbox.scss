@@ -11,24 +11,51 @@
       width: 1em;
       display: inline-block;
       vertical-align: -0.18em;
+
+      .pl-checkbox-inner {
+        transition: all 150ms linear;
+        float: left;
+      }
+
+      & + .pl-checkbox-label {
+        margin-left: 0.5em;
+      }
     }
 
-    .pl-checkbox-inner {
-      transition: all 150ms linear;
-      float: left;
+    .pl-checkbox-label {
+      font-size: 0.8em;
+    }
+
+    & + .pl-checkbox {
+      margin-left: 1em;
     }
 
     @include statusMixin(checkbox) {
-      .pl-checkbox-inner {
-        color: $value;
+      .plain-click-node {
+        .pl-checkbox-inner {
+          color: $value;
+        }
+
+        &:after {
+          border-color: $value;
+        }
+      }
+      &.pl-checkbox-checked {
+        .pl-checkbox-label {
+          color: $value;
+        }
       }
     }
 
     &.pl-checkbox-disabled {
       cursor: not-allowed;
 
+      .pl-checkbox-label {
+        color: $disabledDeep !important;
+      }
+
       .pl-checkbox-inner {
-        color: $disabledDeep;
+        color: $disabledDeep !important;
       }
     }
   }

@@ -1,10 +1,21 @@
 <template>
     <div class="demo-checkbox">
         <demo-row title="基本用法">
-            <pl-checkbox label="是否同意协议" :disabled="disabledFlag"/>
-            <pl-checkbox label="disabledFlag" v-model="disabledFlag"/>
-            {{disabledFlag}}
+            <pl-checkbox label="标签一" v-model="val[0]"/>
+            <pl-checkbox label="标签二" v-model="val[0]"/>
+            {{val[0]}}
         </demo-row>
+
+        <demo-row title="状态">
+            <pl-checkbox v-for="item in status" :label="item" :status="item" :key="item"/>
+        </demo-row>
+
+        <demo-row title="禁用">
+            <pl-checkbox :value="true" :disabled="val[1]" label="标签一"/>
+            <pl-checkbox :value="false" :disabled="val[1]" label="标签二"/>
+            <pl-checkbox v-model="val[1]" label="禁用"/>
+        </demo-row>
+
         <demo-row>
             <div style="font-size: 12px" class="demo-checkbox-row">
                 <pl-checkbox-inner :disabled="disabledFlag"/>
@@ -26,8 +37,11 @@
 </template>
 
 <script>
+    import DemoMixins from "../components/DemoMixins";
+
     export default {
         name: "demo-checkbox",
+        mixins: [DemoMixins],
         props: {},
         data() {
             return {
