@@ -150,6 +150,14 @@
     vertical-align: middle;
     box-sizing: border-box;
 
+    .pl-button {
+      position: relative;
+
+      &:focus {
+        z-index: 1;
+      }
+    }
+
     &.pl-button-group-direction-horizontal {
       & > .pl-button {
         &:not(:last-child) {
@@ -169,9 +177,31 @@
             border-left-color: mix(white, $value, 50%);
           }
         }
+      }
 
-        &.pl-button-mode-text {
+      &.pl-button-group-mode-text {
+        & > .pl-button {
+
           padding: 0 6px;
+          position: relative;
+
+          &:not(:last-child) {
+            border-right: none;
+
+            &:before {
+              position: absolute;
+              content: '';
+              background-color: #aaa;
+              right: 0;
+              top: 3px;
+              bottom: 3px;
+              width: 1px;
+            }
+          }
+
+          &:not(:first-child) {
+            border-left: none;
+          }
         }
       }
     }
@@ -209,5 +239,5 @@
     }
 
   }
-  
+
 }
