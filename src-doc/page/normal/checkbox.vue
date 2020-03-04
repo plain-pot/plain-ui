@@ -54,6 +54,30 @@
                 {{val[3]}}
             </pl-checkbox-group>
         </demo-row>
+
+        <demo-row title="复选框组：状态以及大小">
+            <pl-checkbox-group v-model="val[3]" status="warn" size="large">
+                <pl-checkbox label="标签一" val="tag1"/>
+                <pl-checkbox label="标签二" val="tag2"/>
+                <pl-checkbox label="标签三" val="tag3"/>
+                {{val[3]}}
+            </pl-checkbox-group>
+        </demo-row>
+
+        <demo-row title="复选框组：禁用与只读">
+            <pl-checkbox-group v-model="val[3]" disabled>
+                <pl-checkbox label="标签一" val="tag1"/>
+                <pl-checkbox label="标签二" val="tag2"/>
+                <pl-checkbox label="标签三" val="tag3"/>
+                {{val[3]}}
+            </pl-checkbox-group>
+            <pl-checkbox-group v-model="val[3]" readonly>
+                <pl-checkbox label="标签一" val="tag1"/>
+                <pl-checkbox label="标签二" val="tag2"/>
+                <pl-checkbox label="标签三" val="tag3"/>
+                {{val[3]}}
+            </pl-checkbox-group>
+        </demo-row>
     </div>
 </template>
 
