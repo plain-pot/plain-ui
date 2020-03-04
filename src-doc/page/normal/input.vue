@@ -20,8 +20,8 @@
         <demo-row title="禁用">
             <pl-checkbox v-model="disabledFlag" label="disabledFlag"/>
             <pl-input :disabled="disabledFlag"/>
-            <pl-input disabled suffixIcon="el-icon-search"/>
-            <pl-input disabled textarea/>
+            <pl-input :disabled="disabledFlag" suffixIcon="el-icon-search"/>
+            <pl-input :disabled="disabledFlag" textarea/>
         </demo-row>
         <demo-row title="清除图标">
             <demo-line title="基本用法">
@@ -71,22 +71,21 @@
             </demo-line>
         </demo-row>
         <demo-row title="密码框">
-            <pl-input :suffixIcon="suffixIcon" @click-suffix-icon="()=>suffixIcon = suffixIcon === 'r-homepage_fill'?'r-homepage':'r-homepage_fill'" :nativeProps="nativeProps"/>
-            {{JSON.stringify(nativeProps)}}
+            <pl-input :suffixIcon="passwordVisible?'el-icon-lock':'el-icon-unlock'" @click-suffix-icon="passwordVisible = !passwordVisible" :nativeProps="{type: passwordVisible ? 'text' : 'password'}"/>
         </demo-row>
         <demo-row title="禁用以及只读">
             {{flag}}
             <demo-line title="禁用">
-                <r-checkbox v-model="flag.disabled"/>
+                <pl-checkbox v-model="flag.disabled"/>
                 <pl-input :disabled="flag.disabled"/>
             </demo-line>
             <demo-line title="只读">
-                <r-checkbox v-model="flag.readonly"/>
+                <pl-checkbox v-model="flag.readonly"/>
                 <pl-input :readonly="flag.readonly"/>
                 <input type="text" :readonly="flag.readonly">
             </demo-line>
         </demo-row>
-        
+
     </div>
 </template>
 
@@ -102,7 +101,7 @@
                 prepend: true,
                 append: true,
                 disabledFlag: true,
-                suffixIcon: 'r-homepage',
+                passwordVisible: false,
                 flag: {
                     disabled: true,
                     readonly: true,
@@ -110,13 +109,6 @@
                 clearHandler(val) {
                     console.log('clearHandler')
                 },
-            }
-        },
-        computed: {
-            nativeProps() {
-                return {
-                    type: this.suffixIcon === 'r-homepage_fill' ? 'text' : 'password'
-                }
             }
         },
         methods: {
