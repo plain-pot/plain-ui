@@ -26,7 +26,7 @@
             border-bottom: dashed 1px #f1f1f1;
             font-size: 14px;
             padding: 14px 24px;
-            color: #999;
+            color: #606266;
         }
 
         .demo-row-content {

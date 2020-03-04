@@ -92,7 +92,7 @@
             }
 
             .app-menu-group-name {
-                color: #9999;
+                color: #99a9bf;
             }
 
             .app-menu-group-name + ul li {
@@ -103,12 +103,12 @@
                 & > span:first-child {
                     margin-right: 1em;
                     font-size: 14px;
-                    color: #666;
+                    color: #606266;
                 }
 
                 & > span:last-child {
                     font-size: 12px;
-                    color: #aaa;
+                    color: #99a9bf;
                 }
             }
         }
