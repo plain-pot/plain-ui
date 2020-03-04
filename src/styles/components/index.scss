@@ -5,6 +5,7 @@
 @import "./components/input";
 @import "./components/checkbox";
 @import "./components/radio";
+@import "./components/loading";
 
 @mixin component-index {
   @include component-button;
@@ -12,4 +13,5 @@
   @include component-input;
   @include component-checkbox;
   @include component-radio;
+  @include component-loading;
 }

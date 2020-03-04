@@ -25,6 +25,7 @@
         },
         methods: {
             addItem(demoLine) {
+                if (!demoLine.$refs.title) return
                 const titleWidth = demoLine.$refs.title.offsetWidth
                 if (!this.maxTitleWidth || titleWidth > this.maxTitleWidth) {
                     this.maxTitleWidth = titleWidth
@@ -46,6 +47,7 @@
         .demo-row-content {
             padding: 16px 24px;
             font-size: 14px;
+
             & > *:not(.demo-line) {
                 margin-right: 16px;
             }

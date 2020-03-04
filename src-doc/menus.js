@@ -5,13 +5,13 @@ export default [
             {name: 'Icon', title: '图标', icon: 'pad-font-colors', page: '/normal/icon', complete: true},
             {name: 'Button', title: '按钮', icon: 'pad-play-circle', page: '/normal/button', complete: true},
             {name: 'Grid', title: '栅格', icon: 'pad-play-circle', page: '/normal/grid', complete: true},
-            {name: 'Container', title: '容器', icon: 'pad-play-circle', page: '/normal/container', complete: true},
+            // {name: 'Container', title: '容器', icon: 'pad-play-circle', page: '/normal/container', complete: true},
         ]
     },
     {
         name: '表单', children: [
             {name: 'Input', title: '输入框', icon: 'pl-edit-square-light', page: '/normal/input', complete: true},
-            {name: 'Textarea', title: '文本域', icon: 'pl-textarea', page: '/normal/textarea', complete: true},
+            // {name: 'Textarea', title: '文本域', icon: 'pl-textarea', page: '/normal/textarea', complete: true},
             {name: 'Radio', title: '单选框', icon: 'pl-circle-radio', page: '/normal/radio', complete: true},
             {name: 'Checkbox', title: '复选框', icon: 'pl-circle-radio', page: '/normal/checkbox', complete: true},
             {name: 'InputNumber', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: true},

@@ -1,0 +1,9 @@
+@import "../../../../submodules/plain-loading/src/index";
+
+@mixin component-loading {
+  .pl-loading {
+    @include statusMixin(loading) {
+      color: $value;
+    }
+  }
+}

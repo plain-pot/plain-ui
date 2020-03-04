@@ -1,5 +1,5 @@
 <template>
-    <span class="pl-loading"/>
+    <span class="pl-loading" :class="`pl-loading-status-${status}`"/>
 </template>
 
 <script>
@@ -10,7 +10,8 @@
         name: "pl-loading",
         props: {
             loading: {type: Boolean},
-            type: {type: String, default: 'alpha'}
+            type: {type: String, default: 'alpha'},
+            status: {type: String, default: 'primary'},
         },
         data() {
             return {
