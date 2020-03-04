@@ -6,6 +6,7 @@
     display: inline-block;
     vertical-align: baseline;
     outline: none;
+    font-size: 14px;
 
     .plain-click-node {
       height: 1em;
@@ -24,7 +25,6 @@
     }
 
     .pl-checkbox-label {
-      font-size: 0.8em;
       display: inline-block;
     }
 
@@ -47,6 +47,18 @@
           color: $value;
         }
       }
+    }
+
+    &.pl-checkbox-size-large {
+      font-size: 18px;
+    }
+
+    &.pl-checkbox-size-default {
+      font-size: 14px;
+    }
+
+    &.pl-checkbox-size-small {
+      font-size: 12px;
     }
 
     &:focus {

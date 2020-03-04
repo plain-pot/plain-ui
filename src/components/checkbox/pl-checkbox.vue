@@ -34,6 +34,7 @@
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
+            size: {type: String, default: 'default'},                   // large,default,small
         },
         data() {
             return {
@@ -50,6 +51,7 @@
             classes() {
                 return [
                     `pl-checkbox-status-${this.status}`,
+                    `pl-checkbox-size-${this.size}`,
                     {
                         'pl-checkbox-checked': this.p_value,
                         'pl-checkbox-disabled': this.isDisabled,
