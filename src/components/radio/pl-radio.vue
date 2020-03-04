@@ -1,15 +1,15 @@
 <template>
     <div class="pl-radio"
          :class="classes"
-         v-click-wave="{disabled:isDisabled}"
+         v-click-wave="{disabled:!isEditable}"
          tabindex="1"
          @click="onClick"
          @keydown.space="onClick">
          <span class="plain-click-node">
             <transition name="pl-transition-fade" mode="out-in">
                 <slot name="radio-inner">
-                    <pl-checkbox-inner status="check" v-if="isChecked" key="check" :disabled="disabled"/>
-                    <pl-checkbox-inner status="uncheck" v-else key="uncheck" :disabled="disabled"/>
+                    <pl-radio-inner status="check" v-if="isChecked" key="check" :disabled="disabled"/>
+                    <pl-radio-inner status="uncheck" v-else key="uncheck" :disabled="disabled"/>
                 </slot>
             </transition>
         </span>
@@ -70,7 +70,7 @@
                     `pl-radio-status-${this.targetStatus}`,
                     `pl-radio-size-${this.targetSize}`,
                     {
-                        'pl-radio-checked': this.p_value,
+                        'pl-radio-checked': this.isChecked,
                         'pl-radio-disabled': this.isDisabled,
                     },
                 ]
@@ -88,6 +88,7 @@
                 if (!this.isEditable) return
 
                 if (!!this.plRadioGroup) {
+                    if (this.isChecked) return;
                     this.plRadioGroup.onClickRadio(this)
                 } else {
                     this.p_value = this.isChecked ? this.falseValue : this.trueValue

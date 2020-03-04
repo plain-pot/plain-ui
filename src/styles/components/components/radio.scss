@@ -2,5 +2,108 @@
   .pl-radio {
     display: inline-block;
     outline: none;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+
+    .pl-radio-inner {
+      position: relative;
+      top: 1px;
+      left: 2px;
+    }
+
+    .plain-click-node {
+
+      &:after {
+        border-radius: 100px;
+        width: 1em;
+        height: 1em;
+      }
+
+      .pl-radio-inner {
+        transition: all 150ms linear;
+      }
+
+      & + .pl-radio-label {
+        margin-left: 0.5em;
+      }
+    }
+
+    .pl-radio-label {
+      display: inline-block;
+    }
+
+    & + .pl-radio {
+      margin-left: 1em;
+    }
+
+    @include statusMixin(radio) {
+      .plain-click-node {
+        .pl-radio-inner {
+          color: $value;
+        }
+
+        &:after {
+          border-color: $value;
+        }
+      }
+      &.pl-radio-checked {
+        .pl-radio-label {
+          color: $value;
+        }
+      }
+    }
+
+    &.pl-radio-size-large {
+      font-size: 18px;
+    }
+
+    &.pl-radio-size-default {
+      font-size: 14px;
+    }
+
+    &.pl-radio-size-small {
+      font-size: 12px;
+    }
+
+    &:focus {
+      .pl-radio-label {
+        text-decoration: underline;
+      }
+    }
+
+    &.pl-radio-disabled {
+      cursor: not-allowed;
+
+      .pl-radio-label {
+        color: $disabledDeep !important;
+      }
+
+      .pl-radio-inner {
+        background-color: rgba(0, 0, 0, 0.03) !important;
+        color: $disabledDeep !important;
+      }
+    }
+
+  }
+
+  .pl-radio-inner {
+
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    border-color: currentColor;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 100px;
+
+    circle {
+      fill: currentColor;
+      stroke: currentColor;
+    }
+  }
+
+  .pl-radio-group {
+    display: inline-block;
   }
 }

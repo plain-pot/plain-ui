@@ -3,7 +3,7 @@ const DemoMixins = {
         return {
             status: ['primary', 'success', 'warn', 'error', 'info'],
             shapes: ['fillet', 'round', 'square'],
-            sizes: ['large', 'default', 'small'],
+            sizes: ['small', 'default', 'large'],
             aligns: ['left', 'center', 'right'],
             val: {},
         }

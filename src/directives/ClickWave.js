@@ -5,7 +5,7 @@ class ClickWaveData {
     constructor(el, opts) {
         this.opts = {}
         this.on = () => {
-            // console.log(this.opts.disabled,this.opts.disabled === true)
+            // console.log(this.opts,this.opts.disabled === true)
             if (this.opts.disabled === true) return;
             if (!!this.wavingTimer) return
 

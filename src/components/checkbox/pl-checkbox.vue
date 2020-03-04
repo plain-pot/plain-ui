@@ -1,7 +1,7 @@
 <template>
     <div class="pl-checkbox"
          :class="classes"
-         v-click-wave="{disabled:isDisabled}"
+         v-click-wave="{disabled:!isEditable}"
          tabindex="1"
          @click="onClick"
          @keydown.space="onClick">
@@ -73,7 +73,7 @@
                     `pl-checkbox-status-${this.targetStatus}`,
                     `pl-checkbox-size-${this.targetSize}`,
                     {
-                        'pl-checkbox-checked': this.p_value,
+                        'pl-checkbox-checked': this.isChecked,
                         'pl-checkbox-disabled': this.isDisabled,
                     },
                 ]
