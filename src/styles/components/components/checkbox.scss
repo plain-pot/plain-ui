@@ -26,6 +26,7 @@
 
     &.pl-checkbox-disabled {
       cursor: not-allowed;
+
       .pl-checkbox-inner {
         color: $disabledDeep;
       }
@@ -36,20 +37,16 @@
     width: 1em;
     height: 1em;
 
-    border-radius: 2px;
     display: inline-block;
     box-sizing: border-box;
     vertical-align: middle;
-
-    rect {
-      stroke-width: 10;
-    }
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
 
     &.pl-checkbox-inner-status-check {
-      rect {
-        fill: currentColor;
-        stroke: currentColor;
-      }
+      border-color: currentColor;
+      background-color: currentColor;
 
       .pl-checkbox-inner-check-polyline {
         fill: transparent;
@@ -59,17 +56,13 @@
     }
 
     &.pl-checkbox-inner-status-uncheck {
-      rect {
-        fill: transparent;
-        stroke: currentColor;
-      }
+      border-color: currentColor;
+      background-color: transparent;
     }
 
     &.pl-checkbox-inner-status-minus {
-      rect {
-        fill: currentColor;
-        stroke: currentColor;
-      }
+      border-color: currentColor;
+      background-color: currentColor;
 
       .pl-checkbox-inner-minus-polyline {
         fill: currentColor;
@@ -80,18 +73,15 @@
 
     &.pl-checkbox-inner-disabled {
       &.pl-checkbox-inner-status-check {
-        rect {
-          fill: transparent;
-        }
+        background-color: transparent;
+
         .pl-checkbox-inner-check-polyline {
           stroke: currentColor;
         }
       }
 
       &.pl-checkbox-inner-status-minus {
-        rect {
-          fill: transparent;
-        }
+        background-color: transparent;
 
         .pl-checkbox-inner-minus-polyline {
           stroke: currentColor;
