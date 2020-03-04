@@ -78,6 +78,19 @@
                 {{val[3]}}
             </pl-checkbox-group>
         </demo-row>
+
+        <demo-row title="复选框组：最大最小勾选个数">
+            <pl-checkbox-group v-model="val[4]" :max="3" :min="1">
+                <pl-checkbox label="标签一" val="tag1"/>
+                <pl-checkbox label="标签二" val="tag2"/>
+                <pl-checkbox label="标签三" val="tag3"/>
+                <pl-checkbox label="标签四" val="tag4"/>
+                <pl-checkbox label="标签五" val="tag5"/>
+                {{val[4]}}
+            </pl-checkbox-group>
+        </demo-row>
+
+
     </div>
 </template>
 

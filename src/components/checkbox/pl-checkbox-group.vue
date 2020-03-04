@@ -22,6 +22,8 @@
             value: {type: Array},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             size: {type: String, default: 'default'},                   // large,default,small
+            min: {type: Number},                                        // 最大勾选个数
+            max: {type: Number},                                        // 最小勾选个数
         },
         emitters: {
             emitInput: null,
@@ -65,11 +67,16 @@
                 const val = checkbox.val
                 let value = this.p_value || []
                 if (this.isChecked(val)) {
+                    // 删除
+                    if (!!this.min && value.length <= this.min) return;
                     value = value.filter(item => item !== val)
+                    this.emitInput([...value])
                 } else {
+                    // 添加
+                    if (!!this.max && value.length >= this.max) return;
                     value.push(val)
+                    this.emitInput([...value])
                 }
-                this.emitInput([...value])
             },
             /**
              * 点击全选按钮
