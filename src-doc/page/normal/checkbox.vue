@@ -58,6 +58,9 @@
         data() {
             return {
                 disabledFlag: false,
+                val:{
+                    1: true
+                },
             }
         },
         methods: {},
