@@ -2,8 +2,10 @@
 
 @import "./components/button";
 @import "./components/scroll";
+@import "./components/input";
 
 @mixin component-index {
   @include component-button;
   @include component-scroll;
+  @include component-input;
 }

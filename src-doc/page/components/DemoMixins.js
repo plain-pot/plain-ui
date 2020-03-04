@@ -5,6 +5,7 @@ const DemoMixins = {
             shapes: ['fillet', 'round', 'square'],
             sizes: ['large', 'default', 'small'],
             aligns: ['left', 'center', 'right'],
+            val: {},
         }
     },
     methods: {
