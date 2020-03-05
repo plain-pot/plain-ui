@@ -8,6 +8,14 @@ module.exports = {
                 test: /.md$/,
                 loader: 'text-loader'
             },
+            {
+                test: /\.(svg|otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: 'fonts/[name].[ext]'
+                }
+            }
         ]
     },
     resolve: {

@@ -3,6 +3,10 @@
 </template>
 
 <script>
+
+    import 'src/styles/fonts/element-icons.ttf'
+    import 'src/styles/fonts/element-icons.woff'
+
     export default {
         name: "pl-icon",
         props: {
