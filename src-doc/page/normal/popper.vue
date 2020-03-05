@@ -11,17 +11,23 @@
         </demo-row>
 
         <demo-row title="位置" class="demo-popper-placement">
-            <pl-popper :placement="item" :key="item" v-for="item in [
-            'top','top-start','top-center','top-end',
-            'bottom','bottom-start','bottom-center','bottom-end',
-            'left','left-start','left-center','left-end',
-            'right','right-start','right-center','right-end',
-            ]">
-                <pl-button :label="item"/>
-                <div slot="popper" class="demo-popper-content">
-                    这里是popper的内容
-                </div>
-            </pl-popper>
+
+            <demo-line v-for="direction in ['top','bottom','left','right']" :key="direction">
+
+                <pl-popper :placement="direction" :key="`${direction}-1`">
+                    <pl-button :label="direction"/>
+                    <div slot="popper" class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </pl-popper>
+
+                <pl-popper :placement="`${direction}-${align}`" :key="align" v-for="align in ['start','center','end']">
+                    <pl-button :label="`${direction}-${align}`"/>
+                    <div slot="popper" class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </pl-popper>
+            </demo-line>
         </demo-row>
 
         <demo-row title="触发动作">
