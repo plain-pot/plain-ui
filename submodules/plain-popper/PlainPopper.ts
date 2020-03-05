@@ -1,4 +1,4 @@
-import {RusionPlacementType, RusionPopperOption, RusionPopperType, RusionTooltipAnimate, RusionTooltipOption, RusionTooltipTrigger} from "./types";
+import {PlainPlacementType, PlainPopperOption, PlainPopperType, PlainTooltipAnimate, PlainTooltipOption, PlainTooltipTrigger} from "./types";
 import {addClass} from "./utils";
 
 interface Position {
@@ -27,8 +27,8 @@ class BoundaryData {
             this.maxLeft = Infinity
             this.minLeft = -Infinity
         } else {
-            this.el = RusionPopper.getEl(boundary)
-            let boundaryPosition = RusionPopper.getPosition(this.el)
+            this.el = PlainPopper.getEl(boundary)
+            let boundaryPosition = PlainPopper.getPosition(this.el)
             this.maxTop = boundaryPosition.top + boundaryPosition.height - popperPosition.height
             this.minTop = boundaryPosition.top
             this.maxLeft = boundaryPosition.left + boundaryPosition.width - popperPosition.width
@@ -46,13 +46,13 @@ interface PopperData {
     align: string
 }
 
-class RusionPopper implements RusionPopperType {
+class PlainPopper implements PlainPopperType {
 
     popperEl: HTMLElement;                                                      //弹出层dom
     targetEl: HTMLElement;                                                      //目标元素dom
     offset: number                                                              //弹出层dom与目标dom的距离
     boundary: HTMLElement | string;                                             //边界元素
-    placement: RusionPlacementType | null;                                      //位置
+    placement: PlainPlacementType | null;                                      //位置
     backgroundColor: string                                                     //背景色
     boxShadow: string                                                           //阴影
     border: string                                                              //边框
@@ -83,7 +83,7 @@ class RusionPopper implements RusionPopperType {
         'right-end': 'left bottom',
     }
 
-    constructor(option: RusionPopperOption) {
+    constructor(option: PlainPopperOption) {
         this.popperEl = option.popperEl
         this.targetEl = option.targetEl
 
@@ -98,9 +98,9 @@ class RusionPopper implements RusionPopperType {
         this.gpuAcceleration = option.gpuAcceleration == null ? true : option.gpuAcceleration
 
         if (!!option.arrow) {
-            this.arrowEl = this.popperEl.querySelector('.rusion-popper-arrow')
+            this.arrowEl = this.popperEl.querySelector('.plain-popper-arrow')
             if (!this.arrowEl) {
-                throw new Error(`Please add arrow element(div.rusion-popper-arrow) under popper element!`)
+                throw new Error(`Please add arrow element(div.plain-popper-arrow) under popper element!`)
             }
             Object.assign(this.arrowEl.style, {
                 position: 'absolute',
@@ -109,10 +109,10 @@ class RusionPopper implements RusionPopperType {
                 top: '0',
                 // backgroundColor: '#ddd',
             })
-            let innerEl = this.arrowEl.querySelector('.rusion-popper-arrow-inner') as HTMLElement
+            let innerEl = this.arrowEl.querySelector('.plain-popper-arrow-inner') as HTMLElement
             if (!innerEl) {
                 innerEl = document.createElement('div')
-                addClass(innerEl, 'rusion-popper-arrow-inner')
+                addClass(innerEl, 'plain-popper-arrow-inner')
                 this.arrowEl.appendChild(innerEl)
             }
             Object.assign(innerEl.style, {
@@ -128,9 +128,9 @@ class RusionPopper implements RusionPopperType {
             this.offset += this.arrowSize / 2
         }
 
-        this.contentEl = this.popperEl.querySelector('.rusion-popper-content')
+        this.contentEl = this.popperEl.querySelector('.plain-popper-content')
         if (!this.contentEl) {
-            throw new Error(`Please add content element(div.rusion-popper > div.rusion-popper-content) under popper element!`)
+            throw new Error(`Please add content element(div.plain-popper > div.plain-popper-content) under popper element!`)
         }
         Object.assign(this.contentEl.style, {
             backgroundColor: this.backgroundColor,
@@ -161,17 +161,17 @@ class RusionPopper implements RusionPopperType {
     public refresh(): void {
         let left, top;
 
-        const targetPosition = RusionPopper.getPosition(this.targetEl)
-        const popperPosition = RusionPopper.getPosition(this.popperEl)
+        const targetPosition = PlainPopper.getPosition(this.targetEl)
+        const popperPosition = PlainPopper.getPosition(this.popperEl)
 
-        let {maxTop, minTop, maxLeft, minLeft} = RusionPopper.getBoundaryData(this.boundary, popperPosition)
+        let {maxTop, minTop, maxLeft, minLeft} = PlainPopper.getBoundaryData(this.boundary, popperPosition)
 
-        let {position, direction, align} = RusionPopper.getPositionByPlacement(this.placement, targetPosition, popperPosition, this.offset)
+        let {position, direction, align} = PlainPopper.getPositionByPlacement(this.placement, targetPosition, popperPosition, this.offset)
 
         switch (direction) {
             case 'top':
                 if (position.top < minTop) {
-                    let {position: p} = RusionPopper.getPositionByPlacement(`bottom-${align}` as RusionPlacementType, targetPosition, popperPosition, this.offset)
+                    let {position: p} = PlainPopper.getPositionByPlacement(`bottom-${align}` as PlainPlacementType, targetPosition, popperPosition, this.offset)
                     if (p.top > maxTop) {
                         top = position.top
                     } else {
@@ -187,7 +187,7 @@ class RusionPopper implements RusionPopperType {
                 break
             case 'bottom':
                 if (position.top > maxTop) {
-                    let {position: p} = RusionPopper.getPositionByPlacement(`top-${align}` as RusionPlacementType, targetPosition, popperPosition, this.offset)
+                    let {position: p} = PlainPopper.getPositionByPlacement(`top-${align}` as PlainPlacementType, targetPosition, popperPosition, this.offset)
                     if (p.top < minTop) {
                         top = position.top
                     } else {
@@ -203,7 +203,7 @@ class RusionPopper implements RusionPopperType {
                 break
             case 'left':
                 if (position.left < minLeft) {
-                    let {position: p} = RusionPopper.getPositionByPlacement(`right-${align}` as RusionPlacementType, targetPosition, popperPosition, this.offset)
+                    let {position: p} = PlainPopper.getPositionByPlacement(`right-${align}` as PlainPlacementType, targetPosition, popperPosition, this.offset)
                     if (p.left > maxLeft) {
                         left = position.left
                     } else {
@@ -219,7 +219,7 @@ class RusionPopper implements RusionPopperType {
                 break
             case 'right':
                 if (position.left > maxLeft) {
-                    let {position: p} = RusionPopper.getPositionByPlacement(`left-${align}` as RusionPlacementType, targetPosition, popperPosition, this.offset)
+                    let {position: p} = PlainPopper.getPositionByPlacement(`left-${align}` as PlainPlacementType, targetPosition, popperPosition, this.offset)
                     if (p.left < minLeft) {
                         left = position.left
                     } else {
@@ -238,7 +238,7 @@ class RusionPopper implements RusionPopperType {
         }
         this.setPosition(this.popperEl, top, left)
 
-        this.contentEl.style.transformOrigin = RusionPopper.transformOriginMap[`${direction}-${align}`]
+        this.contentEl.style.transformOrigin = PlainPopper.transformOriginMap[`${direction}-${align}`]
 
         this.popperData = {
             left,
@@ -266,7 +266,7 @@ class RusionPopper implements RusionPopperType {
      * @author  韦胜健
      * @date    2019/11/30 18:33
      */
-    public setPlacement(placement: RusionPlacementType | null) {
+    public setPlacement(placement: PlainPlacementType | null) {
         this.placement = placement
         this.refresh()
     }
@@ -449,7 +449,7 @@ class RusionPopper implements RusionPopperType {
      * @date    2019/11/30 23:06
      */
     static getPositionByPlacement:
-        (placement: RusionPlacementType, targetPosition: Position, popperPosition, offset: number | null) => { position: Position, direction: string, align: string }
+        (placement: PlainPlacementType, targetPosition: Position, popperPosition, offset: number | null) => { position: Position, direction: string, align: string }
         = function (placement, targetPosition, popperPosition, offset) {
 
         let [direction, align] = placement.split('-')
@@ -537,17 +537,17 @@ class RusionPopper implements RusionPopperType {
         return new BoundaryData(boundary, popperPosition)
     }
 
-    static RusionTooltip = null
+    static PlainTooltip = null
 }
 
-class RusionTooltip {
+class PlainTooltip {
 
     /*---------------------------------------local-------------------------------------------*/
     removeOnHide: boolean
     onContentTransitionEnd: Function = null
 
     /*---------------------------------------trigger-------------------------------------------*/
-    trigger: RusionTooltipTrigger
+    trigger: PlainTooltipTrigger
     private triggerHandler: Function
     private static readonly triggers = {
         /*手动控制*/
@@ -604,9 +604,9 @@ class RusionTooltip {
     private readonly contentEl: HTMLElement
     private readonly popperEl: HTMLElement
     private readonly targetEl: HTMLElement
-    private readonly popper: RusionPopper
+    private readonly popper: PlainPopper
     /*---------------------------------------animate-------------------------------------------*/
-    animate: RusionTooltipAnimate
+    animate: PlainTooltipAnimate
     private static readonly animates = {
         drop: {
             show: {
@@ -664,7 +664,7 @@ class RusionTooltip {
         },
     }
 
-    constructor(option: RusionTooltipOption) {
+    constructor(option: PlainTooltipOption) {
 
         this.removeOnHide = option.removeOnHide == null ? true : option.removeOnHide
 
@@ -672,15 +672,15 @@ class RusionTooltip {
         let theme = option.theme || 'dark'
         let themeData;
 
-        if (!RusionTooltip.themes[theme]) {
+        if (!PlainTooltip.themes[theme]) {
             throw new Error(`Can not recognise theme:${theme}`)
         } else {
-            themeData = RusionTooltip.themes[theme]
+            themeData = PlainTooltip.themes[theme]
         }
 
         /*animate*/
         let animate = option.animate || 'fade'
-        if (!RusionTooltip.animates[animate]) {
+        if (!PlainTooltip.animates[animate]) {
             throw new Error(`Can not recognise animate:${animate}`)
         } else {
             this.animate = animate
@@ -689,7 +689,7 @@ class RusionTooltip {
         /*popper*/
         let {targetEl, offset, boundary, placement, backgroundColor, boxShadow, arrow, arrowSize} = option
 
-        let {popperEl, contentEl} = RusionPopper.RusionTooltip.createPopperEl()
+        let {popperEl, contentEl} = PlainPopper.PlainTooltip.createPopperEl()
 
         if (typeof option.content === 'string') {
             const textEl = document.createElement('span')
@@ -700,12 +700,12 @@ class RusionTooltip {
         }
 
         let popperOption = {targetEl, popperEl, offset, boundary, placement, backgroundColor, boxShadow, arrow, arrowSize}
-        let defaultOption = Object.assign({}, RusionTooltip.themes.public.option, themeData.option)
+        let defaultOption = Object.assign({}, PlainTooltip.themes.public.option, themeData.option)
         Object.keys(defaultOption).forEach(key => {
             if (popperOption[key] == null) popperOption[key] = defaultOption[key]
         })
         Object.assign(popperEl.style, themeData.popperElStyles)
-        this.popper = new RusionPopper(popperOption)
+        this.popper = new PlainPopper(popperOption)
         this.targetEl = targetEl
         this.popperEl = popperEl
         this.contentEl = contentEl
@@ -715,10 +715,10 @@ class RusionTooltip {
 
         /*trigger*/
         this.trigger = option.trigger || 'always'
-        if (!RusionTooltip.triggers[this.trigger]) {
+        if (!PlainTooltip.triggers[this.trigger]) {
             throw new Error(`Can not recognise trigger:${this.trigger}`)
         } else {
-            RusionTooltip.triggers[this.trigger].init(this, this.targetEl)
+            PlainTooltip.triggers[this.trigger].init(this, this.targetEl)
         }
     }
 
@@ -729,7 +729,7 @@ class RusionTooltip {
             this.popper.refresh()
         }
         setTimeout(() => {
-            Object.assign(this.contentEl.style, RusionTooltip.animates[this.animate].show)
+            Object.assign(this.contentEl.style, PlainTooltip.animates[this.animate].show)
             this.isShow = true
             this.onContentTransitionEnd = () => {
                 this.onContentTransitionEnd = null
@@ -738,7 +738,7 @@ class RusionTooltip {
     }
 
     hide() {
-        Object.assign(this.contentEl.style, RusionTooltip.animates[this.animate].hide)
+        Object.assign(this.contentEl.style, PlainTooltip.animates[this.animate].hide)
         this.isShow = false
         this.onContentTransitionEnd = () => {
             if (this.removeOnHide && !!this.isMounted) {
@@ -750,7 +750,7 @@ class RusionTooltip {
     }
 
     destroy() {
-        RusionTooltip.triggers[this.trigger].destroy(this, this.targetEl)
+        PlainTooltip.triggers[this.trigger].destroy(this, this.targetEl)
         this.contentEl.removeEventListener('transitionend', this._onContentTransitionEnd)
         if (this.isMounted) document.body.removeChild(this.popperEl)
         this.popper.destroy()
@@ -766,12 +766,12 @@ class RusionTooltip {
     static tempPopperEl: HTMLElement
 
     static createPopperEl() {
-        if (!RusionPopper.RusionTooltip.tempPopperEl) {
+        if (!PlainPopper.PlainTooltip.tempPopperEl) {
             let popperEl = document.createElement('div')
-            addClass(popperEl, 'rusion-popper')
+            addClass(popperEl, 'plain-popper')
 
             let contentEl = document.createElement('div')
-            addClass(contentEl, 'rusion-popper-content')
+            addClass(contentEl, 'plain-popper-content')
             popperEl.appendChild(contentEl)
 
             Object.assign(contentEl.style, {
@@ -784,15 +784,15 @@ class RusionTooltip {
             })
 
             let arrowEl = document.createElement('div')
-            addClass(arrowEl, 'rusion-popper-arrow')
+            addClass(arrowEl, 'plain-popper-arrow')
             contentEl.appendChild(arrowEl)
 
-            RusionPopper.RusionTooltip.tempPopperEl = popperEl
+            PlainPopper.PlainTooltip.tempPopperEl = popperEl
         }
 
-        let popperEl = RusionPopper.RusionTooltip.tempPopperEl.cloneNode(true) as HTMLElement
-        let contentEl = popperEl.querySelector('.rusion-popper-content') as HTMLElement
-        let arrowEl = popperEl.querySelector('.rusion-popper-arrow') as HTMLElement
+        let popperEl = PlainPopper.PlainTooltip.tempPopperEl.cloneNode(true) as HTMLElement
+        let contentEl = popperEl.querySelector('.plain-popper-content') as HTMLElement
+        let arrowEl = popperEl.querySelector('.plain-popper-arrow') as HTMLElement
 
         return {
             popperEl,
@@ -803,6 +803,6 @@ class RusionTooltip {
 
 }
 
-RusionPopper.RusionTooltip = RusionTooltip
+PlainPopper.PlainTooltip = PlainTooltip
 
-export default RusionPopper
+export default PlainPopper

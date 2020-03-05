@@ -1,14 +1,14 @@
-export type RusionPlacementType = 'top-start' | 'top-center' | 'top-end' | 'top' |
+export type PlainPlacementType = 'top-start' | 'top-center' | 'top-end' | 'top' |
     'bottom-start' | 'bottom-center' | 'bottom-end' | 'bottom' |
     'left-start' | 'left-center' | 'left-end' | 'left' |
     'right-start' | 'right-center' | 'right-end' | 'right'
 
-export interface RusionPopperOption {
+export interface PlainPopperOption {
     popperEl: HTMLElement;                                                      //弹出层dom
     targetEl: HTMLElement;                                                      //目标元素dom
     offset?: number                                                             //弹出层dom与目标dom的距离
     boundary?: HTMLElement | string;                                            //边界元素
-    placement?: RusionPlacementType | null;                                     //位置
+    placement?: PlainPlacementType | null;                                     //位置
     backgroundColor?: string                                                    //背景色
     boxShadow?: string                                                          //阴影
     border?: string                                                             //边框
@@ -17,15 +17,15 @@ export interface RusionPopperOption {
     gpuAcceleration?: boolean
 }
 
-export type RusionTooltipTheme = 'light' | 'dark' | 'error' | 'success'
-export type RusionTooltipAnimate = 'scale' | 'fade' | 'drop'
-export type RusionTooltipTrigger = 'focus' | 'click' | 'hover' | 'always' | 'manual'
+export type PlainTooltipTheme = 'light' | 'dark' | 'error' | 'success'
+export type PlainTooltipAnimate = 'scale' | 'fade' | 'drop'
+export type PlainTooltipTrigger = 'focus' | 'click' | 'hover' | 'always' | 'manual'
 
-export interface RusionTooltipOption {
+export interface PlainTooltipOption {
     targetEl: HTMLElement
     offset?: number
     boundary?: HTMLElement | string;
-    placement?: RusionPlacementType | null;
+    placement?: PlainPlacementType | null;
     backgroundColor?: string
     boxShadow?: string
     border: string
@@ -33,18 +33,18 @@ export interface RusionTooltipOption {
     arrowSize?: number
     gpuAcceleration?: boolean
 
-    theme?: RusionTooltipTheme
-    animate?: RusionTooltipAnimate
+    theme?: PlainTooltipTheme
+    animate?: PlainTooltipAnimate
     content: HTMLElement | string
-    trigger?: RusionTooltipTrigger
+    trigger?: PlainTooltipTrigger
     removeOnHide?: boolean
 }
 
-export interface RusionPopperType {
+export interface PlainPopperType {
     targetEl: HTMLElement
     popperEl: HTMLElement
 }
 
-declare const RusionPopper: RusionPopperType
+declare const PlainPopper: PlainPopperType
 
-export default RusionPopper
+export default PlainPopper

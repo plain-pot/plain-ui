@@ -1,4 +1,2 @@
-import RusionPopper from "./RusionPopper";
-import './index.scss'
-
-export default RusionPopper
+import PlainPopper from "./PlainPopper";
+export default PlainPopper
