@@ -73,6 +73,13 @@
           padding-left: 12px;
           padding-right: 12px;
         }
+
+        &.pl-input-shape-round {
+          .pl-input-inner, .pl-textarea-inner {
+            padding-left: 24px;
+            padding-right: 24px;
+          }
+        }
       }
       &.pl-input-size-default {
         .pl-input-inner, .pl-textarea-inner {
@@ -80,12 +87,24 @@
           padding-right: 10px;
           font-size: 14px;
         }
+        &.pl-input-shape-round {
+          .pl-input-inner, .pl-textarea-inner {
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+        }
       }
       &.pl-input-size-small {
         .pl-input-inner, .pl-textarea-inner {
           padding-left: 8px;
           padding-right: 8px;
           font-size: 12px;
+        }
+        &.pl-input-shape-round {
+          .pl-input-inner, .pl-textarea-inner {
+            padding-left: 16px;
+            padding-right: 16px;
+          }
         }
       }
     }

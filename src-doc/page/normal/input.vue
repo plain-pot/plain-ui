@@ -59,6 +59,11 @@
             <pl-input/>
             <pl-input size="small"/>
         </demo-row>
+        <demo-row title="形状">
+            <pl-input shape="fillet"/>
+            <pl-input shape="round"/>
+            <pl-input shape="none"/>
+        </demo-row>
         <demo-row title="文本域输入框">
             <pl-input textarea/>
         </demo-row>
