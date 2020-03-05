@@ -1,18 +1,15 @@
-<template>
-    <div>
-        pl-popper
-    </div>
-</template>
-
 <script>
     export default {
         name: "pl-popper",
-        props: {
-        },
+        props: {},
         data() {
             return {}
         },
-        methods: {},
+        render() {
+            return this.$slots.default[0]
+        },
+        mounted() {
+        }
     }
 </script>
 
