@@ -5,13 +5,15 @@ import loading from './loading'
 import input from './input'
 import checkbox from './checkbox'
 import radio from './radio'
+import popper from './popper'
 
 const plugins = [
     button, icon,
     input, checkbox, radio,
 
     scroll,
-    loading
+    loading,
+    popper,
 ]
 
 export default {
