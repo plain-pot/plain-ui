@@ -6,6 +6,7 @@
 @import "./components/checkbox";
 @import "./components/radio";
 @import "./components/loading";
+@import "./components/popper";
 
 @mixin component-index {
   @include component-button;
@@ -14,4 +15,6 @@
   @include component-checkbox;
   @include component-radio;
   @include component-loading;
+  @include component-popper;
+
 }
