@@ -1,9 +1,13 @@
 <template>
     <div class="demo-icon">
-        <demo-row title="使用 ElementUI 标准图标"/>
+        <demo-row title="使用 ElementUI 标准图标">
+            <div style="text-align: center">
+                <pl-input suffixIcon="el-icon-search" size="large" shape="round" :width="500" @keydown.enter="onEnter" v-model="searchValue"/>
+            </div>
+        </demo-row>
         <div class="demo-icon-list">
             <ul>
-                <li v-for="item in icons" :key="item">
+                <li v-for="item in targetIcons" :key="item" @click="onClickItem(item)">
                     <p><i :class="`el-icon-${item}`"/></p>
                     <span>el-icon-{{item}}</span>
                 </li>
@@ -22,9 +26,24 @@
         data() {
             return {
                 icons,
+                searchValue: null,
+                targetSearchValue: null,
             }
         },
-        methods: {},
+        computed: {
+            targetIcons() {
+                if (!this.targetSearchValue) return this.icons
+                return this.icons.filter(icon => icon.indexOf(this.targetSearchValue) > -1)
+            },
+        },
+        methods: {
+            onEnter() {
+                this.targetSearchValue = this.searchValue
+            },
+            onClickItem(item) {
+                this.$plain.utils.copyToClipboard(`el-icon-${item}`)
+            },
+        },
     }
 </script>
 
@@ -83,6 +102,7 @@
         .demo-icon-list {
             li {
                 transition: all 300ms linear;
+
                 &:hover {
                     cursor: pointer;
                     background-color: rgba($colorPrimary, 0.1);
