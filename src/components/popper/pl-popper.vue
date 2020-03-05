@@ -1,7 +1,7 @@
 <template>
     <span class="pl-popper" :placement="placement">
         <slot></slot>
-        <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass}]" :style="popperStyles">
+        <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
             <transition :name="transition" @after-leave="onTransitionEnd" @after-enter="onTransitionEnd">
                 <div class="plain-popper-content" v-show="p_value" ref="content">
                     <div class="plain-popper-arrow" v-if="arrow"></div>
@@ -36,7 +36,7 @@
             title: {type: String},                                      // 标题
             content: {type: String},                                    // 内容
             disabled: {type: Boolean},                                  // 是否可以弹出
-            transition: {type: String, default: 'pl-transition-fade'},   // 动画名称
+            transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
             popperClass: {type: String},                                // popper容器节点样式
             hoverOpenDelay: {type: Number, default: 0},                 // hover触发条件下，打开延迟时间
             hoverCloseDelay: {type: Number, default: 200},              // hover触发条件下，关闭延迟时间

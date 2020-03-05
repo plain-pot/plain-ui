@@ -1,5 +1,5 @@
 /*scale*/
-.pl-transition-scale-entepl-active, .pl-transition-scale-leave-active {
+.pl-transition-scale-enter-active, .pl-transition-scale-leave-active {
   transform: scale(1);
 }
 
@@ -9,7 +9,7 @@
 }
 
 /*scale-y*/
-.pl-transition-scale-y-entepl-active, .pl-transition-scale-y-leave-active {
+.pl-transition-scale-y-enter-active, .pl-transition-scale-y-leave-active {
 }
 
 .pl-transition-scale-y-enter, .pl-transition-scale-y-leave-to {
@@ -18,7 +18,7 @@
 }
 
 /*fade*/
-.pl-transition-fade-entepl-active, .pl-transition-fade-leave-active {
+.pl-transition-fade-enter-active, .pl-transition-fade-leave-active {
   opacity: 1;
 }
 

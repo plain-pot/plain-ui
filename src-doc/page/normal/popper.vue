@@ -116,6 +116,12 @@
                     这里是popper的内容
                 </div>
             </pl-popper>
+            <pl-popper transition="pl-transition-popper-drop" trigger="click" :arrow="false" placement="bottom-start">
+                <pl-button label="popper-drop"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
         </demo-row>
 
         <demo-row>

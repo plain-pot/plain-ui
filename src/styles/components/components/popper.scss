@@ -25,6 +25,33 @@
       }
     }
 
+    &.pl-popper-el-animate-pl-transition-popper-drop {
+      overflow: hidden;
+
+      .plain-popper-content {
+        transition: all 300ms $transitionFlexible;
+
+        &.pl-transition-popper-drop-enter-active, &.pl-transition-popper-drop-leave-active {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        &[direction=top] {
+          &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
+            opacity: 0;
+            transform: translateY(100%);
+          }
+        }
+
+        &[direction=bottom] {
+          &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
+            opacity: 0;
+            transform: translateY(-100%);
+          }
+        }
+      }
+    }
+
     .plain-popper-content {
       pointer-events: auto;
       padding: 16px 12px;
