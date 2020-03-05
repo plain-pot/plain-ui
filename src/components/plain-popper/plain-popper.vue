@@ -15,6 +15,11 @@
             arrow: {type: Boolean, default: true},                      // 是否需要箭头
             boundary: {default: 'window'},                              // 边界元素
         },
+        watch: {
+            placement(val) {
+                this.popper.setPlacement(val)
+            },
+        },
         data() {
             return {
                 popperContent: null,
@@ -61,6 +66,7 @@
                     },
                     {parent: popperWrapper, parentNode: popperWrapper.$el}
                 )
+                this.popperContent.$el.style.opacity = 0
 
                 this.popper = new PlainPopper({
                     popperEl: this.popperContent.$el,
@@ -71,6 +77,10 @@
                     boundary: this.boundary,
                     boxShadow: null,
                 })
+
+                setTimeout(()=>{
+                    this.popperContent.$el.style.opacity = 1
+                },23)
             },
         },
         mounted() {
