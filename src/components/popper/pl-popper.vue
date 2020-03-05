@@ -2,9 +2,8 @@
     <span class="pl-popper" :placement="placement">
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass}]" :style="popperStyles">
-            <transition :name="transition">
-                <div class="plain-popper-content" v-show="p_value" ref="content"
-                     @transitionend="()=>!!p_transitionend && p_transitionend()">
+            <transition :name="transition" @after-leave="onTransitionEnd" @after-enter="onTransitionEnd">
+                <div class="plain-popper-content" v-show="p_value" ref="content">
                     <div class="plain-popper-arrow" v-if="arrow"></div>
                     <slot name="popper"></slot>
                 </div>
@@ -289,6 +288,9 @@
             }
         },
         methods: {
+            onTransitionEnd() {
+                !!this.p_transitionend && this.p_transitionend()
+            },
             /*初始化*/
             init() {
                 const children = Array.from(this.$el.children)
@@ -362,8 +364,8 @@
             },
             hide(emitInput = true) {
                 if (!this.p_value) return
-                this.emitHide()
                 this.p_value = false
+                this.emitHide()
                 if (emitInput) {
                     this.emitInput(this.p_value)
                 }
