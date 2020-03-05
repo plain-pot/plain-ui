@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-popper">
+    <div>
         pl-popper
     </div>
 </template>
@@ -7,7 +7,8 @@
 <script>
     export default {
         name: "pl-popper",
-        props: {},
+        props: {
+        },
         data() {
             return {}
         },

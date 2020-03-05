@@ -1,3 +1,5 @@
-import component from './pl-popper.vue'
+import popper from './pl-popper.vue'
+
 import {plugin} from "../../utils";
-export default plugin(component)
+
+export default plugin([popper])

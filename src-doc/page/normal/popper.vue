@@ -1,8 +1,6 @@
 <template>
     <div class="demo-popper">
-        <pl-popper>
 
-        </pl-popper>
     </div>
 </template>
 

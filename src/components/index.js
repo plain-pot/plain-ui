@@ -6,6 +6,7 @@ import input from './input'
 import checkbox from './checkbox'
 import radio from './radio'
 import popper from './popper'
+import plainPopper from './plain-popper'
 
 const plugins = [
     button, icon,
@@ -14,6 +15,7 @@ const plugins = [
     scroll,
     loading,
     popper,
+    plainPopper,
 ]
 
 export default {
