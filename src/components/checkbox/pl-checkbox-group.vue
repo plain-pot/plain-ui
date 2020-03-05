@@ -1,6 +1,6 @@
 <template>
     <div class="pl-checkbox-group">
-        <pl-checkbox label="全选" ignore @click.native="onClickCheckBoxForAll">
+        <pl-checkbox label="全选" ignore @click.native="onClickCheckBoxForAll" :value="checkStatus === 'check'">
             <template slot="checkbox-inner">
                 <pl-checkbox-inner status="check" key="check" v-if="checkStatus === 'check'"/>
                 <pl-checkbox-inner status="uncheck" key="uncheck" v-if="checkStatus === 'uncheck'"/>

@@ -79,7 +79,7 @@
                 ]
             },
             isChecked() {
-                if (!!this.plCheckboxGroup) {
+                if (!!this.plCheckboxGroup && !this.ignore) {
                     return this.plCheckboxGroup.isChecked(this.val)
                 } else {
                     return this.p_value === this.trueValue
@@ -90,7 +90,7 @@
             onClick() {
                 if (!this.isEditable) return
 
-                if (!!this.plCheckboxGroup) {
+                if (!!this.plCheckboxGroup && !this.ignore) {
                     this.plCheckboxGroup.onClickCheckbox(this)
                 } else {
                     this.p_value = this.isChecked ? this.falseValue : this.trueValue
