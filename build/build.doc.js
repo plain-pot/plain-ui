@@ -7,7 +7,7 @@ console.log('building doc')
 const PlainUI = 'PlainUI'
 
 module.exports = {
-    publicPath: '/',
+    publicPath: './',
     devServer: {port: '3334'},
     outputDir: $utils.resolve('docs'),
     configureWebpack: $utils.WebpackMerge(WebpackPublic, {

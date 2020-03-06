@@ -4,8 +4,7 @@
 
 <script>
 
-    import 'src/styles/fonts/element-icons.ttf'
-    import 'src/styles/fonts/element-icons.woff'
+    import 'element-theme-chalk/lib/icon.css'
 
     export default {
         name: "pl-icon",
