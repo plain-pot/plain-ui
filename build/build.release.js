@@ -38,5 +38,21 @@ module.exports = {
         config.resolve.alias
             .delete('vue$')
             .delete('@')
+
+        const fontRule = config.module.rule('fonts')
+        fontRule.uses.clear()
+        fontRule
+            .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/i)
+            .use('url')
+            .loader('url-loader')
+            .options({
+                limit: 4096,
+                fallback: {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'fonts/[name].[ext]'
+                    }
+                }
+            })
     },
 }
