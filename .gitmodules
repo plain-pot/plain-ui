@@ -1,6 +1,0 @@
-[submodule "submodules/plain-utils"]
-	path = submodules/plain-utils
-	url = https://gitee.com/plain-ui/plain-utils.git
-[submodule "submodules/plain-loading"]
-	path = submodules/plain-loading
-	url = git@gitee.com:plain-ui/plain-loading.git
