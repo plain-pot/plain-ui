@@ -68,7 +68,7 @@ export default [
     {
         name: '服务', children: [
             {name: '$message', title: '消息服务', icon: 'pad-message', page: '/normal/message', complete: false},
-            {name: '$select', title: '选择服务', icon: 'pad-message', page: '/service/select-service', complete: false},
+            {name: '$select', title: '选择服务', icon: 'pad-message', page: '/service/select-service', complete: true},
             {name: '$dialog', title: '对话框服务', icon: 'pl-window', page: '/service/dialog-service', complete: false},
             {name: '$notice', title: '通知', icon: 'pad-bell', page: '/service/notice-service', complete: false},
             {name: '$file', title: '文件服务', icon: 'pad-bell', page: '/service/file', complete: false},

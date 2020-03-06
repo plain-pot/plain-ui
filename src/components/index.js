@@ -8,6 +8,7 @@ import radio from './radio'
 import popper from './popper'
 import dom from './dom'
 import popover from './popover'
+import select from './select'
 
 const plugins = [
     button, icon,
@@ -18,6 +19,7 @@ const plugins = [
     dom,
     popper,
     popover,
+    select,
 ]
 
 export default {
