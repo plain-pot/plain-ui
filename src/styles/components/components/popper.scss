@@ -39,28 +39,28 @@
         &[direction=top] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             opacity: 0;
-            transform: translateY(100%);
+            transform: translate3d(0, 100%, 0);
           }
         }
 
         &[direction=bottom] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             opacity: 0;
-            transform: translateY(-100%);
+            transform: translate3d(0, -100%, 0);
           }
         }
 
         &[direction=left] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             opacity: 0;
-            transform: translateX(100%);
+            transform: translate3d(100%, 0, 0);
           }
         }
 
         &[direction=right] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             opacity: 0;
-            transform: translateX(-100%);
+            transform: translate3d(-100%, 0, 0);
           }
         }
       }

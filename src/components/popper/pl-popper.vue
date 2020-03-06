@@ -2,7 +2,7 @@
     <span class="pl-popper">
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
-            <transition :name="transition" @after-leave="onTransitionEnd" @after-enter="onTransitionEnd">
+            <transition :name="transition" @after-leave="onTransitionEnd" @after-enter="onTransitionEnd" @before-enter="onTransitionBeforeEnter">
                 <div class="plain-popper-content" v-show="p_value" ref="content">
                     <div class="plain-popper-arrow" v-if="arrow"></div>
                     <slot name="popper"></slot>
@@ -291,10 +291,47 @@
             }
         },
         methods: {
-            onTransitionEnd() {
-                !!this.p_transitionend && this.p_transitionend()
+            /*---------------------------------------methods-------------------------------------------*/
+            /**
+             * 展开popper
+             * @author  韦胜健
+             * @date    2020/3/7 0:23
+             */
+            show(emitInput = true) {
+                if (this.p_value) return
+                this.p_value = true
+                this.emitShow()
+                if (emitInput) {
+                    this.emitInput(this.p_value)
+                }
+                this.p_transitionend = () => {
+                    this.p_open = true
+                    this.p_transitionend = null
+                }
             },
-            /*初始化*/
+            /**
+             * 收起popper
+             * @author  韦胜健
+             * @date    2020/3/7 0:23
+             */
+            hide(emitInput = true) {
+                if (!this.p_value) return
+                this.p_value = false
+                this.emitHide()
+                if (emitInput) {
+                    this.emitInput(this.p_value)
+                }
+                this.p_transitionend = () => {
+                    this.p_open = false
+                    this.p_transitionend = null
+                }
+            },
+            /*---------------------------------------handler-------------------------------------------*/
+            /**
+             * 初始化各项信息
+             * @author  韦胜健
+             * @date    2020/3/7 0:23
+             */
             init() {
                 const children = Array.from(this.$el.children)
 
@@ -340,7 +377,11 @@
 
                 if (!!this.value) this.$nextTick(() => this.show(false))
             },
-            /*销毁*/
+            /**
+             * 销毁各个实例信息
+             * @author  韦胜健
+             * @date    2020/3/7 0:23
+             */
             dstry() {
                 this._unbindEvents()
                 if (!!this.p_trigger) {
@@ -352,38 +393,39 @@
 
                 this.emitDstry()
             },
-
-            show(emitInput = true) {
-                if (this.p_value) return
-                this.p_value = true
-                this.emitShow()
-                if (emitInput) {
-                    this.emitInput(this.p_value)
-                }
-                this.p_transitionend = () => {
-                    this.p_open = true
-                    this.p_transitionend = null
-                }
+            /*---------------------------------------listener-------------------------------------------*/
+            /**
+             * 动画结束，执行相应监听事件
+             * @author  韦胜健
+             * @date    2020/3/7 0:23
+             */
+            onTransitionEnd() {
+                !!this.p_transitionend && this.p_transitionend()
             },
-            hide(emitInput = true) {
-                if (!this.p_value) return
-                this.p_value = false
-                this.emitHide()
-                if (emitInput) {
-                    this.emitInput(this.p_value)
-                }
-                this.p_transitionend = () => {
-                    this.p_open = false
-                    this.p_transitionend = null
-                }
+            /**
+             * 动画开始前，先更新popper信息
+             * @author  韦胜健
+             * @date    2020/3/7 0:24
+             */
+            onTransitionBeforeEnter() {
+                this.popper.refresh()
             },
-
             /*---------------------------------------utils-------------------------------------------*/
+            /**
+             * 给 reference 以及 popper绑定点击事件
+             * @author  韦胜健
+             * @date    2020/3/7 0:24
+             */
             _bindEvents() {
                 if (this.referenceEl) this.referenceEl.addEventListener('click', this.onClickReference)
                 if (this.contentEl) this.contentEl.addEventListener('click', this.onClickPopper)
                 document.body.addEventListener('click', this.onClickBody)
             },
+            /**
+             * 解绑 reference 以及 popper点击事件
+             * @author  韦胜健
+             * @date    2020/3/7 0:24
+             */
             _unbindEvents() {
                 if (this.referenceEl) this.referenceEl.removeEventListener('click', this.onClickReference)
                 if (this.contentEl) this.contentEl.removeEventListener('click', this.onClickPopper)
