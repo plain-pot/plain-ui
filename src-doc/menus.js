@@ -62,7 +62,7 @@ export default [
             {name: 'Card', title: '卡片', icon: 'pl-card', page: '/normal/card', complete: true},
             {name: 'Carousel', title: '轮播', icon: 'pl-carousel', page: '/normal/carousel', complete: true},
             {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: true},
-            {name: 'Dom', title: '迁移DOM元素', icon: 'icon-scroll', page: '/directive/plain-dom', complete: true},
+            {name: 'Dom', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/dom', complete: true},
         ]
     },
     {
