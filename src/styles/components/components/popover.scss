@@ -1,0 +1,8 @@
+@mixin component-popover {
+  .pl-popover-popper {
+    .plain-popper-content {
+      padding: 0;
+      overflow: hidden;
+    }
+  }
+}

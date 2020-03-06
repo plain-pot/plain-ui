@@ -6,6 +6,7 @@
 @import "./components/loading";
 @import "./components/popper";
 @import "./components/icon";
+@import "./components/popover";
 
 @mixin component-index {
   @include component-button;
@@ -16,5 +17,5 @@
   @include component-loading;
   @include component-popper;
   @include component-icon;
-
+  @include component-popover;
 }
