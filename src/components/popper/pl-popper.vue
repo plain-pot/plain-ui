@@ -1,5 +1,5 @@
 <template>
-    <span class="pl-popper" :placement="placement">
+    <span class="pl-popper">
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
             <transition :name="transition" @after-leave="onTransitionEnd" @after-enter="onTransitionEnd">
