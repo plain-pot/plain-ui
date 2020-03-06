@@ -11,6 +11,7 @@
                                 <div class="app-menu-name">
                                     <span>{{menu.name}}</span>
                                     <span>{{menu.title}}</span>
+                                    <pl-icon icon="el-icon-star-on" status="success" v-if="!!menu.complete"/>
                                 </div>
                             </li>
                         </ul>
@@ -109,6 +110,10 @@
                 & > span:last-child {
                     font-size: 12px;
                     color: #99a9bf;
+                }
+
+                .pl-icon {
+                    float: right;
                 }
             }
         }

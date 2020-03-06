@@ -1,5 +1,3 @@
-@import "./components/icon";
-
 @import "./components/button";
 @import "./components/scroll";
 @import "./components/input";
@@ -7,6 +5,7 @@
 @import "./components/radio";
 @import "./components/loading";
 @import "./components/popper";
+@import "./components/icon";
 
 @mixin component-index {
   @include component-button;
@@ -16,5 +15,6 @@
   @include component-radio;
   @include component-loading;
   @include component-popper;
+  @include component-icon;
 
 }

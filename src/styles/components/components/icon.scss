@@ -1,0 +1,9 @@
+@import "~element-theme-chalk/lib/icon.css";
+
+@mixin component-icon {
+  .pl-icon {
+    @include statusMixin(icon) {
+      color: $value;
+    }
+  }
+}

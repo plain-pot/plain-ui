@@ -1,20 +1,15 @@
 <template>
-    <i :class="icon" class="pl-icon"/>
+    <i class="pl-icon" :class="[icon,{[`pl-icon-status-${status}`]:!!status}]"/>
 </template>
 
 <script>
-
-    import 'element-theme-chalk/lib/icon.css'
 
     export default {
         name: "pl-icon",
         props: {
             icon: {},
+            status: {},
         },
-        data() {
-            return {}
-        },
-        methods: {},
     }
 </script>
 
