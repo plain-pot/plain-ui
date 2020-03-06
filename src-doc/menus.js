@@ -93,7 +93,6 @@ export default [
     {
         name: '其他', children: [
             {name: 'Test', title: '测试手动渲染实例', icon: 'pl-table-solid', page: '/normal/render-func', complete: false},
-            {name: 'plain-popper', title: '原始 popper 对象', icon: 'pl-table-solid', page: '/normal/plain-popper', complete: false},
         ]
     },
 ]
