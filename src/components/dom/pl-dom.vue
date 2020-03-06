@@ -12,6 +12,7 @@
         props: {
             value: {type: Boolean, default: true},                          // 是否将组件移动到body下
             container: {},                                                  // 移动所在的父节点
+            autoCreateContainer: {type: Boolean},                           // 通过 querySelector 查询 container 不存在时。是否自动 创建 container
         },
         data() {
             return {
@@ -43,8 +44,15 @@
                 if (typeof this.container === "string") {
                     const node = document.querySelector(this.container)
                     if (!node) {
-                        console.error(`can'y find node:${this.container}`)
-                        return document.body
+                        if (!!this.autoCreateContainer) {
+                            const container = document.createElement('div')
+                            this.$plain.utils.addClass(container, this.container.replace('.', ''))
+                            document.body.appendChild(container)
+                            return container
+                        } else {
+                            console.error(`can'y find node:${this.container}`)
+                            return document.body
+                        }
                     } else {
                         return node
                     }
