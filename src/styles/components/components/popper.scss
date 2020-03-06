@@ -33,7 +33,7 @@
 
         &.pl-transition-popper-drop-enter-active, &.pl-transition-popper-drop-leave-active {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateY(0) translateX(0);
         }
 
         &[direction=top] {
@@ -47,6 +47,20 @@
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             opacity: 0;
             transform: translateY(-100%);
+          }
+        }
+
+        &[direction=left] {
+          &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+        }
+
+        &[direction=right] {
+          &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
+            opacity: 0;
+            transform: translateX(-100%);
           }
         }
       }

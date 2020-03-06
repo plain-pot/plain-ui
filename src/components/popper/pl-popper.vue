@@ -94,6 +94,9 @@
                     this.emitClose()
                 }
             },
+            placement(val) {
+                if (!!this.popper) this.popper.setPlacement(val)
+            },
             reference() {
                 this.dstry()
                 this.init()
