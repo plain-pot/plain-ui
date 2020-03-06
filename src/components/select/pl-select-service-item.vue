@@ -236,7 +236,7 @@
                 if (!!this.select.opt.onClickBody) {
                     this.select.opt.onClickBody()
                 }
-                if (!!this.select.opt.closeAfterBody) {
+                if (!!this.select.opt.closeAfterBody && !!this.isOpen) {
                     this.hide()
                 }
             },
