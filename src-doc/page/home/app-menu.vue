@@ -101,13 +101,13 @@
             }
 
             .app-menu-name {
-                & > span:first-child {
+                & > span:nth-child(1) {
                     margin-right: 1em;
                     font-size: 14px;
                     color: #606266;
                 }
 
-                & > span:last-child {
+                & > span:nth-child(2) {
                     font-size: 12px;
                     color: #99a9bf;
                 }
