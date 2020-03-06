@@ -145,7 +145,7 @@
         </demo-row>
 
         <demo-row title="综合测试">
-            <demo-line title="测试目标" style="height: 200px">
+            <demo-line title="测试目标" style="height: 100px">
                 <pl-popper :transition="test.animation" trigger="manual" :arrow="test.arrow" :placement="`${test.direction}-${test.align}`" :value="test.show">
                     <pl-button label="popper-drop" @click="test.show = !test.show"/>
                     <div slot="popper" class="demo-popper-content">
