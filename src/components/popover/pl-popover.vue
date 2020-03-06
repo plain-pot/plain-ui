@@ -39,7 +39,7 @@
 
             sizeEqual: {default: true},
             trigger: {default: 'click'},
-            transition: {default: 'pl-transition-scale-y'},
+            transition: {default: 'pl-transition-popper-drop'},
             placement: {default: 'bottom-start'},
             offset: {default: 2},
             arrow: {default: false},

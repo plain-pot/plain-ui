@@ -13,7 +13,7 @@
             <pl-popover :sizeEqual="false">
                 <pl-button label="reference"/>
                 <div slot="popper" style="height: 300px;width: 300px">
-                    这里是popover的内容
+                    <p>这里是popover的内容</p>
                 </div>
             </pl-popover>
         </demo-row>
