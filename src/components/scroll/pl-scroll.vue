@@ -245,7 +245,7 @@
                 this.scroll({y: scrollTop}, time)
             },
 
-            scrollEnd(point: { x?: boolean, y?: boolean }) {
+            scrollEnd(point: { x: boolean, y?: boolean } = {x: true, y: true}) {
                 if (!!point.x) this.wrapper!.scrollLeft = this.wrapper!.scrollWidth
                 if (!!point.y) this.wrapper!.scrollTop = this.wrapper!.scrollHeight
             },
