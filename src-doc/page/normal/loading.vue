@@ -17,7 +17,7 @@
                 <pl-loading type="ice" loading/>
             </div>
         </demo-row>
-        <demo-row title="状态（颜色">
+        <demo-row title="状态（颜色)">
             <demo-line v-for="item in status" :key="item" :title="item">
                 <pl-loading type="alpha" :status="item"/>
                 <pl-loading type="beta" :status="item"/>

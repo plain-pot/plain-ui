@@ -1,0 +1,9 @@
+[submodule "submodules/plain-loading"]
+	path = submodules/plain-loading
+	url = git@gitee.com:plain-pot/plain-loading.git
+[submodule "submodules/plain-utils"]
+	path = submodules/plain-utils
+	url = git@gitee.com:plain-pot/plain-utils.git
+[submodule "submodules/plain-popper"]
+	path = submodules/plain-popper
+	url = git@gitee.com:plain-pot/plain-popper.git

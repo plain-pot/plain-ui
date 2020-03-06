@@ -11,7 +11,7 @@
         props: {
             loading: {type: Boolean},
             type: {type: String, default: 'alpha'},
-            status: {type: String, default: 'primary'},
+            status: {type: String, default: null},
         },
         data() {
             return {
