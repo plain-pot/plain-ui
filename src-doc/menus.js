@@ -57,7 +57,7 @@ export default [
             {name: 'Dialog', title: '对话框', icon: 'pl-window', page: '/normal/dialog', complete: false},
             {name: 'Tooltip', title: '文字提示', icon: 'pl-tooltip', page: '/normal/tooltip', complete: false},
             {name: 'Dropdown', title: '悬浮层', icon: 'pl-popper', page: '/normal/dropdown', complete: false},
-            {name: 'Popover', title: '弹出框', icon: 'pl-popper', page: '/normal/popover', complete: false},
+            {name: 'Popover', title: '弹出框', icon: 'pl-popper', page: '/normal/popover', complete: true},
             {name: 'Popper', title: '悬浮框', icon: 'pl-popper', page: '/normal/popper', complete: true},
             {name: 'Card', title: '卡片', icon: 'pl-card', page: '/normal/card', complete: false},
             {name: 'Carousel', title: '轮播', icon: 'pl-carousel', page: '/normal/carousel', complete: false},

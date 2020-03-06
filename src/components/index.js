@@ -7,6 +7,7 @@ import checkbox from './checkbox'
 import radio from './radio'
 import popper from './popper'
 import dom from './dom'
+import popover from './popover'
 
 const plugins = [
     button, icon,
@@ -14,8 +15,9 @@ const plugins = [
 
     scroll,
     loading,
-    popper,
     dom,
+    popper,
+    popover,
 ]
 
 export default {
