@@ -68,8 +68,4 @@
 </script>
 
 <style lang="scss">
-    .pl-select-service-controller {
-        height: 0;
-        width: 0;
-    }
 </style>

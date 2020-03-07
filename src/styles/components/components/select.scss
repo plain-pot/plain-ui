@@ -49,6 +49,13 @@
     }
   }
 
+  .pl-select-service-controller {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    z-index: 999;
+  }
+
   .pl-input.pl-multi-select-input {
     user-select: none;
 
