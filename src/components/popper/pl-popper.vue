@@ -80,11 +80,6 @@
                     this.hide(false)
                 }
             },
-            p_value(val) {
-                if (!!val) {
-                    !!this.popper && this.$nextTick(() => this.popper.refresh())
-                }
-            },
             p_open(val) {
                 if (!!val) {
                     this.emitUpdateOpen(true)
