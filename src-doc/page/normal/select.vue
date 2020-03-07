@@ -17,7 +17,12 @@
             <span>{{val[1]}}</span>
         </demo-row>
 
-        <demo-row title="多选">
+        <demo-row title="multipleLimit:3，最多可以选择3个元素">
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[2]" :multipleLimit="3" multiple/>
+            <span>{{val[2]}}</span>
+        </demo-row>
+
+        <!--<demo-row title="多选">
             <pl-select multiple :data="list" labelKey="name" valueKey="val" v-model="val[2]"/>
             <span>{{val[2]}}</span>
         </demo-row>
@@ -42,7 +47,7 @@
                 <pl-checkbox v-model="flag.readonly" label="只读"/>
                 <pl-select :data="list" labelKey="name" valueKey="val" :readonly="flag.readonly"/>
             </demo-line>
-        </demo-row>
+        </demo-row>-->
 
     </div>
 </template>
@@ -55,7 +60,7 @@
                 val: {
                     0: 'WanSheng',
                     1: 'ErTong',
-                    2: ['WanSheng', 'GuoQing', 'ZhongQiu'],
+                    10: ['WanSheng', 'GuoQing', 'ZhongQiu'],
                 },
                 list: [
                     {name: '春节', val: 'Chun'},
