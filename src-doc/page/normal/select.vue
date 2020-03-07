@@ -27,6 +27,18 @@
             <span>{{val[3]}}</span>
         </demo-row>
 
+        <demo-row title="filterMethod，自定义输入筛选逻辑，支持中文以及拼音">
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[4]" :filterMethod="customFilterMethod">
+                <template slot-scope="{data}">
+                    <div>
+                        <span>{{data.name}}</span>
+                        <span style="float: right;font-size: 12px;color: #ccc">{{data.val}}</span>
+                    </div>
+                </template>
+            </pl-select>
+            <span>{{val[4]}}</span>
+        </demo-row>
+
         <!--<demo-row title="多选">
             <pl-select multiple :data="list" labelKey="name" valueKey="val" v-model="val[2]"/>
             <span>{{val[2]}}</span>
@@ -87,7 +99,12 @@
                 },
             }
         },
-
+        methods: {
+            customFilterMethod(input, item, index) {
+                const {name, val} = item.data
+                return (name.toLowerCase() + val.toLowerCase()).indexOf(input.toLowerCase()) > -1
+            },
+        },
     }
 </script>
 

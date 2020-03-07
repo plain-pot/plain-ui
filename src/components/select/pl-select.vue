@@ -171,9 +171,13 @@
                 let data = this.p_data
                 if (!data || data.length === 0) return null
                 if (!this.p_inputValue) return data
-                return data.filter(item => {
-                    const label = item.label
-                    return label.toLowerCase().indexOf(this.p_inputValue.toLowerCase()) > -1
+                return data.filter((item, index) => {
+                    if (!!this.filterMethod) {
+                        return this.filterMethod(this.p_inputValue, item, index)
+                    } else {
+                        const label = item.label
+                        return label.toLowerCase().indexOf(this.p_inputValue.toLowerCase()) > -1
+                    }
                 })
             },
             /**
