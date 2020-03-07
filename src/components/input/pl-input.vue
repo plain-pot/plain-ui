@@ -154,7 +154,11 @@
                         ...this.nativeProps,
                     },
                     on: {
-                        input: this.onInput,
+                        input: e => {
+                            if (e.target === document.activeElement) {
+                                this.onInput(e)
+                            }
+                        },
                     }
                 }
             },
