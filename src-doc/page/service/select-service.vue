@@ -17,6 +17,10 @@
             <pl-button ref="buttons" v-for="(item,index) in instances" :key="index" :label="item.option.value"
                        @click="item.toggle"/>
         </demo-row>
+
+        <demo-row title="测试 popoverProps">
+            <pl-button label="open select" @click="testPopoverProps.toggle" ref="testPopoverProps"/>
+        </demo-row>
     </div>
 </template>
 
@@ -76,11 +80,20 @@
                     return <TestVuexComponent label={data.label}/>
                 },
             })
+            const testPopoverProps = newData('testPopoverProps', '星期二', {
+                popoverProps: {
+                    placement: 'top-start',
+                    scrollProps: {
+                        scrollbarColor: '#12b4a5'
+                    },
+                },
+            })
 
             return {
                 instances,
                 basicUsageData,
                 testVuexData,
+                testPopoverProps,
             }
         },
         methods: {},

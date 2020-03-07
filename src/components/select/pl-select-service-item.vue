@@ -85,9 +85,9 @@
                     open={this.openFlag}
                     trigger="manual"
                     reference={this.select.opt.reference}
-                    v-bind={this.select.opt.popoverProps}
 
                     {...{
+                        props: this.select.opt.popoverProps,
                         on: {
                             'update:open': val => this.openFlag = val,
                             show: this.onShow,
