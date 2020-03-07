@@ -44,6 +44,19 @@
           &.pl-select-item-highlight {
             background-color: rgba($colorPrimary, 0.1);
           }
+
+          &.pl-select-item-no-data-text {
+            text-align: center;
+            font-size: 12px;
+            color: $disabledDeep;
+            padding-left: 6px;
+            background-color: unset !important;
+            cursor: auto;
+
+            .pl-icon {
+              margin-right: 3px;
+            }
+          }
         }
       }
     }

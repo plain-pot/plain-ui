@@ -42,7 +42,8 @@
         computed: {
             /*当前渲染的列表数组*/
             list() {
-                let data = this.$plain.utils.typeOf(this.select.opt.data) === 'function' ? this.select.opt.data() : this.select.opt.data
+                let data = this.$plain.utils.typeOf(this.select.opt.data) === 'function' ? this.select.opt.data() : this.select.opt.data;
+                data = data || [];
                 return data.map(item => {
                     let label = !!this.select.opt.labelKey ? item[this.select.opt.labelKey] : item
                     let value = !!this.select.opt.valueKey ? item[this.select.opt.valueKey] : item
@@ -99,16 +100,24 @@
                     }}>
                     <div class="pl-select-service-item-content" slot="popper">
                         <ul class="pl-select-list">
-                            {this.list.map((item, index) => (
-                                <li ref="items"
-                                    refInFor={true}
-                                    key={index}
-                                    class={['pl-select-item', {'pl-select-item-active': item.active, 'pl-select-item-highlight': this.highlightIndex === index}]}
-                                    onClick={() => this.onClickItem(item, index)}
-                                    onMousedown={() => this.onItemMousedown(item, index)}>
-                                    {!!this.select.opt.render ? this.select.opt.render(h, item, index) : item.label}
-                                </li>
-                            ))}
+                            {
+                                this.list.length > 0 ?
+                                    this.list.map((item, index) => (
+                                        <li ref="items"
+                                            refInFor={true}
+                                            key={index}
+                                            class={['pl-select-item', {'pl-select-item-active': item.active, 'pl-select-item-highlight': this.highlightIndex === index}]}
+                                            onClick={() => this.onClickItem(item, index)}
+                                            onMousedown={() => this.onItemMousedown(item, index)}>
+                                            {!!this.select.opt.render ? this.select.opt.render(h, item, index) : item.label}
+                                        </li>
+                                    ))
+                                    :
+                                    <li class="pl-select-item pl-select-item-no-data-text">
+                                        <pl-icon icon="el-icon-reading"/>
+                                        {!this.select.opt.noDataText ? '暂无数据' : this.$plain.utils.typeOf(this.select.opt.noDataText) === 'function' ? this.select.opt.noDataText() : this.select.opt.noDataText}
+                                    </li>
+                            }
                         </ul>
                     </div>
                 </pl-popover>

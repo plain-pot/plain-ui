@@ -86,6 +86,7 @@
                     data: () => this.p_selectData,
                     value: () => this.p_value,
                     reference: () => this.$refs.input,
+                    noDataText: () => this.p_noDataText,
                     render: this.$scopedSlots.default,
                     labelKey: 'label',
                     valueKey: 'value',
@@ -179,6 +180,10 @@
                         return label.toLowerCase().indexOf(this.p_inputValue.toLowerCase()) > -1
                     }
                 })
+            },
+            p_noDataText() {
+                if (!this.p_data) return this.noDataText
+                if (!this.p_selectData || this.p_selectData.length === 0) return this.noMatchText
             },
             /**
              * 单选时，显示的文本
