@@ -46,7 +46,7 @@
             }
         },
         props: {
-            placeholder: {type: String, default: '请选择'},              //空值占位符
+            placeholder: {type: String},                                //空值占位符
 
             value: {},                                                  //双向绑定值
             multiple: {type: Boolean},                                  //是否为多选
@@ -92,7 +92,7 @@
                     autoClose: false,
                     beforeHide: () => {
                         if (!this.multiple) {
-                            this.p_placeholder = this.placeholder
+                            this.p_placeholder = this.placeholder || ''
                             this.p_inputValue = null
                         }
                     },
