@@ -2,12 +2,12 @@
     <div class="demo-select-service">
 
         <demo-row title="基本用法">
-            <pl-button label="open select" @click="basicUsage" ref="basicUsageButton"/>
+            <pl-button label="open select" @click="basicUsageData.toggle" ref="basicUsageButton"/>
         </demo-row>
 
         <demo-row title="测试 vuex 是否正常">
             <pl-button-group>
-                <pl-button label="open select" @click="testVuex" ref="testButton"/>
+                <pl-button label="open select" @click="testVuexData.toggle" ref="testButton"/>
                 <pl-button label="increment" @click="$store.commit('increment',10)"/>
                 <pl-button :label="`${$store.state.count}`"/>
             </pl-button-group>
@@ -28,72 +28,62 @@
 
             const data = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '春节', '元宵节', '情人节', '万圣节']
 
-            const instances = []
-            for (let i = 0; i < 6; i++) {
-                instances.push({
+            function analyseReferenceName(data, name) {
+                const names = name.split('.')
+                let index = 0
+                data = data[names[index]]
+                while (!!data[names[++index]]) {
+                    data = data[names[index]]
+                }
+                if (!data) {
+                    console.log(`can't find ${name} in `, data, names)
+                    return null
+                } else {
+                    return data
+                }
+            }
+
+            const newData = (referenceName, initValue, externalOption = {}) => {
+                const result = {
                     ins: null,
                     option: {
                         data,
-                        reference: () => this.$refs.buttons[i],
-                        value: data[i],
+                        reference: () => analyseReferenceName(this.$refs, referenceName),
+                        value: initValue,
                         onClick: (item) => {
-                            instances[i].option.value = item.value
+                            result.option.value = item.value
                         },
+                        ...externalOption
                     },
                     toggle: async () => {
-                        if (!instances[i].ins) {
-                            instances[i].ins = await this.$plain.$select.newSelect(instances[i].option)
+                        if (!result.ins) {
+                            result.ins = await this.$plain.$select.newSelect(result.option)
                         }
-                        instances[i].ins.toggle()
+                        result.ins.toggle()
                     },
-                })
-
+                }
+                return result
             }
+
+            const instances = []
+            for (let i = 0; i < 6; i++) {
+                instances.push(newData(`buttons.${i}`, data[i]))
+            }
+
+            const basicUsageData = newData('basicUsageButton', '万圣节')
+            const testVuexData = newData('testButton', '星期一', {
+                render(h, data) {
+                    return <TestVuexComponent label={data.label}/>
+                },
+            })
 
             return {
                 instances,
-                basicUsageData: {
-                    select: null,
-                    option: {
-                        data: ['春节', '重阳节', '万圣节', '圣诞节', '除夕', '春至', '建军节', '国庆节', '中秋节', '清明节', '青年节'],
-                        value: '重阳节',
-                        reference: () => this.$refs.basicUsageButton,
-                        onClick: (item) => {
-                            this.basicUsageData.option.value = item.value
-                        }
-                    },
-                },
-                testVuexData: {
-                    select: null,
-                    option: {
-                        data: ['春节', '重阳节', '万圣节', '圣诞节', '除夕', '春至', '建军节', '国庆节', '中秋节', '清明节', '青年节'],
-                        value: '重阳节',
-                        reference: () => this.$refs.testButton,
-                        onClick: (item) => {
-                            this.testVuexData.option.value = item.value
-                        },
-                        render(h, data) {
-                            return (<TestVuexComponent label={data.label}/>)
-                        },
-                    },
-                },
+                basicUsageData,
+                testVuexData,
             }
         },
-        methods: {
-            async basicUsage() {
-                if (!this.basicUsageData.select) {
-                    this.basicUsageData.select = await this.$plain.$select.newSelect(this.basicUsageData.option)
-                }
-                this.basicUsageData.select.toggle()
-            },
-            async testVuex() {
-                if (!this.testVuexData.select) {
-                    this.testVuexData.select = await this.$plain.$select.newSelect(this.testVuexData.option)
-                }
-                this.testVuexData.select.toggle()
-            },
-
-        },
+        methods: {},
         mounted() {
         }
     }
