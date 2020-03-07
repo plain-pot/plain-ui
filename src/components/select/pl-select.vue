@@ -22,7 +22,7 @@
             @focus="onFocus"
     >
         <span v-if="multiple" class="pl-multi-select-input-wrapper">
-            <span class="pl-multi-select-input-item pl-multi-select-input-toke-over">&nbsp;</span>
+            <span class="pl-multi-select-input-item pl-multi-select-input-take-over">&nbsp;</span>
             <span class="pl-multi-select-input-item" v-for="(item,index) in multipleData" :key="index">
                 <span>{{item.label}}</span>
                 <pl-icon icon="el-icon-circle-close" @click.native.stop.prevent="onClickItemCloseIcon(item,index)"/>
