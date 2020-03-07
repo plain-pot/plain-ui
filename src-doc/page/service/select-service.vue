@@ -5,7 +5,7 @@
             <pl-button label="open select" @click="basicUsageData.toggle" ref="basicUsageButton"/>
         </demo-row>
 
-        <demo-row title="测试 vuex 是否正常">
+        <demo-row title="自定义渲染函数中，子组件Vuex 是否正常">
             <pl-button-group>
                 <pl-button label="open select" @click="testVuexData.toggle" ref="testButton"/>
                 <pl-button label="increment" @click="$store.commit('increment',10)"/>
@@ -13,13 +13,28 @@
             </pl-button-group>
         </demo-row>
 
-        <demo-row title="测试实例复用">
+        <demo-row title="实例复用">
             <pl-button ref="buttons" v-for="(item,index) in instances" :key="index" :label="item.option.value"
                        @click="item.toggle"/>
         </demo-row>
 
-        <demo-row title="测试 popoverProps">
+        <demo-row title="popoverProps设置 pl-popover 的属性">
             <pl-button label="open select" @click="testPopoverProps.toggle" ref="testPopoverProps"/>
+        </demo-row>
+        <demo-row title="labelKey以及valueKey">
+            <pl-button label="open select" @click="testKey.toggle" ref="testKey"/>
+        </demo-row>
+        <demo-row title="禁用选中之后自动关闭">
+            <pl-button label="open select" @click="testAutoClose.toggle" ref="testAutoClose"/>
+        </demo-row>
+        <demo-row title="禁用点击body自动关闭">
+            <pl-button label="open select" @click="testCloseAfterBody.toggle" ref="testCloseAfterBody"/>
+        </demo-row>
+        <demo-row title="禁用键盘按键事件">
+            <pl-button label="open select" @click="testKeyboard.toggle" ref="testKeyboard"/>
+        </demo-row>
+        <demo-row title="各种监听回调函数">
+            <pl-button label="open select" @click="testListener.toggle" ref="testListener"/>
         </demo-row>
     </div>
 </template>
@@ -89,11 +104,57 @@
                 },
             })
 
+            const testKey = newData('testKey', '星期三', {
+                data: data.map(item => ({code: item + item, tag: item})),
+                labelKey: 'tag',
+                valueKey: 'code',
+                onClick: (item) => {
+                    testKey.option.value = item.value
+                    console.log({...item}, {...testKey})
+                }
+            })
+
+            const testAutoClose = newData('testAutoClose', null, {
+                autoClose: false
+            })
+            const testCloseAfterBody = newData('testCloseAfterBody', null, {
+                closeAfterBody: false
+            })
+            const testKeyboard = newData('testKeyboard', null, {
+                keyboard: false
+            })
+            const testListener = newData('testListener', null, {
+                onClick: (item) => {
+                    testListener.option.value = item.value
+                    console.log('onClick', {...item})
+                },
+                onShow: () => {
+                    console.log('onShow')
+                },
+                onHide: () => {
+                    console.log('onHide')
+                },
+                onClickBody: () => {
+                    console.log('onClickBody')
+                },
+                onOpen: () => {
+                    console.log('onOpen');
+                },
+                onClose: () => {
+                    console.log('onClose');
+                },
+            })
+
             return {
                 instances,
                 basicUsageData,
                 testVuexData,
                 testPopoverProps,
+                testKey,
+                testAutoClose,
+                testCloseAfterBody,
+                testKeyboard,
+                testListener,
             }
         },
         methods: {},

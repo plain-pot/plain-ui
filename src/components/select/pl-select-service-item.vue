@@ -238,10 +238,12 @@
              * @date    2020-01-24 17:32
              */
             onClickBody() {
+                if (!this.isOpen) return
+
                 if (!!this.select.opt.onClickBody) {
                     this.select.opt.onClickBody()
                 }
-                if (!!this.select.opt.closeAfterBody && !!this.isOpen) {
+                if (!!this.select.opt.closeAfterBody) {
                     this.hide()
                 }
             },
