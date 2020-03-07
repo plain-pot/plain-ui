@@ -2,7 +2,7 @@
     <span class="pl-popper">
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
-            <transition :name="transition" @after-leave="onTransitionEnd" @after-enter="onTransitionEnd" @before-enter="onTransitionBeforeEnter">
+            <transition :name="transition" @after-leave="onAfterLeave" @after-enter="onAfterEnter" @before-enter="onBeforeEnter">
                 <div class="plain-popper-content" v-show="p_value" ref="content">
                     <div class="plain-popper-arrow" v-if="arrow"></div>
                     <slot name="popper"></slot>
@@ -70,6 +70,10 @@
             emitLeavePopper: null,                                      // trigger为hover下，离开popper事件
             emitReferenceFocus: null,                                   // trigger为focus下，reference 获取焦点事件
             emitReferenceBlur: null,                                    // trigger为focus下，reference失去焦点事件
+
+            emitBeforeEnter: null,                                      // 展开动画开始之前事件
+            emitAfterEnter: null,                                       // 展开动画结束之后事件
+            emitAfterLeave: null,                                       // 收起动画结束之后事件
         },
         watch: {
             value(val) {
@@ -78,6 +82,12 @@
                     this.show(false)
                 } else {
                     this.hide(false)
+                }
+            },
+            p_value(val) {
+                // 虽然在 onBeforeEnter 里面 refresh一次，但是这里不能去掉，不知道为什么
+                if (!!val) {
+                    !!this.popper && this.$nextTick(() => this.refresh())
                 }
             },
             p_open(val) {
@@ -321,6 +331,14 @@
                     this.p_transitionend = null
                 }
             },
+            /**
+             * 刷新定位
+             * @author  韦胜健
+             * @date    2020/3/7 21:43
+             */
+            refresh() {
+                this.popper.refresh()
+            },
             /*---------------------------------------handler-------------------------------------------*/
             /**
              * 初始化各项信息
@@ -390,20 +408,28 @@
             },
             /*---------------------------------------listener-------------------------------------------*/
             /**
-             * 动画结束，执行相应监听事件
-             * @author  韦胜健
-             * @date    2020/3/7 0:23
-             */
-            onTransitionEnd() {
-                !!this.p_transitionend && this.p_transitionend()
-            },
-            /**
              * 动画开始前，先更新popper信息
              * @author  韦胜健
-             * @date    2020/3/7 0:24
+             * @date    2020/3/7 21:36
              */
-            onTransitionBeforeEnter() {
-                this.popper.refresh()
+            onBeforeEnter() {
+                this.refresh()
+            },
+            /**
+             * 展开动画结束，标志位 p_open 改为 true
+             * @author  韦胜健
+             * @date    2020/3/7 21:36
+             */
+            onAfterEnter() {
+                this.p_open = true
+            },
+            /**
+             * 收起动画结束，标志位 p_open 改为 false
+             * @author  韦胜健
+             * @date    2020/3/7 21:37
+             */
+            onAfterLeave() {
+                this.p_open = false
             },
             /*---------------------------------------utils-------------------------------------------*/
             /**
