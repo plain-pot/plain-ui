@@ -155,6 +155,7 @@
                     },
                     on: {
                         input: e => {
+                            /*ie 下不知道为什么页面初始化的之后这里默认就执行了一次，这里判断绕过这个问题*/
                             if (e.target === document.activeElement) {
                                 this.onInput(e)
                             }
