@@ -1,9 +1,11 @@
 import DemoRow from './demo-row'
 import DemoLine from './demo-line'
+import TestVuexComponent from "./TestVuexComponent";
 
 const Components = {
     DemoRow,
     DemoLine,
+    TestVuexComponent,
 }
 
 export default {

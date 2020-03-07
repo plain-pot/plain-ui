@@ -2,11 +2,12 @@
     <div class="demo-select-service">
 
         <demo-row title="基本用法">
-            <pl-button label="basicUsage" @click="basicUsage" ref="basicUsageButton"/>
+            <pl-button label="open select" @click="basicUsage" ref="basicUsageButton"/>
         </demo-row>
 
         <demo-row title="测试 vuex 是否正常">
             <pl-button-group>
+                <pl-button label="open select" @click="testVuex" ref="testButton"/>
                 <pl-button label="increment" @click="$store.commit('increment',10)"/>
                 <pl-button :label="`${$store.state.count}`"/>
             </pl-button-group>
@@ -58,8 +59,22 @@
                         value: '重阳节',
                         reference: () => this.$refs.basicUsageButton,
                         onClick: (item) => {
-                            this.basicUsageData.option.value = item.val
+                            this.basicUsageData.option.value = item.value
                         }
+                    },
+                },
+                testVuexData: {
+                    select: null,
+                    option: {
+                        data: ['春节', '重阳节', '万圣节', '圣诞节', '除夕', '春至', '建军节', '国庆节', '中秋节', '清明节', '青年节'],
+                        value: '重阳节',
+                        reference: () => this.$refs.testButton,
+                        onClick: (item) => {
+                            this.testVuexData.option.value = item.value
+                        },
+                        render(h, data) {
+                            return (<TestVuexComponent label={data.label}/>)
+                        },
                     },
                 },
             }
@@ -71,6 +86,13 @@
                 }
                 this.basicUsageData.select.toggle()
             },
+            async testVuex() {
+                if (!this.testVuexData.select) {
+                    this.testVuexData.select = await this.$plain.$select.newSelect(this.testVuexData.option)
+                }
+                this.testVuexData.select.toggle()
+            },
+
         },
         mounted() {
         }

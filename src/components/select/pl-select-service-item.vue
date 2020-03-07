@@ -1,37 +1,3 @@
-<template>
-    <pl-popover
-            ref="popover"
-            v-model="showFlag"
-            :open.sync="openFlag"
-            v-if="!!select"
-            class="pl-select-service-item"
-            trigger="manual"
-            :reference="select.opt.reference"
-
-            v-bind="select.opt.popoverProps"
-
-            @show="onShow"
-            @hide="onHide"
-            @open="onOpen"
-            @close="onClose"
-            @click-body="onClickBody"
-    >
-        <div class="pl-select-service-item-content" slot="popper">
-            <ul class="pl-select-list">
-                <li class="pl-select-item"
-                    ref="items"
-                    v-for="(item,index) in list"
-                    :key="index"
-                    :class="{'pl-select-item-active':item.active,'pl-select-item-highlight':highlightIndex === index}"
-                    @click="onClickItem(item,index)"
-                    @mousedown="onItemMousedown(item,index)">
-                    {{item.label}}
-                </li>
-            </ul>
-        </div>
-    </pl-popover>
-</template>
-
 <script>
     import {RefsMixinFactory} from "../../utils/mixins";
 
@@ -108,6 +74,45 @@
         },
         beforeDestroy() {
             this.selectController.removeItem(this)
+        },
+        render(h) {
+            if (!this.select) return null
+            return (
+                <pl-popover
+                    ref="popover"
+                    class="pl-select-service-item"
+                    v-model={this.showFlag}
+                    open={this.openFlag}
+                    trigger="manual"
+                    reference={this.select.opt.reference}
+                    v-bind={this.select.opt.popoverProps}
+
+                    {...{
+                        on: {
+                            'update:open': val => this.openFlag = val,
+                            show: this.onShow,
+                            hide: this.onHide,
+                            open: this.onOpen,
+                            close: this.onClose,
+                            'click-body': this.onClickBody,
+                        },
+                    }}>
+                    <div class="pl-select-service-item-content" slot="popper">
+                        <ul class="pl-select-list">
+                            {this.list.map((item, index) => (
+                                <li ref="items"
+                                    refInFor={true}
+                                    key={index}
+                                    class={['pl-select-item', {'pl-select-item-active': item.active, 'pl-select-item-highlight': this.highlightIndex === index}]}
+                                    onClick={() => this.onClickItem(item, index)}
+                                    onMouseDown={() => this.onItemMousedown(item, index)}>
+                                    {!!this.select.opt.render ? this.select.opt.render(h, item) : item.label}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </pl-popover>
+            )
         },
         methods: {
             /**
