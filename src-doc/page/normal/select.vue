@@ -22,6 +22,11 @@
             <span>{{val[2]}}</span>
         </demo-row>
 
+        <demo-row title="filterable:false，禁用可输入筛选">
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[3]" :filterable="false"/>
+            <span>{{val[3]}}</span>
+        </demo-row>
+
         <!--<demo-row title="多选">
             <pl-select multiple :data="list" labelKey="name" valueKey="val" v-model="val[2]"/>
             <span>{{val[2]}}</span>

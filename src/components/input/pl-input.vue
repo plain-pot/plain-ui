@@ -28,6 +28,7 @@
             minHeight: {type: Number, default: 56},         // 自适应高度时，最小高度
             maxHeight: {type: Number, default: 156},        // 自适应高度时，最大高度
             isFocus: {type: Boolean},                       // 当前是否处于激活状态
+            inputReadonly: {type: Boolean},                 // 输入框只读
 
             /*---------------------------------------原生属性-------------------------------------------*/
             type: {type: String, default: 'text'},
@@ -146,7 +147,7 @@
                     style: this.styles,
                     attrs: {
                         disabled: this.isDisabled,
-                        readonly: this.isReadonly,
+                        readonly: this.inputReadonly || this.isReadonly,
                     },
                     domProps: {
                         value: this.p_value,

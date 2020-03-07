@@ -5,10 +5,11 @@
             :class="{'pl-multi-select-input':!!multiple}"
             suffixIcon="el-icon-arrow-down"
             clearIcon
-            :value="multiple?multipleInputValue: (isShow?p_inputValue:inputValue)"
+            :value="multiple?multipleInputValue: ((isShow&&filterable)?p_inputValue:inputValue)"
             :placeholder="p_placeholder"
             :isFocus="isOpen"
             :clearHandler="onClickClearIcon"
+            :inputReadonly="!filterable"
 
             @input="onInput"
             @click-input="onClickInput"
@@ -56,7 +57,7 @@
             valueKey: {type: String},                                   //值的key
 
             multipleLimit: {type: Number, default: 0},                  //多选限制可以选择的项目数
-            filterable: {type: Boolean},                                //是否可以输入筛选，输入的时候如果没有展开，则会自动展开，但是这个在ie下无效，原因比较复杂。简单说明的话，是因为ie下，input在 pl-select下会派发莫名其妙的 input 事件。
+            filterable: {type: Boolean, default: true},                 //是否可以输入筛选，输入的时候如果没有展开，则会自动展开，但是这个在ie下无效，原因比较复杂。简单说明的话，是因为ie下，input在 pl-select下会派发莫名其妙的 input 事件。
             filterMethod: {type: Function},                             //输入筛选自定义函数
             noMatchText: {type: String, default: '无匹配数据'},          //没有匹配的时候的显示的文本
             noDataText: {type: String, default: '无数据'},               //没有数据的时候显示的文本
