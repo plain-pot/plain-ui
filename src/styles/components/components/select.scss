@@ -78,6 +78,10 @@
         border-radius: 4px;
         margin: 3px;
         color: #989898;
+
+        span + .pl-icon {
+          margin-left: 3px;
+        }
       }
 
       .pl-multi-select-input-take-over {

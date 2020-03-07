@@ -22,14 +22,14 @@
         </demo-row>
 
         <demo-row title="禁用以及只读">
-            <demo-row-line title="禁用">
+            <demo-line title="禁用">
                 <pl-checkbox v-model="flag.disabled" label="禁用"/>
                 <pl-select :data="list" labelKey="name" valueKey="val" :disabled="flag.disabled"/>
-            </demo-row-line>
-            <demo-row-line title="只读">
+            </demo-line>
+            <demo-line title="只读">
                 <pl-checkbox v-model="flag.readonly" label="只读"/>
                 <pl-select :data="list" labelKey="name" valueKey="val" :readonly="flag.readonly"/>
-            </demo-row-line>
+            </demo-line>
         </demo-row>
 
     </div>
