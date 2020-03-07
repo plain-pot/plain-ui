@@ -51,16 +51,15 @@
             value: {},                                                  //双向绑定值
             multiple: {type: Boolean},                                  //是否为多选
 
+            data: {type: Array},                                        //下拉数据
+            labelKey: {type: String},                                   //文本的key
+            valueKey: {type: String},                                   //值的key
+
             multipleLimit: {type: Number, default: 0},                  //多选限制可以选择的项目数
             filterable: {type: Boolean},                                //是否可以输入筛选，输入的时候如果没有展开，则会自动展开，但是这个在ie下无效，原因比较复杂。简单说明的话，是因为ie下，input在 pl-select下会派发莫名其妙的 input 事件。
             filterMethod: {type: Function},                             //输入筛选自定义函数
             noMatchText: {type: String, default: '无匹配数据'},           //没有匹配的时候的显示的文本
             noDataText: {type: String, default: '无数据'},               //没有数据的时候显示的文本
-
-            data: {type: Array},                                        //下拉数据
-            labelKey: {type: String},                                   //文本的key
-            valueKey: {type: String},                                   //值的key
-            render: {type: Function},                                   //自定义渲染函数
         },
         watch: {
             value(val) {
@@ -86,6 +85,7 @@
                     data: () => this.p_selectData,
                     value: () => this.p_value,
                     reference: () => this.$refs.input,
+                    render: this.$scopedSlots.default,
                     labelKey: 'label',
                     valueKey: 'value',
                     keyboard: false,
@@ -132,11 +132,19 @@
             }
         },
         created() {
-
             /*防止用户关闭select之后，仍然在input输入框中输入无效文本，失去焦点之后，设置为有效文本*/
             this.$on('blur', () => {
                 this.$refs.input.p_value = !!this.multiple ? this.multipleInputValue : this.inputValue
             })
+        },
+        mounted() {
+            this.p_selectOption.render = !this.$scopedSlots.default ? null : (h, item, index) => {
+                return this.$scopedSlots.default({
+                    ...item,
+                    data: item.data.data,
+                    index,
+                })
+            }
         },
         computed: {
             /**

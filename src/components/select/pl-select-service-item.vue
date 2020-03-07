@@ -106,7 +106,7 @@
                                     class={['pl-select-item', {'pl-select-item-active': item.active, 'pl-select-item-highlight': this.highlightIndex === index}]}
                                     onClick={() => this.onClickItem(item, index)}
                                     onMousedown={() => this.onItemMousedown(item, index)}>
-                                    {!!this.select.opt.render ? this.select.opt.render(h, item) : item.label}
+                                    {!!this.select.opt.render ? this.select.opt.render(h, item, index) : item.label}
                                 </li>
                             ))}
                         </ul>

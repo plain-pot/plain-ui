@@ -1,11 +1,21 @@
 <template>
     <div class="demo-select">
-        <demo-row title="基本用法">
-            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[1]"/>
+        <!--<demo-row title="基本用法">
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[0]"/>
+            <div>[{{val[0]}}]</div>
+        </demo-row>-->
+
+        <demo-row title="自定义内容">
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[1]">
+                <template slot-scope="data">
+                    <pl-checkbox :value="data.index %2 === 0"/>
+                    <pl-button mode="text" :label="data.label" @click.stop="$plain.log(data)"/>
+                </template>
+            </pl-select>
             <div>[{{val[1]}}]</div>
         </demo-row>
 
-        <demo-row title="多选">
+        <!--<demo-row title="多选">
             <pl-select multiple :data="list" labelKey="name" valueKey="val" v-model="val[2]"/>
             <span>{{val[2]}}</span>
         </demo-row>
@@ -30,7 +40,7 @@
                 <pl-checkbox v-model="flag.readonly" label="只读"/>
                 <pl-select :data="list" labelKey="name" valueKey="val" :readonly="flag.readonly"/>
             </demo-line>
-        </demo-row>
+        </demo-row>-->
 
     </div>
 </template>
@@ -41,6 +51,7 @@
         data() {
             return {
                 val: {
+                    0: 'WanSheng',
                     1: 'ErTong',
                     2: ['WanSheng', 'GuoQing', 'ZhongQiu'],
                 },
