@@ -1,10 +1,30 @@
 <script>
 
-    import {EditMixin,EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-input",
-        mixins: [EditMixin, EmitMixin],
+        mixins: [
+            EditMixin,
+            EmitMixin,
+            PropsMixin({
+                width: {                                    // 输入框默认宽度
+                    type: [Number, String],
+                    default: 180,
+                    check: ['number', 'promise', 'function'],
+                },
+                minHeight: {                                // 文本域最小高度
+                    type: [Number, String],
+                    default: 56,
+                    check: 'number',
+                },
+                maxHeight: {                                // 文本域最大高度
+                    type: [Number, String],
+                    default: 156,
+                    check: 'number',
+                },
+            }),
+        ],
         props: {
             value: {type: String},
 
@@ -22,10 +42,7 @@
                     this.clearValue(e)
                 }
             },
-            width: {type: Number, default: 180},            // 默认宽度
             autoHeight: {type: Boolean},                    // 自适应高度
-            minHeight: {type: Number, default: 56},         // 自适应高度时，最小高度
-            maxHeight: {type: Number, default: 156},        // 自适应高度时，最大高度
             isFocus: {type: Boolean},                       // 当前是否处于激活状态
             inputReadonly: {type: Boolean},                 // 输入框只读
 
@@ -121,18 +138,18 @@
             styles() {
                 const styles = {}
                 /*没有前置以及后置插槽以及非块级元素的情况下，设置宽度*/
-                if (this.width !== null && !this.block && (!this.$slots.prepend && !this.$slots.append)) {
-                    styles.width = `${this.width}px`
+                if (this.p_width !== null && !this.block && (!this.$slots.prepend && !this.$slots.append)) {
+                    styles.width = `${this.p_width}px`
                 }
                 /*textarea自动高度的时候，取最大高度最小高度以及滚动高度*/
                 if (!!this.textarea) {
                     if (!this.autoHeight || this.p_autoHeight == null) {
-                        styles.height = this.minHeight + 'px'
+                        styles.height = this.p_minHeight + 'px'
                     } else {
-                        if (this.maxHeight != null && this.p_autoHeight > this.maxHeight) {
-                            styles.height = this.maxHeight + 'px'
-                        } else if (this.p_autoHeight < this.minHeight) {
-                            styles.height = this.minHeight + 'px'
+                        if (this.p_maxHeight != null && this.p_autoHeight > this.p_maxHeight) {
+                            styles.height = this.p_maxHeight + 'px'
+                        } else if (this.p_autoHeight < this.p_minHeight) {
+                            styles.height = this.p_minHeight + 'px'
                         } else {
                             styles.height = this.p_autoHeight + 'px'
                         }

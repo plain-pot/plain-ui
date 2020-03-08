@@ -41,6 +41,23 @@
             <pl-input block style="margin-bottom: 12px"/>
             <pl-input block textarea/>
         </demo-row>
+        <demo-row title="设置宽度(顺便测试 异步 props以及 函数 props)">
+            <demo-line title="number:300">
+                <pl-input :width="300"/>
+            </demo-line>
+            <demo-line title="string:300">
+                <pl-input width="300"/>
+            </demo-line>
+            <demo-line title="string:300px">
+                <pl-input width="300px"/>
+            </demo-line>
+            <demo-line title="function:300px">
+                <pl-input :width="functionWidth"/>
+            </demo-line>
+            <demo-line title="promise:300px">
+                <pl-input :width="asyncWidth"/>
+            </demo-line>
+        </demo-row>
         <demo-row title="输入框组">
             <pl-input prefixIcon="el-icon-search" suffixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')">
                 <div slot="prepend" v-if="prepend">prepend content</div>
@@ -114,6 +131,8 @@
                 clearHandler(val) {
                     console.log('clearHandler')
                 },
+                asyncWidth: new Promise(resolve => setTimeout(() => resolve('300px'), 1000)),
+                functionWidth: () => '300px',
             }
         },
         methods: {

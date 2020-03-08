@@ -76,3 +76,50 @@ export const EmitMixin = {
         }
     },
 }
+
+export const PropsMixin = (config) => {
+    return {
+        props: Object.keys(config).reduce((ret, propName) => {
+            const propConfig = config[propName]
+            ret[propName] = {
+                type: propConfig.type,
+                default: propConfig.default,
+            }
+            return ret
+        }, {}),
+        watch: Object.keys(config).reduce((ret, propName) => {
+            const propConfig = config[propName]
+            const check = Array.isArray(propConfig.check) ? propConfig.check : [propConfig.check]
+            ret[propName] = {
+                immediate: true,
+                async handler(val) {
+                    if (val != null) {
+                        if (check.indexOf('promise') > -1 && !!val.then && typeof val.then === 'function') {
+                            val = await val
+                        }
+                        if (propConfig.check.indexOf('function') > -1 && typeof val === 'function') {
+                            val = val(this)
+                        }
+                        if (propConfig.check.indexOf('number') > -1) {
+                            if (typeof val === 'string') {
+                                val = !!val ? val.replace('px', '') : null
+                            }
+                        }
+                    }
+                    this[`p_${propName}`] = val
+                    this.$emit(`change:${propName}`, val)
+                },
+            }
+            return ret
+        }, {}),
+        data() {
+            const ret = Object.keys(config).reduce((ret, propName) => {
+                ret[`p_${propName}`] = null
+                return ret
+            }, {})
+            return {
+                ...ret,
+            }
+        },
+    }
+}
