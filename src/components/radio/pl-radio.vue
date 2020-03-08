@@ -20,8 +20,7 @@
 </template>
 
 <script>
-    import {EditMixin} from "../../utils/mixins";
-    import {EmitMixin} from "../../utils/EmitMixin";
+    import {EditMixin,EmitMixin} from "../../utils/mixins";
     import ClickWave from "../../directives/ClickWave";
 
     export default {

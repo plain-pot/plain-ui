@@ -14,7 +14,7 @@
 
 <script>
 
-    import {EmitMixin} from "../../utils/EmitMixin";
+    import {EmitMixin} from "../../utils/mixins";
 
     /*
     * 1. 不能将 v-show 放在 pl-popper-el 元素上，因为这个元素需要使用 transform来定位，会跟 打开/关闭动画有冲突；

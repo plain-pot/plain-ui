@@ -1,7 +1,6 @@
 <script>
 
-    import {EmitMixin} from "../../utils/EmitMixin";
-    import {EditMixin} from "../../utils/mixins";
+    import {EditMixin,EmitMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-input",

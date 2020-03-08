@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import {EmitMixin} from "../../utils/EmitMixin";
+    import {EmitMixin} from "../../utils/mixins";
     import popper from '../popper/pl-popper.vue'
 
     export default {

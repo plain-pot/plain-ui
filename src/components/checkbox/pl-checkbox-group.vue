@@ -12,8 +12,7 @@
 </template>
 
 <script>
-    import {EditMixin} from "../../utils/mixins";
-    import {EmitMixin} from "../../utils/EmitMixin";
+    import {EditMixin,EmitMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox-group",

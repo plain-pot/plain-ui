@@ -25,7 +25,7 @@
 <script>
 
     import menus from 'src-doc/menus'
-    import {EmitMixin} from "../../../src/utils/EmitMixin";
+    import {EmitMixin} from "../../../src/utils/mixins";
 
     export default {
         name: "app-menu",

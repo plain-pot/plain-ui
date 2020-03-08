@@ -22,8 +22,7 @@
 <script>
     import RCheckboxInner from "./pl-checkbox-inner";
     import ClickWave from "../../directives/ClickWave";
-    import {EmitMixin} from "../../utils/EmitMixin";
-    import {EditMixin} from "../../utils/mixins";
+    import {EditMixin,EmitMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox",

@@ -1,4 +1,4 @@
-import {EmitMixin} from "../utils/EmitMixin";
+import {EmitMixin} from "../utils/mixins";
 
 export default {
     install(Vue) {
