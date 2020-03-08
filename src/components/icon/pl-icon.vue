@@ -1,5 +1,5 @@
 <template>
-    <i class="pl-icon" :class="[icon,{[`pl-icon-status-${status}`]:!!status}]"/>
+    <i class="pl-icon" :class="[icon,{[`pl-icon-status-${status}`]:!!status}]" @click="e=>$emit('click',e)"/>
 </template>
 
 <script>

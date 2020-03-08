@@ -31,7 +31,7 @@ export default [
     },
     {
         name: '视图', children: [
-            {name: 'List', title: '列表', icon: 'pl-list', page: '/normal/list', complete: false},
+            {name: 'List', title: '列表', icon: 'pl-list', page: '/normal/list', complete: true},
             {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: false},
             {name: 'Progress', title: '进度条', icon: 'pl-progress', page: '/normal/progress', complete: false},
             {name: 'Tree', title: '树形组件', icon: 'pl-tree', page: '/normal/tree', complete: false},
@@ -67,7 +67,7 @@ export default [
     },
     {
         name: '服务', children: [
-            {name: '$message', title: '消息服务', icon: 'pad-message', page: '/normal/message', complete: false},
+            {name: '$message', title: '消息服务', icon: 'pad-message', page: '/service/message-service', complete: true},
             {name: '$select', title: '选择服务', icon: 'pad-message', page: '/service/select-service', complete: true},
             {name: '$dialog', title: '对话框服务', icon: 'pl-window', page: '/service/dialog-service', complete: false},
             {name: '$notice', title: '通知', icon: 'pad-bell', page: '/service/notice-service', complete: false},

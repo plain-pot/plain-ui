@@ -48,6 +48,15 @@ export default {
         $plain.log = (...args) => {
             console.log(...args)
         }
+        $plain.STATUS = {
+            white: {icon: 'el-icon-warning', status: 'white'},
+            black: {icon: 'el-icon-warning', status: 'black'},
+            primary: {icon: 'el-icon-warning', status: 'primary'},
+            success: {icon: 'el-icon-success', status: 'success'},
+            warn: {icon: 'el-icon-warning', status: 'warn'},
+            error: {icon: 'el-icon-error', status: 'error'},
+            info: {icon: 'el-icon-question', status: 'info'},
+        }
 
     }
 }

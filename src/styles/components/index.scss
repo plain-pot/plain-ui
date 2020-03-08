@@ -9,6 +9,7 @@
 @import "./components/popover";
 @import "./components/select";
 @import "./components/list";
+@import "./components/message";
 
 @mixin component-index {
   @include component-button;
@@ -22,4 +23,5 @@
   @include component-popover;
   @include component-select;
   @include component-list;
+  @include component-message;
 }

@@ -40,9 +40,6 @@
   }
 
   .pl-item {
-    box-sizing: border-box;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    font-weight: 400;
+    @include public-style;
   }
 }

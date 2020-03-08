@@ -10,6 +10,7 @@ import dom from './dom'
 import popover from './popover'
 import select from './select'
 import list from './list'
+import message from './message'
 
 const plugins = [
     button, icon,
@@ -22,6 +23,8 @@ const plugins = [
     list,
     scroll,
     dom,
+
+    message,
 ]
 
 export default {
