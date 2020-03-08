@@ -13,8 +13,8 @@
                 </slot>
             </transition>
         </span>
-        <div class="pl-checkbox-label" v-if="label">
-            {{label}}
+        <div class="pl-checkbox-label" v-if="p_label">
+            {{p_label}}
         </div>
     </div>
 </template>
@@ -22,13 +22,15 @@
 <script>
     import RCheckboxInner from "./pl-checkbox-inner";
     import ClickWave from "../../directives/ClickWave";
-    import {EditMixin,EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox",
         directives: {ClickWave},
         components: {RCheckboxInner},
-        mixins: [EmitMixin, EditMixin],
+        mixins: [EmitMixin, EditMixin, PropsMixin({
+            label: {type: String, check: PropsMixin.Promise},
+        })],
         inject: {
             plCheckboxGroup: {default: null},
         },
@@ -39,7 +41,6 @@
         props: {
             value: {},
             val: {},                                                    // 多选时选中值
-            label: {type: String},
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info

@@ -1,5 +1,6 @@
 <template>
     <div class="demo-button">
+
         <demo-row title="基本用法">
             <pl-button label="基本" @click="log(1)"/>
         </demo-row>
@@ -28,6 +29,7 @@
             <pl-button icon="el-icon-search" mode="stroke" shape="round" icon-only/>
             <pl-button icon="el-icon-search" mode="text" icon-only/>
         </demo-row>
+
         <demo-row title="块级按钮">
             <pl-button label="按钮" block/>
         </demo-row>
@@ -45,6 +47,10 @@
             <pl-button icon="el-icon-search" mode="stroke" icon-only loading/>
             <pl-button icon="el-icon-search" mode="stroke" shape="round" icon-only loading/>
             <pl-button icon="el-icon-search" mode="text" icon-only loading/>
+        </demo-row>
+
+        <demo-row title="按钮异步文本">
+            <pl-button :label="asyncLabel" @click="log(1)"/>
         </demo-row>
 
         <demo-row title="按钮组：基本用法">
@@ -130,7 +136,9 @@
         mixins: [DemoMixins],
         props: {},
         data() {
-            return {}
+            return {
+                asyncLabel: new Promise(resolve => setTimeout(() => resolve('异步文本'), 2000))
+            }
         },
         methods: {},
     }

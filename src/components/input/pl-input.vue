@@ -11,17 +11,17 @@
                 width: {                                    // 输入框默认宽度
                     type: [Number, String],
                     default: 180,
-                    check: ['number', 'promise', 'function'],
+                    check: PropsMixin.ALL,
                 },
                 minHeight: {                                // 文本域最小高度
                     type: [Number, String],
                     default: 56,
-                    check: 'number',
+                    check: PropsMixin.Number,
                 },
                 maxHeight: {                                // 文本域最大高度
                     type: [Number, String],
                     default: 156,
-                    check: 'number',
+                    check: PropsMixin.Number,
                 },
             }),
         ],

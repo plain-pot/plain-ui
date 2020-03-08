@@ -10,19 +10,21 @@
         <pl-loading type="gamma" v-if="loading"/>
         <slot>
             <pl-icon :icon="icon" v-if="!!icon && !loading"/>
-            <span v-if="!!label">{{label}}</span>
+            <span v-if="!!p_label">{{p_label}}</span>
         </slot>
     </button>
 </template>
 
 <script>
     import ClickWave from "../../directives/ClickWave";
-    import {EditMixin} from "../../utils/mixins";
+    import {EditMixin, PropsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-button",
         directives: {ClickWave},
-        mixins: [EditMixin],
+        mixins: [EditMixin, PropsMixin({
+            label: {type: String, check: PropsMixin.Promise},
+        })],
         inject: {
             plButtonGroup: {default: null},
         },
@@ -31,7 +33,7 @@
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
             shape: {type: String, default: 'fillet'},               // fillet,round,square
             size: {type: String, default: 'default'},               // default,large,small
-            label: {type: String},
+
             icon: {type: String},
             active: {type: Boolean},
             noPadding: {type: Boolean},
@@ -73,7 +75,7 @@
                         'pl-button-has-icon': !!this.icon,
                         'pl-button-block': !!this.block,
                         'pl-button-disabled': !!this.isDisabled,
-                        'pl-button-icon-only': !!this.icon && !this.label,
+                        'pl-button-icon-only': !!this.icon && !this.p_label,
                     },
                 ]
             },

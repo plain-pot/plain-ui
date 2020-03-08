@@ -12,17 +12,18 @@
 </template>
 
 <script>
-    import {EditMixin,EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox-group",
-        mixins: [EditMixin, EmitMixin],
+        mixins: [EditMixin, EmitMixin, PropsMixin({
+            min: {type: Number, check: PropsMixin.Number},              // 最大勾选个数
+            max: {type: Number, check: PropsMixin.Number},              // 最小勾选个数
+        })],
         props: {
             value: {type: Array},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             size: {type: String, default: 'default'},                   // large,default,small
-            min: {type: Number},                                        // 最大勾选个数
-            max: {type: Number},                                        // 最小勾选个数
         },
         emitters: {
             emitInput: null,
@@ -67,15 +68,15 @@
                 let value = this.p_value || []
                 if (this.isChecked(val)) {
                     // 删除
-                    if (!!this.min && value.length <= this.min) {
-                        return this.$plain.$message.warn(`最少选择 ${this.min} 个选项！`)
+                    if (!!this.p_min && value.length <= this.p_min) {
+                        return this.$plain.$message.warn(`最少选择 ${this.p_min} 个选项！`)
                     }
                     value = value.filter(item => item !== val)
                     this.emitInput([...value])
                 } else {
                     // 添加
-                    if (!!this.max && value.length >= this.max) {
-                        return this.$plain.$message.warn(`最多选择 ${this.max} 个选项！`)
+                    if (!!this.p_max && value.length >= this.p_max) {
+                        return this.$plain.$message.warn(`最多选择 ${this.p_max} 个选项！`)
                     }
                     value.push(val)
                     this.emitInput([...value])
@@ -94,7 +95,7 @@
                         break
                     case "uncheck":
                     case "minus":
-                        this.p_value = Array.from(new Set((!!this.max ? this.items.slice(0, this.max) : this.items).map(item => item.val)))
+                        this.p_value = Array.from(new Set((!!this.p_max ? this.items.slice(0, this.p_max) : this.items).map(item => item.val)))
                         break
                 }
                 this.emitInput(this.p_value)

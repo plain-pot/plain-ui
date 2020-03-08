@@ -94,15 +94,15 @@ export const PropsMixin = (config) => {
                 immediate: true,
                 async handler(val) {
                     if (val != null) {
-                        if (check.indexOf('promise') > -1 && !!val.then && typeof val.then === 'function') {
+                        if (check.indexOf(PropsMixin.Promise) > -1 && !!val.then && typeof val.then === 'function') {
                             val = await val
                         }
-                        if (propConfig.check.indexOf('function') > -1 && typeof val === 'function') {
+                        if (check.indexOf(PropsMixin.Function) > -1 && typeof val === 'function') {
                             val = val(this)
                         }
-                        if (propConfig.check.indexOf('number') > -1) {
+                        if (check.indexOf(PropsMixin.Number) > -1) {
                             if (typeof val === 'string') {
-                                val = !!val ? val.replace('px', '') : null
+                                val = !!val ? Number(val.replace('px', '')) : null
                             }
                         }
                     }
@@ -123,3 +123,7 @@ export const PropsMixin = (config) => {
         },
     }
 }
+PropsMixin.Promise = 'Promise'
+PropsMixin.Number = 'Number'
+PropsMixin.Function = 'Function'
+PropsMixin.ALL = [PropsMixin.Promise, PropsMixin.Number, PropsMixin.Function]

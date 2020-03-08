@@ -14,7 +14,7 @@
 
 <script>
 
-    import {EmitMixin} from "../../utils/mixins";
+    import {EmitMixin, PropsMixin} from "../../utils/mixins";
 
     /*
     * 1. 不能将 v-show 放在 pl-popper-el 元素上，因为这个元素需要使用 transform来定位，会跟 打开/关闭动画有冲突；
@@ -27,7 +27,13 @@
 
     export default {
         name: "pl-popper",
-        mixins: [EmitMixin],
+        mixins: [EmitMixin, PropsMixin({
+            hoverOpenDelay: {type: [Number, String], default: 0, check: PropsMixin.Number},                 // hover触发条件下，打开延迟时间
+            hoverCloseDelay: {type: [Number, String], default: 200, check: PropsMixin.Number},              // hover触发条件下，关闭延迟时间
+            offset: {type: [Number, String], check: PropsMixin.Number},                                     // 偏移量
+            width: {type: [Number, String], check: PropsMixin.Number},                                      // 宽度
+            height: {type: [Number, String], check: PropsMixin.Number},                                     // 高度
+        })],
         props: {
             value: {type: Boolean},                                     // 双向绑定是否显示
             open: {type: Boolean},                                      // 当前是否显示，与value不同的是，value为false，动画可能才开始关闭，而 open 则是动画结束之后才会派发false出去
@@ -38,17 +44,12 @@
             disabled: {type: Boolean},                                  // 是否可以弹出
             transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
             popperClass: {type: String},                                // popper容器节点样式
-            hoverOpenDelay: {type: Number, default: 0},                 // hover触发条件下，打开延迟时间
-            hoverCloseDelay: {type: Number, default: 200},              // hover触发条件下，关闭延迟时间
-            reference: {},                                              // 目标dom元素
 
+            reference: {},                                              // 目标dom元素
             placement: {type: String, default: 'top-start'},            // 位置
-            offset: {type: Number},                                     // 偏移量
             arrow: {type: Boolean, default: true},                      // 是否需要箭头
             boundary: {default: 'window'},                              // 边界元素
 
-            width: {type: [Number, String],},                           // 宽度
-            height: {type: [Number, String],},                          // 高度
             sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
         },
         emitters: {
@@ -110,11 +111,11 @@
         computed: {
             popperStyles() {
                 const styles = {}
-                if (this.width != null) {
-                    styles.width = this.width
+                if (this.p_width != null) {
+                    styles.width = this.p_width + 'px'
                 }
-                if (this.height != null) {
-                    styles.height = this.height
+                if (this.p_height != null) {
+                    styles.height = this.p_height + 'px'
                 }
 
                 if (!!this.sizeEqual && !!this.referenceEl) {
@@ -150,7 +151,7 @@
                                     this.show()
                                     this.p_trigger.data.openTimer = null
                                     this.emitEnterReference(this.p_value)
-                                }, this.hoverOpenDelay)
+                                }, this.p_hoverOpenDelay)
                             }
                             /*离开reference*/
                             this.p_trigger.data.onLeaveReference = () => {
@@ -162,7 +163,7 @@
                                     this.hide()
                                     this.p_trigger.data.closeTimer = null
                                     this.emitLeaveReference(this.p_value)
-                                }, this.hoverCloseDelay)
+                                }, this.p_hoverCloseDelay)
                             }
                             /*进入popper*/
                             this.p_trigger.data.onEnterPopper = () => {
@@ -174,7 +175,7 @@
                                     this.show()
                                     this.p_trigger.data.openTimer = null
                                     this.emitEnterPopper(this.p_value)
-                                }, this.hoverOpenDelay)
+                                }, this.p_hoverOpenDelay)
                             }
                             /*离开popper*/
                             this.p_trigger.data.onLeavePopper = () => {
@@ -186,7 +187,7 @@
                                     this.hide()
                                     this.p_trigger.data.closeTimer = null
                                     this.emitLeavePopper(this.p_value)
-                                }, this.hoverCloseDelay)
+                                }, this.p_hoverCloseDelay)
                             }
                             this.referenceEl.addEventListener('mouseenter', this.p_trigger.data.onEnterReference)
                             this.referenceEl.addEventListener('mouseleave', this.p_trigger.data.onLeaveReference)
@@ -373,7 +374,7 @@
                     targetEl: this.referenceEl,
                     arrow: this.arrow,
                     placement: this.placement,
-                    offset: this.offset,
+                    offset: this.p_offset,
                     boundary: this.boundary,
                     boxShadow: null,
                 })

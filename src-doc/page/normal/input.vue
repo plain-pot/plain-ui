@@ -131,7 +131,7 @@
                 clearHandler(val) {
                     console.log('clearHandler')
                 },
-                asyncWidth: new Promise(resolve => setTimeout(() => resolve('300px'), 1000)),
+                asyncWidth: new Promise(resolve => setTimeout(() => resolve('300px'), 2000)),
                 functionWidth: () => '300px',
             }
         },

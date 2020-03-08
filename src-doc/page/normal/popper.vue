@@ -173,6 +173,21 @@
             </demo-line>
 
         </demo-row>
+
+        <demo-row title="宽高">
+            <pl-popper :width="150" :height="200" trigger="click">
+                <pl-button label="150:number,200:number"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+            <pl-popper width="150px" height="200" trigger="click">
+                <pl-button label="150px:string,200:string"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
     </div>
 </template>
 
