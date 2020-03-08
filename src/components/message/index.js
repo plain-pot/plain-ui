@@ -19,7 +19,7 @@ class MessageService {
             id: null,
             horizontal: 'center',
             vertical: 'start',
-            status: 'black',
+            status: 'primary',
             time: 3000,
             done: null,
             click: null,
@@ -66,7 +66,15 @@ class MessageService {
     }
 
     static install(Vue) {
-        Vue.prototype.$message = new MessageService(Vue.prototype.$plain)
+        const messageService = new MessageService(Vue.prototype.$plain)
+        const $message = (message, option = {}) => {
+            return messageService.show(message, option)
+        }
+        Object.keys(messageService.$plain.STATUS).forEach(status => $message[status] = (message, option = {}) => {
+            return messageService.show(message, {status, ...option})
+        })
+
+        Vue.prototype.$message = $message
     }
 }
 

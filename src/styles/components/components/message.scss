@@ -76,8 +76,8 @@
     }
 
     @include statusMixin(message-item) {
-      background-color: mix(white, $value, 80%);
-      border-color: mix(white, $value, 50%);
+      background-color: mix(white, $value, 90%);
+      border-color: mix(white, $value, 70%);
       color: $value;
     }
 
