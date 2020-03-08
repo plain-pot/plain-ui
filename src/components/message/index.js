@@ -67,13 +67,8 @@ class MessageService {
 
     static install(Vue) {
         const messageService = new MessageService(Vue.prototype.$plain)
-        const $message = (message, option = {}) => {
-            return messageService.show(message, option)
-        }
-        Object.keys(messageService.$plain.STATUS).forEach(status => $message[status] = (message, option = {}) => {
-            return messageService.show(message, {status, ...option})
-        })
-
+        const $message = (message, option = {}) => messageService.show(message, option)
+        Object.keys(messageService.$plain.STATUS).forEach(status => $message[status] = (message, option = {}) => messageService.show(message, {status, ...option}))
         Vue.prototype.$message = $message
     }
 }

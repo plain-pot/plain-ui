@@ -1,6 +1,6 @@
 <template>
     <div class="pl-message-item"
-         :class="[`pl-message-item-status-${STATUS[status].status}`]" @click="pl_click">
+         :class="[`pl-message-item-status-${STATUS[status].status || 'primary'}`]" @click="pl_click">
         <div class="pl-message-item-content">
             <pl-icon :icon="icon || STATUS[status].icon" class="pl-message-item-icon"/>
             <span>{{message}}</span>

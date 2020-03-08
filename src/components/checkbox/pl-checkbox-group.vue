@@ -68,12 +68,16 @@
                 let value = this.p_value || []
                 if (this.isChecked(val)) {
                     // 删除
-                    if (!!this.min && value.length <= this.min) return;
+                    if (!!this.min && value.length <= this.min) {
+                        return this.$plain.$message.warn(`最少选择 ${this.min} 个选项！`)
+                    }
                     value = value.filter(item => item !== val)
                     this.emitInput([...value])
                 } else {
                     // 添加
-                    if (!!this.max && value.length >= this.max) return;
+                    if (!!this.max && value.length >= this.max) {
+                        return this.$plain.$message.warn(`最多选择 ${this.max} 个选项！`)
+                    }
                     value.push(val)
                     this.emitInput([...value])
                 }
@@ -91,7 +95,7 @@
                         break
                     case "uncheck":
                     case "minus":
-                        this.p_value = Array.from(new Set(this.items.map(item => item.val)))
+                        this.p_value = Array.from(new Set((!!this.max ? this.items.slice(0, this.max) : this.items).map(item => item.val)))
                         break
                 }
                 this.emitInput(this.p_value)

@@ -3,8 +3,12 @@ import {EmitMixin} from "../utils/EmitMixin";
 export default {
     install(Vue) {
 
+        /*---------------------------------------initialize-------------------------------------------*/
+
         const $plain = Vue.prototype.$plain || {}
         Vue.prototype.$plain = $plain
+
+        /*---------------------------------------keep root instance-------------------------------------------*/
 
         // 保存根实例对象
         Vue.mixin({
@@ -14,6 +18,8 @@ export default {
                 }
             }
         })
+
+        /*---------------------------------------utils-------------------------------------------*/
 
         $plain.EmitMixin = EmitMixin
         $plain.nextTick = () => new Promise(resolve => Vue.prototype.$nextTick(resolve))
@@ -48,6 +54,9 @@ export default {
         $plain.log = (...args) => {
             console.log(...args)
         }
+
+        /*---------------------------------------status-------------------------------------------*/
+
         $plain.STATUS = {
             white: {icon: 'el-icon-warning', status: 'white'},
             black: {icon: 'el-icon-warning', status: 'black'},
@@ -57,6 +66,15 @@ export default {
             error: {icon: 'el-icon-error', status: 'error'},
             info: {icon: 'el-icon-question', status: 'info'},
         }
+
+        /*---------------------------------------message-------------------------------------------*/
+
+        const $message = (message, option) => {
+            if (!!Vue.prototype.$message) return Vue.prototype.$message(message, option)
+            return alert(message)
+        }
+        Object.keys($plain.STATUS).forEach(status => $message[status] = (message, option = {}) => $message(message, {status, ...option}))
+        $plain.$message = $message
 
     }
 }

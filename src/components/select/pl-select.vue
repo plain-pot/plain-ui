@@ -118,13 +118,7 @@
                                 value.splice(index, 1)
                             } else {
                                 if (!!this.multipleLimit && value.length >= this.multipleLimit) {
-                                    const msg = `最多只能选择 ${this.multipleLimit} 个选项！`
-                                    if (!!this.$message) {
-                                        this.$message.warn(msg)
-                                    } else {
-                                        alert(msg)
-                                    }
-                                    return
+                                    return this.$plain.$message.warn(`最多只能选择 ${this.multipleLimit} 个选项！`)
                                 } else {
                                     value.push(item.value)
                                 }
