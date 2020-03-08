@@ -1,13 +1,14 @@
 <script>
-    import {RefsMixinFactory} from "../../utils/mixins";
+    import {RefsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-select-service-item",
         inject: ['selectController'],
-        mixins: [RefsMixinFactory({
-            items: {},
-            popover: {},
-        })],
+        mixins: [RefsMixin],
+        refs: {
+            items: null,
+            popover: null,
+        },
         data() {
             return {
                 /*响应键盘事件*/

@@ -9,21 +9,26 @@ export const MountedMixin = {
     }
 }
 
-export const RefsMixinFactory = function (option) {
-    const refs = Object.keys(option).reduce((ret, key) => {
-        const ref = option[key]
-        if (ref.cache == undefined) ref.cache = false
-        if (ref.get == undefined) ref.get = function () {
-            return this.$refs[key]
+export const RefsMixin = {
+    data() {
+        const refs = this.$options.refs || {}
+        const ref = {}
+        Object.keys(refs).forEach(refName => {
+            Object.defineProperty(ref, refName, {
+                enumerable: true,
+                configurable: true,
+                get: () => {
+                    return this.$refs[refName]
+                },
+                set: () => {
+                    return console.error('请不要对 ref 设值')
+                },
+            })
+        })
+        return {
+            ...ref,
         }
-        ret[key] = {...ref}
-        return ret
-    }, {})
-    return {
-        computed: {
-            ...refs
-        }
-    }
+    },
 }
 
 export const EditMixin = {
