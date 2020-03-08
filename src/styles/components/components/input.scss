@@ -139,6 +139,7 @@
 
     &.pl-textarea {
       position: relative;
+      overflow: auto;
 
       .pl-textarea-inner {
         float: left;
