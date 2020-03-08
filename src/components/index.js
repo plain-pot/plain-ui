@@ -9,17 +9,19 @@ import popper from './popper'
 import dom from './dom'
 import popover from './popover'
 import select from './select'
+import list from './list'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio,
+    input, checkbox, radio, select,
 
-    scroll,
     loading,
-    dom,
     popper,
     popover,
-    select,
+
+    list,
+    scroll,
+    dom,
 ]
 
 export default {

@@ -8,6 +8,7 @@
 @import "./components/icon";
 @import "./components/popover";
 @import "./components/select";
+@import "./components/list";
 
 @mixin component-index {
   @include component-button;
@@ -20,4 +21,5 @@
   @include component-icon;
   @include component-popover;
   @include component-select;
+  @include component-list;
 }
