@@ -10,7 +10,7 @@
             PropsMixin({
                 width: {                                    // 输入框默认宽度
                     type: [Number, String],
-                    default: 180,
+                    default: null,
                     check: PropsMixin.ALL,
                 },
                 minHeight: {                                // 文本域最小高度

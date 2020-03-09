@@ -28,10 +28,6 @@
       display: inline-block;
     }
 
-    & + .pl-checkbox {
-      margin-left: 1em;
-    }
-
     @include statusMixin(checkbox) {
       .plain-click-node {
         .pl-checkbox-inner {
@@ -136,6 +132,13 @@
         }
       }
 
+    }
+  }
+
+  .pl-checkbox-group {
+    display: inline-block;
+    .pl-checkbox {
+      padding-right: 1em;
     }
   }
 }

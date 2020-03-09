@@ -2,7 +2,42 @@
   .pl-form {
     .pl-form-item {
       padding-bottom: 14px;
+      width: 400px;
+      display: flex;
+      align-items: stretch;
 
+      .pl-form-item-label {
+        text-align: right;
+        padding-right: 10px;
+        padding-top: 5px;
+      }
+
+      .pl-form-item-suffix {
+        padding-left: 10px;
+        padding-top: 5px;
+      }
+
+      .pl-form-item-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        .pl-input, .pl-textarea {
+          flex: 1;
+
+          .pl-input-inner, .pl-textarea-inner {
+            width: 100%;
+          }
+        }
+
+        .pl-button + .pl-button {
+          margin-left: 10px;
+        }
+
+        .pl-radio, .pl-checkbox {
+          padding-top: 5px;
+        }
+      }
     }
   }
 }

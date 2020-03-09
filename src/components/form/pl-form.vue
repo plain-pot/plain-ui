@@ -5,13 +5,56 @@
 </template>
 
 <script>
+    import {PropsMixin} from "../../utils/mixins";
+
     export default {
         name: "pl-form",
+        mixins: [PropsMixin({
+            labelWidth: {type: [String, Number]},
+        })],
         props: {},
-        data() {
-            return {}
+        provide() {
+            return {
+                plForm: this,
+            }
         },
-        methods: {},
+        data() {
+            return {
+                formItems: [],
+                maxLabelWidth: null,
+            }
+        },
+        computed: {
+            targetLabelWidth() {
+                if (!!this.maxLabelWidth) return this.maxLabelWidth
+                return this.p_labelWidth
+            },
+        },
+        methods: {
+            /*---------------------------------------methods-------------------------------------------*/
+            /*---------------------------------------handler-------------------------------------------*/
+            addItem(formItem) {
+                this.formItems.push(formItem)
+                this.sortItems()
+
+                if (this.p_labelWidth == null) {
+                    const labelWidth = formItem.labelEl.offsetWidth
+                    if (!this.maxLabelWidth || this.maxLabelWidth < labelWidth) {
+                        this.maxLabelWidth = labelWidth
+                    }
+                }
+            },
+            removeItem(formItem) {
+                const index = this.formItems.indexOf(formItem)
+                if (index > -1) {
+                    this.formItems.splice(index, 1)
+                    this.sortItems()
+                }
+            },
+            sortItems() {
+
+            },
+        },
     }
 </script>
 

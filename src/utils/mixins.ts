@@ -9,24 +9,50 @@ export const MountedMixin = {
     }
 }
 
+
+export const RefsMixinFactory = function (option) {
+    const refs = Object.keys(option).reduce((ret, key) => {
+        const ref = option[key] || {}
+        if (ref.cache == undefined) ref.cache = false
+        if (ref.get == undefined) ref.get = function () {
+            return this.$refs[key]
+        }
+        if (ref.set == undefined) ref.set = function () {
+            return console.error(`请不要对 ref 设值: ${key}}`)
+        }
+        ret[key] = {...ref}
+        return ret
+    }, {})
+    return {
+        computed: refs
+    }
+}
+
 export const RefsMixin = {
     data() {
         const refs = this.$options.refs || {}
         const ref = {}
+        const that = this
         Object.keys(refs).forEach(refName => {
-            Object.defineProperty(ref, refName, {
-                enumerable: true,
-                configurable: true,
-                get: () => {
-                    return this.$refs[refName]
+            Object.assign(ref, {
+                get [refName]() {
+                    console.log('mixin -->>', that.$refs.labelEl, that.$refs[refName], that.$refs, refName)
+                    return that.$refs[refName]
                 },
-                set: () => {
-                    return console.error('请不要对 ref 设值')
-                },
+                set [refName](newValue) {
+                }
             })
         })
+
+        // @ts-ignore
+        console.log(ref)
         return {
             ...ref,
+
+            get plNBame() {
+                console.log('get plNBame')
+                return 1
+            },
         }
     },
 }
