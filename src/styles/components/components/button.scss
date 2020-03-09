@@ -8,6 +8,7 @@
     outline: none;
     position: relative;
     text-align: center;
+    @include public-style;
 
     @include sizeMixin(button) {
       height: $value;

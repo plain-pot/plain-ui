@@ -6,6 +6,7 @@
 
   .pl-popper-el {
     pointer-events: none;
+    @include public-style;
 
     &.pl-transition-fade {
       .plain-popper-content {

@@ -1,5 +1,7 @@
 @mixin component-form {
   .pl-form {
+    @include public-style;
+
     .pl-form-item {
       padding-bottom: 20px;
       width: 400px;

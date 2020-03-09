@@ -1,5 +1,6 @@
 @mixin component-radio {
   .pl-radio {
+    @include public-style;
     display: inline-block;
     outline: none;
     font-size: 14px;

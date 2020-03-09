@@ -78,7 +78,8 @@
 
 @mixin public-style {
   box-sizing: border-box;
-  font-size: 14px;
-  letter-spacing: 0.5px;
   font-weight: 400;
+  color: $itc;
+  margin: 0;
+  padding: 0;
 }
