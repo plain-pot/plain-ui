@@ -16,7 +16,9 @@
                @hide="emitHide"
                @click-refernece="emitClickReference"
                @click-popper="emitClickPopper"
+               @click-popper-content="emitClickPopperContent"
                @click-body="emitClickBody"
+               @mousedown-popper="emitMousedownPopper"
     >
         <slot v-if="!!$slots.default"/>
         <slot slot="popper" name="popper" v-if="width == null && height==null && !sizeEqual"/>
@@ -55,8 +57,10 @@
             emitHide: null,                                             // 关闭事件，刚刚关闭，动画未结束
 
             emitClickReference: null,                                   // 点击reference事件
-            emitClickPopper: null,                                      // 点击popper的内容的事件
+            emitClickPopper: null,                                      // 点击popper的事件
+            emitClickPopperContent: null,                               // 点击popper的内容的事件
             emitClickBody: null,                                        // 点击除了reference 以及popper派发的事件
+            emitMousedownPopper: null,                                  // 鼠标摁住popperEl派发的事件
 
             emitOpen: null,                                             // 派发打开事件，打开完毕，打开动画执行完毕
             emitClose: null,                                            // 派发关闭事件，关闭完毕，关闭动画执行完毕

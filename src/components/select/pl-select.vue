@@ -35,7 +35,7 @@
 <script>
 
 
-    import {EditMixin,EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-select",
@@ -102,9 +102,13 @@
                             this.p_placeholder = this.inputValue
                         }
                     },
-                    onItemMousedown: () => {
-                        this.p_blurTimer++
-                        this.p_focusTimer++
+                    onMousedownPopper: () => {
+                        if (this.p_blurTimer === 0) {
+                            this.p_blurTimer++
+                        }
+                        if (this.p_focusTimer === 0) {
+                            this.p_focusTimer++
+                        }
                     },
                     onClick: (item) => {
                         let value;

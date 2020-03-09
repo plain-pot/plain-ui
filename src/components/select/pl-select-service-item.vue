@@ -96,6 +96,9 @@
                             open: this.onOpen,
                             close: this.onClose,
                             'click-body': this.onClickBody,
+                            'click-popper': this.onClickPopper,
+                            'click-popper-content': this.onClickPopperContent,
+                            'mousedown-popper': this.onMousedownPopper,
                         },
                     }}>
                     <div class="pl-select-service-item-content" slot="popper">
@@ -254,6 +257,21 @@
                 }
                 if (!!this.select.opt.closeAfterBody) {
                     this.hide()
+                }
+            },
+            onClickPopper() {
+                if (!!this.select.opt.onClickPopper) {
+                    this.select.opt.onClickPopper()
+                }
+            },
+            onClickPopperContent() {
+                if (!!this.select.opt.onClickPopperContent) {
+                    this.select.opt.onClickPopperContent()
+                }
+            },
+            onMousedownPopper() {
+                if (!!this.select.opt.onMousedownPopper) {
+                    this.select.opt.onMousedownPopper()
                 }
             },
             /**

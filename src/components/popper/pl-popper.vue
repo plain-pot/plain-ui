@@ -1,5 +1,5 @@
 <template>
-    <span class="pl-popper">
+    <span class="pl-popper" @click="emitClickPopper" @mousedown="emitMousedownPopper">
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
             <transition :name="transition" @after-leave="onAfterLeave" @after-enter="onAfterEnter" @before-enter="onBeforeEnter">
@@ -67,8 +67,10 @@
             emitShow: null,                                             // 打开事件，刚刚打开，动画未结束
             emitHide: null,                                             // 关闭事件，刚刚关闭，动画未结束
             emitClickReference: null,                                   // 点击reference事件
-            emitClickPopper: null,                                      // 点击popper的内容的事件
+            emitClickPopper: null,                                      // 点击popper的事件
+            emitClickPopperContent: null,                               // 点击popper的内容的事件
             emitClickBody: null,                                        // 点击除了reference 以及popper派发的事件
+            emitMousedownPopper: null,                                  // 鼠标摁住popperEl派发的事件
 
             emitEnterReference: null,                                   // trigger为hover下，进入 reference 事件
             emitLeaveReference: null,                                   // trigger为hover下，离开 reference 事件
@@ -285,8 +287,8 @@
                 onClickReference: (e) => {
                     this.emitClickReference(e)
                 },
-                onClickPopper: (e) => {
-                    this.emitClickPopper(e)
+                onClickPopperContent: (e) => {
+                    this.emitClickPopperContent(e)
                 },
                 onClickBody: (e) => {
                     if (this.referenceEl.contains(e.target)) {
@@ -445,7 +447,7 @@
              */
             _bindEvents() {
                 if (this.referenceEl) this.referenceEl.addEventListener('click', this.onClickReference)
-                if (this.contentEl) this.contentEl.addEventListener('click', this.onClickPopper)
+                if (this.contentEl) this.contentEl.addEventListener('click', this.onClickPopperContent)
                 document.body.addEventListener('click', this.onClickBody)
             },
             /**
@@ -455,7 +457,7 @@
              */
             _unbindEvents() {
                 if (this.referenceEl) this.referenceEl.removeEventListener('click', this.onClickReference)
-                if (this.contentEl) this.contentEl.removeEventListener('click', this.onClickPopper)
+                if (this.contentEl) this.contentEl.removeEventListener('click', this.onClickPopperContent)
                 document.body.removeEventListener('click', this.onClickBody)
             },
         },
