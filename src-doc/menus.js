@@ -10,7 +10,7 @@ export default [
     },
     {
         name: '表单', children: [
-            {name: 'Form', title: '表单', icon: 'pl-form', page: '/normal/form', complete: false},
+            {name: 'Form', title: '表单', icon: 'pl-form', page: '/normal/form', complete: true},
             {name: 'Input', title: '输入框', icon: 'pl-edit-square-light', page: '/normal/input', complete: true},
             // {name: 'Textarea', title: '文本域', icon: 'pl-textarea', page: '/normal/textarea', complete: false},
             {name: 'Radio', title: '单选框', icon: 'pl-circle-radio', page: '/normal/radio', complete: true},

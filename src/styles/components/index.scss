@@ -10,6 +10,7 @@
 @import "./components/select";
 @import "./components/list";
 @import "./components/message";
+@import "./components/form";
 
 @mixin component-index {
   @include component-button;
@@ -24,4 +25,5 @@
   @include component-select;
   @include component-list;
   @include component-message;
+  @include component-form;
 }

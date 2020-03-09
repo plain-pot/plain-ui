@@ -11,19 +11,13 @@ import popover from './popover'
 import select from './select'
 import list from './list'
 import message from './message'
+import form from './form'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio, select,
-
-    loading,
-    popper,
-    popover,
-
-    list,
-    scroll,
-    dom,
-
+    input, checkbox, radio, select, form,
+    loading, popper, popover,
+    list, scroll, dom,
     message,
 ]
 
