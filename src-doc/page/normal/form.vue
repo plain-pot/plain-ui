@@ -29,7 +29,7 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-input v-model="formData.level"/>
+                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments">
                     <pl-input textarea v-model="formData.comments"/>
@@ -50,6 +50,11 @@
         data() {
             return {
                 formData: {},
+                levelData: [
+                    {levelName: '一级', code: '1'},
+                    {levelName: '二级', code: '2'},
+                    {levelName: '三级', code: '3'},
+                ],
             }
         },
         methods: {},
