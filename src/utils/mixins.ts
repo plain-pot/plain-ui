@@ -28,35 +28,6 @@ export const RefsMixinFactory = function (option) {
     }
 }
 
-export const RefsMixin = {
-    data() {
-        const refs = this.$options.refs || {}
-        const ref = {}
-        const that = this
-        Object.keys(refs).forEach(refName => {
-            Object.assign(ref, {
-                get [refName]() {
-                    console.log('mixin -->>', that.$refs.labelEl, that.$refs[refName], that.$refs, refName)
-                    return that.$refs[refName]
-                },
-                set [refName](newValue) {
-                }
-            })
-        })
-
-        // @ts-ignore
-        console.log(ref)
-        return {
-            ...ref,
-
-            get plNBame() {
-                console.log('get plNBame')
-                return 1
-            },
-        }
-    },
-}
-
 export const EditMixin = {
     inject: {
         plParentEditor: {default: null},

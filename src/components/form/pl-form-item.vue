@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import {PropsMixin, RefsMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {PropsMixin, RefsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-form-item",

@@ -43,7 +43,7 @@
             placement: {default: 'bottom-start'},
             offset: {default: 2},
             arrow: {default: false},
-            height: {default: '200px'},
+            height: {default: '156px'},
 
             /*---------------------------------------popover props-------------------------------------------*/
             scrollProps: {},
@@ -64,7 +64,7 @@
         },
         computed: {
             popperProps() {
-                return Object.keys(popper.props).reduce((ret, key) => {
+                const result = Object.keys(popper.props).reduce((ret, key) => {
                     switch (key) {
                         case 'popperClass':
                             ret[key] = !!this[key] ? ['pl-popover-popper', this[key]].join(' ') : 'pl-popover-popper'
@@ -73,8 +73,11 @@
                             ret[key] = this[key]
                             break
                     }
+
                     return ret
                 }, {})
+                console.log('popperProps', result)
+                return result
             },
         },
         data() {
