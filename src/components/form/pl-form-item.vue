@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import {PropsMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, PropsMixin, RefsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-form-item",
@@ -21,6 +21,7 @@
             plForm: {}
         },
         mixins: [
+            EditMixin,
             RefsMixinFactory({
                 labelEl: null,
             }),

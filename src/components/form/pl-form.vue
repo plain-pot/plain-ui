@@ -5,13 +5,16 @@
 </template>
 
 <script>
-    import {PropsMixin} from "../../utils/mixins";
+    import {EditMixin, PropsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-form",
-        mixins: [PropsMixin({
-            labelWidth: PropsMixin.Number,
-        })],
+        mixins: [
+            EditMixin,
+            PropsMixin({
+                labelWidth: PropsMixin.Number,
+            })
+        ],
         props: {
             labelWidth: {type: [String, Number]},                   // formItem 文本宽度
         },
