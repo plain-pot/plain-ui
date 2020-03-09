@@ -1,5 +1,6 @@
 <template>
     <div class="pl-form">
+        <slot></slot>
     </div>
 </template>
 
