@@ -76,7 +76,7 @@
 
                     return ret
                 }, {})
-                console.log('popperProps', result)
+                // console.log('popperProps', result)
                 return result
             },
         },

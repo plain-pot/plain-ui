@@ -29,7 +29,7 @@
         directives: {ClickWave},
         components: {RCheckboxInner},
         mixins: [EmitMixin, EditMixin, PropsMixin({
-            label: {type: String, check: PropsMixin.Promise},
+            label: PropsMixin.Promise,
         })],
         inject: {
             plCheckboxGroup: {default: null},
@@ -41,6 +41,7 @@
         props: {
             value: {},
             val: {},                                                    // 多选时选中值
+            label: {type: String},                                      // 显示文本
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info

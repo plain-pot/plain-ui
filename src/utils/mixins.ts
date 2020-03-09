@@ -76,17 +76,8 @@ export const EmitMixin = {
 
 export const PropsMixin = (config) => {
     return {
-        props: Object.keys(config).reduce((ret, propName) => {
-            const propConfig = config[propName]
-            ret[propName] = {
-                type: propConfig.type,
-                default: propConfig.default,
-            }
-            return ret
-        }, {}),
         watch: Object.keys(config).reduce((ret, propName) => {
-            const propConfig = config[propName]
-            const check = Array.isArray(propConfig.check) ? propConfig.check : [propConfig.check]
+            const check = Array.isArray(config[propName]) ? config[propName] : [config[propName]]
             ret[propName] = {
                 immediate: true,
                 async handler(val) {

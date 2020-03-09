@@ -23,7 +23,7 @@
         name: "pl-button",
         directives: {ClickWave},
         mixins: [EditMixin, PropsMixin({
-            label: {type: String, check: PropsMixin.Promise},
+            label: PropsMixin.Promise,
         })],
         inject: {
             plButtonGroup: {default: null},
@@ -33,6 +33,7 @@
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
             shape: {type: String, default: 'fillet'},               // fillet,round,square
             size: {type: String, default: 'default'},               // default,large,small
+            label: {type: String},
 
             icon: {type: String},
             active: {type: Boolean},

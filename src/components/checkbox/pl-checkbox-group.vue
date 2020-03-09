@@ -17,13 +17,16 @@
     export default {
         name: "pl-checkbox-group",
         mixins: [EditMixin, EmitMixin, PropsMixin({
-            min: {type: Number, check: PropsMixin.Number},              // 最大勾选个数
-            max: {type: Number, check: PropsMixin.Number},              // 最小勾选个数
+            min: PropsMixin.Number,
+            max: PropsMixin.Number,
         })],
         props: {
             value: {type: Array},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             size: {type: String, default: 'default'},                   // large,default,small
+
+            min: {type: Number},                                        // 最大勾选个数
+            max: {type: Number},                                        // 最小勾选个数
         },
         emitters: {
             emitInput: null,

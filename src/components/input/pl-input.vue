@@ -8,36 +8,27 @@
             EditMixin,
             EmitMixin,
             PropsMixin({
-                width: {                                    // 输入框默认宽度
-                    type: [Number, String],
-                    default: null,
-                    check: PropsMixin.ALL,
-                },
-                minHeight: {                                // 文本域最小高度
-                    type: [Number, String],
-                    default: 56,
-                    check: PropsMixin.Number,
-                },
-                maxHeight: {                                // 文本域最大高度
-                    type: [Number, String],
-                    default: 156,
-                    check: PropsMixin.Number,
-                },
+                width: PropsMixin.ALL,
+                minHeight: PropsMixin.Number,
+                maxHeight: PropsMixin.Number,
             }),
         ],
         props: {
             value: {type: String},
 
-            status: {type: String, default: 'primary'},     // primary,success,warning,error,info
-            shape: {type: String, default: 'fillet'},       // fillet,round,square
-            size: {type: String, default: 'default'},       // default,large,small
-            block: {type: Boolean},                         // 块级元素
-            loading: {type: Boolean},                       // 加载状态
-            textarea: {type: Boolean},                      // 当前是否为文本域输入框
-            suffixIcon: {type: String},                     // 右侧图标
-            prefixIcon: {type: String},                     // 左侧图标
-            clearIcon: {type: Boolean},                     // 清除图标
-            clearHandler: {                                 // 点击清除图标处理逻辑
+            width: {type: [Number, String], default: null,},    // 输入框默认宽度
+            minHeight: {type: [Number, String], default: 56},   // 文本域最小高度
+            maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
+            status: {type: String, default: 'primary'},         // primary,success,warning,error,info
+            shape: {type: String, default: 'fillet'},           // fillet,round,square
+            size: {type: String, default: 'default'},           // default,large,small
+            block: {type: Boolean},                             // 块级元素
+            loading: {type: Boolean},                           // 加载状态
+            textarea: {type: Boolean},                          // 当前是否为文本域输入框
+            suffixIcon: {type: String},                         // 右侧图标
+            prefixIcon: {type: String},                         // 左侧图标
+            clearIcon: {type: Boolean},                         // 清除图标
+            clearHandler: {                                     // 点击清除图标处理逻辑
                 type: Function, default: function (e) {
                     this.clearValue(e)
                 }

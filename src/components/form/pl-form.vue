@@ -10,9 +10,11 @@
     export default {
         name: "pl-form",
         mixins: [PropsMixin({
-            labelWidth: {type: [String, Number]},
+            labelWidth: PropsMixin.Number,
         })],
-        props: {},
+        props: {
+            labelWidth: {type: [String, Number]},                   // formItem 文本宽度
+        },
         provide() {
             return {
                 plForm: this,

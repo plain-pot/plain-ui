@@ -16,9 +16,10 @@
     export default {
         name: "pl-message-item",
         mixins: [PropsMixin({
-            message: {type: String, check: PropsMixin.Promise},
+            message: PropsMixin.Promise,
         })],
         props: {
+            message: {type: String},
             status: {type: String},
             icon: {type: String},
             time: {type: Number},

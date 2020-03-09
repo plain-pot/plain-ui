@@ -25,11 +25,14 @@
                 labelEl: null,
             }),
             PropsMixin({
-                label: {type: String, check: PropsMixin.Promise},
-                labelWidth: {type: [String, Number], check: PropsMixin.Number},
+                label: PropsMixin.Promise,
+                labelWidth: PropsMixin.Number,
             })
         ],
-        props: {},
+        props: {
+            label: {type: String},                                              // 显示文本
+            labelWidth: {type: [String, Number]},                               // 显示文本宽度
+        },
         refs: {
             labelEl: null,
         },
