@@ -12,6 +12,7 @@ import select from './select'
 import list from './list'
 import message from './message'
 import form from './form'
+import virtualList from './virtual-list'
 
 const plugins = [
     button, icon,
@@ -19,6 +20,8 @@ const plugins = [
     loading, popper, popover,
     list, scroll, dom,
     message,
+
+    virtualList,
 ]
 
 export default {
