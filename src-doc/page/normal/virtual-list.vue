@@ -2,8 +2,28 @@
     <div class="demo-virtual-list">
         <demo-row title="基本用法">
             <div class="demo-virtual-list-container">
-                <pl-virtual-list :data="list" :size="40">
+                <pl-virtual-list :data="list" :size="60">
                     <div slot-scope="{item,index}" :style="{backgroundColor:item.color}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                        <div class="seq">
+                            {{index}}
+                        </div>
+                        <div class="content">
+                            <div class="label">
+                                <span>{{item.name}}</span>
+                                <span>{{item.date}}</span>
+                            </div>
+                            <div class="star">
+                                {{item.star}}
+                            </div>
+                        </div>
+                    </div>
+                </pl-virtual-list>
+            </div>
+        </demo-row>
+        <demo-row title="动态高度">
+            <div class="demo-virtual-list-container">
+                <pl-virtual-list :data="list" :size="40" dynamicSize>
+                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height:`${item.size}px`}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                         <div class="seq">
                             {{index}}
                         </div>
@@ -69,6 +89,9 @@
                 float: right;
                 height: 100%;
                 padding: 0 12px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
 
                 .label {
                     font-size: 12px;

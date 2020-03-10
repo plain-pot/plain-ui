@@ -14,6 +14,7 @@ fs.writeFileSync(path.resolve(__dirname, './data.json'), JSON.stringify(
                 name: '@first',
                 date: '@date',
                 "star|1-10": '★',
+                "size|40-80": 60
             }
         ]
     })).array,
