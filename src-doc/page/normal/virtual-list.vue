@@ -1,9 +1,9 @@
 <template>
     <div class="demo-virtual-list">
-        <demo-row title="基本用法">
+        <!--<demo-row title="基本用法">
             <div class="demo-virtual-list-container">
-                <pl-virtual-list :data="list" :size="60">
-                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                <pl-virtual-list :data="list" :size="40">
+                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                         <div class="seq">
                             {{index}}
                         </div>
@@ -19,11 +19,11 @@
                     </div>
                 </pl-virtual-list>
             </div>
-        </demo-row>
+        </demo-row>-->
         <demo-row title="动态高度">
             <div class="demo-virtual-list-container">
-                <pl-virtual-list :data="list" :size="40" dynamicSize>
-                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height:`${item.size}px`}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                <pl-virtual-list :data="list" :size="45" dynamicSize ref="list">
+                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height:`${item.size}px`}" class="demo-virtual-list-item" :vid="index" @click="onClick(item,index)">
                         <div class="seq">
                             {{index}}
                         </div>
@@ -55,9 +55,15 @@
                 list: data,
             }
         },
-        methods: {},
+        methods: {
+            onClick(item, index) {
+                // this.$plain.log(index, {...item})
+                console.log(this.$refs.list.adjust)
+            },
+        },
         mounted() {
-
+            window.totalHeight = data.reduce((ret, item) => ret + item.size, 0)
+            console.log('total height', window.totalHeight)
         }
     }
 </script>
@@ -74,14 +80,14 @@
             height: 40px;
 
             .seq {
-                display: inline-block;
                 width: 40px;
                 background-color: rgba(0, 0, 0, 0.5);
                 color: white;
                 height: 100%;
-                text-align: center;
-                line-height: 40px;
                 overflow: hidden;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .content {
