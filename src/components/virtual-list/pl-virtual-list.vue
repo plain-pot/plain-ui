@@ -32,11 +32,11 @@
                 handler(val) {
                     if (!!val) this.p_remain = val
                     else {
+                        // 自动计算 remain
                         this.$nextTick(() => {
                             this.start = 0
                             this.p_remain = Math.floor(this.$el.offsetHeight / this.size)
                             this.end = this.p_remain
-                            console.log('this.p_remain', this.p_remain)
                         })
                     }
                 },
@@ -89,6 +89,7 @@
     .pl-virtual-list {
         .pl-virtual-list-strut {
             position: relative;
+            overflow: hidden;
 
             .pl-virtual-list-content {
                 position: absolute;

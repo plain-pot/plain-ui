@@ -3,9 +3,9 @@
         <demo-row title="基本用法">
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="40">
-                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color}" class="demo-virtual-list-item" :vid="index">
+                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                         <div class="seq">
-                            {{item.id}}-{{index}}
+                            {{index}}
                         </div>
                         <div class="content">
                             <div class="label">
@@ -25,30 +25,14 @@
 
 <script>
 
-    import {mock} from 'mockjs'
+    import data from '../data/data.json'
 
     export default {
         name: "demo-virtual-list",
         props: {},
         data() {
-
-            const list = []
-            const length = 100
-
-            list.push(...(mock({
-                [`array|${length}`]: [
-                    {
-                        "id|+1": 0,
-                        color: '@color',
-                        name: '@first',
-                        date: '@date',
-                        "star|1-10": '★',
-                    }
-                ]
-            })).array)
-
             return {
-                list,
+                list: data,
             }
         },
         methods: {},
@@ -65,7 +49,7 @@
         background-color: #f6f6f6;
 
         .demo-virtual-list-item {
-            display: inline-block;
+            display: block;
             width: 100%;
             height: 40px;
 
@@ -77,6 +61,7 @@
                 height: 100%;
                 text-align: center;
                 line-height: 40px;
+                overflow: hidden;
             }
 
             .content {
