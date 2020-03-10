@@ -2,10 +2,10 @@
     <div class="demo-virtual-list">
         <demo-row title="基本用法">
             <div class="demo-virtual-list-container">
-                <pl-virtual-list :data="list" :size="40" :remain="10">
-                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color}" class="demo-virtual-list-item">
+                <pl-virtual-list :data="list" :size="40">
+                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color}" class="demo-virtual-list-item" :vid="index">
                         <div class="seq">
-                            {{item.id}}
+                            {{item.id}}-{{index}}
                         </div>
                         <div class="content">
                             <div class="label">
@@ -84,6 +84,7 @@
                 float: right;
                 height: 100%;
                 padding: 0 12px;
+
                 .label {
                     font-size: 12px;
                     display: flex;
