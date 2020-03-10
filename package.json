@@ -4,6 +4,7 @@
   "main": "docs/lib/index.js",
   "private": false,
   "types": "src/types/index.d.ts",
+  "type": "module",
   "files": [
     "src-doc",
     "src",
@@ -26,6 +27,7 @@
     "codemirror": "^5.49.2",
     "core-js": "^2.6.5",
     "element-theme-chalk": "^2.13.0",
+    "mockjs": "^1.1.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "text-loader": "0.0.1",
