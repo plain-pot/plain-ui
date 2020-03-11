@@ -39,7 +39,9 @@
             labelEl: null,
         },
         data() {
-            return {}
+            return {
+                isFormItem: true,
+            }
         },
         computed: {
             isDisabled() {
@@ -71,7 +73,12 @@
         },
         methods: {
             /*---------------------------------------handler-------------------------------------------*/
-
+            onChange(val) {
+                console.log(`${this.field} change:${String(val)}`)
+            },
+            onBlur(val) {
+                console.log(`${this.field} blur`)
+            },
         },
     }
 </script>

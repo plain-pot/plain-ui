@@ -56,6 +56,10 @@ export const EditMixin = {
             return !this.isDisabled && !this.isReadonly
         },
     },
+    created() {
+        this.$on('change', (...args) => !!this.plParentEditor.isFormItem && this.plParentEditor.onChange(...args))
+        this.$on('blur', (...args) => !!this.plParentEditor.isFormItem && this.plParentEditor.onBlur(...args))
+    },
 }
 
 export const EmitMixin = {
