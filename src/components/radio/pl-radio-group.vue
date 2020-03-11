@@ -5,11 +5,17 @@
 </template>
 
 <script>
-    import {EditMixin,EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-radio-group",
-        mixins: [EditMixin, EmitMixin],
+        mixins: [
+            EditMixin,
+            EmitMixin,
+            PropsMixin({
+                labelWidth: PropsMixin.Number,
+            })
+        ],
         provide() {
             return {
                 plRadioGroup: this,
@@ -20,6 +26,7 @@
         },
         props: {
             value: {},
+            labelWidth: {type: [String, Number]},                       // 文本宽度
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             size: {type: String, default: 'default'},                   // large,default,small
         },

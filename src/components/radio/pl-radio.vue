@@ -13,20 +13,26 @@
                 </slot>
             </transition>
         </span>
-        <div class="pl-radio-label" v-if="label">
+        <div class="pl-radio-label" v-if="label" :style="labelStyle">
             {{label}}
         </div>
     </div>
 </template>
 
 <script>
-    import {EditMixin,EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
     import ClickWave from "../../directives/ClickWave";
 
     export default {
         name: "pl-radio",
         directives: {ClickWave},
-        mixins: [EditMixin, EmitMixin],
+        mixins: [
+            EditMixin,
+            EmitMixin,
+            PropsMixin({
+                labelWidth: PropsMixin.Number,
+            })
+        ],
         inject: {
             plRadioGroup: {default: null}
         },
@@ -38,6 +44,7 @@
             value: {},
             val: {},
             label: {type: String},
+            labelWidth: {type: [String, Number]},                       // 文本宽度
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
@@ -64,6 +71,11 @@
                 if (!!this.plRadioGroup && !!this.plRadioGroup.size) return this.plRadioGroup.size
                 return this.size
             },
+            targetLabelWidth() {
+                if (!!this.p_labelWidth) return this.p_labelWidth
+                if (!!this.plRadioGroup && !!this.plRadioGroup.p_labelWidth) return this.plRadioGroup.p_labelWidth
+                return null
+            },
             classes() {
                 return [
                     `pl-radio-status-${this.targetStatus}`,
@@ -80,6 +92,10 @@
                 } else {
                     return this.p_value === this.trueValue
                 }
+            },
+            labelStyle() {
+                if (!this.targetLabelWidth) return null
+                return {width: `${this.targetLabelWidth}px`}
             },
         },
         methods: {

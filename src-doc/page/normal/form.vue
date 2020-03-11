@@ -15,13 +15,13 @@
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="是否老客户" field="oldFlag">
-                    <pl-radio-group v-model="formData.oldFlag">
-                        <pl-radio label="是" val="Y"/>
-                        <pl-radio label="否" val="N"/>
+                    <pl-radio-group v-model="formData.oldFlag" labelWidth="80">
+                        <pl-radio label="老客户" val="Y"/>
+                        <pl-radio label="非老客户" val="N"/>
                     </pl-radio-group>
                 </pl-form-item>
                 <pl-form-item label="客户性质" field="properties">
-                    <pl-checkbox-group v-model="formData.properties" :labelWidth="80">
+                    <pl-checkbox-group v-model="formData.properties" labelWidth="80px">
                         <pl-checkbox label="大客户" val="large"/>
                         <pl-checkbox label="潜在客户" val="potential"/>
                         <pl-checkbox label="长久客户" val="long"/>
