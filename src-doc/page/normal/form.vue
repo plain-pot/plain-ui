@@ -21,7 +21,7 @@
                     </pl-radio-group>
                 </pl-form-item>
                 <pl-form-item label="客户性质" field="properties">
-                    <pl-checkbox-group v-model="formData.properties">
+                    <pl-checkbox-group v-model="formData.properties" :labelWidth="80">
                         <pl-checkbox label="大客户" val="large"/>
                         <pl-checkbox label="潜在客户" val="potential"/>
                         <pl-checkbox label="长久客户" val="long"/>

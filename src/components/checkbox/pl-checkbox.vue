@@ -13,7 +13,7 @@
                 </slot>
             </transition>
         </span>
-        <div class="pl-checkbox-label" v-if="p_label">
+        <div class="pl-checkbox-label" v-if="p_label" :style="labelStyle">
             {{p_label}}
         </div>
     </div>
@@ -30,6 +30,7 @@
         components: {RCheckboxInner},
         mixins: [EmitMixin, EditMixin, PropsMixin({
             label: PropsMixin.Promise,
+            labelWidth: PropsMixin.Number,
         })],
         inject: {
             plCheckboxGroup: {default: null},
@@ -42,6 +43,7 @@
             value: {},
             val: {},                                                    // 多选时选中值
             label: {type: String},                                      // 显示文本
+            labelWidth: {type: [String, Number]},                       // 文本宽度
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
@@ -69,6 +71,11 @@
                 if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.size) return this.plCheckboxGroup.size
                 return this.size
             },
+            targetLabelWidth() {
+                if (!!this.p_labelWidth) return this.p_labelWidth
+                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_labelWidth) return this.plCheckboxGroup.p_labelWidth
+                return null
+            },
             classes() {
                 return [
                     `pl-checkbox-status-${this.targetStatus}`,
@@ -85,6 +92,10 @@
                 } else {
                     return this.p_value === this.trueValue
                 }
+            },
+            labelStyle() {
+                if (!this.targetLabelWidth) return null
+                return {width: `${this.targetLabelWidth}px`}
             },
         },
         methods: {

@@ -19,6 +19,7 @@
         mixins: [EditMixin, EmitMixin, PropsMixin({
             min: PropsMixin.Number,
             max: PropsMixin.Number,
+            labelWidth: PropsMixin.Number,
         })],
         props: {
             value: {type: Array},
@@ -27,6 +28,7 @@
 
             min: {type: Number},                                        // 最大勾选个数
             max: {type: Number},                                        // 最小勾选个数
+            labelWidth: {type: [String, Number]},                       // 文本宽度
         },
         emitters: {
             emitInput: null,
