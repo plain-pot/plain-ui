@@ -31,6 +31,7 @@
             })
         ],
         props: {
+            field: {type: String},                                              // 绑定的属性字段名
             label: {type: String},                                              // 显示文本
             labelWidth: {type: [String, Number]},                               // 显示文本宽度
         },
@@ -41,6 +42,18 @@
             return {}
         },
         computed: {
+            isDisabled() {
+                if (this.disabled !== null) return this.disabled
+                else if (!!this.field && !!this.plForm.disabledFields && !!this.plForm.disabledFields[this.field]) return true
+                else if (!!this.plParentEditor) return this.plParentEditor.isDisabled
+                return false
+            },
+            isReadonly() {
+                if (this.readonly !== null) return this.readonly
+                else if (!!this.field && !!this.plForm.readonlyFields && !!this.plForm.readonlyFields[this.field]) return true
+                else if (!!this.plParentEditor) return this.plParentEditor.isReadonly
+                return false
+            },
             labelStyles() {
                 if (this.plForm.targetLabelWidth != null) {
                     return {width: `${this.plForm.targetLabelWidth + 10}px`}

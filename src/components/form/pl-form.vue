@@ -17,6 +17,8 @@
         ],
         props: {
             labelWidth: {type: [String, Number]},                   // formItem 文本宽度
+            disabledFields: {type: Object},                         // 禁用的字段
+            readonlyFields: {type: Object},                         // 只读的字段
         },
         provide() {
             return {
