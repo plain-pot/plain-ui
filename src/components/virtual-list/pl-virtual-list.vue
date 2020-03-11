@@ -26,7 +26,7 @@
             data: {type: Array, require: true},                         // 要渲染的长数据
             size: {type: Number, require: true},                        // 每一行高度
             remain: {type: Number, require: true},                      // 一屏渲染的行数，总共渲染三屏，一屏渲染个数越多，滚动效果越好，但是浏览器卡顿的效果可能更明显；如果不传remain，则根据size以及 pl-virtual-list 跟节点的高度自动计算行数
-            dynamicSize: {type: Boolean},                               // 每一行的高度不确定，但是此时size仍然需要提供，而且不能与实际值相差太大
+            dynamicSize: {type: Boolean},                               // 标识列表中的每一行高度不是固定的，但是还是需要提供 size 属性，而且size属性不能与每一行的高度差距太多；
         },
         watch: {
             remain: {
@@ -43,16 +43,54 @@
                     }
                 },
             },
+            data: {
+                immediate: true,
+                handler(val) {
+                    if (!this.dynamicSize) return
+                    val = val || []
+                    this.dataInfo = val.map((item, index) => ({
+                        top: index * this.size,
+                        height: this.size,
+                        bottom: this.size * (index + 1),
+                    }))
+                },
+            },
         },
         data() {
             return {
-                start: 0,                       // 可视区域中，第一条数据的索引
-                end: this.remain || 0,          // 一屏数据最后一条数据的索引
-                offset: 0,                      // 可视区域偏移 top 距离
+                start: 0,
+                end: this.remain || 0,
+                offset: 0,
 
-                p_remain: null,                 // 一屏数据的行数
-                adjust: 0,                      // dynamicHeight情况下， 修正高度
-                adjustedMap: {},                // 已经修正过的记录的索引
+                p_remain: null,
+                dataInfo: null,                         // 所有的位置信息
+            }
+        },
+        async updated() {
+            if (!this.dynamicSize) return
+            // 页面渲染完成之后，需要根据当前展示的数据，更新缓存的内容
+            await this.$plain.nextTick()
+            const nodes = Array.from(this.content.childNodes || [])
+
+            for (let i = 0; i < nodes.length; i++) {
+                const node = nodes[i];
+                const height = node.offsetHeight
+                let vid = node.getAttribute('vid')
+                if (vid == null) {
+                    throw new Error('Each item of the virtual-list must have an attribute named "vid", please set :vid="index"')
+                }
+                vid = vid - 0
+                const prevDataInfo = this.dataInfo[vid]
+                const prevHeight = prevDataInfo.height
+                let delta = prevHeight - height
+                if (delta !== 0) {
+                    prevDataInfo.height = height
+                    prevDataInfo.bottom = prevDataInfo.bottom - delta
+                    for (let j = vid + 1; j < this.dataInfo.length; j++) {
+                        this.dataInfo[j].top = this.dataInfo[j - 1].bottom
+                        this.dataInfo[j].bottom = this.dataInfo[j].bottom - delta
+                    }
+                }
             }
         },
         computed: {
@@ -68,7 +106,7 @@
             },
             strutStyles() {
                 return {
-                    height: `${this.data.length * this.size + this.adjust}px`
+                    height: `${!!this.dynamicSize ? this.dataInfo[this.dataInfo.length - 1].bottom : this.data.length * this.size}px`
                 }
             },
             contentStyles() {
@@ -77,29 +115,54 @@
                 }
             },
         },
-        updated() {
-            if (!!this.dynamicSize) this.updateAdjust()
-        },
         methods: {
             /*---------------------------------------listener-------------------------------------------*/
             onScroll(e) {
                 const scrollTop = e.target.scrollTop
-                this.start = Math.floor(scrollTop / this.size)
+
+                if (!this.dynamicSize) {
+                    // 固定高度
+                    this.start = Math.floor(scrollTop / this.size)
+                    this.offset = (this.targetStart) * this.size
+                } else {
+                    // 动态高度
+                    this.start = this.getStartByDynamic(scrollTop)
+                    this.offset = this.dataInfo[this.targetStart].top
+                }
+
                 this.end = this.start + this.p_remain
-                this.offset = (this.targetStart) * this.size
             },
-            updateAdjust() {
-                const childNodes = Array.from(this.content.children)
-                const ret = childNodes.map(childNode => {
-                    const vid = childNode.getAttribute('vid') - 0
-                    if (!this.adjustedMap[vid]) {
-                        // console.log(childNode.offsetHeight, vid, this.data[vid].size)
-                        this.adjust += (childNode.offsetHeight - this.size)
-                        console.log(this.adjust)
-                        this.adjustedMap[vid] = true
+
+            /*---------------------------------------utils-------------------------------------------*/
+            /**
+             * 根据 dataInfo 获取start索引
+             * @author  韦胜健
+             * @date    2020/3/11 14:39
+             */
+            getStartByDynamic(scrollTop) {
+                let start = 0;
+                let end = this.dataInfo.length - 1
+                let temp = null;
+
+                while (start <= end) {
+                    let middle = Math.floor((start + end) / 2)
+                    let middleBottom = this.dataInfo[middle].bottom
+                    if (middleBottom === scrollTop) {
+                        return middle + 1
+                    } else if (middleBottom < scrollTop) {
+                        start = middle + 1
+                    } else if (middleBottom > scrollTop) {
+                        if (!temp || temp > middle) {
+                            temp = middle
+                        }
+                        end = middle - 1
                     }
-                })
+                }
+                return temp
             },
+        },
+        mounted() {
+            // console.log(this.dataInfo)
         },
     }
 </script>

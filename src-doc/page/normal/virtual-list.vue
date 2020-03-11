@@ -1,6 +1,6 @@
 <template>
     <div class="demo-virtual-list">
-        <!--<demo-row title="基本用法">
+        <demo-row title="基本用法">
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="40">
                     <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
@@ -19,10 +19,10 @@
                     </div>
                 </pl-virtual-list>
             </div>
-        </demo-row>-->
+        </demo-row>
         <demo-row title="动态高度">
             <div class="demo-virtual-list-container">
-                <pl-virtual-list :data="list" :size="45" dynamicSize ref="list">
+                <pl-virtual-list :data="list" :size="60" dynamicSize ref="list">
                     <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height:`${item.size}px`}" class="demo-virtual-list-item" :vid="index" @click="onClick(item,index)">
                         <div class="seq">
                             {{index}}
@@ -62,8 +62,8 @@
             },
         },
         mounted() {
-            window.totalHeight = data.reduce((ret, item) => ret + item.size, 0)
-            console.log('total height', window.totalHeight)
+            /*window.totalHeight = data.reduce((ret, item) => ret + item.size, 0)
+            console.log('total height', window.totalHeight)*/
         }
     }
 </script>
