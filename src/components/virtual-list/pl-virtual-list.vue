@@ -52,17 +52,18 @@
                         top: index * this.size,
                         height: this.size,
                         bottom: this.size * (index + 1),
-                    }))
+                    }));
+                    !!this.scroll && this.scroll.scrollTo({y: 0})
                 },
             },
         },
         data() {
             return {
-                start: 0,
-                end: this.remain || 0,
-                offset: 0,
+                start: 0,                               // 渲染元素第一个索引
+                end: this.remain || 0,                  // 渲染元素最后一个元素的索引
+                offset: 0,                              // content节点偏移顶部的高度
 
-                p_remain: null,
+                p_remain: null,                         // 一屏渲染的个数
                 dataInfo: null,                         // 所有的位置信息
             }
         },
@@ -135,7 +136,7 @@
 
             /*---------------------------------------utils-------------------------------------------*/
             /**
-             * 根据 dataInfo 获取start索引
+             * 使用二分查找算法，根据当前的scrollTop查找在dataInfo中对应的开始元素
              * @author  韦胜健
              * @date    2020/3/11 14:39
              */
@@ -160,9 +161,6 @@
                 }
                 return temp
             },
-        },
-        mounted() {
-            // console.log(this.dataInfo)
         },
     }
 </script>
