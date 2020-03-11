@@ -37,7 +37,6 @@
         },
         emitters: {
             emitInput: null,
-            emitChange: null,
         },
         props: {
             value: {},
@@ -107,7 +106,6 @@
                 } else {
                     this.p_value = this.isChecked ? this.falseValue : this.trueValue
                     this.emitInput(this.p_value)
-                    this.emitChange(this.p_value)
                 }
             },
         },

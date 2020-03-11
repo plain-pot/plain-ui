@@ -46,7 +46,6 @@
             emitInput: '输入文本事件',
             emitFocus: '获取焦点事件',
             emitBlur: '失去焦点事件',
-            emitChange: '绑定值改变事件',
             emitKeydown: '按键事件',
             emitClickInput: '点击input输入框事件',
             emitClickPrefixIcon: '点击前置图标事件',
@@ -68,7 +67,6 @@
                 onInput: (e) => {
                     this.p_value = e.target.value
                     this.emitInput(this.p_value)
-                    this.emitChange(this.p_value)
                 },
                 /*点击前置图标*/
                 onClickPrefixIcon: e => {
@@ -168,7 +166,12 @@
                                 this.onInput(e)
                             }
                         },
-                    }
+                        click: this.emitClickInput,
+                        focus: this.emitFocus,
+                        blur: this.emitBlur,
+                        keydown: this.emitKeydown,
+                    },
+                    ref: 'input',
                 }
             },
         },
@@ -177,11 +180,7 @@
                 /*渲染文本域*/
                 return (
                     <div class={['pl-textarea', this.classes]}>
-                        <textarea
-                            ref="input"
-                            class="pl-textarea-inner"
-                            {...this.publicProps}
-                        >
+                        <textarea  class="pl-textarea-inner" {...this.publicProps}>
                         </textarea>
                         <textarea class="pl-textarea-inner pl-textarea-hidden" ref="hiddenInput" value={this.p_value}></textarea>
                     </div>
@@ -192,24 +191,11 @@
                     <div class={['pl-input', this.classes]}>
                         {!!this.prefixIcon && <span class="pl-input-prefix-icon" onClick={this.onClickPrefixIcon}><pl-icon icon={this.prefixIcon}/></span>}
                         {!!this.$slots.default ?
-                            <div tabIndex="0"
-                                 ref="input"
-                                 class="pl-input-inner"
-                                 {...this.publicProps}
-                                 onClick={this.emitClickInput}
-                                 onFocus={this.emitFocus}
-                                 onBlur={this.emitBlur}
-                                 onKeydown={this.emitKeydown}>
+                            <div tabIndex="0" class="pl-input-inner" {...this.publicProps}>
                                 {this.$slots.default}
                             </div>
                             :
-                            <input ref="input"
-                                   class="pl-input-inner"
-                                   {...this.publicProps}
-                                   onFocus={this.emitFocus}
-                                   onBlur={this.emitBlur}
-                                   onClick={this.emitClickInput}
-                                   onKeydown={this.emitKeydown}/>}
+                            <input class="pl-input-inner" {...this.publicProps}/>}
 
                         {!!this.suffixIcon && <span class="pl-input-suffix-icon"><pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/></span>}
                         {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-circle-close"/></span>)}

@@ -68,7 +68,12 @@ export const EmitMixin = {
         const emitter = Object.keys(emitters).reduce((ret, name) => {
             const kebabCaseName = this.$plain.utils.kebabCase(name).replace('emit-', '').replace('update-', 'update:')
             // console.log(name, kebabCaseName)
-            ret[name] = (...args) => this.$emit(kebabCaseName, ...args)
+            ret[name] = name === 'emitInput' ?
+                (val) => {
+                    this.$emit('input', val)
+                    this.$emit('change', val)
+                } :
+                (...args) => this.$emit(kebabCaseName, ...args)
             return ret
         }, {})
         // console.log(emitter)
