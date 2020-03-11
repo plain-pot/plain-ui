@@ -17,13 +17,13 @@
 
 <script>
     import ClickWave from "../../directives/ClickWave";
-    import {EditMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-button",
         directives: {ClickWave},
-        mixins: [EditMixin, PropsMixin({
-            label: PropsMixin.Promise,
+        mixins: [EditMixin, PropsMixinFactory({
+            label: PropsMixinFactory.Promise,
         })],
         inject: {
             plButtonGroup: {default: null},

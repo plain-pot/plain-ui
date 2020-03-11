@@ -5,15 +5,15 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-radio-group",
         mixins: [
             EditMixin,
             EmitMixin,
-            PropsMixin({
-                labelWidth: PropsMixin.Number,
+            PropsMixinFactory({
+                labelWidth: PropsMixinFactory.Number,
             })
         ],
         provide() {

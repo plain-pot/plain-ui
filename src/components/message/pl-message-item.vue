@@ -11,12 +11,12 @@
 
 <script>
 
-    import {PropsMixin} from "../../utils/mixins";
+    import {PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-message-item",
-        mixins: [PropsMixin({
-            message: PropsMixin.Promise,
+        mixins: [PropsMixinFactory({
+            message: PropsMixinFactory.Promise,
         })],
         props: {
             message: {type: String},

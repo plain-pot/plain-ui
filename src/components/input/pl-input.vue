@@ -1,16 +1,16 @@
 <script>
 
-    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-input",
         mixins: [
             EditMixin,
             EmitMixin,
-            PropsMixin({
-                width: PropsMixin.ALL,
-                minHeight: PropsMixin.Number,
-                maxHeight: PropsMixin.Number,
+            PropsMixinFactory({
+                width: PropsMixinFactory.ALL,
+                minHeight: PropsMixinFactory.Number,
+                maxHeight: PropsMixinFactory.Number,
             }),
         ],
         props: {

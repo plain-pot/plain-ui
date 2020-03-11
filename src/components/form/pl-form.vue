@@ -5,14 +5,14 @@
 </template>
 
 <script>
-    import {EditMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-form",
         mixins: [
             EditMixin,
-            PropsMixin({
-                labelWidth: PropsMixin.Number,
+            PropsMixinFactory({
+                labelWidth: PropsMixinFactory.Number,
             })
         ],
         props: {

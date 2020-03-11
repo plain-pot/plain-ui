@@ -14,7 +14,7 @@
 
 <script>
 
-    import {EmitMixin, PropsMixin} from "../../utils/mixins";
+    import {EmitMixin, PropsMixinFactory} from "../../utils/mixins";
 
     /*
     * 1. 不能将 v-show 放在 pl-popper-el 元素上，因为这个元素需要使用 transform来定位，会跟 打开/关闭动画有冲突；
@@ -27,12 +27,12 @@
 
     export default {
         name: "pl-popper",
-        mixins: [EmitMixin, PropsMixin({
-            hoverOpenDelay: PropsMixin.Number,
-            hoverCloseDelay: PropsMixin.Number,
-            offset: PropsMixin.Number,
-            width: PropsMixin.Number,
-            height: PropsMixin.Number,
+        mixins: [EmitMixin, PropsMixinFactory({
+            hoverOpenDelay: PropsMixinFactory.Number,
+            hoverCloseDelay: PropsMixinFactory.Number,
+            offset: PropsMixinFactory.Number,
+            width: PropsMixinFactory.Number,
+            height: PropsMixinFactory.Number,
         })],
         props: {
             value: {type: Boolean},                                     // 双向绑定是否显示

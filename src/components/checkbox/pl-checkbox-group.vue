@@ -12,14 +12,14 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox-group",
-        mixins: [EditMixin, EmitMixin, PropsMixin({
-            min: PropsMixin.Number,
-            max: PropsMixin.Number,
-            labelWidth: PropsMixin.Number,
+        mixins: [EditMixin, EmitMixin, PropsMixinFactory({
+            min: PropsMixinFactory.Number,
+            max: PropsMixinFactory.Number,
+            labelWidth: PropsMixinFactory.Number,
         })],
         props: {
             value: {type: Array},

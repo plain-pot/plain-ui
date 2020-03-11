@@ -1,3 +1,8 @@
+/**
+ * 用来判断是否已经挂载的mixin
+ * @author  韦胜健
+ * @date    2020/3/11 18:10
+ */
 export const MountedMixin = {
     data() {
         return {
@@ -9,7 +14,11 @@ export const MountedMixin = {
     }
 }
 
-
+/**
+ * 生成refs的mixin
+ * @author  韦胜健
+ * @date    2020/3/11 18:10
+ */
 export const RefsMixinFactory = function (option) {
     const refs = Object.keys(option).reduce((ret, key) => {
         const ref = option[key] || {}
@@ -28,6 +37,11 @@ export const RefsMixinFactory = function (option) {
     }
 }
 
+/**
+ * disabled以及readonly编辑控制的mixin
+ * @author  韦胜健
+ * @date    2020/3/11 18:11
+ */
 export const EditMixin = {
     inject: {
         plParentEditor: {default: null},
@@ -57,11 +71,17 @@ export const EditMixin = {
         },
     },
     created() {
-        this.$on('change', (...args) => !!this.plParentEditor.isFormItem && this.plParentEditor.onChange(...args))
-        this.$on('blur', (...args) => !!this.plParentEditor.isFormItem && this.plParentEditor.onBlur(...args))
+        this.$on('change', (...args) => !!this.plParentEditor && !!this.plParentEditor.isFormItem && this.plParentEditor.onChange(...args))
+        this.$on('blur', (...args) => !!this.plParentEditor && !!this.plParentEditor.isFormItem && this.plParentEditor.onBlur(...args))
     },
 }
 
+
+/**
+ * 用来生成派发事件方法的迷信
+ * @author  韦胜健
+ * @date    2020/3/11 18:11
+ */
 export const EmitMixin = {
     data() {
         const emitters = this.$options.emitters || {}
@@ -83,7 +103,12 @@ export const EmitMixin = {
     },
 }
 
-export const PropsMixin = (config) => {
+/**
+ * 用来对属性做转化的mixin函数
+ * @author  韦胜健
+ * @date    2020/3/11 18:11
+ */
+export const PropsMixinFactory = (config) => {
     return {
         watch: Object.keys(config).reduce((ret, propName) => {
             const check = Array.isArray(config[propName]) ? config[propName] : [config[propName]]
@@ -91,13 +116,13 @@ export const PropsMixin = (config) => {
                 immediate: true,
                 async handler(val) {
                     if (val != null) {
-                        if (check.indexOf(PropsMixin.Promise) > -1 && !!val.then && typeof val.then === 'function') {
+                        if (check.indexOf(PropsMixinFactory.Promise) > -1 && !!val.then && typeof val.then === 'function') {
                             val = await val
                         }
-                        if (check.indexOf(PropsMixin.Function) > -1 && typeof val === 'function') {
+                        if (check.indexOf(PropsMixinFactory.Function) > -1 && typeof val === 'function') {
                             val = val(this)
                         }
-                        if (check.indexOf(PropsMixin.Number) > -1) {
+                        if (check.indexOf(PropsMixinFactory.Number) > -1) {
                             if (typeof val === 'string') {
                                 val = !!val ? Number(val.replace('px', '')) : null
                             }
@@ -120,7 +145,7 @@ export const PropsMixin = (config) => {
         },
     }
 }
-PropsMixin.Promise = 'Promise'
-PropsMixin.Number = 'Number'
-PropsMixin.Function = 'Function'
-PropsMixin.ALL = [PropsMixin.Promise, PropsMixin.Number, PropsMixin.Function]
+PropsMixinFactory.Promise = 'Promise'
+PropsMixinFactory.Number = 'Number'
+PropsMixinFactory.Function = 'Function'
+PropsMixinFactory.ALL = [PropsMixinFactory.Promise, PropsMixinFactory.Number, PropsMixinFactory.Function]

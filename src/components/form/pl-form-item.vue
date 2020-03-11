@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import {EditMixin, PropsMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, PropsMixinFactory, RefsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-form-item",
@@ -25,9 +25,9 @@
             RefsMixinFactory({
                 labelEl: null,
             }),
-            PropsMixin({
-                label: PropsMixin.Promise,
-                labelWidth: PropsMixin.Number,
+            PropsMixinFactory({
+                label: PropsMixinFactory.Promise,
+                labelWidth: PropsMixinFactory.Number,
             })
         ],
         props: {

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
     import ClickWave from "../../directives/ClickWave";
 
     export default {
@@ -29,8 +29,8 @@
         mixins: [
             EditMixin,
             EmitMixin,
-            PropsMixin({
-                labelWidth: PropsMixin.Number,
+            PropsMixinFactory({
+                labelWidth: PropsMixinFactory.Number,
             })
         ],
         inject: {

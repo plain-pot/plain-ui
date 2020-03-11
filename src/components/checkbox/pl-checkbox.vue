@@ -22,15 +22,15 @@
 <script>
     import RCheckboxInner from "./pl-checkbox-inner";
     import ClickWave from "../../directives/ClickWave";
-    import {EditMixin, EmitMixin, PropsMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox",
         directives: {ClickWave},
         components: {RCheckboxInner},
-        mixins: [EmitMixin, EditMixin, PropsMixin({
-            label: PropsMixin.Promise,
-            labelWidth: PropsMixin.Number,
+        mixins: [EmitMixin, EditMixin, PropsMixinFactory({
+            label: PropsMixinFactory.Promise,
+            labelWidth: PropsMixinFactory.Number,
         })],
         inject: {
             plCheckboxGroup: {default: null},
