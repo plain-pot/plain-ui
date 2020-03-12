@@ -19,7 +19,7 @@
             width: {type: [Number, String], default: null,},    // 输入框默认宽度
             minHeight: {type: [Number, String], default: 56},   // 文本域最小高度
             maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
-            status: {type: String, default: 'primary'},         // primary,success,warning,error,info
+            status: {type: String, default: null},              // primary,success,warning,error,info
             shape: {type: String, default: 'fillet'},           // fillet,round,square
             size: {type: String, default: 'default'},           // default,large,small
             block: {type: Boolean},                             // 块级元素

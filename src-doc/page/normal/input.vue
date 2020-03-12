@@ -25,7 +25,13 @@
         </demo-row>
 
         <demo-row title="状态">
-            <pl-input v-for="item in status" :status="item" :key="item"/>
+            <demo-line title="input">
+                <pl-input v-for="item in status" :status="item" :key="item"/>
+            </demo-line>
+            <demo-line title="textarea">
+                <pl-input v-for="item in status" :status="item" :key="item" textarea/>
+            </demo-line>
+
         </demo-row>
 
         <demo-row title="清除图标">
