@@ -112,6 +112,24 @@
       }
     }
 
+    @include statusMixin(input) {
+      &:not(.pl-input-disabled) {
+
+        &.pl-input-focus {
+          .pl-input-inner, .pl-textarea-inner {
+            box-shadow: 0 0 0 2px rgba($value, 0.2);
+          }
+        }
+
+        .pl-input-inner, .pl-textarea-inner {
+          border-color: $value;
+          &:focus {
+            box-shadow: 0 0 0 2px rgba($value, 0.2);
+          }
+        }
+      }
+    }
+
     &.pl-input-disabled {
       .pl-input-inner, .pl-textarea-inner {
         background-color: $disabled;

@@ -110,6 +110,7 @@
                     `pl-input-shape-${this.shape}`,
                     `pl-input-size-${this.size}`,
                     {
+                        [`pl-input-status-${this.status}`]: !!this.status,
                         'pl-input-block': this.block,
                         'pl-input-loading': !!this.loading,
                         'pl-input-disabled': !!this.isDisabled,
@@ -180,7 +181,7 @@
                 /*渲染文本域*/
                 return (
                     <div class={['pl-textarea', this.classes]}>
-                        <textarea  class="pl-textarea-inner" {...this.publicProps}>
+                        <textarea class="pl-textarea-inner" {...this.publicProps}>
                         </textarea>
                         <textarea class="pl-textarea-inner pl-textarea-hidden" ref="hiddenInput" value={this.p_value}></textarea>
                     </div>

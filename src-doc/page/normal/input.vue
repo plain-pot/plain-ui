@@ -23,6 +23,11 @@
             <pl-input :disabled="disabledFlag" suffixIcon="el-icon-search"/>
             <pl-input :disabled="disabledFlag" textarea/>
         </demo-row>
+
+        <demo-row title="状态">
+            <pl-input v-for="item in status" :status="item" :key="item"/>
+        </demo-row>
+
         <demo-row title="清除图标">
             <demo-line title="基本用法">
                 <pl-input clearIcon @click-clear-icon="log('click-clear-icon')"/>
