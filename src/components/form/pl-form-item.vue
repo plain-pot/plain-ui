@@ -110,10 +110,10 @@
         methods: {
             /*---------------------------------------handler-------------------------------------------*/
             onChange(val) {
-                console.log(`${this.field} change:${String(val)}`)
+                // console.log(`${this.field} change:${String(val)}`)
             },
             onBlur(val) {
-                console.log(`${this.field} blur`)
+                // console.log(`${this.field} blur`)
             },
         },
     }
@@ -127,6 +127,7 @@
             text-align: center;
 
             .pl-form-body {
+                position: relative;
                 display: inline-block;
                 text-align: left;
             }

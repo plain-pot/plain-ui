@@ -55,7 +55,10 @@
             },
             bodyStyles() {
                 if (!this.targetItemWidth) return null
-                return {width: `${this.p_column * (this.targetItemWidth)}px`}
+                return {
+                    width: `${this.p_column * (this.targetItemWidth)}px`,
+                    left: `${this.p_column === 1 ? -this.targetLabelWidth : 0}px`
+                }
             },
         },
         methods: {

@@ -94,7 +94,6 @@
                 }
             },
             styles() {
-                console.log(this.targetWidth)
                 return !!this.targetWidth ? {width: this.$plain.utils.suffixPx(this.targetWidth)} : null
             },
         },

@@ -1,7 +1,7 @@
 <template>
     <div class="demo-form">
         <demo-row title="基本用法">
-            <pl-form contentWidth="400">
+            <pl-form>
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
