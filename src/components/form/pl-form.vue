@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-form" :class="[`pl-form-column-${p_column || 1}`]">
+    <div class="pl-form" :class="[`pl-form-column-${p_column || 1}`,`pl-form-size-${p_size || 'default'}`]">
         <div class="pl-form-body" :style="bodyStyles">
             <slot></slot>
         </div>
@@ -7,12 +7,13 @@
 </template>
 
 <script>
-    import {EditMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-form",
         mixins: [
             EditMixin,
+            StyleMixin,
             PropsMixinFactory({
                 labelWidth: PropsMixinFactory.Number,
                 contentWidth: PropsMixinFactory.Number,
@@ -58,6 +59,11 @@
                     width: `${this.p_column * (this.targetItemWidth)}px`,
                     left: `${this.p_column === 1 ? -this.targetLabelWidth : 0}px`
                 }
+            },
+            p_size() {
+                if (!!this.size) return this.size
+                if (!!this.plParentStyler && !!this.plParentStyler.p_size) return this.plParentStyler.p_size
+                return this.p_column === 1 ? 'large' : null
             },
         },
         methods: {

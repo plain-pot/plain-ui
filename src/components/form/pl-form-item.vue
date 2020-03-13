@@ -132,6 +132,14 @@
                 text-align: left;
             }
 
+            &.pl-form-size-large {
+                font-size: 16px;
+            }
+
+            &.pl-form-size-small {
+                font-size: 12px;
+            }
+
             .pl-form-item {
                 display: inline-block;
                 padding-bottom: 20px;
@@ -149,13 +157,13 @@
                     padding-left: 32px;
                 }
 
+                .pl-form-item-suffix {
+                    padding-left: 10px;
+                    padding-top: 5px;
+                }
+
                 .pl-form-item-body {
                     display: inline-flex;
-
-                    .pl-form-item-suffix {
-                        padding-left: 10px;
-                        padding-top: 5px;
-                    }
 
                     .pl-form-item-content {
                         flex: 1;
