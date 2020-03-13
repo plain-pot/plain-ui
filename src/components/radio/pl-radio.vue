@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
     import ClickWave from "../../directives/ClickWave";
 
     export default {
@@ -30,6 +30,7 @@
         mixins: [
             EditMixin,
             EmitMixin,
+            StyleMixin,
             PropsMixinFactory({
                 width: PropsMixinFactory.Number,
             })
@@ -48,7 +49,6 @@
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
-            size: {type: String, default: 'default'},                   // large,default,small
             ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
         },
         data() {
@@ -67,10 +67,6 @@
                 if (!!this.plRadioGroup && !!this.plRadioGroup.status) return this.plRadioGroup.status
                 return this.status
             },
-            targetSize() {
-                if (!!this.plRadioGroup && !!this.plRadioGroup.size) return this.plRadioGroup.size
-                return this.size
-            },
             targetWidth() {
                 if (!!this.p_width) return this.p_width
                 if (!!this.plRadioGroup && !!this.plRadioGroup.p_itemWidth) return this.plRadioGroup.p_itemWidth
@@ -79,7 +75,7 @@
             classes() {
                 return [
                     `pl-radio-status-${this.targetStatus}`,
-                    `pl-radio-size-${this.targetSize}`,
+                    `pl-radio-size-${this.p_size || 'default'}`,
                     {
                         'pl-radio-checked': this.isChecked,
                         'pl-radio-disabled': this.isDisabled,

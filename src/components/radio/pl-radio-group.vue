@@ -5,13 +5,14 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-radio-group",
         mixins: [
             EditMixin,
             EmitMixin,
+            StyleMixin,
             PropsMixinFactory({
                 itemWidth: PropsMixinFactory.Number,
             })
@@ -28,7 +29,6 @@
             value: {},
             itemWidth: {type: [String, Number]},                       // 文本宽度
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
-            size: {type: String, default: 'default'},                   // large,default,small
         },
         watch: {
             value(val) {
