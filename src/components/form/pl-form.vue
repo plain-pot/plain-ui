@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-form" :class="[`pl-form-column-${p_column || 1}`,`pl-form-size-${p_size || 'default'}`]">
+    <div class="pl-form" :class="[`pl-form-column-${p_column || 1}`,`pl-form-size-${p_size || 'normal'}`]">
         <div class="pl-form-body" :style="bodyStyles">
             <slot></slot>
         </div>

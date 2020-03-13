@@ -107,7 +107,7 @@
             classes() {
                 return [
                     `pl-input-shape-${this.p_shape || 'fillet'}`,
-                    `pl-input-size-${this.p_size || 'default'}`,
+                    `pl-input-size-${this.p_size || 'normal'}`,
                     {
                         [`pl-input-status-${this.status}`]: !!this.status,
                         'pl-input-block': this.block,

@@ -87,7 +87,7 @@ export const StyleMixin = {
     },
     props: {
         shape: {type: String},                      // fillet,round,square
-        size: {type: String},                       // default,large,small
+        size: {type: String},                       // normal,large,mini
     },
     computed: {
         p_shape() {

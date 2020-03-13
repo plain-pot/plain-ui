@@ -22,8 +22,8 @@
         </demo-row>
 
         <demo-row title="大小">
-            <pl-checkbox label="small" size="small"/>
-            <pl-checkbox label="default" size="default"/>
+            <pl-checkbox label="mini" size="mini"/>
+            <pl-checkbox label="normal" size="normal"/>
             <pl-checkbox label="large" size="large"/>
             <pl-checkbox label="font-size:24px" style="font-size: 24px"/>
         </demo-row>

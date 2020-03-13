@@ -75,7 +75,7 @@
             classes() {
                 return [
                     `pl-radio-status-${this.targetStatus}`,
-                    `pl-radio-size-${this.p_size || 'default'}`,
+                    `pl-radio-size-${this.p_size || 'normal'}`,
                     {
                         'pl-radio-checked': this.isChecked,
                         'pl-radio-disabled': this.isDisabled,

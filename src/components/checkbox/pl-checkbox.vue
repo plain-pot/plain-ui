@@ -79,7 +79,7 @@
             classes() {
                 return [
                     `pl-checkbox-status-${this.targetStatus}`,
-                    `pl-checkbox-size-${this.p_size || 'default'}`,
+                    `pl-checkbox-size-${this.p_size || 'normal'}`,
                     {
                         'pl-checkbox-checked': this.isChecked,
                         'pl-checkbox-disabled': this.isDisabled,

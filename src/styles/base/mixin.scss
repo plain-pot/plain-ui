@@ -65,7 +65,7 @@
 }
 
 @mixin sizeMixin($component) {
-  @each $key in (Large, Default, Small) {
+  @each $key in (Large, Normal, Mini) {
 
     $value: plvar(size#{$key}) !global;
     $name: to-lower-case($key) !global;

@@ -84,12 +84,12 @@
                     <pl-button label="山脉"/>
                     <pl-button label="火山"/>
                 </pl-button-group>
-                <pl-button-group size="default">
+                <pl-button-group size="normal">
                     <pl-button label="丛林"/>
                     <pl-button label="山脉"/>
                     <pl-button label="火山"/>
                 </pl-button-group>
-                <pl-button-group size="small">
+                <pl-button-group size="mini">
                     <pl-button label="丛林"/>
                     <pl-button label="山脉"/>
                     <pl-button label="火山"/>

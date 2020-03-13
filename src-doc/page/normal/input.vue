@@ -85,7 +85,7 @@
         <demo-row title="大小">
             <pl-input size="large"/>
             <pl-input/>
-            <pl-input size="small"/>
+            <pl-input size="mini"/>
         </demo-row>
         <demo-row title="形状">
             <pl-input shape="fillet"/>

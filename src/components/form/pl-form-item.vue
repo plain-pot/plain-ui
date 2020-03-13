@@ -136,7 +136,7 @@
                 font-size: 16px;
             }
 
-            &.pl-form-size-small {
+            &.pl-form-size-mini {
                 font-size: 12px;
             }
 

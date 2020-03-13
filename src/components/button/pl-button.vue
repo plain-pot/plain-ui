@@ -61,7 +61,7 @@
                     `pl-button-status-${this.status}`,
                     `pl-button-mode-${this.targetMode}`,
                     `pl-button-shape-${this.p_shape || 'fillet'}`,
-                    `pl-button-size-${this.p_size || 'default'}`,
+                    `pl-button-size-${this.p_size || 'normal'}`,
 
                     {
                         'pl-button-icon': !!this.icon,

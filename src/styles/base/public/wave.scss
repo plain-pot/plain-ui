@@ -1,7 +1,7 @@
 $waves: (
         large:6px,
-        default:4px,
-        small:2,
+        normal:4px,
+        mini:2,
 );
 
 @each $key, $value in $waves {

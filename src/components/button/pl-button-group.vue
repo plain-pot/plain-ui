@@ -29,7 +29,7 @@
                     `pl-button-group-status-${this.status}`,
                     `pl-button-group-mode-${this.mode}`,
                     `pl-button-group-shape-${this.p_shape || 'fillet'}`,
-                    `pl-button-group-size-${this.p_size || 'default'}`,
+                    `pl-button-group-size-${this.p_size || 'normal'}`,
                     `pl-button-group-direction-${this.vertical ? 'vertical' : 'horizontal'}`,
                     {
                         'pl-button-group-disabled': !!this.isDisabled,

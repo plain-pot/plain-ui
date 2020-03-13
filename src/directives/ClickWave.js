@@ -22,7 +22,7 @@ class ClickWaveData {
                     size: opts
                 }
             }
-            opts.size = opts.size || 'default'
+            opts.size = opts.size || 'normal'
             this.opts = opts
         }
         this.setOpts(opts)

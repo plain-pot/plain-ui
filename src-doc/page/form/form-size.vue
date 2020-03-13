@@ -41,7 +41,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="中等尺寸">
-            <pl-form size="default">
+            <pl-form size="normal">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
@@ -81,7 +81,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="小尺寸">
-            <pl-form size="small">
+            <pl-form size="mini">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
