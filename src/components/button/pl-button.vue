@@ -17,22 +17,24 @@
 
 <script>
     import ClickWave from "../../directives/ClickWave";
-    import {EditMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-button",
         directives: {ClickWave},
-        mixins: [EditMixin, PropsMixinFactory({
-            label: PropsMixinFactory.Promise,
-        })],
+        mixins: [
+            EditMixin,
+            StyleMixin,
+            PropsMixinFactory({
+                label: PropsMixinFactory.Promise,
+            })
+        ],
         inject: {
             plButtonGroup: {default: null},
         },
         props: {
             status: {type: String, default: 'primary'},             // primary,success,warning,error,info
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
-            shape: {type: String, default: 'fillet'},               // fillet,round,square
-            size: {type: String, default: 'default'},               // default,large,small
             label: {type: String},
 
             icon: {type: String},
@@ -54,18 +56,12 @@
             targetMode() {
                 return !!this.plButtonGroup ? this.plButtonGroup.mode : this.mode
             },
-            targetShape() {
-                return !!this.plButtonGroup ? this.plButtonGroup.shape : this.shape
-            },
-            targetSize() {
-                return !!this.plButtonGroup ? this.plButtonGroup.size : this.size
-            },
             classes() {
                 return [
                     `pl-button-status-${this.status}`,
                     `pl-button-mode-${this.targetMode}`,
-                    `pl-button-shape-${this.targetShape}`,
-                    `pl-button-size-${this.targetSize}`,
+                    `pl-button-shape-${this.p_shape || 'fillet'}`,
+                    `pl-button-size-${this.p_size || 'default'}`,
 
                     {
                         'pl-button-icon': !!this.icon,

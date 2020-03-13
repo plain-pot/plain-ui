@@ -76,6 +76,33 @@ export const EditMixin = {
     },
 }
 
+export const StyleMixin = {
+    provide() {
+        return {
+            plParentStyler: this,
+        }
+    },
+    inject: {
+        plParentStyler: {default: null},
+    },
+    props: {
+        shape: {type: String},                      // fillet,round,square
+        size: {type: String},                       // default,large,small
+    },
+    computed: {
+        p_shape() {
+            if (!!this.shape) return this.shape
+            if (!!this.plParentStyler && this.plParentStyler.p_shape) return this.plParentStyler.p_shape
+            return null
+        },
+        p_size() {
+            if (!!this.size) return this.size
+            if (!!this.plParentStyler && this.plParentStyler.p_size) return this.plParentStyler.p_size
+            return null
+        },
+    },
+}
+
 
 /**
  * 用来生成派发事件方法的迷信

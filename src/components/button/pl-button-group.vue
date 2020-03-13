@@ -5,15 +5,13 @@
 </template>
 
 <script>
-    import {EditMixin} from "../../utils/mixins";
+    import {EditMixin, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-button-group",
-        mixins: [EditMixin],
+        mixins: [EditMixin, StyleMixin],
         props: {
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
-            shape: {type: String, default: 'fillet'},               // fillet,round,square
-            size: {type: String, default: 'default'},               // default,large,small
 
             vertical: {type: Boolean},
         },
@@ -30,8 +28,8 @@
                 return [
                     `pl-button-group-status-${this.status}`,
                     `pl-button-group-mode-${this.mode}`,
-                    `pl-button-group-shape-${this.shape}`,
-                    `pl-button-group-size-${this.size}`,
+                    `pl-button-group-shape-${this.p_shape || 'fillet'}`,
+                    `pl-button-group-size-${this.p_size || 'default'}`,
                     `pl-button-group-direction-${this.vertical ? 'vertical' : 'horizontal'}`,
                     {
                         'pl-button-group-disabled': !!this.isDisabled,

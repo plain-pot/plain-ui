@@ -77,22 +77,41 @@
                 <pl-button label="火山"/>
             </pl-button-group>
         </demo-row>
-        <demo-row title="按钮组：大小" mode="text">
-            <pl-button-group size="large">
-                <pl-button label="丛林"/>
-                <pl-button label="山脉"/>
-                <pl-button label="火山"/>
-            </pl-button-group>
-            <pl-button-group size="default">
-                <pl-button label="丛林"/>
-                <pl-button label="山脉"/>
-                <pl-button label="火山"/>
-            </pl-button-group>
-            <pl-button-group size="small">
-                <pl-button label="丛林"/>
-                <pl-button label="山脉"/>
-                <pl-button label="火山"/>
-            </pl-button-group>
+        <demo-row title="按钮组：继承属性">
+            <demo-line title="大小">
+                <pl-button-group size="large">
+                    <pl-button label="丛林"/>
+                    <pl-button label="山脉"/>
+                    <pl-button label="火山"/>
+                </pl-button-group>
+                <pl-button-group size="default">
+                    <pl-button label="丛林"/>
+                    <pl-button label="山脉"/>
+                    <pl-button label="火山"/>
+                </pl-button-group>
+                <pl-button-group size="small">
+                    <pl-button label="丛林"/>
+                    <pl-button label="山脉"/>
+                    <pl-button label="火山"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="形状">
+                <pl-button-group shape="fillet">
+                    <pl-button label="丛林"/>
+                    <pl-button label="山脉"/>
+                    <pl-button label="火山"/>
+                </pl-button-group>
+                <pl-button-group shape="round">
+                    <pl-button label="丛林"/>
+                    <pl-button label="山脉"/>
+                    <pl-button label="火山"/>
+                </pl-button-group>
+                <pl-button-group shape="none">
+                    <pl-button label="丛林"/>
+                    <pl-button label="山脉"/>
+                    <pl-button label="火山"/>
+                </pl-button-group>
+            </demo-line>
         </demo-row>
         <demo-row title="按钮组方向">
             <pl-button-group vertical>
