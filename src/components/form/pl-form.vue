@@ -43,17 +43,19 @@
                 let ret = null;
                 if (!!this.maxLabelWidth) ret = this.maxLabelWidth
                 else ret = this.p_labelWidth
-                return !!ret ? ret + 10 : null
+                return !!ret ? ret + 32 : null
             },
             targetContentWidth() {
                 return this.p_contentWidth || 300
             },
+            targetItemWidth() {
+                if (!this.targetLabelWidth) return null
+                if (!this.targetContentWidth) return null
+                return this.targetLabelWidth + this.targetContentWidth
+            },
             bodyStyles() {
-                console.log({
-                    label: this.targetLabelWidth,
-                    content: this.targetContentWidth,
-                })
-                return {width: `${this.p_column * (this.targetLabelWidth + this.targetContentWidth)}px`}
+                if (!this.targetItemWidth) return null
+                return {width: `${this.p_column * (this.targetItemWidth)}px`}
             },
         },
         methods: {

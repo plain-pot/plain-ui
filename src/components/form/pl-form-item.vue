@@ -3,7 +3,7 @@
         <div class="pl-form-item-label" ref="labelEl" :style="labelStyles" v-if="hasLabel">
             <slot name="label">{{p_label}}</slot>
         </div>
-        <div class="pl-form-item-body" :style="bodyStyles" @click="$plain.log(label)">
+        <div class="pl-form-item-body" :style="bodyStyles">
             <div class="pl-form-item-content">
                 <slot></slot>
             </div>
@@ -30,12 +30,15 @@
             PropsMixinFactory({
                 label: PropsMixinFactory.Promise,
                 labelWidth: PropsMixinFactory.Number,
+                column: PropsMixinFactory.Number,
             })
         ],
         props: {
             field: {type: String},                                              // 绑定的属性字段名
             label: {type: String},                                              // 显示文本
             labelWidth: {type: [String, Number]},                               // 显示文本宽度
+            column: {type: [String, Number]},                                   // 多列表单的列数
+            block: {type: Boolean},                                             // 占用一行
         },
         refs: {
             labelEl: null,
@@ -67,8 +70,29 @@
                 return null
             },
             bodyStyles() {
-                return {
-                    width: `${this.plForm.targetContentWidth}px`
+                let width;
+                if (this.block) {
+                    if (!this.plForm.targetItemWidth) {
+                        width = null
+                    } else {
+                        width = this.plForm.p_column * (this.plForm.targetItemWidth) - this.plForm.targetLabelWidth
+                    }
+                } else {
+                    const column = this.p_column || 1
+
+                    if (!this.plForm.targetItemWidth) {
+                        width = null
+                    } else {
+                        width = column * (this.plForm.targetItemWidth) - this.plForm.targetLabelWidth
+                    }
+                }
+
+                if (!width) {
+                    return null
+                } else {
+                    return {
+                        width: `${width}px`
+                    }
                 }
             },
             hasLabel() {
