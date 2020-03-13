@@ -9,8 +9,8 @@
          <span class="plain-click-node">
             <transition name="pl-transition-fade" mode="out-in">
                 <slot name="radio-inner">
-                    <pl-radio-inner status="check" v-if="isChecked" key="check" :disabled="disabled"/>
-                    <pl-radio-inner status="uncheck" v-else key="uncheck" :disabled="disabled"/>
+                    <pl-radio-inner status="check" v-if="isChecked" key="check" :disabled="isDisabled"/>
+                    <pl-radio-inner status="uncheck" v-else key="uncheck" :disabled="isDisabled"/>
                 </slot>
             </transition>
         </span>
