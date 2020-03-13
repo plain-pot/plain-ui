@@ -1,12 +1,13 @@
 <script>
 
-    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-input",
         mixins: [
             EditMixin,
             EmitMixin,
+            StyleMixin,
             PropsMixinFactory({
                 width: PropsMixinFactory.ALL,
                 minHeight: PropsMixinFactory.Number,
@@ -20,8 +21,6 @@
             minHeight: {type: [Number, String], default: 56},   // 文本域最小高度
             maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
             status: {type: String, default: null},              // primary,success,warning,error,info
-            shape: {type: String, default: 'fillet'},           // fillet,round,square
-            size: {type: String, default: 'default'},           // default,large,small
             block: {type: Boolean},                             // 块级元素
             loading: {type: Boolean},                           // 加载状态
             textarea: {type: Boolean},                          // 当前是否为文本域输入框
@@ -107,8 +106,8 @@
         computed: {
             classes() {
                 return [
-                    `pl-input-shape-${this.shape}`,
-                    `pl-input-size-${this.size}`,
+                    `pl-input-shape-${this.p_shape || 'fillet'}`,
+                    `pl-input-size-${this.p_size || 'default'}`,
                     {
                         [`pl-input-status-${this.status}`]: !!this.status,
                         'pl-input-block': this.block,
