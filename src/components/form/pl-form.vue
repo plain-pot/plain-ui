@@ -40,10 +40,9 @@
         },
         computed: {
             targetLabelWidth() {
-                let ret = null;
-                if (!!this.maxLabelWidth) ret = this.maxLabelWidth
-                else ret = this.p_labelWidth
-                return !!ret ? ret + 32 : null
+                if (!!this.p_labelWidth) return this.p_labelWidth
+                if (!!this.maxLabelWidth) return this.maxLabelWidth
+                return null
             },
             targetContentWidth() {
                 return this.p_contentWidth || 300

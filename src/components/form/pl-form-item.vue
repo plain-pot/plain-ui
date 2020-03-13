@@ -146,6 +146,7 @@
                     text-align: right;
                     padding-right: 10px;
                     padding-top: 5px;
+                    padding-left: 32px;
                 }
 
                 .pl-form-item-body {

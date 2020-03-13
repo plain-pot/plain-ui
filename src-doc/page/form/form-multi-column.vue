@@ -5,11 +5,11 @@
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
-                <pl-form-item label="客户员工数量" field="type">
+                <pl-form-item label="客户员工数量" field="type" v-if="formData.oldFlag === 'Y'">
                     <pl-input v-model="formData.type"/>
                     <span slot="suffix"><pl-icon icon="el-icon-question"/></span>
                 </pl-form-item>
-                <pl-form-item label="客户加入时间" field="joinTime">
+                <pl-form-item label="客户加入时间" field="joinTime" v-if="formData.oldFlag === 'Y'">
                     <pl-input v-model="formData.joinTime"/>
                     <span>&nbsp;至&nbsp;</span>
                     <pl-input v-model="formData.name"/>
@@ -162,8 +162,14 @@
         props: {},
         data() {
             return {
-                formData: {},
-
+                formData: {
+                    oldFlag: 'Y',
+                },
+                levelData: [
+                    {levelName: '一级', code: '1'},
+                    {levelName: '二级', code: '2'},
+                    {levelName: '三级', code: '3'},
+                ],
             }
         },
         methods: {},
