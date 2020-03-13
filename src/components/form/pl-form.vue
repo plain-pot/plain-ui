@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-form" :class="[`pl-form-column-${p_column || 1}`,`pl-form-size-${p_size || 'normal'}`]">
+    <div class="pl-form" :class="classes" :style="styles">
         <div class="pl-form-body" :style="bodyStyles">
             <slot></slot>
         </div>
@@ -18,6 +18,7 @@
                 labelWidth: PropsMixinFactory.Number,
                 contentWidth: PropsMixinFactory.Number,
                 column: PropsMixinFactory.Number,
+                width: PropsMixinFactory.Number,
             })
         ],
         props: {
@@ -26,6 +27,8 @@
             contentWidth: {type: [String, Number]},                 // formItem 内容宽度
             disabledFields: {type: Object},                         // 禁用的字段
             readonlyFields: {type: Object},                         // 只读的字段
+            labelAlign: {type: Boolean},                            // 文本对其方式
+            width: {type: [String, Number], default: '100%'},       // 表单宽度
         },
         provide() {
             return {
@@ -64,6 +67,19 @@
                 if (!!this.size) return this.size
                 if (!!this.plParentStyler && !!this.plParentStyler.p_size) return this.plParentStyler.p_size
                 return this.p_column === 1 ? 'large' : null
+            },
+            classes() {
+                return [
+                    `pl-form-label-align-${this.labelAlign}`,
+                    `pl-form-column-${this.p_column || 1}`,
+                    `pl-form-size-${this.p_size || 'normal'}`
+                ]
+            },
+            styles() {
+                console.log(this.p_width)
+                return {
+                    width: this.$plain.utils.suffixPx(this.p_width)
+                }
             },
         },
         methods: {

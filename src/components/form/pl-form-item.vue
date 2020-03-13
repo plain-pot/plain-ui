@@ -125,6 +125,7 @@
             @include public-style;
             font-size: 14px;
             text-align: center;
+            display: inline-block;
 
             .pl-form-body {
                 position: relative;
@@ -134,10 +135,6 @@
 
             &.pl-form-size-large {
                 font-size: 16px;
-            }
-
-            &.pl-form-size-mini {
-                font-size: 12px;
             }
 
             .pl-form-item {
@@ -186,6 +183,28 @@
                             padding-top: 5px;
                         }
                     }
+                }
+            }
+
+            &.pl-form-size-mini {
+                font-size: 12px;
+            }
+
+            &.pl-form-label-align-left {
+                .pl-form-item-label {
+                    text-align: left;
+                }
+            }
+
+            &.pl-form-label-align-center {
+                .pl-form-item-label {
+                    text-align: center;
+                }
+            }
+
+            &.pl-form-label-align-right {
+                .pl-form-item-label {
+                    text-align: right;
                 }
             }
         }

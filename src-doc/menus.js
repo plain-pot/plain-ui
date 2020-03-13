@@ -33,6 +33,7 @@ export default [
             {name: 'Form', title: '表单基础', icon: 'pl-form', page: '/form/form', complete: true},
             {name: 'Form', title: '表单多列', icon: 'pl-form', page: '/form/form-multi-column', complete: true},
             {name: 'Form', title: '表单尺寸', icon: 'pl-form', page: '/form/form-size', complete: true},
+            {name: 'Form', title: '表单编辑控制', icon: 'pl-form', page: '/form/form-edit-control', complete: true},
         ]
     },
     {
