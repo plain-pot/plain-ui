@@ -69,14 +69,13 @@
                 <pl-checkbox label="标签一" val="tag1"/>
                 <pl-checkbox label="标签二" val="tag2"/>
                 <pl-checkbox label="标签三" val="tag3"/>
-                {{val[3]}}
             </pl-checkbox-group>
             <pl-checkbox-group v-model="val[3]" readonly>
                 <pl-checkbox label="标签一" val="tag1"/>
                 <pl-checkbox label="标签二" val="tag2"/>
                 <pl-checkbox label="标签三" val="tag3"/>
-                {{val[3]}}
             </pl-checkbox-group>
+            {{val[3]}}
         </demo-row>
 
         <demo-row title="复选框组：最大最小勾选个数(全选会勾选最大可勾选个数)">

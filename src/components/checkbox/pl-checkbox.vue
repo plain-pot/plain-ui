@@ -9,8 +9,8 @@
         <span class="plain-click-node">
             <transition name="pl-transition-fade" mode="out-in">
                 <slot name="checkbox-inner">
-                    <pl-checkbox-inner status="check" v-if="isChecked" key="check" :disabled="disabled"/>
-                    <pl-checkbox-inner status="uncheck" v-else key="uncheck" :disabled="disabled"/>
+                    <pl-checkbox-inner status="check" v-if="isChecked" key="check" :disabled="isDisabled"/>
+                    <pl-checkbox-inner status="uncheck" v-else key="uncheck" :disabled="isDisabled"/>
                 </slot>
             </transition>
         </span>
@@ -23,16 +23,21 @@
 <script>
     import RCheckboxInner from "./pl-checkbox-inner";
     import ClickWave from "../../directives/ClickWave";
-    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox",
         directives: {ClickWave},
         components: {RCheckboxInner},
-        mixins: [EmitMixin, EditMixin, PropsMixinFactory({
-            label: PropsMixinFactory.Promise,
-            width: PropsMixinFactory.Number,
-        })],
+        mixins: [
+            EmitMixin,
+            EditMixin,
+            StyleMixin,
+            PropsMixinFactory({
+                label: PropsMixinFactory.Promise,
+                width: PropsMixinFactory.Number,
+            })
+        ],
         inject: {
             plCheckboxGroup: {default: null},
         },
@@ -47,7 +52,6 @@
             trueValue: {default: true},                                 // 选中实际值
             falseValue: {default: false},                               // 非选中值
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
-            size: {type: String, default: 'default'},                   // large,default,small
 
             ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
         },
@@ -67,10 +71,6 @@
                 if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.status) return this.plCheckboxGroup.status
                 return this.status
             },
-            targetSize() {
-                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.size) return this.plCheckboxGroup.size
-                return this.size
-            },
             targetWidth() {
                 if (!!this.p_width) return this.p_width
                 if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_itemWidth) return this.plCheckboxGroup.p_itemWidth
@@ -79,7 +79,7 @@
             classes() {
                 return [
                     `pl-checkbox-status-${this.targetStatus}`,
-                    `pl-checkbox-size-${this.targetSize}`,
+                    `pl-checkbox-size-${this.p_size || 'default'}`,
                     {
                         'pl-checkbox-checked': this.isChecked,
                         'pl-checkbox-disabled': this.isDisabled,

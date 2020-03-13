@@ -12,19 +12,23 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin, PropsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-checkbox-group",
-        mixins: [EditMixin, EmitMixin, PropsMixinFactory({
-            min: PropsMixinFactory.Number,
-            max: PropsMixinFactory.Number,
-            itemWidth: PropsMixinFactory.Number,
-        })],
+        mixins: [
+            EditMixin,
+            EmitMixin,
+            StyleMixin,
+            PropsMixinFactory({
+                min: PropsMixinFactory.Number,
+                max: PropsMixinFactory.Number,
+                itemWidth: PropsMixinFactory.Number,
+            })
+        ],
         props: {
             value: {type: Array},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
-            size: {type: String, default: 'default'},                   // large,default,small
 
             min: {type: Number},                                        // 最大勾选个数
             max: {type: Number},                                        // 最小勾选个数
