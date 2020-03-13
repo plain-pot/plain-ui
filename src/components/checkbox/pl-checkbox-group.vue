@@ -2,9 +2,9 @@
     <div class="pl-checkbox-group">
         <pl-checkbox label="全选" ignore @click.native="onClickCheckBoxForAll" :value="checkStatus === 'check'">
             <template slot="checkbox-inner">
-                <pl-checkbox-inner status="check" key="check" v-if="checkStatus === 'check'"/>
-                <pl-checkbox-inner status="uncheck" key="uncheck" v-if="checkStatus === 'uncheck'"/>
-                <pl-checkbox-inner status="minus" key="minus" v-if="checkStatus === 'minus'"/>
+                <pl-checkbox-inner status="check" key="check" v-if="checkStatus === 'check'" :disabled="isDisabled"/>
+                <pl-checkbox-inner status="uncheck" key="uncheck" v-if="checkStatus === 'uncheck'" :disabled="isDisabled"/>
+                <pl-checkbox-inner status="minus" key="minus" v-if="checkStatus === 'minus'" :disabled="isDisabled"/>
             </template>
         </pl-checkbox>
         <slot></slot>
