@@ -123,7 +123,7 @@ export const PropsMixinFactory = (config) => {
                             val = val(this)
                         }
                         if (check.indexOf(PropsMixinFactory.Number) > -1) {
-                            if (typeof val === 'string') {
+                            if (typeof val === 'string' && !val.endsWith('%')) {
                                 val = !!val ? Number(val.replace('px', '')) : null
                             }
                         }

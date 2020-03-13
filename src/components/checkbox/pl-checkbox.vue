@@ -1,6 +1,7 @@
 <template>
     <div class="pl-checkbox"
          :class="classes"
+         :style="styles"
          v-click-wave="{disabled:!isEditable}"
          tabindex="1"
          @click="onClick"
@@ -13,7 +14,7 @@
                 </slot>
             </transition>
         </span>
-        <div class="pl-checkbox-label" v-if="p_label" :style="labelStyle">
+        <div class="pl-checkbox-label" v-if="p_label">
             {{p_label}}
         </div>
     </div>
@@ -30,7 +31,7 @@
         components: {RCheckboxInner},
         mixins: [EmitMixin, EditMixin, PropsMixinFactory({
             label: PropsMixinFactory.Promise,
-            labelWidth: PropsMixinFactory.Number,
+            width: PropsMixinFactory.Number,
         })],
         inject: {
             plCheckboxGroup: {default: null},
@@ -42,9 +43,9 @@
             value: {},
             val: {},                                                    // 多选时选中值
             label: {type: String},                                      // 显示文本
-            labelWidth: {type: [String, Number]},                       // 文本宽度
-            trueValue: {default: true},
-            falseValue: {default: false},
+            width: {type: [String, Number]},                            // 宽度
+            trueValue: {default: true},                                 // 选中实际值
+            falseValue: {default: false},                               // 非选中值
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             size: {type: String, default: 'default'},                   // large,default,small
 
@@ -70,9 +71,9 @@
                 if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.size) return this.plCheckboxGroup.size
                 return this.size
             },
-            targetLabelWidth() {
-                if (!!this.p_labelWidth) return this.p_labelWidth
-                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_labelWidth) return this.plCheckboxGroup.p_labelWidth
+            targetWidth() {
+                if (!!this.p_width) return this.p_width
+                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_checkboxWidth) return this.plCheckboxGroup.p_checkboxWidth
                 return null
             },
             classes() {
@@ -92,9 +93,8 @@
                     return this.p_value === this.trueValue
                 }
             },
-            labelStyle() {
-                if (!this.targetLabelWidth) return null
-                return {width: `${this.targetLabelWidth}px`}
+            styles() {
+                return !!this.targetWidth ? {width: this.$plain.utils.suffixPx(this.targetWidth)} : null
             },
         },
         methods: {

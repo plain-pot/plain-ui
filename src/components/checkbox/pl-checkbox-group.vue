@@ -20,6 +20,7 @@
             min: PropsMixinFactory.Number,
             max: PropsMixinFactory.Number,
             labelWidth: PropsMixinFactory.Number,
+            checkboxWidth: PropsMixinFactory.Number,
         })],
         props: {
             value: {type: Array},
@@ -28,7 +29,7 @@
 
             min: {type: Number},                                        // 最大勾选个数
             max: {type: Number},                                        // 最小勾选个数
-            labelWidth: {type: [String, Number]},                       // 文本宽度
+            checkboxWidth: {type: [String, Number]},                       // 文本宽度
         },
         emitters: {
             emitInput: null,
