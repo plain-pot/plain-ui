@@ -13,6 +13,7 @@
           list-style: none;
           white-space: normal;
           padding: 4px 6px 4px 16px;
+          transition: background-color 300ms $transition;
 
           &:hover {
             background-color: rgba($colorPrimary, 0.1);

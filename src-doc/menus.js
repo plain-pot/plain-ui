@@ -9,8 +9,7 @@ export default [
         ]
     },
     {
-        name: '表单', children: [
-            {name: 'Form', title: '表单', icon: 'pl-form', page: '/normal/form', complete: true},
+        name: '表单元素', children: [
             {name: 'Input', title: '输入框', icon: 'pl-edit-square-light', page: '/normal/input', complete: true},
             // {name: 'Textarea', title: '文本域', icon: 'pl-textarea', page: '/normal/textarea', complete: false},
             {name: 'Radio', title: '单选框', icon: 'pl-circle-radio', page: '/normal/radio', complete: true},
@@ -27,6 +26,12 @@ export default [
             {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: false},
             {name: 'Upload', title: '文件上传', icon: 'pad-file', page: '/normal/upload', complete: false},
             {name: 'Img', title: '图片上传', icon: 'pad-image', page: '/normal/img', complete: false},
+        ]
+    },
+    {
+        name: '表单示例', children: [
+            {name: 'Form', title: '表单基础', icon: 'pl-form', page: '/form/form', complete: true},
+            {name: 'Form', title: '表单多列', icon: 'pl-form', page: '/form/form-multi-column', complete: true},
         ]
     },
     {
