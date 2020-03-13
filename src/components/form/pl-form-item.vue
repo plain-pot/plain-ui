@@ -1,13 +1,15 @@
 <template>
     <div class="pl-form-item">
-        <div class="pl-form-item-label" ref="labelEl" :style="labelStyles" v-if="!!p_label || !!$slots.default">
+        <div class="pl-form-item-label" ref="labelEl" :style="labelStyles" v-if="hasLabel">
             <slot name="label">{{p_label}}</slot>
         </div>
-        <div class="pl-form-item-content">
-            <slot></slot>
-        </div>
-        <div class="pl-form-item-suffix" v-if="!!$slots.suffix">
-            <slot name="suffix"></slot>
+        <div class="pl-form-item-body" :style="bodyStyles" @click="$plain.log(label)">
+            <div class="pl-form-item-content">
+                <slot></slot>
+            </div>
+            <div class="pl-form-item-suffix" v-if="!!$slots.suffix">
+                <slot name="suffix"></slot>
+            </div>
         </div>
     </div>
 </template>
@@ -58,11 +60,21 @@
             },
             labelStyles() {
                 if (this.plForm.targetLabelWidth != null) {
-                    return {width: `${this.plForm.targetLabelWidth + 10}px`}
+                    return {width: `${this.plForm.targetLabelWidth}px`}
                 } else if (!!this.p_labelWidth) {
                     return {width: `${this.p_labelWidth}px`}
                 }
                 return null
+            },
+            bodyStyles() {
+                return {
+                    width: `${this.plForm.targetContentWidth}px`
+                }
+            },
+            hasLabel() {
+                if (!!this.p_label || !!this.$slots.label) return true
+                if (!this.$slots.default && !this.$slots.suffix) return true
+                return false
             },
         },
         mounted() {
@@ -84,4 +96,63 @@
 </script>
 
 <style lang="scss">
+    @include themify {
+        .pl-form {
+            @include public-style;
+            text-align: center;
+
+            .pl-form-body {
+                display: inline-block;
+                text-align: left;
+            }
+
+            .pl-form-item {
+                display: inline-block;
+                padding-bottom: 20px;
+                text-align: left;
+
+                & > * {
+                    display: inline-block;
+                    vertical-align: top;
+                }
+
+                .pl-form-item-label {
+                    text-align: right;
+                    padding-right: 10px;
+                    padding-top: 5px;
+                }
+
+                .pl-form-item-body {
+                    display: inline-flex;
+
+                    .pl-form-item-suffix {
+                        padding-left: 10px;
+                        padding-top: 5px;
+                    }
+
+                    .pl-form-item-content {
+                        flex: 1;
+                        display: inline-flex;
+                        align-items: center;
+
+                        .pl-input, .pl-textarea {
+                            flex: 1;
+
+                            .pl-input-inner, .pl-textarea-inner {
+                                width: 100% !important;
+                            }
+                        }
+
+                        .pl-button + .pl-button {
+                            margin-left: 10px;
+                        }
+
+                        .pl-radio, .pl-checkbox {
+                            padding-top: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 </style>

@@ -1,6 +1,8 @@
 <template>
-    <div class="pl-form">
-        <slot></slot>
+    <div class="pl-form" :class="[`pl-form-column-${p_column || 1}`]">
+        <div class="pl-form-body" :style="bodyStyles">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
@@ -13,10 +15,14 @@
             EditMixin,
             PropsMixinFactory({
                 labelWidth: PropsMixinFactory.Number,
+                contentWidth: PropsMixinFactory.Number,
+                column: PropsMixinFactory.Number,
             })
         ],
         props: {
+            column: {type: [String, Number], default: 1},           // 多列表单的列数
             labelWidth: {type: [String, Number]},                   // formItem 文本宽度
+            contentWidth: {type: [String, Number]},                 // formItem 内容宽度
             disabledFields: {type: Object},                         // 禁用的字段
             readonlyFields: {type: Object},                         // 只读的字段
         },
@@ -27,14 +33,27 @@
         },
         data() {
             return {
+
                 formItems: [],
-                maxLabelWidth: null,
+                maxLabelWidth: null,                                // 自动计算最大formItem文本宽度
             }
         },
         computed: {
             targetLabelWidth() {
-                if (!!this.maxLabelWidth) return this.maxLabelWidth
-                return this.p_labelWidth
+                let ret = null;
+                if (!!this.maxLabelWidth) ret = this.maxLabelWidth
+                else ret = this.p_labelWidth
+                return !!ret ? ret + 10 : null
+            },
+            targetContentWidth() {
+                return this.p_contentWidth || 300
+            },
+            bodyStyles() {
+                console.log({
+                    label: this.targetLabelWidth,
+                    content: this.targetContentWidth,
+                })
+                return {width: `${this.p_column * (this.targetLabelWidth + this.targetContentWidth)}px`}
             },
         },
         methods: {
@@ -44,7 +63,7 @@
                 this.formItems.push(formItem)
                 this.sortItems()
 
-                if (this.p_labelWidth == null) {
+                if (this.p_labelWidth == null && formItem.labelEl) {
                     const labelWidth = formItem.labelEl.offsetWidth
                     if (!this.maxLabelWidth || this.maxLabelWidth < labelWidth) {
                         this.maxLabelWidth = labelWidth
