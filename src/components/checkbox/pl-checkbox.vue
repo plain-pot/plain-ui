@@ -3,9 +3,9 @@
          :class="classes"
          :style="styles"
          v-click-wave="{disabled:!isEditable}"
-         tabindex="1"
+         tabindex="0"
          @click="onClick"
-         @keydown.space="onClick">
+         @keydown.space.stop.prevent="onClick">
         <span class="plain-click-node">
             <transition name="pl-transition-fade" mode="out-in">
                 <slot name="checkbox-inner">
