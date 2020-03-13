@@ -384,6 +384,7 @@
                     offset: this.p_offset,
                     boundary: this.boundary,
                     boxShadow: null,
+                    gpuAcceleration:false,
                 })
 
                 this._bindEvents()

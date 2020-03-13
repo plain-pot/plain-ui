@@ -13,7 +13,7 @@
             EditMixin,
             EmitMixin,
             PropsMixinFactory({
-                labelWidth: PropsMixinFactory.Number,
+                itemWidth: PropsMixinFactory.Number,
             })
         ],
         provide() {
@@ -26,7 +26,7 @@
         },
         props: {
             value: {},
-            labelWidth: {type: [String, Number]},                       // 文本宽度
+            itemWidth: {type: [String, Number]},                       // 文本宽度
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             size: {type: String, default: 'default'},                   // large,default,small
         },

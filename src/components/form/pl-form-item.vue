@@ -123,6 +123,7 @@
     @include themify {
         .pl-form {
             @include public-style;
+            font-size: 14px;
             text-align: center;
 
             .pl-form-body {
@@ -159,7 +160,7 @@
                         display: inline-flex;
                         align-items: center;
 
-                        .pl-input, .pl-textarea {
+                        .pl-input, .pl-textarea, .pl-checkbox-group, .pl-radio-group {
                             flex: 1;
 
                             .pl-input-inner, .pl-textarea-inner {

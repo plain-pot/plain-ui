@@ -73,7 +73,7 @@
             },
             targetWidth() {
                 if (!!this.p_width) return this.p_width
-                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_checkboxWidth) return this.plCheckboxGroup.p_checkboxWidth
+                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_itemWidth) return this.plCheckboxGroup.p_itemWidth
                 return null
             },
             classes() {

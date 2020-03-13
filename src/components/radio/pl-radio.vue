@@ -1,6 +1,7 @@
 <template>
     <div class="pl-radio"
          :class="classes"
+         :style="styles"
          v-click-wave="{disabled:!isEditable}"
          tabindex="1"
          @click="onClick"
@@ -13,7 +14,7 @@
                 </slot>
             </transition>
         </span>
-        <div class="pl-radio-label" v-if="label" :style="labelStyle">
+        <div class="pl-radio-label" v-if="label">
             {{label}}
         </div>
     </div>
@@ -30,7 +31,7 @@
             EditMixin,
             EmitMixin,
             PropsMixinFactory({
-                labelWidth: PropsMixinFactory.Number,
+                width: PropsMixinFactory.Number,
             })
         ],
         inject: {
@@ -43,7 +44,7 @@
             value: {},
             val: {},
             label: {type: String},
-            labelWidth: {type: [String, Number]},                       // 文本宽度
+            width: {type: [String, Number]},                            // 宽度
             trueValue: {default: true},
             falseValue: {default: false},
             status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
@@ -70,9 +71,9 @@
                 if (!!this.plRadioGroup && !!this.plRadioGroup.size) return this.plRadioGroup.size
                 return this.size
             },
-            targetLabelWidth() {
-                if (!!this.p_labelWidth) return this.p_labelWidth
-                if (!!this.plRadioGroup && !!this.plRadioGroup.p_labelWidth) return this.plRadioGroup.p_labelWidth
+            targetWidth() {
+                if (!!this.p_width) return this.p_width
+                if (!!this.plRadioGroup && !!this.plRadioGroup.p_itemWidth) return this.plRadioGroup.p_itemWidth
                 return null
             },
             classes() {
@@ -92,9 +93,9 @@
                     return this.p_value === this.trueValue
                 }
             },
-            labelStyle() {
-                if (!this.targetLabelWidth) return null
-                return {width: `${this.targetLabelWidth}px`}
+            styles() {
+                console.log(this.targetWidth)
+                return !!this.targetWidth ? {width: this.$plain.utils.suffixPx(this.targetWidth)} : null
             },
         },
         methods: {
