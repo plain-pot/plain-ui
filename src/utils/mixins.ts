@@ -54,7 +54,12 @@ export const EditMixin = {
     props: {
         disabled: {type: Boolean, default: null},
         readonly: {type: Boolean, default: null},
-        loading: {type: Boolean},                           // 加载状态
+        loading: {type: Boolean},
+    },
+    data() {
+        return {
+            p_loading: null,
+        }
     },
     computed: {
         isDisabled() {
@@ -67,8 +72,14 @@ export const EditMixin = {
             else if (!!this.plParentEditor) return this.plParentEditor.isReadonly
             return false
         },
+        isLoading() {
+            if (this.p_loading !== null) return this.p_loading
+            if (this.loading !== null) return this.loading
+            if (!!this.plParentEditor) return this.plParentEditor.isLoading
+            return false
+        },
         isEditable() {
-            return !this.isDisabled && !this.isReadonly && !this.loading
+            return !this.isDisabled && !this.isReadonly && !this.isLoading
         },
     },
     created() {

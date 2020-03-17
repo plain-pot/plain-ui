@@ -40,13 +40,15 @@
         </demo-row>
 
         <demo-row title="加载状态">
-            <pl-button icon="el-icon-search" label="搜索" loading/>
-            <pl-button icon="el-icon-search" label="搜索" shape="round" loading/>
-            <pl-button icon="el-icon-search" shape="round" icon-only loading/>
-            <pl-button icon="el-icon-search" icon-only loading/>
-            <pl-button icon="el-icon-search" mode="stroke" icon-only loading/>
-            <pl-button icon="el-icon-search" mode="stroke" shape="round" icon-only loading/>
-            <pl-button icon="el-icon-search" mode="text" icon-only loading/>
+            <pl-checkbox v-model="loadingFlag" label="开启loading"/>
+            <pl-button label="搜索" :loading="loadingFlag" width="90"/>
+            <pl-button icon="el-icon-search" label="搜索" :loading="loadingFlag"/>
+            <pl-button icon="el-icon-search" label="搜索" shape="round" :loading="loadingFlag"/>
+            <pl-button icon="el-icon-search" shape="round" icon-only :loading="loadingFlag"/>
+            <pl-button icon="el-icon-search" icon-only :loading="loadingFlag"/>
+            <pl-button icon="el-icon-search" mode="stroke" icon-only :loading="loadingFlag"/>
+            <pl-button icon="el-icon-search" mode="stroke" shape="round" icon-only :loading="loadingFlag"/>
+            <pl-button icon="el-icon-search" mode="text" icon-only :loading="loadingFlag"/>
         </demo-row>
 
         <demo-row title="按钮异步文本">
@@ -156,7 +158,8 @@
         props: {},
         data() {
             return {
-                asyncLabel: new Promise(resolve => setTimeout(() => resolve('异步文本'), 2000))
+                asyncLabel: new Promise(resolve => setTimeout(() => resolve('异步文本'), 2000)),
+                loadingFlag: true,
             }
         },
         methods: {},

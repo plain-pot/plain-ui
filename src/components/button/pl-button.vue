@@ -1,6 +1,7 @@
 <template>
     <button class="pl-button plain-click-node"
             :class="classes"
+            :style="styles"
             v-click-wave="'large'"
             :type="type"
             :disabled="isDisabled"
@@ -9,7 +10,7 @@
             @click="onClick">
         <pl-loading type="gamma" v-if="loading"/>
         <slot>
-            <pl-icon :icon="icon" v-if="!!icon && !loading"/>
+            <pl-icon :icon="icon" v-if="!!icon && !isLoading"/>
             <span v-if="!!p_label">{{p_label}}</span>
         </slot>
     </button>
@@ -27,6 +28,7 @@
             StyleMixin,
             PropsMixinFactory({
                 label: PropsMixinFactory.Promise,
+                width: PropsMixinFactory.Number,
             })
         ],
         inject: {
@@ -36,12 +38,12 @@
             status: {type: String, default: 'primary'},             // primary,success,warning,error,info
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
             label: {type: String},
+            width: {type: [String, Number]},
 
             icon: {type: String},
             active: {type: Boolean},
             noPadding: {type: Boolean},
             block: {type: Boolean},
-            loading: {type: Boolean},
 
             /*---------------------------------------native-------------------------------------------*/
             type: {type: String, default: 'button'},
@@ -66,7 +68,7 @@
                     {
                         'pl-button-icon': !!this.icon,
                         'pl-button-active': !!this.active,
-                        'pl-button-loading': !!this.loading,
+                        'pl-button-loading': !!this.isLoading,
                         'pl-button-noPadding': !!this.noPadding,
                         'pl-button-wave': !!this.wave,
                         'pl-button-has-icon': !!this.icon,
@@ -75,6 +77,9 @@
                         'pl-button-icon-only': !!this.icon && !this.p_label,
                     },
                 ]
+            },
+            styles() {
+                return !!this.p_width ? {width: `${this.p_width}px`} : ''
             },
         },
         methods: {
