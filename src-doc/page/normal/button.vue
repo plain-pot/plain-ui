@@ -51,6 +51,11 @@
             <pl-button icon="el-icon-search" mode="text" icon-only :loading="loadingFlag"/>
         </demo-row>
 
+        <demo-row title="click节流">
+            <pl-button label="1000ms" @click="$message(String(Date.now()))" throttleClick/>
+            <pl-button label="500ms" @click="$message(String(Date.now()))" :throttleClick="500"/>
+        </demo-row>
+
         <demo-row title="按钮异步文本">
             <pl-button :label="asyncLabel" @click="log(1)"/>
         </demo-row>

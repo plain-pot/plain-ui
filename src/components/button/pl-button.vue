@@ -7,7 +7,7 @@
             :disabled="isDisabled"
             :readonly="isReadonly"
             v-bind="nativeProps"
-            @click="onClick">
+            @click="handleClick">
         <pl-loading type="gamma" v-if="loading"/>
         <slot>
             <pl-icon :icon="icon" v-if="!!icon && !isLoading"/>
@@ -37,21 +37,41 @@
         props: {
             status: {type: String, default: 'primary'},             // primary,success,warning,error,info
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
-            label: {type: String},
-            width: {type: [String, Number]},
-
-            icon: {type: String},
-            active: {type: Boolean},
-            noPadding: {type: Boolean},
-            block: {type: Boolean},
+            label: {type: String},                                  // 按钮文本
+            width: {type: [String, Number]},                        // 按钮宽度
+            icon: {type: String},                                   // 按钮图标
+            active: {type: Boolean},                                // 按钮是否高亮
+            noPadding: {type: Boolean},                             // 按钮是否无边距
+            block: {type: Boolean},                                 // 块级元素
+            throttleClick: {type: [Boolean, Number]},                 // click节流
+            autoLoading: {type: Boolean},                           // 在执行click处理函数时，是否自动变更为加载状态
 
             /*---------------------------------------native-------------------------------------------*/
             type: {type: String, default: 'button'},
             nativeProps: {},
         },
+        watch: {
+            throttleClick: {
+                immediate: true,
+                handler(val) {
+                    if (!val) {
+                        return this.handleClick = this.handleClickInner
+                    }
+                    if (val === true) {
+                        val = 1000
+                    }
+                    this.handleClick = this.$plain.utils.throttle(this.handleClickInner, val, {trailing: false})
+                },
+            },
+        },
         data() {
             return {
                 wave: false,
+                handleClick: null,
+                handleClickInner: (e) => {
+                    console.log(this.throttleClick)
+                    if (this.isEditable) this.$emit('click', e)
+                },
             }
         },
         computed: {
@@ -80,14 +100,6 @@
             },
             styles() {
                 return !!this.p_width ? {width: `${this.p_width}px`} : ''
-            },
-        },
-        methods: {
-            /*---------------------------------------listener-------------------------------------------*/
-            onClick(e) {
-                if (this.isEditable) {
-                    this.$emit('click', e)
-                }
             },
         },
     }
