@@ -73,9 +73,9 @@ export const EditMixin = {
             return false
         },
         isLoading() {
-            if (this.p_loading != null) return this.p_loading
-            if (this.loading != null) return this.loading
-            if (!!this.plParentEditor) return this.plParentEditor.isLoading
+            if (!!this.p_loading) return true
+            if (!!this.loading) return true
+            if (!!this.plParentEditor && !!this.plParentEditor.isLoading) return true
             return false
         },
         isEditable() {

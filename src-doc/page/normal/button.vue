@@ -56,6 +56,10 @@
             <pl-button label="500ms" @click="$message(String(Date.now()))" :throttleClick="500"/>
         </demo-row>
 
+        <demo-row title="自动处理loading状态(当异步任务开始时开启loading，结束时关闭loading)">
+            <pl-button label="异步任务" @click="asyncHandler" autoLoading/>
+        </demo-row>
+
         <demo-row title="按钮异步文本">
             <pl-button :label="asyncLabel" @click="log(1)"/>
         </demo-row>
@@ -167,7 +171,19 @@
                 loadingFlag: true,
             }
         },
-        methods: {},
+        methods: {
+            async asyncHandler(e) {
+                this.$message('async task start')
+                await this.$plain.utils.delay(3000)
+                if (Math.random() > 0.5) {
+                    this.$message.error('async task error')
+                    throw new Error('异步任务出错')
+                } else {
+                    console.log(e)
+                    this.$message.success('async task end')
+                }
+            },
+        },
     }
 </script>
 

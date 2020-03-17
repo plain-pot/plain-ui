@@ -8,7 +8,7 @@
             :readonly="isReadonly"
             v-bind="nativeProps"
             @click="handleClick">
-        <pl-loading type="gamma" v-if="loading"/>
+        <pl-loading type="gamma" v-if="isLoading"/>
         <slot>
             <pl-icon :icon="icon" v-if="!!icon && !isLoading"/>
             <span v-if="!!p_label">{{p_label}}</span>
@@ -68,9 +68,20 @@
             return {
                 wave: false,
                 handleClick: null,
-                handleClickInner: (e) => {
-                    console.log(this.throttleClick)
-                    if (this.isEditable) this.$emit('click', e)
+                handleClickInner: async (e) => {
+                    if (this.isEditable) {
+                        if (this.autoLoading) {
+                            this.p_loading = true
+                            try {
+                                await this.$listeners.click(e)
+                            } catch (e) {
+                            } finally {
+                                this.p_loading = false
+                            }
+                        } else {
+                            this.$emit('click', e)
+                        }
+                    }
                 },
             }
         },
