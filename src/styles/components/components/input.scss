@@ -123,6 +123,7 @@
 
         .pl-input-inner, .pl-textarea-inner {
           border-color: $value;
+
           &:focus {
             box-shadow: 0 0 0 2px rgba($value, 0.2);
           }
@@ -323,6 +324,19 @@
             }
           }
         }
+      }
+    }
+
+    .pl-loading {
+      cursor: not-allowed;
+      &:before {
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        right: 2px;
+        background-color: white;
+        content: '';
       }
     }
   }

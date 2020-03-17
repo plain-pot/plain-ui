@@ -54,6 +54,7 @@ export const EditMixin = {
     props: {
         disabled: {type: Boolean, default: null},
         readonly: {type: Boolean, default: null},
+        loading: {type: Boolean},                           // 加载状态
     },
     computed: {
         isDisabled() {
@@ -67,7 +68,7 @@ export const EditMixin = {
             return false
         },
         isEditable() {
-            return !this.isDisabled && !this.isReadonly
+            return !this.isDisabled && !this.isReadonly && !this.loading
         },
     },
     created() {

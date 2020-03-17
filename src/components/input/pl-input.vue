@@ -22,7 +22,6 @@
             maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
             status: {type: String, default: null},              // primary,success,warning,error,info
             block: {type: Boolean},                             // 块级元素
-            loading: {type: Boolean},                           // 加载状态
             textarea: {type: Boolean},                          // 当前是否为文本域输入框
             suffixIcon: {type: String},                         // 右侧图标
             prefixIcon: {type: String},                         // 左侧图标
@@ -111,12 +110,12 @@
                     {
                         [`pl-input-status-${this.status}`]: !!this.status,
                         'pl-input-block': this.block,
-                        'pl-input-loading': !!this.loading,
+                        // 'pl-input-loading': !!this.loading,
                         'pl-input-disabled': !!this.isDisabled,
                         'pl-input-prefix-padding': !!this.prefixIcon,
-                        'pl-input-suffix-padding': !!this.suffixIcon || !!this.clearIcon,
+                        'pl-input-suffix-padding': !!this.suffixIcon || !!this.clearIcon || this.loading,
                         'pl-input-prefix': !!this.prefixIcon,
-                        'pl-input-suffix': !!this.suffixIcon,
+                        'pl-input-suffix': !!this.suffixIcon || this.loading,
                         'pl-input-clear': !!this.clearIcon,
                         'pl-input-empty': !this.p_value,
                         'pl-input-focus': this.isFocus,
@@ -152,7 +151,7 @@
                     style: this.styles,
                     attrs: {
                         disabled: this.isDisabled,
-                        readonly: this.inputReadonly || this.isReadonly,
+                        readonly: this.inputReadonly || this.isReadonly || this.loading,
                     },
                     domProps: {
                         value: this.p_value,
@@ -199,6 +198,7 @@
 
                         {!!this.suffixIcon && <span class="pl-input-suffix-icon"><pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/></span>}
                         {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-circle-close"/></span>)}
+                        {!!this.loading && <pl-loading class="pl-input-suffix-icon"/>}
                     </div>
                 )
 

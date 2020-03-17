@@ -1,8 +1,8 @@
 <template>
     <div class="demo-input">
         <demo-row title="基本用法">
-            <pl-input v-model="val[0]"/>
-            <pl-input v-model="val[0]"/>
+            <pl-input v-model="val[0]" clearIcon loading/>
+            <pl-input v-model="val[0]" clearIcon  suffixIcon="el-icon-full-screen"/>
             <span>{{val[0]}}</span>
         </demo-row>
 
@@ -17,6 +17,13 @@
                 <pl-input suffixIcon="el-icon-search" prefixIcon="el-icon-full-screen" @click-prefix-icon="log('click-prefix-icon')" @click-suffix-icon="log('click-suffix-icon')"/>
             </demo-line>
         </demo-row>
+
+        <demo-row title="加载状态">
+            <pl-input v-model="val[0]" clearIcon loading/>
+            <pl-input v-model="val[0]" clearIcon  suffixIcon="el-icon-full-screen"/>
+            <span>{{val[0]}}</span>
+        </demo-row>
+
         <demo-row title="禁用">
             <pl-checkbox v-model="disabledFlag" label="disabledFlag"/>
             <pl-input :disabled="disabledFlag"/>
