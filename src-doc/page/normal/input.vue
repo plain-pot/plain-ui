@@ -1,8 +1,8 @@
 <template>
     <div class="demo-input">
         <demo-row title="基本用法">
-            <pl-input v-model="val[0]" clearIcon loading/>
-            <pl-input v-model="val[0]" clearIcon  suffixIcon="el-icon-full-screen"/>
+            <pl-input v-model="val[0]" clearIcon/>
+            <pl-input v-model="val[0]" clearIcon  suffixIcon="el-icon-edit-outline"/>
             <span>{{val[0]}}</span>
         </demo-row>
 

@@ -110,12 +110,11 @@
                     {
                         [`pl-input-status-${this.status}`]: !!this.status,
                         'pl-input-block': this.block,
-                        // 'pl-input-loading': !!this.loading,
                         'pl-input-disabled': !!this.isDisabled,
                         'pl-input-prefix-padding': !!this.prefixIcon,
-                        'pl-input-suffix-padding': !!this.suffixIcon || !!this.clearIcon || this.loading,
+                        'pl-input-suffix-padding': !!this.suffixIcon || !!this.clearIcon || this.isLoading,
                         'pl-input-prefix': !!this.prefixIcon,
-                        'pl-input-suffix': !!this.suffixIcon || this.loading,
+                        'pl-input-suffix': !!this.suffixIcon || this.isLoading,
                         'pl-input-clear': !!this.clearIcon,
                         'pl-input-empty': !this.p_value,
                         'pl-input-focus': this.isFocus,
@@ -151,7 +150,7 @@
                     style: this.styles,
                     attrs: {
                         disabled: this.isDisabled,
-                        readonly: this.inputReadonly || this.isReadonly || this.loading,
+                        readonly: this.inputReadonly || this.isReadonly || this.isLoading,
                     },
                     domProps: {
                         value: this.p_value,
@@ -198,7 +197,7 @@
 
                         {!!this.suffixIcon && <span class="pl-input-suffix-icon"><pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/></span>}
                         {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-circle-close"/></span>)}
-                        {!!this.loading && <pl-loading class="pl-input-suffix-icon"/>}
+                        {!!this.isLoading && <pl-loading class="pl-input-suffix-icon"/>}
                     </div>
                 )
 
