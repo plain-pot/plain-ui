@@ -54,7 +54,7 @@ export const EditMixin = {
     props: {
         disabled: {type: Boolean, default: null},
         readonly: {type: Boolean, default: null},
-        loading: {type: Boolean},
+        loading: {type: Boolean, default: null},
     },
     data() {
         return {
@@ -73,8 +73,8 @@ export const EditMixin = {
             return false
         },
         isLoading() {
-            if (this.p_loading !== null) return this.p_loading
-            if (this.loading !== null) return this.loading
+            if (this.p_loading != null) return this.p_loading
+            if (this.loading != null) return this.loading
             if (!!this.plParentEditor) return this.plParentEditor.isLoading
             return false
         },

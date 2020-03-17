@@ -17,6 +17,12 @@
             <span>{{val[1]}}</span>
         </demo-row>
 
+        <demo-row title="加载状态">
+            <pl-checkbox v-model="flag.loading"/>
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[1]" :loading="flag.loading"/>
+            <span>{{val[1]}}</span>
+        </demo-row>
+
         <demo-row title="filterable:false，禁用可输入筛选">
             <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[2]" :filterable="false"/>
             <span>{{val[2]}}</span>
@@ -106,6 +112,7 @@
                 flag: {
                     disabled: true,
                     readonly: true,
+                    loading: true,
                 },
             }
         },
