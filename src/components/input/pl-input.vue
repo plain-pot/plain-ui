@@ -31,9 +31,11 @@
                     this.clearValue(e)
                 }
             },
-            autoHeight: {type: Boolean},                    // 自适应高度
-            isFocus: {type: Boolean},                       // 当前是否处于激活状态
-            inputReadonly: {type: Boolean},                 // 输入框只读
+            autoHeight: {type: Boolean},                        // 自适应高度
+            isFocus: {type: Boolean},                           // 当前是否处于激活状态
+            inputReadonly: {type: Boolean},                     // 输入框只读
+            throttleEnter: {type: [Boolean, Number]},           // enter按键事件节流
+            autoLoading: {type: Boolean},                       // enter自动处理异步任务，开启/关闭loading状态
 
             /*---------------------------------------原生属性-------------------------------------------*/
             type: {type: String, default: 'text'},
@@ -54,11 +56,39 @@
             value(val) {
                 this.p_value = val
             },
+            throttleEnter: {
+                immediate: true,
+                handler(val) {
+                    if (!val) {
+                        return this.handleEnter = this.handlerEnterInner
+                    }
+                    if (val === true) {
+                        val = 1000
+                    }
+                    this.handleEnter = this.$plain.utils.throttle(this.handlerEnterInner, val, {trailing: false})
+                },
+            },
         },
         data() {
             return {
                 p_value: this.value,
                 p_autoHeight: null,                         // 自动高度的大小
+                handleEnter: null,
+                handlerEnterInner: async (e) => {
+                    if (this.isEditable) {
+                        if (this.autoLoading) {
+                            this.p_loading = true
+                            try {
+                                await this.$listeners.enter(e)
+                            } catch (e) {
+                            } finally {
+                                this.p_loading = false
+                            }
+                        } else {
+                            this.$emit('enter', e)
+                        }
+                    }
+                },
 
                 /*---------------------------------------handler-------------------------------------------*/
                 /*输入框输入事件*/
@@ -167,7 +197,13 @@
                         click: this.emitClickInput,
                         focus: this.emitFocus,
                         blur: this.emitBlur,
-                        keydown: this.emitKeydown,
+                        keydown: (e) => {
+                            if (e.keyCode === 13) {
+                                this.handleEnter(e)
+                            } else {
+                                this.emitKeydown(e)
+                            }
+                        },
                     },
                     ref: 'input',
                 }

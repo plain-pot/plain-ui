@@ -2,7 +2,7 @@
     <div class="demo-input">
         <demo-row title="基本用法">
             <pl-input v-model="val[0]" clearIcon/>
-            <pl-input v-model="val[0]" clearIcon  suffixIcon="el-icon-edit-outline"/>
+            <pl-input v-model="val[0]" clearIcon suffixIcon="el-icon-edit-outline"/>
             <span>{{val[0]}}</span>
         </demo-row>
 
@@ -16,6 +16,15 @@
             <demo-line title="前后置图标">
                 <pl-input suffixIcon="el-icon-search" prefixIcon="el-icon-full-screen" @click-prefix-icon="log('click-prefix-icon')" @click-suffix-icon="log('click-suffix-icon')"/>
             </demo-line>
+        </demo-row>
+
+        <demo-row title="enter按键事件节流">
+            <pl-input placeholder="1000ms" @enter="$message(String(Date.now()))" throttleEnter/>
+            <pl-input placeholder="500ms" @enter="$message(String(Date.now()))" :throttleEnter="500"/>
+        </demo-row>
+
+        <demo-row title="自动处理loading状态(当异步任务开始时开启loading，结束时关闭loading)">
+            <pl-input placeholder="异步任务" @enter="asyncHandler" autoLoading/>
         </demo-row>
 
         <demo-row title="禁用">
@@ -161,6 +170,17 @@
         methods: {
             log(val) {
                 console.log(val)
+            },
+            async asyncHandler(e) {
+                this.$message('async task start')
+                await this.$plain.utils.delay(3000)
+                if (Math.random() > 0.5) {
+                    this.$message.error('async task error')
+                    throw new Error('异步任务出错')
+                } else {
+                    console.log(e)
+                    this.$message.success('async task end')
+                }
             },
         },
     }
