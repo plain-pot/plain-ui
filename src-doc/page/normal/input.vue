@@ -18,12 +18,6 @@
             </demo-line>
         </demo-row>
 
-        <demo-row title="加载状态">
-            <pl-input v-model="val[0]" clearIcon loading/>
-            <pl-input v-model="val[0]" clearIcon  suffixIcon="el-icon-full-screen"/>
-            <span>{{val[0]}}</span>
-        </demo-row>
-
         <demo-row title="禁用">
             <pl-checkbox v-model="disabledFlag" label="disabledFlag"/>
             <pl-input :disabled="disabledFlag"/>
@@ -55,6 +49,17 @@
                 <pl-input suffixIcon="el-icon-arrow-down" prefixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')" @click-suffix-icon="log('click-suffix-icon')"/>
             </demo-line>
         </demo-row>
+
+        <demo-row title="加载状态">
+            <demo-line title="loading">
+                <pl-input v-model="val[0]" clearIcon suffixIcon="el-icon-full-screen" loading/>
+            </demo-line>
+            <demo-line title="normal">
+                <pl-input v-model="val[0]" clearIcon suffixIcon="el-icon-full-screen"/>
+            </demo-line>
+            <span>{{val[0]}}</span>
+        </demo-row>
+
         <demo-row title="块级元素">
             <pl-input block style="margin-bottom: 12px"/>
             <pl-input block textarea/>
