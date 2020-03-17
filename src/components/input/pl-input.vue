@@ -198,10 +198,9 @@
                         focus: this.emitFocus,
                         blur: this.emitBlur,
                         keydown: (e) => {
+                            this.emitKeydown(e)
                             if (e.keyCode === 13) {
                                 this.handleEnter(e)
-                            } else {
-                                this.emitKeydown(e)
                             }
                         },
                     },
