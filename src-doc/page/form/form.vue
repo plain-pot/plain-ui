@@ -41,7 +41,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="文本对其方式">
-            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="left">
+            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="left" centerWhenSingleColumn>
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
@@ -80,7 +80,7 @@
                 </pl-form-item>
             </pl-form>
 
-            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="center">
+            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="center" centerWhenSingleColumn>
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
@@ -119,7 +119,7 @@
                 </pl-form-item>
             </pl-form>
 
-            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="right">
+            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="right" centerWhenSingleColumn>
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>

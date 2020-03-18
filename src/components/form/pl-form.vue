@@ -42,7 +42,7 @@
             readonlyFields: {type: Object},                                     // 只读的字段
             labelAlign: {type: Boolean},                                        // 文本对其方式
             width: {type: [String, Number], default: '100%'},                   // 表单宽度
-
+            centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         },
         provide() {
             return {
@@ -191,7 +191,7 @@
                 if (!this.targetItemWidth) return null
                 return {
                     width: `${this.p_column * (this.targetItemWidth)}px`,
-                    left: `${this.p_column === 1 ? -this.targetLabelWidth : 0}px`
+                    left: `${(!this.centerWhenSingleColumn && this.p_column === 1) ? -this.targetLabelWidth : 0}px`
                 }
             },
             /**
