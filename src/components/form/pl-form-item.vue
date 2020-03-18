@@ -1,7 +1,7 @@
 <template>
-    <div class="pl-form-item">
+    <div class="pl-form-item" :class="classes">
         <div class="pl-form-item-label" ref="labelEl" :style="labelStyles" v-if="hasLabel">
-            <slot name="label">{{p_label}}</slot>
+            <span><slot name="label">{{p_label}}</slot></span>
         </div>
         <div class="pl-form-item-body" :style="bodyStyles">
             <div class="pl-form-item-content">
@@ -36,7 +36,7 @@
         props: {
             field: {type: String},                                              // 绑定的属性字段名
             rules: {type: [Array, Object]},                                     // 校验规则
-
+            required: {type: Boolean},                                          // 不能为空
             hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
             hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
             validateOnRulesChange: {type: Boolean, default: null},              // 是否当rules属性改变之后立即触发一次验证
@@ -51,22 +51,37 @@
         },
         data() {
             return {
-                isFormItem: true,
+                isFormItem: true,                                               // 标记变量，用来给子组件判断其父组件是否为 form-item
             }
         },
         computed: {
+            /**
+             * 当前是否禁用
+             * @author  韦胜健
+             * @date    2020/3/18 14:49
+             */
             isDisabled() {
                 if (this.disabled !== null) return this.disabled
                 else if (!!this.field && !!this.plForm.disabledFields && !!this.plForm.disabledFields[this.field]) return true
                 else if (!!this.plParentEditor) return this.plParentEditor.isDisabled
                 return false
             },
+            /**
+             * 当前是否只读
+             * @author  韦胜健
+             * @date    2020/3/18 14:49
+             */
             isReadonly() {
                 if (this.readonly !== null) return this.readonly
                 else if (!!this.field && !!this.plForm.readonlyFields && !!this.plForm.readonlyFields[this.field]) return true
                 else if (!!this.plParentEditor) return this.plParentEditor.isReadonly
                 return false
             },
+            /**
+             * label文本样式
+             * @author  韦胜健
+             * @date    2020/3/18 14:49
+             */
             labelStyles() {
                 if (this.plForm.targetLabelWidth != null) {
                     return {width: `${this.plForm.targetLabelWidth}px`}
@@ -75,6 +90,11 @@
                 }
                 return null
             },
+            /**
+             * .pl-form-item-body样式
+             * @author  韦胜健
+             * @date    2020/3/18 14:50
+             */
             bodyStyles() {
                 let width;
                 if (this.block) {
@@ -101,10 +121,34 @@
                     }
                 }
             },
+            /**
+             * 当前是否存在label
+             * @author  韦胜健
+             * @date    2020/3/18 14:50
+             */
             hasLabel() {
                 if (!!this.p_label || !!this.$slots.label) return true
                 if (!this.$slots.default && !this.$slots.suffix) return true
                 return false
+            },
+            /**
+             * 根节点class
+             * @author  韦胜健
+             * @date    2020/3/18 14:50
+             */
+            classes() {
+                return {
+                    'pl-form-item-required': this.isRequired,
+                }
+            },
+            /**
+             * 根据校验规则判断当前是否必填
+             * @author  韦胜健
+             * @date    2020/3/18 14:50
+             */
+            isRequired() {
+                if (!this.plForm || !this.field) return false
+                return this.plForm.allFieldRequired[this.field]
             },
         },
         mounted() {
@@ -115,11 +159,11 @@
         },
         methods: {
             /*---------------------------------------handler-------------------------------------------*/
-            onChange(val) {
-                // console.log(`${this.field} change:${String(val)}`)
+            onChange() {
+                if (!!this.field && !!this.plForm) this.plForm.onChange(this.field);
             },
-            onBlur(val) {
-                // console.log(`${this.field} blur`)
+            onBlur() {
+                if (!!this.field && !!this.plForm) this.plForm.onBlur(this.field);
             },
         },
     }
@@ -158,6 +202,10 @@
                     padding-right: 10px;
                     padding-top: 5px;
                     padding-left: 32px;
+
+                    span {
+                        position: relative;
+                    }
                 }
 
                 .pl-form-item-suffix {
@@ -187,6 +235,20 @@
 
                         .pl-radio, .pl-checkbox {
                             padding-top: 5px;
+                        }
+                    }
+                }
+
+                &.pl-form-item-required {
+                    .pl-form-item-label {
+                        span {
+                            &:before {
+                                position: absolute;
+                                content: '*';
+                                color: $colorError;
+                                left: -1em;
+                                top: 2px;
+                            }
                         }
                     }
                 }
