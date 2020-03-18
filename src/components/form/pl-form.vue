@@ -76,7 +76,6 @@
                 ]
             },
             styles() {
-                console.log(this.p_width)
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width)
                 }
