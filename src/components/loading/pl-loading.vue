@@ -1,5 +1,5 @@
 <template>
-    <span class="pl-loading" :class="`pl-loading-status-${status}`"/>
+    <span class="pl-loading" :class="{[`pl-loading-status-${status}`]:!!status}"/>
 </template>
 
 <script>

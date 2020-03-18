@@ -8,13 +8,15 @@
             <pl-loading type="beta"/>
             <pl-loading type="gamma"/>
             <pl-loading type="ice" loading/>
+            <pl-loading type="delta"/>
         </demo-row>
-        <demo-row title="大小">
+        <demo-row title="大小 font-size:32px">
             <div style="font-size: 32px">
                 <pl-loading type="alpha"/>
                 <pl-loading type="beta"/>
                 <pl-loading type="gamma"/>
                 <pl-loading type="ice" loading/>
+                <pl-loading type="delta"/>
             </div>
         </demo-row>
         <demo-row title="状态（颜色)">
@@ -23,6 +25,7 @@
                 <pl-loading type="beta" :status="item"/>
                 <pl-loading type="gamma" :status="item"/>
                 <pl-loading type="ice" loading :status="item"/>
+                <pl-loading type="delta" loading :status="item"/>
             </demo-line>
         </demo-row>
         <demo-row title="自定义颜色">
@@ -30,6 +33,7 @@
             <pl-loading type="beta" style="color: blueviolet"/>
             <pl-loading type="gamma" style="color: blueviolet"/>
             <pl-loading type="ice" loading style="color: blueviolet"/>
+            <pl-loading type="delta" loading style="color: blueviolet"/>
         </demo-row>
     </div>
 </template>
