@@ -41,7 +41,7 @@
                 this.targetSearchValue = this.searchValue
             },
             onClickItem(item) {
-                this.$plain.utils.copyToClipboard(`el-icon-${item}`)
+                this.$plain.utils.copyToClipboard(`el-icon-${item}`, () => this.$message('已经复制到剪切板'))
             },
         },
     }
