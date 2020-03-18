@@ -11,6 +11,9 @@
                 <slot name="suffix"></slot>
             </div>
         </div>
+        <div class="pl-form-item-message">
+            <span>{{validateMessage}}</span>
+        </div>
     </div>
 </template>
 
@@ -150,6 +153,15 @@
                 if (!this.plForm || !this.field) return false
                 return this.plForm.allFieldRequired[this.field]
             },
+            /**
+             * 校验信息
+             * @author  韦胜健
+             * @date    2020/3/18 16:06
+             */
+            validateMessage() {
+                if (!this.plForm) return null
+                return this.plForm.p_validateResult[this.field]
+            },
         },
         mounted() {
             this.plForm.addItem(this)
@@ -189,8 +201,9 @@
 
             .pl-form-item {
                 display: inline-block;
-                padding-bottom: 20px;
+                padding-bottom: 24px;
                 text-align: left;
+                position: relative;
 
                 & > * {
                     display: inline-block;
@@ -237,6 +250,14 @@
                             padding-top: 5px;
                         }
                     }
+                }
+
+                .pl-form-item-message {
+                    position: absolute;
+                    bottom: 4px;
+                    right: 0;
+                    font-size: 12px;
+                    color: $colorError;
                 }
 
                 &.pl-form-item-required {

@@ -6,13 +6,15 @@
     </div>
 </template>
 
-<script>
-    import {EditMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
-
+<script lang="ts">
+    import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
+    import {FormRule, FormTrigger} from "./form";
+    import {typeOf} from "../../../submodules/plain-loading/src/utils/utils";
 
     export default {
         name: "pl-form",
         mixins: [
+            EmitMixin,
             EditMixin,
             StyleMixin,
             PropsMixinFactory.create({
@@ -22,6 +24,9 @@
                 width: PropsMixinFactory.Number,
             })
         ],
+        emitters: {
+            emitUpdateValidateResult: Function,                                 // validateResult属性更新
+        },
         props: {
             value: {type: Object},                                              // model绑定表单对象
             rules: {type: Object},                                              // 表单验证规则
@@ -45,11 +50,81 @@
                 plForm: this,
             }
         },
+        watch: {
+            validateResult: {
+                immediate: true,
+                handler(val) {
+                    this.p_validateResult = val || {}
+                },
+            },
+            p_validateResult(val) {
+                this.emitUpdateValidateResult(val)
+            },
+        },
         data() {
+
+            let validateFieldRules: (field: string, validateTrigger: FormTrigger) => string | null | Promise<string>
+            validateFieldRules = async (field, validateTrigger) => {
+                const rules = this.allRules[field]
+                const value = this.value[field]
+
+                if (!!rules && rules.length > 0) {
+                    for (let i = 0; i < rules.length; i++) {
+                        const rule = rules[i] as FormRule;
+                        let {trigger, required, min, max, regexp, message, validator} = rule
+                        trigger = trigger || FormTrigger.CHANGE
+                        if (validateTrigger === trigger) {
+
+                            const getValidateMessage = async () => typeof message === 'function' ? await message(value, rule) : message
+
+                            /*required*/
+                            if (required && (value !== 0 && !value)) return await getValidateMessage() || '不能为空'
+
+                            /*min*/
+                            if (min != null && value != null) {
+                                /*array*/
+                                if (Array.isArray(value) && value.length < min) return await getValidateMessage() || `不能少于 ${min} 个`
+                                /*string*/
+                                if (typeof value === 'string' && value.length < min) return await getValidateMessage() || `字符长度不能小于 ${min}`
+                                /*number*/
+                                if (typeof value === 'number' && value < min) return await getValidateMessage() || `不能小于 ${min}`
+                            }
+                            /*max*/
+                            if (max != null && value != null) {
+                                /*array*/
+                                if (Array.isArray(value) && value.length > max) return await getValidateMessage() || `不能多于 ${max} 个`
+                                /*string*/
+                                if (typeof value === 'string' && value.length > max) return await getValidateMessage() || `字符长度不能大于 ${max}`
+                                /*number*/
+                                if (typeof value === 'number' && value > max) return await getValidateMessage() || `不能大于 ${max} 个`
+                            }
+                            /*regexp*/
+                            if (regexp != null) {
+                                if (!(regexp as RegExp).test(String(value))) return await getValidateMessage()
+                            }
+                            /*validator*/
+                            if (validator) {
+                                const validateResult = await validator()
+                                if (!!validateResult) return validateResult
+                            }
+
+                        }
+                    }
+                }
+                return null
+            }
+            /*校验字段*/
+            const validateField = async (field: string, validateTrigger: FormTrigger) => {
+                const validateMessage = await validateFieldRules(field, validateTrigger)
+                this.$set(this.p_validateResult, field, validateMessage)
+            }
+
             return {
 
                 formItems: [],                                                  // form-item子组件
                 maxLabelWidth: null,                                            // 自动计算最大formItem文本宽度
+                p_validateResult: null,                                         // 校验结果信息
+                validateField: this.$plain.utils.throttle(validateField, 300, {leading: true, trailing: true})
             }
         },
         computed: {
@@ -58,7 +133,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:32
              */
-            targetLabelWidth() {
+            targetLabelWidth(): number | null {
                 if (!!this.p_labelWidth) return this.p_labelWidth
                 if (!!this.maxLabelWidth) return this.maxLabelWidth
                 return null
@@ -68,7 +143,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:32
              */
-            targetContentWidth() {
+            targetContentWidth(): number | null {
                 return this.p_contentWidth || 300
             },
             /**
@@ -76,7 +151,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:32
              */
-            targetItemWidth() {
+            targetItemWidth(): number | null {
                 if (!this.targetLabelWidth) return null
                 if (!this.targetContentWidth) return null
                 return this.targetLabelWidth + this.targetContentWidth
@@ -86,7 +161,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:32
              */
-            bodyStyles() {
+            bodyStyles(): null | object {
                 if (!this.targetItemWidth) return null
                 return {
                     width: `${this.p_column * (this.targetItemWidth)}px`,
@@ -98,7 +173,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:32
              */
-            p_size() {
+            p_size(): null | string {
                 if (!!this.size) return this.size
                 if (!!this.plParentStyler && !!this.plParentStyler.p_size) return this.plParentStyler.p_size
                 // return this.p_column === 1 ? 'large' : null
@@ -109,7 +184,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:33
              */
-            classes() {
+            classes(): any[] {
                 return [
                     `pl-form-label-align-${this.labelAlign}`,
                     `pl-form-column-${this.p_column || 1}`,
@@ -121,7 +196,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:33
              */
-            styles() {
+            styles(): object {
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width)
                 }
@@ -131,7 +206,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:33
              */
-            allRules() {
+            allRules(): object {
                 let allRules = !this.rules ? {} : Object.keys(this.rules).reduce((ret, field) => {
                     let rule = this.rules[field]
                     rule = Array.isArray(rule) ? [...rule] : [rule]
@@ -157,7 +232,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:33
              */
-            allFieldRequired() {
+            allFieldRequired(): { [key: string]: boolean } {
                 return Object.keys(this.allRules).reduce((ret, field) => {
                     ret[field] = this.allRules[field].some((rule) => !!rule.required)
                     return ret
@@ -172,7 +247,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:51
              */
-            addItem(formItem) {
+            addItem(formItem): void {
                 this.formItems.push(formItem)
 
                 if (this.p_labelWidth == null && formItem.labelEl) {
@@ -187,7 +262,7 @@
              * @author  韦胜健
              * @date    2020/3/18 14:51
              */
-            removeItem(formItem) {
+            removeItem(formItem): void {
                 const index = this.formItems.indexOf(formItem)
                 if (index > -1) {
                     this.formItems.splice(index, 1)
@@ -198,17 +273,18 @@
              * @author  韦胜健
              * @date    2020/3/18 14:52
              */
-            onChange(field) {
-                console.log(`${field} change ==>> `, this.value[field])
+            onChange(field: string): void {
+                this.validateField(field, FormTrigger.CHANGE)
             },
             /**
              * 处理子组件blur事件
              * @author  韦胜健
              * @date    2020/3/18 14:52
              */
-            onBlur(field) {
-                console.log(`${field} blur ==>> `, this.value[field])
+            onBlur(field: string): void {
+                this.validateField(field, FormTrigger.BLUR)
             },
+
         },
     }
 </script>

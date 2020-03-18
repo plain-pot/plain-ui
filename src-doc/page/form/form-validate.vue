@@ -54,16 +54,16 @@
                 // 每一个field的规则可以是一个规则对象，也可以是规则对象数组
                 formRules: {
                     name: [
-                        {required: true, message: '请输入活动名称', trigger: 'blur'},
-                        {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+                        {required: true, message: '请输入活动名称', trigger: 'change'},
+                        {min: 3, max: 5, trigger: 'change'}
                     ],
-                    type: {required: true, message: '请至少选择一个活动性质', trigger: 'change'},
+                    type: {required: true, trigger: 'change'},
                 },
                 // formItem 的规则可以是一个规则对象，也可以是规则对象数组
-                propertiesRules: {required: true, message: '请至少选择一个客户性质', trigger: 'blur'},
+                propertiesRules: {required: true, min: 1, max: 2, message: '请选择 1-2 个客户性质', trigger: 'change'},
                 commentsRules: [
-                    {required: true, message: '备注不能为空', trigger: 'blur'},
-                    {max: 10, message: '长度在 10 字符以下', trigger: 'blur'}
+                    {required: true, message: '备注不能为空', trigger: 'change'},
+                    {max: 10, message: '长度在 10 字符以下', trigger: 'change'}
                 ],
 
                 levelData: [
@@ -79,6 +79,7 @@
                 console.log({
                     rules: this.$refs.form.rules,
                     allRules: this.$refs.form.allRules,
+                    validateResults: this.$refs.form.p_validateResult
                 })
             },
         },
