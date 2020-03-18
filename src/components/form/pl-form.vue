@@ -22,13 +22,22 @@
             })
         ],
         props: {
-            column: {type: [String, Number], default: 1},           // 多列表单的列数
-            labelWidth: {type: [String, Number]},                   // formItem 文本宽度
-            contentWidth: {type: [String, Number]},                 // formItem 内容宽度
-            disabledFields: {type: Object},                         // 禁用的字段
-            readonlyFields: {type: Object},                         // 只读的字段
-            labelAlign: {type: Boolean},                            // 文本对其方式
-            width: {type: [String, Number], default: '100%'},       // 表单宽度
+            value: {type: Object},                                              // model绑定表单对象
+            rules: {type: Object},                                              // 表单验证规则
+            validateResult: {type: Object},                                     // 校验结果信息
+
+            hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
+            hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
+            validateOnRulesChange: {type: Boolean, default: null},              // 是否当rules属性改变之后立即触发一次验证
+
+            column: {type: [String, Number], default: 1},                       // 多列表单的列数
+            labelWidth: {type: [String, Number]},                               // formItem 文本宽度
+            contentWidth: {type: [String, Number]},                             // formItem 内容宽度
+            disabledFields: {type: Object},                                     // 禁用的字段
+            readonlyFields: {type: Object},                                     // 只读的字段
+            labelAlign: {type: Boolean},                                        // 文本对其方式
+            width: {type: [String, Number], default: '100%'},                   // 表单宽度
+
         },
         provide() {
             return {
