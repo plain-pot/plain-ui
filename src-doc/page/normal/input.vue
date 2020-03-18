@@ -24,7 +24,7 @@
         </demo-row>
 
         <demo-row title="自动处理loading状态(当异步任务开始时开启loading，结束时关闭loading)">
-            <pl-input placeholder="异步任务" @enter="asyncHandler" autoLoading suffixIcon="el-icon-view"/>
+            <pl-input placeholder="异步任务" @enter="asyncHandler" autoLoading suffixIcon="el-icon-view" clearIcon/>
         </demo-row>
 
         <demo-row title="禁用">

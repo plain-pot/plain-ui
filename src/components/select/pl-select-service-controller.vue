@@ -26,7 +26,7 @@
         computed: {
             /*当前可用的 select-service-item 实例数组*/
             availableInsList() {
-                return (this.insList || []).filter(ins => !ins.openFlag && !ins.private)
+                return (this.insList || []).filter(ins => !ins.showFlag && !ins.private)
             },
         },
         methods: {

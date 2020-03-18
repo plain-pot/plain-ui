@@ -250,7 +250,7 @@
              * @date    2020-01-24 17:32
              */
             onClickBody() {
-                if (!this.isOpen) return
+                if (!this.isShow) return
 
                 if (!!this.select.opt.onClickBody) {
                     this.select.opt.onClickBody()

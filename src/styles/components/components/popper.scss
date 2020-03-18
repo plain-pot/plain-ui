@@ -29,45 +29,35 @@
     &.pl-popper-el-animate-pl-transition-popper-drop {
       overflow: hidden;
 
-      $showTransition:transform 300ms $transition, opacity 300ms linear;
-      $hideTransition:transform 300ms cubic-bezier(0.545, 0.005, 1.000, 0.525), opacity 300ms linear;
+      $showTransition: transform 300ms cubic-bezier(0.410, 1.110, 0.615, 0.995);
 
       .plain-popper-content {
         transition: $showTransition;
 
         &.pl-transition-popper-drop-enter-active, &.pl-transition-popper-drop-leave-active {
-          opacity: 1;
           transform: translateY(0) translateX(0);
         }
 
         &[direction=top] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
-            transition: $hideTransition;
-            opacity: 0;
             transform: translate3d(0, 100%, 0);
           }
         }
 
         &[direction=bottom] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
-            transition: $hideTransition;
-            opacity: 0;
             transform: translate3d(0, -100%, 0);
           }
         }
 
         &[direction=left] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
-            transition: $hideTransition;
-            opacity: 0;
             transform: translate3d(100%, 0, 0);
           }
         }
 
         &[direction=right] {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
-            transition: $hideTransition;
-            opacity: 0;
             transform: translate3d(-100%, 0, 0);
           }
         }
