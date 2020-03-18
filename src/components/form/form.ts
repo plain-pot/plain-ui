@@ -5,10 +5,12 @@ export declare interface FormRule {
     max: Number
     regexp: RegExp | string
     message: string | Function
+    options: any[] | any
     validator: () => string | null
 }
 
 export enum FormTrigger {
     CHANGE = 'change',
     BLUR = 'blur',
+    ALL = 'ALL',
 }

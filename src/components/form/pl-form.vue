@@ -1,4 +1,7 @@
 import {FormTrigger} from "./form";
+import {FormTrigger} from "./form";
+import {FormTrigger} from "./form";
+import {FormTrigger} from "./form";
 <template>
     <div class="pl-form" :class="classes" :style="styles">
         <div class="pl-form-body" :style="bodyStyles">
@@ -66,11 +69,19 @@ import {FormTrigger} from "./form";
             let validateFieldRules: (field: string, validateTrigger: FormTrigger) => string | null | Promise<string> | undefined
             validateFieldRules = async (field, validateTrigger) => {
 
-                /*筛选符合当前校验规则的 trigger*/
-                const rules = (this.allRules[field] || []).filter(item => {
-                    let trigger = item.trigger || FormTrigger.CHANGE
-                    return trigger === validateTrigger
-                })
+                let rules;
+                if (validateTrigger === FormTrigger.ALL) {
+                    rules = this.allRules
+                } else {
+                    /*筛选符合当前校验规则的 trigger*/
+                    rules = (this.allRules[field] || []).filter(item => {
+                        let trigger = item.trigger || FormTrigger.CHANGE
+                        if (trigger !== FormTrigger.BLUR && trigger !== FormTrigger.CHANGE) {
+                            console.error(`pl-form: cant't be able to handle trigger:${trigger}`)
+                        }
+                        return trigger === validateTrigger
+                    })
+                }
 
                 if (rules.length === 0) {
                     /* 没有符合 trigger 的规则，跳过*/
@@ -81,7 +92,7 @@ import {FormTrigger} from "./form";
 
                 for (let i = 0; i < rules.length; i++) {
                     const rule = rules[i] as FormRule;
-                    let {required, min, max, regexp, message, validator} = rule
+                    let {required, min, max, regexp, message, options, validator} = rule
 
                     const getValidateMessage = async () => typeof message === 'function' ? await message(value, rule) : message
 
@@ -110,6 +121,18 @@ import {FormTrigger} from "./form";
                     if (regexp != null) {
                         if (!(regexp as RegExp).test(String(value))) return await getValidateMessage()
                     }
+
+                    /*options*/
+                    if (!!options) {
+                        if (Array.isArray(options)) {
+                            if (options.indexOf(value) === -1) return await getValidateMessage() || '校验不通过'
+                        } else {
+                            if (options !== value) {
+                                return await getValidateMessage() || '校验不通过'
+                            }
+                        }
+                    }
+
                     /*validator*/
                     if (validator) {
                         const validateResult = await validator()
@@ -124,14 +147,15 @@ import {FormTrigger} from "./form";
             const validateField = async (field: string, validateTrigger: FormTrigger) => {
                 const validateMessage = await validateFieldRules(field, validateTrigger)
                 if (validateMessage !== undefined) this.$set(this.p_validateResult, field, validateMessage)
+                return validateMessage
             }
 
             return {
 
-                formItems: [],                                                  // form-item子组件
-                maxLabelWidth: null,                                            // 自动计算最大formItem文本宽度
-                p_validateResult: null,                                         // 校验结果信息
-                validateField: this.$plain.utils.debounce(validateField, 300)
+                formItems: [],                                                          // form-item子组件
+                maxLabelWidth: null,                                                    // 自动计算最大formItem文本宽度
+                p_validateResult: null,                                                 // 校验结果信息
+                validateField
             }
         },
         computed: {
@@ -248,6 +272,12 @@ import {FormTrigger} from "./form";
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
+            validate() {
+
+            },
+            clearValidate() {
+
+            },
             /*---------------------------------------handler-------------------------------------------*/
             /**
              * 添加 form-item

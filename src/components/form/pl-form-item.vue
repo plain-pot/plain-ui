@@ -45,7 +45,7 @@
             hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
             validateOnRulesChange: {type: Boolean, default: null},              // 是否当rules属性改变之后立即触发一次验证
 
-            label: {type: String},                                              // 显示文本
+            label: {type: String, default: ' '},                                // 显示文本
             labelWidth: {type: [String, Number]},                               // 显示文本宽度
             column: {type: [String, Number]},                                   // 多列表单的列数
             block: {type: Boolean},                                             // 占用一行
