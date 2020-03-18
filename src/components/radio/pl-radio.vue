@@ -48,7 +48,6 @@
             width: {type: [String, Number]},                            // 宽度
             trueValue: {default: true},
             falseValue: {default: false},
-            status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
             ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
         },
         data() {
@@ -63,10 +62,6 @@
             },
         },
         computed: {
-            targetStatus() {
-                if (!!this.plRadioGroup && !!this.plRadioGroup.status) return this.plRadioGroup.status
-                return this.status
-            },
             targetWidth() {
                 if (!!this.p_width) return this.p_width
                 if (!!this.plRadioGroup && !!this.plRadioGroup.p_itemWidth) return this.plRadioGroup.p_itemWidth
@@ -74,7 +69,7 @@
             },
             classes() {
                 return [
-                    `pl-radio-status-${this.targetStatus}`,
+                    `pl-radio-status-${this.p_status || 'primary'}`,
                     `pl-radio-size-${this.p_size || 'normal'}`,
                     {
                         'pl-radio-checked': this.isChecked,

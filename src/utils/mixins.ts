@@ -100,6 +100,7 @@ export const StyleMixin = {
     props: {
         shape: {type: String},                      // fillet,round,square
         size: {type: String},                       // normal,large,mini
+        status: {type: String},                     // primary,success,error,warn,info
     },
     computed: {
         p_shape() {
@@ -110,6 +111,11 @@ export const StyleMixin = {
         p_size() {
             if (!!this.size) return this.size
             if (!!this.plParentStyler && this.plParentStyler.p_size) return this.plParentStyler.p_size
+            return null
+        },
+        p_status(){
+            if (!!this.status) return this.status
+            if (!!this.plParentStyler && this.plParentStyler.p_status) return this.plParentStyler.p_status
             return null
         },
     },

@@ -1,3 +1,4 @@
+import {FormTrigger} from "./form";
 <template>
     <div class="pl-form" :class="classes" :style="styles">
         <div class="pl-form-body" :style="bodyStyles">
@@ -9,7 +10,6 @@
 <script lang="ts">
     import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
     import {FormRule, FormTrigger} from "./form";
-    import {typeOf} from "../../../submodules/plain-loading/src/utils/utils";
 
     export default {
         name: "pl-form",
@@ -63,60 +63,67 @@
         },
         data() {
 
-            let validateFieldRules: (field: string, validateTrigger: FormTrigger) => string | null | Promise<string>
+            let validateFieldRules: (field: string, validateTrigger: FormTrigger) => string | null | Promise<string> | undefined
             validateFieldRules = async (field, validateTrigger) => {
-                const rules = this.allRules[field]
+
+                /*筛选符合当前校验规则的 trigger*/
+                const rules = (this.allRules[field] || []).filter(item => {
+                    let trigger = item.trigger || FormTrigger.CHANGE
+                    return trigger === validateTrigger
+                })
+
+                if (rules.length === 0) {
+                    /* 没有符合 trigger 的规则，跳过*/
+                    return undefined
+                }
+
                 const value = this.value[field]
 
-                if (!!rules && rules.length > 0) {
-                    for (let i = 0; i < rules.length; i++) {
-                        const rule = rules[i] as FormRule;
-                        let {trigger, required, min, max, regexp, message, validator} = rule
-                        trigger = trigger || FormTrigger.CHANGE
-                        if (validateTrigger === trigger) {
+                for (let i = 0; i < rules.length; i++) {
+                    const rule = rules[i] as FormRule;
+                    let {required, min, max, regexp, message, validator} = rule
 
-                            const getValidateMessage = async () => typeof message === 'function' ? await message(value, rule) : message
+                    const getValidateMessage = async () => typeof message === 'function' ? await message(value, rule) : message
 
-                            /*required*/
-                            if (required && (value !== 0 && !value)) return await getValidateMessage() || '不能为空'
+                    /*required*/
+                    if (required && (value !== 0 && !value)) return await getValidateMessage() || '不能为空'
 
-                            /*min*/
-                            if (min != null && value != null) {
-                                /*array*/
-                                if (Array.isArray(value) && value.length < min) return await getValidateMessage() || `不能少于 ${min} 个`
-                                /*string*/
-                                if (typeof value === 'string' && value.length < min) return await getValidateMessage() || `字符长度不能小于 ${min}`
-                                /*number*/
-                                if (typeof value === 'number' && value < min) return await getValidateMessage() || `不能小于 ${min}`
-                            }
-                            /*max*/
-                            if (max != null && value != null) {
-                                /*array*/
-                                if (Array.isArray(value) && value.length > max) return await getValidateMessage() || `不能多于 ${max} 个`
-                                /*string*/
-                                if (typeof value === 'string' && value.length > max) return await getValidateMessage() || `字符长度不能大于 ${max}`
-                                /*number*/
-                                if (typeof value === 'number' && value > max) return await getValidateMessage() || `不能大于 ${max} 个`
-                            }
-                            /*regexp*/
-                            if (regexp != null) {
-                                if (!(regexp as RegExp).test(String(value))) return await getValidateMessage()
-                            }
-                            /*validator*/
-                            if (validator) {
-                                const validateResult = await validator()
-                                if (!!validateResult) return validateResult
-                            }
+                    /*min*/
+                    if (min != null && value != null) {
+                        /*array*/
+                        if (Array.isArray(value) && value.length < min) return await getValidateMessage() || `不能少于 ${min} 个`
+                        /*string*/
+                        if (typeof value === 'string' && value.length < min) return await getValidateMessage() || `字符长度不能小于 ${min}`
+                        /*number*/
+                        if (typeof value === 'number' && value < min) return await getValidateMessage() || `不能小于 ${min}`
+                    }
+                    /*max*/
+                    if (max != null && value != null) {
+                        /*array*/
+                        if (Array.isArray(value) && value.length > max) return await getValidateMessage() || `不能多于 ${max} 个`
+                        /*string*/
+                        if (typeof value === 'string' && value.length > max) return await getValidateMessage() || `字符长度不能大于 ${max}`
+                        /*number*/
+                        if (typeof value === 'number' && value > max) return await getValidateMessage() || `不能大于 ${max} 个`
+                    }
+                    /*regexp*/
+                    if (regexp != null) {
+                        if (!(regexp as RegExp).test(String(value))) return await getValidateMessage()
+                    }
+                    /*validator*/
+                    if (validator) {
+                        const validateResult = await validator()
+                        if (!!validateResult) return validateResult
 
-                        }
                     }
                 }
+                // 所有校验规则通过
                 return null
             }
             /*校验字段*/
             const validateField = async (field: string, validateTrigger: FormTrigger) => {
                 const validateMessage = await validateFieldRules(field, validateTrigger)
-                this.$set(this.p_validateResult, field, validateMessage)
+                if (validateMessage !== undefined) this.$set(this.p_validateResult, field, validateMessage)
             }
 
             return {
@@ -124,7 +131,7 @@
                 formItems: [],                                                  // form-item子组件
                 maxLabelWidth: null,                                            // 自动计算最大formItem文本宽度
                 p_validateResult: null,                                         // 校验结果信息
-                validateField: this.$plain.utils.throttle(validateField, 300, {leading: true, trailing: true})
+                validateField: this.$plain.utils.debounce(validateField, 300)
             }
         },
         computed: {

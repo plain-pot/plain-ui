@@ -51,7 +51,6 @@
             width: {type: [String, Number]},                            // 宽度
             trueValue: {default: true},                                 // 选中实际值
             falseValue: {default: false},                               // 非选中值
-            status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
 
             ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
         },
@@ -67,10 +66,6 @@
             },
         },
         computed: {
-            targetStatus() {
-                if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.status) return this.plCheckboxGroup.status
-                return this.status
-            },
             targetWidth() {
                 if (!!this.p_width) return this.p_width
                 if (!!this.plCheckboxGroup && !!this.plCheckboxGroup.p_itemWidth) return this.plCheckboxGroup.p_itemWidth
@@ -78,7 +73,7 @@
             },
             classes() {
                 return [
-                    `pl-checkbox-status-${this.targetStatus}`,
+                    `pl-checkbox-status-${this.p_status || 'primary'}`,
                     `pl-checkbox-size-${this.p_size || 'normal'}`,
                     {
                         'pl-checkbox-checked': this.isChecked,

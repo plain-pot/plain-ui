@@ -20,7 +20,6 @@
             width: {type: [Number, String], default: null,},    // 输入框默认宽度
             minHeight: {type: [Number, String], default: 56},   // 文本域最小高度
             maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
-            status: {type: String, default: null},              // primary,success,warning,error,info
             block: {type: Boolean},                             // 块级元素
             textarea: {type: Boolean},                          // 当前是否为文本域输入框
             suffixIcon: {type: String},                         // 右侧图标
@@ -138,7 +137,7 @@
                     `pl-input-shape-${this.p_shape || 'fillet'}`,
                     `pl-input-size-${this.p_size || 'normal'}`,
                     {
-                        [`pl-input-status-${this.status}`]: !!this.status,
+                        [`pl-input-status-${this.p_status}`]: !!this.p_status,
                         'pl-input-block': this.block,
                         'pl-input-disabled': !!this.isDisabled,
                         'pl-input-prefix-padding': !!this.prefixIcon,

@@ -35,7 +35,6 @@
             plButtonGroup: {default: null},
         },
         props: {
-            status: {type: String, default: 'primary'},             // primary,success,warning,error,info
             mode: {type: String, default: 'fill'},                  // fill,stroke,text
             label: {type: String},                                  // 按钮文本
             width: {type: [String, Number]},                        // 按钮宽度
@@ -91,7 +90,7 @@
             },
             classes() {
                 return [
-                    `pl-button-status-${this.status}`,
+                    `pl-button-status-${this.p_status || 'primary'}`,
                     `pl-button-mode-${this.targetMode}`,
                     `pl-button-shape-${this.p_shape || 'fillet'}`,
                     `pl-button-size-${this.p_size || 'normal'}`,

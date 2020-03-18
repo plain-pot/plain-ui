@@ -28,7 +28,6 @@
         props: {
             value: {},
             itemWidth: {type: [String, Number]},                       // 文本宽度
-            status: {type: String, default: 'primary'},                 // primary,success,warn,error,info
         },
         watch: {
             value(val) {

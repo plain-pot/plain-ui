@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {EditMixin, PropsMixinFactory, RefsMixinFactory} from "../../utils/mixins";
+    import {EditMixin, PropsMixinFactory, RefsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-form-item",
@@ -30,6 +30,7 @@
             RefsMixinFactory({
                 labelEl: null,
             }),
+            StyleMixin,
             PropsMixinFactory.create({
                 label: PropsMixinFactory.Promise,
                 labelWidth: PropsMixinFactory.Number,
@@ -142,6 +143,7 @@
             classes() {
                 return {
                     'pl-form-item-required': this.isRequired,
+                    'pl-form-item-invalidate': !!this.validateMessage,
                 }
             },
             /**
@@ -161,6 +163,17 @@
             validateMessage() {
                 if (!this.plForm) return null
                 return this.plForm.p_validateResult[this.field]
+            },
+            /**
+             *  当前校验状态
+             * @author  韦胜健
+             * @date    2020/3/18 16:48
+             */
+            p_status() {
+                if (!!this.status) return this.status
+                if (!!this.validateMessage) return 'error'
+                if (!!this.plParentStyler && this.plParentStyler.p_status) return this.plParentStyler.p_status
+                return null
             },
         },
         mounted() {
