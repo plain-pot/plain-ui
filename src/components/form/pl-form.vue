@@ -331,7 +331,7 @@
                 if (this.p_labelWidth == null && formItem.labelEl) {
                     const labelWidth = formItem.labelEl.offsetWidth
                     if (!this.maxLabelWidth || this.maxLabelWidth < labelWidth) {
-                        this.maxLabelWidth = labelWidth
+                        this.maxLabelWidth = labelWidth + 1
                     }
                 }
             },
