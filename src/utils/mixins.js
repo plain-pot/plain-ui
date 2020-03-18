@@ -167,19 +167,18 @@ export const PropsMixinFactory = (config) => {
                             }
                         }
                     }
-                    this[`p_${propName}`] = val
+                    this.props[propName] = val
                     this.$emit(`change:${propName}`, val)
                 },
             }
             return ret
         }, {}),
         data() {
-            const ret = Object.keys(config).reduce((ret, propName) => {
-                ret[`p_${propName}`] = null
-                return ret
-            }, {})
             return {
-                ...ret,
+                props: Object.keys(config).reduce((ret, propName) => {
+                    ret[propName] = null
+                    return ret
+                }, {}),
             }
         },
     }
@@ -188,3 +187,29 @@ PropsMixinFactory.Promise = 'Promise'
 PropsMixinFactory.Number = 'Number'
 PropsMixinFactory.Function = 'Function'
 PropsMixinFactory.ALL = [PropsMixinFactory.Promise, PropsMixinFactory.Number, PropsMixinFactory.Function]
+
+export function PlainDecorator(component) {
+    const mixins = component.mixins || []
+    // emitters
+    if (!!component.emitters) {
+        mixins.push(EmitMixin)
+    }
+    // refs
+    if (!!component.refs) {
+        mixins.push(RefsMixinFactory(component.refs))
+    }
+    // props
+    if (!!component.props) {
+        const config = Object.keys(component.props).reduce((ret, propName) => {
+            const prop = component.props[propName]
+            if (!!prop.convert) {
+                ret[propName] = prop.convert
+            }
+            return ret
+        }, {})
+        mixins.push(PropsMixinFactory(config))
+    }
+    if (mixins.length > 0) {
+        component.mixins = mixins
+    }
+}

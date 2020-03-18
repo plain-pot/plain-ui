@@ -11,7 +11,7 @@
         <pl-loading type="gamma" v-if="isLoading"/>
         <slot>
             <pl-icon :icon="icon" v-if="!!icon && !isLoading"/>
-            <span v-if="!!p_label">{{p_label}}</span>
+            <span v-if="!!props.label">{{props.label}}</span>
         </slot>
     </button>
 </template>
@@ -26,25 +26,24 @@
         mixins: [
             EditMixin,
             StyleMixin,
-            PropsMixinFactory({
-                label: PropsMixinFactory.Promise,
-                width: PropsMixinFactory.Number,
-            })
         ],
         inject: {
             plButtonGroup: {default: null},
         },
+        emitters: {
+            emitClick: Function,
+        },
         props: {
-            status: {type: String, default: 'primary'},             // primary,success,warning,error,info
-            mode: {type: String, default: 'fill'},                  // fill,stroke,text
-            label: {type: String},                                  // 按钮文本
-            width: {type: [String, Number]},                        // 按钮宽度
-            icon: {type: String},                                   // 按钮图标
-            active: {type: Boolean},                                // 按钮是否高亮
-            noPadding: {type: Boolean},                             // 按钮是否无边距
-            block: {type: Boolean},                                 // 块级元素
-            throttleClick: {type: [Boolean, Number]},                 // click节流
-            autoLoading: {type: Boolean},                           // 在执行click处理函数时，是否自动变更为加载状态
+            status: {type: String, default: 'primary'},                             // primary,success,warning,error,info
+            mode: {type: String, default: 'fill'},                                  // fill,stroke,text
+            label: {type: String, convert: PropsMixinFactory.Promise},              // 按钮文本
+            width: {type: [String, Number], convert: PropsMixinFactory.Number},     // 按钮宽度
+            icon: {type: String},                                                   // 按钮图标
+            active: {type: Boolean},                                                // 按钮是否高亮
+            noPadding: {type: Boolean},                                             // 按钮是否无边距
+            block: {type: Boolean},                                                 // 块级元素
+            throttleClick: {type: [Boolean, Number]},                               // click节流
+            autoLoading: {type: Boolean},                                           // 在执行click处理函数时，是否自动变更为加载状态
 
             /*---------------------------------------native-------------------------------------------*/
             type: {type: String, default: 'button'},
@@ -79,7 +78,7 @@
                                 this.p_loading = false
                             }
                         } else {
-                            this.$emit('click', e)
+                            this.emitClick(e)
                         }
                     }
                 },
@@ -105,12 +104,12 @@
                         'pl-button-has-icon': !!this.icon,
                         'pl-button-block': !!this.block,
                         'pl-button-disabled': !!this.isDisabled,
-                        'pl-button-icon-only': !!this.icon && !this.p_label,
+                        'pl-button-icon-only': !!this.icon && !this.props.label,
                     },
                 ]
             },
             styles() {
-                return !!this.p_width ? {width: `${this.p_width}px`} : ''
+                return !!this.props.width ? {width: `${this.props.width}px`} : ''
             },
         },
     }
