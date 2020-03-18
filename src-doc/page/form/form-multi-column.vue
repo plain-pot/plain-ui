@@ -74,7 +74,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="三列表单">
-            <pl-form column="3">
+            <pl-form column="3" contentWidth="300">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>

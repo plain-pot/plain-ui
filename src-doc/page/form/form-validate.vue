@@ -1,7 +1,7 @@
 <template>
     <div class="form-validate">
         <demo-row title="基本用法">
-            <pl-form ref="form" :rules="form1.formRules" v-model="form1.formData">
+            <pl-form ref="form" :rules="form1.formRules" v-model="form1.formData" contentWidth="400px">
                 <pl-form-item label="必填校验" field="field1" required>
                     <pl-input v-model="form1.formData.field1"/>
                 </pl-form-item>
@@ -36,7 +36,7 @@
                 <pl-form-item label="父属性">
                     <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field8"/>
                 </pl-form-item>
-                <pl-form-item label="自定义(异步)校验" field="field9" :rules="{validator:customValidator}">
+                <pl-form-item label="自定义(异步2s)校验" field="field9" :rules="{validator:customValidator}">
                     <pl-radio-group v-model="form1.formData.field9" itemWidth="33%">
                         <pl-radio label="是" val="Y"/>
                         <pl-radio label="否" val="N"/>
@@ -44,7 +44,8 @@
                     </pl-radio-group>
                 </pl-form-item>
                 <pl-form-item>
-                    <pl-button label="校验" @click="$refs.form.validate()"/>
+                    <pl-button label="校验" @click="saveValidate"/>
+                    <pl-button label="校验(自动开启加载状态)" @click="asyncSaveValidate" autoLoading/>
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
                 </pl-form-item>
             </pl-form>
@@ -76,15 +77,26 @@
             }
         },
         methods: {
-            save() {
-                console.log({
-                    rules: this.$refs.form.rules,
-                    allRules: this.$refs.form.allRules,
-                    validateResults: this.$refs.form.p_validateResult
+            saveValidate() {
+                this.$refs.form.validate((err) => {
+                    if (!!err) {
+                        this.$message.error('请检查填写是否正确')
+                    } else {
+                        this.$message.success('校验通过')
+                    }
                 })
             },
+            async asyncSaveValidate() {
+                try {
+                    await this.$refs.form.validate()
+                    this.$message.success('校验通过')
+                } catch (e) {
+                    console.error(e)
+                    this.$message.error('请检查填写是否正确')
+                }
+            },
             async customValidator() {
-                await this.$plain.utils.delay(1000)
+                await this.$plain.utils.delay(2000)
                 if (!this.form1.formData.field8) {
                     return '请先选择[父属性]'
                 }

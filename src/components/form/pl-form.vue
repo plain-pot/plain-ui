@@ -1,7 +1,3 @@
-import {FormTrigger} from "./form";
-import {FormTrigger} from "./form";
-import {FormTrigger} from "./form";
-import {FormTrigger} from "./form";
 <template>
     <div class="pl-form" :class="classes" :style="styles">
         <div class="pl-form-body" :style="bodyStyles">
@@ -71,7 +67,7 @@ import {FormTrigger} from "./form";
 
                 let rules;
                 if (validateTrigger === FormTrigger.ALL) {
-                    rules = this.allRules
+                    rules = this.allRules[field]
                 } else {
                     /*筛选符合当前校验规则的 trigger*/
                     rules = (this.allRules[field] || []).filter(item => {
@@ -174,7 +170,7 @@ import {FormTrigger} from "./form";
              * @date    2020/3/18 14:32
              */
             targetContentWidth(): number | null {
-                return this.p_contentWidth || 300
+                return this.p_contentWidth || 400
             },
             /**
              * 整个form-item宽度
@@ -271,8 +267,46 @@ import {FormTrigger} from "./form";
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
-            validate() {
+            validate(callback) {
 
+                const dfd = {
+                    promise: null,
+                    resolve: null,
+                    reject: null,
+                }
+                dfd.promise = new Promise((resolve, reject) => {
+                    dfd.resolve = resolve
+                    dfd.reject = reject
+                })
+
+                if (!!callback) {
+                    dfd.resolve = dfd.reject = (...args) => callback(...args)
+                }
+
+                const validateFields = Object.keys(this.allRules)
+
+                const validateTasks = validateFields.reduce((ret, field) => {
+                    ret.push(this.validateField(field, FormTrigger.ALL))
+                    return ret
+                }, [])
+
+                Promise.all(validateTasks).then(
+                    () => {
+                        for (let i = 0; i < validateFields.length; i++) {
+                            const field = validateFields[i];
+                            if (!!this.p_validateResult[field]) {
+                                const msg = this.p_validateResult[field]
+                                if (!!msg) return dfd.reject(msg)
+                            }
+                        }
+                        return dfd.resolve()
+                    },
+                    (e) => {
+                        dfd.reject(e)
+                    }
+                )
+
+                return dfd.promise
             },
             /**
              * 清除校验信息

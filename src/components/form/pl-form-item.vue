@@ -255,7 +255,7 @@
                             }
                         }
 
-                        .pl-button + .pl-button {
+                        & > .pl-button + .pl-button {
                             margin-left: 10px;
                         }
 
