@@ -13,7 +13,7 @@
             EditMixin,
             EmitMixin,
             StyleMixin,
-            PropsMixinFactory({
+            PropsMixinFactory.create({
                 itemWidth: PropsMixinFactory.Number,
             })
         ],

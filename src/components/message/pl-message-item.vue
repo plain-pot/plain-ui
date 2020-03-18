@@ -15,7 +15,7 @@
 
     export default {
         name: "pl-message-item",
-        mixins: [PropsMixinFactory({
+        mixins: [PropsMixinFactory.create({
             message: PropsMixinFactory.Promise,
         })],
         props: {

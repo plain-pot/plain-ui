@@ -142,49 +142,52 @@ export const EmitMixin = {
     },
 }
 
+
 /**
  * 用来对属性做转化的mixin函数
  * @author  韦胜健
  * @date    2020/3/11 18:11
  */
-export const PropsMixinFactory = (config) => {
-    return {
-        watch: Object.keys(config).reduce((ret, propName) => {
-            const check = Array.isArray(config[propName]) ? config[propName] : [config[propName]]
-            ret[propName] = {
-                immediate: true,
-                async handler(val) {
-                    if (val != null) {
-                        if (check.indexOf(PropsMixinFactory.Promise) > -1 && !!val.then && typeof val.then === 'function') {
-                            val = await val
-                        }
-                        if (check.indexOf(PropsMixinFactory.Function) > -1 && typeof val === 'function') {
-                            val = val(this)
-                        }
-                        if (check.indexOf(PropsMixinFactory.Number) > -1) {
-                            if (typeof val === 'string' && !val.endsWith('%')) {
-                                val = !!val ? Number(val.replace('px', '')) : null
+export const PropsMixinFactory = {
+    Promise: 'Promise',
+    Number: 'Number',
+    Function: 'Function',
+    ALL: ['Promise', 'Number', 'Function'],
+    create(config) {
+        return {
+            watch: Object.keys(config).reduce((ret, propName) => {
+                const check = Array.isArray(config[propName]) ? config[propName] : [config[propName]]
+                ret[propName] = {
+                    immediate: true,
+                    async handler(val) {
+                        if (val != null) {
+                            if (check.indexOf(PropsMixinFactory.Promise) > -1 && !!val.then && typeof val.then === 'function') {
+                                val = await val
+                            }
+                            if (check.indexOf(PropsMixinFactory.Function) > -1 && typeof val === 'function') {
+                                val = val(this)
+                            }
+                            if (check.indexOf(PropsMixinFactory.Number) > -1) {
+                                if (typeof val === 'string' && !val.endsWith('%')) {
+                                    val = !!val ? Number(val.replace('px', '')) : null
+                                }
                             }
                         }
-                    }
-                    this[`p_${propName}`] = val
-                    this.$emit(`change:${propName}`, val)
-                },
-            }
-            return ret
-        }, {}),
-        data() {
-            const ret = Object.keys(config).reduce((ret, propName) => {
-                ret[`p_${propName}`] = null
+                        this[`p_${propName}`] = val
+                        this.$emit(`change:${propName}`, val)
+                    },
+                }
                 return ret
-            }, {})
-            return {
-                ...ret,
-            }
-        },
-    }
+            }, {}),
+            data() {
+                const ret = Object.keys(config).reduce((ret, propName) => {
+                    ret[`p_${propName}`] = null
+                    return ret
+                }, {})
+                return {
+                    ...ret,
+                }
+            },
+        }
+    },
 }
-PropsMixinFactory.Promise = 'Promise'
-PropsMixinFactory.Number = 'Number'
-PropsMixinFactory.Function = 'Function'
-PropsMixinFactory.ALL = [PropsMixinFactory.Promise, PropsMixinFactory.Number, PropsMixinFactory.Function]

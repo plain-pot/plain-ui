@@ -27,7 +27,7 @@
 
     export default {
         name: "pl-popper",
-        mixins: [EmitMixin, PropsMixinFactory({
+        mixins: [EmitMixin, PropsMixinFactory.create({
             hoverOpenDelay: PropsMixinFactory.Number,
             hoverCloseDelay: PropsMixinFactory.Number,
             offset: PropsMixinFactory.Number,

@@ -33,7 +33,7 @@
             EmitMixin,
             EditMixin,
             StyleMixin,
-            PropsMixinFactory({
+            PropsMixinFactory.create({
                 label: PropsMixinFactory.Promise,
                 width: PropsMixinFactory.Number,
             })

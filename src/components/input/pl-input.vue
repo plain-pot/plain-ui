@@ -8,7 +8,7 @@
             EditMixin,
             EmitMixin,
             StyleMixin,
-            PropsMixinFactory({
+            PropsMixinFactory.create({
                 width: PropsMixinFactory.ALL,
                 minHeight: PropsMixinFactory.Number,
                 maxHeight: PropsMixinFactory.Number,

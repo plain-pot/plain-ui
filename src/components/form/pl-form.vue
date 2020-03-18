@@ -9,12 +9,13 @@
 <script>
     import {EditMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
 
+
     export default {
         name: "pl-form",
         mixins: [
             EditMixin,
             StyleMixin,
-            PropsMixinFactory({
+            PropsMixinFactory.create({
                 labelWidth: PropsMixinFactory.Number,
                 contentWidth: PropsMixinFactory.Number,
                 column: PropsMixinFactory.Number,

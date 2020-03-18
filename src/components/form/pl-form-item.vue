@@ -27,7 +27,7 @@
             RefsMixinFactory({
                 labelEl: null,
             }),
-            PropsMixinFactory({
+            PropsMixinFactory.create({
                 label: PropsMixinFactory.Promise,
                 labelWidth: PropsMixinFactory.Number,
                 column: PropsMixinFactory.Number,

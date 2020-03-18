@@ -20,7 +20,7 @@
             EditMixin,
             EmitMixin,
             StyleMixin,
-            PropsMixinFactory({
+            PropsMixinFactory.create({
                 min: PropsMixinFactory.Number,
                 max: PropsMixinFactory.Number,
                 itemWidth: PropsMixinFactory.Number,
