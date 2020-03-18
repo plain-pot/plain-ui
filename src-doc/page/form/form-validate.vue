@@ -33,14 +33,16 @@
                 <pl-form-item label="选项校验：数组" field="field7" :rules="{required:true,message:'只能选择二级，三级', options:['2','3']}">
                     <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field7"/>
                 </pl-form-item>
-
-                <!--<pl-form-item label="自定义异步校验" field="field7">
-                    <pl-radio-group v-model="form1.formData.field7" itemWidth="50%">
-                        <pl-radio label="老客户" val="Y"/>
-                        <pl-radio label="非老客户" val="N"/>
+                <pl-form-item label="父属性">
+                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field8"/>
+                </pl-form-item>
+                <pl-form-item label="自定义(异步)校验" field="field9" :rules="{validator:customValidator}">
+                    <pl-radio-group v-model="form1.formData.field9" itemWidth="33%">
+                        <pl-radio label="是" val="Y"/>
+                        <pl-radio label="否" val="N"/>
+                        <pl-radio label="未知" val="NO"/>
                     </pl-radio-group>
-                </pl-form-item>-->
-
+                </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验" @click="$refs.form.validate()"/>
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
@@ -80,6 +82,16 @@
                     allRules: this.$refs.form.allRules,
                     validateResults: this.$refs.form.p_validateResult
                 })
+            },
+            async customValidator() {
+                await this.$plain.utils.delay(1000)
+                if (!this.form1.formData.field8) {
+                    return '请先选择[父属性]'
+                }
+                if (this.form1.formData.field8 === '1' && this.form1.formData.field9 !== 'N') {
+                    return '[父属性]为一级的时候只能选择否'
+                }
+                return null
             },
         },
     }

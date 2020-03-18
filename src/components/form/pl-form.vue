@@ -137,7 +137,6 @@ import {FormTrigger} from "./form";
                     if (validator) {
                         const validateResult = await validator()
                         if (!!validateResult) return validateResult
-
                     }
                 }
                 // 所有校验规则通过
@@ -275,8 +274,16 @@ import {FormTrigger} from "./form";
             validate() {
 
             },
+            /**
+             * 清除校验信息
+             * @author  韦胜健
+             * @date    2020/3/18 17:53
+             */
             clearValidate() {
-
+                this.p_validateResult = Object.keys(this.p_validateResult).reduce((ret, field) => {
+                    ret[field] = null
+                    return ret
+                }, {})
             },
             /*---------------------------------------handler-------------------------------------------*/
             /**
