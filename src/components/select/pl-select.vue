@@ -2,7 +2,7 @@
     <pl-input
             ref="input"
             class="pl-select-input"
-            :class="{'pl-multi-select-input':!!multiple}"
+            :class="{'pl-multi-select-input':!!multiple,'pl-select-input-show':isShow}"
             suffixIcon="el-icon-arrow-down"
             clearIcon
             :value="multiple?multipleInputValue: ((isShow&&filterable)?p_inputValue:inputValue)"
