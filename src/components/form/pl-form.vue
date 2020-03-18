@@ -66,7 +66,8 @@
             p_size() {
                 if (!!this.size) return this.size
                 if (!!this.plParentStyler && !!this.plParentStyler.p_size) return this.plParentStyler.p_size
-                return this.p_column === 1 ? 'large' : null
+                // return this.p_column === 1 ? 'large' : null
+                return null
             },
             classes() {
                 return [

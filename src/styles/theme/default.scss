@@ -20,10 +20,10 @@ $theme-default: (
 
                 font:'"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif',
 
-                ibc:#dcdfe6,                                                    /*input border color    边框色*/
-                itc:rgba(0, 0, 0, 0.55),                                         /*input text color      文本色*/
-                ipc:rgba(0, 0, 0, 0.25),                                        /*input placeholder color 占位符颜色*/
-                icc:rgba(0, 0, 0, 0.45),                                         /*input icon color      图标色*/
+                ibc:#dcdfe6,                                                            /*input border color    边框色*/
+                itc:#606266,                                                            /*input text color      文本色*/
+                ipc:rgba(0, 0, 0, 0.25),                                                /*input placeholder color 占位符颜色*/
+                icc:rgba(0, 0, 0, 0.45),                                                /*input icon color      图标色*/
 
                 transitionFlexible:cubic-bezier(.24, .22, .015, 1.56),
                 transition:cubic-bezier(0.23, 1, 0.32, 1),

@@ -1,7 +1,7 @@
 <template>
     <div class="form-size">
         <demo-row title="大尺寸">
-            <pl-form>
+            <pl-form size="large">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
