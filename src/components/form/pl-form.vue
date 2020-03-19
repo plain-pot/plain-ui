@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-form" :class="classes" :style="styles" v-ploading="loadingMask || p_loadingMask">
+    <div class="pl-form" :class="classes" :style="styles" v-loading="loadingMask || p_loadingMask">
         <div class="pl-form-body" :style="bodyStyles">
             <slot></slot>
         </div>

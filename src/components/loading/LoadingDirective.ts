@@ -4,7 +4,7 @@ const map = new WeakMap()
 
 export const PlLoadingDirective = {
     install(Vue) {
-        Vue.directive('ploading', {
+        Vue.directive('loading', {
             bind(el, binding, vnode) {
                 map.set(el, new LoadingService(el, binding.value, vnode.context))
             },
