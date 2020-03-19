@@ -114,6 +114,12 @@
                 this.dstry()
                 this.init()
             },
+            arrow() {
+                this.$nextTick(() => {
+                    this.dstry()
+                    this.init()
+                })
+            },
         },
         computed: {
             popperStyles() {
