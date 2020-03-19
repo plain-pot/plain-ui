@@ -1,7 +1,7 @@
 <template>
     <transition name="pl-transition-loading-mask">
-        <div class="pl-loading-mask" v-if="value || p_value">
-            <pl-loading type="delta"/>
+        <div class="pl-loading-mask" v-if="value || p_value" :style="{background:background}" :class="{'pl-loading-mask-unlock':unlock}">
+            <pl-loading :type="loadingType"/>
             <span v-if="!!p_message">
             {{p_message}}
         </span>
@@ -20,8 +20,11 @@
             })
         ],
         props: {
-            value: {type: Boolean},
-            message: {type: String},
+            value: {type: Boolean},                                         // 是否打开loading遮罩
+            message: {type: String},                                        // 提示信息
+            loadingType: {type: String, default: 'delta'},                  // loading类型
+            background: {type: String, default: 'rgba(255,255,255,0.5)'},   // 遮罩背景色
+            unlock: {type: Boolean},                                        // 取消阻止点击事件
         },
         data() {
             return {
@@ -58,6 +61,7 @@
             transition: all linear 300ms;
             transform-origin: center center;
             cursor: progress;
+            pointer-events: auto;
 
             .pl-loading {
                 margin-bottom: 20px;
@@ -66,6 +70,10 @@
                 & + span {
                     font-size: 14px;
                 }
+            }
+
+            &.pl-loading-mask-unlock {
+                pointer-events: none;
             }
         }
     }

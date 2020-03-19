@@ -9,7 +9,7 @@
     export default {
         name: "pl-loading",
         props: {
-            loading: {type: Boolean},
+            loading: {type: Boolean, default: true},
             type: {type: String, default: 'alpha'},
             status: {type: String, default: null},
         },
