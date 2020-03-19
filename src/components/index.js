@@ -14,12 +14,13 @@ import message from './message'
 import form from './form'
 import virtualList from './virtual-list'
 import tooltip from './tooltip'
+import number from './number'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form,
     loading, popper, popover, tooltip,
-    list, scroll, dom,
+    list, scroll, dom, number,
     message,
 
     virtualList,

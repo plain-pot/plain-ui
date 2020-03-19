@@ -11,6 +11,7 @@
 @import "./components/list";
 @import "./components/message";
 @import "./components/form";
+@import "./components/number";
 
 @mixin component-index {
   @include component-button;
@@ -26,4 +27,5 @@
   @include component-list;
   @include component-message;
   @include component-form;
+  @include component-number;
 }
