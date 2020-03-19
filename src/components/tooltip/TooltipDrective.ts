@@ -14,12 +14,15 @@ class TooltipService {
     }
 
     tooltip;
+    $plain;
 
-    constructor(el: HTMLElement, opts: object | string) {
+    constructor(el: HTMLElement, opts: object | string, $plain) {
+        this.$plain = $plain
         this.setOpts(el, opts)
     }
 
-    setOpts(el: HTMLElement, opts: object | string) {
+    async setOpts(el: HTMLElement, opts: object | string) {
+        await this.$plain.nextTick()
         if (!!this.tooltip) {
             this.tooltip.destroy()
             this.tooltip = null
@@ -46,7 +49,7 @@ export const TooltipDirective = {
     install(Vue) {
         Vue.directive('tooltip', {
             bind(el, binding, vnode) {
-                map.set(el, new TooltipService(el, binding.value))
+                map.set(el, new TooltipService(el, binding.value, vnode.context.$plain))
             },
             componentUpdated(el, binding) {
                 const data = map.get(el) as TooltipService
