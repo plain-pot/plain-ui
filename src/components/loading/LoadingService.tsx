@@ -2,6 +2,7 @@ import Mask from './pl-loading-mask.vue'
 
 const WrapMask = {
     render(h) {
+        // @ts-ignore
         return <Mask {...{props: this.binding}}/>
     },
     data() {
