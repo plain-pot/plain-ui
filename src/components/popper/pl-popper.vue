@@ -118,6 +118,7 @@
         computed: {
             popperStyles() {
                 const styles = {}
+                styles.zIndex = this.zIndex
                 if (this.p_width != null) {
                     styles.width = this.p_width + 'px'
                 }
@@ -282,6 +283,7 @@
                 contentEl: null,
 
                 p_transitionend: null,
+                zIndex: null,
 
                 /*---------------------------------------listener-------------------------------------------*/
                 onClickReference: (e) => {
@@ -312,6 +314,7 @@
              */
             show(emitInput = true) {
                 if (this.p_value) return
+                this.zIndex = this.$plain.nextIndex()
                 this.p_value = true
                 this.emitShow()
                 if (emitInput) {
@@ -384,7 +387,7 @@
                     offset: this.p_offset,
                     boundary: this.boundary,
                     boxShadow: null,
-                    gpuAcceleration:false,
+                    gpuAcceleration: false,
                 })
 
                 this._bindEvents()
