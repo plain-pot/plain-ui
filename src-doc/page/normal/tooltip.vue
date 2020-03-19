@@ -1,6 +1,6 @@
 <template>
     <div class="tooltip">
-        <!--<demo-row title="基本用法">
+        <demo-row title="基本用法">
             <pl-tooltip text="这个是tooltip文本"/>
         </demo-row>
         <demo-row title="综合测试">
@@ -35,10 +35,16 @@
             <pl-input textarea v-model="longText"/>
             <pl-tooltip :text="longText" showOverflowTooltip style="width: 100px"/>
             <pl-tooltip :text="longText" showOverflowTooltip/>
-        </demo-row>-->
+        </demo-row>
 
         <demo-row title="指令调用">
-            <pl-icon icon="el-icon-question" v-tooltip="{content:'指令调用',trigger:'always',placement:`${direction}-${align}`}"/>
+            <pl-icon icon="el-icon-question" v-tooltip="'指令调用'"/>
+        </demo-row>
+
+        <demo-row title="指令调用：额外参数">
+            <demo-line style="margin-bottom: 40px">
+                <pl-icon icon="el-icon-question" v-tooltip="{content:'指令调用',trigger:'always',placement:`${direction}-${align}`,theme:'light'}"/>
+            </demo-line>
             <demo-line>
                 <pl-radio-group v-model="direction">
                     <pl-radio v-for="item in ['top','bottom','left','right']" :key="item" :val="item" :label="item"/>

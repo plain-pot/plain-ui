@@ -1,8 +1,6 @@
 <template>
     <div class="app-navigator">
-        <keep-alive>
-            <component :is="PageComponent" v-if="PageComponent"/>
-        </keep-alive>
+        <component :is="PageComponent" v-if="PageComponent"/>
     </div>
 </template>
 
