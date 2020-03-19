@@ -9,7 +9,7 @@
     </transition>
 </template>
 
-<script>
+<script lang="ts">
     import {PropsMixinFactory} from "../../utils/mixins";
 
     export default {
@@ -27,6 +27,15 @@
             return {}
         },
         methods: {},
+        mounted() {
+            const parentNode = this.$el.parentNode as HTMLElement
+            if (!!parentNode) {
+                const position = parentNode.style.position
+                if (['absolute', 'relative', 'fixed'].indexOf(position) === -1) {
+                    parentNode.style.position = 'relative'
+                }
+            }
+        }
     }
 </script>
 
