@@ -37,6 +37,7 @@
             autoLoading: {type: Boolean},                       // enter自动处理异步任务，开启/关闭loading状态
 
             /*---------------------------------------原生属性-------------------------------------------*/
+            inputInnerTabindex: {type: Number, default: 0},
             type: {type: String, default: 'text'},
             placeholder: {type: String},
             nativeProps: {type: Object, default: () => ({})},
@@ -223,7 +224,7 @@
                     <div class={['pl-input', this.classes]}>
                         {!!this.prefixIcon && <span class="pl-input-prefix-icon" onClick={this.onClickPrefixIcon}><pl-icon icon={this.prefixIcon}/></span>}
                         {!!this.$slots.default ?
-                            <div tabIndex="0" class="pl-input-inner" {...this.publicProps}>
+                            <div tabIndex={this.inputInnerTabindex} class="pl-input-inner" {...this.publicProps}>
                                 {this.$slots.default}
                             </div>
                             :
