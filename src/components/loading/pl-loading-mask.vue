@@ -1,6 +1,6 @@
 <template>
     <transition name="pl-transition-loading-mask">
-        <div class="pl-loading-mask" v-if="value">
+        <div class="pl-loading-mask" v-if="value || p_value">
             <pl-loading type="delta"/>
             <span v-if="!!p_message">
             {{p_message}}
@@ -24,7 +24,9 @@
             message: {type: String},
         },
         data() {
-            return {}
+            return {
+                p_value: false,
+            }
         },
         methods: {},
         mounted() {

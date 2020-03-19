@@ -36,12 +36,19 @@
             <pl-loading type="delta" loading style="color: blueviolet"/>
         </demo-row>
         <demo-row title="loading-mask">
-            <pl-checkbox label="init" v-model="initFlag"/>
-            <pl-checkbox label="open mask" v-model="loadingFlag"/>
+            <pl-checkbox label="init" v-model="flag1.init"/>
+            <pl-checkbox label="open mask" v-model="flag1.loading"/>
             <span>如果父节点的position不为fixed、relative、absolute，pl-loading-mask会自动将父节点的样式设置为 relative</span>
-            <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="initFlag">
+            <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="flag1.init">
                 <pl-button label="this is button"/>
-                <pl-loading-mask v-model="loadingFlag" message="loading..."/>
+                <pl-loading-mask v-model="flag1.loading" message="loading..."/>
+            </div>
+        </demo-row>
+        <demo-row title="loading-directive">
+            <pl-checkbox label="init" v-model="flag2.init"/>
+            <pl-checkbox label="open mask" v-model="flag2.loading"/>
+            <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="flag2.init" v-ploading="flag2.loading">
+                <pl-button label="this is button"/>
             </div>
         </demo-row>
     </div>
@@ -56,8 +63,14 @@
         props: {},
         data() {
             return {
-                loadingFlag: true,
-                initFlag: false,
+                flag1: {
+                    loading: true,
+                    init: false,
+                },
+                flag2: {
+                    loading: true,
+                    init: true,
+                },
             }
         },
         methods: {},
