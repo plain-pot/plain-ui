@@ -55,6 +55,13 @@ export default {
             console.log(...args)
         }
 
+        $plain.nextIndex = ((startIndex) => {
+            let index = startIndex
+            return () => {
+                return index++
+            }
+        })(1500)
+
         /*---------------------------------------status-------------------------------------------*/
 
         $plain.STATUS = {

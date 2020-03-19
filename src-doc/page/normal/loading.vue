@@ -35,7 +35,7 @@
             <pl-loading type="ice" style="color: blueviolet"/>
             <pl-loading type="delta" style="color: blueviolet"/>
         </demo-row>
-        <demo-row title="loading-mask">
+        <demo-row title="组件调用loading-mask">
             <pl-checkbox label="init" v-model="flag1.init"/>
             <pl-checkbox label="open mask" v-model="flag1.loading"/>
             <span>如果父节点的position不为fixed、relative、absolute，pl-loading-mask会自动将父节点的样式设置为 relative</span>
@@ -44,12 +44,15 @@
                 <pl-loading-mask v-model="flag1.loading" message="loading..."/>
             </div>
         </demo-row>
-        <demo-row title="loading-directive">
+        <demo-row title="指令调用loading-directive">
             <pl-checkbox label="init" v-model="flag2.init"/>
             <pl-checkbox label="open mask" v-model="flag2.loading"/>
             <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="flag2.init" v-ploading="flag2.loading">
                 <pl-button label="this is button"/>
             </div>
+        </demo-row>
+        <demo-row title="服务式调用$loading">
+            <pl-button @click="startLoading" label="open fullscreen loading"/>
         </demo-row>
     </div>
 </template>
@@ -73,7 +76,14 @@
                 },
             }
         },
-        methods: {},
+        methods: {
+            startLoading() {
+                this.$loading(true)
+                setTimeout(() => {
+                    this.$loading(false)
+                }, 3000)
+            },
+        },
     }
 </script>
 

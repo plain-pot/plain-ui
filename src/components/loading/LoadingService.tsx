@@ -35,6 +35,18 @@ class LoadingService {
         }
         this.mask.$destroy()
     }
+
+    static install(Vue) {
+        let mask;
+        const $plain = Vue.prototype.$plain
+        const $loading = (opts) => {
+            if (!mask) {
+                mask = new LoadingService(document.body, opts, $plain.$root)
+            }
+            mask.setOpts(opts)
+        }
+        Vue.prototype.$loading = $loading
+    }
 }
 
 export {
