@@ -134,7 +134,6 @@
                 this.tooltip = new PlainTooltip({
                     targetEl: this.$el,
                     content: this.text,
-                    gpuAcceleration: false,
 
                     offset: this.p_offset,
                     placement: this.placement,

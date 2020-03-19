@@ -1,6 +1,6 @@
 <template>
     <div class="tooltip">
-        <demo-row title="基本用法">
+        <!--<demo-row title="基本用法">
             <pl-tooltip text="这个是tooltip文本"/>
         </demo-row>
         <demo-row title="综合测试">
@@ -35,6 +35,20 @@
             <pl-input textarea v-model="longText"/>
             <pl-tooltip :text="longText" showOverflowTooltip style="width: 100px"/>
             <pl-tooltip :text="longText" showOverflowTooltip/>
+        </demo-row>-->
+
+        <demo-row title="指令调用">
+            <pl-icon icon="el-icon-question" v-tooltip="{content:'指令调用',trigger:'always',placement:`${direction}-${align}`}"/>
+            <demo-line>
+                <pl-radio-group v-model="direction">
+                    <pl-radio v-for="item in ['top','bottom','left','right']" :key="item" :val="item" :label="item"/>
+                </pl-radio-group>
+            </demo-line>
+            <demo-line>
+                <pl-radio-group v-model="align">
+                    <pl-radio v-for="item in ['start','center','end']" :key="item" :val="item" :label="item"/>
+                </pl-radio-group>
+            </demo-line>
         </demo-row>
     </div>
 </template>
@@ -50,6 +64,9 @@
                 animate: 'fade',
                 theme: 'dark',
                 longText: '这个是非常长非常长的溢出文本',
+
+                direction: 'top',
+                align: 'center',
             }
         },
         methods: {},
