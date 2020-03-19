@@ -35,6 +35,13 @@
             <pl-loading type="ice" loading style="color: blueviolet"/>
             <pl-loading type="delta" loading style="color: blueviolet"/>
         </demo-row>
+        <demo-row title="loading-mask">
+            <pl-checkbox label="open mask" v-model="loadingFlag"/>
+            <div style="height: 300px;width: 300px;background-color: #f6f6f6;position: relative">
+                <pl-button label="this is button"/>
+                <pl-loading-mask v-model="loadingFlag" message="loading..."/>
+            </div>
+        </demo-row>
     </div>
 </template>
 
@@ -46,7 +53,9 @@
         mixins: [DemoMixins],
         props: {},
         data() {
-            return {}
+            return {
+                loadingFlag: true,
+            }
         },
         methods: {},
     }
