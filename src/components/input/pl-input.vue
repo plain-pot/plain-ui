@@ -154,7 +154,7 @@
             styles() {
                 const styles = {}
                 /*没有前置以及后置插槽以及非块级元素的情况下，设置宽度*/
-                if (this.p_width !== null && !this.block && (!this.$slots.prepend && !this.$slots.append)) {
+                if (this.p_width !== null && !this.block) {
                     styles.width = `${this.p_width}px`
                 }
                 /*textarea自动高度的时候，取最大高度最小高度以及滚动高度*/
