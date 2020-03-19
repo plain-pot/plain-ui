@@ -7,7 +7,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户员工数量" field="type">
                     <pl-input v-model="formData.type"/>
-                    <span slot="suffix"><pl-icon icon="el-icon-question"/></span>
+                    <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
@@ -47,7 +47,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户员工数量" field="type">
                     <pl-input v-model="formData.type"/>
-                    <span slot="suffix"><pl-icon icon="el-icon-question"/></span>
+                    <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
@@ -87,7 +87,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户员工数量" field="type">
                     <pl-input v-model="formData.type"/>
-                    <span slot="suffix"><pl-icon icon="el-icon-question"/></span>
+                    <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
