@@ -49,18 +49,33 @@ export const TooltipDirective = {
     install(Vue) {
         Vue.directive('tooltip', {
             bind(el, binding, vnode) {
-                map.set(el, new TooltipService(el, binding.value, vnode.context.$plain))
+                if (!!binding.value) {
+                    let service = new TooltipService(el, binding.value, vnode.context.$plain)
+                    map.set(el, service)
+                    service.setOpts(el, binding.value)
+                }
             },
-            componentUpdated(el, binding) {
-                const data = map.get(el) as TooltipService
-                if (!!data) {
-                    data.setOpts(el, binding.value)
+            componentUpdated(el, binding, vnode) {
+                if (!!binding.value) {
+                    let service = map.get(el) as TooltipService
+                    if (!service) {
+                        service = new TooltipService(el, binding.value, vnode.context.$plain)
+                        map.set(el, service)
+                    }
+                    service.setOpts(el, binding.value)
+                } else {
+                    let service = map.get(el) as TooltipService
+                    if (!!service) {
+                        service.unbind()
+                        service = null
+                        map.set(el, service)
+                    }
                 }
             },
             unbind(el) {
-                const data = map.get(el) as TooltipService
-                if (!!data) {
-                    data.unbind()
+                const service = map.get(el) as TooltipService
+                if (!!service) {
+                    service.unbind()
                 }
             },
         })
