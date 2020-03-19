@@ -1,12 +1,13 @@
 <template>
     <span class="pl-tooltip" :class="{'pl-tooltip-show-overflow-tooltip':showOverflowTooltip}" :tabIndex="trigger === 'focus'?'0':null">
-        <slot>{{p_text}}</slot>
+        <slot>{{p_text}}</slot>&nbsp;&nbsp;
     </span>
 </template>
 
-<script>
+<script lang="ts">
     import {PropsMixinFactory} from "../../utils/mixins";
-    import PlainPopper from 'plain-popper'
+    // @ts-ignore
+    import PlainPopper from "plain-popper"
 
     const PlainTooltip = PlainPopper.PlainTooltip
 
@@ -35,10 +36,16 @@
         },
         data() {
             return {
-                tooltip: null,
+                tooltip: null,                                          // plainTooltip实例
+                unwatch: null,                                          // $watch 的取消监听函数
             }
         },
         watch: {
+            /**
+             * 监听一下变量的变化重新创建tooltip对象
+             * @author  韦胜健
+             * @date    2020/3/19 15:29
+             */
             ...([
                 'text',
                 'offset',
@@ -53,27 +60,77 @@
                     this.reset()
                 }
                 return ret
-            }, {}))
+            }, {})),
+            /**
+             * showOverflowTooltip 开启则监听 text的变化，当内容宽度大于容器宽度时初始化 tooltip实例，否则销毁实例
+             * @author  韦胜健
+             * @date    2020/3/19 15:30
+             */
+            showOverflowTooltip: {
+                immediate: true,
+                async handler(val) {
+                    if (val) {
+                        this.unwatch = this.$watch('text', {
+                            immediate: true,
+                            async handler() {
+                                await this.$plain.nextTick()
+                                const {offsetWidth, scrollWidth} = this.$el
+                                if (offsetWidth >= scrollWidth) {
+                                    if (!!this.tooltip) {
+                                        this.destroyTooltip()
+                                    }
+                                } else {
+                                    if (!this.tooltip) {
+                                        this.initTooltip()
+                                    }
+                                }
+                            },
+                        })
+                    } else {
+                        !!this.unwatch && this.unwatch()
+                    }
+                },
+            },
         },
         computed: {
-            isShow() {
+            /**
+             * 当前 tooltip 是否已经显示
+             * @author  韦胜健
+             * @date    2020/3/19 15:30
+             */
+            isShow(): boolean {
                 if (!this.tooltip) return false
                 return this.tooltip.isShow
             },
         },
         methods: {
-            show() {
+            /**
+             * tooltip显示
+             * @author  韦胜健
+             * @date    2020/3/19 15:30
+             */
+            show(): void {
                 if (!this.tooltip) {
                     this.initTooltip()
                 }
                 this.tooltip.show()
             },
-            hide() {
+            /**
+             * tooltip关闭
+             * @author  韦胜健
+             * @date    2020/3/19 15:30
+             */
+            hide(): void {
                 if (!!this.tooltip) {
                     this.tooltip.hide()
                 }
             },
-            initTooltip() {
+            /**
+             * 初始化 tooltip 实例对象
+             * @author  韦胜健
+             * @date    2020/3/19 15:30
+             */
+            initTooltip(): void {
                 this.tooltip = new PlainTooltip({
                     targetEl: this.$el,
                     content: this.text,
@@ -88,14 +145,24 @@
                     trigger: this.trigger,
                 })
             },
-            destroyTooltip() {
+            /**
+             * 销毁 tooltip实例对象
+             * @author  韦胜健
+             * @date    2020/3/19 15:31
+             */
+            destroyTooltip(): void {
                 if (!!this.tooltip) {
                     this.tooltip.hide()
                     this.tooltip.destroy()
                     this.tooltip = null
                 }
             },
-            reset() {
+            /**
+             * 重新初始化 tooltip实例对象
+             * @author  韦胜健
+             * @date    2020/3/19 15:31
+             */
+            reset(): void {
                 if (!!this.tooltip) {
                     this.destroyTooltip()
                 }
@@ -107,6 +174,7 @@
         },
         beforeDestroy() {
             this.destroyTooltip()
+            !!this.unwatch && this.unwatch()
         }
     }
 </script>
@@ -114,5 +182,13 @@
 <style lang="scss">
     .pl-tooltip {
         outline: none;
+
+        &.pl-tooltip-show-overflow-tooltip {
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            vertical-align: text-bottom;
+        }
     }
 </style>

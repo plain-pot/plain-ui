@@ -31,6 +31,11 @@
                 </pl-radio-group>
             </demo-line>
         </demo-row>
+        <demo-row title="showOverflowTooltip">
+            <pl-input textarea v-model="longText"/>
+            <pl-tooltip :text="longText" showOverflowTooltip style="width: 100px"/>
+            <pl-tooltip :text="longText" showOverflowTooltip/>
+        </demo-row>
     </div>
 </template>
 
@@ -44,6 +49,7 @@
                 trigger: 'always',
                 animate: 'fade',
                 theme: 'dark',
+                longText: '这个是非常长非常长的溢出文本',
             }
         },
         methods: {},
