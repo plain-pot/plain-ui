@@ -45,10 +45,17 @@
                 </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
-                    <pl-button label="校验(自动开启加载状态)" @click="asyncSaveValidate" autoLoading/>
+                </pl-form-item>
+                <pl-form-item>
+                    <pl-button label="校验，不开启遮罩，自动loading按钮" @click="asyncSaveValidate" autoLoading/>
+                </pl-form-item>
+                <pl-form-item>
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
                 </pl-form-item>
             </pl-form>
+        </demo-row>
+        <demo-row title="其他示例">
+
         </demo-row>
     </div>
 </template>
@@ -88,10 +95,9 @@
             },
             async asyncSaveValidate() {
                 try {
-                    await this.$refs.form.validate()
+                    await this.$refs.form.validateWithoutMask()
                     this.$message.success('校验通过')
                 } catch (e) {
-                    console.error(e)
                     this.$message.error('请检查填写是否正确')
                 }
             },

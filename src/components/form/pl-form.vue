@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-form" :class="classes" :style="styles">
+    <div class="pl-form" :class="classes" :style="styles" v-ploading="loadingMask || p_loadingMask">
         <div class="pl-form-body" :style="bodyStyles">
             <slot></slot>
         </div>
@@ -43,6 +43,7 @@
             labelAlign: {type: Boolean},                                        // 文本对其方式
             width: {type: [String, Number], default: '100%'},                   // 表单宽度
             centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
+            loadingMask: {type: [Boolean, Object]},                             // 是否展示loading遮罩
         },
         provide() {
             return {
@@ -150,7 +151,8 @@
                 formItems: [],                                                          // form-item子组件
                 maxLabelWidth: null,                                                    // 自动计算最大formItem文本宽度
                 p_validateResult: null,                                                 // 校验结果信息
-                validateField
+                validateField,
+                p_loadingMask: false,
             }
         },
         computed: {
@@ -191,7 +193,7 @@
                 if (!this.targetItemWidth) return null
                 return {
                     width: `${this.p_column * (this.targetItemWidth)}px`,
-                    left: `${(!this.centerWhenSingleColumn && this.p_column === 1) ? -this.targetLabelWidth : 0}px`
+                    left: `${(!this.centerWhenSingleColumn && this.p_column === 1) ? -this.targetLabelWidth / 2 : 0}px`
                 }
             },
             /**
@@ -267,7 +269,7 @@
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
-            validate(callback) {
+            validate(callback: Function, loadingMask: boolean = true) {
 
                 const dfd = {
                     promise: null,
@@ -290,6 +292,9 @@
                     return ret
                 }, [])
 
+                if (loadingMask) {
+                    this.p_loadingMask = true
+                }
                 Promise.all(validateTasks).then(
                     () => {
                         for (let i = 0; i < validateFields.length; i++) {
@@ -302,11 +307,18 @@
                         return dfd.resolve()
                     },
                     (e) => {
-                        dfd.reject(e)
+                        return dfd.reject(e)
                     }
-                )
+                ).finally(() => {
+                    if (loadingMask) {
+                        this.p_loadingMask = false
+                    }
+                })
 
                 return dfd.promise
+            },
+            validateWithoutMask(callback) {
+                return this.validate(callback, false)
             },
             /**
              * 清除校验信息
