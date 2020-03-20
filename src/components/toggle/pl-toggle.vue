@@ -7,6 +7,8 @@
             @click="onClick"
             @keydown.space.prevent="onClick"
             @keydown.enter.prevent="onClick"
+            @focus="emitFocus"
+            @blur="emitBlur"
             v-click-wave="'large'">
         <div class="pl-toggle-inner"/>
     </div>
@@ -36,6 +38,11 @@
             value: {},                                                              // 双向绑定值
             trueValue: {default: true},                                             // 选中时绑定的值
             falseValue: {default: false},                                           // 未选中时绑定的值
+        },
+        watch: {
+            value(val) {
+                this.p_value = val
+            },
         },
         data() {
             return {
@@ -72,6 +79,7 @@
         },
         methods: {
             onClick(e) {
+                if (!this.isEditable) return
                 this.p_value = this.isChecked ? this.falseValue : this.trueValue
                 this.emitInput(this.p_value)
                 this.emitClick(e)
@@ -83,7 +91,7 @@
 <style lang="scss">
     @include themify {
         .pl-toggle {
-            background-color: #ddd;
+            background-color: $disabled;
             position: relative;
             outline: none;
             display: inline-block;
@@ -167,13 +175,33 @@
                 &.pl-toggle-on {
                     background-color: $value;
                 }
+                &:after {
+                    border-color: $value;
+                }
+                &:focus {
+                    .pl-toggle-inner {
+                        background-color: mix(white, $value, 90%);
+                    }
+                }
             }
 
             &.pl-toggle-disabled {
-                background-color: $disabled !important;
+                cursor: not-allowed;
 
-                &::before {
-                    background-color: $disabledText !important;
+                background-color: $disabled;
+
+                &:before {
+                    background-color: $disabled;
+                }
+
+                .pl-toggle-inner {
+                    background-color: $disabled !important;
+                }
+
+                &.pl-toggle-on {
+                    @include statusMixin(toggle) {
+                        background-color: rgba($value, 0.5);
+                    }
                 }
             }
         }
