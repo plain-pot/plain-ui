@@ -36,6 +36,9 @@
         <demo-row title="各种监听回调函数">
             <pl-button label="open select" @click="testListener.toggle" ref="testListener"/>
         </demo-row>
+        <demo-row title="禁用、分组、图标">
+            <pl-button label="open select" @click="keyTest.toggle" ref="keyTest"/>
+        </demo-row>
     </div>
 </template>
 
@@ -145,6 +148,25 @@
                 },
             })
 
+            const keyTest = newData('keyTest', null, {
+                data: [
+                    {name: '广东省', val: 'guangdong', row_group: true},
+                    {name: '深圳市', val: 'shenzhen', row_icon: 'el-icon-burger'},
+                    {name: '广州市', val: 'guangzhou', row_icon: 'el-icon-tableware', row_disabled: true,},
+                    {name: '佛山市', val: 'foshan', row_icon: 'el-icon-sugar'},
+                    {name: '汕头市', val: 'shantou', row_icon: 'el-icon-dessert'},
+                    {name: '湖南省', val: 'hunan', row_group: true},
+                    {name: '长沙市', val: 'changsha', row_icon: 'el-icon-ice-cream', row_disabled: true,},
+                    {name: '岳阳市', val: 'yueyang', row_icon: 'el-icon-hot-water'},
+                    {name: '邵阳市', val: 'shaoyang', row_icon: 'el-icon-water-cup'},
+                ],
+                labelKey: 'name',
+                valueKey: 'val',
+                groupKey: 'row_group',
+                disabledKey: 'row_disabled',
+                iconKey: 'row_icon',
+            })
+
             return {
                 instances,
                 basicUsageData,
@@ -155,6 +177,7 @@
                 testCloseAfterBody,
                 testKeyboard,
                 testListener,
+                keyTest,
             }
         },
         methods: {},
