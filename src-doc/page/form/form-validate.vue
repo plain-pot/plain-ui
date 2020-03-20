@@ -8,6 +8,7 @@
 
                 <pl-form-item label="必填校验(失去焦点)" field="field2">
                     <pl-number v-model="form1.formData.field2"/>
+                    <pl-icon icon="el-icon-question" slot="suffix" v-tooltip="'提示'"/>
                 </pl-form-item>
 
                 <pl-form-item label="字符长度校验 3-5" field="field3">
