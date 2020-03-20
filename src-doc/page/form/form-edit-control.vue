@@ -1,12 +1,16 @@
 <template>
     <div class="form-edit-control">
         <demo-row title="父子disabled以及readonly设置">
-            <pl-form disabled>
+            <demo-line>
+                <pl-checkbox v-model="flag.disabled" label="禁用"/>
+                <pl-checkbox v-model="flag.readonly" label="只读"/>
+            </demo-line>
+            <pl-form :disabled="flag.disabled" :readonly="flag.readonly">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="客户员工数量" field="type">
-                    <pl-input v-model="formData.type"/>
+                    <pl-number v-model="formData.type"/>
                     <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime" :disabled="false">
@@ -109,6 +113,7 @@
                     {levelName: '三级', code: '3'},
                 ],
                 formDisabledFields: [],
+                flag: {},
             }
         },
         computed: {

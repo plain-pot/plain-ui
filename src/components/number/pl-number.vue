@@ -11,6 +11,8 @@
         </div>
         <input type="text"
                :value="p_value"
+               :disabled="isDisabled"
+               :readonly="isReadonly"
                @focus="onFocus"
                @blur="onBlur"
                @input="onInput"
@@ -86,7 +88,8 @@
              */
             classes() {
                 return {
-                    'pl-number-hide-button': this.hideButton
+                    'pl-number-hide-button': this.hideButton,
+                    'pl-number-disabled': this.isDisabled,
                 }
             },
             /**
@@ -114,6 +117,7 @@
              * @date    2020/3/20 10:33
              */
             add() {
+                if (!this.isEditable) return
                 let value = this.getEffectiveValue()
                 if (value == null) {
                     value = 0
@@ -129,6 +133,7 @@
              * @date    2020/3/20 10:33
              */
             minus() {
+                if (!this.isEditable) return
                 let value = this.getEffectiveValue()
                 if (value == null) {
                     value = 0

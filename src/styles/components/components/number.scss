@@ -52,10 +52,24 @@
       .pl-input-inner {
         padding-left: 30px !important;
         padding-right: 30px !important;
-        input{
+
+        input {
           text-align: center !important;
           padding: 0 12px;
         }
+      }
+    }
+
+    &.pl-number-disabled {
+      input{
+        background-color: $disabled;
+        cursor: not-allowed;
+        color: #c0c4cc;
+      }
+      .pl-number-prepend-button,.pl-number-append-button{
+        background-color: $disabled;
+        cursor: not-allowed;
+        color: $disabledText;
       }
     }
   }

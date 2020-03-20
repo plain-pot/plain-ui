@@ -43,6 +43,20 @@
             <pl-number hideButton v-model="val[7]"/>
             {{val[7]}}
         </demo-row>
+
+        <demo-row title="禁用只读">
+            <demo-line title="开关">
+                <pl-checkbox v-model="val[8]"/>
+            </demo-line>
+            <demo-line title="禁用">
+                <pl-number :disabled="val[8]" v-model="val[9]"/>
+                {{val[9]}}
+            </demo-line>
+            <demo-line title="只读">
+                <pl-number :readonly="val[8]" v-model="val[10]"/>
+                {{val[10]}}
+            </demo-line>
+        </demo-row>
     </div>
 </template>
 
