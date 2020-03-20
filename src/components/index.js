@@ -15,12 +15,13 @@ import form from './form'
 import virtualList from './virtual-list'
 import tooltip from './tooltip'
 import number from './number'
+import toggle from './toggle'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio, select, form,
+    input, checkbox, radio, select, form, toggle, number,
     loading, popper, popover, tooltip,
-    list, scroll, dom, number,
+    list, scroll, dom,
     message,
 
     virtualList,
