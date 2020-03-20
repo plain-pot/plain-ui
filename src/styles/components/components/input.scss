@@ -135,6 +135,7 @@
       .pl-input-inner, .pl-textarea-inner {
         background-color: $disabled;
         cursor: not-allowed;
+        color: $disabledText;
       }
     }
 
