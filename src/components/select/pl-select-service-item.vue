@@ -60,7 +60,7 @@
             /*当前service item是否为私有实例*/
             private() {
                 if (!this.select) return false
-                if (!this.select.private) return false
+                if (!this.select.opt.private) return false
                 return true
             },
             isShow() {
@@ -86,6 +86,7 @@
                     open={this.openFlag}
                     trigger="manual"
                     reference={this.select.opt.reference}
+                    private={String(this.private)}
 
                     {...{
                         props: this.select.opt.popoverProps,
@@ -120,7 +121,7 @@
                                                     }
                                                 ]
                                             }
-                                            onClick={() => this.onClickItem(item, index)}
+                                            onClick={(e) => this.onClickItem(item, index, e)}
                                             onMousedown={() => this.onItemMousedown(item, index)}>
                                             {!!item.icon && <pl-icon icon={item.icon}/>}
                                             {!!this.select.opt.render ? this.select.opt.render(h, item, index) : item.label}
@@ -150,6 +151,17 @@
                 }
                 this.select = select
                 select.ins = this
+            },
+            /**
+             * 解绑select对象
+             * @author  韦胜健
+             * @date    2020/3/20 17:37
+             */
+            unbind(select) {
+                if (select === this.select) {
+                    this.select = null
+                }
+                select.ins = null
             },
             /**
              * 打开下拉
@@ -250,7 +262,8 @@
              * @author  韦胜健
              * @date    2020-01-24 17:31
              */
-            onClickItem(item, index) {
+            onClickItem(item, index, e) {
+                if (e.currentTarget !== e.target) return;
                 if (item.disabled === true || item.group === true) return
                 !!this.select.opt.onClick && this.select.opt.onClick(item, index)
                 this.highlightIndex = index

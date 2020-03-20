@@ -97,4 +97,13 @@ export default class Select {
         if (!this.ins) return false
         return this.ins.isOpen
     }
+
+    destroy() {
+        if (this.isShow()) {
+            this.hide()
+        }
+        if (!!this.ins) {
+            this.ins.unbind(this)
+        }
+    }
 }

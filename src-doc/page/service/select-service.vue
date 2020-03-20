@@ -36,6 +36,10 @@
         <demo-row title="各种监听回调函数">
             <pl-button label="open select" @click="testListener.toggle" ref="testListener"/>
         </demo-row>
+        <demo-row title="私有实例">
+            <pl-button label="私有实例" @click="testPrivate.toggle" ref="testPrivate"/>
+            <pl-button label="普通实例" @click="testNormal.toggle" ref="testNormal"/>
+        </demo-row>
         <demo-row title="禁用、分组、图标">
             <pl-button label="open select" @click="keyTest.toggle" ref="keyTest"/>
         </demo-row>
@@ -148,6 +152,26 @@
                 },
             })
 
+            const testPrivate = newData('testPrivate', null, {
+                private: true,
+                render(h, data) {
+                    return (
+                        <div>
+                            {data.label}-<input/>
+                        </div>
+                    )
+                },
+            })
+            const testNormal = newData('testNormal', null, {
+                render(h, data) {
+                    return (
+                        <div>
+                            {data.label}-<input/>
+                        </div>
+                    )
+                },
+            })
+
             const keyTest = newData('keyTest', null, {
                 data: [
                     {name: '广东省', val: 'guangdong', row_group: true},
@@ -177,11 +201,18 @@
                 testCloseAfterBody,
                 testKeyboard,
                 testListener,
+                testPrivate,
+                testNormal,
                 keyTest,
             }
         },
         methods: {},
         mounted() {
+        },
+        beforeDestroy() {
+            if (this.testPrivate.ins) {
+                this.testPrivate.ins.destroy()
+            }
         }
     }
 </script>
