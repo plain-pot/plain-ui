@@ -8,6 +8,8 @@
                @focus="onFocus"
                @blur="onBlur"
                @input="onInput"
+               @keydown.up.prevent="add"
+               @keydown.down.prevent="minus"
                ref="innerInput">
         <div class="pl-number-append-button" @mousedown="intervalAdd">
             <pl-icon icon="el-icon-plus"/>

@@ -26,6 +26,7 @@
         cursor: pointer;
         outline: none;
         user-select: none;
+        transition: background-color linear 150ms;
 
         .pl-icon {
           vertical-align: 0.15em;
