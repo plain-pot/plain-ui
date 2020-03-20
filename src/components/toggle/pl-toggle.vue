@@ -67,8 +67,8 @@
             },
             classes() {
                 return [
-                    `pl-toggle-status-${this.status || 'primary'}`,
-                    `pl-toggle-size-${this.size || 'normal'}`,
+                    `pl-toggle-status-${this.p_status || 'primary'}`,
+                    `pl-toggle-size-${this.p_size || 'normal'}`,
                     {
                         'pl-toggle-on': !!this.isChecked,
                         'pl-toggle-active': !!this.isActive,
