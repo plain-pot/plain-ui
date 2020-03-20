@@ -7,7 +7,7 @@
                 </pl-form-item>
 
                 <pl-form-item label="必填校验(失去焦点)" field="field2">
-                    <pl-input v-model="form1.formData.field2"/>
+                    <pl-number v-model="form1.formData.field2"/>
                 </pl-form-item>
 
                 <pl-form-item label="字符长度校验 3-5" field="field3">
@@ -45,12 +45,10 @@
                 </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
+                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
                 </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验，不开启遮罩，自动loading按钮" @click="asyncSaveValidate" autoLoading/>
-                </pl-form-item>
-                <pl-form-item>
-                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
                 </pl-form-item>
             </pl-form>
         </demo-row>
