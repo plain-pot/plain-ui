@@ -59,7 +59,7 @@
         </demo-row>
 
         <demo-row title="形状，大小，状态">
-            <pl-number status="info" shape="none" size="large"/>
+            <pl-number status="success" shape="round" size="large"/>
         </demo-row>
         <demo-row title="enter按键事件，可以立即得到最新的值">
             <pl-number v-model="val[11]" @enter="$plain.$message(val[11])"/>

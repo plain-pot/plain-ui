@@ -48,6 +48,17 @@
       }
     }
 
+    @include shapeMixin(input) {
+      .pl-number-prepend-button {
+        border-top-left-radius: $value;
+        border-bottom-left-radius: $value;
+      }
+      .pl-number-append-button {
+        border-top-right-radius: $value;
+        border-bottom-right-radius: $value;
+      }
+    }
+
     &:not(.pl-number-hide-button) {
       .pl-input-inner {
         padding-left: 30px !important;
@@ -61,12 +72,13 @@
     }
 
     &.pl-number-disabled {
-      input{
+      input {
         background-color: $disabled;
         cursor: not-allowed;
         color: #c0c4cc;
       }
-      .pl-number-prepend-button,.pl-number-append-button{
+
+      .pl-number-prepend-button, .pl-number-append-button {
         background-color: $disabled;
         cursor: not-allowed;
         color: $disabledText;
