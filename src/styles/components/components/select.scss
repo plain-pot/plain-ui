@@ -46,6 +46,12 @@
             background-color: rgba($colorPrimary, 0.1);
           }
 
+          &.pl-select-item-disabled {
+            background-color: $disabled;
+            color: $disabledText;
+            cursor: not-allowed;
+          }
+
           &.pl-select-item-no-data-text {
             text-align: center;
             font-size: 12px;

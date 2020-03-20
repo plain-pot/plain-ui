@@ -1,6 +1,6 @@
 <template>
     <div class="demo-select">
-        <demo-row title="基本用法">
+        <!--<demo-row title="基本用法">
             <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[0]"/>
             <span>{{val[0]}}</span>
         </demo-row>
@@ -80,8 +80,11 @@
         <demo-row title="multipleLimit:3，最多可以选择3个元素">
             <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[7]" :multipleLimit="3" multiple/>
             <span>{{val[7]}}</span>
-        </demo-row>
-
+        </demo-row>-->
+        <demo-row title="禁用选项"><pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/></demo-row>
+<!--        <demo-row title="分组"><pl-select :data="groupList" labelKey="name" valueKey="val" groupKey="row_group"/></demo-row>-->
+<!--        <demo-row title="图标"><pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/></demo-row>-->
+<!---->
     </div>
 </template>
 
@@ -99,15 +102,37 @@
                     {name: '春节', val: 'Chun'},
                     {name: '万圣节', val: 'WanSheng'},
                     {name: '青年节', val: 'QinNian'},
-                    {name: '中年节', val: 'ZhongNian'},
-                    {name: '国庆节', val: 'GuoQing'},
-                    {name: '中秋节', val: 'ZhongQiu'},
-                    {name: '劳动节', val: 'LaoDong'},
+                    {name: '中年节', val: 'ZhongNian', row_disabled: true,},
+                    {name: '国庆节', val: 'GuoQing', row_disabled: true,},
+                    {name: '中秋节', val: 'ZhongQiu', row_disabled: true,},
+                    {name: '劳动节', val: 'LaoDong', row_disabled: true,},
                     {name: '圣诞节', val: 'ShengDan'},
                     {name: '儿童节', val: 'ErTong'},
                     {name: '妇女节', val: 'FuNv'},
                     {name: '教师节', val: 'JiaoShi'},
                     {name: '清明节', val: 'QingMing'},
+                ],
+                groupList: [
+                    {name: '广东省', val: 'guangdong', row_group: true},
+                    {name: '深圳市', val: 'shenzhen'},
+                    {name: '广州市', val: 'guangzhou'},
+                    {name: '佛山市', val: 'foshan'},
+                    {name: '汕头市', val: 'shantou'},
+                    {name: '湖南省', val: 'hunan', row_group: true},
+                    {name: '长沙市', val: 'changsha'},
+                    {name: '岳阳市', val: 'yueyang'},
+                    {name: '邵阳市', val: 'shaoyang'},
+                ],
+                iconList: [
+                    {name: '广东省', val: 'guangdong', row_group: true},
+                    {name: '深圳市', val: 'shenzhen', row_icon: 'el-icon-burger'},
+                    {name: '广州市', val: 'guangzhou', row_icon: 'el-icon-tableware'},
+                    {name: '佛山市', val: 'foshan', row_icon: 'el-icon-sugar'},
+                    {name: '汕头市', val: 'shantou', row_icon: 'el-icon-dessert'},
+                    {name: '湖南省', val: 'hunan', row_group: true},
+                    {name: '长沙市', val: 'changsha', row_icon: 'el-icon-ice-cream'},
+                    {name: '岳阳市', val: 'yueyang', row_icon: 'el-icon-hot-water'},
+                    {name: '邵阳市', val: 'shaoyang', row_icon: 'el-icon-water-cup'},
                 ],
                 flag: {
                     disabled: true,

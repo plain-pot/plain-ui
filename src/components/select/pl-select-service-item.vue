@@ -1,5 +1,6 @@
 <script>
     import {RefsMixinFactory} from "../../utils/mixins";
+    import {decodeSelectData} from "./SelectUtils";
 
     export default {
         name: "pl-select-service-item",
@@ -45,16 +46,15 @@
                 let data = this.$plain.utils.typeOf(this.select.opt.data) === 'function' ? this.select.opt.data() : this.select.opt.data;
                 data = data || [];
                 return data.map(item => {
-                    let label = !!this.select.opt.labelKey ? item[this.select.opt.labelKey] : item
-                    let value = !!this.select.opt.valueKey ? item[this.select.opt.valueKey] : item
+
+                    let decodeData = decodeSelectData(item, this.select.opt)
+                    const value = decodeData.value
+
                     let optValue = this.$plain.utils.typeOf(this.select.opt.value) === 'function' ? this.select.opt.value() : this.select.opt.value
-                    let active = this.$plain.utils.typeOf(optValue) === 'array' ? optValue.indexOf(value) > -1 : optValue == value
-                    return {
-                        label,
-                        value,
-                        active,
-                        data: item,
-                    }
+                    decodeData.active = this.$plain.utils.typeOf(optValue) === 'array' ? optValue.indexOf(value) > -1 : optValue == value
+                    decodeData.data = item
+                    console.log(decodeData)
+                    return decodeData
                 })
             },
             /*当前service item是否为私有实例*/
@@ -109,7 +109,16 @@
                                         <li ref="items"
                                             refInFor={true}
                                             key={index}
-                                            class={['pl-select-item', {'pl-select-item-active': item.active, 'pl-select-item-highlight': this.highlightIndex === index}]}
+                                            class={
+                                                [
+                                                    'pl-select-item',
+                                                    {
+                                                        'pl-select-item-active': item.active,
+                                                        'pl-select-item-highlight': this.highlightIndex === index,
+                                                        'pl-select-item-disabled': item.disabled === true
+                                                    }
+                                                ]
+                                            }
                                             onClick={() => this.onClickItem(item, index)}
                                             onMousedown={() => this.onItemMousedown(item, index)}>
                                             {!!this.select.opt.render ? this.select.opt.render(h, item, index) : item.label}
@@ -240,6 +249,7 @@
              * @date    2020-01-24 17:31
              */
             onClickItem(item, index) {
+                if (item.disabled === true) return
                 !!this.select.opt.onClick && this.select.opt.onClick(item, index)
                 this.highlightIndex = index
                 if (!!this.select.opt.autoClose) this.hide()

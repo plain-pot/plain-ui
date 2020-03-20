@@ -4,8 +4,13 @@ export interface SelectOption {
     private?: Boolean                                           // 是否为私有实例
     reference: HTMLElement                                      // 目标元素
     popoverProps: any                                           // popover组件参数
+
     labelKey: string                                            // 显示文本的key
     valueKey: string                                            // 实际值key
+    groupKey: string                                            // 选项是否为分组key
+    disabledKey: string                                         // 是否禁用key
+    iconKey: string                                             // 图标key
+
     render: Function                                            // 自定义渲染内容的key
 
     autoClose: boolean                                          // 点击之后是否自关闭

@@ -36,6 +36,7 @@
 
 
     import {EditMixin, EmitMixin} from "../../utils/mixins";
+    import {decodeSelectData, SelectKey} from "./SelectUtils";
 
     export default {
         name: "pl-select",
@@ -54,6 +55,9 @@
             data: {type: Array},                                        //下拉数据
             labelKey: {type: String},                                   //文本的key
             valueKey: {type: String},                                   //值的key
+            disabledKey: {type: String},                                //禁用key
+            groupKey: {type: String},                                   //分组标致key
+            iconKey: {type: String},                                    //图标key
 
             multipleLimit: {type: Number, default: 0},                  //多选限制可以选择的项目数
             filterable: {type: Boolean, default: true},                 //是否可以输入筛选，输入的时候如果没有展开，则会自动展开，但是这个在ie下无效，原因比较复杂。简单说明的话，是因为ie下，input在 pl-select下会派发莫名其妙的 input 事件。
@@ -87,8 +91,13 @@
                     reference: () => this.$refs.input,
                     noDataText: () => this.p_noDataText,
                     render: this.$scopedSlots.default,
+
                     labelKey: 'label',
                     valueKey: 'value',
+                    groupKey: 'group',
+                    disabledKey: 'disabled',
+                    iconKey: 'iconKey',
+
                     keyboard: false,
                     autoClose: false,
                     beforeHide: () => {
@@ -163,10 +172,16 @@
              */
             p_data() {
                 if (!this.data || this.data.length === 0) return null
+
+                const keys = SelectKey.reduce((ret, key) => {
+                    ret[key] = this[key]
+                    return ret
+                }, {})
+
                 return this.data.map(d => {
-                    let label = !!this.labelKey ? d[this.labelKey] : d;
-                    let value = !!this.valueKey ? d[this.valueKey] : d
-                    return {label, value, data: d}
+                    const decodeData = decodeSelectData(d, keys)
+                    decodeData.data = d
+                    return decodeData
                 })
             },
             /**
