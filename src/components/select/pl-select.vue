@@ -91,6 +91,7 @@
                     reference: () => this.$refs.input,
                     noDataText: () => this.p_noDataText,
                     render: this.$scopedSlots.default,
+                    private: () => !!this.$scopedSlots.default,
 
                     labelKey: 'label',
                     valueKey: 'value',
@@ -163,6 +164,9 @@
                     index,
                 })
             }
+        },
+        beforeDestroy() {
+            if (!!this.p_select) this.p_select.destroy()
         },
         computed: {
             /**

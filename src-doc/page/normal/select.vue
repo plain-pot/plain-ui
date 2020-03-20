@@ -5,6 +5,16 @@
             <span>{{val[0]}}</span>
         </demo-row>
 
+        <demo-row title="禁用选项">
+            <pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/>
+        </demo-row>
+        <demo-row title="分组">
+            <pl-select :data="groupList" labelKey="name" valueKey="val" groupKey="row_group"/>
+        </demo-row>
+        <demo-row title="图标">
+            <pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/>
+        </demo-row>
+
         <demo-row title="自定义内容">
             <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[1]">
                 <template slot-scope="{data}">
@@ -17,9 +27,18 @@
             <span>{{val[1]}}</span>
         </demo-row>
 
-        <demo-row title="禁用选项"><pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/></demo-row>
-        <demo-row title="分组"><pl-select :data="groupList" labelKey="name" valueKey="val" groupKey="row_group"/></demo-row>
-        <demo-row title="图标"><pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/></demo-row>
+        <demo-row title="自定义内容情况下，会私有化select服务实例">
+            <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[1]">
+                <template slot-scope="{data}">
+                    <div>
+                        <span>{{data.name}}</span>
+                        <span style="float: right;font-size: 12px;color: #ccc">{{data.val}}</span>
+                        <input type="text">
+                    </div>
+                </template>
+            </pl-select>
+            <span>{{val[1]}}</span>
+        </demo-row>
 
         <demo-row title="加载状态">
             <pl-checkbox v-model="flag.loading"/>

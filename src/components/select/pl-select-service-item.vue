@@ -60,8 +60,8 @@
             /*当前service item是否为私有实例*/
             private() {
                 if (!this.select) return false
-                if (!this.select.opt.private) return false
-                return true
+                if (this.select.opt.private != null) return (typeof this.select.opt.private === 'function' ? this.select.opt.private() : this.select.opt.private)
+                return false
             },
             isShow() {
                 return this.showFlag
@@ -263,7 +263,7 @@
              * @date    2020-01-24 17:31
              */
             onClickItem(item, index, e) {
-                if (e.currentTarget !== e.target) return;
+                if (['INPUT', 'BUTTON'].indexOf(e.target.tagName) > -1) return;
                 if (item.disabled === true || item.group === true) return
                 !!this.select.opt.onClick && this.select.opt.onClick(item, index)
                 this.highlightIndex = index

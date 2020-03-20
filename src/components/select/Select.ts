@@ -1,7 +1,7 @@
 export interface SelectOption {
     value: any                                                  // 当前值
     data: Array<string>                                         // 选择的数组数据
-    private?: Boolean                                           // 是否为私有实例
+    private?: Boolean | Function                                // 是否为私有实例
     reference: HTMLElement                                      // 目标元素
     popoverProps: any                                           // popover组件参数
 
