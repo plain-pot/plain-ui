@@ -4,9 +4,8 @@
               :isFocus="isFocus"
               ref="input"
               :inputInnerTabindex="null"
-              v-bind="inputProps"
-    >
-        <div class="pl-number-prepend-button" @mousedown="intervalMinus" v-if="!hideButton">
+              v-bind="inputProps">
+        <div class="pl-number-prepend-button plain-click-node" @mousedown="intervalMinus" v-if="!hideButton" v-click-wave>
             <pl-icon icon="el-icon-minus"/>
         </div>
         <input type="text"
@@ -20,7 +19,7 @@
                @keydown.down.prevent="minus"
                @keyup.enter="onEnter"
                ref="innerInput">
-        <div class="pl-number-append-button" @mousedown="intervalAdd" v-if="!hideButton">
+        <div class="pl-number-append-button plain-click-node" @mousedown="intervalAdd" v-if="!hideButton" v-click-wave>
             <pl-icon icon="el-icon-plus"/>
         </div>
     </pl-input>
@@ -28,11 +27,13 @@
 
 <script lang="ts">
     import {EditMixin, EmitMixin, PropsMixinFactory, RefsMixinFactory, StyleMixin} from "../../utils/mixins";
+    import ClickWave from "../../directives/ClickWave";
 
     const NAN = 'NAN';
 
     export default {
         name: "pl-number",
+        directives:{ClickWave},
         mixins: [
             StyleMixin,
             EditMixin,

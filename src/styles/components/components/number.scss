@@ -58,6 +58,13 @@
         border-bottom-right-radius: $value;
       }
     }
+    @include statusMixin(input) {
+      .pl-number-prepend-button, .pl-number-append-button {
+        &:after {
+          border-color: $value;
+        }
+      }
+    }
 
     &:not(.pl-number-hide-button) {
       .pl-input-inner {
