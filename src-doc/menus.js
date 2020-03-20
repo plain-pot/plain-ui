@@ -14,7 +14,7 @@ export default [
             // {name: 'Textarea', title: '文本域', icon: 'pl-textarea', page: '/normal/textarea', complete: false},
             {name: 'Radio', title: '单选框', icon: 'pl-circle-radio', page: '/normal/radio', complete: true},
             {name: 'Checkbox', title: '复选框', icon: 'pl-circle-radio', page: '/normal/checkbox', complete: true},
-            {name: 'InputNumber', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: false},
+            {name: 'Number', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: true},
             {name: 'Loading', title: '加载', icon: 'pl-loading-section-three', page: '/normal/loading', complete: true},
             {name: 'Select', title: '下拉选择', icon: 'pad-down', page: '/normal/select', complete: true},
             {name: 'Cascade', title: '级联选择', icon: 'pad-doubledown', page: '/normal/cascade', complete: false},
