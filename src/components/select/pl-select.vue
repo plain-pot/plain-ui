@@ -96,7 +96,7 @@
                     valueKey: 'value',
                     groupKey: 'group',
                     disabledKey: 'disabled',
-                    iconKey: 'iconKey',
+                    iconKey: 'icon',
 
                     keyboard: false,
                     autoClose: false,

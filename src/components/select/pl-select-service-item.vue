@@ -53,7 +53,7 @@
                     let optValue = this.$plain.utils.typeOf(this.select.opt.value) === 'function' ? this.select.opt.value() : this.select.opt.value
                     decodeData.active = this.$plain.utils.typeOf(optValue) === 'array' ? optValue.indexOf(value) > -1 : optValue == value
                     decodeData.data = item
-                    console.log(decodeData)
+                    // console.log(decodeData)
                     return decodeData
                 })
             },
@@ -115,12 +115,14 @@
                                                     {
                                                         'pl-select-item-active': item.active,
                                                         'pl-select-item-highlight': this.highlightIndex === index,
-                                                        'pl-select-item-disabled': item.disabled === true
+                                                        'pl-select-item-disabled': item.disabled === true,
+                                                        'pl-select-item-group': item.group === true,
                                                     }
                                                 ]
                                             }
                                             onClick={() => this.onClickItem(item, index)}
                                             onMousedown={() => this.onItemMousedown(item, index)}>
+                                            {!!item.icon && <pl-icon icon={item.icon}/>}
                                             {!!this.select.opt.render ? this.select.opt.render(h, item, index) : item.label}
                                         </li>
                                     ))
@@ -249,7 +251,7 @@
              * @date    2020-01-24 17:31
              */
             onClickItem(item, index) {
-                if (item.disabled === true) return
+                if (item.disabled === true || item.group === true) return
                 !!this.select.opt.onClick && this.select.opt.onClick(item, index)
                 this.highlightIndex = index
                 if (!!this.select.opt.autoClose) this.hide()

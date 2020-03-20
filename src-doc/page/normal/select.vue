@@ -1,6 +1,6 @@
 <template>
     <div class="demo-select">
-        <!--<demo-row title="基本用法">
+        <demo-row title="基本用法">
             <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[0]"/>
             <span>{{val[0]}}</span>
         </demo-row>
@@ -16,6 +16,10 @@
             </pl-select>
             <span>{{val[1]}}</span>
         </demo-row>
+
+        <demo-row title="禁用选项"><pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/></demo-row>
+        <demo-row title="分组"><pl-select :data="groupList" labelKey="name" valueKey="val" groupKey="row_group"/></demo-row>
+        <demo-row title="图标"><pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/></demo-row>
 
         <demo-row title="加载状态">
             <pl-checkbox v-model="flag.loading"/>
@@ -80,11 +84,8 @@
         <demo-row title="multipleLimit:3，最多可以选择3个元素">
             <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[7]" :multipleLimit="3" multiple/>
             <span>{{val[7]}}</span>
-        </demo-row>-->
-        <demo-row title="禁用选项"><pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/></demo-row>
-<!--        <demo-row title="分组"><pl-select :data="groupList" labelKey="name" valueKey="val" groupKey="row_group"/></demo-row>-->
-<!--        <demo-row title="图标"><pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/></demo-row>-->
-<!---->
+        </demo-row>
+
     </div>
 </template>
 
