@@ -5,10 +5,10 @@
 
     .pl-input-inner {
       position: relative;
-      padding: 1px 30px !important;
+      padding-top: 1px;
+      padding-bottom: 1px;
 
       input {
-        text-align: center;
         width: 100%;
         height: 100%;
         border: none;
@@ -44,6 +44,17 @@
 
         &:active {
           background-color: #e1e1e1;
+        }
+      }
+    }
+
+    &:not(.pl-number-hide-button) {
+      .pl-input-inner {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+        input{
+          text-align: center !important;
+          padding: 0 12px;
         }
       }
     }

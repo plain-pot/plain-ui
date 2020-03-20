@@ -39,6 +39,10 @@
                 {{val[6]}}
             </demo-line>
         </demo-row>
+        <demo-row title="隐藏操作按钮">
+            <pl-number hideButton v-model="val[7]"/>
+            {{val[7]}}
+        </demo-row>
     </div>
 </template>
 
