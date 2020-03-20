@@ -47,6 +47,8 @@ class MessageService {
     show(message, option) {
         option = option || {}
         switch (this.$plain.utils.typeOf(message)) {
+            case 'number':
+                message = String(message)
             case 'string':
                 option.message = message
                 break

@@ -57,6 +57,14 @@
                 {{val[10]}}
             </demo-line>
         </demo-row>
+
+        <demo-row title="形状，大小，状态">
+            <pl-number status="info" shape="none" size="large"/>
+        </demo-row>
+        <demo-row title="enter按键事件，可以立即得到最新的值">
+            <pl-number v-model="val[11]" @enter="$plain.$message(val[11])"/>
+            {{val[11]}}
+        </demo-row>
     </div>
 </template>
 

@@ -18,6 +18,7 @@
                @input="onInput"
                @keydown.up.prevent="add"
                @keydown.down.prevent="minus"
+               @keyup.enter="onEnter"
                ref="innerInput">
         <div class="pl-number-append-button" @mousedown="intervalAdd" v-if="!hideButton">
             <pl-icon icon="el-icon-plus"/>
@@ -51,6 +52,7 @@
             emitFocus: Function,
             emitBlur: Function,
             emitInput: Function,
+            emitEnter: Function,
         },
         props: {
             value: {type: [String, Object]},                            // 双向绑定值
@@ -232,6 +234,16 @@
              */
             onInput(e) {
                 this.p_value = e.target.value
+            },
+            /**
+             * 输入框enter按键事件
+             * @author  韦胜健
+             * @date    2020/3/20 11:25
+             */
+            onEnter(e) {
+                this.p_value = this.checkValue(this.getEffectiveValue())
+                this.emitInput(this.p_value)
+                this.emitEnter(e)
             },
             /**
              * 点击计步器按钮，开启interval执行add
