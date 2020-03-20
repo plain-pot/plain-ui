@@ -121,8 +121,8 @@
 
       &.pl-button-mode-fill, &.pl-button-mode-stroke {
         border-color: #d3d3d3 !important;
-        color: #999 !important;
-        background-color: #f1f1f1 !important;
+        color: $disabledText !important;
+        background-color: $disabled !important;
       }
 
       &.pl-button-mode-text {

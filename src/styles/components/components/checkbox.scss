@@ -68,12 +68,12 @@
       cursor: not-allowed;
 
       .pl-checkbox-label {
-        color: $disabledDeep !important;
+        color: $disabledText !important;
       }
 
       .pl-checkbox-inner {
-        background-color: rgba(0, 0, 0, 0.03) !important;
-        color: $disabledDeep !important;
+        background-color: $disabled !important;
+        color: $disabledText !important;
       }
     }
   }
