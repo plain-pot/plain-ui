@@ -19,6 +19,26 @@
                 {{val[3]}}
             </demo-line>
         </demo-row>
+        <demo-row title="计步器步长 step:10">
+            <pl-number v-model="val[4]" step="10"/>
+        </demo-row>
+        <demo-row title="stepStrictly，step=10; 限制只能输入计步器步长的倍数">
+            <pl-number v-model="val[5]" step="10" stepStrictly/>
+        </demo-row>
+        <demo-row title="精度">
+            <demo-line title="整数:precision = 0">
+                <pl-number v-model="val[6]" precision="0"/>
+                {{val[6]}}
+            </demo-line>
+            <demo-line title="一位小数:precision = 1">
+                <pl-number v-model="val[6]" precision="1"/>
+                {{val[6]}}
+            </demo-line>
+            <demo-line title="两位小数:precision = 2">
+                <pl-number v-model="val[6]" precision="2"/>
+                {{val[6]}}
+            </demo-line>
+        </demo-row>
     </div>
 </template>
 

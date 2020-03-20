@@ -83,7 +83,7 @@
                 if (value == null) {
                     value = 0
                 }
-                value += this.step
+                value += this.p_step
                 value = this.checkValue(value)
                 this.p_value = value
                 this.emitInput(this.p_value)
@@ -93,7 +93,7 @@
                 if (value == null) {
                     value = 0
                 }
-                value -= this.step
+                value -= this.p_step
                 value = this.checkValue(value)
                 this.p_value = value
                 this.emitInput(this.p_value)
@@ -134,7 +134,7 @@
                         value = this.p_max
                     }
                     // stepStrictly
-                    if (this.stepStrictly && value % this.step !== 0) {
+                    if (this.stepStrictly && value % this.p_step !== 0) {
                         value = this.value
                     }
                     // precision
