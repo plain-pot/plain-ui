@@ -36,4 +36,9 @@
 </script>
 
 <style lang="scss">
+    .pl-popper-service-controller {
+        position: fixed;
+        top: -9999px;
+        left: -9999px;
+    }
 </style>

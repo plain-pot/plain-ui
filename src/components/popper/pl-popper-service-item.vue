@@ -1,9 +1,15 @@
 <script>
 
-    const DEFAULT_OPTS = {
+    const DEFAULT_OPTION = {
         reference: null,
         $slots: null,
         render: null
+    }
+
+    const DEFAULT_POPPER_OPTION = {
+        placement: 'bottom-start',
+        trigger: 'manual',
+        transition: 'pl-transition-scale',
     }
 
     export default {
@@ -17,17 +23,37 @@
             }
         },
         computed: {
+            isShow() {
+                return this.showFlag
+            },
+            isOpen() {
+                return this.openFlag
+            },
             p_opts() {
                 if (!this.option) return null
-                return Object.assign({}, DEFAULT_OPTS, this.option)
+                let option = this.option.option
+                let reference = typeof option.reference === "function" ? option.reference() : option.reference
+
+                let popperOption = {
+                    ...DEFAULT_POPPER_OPTION,
+                    ...(option.popperProps || {})
+                }
+
+                option = {
+                    ...DEFAULT_OPTION,
+                    ...option,
+                    popperOption,
+                    reference,
+                }
+                return option
             },
             popperBinding() {
                 return {
                     props: {
                         value: this.showFlag,
                         open: this.openFlag,
-                        trigger: 'manual',
-                        transition: 'pl-transition-scale'
+
+                        ...this.p_opts.popperOption,
                     },
                     on: {
                         input: (val) => {
@@ -54,10 +80,16 @@
             )
         },
         methods: {
-            async show(option) {
+            bind(option) {
                 this.option = option
+            },
+            async show() {
                 await this.$plain.nextTick()
                 this.showFlag = true
+            },
+            async hide() {
+                if (!this.isShow) return
+                this.showFlag = false
             },
         },
     }
