@@ -3,6 +3,9 @@
         <demo-row title="基本用法">
             <pl-button @click="test1.toggle()" label="open popper" ref="test1"/>
         </demo-row>
+        <demo-row title="popper参数">
+            <pl-button @click="testPopper.toggle()" label="open popper" ref="testPopper"/>
+        </demo-row>
     </div>
 </template>
 
@@ -40,8 +43,28 @@
                     )
                 },
             })
+
+            const testPopper = newData('testPopper', {
+                popperProps: {
+                    placement: 'right-start',
+                    width: '100px',
+                    height: '200px',
+                    transition: 'pl-transition-scale-y',
+                },
+                render() {
+                    return (
+                        <div>
+                            <p>右固定</p>
+                            <p>宽100px，高200px</p>
+                            <p>纵向缩放动画</p>
+                        </div>
+                    )
+                },
+            })
+
             return {
                 test1,
+                testPopper,
             }
         },
         methods: {},

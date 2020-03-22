@@ -72,7 +72,7 @@
                 <pl-popper class="pl-popper-service-item"
                            reference={this.p_opts.reference}
                            {...this.popperBinding}>
-                    <div slot="popper" class="pl-popper-service-item-content" style="height:100px;width:200px">
+                    <div slot="popper" class="pl-popper-service-item-content">
                         {!!this.p_opts.$slots && this.p_opts.$slots}
                         {!!this.p_opts.render && this.p_opts.render(h)}
                     </div>
