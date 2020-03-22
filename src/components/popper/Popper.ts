@@ -15,7 +15,7 @@ export class Popper {
     async show() {
         if (this.isShow()) return
         if (!this.ins) {
-            this.ins = await this.controller.getService()
+            this.ins = await this.controller.getInstance()
         }
         this.ins.bind(this)
         this.ins.show()

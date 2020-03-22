@@ -6,6 +6,11 @@
         <demo-row title="popper参数">
             <pl-button @click="testPopper.toggle()" label="open popper" ref="testPopper"/>
         </demo-row>
+        <demo-row title="实例复用">
+            <pl-button @click="instance1.toggle()" label="instance1" ref="instance1"/>
+            <pl-button @click="instance2.toggle()" label="instance2" ref="instance2"/>
+            <pl-button @click="instance3.toggle()" label="instance3" ref="instance3"/>
+        </demo-row>
     </div>
 </template>
 
@@ -62,9 +67,40 @@
                 },
             })
 
+            const instance1 = newData('instance1', {
+                render() {
+                    return (
+                        <div>
+                            instance1
+                        </div>
+                    )
+                },
+            })
+            const instance2 = newData('instance2', {
+                render() {
+                    return (
+                        <div>
+                            instance2
+                        </div>
+                    )
+                },
+            })
+            const instance3 = newData('instance3', {
+                render() {
+                    return (
+                        <div>
+                            instance3
+                        </div>
+                    )
+                },
+            })
+
             return {
                 test1,
                 testPopper,
+                instance1,
+                instance2,
+                instance3,
             }
         },
         methods: {},

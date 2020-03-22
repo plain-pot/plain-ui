@@ -21,12 +21,12 @@
             }
         },
         methods: {
-            async getService() {
+            async getInstance() {
                 let service = this.items.find(ele => !ele.showFlag && !ele.openFlag)
                 if (!service) {
                     this.count++
                     await this.$plain.nextTick()
-                    return this.getService()
+                    return this.getInstance()
                 } else {
                     return service
                 }

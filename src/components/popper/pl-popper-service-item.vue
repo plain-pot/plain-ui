@@ -81,7 +81,11 @@
         },
         methods: {
             bind(option) {
+                if (!!this.option) {
+                    this.option.ins = null
+                }
                 this.option = option
+                this.option.ins = this
             },
             async show() {
                 await this.$plain.nextTick()
