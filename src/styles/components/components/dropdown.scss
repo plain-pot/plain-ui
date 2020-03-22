@@ -1,0 +1,9 @@
+@mixin component-dropdown {
+  .pl-dropdown-menu {
+    padding: 16px 0;
+
+    .pl-dropdown-item {
+      padding: 4px 16px;
+    }
+  }
+}
