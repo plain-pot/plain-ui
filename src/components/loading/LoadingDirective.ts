@@ -11,7 +11,7 @@ export const PlLoadingDirective = {
             componentUpdated(el, binding) {
                 const data = map.get(el) as LoadingService
                 if (!!data) {
-                    data.setOpts(binding.value)
+                    data.updateOption(binding.value)
                 }
             },
             unbind(el) {

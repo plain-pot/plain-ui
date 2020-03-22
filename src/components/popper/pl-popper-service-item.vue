@@ -11,15 +11,15 @@
         props: {},
         data() {
             return {
-                opts: null,
+                option: null,
                 showFlag: false,
                 openFlag: false,
             }
         },
         computed: {
             p_opts() {
-                if (!this.opts) return null
-                return Object.assign({}, DEFAULT_OPTS, this.opts)
+                if (!this.option) return null
+                return Object.assign({}, DEFAULT_OPTS, this.option)
             },
             popperBinding() {
                 return {
@@ -54,8 +54,8 @@
             )
         },
         methods: {
-            async show(opts) {
-                this.opts = opts
+            async show(option) {
+                this.option = option
                 await this.$plain.nextTick()
                 this.showFlag = true
             },

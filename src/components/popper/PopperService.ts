@@ -1,7 +1,7 @@
 import Controller from './pl-popper-service-controller.vue'
 
 class PopperService {
-    constructor(opts) {
+    constructor(option) {
 
     }
 }
@@ -12,12 +12,12 @@ export default {
         let controller;
         const $plain = Vue.prototype.$plain
 
-        Vue.prototype.$popper = async (opts) => {
+        Vue.prototype.$popper = async (option) => {
             if (!controller) {
                 controller = $plain.newInstance(Controller)
             }
             const service = await controller.getService()
-            await service.show(opts)
+            await service.show(option)
         }
     },
 }

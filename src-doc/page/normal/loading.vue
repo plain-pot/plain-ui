@@ -20,13 +20,7 @@
             </div>
         </demo-row>
         <demo-row title="状态（颜色)">
-            <demo-line v-for="item in status" :key="item" :title="item">
-                <pl-loading type="alpha" :status="item"/>
-                <pl-loading type="beta" :status="item"/>
-                <pl-loading type="gamma" :status="item"/>
-                <pl-loading type="ice" :status="item"/>
-                <pl-loading type="delta" :status="item"/>
-            </demo-line>
+            <pl-loading v-for="item in status" :key="item" type="alpha" :status="item"/>
         </demo-row>
         <demo-row title="自定义颜色">
             <pl-loading type="alpha" style="color: blueviolet"/>

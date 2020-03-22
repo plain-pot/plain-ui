@@ -16,23 +16,23 @@ class TooltipService {
     tooltip;
     $plain;
 
-    constructor(el: HTMLElement, opts: object | string, $plain) {
+    constructor(el: HTMLElement, option: object | string, $plain) {
         this.$plain = $plain
-        this.setOpts(el, opts)
+        this.updateOption(el, option)
     }
 
-    async setOpts(el: HTMLElement, opts: object | string) {
+    async updateOption(el: HTMLElement, option: object | string) {
         await this.$plain.nextTick()
         if (!!this.tooltip) {
             this.tooltip.destroy()
             this.tooltip = null
         }
-        if (!!opts) {
-            if (typeof opts === "string") {
-                opts = {content: opts}
+        if (!!option) {
+            if (typeof option === "string") {
+                option = {content: option}
             }
-            opts = Object.assign({targetEl: el}, TooltipService.defaultOptions, opts)
-            this.tooltip = new PlainTooltip(opts)
+            option = Object.assign({targetEl: el}, TooltipService.defaultOptions, option)
+            this.tooltip = new PlainTooltip(option)
         }
     }
 
@@ -52,7 +52,7 @@ export const TooltipDirective = {
                 if (!!binding.value) {
                     let service = new TooltipService(el, binding.value, vnode.context.$plain)
                     map.set(el, service)
-                    service.setOpts(el, binding.value)
+                    service.updateOption(el, binding.value)
                 }
             },
             componentUpdated(el, binding, vnode) {
@@ -62,7 +62,7 @@ export const TooltipDirective = {
                         service = new TooltipService(el, binding.value, vnode.context.$plain)
                         map.set(el, service)
                     }
-                    service.setOpts(el, binding.value)
+                    service.updateOption(el, binding.value)
                 } else {
                     let service = map.get(el) as TooltipService
                     if (!!service) {

@@ -16,17 +16,17 @@ class LoadingService {
     $plain;
     mask;
 
-    constructor(private el: HTMLElement, private opts: boolean | object, private context: any) {
+    constructor(private el: HTMLElement, private option: boolean | object, private context: any) {
         this.$plain = context.$plain
         this.mask = this.$plain.newInstance(WrapMask, {parent: context, parentNode: el})
-        this.setOpts(opts)
+        this.updateOption(option)
     }
 
-    setOpts(opts: boolean | object) {
-        if (typeof opts === 'boolean') {
-            this.mask.binding = {value: opts}
-        } else if (typeof opts === 'object') {
-            this.mask.binding = {...opts}
+    updateOption(option: boolean | object) {
+        if (typeof option === 'boolean') {
+            this.mask.binding = {value: option}
+        } else if (typeof option === 'object') {
+            this.mask.binding = {...option}
         }
     }
 
@@ -40,11 +40,11 @@ class LoadingService {
     static install(Vue) {
         let mask;
         const $plain = Vue.prototype.$plain
-        const $loading = (opts) => {
+        const $loading = (option) => {
             if (!mask) {
-                mask = new LoadingService(document.body, opts, $plain.$root)
+                mask = new LoadingService(document.body, option, $plain.$root)
             }
-            mask.setOpts(opts)
+            mask.updateOption(option)
         }
         Vue.prototype.$loading = $loading
     }

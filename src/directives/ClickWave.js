@@ -2,11 +2,11 @@ const map = new WeakMap()
 
 class ClickWaveData {
 
-    constructor(el, opts) {
-        this.opts = {}
+    constructor(el, option) {
+        this.option = {}
         this.on = () => {
-            // console.log(this.opts,this.opts.disabled === true)
-            if (this.opts.disabled === true) return;
+            // console.log(this.option,this.option.disabled === true)
+            if (this.option.disabled === true) return;
             if (!!this.wavingTimer) return
 
             this.el.setAttribute('plain-click-node-waving', null)
@@ -15,19 +15,19 @@ class ClickWaveData {
                 this.wavingTimer = null
             }, 500)
         }
-        this.setOpts = (opts) => {
-            opts = opts || {}
-            if (typeof opts === "string") {
-                opts = {
-                    size: opts
+        this.updateOption = (option) => {
+            option = option || {}
+            if (typeof option === "string") {
+                option = {
+                    size: option
                 }
             }
-            opts.size = opts.size || 'normal'
-            this.opts = opts
+            option.size = option.size || 'normal'
+            this.option = option
         }
-        this.setOpts(opts)
+        this.updateOption(option)
         this.el = el
-        this.el.setAttribute(`plain-click-node-${this.opts.size}`, null)
+        this.el.setAttribute(`plain-click-node-${this.option.size}`, null)
 
         el.addEventListener('click', this.on, true)
     }
@@ -44,7 +44,7 @@ const ClickWave = {
     componentUpdated(el, binding) {
         const data = map.get(el)
         if (!!data) {
-            data.setOpts(binding.value)
+            data.updateOption(binding.value)
         }
     },
     unbind(el) {
