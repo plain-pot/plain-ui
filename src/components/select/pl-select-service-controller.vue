@@ -32,8 +32,8 @@
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
             /*创建一个select对象*/
-            newSelect(opt: SelectOption) {
-                return new Select(opt, this)
+            newSelect(option: SelectOption) {
+                return new Select(option, this)
             },
 
             /*---------------------------------------listener-------------------------------------------*/

@@ -33,10 +33,10 @@ export default class Select {
 
     ins = null                                                   // select service item 实例
 
-    constructor(public opt: SelectOption, public controller) {
-        opt.autoClose = opt.autoClose === undefined ? true : opt.autoClose
-        opt.closeAfterBody = opt.closeAfterBody === undefined ? true : opt.closeAfterBody
-        opt.keyboard = opt.keyboard === undefined ? true : opt.keyboard
+    constructor(public option: SelectOption, public controller) {
+        option.autoClose = option.autoClose === undefined ? true : option.autoClose
+        option.closeAfterBody = option.closeAfterBody === undefined ? true : option.closeAfterBody
+        option.keyboard = option.keyboard === undefined ? true : option.keyboard
     }
 
     /*打开select*/

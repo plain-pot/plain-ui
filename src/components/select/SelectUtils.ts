@@ -6,7 +6,7 @@ export const SelectKey = [
     "iconKey",
 ]
 
-export function decodeSelectData(data, opts = {}) {
+export function decodeSelectData(data, option = {}) {
 
     if (typeof data === 'string' || typeof data === 'number') {
         return {
@@ -19,8 +19,8 @@ export function decodeSelectData(data, opts = {}) {
     }
 
     return SelectKey.reduce((ret, key) => {
-        if (!!opts[key]) {
-            ret[key.replace('Key', '')] = data[opts[key]]
+        if (!!option[key]) {
+            ret[key.replace('Key', '')] = data[option[key]]
         }
         return ret
     }, {})
