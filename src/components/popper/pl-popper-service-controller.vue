@@ -22,7 +22,7 @@
         },
         methods: {
             async getInstance() {
-                let service = this.items.find(ele => !ele.showFlag && !ele.openFlag)
+                let service = this.items.find(item => (!item.showFlag && !item.openFlag) && !item.isPrivate)
                 if (!service) {
                     this.count++
                     await this.$plain.nextTick()

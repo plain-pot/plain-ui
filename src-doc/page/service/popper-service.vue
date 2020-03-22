@@ -11,6 +11,10 @@
             <pl-button @click="instance2.toggle()" label="instance2" ref="instance2"/>
             <pl-button @click="instance3.toggle()" label="instance3" ref="instance3"/>
         </demo-row>
+        <demo-row title="私有实例">
+            <pl-button @click="privateTest.toggle()" label="私有实例" ref="privateTest"/>
+            <pl-button @click="normalTest.toggle()" label="普通实例" ref="normalTest"/>
+        </demo-row>
     </div>
 </template>
 
@@ -94,6 +98,25 @@
                     )
                 },
             })
+            const privateTest = newData('privateTest', {
+                private: true,
+                render() {
+                    return (
+                        <div>
+                            <pl-input/>
+                        </div>
+                    )
+                },
+            })
+            const normalTest = newData('normalTest', {
+                render() {
+                    return (
+                        <div>
+                            <pl-input/>
+                        </div>
+                    )
+                },
+            })
 
             return {
                 test1,
@@ -101,9 +124,16 @@
                 instance1,
                 instance2,
                 instance3,
+                privateTest,
+                normalTest,
             }
         },
         methods: {},
+        beforeDestroy() {
+            if (!!this.privateTest.service) {
+                this.privateTest.service.destroy()
+            }
+        }
     }
 </script>
 

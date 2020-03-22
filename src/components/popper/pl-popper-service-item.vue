@@ -3,7 +3,8 @@
     const DEFAULT_OPTION = {
         reference: null,
         $slots: null,
-        render: null
+        render: null,
+        private: false,
     }
 
     const DEFAULT_POPPER_OPTION = {
@@ -47,6 +48,10 @@
                 }
                 return option
             },
+            isPrivate() {
+                if (!this.option) return false
+                return this.p_opts.private
+            },
             popperBinding() {
                 return {
                     props: {
@@ -54,6 +59,9 @@
                         open: this.openFlag,
 
                         ...this.p_opts.popperOption,
+                        rootProps: {
+                            private: String(this.isPrivate)
+                        },
                     },
                     on: {
                         input: (val) => {
@@ -72,7 +80,7 @@
                 <pl-popper class="pl-popper-service-item"
                            reference={this.p_opts.reference}
                            {...this.popperBinding}>
-                    <div slot="popper" class="pl-popper-service-item-content">
+                    <div slot="popper" class="pl-popper-service-item-content" private={String(this.isPrivate)}>
                         {!!this.p_opts.$slots && this.p_opts.$slots}
                         {!!this.p_opts.render && this.p_opts.render(h)}
                     </div>
@@ -86,6 +94,12 @@
                 }
                 this.option = option
                 this.option.ins = this
+            },
+            unbind(option) {
+                if (option === this.option) {
+                    this.option = null
+                }
+                option.ins = null
             },
             async show() {
                 await this.$plain.nextTick()

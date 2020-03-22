@@ -3,6 +3,7 @@ export interface PopperOption {
     $slots: Object[],
     render: Function,
     popperProps: Object,
+    private: boolean,
 }
 
 export class Popper {
@@ -45,6 +46,11 @@ export class Popper {
     }
 
     destroy() {
-
+        if (this.isShow()) {
+            this.hide()
+        }
+        if (!!this.ins) {
+            this.ins.unbind(this)
+        }
     }
 }
