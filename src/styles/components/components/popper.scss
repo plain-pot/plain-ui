@@ -66,10 +66,14 @@
 
     .plain-popper-content {
       pointer-events: auto;
-      padding: 16px 12px;
       border-radius: 4px;
       color: #606266;
       font-size: 14px;
+      padding: 16px 12px;
+
+      &.plain-popper-content-no-padding {
+        padding: 0;
+      }
     }
 
     .plain-popper-content {

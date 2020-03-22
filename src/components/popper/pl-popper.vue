@@ -3,7 +3,7 @@
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
             <transition :name="transition" @after-leave="onAfterLeave" @after-enter="onAfterEnter" @before-enter="onBeforeEnter">
-                <div class="plain-popper-content" v-show="p_value" ref="content">
+                <div class="plain-popper-content" v-show="p_value" ref="content" :class="{'plain-popper-content-no-padding':noContentPadding}">
                     <div class="plain-popper-arrow" v-if="arrow"></div>
                     <slot name="popper"></slot>
                 </div>
@@ -49,6 +49,7 @@
             height: {type: [Number, String]},                           // 高度
             hoverOpenDelay: {type: [Number, String], default: 0},       // hover触发条件下，打开延迟时间
             hoverCloseDelay: {type: [Number, String], default: 200},    // hover触发条件下，关闭延迟时间
+            noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
 
             reference: {},                                              // 目标dom元素
             placement: {type: String, default: 'top-start'},            // 位置

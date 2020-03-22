@@ -2,6 +2,7 @@
     <pl-popper class="pl-popover"
                v-bind="popperProps"
                :value="p_value"
+               noContentPadding
                @input="onInput"
 
                :open="open"
