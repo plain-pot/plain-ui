@@ -1,5 +1,5 @@
 <template>
-    <span class="pl-popper" @click="emitClickPopper" @mousedown="emitMousedownPopper">
+    <span class="pl-popper" @click="emitClickPopper" @mousedown="emitMousedownPopper" v-bind="rootProps" :show="p_value">
         <slot></slot>
         <div ref="popper" :class="['pl-popper-el',transition,{[popperClass]:!!popperClass},`pl-popper-el-animate-${transition}`]" :style="popperStyles">
             <transition :name="transition" @after-leave="onAfterLeave" @after-enter="onAfterEnter" @before-enter="onBeforeEnter">
@@ -56,32 +56,33 @@
             boundary: {default: 'window'},                              // 边界元素
 
             sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
+            rootProps: {type: Object},                                  // 根节点dom元素的属性
         },
         emitters: {
-            emitInput: null,                                            // v-model绑定
-            emitUpdateOpen: null,                                       // open属性更新
-            emitOpen: null,                                             // 派发打开事件，打开完毕，打开动画执行完毕
-            emitClose: null,                                            // 派发关闭事件，关闭完毕，关闭动画执行完毕
-            emitInit: null,                                             // 初始化事件，reference el以及popper el已经确认，popper实例已经创建，完成popper el的定位工作
-            emitDstry: null,                                            // 销毁事件，popper已经销毁
-            emitShow: null,                                             // 打开事件，刚刚打开，动画未结束
-            emitHide: null,                                             // 关闭事件，刚刚关闭，动画未结束
-            emitClickReference: null,                                   // 点击reference事件
-            emitClickPopper: null,                                      // 点击popper的事件
-            emitClickPopperContent: null,                               // 点击popper的内容的事件
-            emitClickBody: null,                                        // 点击除了reference 以及popper派发的事件
-            emitMousedownPopper: null,                                  // 鼠标摁住popperEl派发的事件
+            emitInput: Function,                                        // v-model绑定
+            emitUpdateOpen: Function,                                   // open属性更新
+            emitOpen: Function,                                         // 派发打开事件，打开完毕，打开动画执行完毕
+            emitClose: Function,                                        // 派发关闭事件，关闭完毕，关闭动画执行完毕
+            emitInit: Function,                                         // 初始化事件，reference el以及popper el已经确认，popper实例已经创建，完成popper el的定位工作
+            emitDstry: Function,                                        // 销毁事件，popper已经销毁
+            emitShow: Function,                                         // 打开事件，刚刚打开，动画未结束
+            emitHide: Function,                                         // 关闭事件，刚刚关闭，动画未结束
+            emitClickReference: Function,                               // 点击reference事件
+            emitClickPopper: Function,                                  // 点击popper的事件
+            emitClickPopperContent: Function,                           // 点击popper的内容的事件
+            emitClickBody: Function,                                    // 点击除了reference 以及popper派发的事件
+            emitMousedownPopper: Function,                              // 鼠标摁住popperEl派发的事件
 
-            emitEnterReference: null,                                   // trigger为hover下，进入 reference 事件
-            emitLeaveReference: null,                                   // trigger为hover下，离开 reference 事件
-            emitEnterPopper: null,                                      // trigger为hover下，进入popper事件
-            emitLeavePopper: null,                                      // trigger为hover下，离开popper事件
-            emitReferenceFocus: null,                                   // trigger为focus下，reference 获取焦点事件
-            emitReferenceBlur: null,                                    // trigger为focus下，reference失去焦点事件
+            emitEnterReference: Function,                               // trigger为hover下，进入 reference 事件
+            emitLeaveReference: Function,                               // trigger为hover下，离开 reference 事件
+            emitEnterPopper: Function,                                  // trigger为hover下，进入popper事件
+            emitLeavePopper: Function,                                  // trigger为hover下，离开popper事件
+            emitReferenceFocus: Function,                               // trigger为focus下，reference 获取焦点事件
+            emitReferenceBlur: Function,                                // trigger为focus下，reference失去焦点事件
 
-            emitBeforeEnter: null,                                      // 展开动画开始之前事件
-            emitAfterEnter: null,                                       // 展开动画结束之后事件
-            emitAfterLeave: null,                                       // 收起动画结束之后事件
+            emitBeforeEnter: Function,                                  // 展开动画开始之前事件
+            emitAfterEnter: Function,                                   // 展开动画结束之后事件
+            emitAfterLeave: Function,                                   // 收起动画结束之后事件
         },
         watch: {
             value(val) {
