@@ -43,9 +43,7 @@ export default class Select {
     async show() {
         if (this.isShow()) return
 
-        if (!this.ins) {
-            this.ins = await this.controller.getInstance()
-        }
+        this.ins = await this.controller.getInstance()
         this.ins.bind(this)
         this.ins.show()
     }
