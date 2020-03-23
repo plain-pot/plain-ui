@@ -93,23 +93,14 @@
         watch: {
             value(val) {
                 this.p_value = val
-                if (!!this.p_value && !!this.$refs.scroll) {
-                    this.$nextTick(() => this.$refs.scroll.scroll({y: 0}))
-                }
             },
         },
         methods: {
             onInput(val) {
                 this.p_value = val
                 this.$emit('input', this.p_value)
-                if (!!this.p_value && !!this.$refs.scroll) {
-                    this.$nextTick(() => this.$refs.scroll.scroll({y: 0}))
-                }
             },
             onOpen() {
-                if (!!this.$refs.scroll) {
-                    this.$refs.scroll.refresh()
-                }
                 this.emitOpen()
             },
         },

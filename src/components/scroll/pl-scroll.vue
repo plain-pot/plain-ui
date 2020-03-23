@@ -40,6 +40,9 @@
         name: "pl-scroll",
         directives: {resize: ResizeDetectorDirective},
         mixins: [MountedMixin],
+        inject: {
+            plPopper: {default: null}
+        },
         props: {
             scrollbarSize: {type: Number},
             scrollbarColor: {type: String, default: 'rgba(144,147,153,.3)'},
@@ -81,9 +84,29 @@
         },
         mounted() {
             window.addEventListener('resize', this.onWindowResize)
+
+            // popper 中的 scroll 自动刷新
+            this.popperHandler = {
+                open: () => {
+                    this.refresh()
+                },
+                show: () => {
+                    this.$nextTick(() => this.scroll({y: 0}))
+                },
+            }
+
+            if (!!this.plPopper) {
+                this.plPopper.$on('open', this.popperHandler.open)
+                this.plPopper.$on('show', this.popperHandler.show)
+            }
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.onWindowResize)
+
+            if (!!this.plPopper) {
+                this.plPopper.$off('open', this.popperHandler.open)
+                this.plPopper.$off('show', this.popperHandler.show)
+            }
         },
         computed: {
             /*---------------------------------------ref-------------------------------------------*/

@@ -59,6 +59,11 @@
             sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
             rootProps: {type: Object},                                  // 根节点dom元素的属性
         },
+        provide() {
+            return {
+                plPopper: this,
+            }
+        },
         emitters: {
             emitInput: Function,                                        // v-model绑定
             emitUpdateOpen: Function,                                   // open属性更新
