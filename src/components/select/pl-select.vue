@@ -3,6 +3,7 @@
             ref="input"
             class="pl-select-input"
             :class="{'pl-multi-select-input':!!multiple,'pl-select-input-show':isShow}"
+            v-bind="inputProps"
             suffixIcon="el-icon-arrow-down"
             clearIcon
             :value="multiple?multipleInputValue: ((isShow&&filterable)?p_inputValue:inputValue)"
@@ -64,6 +65,8 @@
             filterMethod: {type: Function},                             //输入筛选自定义函数
             noMatchText: {type: String, default: '无匹配数据'},          //没有匹配的时候的显示的文本
             noDataText: {type: String, default: '无数据'},               //没有数据的时候显示的文本
+
+            inputProps: {type: Object},                                 // pl-input 属性
         },
         watch: {
             value(val) {

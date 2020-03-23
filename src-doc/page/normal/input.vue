@@ -91,8 +91,14 @@
             </demo-line>
         </demo-row>
         <demo-row title="输入框组">
+
+            <demo-line>
+                <pl-checkbox v-model="prepend" label="show prepend"/>
+                <pl-checkbox v-model="append" label="show append"/>
+            </demo-line>
+
             <pl-input prefixIcon="el-icon-search" suffixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')">
-                <div slot="prepend" v-if="prepend">
+                <div slot="prepend" v-if="prepend" style="width:75px;text-align: right">
                     <pl-dropdown>
                         <span>{{val[3]}}:// <pl-icon class="el-icon-arrow-down"/></span>
                         <pl-dropdown-menu slot="dropdown">
@@ -102,8 +108,11 @@
                 </div>
                 <div slot="append" v-if="append">append content</div>
             </pl-input>
-            <r-checkbox v-model="prepend" label="prepend"/>
-            <r-checkbox v-model="append" label="append"/>
+            <pl-input prefixIcon="el-icon-search" suffixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')">
+                <pl-select slot="prepend" v-if="prepend" :data="['ftp','http','https','ssh']" v-model="val[3]" :inputProps="{width:100}"/>
+                <div slot="append" v-if="append">append content</div>
+            </pl-input>
+
         </demo-row>
         <demo-row title="自定义内容">
             <pl-input suffixIcon="el-icon-search">
@@ -159,7 +168,7 @@
         props: {},
         data() {
             return {
-                val:{
+                val: {
                     3: 'https'
                 },
                 prepend: true,

@@ -330,6 +330,7 @@
 
     .pl-loading {
       cursor: not-allowed;
+
       &:before {
         position: absolute;
         top: 2px;
@@ -355,6 +356,7 @@
       border: 1px solid #dcdfe6;
       border-radius: 4px;
       padding: 0 12px;
+      overflow: visible;
 
       width: 1px;
       white-space: nowrap;
@@ -365,6 +367,11 @@
 
       &.pl-input-append {
         border-left: none;
+      }
+
+      & > .pl-input, & > .pl-button {
+        display: inline-block;
+        margin: -1px -13px -1px -12px;
       }
     }
 

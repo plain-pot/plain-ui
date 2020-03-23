@@ -40,5 +40,6 @@
         position: fixed;
         top: -9999px;
         left: -9999px;
+        z-index: 1500;
     }
 </style>
