@@ -27,7 +27,6 @@
             hoverCloseDelay: {type: [Number, String], default: 200},        // hover触发条件下，关闭延迟时间
         },
         data() {
-            const that = this
             return {
                 service: null,
                 el: null,
@@ -37,11 +36,11 @@
                         noContentPadding: true,
                     },
                     render: (h) => {
-
+                        const that = this
                         const wrapper = (content) => {
                             return (
                                 <DropdownWrapper {...that.wrapperBinding}>
-                                    {!this.p_height ?
+                                    {!that.p_height ?
                                         content :
                                         <pl-scroll>
                                             {content}
@@ -62,77 +61,85 @@
 
                 triggers: {
                     click: {
-                        init(el) {
-                            that.el = el
-                            this.handler = {click: () => that.isShow ? that.hide() : that.show(),}
-                            that.el.addEventListener('click', this.handler.click)
+                        init: (el) => {
+                            this.el = el
+                            this.triggerHandler = {click: () => this.isShow ? this.hide() : this.show()}
+                            this.el.addEventListener('click', this.triggerHandler.click)
                         },
-                        destroy() {
-                            that.el.removeEventListener('click', this.handler.click)
+                        destroy: () => {
+                            this.el.removeEventListener('click', this.triggerHandler.click)
                         },
                     },
                     hover: {
-                        init(el) {
-                            that.el = el
-                            this.handler = {
+                        init: (el) => {
+                            this.el = el
+                            this.triggerHandler = {
                                 'enter-reference': () => {
-                                    if (!!this.closeTimer) {
-                                        clearTimeout(this.closeTimer)
-                                        this.closeTimer = null
+                                    if (!!this.triggerHandler.closeTimer) {
+                                        clearTimeout(this.triggerHandler.closeTimer)
+                                        this.triggerHandler.closeTimer = null
                                     }
-                                    this.openTimer = setTimeout(() => {
-                                        that.show()
-                                        this.openTimer = null
-                                    }, that.p_hoverOpenDelay)
+                                    this.triggerHandler.openTimer = setTimeout(() => {
+                                        this.show()
+                                        this.triggerHandler.openTimer = null
+                                    }, this.p_hoverOpenDelay)
                                 },
                                 'leave-reference': () => {
-                                    if (!!this.openTimer) {
-                                        clearTimeout(this.openTimer)
-                                        this.openTimer = null
+                                    if (!!this.triggerHandler.openTimer) {
+                                        clearTimeout(this.triggerHandler.openTimer)
+                                        this.triggerHandler.openTimer = null
                                     }
-                                    this.closeTimer = setTimeout(() => {
-                                        that.hide()
-                                        this.closeTimer = null
-                                    }, that.p_hoverCloseDelay)
+                                    this.triggerHandler.closeTimer = setTimeout(() => {
+                                        this.hide()
+                                        this.triggerHandler.closeTimer = null
+                                    }, this.p_hoverCloseDelay)
                                 },
                                 'enter-popper': () => {
-                                    if (!!this.closeTimer) {
-                                        clearTimeout(this.closeTimer)
-                                        this.closeTimer = null
+                                    if (!!this.triggerHandler.closeTimer) {
+                                        clearTimeout(this.triggerHandler.closeTimer)
+                                        this.triggerHandler.closeTimer = null
                                     }
-                                    this.openTimer = setTimeout(() => {
-                                        that.show()
-                                        this.openTimer = null
-                                    }, that.p_hoverOpenDelay)
+                                    this.triggerHandler.openTimer = setTimeout(() => {
+                                        this.show()
+                                        this.triggerHandler.openTimer = null
+                                    }, this.p_hoverOpenDelay)
                                 },
                                 'leave-popper': () => {
-                                    if (!!this.openTimer) {
-                                        clearTimeout(this.openTimer)
-                                        this.openTimer = null
+                                    if (!!this.triggerHandler.openTimer) {
+                                        clearTimeout(this.triggerHandler.openTimer)
+                                        this.triggerHandler.openTimer = null
                                     }
-                                    this.closeTimer = setTimeout(() => {
-                                        that.hide()
-                                        this.closeTimer = null
-                                    }, that.p_hoverCloseDelay)
+                                    this.triggerHandler.closeTimer = setTimeout(() => {
+                                        this.hide()
+                                        this.triggerHandler.closeTimer = null
+                                    }, this.p_hoverCloseDelay)
                                 },
                             }
-                            that.el.addEventListener('mouseenter', this.handler["enter-reference"])
-                            that.el.addEventListener('mouseleave', this.handler["leave-reference"])
-                            that.$on('enter-popper', this.handler["enter-popper"])
-                            that.$on('leave-popper', this.handler["leave-popper"])
+                            this.el.addEventListener('mouseenter', this.triggerHandler["enter-reference"])
+                            this.el.addEventListener('mouseleave', this.triggerHandler["leave-reference"])
+                            this.$on('enter-popper', this.triggerHandler["enter-popper"])
+                            this.$on('leave-popper', this.triggerHandler["leave-popper"])
                         },
-                        destroy() {
-                            that.el.removeEventListener('mouseenter', this.handler["enter-reference"])
-                            that.el.removeEventListener('mouseleave', this.handler["leave-reference"])
-                            that.$off('enter-popper', this.handler["enter-popper"])
-                            that.$off('leave-popper', this.handler["leave-popper"])
+                        destroy: () => {
+                            this.el.removeEventListener('mouseenter', this.triggerHandler["enter-reference"])
+                            this.el.removeEventListener('mouseleave', this.triggerHandler["leave-reference"])
+                            this.$off('enter-popper', this.triggerHandler["enter-popper"])
+                            this.$off('leave-popper', this.triggerHandler["leave-popper"])
                         },
                     },
                     focus: {
-                        init(el) {
+                        init: (el) => {
                             this.el = el
-                            this.handler = {click: () => that.isShow ? that.hide() : that.show(),}
-                            this.el.addEventListener('click', this.handler.click)
+                            this.triggerHandler = {
+                                focus: () => this.show(),
+                                blur: () => setTimeout(() => this.hide(), 200),
+                            }
+                            this.el.addEventListener('focus', this.triggerHandler.focus)
+                            this.el.addEventListener('blur', this.triggerHandler.blur)
+                        },
+                        destroy: () => {
+                            this.el.removeEventListener('focus', this.triggerHandler.focus)
+                            this.el.removeEventListener('blur', this.triggerHandler.blur)
                         },
                     },
                     manual: {},
@@ -158,7 +165,6 @@
                 },
             },
             wrapperBinding() {
-                const that = this
                 return {
                     style: {
                         ...(!this.p_width ? {} : {width: this.$plain.utils.suffixPx(this.p_width)}),
@@ -166,13 +172,14 @@
                     },
                     on: {
                         'click-item': (data) => {
-                            that.onClickItem(data)
+                            // console.log(this._uid)
+                            this.onClickItem(data)
                         },
                     },
                     nativeOn: {
                         ...(this.trigger !== 'hover' ? {} : {
-                            mouseenter: (e) => that.emitEnterPopper(e),
-                            mouseleave: (e) => that.emitLeavePopper(e),
+                            mouseenter: (e) => this.emitEnterPopper(e),
+                            mouseleave: (e) => this.emitLeavePopper(e),
                         })
                     },
                 }
@@ -183,12 +190,14 @@
         },
         methods: {
             async show() {
+                if (this.isShow) return
                 if (!this.service) {
                     this.service = await this.$popper(this.popperOption)
                 }
                 this.service.show()
             },
             hide() {
+                if (!this.isShow) return
                 this.service.hide()
             },
             toggle() {
