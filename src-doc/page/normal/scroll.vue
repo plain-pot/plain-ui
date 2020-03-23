@@ -84,7 +84,7 @@
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="$refs.scroll.scroll({y:100},3000)"/>
+                                <pl-button label="scroll" @click="$refs.scroll.scroll({y:100},1000)"/>
                             </p>
                             <p>
                                 <pl-button label="scrollEnd" @click="$refs.scroll.scrollEnd()"/>
