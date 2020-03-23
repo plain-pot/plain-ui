@@ -212,11 +212,11 @@
                     const item = this.items[this.highlightIndex]
                     const {p_wrapperScrollTop} = this.popover.$refs.scroll
                     if (p_wrapperScrollTop > item.offsetTop) {
-                        this.popover.$refs.scroll.scrollTop(item.offsetTop, 25)
+                        this.popover.$refs.scroll.scrollTop(item.offsetTop, 200)
                     }
                 } else {
                     this.highlightIndex = this.list.length - 1
-                    this.popover.$refs.scroll.scrollTop(this.items[this.highlightIndex].offsetTop, 25)
+                    this.popover.$refs.scroll.scrollTop(this.items[this.highlightIndex].offsetTop, 200)
                 }
             },
             /**
@@ -238,11 +238,11 @@
 
                     const scrollTop = item.offsetTop + item.offsetHeight - hostHeight
                     if (scrollTop > 0 && scrollTop > p_wrapperScrollTop) {
-                        this.popover.$refs.scroll.scrollTop(scrollTop, 25)
+                        this.popover.$refs.scroll.scrollTop(scrollTop, 200)
                     }
                 } else {
                     this.highlightIndex = 0
-                    this.popover.$refs.scroll.scrollTop(0, 25)
+                    this.popover.$refs.scroll.scrollTop(0, 200)
                 }
             },
             /**

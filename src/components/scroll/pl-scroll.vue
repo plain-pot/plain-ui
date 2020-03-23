@@ -325,6 +325,12 @@
                     if (point.x != null) this.wrapper!.scrollLeft = point.x
                     if (point.y != null) this.wrapper!.scrollTop = point.y
                 } else {
+
+                    if (!!this.cancelAnimate) {
+                        cancelAnimationFrame(this.cancelAnimate)
+                        this.cancelAnimate = null
+                    }
+
                     let ny = this.wrapper!.scrollTop
                     let ky = (point.y - ny) / time
 
@@ -333,6 +339,7 @@
                         let nowTime = Date.now()
                         let delta = nowTime - startTime
                         let top = delta * ky + ny
+                        // console.log(top)
                         this.wrapper!.scrollTop = top
 
                         if (delta >= time) {
