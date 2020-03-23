@@ -67,6 +67,9 @@
                 onClickWindow: (e) => {
                     this.emitClickWindow(e)
 
+                    if (!this.isShow) {
+                        return
+                    }
                     if (!!this.service && !!this.service.ins) {
                         if (this.service.ins.$el.contains(e.target)) {
                             // click popper
