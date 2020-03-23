@@ -116,6 +116,32 @@
                 </pl-dropdown-menu>
             </pl-dropdown>
         </demo-row>
+        <demo-row title="指示图标">
+            <pl-dropdown ref="dropdown">
+                <pl-button>
+                    <span>更多</span>
+                    <pl-icon icon="el-icon-arrow-down"/>
+                    <pl-icon icon="el-icon-brush" class="pl-dropdown-icon"/>
+                </pl-button>
+                <pl-dropdown-menu slot="dropdown">
+                    <pl-dropdown-item label="新建" @click="$message('新建')"/>
+                    <pl-dropdown-item label="编辑" @click="$message('编辑')"/>
+                    <pl-dropdown-item label="删除" @click="$message('删除')"/>
+                </pl-dropdown-menu>
+            </pl-dropdown>
+            <pl-dropdown ref="dropdown">
+                <span>
+                    <span>更多</span>
+                    <pl-icon icon="el-icon-arrow-down"/>
+                    <pl-icon icon="el-icon-brush" class="pl-dropdown-icon"/>
+                </span>
+                <pl-dropdown-menu slot="dropdown">
+                    <pl-dropdown-item label="新建" @click="$message('新建')"/>
+                    <pl-dropdown-item label="编辑" @click="$message('编辑')"/>
+                    <pl-dropdown-item label="删除" @click="$message('删除')"/>
+                </pl-dropdown-menu>
+            </pl-dropdown>
+        </demo-row>
     </div>
 </template>
 
@@ -131,4 +157,8 @@
 </script>
 
 <style lang="scss">
+    .demo-dropdown-show {
+        font-weight: bold;
+        font-style: italic;
+    }
 </style>

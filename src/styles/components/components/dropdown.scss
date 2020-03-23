@@ -38,4 +38,24 @@
       padding: 6px 8px;
     }
   }
+
+  [pl-dropdown] {
+    cursor: pointer;
+    user-select: none;
+
+    .pl-icon {
+      &.el-icon-arrow-down, &.pl-dropdown-icon {
+        transition: transform $transition 300ms;
+      }
+    }
+  }
+
+  [pl-dropdown=open] {
+    .pl-icon {
+      &.el-icon-arrow-down, &.pl-dropdown-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
 }

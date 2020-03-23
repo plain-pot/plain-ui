@@ -27,6 +27,17 @@
             hoverOpenDelay: {type: [Number, String], default: 0},           // hover触发条件下，打开延迟时间
             hoverCloseDelay: {type: [Number, String], default: 200},        // hover触发条件下，关闭延迟时间
         },
+        watch: {
+            isShow: {
+                immediate: true,
+                async handler(val) {
+                    await this.$plain.nextTick()
+                    if (!!this.$el) {
+                        this.$el.setAttribute('pl-dropdown', val ? 'open' : 'close')
+                    }
+                },
+            }
+        },
         data() {
             return {
                 service: null,                                              // $popper 创建的 popper对象
@@ -260,8 +271,6 @@
                 this.triggers[this.trigger].init(this.$el)
             }
             window.addEventListener('click', this.onClickWindow)
-
-            this.$plain.utils.addClass(this.$el, 'pl-dropdown')
         },
         beforeDestroy() {
             // 销毁 trigger
