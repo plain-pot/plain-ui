@@ -36,8 +36,12 @@ export class Popper {
     }
 
     isShow(): boolean {
-        if (!this.ins) return false
-        return this.ins.isShow
+        if (!this.ins) {
+            console.log('no ins')
+            return false
+        } else {
+            return this.ins.isShow
+        }
     }
 
     isOpen() {

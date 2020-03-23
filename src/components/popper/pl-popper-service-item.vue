@@ -78,6 +78,7 @@
                            reference={this.p_opts.reference}
                            {...this.popperBinding}>
                     <div slot="popper" class="pl-popper-service-item-content" private={String(this.isPrivate)}>
+                        showFlag:[{String(this.showFlag)}]
                         {!!this.p_opts.$slots && this.p_opts.$slots}
                         {!!this.p_opts.render && this.p_opts.render(h)}
                     </div>

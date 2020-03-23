@@ -9,18 +9,28 @@
             PropsMixinFactory.create({
                 width: PropsMixinFactory.Number,
                 height: PropsMixinFactory.Number,
+
+                hoverOpenDelay: PropsMixinFactory.Number,
+                hoverCloseDelay: PropsMixinFactory.Number,
             }),
         ],
+        emitters: {
+            emitEnterPopper: Function,
+            emitLeavePopper: Function,
+        },
         props: {
             trigger: {type: String, default: 'click'},                      // click, focus, hover, manual
             width: {type: [String, Number]},
             height: {type: [String, Number]},
 
+            hoverOpenDelay: {type: [Number, String], default: 0},           // hover触发条件下，打开延迟时间
+            hoverCloseDelay: {type: [Number, String], default: 200},        // hover触发条件下，关闭延迟时间
         },
         data() {
             const that = this
             return {
                 service: null,
+                el: null,
                 popperOption: {
                     reference: () => this.$el,
                     popperProps: {
@@ -49,23 +59,106 @@
                         }
                     },
                 },
+
+                triggers: {
+                    click: {
+                        init(el) {
+                            that.el = el
+                            this.handler = {click: () => that.isShow ? that.hide() : that.show(),}
+                            that.el.addEventListener('click', this.handler.click)
+                        },
+                        destroy() {
+                            that.el.removeEventListener('click', this.handler.click)
+                        },
+                    },
+                    hover: {
+                        init(el) {
+                            that.el = el
+                            this.handler = {
+                                'enter-reference': () => {
+                                    if (!!this.closeTimer) {
+                                        clearTimeout(this.closeTimer)
+                                        this.closeTimer = null
+                                    }
+                                    this.openTimer = setTimeout(() => {
+                                        that.show()
+                                        this.openTimer = null
+                                    }, that.p_hoverOpenDelay)
+                                },
+                                'leave-reference': () => {
+                                    if (!!this.openTimer) {
+                                        clearTimeout(this.openTimer)
+                                        this.openTimer = null
+                                    }
+                                    this.closeTimer = setTimeout(() => {
+                                        that.hide()
+                                        this.closeTimer = null
+                                    }, that.p_hoverCloseDelay)
+                                },
+                                'enter-popper': () => {
+                                    if (!!this.closeTimer) {
+                                        clearTimeout(this.closeTimer)
+                                        this.closeTimer = null
+                                    }
+                                    this.openTimer = setTimeout(() => {
+                                        that.show()
+                                        this.openTimer = null
+                                    }, that.p_hoverOpenDelay)
+                                },
+                                'leave-popper': () => {
+                                    if (!!this.openTimer) {
+                                        clearTimeout(this.openTimer)
+                                        this.openTimer = null
+                                    }
+                                    this.closeTimer = setTimeout(() => {
+                                        that.hide()
+                                        this.closeTimer = null
+                                    }, that.p_hoverCloseDelay)
+                                },
+                            }
+                            that.el.addEventListener('mouseenter', this.handler["enter-reference"])
+                            that.el.addEventListener('mouseleave', this.handler["leave-reference"])
+                            that.$on('enter-popper', this.handler["enter-popper"])
+                            that.$on('leave-popper', this.handler["leave-popper"])
+                        },
+                        destroy() {
+                            that.el.removeEventListener('mouseenter', this.handler["enter-reference"])
+                            that.el.removeEventListener('mouseleave', this.handler["leave-reference"])
+                            that.$off('enter-popper', this.handler["enter-popper"])
+                            that.$off('leave-popper', this.handler["leave-popper"])
+                        },
+                    },
+                    focus: {
+                        init(el) {
+                            this.el = el
+                            this.handler = {click: () => that.isShow ? that.hide() : that.show(),}
+                            this.el.addEventListener('click', this.handler.click)
+                        },
+                    },
+                    manual: {},
+                },
             }
         },
         computed: {
-            isShow() {
-                if (!this.service) {
-                    console.log('no service')
-                    return false
-                } else {
-                    console.log('this.service', this.service)
-                    return this.service.isShow()
-                }
+            isShow: {
+                cache: false,
+                get() {
+                    if (!this.service) {
+                        return false
+                    } else {
+                        return this.service.isShow()
+                    }
+                },
             },
-            isOpen() {
-                if (!this.service) return false
-                return this.service.isOpen()
+            isOpen: {
+                cache: false,
+                get() {
+                    if (!this.service) return false
+                    return this.service.isOpen()
+                },
             },
             wrapperBinding() {
+                const that = this
                 return {
                     style: {
                         ...(!this.p_width ? {} : {width: this.$plain.utils.suffixPx(this.p_width)}),
@@ -73,8 +166,14 @@
                     },
                     on: {
                         'click-item': (data) => {
-                            this.onClickItem(data)
+                            that.onClickItem(data)
                         },
+                    },
+                    nativeOn: {
+                        ...(this.trigger !== 'hover' ? {} : {
+                            mouseenter: (e) => that.emitEnterPopper(e),
+                            mouseleave: (e) => that.emitLeavePopper(e),
+                        })
                     },
                 }
             },
@@ -84,14 +183,12 @@
         },
         methods: {
             async show() {
-                if (this.isShow) return
                 if (!this.service) {
                     this.service = await this.$popper(this.popperOption)
                 }
                 this.service.show()
             },
             hide() {
-                if (!this.isShow) return
                 this.service.hide()
             },
             toggle() {
@@ -106,6 +203,29 @@
                 this.hide()
             },
         },
+        mounted() {
+            if (!!this.triggers[this.trigger]) {
+                this.triggers[this.trigger].init(this.$el)
+            }
+        },
+        beforeDestroy() {
+            if (!!this.triggers[this.trigger]) {
+                this.triggers[this.trigger].destroy()
+            }
+
+            if (!!this.service) {
+                this.service.destroy()
+            }
+        },
+        updated() {
+            if (!!this.el && this.el !== this.$el) {
+                if (!!this.triggers[this.trigger]) {
+                    this.triggers[this.trigger].destroy()
+                    this.el = this.$el
+                    this.triggers[this.trigger].init()
+                }
+            }
+        }
     }
 </script>
 
