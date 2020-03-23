@@ -71,7 +71,7 @@
 
             const newData = (referenceName, initValue, externalOption = {}) => {
                 const result = {
-                    ins: null,
+                    service: null,
                     option: {
                         data,
                         reference: () => analyseReferenceName(this.$refs, referenceName),
@@ -82,10 +82,11 @@
                         ...externalOption
                     },
                     toggle: async () => {
-                        if (!result.ins) {
-                            result.ins = await this.$plain.$select.newSelect(result.option)
+                        if (!result.service) {
+                            result.service = await this.$plain.$select.newSelect(result.option)
                         }
-                        result.ins.toggle()
+                        console.log(result.service)
+                        result.service.toggle()
                     },
                 }
                 return result
@@ -210,8 +211,8 @@
         mounted() {
         },
         beforeDestroy() {
-            if (this.testPrivate.ins) {
-                this.testPrivate.ins.destroy()
+            if (this.testPrivate.service) {
+                this.testPrivate.service.destroy()
             }
         }
     }

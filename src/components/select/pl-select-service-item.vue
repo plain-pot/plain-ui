@@ -171,13 +171,14 @@
             async show() {
                 if (!!this.showFlag) return
 
-                if (!!this.select.option.beforeShow) await this.select.option.beforeShow()
+                // 这里不加这一行，在ie下会出现莫名其妙的问题，导致需要点两下才能打开select选择列表
+                await this.$plain.nextTick()
 
+                if (!!this.select.option.beforeShow) await this.select.option.beforeShow()
                 this.showFlag = true
                 this.firstKeyboardFlag = true
                 this.highlightIndex = null
-
-                /*设置 RefsMixinFactory为当前选中的行*/
+                /*设置 highlightIndex为当前选中的行*/
                 for (let i = 0; i < this.list.length; i++) {
                     const item = this.list[i];
                     if (!!item.active) {
