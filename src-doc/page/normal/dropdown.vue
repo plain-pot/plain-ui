@@ -142,6 +142,25 @@
                 </pl-dropdown-menu>
             </pl-dropdown>
         </demo-row>
+
+        <demo-row title="无容器节点">
+            <pl-button-group>
+                <pl-button label="新建" icon="el-icon-plus"/>
+                <pl-button label="编辑" icon="el-icon-edit"/>
+                <pl-button label="删除" icon="el-icon-delete"/>
+                <pl-dropdown ref="dropdown">
+                    <pl-button>
+                        <span>更多</span>
+                        <pl-icon icon="el-icon-arrow-down"/>
+                    </pl-button>
+                    <pl-dropdown-menu slot="dropdown">
+                        <pl-dropdown-item label="高级筛选" @click="$message('高级查询')" icon="el-icon-search"/>
+                        <pl-dropdown-item label="高级排序" @click="$message('高级排序')" icon="el-icon-sort"/>
+                        <pl-dropdown-item label="批量删除" @click="$message('批量删除')" icon="el-icon-folder-delete"/>
+                    </pl-dropdown-menu>
+                </pl-dropdown>
+            </pl-button-group>
+        </demo-row>
     </div>
 </template>
 
