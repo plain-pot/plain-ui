@@ -17,6 +17,7 @@
         emitters: {
             emitEnterPopper: Function,
             emitLeavePopper: Function,
+            emitClickWindow: Function,
         },
         props: {
             trigger: {type: String, default: 'click'},                      // click, focus, hover, manual
@@ -30,6 +31,10 @@
             return {
                 service: null,
                 el: null,
+
+                onClickWindow: (e) => {
+                    this.emitClickWindow(e)
+                },
                 popperOption: {
                     reference: () => this.$el,
                     popperProps: {
@@ -63,11 +68,29 @@
                     click: {
                         init: (el) => {
                             this.el = el
-                            this.triggerHandler = {click: () => this.isShow ? this.hide() : this.show()}
+                            this.triggerHandler = {
+                                click: () => this.isShow ? this.hide() : this.show(),
+                                clickWindow: (e) => {
+                                    if (!!this.service && !!this.service.ins) {
+                                        if (this.service.ins.$el.contains(e.target)) {
+                                            // click popper
+                                            return
+                                        }
+                                        if (this.el.contains(e.target)) {
+                                            // click reference
+                                            return;
+                                        }
+                                        // click empty
+                                        this.hide()
+                                    }
+                                },
+                            }
                             this.el.addEventListener('click', this.triggerHandler.click)
+                            this.$on('click-window', this.triggerHandler.clickWindow)
                         },
                         destroy: () => {
                             this.el.removeEventListener('click', this.triggerHandler.click)
+                            this.$off('click-window', this.triggerHandler.clickWindow)
                         },
                     },
                     hover: {
@@ -180,7 +203,7 @@
                         ...(this.trigger !== 'hover' ? {} : {
                             mouseenter: (e) => this.emitEnterPopper(e),
                             mouseleave: (e) => this.emitLeavePopper(e),
-                        })
+                        }),
                     },
                 }
             },
@@ -216,6 +239,7 @@
             if (!!this.triggers[this.trigger]) {
                 this.triggers[this.trigger].init(this.$el)
             }
+            window.addEventListener('click', this.onClickWindow)
         },
         beforeDestroy() {
             if (!!this.triggers[this.trigger]) {
@@ -225,6 +249,8 @@
             if (!!this.service) {
                 this.service.destroy()
             }
+
+            window.removeEventListener('click', this.onClickWindow)
         },
         updated() {
             if (!!this.el && this.el !== this.$el) {
