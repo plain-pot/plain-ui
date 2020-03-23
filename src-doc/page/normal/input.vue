@@ -92,7 +92,14 @@
         </demo-row>
         <demo-row title="输入框组">
             <pl-input prefixIcon="el-icon-search" suffixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')">
-                <div slot="prepend" v-if="prepend">prepend content</div>
+                <div slot="prepend" v-if="prepend">
+                    <pl-dropdown>
+                        <span>{{val[3]}}:// <pl-icon class="el-icon-arrow-down"/></span>
+                        <pl-dropdown-menu slot="dropdown">
+                            <pl-dropdown-item v-for="item in ['ftp','http','https','ssh']" :key="item" :label="`${item}://`" @click="val[3] = item"/>
+                        </pl-dropdown-menu>
+                    </pl-dropdown>
+                </div>
                 <div slot="append" v-if="append">append content</div>
             </pl-input>
             <r-checkbox v-model="prepend" label="prepend"/>
@@ -152,6 +159,9 @@
         props: {},
         data() {
             return {
+                val:{
+                    3: 'https'
+                },
                 prepend: true,
                 append: true,
                 disabledFlag: true,
