@@ -15,11 +15,16 @@
             }),
         ],
         emitters: {
+            emitInput: Function,
             emitEnterPopper: Function,
             emitLeavePopper: Function,
             emitClickWindow: Function,
+            emitClickPopper: Function,
+            emitClickReference: Function,
+            emitClickBody: Function,
         },
         props: {
+            value: {type: Boolean},                                         // model绑定是否打开下拉列表
             trigger: {type: String, default: 'click'},                      // click, focus, hover, manual
             width: {type: [String, Number]},                                // popper 宽度
             height: {type: [String, Number]},                               // popper高度
@@ -36,14 +41,23 @@
                         this.$el.setAttribute('pl-dropdown', val ? 'open' : 'close')
                     }
                 },
-            }
+            },
+            value(val) {
+                this.p_value = val
+                if (!!val) {
+                    this.show()
+                } else {
+                    this.hide()
+                }
+            },
         },
         data() {
             return {
                 service: null,                                              // $popper 创建的 popper对象
                 el: null,                                                   // 当前组件的 $el 对象
-                isShow: false,
-                isOpen: false,
+                p_value: this.value,                                        // model 绑定缓存值
+                isShow: false,                                              // 下拉列表是否show
+                isOpen: false,                                              // 下拉列表是否open
 
                 /**
                  * 点击window事件
@@ -52,8 +66,24 @@
                  */
                 onClickWindow: (e) => {
                     this.emitClickWindow(e)
-                },
 
+                    if (!!this.service && !!this.service.ins) {
+                        if (this.service.ins.$el.contains(e.target)) {
+                            // click popper
+                            return this.emitClickPopper()
+                        }
+                        if (this.el.contains(e.target)) {
+                            // click reference
+                            return this.emitClickReference()
+                        }
+                        // click body
+                        this.emitClickBody()
+
+                        if (this.trigger !== 'manual') {
+                            this.hide()
+                        }
+                    }
+                },
                 /**
                  * 创建 popper service的参数对象
                  * @author  韦胜健
@@ -65,8 +95,16 @@
                         noContentPadding: true,
                     },
                     on: {
-                        show: () => this.isShow = true,
-                        hide: () => this.isShow = false,
+                        show: () => {
+                            this.isShow = true
+                            this.p_value = true
+                            this.emitInput(this.p_value)
+                        },
+                        hide: () => {
+                            this.isShow = false
+                            this.p_value = false
+                            this.emitInput(this.p_value)
+                        },
                         open: () => this.isOpen = true,
                         close: () => this.isOpen = false,
                     },
@@ -101,36 +139,18 @@
                  */
                 triggers: {
                     click: {
-                        init: (el) => {
-                            this.el = el
+                        init: () => {
                             this.triggerHandler = {
                                 click: () => this.isShow ? this.hide() : this.show(),
-                                clickWindow: (e) => {
-                                    if (!!this.service && !!this.service.ins) {
-                                        if (this.service.ins.$el.contains(e.target)) {
-                                            // click popper
-                                            return
-                                        }
-                                        if (this.el.contains(e.target)) {
-                                            // click reference
-                                            return;
-                                        }
-                                        // click empty
-                                        this.hide()
-                                    }
-                                },
                             }
                             this.el.addEventListener('click', this.triggerHandler.click)
-                            this.$on('click-window', this.triggerHandler.clickWindow)
                         },
                         destroy: () => {
                             this.el.removeEventListener('click', this.triggerHandler.click)
-                            this.$off('click-window', this.triggerHandler.clickWindow)
                         },
                     },
                     hover: {
-                        init: (el) => {
-                            this.el = el
+                        init: () => {
                             this.triggerHandler = {
                                 'enter-reference': () => {
                                     if (!!this.triggerHandler.closeTimer) {
@@ -186,8 +206,7 @@
                         },
                     },
                     focus: {
-                        init: (el) => {
-                            this.el = el
+                        init: () => {
                             this.triggerHandler = {
                                 focus: () => this.show(),
                                 blur: () => setTimeout(() => this.hide(), 200),
@@ -268,7 +287,8 @@
         mounted() {
             // 初始化 trigger
             if (!!this.triggers[this.trigger]) {
-                this.triggers[this.trigger].init(this.$el)
+                this.el = this.$el
+                this.triggers[this.trigger].init()
             }
             window.addEventListener('click', this.onClickWindow)
         },
