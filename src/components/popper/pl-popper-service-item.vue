@@ -10,7 +10,7 @@
     const DEFAULT_POPPER_OPTION = {
         placement: 'bottom-start',
         trigger: 'manual',
-        transition: 'pl-transition-scale',
+        transition: 'pl-transition-scale-y',
     }
 
     export default {
