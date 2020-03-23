@@ -80,6 +80,30 @@
                 </pl-dropdown-menu>
             </pl-dropdown>
         </demo-row>
+        <demo-row title="分组">
+            <pl-dropdown>
+                <pl-button label="分组选项"/>
+                <pl-dropdown-menu slot="dropdown">
+                    <pl-dropdown-group label="编辑">
+                        <pl-dropdown-item label="新建" @click="$message('新建')" icon="el-icon-burger"/>
+                        <pl-dropdown-item label="编辑" @click="$message('编辑')" icon="el-icon-tableware" disabled/>
+                        <pl-dropdown-item label="删除" @click="$message('删除')" icon="el-icon-sugar"/>
+                    </pl-dropdown-group>
+                    <pl-dropdown-group label="数据">
+                        <pl-dropdown-item label="导入" @click="$message('导入')" icon="el-icon-dessert" disabled/>
+                        <pl-dropdown-item label="导出" @click="$message('导出')" icon="el-icon-ice-cream"/>
+                    </pl-dropdown-group>
+                    <pl-dropdown-group label="查询">
+                        <pl-dropdown-item label="筛选" @click="$message('筛选')" icon="el-icon-hot-water"/>
+                        <pl-dropdown-item label="排序" @click="$message('排序')" icon="el-icon-water-cup"/>
+                    </pl-dropdown-group>
+                    <pl-dropdown-group label="其他">
+                        <pl-dropdown-item label="多选" @click="$message('多选')" icon="el-icon-s-ticket"/>
+                        <pl-dropdown-item label="设置" @click="$message('设置')" icon="el-icon-s-management"/>
+                    </pl-dropdown-group>
+                </pl-dropdown-menu>
+            </pl-dropdown>
+        </demo-row>
     </div>
 </template>
 

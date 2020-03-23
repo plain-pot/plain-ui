@@ -9,6 +9,7 @@
 
       .pl-icon {
         padding-right: 0.5em;
+        color: $icc;
       }
 
       &:hover {
@@ -16,10 +17,25 @@
       }
 
       &.pl-dropdown-item-disabled {
-        background-color: $disabled;
         color: $disabledText;
         cursor: not-allowed;
       }
+    }
+  }
+
+  .pl-dropdown-group {
+
+    &:not(:last-child) {
+      padding-bottom: 3px;
+      margin-bottom: 3px;
+      border-bottom: solid 1px $ibc;
+    }
+
+    .pl-dropdown-group-label {
+      font-size: 12px;
+      color: $icc;
+      background-color: white;
+      padding: 6px 8px;
     }
   }
 }
