@@ -263,7 +263,7 @@
              * @date    2020-01-24 17:31
              */
             onClickItem(item, index, e) {
-                if (['INPUT', 'BUTTON'].indexOf(e.target.tagName) > -1) return;
+                if (!!e && ['INPUT', 'BUTTON'].indexOf(e.target.tagName) > -1) return;
                 if (item.disabled === true || item.group === true) return
                 !!this.select.option.onClick && this.select.option.onClick(item, index)
                 this.highlightIndex = index
