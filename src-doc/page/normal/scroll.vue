@@ -1,6 +1,6 @@
 <template>
     <div class="demo-scroll">
-        <demo-row title="基本用法1">
+        <!--<demo-row title="基本用法1">
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <div>
@@ -75,7 +75,7 @@
                     </div>
                 </pl-scroll>
             </div>
-        </demo-row>
+        </demo-row>-->
 
         <demo-row title="滚动到底部">
             <div class="demo-scroll-wrapper">
@@ -84,7 +84,7 @@
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="$refs.scroll.scroll({y:100},1000)"/>
+                                <pl-button label="scroll" @click="$refs.scroll.scroll({y:100},3000)"/>
                             </p>
                             <p>
                                 <pl-button label="scrollEnd" @click="$refs.scroll.scrollEnd()"/>
