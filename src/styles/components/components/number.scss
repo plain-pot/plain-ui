@@ -14,6 +14,24 @@
         border: none;
         outline: none;
         float: left;
+
+        &::placeholder {
+          color: $ipc;
+        }
+
+        &::-ms-clear {
+          display: none;
+        }
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none !important;
+          margin: 0;
+        }
+
+        &:-webkit-autofill {
+          background-color: white !important;
+        }
       }
 
       .pl-number-prepend-button, .pl-number-append-button {
