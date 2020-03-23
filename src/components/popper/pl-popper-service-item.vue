@@ -33,8 +33,6 @@
             p_opts() {
                 if (!this.option) return null
                 let option = this.option.option
-                let reference = typeof option.reference === "function" ? option.reference() : option.reference
-
                 let popperOption = {
                     ...DEFAULT_POPPER_OPTION,
                     ...(option.popperProps || {})
@@ -44,7 +42,6 @@
                     ...DEFAULT_OPTION,
                     ...option,
                     popperOption,
-                    reference,
                 }
                 return option
             },
