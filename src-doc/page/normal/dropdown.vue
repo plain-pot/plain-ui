@@ -104,6 +104,18 @@
                 </pl-dropdown-menu>
             </pl-dropdown>
         </demo-row>
+        <demo-row title="作用域插槽">
+            <pl-dropdown ref="dropdown">
+                <template slot-scope="data">
+                    <pl-button>更多{{JSON.stringify(data)}}</pl-button>
+                </template>
+                <pl-dropdown-menu slot="dropdown">
+                    <pl-dropdown-item label="新建" @click="$message('新建')"/>
+                    <pl-dropdown-item label="编辑" @click="$message('编辑')"/>
+                    <pl-dropdown-item label="删除" @click="$message('删除')"/>
+                </pl-dropdown-menu>
+            </pl-dropdown>
+        </demo-row>
     </div>
 </template>
 

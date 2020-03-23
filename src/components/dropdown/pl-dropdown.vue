@@ -31,6 +31,8 @@
             return {
                 service: null,                                              // $popper 创建的 popper对象
                 el: null,                                                   // 当前组件的 $el 对象
+                isShow: false,
+                isOpen: false,
 
                 /**
                  * 点击window事件
@@ -50,6 +52,12 @@
                     reference: () => this.$el,
                     popperProps: {
                         noContentPadding: true,
+                    },
+                    on: {
+                        show: () => this.isShow = true,
+                        hide: () => this.isShow = false,
+                        open: () => this.isOpen = true,
+                        close: () => this.isOpen = false,
                     },
                     render: (h) => {
                         const that = this
@@ -192,34 +200,6 @@
         },
         computed: {
             /**
-             * 当前 service 是否 show
-             * @author  韦胜健
-             * @date    2020/3/23 14:55
-             */
-            isShow: {
-                cache: false,
-                get() {
-                    if (!this.service) {
-                        return false
-                    } else {
-                        return this.service.isShow()
-                    }
-                },
-            },
-            /**
-             * 当前service是否 open
-             * @author  韦胜健
-             * @date    2020/3/23 14:55
-             */
-            isOpen: {
-                cache: false,
-                get() {
-                    if (!this.service) return false
-                    return this.service.isOpen()
-                },
-            },
-
-            /**
              * dropdown-wrapper组件参数
              * @author  韦胜健
              * @date    2020/3/23 14:55
@@ -246,7 +226,9 @@
             },
         },
         render() {
-            return this.$slots.default[0]
+            if (!!this.$slots.default && !!this.$slots.default[0]) return this.$slots.default[0]
+            else if (!!this.$scopedSlots.default) return this.$scopedSlots.default({show: this.isShow, open: this.isOpen})
+            return null
         },
         methods: {
             async show() {
@@ -278,6 +260,8 @@
                 this.triggers[this.trigger].init(this.$el)
             }
             window.addEventListener('click', this.onClickWindow)
+
+            this.$plain.utils.addClass(this.$el, 'pl-dropdown')
         },
         beforeDestroy() {
             // 销毁 trigger

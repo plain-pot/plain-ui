@@ -68,8 +68,27 @@
                             this.openFlag = val
                         },
                         close: () => {
+                            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.close) {
+                                this.p_opts.on.close()
+                            }
+
                             this.option.ins = null
                             this.option = null
+                        },
+                        show: () => {
+                            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.show) {
+                                this.p_opts.on.show()
+                            }
+                        },
+                        hide: () => {
+                            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.hide) {
+                                this.p_opts.on.hide()
+                            }
+                        },
+                        open: () => {
+                            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.open) {
+                                this.p_opts.on.open()
+                            }
                         },
                     },
                 }
