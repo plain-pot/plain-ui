@@ -1,3 +1,7 @@
 import component from './pl-number.vue'
 import {plugin} from "../../utils";
-export default plugin(component)
+
+import input from '../input'
+import icon from '../icon'
+
+export default plugin(component, [input, icon])

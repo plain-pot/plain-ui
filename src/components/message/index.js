@@ -1,4 +1,7 @@
 import PlMessageContainer from './pl-message-container'
+import {plugin} from "../../utils";
+
+import icon from '../icon'
 
 class MessageService {
     get el() {
@@ -75,4 +78,4 @@ class MessageService {
     }
 }
 
-export default MessageService
+export default plugin(MessageService,[icon])

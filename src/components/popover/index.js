@@ -1,3 +1,7 @@
 import component from './pl-popover.vue'
 import {plugin} from "../../utils";
-export default plugin(component)
+
+import popper from '../popper'
+import scroll from '../scroll'
+
+export default plugin(component, [popper, scroll])
