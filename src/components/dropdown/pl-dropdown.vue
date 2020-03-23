@@ -1,5 +1,6 @@
 <script>
     import {EmitMixin, PropsMixinFactory} from "../../utils/mixins";
+    import DropdownWrapper from './pl-dropdown-wrapper'
 
     export default {
         name: "pl-dropdown",
@@ -17,6 +18,7 @@
 
         },
         data() {
+            const that = this
             return {
                 service: null,
                 popperOption: {
@@ -28,14 +30,14 @@
 
                         const wrapper = (content) => {
                             return (
-                                <div style={this.wrapperStyle}>
+                                <DropdownWrapper {...that.wrapperBinding}>
                                     {!this.p_height ?
                                         content :
                                         <pl-scroll>
                                             {content}
                                         </pl-scroll>
                                     }
-                                </div>
+                                </DropdownWrapper>
                             )
                         }
 
@@ -51,17 +53,29 @@
         },
         computed: {
             isShow() {
-                if (!this.service) return false
-                return this.service.isShow()
+                if (!this.service) {
+                    console.log('no service')
+                    return false
+                } else {
+                    console.log('this.service', this.service)
+                    return this.service.isShow()
+                }
             },
             isOpen() {
                 if (!this.service) return false
                 return this.service.isOpen()
             },
-            wrapperStyle() {
+            wrapperBinding() {
                 return {
-                    ...(!this.p_width ? {} : {width: this.$plain.utils.suffixPx(this.p_width)}),
-                    ...(!this.p_height ? {} : {height: this.$plain.utils.suffixPx(this.p_height)}),
+                    style: {
+                        ...(!this.p_width ? {} : {width: this.$plain.utils.suffixPx(this.p_width)}),
+                        ...(!this.p_height ? {} : {height: this.$plain.utils.suffixPx(this.p_height)}),
+                    },
+                    on: {
+                        'click-item': (data) => {
+                            this.onClickItem(data)
+                        },
+                    },
                 }
             },
         },
@@ -74,12 +88,10 @@
                 if (!this.service) {
                     this.service = await this.$popper(this.popperOption)
                 }
-                console.log('show')
                 this.service.show()
             },
             hide() {
                 if (!this.isShow) return
-                console.log('hide')
                 this.service.hide()
             },
             toggle() {
@@ -88,6 +100,10 @@
                 } else {
                     this.hide()
                 }
+            },
+            /*---------------------------------------handler-------------------------------------------*/
+            onClickItem() {
+                this.hide()
             },
         },
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-dropdown-item">
+    <div class="pl-dropdown-item" @click="onClick">
         <slot>{{p_label}}</slot>
     </div>
 </template>
@@ -9,6 +9,9 @@
 
     export default {
         name: "pl-dropdown-item",
+        inject: {
+            plDropdownWrapper: {default: null}
+        },
         mixins: [
             EmitMixin,
             PropsMixinFactory.create({
@@ -26,7 +29,12 @@
         data() {
             return {}
         },
-        methods: {},
+        methods: {
+            onClick(e) {
+                this.emitClick(e)
+                this.plDropdownWrapper.onClickItem(this)
+            },
+        },
     }
 </script>
 

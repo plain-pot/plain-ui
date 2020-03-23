@@ -4,6 +4,12 @@
 
     .pl-dropdown-item {
       padding: 4px 16px;
+      cursor: pointer;
+      transition: background-color 300ms $transition;
+
+      &:hover {
+        background-color: rgba($colorPrimary, 0.1);
+      }
     }
   }
 }
