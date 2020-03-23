@@ -1,5 +1,6 @@
 <template>
-    <div class="pl-dropdown-item" @click="onClick">
+    <div class="pl-dropdown-item" @click="onClick" :class="{'pl-dropdown-item-disabled':disabled}">
+        <pl-icon :icon="icon" v-if="!!icon"/>
         <slot>{{p_label}}</slot>
     </div>
 </template>
@@ -31,8 +32,10 @@
         },
         methods: {
             onClick(e) {
-                this.emitClick(e)
-                this.plDropdownWrapper.onClickItem(this)
+                if (!this.disabled) {
+                    this.emitClick(e)
+                    this.plDropdownWrapper.onClickItem(this)
+                }
             },
         },
     }

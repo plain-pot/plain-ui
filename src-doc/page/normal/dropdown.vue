@@ -48,6 +48,38 @@
                 </pl-dropdown-menu>
             </pl-dropdown>
         </demo-row>
+        <demo-row title="禁用选项">
+            <pl-dropdown width="100" height="200px">
+                <pl-button label="禁用部分选项"/>
+                <pl-dropdown-menu slot="dropdown">
+                    <pl-dropdown-item label="新建" @click="$message('新建')"/>
+                    <pl-dropdown-item label="编辑" @click="$message('编辑')" disabled/>
+                    <pl-dropdown-item label="删除" @click="$message('删除')"/>
+                    <pl-dropdown-item label="导入" @click="$message('导入')" disabled/>
+                    <pl-dropdown-item label="导出" @click="$message('导出')"/>
+                    <pl-dropdown-item label="筛选" @click="$message('筛选')"/>
+                    <pl-dropdown-item label="排序" @click="$message('排序')"/>
+                    <pl-dropdown-item label="多选" @click="$message('多选')"/>
+                    <pl-dropdown-item label="设置" @click="$message('设置')"/>
+                </pl-dropdown-menu>
+            </pl-dropdown>
+        </demo-row>
+        <demo-row title="操作图标">
+            <pl-dropdown>
+                <pl-button label="图标选项"/>
+                <pl-dropdown-menu slot="dropdown">
+                    <pl-dropdown-item label="新建" @click="$message('新建')" icon="el-icon-burger"/>
+                    <pl-dropdown-item label="编辑" @click="$message('编辑')" icon="el-icon-tableware" disabled/>
+                    <pl-dropdown-item label="删除" @click="$message('删除')" icon="el-icon-sugar"/>
+                    <pl-dropdown-item label="导入" @click="$message('导入')" icon="el-icon-dessert" disabled/>
+                    <pl-dropdown-item label="导出所有数据" @click="$message('导出')" icon="el-icon-ice-cream"/>
+                    <pl-dropdown-item label="筛选" @click="$message('筛选')" icon="el-icon-hot-water"/>
+                    <pl-dropdown-item label="排序" @click="$message('排序')" icon="el-icon-water-cup"/>
+                    <pl-dropdown-item label="多选" @click="$message('多选')" icon="el-icon-s-ticket"/>
+                    <pl-dropdown-item label="设置" @click="$message('设置')" icon="el-icon-s-management"/>
+                </pl-dropdown-menu>
+            </pl-dropdown>
+        </demo-row>
     </div>
 </template>
 
