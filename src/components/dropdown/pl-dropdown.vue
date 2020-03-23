@@ -1,6 +1,6 @@
 <script>
     import {EmitMixin, PropsMixinFactory} from "../../utils/mixins";
-    import Wrapper from './pl-dropdown-wrapper'
+    import DropdownWrapper from './pl-dropdown-wrapper.vue'
 
     export default {
         name: "pl-dropdown",
@@ -21,20 +21,31 @@
         },
         props: {
             trigger: {type: String, default: 'click'},                      // click, focus, hover, manual
-            width: {type: [String, Number]},
-            height: {type: [String, Number]},
+            width: {type: [String, Number]},                                // popper 宽度
+            height: {type: [String, Number]},                               // popper高度
 
             hoverOpenDelay: {type: [Number, String], default: 0},           // hover触发条件下，打开延迟时间
             hoverCloseDelay: {type: [Number, String], default: 200},        // hover触发条件下，关闭延迟时间
         },
         data() {
             return {
-                service: null,
-                el: null,
+                service: null,                                              // $popper 创建的 popper对象
+                el: null,                                                   // 当前组件的 $el 对象
 
+                /**
+                 * 点击window事件
+                 * @author  韦胜健
+                 * @date    2020/3/23 14:52
+                 */
                 onClickWindow: (e) => {
                     this.emitClickWindow(e)
                 },
+
+                /**
+                 * 创建 popper service的参数对象
+                 * @author  韦胜健
+                 * @date    2020/3/23 14:53
+                 */
                 popperOption: {
                     reference: () => this.$el,
                     popperProps: {
@@ -42,28 +53,33 @@
                     },
                     render: (h) => {
                         const that = this
+
                         const wrapper = (content) => {
                             return (
-                                <Wrapper {...that.wrapperBinding}>
+                                <DropdownWrapper {...that.wrapperBinding}>
                                     {!that.p_height ?
                                         content :
                                         <pl-scroll>
                                             {content}
                                         </pl-scroll>
                                     }
-                                </Wrapper>
+                                </DropdownWrapper>
                             )
                         }
 
                         if (!!this.$slots.dropdown) {
                             return wrapper(this.$slots.dropdown)
                         }
-                        if (!!this.$scopedSlots.default) {
-                            return wrapper(this.$scopedSlots.default())
-                        }
+
+                        return null
                     },
                 },
 
+                /**
+                 * 各种触发器的初始化以及销毁逻辑
+                 * @author  韦胜健
+                 * @date    2020/3/23 14:54
+                 */
                 triggers: {
                     click: {
                         init: (el) => {
@@ -165,11 +181,21 @@
                             this.el.removeEventListener('blur', this.triggerHandler.blur)
                         },
                     },
-                    manual: {},
+                    manual: {
+                        init: () => {
+                        },
+                        destroy: () => {
+                        },
+                    },
                 },
             }
         },
         computed: {
+            /**
+             * 当前 service 是否 show
+             * @author  韦胜健
+             * @date    2020/3/23 14:55
+             */
             isShow: {
                 cache: false,
                 get() {
@@ -180,6 +206,11 @@
                     }
                 },
             },
+            /**
+             * 当前service是否 open
+             * @author  韦胜健
+             * @date    2020/3/23 14:55
+             */
             isOpen: {
                 cache: false,
                 get() {
@@ -187,6 +218,12 @@
                     return this.service.isOpen()
                 },
             },
+
+            /**
+             * dropdown-wrapper组件参数
+             * @author  韦胜健
+             * @date    2020/3/23 14:55
+             */
             wrapperBinding() {
                 return {
                     style: {
@@ -236,16 +273,19 @@
             },
         },
         mounted() {
+            // 初始化 trigger
             if (!!this.triggers[this.trigger]) {
                 this.triggers[this.trigger].init(this.$el)
             }
             window.addEventListener('click', this.onClickWindow)
         },
         beforeDestroy() {
+            // 销毁 trigger
             if (!!this.triggers[this.trigger]) {
                 this.triggers[this.trigger].destroy()
             }
 
+            // 销毁 popper service
             if (!!this.service) {
                 this.service.destroy()
             }
@@ -253,6 +293,7 @@
             window.removeEventListener('click', this.onClickWindow)
         },
         updated() {
+            // 如果 $el 发生变化，重新初始化 trigger
             if (!!this.el && this.el !== this.$el) {
                 if (!!this.triggers[this.trigger]) {
                     this.triggers[this.trigger].destroy()
