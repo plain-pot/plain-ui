@@ -2,7 +2,7 @@
     <div class="demo-dropdown">
         <demo-row title="基本用法">
             <pl-dropdown ref="dropdown">
-                <pl-button>https://</pl-button>
+                <pl-button>更多</pl-button>
                 <pl-dropdown-menu slot="dropdown">
                     <pl-dropdown-item label="新建" @click="$message('新建')"/>
                     <pl-dropdown-item label="编辑" @click="$message('编辑')"/>
@@ -18,7 +18,7 @@
         </demo-row>
         <demo-row title="宽高设置">
             <pl-dropdown ref="sizeDropdown" width="100" height="200px">
-                <pl-button>https://</pl-button>
+                <pl-button>宽高设置</pl-button>
                 <pl-dropdown-menu slot="dropdown">
                     <pl-dropdown-item label="新建" @click="$message('新建')"/>
                     <pl-dropdown-item label="编辑" @click="$message('编辑')"/>

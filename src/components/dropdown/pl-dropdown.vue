@@ -1,6 +1,6 @@
 <script>
     import {EmitMixin, PropsMixinFactory} from "../../utils/mixins";
-    import DropdownWrapper from './pl-dropdown-wrapper'
+    import Wrapper from './pl-dropdown-wrapper'
 
     export default {
         name: "pl-dropdown",
@@ -39,14 +39,14 @@
                         const that = this
                         const wrapper = (content) => {
                             return (
-                                <DropdownWrapper {...that.wrapperBinding}>
+                                <Wrapper {...that.wrapperBinding}>
                                     {!that.p_height ?
                                         content :
                                         <pl-scroll>
                                             {content}
                                         </pl-scroll>
                                     }
-                                </DropdownWrapper>
+                                </Wrapper>
                             )
                         }
 
