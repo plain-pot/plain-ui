@@ -22,7 +22,8 @@
         ],
         emitters: {
             emitInput: Function,
-
+            emitConfirm: Function,
+            emitCancel: Function,
         },
         props: {
             value: {type: Boolean},                                                 // model绑定是否打开对话框
@@ -35,13 +36,13 @@
             maxWidth: {type: [String, Number]},                                     // 最大宽度
             wrapperPadding: {type: String, default: '15vh 5vw'},                    // body的内边距
             contentPadding: {type: Boolean, default: true},                         // 内容内边距
+            showHead: {type: Boolean, default: true},                               // 是否展示对话框标题栏
 
             title: {type: String, default: '提示'},                                 // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
             mask: {type: Boolean, default: true},                                   // 是否需要遮罩
             dialogClass: {},                                                        // 对话框内容自定义类名
-            closeOnClickMask: {type: Boolean, default: true},                       // 是否在点击遮罩的时候关闭对话框
-            closeOnPressEscape: {type: Boolean, default: true},                     // 是否在摁下 ESC 键的时候关闭对话框
+            cancelOnClickMask: {type: Boolean, default: true},                       // 是否在点击遮罩的时候关闭对话框
             showClose: {type: Boolean, default: true},                              // 是否展示关闭按钮
             beforeClose: {type: Boolean},                                           // 关闭之前的回调
             center: {type: Boolean},                                                // 是否纵向居中对其
@@ -65,17 +66,20 @@
             return {
                 zIndex: null,
                 p_value: false,
-                activeElement: null,
                 p_loading: null,
                 isMoved: false,
 
                 keyboardEventOption: {
                     enter: () => {
-                        console.log('enter')
+                        if (this.isLoading) return
+                        if (!!this.confirmOnEnter) {
+                            this.confirm()
+                        }
                     },
                     esc: () => {
-                        if (this.closeOnPressEscape) {
-                            this.hide()
+                        if (this.isLoading) return
+                        if (!!this.cancelOnEsc) {
+                            this.cancel()
                         }
                     },
                 }
@@ -101,19 +105,20 @@
                         value={this.isMoved}>
                     <transition name="pl-transition-dialog">
                         {(!this.destroyOnClose ? true : this.p_value) && <div onClick={this.onClickWrapper} style={this.wrapperStyle} class={this.wrapperClass} {...{directives}}>
-                            <div style={this.bodyStyle} class={this.bodyClass} ref="body">
-                                <div class="pl-dialog-head">
+                            <div class={this.bodyClass} ref="body">
+                                {this.hasHead && <div class="pl-dialog-head">
                                     {this.$slots.head || <span>{this.p_title}</span>}
                                     {!!this.showClose && <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" onClick={this.onClickClose}/>}
-                                </div>
-                                <div class="pl-dialog-content">
+                                </div>}
+
+                                <div class="pl-dialog-content" style={this.contentStyle}>
                                     {this.$slots.default}
                                 </div>
-                                <div class="pl-dialog-foot">
+                                {this.hasFoot && <div class="pl-dialog-foot">
                                     {this.$slots.foot}
-                                    <pl-button label="取消" mode="stroke" onClick={this.cancel}/>
-                                    <pl-button label="确认" onClick={this.confirm}/>
-                                </div>
+                                    {!!this.cancelButton && <pl-button label={this.cancelButtonText} mode="stroke" onClick={this.cancel}/>}
+                                    {!!this.confirmButton && <pl-button label={this.confirmButtonText} onClick={this.confirm}/>}
+                                </div>}
                                 <pl-loading-mask value={this.loading || this.p_loading}/>
                             </div>
                         </div>}
@@ -140,7 +145,13 @@
                     'pl-dialog-no-content-padding': !this.contentPadding,
                 }
             },
-            bodyStyle() {
+            bodyClass() {
+                return [
+                    'pl-dialog-body',
+                    `pl-dialog-body-shape-${this.p_shape || 'fillet'}`,
+                ]
+            },
+            contentStyle() {
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width),
                     height: this.$plain.utils.suffixPx(this.p_height),
@@ -150,26 +161,23 @@
                     maxWidth: this.$plain.utils.suffixPx(this.p_maxWidth),
                 }
             },
-            bodyClass() {
-                return [
-                    'pl-dialog-body',
-                    `pl-dialog-body-shape-${this.p_shape || 'fillet'}`,
-
-                ]
+            hasHead() {
+                return this.showHead
+            },
+            hasFoot() {
+                return this.$slots.foot || this.confirmButton || this.cancelButton
+            },
+            isLoading() {
+                return this.loading || this.p_loading
             },
         },
         mounted() {
-            this.zIndex = this.$plain.nextIndex()
-
             if (!!this.value) {
                 this.show()
             }
         },
         beforeDestroy() {
             this.$plain.$keyboard.unbindListener(this.keyboardEventOption)
-            if (!!this.activeElement && !!this.activeElement.focus) {
-                this.activeElement.focus()
-            }
         },
         methods: {
             async show() {
@@ -179,23 +187,28 @@
                     await this.$plain.nextTick()
                 }
                 this.$plain.$keyboard.listen(this.keyboardEventOption)
-                this.activeElement = this.$plain.$keyboard.cancelActiveElement()
+                this.$plain.$keyboard.cancelActiveElement()
+
+                this.zIndex = this.$plain.nextIndex()
                 await this.open()
             },
             async hide() {
                 if (!this.p_value) return
-
                 this.$plain.$keyboard.unbindListener(this.keyboardEventOption)
-                if (!!this.activeElement && !!this.activeElement.focus) {
-                    this.activeElement.focus()
-                }
+
                 await this.close()
             },
             confirm() {
-
+                if (this.closeOnConfirm) {
+                    this.hide()
+                }
+                this.emitConfirm()
             },
             cancel() {
-                this.hide()
+                if (this.closeOnCancel) {
+                    this.hide()
+                }
+                this.emitCancel()
             },
             open() {
                 this.p_value = true
@@ -223,7 +236,8 @@
              * @date    2020/3/24 15:47
              */
             onClickWrapper(e) {
-                if (!!this.closeOnClickMask) {
+                if (this.isLoading) return
+                if (!!this.cancelOnClickMask) {
                     if (!!this.body && !this.body.contains(e.target)) {
                         this.cancel()
                     }
@@ -235,6 +249,7 @@
              * @date    2020/3/24 15:47
              */
             onClickClose() {
+                if (this.isLoading) return
                 this.cancel()
             },
         },
@@ -283,12 +298,9 @@
             box-shadow: 0 0 20px 8px rgba(100, 100, 100, 0.1);
             overflow: hidden;
             pointer-events: auto;
+            box-sizing: border-box;
 
             .pl-dialog-head {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
                 height: 40px;
                 line-height: 40px;
                 padding: 0 16px;
@@ -308,23 +320,11 @@
             }
 
             .pl-dialog-content {
-                padding: 56px 16px;
                 overflow: auto;
-
-                height: inherit;
-                width: inherit;
-                max-width: inherit;
-                max-height: inherit;
-                min-width: inherit;
-                min-height: inherit;
+                padding: 16px;
             }
 
             .pl-dialog-foot {
-                background-color: white;
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                left: 0;
                 height: 60px;
                 padding: 0 16px;
                 display: flex;
@@ -384,7 +384,7 @@
 
         &.pl-dialog-no-content-padding {
             .pl-dialog-content {
-                padding: 40px 0;
+                padding: 0;
             }
         }
     }

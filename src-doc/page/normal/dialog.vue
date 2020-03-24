@@ -61,14 +61,8 @@
             </pl-dialog>
         </demo-row>
         <demo-row title="禁用点击遮罩的时候触发cancel动作">
-            <pl-button label="dialogClass" @click="val[9] = true"/>
-            <pl-dialog v-model="val[9]" :closeOnClickMask="false">
-                Hello world
-            </pl-dialog>
-        </demo-row>
-        <demo-row title="禁用点击 esc 按键的时候触发cancel动作">
-            <pl-button label="dialogClass" @click="val[10] = true"/>
-            <pl-dialog v-model="val[10]" :closeOnPressEscape="false">
+            <pl-button label="cancelOnClickMask" @click="val[9] = true"/>
+            <pl-dialog v-model="val[9]" :cancelOnClickMask="false">
                 Hello world
             </pl-dialog>
         </demo-row>
@@ -100,6 +94,35 @@
             <pl-button label="关闭时不销毁" @click="val[15] = !val[15]"/>
             <pl-dialog v-model="val[15]" :destroyOnClose="false">
                 <pl-input/>
+            </pl-dialog>
+        </demo-row>
+
+        <demo-row title="确认以及取消按钮">
+            <pl-button label="确认以及取消按钮" @click="val[16] = true"/>
+            <pl-dialog v-model="val[16]"
+                       confirmButton
+                       cancelButton
+                       @confirm="$message.success('confirm')"
+                       @cancel="$message.error('cancel')"
+                       confirmButtonText="保存"
+                       cancelButtonText="不保存"
+            >
+                Hello world
+            </pl-dialog>
+        </demo-row>
+
+        <demo-row title="加载状态">
+            <pl-button label="loading" @click="val[17] = true"/>
+            <pl-dialog v-model="val[17]" :loading="val[18]">
+                <pl-button label="open loading" @click="openLoading"/>
+                <pl-button @click="val[16] = true" label="open previous dialog"/>
+            </pl-dialog>
+        </demo-row>
+
+        <demo-row title="隐藏标题">
+            <pl-button label="隐藏标题" @click="val[19] = true"/>
+            <pl-dialog v-model="val[19]" :showHead="false">
+                Hello world
             </pl-dialog>
         </demo-row>
 
@@ -136,6 +159,11 @@
                         resolve(flag)
                     }, 1000)
                 })
+            },
+            async openLoading() {
+                this.val[18] = true
+                await this.$plain.utils.delay(2000)
+                this.val[18] = false
             },
         },
     }
