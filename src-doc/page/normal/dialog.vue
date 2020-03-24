@@ -54,6 +54,18 @@
                 Hello world
             </pl-dialog>
         </demo-row>
+        <demo-row title="禁用点击遮罩的时候触发cancel动作">
+            <pl-button label="dialogClass" @click="val[8] = true"/>
+            <pl-dialog v-model="val[8]" :closeOnClickMask="false">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+        <demo-row title="禁用点击 esc 按键的时候触发cancel动作">
+            <pl-button label="dialogClass" @click="val[9] = true"/>
+            <pl-dialog v-model="val[9]" :closeOnPressEscape="false">
+                Hello world
+            </pl-dialog>
+        </demo-row>
     </div>
 </template>
 

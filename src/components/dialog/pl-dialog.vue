@@ -8,7 +8,7 @@
                 <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
                     <div class="pl-dialog-head">
                         <slot name="head"><span>{{p_title}}</span></slot>
-                        <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" @click="onClickClose"/>
+                        <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" @click="onClickClose" v-if="showClose"/>
                     </div>
                     <div class="pl-dialog-content">
                         <slot></slot>
@@ -65,21 +65,21 @@
             fullscreen: {type: Boolean},                                            // 是否全屏
             mask: {type: Boolean, default: true},                                   // 是否需要遮罩
             dialogClass: {},                                                        // 对话框内容自定义类名
-            closeOnClickMask: {type: Boolean},                                      // 是否在点击遮罩的时候关闭对话框
-            closeOnPressEscape: {type: Boolean},                                    // 是否在摁下 ESC 键的时候关闭对话框
-            showClose: {type: Boolean},                                             // 是否展示关闭按钮
+            closeOnClickMask: {type: Boolean, default: true},                       // 是否在点击遮罩的时候关闭对话框
+            closeOnPressEscape: {type: Boolean, default: true},                     // 是否在摁下 ESC 键的时候关闭对话框
+            showClose: {type: Boolean, default: true},                              // 是否展示关闭按钮
             beforeClose: {type: Boolean},                                           // 关闭之前的回调
             center: {type: Boolean},                                                // 是否纵向居中对其
-            destroyOnClose: {type: Boolean},                                        // 关闭的时候是否销毁内容
+            destroyOnClose: {type: Boolean, default: true},                         // 关闭的时候是否销毁内容
 
             confirmButton: {type: Boolean},                                         // 是否显示确认按钮
             cancelButton: {type: Boolean},                                          // 是否显示取消按钮
-            closeOnConfirm: {type: Boolean},                                        // 是否点击确认按钮之后自动关闭
-            closeOnCancel: {type: Boolean},                                         // 是否点击取消按钮之后自动关闭
-            confirmButtonText: {type: [String, Object]},                            // 确认按钮文本
-            cancelButtonText: {type: [String, Object]},                             // 取消按钮文本
-            confirmOnEnter: {type: Boolean},                                        // 是否在点击 enter 按键的时候触发 confirm 事件
-            cancelOnEsc: {type: Boolean},                                           // 是否在点击 esc 按键的时候出发 cancel事件
+            closeOnConfirm: {type: Boolean, default: true},                         // 是否点击确认按钮之后自动关闭
+            closeOnCancel: {type: Boolean, default: true},                          // 是否点击取消按钮之后自动关闭
+            confirmButtonText: {type: [String, Object], default: '确认'},           // 确认按钮文本
+            cancelButtonText: {type: [String, Object], default: '取消'},            // 取消按钮文本
+            confirmOnEnter: {type: Boolean, default: true},                         // 是否在点击 enter 按键的时候触发 confirm 事件
+            cancelOnEsc: {type: Boolean, default: true},                            // 是否在点击 esc 按键的时候出发 cancel事件
 
             vertical: {type: String, default: 'start'},                             // 纵向对其方式：start,center,end
             horizontal: {type: String, default: 'center'},                          // 横向对其方式：start,center,end
@@ -89,6 +89,18 @@
             return {
                 zIndex: null,
                 p_value: false,
+                activeElement: null,
+
+                keyboardEventOption: {
+                    enter: () => {
+                        console.log('enter')
+                    },
+                    esc: () => {
+                        if (this.closeOnPressEscape) {
+                            this.hide()
+                        }
+                    },
+                }
             }
         },
         watch: {
@@ -140,16 +152,28 @@
                 this.show()
             }
         },
+        beforeDestroy() {
+            this.$plain.$keyboard.unbindListener(this.keyboardEventOption)
+            if (!!this.activeElement && !!this.activeElement.focus) {
+                this.activeElement.focus()
+            }
+        },
         methods: {
             show() {
                 if (!!this.p_value) return
                 this.p_value = true
                 this.emitInput(this.p_value)
+                this.$plain.$keyboard.listen(this.keyboardEventOption)
+                this.activeElement = this.$plain.$keyboard.cancelActiveElement()
             },
             hide() {
                 if (!this.p_value) return
                 this.p_value = false
                 this.emitInput(this.p_value)
+                this.$plain.$keyboard.unbindListener(this.keyboardEventOption)
+                if (!!this.activeElement && !!this.activeElement.focus) {
+                    this.activeElement.focus()
+                }
             },
             confirm() {
 
@@ -164,6 +188,9 @@
              * @date    2020/3/24 15:47
              */
             onClickWrapper(e) {
+                if (!this.closeOnClickMask || !this.showClose) {
+                    return
+                }
                 if (!this.body.contains(e.target)) {
                     this.cancel()
                 }
