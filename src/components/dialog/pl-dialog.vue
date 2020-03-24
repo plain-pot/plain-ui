@@ -57,6 +57,8 @@
             cancelButtonText: {type: [String, Object], default: '取消'},            // 取消按钮文本
             confirmOnEnter: {type: Boolean, default: true},                         // 是否在点击 enter 按键的时候触发 confirm 事件
             cancelOnEsc: {type: Boolean, default: true},                            // 是否在点击 esc 按键的时候出发 cancel事件
+            disabledCancel: {type: Boolean},                                        // 禁用cancel，当任何动作触发cancel时，不做任何处理，适用于开发者完全控制对话框的情况，对话框内置的按钮以及键盘事件不做任何处理
+            disabledConfirm: {type: Boolean},                                       // 禁用confirm，当任何动作触发confirm时，不做任何处理,适用于开发者完全控制对话框的情况,对话框内置的按钮以及键盘事件不做任何处理
 
             vertical: {type: String, default: 'start'},                             // 纵向对其方式：start,center,end
             horizontal: {type: String, default: 'center'},                          // 横向对其方式：start,center,end
@@ -201,12 +203,18 @@
                 await this.close()
             },
             confirm() {
+                if (this.disabledConfirm) {
+                    return
+                }
                 if (this.closeOnConfirm) {
                     this.hide()
                 }
                 this.emitConfirm()
             },
             cancel() {
+                if (this.disabledCancel) {
+                    return
+                }
                 if (this.closeOnCancel) {
                     this.hide()
                 }
