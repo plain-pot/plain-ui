@@ -63,7 +63,7 @@
 
             title: {type: String, default: '提示'},                                 // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
-            mask: {type: Boolean},                                                  // 是否需要遮罩
+            mask: {type: Boolean, default: true},                                   // 是否需要遮罩
             dialogClass: {},                                                        // 对话框内容自定义类名
             closeOnClickMask: {type: Boolean},                                      // 是否在点击遮罩的时候关闭对话框
             closeOnPressEscape: {type: Boolean},                                    // 是否在摁下 ESC 键的时候关闭对话框
@@ -112,7 +112,8 @@
             wrapperClass() {
                 return {
                     [this.dialogClass]: !!this.dialogClass,
-                    'pl-dialog-fullscreen': this.fullscreen
+                    'pl-dialog-fullscreen': this.fullscreen,
+                    'pl-dialog-no-mask': !this.mask,
                 }
             },
             bodyStyle() {
@@ -220,6 +221,7 @@
             transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
             box-shadow: 0 0 20px 8px rgba(100, 100, 100, 0.1);
             overflow: hidden;
+            pointer-events: auto;
 
             .pl-dialog-head {
                 position: absolute;
@@ -280,7 +282,7 @@
             }
 
             .pl-dialog-body {
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
                 opacity: 1;
             }
         }
@@ -291,7 +293,7 @@
             }
 
             .pl-dialog-body {
-                transform: translateY(-5vh);
+                transform: translateY(-5vh) scale(0.85);
                 opacity: 0;
             }
         }
@@ -303,6 +305,14 @@
                 position: fixed;
                 height: 100% !important;
                 width: 100% !important;
+            }
+        }
+
+        &.pl-dialog-no-mask {
+            pointer-events: none;
+
+            &:before {
+                display: none;
             }
         }
     }

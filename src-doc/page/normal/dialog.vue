@@ -41,7 +41,19 @@
                 Hello world
             </pl-dialog>
         </demo-row>
+        <demo-row title="无遮罩">
+            <pl-button label="mask" @click="val[7] = true"/>
+            <pl-dialog v-model="val[7]" :mask="false">
+                Hello world
+            </pl-dialog>
+        </demo-row>
 
+        <demo-row title="自定义样式class">
+            <pl-button label="dialogClass" @click="val[7] = true"/>
+            <pl-dialog v-model="val[7]" dialogClass="demo-dialog">
+                Hello world
+            </pl-dialog>
+        </demo-row>
     </div>
 </template>
 
@@ -68,4 +80,9 @@
 </script>
 
 <style lang="scss">
+    .demo-dialog {
+        .pl-dialog-content {
+            color: #12b4a5;
+        }
+    }
 </style>
