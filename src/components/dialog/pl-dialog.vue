@@ -3,8 +3,8 @@
             container=".pl-dialog-container"
             autoCreateContainer
             :value="true">
-        <transition>
-            <div class="pl-dialog-body" :style="bodyStyles" @click="onClickBody" v-show="p_value">
+        <transition name="pl-transition-dialog">
+            <div class="pl-dialog-body" @click="onClickBody" :style="bodyStyles" :class="bodyClass" v-show="p_value">
                 <div class="pl-dialog-content" :style="contentStyles" :class="contentClass" ref="content">
                     pl-dialog
                 </div>
@@ -46,7 +46,7 @@
             minWidth: {type: [String, Number], default: '30vw'},                    // 最小宽度
             maxHeight: {type: [String, Number]},                                    // 最大高度
             maxWidth: {type: [String, Number]},                                     // 最大宽度
-            bodyPadding: {type: String, default: '20vh 5vw'},                       // body的内边距
+            bodyPadding: {type: String, default: '15vh 5vw'},                       // body的内边距
 
             title: {type: String},                                                  // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
@@ -117,17 +117,25 @@
         },
         methods: {
             show() {
+                if (!!this.p_value) return
                 this.p_value = true
                 this.emitInput(this.p_value)
             },
             hide() {
+                if (!this.p_value) return
                 this.p_value = false
                 this.emitInput(this.p_value)
+            },
+            confrim() {
+
+            },
+            cancel() {
+                this.hide()
             },
             /*---------------------------------------handler-------------------------------------------*/
             onClickBody(e) {
                 if (!this.content.contains(e.target)) {
-                    this.hide()
+                    this.cancel()
                 }
             },
         },
@@ -161,6 +169,7 @@
             align-items: center;
             justify-content: center;
             pointer-events: auto;
+            transition: all linear 300ms;
 
             &:before {
                 content: '';
@@ -170,15 +179,40 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
+                user-select: none;
+                transition: all linear 300ms;
             }
 
             .pl-dialog-content {
                 background-color: white;
                 position: relative;
                 z-index: 1;
+                transition: all $transition 300ms;
 
                 @include shapeMixin(dialog-content) {
                     border-radius: $value;
+                }
+            }
+
+            &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
+                &:before {
+                    opacity: 1;
+                }
+
+                .pl-dialog-content {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            &.pl-transition-dialog-enter, &.pl-transition-dialog-leave-to {
+                &:before {
+                    opacity: 0;
+                }
+
+                .pl-dialog-content {
+                    transform: translateY(-5vh);
+                    opacity: 0;
                 }
             }
         }
