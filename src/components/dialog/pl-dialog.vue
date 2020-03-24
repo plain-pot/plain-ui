@@ -6,7 +6,16 @@
         <transition name="pl-transition-dialog">
             <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="dialogClass" v-show="p_value">
                 <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
-                    pl-dialog
+                    <div class="pl-dialog-head">
+                        <span>弹框标题</span>
+                        <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" @click="onClickClose"/>
+                    </div>
+                    <div class="pl-dialog-content">
+
+                    </div>
+                    <div class="pl-dialog-foot">
+
+                    </div>
                 </div>
             </div>
         </transition>
@@ -75,7 +84,7 @@
         data() {
             return {
                 zIndex: null,
-                p_value: this.value,
+                p_value: false,
             }
         },
         watch: {
@@ -114,6 +123,10 @@
         },
         mounted() {
             this.zIndex = this.$plain.nextIndex()
+
+            if (!!this.value) {
+                this.show()
+            }
         },
         methods: {
             show() {
@@ -126,17 +139,30 @@
                 this.p_value = false
                 this.emitInput(this.p_value)
             },
-            confrim() {
+            confirm() {
 
             },
             cancel() {
                 this.hide()
             },
             /*---------------------------------------handler-------------------------------------------*/
+            /**
+             * 点击容器wrapper处理动作
+             * @author  韦胜健
+             * @date    2020/3/24 15:47
+             */
             onClickWrapper(e) {
                 if (!this.body.contains(e.target)) {
                     this.cancel()
                 }
+            },
+            /**
+             * 点击关闭按钮动作
+             * @author  韦胜健
+             * @date    2020/3/24 15:47
+             */
+            onClickClose() {
+                this.cancel()
             },
         },
     }
@@ -151,69 +177,110 @@
     }
 
     .pl-dialog-wrapper {
-        position: fixed;
-        top: -9999px;
-        left: -9999px;
-        pointer-events: none;
         z-index: 1500;
-    }
 
-    @include themify {
-        .pl-dialog-wrapper {
-            position: fixed;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        transition: all linear 300ms;
+
+        &:before {
+            content: '';
+            background-color: rgba(0, 0, 0, 0.2);
+            position: absolute;
             top: 0;
-            bottom: 0;
             left: 0;
             right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: auto;
+            bottom: 0;
+            user-select: none;
             transition: all linear 300ms;
+        }
 
-            &:before {
-                content: '';
-                background-color: rgba(0, 0, 0, 0.2);
+        .pl-dialog-body {
+            background-color: white;
+            position: relative;
+            z-index: 1;
+            transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
+            box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.1);
+
+            .pl-dialog-head {
                 position: absolute;
                 top: 0;
                 left: 0;
                 right: 0;
-                bottom: 0;
-                user-select: none;
-                transition: all linear 300ms;
+                height: 40px;
+                line-height: 40px;
+                padding: 0 16px;
+                font-size: 16px;
+                letter-spacing: 2px;
+
+                .pl-dialog-head-close {
+                    position: absolute;
+                    top: 5px;
+                    bottom: 0;
+                    right: 5px;
+                    cursor: pointer;
+                    height: 30px;
+                    width: 30px;
+                }
+            }
+
+            .pl-dialog-content {
+
+            }
+
+            .pl-dialog-foot {
+
+            }
+        }
+
+        &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
+            &:before {
+                opacity: 1;
             }
 
             .pl-dialog-body {
-                background-color: white;
-                position: relative;
-                z-index: 1;
-                transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
-                box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        &.pl-transition-dialog-enter, &.pl-transition-dialog-leave-to {
+            &:before {
+                opacity: 0;
+            }
+
+            .pl-dialog-body {
+                transform: translateY(-5vh);
+                opacity: 0;
+            }
+        }
+    }
+
+    @include themify {
+        .pl-dialog-wrapper {
+            .pl-dialog-body {
+                .pl-dialog-head {
+                    color: $itc;
+                    border-bottom: solid 1px $ibc;
+
+                    .pl-dialog-head-close {
+                        color: $icc;
+
+                        &:hover {
+                            color: $colorPrimary;
+                        }
+                    }
+                }
 
                 @include shapeMixin(dialog-body) {
                     border-radius: $value;
-                }
-            }
-
-            &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
-                &:before {
-                    opacity: 1;
-                }
-
-                .pl-dialog-body {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-
-            &.pl-transition-dialog-enter, &.pl-transition-dialog-leave-to {
-                &:before {
-                    opacity: 0;
-                }
-
-                .pl-dialog-body {
-                    transform: translateY(-5vh);
-                    opacity: 0;
                 }
             }
         }
