@@ -2,9 +2,9 @@
     <pl-dom class="pl-dialog"
             container=".pl-dialog-container"
             autoCreateContainer
-            :value="true">
+            :value="isMoved">
         <transition name="pl-transition-dialog">
-            <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="wrapperClass" v-show="p_value">
+            <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="wrapperClass" v-if="p_value">
                 <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
                     <div class="pl-dialog-head">
                         <slot name="head"><span>{{p_title}}</span></slot>
@@ -93,6 +93,7 @@
                 p_value: false,
                 activeElement: null,
                 p_loading: null,
+                isMoved: false,
 
                 keyboardEventOption: {
                     enter: () => {
@@ -165,6 +166,10 @@
         methods: {
             async show() {
                 if (!!this.p_value) return
+                if (!this.isMoved) {
+                    this.isMoved = true
+                    await this.$plain.nextTick()
+                }
                 this.$plain.$keyboard.listen(this.keyboardEventOption)
                 this.activeElement = this.$plain.$keyboard.cancelActiveElement()
                 await this.open()
@@ -211,7 +216,7 @@
              */
             onClickWrapper(e) {
                 if (!!this.closeOnClickMask) {
-                    if (!this.body.contains(e.target)) {
+                    if (!!this.body && !this.body.contains(e.target)) {
                         this.cancel()
                     }
                 }

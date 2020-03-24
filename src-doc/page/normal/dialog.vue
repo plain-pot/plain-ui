@@ -4,6 +4,7 @@
             <pl-button label="open dialog" @click="val[0] = true"/>
             <pl-dialog v-model="val[0]">
                 Hello World
+                <pl-input/>
             </pl-dialog>
             <span>text</span>
         </demo-row>
