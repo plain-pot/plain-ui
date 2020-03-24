@@ -21,7 +21,9 @@ export const MountedMixin = {
  */
 export const RefsMixinFactory = function (option) {
     const refs = Object.keys(option).reduce((ret, key) => {
-        const ref = option[key] || {}
+        let ref = option[key] || {}
+        if (ref === Object) ref = {}
+
         if (ref.cache == undefined) ref.cache = false
         if (ref.get == undefined) ref.get = function () {
             return this.$refs[key]
@@ -113,7 +115,7 @@ export const StyleMixin = {
             if (!!this.plParentStyler && this.plParentStyler.p_size) return this.plParentStyler.p_size
             return null
         },
-        p_status(){
+        p_status() {
             if (!!this.status) return this.status
             if (!!this.plParentStyler && this.plParentStyler.p_status) return this.plParentStyler.p_status
             return null
@@ -174,8 +176,9 @@ export const PropsMixinFactory = {
                                 val = val(this)
                             }
                             if (check.indexOf(PropsMixinFactory.Number) > -1) {
-                                if (typeof val === 'string' && !val.endsWith('%')) {
-                                    val = !!val ? Number(val.replace('px', '')) : null
+                                val = String(val)
+                                if (/^[\d]+$/.test(val) || val.endsWith('px')) {
+                                    val = Number(val.replace('px', ''))
                                 }
                             }
                         }
