@@ -7,14 +7,16 @@
             <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="dialogClass" v-show="p_value">
                 <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
                     <div class="pl-dialog-head">
-                        <span>弹框标题</span>
+                        <slot name="head"><span>弹框标题</span></slot>
                         <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" @click="onClickClose"/>
                     </div>
                     <div class="pl-dialog-content">
-
+                        <slot></slot>
                     </div>
                     <div class="pl-dialog-foot">
-
+                        <slot name="foot"/>
+                        <pl-button label="取消" mode="stroke" @click="cancel"/>
+                        <pl-button label="确认" @click="confirm"/>
                     </div>
                 </div>
             </div>
@@ -232,11 +234,23 @@
             }
 
             .pl-dialog-content {
-
+                padding: 40px 16px;
             }
 
             .pl-dialog-foot {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                height: 60px;
+                padding: 0 16px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
 
+                & > * + * {
+                    margin-left: 16px;
+                }
             }
         }
 
