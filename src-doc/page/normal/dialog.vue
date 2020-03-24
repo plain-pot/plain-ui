@@ -147,6 +147,15 @@
             </pl-dialog>
         </demo-row>
 
+        <demo-row title="自定义完全控制对话框">
+            <pl-button label="open" @click="val[24] = true"/>
+            <pl-dialog v-model="val[24]" disabledConfirm disabledCancel :showClose="false">
+                用户不能通过点击关闭按钮、遮罩或者 ESC按键、ENTER按键关闭弹框，只能通过开发者预定义好的动作才能关闭弹框
+                <pl-button label="关闭" @click="val[24] = false" mode="stroke" slot="foot"/>
+                <pl-button label="确认" @click="$message('confirm')" slot="foot"/>
+            </pl-dialog>
+        </demo-row>
+
     </div>
 </template>
 

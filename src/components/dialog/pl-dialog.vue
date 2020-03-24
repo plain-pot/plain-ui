@@ -30,8 +30,8 @@
 
             height: {type: [String, Number]},                                       // 对话框高度
             width: {type: [String, Number]},                                        // 对话框宽度
-            minHeight: {type: [String, Number], default: '25vh'},                   // 最小高度
-            minWidth: {type: [String, Number], default: '30vw'},                    // 最小宽度
+            minHeight: {type: [String, Number]},                                    // 最小高度
+            minWidth: {type: [String, Number]},                                     // 最小宽度
             maxHeight: {type: [String, Number]},                                    // 最大高度
             maxWidth: {type: [String, Number]},                                     // 最大宽度
             wrapperPadding: {type: String, default: '15vh 5vw'},                    // body的内边距
@@ -156,13 +156,18 @@
                 ]
             },
             contentStyle() {
+                let minHeight = this.p_minHeight != null ? this.p_minHeight : this.height != null ? null : '25vh'
+                let minWidth = this.p_minWidth != null ? this.p_minWidth : this.width != null ? null : '30vw'
+                let maxHeight = this.p_maxHeight != null ? this.p_maxHeight : this.height != null ? null : '80vh'
+                let maxWidth = this.p_maxWidth != null ? this.p_maxWidth : this.width != null ? null : '60vw'
+
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width),
                     height: this.$plain.utils.suffixPx(this.p_height),
-                    minHeight: this.$plain.utils.suffixPx(this.p_minHeight),
-                    minWidth: this.$plain.utils.suffixPx(this.p_minWidth),
-                    maxHeight: this.$plain.utils.suffixPx(this.p_maxHeight),
-                    maxWidth: this.$plain.utils.suffixPx(this.p_maxWidth),
+                    minHeight: this.$plain.utils.suffixPx(minHeight),
+                    minWidth: this.$plain.utils.suffixPx(minWidth),
+                    maxHeight: this.$plain.utils.suffixPx(maxHeight),
+                    maxWidth: this.$plain.utils.suffixPx(maxWidth),
                 }
             },
             hasHead() {
