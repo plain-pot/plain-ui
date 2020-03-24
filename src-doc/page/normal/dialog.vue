@@ -114,8 +114,10 @@
         <demo-row title="加载状态">
             <pl-button label="loading" @click="val[17] = true"/>
             <pl-dialog v-model="val[17]" :loading="val[18]">
-                <pl-button label="open loading" @click="openLoading"/>
-                <pl-button @click="val[16] = true" label="open previous dialog"/>
+                <pl-button-group>
+                    <pl-button label="open loading" @click="openLoading"/>
+                    <pl-button @click="val[16] = true" label="open previous dialog"/>
+                </pl-button-group>
             </pl-dialog>
         </demo-row>
 
