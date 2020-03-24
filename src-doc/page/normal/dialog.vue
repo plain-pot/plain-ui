@@ -126,6 +126,25 @@
             </pl-dialog>
         </demo-row>
 
+        <demo-row title="弹框位置">
+            <pl-button label="LEFT" @click="val[20] = true"/>
+            <pl-dialog v-model="val[20]" :wrapperPadding="false" horizontal="start" height="100vh" transition="pl-transition-dialog-left">
+                Hello world
+            </pl-dialog>
+            <pl-button label="RIGHT" @click="val[21] = true"/>
+            <pl-dialog v-model="val[21]" :wrapperPadding="false" horizontal="end" height="100vh" transition="pl-transition-dialog-right">
+                Hello world
+            </pl-dialog>
+            <pl-button label="TOP" @click="val[22] = true"/>
+            <pl-dialog v-model="val[22]" :wrapperPadding="false" vertical="start" width="100vw" transition="pl-transition-dialog-top">
+                Hello world
+            </pl-dialog>
+            <pl-button label="BOTTOM" @click="val[23] = true"/>
+            <pl-dialog v-model="val[23]" :wrapperPadding="false" vertical="end" width="100vw" transition="pl-transition-dialog-bottom">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+
     </div>
 </template>
 

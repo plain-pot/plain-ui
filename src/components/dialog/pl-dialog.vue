@@ -37,6 +37,7 @@
             wrapperPadding: {type: String, default: '15vh 5vw'},                    // body的内边距
             contentPadding: {type: Boolean, default: true},                         // 内容内边距
             showHead: {type: Boolean, default: true},                               // 是否展示对话框标题栏
+            transition: {type: String, default: 'pl-transition-dialog'},            // 弹框动画, pl-transition-dialog，pl-transition-dialog-top,pl-transition-dialog-left,pl-transition-dialog-right,pl-transition-dialog-bottom
 
             title: {type: String, default: '提示'},                                 // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
@@ -103,7 +104,7 @@
                         container=".pl-dialog-container"
                         autoCreateContainer
                         value={this.isMoved}>
-                    <transition name="pl-transition-dialog">
+                    <transition name={this.transition}>
                         {(!this.destroyOnClose ? true : this.p_value) && <div onClick={this.onClickWrapper} style={this.wrapperStyle} class={this.wrapperClass} {...{directives}}>
                             <div class={this.bodyClass} ref="body">
                                 {this.hasHead && <div class="pl-dialog-head">
@@ -137,6 +138,7 @@
             },
             wrapperClass() {
                 return {
+                    [this.transition]: true,
                     ['pl-dialog-wrapper']: true,
                     [this.dialogClass]: !!this.dialogClass,
                     'pl-dialog-fullscreen': this.fullscreen,
@@ -337,28 +339,6 @@
             }
         }
 
-        &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
-            &:before {
-                opacity: 1;
-            }
-
-            .pl-dialog-body {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        &.pl-transition-dialog-enter, &.pl-transition-dialog-leave-to {
-            &:before {
-                opacity: 0;
-            }
-
-            .pl-dialog-body {
-                transform: translateY(-5vh) scale(0.85);
-                opacity: 0;
-            }
-        }
-
         &.pl-dialog-fullscreen {
             padding: 0 !important;
 
@@ -389,6 +369,30 @@
         }
     }
 
+    .pl-transition-dialog {
+        &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
+            &:before {
+                opacity: 1;
+            }
+
+            .pl-dialog-body {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        &.pl-transition-dialog-enter, &.pl-transition-dialog-leave-to {
+            &:before {
+                opacity: 0;
+            }
+
+            .pl-dialog-body {
+                transform: translateY(-5vh) scale(0.85);
+                opacity: 0;
+            }
+        }
+    }
+
     @include themify {
         .pl-dialog-wrapper {
             .pl-dialog-body {
@@ -407,6 +411,41 @@
 
                 @include shapeMixin(dialog-body) {
                     border-radius: $value;
+                }
+            }
+        }
+
+        $dialogTransition: (
+                left:translate3d(-100%, 0, 0),
+                right:translate3d(100%, 0, 0),
+                top:translate3d(0, -100%, 0),
+                bottom:translate3d(0, 100%, 0),
+        );
+
+        @each $key, $value in $dialogTransition {
+            .pl-transition-dialog-#{$key} {
+                .pl-dialog-body {
+                    transition: all $transition2 300ms;
+                }
+
+                &.pl-transition-dialog-#{$key}-enter-active, &.pl-transition-dialog-#{$key}-leave-active {
+                    &:before {
+                        opacity: 1;
+                    }
+
+                    .pl-dialog-body {
+                        transform: translate3d(0, 0, 0);
+                    }
+                }
+
+                &.pl-transition-dialog-#{$key}-enter, &.pl-transition-dialog-#{$key}-leave-to {
+                    &:before {
+                        opacity: 0;
+                    }
+
+                    .pl-dialog-body {
+                        transform: $value;
+                    }
                 }
             }
         }

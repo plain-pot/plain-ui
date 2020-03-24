@@ -29,7 +29,7 @@
     &.pl-popper-el-animate-pl-transition-popper-drop {
       overflow: hidden;
 
-      $showTransition: transform 300ms cubic-bezier(0.410, 1.110, 0.615, 0.995);
+      $showTransition: transform 300ms $transition2;
 
       .plain-popper-content {
         transition: $showTransition;
