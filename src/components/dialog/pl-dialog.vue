@@ -57,12 +57,12 @@
             minWidth: {type: [String, Number], default: '30vw'},                    // 最小宽度
             maxHeight: {type: [String, Number]},                                    // 最大高度
             maxWidth: {type: [String, Number]},                                     // 最大宽度
-            bodyPadding: {type: String, default: '15vh 5vw'},                       // body的内边距
+            wrapperPadding: {type: String, default: '15vh 5vw'},                    // body的内边距
 
             title: {type: String},                                                  // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
             mask: {type: Boolean},                                                  // 是否需要遮罩
-            dialogClass: {},                                                          // 对话框内容自定义类名
+            dialogClass: {},                                                        // 对话框内容自定义类名
             closeOnClickMask: {type: Boolean},                                      // 是否在点击遮罩的时候关闭对话框
             closeOnPressEscape: {type: Boolean},                                    // 是否在摁下 ESC 键的时候关闭对话框
             showClose: {type: Boolean},                                             // 是否展示关闭按钮
@@ -104,7 +104,7 @@
                     alignItems: `flex-${this.vertical}`.replace('flex-center', 'center'),
                     justifyContent: `flex-${this.horizontal}`.replace('flex-center', 'center'),
                     zIndex: this.zIndex,
-                    padding: this.bodyPadding,
+                    padding: this.wrapperPadding,
                 }
             },
             bodyStyle() {
@@ -209,8 +209,8 @@
             position: relative;
             z-index: 1;
             transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
-            box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.1);
-
+            box-shadow: 0 0 20px 8px rgba(100, 100, 100, 0.1);
+            overflow: hidden;
             .pl-dialog-head {
                 position: absolute;
                 top: 0;
@@ -221,6 +221,7 @@
                 padding: 0 16px;
                 font-size: 16px;
                 letter-spacing: 2px;
+                background-color: white;
 
                 .pl-dialog-head-close {
                     position: absolute;
@@ -235,9 +236,18 @@
 
             .pl-dialog-content {
                 padding: 40px 16px;
+                overflow: auto;
+
+                height: inherit;
+                width: inherit;
+                max-width: inherit;
+                max-height: inherit;
+                min-width: inherit;
+                min-height: inherit;
             }
 
             .pl-dialog-foot {
+                background-color: white;
                 position: absolute;
                 bottom: 0;
                 right: 0;
