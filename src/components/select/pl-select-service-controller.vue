@@ -32,7 +32,7 @@
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
             /*创建一个select对象*/
-            newSelect(option: SelectOption) {
+            newService(option: SelectOption) {
                 return new Select(option, this)
             },
 

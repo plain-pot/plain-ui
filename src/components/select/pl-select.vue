@@ -314,7 +314,7 @@
              * @date    2020/1/28 10:56
              */
             async checkSelect() {
-                if (!this.p_select) this.p_select = await this.$plain.$select.newSelect(this.p_selectOption)
+                if (!this.p_select) this.p_select = await this.$plain.$select(this.p_selectOption)
             },
 
             /*---------------------------------------event handler-------------------------------------------*/

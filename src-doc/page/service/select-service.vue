@@ -83,9 +83,8 @@
                     },
                     toggle: async () => {
                         if (!result.service) {
-                            result.service = await this.$plain.$select.newSelect(result.option)
+                            result.service = await this.$plain.$select(result.option)
                         }
-                        console.log(result.service)
                         result.service.toggle()
                     },
                 }

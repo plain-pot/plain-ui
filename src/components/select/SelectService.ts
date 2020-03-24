@@ -5,13 +5,12 @@ const SelectService = {
     $plain: null,
     install(Vue) {
         this.$plain = Vue.prototype.$plain
-        this.$plain.$select = SelectService
-    },
-    newSelect() {
-        if (!this.controller) {
-            this.controller = this.$plain.newInstance(Controller)
+        this.$plain.$select = (option) => {
+            if (!this.controller) {
+                this.controller = this.$plain.newInstance(Controller)
+            }
+            return this.controller.newService(option)
         }
-        return this.controller.newSelect(arguments[0])
     },
 }
 
