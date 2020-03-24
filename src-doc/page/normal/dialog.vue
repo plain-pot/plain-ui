@@ -66,6 +66,13 @@
                 Hello world
             </pl-dialog>
         </demo-row>
+
+        <demo-row title="去掉关闭按钮">
+            <pl-button label="showClose" @click="val[10] = true"/>
+            <pl-dialog v-model="val[10]" :showClose="false">
+                Hello world
+            </pl-dialog>
+        </demo-row>
     </div>
 </template>
 

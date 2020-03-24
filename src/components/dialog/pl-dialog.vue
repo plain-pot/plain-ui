@@ -188,11 +188,10 @@
              * @date    2020/3/24 15:47
              */
             onClickWrapper(e) {
-                if (!this.closeOnClickMask || !this.showClose) {
-                    return
-                }
-                if (!this.body.contains(e.target)) {
-                    this.cancel()
+                if (!!this.closeOnClickMask) {
+                    if (!this.body.contains(e.target)) {
+                        this.cancel()
+                    }
                 }
             },
             /**
