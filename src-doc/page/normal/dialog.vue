@@ -20,8 +20,28 @@
             <pl-dialog v-model="val[3]" maxWidth="400" maxHeight="600px">
                 {{str}}
             </pl-dialog>
-
         </demo-row>
+        <demo-row title="通过设置 wrapperPadding 调整 对话框偏移位置">
+            <pl-button label="wrapperPadding" @click="val[4] = true"/>
+            <pl-dialog v-model="val[4]" wrapperPadding="0 0">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+
+        <demo-row title="标题">
+            <pl-button label="title" @click="val[5] = true"/>
+            <pl-dialog v-model="val[5]" :title="title">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+
+        <demo-row title="全屏">
+            <pl-button label="fullscreen" @click="val[6] = true"/>
+            <pl-dialog v-model="val[6]" fullscreen>
+                Hello world
+            </pl-dialog>
+        </demo-row>
+
     </div>
 </template>
 
@@ -38,6 +58,9 @@
         data() {
             return {
                 str,
+                title: new Promise((resolve) => {
+                    setTimeout(() => resolve('异步标题'), 1000)
+                })
             }
         },
         methods: {},

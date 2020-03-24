@@ -4,10 +4,10 @@
             autoCreateContainer
             :value="true">
         <transition name="pl-transition-dialog">
-            <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="dialogClass" v-show="p_value">
+            <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="wrapperClass" v-show="p_value">
                 <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
                     <div class="pl-dialog-head">
-                        <slot name="head"><span>弹框标题</span></slot>
+                        <slot name="head"><span>{{p_title}}</span></slot>
                         <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" @click="onClickClose"/>
                     </div>
                     <div class="pl-dialog-content">
@@ -39,6 +39,8 @@
                 minWidth: PropsMixinFactory.Number,
                 maxHeight: PropsMixinFactory.Number,
                 maxWidth: PropsMixinFactory.Number,
+
+                title: PropsMixinFactory.Promise,
             }),
             RefsMixinFactory({
                 body: Object,
@@ -59,7 +61,7 @@
             maxWidth: {type: [String, Number]},                                     // 最大宽度
             wrapperPadding: {type: String, default: '15vh 5vw'},                    // body的内边距
 
-            title: {type: String},                                                  // 对话框标题
+            title: {type: String, default: '提示'},                                 // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
             mask: {type: Boolean},                                                  // 是否需要遮罩
             dialogClass: {},                                                        // 对话框内容自定义类名
@@ -107,6 +109,12 @@
                     padding: this.wrapperPadding,
                 }
             },
+            wrapperClass() {
+                return {
+                    [this.dialogClass]: !!this.dialogClass,
+                    'pl-dialog-fullscreen': this.fullscreen
+                }
+            },
             bodyStyle() {
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width),
@@ -119,7 +127,8 @@
             },
             bodyClass() {
                 return [
-                    `pl-dialog-body-shape-${this.p_shape || 'fillet'}`
+                    `pl-dialog-body-shape-${this.p_shape || 'fillet'}`,
+
                 ]
             },
         },
@@ -211,6 +220,7 @@
             transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
             box-shadow: 0 0 20px 8px rgba(100, 100, 100, 0.1);
             overflow: hidden;
+
             .pl-dialog-head {
                 position: absolute;
                 top: 0;
@@ -283,6 +293,16 @@
             .pl-dialog-body {
                 transform: translateY(-5vh);
                 opacity: 0;
+            }
+        }
+
+        &.pl-dialog-fullscreen {
+            padding: 0 !important;
+
+            .pl-dialog-body {
+                position: fixed;
+                height: 100% !important;
+                width: 100% !important;
             }
         }
     }
