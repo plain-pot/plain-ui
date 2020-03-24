@@ -1,6 +1,6 @@
 const DemoMixins = {
     data() {
-        const val = new Array(20).fill(null).reduce((ret, item, index) => {
+        const val = new Array(50).fill(null).reduce((ret, item, index) => {
             ret[index] = null
             return ret
         }, {})

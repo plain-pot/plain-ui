@@ -1,30 +1,3 @@
-<template>
-    <pl-dom class="pl-dialog"
-            container=".pl-dialog-container"
-            autoCreateContainer
-            :value="isMoved">
-        <transition name="pl-transition-dialog">
-            <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="wrapperClass" v-if="p_value">
-                <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
-                    <div class="pl-dialog-head">
-                        <slot name="head"><span>{{p_title}}</span></slot>
-                        <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" @click="onClickClose" v-if="showClose"/>
-                    </div>
-                    <div class="pl-dialog-content">
-                        <slot></slot>
-                    </div>
-                    <div class="pl-dialog-foot">
-                        <slot name="foot"/>
-                        <pl-button label="取消" mode="stroke" @click="cancel"/>
-                        <pl-button label="确认" @click="confirm"/>
-                    </div>
-                    <pl-loading-mask :value="loading || p_loading"/>
-                </div>
-            </div>
-        </transition>
-    </pl-dom>
-</template>
-
 <script>
     import {EmitMixin, PropsMixinFactory, RefsMixinFactory, StyleMixin} from "../../utils/mixins";
 
@@ -61,6 +34,7 @@
             maxHeight: {type: [String, Number]},                                    // 最大高度
             maxWidth: {type: [String, Number]},                                     // 最大宽度
             wrapperPadding: {type: String, default: '15vh 5vw'},                    // body的内边距
+            contentPadding: {type: Boolean, default: true},                         // 内容内边距
 
             title: {type: String, default: '提示'},                                 // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
@@ -116,6 +90,37 @@
                 }
             },
         },
+        render() {
+
+            const directives = this.destroyOnClose ? [] : [{name: 'show', value: this.p_value,}]
+
+            return (
+                <pl-dom class="pl-dialog"
+                        container=".pl-dialog-container"
+                        autoCreateContainer
+                        value={this.isMoved}>
+                    <transition name="pl-transition-dialog">
+                        {(!this.destroyOnClose ? true : this.p_value) && <div onClick={this.onClickWrapper} style={this.wrapperStyle} class={this.wrapperClass} {...{directives}}>
+                            <div style={this.bodyStyle} class={this.bodyClass} ref="body">
+                                <div class="pl-dialog-head">
+                                    {this.$slots.head || <span>{this.p_title}</span>}
+                                    {!!this.showClose && <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" onClick={this.onClickClose}/>}
+                                </div>
+                                <div class="pl-dialog-content">
+                                    {this.$slots.default}
+                                </div>
+                                <div class="pl-dialog-foot">
+                                    {this.$slots.foot}
+                                    <pl-button label="取消" mode="stroke" onClick={this.cancel}/>
+                                    <pl-button label="确认" onClick={this.confirm}/>
+                                </div>
+                                <pl-loading-mask value={this.loading || this.p_loading}/>
+                            </div>
+                        </div>}
+                    </transition>
+                </pl-dom>
+            )
+        },
         computed: {
             wrapperStyle() {
                 return {
@@ -127,10 +132,12 @@
             },
             wrapperClass() {
                 return {
+                    ['pl-dialog-wrapper']: true,
                     [this.dialogClass]: !!this.dialogClass,
                     'pl-dialog-fullscreen': this.fullscreen,
                     'pl-dialog-no-mask': !this.mask,
                     'pl-dialog-vertical-center': this.center,
+                    'pl-dialog-no-content-padding': !this.contentPadding,
                 }
             },
             bodyStyle() {
@@ -145,6 +152,7 @@
             },
             bodyClass() {
                 return [
+                    'pl-dialog-body',
                     `pl-dialog-body-shape-${this.p_shape || 'fillet'}`,
 
                 ]
@@ -300,7 +308,7 @@
             }
 
             .pl-dialog-content {
-                padding: 40px 16px;
+                padding: 56px 16px;
                 overflow: auto;
 
                 height: inherit;
@@ -372,6 +380,12 @@
         &.pl-dialog-vertical-center {
             padding: 0;
             align-items: center;
+        }
+
+        &.pl-dialog-no-content-padding {
+            .pl-dialog-content {
+                padding: 40px 0;
+            }
         }
     }
 

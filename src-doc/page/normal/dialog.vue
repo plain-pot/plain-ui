@@ -4,7 +4,6 @@
             <pl-button label="open dialog" @click="val[0] = true"/>
             <pl-dialog v-model="val[0]">
                 Hello World
-                <pl-input/>
             </pl-dialog>
             <span>text</span>
         </demo-row>
@@ -25,6 +24,12 @@
         <demo-row title="通过设置 wrapperPadding 调整 对话框偏移位置">
             <pl-button label="wrapperPadding" @click="val[4] = true"/>
             <pl-dialog v-model="val[4]" wrapperPadding="0 0">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+        <demo-row title="去掉内容内边距">
+            <pl-button label="contentPadding" @click="val[41] = true"/>
+            <pl-dialog v-model="val[41]" :contentPadding="false">
                 Hello world
             </pl-dialog>
         </demo-row>
@@ -85,6 +90,16 @@
             <pl-button label="center" @click="val[13] = true"/>
             <pl-dialog v-model="val[13]" center>
                 Hello world
+            </pl-dialog>
+        </demo-row>
+        <demo-row title="destroyOnClose">
+            <pl-button label="关闭时销毁" @click="val[14] = true"/>
+            <pl-dialog v-model="val[14]">
+                <pl-input/>
+            </pl-dialog>
+            <pl-button label="关闭时不销毁" @click="val[15] = !val[15]"/>
+            <pl-dialog v-model="val[15]" :destroyOnClose="false">
+                <pl-input/>
             </pl-dialog>
         </demo-row>
 
