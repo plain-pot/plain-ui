@@ -1,6 +1,6 @@
 <template>
     <span class="pl-dom">
-        <span class="pl-dom-content" ref="content">
+        <span class="pl-dom-content" ref="content" :class="contentClass" :style="contentStyle">
             <slot></slot>
         </span>
     </span>
@@ -13,6 +13,8 @@
             value: {type: Boolean, default: true},                          // 是否将组件移动到body下
             container: {},                                                  // 移动所在的父节点
             autoCreateContainer: {type: Boolean},                           // 通过 querySelector 查询 container 不存在时。是否自动 创建 container
+            contentClass: {},                                               // content节点的class
+            contentStyle: {},                                               // content节点的style
         },
         data() {
             return {
