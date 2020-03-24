@@ -18,6 +18,7 @@
                         <pl-button label="取消" mode="stroke" @click="cancel"/>
                         <pl-button label="确认" @click="confirm"/>
                     </div>
+                    <pl-loading-mask :value="loading || p_loading"/>
                 </div>
             </div>
         </transition>
@@ -83,6 +84,7 @@
 
             vertical: {type: String, default: 'start'},                             // 纵向对其方式：start,center,end
             horizontal: {type: String, default: 'center'},                          // 横向对其方式：start,center,end
+            loading: {type: Boolean},                                               // 弹出框添加 加载中的遮罩
 
         },
         data() {
@@ -90,6 +92,7 @@
                 zIndex: null,
                 p_value: false,
                 activeElement: null,
+                p_loading: null,
 
                 keyboardEventOption: {
                     enter: () => {
@@ -159,27 +162,45 @@
             }
         },
         methods: {
-            show() {
+            async show() {
                 if (!!this.p_value) return
-                this.p_value = true
-                this.emitInput(this.p_value)
                 this.$plain.$keyboard.listen(this.keyboardEventOption)
                 this.activeElement = this.$plain.$keyboard.cancelActiveElement()
+                await this.open()
             },
-            hide() {
+            async hide() {
                 if (!this.p_value) return
-                this.p_value = false
-                this.emitInput(this.p_value)
+
                 this.$plain.$keyboard.unbindListener(this.keyboardEventOption)
                 if (!!this.activeElement && !!this.activeElement.focus) {
                     this.activeElement.focus()
                 }
+                await this.close()
             },
             confirm() {
 
             },
             cancel() {
                 this.hide()
+            },
+            open() {
+                this.p_value = true
+                this.emitInput(this.p_value)
+            },
+            async close() {
+                try {
+                    if (!!this.beforeClose) {
+                        this.p_loading = true
+                        let flag = await this.beforeClose()
+                        if (flag === false) return
+                    }
+                    this.p_value = false
+                    this.emitInput(this.p_value)
+                } catch (e) {
+                    console.error(e)
+                } finally {
+                    this.p_loading = false
+                }
             },
             /*---------------------------------------handler-------------------------------------------*/
             /**

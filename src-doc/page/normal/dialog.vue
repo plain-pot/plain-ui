@@ -73,6 +73,14 @@
                 Hello world
             </pl-dialog>
         </demo-row>
+
+        <demo-row title="关闭前校验">
+            <pl-button label="beforeClose" @click="val[10] = true"/>
+            <pl-dialog v-model="val[10]" :beforeClose="beforeClose">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+
     </div>
 </template>
 
@@ -94,7 +102,20 @@
                 })
             }
         },
-        methods: {},
+        methods: {
+            async beforeClose() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        let flag = Math.random() > 0.5
+                        this.$message({
+                            message: flag ? 'close success' : 'close reject',
+                            status: flag ? 'primary' : 'error'
+                        })
+                        resolve(flag)
+                    }, 1000)
+                })
+            },
+        },
     }
 </script>
 
