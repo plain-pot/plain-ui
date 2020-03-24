@@ -4,8 +4,8 @@
             autoCreateContainer
             :value="true">
         <transition name="pl-transition-dialog">
-            <div class="pl-dialog-body" @click="onClickBody" :style="bodyStyles" :class="bodyClass" v-show="p_value">
-                <div class="pl-dialog-content" :style="contentStyles" :class="contentClass" ref="content">
+            <div class="pl-dialog-wrapper" @click="onClickWrapper" :style="wrapperStyle" :class="dialogClass" v-show="p_value">
+                <div class="pl-dialog-body" :style="bodyStyle" :class="bodyClass" ref="body">
                     pl-dialog
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 maxWidth: PropsMixinFactory.Number,
             }),
             RefsMixinFactory({
-                content: Object,
+                body: Object,
             }),
         ],
         emitters: {
@@ -51,7 +51,7 @@
             title: {type: String},                                                  // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
             mask: {type: Boolean},                                                  // 是否需要遮罩
-            bodyClass: {},                                                          // 对话框内容自定义类名
+            dialogClass: {},                                                          // 对话框内容自定义类名
             closeOnClickMask: {type: Boolean},                                      // 是否在点击遮罩的时候关闭对话框
             closeOnPressEscape: {type: Boolean},                                    // 是否在摁下 ESC 键的时候关闭对话框
             showClose: {type: Boolean},                                             // 是否展示关闭按钮
@@ -88,7 +88,7 @@
             },
         },
         computed: {
-            bodyStyles() {
+            wrapperStyle() {
                 return {
                     alignItems: `flex-${this.vertical}`.replace('flex-center', 'center'),
                     justifyContent: `flex-${this.horizontal}`.replace('flex-center', 'center'),
@@ -96,7 +96,7 @@
                     padding: this.bodyPadding,
                 }
             },
-            contentStyles() {
+            bodyStyle() {
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width),
                     height: this.$plain.utils.suffixPx(this.p_height),
@@ -106,9 +106,9 @@
                     maxWidth: this.$plain.utils.suffixPx(this.p_maxWidth),
                 }
             },
-            contentClass() {
+            bodyClass() {
                 return [
-                    `pl-dialog-content-shape-${this.p_shape || 'fillet'}`
+                    `pl-dialog-body-shape-${this.p_shape || 'fillet'}`
                 ]
             },
         },
@@ -133,8 +133,8 @@
                 this.hide()
             },
             /*---------------------------------------handler-------------------------------------------*/
-            onClickBody(e) {
-                if (!this.content.contains(e.target)) {
+            onClickWrapper(e) {
+                if (!this.body.contains(e.target)) {
                     this.cancel()
                 }
             },
@@ -150,7 +150,7 @@
         pointer-events: none;
     }
 
-    .pl-dialog-container {
+    .pl-dialog-wrapper {
         position: fixed;
         top: -9999px;
         left: -9999px;
@@ -159,7 +159,7 @@
     }
 
     @include themify {
-        .pl-dialog-body {
+        .pl-dialog-wrapper {
             position: fixed;
             top: 0;
             bottom: 0;
@@ -183,13 +183,14 @@
                 transition: all linear 300ms;
             }
 
-            .pl-dialog-content {
+            .pl-dialog-body {
                 background-color: white;
                 position: relative;
                 z-index: 1;
-                transition: all $transition 300ms;
+                transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
+                box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.1);
 
-                @include shapeMixin(dialog-content) {
+                @include shapeMixin(dialog-body) {
                     border-radius: $value;
                 }
             }
@@ -199,7 +200,7 @@
                     opacity: 1;
                 }
 
-                .pl-dialog-content {
+                .pl-dialog-body {
                     transform: translateY(0);
                     opacity: 1;
                 }
@@ -210,7 +211,7 @@
                     opacity: 0;
                 }
 
-                .pl-dialog-content {
+                .pl-dialog-body {
                     transform: translateY(-5vh);
                     opacity: 0;
                 }
