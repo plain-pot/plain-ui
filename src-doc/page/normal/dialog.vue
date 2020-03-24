@@ -49,34 +49,40 @@
         </demo-row>
 
         <demo-row title="自定义样式class">
-            <pl-button label="dialogClass" @click="val[7] = true"/>
-            <pl-dialog v-model="val[7]" dialogClass="demo-dialog">
+            <pl-button label="dialogClass" @click="val[8] = true"/>
+            <pl-dialog v-model="val[8]" dialogClass="demo-dialog">
                 Hello world
             </pl-dialog>
         </demo-row>
         <demo-row title="禁用点击遮罩的时候触发cancel动作">
-            <pl-button label="dialogClass" @click="val[8] = true"/>
-            <pl-dialog v-model="val[8]" :closeOnClickMask="false">
+            <pl-button label="dialogClass" @click="val[9] = true"/>
+            <pl-dialog v-model="val[9]" :closeOnClickMask="false">
                 Hello world
             </pl-dialog>
         </demo-row>
         <demo-row title="禁用点击 esc 按键的时候触发cancel动作">
-            <pl-button label="dialogClass" @click="val[9] = true"/>
-            <pl-dialog v-model="val[9]" :closeOnPressEscape="false">
+            <pl-button label="dialogClass" @click="val[10] = true"/>
+            <pl-dialog v-model="val[10]" :closeOnPressEscape="false">
                 Hello world
             </pl-dialog>
         </demo-row>
 
         <demo-row title="去掉关闭按钮">
-            <pl-button label="showClose" @click="val[10] = true"/>
-            <pl-dialog v-model="val[10]" :showClose="false">
+            <pl-button label="showClose" @click="val[11] = true"/>
+            <pl-dialog v-model="val[11]" :showClose="false">
                 Hello world
             </pl-dialog>
         </demo-row>
 
         <demo-row title="关闭前校验">
-            <pl-button label="beforeClose" @click="val[10] = true"/>
-            <pl-dialog v-model="val[10]" :beforeClose="beforeClose">
+            <pl-button label="beforeClose" @click="val[12] = true"/>
+            <pl-dialog v-model="val[12]" :beforeClose="beforeClose">
+                Hello world
+            </pl-dialog>
+        </demo-row>
+        <demo-row title="垂直居中">
+            <pl-button label="center" @click="val[13] = true"/>
+            <pl-dialog v-model="val[13]" center>
                 Hello world
             </pl-dialog>
         </demo-row>

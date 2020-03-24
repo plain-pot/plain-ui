@@ -118,10 +118,10 @@
         computed: {
             wrapperStyle() {
                 return {
-                    alignItems: `flex-${this.vertical}`.replace('flex-center', 'center'),
+                    alignItems: this.center ? null : `flex-${this.vertical}`.replace('flex-center', 'center'),
                     justifyContent: `flex-${this.horizontal}`.replace('flex-center', 'center'),
                     zIndex: this.zIndex,
-                    padding: this.wrapperPadding,
+                    padding: !!this.center ? null : this.wrapperPadding,
                 }
             },
             wrapperClass() {
@@ -129,6 +129,7 @@
                     [this.dialogClass]: !!this.dialogClass,
                     'pl-dialog-fullscreen': this.fullscreen,
                     'pl-dialog-no-mask': !this.mask,
+                    'pl-dialog-vertical-center': this.center,
                 }
             },
             bodyStyle() {
@@ -361,6 +362,11 @@
             &:before {
                 display: none;
             }
+        }
+
+        &.pl-dialog-vertical-center {
+            padding: 0;
+            align-items: center;
         }
     }
 
