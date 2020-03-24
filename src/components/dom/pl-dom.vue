@@ -1,14 +1,22 @@
 <template>
     <span class="pl-dom">
-        <span class="pl-dom-content" ref="content" :class="contentClass" :style="contentStyle">
+        <span class="pl-dom-content" ref="content" :class="contentClass" :style="contentStyle" @click="emitClickContent">
             <slot></slot>
         </span>
     </span>
 </template>
 
 <script>
+    import {EmitMixin} from "../../utils/mixins";
+
     export default {
         name: "pl-dom",
+        mixins: [
+            EmitMixin,
+        ],
+        emitters: {
+            emitClickContent: Function
+        },
         props: {
             value: {type: Boolean, default: true},                          // 是否将组件移动到body下
             container: {},                                                  // 移动所在的父节点
@@ -16,6 +24,7 @@
             contentClass: {},                                               // content节点的class
             contentStyle: {},                                               // content节点的style
         },
+
         data() {
             return {
                 contentEl: null,                                            // content节点

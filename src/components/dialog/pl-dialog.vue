@@ -1,19 +1,20 @@
 <template>
     <pl-dom class="pl-dialog"
-            contentClass="pl-dialog-body"
             container=".pl-dialog-container"
             autoCreateContainer
-            :value="true"
-            :contentStyle="{zIndex}"
-    >
-        <div class="pl-dialog-content" :style="contentStyles" :class="contentClass">
-            pl-dialog
-        </div>
+            :value="true">
+        <transition>
+            <div class="pl-dialog-body" :style="bodyStyles" @click="onClickBody" v-show="p_value">
+                <div class="pl-dialog-content" :style="contentStyles" :class="contentClass" ref="content">
+                    pl-dialog
+                </div>
+            </div>
+        </transition>
     </pl-dom>
 </template>
 
 <script>
-    import {EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
+    import {EmitMixin, PropsMixinFactory, RefsMixinFactory, StyleMixin} from "../../utils/mixins";
 
     export default {
         name: "pl-dialog",
@@ -27,15 +28,25 @@
                 minWidth: PropsMixinFactory.Number,
                 maxHeight: PropsMixinFactory.Number,
                 maxWidth: PropsMixinFactory.Number,
-            })
+            }),
+            RefsMixinFactory({
+                content: Object,
+            }),
         ],
+        emitters: {
+            emitInput: Function,
+
+        },
         props: {
+            value: {type: Boolean},                                                 // model绑定是否打开对话框
+
             height: {type: [String, Number]},                                       // 对话框高度
             width: {type: [String, Number]},                                        // 对话框宽度
-            minHeight: {type: [String, Number], default: 80},                       // 最小高度
-            minWidth: {type: [String, Number], default: 200},                       // 最小宽度
+            minHeight: {type: [String, Number], default: '25vh'},                   // 最小高度
+            minWidth: {type: [String, Number], default: '30vw'},                    // 最小宽度
             maxHeight: {type: [String, Number]},                                    // 最大高度
             maxWidth: {type: [String, Number]},                                     // 最大宽度
+            bodyPadding: {type: String, default: '20vh 5vw'},                       // body的内边距
 
             title: {type: String},                                                  // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
@@ -56,13 +67,35 @@
             cancelButtonText: {type: [String, Object]},                             // 取消按钮文本
             confirmOnEnter: {type: Boolean},                                        // 是否在点击 enter 按键的时候触发 confirm 事件
             cancelOnEsc: {type: Boolean},                                           // 是否在点击 esc 按键的时候出发 cancel事件
+
+            vertical: {type: String, default: 'start'},                             // 纵向对其方式：start,center,end
+            horizontal: {type: String, default: 'center'},                          // 横向对其方式：start,center,end
+
         },
         data() {
             return {
                 zIndex: null,
+                p_value: this.value,
             }
         },
+        watch: {
+            value(val) {
+                if (val) {
+                    this.show()
+                } else {
+                    this.hide()
+                }
+            },
+        },
         computed: {
+            bodyStyles() {
+                return {
+                    alignItems: `flex-${this.vertical}`.replace('flex-center', 'center'),
+                    justifyContent: `flex-${this.horizontal}`.replace('flex-center', 'center'),
+                    zIndex: this.zIndex,
+                    padding: this.bodyPadding,
+                }
+            },
             contentStyles() {
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width),
@@ -79,10 +112,25 @@
                 ]
             },
         },
-        methods: {},
         mounted() {
             this.zIndex = this.$plain.nextIndex()
-        }
+        },
+        methods: {
+            show() {
+                this.p_value = true
+                this.emitInput(this.p_value)
+            },
+            hide() {
+                this.p_value = false
+                this.emitInput(this.p_value)
+            },
+            /*---------------------------------------handler-------------------------------------------*/
+            onClickBody(e) {
+                if (!this.content.contains(e.target)) {
+                    this.hide()
+                }
+            },
+        },
     }
 </script>
 

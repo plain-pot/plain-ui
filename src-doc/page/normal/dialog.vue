@@ -17,7 +17,7 @@
         data() {
             return {
                 val: {
-                    0: false,
+                    0: true,
                 },
             }
         },
