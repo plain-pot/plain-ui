@@ -1,6 +1,6 @@
 <template>
-    <div class="pl-notice-container">
-        <pl-list direction="right">
+    <div class="pl-notice-container" :class="`pl-notice-container-${vertical}-${horizontal}`">
+        <pl-list :direction="horizontal === 'start'?'left':'right'">
             <pl-notice-service v-for="option in options" :key="option.id" :option="option" @close="close(option)"/>
         </pl-list>
     </div>
@@ -15,24 +15,12 @@
         data() {
             return {
                 options: [],
+                vertical: null,
+                horizontal: null,
             }
         },
         methods: {
-            newService(message, option) {
-                if (typeof message === 'object') {
-                    option = message
-                } else {
-                    option = option || {}
-                    option.message = String(message)
-                }
-
-                if (option.status === undefined) {
-                    option.status = 'primary'
-                }
-
-                if (!option.id) {
-                    option.id = this.$plain.utils.uuid()
-                }
+            newService(option) {
                 this.options.push(option)
                 option.close = () => this.close(option)
                 return option

@@ -19,6 +19,12 @@
             <pl-button label="custom render" @click="customRender"/>
             <pl-input v-model="val[0]"/>
         </demo-row>
+        <demo-row title="位置">
+            <pl-button label="top left" @click="$notice('正在操作中！',{vertical:'start',horizontal:'start'})"/>
+            <pl-button label="top right" @click="$notice('正在操作中！',{vertical:'start',horizontal:'end'})"/>
+            <pl-button label="bottom left" @click="$notice('正在操作中！',{vertical:'end',horizontal:'start'})"/>
+            <pl-button label="bottom right" @click="$notice('正在操作中！',{vertical:'end',horizontal:'end'})"/>
+        </demo-row>
     </div>
 </template>
 

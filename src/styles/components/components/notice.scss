@@ -2,8 +2,6 @@
   .pl-notice-container {
     position: fixed;
     z-index: 9999;
-    top: 0;
-    right: 0;
     padding: 20px;
 
     .pl-notice-service {
@@ -63,6 +61,26 @@
           font-size: 24px;
         }
       }
+    }
+
+    &.pl-notice-container-start-start {
+      top: 0;
+      left: 0;
+    }
+
+    &.pl-notice-container-start-end {
+      top: 0;
+      right: 0;
+    }
+
+    &.pl-notice-container-end-start {
+      bottom: 0;
+      left: 0;
+    }
+
+    &.pl-notice-container-end-end {
+      bottom: 0;
+      right: 0;
     }
   }
 }
