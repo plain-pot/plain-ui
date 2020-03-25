@@ -22,10 +22,11 @@ import notice from './notice'
 import collapse from './collapse'
 import card from './card'
 import carousel from './carousel'
+import slider from './slider'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio, select, form, toggle, number,
+    input, checkbox, radio, select, form, toggle, number, slider,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
     list, scroll, dom, collapse, card, carousel,

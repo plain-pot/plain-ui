@@ -17,6 +17,7 @@
 @import "./components/collapse";
 @import "./components/card";
 @import "./components/carousel";
+@import "./components/slider";
 
 @mixin component-index {
   @include component-button;
@@ -38,4 +39,5 @@
   @include component-collapse;
   @include component-card;
   @include component-carousel;
+  @include component-slider;
 }
