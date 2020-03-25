@@ -346,6 +346,7 @@
             .pl-dialog-content {
                 overflow: auto;
                 padding: 16px;
+                font-size: 14px;
             }
 
             .pl-dialog-foot {
@@ -475,8 +476,10 @@
         }
     }
 
+    /*---------------------------------------dialog service-------------------------------------------*/
+
     .pl-dialog-service-edit {
-        .pl-dialog-body{
+        .pl-dialog-body {
             .pl-dialog-content {
                 padding-bottom: 0;
             }
@@ -484,6 +487,23 @@
 
         .pl-textarea, .pl-textarea-inner {
             height: 100%;
+        }
+    }
+
+    @include themify {
+        .pl-dialog-service {
+            @include statusMixin(dialog-service) {
+                .pl-dialog-service-item-message {
+                    white-space: pre-wrap;
+
+                    .pl-icon {
+                        color: $value;
+                        font-size: 24px;
+                        vertical-align: middle;
+                        margin-right: 14px;
+                    }
+                }
+            }
         }
     }
 </style>

@@ -1,7 +1,13 @@
 <template>
     <div class="dialog-service">
         <demo-row title="基本用法">
-            <pl-button label="基本用法" @click="$dialog('Hello world')"/>
+            <pl-button label="基本用法" @click="$dialog('操作成功')"/>
+        </demo-row>
+        <demo-row title="提示状态">
+            <pl-button :label="item" :status="item" @click="$dialog[item]('操作进行中')" v-for="item in status" :key="item"/>
+        </demo-row>
+        <demo-row title="去掉 状态 图标">
+            <pl-button label="基本用法" @click="$dialog('操作成功',{status:null})"/>
         </demo-row>
         <demo-row title="dialog参数，以及自定义内容">
             <pl-button label="基本用法" @click="customOption"/>
@@ -40,9 +46,12 @@
 </template>
 
 <script>
+    import DemoMixins from "../components/DemoMixins";
+
     export default {
         name: "dialog-service",
         props: {},
+        mixins:[DemoMixins],
         data() {
             return {}
         },

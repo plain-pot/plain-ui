@@ -12,6 +12,12 @@ export default {
             return controller.newService(...args)
         }
 
+        Object.keys($plain.STATUS).forEach(status => {
+            dialog[status] = (message, option) => {
+                return dialog(message, {status, ...(option || {})})
+            }
+        })
+
         Vue.prototype.$dialog = dialog
 
     }

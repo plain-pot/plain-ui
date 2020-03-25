@@ -7,6 +7,7 @@
         'editType',
         'editValue',
         'editReadonly',
+        'status',
         'render',
         'onConfirm',
         'onCancel',
@@ -43,7 +44,9 @@
 
             let content = null
             let {option, binding} = this.p_option
-            let serviceClass;
+
+            let serviceClass = 'pl-dialog-service';
+            let status = option.status === null ? null : (option.status || 'primary')
 
             if (!!option.editType) {
                 binding = {...binding}
@@ -52,7 +55,7 @@
                 } else {
                     binding.height = binding.height || '500px'
                 }
-                serviceClass = `pl-dialog-service-edit`
+                serviceClass += ` pl-dialog-service-edit`
 
                 content = <pl-input ref="input"
                                     minHeight={null}
@@ -64,7 +67,10 @@
                                     readonly={option.editReadonly}
                                     textarea={option.editType === 'textarea'}/>
             } else if (!!option.message) {
-                content = <div class="pl-dialog-service-item-message">{option.message}</div>
+                if (!!status) {
+                    serviceClass += ` pl-dialog-service-status-${status}`
+                }
+                content = <div class="pl-dialog-service-item-message">{!!status && this.$plain.STATUS[status] && <pl-icon icon={this.$plain.STATUS[status].icon}/>}{option.message}</div>
             } else if (!!option.render) {
                 content = option.render(h)
             }

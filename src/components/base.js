@@ -65,9 +65,9 @@ export default {
         /*---------------------------------------status-------------------------------------------*/
 
         $plain.STATUS = {
-            white: {icon: 'el-icon-warning', status: 'white'},
-            black: {icon: 'el-icon-warning', status: 'black'},
-            primary: {icon: 'el-icon-warning', status: 'primary'},
+            white: {icon: 'el-icon-info', status: 'white'},
+            black: {icon: 'el-icon-info', status: 'black'},
+            primary: {icon: 'el-icon-info', status: 'primary'},
             success: {icon: 'el-icon-success', status: 'success'},
             warn: {icon: 'el-icon-warning', status: 'warn'},
             error: {icon: 'el-icon-error', status: 'error'},
