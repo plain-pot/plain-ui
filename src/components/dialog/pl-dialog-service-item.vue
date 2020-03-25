@@ -137,6 +137,7 @@
                 this.$nextTick(async () => {
                     await this.$plain.utils.delay(0)
                     if (!!this.p_option.option.editType) {
+                        this.editValue = this.p_option.option.editValue
                         this.input.focus()
                     }
                 })
