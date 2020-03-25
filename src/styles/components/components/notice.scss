@@ -18,33 +18,49 @@
         border-radius: $shapeFillet;
         border: solid 1px $ibc;
       }
-    }
 
-    .pl-notice-service-head {
-      font-size: 16px;
-      color: $ihc;
-    }
-
-    .pl-notice-service-body {
-      font-size: 14px;
-      padding-top: 16px;
-      color: $itc;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .pl-notice-service-close {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-
-      .pl-icon {
-        color: $icc
+      .pl-notice-service-head {
+        font-size: 16px;
+        color: $ihc;
       }
 
-      &:hover {
+      .pl-notice-service-body {
+        font-size: 14px;
+        padding-top: 16px;
+        color: $itc;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .pl-notice-service-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+
         .pl-icon {
-          color: inherit;
+          color: $icc
+        }
+
+        &:hover {
+          .pl-icon {
+            color: inherit;
+          }
+        }
+      }
+
+      .pl-notice-service-status-icon {
+        position: absolute;
+        top: 12px;
+        left: 16px;
+      }
+
+      @include statusMixin(notice-service) {
+        .pl-notice-service-content {
+          padding-left: 56px;
+        }
+        .pl-notice-service-status-icon {
+          color: $value;
+          font-size: 24px;
         }
       }
     }

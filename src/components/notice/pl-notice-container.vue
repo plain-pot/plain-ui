@@ -26,6 +26,10 @@
                     option.message = String(message)
                 }
 
+                if (option.status === undefined) {
+                    option.status = 'primary'
+                }
+
                 if (!option.id) {
                     option.id = this.$plain.utils.uuid()
                 }

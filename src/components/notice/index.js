@@ -13,6 +13,12 @@ const NoticeService = {
             return container.newService(...args)
         }
 
+        Object.keys($plain.STATUS).forEach(status => {
+            notice[status] = (message, option) => {
+                return notice(message, {status, ...(option || {})})
+            }
+        })
+
         Vue.prototype.$notice = notice
     },
 }
