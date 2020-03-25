@@ -79,7 +79,7 @@ export default [
             {name: '$message', title: '消息服务', icon: 'pad-message', page: '/service/message-service', complete: true},
             {name: '$select', title: '选择服务', icon: 'pad-message', page: '/service/select-service', complete: true},
             {name: '$popper', title: '悬浮框服务', icon: 'pad-message', page: '/service/popper-service', complete: true},
-            {name: '$dialog', title: '对话框服务', icon: 'pl-window', page: '/service/dialog-service', complete: false},
+            {name: '$dialog', title: '对话框服务', icon: 'pl-window', page: '/service/dialog-service', complete: true},
             {name: '$notice', title: '通知', icon: 'pad-bell', page: '/service/notice-service', complete: false},
             {name: '$file', title: '文件服务', icon: 'pad-bell', page: '/service/file', complete: false},
         ]

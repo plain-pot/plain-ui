@@ -156,8 +156,8 @@
                 ]
             },
             contentStyle() {
-                let minHeight = this.p_minHeight != null ? this.p_minHeight : this.height != null ? null : '25vh'
-                let minWidth = this.p_minWidth != null ? this.p_minWidth : this.width != null ? null : '30vw'
+                let minHeight = this.p_minHeight != null ? this.p_minHeight : this.height != null ? null : '20vh'
+                let minWidth = this.p_minWidth != null ? this.p_minWidth : this.width != null ? null : '40vw'
                 let maxHeight = this.p_maxHeight != null ? this.p_maxHeight : this.height != null ? null : '80vh'
                 let maxWidth = this.p_maxWidth != null ? this.p_maxWidth : this.width != null ? null : '60vw'
 
