@@ -208,10 +208,6 @@
                 text-align: left;
             }
 
-            &.pl-form-size-large {
-                font-size: 16px;
-            }
-
             .pl-form-item {
                 display: inline-block;
                 padding-bottom: 24px;
@@ -292,6 +288,10 @@
                 font-size: 12px;
             }
 
+            &.pl-form-size-large {
+                font-size: 16px;
+            }
+
             &.pl-form-label-align-left {
                 .pl-form-item-label {
                     text-align: left;
@@ -307,6 +307,14 @@
             &.pl-form-label-align-right {
                 .pl-form-item-label {
                     text-align: right;
+                }
+            }
+
+            &.pl-form-column-1 {
+                .pl-form-item {
+                    .pl-form-item-label {
+                        padding-left: 1em;
+                    }
                 }
             }
         }

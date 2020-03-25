@@ -35,7 +35,7 @@
 
                     render() {
                         return (
-                            <pl-form>
+                            <pl-form centerWhenSingleColumn rules={{}}>
                                 <pl-form-item label="用户名">
                                     <pl-input onInput={val => username = val}/>
                                 </pl-form-item>
@@ -45,7 +45,7 @@
                                 <pl-form-item label="新密码">
                                     <pl-input nativeProps={{type: "password"}} onInput={val => newPwd = val}/>
                                 </pl-form-item>
-                                <pl-form-item label="确认密码">
+                                <pl-form-item label="确认密码" required field="repeatPwd">
                                     <pl-input nativeProps={{type: "password"}} onInput={val => repeatPwd = val}/>
                                 </pl-form-item>
                             </pl-form>
