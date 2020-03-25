@@ -19,6 +19,22 @@
                 confirmButton:true,
                 cancelButton:true,
             })"/>
+            <pl-button label="input readonly" @click="$dialog({
+                editType:'input',
+                editValue:'Hello world',
+                editReadonly:true,
+                onConfirm:val=>$message(String(val)),
+                confirmButton:true,
+                cancelButton:true,
+            })"/>
+            <pl-button label="textarea readonly" @click="$dialog({
+                editType:'textarea',
+                editValue:'Hello world',
+                editReadonly:true,
+                onConfirm:val=>$message(String(val)),
+                confirmButton:true,
+                cancelButton:true,
+            })"/>
         </demo-row>
     </div>
 </template>

@@ -1,8 +1,11 @@
 <script>
 
+    import {RefsMixinFactory} from "../../utils/mixins";
+
     const optionKeys = [
         'message',
         'editType',
+        'editValue',
         'editReadonly',
         'render',
         'onConfirm',
@@ -11,7 +14,9 @@
 
     export default {
         name: "pl-dialog-service-item",
-        props: {},
+        mixins: [RefsMixinFactory({
+            input: Object,
+        })],
         data() {
             return {
                 show: false,
@@ -43,13 +48,13 @@
             if (!!option.editType) {
                 binding = {...binding}
                 if (option.editType === 'input') {
-                    binding.height = binding.height || '55px'
+                    binding.height = binding.height || '50px'
                 } else {
                     binding.height = binding.height || '500px'
                 }
                 serviceClass = `pl-dialog-service-edit`
 
-                content = <pl-input size="large"
+                content = <pl-input ref="input"
                                     minHeight={null}
                                     maxHeight={null}
                                     autoHeight={false}
@@ -128,6 +133,13 @@
 
                 this.key++
                 this.show = true
+
+                this.$nextTick(async () => {
+                    await this.$plain.utils.delay(0)
+                    if (!!this.p_option.option.editType) {
+                        this.input.focus()
+                    }
+                })
 
                 return () => this.close()
             },
