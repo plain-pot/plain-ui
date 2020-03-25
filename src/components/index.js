@@ -19,12 +19,13 @@ import toggle from './toggle'
 import dropdown from './dropdown'
 import dialog from './dialog'
 import notice from './notice'
+import collapse from './collapse'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form, toggle, number,
     loading, popper, popover, tooltip, dropdown,
-    list, scroll, dom,
+    list, scroll, dom, collapse,
     message, dialog, notice,
 
     virtualList,

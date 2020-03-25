@@ -14,6 +14,7 @@
 @import "./components/number";
 @import "./components/dropdown";
 @import "./components/notice";
+@import "./components/collapse";
 
 @mixin component-index {
   @include component-button;
@@ -32,4 +33,5 @@
   @include component-number;
   @include component-dropdown;
   @include component-notice;
+  @include component-collapse;
 }
