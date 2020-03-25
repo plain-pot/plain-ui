@@ -12,6 +12,13 @@
             <pl-button label="1s" @click="$notice('保存成功！',{time:1000})"/>
             <pl-button label="2s" @click="$notice('保存成功！',{time:2000})"/>
         </demo-row>
+        <demo-row title="监听点击事件">
+            <pl-button label="notice" @click="handleClick"/>
+        </demo-row>
+        <demo-row title="自定义内容">
+            <pl-button label="custom render" @click="customRender"/>
+            <pl-input v-model="val[0]"/>
+        </demo-row>
     </div>
 </template>
 
@@ -22,9 +29,31 @@
         name: "notice-service",
         mixins: [DemoMixins],
         data() {
-            return {}
+            return {
+                val: {
+                    0: null,
+                },
+            }
         },
-        methods: {},
+        methods: {
+            async handleClick() {
+                let option = await this.$notice('点击事件', {
+                    time: null,
+                    noClose: true,
+                    onClick: () => {
+                        option.close()
+                    }
+                })
+            },
+            async customRender() {
+                this.$notice({
+                    render: () => {
+                        return <pl-input value={this.val[0]} onInput={val => this.val[0] = val}/>
+                    },
+                    time: null,
+                })
+            },
+        },
     }
 </script>
 

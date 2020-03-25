@@ -33,14 +33,14 @@
         render(h) {
             return (
                 <pl-item class={this.classes}>
-                    <div class="pl-notice-service-content">
+                    <div class="pl-notice-service-content" onClick={() => !!this.option.onClick && this.option.onClick()}>
                         <div class="pl-notice-service-head">
                             提示
                         </div>
                         <div class="pl-notice-service-body">
                             {!!this.option.render ? this.option.render(h) : this.option.message}
                         </div>
-                        <pl-button mode="text" icon="el-icon-close" class="pl-notice-service-close" onClick={() => this.close()}/>
+                        {!this.option.noClose && <pl-button mode="text" icon="el-icon-close" class="pl-notice-service-close" onClick={() => this.close()}/>}
                         {!!this.option.status && this.$plain.STATUS[this.option.status] && <pl-icon icon={this.$plain.STATUS[this.option.status].icon} class="pl-notice-service-status-icon"/>}
                     </div>
                 </pl-item>
