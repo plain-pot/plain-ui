@@ -70,7 +70,7 @@ export default [
             {name: 'Popper', title: '悬浮框', icon: 'pl-popper', page: '/normal/popper', complete: true},
             {name: 'Card', title: '卡片', icon: 'pl-card', page: '/normal/card', complete: false},
             {name: 'Carousel', title: '轮播', icon: 'pl-carousel', page: '/normal/carousel', complete: false},
-            {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: false},
+            {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: true},
             {name: 'Dom', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/dom', complete: true},
         ]
     },
