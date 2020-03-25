@@ -5,7 +5,7 @@
         </demo-row>
         <demo-row :title="'横向纵向，以及对其方式'+val1">
             <pl-slider vertical v-model="val1"/>
-            <pl-slider vertical align-end v-model="val1"/>
+            <pl-slider vertical align-end v-model="val1" @input="val=>$plain.log(val)"/>
             <pl-slider v-model="val1"/>
             <pl-slider v-model="val1" align-end/>
         </demo-row>

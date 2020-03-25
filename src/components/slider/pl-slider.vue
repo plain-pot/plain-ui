@@ -77,22 +77,13 @@
                 if (val === this.p_value) return
                 this.p_value = val
             },
-            p_value(val) {
-                this.emitInput(val)
-            },
             start(val) {
                 if (val === this.p_start) return
                 this.p_start = val
             },
-            p_start(val) {
-                this.emitUpdateStart(val)
-            },
             end(val) {
                 if (val === this.p_end) return
                 this.p_end = val
-            },
-            p_end(val) {
-                this.emitUpdateEnd(val)
             },
         },
         computed: {
@@ -191,7 +182,7 @@
                     ret = this.transferLengthToValue(this.totalLength - ret).toFixed(2) - 0
                     this.max != null && ret > this.max && (ret = this.max)
                     this.min != null && ret < this.min && (ret = this.min)
-                    this.p_value = ret
+                    this.setValue(ret)
                 } else {
                     ret = this.transferLengthToValue(this.p_dragStart ? ret : this.totalLength - ret).toFixed(2) - 0
                     this.max != null && ret > this.max && (ret = this.max)
@@ -201,7 +192,7 @@
                     } else {
                         if (ret < this.p_start) ret = this.p_start
                     }
-                    this[this.p_dragStart ? 'p_start' : 'p_end'] = ret
+                    this.p_dragStart ? this.setStart(ret) : this.setEnd(ret)
                 }
             },
             dragEnd(e) {
@@ -217,6 +208,18 @@
             },
             transferLengthToValue(length) {
                 return this.total * length / this.totalLength
+            },
+            setValue(val) {
+                this.p_value = val
+                this.emitInput(val)
+            },
+            setStart(val) {
+                this.p_start = val
+                this.emitUpdateStart(val)
+            },
+            setEnd(val) {
+                this.p_end = val
+                this.emitUpdateEnd(val)
             },
         },
     }
