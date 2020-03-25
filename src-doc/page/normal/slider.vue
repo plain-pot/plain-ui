@@ -44,8 +44,14 @@
             <pl-slider :value="50" :step="10"/>
             <pl-slider range length="300px" :step="10" :start.sync="start" :end.sync="end" :total="200"/>
         </demo-row>
-        <demo-row title="禁用">
-            <pl-slider :value="50" disabled/>
+        <demo-row title="禁用只读">
+            <demo-line>
+                <pl-toggle v-model="val[0]"/>
+            </demo-line>
+            <demo-line>
+                <pl-slider :value="50" :disabled="val[0]"/>
+                <pl-slider :value="50" :readonly="val[0]"/>
+            </demo-line>
         </demo-row>
     </div>
 </template>
@@ -55,6 +61,9 @@
         name: "demo-slider",
         data() {
             return {
+                val:{
+                    0: true,
+                },
                 val0: 40,
                 val1: 20,
                 val2: 10,
