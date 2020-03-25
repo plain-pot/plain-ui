@@ -163,8 +163,8 @@
                 let height = this.fullHeight ? `calc(100vh - ${(!!this.hasHead ? 40 : 0) + (!!this.hasFoot ? 60 : 0)}px)` : this.p_height
                 let width = this.fullWidth ? '100vw' : this.p_width
 
-                let minHeight = this.p_minHeight != null ? this.p_minHeight : height != null ? null : '20vh'
-                let minWidth = this.p_minWidth != null ? this.p_minWidth : width != null ? null : '40vw'
+                let minHeight = this.p_minHeight != null ? this.p_minHeight : height != null ? null : '15vh'
+                let minWidth = this.p_minWidth != null ? this.p_minWidth : width != null ? null : '25vw'
                 let maxHeight = this.p_maxHeight != null ? this.p_maxHeight : height != null ? null : '80vh'
                 let maxWidth = this.p_maxWidth != null ? this.p_maxWidth : width != null ? null : '60vw'
 
@@ -416,8 +416,9 @@
     @include themify {
         .pl-dialog-wrapper {
             .pl-dialog-body {
+                color: $itc;
                 .pl-dialog-head {
-                    color: $itc;
+                    color: $ihc;
                     border-bottom: solid 1px $ibc;
 
                     .pl-dialog-head-close {
