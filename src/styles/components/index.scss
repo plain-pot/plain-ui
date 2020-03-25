@@ -16,6 +16,7 @@
 @import "./components/notice";
 @import "./components/collapse";
 @import "./components/card";
+@import "./components/carousel";
 
 @mixin component-index {
   @include component-button;
@@ -36,4 +37,5 @@
   @include component-notice;
   @include component-collapse;
   @include component-card;
+  @include component-carousel;
 }

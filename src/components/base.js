@@ -62,6 +62,14 @@ export default {
             }
         })(1500)
 
+        $plain.enableSelectNone = () => {
+            $plain.utils.addClass(document.body, 'pl-select-none')
+        }
+        $plain.disabledSelectNone = () => {
+            $plain.utils.removeClass(document.body, 'pl-select-none')
+        }
+
+
         /*---------------------------------------status-------------------------------------------*/
 
         $plain.STATUS = {
