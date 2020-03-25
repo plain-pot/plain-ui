@@ -242,6 +242,7 @@
                         flex: 1;
                         display: inline-flex;
                         align-items: center;
+                        min-height: 28px;
 
                         .pl-input, .pl-textarea, .pl-checkbox-group, .pl-radio-group {
                             flex: 1;

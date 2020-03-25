@@ -47,6 +47,11 @@
                 <pl-form-item label="同意使用协议" field="field10" :rules="{message:'请阅读并同意使用协议',options:true,trigger:'blur'}">
                     <pl-toggle v-model="form1.formData.field10"/>
                 </pl-form-item>
+
+                <pl-form-item label="滑块校验" field="field11" required :rules="{min:50,message:'最小值50'}">
+                    <pl-slider v-model="form1.formData.field11"/>
+                </pl-form-item>
+
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
