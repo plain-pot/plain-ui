@@ -42,6 +42,10 @@
                 cancelButton:true,
             })"/>
         </demo-row>
+
+        <demo-row title="多实例">
+            <pl-button label="基本用法" @click="multiService"/>
+        </demo-row>
     </div>
 </template>
 
@@ -51,7 +55,7 @@
     export default {
         name: "dialog-service",
         props: {},
-        mixins:[DemoMixins],
+        mixins: [DemoMixins],
         data() {
             return {}
         },
@@ -88,6 +92,22 @@
                                     <pl-input nativeProps={{type: "password"}} onInput={val => repeatPwd = val}/>
                                 </pl-form-item>
                             </pl-form>
+                        )
+                    },
+                })
+            },
+            multiService() {
+                const that = this
+                let message = Math.random()
+                this.$dialog({
+                    render() {
+                        return (
+                            <div>
+                                message:{message}
+                                <div>
+                                    <pl-button label="open another dialog service" onClick={() => that.multiService()}/>
+                                </div>
+                            </div>
                         )
                     },
                 })
