@@ -30,5 +30,7 @@ $theme-default: (
                 transitionFlexible:cubic-bezier(.24, .22, .015, 1.56),
                 transition:cubic-bezier(0.23, 1, 0.32, 1),
                 transition2:cubic-bezier(0.410, 1.110, 0.615, 0.995),
+
+                boxShadow:0 2px 12px 0 rgba(0, 0, 0, .1),                               //阴影
         )
 );
