@@ -37,10 +37,27 @@
         render(h) {
 
             let content = null
-            let option = this.p_option.option
+            let {option, binding} = this.p_option
+            let serviceClass;
 
             if (!!option.editType) {
-                content = <pl-input value={this.editValue} onInput={val => this.editValue = val} readonly={option.editReadonly} textarea={option.editType === 'textarea'}/>
+                binding = {...binding}
+                if (option.editType === 'input') {
+                    binding.height = binding.height || '55px'
+                } else {
+                    binding.height = binding.height || '500px'
+                }
+                serviceClass = `pl-dialog-service-edit`
+
+                content = <pl-input size="large"
+                                    minHeight={null}
+                                    maxHeight={null}
+                                    autoHeight={false}
+                                    block
+                                    value={option.editValue}
+                                    onInput={val => this.editValue = val}
+                                    readonly={option.editReadonly}
+                                    textarea={option.editType === 'textarea'}/>
             } else if (!!option.message) {
                 content = <div class="pl-dialog-service-item-message">{option.message}</div>
             } else if (!!option.render) {
@@ -50,6 +67,7 @@
 
             return (
                 <pl-dialog class="pl-dialog-service-item"
+                           serviceClass={serviceClass}
                            value={this.show}
                            onInput={val => this.show = val}
                            key={this.key}
@@ -57,7 +75,7 @@
                            onConfirm={this.onConfirm}
                            onCancel={this.onCancel}
 
-                           {...{props: this.p_option.binding}}>{content}</pl-dialog>
+                           {...{props: binding}}>{content}</pl-dialog>
             )
         },
         computed: {

@@ -6,6 +6,20 @@
         <demo-row title="dialog参数，以及自定义内容">
             <pl-button label="基本用法" @click="customOption"/>
         </demo-row>
+        <demo-row title="输入对话框">
+            <pl-button label="input" @click="$dialog({
+                editType:'input',
+                onConfirm:val=>$message(String(val)),
+                confirmButton:true,
+                cancelButton:true,
+            })"/>
+            <pl-button label="textarea" @click="$dialog({
+                editType:'textarea',
+                onConfirm:val=>$message(String(val)),
+                confirmButton:true,
+                cancelButton:true,
+            })"/>
+        </demo-row>
     </div>
 </template>
 

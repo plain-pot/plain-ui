@@ -45,7 +45,8 @@
             title: {type: String, default: '提示'},                                 // 对话框标题
             fullscreen: {type: Boolean},                                            // 是否全屏
             mask: {type: Boolean, default: true},                                   // 是否需要遮罩
-            dialogClass: {},                                                        // 对话框内容自定义类名
+            dialogClass: {type: String},                                            // 对话框内容自定义类名
+            serviceClass: {type: String},                                           // 对话框服务内容自定义类名
             cancelOnClickMask: {type: Boolean, default: true},                       // 是否在点击遮罩的时候关闭对话框
             showClose: {type: Boolean, default: true},                              // 是否展示关闭按钮
             beforeClose: {type: Boolean},                                           // 关闭之前的回调
@@ -146,6 +147,7 @@
                     [this.transition]: true,
                     ['pl-dialog-wrapper']: true,
                     [this.dialogClass]: !!this.dialogClass,
+                    [this.serviceClass]: !!this.serviceClass,
                     'pl-dialog-fullscreen': this.fullscreen,
                     'pl-dialog-no-mask': !this.mask,
                     'pl-dialog-vertical-center': this.center,
@@ -417,6 +419,7 @@
         .pl-dialog-wrapper {
             .pl-dialog-body {
                 color: $itc;
+
                 .pl-dialog-head {
                     color: $ihc;
                     border-bottom: solid 1px $ibc;
@@ -469,6 +472,18 @@
                     }
                 }
             }
+        }
+    }
+
+    .pl-dialog-service-edit {
+        .pl-dialog-body{
+            .pl-dialog-content {
+                padding-bottom: 0;
+            }
+        }
+
+        .pl-textarea, .pl-textarea-inner {
+            height: 100%;
         }
     }
 </style>
