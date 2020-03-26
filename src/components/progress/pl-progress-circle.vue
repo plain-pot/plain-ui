@@ -5,8 +5,8 @@
             <slot :animatePercent="animatePercent" :value="value" v-if="status === 'normal'">
                 <span>{{animatePercent}}</span>%
             </slot>
-            <pl-icon icon="pad-check" v-if="status === 'success'" :style="{color:successColor}"/>
-            <pl-icon icon="pad-close" v-else-if="status === 'error'" :style="{color: errorColor}"/>
+            <pl-icon icon="el-icon-check" v-if="status === 'success'" :style="{color:successColor}"/>
+            <pl-icon icon="el-icon-close" v-else-if="status === 'error'" :style="{color: errorColor}"/>
         </div>
     </div>
 </template>
