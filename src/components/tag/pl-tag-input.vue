@@ -183,6 +183,7 @@
             &.pl-tag-input-disabled {
                 .pl-tag-input-not-edit {
                     cursor: not-allowed;
+                    color: $disabledText;
                 }
             }
         }

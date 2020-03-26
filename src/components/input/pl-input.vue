@@ -18,7 +18,7 @@
             value: {type: String},
 
             width: {type: [Number, String], default: null,},    // 输入框默认宽度
-            minHeight: {type: [Number, String], default: 56},   // 文本域最小高度
+            minHeight: {type: [Number, String], default: 100},   // 文本域最小高度
             maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
             block: {type: Boolean},                             // 块级元素
             textarea: {type: Boolean},                          // 当前是否为文本域输入框

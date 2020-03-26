@@ -1,25 +1,20 @@
 <template>
-    <div class="form-validate">
+    <div class="form-elements">
         <demo-row title="基本用法">
-            <pl-form ref="form" :rules="form1.formRules" v-model="form1.formData" contentWidth="400px" :disabled="disabled">
-                <pl-form-item label="必填校验" field="field1" required>
+            <pl-form ref="form" v-model="form1.formData" contentWidth="400px" :disabled="disabled">
+                <pl-form-item label="普通文本框" field="field1" required>
                     <pl-input v-model="form1.formData.field1"/>
                 </pl-form-item>
+                <pl-form-item label="普通文本域" field="field2" required>
+                    <pl-input v-model="form1.formData.field2" textarea/>
+                </pl-form-item>
 
-                <pl-form-item label="必填校验(失去焦点)" field="field2">
-                    <pl-number v-model="form1.formData.field2" :inputProps="{block:true}"/>
+                <pl-form-item label="数字框" field="field3" :rules="{max:100,message:'最大值100'}" required>
+                    <pl-number v-model="form1.formData.field3" :inputProps="{block:true}"/>
                     <pl-icon icon="el-icon-question" slot="suffix" v-tooltip="'提示'"/>
                 </pl-form-item>
 
-                <pl-form-item label="字符长度校验 3-5" field="field3">
-                    <pl-input v-model="form1.formData.field3"/>
-                </pl-form-item>
-
-                <pl-form-item label="form-item 设置校验规则" field="field4" :rules="{required:true,trigger:'blur'}">
-                    <pl-input v-model="form1.formData.field4"/>
-                </pl-form-item>
-
-                <pl-form-item label="数组，1-2个选项" field="field5" :rules="{min:1,max:2}">
+                <pl-form-item label="复选框" field="field5" :rules="{min:1,max:2}" required>
                     <pl-checkbox-group v-model="form1.formData.field5" itemWidth="50%">
                         <pl-checkbox label="大客户" val="large"/>
                         <pl-checkbox label="潜在客户" val="potential"/>
@@ -28,24 +23,26 @@
                     </pl-checkbox-group>
                 </pl-form-item>
 
-                <pl-form-item label="选项校验：确定值" field="field6" :rules="{required:true,message:'只能选择二级', options:'2'}">
+                <pl-form-item label="下拉选项" field="field6" :rules="{required:true,message:'只能选择二级', options:'2'}">
                     <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field6"/>
                 </pl-form-item>
-                <pl-form-item label="选项校验：数组" field="field7" :rules="{required:true,message:'只能选择二级，三级', options:['2','3']}">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field7"/>
-                </pl-form-item>
-                <pl-form-item label="父属性">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field8"/>
-                </pl-form-item>
-                <pl-form-item label="自定义(异步2s)校验" field="field9" :rules="{validator:customValidator}">
+
+                <pl-form-item label="单选按钮组" field="field9" required>
                     <pl-radio-group v-model="form1.formData.field9" itemWidth="33%">
                         <pl-radio label="是" val="Y"/>
                         <pl-radio label="否" val="N"/>
                         <pl-radio label="未知" val="NO"/>
                     </pl-radio-group>
                 </pl-form-item>
-                <pl-form-item label="同意使用协议" field="field10" :rules="{message:'请阅读并同意使用协议',options:true,trigger:'blur'}">
+                <pl-form-item label="开关按钮" field="field10" :rules="{message:'请阅读并同意使用协议',options:true}">
                     <pl-toggle v-model="form1.formData.field10"/>
+                </pl-form-item>
+
+                <pl-form-item label="滑块" field="field11" required :rules="{min:50,message:'最小值50'}">
+                    <pl-slider v-model="form1.formData.field11"/>
+                </pl-form-item>
+                <pl-form-item label="标签输入框" field="field12" required :rules="[{min:3,message:'最少输入3个标签'},{max:5,message:'最多5个标签'}]">
+                    <pl-tag-input v-model="form1.formData.field12"/>
                 </pl-form-item>
 
                 <pl-form-item>
@@ -69,19 +66,13 @@
 
 <script>
     export default {
-        name: "form-validate",
+        name: "form-elements",
         props: {},
         data() {
             return {
                 form1: {
                     formData: {
                         field12: ['唐人街'],
-                    },
-
-                    // 每一个field的规则可以是一个规则对象，也可以是规则对象数组
-                    formRules: {
-                        field2: {required: true, trigger: 'blur'},
-                        field3: {required: true, min: 3, max: 5, trigger: 'change'},
                     },
                 },
 
