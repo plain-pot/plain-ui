@@ -1,6 +1,12 @@
 <script>
     import {EditMixin, EmitMixin, StyleMixin} from "../../utils/mixins";
 
+    const SizesWidth = {
+        large: 115,
+        normal: 100,
+        mini: 85,
+    }
+
     export default {
         name: "pl-pagination",
         mixins: [
@@ -29,7 +35,7 @@
                     labelKey="name"
                     valueKey="val"
                     filterable={false}
-                    inputProps={{width: 100, clearIcon: false}}/>)
+                    inputProps={{width: SizesWidth[this.p_size || 'normal'], clearIcon: false}}/>)
 
             const jumper = (
                 <div class="pl-pagination-jumper">
@@ -77,7 +83,7 @@
 
             const loading = (
                 <div class="pl-pagination-loading">
-                    <pl-loading/>
+                    <pl-loading type="beta"/>
                 </div>
             )
 
@@ -129,6 +135,7 @@
             align-items: center;
             color: $itc;
             padding: 0 1px;
+            width: 100%;
 
             & > * {
                 margin: 1px 0;
@@ -160,7 +167,6 @@
             }
 
             .pl-pagination-pager-button {
-                width: 28px;
                 text-align: center;
                 cursor: pointer;
                 transition: all 300ms $transition;
@@ -172,7 +178,7 @@
                 }
 
                 &:active {
-                    background-color: mix(white, $colorPrimary, 60%);
+                    background-color: mix(white, $colorPrimary, 75%);
                 }
             }
 
@@ -193,9 +199,13 @@
             }
 
             @include sizeMixin(pagination) {
-                .pl-pagination-pager, .pl-pagination-prev, .pl-pagination-next, .pl-pagination-blank {
+                .pl-pagination-pager, .pl-pagination-prev, .pl-pagination-next, .pl-pagination-blank, .pl-pagination-pager-button {
                     height: $value;
                     line-height: $value;
+
+                    &.pl-pagination-pager-button {
+                        width: $value;
+                    }
                 }
             }
 
