@@ -53,6 +53,18 @@
             </pl-tag-input>
             {{val[2]}}
         </demo-row>
+
+        <demo-row title="禁用与只读">
+            <demo-line>
+                <pl-toggle v-model="val[3]"/>
+            </demo-line>
+            <demo-line>
+                <pl-tag-input v-model="val[4]" :disabled="val[3]"/>
+                <pl-tag-input v-model="val[4]" :readonly="val[3]"/>
+            </demo-line>
+        </demo-row>
+
+
     </div>
 </template>
 
@@ -72,6 +84,7 @@
                         {name: '火山', icon: 'el-icon-s-flag', disabled: false, status: 'error',},
                         {name: '山脉', icon: 'el-icon-s-data', disabled: true, status: 'warn',},
                     ],
+                    4: ['山脉', '海洋', '丛林'],
                 },
             }
         },

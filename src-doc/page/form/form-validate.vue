@@ -1,7 +1,7 @@
 <template>
     <div class="form-validate">
         <demo-row title="基本用法">
-            <pl-form ref="form" :rules="form1.formRules" v-model="form1.formData" contentWidth="400px">
+            <pl-form ref="form" :rules="form1.formRules" v-model="form1.formData" contentWidth="400px" :disabled="disabled">
                 <pl-form-item label="必填校验" field="field1" required>
                     <pl-input v-model="form1.formData.field1"/>
                 </pl-form-item>
@@ -51,6 +51,9 @@
                 <pl-form-item label="滑块校验" field="field11" required :rules="{min:50,message:'最小值50'}">
                     <pl-slider v-model="form1.formData.field11"/>
                 </pl-form-item>
+                <pl-form-item label="标签输入框校验" field="field12" required :rules="[{min:3,message:'最少输入3个标签'},{max:5,message:'最多5个标签'}]">
+                    <pl-tag-input v-model="form1.formData.field12"/>
+                </pl-form-item>
 
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
@@ -58,6 +61,10 @@
                 </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验，不开启遮罩，自动loading按钮" @click="asyncSaveValidate" autoLoading/>
+                </pl-form-item>
+
+                <pl-form-item>
+                    <pl-button :label="disabled?'启用':'禁用'" @click="disabled=!disabled" :disabled="false"/>
                 </pl-form-item>
             </pl-form>
         </demo-row>
@@ -74,7 +81,9 @@
         data() {
             return {
                 form1: {
-                    formData: {},
+                    formData: {
+                        field12: ['唐人街'],
+                    },
 
                     // 每一个field的规则可以是一个规则对象，也可以是规则对象数组
                     formRules: {
@@ -88,6 +97,7 @@
                     {levelName: '二级', code: '2'},
                     {levelName: '三级', code: '3'},
                 ],
+                disabled: false,
             }
         },
         methods: {

@@ -2,12 +2,11 @@
     <div class="pl-tag-input" :class="classes">
         <template v-for="(item,index) in p_value">
             <slot :item="item" :index="index">
-                <pl-tag :key="index" :label="item" :close="close" @close="onTagClose(item,index)"/>
+                <pl-tag :key="index" :label="item" :close="isEditable && close" @close="onTagClose(item,index)"/>
             </slot>
         </template>
 
-        <pl-input v-if="isEditable"
-                  v-model="inputValue"
+        <pl-input v-model="inputValue"
                   ref="input"
                   key="input"
                   @enter="onInputEnter">
@@ -47,6 +46,11 @@
                 plTagInput: this,
             }
         },
+        watch: {
+            value(val) {
+                this.p_value = val
+            },
+        },
         data() {
             return {
                 p_value: this.value,
@@ -82,6 +86,10 @@
              * @date    2020/3/26 10:56
              */
             async onClickEditButton() {
+                if (!this.isEditable) {
+                    return
+                }
+
                 this.isEditing = true
                 await this.$plain.nextTick()
                 this.input.focus()
@@ -97,6 +105,10 @@
              * @date    2020/3/26 10:56
              */
             async onInputEnter() {
+                if (!this.isEditable) {
+                    return
+                }
+
                 let inputValue = this.inputValue
 
                 if (inputValue !== 0 && !inputValue) {
@@ -142,13 +154,15 @@
     @include themify {
         .pl-tag-input {
             .pl-tag {
+                margin-bottom: 8px;
+
                 &:not(:last-child) {
-                    margin-left: 8px;
+                    margin-right: 8px;
                 }
             }
 
             .pl-input {
-                margin-left: 16px;
+                margin-bottom: 8px;
 
                 .pl-input-inner {
                     border-style: dashed;
@@ -163,6 +177,12 @@
             @include statusMixin(tag-input) {
                 .pl-tag-input-not-edit {
                     color: $value;
+                }
+            }
+
+            &.pl-tag-input-disabled {
+                .pl-tag-input-not-edit {
+                    cursor: not-allowed;
                 }
             }
         }

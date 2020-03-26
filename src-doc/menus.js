@@ -20,6 +20,7 @@ export default [
             {name: 'Cascade', title: '级联选择', icon: 'pad-doubledown', page: '/normal/cascade', complete: false},
             {name: 'Toggle', title: '开关切换', icon: 'pl-toggle', page: '/normal/toggle', complete: true},
             {name: 'Slider', title: '滑块', icon: 'pl-slider', page: '/normal/slider', complete: true},
+            {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: true},
             {name: 'Timer', title: '时间选择', icon: 'pl-time-circle-light', page: '/normal/time', complete: false},
             {name: 'Date', title: '日期选择', icon: 'pl-date-fill', page: '/normal/date', complete: false},
             {name: 'Rate', title: '评分', icon: 'pad-star', page: '/normal/rate', complete: false},
@@ -41,7 +42,6 @@ export default [
         name: '视图', children: [
             {name: 'List', title: '列表', icon: 'pl-list', page: '/normal/list', complete: true},
             {name: 'VirtualList', title: '虚拟列表', icon: 'pl-list', page: '/normal/virtual-list', complete: true},
-            {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: false},
             {name: 'Progress', title: '进度条', icon: 'pl-progress', page: '/normal/progress', complete: false},
             {name: 'Tree', title: '树形组件', icon: 'pl-tree', page: '/normal/tree', complete: false},
             {name: 'Pagination', title: '分页', icon: 'pl-book2', page: '/normal/pagination', complete: false},
