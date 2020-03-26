@@ -3,14 +3,12 @@
             ref="input"
             class="pl-select-input"
             :class="{'pl-multi-select-input':!!multiple,'pl-select-input-show':isShow}"
-            v-bind="inputProps"
-            suffixIcon="el-icon-arrow-down"
-            clearIcon
             :value="multiple?multipleInputValue: ((isShow&&filterable)?p_inputValue:inputValue)"
             :placeholder="p_placeholder"
             :isFocus="isOpen"
             :clearHandler="onClickClearIcon"
             :inputReadonly="!filterable"
+            v-bind="inputBinding"
 
             @input="onInput"
             @click-input="onClickInput"
@@ -172,6 +170,13 @@
             if (!!this.p_select) this.p_select.destroy()
         },
         computed: {
+            inputBinding() {
+                return {
+                    suffixIcon: "el-icon-arrow-down",
+                    clearIcon: true,
+                    ...(this.inputProps || {})
+                }
+            },
             /**
              * 所有数据，解析label以及value
              * @author  韦胜健
