@@ -168,6 +168,7 @@
 
                 .pl-input-inner {
                     border-style: dashed;
+                    width: 100% !important;
                 }
             }
 
