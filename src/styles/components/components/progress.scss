@@ -1,0 +1,56 @@
+@mixin component-progress {
+  .pl-progress-circle {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+
+    .pl-progress-circle-label {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .pl-progress-bar {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+
+    .pl-progress-bar-content {
+      display: inline-block;
+      width: 50px;
+      text-align: left;
+      font-size: 14px;
+      padding: 0 6px;
+    }
+
+    .pl-progress-bar-outer {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      overflow: hidden;
+
+      .pl-progress-bar-inner {
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        transition: all $transition 300ms;
+
+        .pl-progress-bar-content {
+          text-align: right;
+
+          span {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

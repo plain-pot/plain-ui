@@ -20,6 +20,7 @@
 @import "./components/slider";
 @import "./components/rate";
 @import "./components/grid";
+@import "./components/progress";
 
 @mixin component-index {
   @include component-button;
@@ -44,4 +45,5 @@
   @include component-slider;
   @include component-rate;
   @include component-grid;
+  @include component-progress;
 }
