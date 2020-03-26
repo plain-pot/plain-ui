@@ -18,17 +18,55 @@
         },
         watch: {
             value(val) {
-                this.animatePercent = val
-                this.draw(val)
+                this.reload()
             },
             status(val) {
                 this.$nextTick(() => this.draw(this.animatePercent))
             },
         },
         data() {
+
+            /**
+             * 使用动画调整进度
+             * @author  韦胜健
+             * @date    2020/3/26 15:28
+             */
+            let animateDrawing = this.$plain.utils.throttle((percent) => {
+                if (!!this.cancelAnimate) {
+                    cancelAnimationFrame(this.cancelAnimate)
+                }
+
+                let time = 300
+                let startTime = Date.now()
+
+                let n = this.animatePercent
+                let k = (percent - n) / time
+
+                const run = () => {
+                    let nowTime = Date.now()
+                    let deltaTime = nowTime - startTime
+
+                    if (deltaTime > time) {
+                        this.cancelAnimate = null
+                        this.animatePercent = percent
+                        this.draw(this.animatePercent)
+                        return
+                    }
+
+                    this.animatePercent = Number((deltaTime * k + n).toFixed(2))
+                    this.draw(this.animatePercent)
+
+                    this.cancelAnimate = requestAnimationFrame(run)
+                }
+
+                run()
+            }, 300, {trailing: true, leading: true})
+
             return {
                 ctx: null,
                 animatePercent: 0,
+                cancelAnimate: null,
+                animateDrawing,
             }
         },
         mounted() {
@@ -62,8 +100,7 @@
         },
         methods: {
             reload() {
-                this.animatePercent = 0
-                this.DreamLoading()
+                this.animateDrawing(this.value || 0)
             },
             draw(animatePercent) {
                 this.ctx.clearRect(0, 0, this.size, this.size)
@@ -79,17 +116,6 @@
                 this.ctx.closePath();
                 this.ctx.fill();
                 this.ctx.restore();
-            },
-            DreamLoading() {
-                if (this.animatePercent <= this.value) {
-                    this.animatePercent += this.speed;
-                    this.draw(this.animatePercent)
-                } else {
-                    this.animatePercent = this.value
-                    this.draw(this.animatePercent)
-                    return
-                }
-                requestAnimationFrame(this.DreamLoading);
             },
         }
     }
