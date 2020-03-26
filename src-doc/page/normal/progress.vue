@@ -1,6 +1,6 @@
 <template>
     <div class="demo-progress">
-        <demo-row title="条形进度条">
+        <!--<demo-row title="条形进度条">
             <demo-line title="基本用法">
                 <pl-progress-bar :value="65"/>
             </demo-line>
@@ -86,7 +86,7 @@
                 <pl-progress-mini :value="65" status="success" successColor="green"/>
                 <pl-progress-mini :value="65" status="error" errorColor="red"/>
             </demo-line>
-        </demo-row>
+        </demo-row>-->
 
         <demo-row title="数据绑定">
             <div>
