@@ -45,6 +45,10 @@
                     <pl-tag-input v-model="form1.formData.field12"/>
                 </pl-form-item>
 
+                <pl-form-item label="评分" field="field13" required :rules="{min:1,message:'最低1分'}">
+                    <pl-rate v-model="form1.formData.field13"/>
+                </pl-form-item>
+
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
