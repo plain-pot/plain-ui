@@ -195,7 +195,7 @@
                 height: 16px;
                 background-color: $ibc;
                 content: '';
-                margin: 0 1px;
+                margin: 0 12px;
             }
 
             @include sizeMixin(pagination) {
