@@ -17,14 +17,15 @@ export default [
             {name: 'Number', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: true},
             {name: 'Loading', title: '加载', icon: 'pl-loading-section-three', page: '/normal/loading', complete: true},
             {name: 'Select', title: '下拉选择', icon: 'pad-down', page: '/normal/select', complete: true},
-            {name: 'Cascade', title: '级联选择', icon: 'pad-doubledown', page: '/normal/cascade', complete: false},
             {name: 'Toggle', title: '开关切换', icon: 'pl-toggle', page: '/normal/toggle', complete: true},
             {name: 'Slider', title: '滑块', icon: 'pl-slider', page: '/normal/slider', complete: true},
             {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: true},
+            {name: 'Rate', title: '评分', icon: 'pad-star', page: '/normal/rate', complete: true},
+            {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: false},
+
+            {name: 'Cascade', title: '级联选择', icon: 'pad-doubledown', page: '/normal/cascade', complete: false},
             {name: 'Timer', title: '时间选择', icon: 'pl-time-circle-light', page: '/normal/time', complete: false},
             {name: 'Date', title: '日期选择', icon: 'pl-date-fill', page: '/normal/date', complete: false},
-            {name: 'Rate', title: '评分', icon: 'pad-star', page: '/normal/rate', complete: false},
-            {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: false},
             {name: 'Upload', title: '文件上传', icon: 'pad-file', page: '/normal/upload', complete: false},
             {name: 'Img', title: '图片上传', icon: 'pad-image', page: '/normal/img', complete: false},
         ]
