@@ -25,13 +25,14 @@ import carousel from './carousel'
 import slider from './slider'
 import tag from './tag'
 import rate from './rate'
+import grid from './grid'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form, toggle, number, slider, tag, rate,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
-    list, scroll, dom, collapse, card, carousel,
+    list, scroll, dom, collapse, card, carousel, grid,
 
     virtualList,
 ]

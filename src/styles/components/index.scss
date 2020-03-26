@@ -19,6 +19,7 @@
 @import "./components/carousel";
 @import "./components/slider";
 @import "./components/rate";
+@import "./components/grid";
 
 @mixin component-index {
   @include component-button;
@@ -42,4 +43,5 @@
   @include component-carousel;
   @include component-slider;
   @include component-rate;
+  @include component-grid;
 }
