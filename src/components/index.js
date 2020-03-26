@@ -23,10 +23,11 @@ import collapse from './collapse'
 import card from './card'
 import carousel from './carousel'
 import slider from './slider'
+import tag from './tag'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio, select, form, toggle, number, slider,
+    input, checkbox, radio, select, form, toggle, number, slider, tag,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
     list, scroll, dom, collapse, card, carousel,
