@@ -1,7 +1,7 @@
 <template>
-    <div class="pl-tag" :class="classes" @click="emitClick">
+    <div class="pl-tag" :class="classes" @click="onClick">
         <slot>{{p_label}}</slot>
-        <pl-icon icon="el-icon-close" v-if="close" class="pl-tag-close" @click.stop="emitClose"/>
+        <pl-icon icon="el-icon-close" v-if="close" class="pl-tag-close" @click.stop="onClickClose"/>
     </div>
 </template>
 
@@ -18,6 +18,9 @@
             StyleMixin,
             EditMixin,
         ],
+        inject: {
+            plTagInput: {default: null},
+        },
         emitters: {
             emitClick: Function,
             emitClose: Function,
@@ -31,13 +34,10 @@
             return {}
         },
         computed: {
-            targetMode() {
-                return !!this.plTagInput ? this.plTagInput.mode : this.mode
-            },
             classes() {
                 return [
+                    `pl-tag-mode-${this.mode}`,
                     `pl-tag-status-${this.p_status || 'primary'}`,
-                    `pl-tag-mode-${this.targetMode}`,
                     `pl-tag-shape-${this.p_shape || 'fillet'}`,
                     `pl-tag-size-${this.p_size || 'normal'}`,
                     {
@@ -69,10 +69,6 @@
             display: inline-block;
             vertical-align: middle;
             border: solid 1px;
-
-            .pl-tag-close {
-                margin-left: 3px;
-            }
 
             @include sizeMixin(tag) {
                 height: $value;

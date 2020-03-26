@@ -7,6 +7,12 @@
         <demo-row title="删除图标">
             <pl-tag label="标签" close @click="$message('click')" @close="$message.warn('close')"/>
         </demo-row>
+        <demo-row title="插槽">
+            <pl-tag label="标签" close>
+                <pl-icon icon="el-icon-search"/>
+                <span>标签</span>
+            </pl-tag>
+        </demo-row>
 
         <demo-row title="状态">
             <pl-tag v-for="item in status" :key="item" :status="item" :label="item"/>
@@ -27,6 +33,26 @@
             <pl-tag label="标签" mode="stroke" disabled/>
             <pl-tag label="标签" mode="text" disabled/>
         </demo-row>
+
+        <demo-row title="标签输入框">
+            <pl-tag-input v-model="val[0]"/>
+            {{val[0]}}
+        </demo-row>
+
+        <demo-row title="标签输入框：添加前、删除前校验">
+            <pl-tag-input v-model="val[1]" :beforeAdd="beforeAdd" :beforeRemove="beforeRemove"/>
+            {{val[1]}}
+        </demo-row>
+
+        <demo-row title="自定义标签内容与格式化显示值">
+            <pl-tag-input v-model="val[2]" :formatValue="formatValue">
+                <pl-tag slot-scope="{item,index}" :status="item.status" :disabled="item.disabled" close @close="val[2].splice(index,1)">
+                    <pl-icon :icon="item.icon"/>
+                    <span>{{item.name}}</span>
+                </pl-tag>
+            </pl-tag-input>
+            {{val[2]}}
+        </demo-row>
     </div>
 </template>
 
@@ -38,9 +64,39 @@
         mixins: [DemoMixins],
         props: {},
         data() {
-            return {}
+            return {
+                val: {
+                    0: ['山脉', '海洋', '丛林'],
+                    2: [
+                        {name: '丛林', icon: 'el-icon-s-ticket', disabled: false, status: 'primary',},
+                        {name: '火山', icon: 'el-icon-s-flag', disabled: false, status: 'error',},
+                        {name: '山脉', icon: 'el-icon-s-data', disabled: true, status: 'warn',},
+                    ],
+                },
+            }
         },
-        methods: {},
+        methods: {
+            beforeAdd(str) {
+                if (!/^\d+$/.test(str)) {
+                    this.$message.error('请输入数字')
+                    return Promise.reject()
+                }
+            },
+            beforeRemove(item, index) {
+                if (item > 100) {
+                    this.$message.error('不能删除大于一百的选项')
+                    return Promise.reject()
+                }
+            },
+            formatValue(value) {
+                return {
+                    name: value,
+                    icon: 'el-icon-info',
+                    disabled: Math.random() < 0.3,
+                    status: ['primary', 'success', 'warn', 'error', 'info'][Math.floor(Math.random() * 5)],
+                }
+            },
+        },
     }
 </script>
 
