@@ -137,6 +137,10 @@
             padding: 0 1px;
             width: 100%;
 
+            .pl-icon{
+                color: $icc;
+            }
+
             & > * {
                 margin: 1px 0;
                 display: inline-block;
@@ -204,7 +208,7 @@
                     line-height: $value;
 
                     &.pl-pagination-pager-button {
-                        width: $value;
+                        min-width: $value;
                     }
                 }
             }
