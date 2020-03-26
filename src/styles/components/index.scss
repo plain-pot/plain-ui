@@ -21,6 +21,7 @@
 @import "./components/rate";
 @import "./components/grid";
 @import "./components/progress";
+@import "./components/badge";
 
 @mixin component-index {
   @include component-button;
@@ -46,4 +47,5 @@
   @include component-rate;
   @include component-grid;
   @include component-progress;
+  @include component-badge;
 }

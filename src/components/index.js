@@ -27,13 +27,14 @@ import tag from './tag'
 import rate from './rate'
 import grid from './grid'
 import progress from './progress'
+import badge from './badge'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form, toggle, number, slider, tag, rate,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
-    list, scroll, dom, collapse, card, carousel, grid, progress,
+    list, scroll, dom, collapse, card, carousel, grid, progress, badge,
 
     virtualList,
 ]
