@@ -1,12 +1,13 @@
 @mixin component-number {
   .pl-number {
-    display: inline-table;
+    display: inline-block;
     width: initial;
 
     .pl-input-inner {
       position: relative;
       padding-top: 1px;
       padding-bottom: 1px;
+      display: block;
 
       input {
         width: 100%;
