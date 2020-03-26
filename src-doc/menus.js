@@ -47,7 +47,7 @@ export default [
             {name: 'Progress', title: '进度条', icon: 'pl-progress', page: '/normal/progress', complete: true},
             {name: 'Tree', title: '树形组件', icon: 'pl-tree', page: '/normal/tree', complete: false},
             {name: 'Pagination', title: '分页', icon: 'pl-book2', page: '/normal/pagination', complete: false},
-            {name: 'Badge', title: '标记', icon: 'pl-badge', page: '/normal/badge', complete: false},
+            {name: 'Badge', title: '标记', icon: 'pl-badge', page: '/normal/badge', complete: true},
             {name: 'ScrollOption', title: '滚动选择', icon: 'icon-scroll', page: '/normal/scroll-option', complete: false},
             {name: 'Step', title: '步骤条', icon: 'pl-step', page: '/normal/step', complete: false},
             {name: 'Transform', title: '穿梭框', icon: 'pl-exchange', page: '/normal/transform', complete: false},
