@@ -7,6 +7,7 @@
         </template>
 
         <pl-input v-model="inputValue"
+                  v-if="!noInput"
                   ref="input"
                   key="input"
                   @enter="onInputEnter">
@@ -37,6 +38,7 @@
             beforeAdd: {type: Function},                                                    // 添加前校验
             beforeRemove: {type: Function},                                                 // 删除前校验
             formatValue: {type: Function},                                                  // 格式化输入值，返回一个值，或者对象
+            noInput: {type: Function},                                                      // 是否显示输入框
         },
         emitters: {
             emitInput: Function,
