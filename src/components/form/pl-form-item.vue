@@ -274,6 +274,8 @@
                     right: 0;
                     font-size: 12px;
                     color: $colorError;
+                    white-space: nowrap;
+                    overflow: visible;
                 }
 
                 &.pl-form-item-required {
