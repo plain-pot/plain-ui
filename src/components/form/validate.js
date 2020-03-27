@@ -120,7 +120,7 @@ export async function validateFieldByRules(rules, formData, field, trigger) {
         return null
     }
 
-    const value = formData
+    const value = formData[field]
 
     for (let i = 0; i < rules.length; i++) {
         const rule = rules[i];
@@ -191,10 +191,9 @@ export async function validateFieldByRules(rules, formData, field, trigger) {
  * @date    2020/3/27 10:46
  */
 export async function validateField(context, validateResult, rules, formData, field, trigger) {
-
-    console.log(field, trigger)
-
+    // console.log(field, trigger)
     const result = await validateFieldByRules(rules, formData, field, trigger)
+    // console.log(field, trigger, result)
     if (result === true) {
         context.$set(validateResult, field, null)
     } else if (result != null) {
@@ -204,48 +203,24 @@ export async function validateField(context, validateResult, rules, formData, fi
 }
 
 export async function validateAsync(context, validateResult, rules, formData, callback, onStart, onEnd) {
-    const dfd = {
-        promise: null,
-        resolve: null,
-        reject: null,
-    }
-    dfd.promise = new Promise((resolve, reject) => {
-        dfd.resolve = resolve
-        dfd.reject = reject
-    })
-
-    if (!!callback) {
-        dfd.resolve = dfd.reject = (...args) => callback(...args)
-    }
-
     const validateFields = Object.keys(rules)
-    const validateTasks = validateFields.reduce((ret, field) => {
-        ret.push(validateField(context, validateResult, rules, formData, field, FormTrigger.ALL))
-        return ret
-    }, [])
-
+    const validateTasks = validateFields.map(field => validateField(context, validateResult, rules, formData, field, FormTrigger.ALL))
     if (!!onStart) onStart()
-
-    Promise.all(validateTasks).then(
-        () => {
-            for (let i = 0; i < validateFields.length; i++) {
-                const field = validateFields[i];
-                if (!!validateResult[field]) {
-                    const message = validateResult[field]
-                    if (!!message) return dfd.reject({message, field})
-                }
+    try {
+        await Promise.all(validateTasks)
+        for (let i = 0; i < validateFields.length; i++) {
+            const field = validateFields[i];
+            if (!!validateResult[field]) {
+                const message = validateResult[field]
+                if (!!message) return {message, field}
             }
-            return dfd.resolve()
-        },
-        (e) => {
-            return dfd.reject({message: String(e)})
         }
-    ).finally(() => {
+        return null
+    } catch (e) {
+        return {message: String(e)}
+    } finally {
         if (!!onEnd) {
             onEnd()
         }
-    })
-
-    return dfd.promise
-
+    }
 }

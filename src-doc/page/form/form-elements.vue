@@ -92,7 +92,7 @@
             saveValidate() {
                 this.$refs.form.validate((err) => {
                     if (!!err) {
-                        this.$message.error('请检查填写是否正确')
+                        this.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
                     } else {
                         this.$message.success('校验通过')
                     }

@@ -211,19 +211,45 @@
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
             async validate(callback: Function, loadingMask: boolean = true) {
+
+                const dfd = {
+                    promise: null,
+                    resolve: null,
+                    reject: null,
+                }
+                dfd.promise = new Promise((resolve, reject) => {
+                    dfd.resolve = resolve
+                    dfd.reject = reject
+                })
+
+                if (!!callback) {
+                    dfd.resolve = dfd.reject = (...args) => callback(...args)
+                }
+
                 const result = await validateAsync(this, this.p_validateResult, this.allRules, this.value, callback,
                     () => {
                         if (loadingMask) {
-                            this.p_loading = true
+                            this.p_loadingMask = true
                         }
                     },
                     () => {
                         if (loadingMask) {
-                            this.p_loading = false
+                            this.p_loadingMask = false
                         }
                     }
                 )
-                console.log(result)
+
+                if (!!result) {
+                    if (!!result.field) {
+                        let label = this.allFieldLabels[result.field]
+                        result.label = label
+                    }
+                    dfd.reject(result)
+                } else {
+                    dfd.resolve(null)
+                }
+
+                return dfd.promise
             },
             async validateWithoutMask(callback) {
                 return this.validate(callback, false)
