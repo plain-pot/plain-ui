@@ -220,15 +220,13 @@
                 const dfd = {
                     promise: null,
                     resolve: null,
-                    reject: null,
                 }
-                dfd.promise = new Promise((resolve, reject) => {
+                dfd.promise = new Promise((resolve) => {
                     dfd.resolve = resolve
-                    dfd.reject = reject
                 })
 
                 if (!!callback) {
-                    dfd.resolve = dfd.reject = (...args) => callback(...args)
+                    dfd.resolve = (...args) => callback(...args)
                 }
 
                 const result = await validateAsync(this, this.p_validateResult, this.allRules, this.value, callback,
@@ -249,7 +247,7 @@
                         let label = this.allFieldLabels[result.field]
                         result.label = label
                     }
-                    dfd.reject(result)
+                    dfd.resolve(result)
                 } else {
                     dfd.resolve(null)
                 }

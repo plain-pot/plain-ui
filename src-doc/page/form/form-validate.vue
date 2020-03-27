@@ -103,15 +103,14 @@
             }
         },
         methods: {
-            saveValidate() {
-                this.$refs.form.validate((err) => {
-                    if (!!err) {
-                        console.log(err)
-                        this.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
-                    } else {
-                        this.$message.success('校验通过')
-                    }
-                })
+            async saveValidate() {
+                const err = await this.$refs.form.validate()
+                if (!!err) {
+                    console.log(err)
+                    this.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
+                } else {
+                    this.$message.success('校验通过')
+                }
             },
             async asyncSaveValidate() {
                 try {
