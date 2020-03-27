@@ -6,6 +6,15 @@
                     <pl-input v-model="form1.formData.field1"/>
                 </pl-form-item>
 
+                <pl-form-item label="多字段校验" :field="['field20','field21']" required :rules="[
+                        {field:'field20',min:3,message:'第一个输入框最少3个字符'},
+                        {field:'field21',min:5,message:'第二个输入框最少5个字符'},
+                    ]">
+                    <pl-input v-model="form1.formData.field20"/>
+                    &nbsp;至&nbsp;
+                    <pl-input v-model="form1.formData.field21"/>
+                </pl-form-item>
+
                 <pl-form-item label="必填校验(失去焦点)" field="field2">
                     <pl-number v-model="form1.formData.field2" :inputProps="{block:true}"/>
                     <pl-icon icon="el-icon-question" slot="suffix" v-tooltip="'提示'"/>
