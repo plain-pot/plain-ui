@@ -38,7 +38,7 @@
             })
         ],
         props: {
-            field: {type: String},                                              // 绑定的属性字段名
+            field: {type: [String, Array]},                                     // 绑定的属性字段名
             rules: {type: [Array, Object]},                                     // 校验规则
             required: {type: Boolean},                                          // 不能为空
             hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
