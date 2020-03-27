@@ -8,7 +8,7 @@
 
 <script lang="ts">
     import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
-    import {FormRule, FormTrigger} from "./form";
+    import {FormTrigger, allFieldLabels, getAllRequired, getAllRules, validateAsync, validateField} from "./validate";
 
     export default {
         name: "pl-form",
@@ -62,6 +62,7 @@
                         let oldVal = oldFormData[field]
                         if (!this.$plain.utils.deepEqual(newVal, oldVal)) {
                             this.emitFieldChange(field, newVal, oldVal)
+                            this.onChange(field)
                         }
                     })
                     this.p_value = this.$plain.utils.deepcopy(this.value || {})
@@ -79,88 +80,12 @@
         },
         data() {
 
-            let validateFieldRules: (field: string, validateTrigger: FormTrigger) => string | null | Promise<string> | undefined
-            validateFieldRules = async (field, validateTrigger) => {
-
-                let rules;
-                if (validateTrigger === FormTrigger.ALL) {
-                    rules = this.allRules[field]
-                } else {
-                    /*筛选符合当前校验规则的 trigger*/
-                    rules = (this.allRules[field] || []).filter(item => {
-                        let trigger = item.trigger || FormTrigger.CHANGE
-                        if (trigger !== FormTrigger.BLUR && trigger !== FormTrigger.CHANGE) {
-                            console.error(`pl-form: cant't be able to handle trigger:${trigger}`)
-                        }
-                        return trigger === validateTrigger
-                    })
-                }
-
-                if (rules.length === 0) {
-                    /* 没有符合 trigger 的规则，跳过*/
-                    return undefined
-                }
-
-                const value = this.value[field]
-
-                for (let i = 0; i < rules.length; i++) {
-                    const rule = rules[i] as FormRule;
-                    let {required, min, max, regexp, message, options, validator} = rule
-
-                    const getValidateMessage = async () => typeof message === 'function' ? await message(value, rule) : message
-
-                    /*required*/
-                    if (required && (value !== 0 && !value)) return await getValidateMessage() || '不能为空'
-
-                    /*min*/
-                    if (min != null && value != null) {
-                        /*array*/
-                        if (Array.isArray(value) && value.length < min) return await getValidateMessage() || `不能少于 ${min} 个`
-                        /*string*/
-                        if (typeof value === 'string' && value.length < min) return await getValidateMessage() || `字符长度不能小于 ${min}`
-                        /*number*/
-                        if (typeof value === 'number' && value < min) return await getValidateMessage() || `不能小于 ${min}`
-                    }
-                    /*max*/
-                    if (max != null && value != null) {
-                        /*array*/
-                        if (Array.isArray(value) && value.length > max) return await getValidateMessage() || `不能多于 ${max} 个`
-                        /*string*/
-                        if (typeof value === 'string' && value.length > max) return await getValidateMessage() || `字符长度不能大于 ${max}`
-                        /*number*/
-                        if (typeof value === 'number' && value > max) return await getValidateMessage() || `不能大于 ${max} 个`
-                    }
-                    /*regexp*/
-                    if (regexp != null) {
-                        if (!(regexp as RegExp).test(String(value))) return await getValidateMessage()
-                    }
-
-                    /*options*/
-                    if (!!options) {
-                        if (Array.isArray(options)) {
-                            if (options.indexOf(value) === -1) return await getValidateMessage() || '校验不通过'
-                        } else {
-                            if (options !== value) {
-                                return await getValidateMessage() || '校验不通过'
-                            }
-                        }
-                    }
-
-                    /*validator*/
-                    if (validator) {
-                        const validateResult = await validator()
-                        if (!!validateResult) return validateResult
-                    }
-                }
-                // 所有校验规则通过
-                return null
-            }
-            /*校验字段*/
-            const validateField = async (field: string, validateTrigger: FormTrigger) => {
-                const validateMessage = await validateFieldRules(field, validateTrigger)
-                if (validateMessage !== undefined) this.$set(this.p_validateResult, field, validateMessage)
-                return validateMessage
-            }
+            const onChange = this.$plain.utils.throttle((field: string): void => {
+                validateField(this, this.p_validateResult, this.allRules, this.value, field, FormTrigger.CHANGE)
+            }, 300)
+            const onBlur = this.$plain.utils.throttle((field: string): void => {
+                validateField(this, this.p_validateResult, this.allRules, this.value, field, FormTrigger.BLUR)
+            }, 300)
 
             return {
                 p_value: this.$plain.utils.deepcopy(this.value || {}),
@@ -168,8 +93,10 @@
                 formItems: [],                                                          // form-item子组件
                 maxLabelWidth: null,                                                    // 自动计算最大formItem文本宽度
                 p_validateResult: null,                                                 // 校验结果信息
-                validateField,
                 p_loadingMask: false,
+
+                onChange,
+                onBlur,
             }
         },
         computed: {
@@ -245,32 +172,22 @@
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width)
                 }
-            },
+            }
+            ,
             /**
              * 所有的校验规则
              * @author  韦胜健
              * @date    2020/3/18 14:33
              */
             allRules(): object {
-                let allRules = !this.rules ? {} : Object.keys(this.rules).reduce((ret, field) => {
-                    let rule = this.rules[field]
-                    rule = Array.isArray(rule) ? [...rule] : [rule]
-                    ret[field] = rule
-                    return ret
-                }, {});
-                this.formItems.forEach(formItem => {
-                    let {rules, field, required} = formItem
-                    if (!!field && (!!rules || !!required)) {
-                        rules = rules || []
-                        let rule = allRules[field] || []
-                        rule = [...(Array.isArray(rules) ? rules : [rules]), ...rule]
-                        if (!!required) {
-                            rule.push({required: true, message: '不能为空！'})
-                        }
-                        allRules[field] = rule
+                return getAllRules(this.rules, this.formItems.map((formItem) => {
+                    return {
+                        rules: formItem.rules,
+                        field: formItem.field,
+                        label: formItem.label,
+                        required: formItem.required,
                     }
-                })
-                return allRules
+                }))
             },
             /**
              * 字段是否必填
@@ -278,63 +195,37 @@
              * @date    2020/3/18 14:33
              */
             allFieldRequired(): { [key: string]: boolean } {
-                return Object.keys(this.allRules).reduce((ret, field) => {
-                    ret[field] = this.allRules[field].some((rule) => !!rule.required)
-                    return ret
-                }, {})
+                return getAllRequired(this.allRules)
+            },
+            /**
+             * 所有字段对应的文本
+             * @author  韦胜健
+             * @date    2020/3/27 11:13
+             */
+            allFieldLabels() {
+                return allFieldLabels(this.formItems.map(item => {
+                    return {label: item.label, field: item.field}
+                }))
             },
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
-            validate(callback: Function, loadingMask: boolean = true) {
-
-                const dfd = {
-                    promise: null,
-                    resolve: null,
-                    reject: null,
-                }
-                dfd.promise = new Promise((resolve, reject) => {
-                    dfd.resolve = resolve
-                    dfd.reject = reject
-                })
-
-                if (!!callback) {
-                    dfd.resolve = dfd.reject = (...args) => callback(...args)
-                }
-
-                const validateFields = Object.keys(this.allRules)
-
-                const validateTasks = validateFields.reduce((ret, field) => {
-                    ret.push(this.validateField(field, FormTrigger.ALL))
-                    return ret
-                }, [])
-
-                if (loadingMask) {
-                    this.p_loadingMask = true
-                }
-                Promise.all(validateTasks).then(
+            async validate(callback: Function, loadingMask: boolean = true) {
+                const result = await validateAsync(this, this.p_validateResult, this.allRules, this.value, callback,
                     () => {
-                        for (let i = 0; i < validateFields.length; i++) {
-                            const field = validateFields[i];
-                            if (!!this.p_validateResult[field]) {
-                                const msg = this.p_validateResult[field]
-                                if (!!msg) return dfd.reject(msg)
-                            }
+                        if (loadingMask) {
+                            this.p_loading = true
                         }
-                        return dfd.resolve()
                     },
-                    (e) => {
-                        return dfd.reject(e)
+                    () => {
+                        if (loadingMask) {
+                            this.p_loading = false
+                        }
                     }
-                ).finally(() => {
-                    if (loadingMask) {
-                        this.p_loadingMask = false
-                    }
-                })
-
-                return dfd.promise
+                )
+                console.log(result)
             },
-            validateWithoutMask(callback) {
+            async validateWithoutMask(callback) {
                 return this.validate(callback, false)
             },
             /**
@@ -375,23 +266,6 @@
                     this.formItems.splice(index, 1)
                 }
             },
-            /**
-             * 处理子组件 change 事件
-             * @author  韦胜健
-             * @date    2020/3/18 14:52
-             */
-            onChange(field: string): void {
-                this.validateField(field, FormTrigger.CHANGE)
-            },
-            /**
-             * 处理子组件blur事件
-             * @author  韦胜健
-             * @date    2020/3/18 14:52
-             */
-            onBlur(field: string): void {
-                this.validateField(field, FormTrigger.BLUR)
-            },
-
         },
     }
 </script>

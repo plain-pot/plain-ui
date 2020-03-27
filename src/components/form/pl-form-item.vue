@@ -19,7 +19,6 @@
 
 <script>
     import {EditMixin, PropsMixinFactory, RefsMixinFactory, StyleMixin} from "../../utils/mixins";
-    import {FormTrigger} from "./form";
 
     export default {
         name: "pl-form-item",
@@ -57,16 +56,6 @@
         data() {
             return {
                 isFormItem: true,                                               // 标记变量，用来给子组件判断其父组件是否为 form-item
-                onFieldChange: this.$plain.utils.throttle((field) => {
-                    if (!this.field) return
-                    if (Array.isArray(this.field)) {
-                        if (this.field.indexOf(field) > -1) {
-                            this.plForm.validateField(field, FormTrigger.CHANGE)
-                        }
-                    } else if (this.field === field) {
-                        this.plForm.validateField(field, FormTrigger.CHANGE)
-                    }
-                }, 300)
             }
         },
         computed: {
@@ -189,11 +178,9 @@
         },
         mounted() {
             this.plForm.addItem(this)
-            this.plForm.$on('field-change', this.onFieldChange)
         },
         beforeDestroy() {
             this.plForm.removeItem(this)
-            this.plForm.$off('field-change', this.onFieldChange)
         },
         methods: {
             /*---------------------------------------handler-------------------------------------------*/
