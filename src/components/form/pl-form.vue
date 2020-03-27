@@ -257,6 +257,9 @@
             async validateWithoutMask(callback) {
                 return this.validate(callback, false)
             },
+            showError(err) {
+                this.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
+            },
             /**
              * 清除校验信息
              * @author  韦胜健
