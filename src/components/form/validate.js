@@ -58,8 +58,10 @@ export function getAllRules(formRules, formItems) {
         }
 
         // 合并所有的校验规则
-        allRules[field] = allRules[field] || []
-        allRules[field].push(...rules)
+        rules.forEach(rule=>{
+            allRules[rule.field] = allRules[rule.field] || []
+            allRules[rule.field].push(rule)
+        })
     })
 
     return allRules

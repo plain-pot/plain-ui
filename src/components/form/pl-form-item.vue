@@ -162,7 +162,13 @@
              */
             validateMessage() {
                 if (!this.plForm) return null
-                return this.plForm.p_validateResult[this.field]
+                let fields = Array.isArray(this.field) ? this.field : [this.field]
+                for (let i = 0; i < fields.length; i++) {
+                    const field = fields[i];
+                    let message = this.plForm.p_validateResult[field]
+                    if (!!message) return message
+                }
+                return null
             },
             /**
              *  当前校验状态

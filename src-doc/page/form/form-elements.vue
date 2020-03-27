@@ -2,8 +2,9 @@
     <div class="form-elements">
         <demo-row title="基本用法">
             <pl-form ref="form" v-model="form1.formData" contentWidth="400px" :disabled="disabled">
-                <pl-form-item label="普通文本框" field="field1" required>
+                <pl-form-item label="普通文本框" :field="['field1','field20']" required>
                     <pl-input v-model="form1.formData.field1"/>
+                    <pl-input v-model="form1.formData.field20"/>
                 </pl-form-item>
                 <pl-form-item label="普通文本域" field="field2" required>
                     <pl-input v-model="form1.formData.field2" textarea/>
@@ -92,6 +93,7 @@
             saveValidate() {
                 this.$refs.form.validate((err) => {
                     if (!!err) {
+                        console.log(err)
                         this.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
                     } else {
                         this.$message.success('校验通过')

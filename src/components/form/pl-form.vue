@@ -80,11 +80,15 @@
         },
         data() {
 
+            const innerValidate = (field, trigger) => {
+                field = Array.isArray(field) ? field : [field]
+                field.forEach(item => validateField(this, this.p_validateResult, this.allRules, this.value, item, trigger))
+            }
             const onChange = this.$plain.utils.throttle((field: string): void => {
-                validateField(this, this.p_validateResult, this.allRules, this.value, field, FormTrigger.CHANGE)
+                innerValidate(field, FormTrigger.CHANGE)
             }, 300)
             const onBlur = this.$plain.utils.throttle((field: string): void => {
-                validateField(this, this.p_validateResult, this.allRules, this.value, field, FormTrigger.BLUR)
+                innerValidate(field, FormTrigger.BLUR)
             }, 300)
 
             return {
@@ -172,8 +176,9 @@
                 return {
                     width: this.$plain.utils.suffixPx(this.p_width)
                 }
-            }
-            ,
+            },
+
+
             /**
              * 所有的校验规则
              * @author  韦胜健
