@@ -85,8 +85,8 @@ export const EditMixin = {
         },
     },
     created() {
-        this.$on('change', (...args) => !!this.plParentEditor && !!this.plParentEditor.isFormItem && this.plParentEditor.onChange(...args))
-        this.$on('blur', (...args) => !!this.plParentEditor && !!this.plParentEditor.isFormItem && this.plParentEditor.onBlur(...args))
+        this.$on('change', (...args) => !!this.plParentEditor && !!this.plParentEditor.isFormItem && this.plParentEditor.onChange && this.plParentEditor.onChange(...args))
+        this.$on('blur', (...args) => !!this.plParentEditor && !!this.plParentEditor.isFormItem && this.plParentEditor.onBlur && this.plParentEditor.onBlur(...args))
     },
 }
 

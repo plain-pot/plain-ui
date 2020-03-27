@@ -25,6 +25,7 @@
         ],
         emitters: {
             emitUpdateValidateResult: Function,                                 // validateResult属性更新
+            emitFieldChange: Function,                                          // 字段的值发生了变化
         },
         props: {
             value: {type: Object},                                              // model绑定表单对象
@@ -51,6 +52,21 @@
             }
         },
         watch: {
+            value: {
+                deep: true,
+                handler(newFormData) {
+                    let oldFormData = this.p_value
+                    const fields = Array.from(new Set([...Object.keys(newFormData || {}), ...(Object.keys(oldFormData))]))
+                    fields.forEach(field => {
+                        let newVal = newFormData[field]
+                        let oldVal = oldFormData[field]
+                        if (!this.$plain.utils.deepEqual(newVal, oldVal)) {
+                            this.emitFieldChange(field, newVal, oldVal)
+                        }
+                    })
+                    this.p_value = this.$plain.utils.deepcopy(this.value || {})
+                },
+            },
             validateResult: {
                 immediate: true,
                 handler(val) {
@@ -147,6 +163,7 @@
             }
 
             return {
+                p_value: this.$plain.utils.deepcopy(this.value || {}),
 
                 formItems: [],                                                          // form-item子组件
                 maxLabelWidth: null,                                                    // 自动计算最大formItem文本宽度
