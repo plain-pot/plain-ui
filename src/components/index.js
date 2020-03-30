@@ -29,13 +29,14 @@ import grid from './grid'
 import progress from './progress'
 import badge from './badge'
 import pagination from './pagination'
+import tree from './tree'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form, toggle, number, slider, tag, rate,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
-    list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination,
+    list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree,
 
     virtualList,
 ]
