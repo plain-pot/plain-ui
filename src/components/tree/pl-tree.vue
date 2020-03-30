@@ -25,9 +25,9 @@
             data: {type: Array},                                        // 树形结构数据
 
             // 部分key
-            keyField: {type: String, required: true},                    // 每一个树节点用来标识的唯一树形
-            labelField: {type: String},                                   // 树节点展示文本对应字段
-            childrenField: {type: String},                                // 树节点对应子节点数据对应字段
+            keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形
+            labelField: {type: String},                                 // 树节点展示文本对应字段
+            childrenField: {type: String},                              // 树节点对应子节点数据对应字段
 
 
             // 普通属性
