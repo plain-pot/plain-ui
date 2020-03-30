@@ -65,12 +65,12 @@
 
             const prev = (
                 <div class="pl-pagination-prev pl-pagination-pager-button" onClick={() => this.onPrev()}>
-                    <pl-icon icon="el-icon-arrow-left"/>
+                    {!!this.prevText ? this.prevText : <pl-icon icon="el-icon-arrow-left"/>}
                 </div>
             )
             const next = (
                 <div class="pl-pagination-next pl-pagination-pager-button" onClick={() => this.onNext()}>
-                    <pl-icon icon="el-icon-arrow-right"/>
+                    {!!this.nextText ? this.nextText : <pl-icon icon="el-icon-arrow-right"/>}
                 </div>
             )
 
@@ -133,6 +133,9 @@
                     'pl-pagination',
                     `pl-pagination-size-${this.p_size || 'normal'}`,
                     `pl-pagination-shape-${this.p_shape || 'fillet'}`,
+                    {
+                        'pl-pagination-disabled': this.isDisabled,
+                    },
                 ]
             },
             /**
@@ -398,6 +401,7 @@
                     line-height: $value;
 
                     &.pl-pagination-pager-button {
+                        padding: 0 #{$value - 21};
                         min-width: $value;
                     }
                 }
@@ -415,6 +419,20 @@
             @include shapeMixin(pagination) {
                 .pl-pagination-pager-button {
                     border-radius: $value;
+                }
+            }
+
+            &.pl-pagination-disabled {
+                .pl-pagination-pager-button {
+                    background-color: $disabled;
+                    color: $disabledText;
+                    cursor: not-allowed;
+
+                    &.pl-pagination-pager-button-active {
+                        background-color: $disabledDeep;
+                        border-color: $disabledDeep;
+                        color: white;
+                    }
                 }
             }
         }

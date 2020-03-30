@@ -1,7 +1,7 @@
 <template>
     <div class="demo-pagination">
         <demo-row title="基本用法">
-            <pl-pagination total="141"
+            <pl-pagination total="20000"
                            :pageSize="val[0].size"
                            :currentPage="val[0].current"
                            @current-change="page=>val[0].current = page"
@@ -98,14 +98,35 @@
                            @size-change="size=>val[8].size = size"
                            layout="prev,pager,next,sizes,jumper,loading,blank,total,slot"/>
         </demo-row>
-        <demo-row titla="加载状态">
+        <demo-row title="上下页文本">
             <pl-pagination total="400"
                            :pageSize="val[8].size"
                            :currentPage="val[8].current"
-                           loading
+
+                           prevText="上一页"
+                           nextText="下一页"
+
                            @current-change="page=>val[8].current = page"
                            @jump="page=>val[8].current = page"
                            @size-change="size=>val[8].size = size"/>
+        </demo-row>
+        <demo-row title="加载状态">
+            <pl-pagination total="400"
+                           :pageSize="val[9].size"
+                           :currentPage="val[9].current"
+                           loading
+                           @current-change="page=>val[9].current = page"
+                           @jump="page=>val[9].current = page"
+                           @size-change="size=>val[9].size = size"/>
+        </demo-row>
+        <demo-row title="禁用">
+            <pl-pagination total="400"
+                           :pageSize="val[10].size"
+                           :currentPage="val[10].current"
+                           disabled
+                           @current-change="page=>val[10].current = page"
+                           @jump="page=>val[10].current = page"
+                           @size-change="size=>val[10].size = size"/>
         </demo-row>
 
     </div>
