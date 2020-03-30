@@ -5,7 +5,7 @@
             <span>{{treeNode.label}}</span>
         </div>
         <pl-collapse-transition>
-            <ul class="pl-tree-node-list" v-if="!!treeNode.children && treeNode.children.length>0" v-show="isExpand">
+            <ul class="pl-tree-node-list" v-if="!!treeNode.children && treeNode.children.length>0 && init" v-show="isExpand && show">
                 <pl-tree-node v-for="(item,index) in  treeNode.children" :key="index" :tree-node="item" :level="level+1"/>
             </ul>
         </pl-collapse-transition>
@@ -23,11 +23,21 @@
             plTree: {default: null},
         },
         data() {
-            return {}
+            const init = !this.plTree.renderAfterExpand
+            const show = init
+            return {
+                init,
+                show,
+            }
         },
         computed: {
             isExpand() {
-                return this.treeNode.isExpand
+                let isExpand = this.treeNode.isExpand
+                if (!this.init && !!isExpand) {
+                    this.init = true
+                    this.$nextTick(() => this.show = true)
+                }
+                return isExpand
             },
             contentStyles() {
                 return {

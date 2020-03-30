@@ -1,6 +1,6 @@
 <template>
     <div class="demo-tree">
-        <demo-row title="基本用法">
+        <!--<demo-row title="基本用法">
             <demo-line>
                 <pl-button-group>
                     <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
@@ -14,7 +14,27 @@
                      labelField="name"
                      childrenField="subs"
                      @node-click="onNodeClick"/>
-        </demo-row>
+        </demo-row>-->
+
+
+        <!--<demo-row title="初始化的时候就渲染所有隐藏的节点，而不是第一次展开的时候才渲染">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
+                    <pl-button label="展开特定节点" @click="$refs.tree1.expand('8')"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree ref="tree1"
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     @node-click="onNodeClick"
+                     :renderAfterExpand="false"/>
+        </demo-row>-->
+
+
     </div>
 </template>
 
