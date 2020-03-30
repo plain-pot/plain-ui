@@ -5,9 +5,7 @@
                     :data="treeData"
                     keyField="id"
                     labelField="name"
-                    childrenField="subs"
-                    @node-click="val=>$message(val.name)"
-            />
+                    childrenField="subs"/>
         </demo-row>
     </div>
 </template>

@@ -41,11 +41,11 @@
             expandKeys: {type: Array},                                  // 默认展开的节点key数组
             autoExpandParent: {type: Boolean},                          // 是否展开节点的时候，自动展开父节点
             defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
-            expandOnClickNode: {type: Boolean},                         // 是否点击树节点的时候展开子节点
+            expandOnClickNode: {type: Boolean, default: null},          // 是否点击树节点的时候展开子节点
             according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
             renderAfterExpand: {type: Boolean, default: true},          // 是否在第一次展开节点之后才渲染内容
             expandIcon: {type: String},                                 // 树展开图标
-            intent: {type: Number, default: 18},                        // 相邻级节点水平缩进距离，默认16，单位px
+            intent: {type: Number, default: 14},                        // 相邻级节点水平缩进距离，默认16，单位px
             lazy: {type: Boolean},                                      // 是否懒加载子节点数据
             isLeft: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
             getChildren: {type: Function},                              // 加载子节点数据的函数，仅当 lazy 为true时有效
@@ -149,6 +149,18 @@
                 }
             },
             /**
+             * 根据树节点当前的展开状态，反向展开或者收起内容
+             * @author  韦胜健
+             * @date    2020/3/30 19:19
+             */
+            toggleExpand(treeNode: TreeNode) {
+                if (this.p_expandKeys.indexOf(treeNode.key) > -1) {
+                    this.collapse(treeNode)
+                } else {
+                    this.expand(treeNode)
+                }
+            },
+            /**
              * 选中树节点
              * @author  韦胜健
              * @date    2020/3/30 19:00
@@ -174,6 +186,18 @@
                     this.p_checkKeys.splice(index, 1)
                     this.emitUncheck(treeNode)
                     this.emitCheckChange(this.p_checkKeys)
+                }
+            },
+            /**
+             * 根据树节点当前的选中状态，反向勾选获取取消勾选节点
+             * @author  韦胜健
+             * @date    2020/3/30 19:20
+             */
+            toggleCheck(treeNode: TreeNode) {
+                if (this.p_checkKeys.indexOf(treeNode.key) > -1) {
+                    this.uncheck(treeNode)
+                } else {
+                    this.check(treeNode)
                 }
             },
             /*---------------------------------------utils-------------------------------------------*/
@@ -214,10 +238,20 @@
              * @date    2020/3/30 19:02
              */
             onClickExpandIcon(treeNode: TreeNode): void {
-                if (this.p_expandKeys.indexOf(treeNode.key) > -1) {
-                    this.collapse(treeNode)
-                } else {
-                    this.expand(treeNode)
+                this.toggleExpand(treeNode)
+            },
+            /**
+             * 处理点击节点内容动作
+             * @author  韦胜健
+             * @date    2020/3/30 19:17
+             */
+            onClickNodeContent(treeNode: TreeNode): void {
+                this.emitNodeClick(treeNode)
+                if (this.expandOnClickNode !== false) {
+                    this.toggleExpand(treeNode)
+                }
+                if (this.checkOnClickNode == true) {
+                    this.toggleCheck(treeNode)
                 }
             },
         },
