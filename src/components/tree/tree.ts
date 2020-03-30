@@ -18,10 +18,10 @@ export class TreeNode {
     }
 
     get isExpand(): boolean {
-        return this.treeContext.p_expandKeys[this.key] === true
+        return this.treeContext.expandMap[this.key] === true
     }
 
     get isCheck(): boolean {
-        return this.treeContext.p_checkKeys[this.key] === true
+        return this.treeContext.checkMap[this.key] === true
     }
 }

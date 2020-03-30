@@ -96,7 +96,7 @@
                 handler(val: string[]) {
                     if (!val) val = []
                     if (JSON.stringify(val) !== JSON.stringify(this.emitExpandKeys)) {
-                        this.p_expandKeys = val.reduce((ret, key) => {
+                        this.expandMap = val.reduce((ret, key) => {
                             ret[key] = true
                             return ret
                         }, {})
@@ -113,7 +113,7 @@
                 handler(val: string[]) {
                     if (!val) val = []
                     if (JSON.stringify(val) !== JSON.stringify(this.emitCheckKeys)) {
-                        this.p_checkKeys = val.reduce((ret, key) => {
+                        this.checkMap = val.reduce((ret, key) => {
                             ret[key] = true
                             return ret
                         }, {})
@@ -123,12 +123,12 @@
         },
         data() {
             const p_currentKey: string = this.currentKey                                        // 当前选中的key
-            const p_expandKeys: { [key: string]: boolean } = {}                                 // 展开的数据对象的id数组
-            const p_checkKeys: { [key: string]: boolean } = {}                                  // 选中的数据对象的id数组
+            const expandMap: { [key: string]: boolean } = {}                                    // 展开的数据对象的key映射
+            const checkMap: { [key: string]: boolean } = {}                                     // 选中的数据对象的key映射
             return {
                 p_currentKey,
-                p_expandKeys,
-                p_checkKeys,
+                expandMap,
+                checkMap,
             }
         },
         created(): void {
@@ -155,7 +155,7 @@
              * @date    2020/3/30 20:14
              */
             emitExpandKeys(): string[] {
-                return Object.keys(this.p_expandKeys || {})
+                return Object.keys(this.expandMap || {})
             },
             /**
              * 用来派发给开发者的当前选中的keys
@@ -163,7 +163,7 @@
              * @date    2020/3/30 20:14
              */
             emitCheckKeys(): string[] {
-                return Object.keys(this.p_checkKeys || {})
+                return Object.keys(this.checkMap || {})
             },
         },
         methods: {
@@ -178,7 +178,7 @@
              */
             expand(treeNode: TreeNode) {
                 if (!treeNode.isExpand) {
-                    this.$set(this.p_expandKeys, treeNode.key, true)
+                    this.$set(this.expandMap, treeNode.key, true)
                     this.emitExpand(treeNode)
                     this.emitExpandChange(this.emitExpandKeys)
                 }
@@ -190,7 +190,7 @@
              */
             collapse(treeNode: TreeNode) {
                 if (treeNode.isExpand) {
-                    this.$delete(this.p_expandKeys, treeNode.key)
+                    this.$delete(this.expandMap, treeNode.key)
                     this.emitCollapse(treeNode)
                     this.emitExpandChange(this.emitExpandKeys)
                 }
@@ -211,7 +211,7 @@
                 this.iterateAll(this.formatData, treeNode => this.expand(treeNode))
             },
             collapseAll() {
-                this.p_expandKeys = {}
+                this.expandMap = {}
             },
 
             /*check*/
@@ -223,11 +223,11 @@
              */
             check(treeNode: TreeNode) {
                 let key = treeNode.key
-                let index = this.p_checkKeys.indexOf(key)
+                let index = this.checkMap.indexOf(key)
                 if (index === -1) {
-                    this.p_checkKeys.push(key)
+                    this.checkMap.push(key)
                     this.emitCheck(treeNode)
-                    this.emitCheckChange(this.p_checkKeys)
+                    this.emitCheckChange(this.checkMap)
                 }
             },
             /**
@@ -237,11 +237,11 @@
              */
             uncheck(treeNode: TreeNode) {
                 let key = treeNode.key
-                let index = this.p_checkKeys.indexOf(key)
+                let index = this.checkMap.indexOf(key)
                 if (index > -1) {
-                    this.p_checkKeys.splice(index, 1)
+                    this.checkMap.splice(index, 1)
                     this.emitUncheck(treeNode)
-                    this.emitCheckChange(this.p_checkKeys)
+                    this.emitCheckChange(this.checkMap)
                 }
             },
             /**
@@ -250,7 +250,7 @@
              * @date    2020/3/30 19:20
              */
             toggleCheck(treeNode: TreeNode) {
-                if (this.p_checkKeys.indexOf(treeNode.key) > -1) {
+                if (this.checkMap.indexOf(treeNode.key) > -1) {
                     this.uncheck(treeNode)
                 } else {
                     this.check(treeNode)
@@ -260,7 +260,7 @@
                 this.iterateAll(this.formatData, treeNode => this.check(treeNode))
             },
             uncheckAll() {
-                this.p_checkKeys = []
+                this.checkMap = []
             },
             /*---------------------------------------utils-------------------------------------------*/
             /**
