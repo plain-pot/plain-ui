@@ -17,7 +17,8 @@
         props: {
             pageSize: {type: Number},                                                               // 页大小
             total: {type: Number},                                                                  // 总共条目数
-            pagerCount: {type: Number},                                                             // 页码按钮数量，当总页数超过时会折叠
+            totalPage: {type: Number},                                                              // 总页数，与 total/pageSize 作用类似，用来确定总页数；
+            pagerCount: {type: Number, default: 7},                                                 // 页码按钮数量，当总页数超过时会折叠
             currentPage: {type: Number},                                                            // 当前页
             layout: {type: String, default: 'sizes,prev,pager,next,jumper,blank,total,slot'},       // 组件布局
             pageSizes: {type: Array, default: [10, 20, 50, 100]},                                   // 页大小下拉选项数组
@@ -58,10 +59,15 @@
 
             const pager = (
                 <ul class="pl-pagination-pager">
-                    <li class="pl-pagination-pager-button">1</li>
-                    <li class="pl-pagination-pager-button">2</li>
-                    <li class="pl-pagination-pager-button">3</li>
-                    <li class="pl-pagination-pager-button">4</li>
+                    {this.pageInfo.totalPage > 0 && <li key="first" class="pl-pagination-pager-button">1</li>}
+                    {!!this.pageInfo.showPrevMore && <li key="prev-more" class="pl-pagination-pager-button">
+                        <pl-icon icon="el-icon-more"/>
+                    </li>}
+                    {this.pagers.map((page, index) => <li class="pl-pagination-pager-button" key={index}>{page}</li>)}
+                    {!!this.pageInfo.showNextMore && <li key="prev-more" class="pl-pagination-pager-button">
+                        <pl-icon icon="el-icon-more"/>
+                    </li>}
+                    {this.pageInfo.totalPage > 1 && <li key="first" class="pl-pagination-pager-button">{this.totalPage}</li>}
                 </ul>
             )
 
@@ -105,6 +111,11 @@
             }
         },
         computed: {
+            /**
+             * 根节点class
+             * @author  韦胜健
+             * @date    2020/3/30 9:48
+             */
             classes() {
                 return [
                     'pl-pagination',
@@ -112,6 +123,11 @@
                     `pl-pagination-shape-${this.p_shape || 'fillet'}`,
                 ]
             },
+            /**
+             * 格式化页大小显示文本
+             * @author  韦胜健
+             * @date    2020/3/30 9:48
+             */
             formatPageSizes() {
                 return (this.pageSizes || []).reduce((ret, item) => {
                     ret.push({
@@ -120,6 +136,85 @@
                     })
                     return ret
                 }, [])
+            },
+            /**
+             * 总页数
+             * @author  韦胜健
+             * @date    2020/3/30 9:48
+             */
+            p_totalPage() {
+                if (this.totalPage != null) {
+                    return this.totalPage
+                } else if (this.pageSize != null && this.total != null) {
+                    return Math.ceil(this.total / this.pageSize)
+                } else {
+                    return 0
+                }
+            },
+            pageInfo() {
+                let currentPage = Number(this.currentPage)
+                let pagerCount = Number(this.pagerCount)
+                let totalPage = Number(this.p_totalPage)
+                const midPagerCount = (pagerCount - 1) / 2                      // 从0开始计算中间索引
+
+                let showPrevMore = false
+                let showNextMore = false
+
+                if (totalPage > pagerCount) {
+                    if (currentPage > pagerCount - midPagerCount) {
+                        showPrevMore = true
+                    }
+                    if (currentPage < totalPage - midPagerCount) {
+                        showNextMore = true
+                    }
+                }
+
+                return {
+                    currentPage,                // 当前页
+                    pagerCount,                 // 页码按钮数量，包括左折叠左边的一个按钮以及右折叠右边的一个按钮
+                    totalPage,                  // 总页数
+                    midPagerCount,              // 中间页码按钮位置索引
+                    showPrevMore,               // 是否显示左折叠
+                    showNextMore,               // 是否显示右折叠
+                }
+            },
+            /**
+             * 页码按钮
+             * @author  韦胜健
+             * @date    2020/3/30 9:48
+             */
+            pagers() {
+                const {
+                    currentPage,
+                    pagerCount,
+                    totalPage,
+                    showPrevMore,
+                    showNextMore
+                } = this.pageInfo
+
+                const array = []
+
+                if (showPrevMore && !showNextMore) {
+                    const startPage = totalPage - (pagerCount - 2);
+                    for (let i = startPage; i < totalPage; i++) {
+                        array.push(i);
+                    }
+                } else if (!showPrevMore && showNextMore) {
+                    for (let i = 2; i < pagerCount; i++) {
+                        array.push(i);
+                    }
+                } else if (showPrevMore && showNextMore) {
+                    const offset = Math.floor(pagerCount / 2) - 1;
+                    for (let i = currentPage - offset; i <= currentPage + offset; i++) {
+                        array.push(i);
+                    }
+                } else {
+                    for (let i = 2; i < totalPage; i++) {
+                        array.push(i);
+                    }
+                }
+
+                return array
             },
         },
         methods: {},
@@ -137,7 +232,7 @@
             padding: 0 1px;
             width: 100%;
 
-            .pl-icon{
+            .pl-icon {
                 color: $icc;
             }
 
