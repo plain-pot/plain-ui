@@ -1,6 +1,6 @@
 <template>
     <div class="app-navigator">
-        <component :is="PageComponent" v-if="PageComponent"/>
+        <component :is="PageComponent" v-if="PageComponent" :key="key"/>
     </div>
 </template>
 
@@ -19,6 +19,7 @@
         data() {
             return {
                 PageComponent: null,
+                key: 0,
             }
         },
         mounted() {
@@ -39,6 +40,10 @@
                     console.log(`未找到页面：` + path)
                     return null
                 }
+            },
+            async refresh() {
+                this.key++
+                await this.$plain.nextTick()
             },
             async openPage(path) {
                 const PageComponent = await this.getPageComponent(path)
