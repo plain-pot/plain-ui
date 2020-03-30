@@ -120,6 +120,9 @@
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
+
+            /*expand*/
+
             /**
              * 展开树节点
              * @author  韦胜健
@@ -160,6 +163,15 @@
                     this.expand(treeNode)
                 }
             },
+            expandAll() {
+                this.iterateAll(this.formatData, treeNode => this.expand(treeNode))
+            },
+            collapseAll() {
+                this.p_expandKeys = []
+            },
+
+            /*check*/
+
             /**
              * 选中树节点
              * @author  韦胜健
@@ -200,6 +212,12 @@
                     this.check(treeNode)
                 }
             },
+            checkAll() {
+                this.iterateAll(this.formatData, treeNode => this.check(treeNode))
+            },
+            uncheckAll() {
+                this.p_checkKeys = []
+            },
             /*---------------------------------------utils-------------------------------------------*/
             /**
              * 检查props是否合法
@@ -216,6 +234,19 @@
                     return false
                 }
                 return true
+            },
+            /**
+             * 遍历所有的treeNode
+             * @author  韦胜健
+             * @date    2020/3/30 19:30
+             */
+            iterateAll(treeNodes: TreeNode[], fn) {
+                treeNodes.forEach(treeNode => {
+                    fn(treeNode)
+                    if (!!treeNode.children) {
+                        this.iterateAll(treeNode.children, fn)
+                    }
+                })
             },
             /**
              * 格式化树节点数据

@@ -1,7 +1,7 @@
 <template>
     <li class="pl-tree-node" :class="{'pl-tree-node-expand':isExpand}">
         <div class="pl-tree-node-content" :style="contentStyles" @click="plTree.onClickNodeContent(treeNode)">
-            <pl-icon :icon="plTree.expandIcon || 'el-icon-arrow-right'" @click="plTree.onClickExpandIcon(treeNode)" class="pl-tree-expand-icon"/>
+            <pl-icon :icon="plTree.expandIcon || 'el-icon-arrow-right'" @click.stop="plTree.onClickExpandIcon(treeNode)" class="pl-tree-expand-icon"/>
             <span>{{treeNode.label}}</span>
         </div>
         <pl-collapse-transition>
