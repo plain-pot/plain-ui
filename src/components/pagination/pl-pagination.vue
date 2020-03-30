@@ -28,6 +28,10 @@
 
             jumperNumberWidth: {type: Number},                                                      // 跳转页的数字输入框宽度
         },
+        emitters: {
+            emitJump: Function,
+            emitSizeChange: Function,
+        },
         render() {
 
             const sizes = (
@@ -49,27 +53,27 @@
             )
 
             const prev = (
-                <div class="pl-pagination-prev pl-pagination-pager-button">
+                <div class="pl-pagination-prev pl-pagination-pager-button" onClick={() => this.jumpPrev()}>
                     <pl-icon icon="el-icon-arrow-left"/>
                 </div>
             )
             const next = (
-                <div class="pl-pagination-next pl-pagination-pager-button">
+                <div class="pl-pagination-next pl-pagination-pager-button" onClick={() => this.jumpNext()}>
                     <pl-icon icon="el-icon-arrow-right"/>
                 </div>
             )
 
             const pager = (
                 <ul class="pl-pagination-pager">
-                    {this.pageInfo.totalPage > 0 && <li key="first" class={this.getPagerButtonClass(1)}>1</li>}
+                    {this.pageInfo.totalPage > 0 && <li key="first" class={this.getPagerButtonClass(1)} onClick={() => this.jump(1)}>1</li>}
                     {!!this.pageInfo.showPrevMore && <li key="prev-more" class={this.getPagerButtonClass('prev')}>
                         <pl-icon icon="el-icon-more"/>
                     </li>}
-                    {this.pagers.map((page, index) => <li class={this.getPagerButtonClass(page)} key={index}>{page}</li>)}
+                    {this.pagers.map((page, index) => <li class={this.getPagerButtonClass(page)} key={index} onClick={() => this.jump(page)}>{page}</li>)}
                     {!!this.pageInfo.showNextMore && <li key="prev-more" class={this.getPagerButtonClass('next')}>
                         <pl-icon icon="el-icon-more"/>
                     </li>}
-                    {this.pageInfo.totalPage > 1 && <li key="last" class={this.getPagerButtonClass(this.pageInfo.totalPage)}>{this.pageInfo.totalPage}</li>}
+                    {this.pageInfo.totalPage > 1 && <li key="last" class={this.getPagerButtonClass(this.pageInfo.totalPage)} onClick={() => this.jump(this.pageInfo.totalPage)}>{this.pageInfo.totalPage}</li>}
                 </ul>
             )
 
@@ -235,6 +239,37 @@
                         'pl-pagination-pager-button-active': page === this.pageInfo.currentPage
                     },
                 ]
+            },
+            /**
+             * 跳转到指定页
+             * @author  韦胜健
+             * @date    2020/3/30 14:02
+             */
+            jump(val) {
+                this.emitJump(val)
+            },
+            /**
+             * 跳转到上一页
+             * @author  韦胜健
+             * @date    2020/3/30 14:08
+             */
+            jumpPrev() {
+                if (this.pageInfo.currentPage === 1) {
+                    return
+                }
+                this.jump(this.pageInfo.currentPage - 1)
+
+            },
+            /**
+             * 跳转到下一页
+             * @author  韦胜健
+             * @date    2020/3/30 14:09
+             */
+            jumpNext() {
+                if (this.pageInfo.totalPage != null && this.pageInfo.currentPage == this.pageInfo.totalPage) {
+                    return
+                }
+                this.jump(this.pageInfo.currentPage + 1)
             },
         },
     }
