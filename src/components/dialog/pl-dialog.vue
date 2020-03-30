@@ -250,7 +250,7 @@
                 } catch (e) {
                     console.error(e)
                 } finally {
-                    this.p_loading = false
+                    this.p_loading = null
                 }
             },
             /*---------------------------------------handler-------------------------------------------*/

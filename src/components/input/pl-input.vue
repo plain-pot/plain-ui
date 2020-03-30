@@ -82,7 +82,7 @@
                                 await this.$listeners.enter(e)
                             } catch (e) {
                             } finally {
-                                this.p_loading = false
+                                this.p_loading = null
                             }
                         } else {
                             this.$emit('enter', e)

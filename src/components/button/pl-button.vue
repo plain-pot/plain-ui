@@ -75,7 +75,7 @@
                                 await this.$listeners.click(e)
                             } catch (e) {
                             } finally {
-                                this.p_loading = false
+                                this.p_loading = null
                             }
                         } else {
                             this.$emit('click', e)

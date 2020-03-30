@@ -74,14 +74,14 @@ export const EditMixin = {
             else if (!!this.plParentEditor) return this.plParentEditor.isReadonly
             return false
         },
-        isLoading() {
-            if (!!this.p_loading) return true
-            if (!!this.loading) return true
-            if (!!this.plParentEditor && !!this.plParentEditor.isLoading) return true
-            return false
-        },
         isEditable() {
             return !this.isDisabled && !this.isReadonly && !this.isLoading
+        },
+        isLoading() {
+            if (this.p_loading != null) return this.p_loading
+            if (this.loading != null) return this.loading
+            if (!!this.plParentEditor && this.plParentEditor.isLoading != null) return this.plParentEditor.isLoading
+            return null
         },
     },
     created() {
