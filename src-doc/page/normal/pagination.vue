@@ -89,6 +89,25 @@
             </demo-line>
         </demo-row>
 
+        <demo-row title="自定义布局">
+            <pl-pagination total="400"
+                           :pageSize="val[8].size"
+                           :currentPage="val[8].current"
+                           @current-change="page=>val[8].current = page"
+                           @jump="page=>val[8].current = page"
+                           @size-change="size=>val[8].size = size"
+                           layout="prev,pager,next,sizes,jumper,loading,blank,total,slot"/>
+        </demo-row>
+        <demo-row titla="加载状态">
+            <pl-pagination total="400"
+                           :pageSize="val[8].size"
+                           :currentPage="val[8].current"
+                           loading
+                           @current-change="page=>val[8].current = page"
+                           @jump="page=>val[8].current = page"
+                           @size-change="size=>val[8].size = size"/>
+        </demo-row>
+
     </div>
 </template>
 

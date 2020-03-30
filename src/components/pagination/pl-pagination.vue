@@ -20,11 +20,10 @@
             totalPage: {type: Number},                                                              // 总页数，与 total/pageSize 作用类似，用来确定总页数；
             pagerCount: {type: Number, default: 7},                                                 // 页码按钮数量，当总页数超过时会折叠
             currentPage: {type: Number},                                                            // 当前页
-            layout: {type: String, default: 'sizes,prev,pager,next,jumper,blank,total,slot'},       // 组件布局
+            layout: {type: String, default: 'sizes,jumper,prev,pager,next,loading,blank,total,slot'},       // 组件布局
             pageSizes: {type: Array, default: [10, 20, 50, 100]},                                   // 页大小下拉选项数组
             prevText: {type: String},                                                               // 上一页按钮替换文本
             nextText: {type: String},                                                               // 下一页按钮替换文本
-            disabled: {type: Boolean},                                                              // 是否禁用
 
             jumperNumberWidth: {type: Number},                                                      // 跳转页的数字输入框宽度
         },
@@ -42,6 +41,8 @@
                     class="pl-pagination-sizes"
                     value={this.pageSize}
                     data={this.formatPageSizes}
+                    loading={false}
+                    readonly={this.isReadonly || this.isLoading}
                     labelKey="name"
                     valueKey="val"
                     filterable={false}
@@ -51,7 +52,13 @@
             const jumper = (
                 <div class="pl-pagination-jumper">
                     <span>前往</span>
-                    <pl-number inputProps={{width: this.p_jumperNumberWidth}} hideButton value={this.jumperValue} onInput={val => this.jumperValue = val} onEnter={() => this.onJump()}/>
+                    <pl-number inputProps={{width: this.p_jumperNumberWidth}}
+                               readonly={this.isReadonly || this.isLoading}
+                               hideButton
+                               loading={false}
+                               value={this.jumperValue}
+                               onInput={val => this.jumperValue = val}
+                               onEnter={() => this.onJump()}/>
                     <span>页</span>
                 </div>
             )
@@ -84,11 +91,19 @@
             const blank = (<div class="pl-pagination-blank"></div>)
             const total = this.total == null ? null : (<div className="pl-pagination-total"><span>总共 {this.total} 条记录</span></div>)
             const slot = !this.$slots.default ? null : (<div class="pl-pagination-slot">{this.$slots.default}</div>)
-            const loading = (<div class="pl-pagination-loading">
+            const loading = !this.isLoading ? null : (<div class="pl-pagination-loading">
                 <pl-loading type="beta"/>
             </div>)
 
-            let layout = [sizes, jumper, prev, pager, next, loading, blank, total, slot].filter(item => !!item)
+            let parts = {sizes, jumper, prev, pager, next, loading, blank, total, slot,}
+
+            let layout = this.layout.replace(/\s+/g, '').split(',').reduce((ret, item) => {
+                let part = parts[item]
+                if (!!part) {
+                    ret.push(part)
+                }
+                return ret
+            }, [])
 
             return (
                 <div class={this.classes}>
@@ -255,6 +270,7 @@
              * @date    2020/3/30 14:02
              */
             changeCurrent(val) {
+                if (!this.isEditable) return;
                 this.emitCurrentChange(val)
             },
             /**
@@ -263,6 +279,7 @@
              * @date    2020/3/30 14:08
              */
             onPrev() {
+                if (!this.isEditable) return;
                 if (this.pageInfo.currentPage === 1) {
                     return
                 }
@@ -275,6 +292,7 @@
              * @date    2020/3/30 14:09
              */
             onNext() {
+                if (!this.isEditable) return;
                 if (this.pageInfo.totalPage != null && this.pageInfo.currentPage == this.pageInfo.totalPage) {
                     return
                 }
@@ -287,6 +305,7 @@
              * @date    2020/3/30 14:29
              */
             async onJump() {
+                if (!this.isEditable) return;
                 await this.$plain.nextTick()
                 let val = this.jumperValue
                 if (!val && val !== 0) {
@@ -360,7 +379,7 @@
             }
 
             .pl-pagination-pager-button, .pl-pagination-pager {
-                & + .pl-pagination-pager-button, & + .pl-pagination-pager {
+                & + * {
                     margin-left: 8px;
                 }
             }
