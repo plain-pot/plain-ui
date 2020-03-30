@@ -39,7 +39,7 @@
 
             // 展开相关属性
             expandKeys: {type: Array},                                  // 默认展开的节点key数组
-            autoExpandParent: {type: Boolean},                          // 是否展开节点的时候，自动展开父节点
+            autoExpandParent: {type: Boolean, default: true},           // 是否展开节点的时候，自动展开父节点
             defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
             expandOnClickNode: {type: Boolean, default: null},          // 是否点击树节点的时候展开子节点
             according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
@@ -86,14 +86,46 @@
             currentKey(val: string): void {
                 this.p_currentKey = val
             },
+            /**
+             * expandKeys 是一个数组，比如 [1,2,3]，格式化为 {1:true,2:true,3:true} 表示1，2，3 已经展开
+             * @author  韦胜健
+             * @date    2020/3/30 20:08
+             */
+            expandKeys: {
+                immediate: true,
+                handler(val: string[]) {
+                    if (!val) val = []
+                    if (JSON.stringify(val) !== JSON.stringify(this.emitExpandKeys)) {
+                        this.p_expandKeys = val.reduce((ret, key) => {
+                            ret[key] = true
+                            return ret
+                        }, {})
+                    }
+                },
+            },
+            /**
+             * checkKeys 是一个数组，比如 [1,2,3]，格式化为 {1:true,2:true,3:true} 表示1，2，3 已经勾选
+             * @author  韦胜健
+             * @date    2020/3/30 20:08
+             */
+            checkKeys: {
+                immediate: true,
+                handler(val: string[]) {
+                    if (!val) val = []
+                    if (JSON.stringify(val) !== JSON.stringify(this.emitCheckKeys)) {
+                        this.p_checkKeys = val.reduce((ret, key) => {
+                            ret[key] = true
+                            return ret
+                        }, {})
+                    }
+                },
+            },
         },
         data() {
-            const p_currentKey: string = this.currentKey                // 当前选中的key
-            const idMap = new WeakMap<object, string>();                // 树节点数据对象对应id的映射
-            const p_expandKeys: string[] = [...(this.expandKeys || [])] // 展开的数据对象的id数组
-            const p_checkKeys: string[] = [...(this.checkKeys || [])]   // 选中的数据对象的id数组
+            const p_currentKey: string = this.currentKey                                        // 当前选中的key
+            const p_expandKeys: { [key: string]: boolean } = {}                                 // 展开的数据对象的id数组
+            const p_checkKeys: { [key: string]: boolean } = {}                                  // 选中的数据对象的id数组
             return {
-                idMap,
                 p_currentKey,
                 p_expandKeys,
                 p_checkKeys,
@@ -117,6 +149,22 @@
                 }
                 return this.data.map(this.formatNodeData)
             },
+            /**
+             * 用來派发给开发者的当前展开的keys
+             * @author  韦胜健
+             * @date    2020/3/30 20:14
+             */
+            emitExpandKeys(): string[] {
+                return Object.keys(this.p_expandKeys || {})
+            },
+            /**
+             * 用来派发给开发者的当前选中的keys
+             * @author  韦胜健
+             * @date    2020/3/30 20:14
+             */
+            emitCheckKeys(): string[] {
+                return Object.keys(this.p_checkKeys || {})
+            },
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
@@ -129,12 +177,10 @@
              * @date    2020/3/30 18:58
              */
             expand(treeNode: TreeNode) {
-                let key = treeNode.key
-                let index = this.p_expandKeys.indexOf(key)
-                if (index === -1) {
-                    this.p_expandKeys.push(key)
+                if (!treeNode.isExpand) {
+                    this.$set(this.p_expandKeys, treeNode.key, true)
                     this.emitExpand(treeNode)
-                    this.emitExpandChange(this.p_expandKeys)
+                    this.emitExpandChange(this.emitExpandKeys)
                 }
             },
             /**
@@ -143,12 +189,10 @@
              * @date    2020/3/30 18:58
              */
             collapse(treeNode: TreeNode) {
-                let key = treeNode.key
-                let index = this.p_expandKeys.indexOf(key)
-                if (index > -1) {
-                    this.p_expandKeys.splice(index, 1)
+                if (treeNode.isExpand) {
+                    this.$delete(this.p_expandKeys, treeNode.key)
                     this.emitCollapse(treeNode)
-                    this.emitExpandChange(this.p_expandKeys)
+                    this.emitExpandChange(this.emitExpandKeys)
                 }
             },
             /**
@@ -157,7 +201,7 @@
              * @date    2020/3/30 19:19
              */
             toggleExpand(treeNode: TreeNode) {
-                if (this.p_expandKeys.indexOf(treeNode.key) > -1) {
+                if (treeNode.isExpand) {
                     this.collapse(treeNode)
                 } else {
                     this.expand(treeNode)
@@ -167,7 +211,7 @@
                 this.iterateAll(this.formatData, treeNode => this.expand(treeNode))
             },
             collapseAll() {
-                this.p_expandKeys = []
+                this.p_expandKeys = {}
             },
 
             /*check*/
@@ -220,6 +264,38 @@
             },
             /*---------------------------------------utils-------------------------------------------*/
             /**
+             * 找到某一个节点的所有父节点数据
+             * @author  韦胜健
+             * @date    2020/3/30 19:42
+             */
+            getParents(array: TreeNode[], target: TreeNode, output: TreeNode[]) {
+                if (!array || array.length === 0) return null
+                for (let i = 0; i < array.length; i++) {
+                    const element = array[i];
+                    output.push(element)
+                    if (element.key === target.key) {
+                        return output
+                    }
+                    let sub = this.getParents(element.children, target, output)
+                    if (!!sub) return sub
+                    output.pop()
+                }
+                return null
+            },
+            /**
+             * 遍历所有的treeNode
+             * @author  韦胜健
+             * @date    2020/3/30 19:30
+             */
+            iterateAll(treeNodes: TreeNode[], fn) {
+                treeNodes.forEach(treeNode => {
+                    fn(treeNode)
+                    if (!!treeNode.children) {
+                        this.iterateAll(treeNode.children, fn)
+                    }
+                })
+            },
+            /**
              * 检查props是否合法
              * @author  韦胜健
              * @date    2020/3/30 18:48
@@ -236,27 +312,12 @@
                 return true
             },
             /**
-             * 遍历所有的treeNode
-             * @author  韦胜健
-             * @date    2020/3/30 19:30
-             */
-            iterateAll(treeNodes: TreeNode[], fn) {
-                treeNodes.forEach(treeNode => {
-                    fn(treeNode)
-                    if (!!treeNode.children) {
-                        this.iterateAll(treeNode.children, fn)
-                    }
-                })
-            },
-            /**
              * 格式化树节点数据
              * @author  韦胜健
              * @date    2020/3/30 17:16
              */
             formatNodeData(data): TreeNode {
-                const {keyField, labelField, childrenField} = this
-                const formatNodeData = new TreeNode(data, {keyField, labelField, childrenField})
-
+                const formatNodeData = new TreeNode(data, this)
                 if (!!formatNodeData.children) {
                     formatNodeData.children = formatNodeData.children.map(this.formatNodeData)
                 }

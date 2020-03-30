@@ -12,7 +12,7 @@
     </li>
 </template>
 
-<script>
+<script lang="ts">
     export default {
         name: "pl-tree-node",
         props: {
@@ -27,7 +27,7 @@
         },
         computed: {
             isExpand() {
-                return this.plTree.p_expandKeys.indexOf(this.treeNode.key) > -1
+                return this.treeNode.isExpand
             },
             contentStyles() {
                 return {

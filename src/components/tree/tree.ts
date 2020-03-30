@@ -2,7 +2,6 @@ export class TreeNode {
     key: string;
     label: string;
     children: TreeNode[];
-    data: object
 
     /*expanded: boolean;              // 是否已经展开
     checked: boolean;               // 是否已经勾选
@@ -11,10 +10,18 @@ export class TreeNode {
     draggable: boolean;             // 是否可拖拽
     droppable: boolean;             // 是否可放置*/
 
-    constructor(data: object, {keyField, labelField, childrenField}) {
+    constructor(public data: object, public treeContext: any) {
+        const {keyField, labelField, childrenField} = treeContext
         this.key = !!keyField ? data[keyField] : undefined
         this.label = !!labelField ? data[labelField] : undefined
         this.children = !!childrenField ? data[childrenField] : undefined
-        this.data = data
+    }
+
+    get isExpand(): boolean {
+        return this.treeContext.p_expandKeys[this.key] === true
+    }
+
+    get isCheck(): boolean {
+        return this.treeContext.p_checkKeys[this.key] === true
     }
 }
