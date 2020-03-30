@@ -30,6 +30,9 @@
         },
         emitters: {
             emitJump: Function,
+            emitPrev: Function,
+            emitNext: Function,
+            emitCurrentChange: Function,
             emitSizeChange: Function,
         },
         render() {
@@ -42,38 +45,39 @@
                     labelKey="name"
                     valueKey="val"
                     filterable={false}
-                    inputProps={{width: SizesWidth[this.p_size || 'normal'], clearIcon: false}}/>)
+                    inputProps={{width: SizesWidth[this.p_size || 'normal'], clearIcon: false}}
+                    onChange={val => this.emitSizeChange(val)}/>)
 
             const jumper = (
                 <div class="pl-pagination-jumper">
                     <span>前往</span>
-                    <pl-number inputProps={{width: this.p_jumperNumberWidth}} hideButton value={this.jumperValue} onInput={val => this.jumperValue = val}/>
+                    <pl-number inputProps={{width: this.p_jumperNumberWidth}} hideButton value={this.jumperValue} onInput={val => this.jumperValue = val} onEnter={() => this.onJump()}/>
                     <span>页</span>
                 </div>
             )
 
             const prev = (
-                <div class="pl-pagination-prev pl-pagination-pager-button" onClick={() => this.jumpPrev()}>
+                <div class="pl-pagination-prev pl-pagination-pager-button" onClick={() => this.onPrev()}>
                     <pl-icon icon="el-icon-arrow-left"/>
                 </div>
             )
             const next = (
-                <div class="pl-pagination-next pl-pagination-pager-button" onClick={() => this.jumpNext()}>
+                <div class="pl-pagination-next pl-pagination-pager-button" onClick={() => this.onNext()}>
                     <pl-icon icon="el-icon-arrow-right"/>
                 </div>
             )
 
             const pager = (
                 <ul class="pl-pagination-pager">
-                    {this.pageInfo.totalPage > 0 && <li key="first" class={this.getPagerButtonClass(1)} onClick={() => this.jump(1)}>1</li>}
+                    {this.pageInfo.totalPage > 0 && <li key="first" class={this.getPagerButtonClass(1)} onClick={() => this.changeCurrent(1)}>1</li>}
                     {!!this.pageInfo.showPrevMore && <li key="prev-more" class={this.getPagerButtonClass('prev')}>
                         <pl-icon icon="el-icon-more"/>
                     </li>}
-                    {this.pagers.map((page, index) => <li class={this.getPagerButtonClass(page)} key={index} onClick={() => this.jump(page)}>{page}</li>)}
+                    {this.pagers.map((page, index) => <li class={this.getPagerButtonClass(page)} key={index} onClick={() => this.changeCurrent(page)}>{page}</li>)}
                     {!!this.pageInfo.showNextMore && <li key="prev-more" class={this.getPagerButtonClass('next')}>
                         <pl-icon icon="el-icon-more"/>
                     </li>}
-                    {this.pageInfo.totalPage > 1 && <li key="last" class={this.getPagerButtonClass(this.pageInfo.totalPage)} onClick={() => this.jump(this.pageInfo.totalPage)}>{this.pageInfo.totalPage}</li>}
+                    {this.pageInfo.totalPage > 1 && <li key="last" class={this.getPagerButtonClass(this.pageInfo.totalPage)} onClick={() => this.changeCurrent(this.pageInfo.totalPage)}>{this.pageInfo.totalPage}</li>}
                 </ul>
             )
 
@@ -92,10 +96,15 @@
                 </div>
             )
         },
+        watch: {
+            currentPage(val) {
+                this.jumperValue = val == null ? 1 : Number(val)
+            },
+        },
         data() {
             return {
                 // 跳转页输入框绑定值
-                jumperValue: 1,
+                jumperValue: this.currentPage == null ? 1 : Number(this.currentPage),
             }
         },
         computed: {
@@ -245,31 +254,47 @@
              * @author  韦胜健
              * @date    2020/3/30 14:02
              */
-            jump(val) {
-                this.emitJump(val)
+            changeCurrent(val) {
+                this.emitCurrentChange(val)
             },
             /**
              * 跳转到上一页
              * @author  韦胜健
              * @date    2020/3/30 14:08
              */
-            jumpPrev() {
+            onPrev() {
                 if (this.pageInfo.currentPage === 1) {
                     return
                 }
-                this.jump(this.pageInfo.currentPage - 1)
-
+                this.changeCurrent(this.pageInfo.currentPage - 1)
+                this.emitPrev()
             },
             /**
              * 跳转到下一页
              * @author  韦胜健
              * @date    2020/3/30 14:09
              */
-            jumpNext() {
+            onNext() {
                 if (this.pageInfo.totalPage != null && this.pageInfo.currentPage == this.pageInfo.totalPage) {
                     return
                 }
-                this.jump(this.pageInfo.currentPage + 1)
+                this.changeCurrent(this.pageInfo.currentPage + 1)
+                this.emitNext()
+            },
+            /**
+             * 跳转到指定页
+             * @author  韦胜健
+             * @date    2020/3/30 14:29
+             */
+            async onJump() {
+                await this.$plain.nextTick()
+                let val = this.jumperValue
+                if (!val && val !== 0) {
+                    val = 1
+                    await this.$plain.nextTick()
+                    this.jumperValue = val
+                }
+                this.emitJump(val)
             },
         },
     }
