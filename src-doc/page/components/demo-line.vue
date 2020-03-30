@@ -15,15 +15,25 @@
         },
         props: {
             title: {},
+            labelWidth: {type: [String, Number]},
         },
         data() {
             return {}
         },
         computed: {
             titleStyles() {
-                return {
-                    width: !!this.PlDemoRow.maxTitleWidth ? `${this.PlDemoRow.maxTitleWidth + 9}px` : null
+                let styles = {}
+                let width;
+                if (this.labelWidth != null) width = this.labelWidth
+                else {
+                    if (!!this.PlDemoRow.maxTitleWidth) {
+                        width = this.PlDemoRow.maxTitleWidth + 9
+                    }
                 }
+                if (width != null) {
+                    styles.width = this.$plain.utils.suffixPx(width)
+                }
+                return styles
             },
         },
         mounted() {
@@ -36,6 +46,7 @@
 <style lang="scss">
     .demo-line {
         margin-bottom: 6px;
+
         .demo-line-title {
             display: inline-block;
             text-align: right;
@@ -46,6 +57,7 @@
 
         .demo-line-content {
             display: inline-block;
+
             & > * {
                 margin-right: 16px;
             }

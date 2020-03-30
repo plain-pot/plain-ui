@@ -24,7 +24,9 @@
             pageSizes: {type: Array, default: [10, 20, 50, 100]},                                   // 页大小下拉选项数组
             prevText: {type: String},                                                               // 上一页按钮替换文本
             nextText: {type: String},                                                               // 下一页按钮替换文本
-            disabled: {type: Boolean}                                                               // 是否禁用
+            disabled: {type: Boolean},                                                              // 是否禁用
+
+            jumperNumberWidth: {type: Number},                                                      // 跳转页的数字输入框宽度
         },
         render() {
 
@@ -41,7 +43,7 @@
             const jumper = (
                 <div class="pl-pagination-jumper">
                     <span>前往</span>
-                    <pl-number inputProps={{width: 64}} hideButton value={this.jumperValue} onInput={val => this.jumperValue = val}/>
+                    <pl-number inputProps={{width: this.p_jumperNumberWidth}} hideButton value={this.jumperValue} onInput={val => this.jumperValue = val}/>
                     <span>页</span>
                 </div>
             )
@@ -59,45 +61,26 @@
 
             const pager = (
                 <ul class="pl-pagination-pager">
-                    {this.pageInfo.totalPage > 0 && <li key="first" class="pl-pagination-pager-button">1</li>}
-                    {!!this.pageInfo.showPrevMore && <li key="prev-more" class="pl-pagination-pager-button">
+                    {this.pageInfo.totalPage > 0 && <li key="first" class={this.getPagerButtonClass(1)}>1</li>}
+                    {!!this.pageInfo.showPrevMore && <li key="prev-more" class={this.getPagerButtonClass('prev')}>
                         <pl-icon icon="el-icon-more"/>
                     </li>}
-                    {this.pagers.map((page, index) => <li class="pl-pagination-pager-button" key={index}>{page}</li>)}
-                    {!!this.pageInfo.showNextMore && <li key="prev-more" class="pl-pagination-pager-button">
+                    {this.pagers.map((page, index) => <li class={this.getPagerButtonClass(page)} key={index}>{page}</li>)}
+                    {!!this.pageInfo.showNextMore && <li key="prev-more" class={this.getPagerButtonClass('next')}>
                         <pl-icon icon="el-icon-more"/>
                     </li>}
-                    {this.pageInfo.totalPage > 1 && <li key="first" class="pl-pagination-pager-button">{this.totalPage}</li>}
+                    {this.pageInfo.totalPage > 1 && <li key="last" class={this.getPagerButtonClass(this.pageInfo.totalPage)}>{this.pageInfo.totalPage}</li>}
                 </ul>
             )
 
-            const blank = (
-                <div class="pl-pagination-blank"></div>
-            )
+            const blank = (<div class="pl-pagination-blank"></div>)
+            const total = this.total == null ? null : (<div className="pl-pagination-total"><span>总共 {this.total} 条记录</span></div>)
+            const slot = !this.$slots.default ? null : (<div class="pl-pagination-slot">{this.$slots.default}</div>)
+            const loading = (<div class="pl-pagination-loading">
+                <pl-loading type="beta"/>
+            </div>)
 
-            const total = (
-                <div class="pl-pagination-total">
-                    <span>总共 {this.total} 条记录</span>
-                </div>
-            )
-
-            const slot = !this.$slots.default ? null : (
-                <div class="pl-pagination-slot">
-                    {this.$slots.default}
-                </div>
-            )
-
-            const loading = (
-                <div class="pl-pagination-loading">
-                    <pl-loading type="beta"/>
-                </div>
-            )
-
-            const divider = (
-                <div class="pl-pagination-divider"></div>
-            )
-
-            let layout = [sizes, divider, jumper, divider, prev, next, pager, loading, blank, total, slot].filter(item => !!item)
+            let layout = [sizes, jumper, prev, pager, next, loading, blank, total, slot].filter(item => !!item)
 
             return (
                 <div class={this.classes}>
@@ -107,6 +90,7 @@
         },
         data() {
             return {
+                // 跳转页输入框绑定值
                 jumperValue: 1,
             }
         },
@@ -138,6 +122,22 @@
                 }, [])
             },
             /**
+             * 跳转页输入框宽度
+             * @author  韦胜健
+             * @date    2020/3/30 12:07
+             */
+            p_jumperNumberWidth() {
+                if (!!this.jumperNumberWidth) {
+                    return this.jumperNumberWidth
+                } else {
+                    return {
+                        large: 78,
+                        normal: 64,
+                        mini: 56,
+                    }[this.p_size || 'normal']
+                }
+            },
+            /**
              * 总页数
              * @author  韦胜健
              * @date    2020/3/30 9:48
@@ -151,6 +151,11 @@
                     return 0
                 }
             },
+            /**
+             * 分页信息
+             * @author  韦胜健
+             * @date    2020/3/30 12:07
+             */
             pageInfo() {
                 let currentPage = Number(this.currentPage)
                 let pagerCount = Number(this.pagerCount)
@@ -217,7 +222,21 @@
                 return array
             },
         },
-        methods: {},
+        methods: {
+            /**
+             * 获取页码按钮的 class
+             * @author  韦胜健
+             * @date    2020/3/30 12:07
+             */
+            getPagerButtonClass(page) {
+                return [
+                    'pl-pagination-pager-button',
+                    {
+                        'pl-pagination-pager-button-active': page === this.pageInfo.currentPage
+                    },
+                ]
+            },
+        },
     }
 </script>
 
@@ -225,11 +244,9 @@
     @include themify {
         .pl-pagination {
 
-            border: solid 1px $ibc;
             display: flex;
             align-items: center;
             color: $itc;
-            padding: 0 1px;
             width: 100%;
 
             .pl-icon {
@@ -237,17 +254,12 @@
             }
 
             & > * {
-                margin: 1px 0;
                 display: inline-block;
             }
 
-            .pl-input {
-                .pl-input-inner {
-                    border-color: transparent;
-                }
-            }
-
             .pl-number {
+                padding: 0 8px;
+
                 input {
                     text-align: center;
                 }
@@ -270,7 +282,7 @@
                 cursor: pointer;
                 transition: all 300ms $transition;
                 user-select: none;
-                border-radius: 100px;
+                border: solid 1px $ibc;
 
                 &:hover {
                     background-color: mix(white, $colorPrimary, 90%);
@@ -278,6 +290,18 @@
 
                 &:active {
                     background-color: mix(white, $colorPrimary, 75%);
+                }
+
+                &.pl-pagination-pager-button-active {
+                    background-color: $colorPrimary;
+                    border-color: $colorPrimary;
+                    color: white;
+                }
+            }
+
+            .pl-pagination-pager-button, .pl-pagination-pager {
+                & + .pl-pagination-pager-button, & + .pl-pagination-pager {
+                    margin-left: 8px;
                 }
             }
 
@@ -289,14 +313,6 @@
                 padding: 0 12px;
             }
 
-            .pl-pagination-divider {
-                width: 1px;
-                height: 16px;
-                background-color: $ibc;
-                content: '';
-                margin: 0 12px;
-            }
-
             @include sizeMixin(pagination) {
                 .pl-pagination-pager, .pl-pagination-prev, .pl-pagination-next, .pl-pagination-blank, .pl-pagination-pager-button {
                     height: $value;
@@ -306,10 +322,21 @@
                         min-width: $value;
                     }
                 }
+                &.pl-pagination-size-large {
+                    font-size: 16px;
+                }
+                &.pl-pagination-size-normal {
+                    font-size: 14px;
+                }
+                &.pl-pagination-size-mini {
+                    font-size: 12px;
+                }
             }
 
             @include shapeMixin(pagination) {
-                border-radius: $value;
+                .pl-pagination-pager-button {
+                    border-radius: $value;
+                }
             }
         }
     }
