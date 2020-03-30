@@ -347,10 +347,6 @@
                 }
             }
 
-            .pl-pagination-jumper {
-                padding: 0 12px;
-            }
-
             .pl-pagination-pager {
                 margin: 0;
                 padding: 0;
@@ -381,18 +377,22 @@
                 }
             }
 
-            .pl-pagination-pager-button, .pl-pagination-pager {
-                & + * {
-                    margin-left: 8px;
-                }
-            }
-
             .pl-pagination-blank {
                 flex: 1;
             }
 
             .pl-pagination-total, .pl-pagination-loading {
                 padding: 0 12px;
+            }
+
+            & > *, & > .pl-pagination-pager {
+                margin-right: 8px;
+            }
+
+            .pl-pagination-pager {
+                .pl-pagination-pager-button:not(:last-child) {
+                    margin-right: 8px;
+                }
             }
 
             @include sizeMixin(pagination) {

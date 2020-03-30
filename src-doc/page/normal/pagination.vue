@@ -96,7 +96,7 @@
                            @current-change="page=>val[8].current = page"
                            @jump="page=>val[8].current = page"
                            @size-change="size=>val[8].size = size"
-                           layout="prev,pager,next,sizes,jumper,loading,blank,total,slot"/>
+                           layout="sizes,prev,next,pager,jumper,loading,blank,total,slot"/>
         </demo-row>
         <demo-row title="上下页文本">
             <pl-pagination total="400"
