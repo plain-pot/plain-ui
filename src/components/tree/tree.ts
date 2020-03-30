@@ -10,7 +10,7 @@ export class TreeNode {
     draggable: boolean;             // 是否可拖拽
     droppable: boolean;             // 是否可放置*/
 
-    constructor(public data: object, public treeContext: any) {
+    constructor(public data: object, public treeContext: any, public parent?: TreeNode | null) {
         const {keyField, labelField, childrenField} = treeContext
         this.key = !!keyField ? data[keyField] : undefined
         this.label = !!labelField ? data[labelField] : undefined
@@ -19,9 +19,5 @@ export class TreeNode {
 
     get isExpand(): boolean {
         return this.treeContext.expandMap[this.key] === true
-    }
-
-    get isCheck(): boolean {
-        return this.treeContext.checkMap[this.key] === true
     }
 }

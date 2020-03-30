@@ -125,10 +125,12 @@
             const p_currentKey: string = this.currentKey                                        // 当前选中的key
             const expandMap: { [key: string]: boolean } = {}                                    // 展开的数据对象的key映射
             const checkMap: { [key: string]: boolean } = {}                                     // 选中的数据对象的key映射
+            const treeNodeMap: { [key: string]: TreeNode } = {}                                 // key映射 treeNode
             return {
                 p_currentKey,
                 expandMap,
                 checkMap,
+                treeNodeMap,
             }
         },
         created(): void {
@@ -147,7 +149,7 @@
                 if (!this.data) {
                     return []
                 }
-                return this.data.map(this.formatNodeData)
+                return this.data.map(item => this.formatNodeData(item))
             },
             /**
              * 用來派发给开发者的当前展开的keys
@@ -176,11 +178,16 @@
              * @author  韦胜健
              * @date    2020/3/30 18:58
              */
-            expand(treeNode: TreeNode) {
+            expand(key: string) {
+                const treeNode = this.getTreeNodeByKey(key)
+                if (!treeNode) return
                 if (!treeNode.isExpand) {
                     this.$set(this.expandMap, treeNode.key, true)
                     this.emitExpand(treeNode)
                     this.emitExpandChange(this.emitExpandKeys)
+                }
+                if (!!this.autoExpandParent && !!treeNode.parent) {
+                    this.expand(treeNode.parent.key)
                 }
             },
             /**
@@ -188,7 +195,9 @@
              * @author  韦胜健
              * @date    2020/3/30 18:58
              */
-            collapse(treeNode: TreeNode) {
+            collapse(key: string) {
+                const treeNode = this.getTreeNodeByKey(key)
+                if (!treeNode) return
                 if (treeNode.isExpand) {
                     this.$delete(this.expandMap, treeNode.key)
                     this.emitCollapse(treeNode)
@@ -200,15 +209,17 @@
              * @author  韦胜健
              * @date    2020/3/30 19:19
              */
-            toggleExpand(treeNode: TreeNode) {
+            toggleExpand(key: string) {
+                const treeNode = this.getTreeNodeByKey(key)
+                if (!treeNode) return
                 if (treeNode.isExpand) {
-                    this.collapse(treeNode)
+                    this.collapse(key)
                 } else {
-                    this.expand(treeNode)
+                    this.expand(key)
                 }
             },
             expandAll() {
-                this.iterateAll(this.formatData, treeNode => this.expand(treeNode))
+                this.iterateAll(this.formatData, treeNode => this.expand(treeNode.key))
             },
             collapseAll() {
                 this.expandMap = {}
@@ -216,72 +227,7 @@
 
             /*check*/
 
-            /**
-             * 选中树节点
-             * @author  韦胜健
-             * @date    2020/3/30 19:00
-             */
-            check(treeNode: TreeNode) {
-                let key = treeNode.key
-                let index = this.checkMap.indexOf(key)
-                if (index === -1) {
-                    this.checkMap.push(key)
-                    this.emitCheck(treeNode)
-                    this.emitCheckChange(this.checkMap)
-                }
-            },
-            /**
-             * 取消选中树节点
-             * @author  韦胜健
-             * @date    2020/3/30 19:00
-             */
-            uncheck(treeNode: TreeNode) {
-                let key = treeNode.key
-                let index = this.checkMap.indexOf(key)
-                if (index > -1) {
-                    this.checkMap.splice(index, 1)
-                    this.emitUncheck(treeNode)
-                    this.emitCheckChange(this.checkMap)
-                }
-            },
-            /**
-             * 根据树节点当前的选中状态，反向勾选获取取消勾选节点
-             * @author  韦胜健
-             * @date    2020/3/30 19:20
-             */
-            toggleCheck(treeNode: TreeNode) {
-                if (this.checkMap.indexOf(treeNode.key) > -1) {
-                    this.uncheck(treeNode)
-                } else {
-                    this.check(treeNode)
-                }
-            },
-            checkAll() {
-                this.iterateAll(this.formatData, treeNode => this.check(treeNode))
-            },
-            uncheckAll() {
-                this.checkMap = []
-            },
             /*---------------------------------------utils-------------------------------------------*/
-            /**
-             * 找到某一个节点的所有父节点数据
-             * @author  韦胜健
-             * @date    2020/3/30 19:42
-             */
-            getParents(array: TreeNode[], target: TreeNode, output: TreeNode[]) {
-                if (!array || array.length === 0) return null
-                for (let i = 0; i < array.length; i++) {
-                    const element = array[i];
-                    output.push(element)
-                    if (element.key === target.key) {
-                        return output
-                    }
-                    let sub = this.getParents(element.children, target, output)
-                    if (!!sub) return sub
-                    output.pop()
-                }
-                return null
-            },
             /**
              * 遍历所有的treeNode
              * @author  韦胜健
@@ -316,12 +262,25 @@
              * @author  韦胜健
              * @date    2020/3/30 17:16
              */
-            formatNodeData(data): TreeNode {
-                const formatNodeData = new TreeNode(data, this)
-                if (!!formatNodeData.children) {
-                    formatNodeData.children = formatNodeData.children.map(this.formatNodeData)
+            formatNodeData(data, parent?: TreeNode): TreeNode {
+                const treeNode = new TreeNode(data, this, parent)
+                this.treeNodeMap[treeNode.key] = treeNode
+                if (!!treeNode.children) {
+                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, treeNode))
                 }
-                return formatNodeData
+                return treeNode
+            },
+            /**
+             * 通过 key 寻找treeNode
+             * @author  韦胜健
+             * @date    2020/3/30 20:52
+             */
+            getTreeNodeByKey(key: string): TreeNode {
+                const treeNode = this.treeNodeMap[key]
+                if (!treeNode) {
+                    console.log(`无法找到treeNode：${key}`, this.treeNodeMap)
+                }
+                return treeNode
             },
             /*---------------------------------------handler-------------------------------------------*/
             /**
@@ -330,7 +289,7 @@
              * @date    2020/3/30 19:02
              */
             onClickExpandIcon(treeNode: TreeNode): void {
-                this.toggleExpand(treeNode)
+                this.toggleExpand(treeNode.key)
             },
             /**
              * 处理点击节点内容动作
@@ -340,10 +299,10 @@
             onClickNodeContent(treeNode: TreeNode): void {
                 this.emitNodeClick(treeNode)
                 if (this.expandOnClickNode !== false) {
-                    this.toggleExpand(treeNode)
+                    this.toggleExpand(treeNode.key)
                 }
                 if (this.checkOnClickNode == true) {
-                    this.toggleCheck(treeNode)
+                    this.toggleCheck(treeNode.key)
                 }
             },
         },
