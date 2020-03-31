@@ -1,5 +1,5 @@
 <template>
-    <ul class="pl-tree pl-tree-node-list">
+    <ul class="pl-tree pl-tree-node-list" v-loading="isLoading">
         <pl-tree-node v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
     </ul>
 </template>
@@ -23,6 +23,7 @@
         },
         props: {
             data: {type: Array},                                        // 树形结构数据
+            loading: {type: Boolean},                                   // 当前是否处于loading状态
 
             // 部分key
             keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形
@@ -44,7 +45,7 @@
             expandIcon: {type: String},                                 // 树展开图标
             intent: {type: Number, default: 14},                        // 相邻级节点水平缩进距离，默认16，单位px
             lazy: {type: Boolean},                                      // 是否懒加载子节点数据
-            isLeft: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
+            isLeaf: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
             getChildren: {type: Function},                              // 加载子节点数据的函数，仅当 lazy 为true时有效
 
             renderAfterExpand: {type: Boolean, default: true},          // 是否在第一次展开节点之后才渲染内容
@@ -121,21 +122,31 @@
                     }
                 },
             },
+            data(val) {
+                this.p_data = val
+            },
         },
         data() {
+            const p_data = this.data;
             const p_currentKey: string = this.currentKey                                        // 当前选中的key
             const expandMap: { [key: string]: boolean } = {}                                    // 展开的数据对象的key映射
             const checkMap: { [key: string]: boolean } = {}                                     // 选中的数据对象的key映射
+            const loadingMap: { [key: string]: boolean } = {}                                   // 正在加载数据的节点key映射
             const treeNodeMap: { [key: string]: TreeNode } = {}                                 // key映射 treeNode
+            const p_loading: boolean = false
             return {
+                p_data,
+                p_loading,
                 p_currentKey,
                 expandMap,
                 checkMap,
                 treeNodeMap,
+                loadingMap,
             }
         },
         created(): void {
             // console.log(this.formatData)
+            this.initLazy()
         },
         computed: {
             /**
@@ -147,10 +158,10 @@
                 if (!this.checkProps()) {
                     return []
                 }
-                if (!this.data) {
+                if (!this.p_data) {
                     return []
                 }
-                return this.data.map(item => this.formatNodeData(item))
+                return this.p_data.map(item => this.formatNodeData(item))
             },
             /**
              * 用來派发给开发者的当前展开的keys
@@ -167,6 +178,14 @@
              */
             emitCheckKeys(): string[] {
                 return Object.keys(this.checkMap || {})
+            },
+            /**
+             * 当前是否处于loading状态
+             * @author  韦胜健
+             * @date    2020/3/31 10:23
+             */
+            isLoading() {
+                return this.loading || this.p_loading
             },
         },
         methods: {
@@ -199,10 +218,21 @@
              * @author  韦胜健
              * @date    2020/3/30 18:58
              */
-            expand(key: string) {
+            async expand(key: string) {
                 const treeNode = this.getTreeNodeByKey(key)
                 if (!treeNode) return
                 if (!treeNode.isExpand) {
+
+                    if (
+                        this.lazy &&                            // 懒加载模式
+                        !treeNode.children &&                   // 还没有加载子节点
+                        !treeNode.isLeaf                        // 子节点不是叶子节点
+                    ) {
+                        const children = await this.getChildrenAsync(treeNode)
+                        treeNode.setChildren(children || [])
+                        await this.$plain.nextTick()
+                    }
+
                     this.$set(this.expandMap, treeNode.key, true)
                     this.emitExpand(treeNode)
                     this.emitExpandChange(this.emitExpandKeys)
@@ -283,11 +313,11 @@
              * @author  韦胜健
              * @date    2020/3/30 17:16
              */
-            formatNodeData(data, parent?: TreeNode): TreeNode {
-                const treeNode = new TreeNode(data, this, parent)
+            formatNodeData(data, parent?: TreeNode, level: number = 1): TreeNode {
+                const treeNode = new TreeNode(data, this, level, parent)
                 this.treeNodeMap[treeNode.key] = treeNode
                 if (!!treeNode.children) {
-                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, treeNode))
+                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, treeNode, level + 1))
                 }
                 return treeNode
             },
@@ -303,6 +333,32 @@
                 }
                 return treeNode
             },
+            getChildrenAsync(treeNode: TreeNode | null) {
+                return new Promise((resolve) => {
+                    if (!treeNode) {
+                        this.p_loading = true
+                    } else {
+                        this.$set(this.loadingMap, treeNode.key, true)
+                    }
+                    this.getChildren(treeNode, (...results) => {
+                        if (!treeNode) {
+                            this.p_loading = false
+                        } else {
+                            this.$delete(this.loadingMap, treeNode.key)
+                        }
+                        resolve(...results)
+                    })
+                })
+            },
+            /*---------------------------------------helper-------------------------------------------*/
+
+            async initLazy() {
+                if (!this.lazy) {
+                    return
+                }
+                this.p_data = await this.getChildrenAsync(null)
+            },
+
             /*---------------------------------------handler-------------------------------------------*/
             /**
              * 处理树节点点击展开图标的动作
@@ -334,6 +390,9 @@
 <style lang="scss">
     @include themify {
         .pl-tree {
+            position: relative;
+            min-height: 100px;
+
             &, & ul {
                 &.pl-tree-node-list {
                     margin: 0;
@@ -348,10 +407,11 @@
                     user-select: none;
 
                     .pl-tree-node-content-label {
-                        padding: 0 6 pxt;
+                        padding: 0 6px;
                     }
 
                     .pl-tree-node-content {
+                        padding-right: 12px;
                         &:hover {
                             background-color: mix(white, $colorPrimary, 90%);
                         }

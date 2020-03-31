@@ -10,14 +10,28 @@ export class TreeNode {
     draggable: boolean;             // 是否可拖拽
     droppable: boolean;             // 是否可放置*/
 
-    constructor(public data: object, public treeContext: any, public parent?: TreeNode | null) {
-        const {keyField, labelField, childrenField} = treeContext
+    constructor(public data: object, public context: any, public level: number, public parent?: TreeNode | null) {
+        const {keyField, labelField, childrenField} = context
         this.key = !!keyField ? data[keyField] : undefined
         this.label = !!labelField ? data[labelField] : undefined
         this.children = !!childrenField ? data[childrenField] : undefined
     }
 
     get isExpand(): boolean {
-        return this.treeContext.expandMap[this.key] === true
+        return this.context.expandMap[this.key] === true
+    }
+
+    get isLeaf(): boolean {
+        const {lazy, isLeaf} = this.context
+        if (!!lazy && !!isLeaf) {
+            return isLeaf(this)
+        } else {
+            return !this.children || this.children.length === 0
+        }
+    }
+
+    setChildren(children: TreeNode[]) {
+        this.context.$set(this.data, this.context.childrenField, children)
+        this.context.$set(this, 'children', children)
     }
 }

@@ -2,7 +2,7 @@
     <li class="pl-tree-node" :class="{'pl-tree-node-expand':isExpand,'pl-tree-node-current':treeNode.key === plTree.p_currentKey}">
         <div class="pl-tree-node-content" :style="contentStyles" @click="plTree.onClickNodeContent(treeNode)">
             <pl-icon :icon="plTree.expandIcon || 'el-icon-arrow-right'"
-                     v-if="!isLeaf"
+                     v-if="!treeNode.isLeaf"
                      @click.stop="plTree.onClickExpandIcon(treeNode)"
                      class="pl-tree-expand-icon"/>
             <span class="pl-tree-node-content-label">{{treeNode.label}}</span>
@@ -58,19 +58,6 @@
                     this.$nextTick(() => this.show = true)
                 }
                 return isExpand
-            },
-            /**
-             * 当前是否为叶子节点
-             * @author  韦胜健
-             * @date    2020/3/31 9:32
-             */
-            isLeaf() {
-                const {lazy, isLeft} = this.plTree
-                if (!!lazy && !!isLeft) {
-                    return isLeft(this.treeNode)
-                } else {
-                    return !this.treeNode.children || this.treeNode.children.length === 0
-                }
             },
         },
         methods: {},
