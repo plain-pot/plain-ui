@@ -30,9 +30,7 @@
 
     @include statusMixin(radio) {
       .plain-click-node {
-        .pl-radio-inner {
-          color: $value;
-        }
+        color: $ipc;
 
         &:after {
           border-color: $value;
@@ -40,6 +38,9 @@
       }
       &.pl-radio-checked {
         .pl-radio-label {
+          color: $value;
+        }
+        .pl-radio-inner {
           color: $value;
         }
       }

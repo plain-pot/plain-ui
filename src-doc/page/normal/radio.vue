@@ -6,7 +6,7 @@
         </demo-row>
 
         <demo-row title="状态">
-            <pl-radio v-for="item in status" :key="item" :status="item" :label="item"/>
+            <pl-radio v-for="item in status" :key="item" :status="item" :label="item" :value="true"/>
         </demo-row>
 
         <demo-row title="真假值">

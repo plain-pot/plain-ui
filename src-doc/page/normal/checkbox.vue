@@ -7,7 +7,7 @@
         </demo-row>
 
         <demo-row title="状态">
-            <pl-checkbox v-for="item in status" :label="item" :status="item" :key="item"/>
+            <pl-checkbox v-for="item in status" :label="item" :status="item" :key="item" :value="true"/>
         </demo-row>
 
         <demo-row title="禁用">
