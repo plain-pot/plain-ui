@@ -1,5 +1,5 @@
 <template>
-    <li class="pl-tree-node" :class="{'pl-tree-node-expand':isExpand}">
+    <li class="pl-tree-node" :class="{'pl-tree-node-expand':isExpand,'pl-tree-node-current':treeNode.key === plTree.p_currentKey}">
         <div class="pl-tree-node-content" :style="contentStyles" @click="plTree.onClickNodeContent(treeNode)">
             <pl-icon :icon="plTree.expandIcon || 'el-icon-arrow-right'" @click.stop="plTree.onClickExpandIcon(treeNode)" class="pl-tree-expand-icon"/>
             <span>{{treeNode.label}}</span>

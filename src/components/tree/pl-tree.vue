@@ -172,6 +172,17 @@
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
 
+            /*select*/
+            /**
+             * 选中某一个树节点
+             * @author  韦胜健
+             * @date    2020/3/31 9:26
+             */
+            setCurrent(key: string) {
+                this.p_currentKey = key
+                this.emitCurrentChange(this.getTreeNodeByKey(this.p_currentKey))
+            },
+
             /*expand*/
 
             /**
@@ -299,6 +310,7 @@
              */
             onClickNodeContent(treeNode: TreeNode): void {
                 this.emitNodeClick(treeNode)
+                this.setCurrent(treeNode.key)
                 if (this.expandOnClickNode !== false) {
                     this.toggleExpand(treeNode.key)
                 }
@@ -330,6 +342,10 @@
                         &:hover {
                             background-color: mix(white, $colorPrimary, 90%);
                         }
+                    }
+
+                    &.pl-tree-node-current > .pl-tree-node-content {
+                        background-color: mix(white, $colorPrimary, 90%);
                     }
 
                     &.pl-tree-node-expand {
