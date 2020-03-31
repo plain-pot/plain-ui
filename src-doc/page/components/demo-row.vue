@@ -1,13 +1,19 @@
 <template>
-    <div class="demo-row">
-        <div v-if="!!title" class="demo-row-title">{{title}}</div>
-        <div class="demo-row-content">
-            <slot></slot>
+    <div class="demo-row" :class="{'demo-row-show':show}">
+        <div v-if="!!title" class="demo-row-title">
+            <span @click="show = !show">{{title}}</span>
+            <pl-icon icon="el-icon-d-arrow-right" class="demo-row-icon-expand"/>
         </div>
+        <pl-collapse-transition>
+            <div class="demo-row-content" v-if="show">
+                <slot></slot>
+            </div>
+        </pl-collapse-transition>
     </div>
 </template>
 
 <script>
+    const STORAGE_KEY = 'DEMO_ROW'
     export default {
         name: "demo-row",
         provide() {
@@ -15,12 +21,25 @@
                 PlDemoRow: this,
             }
         },
+        inject: {
+            appHome: {},
+        },
         props: {
             title: {},
         },
+        watch: {
+            show(val) {
+                this.appHome.updateDemoRowCache(this.title, val)
+            },
+        },
         data() {
+
+            let show = this.appHome.pathCache[this.title]
+            if (show == null) show = true
+
             return {
                 maxTitleWidth: null,
+                show,
             }
         },
         methods: {
@@ -31,6 +50,7 @@
                     this.maxTitleWidth = titleWidth
                 }
             },
+
         },
     }
 </script>
@@ -42,6 +62,10 @@
             font-size: 14px;
             padding: 14px 24px;
             color: #606266;
+
+            span {
+                cursor: pointer;
+            }
         }
 
         .demo-row-content {
@@ -50,6 +74,18 @@
 
             & > *:not(.demo-line) {
                 margin-right: 16px;
+            }
+        }
+
+        .demo-row-icon-expand {
+            transform: rotate(90deg);
+            transition: all linear 300ms;
+            margin-left: 12px;
+        }
+
+        &.demo-row-show {
+            .demo-row-icon-expand {
+                transform: rotate(-90deg);
             }
         }
     }
