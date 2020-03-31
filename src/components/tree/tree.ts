@@ -63,11 +63,14 @@ export class TreeMark {
     treeNode: TreeNode = null                           // key对应的treeNode对象
     loaded: boolean = null                              // 当lazy模式下，当前节点是否已经加载过子节点
 
+    formatCount = null                                  // 数据格式化的次数
+
     static expanded = 'expanded'
     static checked = 'checked'
     static loading = 'loading'
     static treeNode = 'treeNode'
     static loaded = 'loaded'
+    static formatCount = 'formatCount'
 
     constructor(public key: string) {
     }

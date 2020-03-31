@@ -111,8 +111,20 @@
                     }
                 },
             },
-            data(val) {
-                this.p_data = val
+            data: {
+                deep: true,
+                handler(val) {
+                    this.p_data = val
+
+                    this.$nextTick(() => {
+                        // 清理删除的数据
+                        Object.values(this.mark).forEach((mark: TreeMark) => {
+                            if (mark.formatCount !== this.formatCount) {
+                                this.$delete(this.mark, mark.key)
+                            }
+                        })
+                    })
+                },
             },
         },
         data() {
@@ -120,11 +132,13 @@
             const p_currentKey: string = this.currentKey                                        // 当前选中的key
             const p_loading: boolean = false                                                    //  内置，当前是否处于loading状态
             const mark: { [key: string]: TreeMark } = {}                                        // 标记映射
+            const formatCount: number = 0;                                                      // 当前格式化数据的时候，数据的版本，用来清理mark中不需要保存的数据
             return {
                 p_data,
                 p_loading,
                 p_currentKey,
                 mark,
+                formatCount,
             }
         },
         created(): void {
@@ -137,13 +151,15 @@
              * @date    2020/3/30 17:15
              */
             formatData(): TreeNode[] {
+
                 if (!this.checkProps()) {
                     return []
                 }
                 if (!this.p_data) {
                     return []
                 }
-                return this.p_data.map(item => this.formatNodeData(item))
+                this.formatCount++
+                return this.p_data.map(item => this.formatNodeData(item, this.formatCount))
             },
             /**
              * 用來派发给开发者的当前展开的keys
@@ -437,11 +453,12 @@
              * @author  韦胜健
              * @date    2020/3/30 17:16
              */
-            formatNodeData(data, parent?: TreeNode, level: number = 1): TreeNode {
+            formatNodeData(data, formatCount: number, parent?: TreeNode, level: number = 1): TreeNode {
                 const treeNode = new TreeNode(data, this, level, parent)
                 this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
+                this.setMark(treeNode.key, TreeMark.formatCount, formatCount)
                 if (!!treeNode.children) {
-                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, treeNode, level + 1))
+                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, formatCount, treeNode, level + 1))
                 }
                 return treeNode
             },

@@ -56,6 +56,35 @@
                      labelField="name"
                      childrenField="subs"/>
         </demo-row>
+
+        <demo-row title="自定义内容：作用域插槽">
+
+            <pl-button-group>
+                <pl-button label="全部展开" @click="$refs.customTree.expandAll()"/>
+                <pl-button label="全部收起" @click="$refs.customTree.collapseAll()"/>
+                <pl-button label="当前选中节点" @click="$message(!!$refs.customTree.getCurrent() ? $refs.customTree.getCurrent().data.name : '未选中任何节点！')"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.customTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+            </pl-button-group>
+
+            <pl-tree ref="customTree"
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     style="width: 500px"
+                     showCheckbox>
+                <template slot-scope="data">
+                    <div style="width:100%;display: flex;justify-content: space-between">
+                        <span>{{data.data.name}}</span>
+                        <pl-button-group mode="text">
+                            <pl-button label="Add" @click.stop="addItem(data)" size="mini"/>
+                            <pl-button label="Del" @click.stop="deleteItem(data)" size="mini" status="error"/>
+                        </pl-button-group>
+                    </div>
+                </template>
+            </pl-tree>
+        </demo-row>
+
     </div>
 </template>
 
@@ -188,6 +217,25 @@
                 // console.log('end')
                 console.log(Array.from(this.$el.querySelectorAll('.pl-tree-node')).length)
             },
+            addItem(treeNode) {
+                const {data} = treeNode
+                const subs = data.subs || []
+
+                const name = `n-${data.id}-${subs.length + 1}`
+                const id = name + Date.now().toString()
+                subs.push({
+                    id,
+                    name: `new item ${name}`,
+                })
+                this.$set(data, 'subs', subs)
+                this.$nextTick(() => this.$refs.customTree.expand(id))
+            },
+            deleteItem(treeNode) {
+                let {data, parent} = treeNode
+                const subs = !!parent ? parent.data.subs : this.treeData
+                subs.splice(subs.indexOf(data), 1)
+            },
+
         },
     }
 </script>

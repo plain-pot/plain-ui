@@ -1,39 +1,4 @@
-<template>
-    <li class="pl-tree-node" :class="{'pl-tree-node-expand':isExpand,'pl-tree-node-current':treeNode.key === plTree.p_currentKey}">
-        <div class="pl-tree-node-content" :style="contentStyles" @click="plTree.onClickNodeContent(treeNode)">
-            <div class="pl-tree-node-content-expand-wrapper">
-                <pl-loading v-if="isLoading" type="beta"/>
-                <pl-icon :icon="plTree.expandIcon || 'el-icon-arrow-right'"
-                         v-else-if="!treeNode.isLeaf"
-                         @click.stop="plTree.onClickExpandIcon(treeNode)"
-                         class="pl-tree-expand-icon"/>
-            </div>
-            <pl-checkbox-indeterminate
-                    v-if="plTree.showCheckbox"
-                    :checkboxProps="{value: treeNode.checkStatus === 'check'}"
-                    :status="treeNode.checkStatus"
-                    :disabled="isDisabled"
-                    @click="e=> !isDisabled && plTree.onClickCheckbox(e,treeNode)"
-            />
-            <div class="pl-tree-node-content-label">{{treeNode.label}}</div>
-        </div>
-        <pl-collapse-transition>
-            <ul class="pl-tree-node-list"
-                v-if="!treeNode.isLeaf && init"
-                v-show="isExpand && show">
-                <template v-if="!!treeNode.children && treeNode.children.length>0">
-                    <pl-tree-node v-for="(item,index) in  treeNode.children" :key="index" :tree-node="item" :level="level+1"/>
-                </template>
-                <li v-else class="pl-tree-node-empty-text" :style="emptyTextStyles">
-                    <pl-icon icon="el-icon-reading"/>
-                    <span>{{plTree.emptyText}}</span>
-                </li>
-            </ul>
-        </pl-collapse-transition>
-    </li>
-</template>
-
-<script lang="ts">
+<script>
     import {TreeMark} from "./tree";
 
     export default {
@@ -53,7 +18,64 @@
                 show,
             }
         },
+        render(h) {
+
+            const nodeListDirectives = [{
+                name: 'show',
+                value: this.isExpand && this.show
+            }]
+
+            return (
+                <li class="pl-tree-node" class={this.classes}>
+                    <div class="pl-tree-node-content" style={this.contentStyles} onClick={() => this.plTree.onClickNodeContent(this.treeNode)}>
+                        <div class="pl-tree-node-content-expand-wrapper">
+                            {
+                                this.isLoading ?
+                                    <pl-loading type="beta"/>
+                                    :
+                                    (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.onClick(e)} class="pl-tree-expand-icon"/>)
+                            }
+                        </div>
+                        {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
+                            checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
+                            status={this.treeNode.checkStatus}
+                            disabled={this.isDisabled}
+                            onClick={e => !this.isDisabled && this.plTree.onClickCheckbox(e, this.treeNode)}
+                        />}
+                        <div class="pl-tree-node-content-label">
+                            {!!this.plTree.$scopedSlots.default ?
+                                this.plTree.$scopedSlots.default(this.treeNode)
+                                :
+                                (!!this.plTree.renderContent ?
+                                    this.plTree.renderContent(h, this.treeNode)
+                                    :
+                                    <span>{this.treeNode.label}</span>)
+                            }
+                        </div>
+                    </div>
+
+                    <pl-collapse-transition>
+                        {!this.treeNode.isLeaf && this.init && <ul class="pl-tree-node-list" {...{directives: nodeListDirectives}}>
+                            {!!this.treeNode.children && this.treeNode.children.length > 0 ?
+                                this.treeNode.children.map((item, index) => <pl-tree-node key={index} tree-node={item} level={this.level + 1}/>)
+                                :
+                                <li class="pl-tree-node-empty-text" style={this.emptyTextStyles}>
+                                    <pl-icon icon="el-icon-reading"/>
+                                    <span>{this.plTree.emptyText}</span>
+                                </li>
+                            }
+                        </ul>}
+                    </pl-collapse-transition>
+                </li>
+            )
+        },
         computed: {
+            classes() {
+                return [
+                    'pl-tree-node',
+                    {'pl-tree-node-expand': this.isExpand, 'pl-tree-node-current': this.treeNode.key === this.plTree.p_currentKey}
+                ]
+            },
             /**
              * content节点style
              * @author  韦胜健
@@ -99,7 +121,12 @@
 
             },
         },
-        methods: {},
+        methods: {
+            onClick(e) {
+                e.stopPropagation()
+                this.plTree.onClickExpandIcon(this.treeNode)
+            },
+        },
     }
 </script>
 
