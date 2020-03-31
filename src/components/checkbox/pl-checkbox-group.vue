@@ -1,12 +1,9 @@
 <template>
     <div class="pl-checkbox-group">
-        <pl-checkbox label="全选" ignore @click.native="onClickCheckBoxForAll" :value="checkStatus === 'check'">
-            <template slot="checkbox-inner">
-                <pl-checkbox-inner status="check" key="check" v-if="checkStatus === 'check'" :disabled="isDisabled"/>
-                <pl-checkbox-inner status="uncheck" key="uncheck" v-if="checkStatus === 'uncheck'" :disabled="isDisabled"/>
-                <pl-checkbox-inner status="minus" key="minus" v-if="checkStatus === 'minus'" :disabled="isDisabled"/>
-            </template>
-        </pl-checkbox>
+        <pl-checkbox-indeterminate :checkboxProps="{label:'全选',ignore:true,value:checkStatus === 'check'}"
+                                   :status="checkStatus"
+                                   :disabled="isDisabled"
+                                   @click="onClickCheckBoxForAll"/>
         <slot></slot>
     </div>
 </template>
