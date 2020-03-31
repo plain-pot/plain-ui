@@ -28,7 +28,7 @@
                      :renderAfterExpand="false"/>
         </demo-row>
 
-        <demo-row title="懒加载叶子节点">
+        <demo-row title="懒加载子节点">
             <pl-tree ref="lazyTree"
                      keyField="id"
                      labelField="name"

@@ -575,18 +575,7 @@
                     }
 
                     .pl-tree-node-content-expand-wrapper {
-                        height: 1em;
-                        width: 1em;
-                        position: relative;
                         display: inline-block;
-                        text-align: center;
-                        line-height: 1.5em;
-
-                        .pl-tree-expand-icon, .pl-loading {
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                        }
                     }
                 }
 
