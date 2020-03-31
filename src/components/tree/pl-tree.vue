@@ -1,5 +1,5 @@
 <template>
-    <ul class="pl-tree pl-tree-node-list" v-loading="isLoading">
+    <ul :class="classes" v-loading="isLoading">
         <pl-tree-node v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
     </ul>
 </template>
@@ -34,7 +34,7 @@
             // 普通属性
             renderContent: {type: Function},                            // 树节点内容渲染函数
             filterNodeMethod: {type: Function},                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
-            highlightCurrent: {type: Boolean},                          // 是否高亮当前选中节点
+            highlightCurrent: {type: Boolean, default: true},           // 是否高亮当前选中节点
             currentKey: {type: String},                                 // 当前选中节点的key
 
             // 展开相关属性
@@ -149,6 +149,20 @@
             }
         },
         computed: {
+            /**
+             * 根节点class
+             * @author  韦胜健
+             * @date    2020/3/31 21:10
+             */
+            classes() {
+                return [
+                    'pl-tree',
+                    'pl-tree-node-list',
+                    {
+                        'pl-tree-highlight-current': this.highlightCurrent
+                    }
+                ]
+            },
             /**
              * 格式化 data 树形数据
              * @author  韦胜健
@@ -613,10 +627,6 @@
                     }
                 }
 
-                &.pl-tree-node-current > .pl-tree-node-content {
-                    background-color: mix(white, $colorPrimary, 90%);
-                }
-
                 &.pl-tree-node-expand {
                     & > .pl-tree-node-content > .pl-tree-node-content-expand-wrapper > .pl-tree-expand-icon {
                         transform: rotate(90deg);
@@ -629,6 +639,12 @@
 
                 &.pl-tree-expand-icon {
                     transition: all $transition 300ms;
+                }
+            }
+
+            &.pl-tree-highlight-current {
+                .pl-tree-node.pl-tree-node-current > .pl-tree-node-content {
+                    background-color: mix(white, $colorPrimary, 90%);
                 }
             }
         }
