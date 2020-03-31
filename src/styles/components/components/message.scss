@@ -59,7 +59,7 @@
 
     .pl-message-item-content {
       max-width: 600px;
-      white-space: pre;
+      white-space: pre-wrap;
       word-break: break-word;
 
       & > * {
