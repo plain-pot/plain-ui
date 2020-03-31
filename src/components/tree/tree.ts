@@ -32,6 +32,5 @@ export class TreeNode {
 
     setChildren(children: TreeNode[]) {
         this.context.$set(this.data, this.context.childrenField, children)
-        this.context.$set(this, 'children', children)
     }
 }

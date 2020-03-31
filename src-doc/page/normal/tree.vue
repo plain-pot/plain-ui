@@ -27,9 +27,6 @@
         </demo-row>
 
         <demo-row title="懒加载叶子节点">
-            <demo-line>
-                <pl-button label="log" @click="$plain.log($refs.lazyTree)"/>
-            </demo-line>
             <pl-tree ref="lazyTree"
                      keyField="id"
                      labelField="name"
