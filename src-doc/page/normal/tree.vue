@@ -121,18 +121,18 @@
                         return new Promise((resolve) => {
                             // 这个是模拟在数据库表中的数据
                             const data = [
-                                {id: '1', name: '广东省', parentId: null},
-                                {id: '2', name: '佛山市', parentId: '1'},
-                                {id: '3', name: '深圳市', parentId: '1'},
-                                {id: '4', name: '禅城区', parentId: '2'},
-                                {id: '5', name: '南山区', parentId: '3'},
+                                {id: '1', name: '广东省', parentId: null, subs: []},
+                                {id: '2', name: '佛山市', parentId: '1', subs: []},
+                                {id: '3', name: '深圳市', parentId: '1', subs: []},
+                                {id: '4', name: '禅城区', parentId: '2', subs: []},
+                                {id: '5', name: '南山区', parentId: '3', subs: []},
 
-                                {id: '6', name: '湖南省', parentId: null},
-                                {id: '7', name: '长沙市', parentId: '6'},
-                                {id: '8', name: '邵阳市', parentId: '6'},
-                                {id: '9', name: '天心区', parentId: '7'},
+                                {id: '6', name: '湖南省', parentId: null, subs: []},
+                                {id: '7', name: '长沙市', parentId: '6', subs: []},
+                                {id: '8', name: '邵阳市', parentId: '6', subs: []},
+                                {id: '9', name: '天心区', parentId: '7', subs: []},
 
-                                {id: '11', name: '陕西省', parentId: null},
+                                {id: '11', name: '陕西省', parentId: null, subs: []},
                             ]
 
                             // 模拟请求，请求时间大概在1s-2s之间
@@ -146,7 +146,7 @@
         },
         methods: {
             onNodeClick(treeNode) {
-                console.log(treeNode)
+                console.log(treeNode.data.name)
             },
             showCurrent() {
                 let current = this.$refs.tree1.getCurrent()

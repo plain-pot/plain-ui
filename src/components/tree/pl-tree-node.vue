@@ -28,6 +28,8 @@
 </template>
 
 <script lang="ts">
+    import {TreeMark} from "./tree";
+
     export default {
         name: "pl-tree-node",
         props: {
@@ -80,7 +82,7 @@
              * @date    2020/3/31 10:54
              */
             isLoading() {
-                return this.plTree.loadingMap[this.treeNode.key]
+                return this.plTree.getMark(this.treeNode.key, TreeMark.loading)
             },
         },
         methods: {},

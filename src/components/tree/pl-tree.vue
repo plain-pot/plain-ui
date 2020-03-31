@@ -7,7 +7,7 @@
 <script lang="ts">
     import {EmitMixin, StyleMixin} from "../../utils/mixins";
     import PlTreeNode from "./pl-tree-node.vue";
-    import {TreeNode} from "./tree";
+    import {TreeMark, TreeNode} from "./tree";
 
     export default {
         name: "pl-tree",
@@ -89,7 +89,7 @@
                 this.p_currentKey = val
             },
             /**
-             * expandKeys 是一个数组，比如 [1,2,3]，格式化为 {1:true,2:true,3:true} 表示1，2，3 已经展开
+             * expandKeys 是一个数组，比如 [1,2,3]，当变化的时候设置对应数节点展开或者收起
              * @author  韦胜健
              * @date    2020/3/30 20:08
              */
@@ -98,27 +98,7 @@
                 handler(val: string[]) {
                     if (!val) val = []
                     if (JSON.stringify(val) !== JSON.stringify(this.emitExpandKeys)) {
-                        this.expandMap = val.reduce((ret, key) => {
-                            ret[key] = true
-                            return ret
-                        }, {})
-                    }
-                },
-            },
-            /**
-             * checkKeys 是一个数组，比如 [1,2,3]，格式化为 {1:true,2:true,3:true} 表示1，2，3 已经勾选
-             * @author  韦胜健
-             * @date    2020/3/30 20:08
-             */
-            checkKeys: {
-                immediate: true,
-                handler(val: string[]) {
-                    if (!val) val = []
-                    if (JSON.stringify(val) !== JSON.stringify(this.emitCheckKeys)) {
-                        this.checkMap = val.reduce((ret, key) => {
-                            ret[key] = true
-                            return ret
-                        }, {})
+                        Object.values(this.mark).forEach((mark: TreeMark) => mark.expanded = val.indexOf(mark.key) > -1)
                     }
                 },
             },
@@ -127,25 +107,18 @@
             },
         },
         data() {
-            const p_data = this.data;
+            const p_data = this.data;                                                           // 内置树形数据data
             const p_currentKey: string = this.currentKey                                        // 当前选中的key
-            const expandMap: { [key: string]: boolean } = {}                                    // 展开的数据对象的key映射
-            const checkMap: { [key: string]: boolean } = {}                                     // 选中的数据对象的key映射
-            const loadingMap: { [key: string]: boolean } = {}                                   // 正在加载数据的节点key映射
-            const treeNodeMap: { [key: string]: TreeNode } = {}                                 // key映射 treeNode
-            const p_loading: boolean = false
+            const p_loading: boolean = false                                                    //  内置，当前是否处于loading状态
+            const mark: { [key: string]: TreeMark } = {}                                        // 标记映射
             return {
                 p_data,
                 p_loading,
                 p_currentKey,
-                expandMap,
-                checkMap,
-                treeNodeMap,
-                loadingMap,
+                mark,
             }
         },
         created(): void {
-            // console.log(this.formatData)
             this.initLazy()
         },
         computed: {
@@ -169,15 +142,7 @@
              * @date    2020/3/30 20:14
              */
             emitExpandKeys(): string[] {
-                return Object.keys(this.expandMap || {})
-            },
-            /**
-             * 用来派发给开发者的当前选中的keys
-             * @author  韦胜健
-             * @date    2020/3/30 20:14
-             */
-            emitCheckKeys(): string[] {
-                return Object.keys(this.checkMap || {})
+                return (Object.values(this.mark) as TreeMark[]).filter(mark => !!mark.expanded).map(mark => mark.key)
             },
             /**
              * 当前是否处于loading状态
@@ -225,15 +190,15 @@
 
                     if (
                         this.lazy &&                            // 懒加载模式
-                        !treeNode.children &&                   // 还没有加载子节点
-                        !treeNode.isLeaf                        // 子节点不是叶子节点
+                        !this.mark[key].loaded &&               // 未曾加载过子节点数据
+                        !treeNode.isLeaf                        // 节点不是叶子节点
                     ) {
                         const children = await this.getChildrenAsync(treeNode)
                         treeNode.setChildren(children || [])
                         await this.$plain.nextTick()
                     }
 
-                    this.$set(this.expandMap, treeNode.key, true)
+                    this.setMark(treeNode.key, TreeMark.expanded, true)
                     this.emitExpand(treeNode)
                     this.emitExpandChange(this.emitExpandKeys)
                 }
@@ -250,7 +215,7 @@
                 const treeNode = this.getTreeNodeByKey(key)
                 if (!treeNode) return
                 if (treeNode.isExpand) {
-                    this.$delete(this.expandMap, treeNode.key)
+                    this.setMark(treeNode.key, TreeMark.expanded, false)
                     this.emitCollapse(treeNode)
                     this.emitExpandChange(this.emitExpandKeys)
                 }
@@ -273,12 +238,38 @@
                 this.iterateAll(this.formatData, treeNode => this.expand(treeNode.key))
             },
             collapseAll() {
-                this.expandMap = {}
+                Object.values(this.mark).forEach((mark: TreeMark) => mark.expanded = false)
             },
 
             /*check*/
 
             /*---------------------------------------utils-------------------------------------------*/
+            /**
+             * 设置标记属性
+             * @author  韦胜健
+             * @date    2020/3/31 12:20
+             */
+            setMark(key, attr, value) {
+                let mark = this.mark[key]
+                if (!mark) {
+                    mark = new TreeMark(key)
+                    this.$set(this.mark, key, mark)
+                }
+                mark[attr] = value
+            },
+            /**
+             * 获取标记属性
+             * @author  韦胜健
+             * @date    2020/3/31 14:01
+             */
+            getMark(key, attr) {
+                let mark = this.mark[key]
+                if (!mark) {
+                    mark = new TreeMark(key)
+                    this.$set(this.mark, key, mark)
+                }
+                return mark[attr]
+            },
             /**
              * 遍历所有的treeNode
              * @author  韦胜健
@@ -315,7 +306,7 @@
              */
             formatNodeData(data, parent?: TreeNode, level: number = 1): TreeNode {
                 const treeNode = new TreeNode(data, this, level, parent)
-                this.treeNodeMap[treeNode.key] = treeNode
+                this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
                 if (!!treeNode.children) {
                     treeNode.children = treeNode.children.map(child => this.formatNodeData(child, treeNode, level + 1))
                 }
@@ -327,9 +318,9 @@
              * @date    2020/3/30 20:52
              */
             getTreeNodeByKey(key: string): TreeNode {
-                const treeNode = this.treeNodeMap[key]
+                const treeNode = this.getMark(key, TreeMark.treeNode)
                 if (!treeNode) {
-                    console.log(`无法找到treeNode：${key}`, this.treeNodeMap)
+                    console.log(`无法找到treeNode：${key}`, this.mark)
                 }
                 return treeNode
             },
@@ -338,13 +329,14 @@
                     if (!treeNode) {
                         this.p_loading = true
                     } else {
-                        this.$set(this.loadingMap, treeNode.key, true)
+                        this.setMark(treeNode.key, TreeMark.loading, true)
                     }
                     this.getChildren(treeNode, (...results) => {
                         if (!treeNode) {
                             this.p_loading = false
                         } else {
-                            this.$delete(this.loadingMap, treeNode.key)
+                            this.setMark(treeNode.key, TreeMark.loading, false)
+                            this.setMark(treeNode.key, TreeMark.loaded, true)
                         }
                         resolve(...results)
                     })

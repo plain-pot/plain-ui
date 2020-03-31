@@ -18,7 +18,7 @@ export class TreeNode {
     }
 
     get isExpand(): boolean {
-        return this.context.expandMap[this.key] === true
+        return this.context.getMark(this.key, TreeMark.expanded) === true
     }
 
     get isLeaf(): boolean {
@@ -32,5 +32,22 @@ export class TreeNode {
 
     setChildren(children: TreeNode[]) {
         this.context.$set(this.data, this.context.childrenField, children)
+    }
+}
+
+export class TreeMark {
+    expanded: boolean = null                            // 当前是否已经展开
+    checked: boolean = null                             // 当前是否已经选中
+    loading: boolean = null                             // 当前是否处于加载状态
+    treeNode: TreeNode = null                           // key对应的treeNode对象
+    loaded: boolean = null                              // 当lazy模式下，当前节点是否已经加载过子节点
+
+    static expanded = 'expanded'
+    static checked = 'checked'
+    static loading = 'loading'
+    static treeNode = 'treeNode'
+    static loaded = 'loaded'
+
+    constructor(public key: string) {
     }
 }
