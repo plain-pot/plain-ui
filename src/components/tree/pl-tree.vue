@@ -102,6 +102,15 @@
                     }
                 },
             },
+            checkKeys: {
+                immediate: true,
+                handler(val: string[]) {
+                    if (!val) val = []
+                    if (JSON.stringify(val) !== JSON.stringify(this.emitCheckKeys)) {
+                        Object.values(this.mark).forEach((mark: TreeMark) => mark.checked = val.indexOf(mark.key) > -1)
+                    }
+                },
+            },
             data(val) {
                 this.p_data = val
             },
@@ -145,6 +154,14 @@
                 return (Object.values(this.mark) as TreeMark[]).filter(mark => !!mark.expanded).map(mark => mark.key)
             },
             /**
+             * 用来派发给开发者的当前选中的keys
+             * @author  韦胜健
+             * @date    2020/3/31 15:19
+             */
+            emitCheckKeys(): string[] {
+                return (Object.values(this.mark) as TreeMark[]).filter(mark => !!mark.checked).map(mark => mark.key)
+            },
+            /**
              * 当前是否处于loading状态
              * @author  韦胜健
              * @date    2020/3/31 10:23
@@ -184,8 +201,7 @@
              * @date    2020/3/30 18:58
              */
             async expand(keys: string | string[]) {
-                keys = Array.isArray(keys) ? keys : [keys]
-                await Promise.all(keys.map(async (key: string) => {
+                await this.handleKeys(keys, async (key: string) => {
                     const treeNode = this.getTreeNodeByKey(key)
                     if (!treeNode) return
                     if (!treeNode.isExpand) {
@@ -201,13 +217,15 @@
                         }
 
                         this.setMark(treeNode.key, TreeMark.expanded, true)
+                        await this.$plain.nextTick()
+                        // console.log('expand ', treeNode.key)
                         this.emitExpand(treeNode)
                         this.emitExpandChange(this.emitExpandKeys)
                     }
                     if (!!this.autoExpandParent && !!treeNode.parent) {
-                        this.expand(treeNode.parent.key)
+                        await this.expand(treeNode.parent.key)
                     }
-                }))
+                })
             },
             /**
              * 折叠树节点
@@ -215,16 +233,16 @@
              * @date    2020/3/30 18:58
              */
             async collapse(keys: string | string[]) {
-                keys = Array.isArray(keys) ? keys : [keys]
-                await Promise.all(keys.map(async (key: string) => {
+                await this.handleKeys(keys, async (key: string) => {
                     const treeNode = this.getTreeNodeByKey(key)
                     if (!treeNode) return
                     if (treeNode.isExpand) {
                         this.setMark(treeNode.key, TreeMark.expanded, false)
+                        await this.$plain.nextTick()
                         this.emitCollapse(treeNode)
                         this.emitExpandChange(this.emitExpandKeys)
                     }
-                }))
+                })
             },
             /**
              * 根据树节点当前的展开状态，反向展开或者收起内容
@@ -248,6 +266,22 @@
             },
 
             /*check*/
+
+            check(keys: string | string[]) {
+
+            },
+            uncheck() {
+
+            },
+            toggleCheck() {
+
+            },
+            checkAll() {
+
+            },
+            unCheckAll() {
+
+            },
 
             /*---------------------------------------utils-------------------------------------------*/
             /**
@@ -330,6 +364,11 @@
                 }
                 return treeNode
             },
+            /**
+             * 获取子节点数据异步方法
+             * @author  韦胜健
+             * @date    2020/3/31 15:21
+             */
             getChildrenAsync(treeNode: TreeNode | null) {
                 return new Promise((resolve) => {
                     if (!treeNode) {
@@ -347,6 +386,15 @@
                         resolve(...results)
                     })
                 })
+            },
+            /**
+             * 处理keys
+             * @author  韦胜健
+             * @date    2020/3/31 15:23
+             */
+            async handleKeys(keys: string | string[], handler: (value: unknown, index: number, array: []) => unknown) {
+                keys = Array.isArray(keys) ? keys : [keys]
+                return await Promise.all(keys.map(handler))
             },
             /*---------------------------------------helper-------------------------------------------*/
 
@@ -381,6 +429,15 @@
                     this.toggleCheck(treeNode.key)
                 }
             },
+            /**
+             * 处理点击子节点 checkbox 动作
+             * @author  韦胜健
+             * @date    2020/3/31 15:06
+             */
+            onClickCheckbox(e, treeNode) {
+                e.stopPropagation()
+                console.log(treeNode)
+            },
         },
     }
 </script>
@@ -405,15 +462,23 @@
                 cursor: pointer;
                 user-select: none;
 
-                .pl-tree-node-content-label {
-                    padding: 0 6px;
-                }
-
                 .pl-tree-node-content {
                     padding-right: 12px;
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: nowrap;
 
                     &:hover {
                         background-color: mix(white, $colorPrimary, 90%);
+                    }
+
+                    .pl-tree-node-content-label {
+                        padding: 0 6px;
+                        flex: 1;
+                    }
+
+                    .pl-checkbox-indeterminate {
+                        padding-left: 6px;
                     }
 
                     .pl-tree-node-content-expand-wrapper {
@@ -422,8 +487,7 @@
                         position: relative;
                         display: inline-block;
                         text-align: center;
-                        line-height: 1em;
-                        vertical-align: middle;
+                        line-height: 1.5em;
 
                         .pl-tree-expand-icon, .pl-loading {
                             position: absolute;

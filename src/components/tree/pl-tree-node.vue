@@ -8,8 +8,14 @@
                          @click.stop="plTree.onClickExpandIcon(treeNode)"
                          class="pl-tree-expand-icon"/>
             </div>
-
-            <span class="pl-tree-node-content-label">{{treeNode.label}}</span>
+            <pl-checkbox-indeterminate
+                    v-if="plTree.showCheckbox"
+                    :checkboxProps="{}"
+                    :status="checkStatus"
+                    :disabled="isDisabled"
+                    @click="e=> !isDisabled && plTree.onClickCheckbox(e,treeNode)"
+            />
+            <div class="pl-tree-node-content-label">{{treeNode.label}}</div>
         </div>
         <pl-collapse-transition>
             <ul class="pl-tree-node-list"
@@ -58,6 +64,11 @@
                     paddingLeft: `${this.plTree.intent * this.level + 6}px`
                 }
             },
+            /**
+             * 无子节点显示的文本样式
+             * @author  韦胜健
+             * @date    2020/3/31 15:04
+             */
             emptyTextStyles() {
                 return {
                     paddingLeft: `${this.plTree.intent * this.level + 6 + 6 + 14}px`
@@ -83,6 +94,12 @@
              */
             isLoading() {
                 return this.plTree.getMark(this.treeNode.key, TreeMark.loading)
+            },
+            checkStatus() {
+                return 'minus'
+            },
+            isDisabled() {
+
             },
         },
         methods: {},

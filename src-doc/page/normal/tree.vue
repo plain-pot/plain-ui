@@ -6,7 +6,7 @@
                     <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
                     <pl-button label="展开特定节点" @click="$refs.tree1.expand('8')"/>
-                    <pl-button label="展开部分节点" @click="$refs.tree1.expand(['8','11'])"/>
+                    <pl-button label="展开部分节点" @click="expandSome"/>
                     <pl-button label="当前选中节点" @click="showCurrent"/>
                     <pl-button label="展开并且设置当前选中节点" @click="expandAndSelect"/>
                 </pl-button-group>
@@ -37,6 +37,15 @@
                      :isLeaf="lazyDemo.isLeaf"
                      :getChildren="lazyDemo.getChildren"
             />
+        </demo-row>
+
+        <demo-row title="可多选">
+            <pl-tree ref="checkTree"
+                     showCheckbox
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"/>
         </demo-row>
     </div>
 </template>
@@ -157,6 +166,12 @@
             expandAndSelect() {
                 this.$refs.tree1.expand('13')
                 this.$refs.tree1.setCurrent('13')
+            },
+            async expandSome() {
+                // console.log('start')
+                await this.$refs.tree1.expand(['8', '11'])
+                // console.log('end')
+                console.log(Array.from(this.$el.querySelectorAll('.pl-tree-node')).length)
             },
         },
     }
