@@ -181,7 +181,7 @@
              */
             setCurrent(key: string) {
                 this.p_currentKey = key
-                this.emitCurrentChange(this.getTreeNodeByKey(this.p_currentKey))
+                this.emitCurrentChange(this.findTreeNodeByKey(this.p_currentKey))
             },
             /**
              * 获取当前选中节点
@@ -190,7 +190,7 @@
              */
             getCurrent(): TreeNode | null {
                 if (!this.p_currentKey) return null
-                return this.getTreeNodeByKey(this.p_currentKey)
+                return this.findTreeNodeByKey(this.p_currentKey)
             },
 
             /*expand*/
@@ -202,7 +202,7 @@
              */
             async expand(keys: string | string[]) {
                 await this.handleKeys(keys, async (key: string) => {
-                    const treeNode = this.getTreeNodeByKey(key)
+                    const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
                     if (!treeNode.isExpand) {
 
@@ -234,7 +234,7 @@
              */
             async collapse(keys: string | string[]) {
                 await this.handleKeys(keys, async (key: string) => {
-                    const treeNode = this.getTreeNodeByKey(key)
+                    const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
                     if (treeNode.isExpand) {
                         this.setMark(treeNode.key, TreeMark.expanded, false)
@@ -250,7 +250,7 @@
              * @date    2020/3/30 19:19
              */
             toggleExpand(key: string) {
-                const treeNode = this.getTreeNodeByKey(key)
+                const treeNode = this.findTreeNodeByKey(key)
                 if (!treeNode) return
                 if (treeNode.isExpand) {
                     this.collapse(key)
@@ -267,20 +267,112 @@
 
             /*check*/
 
-            check(keys: string | string[]) {
+            /**
+             * 根据key选中树节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            async check(keys: string | string[]) {
+                await this.handleKeys(keys, async (key: string) => {
+                    const treeNode = this.findTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (!treeNode.isCheck) {
+                        this.setMark(treeNode.key, TreeMark.checked, true)
 
-            },
-            uncheck() {
+                        // 选中所有子节点
+                        this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, true))
+                        // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                        let parent = treeNode.parent
+                        while (!!parent) {
+                            if (parent.children.every(child => child.isCheck)) {
+                                this.setMark(parent.key, TreeMark.checked, true)
+                                parent = parent.parent
+                            } else {
+                                break
+                            }
+                        }
 
+                        await this.$plain.nextTick()
+                        this.emitCheck(treeNode)
+                        this.emitCheckChange(this.emitCheckKeys)
+                    }
+                })
             },
-            toggleCheck() {
+            /**
+             * 根据key取消选中树节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            async uncheck(keys: string | string[]) {
+                await this.handleKeys(keys, async (key: string) => {
+                    const treeNode = this.findTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (treeNode.isCheck) {
+                        this.setMark(treeNode.key, TreeMark.checked, false)
 
+                        // 取消选中所有子节点
+                        this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, false))
+
+                        // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                        let parent = treeNode.parent
+                        while (!!parent) {
+                            if (parent.isCheck) {
+                                this.setMark(parent.key, TreeMark.checked, false)
+                                parent = parent.parent
+                            } else {
+                                break
+                            }
+                        }
+
+                        await this.$plain.nextTick()
+                        this.emitCheck(treeNode)
+                        this.emitCheckChange(this.emitCheckKeys)
+                    }
+                })
             },
+            /**
+             * 根据key选中或者取消选中树节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            toggleCheck(key) {
+                const treeNode = this.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (treeNode.isCheck) {
+                    this.uncheck(key)
+                } else {
+                    this.check(key)
+                }
+            },
+            /**
+             * 选中所有节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
             checkAll() {
-
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => this.setMark(treeNode.key, TreeMark.checked, true))
             },
-            unCheckAll() {
-
+            /**
+             * 取消选中所有节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            uncheckAll() {
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => this.setMark(treeNode.key, TreeMark.checked, false))
+            },
+            /**
+             * 获取选中的数据
+             * @author  韦胜健
+             * @date    2020/3/31 17:34
+             */
+            getCheckedData() {
+                let ret = []
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => {
+                    if (treeNode.isCheck) {
+                        ret.push(treeNode.data)
+                    }
+                })
+                return ret
             },
 
             /*---------------------------------------utils-------------------------------------------*/
@@ -316,6 +408,7 @@
              * @date    2020/3/30 19:30
              */
             iterateAll(treeNodes: TreeNode[], fn) {
+                if (!treeNodes) return
                 treeNodes.forEach(treeNode => {
                     fn(treeNode)
                     if (!!treeNode.children) {
@@ -357,7 +450,7 @@
              * @author  韦胜健
              * @date    2020/3/30 20:52
              */
-            getTreeNodeByKey(key: string): TreeNode {
+            findTreeNodeByKey(key: string): TreeNode {
                 const treeNode = this.getMark(key, TreeMark.treeNode)
                 if (!treeNode) {
                     console.log(`无法找到treeNode：${key}`, this.mark)
@@ -436,7 +529,7 @@
              */
             onClickCheckbox(e, treeNode) {
                 e.stopPropagation()
-                console.log(treeNode)
+                this.toggleCheck(treeNode.key)
             },
         },
     }

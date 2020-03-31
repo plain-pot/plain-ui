@@ -1,3 +1,5 @@
+type CheckStatus = 'check' | 'uncheck' | 'minus'
+
 export class TreeNode {
     key: string;
     label: string;
@@ -19,6 +21,25 @@ export class TreeNode {
 
     get isExpand(): boolean {
         return this.context.getMark(this.key, TreeMark.expanded) === true
+    }
+
+    get isCheck(): boolean {
+        return this.context.getMark(this.key, TreeMark.checked) === true
+    }
+
+    get checkStatus(): CheckStatus {
+
+        if (this.isLeaf) {
+            return this.isCheck ? 'check' : 'uncheck'
+        } else {
+            if (this.isCheck) return 'check'
+
+            if ((this.children || []).every(child => child.checkStatus === 'uncheck')) {
+                return 'uncheck'
+            } else {
+                return 'minus'
+            }
+        }
     }
 
     get isLeaf(): boolean {

@@ -10,8 +10,8 @@
             </div>
             <pl-checkbox-indeterminate
                     v-if="plTree.showCheckbox"
-                    :checkboxProps="{}"
-                    :status="checkStatus"
+                    :checkboxProps="{value: treeNode.checkStatus === 'check'}"
+                    :status="treeNode.checkStatus"
                     :disabled="isDisabled"
                     @click="e=> !isDisabled && plTree.onClickCheckbox(e,treeNode)"
             />
@@ -94,9 +94,6 @@
              */
             isLoading() {
                 return this.plTree.getMark(this.treeNode.key, TreeMark.loading)
-            },
-            checkStatus() {
-                return 'minus'
             },
             isDisabled() {
 

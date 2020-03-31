@@ -40,6 +40,14 @@
         </demo-row>
 
         <demo-row title="可多选">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkTree.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkTree.uncheckAll()"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
             <pl-tree ref="checkTree"
                      showCheckbox
                      :data="treeData"
@@ -84,6 +92,9 @@
                             subs: [{
                                 id: '8',
                                 name: '三级 2-2-1'
+                            }, {
+                                id: '7-2',
+                                name: '三级 2-2-2'
                             }]
                         }]
                     }, {
@@ -95,6 +106,9 @@
                             subs: [{
                                 id: '11',
                                 name: '三级 3-1-1'
+                            }, {
+                                id: '11-2',
+                                name: '三级 3-1-2'
                             }]
                         }, {
                             id: '12',
