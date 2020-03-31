@@ -51,6 +51,19 @@ export class TreeNode {
         }
     }
 
+    get isVisible(): boolean {
+        const {filterNodeMethod} = this.context
+        if (!filterNodeMethod) {
+            return true
+        }
+        let visible = filterNodeMethod(this)
+        if (visible) {
+            return true
+        } else {
+            return (this.children || []).some(child => child.isVisible)
+        }
+    }
+
     setChildren(children: TreeNode[]) {
         this.context.$set(this.data, this.context.childrenField, children)
     }

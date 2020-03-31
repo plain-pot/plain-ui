@@ -20,13 +20,17 @@
         },
         render(h) {
 
+            const nodeDirectives = [{
+                name: 'show',
+                value: this.treeNode.isVisible
+            }]
             const nodeListDirectives = [{
                 name: 'show',
                 value: this.isExpand && this.show
             }]
 
             return (
-                <li class="pl-tree-node" class={this.classes}>
+                <li class="pl-tree-node" class={this.classes} {...{directives: nodeDirectives}}>
                     <div class="pl-tree-node-content" style={this.contentStyles} onClick={() => this.plTree.onClickNodeContent(this.treeNode)}>
                         <div class="pl-tree-node-content-expand-wrapper">
                             {

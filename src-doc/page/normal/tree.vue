@@ -104,6 +104,19 @@
                      :renderContent="renderDemo.renderContent"/>
         </demo-row>
 
+        <demo-row title="自定义过滤函数">
+            <demo-line>
+                <pl-input v-model="filterText" suffixIcon="el-icon-search" clearIcon/>
+            </demo-line>
+            <pl-tree ref="tree1"
+                     defaultExpandAll
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :filterNodeMethod="filterNodeMethod"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -168,6 +181,7 @@
                     }]
                 }]
             return {
+                filterText: null,
                 treeData,
                 lazyDemo: {
                     isLeaf: (treeNode) => {
@@ -310,6 +324,11 @@
                 await this.$refs.tree1.expand(['2-2-2', '3-1-2'])
                 // console.log('end')
                 console.log(Array.from(this.$el.querySelectorAll('.pl-tree-node')).length)
+            },
+            filterNodeMethod(treeNode) {
+                const data = treeNode.data
+                if (!this.filterText) return true;
+                return data.name.indexOf(this.filterText) !== -1;
             },
         },
     }

@@ -143,6 +143,10 @@
         },
         created(): void {
             this.initLazy()
+
+            if (this.defaultExpandAll) {
+                this.$nextTick(() => this.expandAll())
+            }
         },
         computed: {
             /**
