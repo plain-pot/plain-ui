@@ -32,13 +32,13 @@
 
 
             // 普通属性
-            emptyText: {type: String},                                  // 没有子节点的时候展示的文本
             renderContent: {type: Function},                            // 树节点内容渲染函数
             filterNodeMethod: {type: Function},                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
             highlightCurrent: {type: Boolean},                          // 是否高亮当前选中节点
             currentKey: {type: String},                                 // 当前选中节点的key
 
             // 展开相关属性
+            emptyText: {type: String, default: '暂无数据'},              // 没有子节点的时候展示的文本
             expandKeys: {type: Array},                                  // 默认展开的节点key数组
             defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
             according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
@@ -399,41 +399,68 @@
                     padding: 0;
                     list-style: none;
                 }
+            }
 
-                .pl-tree-node {
-                    font-size: 14px;
-                    line-height: 24px;
-                    cursor: pointer;
-                    user-select: none;
+            .pl-tree-node {
+                font-size: 14px;
+                line-height: 24px;
+                cursor: pointer;
+                user-select: none;
 
-                    .pl-tree-node-content-label {
-                        padding: 0 6px;
-                    }
+                .pl-tree-node-content-label {
+                    padding: 0 6px;
+                }
 
-                    .pl-tree-node-content {
-                        padding-right: 12px;
-                        &:hover {
-                            background-color: mix(white, $colorPrimary, 90%);
-                        }
-                    }
+                .pl-tree-node-content {
+                    padding-right: 12px;
 
-                    &.pl-tree-node-current > .pl-tree-node-content {
+                    &:hover {
                         background-color: mix(white, $colorPrimary, 90%);
                     }
 
-                    &.pl-tree-node-expand {
-                        & > .pl-tree-node-content > .pl-tree-expand-icon {
-                            transform: rotate(90deg);
+                    .pl-tree-node-content-expand-wrapper {
+                        height: 1em;
+                        width: 1em;
+                        position: relative;
+                        display: inline-block;
+                        text-align: center;
+                        line-height: 1em;
+                        vertical-align: middle;
+
+                        .pl-tree-expand-icon, .pl-loading {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
                         }
                     }
                 }
 
-                .pl-icon {
-                    color: $icc;
+                .pl-tree-node-empty-text {
+                    color: $disabledText;
+                    font-size: 12px;
+                    line-height: 28px;
 
-                    &.pl-tree-expand-icon {
-                        transition: all $transition 300ms;
+                    & > .pl-icon {
+                        margin-right: 6px;
                     }
+                }
+
+                &.pl-tree-node-current > .pl-tree-node-content {
+                    background-color: mix(white, $colorPrimary, 90%);
+                }
+
+                &.pl-tree-node-expand {
+                    & > .pl-tree-node-content > .pl-tree-node-content-expand-wrapper > .pl-tree-expand-icon {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+
+            .pl-icon {
+                color: $icc;
+
+                &.pl-tree-expand-icon {
+                    transition: all $transition 300ms;
                 }
             }
         }

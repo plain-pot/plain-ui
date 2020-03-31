@@ -1,6 +1,6 @@
 <template>
     <div class="demo-tree">
-        <!--<demo-row title="基本用法">
+        <demo-row title="基本用法">
             <demo-line>
                 <pl-button-group>
                     <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
@@ -15,22 +15,23 @@
                      labelField="name"
                      childrenField="subs"
                      @node-click="onNodeClick"/>
-        </demo-row>-->
+        </demo-row>
 
 
-        <!-- <demo-row title="初始化的时候就渲染所有隐藏的节点，而不是第一次展开的时候才渲染">
-             <pl-tree :data="treeData"
-                      keyField="id"
-                      labelField="name"
-                      childrenField="subs"
-                      :renderAfterExpand="false"/>
-         </demo-row>-->
+        <demo-row title="初始化的时候就渲染所有隐藏的节点，而不是第一次展开的时候才渲染">
+            <pl-tree :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :renderAfterExpand="false"/>
+        </demo-row>
 
         <demo-row title="懒加载叶子节点">
             <demo-line>
                 <pl-button label="log" @click="$plain.log($refs.lazyTree)"/>
             </demo-line>
-            <pl-tree ref="lazyTree" keyField="id"
+            <pl-tree ref="lazyTree"
+                     keyField="id"
                      labelField="name"
                      childrenField="subs"
                      lazy
@@ -98,7 +99,7 @@
                     }],
                 lazyDemo: {
                     isLeaf: (treeNode) => {
-                        return treeNode.level >= 2 || (!!treeNode.children && treeNode.children.level === 0)
+                        return treeNode.level >= 3
                     },
                     getChildren: (treeNode, resolve) => {
                         if (!treeNode) {
@@ -124,21 +125,23 @@
                             // 这个是模拟在数据库表中的数据
                             const data = [
                                 {id: '1', name: '广东省', parentId: null},
-                                {id: '2', name: '湖南省', parentId: null},
-                                {id: '3', name: '陕西省', parentId: null},
+                                {id: '2', name: '佛山市', parentId: '1'},
+                                {id: '3', name: '深圳市', parentId: '1'},
+                                {id: '4', name: '禅城区', parentId: '2'},
+                                {id: '5', name: '南山区', parentId: '3'},
 
-                                {id: '4', name: '佛山市', parentId: '1'},
-                                {id: '5', name: '深圳市', parentId: '1'},
+                                {id: '6', name: '湖南省', parentId: null},
+                                {id: '7', name: '长沙市', parentId: '6'},
+                                {id: '8', name: '邵阳市', parentId: '6'},
+                                {id: '9', name: '天心区', parentId: '7'},
 
-                                {id: '6', name: '长沙市', parentId: '2'},
-                                {id: '7', name: '邵阳市', parentId: '2'},
-                                {id: '8', name: '衡阳市', parentId: '2'},
+                                {id: '11', name: '陕西省', parentId: null},
                             ]
 
-                            // 模拟请求，请求时间大概在1s-4s之间
+                            // 模拟请求，请求时间大概在1s-2s之间
                             setTimeout(() => {
                                 resolve(data.filter(item => item.parentId === parentId))
-                            }, Math.random() * 3000 + 1000)
+                            }, Math.random() * 1000 + 1000)
                         })
                     },
                 },
@@ -159,7 +162,7 @@
 <style lang="scss">
     .demo-tree {
         .demo-row-content {
-            width: 300px;
+            /*width: 300px;*/
         }
     }
 </style>
