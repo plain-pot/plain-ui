@@ -575,7 +575,9 @@
                     }
 
                     .pl-tree-node-content-expand-wrapper {
+                        position: relative;
                         display: inline-block;
+                        width: 1em;
                     }
                 }
 
