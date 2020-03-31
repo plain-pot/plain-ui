@@ -18,8 +18,6 @@
                      childrenField="subs"
                      @node-click="onNodeClick"/>
         </demo-row>
-
-
         <demo-row title="初始化的时候就渲染所有隐藏的节点，而不是第一次展开的时候才渲染">
             <pl-tree :data="treeData"
                      keyField="id"
@@ -27,7 +25,6 @@
                      childrenField="subs"
                      :renderAfterExpand="false"/>
         </demo-row>
-
         <demo-row title="懒加载子节点">
             <pl-tree ref="lazyTree"
                      keyField="id"
@@ -38,7 +35,6 @@
                      :getChildren="lazyDemo.getChildren"
             />
         </demo-row>
-
         <demo-row title="可多选">
             <demo-line>
                 <pl-button-group>
@@ -59,15 +55,17 @@
 
         <demo-row title="自定义内容：作用域插槽">
 
-            <pl-button-group>
-                <pl-button label="全部展开" @click="$refs.customTree.expandAll()"/>
-                <pl-button label="全部收起" @click="$refs.customTree.collapseAll()"/>
-                <pl-button label="当前选中节点" @click="$message(!!$refs.customTree.getCurrent() ? $refs.customTree.getCurrent().data.name : '未选中任何节点！')"/>
-                <pl-button label="获取选中的数据" @click="$message($refs.customTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
-            </pl-button-group>
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.getCurrent() ? $refs.scopedSlotDemo.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
 
-            <pl-tree ref="customTree"
-                     :data="treeData"
+            <pl-tree ref="scopedSlotDemo"
+                     :data="scopedSlotDemo.treeData"
                      keyField="id"
                      labelField="name"
                      childrenField="subs"
@@ -77,12 +75,33 @@
                     <div style="width:100%;display: flex;justify-content: space-between">
                         <span>{{data.data.name}}</span>
                         <pl-button-group mode="text">
-                            <pl-button label="Add" @click.stop="addItem(data)" size="mini"/>
-                            <pl-button label="Del" @click.stop="deleteItem(data)" size="mini" status="error"/>
+                            <pl-button label="Add" @click="e=>scopedSlotDemo.addItem(e,data)" size="mini"/>
+                            <pl-button label="Del" @click="e=>scopedSlotDemo.deleteItem(e,data)" size="mini" status="error"/>
                         </pl-button-group>
                     </div>
                 </template>
             </pl-tree>
+        </demo-row>
+
+        <demo-row title="自定义内容：渲染函数">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.renderDemo.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.renderDemo.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.getCurrent() ? $refs.renderDemo.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+
+            <pl-tree ref="renderDemo"
+                     :data="renderDemo.treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     style="width: 500px"
+                     showCheckbox
+                     :renderContent="renderDemo.renderContent"/>
         </demo-row>
 
     </div>
@@ -93,62 +112,63 @@
         name: "tree",
         props: {},
         data() {
+            const treeData = [
+                {
+                    id: '1',
+                    name: '一级 1',
+                    subs: [{
+                        id: '1-1',
+                        name: '二级 1-1',
+                        subs: [{
+                            id: '1-1-1',
+                            name: '三级 1-1-1'
+                        }]
+                    }]
+                }, {
+                    id: '2',
+                    name: '一级 2',
+                    subs: [{
+                        id: '2-1',
+                        name: '二级 2-1',
+                        subs: [{
+                            id: '2-1-1',
+                            name: '三级 2-1-1'
+                        }]
+                    }, {
+                        id: '2-2',
+                        name: '二级 2-2',
+                        subs: [{
+                            id: '2-2-1',
+                            name: '三级 2-2-1'
+                        }, {
+                            id: '2-2-2',
+                            name: '三级 2-2-2'
+                        }]
+                    }]
+                }, {
+                    id: '3',
+                    name: '一级 3',
+                    subs: [{
+                        id: '3-1',
+                        name: '二级 3-1',
+                        subs: [{
+                            id: '3-1-1',
+                            name: '三级 3-1-1'
+                        }, {
+                            id: '3-1-2',
+                            name: '三级 3-1-2'
+                        }]
+                    }, {
+                        id: '3-2',
+                        name: '二级 3-2',
+                        subs: [{
+                            id: '3-2-1',
+                            name: '三级 3-2-1'
+                        }]
+                    }]
+                }]
             return {
-                treeData: [
-                    {
-                        id: '1',
-                        name: '一级 1',
-                        subs: [{
-                            id: '1-1',
-                            name: '二级 1-1',
-                            subs: [{
-                                id: '1-1-1',
-                                name: '三级 1-1-1'
-                            }]
-                        }]
-                    }, {
-                        id: '2',
-                        name: '一级 2',
-                        subs: [{
-                            id: '2-1',
-                            name: '二级 2-1',
-                            subs: [{
-                                id: '2-1-1',
-                                name: '三级 2-1-1'
-                            }]
-                        }, {
-                            id: '2-2',
-                            name: '二级 2-2',
-                            subs: [{
-                                id: '2-2-1',
-                                name: '三级 2-2-1'
-                            }, {
-                                id: '2-2-2',
-                                name: '三级 2-2-2'
-                            }]
-                        }]
-                    }, {
-                        id: '3',
-                        name: '一级 3',
-                        subs: [{
-                            id: '3-1',
-                            name: '二级 3-1',
-                            subs: [{
-                                id: '3-1-1',
-                                name: '三级 3-1-1'
-                            }, {
-                                id: '3-1-2',
-                                name: '三级 3-1-2'
-                            }]
-                        }, {
-                            id: '3-2',
-                            name: '二级 3-2',
-                            subs: [{
-                                id: '3-2-1',
-                                name: '三级 3-2-1'
-                            }]
-                        }]
-                    }],
+                treeData,
                 lazyDemo: {
                     isLeaf: (treeNode) => {
                         return treeNode.level >= 3
@@ -197,6 +217,80 @@
                         })
                     },
                 },
+                scopedSlotDemo: {
+                    treeData: this.$plain.utils.deepcopy(treeData),
+                    renderContent: (h, data) => {
+                        return (
+                            <div style="width:100%;display: flex;justify-content: space-between">
+                                <span>{data.data.name}}</span>
+                                <pl-button-group mode="text">
+                                    <pl-button label="Add" onClick={e => {
+                                        e.stopPropagation();
+                                        this.scopedSlotDemo.addItem(data)
+                                    }} size="mini"/>
+                                    <pl-button label="Del" onClick={e => {
+                                        e.stopPropagation();
+                                        this.scopedSlotDemo.deleteItem(data)
+                                    }} size="mini" status="error"/>
+                                </pl-button-group>
+                            </div>
+                        )
+                    },
+                    addItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        const {data} = treeNode
+                        const subs = data.subs || []
+
+                        const name = `n-${data.id}-${subs.length + 1}`
+                        const id = name + Date.now().toString()
+                        subs.push({
+                            id,
+                            name: `new item ${name}`,
+                        })
+                        this.$set(data, 'subs', subs)
+                        this.$nextTick(() => this.$refs.scopedSlotDemo.expand(id))
+                    },
+                    deleteItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        let {data, parent} = treeNode
+                        const subs = !!parent ? parent.data.subs : this.treeData
+                        subs.splice(subs.indexOf(data), 1)
+                    },
+                },
+                renderDemo: {
+                    treeData: this.$plain.utils.deepcopy(treeData),
+                    renderContent: (h, data) => {
+                        return (
+                            <div style="width:100%;display: flex;justify-content: space-between">
+                                <span>{data.data.name}</span>
+                                <pl-button-group mode="text">
+                                    <pl-button label="Add" onClick={e => this.renderDemo.addItem(e, data)} size="mini"/>
+                                    <pl-button label="Del" onClick={e => this.renderDemo.deleteItem(e, data)} size="mini" status="error"/>
+                                </pl-button-group>
+                            </div>
+                        )
+                    },
+                    addItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        const {data} = treeNode
+                        const subs = data.subs || []
+
+                        const name = `n-${data.id}-${subs.length + 1}`
+                        const id = name + Date.now().toString()
+                        subs.push({
+                            id,
+                            name: `new item ${name}`,
+                        })
+                        this.$set(data, 'subs', subs)
+                        this.$nextTick(() => this.$refs.renderDemo.expand(id))
+                    },
+                    deleteItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        let {data, parent} = treeNode
+                        const subs = !!parent ? parent.data.subs : this.treeData
+                        subs.splice(subs.indexOf(data), 1)
+                    },
+                },
             }
         },
         methods: {
@@ -217,25 +311,6 @@
                 // console.log('end')
                 console.log(Array.from(this.$el.querySelectorAll('.pl-tree-node')).length)
             },
-            addItem(treeNode) {
-                const {data} = treeNode
-                const subs = data.subs || []
-
-                const name = `n-${data.id}-${subs.length + 1}`
-                const id = name + Date.now().toString()
-                subs.push({
-                    id,
-                    name: `new item ${name}`,
-                })
-                this.$set(data, 'subs', subs)
-                this.$nextTick(() => this.$refs.customTree.expand(id))
-            },
-            deleteItem(treeNode) {
-                let {data, parent} = treeNode
-                const subs = !!parent ? parent.data.subs : this.treeData
-                subs.splice(subs.indexOf(data), 1)
-            },
-
         },
     }
 </script>
