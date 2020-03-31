@@ -182,6 +182,15 @@
                 this.p_currentKey = key
                 this.emitCurrentChange(this.getTreeNodeByKey(this.p_currentKey))
             },
+            /**
+             * 获取当前选中节点
+             * @author  韦胜健
+             * @date    2020/3/31 9:39
+             */
+            getCurrent(): TreeNode | null {
+                if (!this.p_currentKey) return null
+                return this.getTreeNodeByKey(this.p_currentKey)
+            },
 
             /*expand*/
 
@@ -338,6 +347,10 @@
                     cursor: pointer;
                     user-select: none;
 
+                    .pl-tree-node-content-label {
+                        padding: 0 6 pxt;
+                    }
+
                     .pl-tree-node-content {
                         &:hover {
                             background-color: mix(white, $colorPrimary, 90%);
@@ -357,7 +370,6 @@
 
                 .pl-icon {
                     color: $icc;
-                    padding: 3px 3px;
 
                     &.pl-tree-expand-icon {
                         transition: all $transition 300ms;
