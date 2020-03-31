@@ -6,7 +6,9 @@
                     <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
                     <pl-button label="展开特定节点" @click="$refs.tree1.expand('8')"/>
+                    <pl-button label="展开部分节点" @click="$refs.tree1.expand(['8','11'])"/>
                     <pl-button label="当前选中节点" @click="showCurrent"/>
+                    <pl-button label="展开并且设置当前选中节点" @click="expandAndSelect"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree ref="tree1"
@@ -151,6 +153,10 @@
             showCurrent() {
                 let current = this.$refs.tree1.getCurrent()
                 this.$message(!!current ? current.data.name : '未选中任何节点！')
+            },
+            expandAndSelect() {
+                this.$refs.tree1.expand('13')
+                this.$refs.tree1.setCurrent('13')
             },
         },
     }

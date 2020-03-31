@@ -183,42 +183,48 @@
              * @author  韦胜健
              * @date    2020/3/30 18:58
              */
-            async expand(key: string) {
-                const treeNode = this.getTreeNodeByKey(key)
-                if (!treeNode) return
-                if (!treeNode.isExpand) {
+            async expand(keys: string | string[]) {
+                keys = Array.isArray(keys) ? keys : [keys]
+                await Promise.all(keys.map(async (key: string) => {
+                    const treeNode = this.getTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (!treeNode.isExpand) {
 
-                    if (
-                        this.lazy &&                            // 懒加载模式
-                        !this.mark[key].loaded &&               // 未曾加载过子节点数据
-                        !treeNode.isLeaf                        // 节点不是叶子节点
-                    ) {
-                        const children = await this.getChildrenAsync(treeNode)
-                        treeNode.setChildren(children || [])
-                        await this.$plain.nextTick()
+                        if (
+                            this.lazy &&                            // 懒加载模式
+                            !this.mark[key].loaded &&               // 未曾加载过子节点数据
+                            !treeNode.isLeaf                        // 节点不是叶子节点
+                        ) {
+                            const children = await this.getChildrenAsync(treeNode)
+                            treeNode.setChildren(children || [])
+                            await this.$plain.nextTick()
+                        }
+
+                        this.setMark(treeNode.key, TreeMark.expanded, true)
+                        this.emitExpand(treeNode)
+                        this.emitExpandChange(this.emitExpandKeys)
                     }
-
-                    this.setMark(treeNode.key, TreeMark.expanded, true)
-                    this.emitExpand(treeNode)
-                    this.emitExpandChange(this.emitExpandKeys)
-                }
-                if (!!this.autoExpandParent && !!treeNode.parent) {
-                    this.expand(treeNode.parent.key)
-                }
+                    if (!!this.autoExpandParent && !!treeNode.parent) {
+                        this.expand(treeNode.parent.key)
+                    }
+                }))
             },
             /**
              * 折叠树节点
              * @author  韦胜健
              * @date    2020/3/30 18:58
              */
-            collapse(key: string) {
-                const treeNode = this.getTreeNodeByKey(key)
-                if (!treeNode) return
-                if (treeNode.isExpand) {
-                    this.setMark(treeNode.key, TreeMark.expanded, false)
-                    this.emitCollapse(treeNode)
-                    this.emitExpandChange(this.emitExpandKeys)
-                }
+            async collapse(keys: string | string[]) {
+                keys = Array.isArray(keys) ? keys : [keys]
+                await Promise.all(keys.map(async (key: string) => {
+                    const treeNode = this.getTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (treeNode.isExpand) {
+                        this.setMark(treeNode.key, TreeMark.expanded, false)
+                        this.emitCollapse(treeNode)
+                        this.emitExpandChange(this.emitExpandKeys)
+                    }
+                }))
             },
             /**
              * 根据树节点当前的展开状态，反向展开或者收起内容
