@@ -5,7 +5,7 @@
                 <pl-button-group>
                     <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
-                    <pl-button label="展开特定节点" @click="$refs.tree1.expand('8')"/>
+                    <pl-button label="展开特定节点" @click="$refs.tree1.expand('2-2-2')"/>
                     <pl-button label="展开部分节点" @click="expandSome"/>
                     <pl-button label="当前选中节点" @click="showCurrent"/>
                     <pl-button label="展开并且设置当前选中节点" @click="expandAndSelect"/>
@@ -45,6 +45,7 @@
                     <pl-button label="展开所有节点" @click="$refs.checkTree.expandAll()"/>
                     <pl-button label="全部选中" @click="$refs.checkTree.checkAll()"/>
                     <pl-button label="全部取消" @click="$refs.checkTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkTree.check(['1-1-1','2-2-2'])"/>
                     <pl-button label="获取选中的数据" @click="$message($refs.checkTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 </pl-button-group>
             </demo-line>
@@ -69,52 +70,52 @@
                         id: '1',
                         name: '一级 1',
                         subs: [{
-                            id: '2',
+                            id: '1-1',
                             name: '二级 1-1',
                             subs: [{
-                                id: '3',
+                                id: '1-1-1',
                                 name: '三级 1-1-1'
                             }]
                         }]
                     }, {
-                        id: '4',
+                        id: '2',
                         name: '一级 2',
                         subs: [{
-                            id: '5',
+                            id: '2-1',
                             name: '二级 2-1',
                             subs: [{
-                                id: '6',
+                                id: '2-1-1',
                                 name: '三级 2-1-1'
                             }]
                         }, {
-                            id: '7',
+                            id: '2-2',
                             name: '二级 2-2',
                             subs: [{
-                                id: '8',
+                                id: '2-2-1',
                                 name: '三级 2-2-1'
                             }, {
-                                id: '7-2',
+                                id: '2-2-2',
                                 name: '三级 2-2-2'
                             }]
                         }]
                     }, {
-                        id: '9',
+                        id: '3',
                         name: '一级 3',
                         subs: [{
-                            id: '10',
+                            id: '3-1',
                             name: '二级 3-1',
                             subs: [{
-                                id: '11',
+                                id: '3-1-1',
                                 name: '三级 3-1-1'
                             }, {
-                                id: '11-2',
+                                id: '3-1-2',
                                 name: '三级 3-1-2'
                             }]
                         }, {
-                            id: '12',
+                            id: '3-2',
                             name: '二级 3-2',
                             subs: [{
-                                id: '13',
+                                id: '3-2-1',
                                 name: '三级 3-2-1'
                             }]
                         }]
@@ -178,12 +179,12 @@
                 this.$message(!!current ? current.data.name : '未选中任何节点！')
             },
             expandAndSelect() {
-                this.$refs.tree1.expand('13')
-                this.$refs.tree1.setCurrent('13')
+                this.$refs.tree1.expand('2-2-2')
+                this.$refs.tree1.setCurrent('2-2-2')
             },
             async expandSome() {
                 // console.log('start')
-                await this.$refs.tree1.expand(['8', '11'])
+                await this.$refs.tree1.expand(['2-2-2', '3-1-2'])
                 // console.log('end')
                 console.log(Array.from(this.$el.querySelectorAll('.pl-tree-node')).length)
             },

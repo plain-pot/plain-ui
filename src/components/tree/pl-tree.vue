@@ -560,6 +560,7 @@
                     display: flex;
                     align-items: center;
                     flex-wrap: nowrap;
+                    transition: all $transition 300ms;
 
                     &:hover {
                         background-color: mix(white, $colorPrimary, 90%);
