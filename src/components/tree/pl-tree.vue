@@ -1,6 +1,10 @@
 <template>
     <ul :class="classes" v-loading="isLoading">
-        <pl-tree-node v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
+        <li class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
+            <pl-icon icon="el-icon-reading"/>
+            <span>{{emptyText}}</span>
+        </li>
+        <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
     </ul>
 </template>
 
@@ -607,16 +611,6 @@
                     }
                 }
 
-                .pl-tree-node-empty-text {
-                    color: $disabledText;
-                    font-size: 12px;
-                    line-height: 28px;
-
-                    & > .pl-icon {
-                        margin-right: 6px;
-                    }
-                }
-
                 &.pl-tree-node-expand {
                     & > .pl-tree-node-content > .pl-tree-node-content-expand-wrapper > .pl-tree-expand-icon {
                         transform: rotate(90deg);
@@ -629,6 +623,16 @@
 
                 &.pl-tree-expand-icon {
                     transition: all $transition 300ms;
+                }
+            }
+
+            .pl-tree-node-empty-text {
+                color: $disabledText;
+                font-size: 12px;
+                line-height: 28px;
+
+                & > .pl-icon {
+                    margin-right: 6px;
                 }
             }
 
