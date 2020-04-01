@@ -47,6 +47,8 @@
             </demo-line>
             <pl-tree ref="checkTree"
                      showCheckbox
+                     checkOnClickNode
+                     :expandOnClickNode="false"
                      :data="treeData"
                      keyField="id"
                      labelField="name"
@@ -108,7 +110,7 @@
             <demo-line>
                 <pl-input v-model="filterText" suffixIcon="el-icon-search" clearIcon/>
             </demo-line>
-            <pl-tree                      defaultExpandAll
+            <pl-tree defaultExpandAll
                      :data="treeData"
                      keyField="id"
                      labelField="name"
@@ -128,6 +130,15 @@
                      labelField="name"
                      childrenField="subs"
                      @current-change="treeNode=>currentKey = treeNode.key"/>
+        </demo-row>
+
+        <demo-row title="展开图标">
+            <pl-tree
+                    :data="treeData"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    expandIcon="el-icon-caret-right"/>
         </demo-row>
 
     </div>

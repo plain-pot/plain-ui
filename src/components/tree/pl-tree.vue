@@ -51,9 +51,8 @@
             autoExpandParent: {type: Boolean, default: true},           // 是否展开节点的时候，自动展开父节点
 
             // 勾选相关属性
-            //   checkableKeys: {type: String},                              // 树节点复选框是否可选对应字段，为false值会被禁用
             showCheckbox: {type: Boolean},                              // 是否展示勾选框
-            //   checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
+            checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
             //   checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
             //   isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
 
