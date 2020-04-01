@@ -27,6 +27,11 @@ export class TreeNode {
         return this.context.getMark(this.key, TreeMark.checked) === true
     }
 
+    get isCheckable(): boolean {
+        const {isCheckable} = this.context
+        return !isCheckable || (isCheckable(this))
+    }
+
     get checkStatus(): CheckStatus {
 
         if (this.isLeaf || this.context.checkStrictly) {

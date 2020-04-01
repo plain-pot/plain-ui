@@ -37,14 +37,14 @@
                                 this.isLoading ?
                                     <pl-loading type="beta"/>
                                     :
-                                    (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.onClick(e)} class="pl-tree-expand-icon"/>)
+                                    (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
                             }
                         </div>
                         {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
                             checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
                             status={this.treeNode.checkStatus}
-                            disabled={this.isDisabled}
-                            onClick={e => !this.isDisabled && this.plTree.onClickCheckbox(e, this.treeNode)}
+                            disabled={this.isDisabled || !this.treeNode.isCheckable}
+                            {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
                         />}
                         <div class="pl-tree-node-content-label">
                             {!!this.plTree.$scopedSlots.default ?
@@ -120,15 +120,6 @@
              */
             isLoading() {
                 return this.plTree.getMark(this.treeNode.key, TreeMark.loading)
-            },
-            isDisabled() {
-
-            },
-        },
-        methods: {
-            onClick(e) {
-                e.stopPropagation()
-                this.plTree.onClickExpandIcon(this.treeNode)
             },
         },
     }

@@ -54,7 +54,7 @@
             showCheckbox: {type: Boolean},                              // 是否展示勾选框
             checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
             checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
-            //   isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
+            isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
 
             // 拖拽属性
             //   draggable: {type: Boolean},                                 // 是否可拖拽
@@ -360,6 +360,7 @@
             toggleCheck(key) {
                 const treeNode = this.findTreeNodeByKey(key)
                 if (!treeNode) return
+                if (!treeNode.isCheckable) return
                 if (treeNode.isCheck) {
                     this.uncheck(key)
                 } else {
@@ -527,7 +528,8 @@
              * @author  韦胜健
              * @date    2020/3/30 19:02
              */
-            onClickExpandIcon(treeNode: TreeNode): void {
+            onClickExpandIcon(e, treeNode: TreeNode): void {
+                e.stopPropagation()
                 this.toggleExpand(treeNode.key)
             },
             /**

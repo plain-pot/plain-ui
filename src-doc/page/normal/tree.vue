@@ -76,6 +76,28 @@
                      childrenField="subs"/>
         </demo-row>
 
+        <demo-row title="多选：禁用部分选项，只能勾选1结尾的节点">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkableTree.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkableTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkableTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkableTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree ref="checkableTree"
+                     showCheckbox
+                     checkOnClickNode
+                     :expandOnClickNode="false"
+                     :data="treeData"
+                     checkStrictly
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :isCheckable="isCheckable"/>
+        </demo-row>
+
 
         <demo-row title="自定义内容：作用域插槽">
 
@@ -376,6 +398,9 @@
                 const data = treeNode.data
                 if (!this.filterText) return true;
                 return data.name.indexOf(this.filterText) !== -1;
+            },
+            isCheckable(treeNode) {
+                return treeNode.label.endsWith('1')
             },
         },
     }
