@@ -165,7 +165,9 @@
                     return []
                 }
                 this.formatCount++
-                return this.p_data.map(item => this.formatNodeData(item, this.formatCount))
+                const rootTreeNode = new TreeNode({}, this, 0)
+                rootTreeNode.children = this.p_data.map(item => this.formatNodeData(item, this.formatCount, rootTreeNode))
+                return rootTreeNode.children
             },
             /**
              * 用來派发给开发者的当前展开的keys
@@ -251,7 +253,7 @@
                         this.emitExpand(treeNode)
                         this.emitExpandChange(this.emitExpandKeys)
                     }
-                    if (!!this.autoExpandParent && !!treeNode.parent) {
+                    if (!!this.autoExpandParent && !!treeNode.parent && treeNode.parent.key) {
                         await this.expand(treeNode.parent.key)
                     }
                 })
@@ -314,7 +316,7 @@
                             this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, true))
                             // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
                             let parent = treeNode.parent
-                            while (!!parent) {
+                            while (!!parent && !!parent.key) {
                                 if (parent.children.every(child => child.isCheck)) {
                                     this.setMark(parent.key, TreeMark.checked, true)
                                     parent = parent.parent
@@ -348,7 +350,7 @@
                             this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, false))
                             // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
                             let parent = treeNode.parent
-                            while (!!parent) {
+                            while (!!parent && !!parent.key) {
                                 if (parent.isCheck) {
                                     this.setMark(parent.key, TreeMark.checked, false)
                                     parent = parent.parent
@@ -489,7 +491,7 @@
             findTreeNodeByKey(key: string): TreeNode {
                 const treeNode = this.getMark(key, TreeMark.treeNode)
                 if (!treeNode) {
-                    console.log(`无法找到treeNode：${key}`, this.mark)
+                    console.warn(`无法找到treeNode：${key}`, this.mark)
                 }
                 return treeNode
             },
