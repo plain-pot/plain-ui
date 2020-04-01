@@ -150,6 +150,15 @@
                      :renderContent="renderDemo.renderContent"/>
         </demo-row>
 
+        <demo-row title="节点图标">
+            <pl-tree defaultExpandAll
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :nodeIcon="nodeIcon"/>
+        </demo-row>
+
         <demo-row title="自定义过滤函数">
             <demo-line>
                 <pl-input v-model="filterText" suffixIcon="el-icon-search" clearIcon/>
@@ -401,6 +410,9 @@
             },
             isCheckable(treeNode) {
                 return treeNode.label.endsWith('1')
+            },
+            nodeIcon(treeNode) {
+                return treeNode.isLeaf ? 'el-icon-document' : 'el-icon-folder-opened'
             },
         },
     }

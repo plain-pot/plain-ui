@@ -28,6 +28,7 @@
         props: {
             data: {type: Array},                                        // 树形结构数据
             loading: {type: Boolean},                                   // 当前是否处于loading状态
+            nodeIcon: {type: Function},                                 // 节点图标
 
             // 部分key
             keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形

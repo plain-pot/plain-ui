@@ -47,6 +47,7 @@
                             {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
                         />}
                         <div class="pl-tree-node-content-label">
+                            {!this.plTree.nodeIcon ? null : <pl-icon icon={this.plTree.nodeIcon(this.treeNode)}/>}
                             {!!this.plTree.$scopedSlots.default ?
                                 this.plTree.$scopedSlots.default(this.treeNode)
                                 :
