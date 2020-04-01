@@ -214,6 +214,7 @@
                     labelField="name"
                     childrenField="subs"
                     draggable
+                    showCheckbox
             >
                 <template slot-scope="{data}">
                     <span :style="{color:data.id.startsWith('1')?'#12b4a5':(data.id.startsWith('2')?'#00CC00':'#F38585')}">{{data.name}}</span>
