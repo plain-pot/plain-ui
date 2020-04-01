@@ -30,7 +30,6 @@
             labelField: {type: String},                                 // 树节点展示文本对应字段
             childrenField: {type: String},                              // 树节点对应子节点数据对应字段
 
-
             // 普通属性
             renderContent: {type: Function},                            // 树节点内容渲染函数
             filterNodeMethod: {type: Function},                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
