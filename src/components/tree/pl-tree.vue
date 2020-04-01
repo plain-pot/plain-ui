@@ -53,7 +53,7 @@
             // 勾选相关属性
             showCheckbox: {type: Boolean},                              // 是否展示勾选框
             checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
-            //   checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
+            checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
             //   isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
 
             // 拖拽属性
@@ -296,16 +296,19 @@
                     if (!treeNode.isCheck) {
                         this.setMark(treeNode.key, TreeMark.checked, true)
 
-                        // 选中所有子节点
-                        this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, true))
-                        // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
-                        let parent = treeNode.parent
-                        while (!!parent) {
-                            if (parent.children.every(child => child.isCheck)) {
-                                this.setMark(parent.key, TreeMark.checked, true)
-                                parent = parent.parent
-                            } else {
-                                break
+                        // 父子关联模式下，改变子节点以及父节点状态
+                        if (!this.checkStrictly) {
+                            // 选中所有子节点
+                            this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, true))
+                            // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                            let parent = treeNode.parent
+                            while (!!parent) {
+                                if (parent.children.every(child => child.isCheck)) {
+                                    this.setMark(parent.key, TreeMark.checked, true)
+                                    parent = parent.parent
+                                } else {
+                                    break
+                                }
                             }
                         }
 
@@ -327,17 +330,19 @@
                     if (treeNode.isCheck) {
                         this.setMark(treeNode.key, TreeMark.checked, false)
 
-                        // 取消选中所有子节点
-                        this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, false))
-
-                        // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
-                        let parent = treeNode.parent
-                        while (!!parent) {
-                            if (parent.isCheck) {
-                                this.setMark(parent.key, TreeMark.checked, false)
-                                parent = parent.parent
-                            } else {
-                                break
+                        // 父子关联模式下，改变子节点以及父节点状态
+                        if (!this.checkStrictly) {
+                            // 取消选中所有子节点
+                            this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, false))
+                            // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                            let parent = treeNode.parent
+                            while (!!parent) {
+                                if (parent.isCheck) {
+                                    this.setMark(parent.key, TreeMark.checked, false)
+                                    parent = parent.parent
+                                } else {
+                                    break
+                                }
                             }
                         }
 

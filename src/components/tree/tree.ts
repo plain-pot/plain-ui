@@ -29,11 +29,14 @@ export class TreeNode {
 
     get checkStatus(): CheckStatus {
 
-        if (this.isLeaf) {
+        if (this.isLeaf || this.context.checkStrictly) {
+            // 叶子节点或者父子互不关联情况下，节点只有选中以及非选中的状态，不会处于半选中状态
             return this.isCheck ? 'check' : 'uncheck'
         } else {
+            // 当前已经选中，则处于选中状态
             if (this.isCheck) return 'check'
 
+            // 当前未选中，判断子节点是否全部都是未选中状态，是则自身为未选中状态，否则为半选中状态
             if ((this.children || []).every(child => child.checkStatus === 'uncheck')) {
                 return 'uncheck'
             } else {
