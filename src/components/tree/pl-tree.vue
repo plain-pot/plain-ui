@@ -5,6 +5,7 @@
             <span>{{emptyText}}</span>
         </li>
         <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
+        <span class="pl-tree-drag-indicator" v-if="draggable" v-show="dragState.show" :style="dragState.indicatorStyles"></span>
     </ul>
 </template>
 
@@ -122,6 +123,44 @@
             const mark: { [key: string]: TreeMark } = {}                                        // 标记映射
             const formatCount: number = 0;                                                      // 当前格式化数据的时候，数据的版本，用来清理mark中不需要保存的数据
             let rootTreeNode: TreeNode = new TreeNode({}, this, 0);                             // 根节点 treeNode对象
+
+            const dragState = {
+                show: false,
+                indicatorStyles: {},
+                /*---------------------------------------drag listener-------------------------------------------*/
+                dragstart: (e) => {
+                    e.stopPropagation()
+                    e.dataTransfer.effectAllowed = 'move'
+                },
+                dragend: (e) => {
+                    e.stopPropagation()
+                    console.log('被拖拽的节点', e.currentTarget.__vue__.treeNode.label)
+
+                    dragState.show = false
+                    dragState.indicatorStyles = {}
+                },
+                /*---------------------------------------drop listener-------------------------------------------*/
+                dragover: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    // console.log('over  ', e.currentTarget.__vue__.treeNode.label)
+                    const {clientY} = e
+
+                    let rect = e.currentTarget.getBoundingClientRect()
+                    if (!!rect) {
+                        const {height, width, left, top} = rect
+
+                        dragState.show = true
+                        dragState.indicatorStyles = {
+                            top: `${top}px`,
+                            width: `${width}px`,
+                            left: `${left}px`,
+                        }
+                    }
+
+                    console.log(clientY)
+                },
+            }
             return {
                 p_data,
                 p_loading,
@@ -129,6 +168,7 @@
                 mark,
                 formatCount,
                 rootTreeNode,
+                dragState,
             }
         },
         created(): void {
@@ -645,6 +685,14 @@
                 & > .pl-icon {
                     margin-right: 6px;
                 }
+            }
+
+            .pl-tree-drag-indicator {
+                position: fixed;
+                z-index: 9999;
+                height: 2px;
+                background-color: $colorPrimary;
+                display: inline-block;
             }
 
             &.pl-tree-highlight-current {

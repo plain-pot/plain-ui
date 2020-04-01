@@ -23,13 +23,21 @@
                 name: 'show',
                 value: this.treeNode.isVisible
             }]
+            const nodeOn = {
+                ...(!!this.plTree.draggable ? {
+                    dragstart: this.plTree.dragState.dragstart,
+                    dragend: this.plTree.dragState.dragend,
+                    dragover: this.plTree.dragState.dragover,
+                } : {})
+            }
+
             const nodeListDirectives = [{
                 name: 'show',
                 value: this.isExpand && this.show
             }]
 
             return (
-                <li class="pl-tree-node" class={this.classes} {...{directives: nodeDirectives}}>
+                <li class="pl-tree-node" class={this.classes} {...{directives: nodeDirectives, on: nodeOn}} draggable={this.plTree.draggable}>
                     <div class="pl-tree-node-content" style={this.contentStyles} onClick={() => this.plTree.onClickNodeContent(this.treeNode)}>
                         <div class="pl-tree-node-content-expand-wrapper">
                             {
@@ -74,7 +82,7 @@
             )
         },
         computed: {
-            level(){
+            level() {
                 return this.treeNode.level - 1
             },
             classes() {
