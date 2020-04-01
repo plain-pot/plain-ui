@@ -146,14 +146,16 @@
                 dragstart: Function,
                 dragend: Function,
                 dragover: Function,
+                reflow: boolean,
             }
                 = {
                 show: false,                                                                    // 当前拖拽指示器是否展示
                 indicatorStyles: {},                                                            // 当前指示器样式
                 dropInnerKey: null,                                                             // 当前拖拽，即将放入内部的节点的key
                 dropType: DropType.null,                                                        // 当前拖拽在目标节点的位置
-                dropTreeNode: null,                                                             // 当前拖拽目标节点的treeNode对象
-                dragTreeNode: null,
+                dropTreeNode: null,                                                             // 当前放置目标节点的treeNode对象
+                dragTreeNode: null,                                                             // 当前拖拽目标节点的treeNode对象
+                reflow: false,                                                                  // 当前是否正在重新渲染，重新渲染的时候不要展开动画
                 /*---------------------------------------drag listener-------------------------------------------*/
                 dragstart: (e) => {
                     e.stopPropagation()
@@ -174,6 +176,7 @@
                         dragTreeNode.removeSelf()
                         const dropRelativeTreeNodes = dropTreeNode.parent.children
 
+                        dragState.reflow = true
                         switch (dropType) {
                             case DropType.prev:
                                 // console.log(`添加到 ${dropTreeNode.label} 之前`)
@@ -191,6 +194,7 @@
                                 // console.log(`无任何变化`)
                                 break
                         }
+                        setTimeout(() => dragState.reflow = false, 100)
                     }
                 },
                 /*---------------------------------------drop listener-------------------------------------------*/
@@ -309,7 +313,8 @@
                     'pl-tree',
                     'pl-tree-node-list',
                     {
-                        'pl-tree-highlight-current': this.highlightCurrent
+                        'pl-tree-highlight-current': this.highlightCurrent,
+                        'pl-tree-reflow': this.dragState.reflow,
                     }
                 ]
             },
@@ -846,6 +851,12 @@
             &.pl-tree-highlight-current {
                 .pl-tree-node.pl-tree-node-current > .pl-tree-node-content {
                     background-color: mix(white, $colorPrimary, 90%);
+                }
+            }
+
+            &.pl-tree-reflow {
+                .pl-tree-node-list {
+                    transition: none !important;
                 }
             }
         }
