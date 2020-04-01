@@ -72,6 +72,7 @@
       }
 
       .pl-checkbox-inner {
+        border-color: currentColor !important;
         background-color: $disabled !important;
         color: $disabledText !important;
       }
