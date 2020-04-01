@@ -72,6 +72,10 @@ export class TreeNode {
         }
     }
 
+    get childrenData(){
+        return this.data[this.context.childrenField] || []
+    }
+
     setChildren(children: TreeNode[]) {
         this.context.$set(this.data, this.context.childrenField, children)
     }
@@ -82,14 +86,14 @@ export class TreeNode {
     }
 
     splice(index, count, replace) {
-        const childrenData = this.parent.data[this.context.childrenField] || []
+        const childrenData = this.parent.childrenData || []
         let ret = childrenData.splice(index, count, replace)
         this.parent.data[this.context.childrenField] = childrenData
         return ret
     }
 
     push(data) {
-        const childrenData = this.data[this.context.childrenField] || []
+        const childrenData = this.childrenData || []
         childrenData.push(data)
         this.data[this.context.childrenField] = childrenData
     }

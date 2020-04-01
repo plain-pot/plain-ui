@@ -174,13 +174,13 @@
 
                     if (!!dropTreeNode) {
                         dragTreeNode.removeSelf()
-                        const dropRelativeTreeNodes = dropTreeNode.parent.children
+                        const dropRelativeData = dropTreeNode.parent.childrenData || []
 
                         dragState.reflow = true
                         switch (dropType) {
                             case DropType.prev:
                                 // console.log(`添加到 ${dropTreeNode.label} 之前`)
-                                dropTreeNode.splice(dropRelativeTreeNodes.indexOf(dropTreeNode), 0, dragTreeNode.data)
+                                dropTreeNode.splice(dropRelativeData.indexOf(dropTreeNode.data), 0, dragTreeNode.data)
                                 break
                             case DropType.inner:
                                 // console.log(`添加到 ${dropTreeNode.label} 内部`)
@@ -188,7 +188,7 @@
                                 break
                             case DropType.next:
                                 // console.log(`添加到 ${dropTreeNode.label} 之后`)
-                                dropTreeNode.splice(dropRelativeTreeNodes.indexOf(dropTreeNode) + 1, 0, dragTreeNode.data)
+                                dropTreeNode.splice(dropRelativeData.indexOf(dropTreeNode.data) + 1, 0, dragTreeNode.data)
                                 break
                             default:
                                 // console.log(`无任何变化`)
