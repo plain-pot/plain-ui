@@ -44,7 +44,7 @@
             // 展开相关属性
             emptyText: {type: String, default: '暂无数据'},              // 没有子节点的时候展示的文本
             defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
-            //   according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
+            according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
             expandIcon: {type: String},                                 // 树展开图标
             intent: {type: Number, default: 14},                        // 相邻级节点水平缩进距离，默认16，单位px
             lazy: {type: Boolean},                                      // 是否懒加载子节点数据
@@ -236,6 +236,13 @@
                             const children = await this.getChildrenAsync(treeNode)
                             treeNode.setChildren(children || [])
                             await this.$plain.nextTick()
+                        }
+
+                        if (this.according) {
+                            // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
+                            if (!!treeNode.parent && !!treeNode.parent.children) {
+                                treeNode.parent.children.forEach((child: TreeNode) => child.key !== treeNode.key && this.collapse(child.key))
+                            }
                         }
 
                         this.setMark(treeNode.key, TreeMark.expanded, true)
