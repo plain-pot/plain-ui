@@ -62,9 +62,9 @@
             isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
 
             // 拖拽属性
-            //   draggable: {type: Boolean},                                 // 是否可拖拽
-            //   isDraggable: {type: Function},                              // 判断节点是否可以拖拽
-            //   isDroppable: {type: Function},                              // 判断目标节点能够被放置
+            draggable: {type: Boolean},                                 // 是否可拖拽
+            isDraggable: {type: Function},                              // 判断节点是否可以拖拽
+            isDroppable: {type: Function},                              // 判断目标节点能够被放置
         },
         emitters: {
             emitNodeClick: Function,

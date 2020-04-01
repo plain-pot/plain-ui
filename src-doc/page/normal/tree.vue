@@ -202,6 +202,21 @@
                     expandIcon="el-icon-caret-right"/>
         </demo-row>
 
+        <demo-row title="拖拽节点">
+            <demo-line>
+                <pl-button label="全部展开" @click="$refs.dragTree.expandAll()"/>
+            </demo-line>
+            <pl-tree
+                    ref="dragTree"
+                    :data="treeData"
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    draggable
+            />
+        </demo-row>
+
     </div>
 </template>
 
