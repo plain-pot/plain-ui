@@ -1,5 +1,6 @@
 <template>
     <pl-checkbox class="pl-checkbox-indeterminate"
+                 :disabled="disabled"
                  v-bind="checkboxProps"
                  @click.native="e=>$emit('click',e)">
         <template slot="checkbox-inner">
