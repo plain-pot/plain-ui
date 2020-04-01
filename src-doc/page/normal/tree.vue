@@ -273,22 +273,21 @@
                         return treeNode.level >= 3
                     },
                     getChildren: (treeNode, resolve) => {
-                        if (!treeNode) {
-                            // 加载一级数据
-                            this.lazyDemo.getCitiesByParentId(null).then(resolve)
-                        } else {
-                            switch (treeNode.level) {
-                                case 1:
-                                    // 加载二级数据
-                                    this.lazyDemo.getCitiesByParentId(treeNode.data.id).then(resolve)
-                                    break
-                                case 2:
-                                    // 加载三级数据
-                                    this.lazyDemo.getCitiesByParentId(treeNode.data.id).then(resolve)
-                                    break
-                                default:
-                                    return null
-                            }
+                        switch (treeNode.level) {
+                            case 0:
+                                // 加载一级数据
+                                this.lazyDemo.getCitiesByParentId(null).then(resolve)
+                                break
+                            case 1:
+                                // 加载二级数据
+                                this.lazyDemo.getCitiesByParentId(treeNode.data.id).then(resolve)
+                                break
+                            case 2:
+                                // 加载三级数据
+                                this.lazyDemo.getCitiesByParentId(treeNode.data.id).then(resolve)
+                                break
+                            default:
+                                return null
                         }
                     },
                     getCitiesByParentId(parentId) {

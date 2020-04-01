@@ -121,12 +121,14 @@
             const p_loading: boolean = false                                                    //  内置，当前是否处于loading状态
             const mark: { [key: string]: TreeMark } = {}                                        // 标记映射
             const formatCount: number = 0;                                                      // 当前格式化数据的时候，数据的版本，用来清理mark中不需要保存的数据
+            let rootTreeNode: TreeNode = new TreeNode({}, this, 0);                             // 根节点 treeNode对象
             return {
                 p_data,
                 p_loading,
                 p_currentKey,
                 mark,
                 formatCount,
+                rootTreeNode,
             }
         },
         created(): void {
@@ -165,9 +167,8 @@
                     return []
                 }
                 this.formatCount++
-                const rootTreeNode = new TreeNode({}, this, 0)
-                rootTreeNode.children = this.p_data.map(item => this.formatNodeData(item, this.formatCount, rootTreeNode))
-                return rootTreeNode.children
+                this.rootTreeNode.children = this.p_data.map(item => this.formatNodeData(item, this.formatCount, this.rootTreeNode))
+                return this.rootTreeNode.children
             },
             /**
              * 用來派发给开发者的当前展开的keys
@@ -502,13 +503,13 @@
              */
             getChildrenAsync(treeNode: TreeNode | null) {
                 return new Promise((resolve) => {
-                    if (!treeNode) {
+                    if (!treeNode.key) {
                         this.p_loading = true
                     } else {
                         this.setMark(treeNode.key, TreeMark.loading, true)
                     }
                     this.getChildren(treeNode, (...results) => {
-                        if (!treeNode) {
+                        if (!treeNode.key) {
                             this.p_loading = false
                         } else {
                             this.setMark(treeNode.key, TreeMark.loading, false)
@@ -533,7 +534,7 @@
                 if (!this.lazy) {
                     return
                 }
-                this.p_data = await this.getChildrenAsync(null)
+                this.p_data = await this.getChildrenAsync(this.rootTreeNode)
             },
 
             /*---------------------------------------handler-------------------------------------------*/

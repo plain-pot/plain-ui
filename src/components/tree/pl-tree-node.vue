@@ -5,7 +5,6 @@
         name: "pl-tree-node",
         props: {
             treeNode: {type: Object},
-            level: {type: Number, default: 0},
         },
         inject: {
             plTree: {default: null},
@@ -75,6 +74,9 @@
             )
         },
         computed: {
+            level(){
+                return this.treeNode.level - 1
+            },
             classes() {
                 return [
                     'pl-tree-node',
