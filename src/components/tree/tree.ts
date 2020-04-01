@@ -75,6 +75,24 @@ export class TreeNode {
     setChildren(children: TreeNode[]) {
         this.context.$set(this.data, this.context.childrenField, children)
     }
+
+    removeSelf() {
+        const childrenData = this.parent.data[this.context.childrenField]
+        childrenData.splice(childrenData.indexOf(this.data), 1)
+    }
+
+    splice(index, count, replace) {
+        const childrenData = this.parent.data[this.context.childrenField] || []
+        let ret = childrenData.splice(index, count, replace)
+        this.parent.data[this.context.childrenField] = childrenData
+        return ret
+    }
+
+    push(data) {
+        const childrenData = this.data[this.context.childrenField] || []
+        childrenData.push(data)
+        this.data[this.context.childrenField] = childrenData
+    }
 }
 
 export class TreeMark {

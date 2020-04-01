@@ -5,7 +5,7 @@
             <span>{{emptyText}}</span>
         </li>
         <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
-        <span class="pl-tree-drag-indicator" v-if="draggable" v-show="dragState.show" :style="dragState.indicatorStyles"></span>
+        <span class="pl-tree-drag-indicator" v-if="draggable" v-show="dragState.show" :style="indicatorStyles"></span>
     </ul>
 </template>
 
@@ -13,6 +13,18 @@
     import {EmitMixin, StyleMixin} from "../../utils/mixins";
     import PlTreeNode from "./pl-tree-node.vue";
     import {TreeMark, TreeNode} from "./tree";
+
+    /**
+     * 拖拽放置的类型
+     * @author  韦胜健
+     * @date    2020/4/1 17:15
+     */
+    enum DropType {
+        prev = 'prev',
+        inner = 'inner',
+        next = 'next',
+        null = 'null',
+    }
 
     export default {
         name: "pl-tree",
@@ -124,41 +136,149 @@
             const formatCount: number = 0;                                                      // 当前格式化数据的时候，数据的版本，用来清理mark中不需要保存的数据
             let rootTreeNode: TreeNode = new TreeNode({}, this, 0);                             // 根节点 treeNode对象
 
-            const dragState = {
-                show: false,
-                indicatorStyles: {},
+            const dragState: {
+                show: boolean,
+                indicatorStyles: { top?: number, width?: number, left?: number },
+                dropInnerKey: string,
+                dropType: DropType,
+                dropTreeNode: TreeNode,
+                dragTreeNode: TreeNode,
+                dragstart: Function,
+                dragend: Function,
+                dragover: Function,
+            }
+                = {
+                show: false,                                                                    // 当前拖拽指示器是否展示
+                indicatorStyles: {},                                                            // 当前指示器样式
+                dropInnerKey: null,                                                             // 当前拖拽，即将放入内部的节点的key
+                dropType: DropType.null,                                                        // 当前拖拽在目标节点的位置
+                dropTreeNode: null,                                                             // 当前拖拽目标节点的treeNode对象
+                dragTreeNode: null,
                 /*---------------------------------------drag listener-------------------------------------------*/
                 dragstart: (e) => {
                     e.stopPropagation()
                     e.dataTransfer.effectAllowed = 'move'
+                    dragState.dragTreeNode = e.currentTarget.__vue__.treeNode
                 },
                 dragend: (e) => {
                     e.stopPropagation()
                     console.log('被拖拽的节点', e.currentTarget.__vue__.treeNode.label)
 
                     dragState.show = false
+                    dragState.dropInnerKey = null
                     dragState.indicatorStyles = {}
+
+                    const {dropTreeNode, dragTreeNode, dropType} = dragState
+
+                    if (!!dropTreeNode) {
+                        dragTreeNode.removeSelf()
+                        const dropRelativeTreeNodes = dropTreeNode.parent.children
+
+                        switch (dropType) {
+                            case DropType.prev:
+                                // console.log(`添加到 ${dropTreeNode.label} 之前`)
+                                dropTreeNode.splice(dropRelativeTreeNodes.indexOf(dropTreeNode), 0, dragTreeNode.data)
+                                break
+                            case DropType.inner:
+                                // console.log(`添加到 ${dropTreeNode.label} 内部`)
+                                dropTreeNode.push(dragTreeNode.data)
+                                break
+                            case DropType.next:
+                                // console.log(`添加到 ${dropTreeNode.label} 之后`)
+                                dropTreeNode.splice(dropRelativeTreeNodes.indexOf(dropTreeNode) + 1, 0, dragTreeNode.data)
+                                break
+                            default:
+                                // console.log(`无任何变化`)
+                                break
+                        }
+                    }
                 },
                 /*---------------------------------------drop listener-------------------------------------------*/
                 dragover: (e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    // console.log('over  ', e.currentTarget.__vue__.treeNode.label)
-                    const {clientY} = e
+                    e.dataTransfer.dropEffect = 'move'
 
-                    let rect = e.currentTarget.getBoundingClientRect()
-                    if (!!rect) {
-                        const {height, width, left, top} = rect
+                    const treeNode = e.currentTarget.__vue__.treeNode
 
-                        dragState.show = true
-                        dragState.indicatorStyles = {
-                            top: `${top}px`,
-                            width: `${width}px`,
-                            left: `${left}px`,
+                    let doNothing = () => {
+                        e.dataTransfer.dropEffect = 'none'
+                        dragState.show = false
+                        dragState.dropInnerKey = null
+                        dragState.indicatorStyles = {}
+                        dragState.dropType = DropType.null
+                        dragState.dropTreeNode = null
+                    }
+
+                    // 如果当前 over 的节点为拖拽节点的子节点，则什么事也不干，清空标记信息并且什么也不做
+                    if (treeNode === dragState.dragTreeNode) {
+                        doNothing()
+                        return;
+                    } else {
+                        let containsFlag = false
+                        this.iterateAll(dragState.dragTreeNode.children, (child) => {
+                            if (child === treeNode) {
+                                containsFlag = true
+                            }
+                        })
+                        if (containsFlag) {
+                            doNothing()
+                            return;
                         }
                     }
 
-                    console.log(clientY)
+                    let label = e.currentTarget.querySelector('.pl-tree-node-content-label')
+                    let rect = label.getBoundingClientRect()
+
+                    if (!!rect) {
+                        let {height, width, left, top} = rect
+                        let deltaY = e.clientY - top
+
+                        dragState.dropTreeNode = treeNode
+
+                        if (deltaY < height / 4) {
+                            // 上
+                            dragState.dropType = DropType.prev
+                            dragState.show = true
+                            dragState.dropInnerKey = null
+                            dragState.indicatorStyles = {top, width, left}
+                        } else if (deltaY < height * (3 / 4)) {
+                            // 中
+                            dragState.dropType = DropType.inner
+                            dragState.show = false
+                            dragState.indicatorStyles = {}
+                            dragState.dropInnerKey = treeNode.key
+
+                        } else {
+                            // 下
+                            if (treeNode.isExpand && !!treeNode.children && treeNode.children.length > 0) {
+                                // 节点已经展开，并且有子节点，表示插入到第一个子节点之前
+                                let firstChildTreeNodeDom = e.currentTarget.querySelector('.pl-tree-node')
+                                label = firstChildTreeNodeDom.querySelector('.pl-tree-node-content-label')
+                                rect = label.getBoundingClientRect()
+                                if (!!rect) {
+
+                                    dragState.dropTreeNode = firstChildTreeNodeDom.__vue__.treeNode
+
+                                    width = rect.width
+                                    left = rect.left
+                                    top = rect.top
+
+                                    dragState.dropType = DropType.prev
+                                    dragState.show = true
+                                    dragState.dropInnerKey = null
+                                    dragState.indicatorStyles = {top, width, left}
+                                }
+
+                            } else {
+                                // 否则这时候应该将节点插入到目标节点之后
+                                dragState.dropType = DropType.next
+                                dragState.show = true
+                                dragState.dropInnerKey = null
+                                dragState.indicatorStyles = {top: top + height, width, left,}
+                            }
+                        }
+                    }
                 },
             }
             return {
@@ -208,6 +328,7 @@
                 }
                 this.formatCount++
                 this.rootTreeNode.children = this.p_data.map(item => this.formatNodeData(item, this.formatCount, this.rootTreeNode))
+                this.rootTreeNode.data = {[this.childrenField]: this.p_data}
                 return this.rootTreeNode.children
             },
             /**
@@ -233,6 +354,25 @@
              */
             isLoading() {
                 return this.loading || this.p_loading
+            },
+            /**
+             * 拖拽指示器的样式
+             * @author  韦胜健
+             * @date    2020/4/1 17:39
+             */
+            indicatorStyles() {
+                let styles = {} as any
+                const indicatorStyles = this.dragState.indicatorStyles
+                if (!!indicatorStyles.left) {
+                    styles.left = `${indicatorStyles.left + 6}px`
+                }
+                if (!!indicatorStyles.width) {
+                    styles.width = `${indicatorStyles.width}px`
+                }
+                if (!!indicatorStyles.top) {
+                    styles.top = `${indicatorStyles.top}px`
+                }
+                return styles
             },
         },
         methods: {
@@ -633,7 +773,6 @@
                 font-size: 14px;
                 line-height: 24px;
                 cursor: pointer;
-                user-select: none;
 
                 .pl-tree-node-content {
                     padding-right: 12px;
@@ -653,18 +792,27 @@
 
                     .pl-checkbox-indeterminate {
                         padding-left: 6px;
+                        user-select: none;
                     }
 
                     .pl-tree-node-content-expand-wrapper {
                         position: relative;
                         display: inline-block;
                         width: 1em;
+                        user-select: none;
                     }
                 }
 
                 &.pl-tree-node-expand {
                     & > .pl-tree-node-content > .pl-tree-node-content-expand-wrapper > .pl-tree-expand-icon {
                         transform: rotate(90deg);
+                    }
+                }
+
+                &.pl-tree-node-drop-inner {
+                    & > .pl-tree-node-content > .pl-tree-node-content-label {
+                        color: $colorPrimary;
+                        font-weight: bold;
                     }
                 }
             }
