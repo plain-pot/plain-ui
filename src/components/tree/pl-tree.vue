@@ -1,12 +1,12 @@
 <template>
-    <ul :class="classes" v-loading="isLoading">
-        <li class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
+    <div :class="classes" v-loading="isLoading">
+        <div class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
             <pl-icon icon="el-icon-reading"/>
             <span>{{emptyText}}</span>
-        </li>
+        </div>
         <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
         <span class="pl-tree-drag-indicator" v-if="draggable" v-show="dragState.show" :style="indicatorStyles"></span>
-    </ul>
+    </div>
 </template>
 
 <script lang="ts">
@@ -784,14 +784,6 @@
         .pl-tree {
             position: relative;
             min-height: 100px;
-
-            &, & ul {
-                &.pl-tree-node-list {
-                    margin: 0;
-                    padding: 0;
-                    list-style: none;
-                }
-            }
 
             .pl-tree-node {
                 font-size: 14px;

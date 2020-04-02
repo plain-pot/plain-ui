@@ -22,7 +22,7 @@ export default {
             } : {})
         }
         return (
-            <pl-item tag="div" class={this.classes} draggable={this.plTree.draggable} {...{nativeOn: nodeOn}}>
+            <pl-item class={this.classes} draggable={this.plTree.draggable} {...{nativeOn: nodeOn}}>
                 <div class="pl-tree-node-wrapper">
                     <div class="pl-tree-node-operator" style={this.expanderStyles}>
                             <span class="pl-tree-node-expander">

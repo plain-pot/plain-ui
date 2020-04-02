@@ -32,19 +32,23 @@ export default {
         return (
             <div {...{directives}} class={this.classes} style={this.styles}>
                 {(!this.formatDataFlat || this.formatDataFlat.length === 0) && (
-                    <li class="pl-tree-node-empty-text"
+                    <div class="pl-tree-node-empty-text"
                         key="pl-tree-node-empty-text">
                         <pl-icon icon="el-icon-reading"/>
                         <span>{this.emptyText}</span>
-                    </li>
+                    </div>
                 )}
                 {!!this.draggable && <span class="pl-tree-drag-indicator" key="pl-tree-drag-indicator" {...{directives: [{name: 'show', value: this.dragState.show}]}} style={this.indicatorStyles}></span>}
 
                 {!!this.virtual ?
-                    <pl-virtual-list data={this.formatDataFlat} size={24} {...{
-                        scopedSlots: {default: ({item, index}) => <pl-virtual-tree-node treeNode={item} key={item.key} vid={index}/>}
-                    }}/> :
-                    <pl-list tag="div" direction="right">
+                    <pl-virtual-list data={this.formatDataFlat}
+                                     size={24}
+                                     contentIs={'pl-list'}
+                                     contentProps={{direction: "right"}}
+                                     {...{
+                                         scopedSlots: {default: ({item, index}) => <pl-virtual-tree-node treeNode={item} key={item.key} vid={index}/>}
+                                     }}/> :
+                    <pl-list direction="right">
                         {this.formatDataFlat.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
                     </pl-list>
                 }

@@ -35,7 +35,7 @@
             }]
 
             return (
-                <li class={this.classes} {...{directives: nodeDirectives, on: nodeOn}} draggable={this.plTree.draggable}>
+                <div class={this.classes} {...{directives: nodeDirectives, on: nodeOn}} draggable={this.plTree.draggable}>
                     <div class="pl-tree-node-wrapper">
                         <div class="pl-tree-node-operator" style={this.expanderStyles}>
                             <span class="pl-tree-node-expander">
@@ -69,18 +69,18 @@
                     </div>
 
                     <pl-collapse-transition>
-                        {!this.treeNode.isLeaf && this.init && <ul class="pl-tree-node-list" {...{directives: nodeListDirectives}}>
+                        {!this.treeNode.isLeaf && this.init && <div class="pl-tree-node-list" {...{directives: nodeListDirectives}}>
                             {!!this.treeNode.children && this.treeNode.children.length > 0 ?
                                 this.treeNode.children.map((item, index) => <pl-tree-node key={index} tree-node={item}/>)
                                 :
-                                <li class="pl-tree-node-empty-text" style={this.emptyTextStyles}>
+                                <div class="pl-tree-node-empty-text" style={this.emptyTextStyles}>
                                     <pl-icon icon="el-icon-reading"/>
                                     <span>{this.plTree.emptyText}</span>
-                                </li>
+                                </div>
                             }
-                        </ul>}
+                        </div>}
                     </pl-collapse-transition>
-                </li>
+                </div>
             )
         },
         computed: {
