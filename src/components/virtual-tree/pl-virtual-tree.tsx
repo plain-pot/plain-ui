@@ -1,10 +1,12 @@
 import tree from '../tree/pl-tree.vue'
 import {TreeMark, TreeNode} from "../tree/tree";
+import PlVirtualTreeNode from './pl-virtual-tree-node'
 
 const Tree = tree as any
 
 export default {
     name: "pl-virtual-tree",
+    components: {PlVirtualTreeNode},
     props: {
         ...Tree.props,
     },
@@ -26,9 +28,9 @@ export default {
     },
     render(h) {
         return (
-            <div class={this.classes}>
-                pl-virtual-tree
-            </div>
+            <transition-group class={this.classes} name="pl-virtual-tree-transition" tag="ul">
+                {this.formatDataFlat.map((item, index) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
+            </transition-group>
         )
     },
     created() {
@@ -41,11 +43,20 @@ export default {
             ]
         },
         formatData: Tree.computed.formatData,
+        /**
+         * formatData偏平格式化
+         * @author  韦胜健
+         * @date    2020/4/2 9:58
+         */
         formatDataFlat() {
             const formatData = this.formatData
+            const formatDataFlat = []
             this.iterateAll(formatData, (treeNode: TreeNode) => {
-                console.log(treeNode.label)
+                formatDataFlat.push(treeNode)
+            }, (treeNode: TreeNode) => {
+                return treeNode.isExpand
             })
+            return formatDataFlat
         },
     },
     methods: {
