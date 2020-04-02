@@ -231,7 +231,7 @@
                         }
                     }
 
-                    let label = e.currentTarget.querySelector('.pl-tree-node-content-label')
+                    let label = e.currentTarget.querySelector('.pl-tree-node-content')
                     let rect = label.getBoundingClientRect()
 
                     if (!!rect) {
@@ -258,7 +258,7 @@
                             if (treeNode.isExpand && !!treeNode.children && treeNode.children.length > 0) {
                                 // 节点已经展开，并且有子节点，表示插入到第一个子节点之前
                                 let firstChildTreeNodeDom = e.currentTarget.querySelector('.pl-tree-node')
-                                label = firstChildTreeNodeDom.querySelector('.pl-tree-node-content-label')
+                                label = firstChildTreeNodeDom.querySelector('.pl-tree-node-content')
                                 rect = label.getBoundingClientRect()
                                 if (!!rect) {
 
@@ -790,6 +790,7 @@
                         top: 0;
                         left: 0;
                         user-select: none;
+
                         .pl-tree-node-expander {
                             height: 24px;
                             width: 18px;
