@@ -802,7 +802,7 @@
                             height: 24px;
                             width: 18px;
                             display: inline-block;
-                            vertical-align: middle;
+                            vertical-align: top;
                         }
 
                         .pl-checkbox-indeterminate {
