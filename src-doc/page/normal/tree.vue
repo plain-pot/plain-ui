@@ -222,6 +222,46 @@
             </pl-tree>
         </demo-row>
 
+        <demo-row title="拖拽节点+可勾选">
+            <demo-line>
+                <pl-button label="全部展开" @click="$refs.dragAndCheckTree.expandAll()"/>
+                <pl-button label="打印数据" @click="$plain.log(treeData)"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.dragAndCheckTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+            </demo-line>
+            <ol>
+                <li>父子关联模式下，拖拽节点可能会引起 选中/取消选中 事件</li>
+                <li>拖拽节点会刷新节点的状态，每个节点会先判断子节点是否全都选中，全部选中并且自身未选中的情况下，会选中自身</li>
+                <li>自身选中，但是存在子节点未选中的情况下，会取消选中自身</li>
+                <li>非父子关联模式下，拖拽节点不会导致节点选中状态变化</li>
+            </ol>
+            <pl-tree
+                    ref="dragAndCheckTree"
+                    :data="treeData"
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    showCheckbox
+                    draggable/>
+        </demo-row>
+
+        <demo-row title="拖拽节点：可拖拽allowDrag以及可放置allowDrop">
+            <ol>
+                <li>2-2开头的id不能被拖拽</li>
+                <li>3开头的id不能放置任何节点</li>
+            </ol>
+            <pl-tree
+                    ref="dragTree"
+                    :data="treeData"
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    draggable
+                    :allowDrag="allowDrag"
+                    :allowDrop="allowDrop"
+            />
+        </demo-row>
     </div>
 </template>
 
@@ -440,6 +480,14 @@
             },
             nodeIcon(treeNode) {
                 return treeNode.isLeaf ? 'el-icon-document' : 'el-icon-folder-opened'
+            },
+            allowDrag(dragTreeNode, event) {
+                // 2-2开头的id不能被拖拽
+                return !dragTreeNode.data.id.startsWith('2-2')
+            },
+            allowDrop(dragTreeNode, dropTreeNode, dragType, event) {
+                // 3-开头的id不能放置任何节点
+                return !dropTreeNode.data.id.startsWith('3')
             },
         },
     }

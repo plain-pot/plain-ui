@@ -76,8 +76,8 @@
 
             // 拖拽属性
             draggable: {type: Boolean},                                 // 是否可拖拽
-            isDraggable: {type: Function},                              // 判断节点是否可以拖拽
-            isDroppable: {type: Function},                              // 判断目标节点能够被放置
+            allowDrag: {type: Function},                                // 判断节点是否可以拖拽
+            allowDrop: {type: Function},                                // 判断目标节点能够被放置
         },
         emitters: {
             emitNodeClick: Function,
@@ -160,7 +160,15 @@
                 dragstart: (e) => {
                     e.stopPropagation()
                     e.dataTransfer.effectAllowed = 'move'
-                    dragState.dragTreeNode = this.getTreeNodeFromEl(e.currentTarget)
+
+                    const dragTreeNode = this.getTreeNodeFromEl(e.currentTarget)
+
+                    if (!this.isAllowDrag(dragTreeNode, e)) {
+                        e.preventDefault()
+                        return
+                    }
+
+                    dragState.dragTreeNode = dragTreeNode
                 },
                 dragend: (e) => {
                     e.stopPropagation()
@@ -193,6 +201,7 @@
                                 // console.log(`无任何变化`)
                                 break
                         }
+                        this.refreshCheckStatus()
                         setTimeout(() => dragState.reflow = false, 100)
                     }
                 },
@@ -204,7 +213,7 @@
 
                     const treeNode = this.getTreeNodeFromEl(e.currentTarget)
 
-                    let doNothing = () => {
+                    let nothing = () => {
                         e.dataTransfer.dropEffect = 'none'
                         dragState.show = false
                         dragState.dropInnerKey = null
@@ -215,7 +224,7 @@
 
                     // 如果当前 over 的节点为拖拽节点的子节点，则什么事也不干，清空标记信息并且什么也不做
                     if (treeNode === dragState.dragTreeNode) {
-                        doNothing()
+                        nothing()
                         return;
                     } else {
                         let containsFlag = false
@@ -225,7 +234,7 @@
                             }
                         })
                         if (containsFlag) {
-                            doNothing()
+                            nothing()
                             return;
                         }
                     }
@@ -241,16 +250,23 @@
                         left += dragState.dropTreeNode.indicatorLeft
 
                         let deltaY = e.clientY - top
+                        let allowDrop;
 
 
                         if (deltaY < height / 4) {
                             // 上
+                            allowDrop = this.isAllowDrop(dragState.dragTreeNode, dragState.dropTreeNode, DropType.prev, e)
+                            if (!allowDrop) return nothing()
+
                             dragState.dropType = DropType.prev
                             dragState.show = true
                             dragState.dropInnerKey = null
                             dragState.indicatorStyles = {top, width, left}
                         } else if (deltaY < height * (3 / 4)) {
                             // 中
+                            allowDrop = this.isAllowDrop(dragState.dragTreeNode, dragState.dropTreeNode, DropType.inner, e)
+                            if (!allowDrop) return nothing()
+
                             dragState.dropType = DropType.inner
                             dragState.show = false
                             dragState.indicatorStyles = {}
@@ -258,6 +274,9 @@
 
                         } else {
                             // 下
+                            allowDrop = this.isAllowDrop(dragState.dragTreeNode, dragState.dropTreeNode, DropType.next, e)
+                            if (!allowDrop) return nothing()
+
                             if (treeNode.isExpand && !!treeNode.children && treeNode.children.length > 0) {
                                 // 节点已经展开，并且有子节点，表示插入到第一个子节点之前
                                 let firstChildTreeNodeDom = undefined
@@ -268,7 +287,7 @@
                                     firstChildTreeNodeDom = e.currentTarget.nextSibling
                                 } else {
                                     console.warn(`can't recognise ${this.$options.name}`)
-                                    return doNothing
+                                    return nothing
                                 }
 
                                 content = firstChildTreeNodeDom.querySelector('.pl-tree-node-content')
@@ -511,17 +530,17 @@
                     const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
                     if (!treeNode.isCheck) {
-                        this.setMark(treeNode.key, TreeMark.checked, true)
+                        treeNode.check(true)
 
                         // 父子关联模式下，改变子节点以及父节点状态
                         if (!this.checkStrictly) {
                             // 选中所有子节点
-                            this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, true))
+                            this.iterateAll(treeNode.children, (child) => child.check(true))
                             // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
                             let parent = treeNode.parent
                             while (!!parent && !!parent.key) {
                                 if (parent.children.every(child => child.isCheck)) {
-                                    this.setMark(parent.key, TreeMark.checked, true)
+                                    parent.check(true)
                                     parent = parent.parent
                                 } else {
                                     break
@@ -545,17 +564,17 @@
                     const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
                     if (treeNode.isCheck) {
-                        this.setMark(treeNode.key, TreeMark.checked, false)
+                        treeNode.check(false)
 
                         // 父子关联模式下，改变子节点以及父节点状态
                         if (!this.checkStrictly) {
                             // 取消选中所有子节点
-                            this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, false))
+                            this.iterateAll(treeNode.children, (child) => child.check(false))
                             // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
                             let parent = treeNode.parent
                             while (!!parent && !!parent.key) {
                                 if (parent.isCheck) {
-                                    this.setMark(parent.key, TreeMark.checked, false)
+                                    parent.check(false)
                                     parent = parent.parent
                                 } else {
                                     break
@@ -590,7 +609,7 @@
              * @date    2020/3/31 17:33
              */
             checkAll() {
-                this.iterateAll(this.formatData, (treeNode: TreeNode) => this.setMark(treeNode.key, TreeMark.checked, true))
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => treeNode.check(true))
             },
             /**
              * 取消选中所有节点
@@ -598,7 +617,7 @@
              * @date    2020/3/31 17:33
              */
             uncheckAll() {
-                this.iterateAll(this.formatData, (treeNode: TreeNode) => this.setMark(treeNode.key, TreeMark.checked, false))
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => treeNode.check(false))
             },
             /**
              * 获取选中的数据
@@ -733,6 +752,60 @@
                 if (!!instance.treeNode) return instance.treeNode
                 if (!!instance.$parent && !!instance.$parent.treeNode) return instance.$parent.treeNode
                 return null
+            },
+            /**
+             * 刷新节点选中状态
+             * @author  韦胜健
+             * @date    2020/4/1 22:17
+             */
+            refreshCheckStatus() {
+                if (!this.showCheckbox) return
+                if (this.checkStrictly) return;
+
+                const next = (treeNode: TreeNode) => {
+                    let hasCheck = false
+                    let hasUncheck = false
+
+                    if (!!treeNode.children && treeNode.children) {
+                        treeNode.children.forEach(child => {
+                            next(child)
+                            if (child.isCheck) {
+                                hasCheck = true
+                            } else {
+                                hasUncheck = true
+                            }
+                        })
+                    }
+                    if (hasCheck && !hasUncheck) {
+                        // 所有子节点选中
+                        if (!treeNode.isCheck) {
+                            treeNode.check(true)
+                        }
+                    } else if (hasUncheck) {
+                        // 有子节点未选中
+                        if (treeNode.isCheck) {
+                            treeNode.check(false)
+                        }
+                    }
+                }
+
+                this.formatData.forEach(next)
+            },
+            /**
+             * 判断是否可以拖拽
+             * @author  韦胜健
+             * @date    2020/4/1 23:12
+             */
+            isAllowDrag(dragTreeNode: TreeNode, event: DragEvent) {
+                return !this.allowDrag || this.allowDrag(dragTreeNode, event)
+            },
+            /**
+             * 判断是否可以放置
+             * @author  韦胜健
+             * @date    2020/4/1 23:12
+             */
+            isAllowDrop(dragTreeNode: TreeNode, dropTreeNode: TreeNode, dropType: DropType, event) {
+                return !this.allowDrop || this.allowDrop(dragTreeNode, dropTreeNode, dropType, event)
             },
             /*---------------------------------------helper-------------------------------------------*/
 

@@ -18,19 +18,23 @@ export class TreeNode {
         this.label = !!labelField ? data[labelField] : undefined
     }
 
+    /*当前是否展开*/
     get isExpand(): boolean {
         return this.context.getMark(this.key, TreeMark.expanded) === true
     }
 
+    /*当前是否已经选中*/
     get isCheck(): boolean {
         return this.context.getMark(this.key, TreeMark.checked) === true
     }
 
+    /*当前是否可以被选中*/
     get isCheckable(): boolean {
         const {isCheckable} = this.context
         return !isCheckable || (isCheckable(this))
     }
 
+    /*当前选中状态：选中、未选中、半选中*/
     get checkStatus(): CheckStatus {
 
         if (this.isLeaf || this.context.checkStrictly) {
@@ -49,6 +53,7 @@ export class TreeNode {
         }
     }
 
+    /*是否为叶子节点*/
     get isLeaf(): boolean {
         const {lazy, isLeaf} = this.context
         if (!!lazy && !!isLeaf) {
@@ -58,6 +63,7 @@ export class TreeNode {
         }
     }
 
+    /*节点是否可见*/
     get isVisible(): boolean {
         const {filterNodeMethod} = this.context
         if (!filterNodeMethod) {
@@ -71,14 +77,21 @@ export class TreeNode {
         }
     }
 
+    /*当前是否处于加载状态*/
     get isLoading(): boolean {
         return this.context.getMark(this.key, TreeMark.loading)
     }
 
+    /*当前节点的子节点的数据*/
     get childrenData() {
         return this.data[this.context.childrenField]
     }
 
+    /**
+     * 拖拽指示器的左偏移距离
+     * @author  韦胜健
+     * @date    2020/4/3 0:09
+     */
     get indicatorLeft() {
         let left = this.context.intent * (this.level - 1)
         if (this.isLeaf && !this.isLoading) {
@@ -87,15 +100,33 @@ export class TreeNode {
         return left
     }
 
+    /*---------------------------------------methods-------------------------------------------*/
+    /**
+     * 选中/取消选中 当前节点
+     * @author  韦胜健
+     * @date    2020/4/1 22:37
+     */
+    check(val: boolean) {
+        if (!this.isCheckable) return
+        this.context.setMark(this.key, TreeMark.checked, val)
+    }
+
+    /**
+     * 设置子节点数据
+     * @author  韦胜健
+     * @date    2020/4/3 0:09
+     */
     setChildren(children: TreeNode[]) {
         this.context.$set(this.data, this.context.childrenField, children)
     }
 
+    /*将当前节点从当前节点的父节点移除*/
     removeSelf() {
         const parentChildrenData = this.parent.childrenData
         parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
     }
 
+    /*在当前节点所有的数组中插入一个节点*/
     splice(index, count, replace) {
         let parentChildrenData = this.parent.childrenData
 
@@ -106,6 +137,7 @@ export class TreeNode {
         return parentChildrenData.splice(index, count, replace)
     }
 
+    /*在当前节点所在的数组中添加一个节点*/
     push(data) {
         let childrenData = this.childrenData
         if (!childrenData) {
