@@ -421,6 +421,7 @@
                 await this.handleKeys(keys, async (key: string) => {
                     const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
+                    if (treeNode.isLeaf) return
                     if (!treeNode.isExpand) {
 
                         if (
@@ -460,6 +461,7 @@
                 await this.handleKeys(keys, async (key: string) => {
                     const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
+                    if (treeNode.isLeaf) return
                     if (treeNode.isExpand) {
                         this.setMark(treeNode.key, TreeMark.expanded, false)
                         await this.$plain.nextTick()
