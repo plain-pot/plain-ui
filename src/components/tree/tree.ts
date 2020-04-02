@@ -72,8 +72,20 @@ export class TreeNode {
         }
     }
 
-    get childrenData(){
+    get isLoading(): boolean {
+        return this.context.getMark(this.key, TreeMark.loading)
+    }
+
+    get childrenData() {
         return this.data[this.context.childrenField] || []
+    }
+
+    get indicatorLeft() {
+        let left = this.context.intent * (this.level - 1)
+        if (this.isLeaf && !this.isLoading) {
+            left += 18
+        }
+        return left
     }
 
     setChildren(children: TreeNode[]) {

@@ -231,14 +231,18 @@
                         }
                     }
 
-                    let label = e.currentTarget.querySelector('.pl-tree-node-content')
-                    let rect = label.getBoundingClientRect()
+                    let content = e.currentTarget.querySelector('.pl-tree-node-content')
+                    let rect = content.getBoundingClientRect()
 
                     if (!!rect) {
+                        dragState.dropTreeNode = treeNode
+
                         let {height, width, left, top} = rect
+                        width -= dragState.dropTreeNode.indicatorLeft
+                        left += dragState.dropTreeNode.indicatorLeft
+
                         let deltaY = e.clientY - top
 
-                        dragState.dropTreeNode = treeNode
 
                         if (deltaY < height / 4) {
                             // 上
@@ -258,8 +262,8 @@
                             if (treeNode.isExpand && !!treeNode.children && treeNode.children.length > 0) {
                                 // 节点已经展开，并且有子节点，表示插入到第一个子节点之前
                                 let firstChildTreeNodeDom = e.currentTarget.querySelector('.pl-tree-node')
-                                label = firstChildTreeNodeDom.querySelector('.pl-tree-node-content')
-                                rect = label.getBoundingClientRect()
+                                content = firstChildTreeNodeDom.querySelector('.pl-tree-node-content')
+                                rect = content.getBoundingClientRect()
                                 if (!!rect) {
 
                                     dragState.dropTreeNode = firstChildTreeNodeDom.__vue__.treeNode
@@ -267,6 +271,9 @@
                                     width = rect.width
                                     left = rect.left
                                     top = rect.top
+
+                                    width -= dragState.dropTreeNode.indicatorLeft
+                                    left += dragState.dropTreeNode.indicatorLeft
 
                                     dragState.dropType = DropType.prev
                                     dragState.show = true
@@ -817,7 +824,7 @@
                 }
 
                 &.pl-tree-node-expand {
-                    & > .pl-tree-node-wrapper > .pl-tree-node-operator > .pl-tree-expand-icon {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-operator > .pl-tree-node-expander > .pl-tree-expand-icon {
                         transform: rotate(90deg);
                     }
                 }

@@ -1,6 +1,4 @@
 <script>
-    import {TreeMark} from "./tree";
-
     export default {
         name: "pl-tree-node",
         props: {
@@ -42,7 +40,7 @@
                         <div class="pl-tree-node-operator" style={this.expanderStyles}>
                             <span class="pl-tree-node-expander">
                                 {
-                                    this.isLoading ?
+                                    this.treeNode.isLoading ?
                                         <pl-loading type="beta"/>
                                         :
                                         (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
@@ -102,14 +100,17 @@
              * @date    2020/3/31 9:32
              */
             contentStyles() {
+                return {
+                    paddingLeft: `${this.contentPaddingLeft}px`
+                }
+            },
+            contentPaddingLeft() {
                 let paddingLeft = this.plTree.intent * this.level + 6
                 paddingLeft += 18
                 if (this.plTree.showCheckbox) {
                     paddingLeft += 24
                 }
-                return {
-                    paddingLeft: `${paddingLeft}px`
-                }
+                return paddingLeft
             },
             /**
              * expander节点style
@@ -144,14 +145,6 @@
                     this.$nextTick(() => this.show = true)
                 }
                 return isExpand
-            },
-            /**
-             * 当前节点是否处于加载状态
-             * @author  韦胜健
-             * @date    2020/3/31 10:54
-             */
-            isLoading() {
-                return this.plTree.getMark(this.treeNode.key, TreeMark.loading)
             },
         },
     }
