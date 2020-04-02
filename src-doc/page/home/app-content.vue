@@ -1,11 +1,9 @@
 <template>
-    <div class="app-content">
-        <pl-scroll :style="styles" scrollbar-color="rgba(0,0,0,0.35)">
-            <span class="app-divider"/>
-            <div class="app-content-body">
-                <slot></slot>
-            </div>
-        </pl-scroll>
+    <div class="app-content" :style="styles">
+        <span class="app-divider"/>
+        <div class="app-content-body">
+            <slot></slot>
+        </div>
     </div>
 </template>
 

@@ -4,6 +4,7 @@
 
 <script>
     import AppHome from "./page/home/app-home";
+
     export default {
         name: "App",
         components: {AppHome},
@@ -19,6 +20,5 @@
     html, body {
         margin: 0;
         padding: 0;
-        height: 100%;
     }
 </style>
