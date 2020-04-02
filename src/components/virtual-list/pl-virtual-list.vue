@@ -57,13 +57,14 @@
             }
         },
         render(h) {
+
             return (
                 <pl-scroll class="pl-virtual-list" onScroll={this.onScroll} scrollbarColor="black" ref="scroll">
                     <div class="pl-virtual-list-strut" style={this.strutStyles}>
                         <div class="pl-virtual-list-content" style={this.contentStyles} ref="content">
                             {!!this.renderContent ?
                                 this.renderContent(h, this.targetData) :
-                                (!!this.$scopedSlots.default ? this.targetData.map((item, index) => this.$scopedSlots.default({item, index})) : null)}
+                                (!!this.$scopedSlots.default ? this.targetData.map(({item, index}) => this.$scopedSlots.default({item, index})) : null)}
                         </div>
                     </div>
                 </pl-scroll>
