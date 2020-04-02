@@ -7,9 +7,9 @@ export default {
     },
     render(h) {
         return (
-            <li class="pl-virtual-tree-node">
+            <pl-item class="pl-virtual-tree-node" tag="li" block>
                 {this.treeNode.label}
-            </li>
+            </pl-item>
         )
     },
 }

@@ -112,19 +112,13 @@
             list-style: none;
 
             .pl-virtual-tree-node {
-                display: inline-block;
-                width: 100%;
-            }
-
-            .pl-virtual-tree-transition-enter-active, .pl-virtual-tree-transition-leave-active {
                 transition: all 300ms $transition;
             }
 
-            .pl-virtual-tree-transition-enter, .pl-virtual-tree-transition-leave-to {
+            .pl-list-move-right-enter {
                 opacity: 0;
-                transform: translate3d(100px, 0, 0);
+                transform: translateX(100px);
             }
-
         }
     }
 </style>

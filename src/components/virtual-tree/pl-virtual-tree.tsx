@@ -28,9 +28,9 @@ export default {
     },
     render(h) {
         return (
-            <transition-group class={this.classes} name="pl-virtual-tree-transition" tag="ul">
-                {this.formatDataFlat.map((item, index) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
-            </transition-group>
+            <pl-list tag="ul" class={this.classes} direction="right">
+                {this.formatDataFlat.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
+            </pl-list>
         )
     },
     created() {
