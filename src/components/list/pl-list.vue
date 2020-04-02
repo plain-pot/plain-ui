@@ -1,5 +1,5 @@
 <template>
-    <transition-group :name="`pl-list-move-${direction}`" tag="div" class="pl-list">
+    <transition-group :name="`pl-list-move-${direction}`" :tag="tag" class="pl-list">
         <slot></slot>
     </transition-group>
 </template>
@@ -11,8 +11,9 @@
             direction: {                            //item入场出场动画 'left', 'right', 'top', 'bottom', 'left-top', 'top-left', 'right-top', 'top-right', 'left-bottom', 'bottom-left', 'right-bottom', 'bottom-right'
                 type: String,
                 default: 'bottom-right',
-                
+
             },
+            tag: {type: String, default: 'div'},
         },
     }
 </script>

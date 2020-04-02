@@ -1,7 +1,7 @@
 <template>
-    <div class="pl-item" @click="e=>$emit('click',e)" :class="{'pl-item-block':block}">
+    <component :is="tag" class="pl-item" @click="e=>$emit('click',e)" :class="{'pl-item-block':block}">
         <slot></slot>
-    </div>
+    </component>
 </template>
 
 <script>
@@ -9,6 +9,7 @@
         name: "pl-item",
         props: {
             block: {type: Boolean},
+            tag: {type: String, default: 'div'},
         },
     }
 </script>
