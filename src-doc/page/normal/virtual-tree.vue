@@ -13,12 +13,12 @@
                     <pl-button label="移除" @click="remove"/>
                 </pl-button-group>
             </demo-line>
-            <pl-virtual-tree ref="tree1"
-                             :data="treeData"
-                             keyField="id"
-                             labelField="name"
-                             childrenField="subs"
-                             @node-click="val=>$plain.log(val.data.name)"/>
+            <pl-tree ref="tree1"
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     @node-click="val=>$plain.log(val.data.name)"/>
         </demo-row>
     </div>
 </template>
@@ -106,54 +106,6 @@
 <style lang="scss">
 
     @include themify {
-        .pl-virtual-tree {
-            margin: 0;
-            padding: 0;
-            list-style: none;
 
-            .pl-list-move-right-enter {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-
-            .pl-icon {
-                color: $icc;
-
-                &.pl-tree-expand-icon {
-                    transition: all $transition 300ms;
-                }
-            }
-
-            .pl-virtual-tree-node {
-                transition: all 300ms $transition;
-                font-size: 14px;
-                line-height: 24px;
-                cursor: pointer;
-                width: 200px;
-
-                .pl-virtual-tree-node-expander {
-                    height: 24px;
-                    width: 18px;
-                    user-select: none;
-                    display: inline-block;
-                }
-
-                .pl-virtual-tree-node-content {
-                    display: inline-block;
-                    padding-left: 18px;
-                    transition: background-color 300ms $transition;
-
-                    &:hover {
-                        background-color: mix(white, $colorPrimary, 90%);
-                    }
-                }
-
-                &.pl-virtual-tree-node-expand {
-                    & > .pl-virtual-tree-node-expander > .pl-tree-expand-icon {
-                        transform: rotate(90deg);
-                    }
-                }
-            }
-        }
     }
 </style>

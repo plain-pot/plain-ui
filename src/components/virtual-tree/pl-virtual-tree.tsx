@@ -5,7 +5,7 @@ import PlVirtualTreeNode from './pl-virtual-tree-node'
 const Tree = tree as any
 
 export default {
-    name: "pl-virtual-tree",
+    name: "pl-tree",
     components: {PlVirtualTreeNode},
     mixins: Tree.mixins,
     emitters: Tree.emitters,
@@ -24,6 +24,8 @@ export default {
         const mark: { [key: string]: TreeMark } = {}
         const formatCount: number = 0
         const rootTreeNode: TreeNode = new TreeNode({}, this, 0)
+
+        const dragState = {}
         return {
             p_data,
             p_loading,
@@ -31,6 +33,8 @@ export default {
             mark,
             formatCount,
             rootTreeNode,
+
+            dragState,
         }
     },
     render(h) {
@@ -41,12 +45,12 @@ export default {
         )
     },
     created() {
-        console.log(this.formatDataFlat)
     },
     computed: {
         classes() {
             return [
-                'pl-virtual-tree',
+                'pl-tree',
+                'pl-tree-node-list',
             ]
         },
         formatData: Tree.computed.formatData,

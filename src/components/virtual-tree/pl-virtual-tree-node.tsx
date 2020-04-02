@@ -14,53 +14,42 @@ export default {
     },
     render(h) {
         return (
-            <pl-item tag="li" class={this.classes}>
-                <div class="pl-virtual-tree-node-expander" style={this.expanderStyles}>
-                    {
-                        this.isLoading ?
-                            <pl-loading type="beta"/>
+            <pl-item tag="li" class={this.classes} draggable={this.plTree.draggable}>
+                <div class="pl-tree-node-wrapper">
+                    <div class="pl-tree-node-operator" style={this.expanderStyles}>
+                            <span class="pl-tree-node-expander">
+                                {
+                                    this.treeNode.isLoading ?
+                                        <pl-loading type="beta"/>
+                                        :
+                                        (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
+                                }
+                            </span>
+                        {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
+                            checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
+                            status={this.treeNode.checkStatus}
+                            disabled={this.isDisabled || !this.treeNode.isCheckable}
+                            {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
+                        />}
+                    </div>
+                    <div class="pl-tree-node-content" onclick={() => this.plTree.onClickNodeContent(this.treeNode)} style={this.contentStyles}>
+                        {!!this.plTree.$scopedSlots.default ?
+                            this.plTree.$scopedSlots.default(this.treeNode)
                             :
-                            (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
-                    }
-                </div>
-                <div class="pl-virtual-tree-node-content" style={this.contentStyles} onClick={() => this.plTree.onClickNodeContent(this.treeNode)}>
-                    <span>{this.treeNode.label}</span>
+                            (!!this.plTree.renderContent ?
+                                this.plTree.renderContent(h, this.treeNode)
+                                :
+                                [
+                                    !this.plTree.nodeIcon ? null : <pl-icon icon={this.plTree.nodeIcon(this.treeNode)}/>,
+                                    <span class="pl-tree-node-label">{this.treeNode.label}</span>
+                                ])
+                        }
+                    </div>
                 </div>
             </pl-item>
         )
     },
     computed: {
-        // @ts-ignore
-        classes() {
-            return [
-                'pl-virtual-tree-node',
-                {
-                    'pl-virtual-tree-node-expand': this.isExpand,
-                    'pl-virtual-tree-node-current': this.treeNode.key === this.plTree.p_currentKey
-                },
-                // {'pl-virtual-tree-node-drop-inner': this.plTree.dragState.dropInnerKey === this.treeNode.key}
-            ]
-        },
-        level() {
-            return this.treeNode.level - 1
-        },
-        expanderStyles() {
-            const paddingLeft: string = this.level * this.plTree.intent + 'px'
-            return {
-                paddingLeft
-            }
-        },
-        contentStyles() {
-            let paddingLeft = 18
-            if (this.plTree.showCheckbox) {
-                paddingLeft += 18
-            }
-            paddingLeft += this.level * this.plTree.intent
-            return {
-                paddingLeft: paddingLeft + 'px'
-            }
-        },
-        isExpand: OldTreeNode.computed.isExpand,
-        isLoading: OldTreeNode.computed.isLoading,
+        ...OldTreeNode.computed,
     },
 }
