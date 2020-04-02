@@ -16,7 +16,7 @@
                          labelField="name"
                          childrenField="subs"
                          height="360px"
-                         width="200px"
+                         width="500px"
                          virtual
                          draggable
                          showCheckbox
