@@ -90,8 +90,11 @@
             classes() {
                 return [
                     'pl-tree-node',
-                    {'pl-tree-node-expand': this.isExpand, 'pl-tree-node-current': this.treeNode.key === this.plTree.p_currentKey},
-                    {'pl-tree-node-drop-inner': this.plTree.dragState.dropInnerKey === this.treeNode.key}
+                    {
+                        'pl-tree-node-expand': this.isExpand,
+                        'pl-tree-node-current': this.treeNode.key === this.plTree.p_currentKey,
+                        'pl-tree-node-drop-inner': this.plTree.dragState.dropInnerKey === this.treeNode.key
+                    },
                 ]
             },
             /**
