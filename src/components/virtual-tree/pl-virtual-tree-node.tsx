@@ -13,8 +13,15 @@ export default {
         return {}
     },
     render(h) {
+        const nodeOn = {
+            ...(!!this.plTree.draggable ? {
+                dragstart: this.plTree.dragState.dragstart,
+                dragend: this.plTree.dragState.dragend,
+                dragover: this.plTree.dragState.dragover,
+            } : {})
+        }
         return (
-            <pl-item tag="li" class={this.classes} draggable={this.plTree.draggable}>
+            <pl-item tag="li" class={this.classes} draggable={this.plTree.draggable} {...{nativeOn: nodeOn}}>
                 <div class="pl-tree-node-wrapper">
                     <div class="pl-tree-node-operator" style={this.expanderStyles}>
                             <span class="pl-tree-node-expander">

@@ -160,11 +160,10 @@
                 dragstart: (e) => {
                     e.stopPropagation()
                     e.dataTransfer.effectAllowed = 'move'
-                    dragState.dragTreeNode = e.currentTarget.__vue__.treeNode
+                    dragState.dragTreeNode = this.getTreeNodeFromEl(e.currentTarget)
                 },
                 dragend: (e) => {
                     e.stopPropagation()
-                    console.log('被拖拽的节点', e.currentTarget.__vue__.treeNode.label)
 
                     dragState.show = false
                     dragState.dropInnerKey = null
@@ -203,7 +202,7 @@
                     e.preventDefault()
                     e.dataTransfer.dropEffect = 'move'
 
-                    const treeNode = e.currentTarget.__vue__.treeNode
+                    const treeNode = this.getTreeNodeFromEl(e.currentTarget)
 
                     let doNothing = () => {
                         e.dataTransfer.dropEffect = 'none'
@@ -261,12 +260,21 @@
                             // 下
                             if (treeNode.isExpand && !!treeNode.children && treeNode.children.length > 0) {
                                 // 节点已经展开，并且有子节点，表示插入到第一个子节点之前
-                                let firstChildTreeNodeDom = e.currentTarget.querySelector('.pl-tree-node')
+                                let firstChildTreeNodeDom = undefined
+
+                                if (this.$options.name === 'pl-tree') {
+                                    firstChildTreeNodeDom = e.currentTarget.querySelector('.pl-tree-node')
+                                } else if (this.$options.name === 'pl-virtual-tree') {
+                                    firstChildTreeNodeDom = e.currentTarget.nextSibling
+                                } else {
+                                    console.warn(`can't recognise ${this.$options.name}`)
+                                    return doNothing
+                                }
+
                                 content = firstChildTreeNodeDom.querySelector('.pl-tree-node-content')
                                 rect = content.getBoundingClientRect()
                                 if (!!rect) {
-
-                                    dragState.dropTreeNode = firstChildTreeNodeDom.__vue__.treeNode
+                                    dragState.dropTreeNode = this.getTreeNodeFromEl(firstChildTreeNodeDom)
 
                                     width = rect.width
                                     left = rect.left
@@ -717,6 +725,12 @@
             async handleKeys(keys: string | string[], handler: (value: unknown, index: number, array: []) => unknown) {
                 keys = Array.isArray(keys) ? keys : [keys]
                 return await Promise.all(keys.map(handler))
+            },
+            getTreeNodeFromEl(el: any) {
+                const instance = el.__vue__
+                if (!!instance.treeNode) return instance.treeNode
+                if (!!instance.$parent && !!instance.$parent.treeNode) return instance.$parent.treeNode
+                return null
             },
             /*---------------------------------------helper-------------------------------------------*/
 

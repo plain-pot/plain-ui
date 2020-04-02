@@ -12,7 +12,7 @@
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="tree1"
-                             :data="[]"
+                             :data="treeData"
                              keyField="id"
                              labelField="name"
                              childrenField="subs"
@@ -28,6 +28,192 @@
                              :isLeaf="lazyDemo.isLeaf"
                              :getChildren="lazyDemo.getChildren"
             />
+        </demo-row>
+
+        <demo-row title="多选">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkTree.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-virtual-tree ref="checkTree"
+                     showCheckbox
+                     checkOnClickNode
+                     :expandOnClickNode="false"
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"/>
+        </demo-row>
+
+        <demo-row title="多选：父子互不关联">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.unCheckStrictTree.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.unCheckStrictTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.unCheckStrictTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.unCheckStrictTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.unCheckStrictTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-virtual-tree ref="unCheckStrictTree"
+                     showCheckbox
+                     checkOnClickNode
+                     :expandOnClickNode="false"
+                     checkStrictly
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"/>
+        </demo-row>
+
+        <demo-row title="多选：禁用部分选项，只能勾选1结尾的节点">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkableTree.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkableTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkableTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkableTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-virtual-tree ref="checkableTree"
+                     showCheckbox
+                     checkOnClickNode
+                     :expandOnClickNode="false"
+                     :data="treeData"
+                     checkStrictly
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :isCheckable="isCheckable"/>
+        </demo-row>
+
+        <demo-row title="自定义内容：作用域插槽">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.getCurrent() ? $refs.scopedSlotDemo.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+
+            <pl-virtual-tree ref="scopedSlotDemo"
+                     :data="scopedSlotDemo.treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     style="width: 500px"
+                     showCheckbox>
+                <template slot-scope="data">
+                    <div style="width:100%;display: flex;justify-content: space-between">
+                        <span>{{data.data.name}}</span>
+                        <pl-button-group mode="text">
+                            <pl-button label="Add" @click="e=>scopedSlotDemo.addItem(e,data)" size="mini"/>
+                            <pl-button label="Del" @click="e=>scopedSlotDemo.deleteItem(e,data)" size="mini" status="error"/>
+                        </pl-button-group>
+                    </div>
+                </template>
+            </pl-virtual-tree>
+        </demo-row>
+
+        <demo-row title="自定义内容：渲染函数">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.renderDemo.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.renderDemo.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.getCurrent() ? $refs.renderDemo.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+
+            <pl-virtual-tree ref="renderDemo"
+                     :data="renderDemo.treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     style="width: 500px"
+                     showCheckbox
+                     :renderContent="renderDemo.renderContent"/>
+        </demo-row>
+
+        <demo-row title="节点图标">
+            <pl-virtual-tree defaultExpandAll
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :nodeIcon="nodeIcon"/>
+        </demo-row>
+
+        <demo-row title="手风琴模式，展开节点的时候关闭兄弟节点">
+            <pl-virtual-tree according
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"/>
+        </demo-row>
+
+        <demo-row title="自定义过滤函数">
+            <demo-line>
+                <pl-input v-model="filterText" suffixIcon="el-icon-search" clearIcon/>
+            </demo-line>
+            <pl-virtual-tree defaultExpandAll
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :filterNodeMethod="filterNodeMethod"/>
+        </demo-row>
+        <demo-row title="绑定currentKey">
+            <demo-line>
+                <pl-button label="全部展开" @click="$refs.currentTree.expandAll()"/>
+                <pl-button label="设置currentKey" @click="currentKey = '3-1-1'"/>
+                {{currentKey}}
+            </demo-line>
+            <pl-virtual-tree ref="currentTree"
+                     :currentKey="currentKey"
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     @current-change="treeNode=>currentKey = treeNode.key"/>
+        </demo-row>
+
+        <demo-row title="展开图标">
+            <pl-virtual-tree
+                    :data="treeData"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    expandIcon="el-icon-caret-right"/>
+        </demo-row>
+
+        <demo-row title="拖拽节点">
+            <demo-line>
+                <pl-button label="全部展开" @click="$refs.dragTree.expandAll()"/>
+            </demo-line>
+            <pl-virtual-tree
+                    ref="dragTree"
+                    :data="treeData"
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    draggable
+                    showCheckbox
+            >
+                <template slot-scope="{data}">
+                    <span :style="{color:data.id.startsWith('1')?'#12b4a5':(data.id.startsWith('2')?'#00CC00':'#F38585')}">{{data.name}}</span>
+                </template>
+            </pl-virtual-tree>
         </demo-row>
 
     </div>

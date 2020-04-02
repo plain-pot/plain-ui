@@ -1,5 +1,5 @@
 import tree from '../tree/pl-tree.vue'
-import {TreeMark, TreeNode} from "../tree/tree";
+import {TreeNode} from "../tree/tree";
 import PlVirtualTreeNode from './pl-virtual-tree-node'
 
 const Tree = tree as any
@@ -17,26 +17,7 @@ export default {
         ...Tree.props,
     },
     emitters: Tree.emitters,
-    data() {
-        const p_data: any[] = this.data
-        const p_currentKey: string = null
-        const p_loading: boolean = false
-        const mark: { [key: string]: TreeMark } = {}
-        const formatCount: number = 0
-        const rootTreeNode: TreeNode = new TreeNode({}, this, 0)
-
-        const dragState = {}
-        return {
-            p_data,
-            p_loading,
-            p_currentKey,
-            mark,
-            formatCount,
-            rootTreeNode,
-
-            dragState,
-        }
-    },
+    data: Tree.data,
     watch: Tree.watch,
     created: Tree.created,
     mounted() {
@@ -83,7 +64,7 @@ export default {
             }, (treeNode: TreeNode) => {
                 return treeNode.isExpand === true
             })
-            return formatDataFlat
+            return formatDataFlat.filter((treeNode: TreeNode) => !!treeNode.isVisible)
         },
     },
     methods: {
