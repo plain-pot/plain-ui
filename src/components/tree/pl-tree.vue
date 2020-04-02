@@ -635,7 +635,7 @@
                 treeNodes.forEach(treeNode => {
                     fn(treeNode)
                     if (!!treeNode.children && (!iterateChildren || iterateChildren(treeNode))) {
-                        this.iterateAll(treeNode.children, fn)
+                        this.iterateAll(treeNode.children, fn, iterateChildren)
                     }
                 })
             },
