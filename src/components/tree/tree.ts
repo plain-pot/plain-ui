@@ -76,7 +76,7 @@ export class TreeNode {
     }
 
     get childrenData() {
-        return this.data[this.context.childrenField] || []
+        return this.data[this.context.childrenField]
     }
 
     get indicatorLeft() {
@@ -92,21 +92,27 @@ export class TreeNode {
     }
 
     removeSelf() {
-        const childrenData = this.parent.data[this.context.childrenField]
-        childrenData.splice(childrenData.indexOf(this.data), 1)
+        const parentChildrenData = this.parent.childrenData
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
     }
 
     splice(index, count, replace) {
-        const childrenData = this.parent.childrenData || []
-        let ret = childrenData.splice(index, count, replace)
-        this.parent.data[this.context.childrenField] = childrenData
-        return ret
+        let parentChildrenData = this.parent.childrenData
+
+        if (!parentChildrenData) {
+            parentChildrenData = []
+            this.parent.setChildren(parentChildrenData)
+        }
+        return parentChildrenData.splice(index, count, replace)
     }
 
     push(data) {
-        const childrenData = this.childrenData || []
+        let childrenData = this.childrenData
+        if (!childrenData) {
+            childrenData = []
+            this.setChildren(childrenData)
+        }
         childrenData.push(data)
-        this.data[this.context.childrenField] = childrenData
     }
 }
 
