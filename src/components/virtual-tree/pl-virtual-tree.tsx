@@ -26,31 +26,13 @@ export default {
         const directives = [{name: 'loading', value: this.isLoading}]
 
         return (
-            <pl-list tag="ul" class={this.classes} direction="right" {...{directives}}>
-                {this.formatDataFlat.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
-                {(!this.formatDataFlat || this.formatDataFlat.length === 0) && (
-                    <li class="pl-tree-node-empty-text" key="pl-tree-node-empty-text">
-                        <pl-icon icon="el-icon-reading"/>
-                        <span>{this.emptyText}</span>
-                    </li>
-                )}
-                {!!this.draggable && <span class="pl-tree-drag-indicator" key="pl-tree-drag-indicator" {...{directives: [{name: 'show', value: this.dragState.show}]}} style={this.indicatorStyles}></span>}
-            </pl-list>
+            <div class="pl-virtual-tree" style={{width: '300px', height: '500px'}} {...{directives}}>
+                <pl-virtual-list data={this.formatDataFlat} size={24} renderContent={this.renderVirtualListContent}/>
+            </div>
         )
     },
     computed: {
         ...Tree.computed,
-        classes() {
-            return [
-                'pl-tree',
-                'pl-tree-node-list',
-                'pl-virtual-tree',
-                {
-                    'pl-tree-highlight-current': this.highlightCurrent,
-                    'pl-tree-reflow': this.dragState.reflow,
-                }
-            ]
-        },
         /**
          * formatData偏平格式化
          * @author  韦胜健
@@ -69,5 +51,21 @@ export default {
     },
     methods: {
         ...Tree.methods,
+        renderVirtualListContent(h, list) {
+            list = list.map(item => item.item)
+
+            return (
+                <pl-list tag="ul" class={this.classes} direction="right">
+                    {list.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
+                    {(!list || list.length === 0) && (
+                        <li class="pl-tree-node-empty-text" key="pl-tree-node-empty-text">
+                            <pl-icon icon="el-icon-reading"/>
+                            <span>{this.emptyText}</span>
+                        </li>
+                    )}
+                    {!!this.draggable && <span class="pl-tree-drag-indicator" key="pl-tree-drag-indicator" {...{directives: [{name: 'show', value: this.dragState.show}]}} style={this.indicatorStyles}></span>}
+                </pl-list>
+            )
+        },
     },
 }

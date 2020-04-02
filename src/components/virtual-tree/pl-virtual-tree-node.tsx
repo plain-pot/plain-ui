@@ -3,6 +3,7 @@ import PlTreeNode from '../tree/pl-tree-node.vue'
 const OldTreeNode = PlTreeNode as any
 
 export default {
+    name: 'pl-virtual-tree-node',
     props: {
         treeNode: {type: Object},
     },
