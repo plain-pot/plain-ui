@@ -64,7 +64,7 @@
             const Content = this.contentIs || 'div'
 
             return (
-                <pl-scroll class="pl-virtual-list" onScroll={this.onScroll} scrollbarColor="black" ref="scroll">
+                <pl-scroll class="pl-virtual-list" onScroll={this.onScroll} ref="scroll">
                     <div class="pl-virtual-list-strut" style={this.strutStyles}>
                         <Content class="pl-virtual-list-content" style={this.contentStyles} ref="content" {...{props: this.contentProps || {}}}>
                             {!!this.renderContent ?
@@ -142,6 +142,8 @@
                 }
 
                 this.end = this.start + this.p_remain
+
+                this.$emit('scroll')
             },
 
             /*---------------------------------------utils-------------------------------------------*/
