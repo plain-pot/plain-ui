@@ -960,6 +960,11 @@
                     transition: none !important;
                 }
             }
+
+            .pl-list-move-right-enter {
+                opacity: 0;
+                transform: translateX(100px);
+            }
         }
     }
 </style>
