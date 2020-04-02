@@ -228,7 +228,7 @@
                 <li>自身选中，但是存在子节点未选中的情况下，会取消选中自身</li>
                 <li>非父子关联模式下，拖拽节点不会导致节点选中状态变化</li>
             </ol>
-            <pl-tree
+            <pl-virtual-tree
                     ref="dragAndCheckTree"
                     :data="treeData"
                     defaultExpandAll
@@ -244,7 +244,7 @@
                 <li>2-2开头的id不能被拖拽</li>
                 <li>3开头的id不能放置任何节点</li>
             </ol>
-            <pl-tree
+            <pl-virtual-tree
                     ref="dragTree"
                     :data="treeData"
                     defaultExpandAll
@@ -277,7 +277,7 @@
 <style lang="scss">
 
     @include themify {
-        .pl-tree {
+        .pl-virtual-tree {
             .pl-list-move-right-enter {
                 opacity: 0;
                 transform: translateX(100px);
