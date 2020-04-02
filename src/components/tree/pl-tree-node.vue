@@ -36,37 +36,7 @@
 
             return (
                 <div class={this.classes} {...{directives: nodeDirectives, on: nodeOn}} draggable={this.plTree.draggable}>
-                    <div class="pl-tree-node-wrapper">
-                        <div class="pl-tree-node-operator" style={this.expanderStyles}>
-                            <span class="pl-tree-node-expander">
-                                {
-                                    this.treeNode.isLoading ?
-                                        <pl-loading type="beta"/>
-                                        :
-                                        (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
-                                }
-                            </span>
-                            {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
-                                checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
-                                status={this.treeNode.checkStatus}
-                                disabled={this.isDisabled || !this.treeNode.isCheckable}
-                                {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
-                            />}
-                        </div>
-                        <div class="pl-tree-node-content" onClick={() => this.plTree.onClickNodeContent(this.treeNode)} style={this.contentStyles}>
-                            {!!this.plTree.$scopedSlots.default ?
-                                this.plTree.$scopedSlots.default(this.treeNode)
-                                :
-                                (!!this.plTree.renderContent ?
-                                    this.plTree.renderContent(h, this.treeNode)
-                                    :
-                                    [
-                                        !this.plTree.nodeIcon ? null : <pl-icon icon={this.plTree.nodeIcon(this.treeNode)}/>,
-                                        <span class="pl-tree-node-label">{this.treeNode.label}</span>
-                                    ])
-                            }
-                        </div>
-                    </div>
+                    {this.getTreeNodeWrapper(h)}
 
                     <pl-collapse-transition>
                         {!this.treeNode.isLeaf && this.init && <div class="pl-tree-node-list" {...{directives: nodeListDirectives}}>
@@ -148,6 +118,43 @@
                     this.$nextTick(() => this.show = true)
                 }
                 return isExpand
+            },
+        },
+        methods: {
+            getTreeNodeWrapper(h) {
+                return (
+                    <div class="pl-tree-node-wrapper">
+                        <div class="pl-tree-node-operator" style={this.expanderStyles}>
+                            <span class="pl-tree-node-expander">
+                                {
+                                    this.treeNode.isLoading ?
+                                        <pl-loading type="beta"/>
+                                        :
+                                        (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
+                                }
+                            </span>
+                            {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
+                                checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
+                                status={this.treeNode.checkStatus}
+                                disabled={this.isDisabled || !this.treeNode.isCheckable}
+                                {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
+                            />}
+                        </div>
+                        <div class="pl-tree-node-content" onClick={() => this.plTree.onClickNodeContent(this.treeNode)} style={this.contentStyles}>
+                            {!!this.plTree.$scopedSlots.default ?
+                                this.plTree.$scopedSlots.default(this.treeNode)
+                                :
+                                (!!this.plTree.renderContent ?
+                                    this.plTree.renderContent(h, this.treeNode)
+                                    :
+                                    [
+                                        !this.plTree.nodeIcon ? null : <pl-icon icon={this.plTree.nodeIcon(this.treeNode)}/>,
+                                        <span class="pl-tree-node-label">{this.treeNode.label}</span>
+                                    ])
+                            }
+                        </div>
+                    </div>
+                )
             },
         },
     }
