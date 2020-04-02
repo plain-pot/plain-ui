@@ -216,7 +216,7 @@
             </pl-virtual-tree>
         </demo-row>
 
-        <demo-row title="虚拟滚动">
+        <demo-row title="虚拟滚动(可拖拽+可选)">
             <virtual-tree-large-data/>
         </demo-row>
     </div>

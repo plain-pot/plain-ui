@@ -7,24 +7,29 @@ const Tree = tree as any
 export default {
     name: "pl-virtual-tree",
     components: {PlVirtualTreeNode},
-    mixins: Tree.mixins,
-    provide() {
-        return {
-            plTree: this,
-        }
-    },
+    mixins: [
+        ...Tree.mixins,
+        {
+            provide: Tree.provide,
+            props: Tree.props,
+            data: Tree.data,
+            watch: Tree.watch,
+            created: Tree.created,
+            computed: Tree.computed,
+            methods: Tree.methods,
+        },
+    ],
     props: {
-        ...Tree.props,
-
         virtual: {type: Boolean},
         width: {},
         height: {},
     },
     emitters: Tree.emitters,
-    data: Tree.data,
-    watch: Tree.watch,
-    created: Tree.created,
-    mounted() {
+    data() {
+        const disabledQueueAnimation = this.$plain.utils.debounce(() => this.virtualScrollFlag = false, 300, true)
+        return {
+            disabledQueueAnimation,
+        }
     },
     render(h) {
         const directives = [{name: 'loading', value: this.isLoading}]
@@ -33,7 +38,7 @@ export default {
             <div {...{directives}} class={this.classes} style={this.styles}>
                 {(!this.formatDataFlat || this.formatDataFlat.length === 0) && (
                     <div class="pl-tree-node-empty-text"
-                        key="pl-tree-node-empty-text">
+                         key="pl-tree-node-empty-text">
                         <pl-icon icon="el-icon-reading"/>
                         <span>{this.emptyText}</span>
                     </div>
@@ -43,8 +48,9 @@ export default {
                 {!!this.virtual ?
                     <pl-virtual-list data={this.formatDataFlat}
                                      size={24}
-                                     contentIs={'pl-list'}
+                                     contentIs={this.virtualScrollFlag ? 'div' : 'pl-list'}
                                      contentProps={{direction: "right"}}
+                                     onScroll={this.onVirtualScroll}
                                      {...{
                                          scopedSlots: {default: ({item, index}) => <pl-virtual-tree-node treeNode={item} key={item.key} vid={index}/>}
                                      }}/> :
@@ -56,7 +62,6 @@ export default {
         )
     },
     computed: {
-        ...Tree.computed,
         styles() {
             const styles = {} as any
             if (!!this.width) styles.width = this.width
@@ -80,6 +85,9 @@ export default {
         },
     },
     methods: {
-        ...Tree.methods,
+        onVirtualScroll() {
+            this.virtualScrollFlag = true
+            this.disabledQueueAnimation()
+        },
     },
 }

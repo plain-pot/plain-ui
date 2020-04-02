@@ -308,6 +308,7 @@
                 formatCount,
                 rootTreeNode,
                 dragState,
+                virtualScrollFlag: false,
             }
         },
         created(): void {
@@ -330,6 +331,7 @@
                     {
                         'pl-tree-highlight-current': this.highlightCurrent,
                         'pl-tree-reflow': this.dragState.reflow,
+                        'pl-tree-virtual-scrolling': this.virtualScrollFlag,
                     }
                 ]
             },
@@ -876,6 +878,12 @@
 
             &.pl-tree-reflow {
                 .pl-tree-node-list {
+                    transition: none !important;
+                }
+            }
+
+            &.pl-tree-virtual-scrolling {
+                .pl-tree-node {
                     transition: none !important;
                 }
             }

@@ -4,6 +4,9 @@
             <pl-button-group>
                 <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
                 <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
+                <pl-button label="当前选中节点" @click="$message(!!$refs.tree1.getCurrent() ? $refs.tree1.getCurrent().data.name : '未选中任何节点！')"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.tree1.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                <pl-button label="打印数据" @click="$plain.log(treeData)"/>
             </pl-button-group>
         </demo-line>
         <pl-virtual-tree ref="tree1"
@@ -12,9 +15,11 @@
                          keyField="id"
                          labelField="name"
                          childrenField="subs"
-                         height="300px"
+                         height="360px"
                          width="200px"
                          virtual
+                         draggable
+                         showCheckbox
                          @node-click="val=>$plain.log(val.data.name)"/>
     </div>
 </template>
