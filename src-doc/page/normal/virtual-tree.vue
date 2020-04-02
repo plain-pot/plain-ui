@@ -448,7 +448,7 @@
 <style lang="scss">
 
     @include themify {
-        .pl-virtual-tree {
+        .pl-tree {
             .pl-list-move-right-enter {
                 opacity: 0;
                 transform: translateX(100px);

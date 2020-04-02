@@ -12,6 +12,9 @@
                          keyField="id"
                          labelField="name"
                          childrenField="subs"
+                         height="300px"
+                         width="200px"
+                         virtual
                          @node-click="val=>$plain.log(val.data.name)"/>
     </div>
 </template>

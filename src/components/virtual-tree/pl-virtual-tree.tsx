@@ -15,6 +15,10 @@ export default {
     },
     props: {
         ...Tree.props,
+
+        virtual: {type: Boolean},
+        width: {},
+        height: {},
     },
     emitters: Tree.emitters,
     data: Tree.data,
@@ -26,13 +30,35 @@ export default {
         const directives = [{name: 'loading', value: this.isLoading}]
 
         return (
-            <div class="pl-virtual-tree" style={{width: '300px', height: '500px'}} {...{directives}}>
-                <pl-virtual-list data={this.formatDataFlat} size={24} renderContent={this.renderVirtualListContent}/>
+            <div {...{directives}} class={this.classes} style={this.styles}>
+                {(!this.formatDataFlat || this.formatDataFlat.length === 0) && (
+                    <li class="pl-tree-node-empty-text"
+                        key="pl-tree-node-empty-text">
+                        <pl-icon icon="el-icon-reading"/>
+                        <span>{this.emptyText}</span>
+                    </li>
+                )}
+                {!!this.draggable && <span class="pl-tree-drag-indicator" key="pl-tree-drag-indicator" {...{directives: [{name: 'show', value: this.dragState.show}]}} style={this.indicatorStyles}></span>}
+
+                {!!this.virtual ?
+                    <pl-virtual-list data={this.formatDataFlat} size={24} {...{
+                        scopedSlots: {default: ({item, index}) => <pl-virtual-tree-node treeNode={item} key={item.key} vid={index}/>}
+                    }}/> :
+                    <pl-list tag="div" direction="right">
+                        {this.formatDataFlat.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
+                    </pl-list>
+                }
             </div>
         )
     },
     computed: {
         ...Tree.computed,
+        styles() {
+            const styles = {} as any
+            if (!!this.width) styles.width = this.width
+            if (!!this.height) styles.height = this.height
+            return styles
+        },
         /**
          * formatData偏平格式化
          * @author  韦胜健
@@ -51,21 +77,5 @@ export default {
     },
     methods: {
         ...Tree.methods,
-        renderVirtualListContent(h, list) {
-            list = list.map(item => item.item)
-
-            return (
-                <pl-list tag="ul" class={this.classes} direction="right">
-                    {list.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
-                    {(!list || list.length === 0) && (
-                        <li class="pl-tree-node-empty-text" key="pl-tree-node-empty-text">
-                            <pl-icon icon="el-icon-reading"/>
-                            <span>{this.emptyText}</span>
-                        </li>
-                    )}
-                    {!!this.draggable && <span class="pl-tree-drag-indicator" key="pl-tree-drag-indicator" {...{directives: [{name: 'show', value: this.dragState.show}]}} style={this.indicatorStyles}></span>}
-                </pl-list>
-            )
-        },
     },
 }
