@@ -1,13 +1,16 @@
 <template>
-    <app-home/>
+    <div class="step">
+        <demo-row title="基本用法">
+            <pl-step>
+
+            </pl-step>
+        </demo-row>
+    </div>
 </template>
 
 <script>
-    import AppHome from "./page/home/app-home";
-
     export default {
-        name: "App",
-        components: {AppHome},
+        name: "step",
         props: {},
         data() {
             return {}
@@ -17,8 +20,4 @@
 </script>
 
 <style lang="scss">
-    html, body {
-        margin: 0;
-        padding: 0;
-    }
 </style>

@@ -1,13 +1,12 @@
 <template>
-    <app-home/>
+    <div class="pl-step">
+       pl-step
+    </div>
 </template>
 
 <script>
-    import AppHome from "./page/home/app-home";
-
     export default {
-        name: "App",
-        components: {AppHome},
+        name: "pl-step",
         props: {},
         data() {
             return {}
@@ -17,8 +16,4 @@
 </script>
 
 <style lang="scss">
-    html, body {
-        margin: 0;
-        padding: 0;
-    }
 </style>

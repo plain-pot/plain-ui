@@ -1,17 +1,30 @@
 <template>
-    <ul :class="classes" v-loading="isLoading">
-        <li class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
+    <div :class="classes" v-loading="isLoading">
+        <div class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
             <pl-icon icon="el-icon-reading"/>
             <span>{{emptyText}}</span>
-        </li>
+        </div>
         <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
-    </ul>
+        <span class="pl-tree-drag-indicator" v-if="draggable" v-show="dragState.show" :style="indicatorStyles"></span>
+    </div>
 </template>
 
 <script lang="ts">
     import {EmitMixin, StyleMixin} from "../../utils/mixins";
     import PlTreeNode from "./pl-tree-node.vue";
     import {TreeMark, TreeNode} from "./tree";
+
+    /**
+     * 拖拽放置的类型
+     * @author  韦胜健
+     * @date    2020/4/1 17:15
+     */
+    enum DropType {
+        prev = 'prev',
+        inner = 'inner',
+        next = 'next',
+        null = 'null',
+    }
 
     export default {
         name: "pl-tree",
@@ -63,8 +76,8 @@
 
             // 拖拽属性
             draggable: {type: Boolean},                                 // 是否可拖拽
-            isDraggable: {type: Function},                              // 判断节点是否可以拖拽
-            isDroppable: {type: Function},                              // 判断目标节点能够被放置
+            allowDrag: {type: Function},                                // 判断节点是否可以拖拽
+            allowDrop: {type: Function},                                // 判断目标节点能够被放置
         },
         emitters: {
             emitNodeClick: Function,
@@ -122,6 +135,190 @@
             const mark: { [key: string]: TreeMark } = {}                                        // 标记映射
             const formatCount: number = 0;                                                      // 当前格式化数据的时候，数据的版本，用来清理mark中不需要保存的数据
             let rootTreeNode: TreeNode = new TreeNode({}, this, 0);                             // 根节点 treeNode对象
+
+            const dragState: {
+                show: boolean,
+                indicatorStyles: { top?: number, width?: number, left?: number },
+                dropInnerKey: string,
+                dropType: DropType,
+                dropTreeNode: TreeNode,
+                dragTreeNode: TreeNode,
+                dragstart: Function,
+                dragend: Function,
+                dragover: Function,
+                reflow: boolean,
+            }
+                = {
+                show: false,                                                                    // 当前拖拽指示器是否展示
+                indicatorStyles: {},                                                            // 当前指示器样式
+                dropInnerKey: null,                                                             // 当前拖拽，即将放入内部的节点的key
+                dropType: DropType.null,                                                        // 当前拖拽在目标节点的位置
+                dropTreeNode: null,                                                             // 当前放置目标节点的treeNode对象
+                dragTreeNode: null,                                                             // 当前拖拽目标节点的treeNode对象
+                reflow: false,                                                                  // 当前是否正在重新渲染，重新渲染的时候不要展开动画
+                /*---------------------------------------drag listener-------------------------------------------*/
+                dragstart: (e) => {
+                    e.stopPropagation()
+                    e.dataTransfer.effectAllowed = 'move'
+
+                    const dragTreeNode = this.getTreeNodeFromEl(e.currentTarget)
+
+                    if (!this.isAllowDrag(dragTreeNode, e)) {
+                        e.preventDefault()
+                        return
+                    }
+
+                    dragState.dragTreeNode = dragTreeNode
+                },
+                dragend: (e) => {
+                    e.stopPropagation()
+
+                    dragState.show = false
+                    dragState.dropInnerKey = null
+                    dragState.indicatorStyles = {}
+
+                    const {dropTreeNode, dragTreeNode, dropType} = dragState
+
+                    if (!!dropTreeNode) {
+                        dragTreeNode.removeSelf()
+                        const dropRelativeData = dropTreeNode.parent.childrenData
+
+                        dragState.reflow = true
+                        switch (dropType) {
+                            case DropType.prev:
+                                // console.log(`添加到 ${dropTreeNode.label} 之前`)
+                                dropTreeNode.splice(dropRelativeData.indexOf(dropTreeNode.data), 0, dragTreeNode.data)
+                                break
+                            case DropType.inner:
+                                // console.log(`添加到 ${dropTreeNode.label} 内部`)
+                                dropTreeNode.push(dragTreeNode.data)
+                                break
+                            case DropType.next:
+                                // console.log(`添加到 ${dropTreeNode.label} 之后`)
+                                dropTreeNode.splice(dropRelativeData.indexOf(dropTreeNode.data) + 1, 0, dragTreeNode.data)
+                                break
+                            default:
+                                // console.log(`无任何变化`)
+                                break
+                        }
+                        this.refreshCheckStatus()
+                        setTimeout(() => dragState.reflow = false, 100)
+                    }
+                },
+                /*---------------------------------------drop listener-------------------------------------------*/
+                dragover: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    e.dataTransfer.dropEffect = 'move'
+
+                    const treeNode = this.getTreeNodeFromEl(e.currentTarget)
+
+                    let nothing = () => {
+                        e.dataTransfer.dropEffect = 'none'
+                        dragState.show = false
+                        dragState.dropInnerKey = null
+                        dragState.indicatorStyles = {}
+                        dragState.dropType = DropType.null
+                        dragState.dropTreeNode = null
+                    }
+
+                    // 如果当前 over 的节点为拖拽节点的子节点，则什么事也不干，清空标记信息并且什么也不做
+                    if (treeNode === dragState.dragTreeNode) {
+                        nothing()
+                        return;
+                    } else {
+                        let containsFlag = false
+                        this.iterateAll(dragState.dragTreeNode.children, (child) => {
+                            if (child === treeNode) {
+                                containsFlag = true
+                            }
+                        })
+                        if (containsFlag) {
+                            nothing()
+                            return;
+                        }
+                    }
+
+                    let content = e.currentTarget.querySelector('.pl-tree-node-content')
+                    let rect = content.getBoundingClientRect()
+
+                    if (!!rect) {
+                        dragState.dropTreeNode = treeNode
+
+                        let {height, width, left, top} = rect
+                        width -= dragState.dropTreeNode.indicatorLeft
+                        left += dragState.dropTreeNode.indicatorLeft
+
+                        let deltaY = e.clientY - top
+                        let allowDrop;
+
+
+                        if (deltaY < height / 4) {
+                            // 上
+                            allowDrop = this.isAllowDrop(dragState.dragTreeNode, dragState.dropTreeNode, DropType.prev, e)
+                            if (!allowDrop) return nothing()
+
+                            dragState.dropType = DropType.prev
+                            dragState.show = true
+                            dragState.dropInnerKey = null
+                            dragState.indicatorStyles = {top, width, left}
+                        } else if (deltaY < height * (3 / 4)) {
+                            // 中
+                            allowDrop = this.isAllowDrop(dragState.dragTreeNode, dragState.dropTreeNode, DropType.inner, e)
+                            if (!allowDrop) return nothing()
+
+                            dragState.dropType = DropType.inner
+                            dragState.show = false
+                            dragState.indicatorStyles = {}
+                            dragState.dropInnerKey = treeNode.key
+
+                        } else {
+                            // 下
+                            allowDrop = this.isAllowDrop(dragState.dragTreeNode, dragState.dropTreeNode, DropType.next, e)
+                            if (!allowDrop) return nothing()
+
+                            if (treeNode.isExpand && !!treeNode.children && treeNode.children.length > 0) {
+                                // 节点已经展开，并且有子节点，表示插入到第一个子节点之前
+                                let firstChildTreeNodeDom = undefined
+
+                                if (this.$options.name === 'pl-tree') {
+                                    firstChildTreeNodeDom = e.currentTarget.querySelector('.pl-tree-node')
+                                } else if (this.$options.name === 'pl-virtual-tree') {
+                                    firstChildTreeNodeDom = e.currentTarget.nextSibling
+                                } else {
+                                    console.warn(`can't recognise ${this.$options.name}`)
+                                    return nothing
+                                }
+
+                                content = firstChildTreeNodeDom.querySelector('.pl-tree-node-content')
+                                rect = content.getBoundingClientRect()
+                                if (!!rect) {
+                                    dragState.dropTreeNode = this.getTreeNodeFromEl(firstChildTreeNodeDom)
+
+                                    width = rect.width
+                                    left = rect.left
+                                    top = rect.top
+
+                                    width -= dragState.dropTreeNode.indicatorLeft
+                                    left += dragState.dropTreeNode.indicatorLeft
+
+                                    dragState.dropType = DropType.prev
+                                    dragState.show = true
+                                    dragState.dropInnerKey = null
+                                    dragState.indicatorStyles = {top, width, left}
+                                }
+
+                            } else {
+                                // 否则这时候应该将节点插入到目标节点之后
+                                dragState.dropType = DropType.next
+                                dragState.show = true
+                                dragState.dropInnerKey = null
+                                dragState.indicatorStyles = {top: top + height, width, left,}
+                            }
+                        }
+                    }
+                },
+            }
             return {
                 p_data,
                 p_loading,
@@ -129,6 +326,8 @@
                 mark,
                 formatCount,
                 rootTreeNode,
+                dragState,
+                virtualScrollFlag: false,
             }
         },
         created(): void {
@@ -149,7 +348,9 @@
                     'pl-tree',
                     'pl-tree-node-list',
                     {
-                        'pl-tree-highlight-current': this.highlightCurrent
+                        'pl-tree-highlight-current': this.highlightCurrent,
+                        'pl-tree-reflow': this.dragState.reflow,
+                        'pl-tree-virtual-scrolling': this.virtualScrollFlag,
                     }
                 ]
             },
@@ -168,6 +369,7 @@
                 }
                 this.formatCount++
                 this.rootTreeNode.children = this.p_data.map(item => this.formatNodeData(item, this.formatCount, this.rootTreeNode))
+                this.rootTreeNode.data = {[this.childrenField]: this.p_data}
                 return this.rootTreeNode.children
             },
             /**
@@ -193,6 +395,25 @@
              */
             isLoading() {
                 return this.loading || this.p_loading
+            },
+            /**
+             * 拖拽指示器的样式
+             * @author  韦胜健
+             * @date    2020/4/1 17:39
+             */
+            indicatorStyles() {
+                let styles = {} as any
+                const indicatorStyles = this.dragState.indicatorStyles
+                if (!!indicatorStyles.left) {
+                    styles.left = `${indicatorStyles.left + 6}px`
+                }
+                if (!!indicatorStyles.width) {
+                    styles.width = `${indicatorStyles.width}px`
+                }
+                if (!!indicatorStyles.top) {
+                    styles.top = `${indicatorStyles.top}px`
+                }
+                return styles
             },
         },
         methods: {
@@ -309,17 +530,17 @@
                     const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
                     if (!treeNode.isCheck) {
-                        this.setMark(treeNode.key, TreeMark.checked, true)
+                        treeNode.check(true)
 
                         // 父子关联模式下，改变子节点以及父节点状态
                         if (!this.checkStrictly) {
                             // 选中所有子节点
-                            this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, true))
+                            this.iterateAll(treeNode.children, (child) => child.check(true))
                             // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
                             let parent = treeNode.parent
                             while (!!parent && !!parent.key) {
                                 if (parent.children.every(child => child.isCheck)) {
-                                    this.setMark(parent.key, TreeMark.checked, true)
+                                    parent.check(true)
                                     parent = parent.parent
                                 } else {
                                     break
@@ -343,17 +564,17 @@
                     const treeNode = this.findTreeNodeByKey(key)
                     if (!treeNode) return
                     if (treeNode.isCheck) {
-                        this.setMark(treeNode.key, TreeMark.checked, false)
+                        treeNode.check(false)
 
                         // 父子关联模式下，改变子节点以及父节点状态
                         if (!this.checkStrictly) {
                             // 取消选中所有子节点
-                            this.iterateAll(treeNode.children, (child) => this.setMark(child.key, TreeMark.checked, false))
+                            this.iterateAll(treeNode.children, (child) => child.check(false))
                             // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
                             let parent = treeNode.parent
                             while (!!parent && !!parent.key) {
                                 if (parent.isCheck) {
-                                    this.setMark(parent.key, TreeMark.checked, false)
+                                    parent.check(false)
                                     parent = parent.parent
                                 } else {
                                     break
@@ -388,7 +609,7 @@
              * @date    2020/3/31 17:33
              */
             checkAll() {
-                this.iterateAll(this.formatData, (treeNode: TreeNode) => this.setMark(treeNode.key, TreeMark.checked, true))
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => treeNode.check(true))
             },
             /**
              * 取消选中所有节点
@@ -396,7 +617,7 @@
              * @date    2020/3/31 17:33
              */
             uncheckAll() {
-                this.iterateAll(this.formatData, (treeNode: TreeNode) => this.setMark(treeNode.key, TreeMark.checked, false))
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => treeNode.check(false))
             },
             /**
              * 获取选中的数据
@@ -445,12 +666,12 @@
              * @author  韦胜健
              * @date    2020/3/30 19:30
              */
-            iterateAll(treeNodes: TreeNode[], fn) {
+            iterateAll(treeNodes: TreeNode[], fn, iterateChildren?: Function) {
                 if (!treeNodes) return
                 treeNodes.forEach(treeNode => {
                     fn(treeNode)
-                    if (!!treeNode.children) {
-                        this.iterateAll(treeNode.children, fn)
+                    if (!!treeNode.children && (!iterateChildren || iterateChildren(treeNode))) {
+                        this.iterateAll(treeNode.children, fn, iterateChildren)
                     }
                 })
             },
@@ -479,9 +700,7 @@
                 const treeNode = new TreeNode(data, this, level, parent)
                 this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
                 this.setMark(treeNode.key, TreeMark.formatCount, formatCount)
-                if (!!treeNode.children) {
-                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, formatCount, treeNode, level + 1))
-                }
+                treeNode.children = (treeNode.childrenData || []).map(child => this.formatNodeData(child, formatCount, treeNode, level + 1))
                 return treeNode
             },
             /**
@@ -527,6 +746,66 @@
             async handleKeys(keys: string | string[], handler: (value: unknown, index: number, array: []) => unknown) {
                 keys = Array.isArray(keys) ? keys : [keys]
                 return await Promise.all(keys.map(handler))
+            },
+            getTreeNodeFromEl(el: any) {
+                const instance = el.__vue__
+                if (!!instance.treeNode) return instance.treeNode
+                if (!!instance.$parent && !!instance.$parent.treeNode) return instance.$parent.treeNode
+                return null
+            },
+            /**
+             * 刷新节点选中状态
+             * @author  韦胜健
+             * @date    2020/4/1 22:17
+             */
+            refreshCheckStatus() {
+                if (!this.showCheckbox) return
+                if (this.checkStrictly) return;
+
+                const next = (treeNode: TreeNode) => {
+                    let hasCheck = false
+                    let hasUncheck = false
+
+                    if (!!treeNode.children && treeNode.children) {
+                        treeNode.children.forEach(child => {
+                            next(child)
+                            if (child.isCheck) {
+                                hasCheck = true
+                            } else {
+                                hasUncheck = true
+                            }
+                        })
+                    }
+                    if (hasCheck && !hasUncheck) {
+                        // 所有子节点选中
+                        if (!treeNode.isCheck) {
+                            treeNode.check(true)
+                        }
+                    } else if (hasUncheck) {
+                        // 有子节点未选中
+                        if (treeNode.isCheck) {
+                            treeNode.check(false)
+                        }
+                    }
+                }
+
+                this.formatData.forEach(next)
+            },
+            /**
+             * 判断是否可以拖拽
+             * @author  韦胜健
+             * @date    2020/4/1 23:12
+             */
+            isAllowDrag(dragTreeNode: TreeNode, event: DragEvent) {
+                return !this.allowDrag || this.allowDrag(dragTreeNode, event)
+            },
+            /**
+             * 判断是否可以放置
+             * @author  韦胜健
+             * @date    2020/4/1 23:12
+             */
+            isAllowDrop(dragTreeNode: TreeNode, dropTreeNode: TreeNode, dropType: DropType, event) {
+                return !this.allowDrop || this.allowDrop(dragTreeNode, dropTreeNode, dropType, event)
             },
             /*---------------------------------------helper-------------------------------------------*/
 
@@ -581,56 +860,65 @@
             position: relative;
             min-height: 100px;
 
-            &, & ul {
-                &.pl-tree-node-list {
-                    margin: 0;
-                    padding: 0;
-                    list-style: none;
-                }
-            }
-
             .pl-tree-node {
                 font-size: 14px;
                 line-height: 24px;
                 cursor: pointer;
-                user-select: none;
+                display: block;
 
-                .pl-tree-node-content {
-                    padding-right: 12px;
-                    display: flex;
-                    align-items: center;
-                    flex-wrap: nowrap;
+                .pl-tree-node-wrapper {
+                    position: relative;
+                    width: 100%;
                     transition: all $transition 300ms;
+
+                    .pl-tree-node-operator {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        user-select: none;
+
+                        .pl-tree-node-expander {
+                            height: 24px;
+                            width: 18px;
+                            display: inline-block;
+                            vertical-align: top;
+                        }
+
+                        .pl-checkbox-indeterminate {
+                            user-select: none;
+                        }
+                    }
+
+                    .pl-tree-node-content {
+                        width: 100%;
+
+                        .pl-tree-node-content-label {
+                            padding: 0 6px;
+                        }
+                    }
 
                     &:hover {
                         background-color: mix(white, $colorPrimary, 90%);
                     }
-
-                    .pl-tree-node-content-label {
-                        padding: 0 6px;
-                        flex: 1;
-                    }
-
-                    .pl-checkbox-indeterminate {
-                        padding-left: 6px;
-                    }
-
-                    .pl-tree-node-content-expand-wrapper {
-                        position: relative;
-                        display: inline-block;
-                        width: 1em;
-                    }
                 }
 
                 &.pl-tree-node-expand {
-                    & > .pl-tree-node-content > .pl-tree-node-content-expand-wrapper > .pl-tree-expand-icon {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-operator > .pl-tree-node-expander > .pl-tree-expand-icon {
                         transform: rotate(90deg);
+                    }
+                }
+
+                &.pl-tree-node-drop-inner {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-content {
+                        color: $colorPrimary;
+                        font-weight: bold;
                     }
                 }
             }
 
             .pl-icon {
                 color: $icc;
+                margin-right: 6px;
 
                 &.pl-tree-expand-icon {
                     transition: all $transition 300ms;
@@ -647,9 +935,29 @@
                 }
             }
 
+            .pl-tree-drag-indicator {
+                position: fixed;
+                z-index: 9999;
+                height: 2px;
+                background-color: $colorPrimary;
+                display: inline-block;
+            }
+
             &.pl-tree-highlight-current {
-                .pl-tree-node.pl-tree-node-current > .pl-tree-node-content {
+                .pl-tree-node.pl-tree-node-current > .pl-tree-node-wrapper {
                     background-color: mix(white, $colorPrimary, 90%);
+                }
+            }
+
+            &.pl-tree-reflow {
+                .pl-tree-node-list {
+                    transition: none !important;
+                }
+            }
+
+            &.pl-tree-virtual-scrolling {
+                .pl-tree-node {
+                    transition: none !important;
                 }
             }
         }

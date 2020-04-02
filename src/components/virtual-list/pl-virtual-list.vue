@@ -1,15 +1,3 @@
-<template>
-    <pl-scroll class="pl-virtual-list" @scroll="onScroll" scrollbarColor="black" ref="scroll">
-        <div class="pl-virtual-list-strut" :style="strutStyles">
-            <div class="pl-virtual-list-content" :style="contentStyles" ref="content">
-                <template v-for="({item,index}) in targetData">
-                    <slot :item="item" :index="index"></slot>
-                </template>
-            </div>
-        </div>
-    </pl-scroll>
-</template>
-
 <script>
     import {MountedMixin, RefsMixinFactory} from "../../utils/mixins";
 
@@ -27,6 +15,10 @@
             size: {type: Number, require: true},                        // 每一行高度
             remain: {type: Number, require: true},                      // 一屏渲染的行数，总共渲染三屏，一屏渲染个数越多，滚动效果越好，但是浏览器卡顿的效果可能更明显；如果不传remain，则根据size以及 pl-virtual-list 跟节点的高度自动计算行数
             dynamicSize: {type: Boolean},                               // 标识列表中的每一行高度不是固定的，但是还是需要提供 size 属性，而且size属性不能与每一行的高度差距太多；
+            renderContent: {type: Function},                            // 渲染content节点的渲染函数
+
+            contentIs: {},
+            contentProps: {},
         },
         watch: {
             remain: {
@@ -67,11 +59,29 @@
                 dataInfo: null,                         // 所有的位置信息
             }
         },
+        render(h) {
+
+            const Content = this.contentIs || 'div'
+
+            return (
+                <pl-scroll class="pl-virtual-list" onScroll={this.onScroll} ref="scroll">
+                    <div class="pl-virtual-list-strut" style={this.strutStyles}>
+                        <Content class="pl-virtual-list-content" style={this.contentStyles} ref="content" {...{props: this.contentProps || {}}}>
+                            {!!this.renderContent ?
+                                this.renderContent(h, this.targetData) :
+                                (!!this.$scopedSlots.default ? this.targetData.map(({item, index}) => this.$scopedSlots.default({item, index})) : null)}
+                        </Content>
+                    </div>
+                </pl-scroll>
+            )
+        },
         async updated() {
             if (!this.dynamicSize) return
             // 页面渲染完成之后，需要根据当前展示的数据，更新缓存的内容
             await this.$plain.nextTick()
-            const nodes = Array.from(this.content.childNodes || [])
+
+            const content = this.content.$el || this.content
+            const nodes = Array.from(content.childNodes || [])
 
             for (let i = 0; i < nodes.length; i++) {
                 const node = nodes[i];
@@ -132,6 +142,8 @@
                 }
 
                 this.end = this.start + this.p_remain
+
+                this.$emit('scroll')
             },
 
             /*---------------------------------------utils-------------------------------------------*/

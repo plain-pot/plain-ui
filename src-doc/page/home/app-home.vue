@@ -61,9 +61,8 @@
 
 <style lang="scss">
     .app-home {
-        height: 100%;
         width: 100%;
-
+        overflow: hidden;
         .app-divider {
             background-color: #efefef;
             height: 16px;
