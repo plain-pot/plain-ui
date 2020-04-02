@@ -18,7 +18,7 @@
                              keyField="id"
                              labelField="name"
                              childrenField="subs"
-                             @node-click="val=>$message(val.data.name)"/>
+                             @node-click="val=>$plain.log(val.data.name)"/>
         </demo-row>
     </div>
 </template>
@@ -111,13 +111,48 @@
             padding: 0;
             list-style: none;
 
-            .pl-virtual-tree-node {
-                transition: all 300ms $transition;
-            }
-
             .pl-list-move-right-enter {
                 opacity: 0;
                 transform: translateX(100px);
+            }
+
+            .pl-icon {
+                color: $icc;
+
+                &.pl-tree-expand-icon {
+                    transition: all $transition 300ms;
+                }
+            }
+
+            .pl-virtual-tree-node {
+                transition: all 300ms $transition;
+                font-size: 14px;
+                line-height: 24px;
+                cursor: pointer;
+                width: 200px;
+
+                .pl-virtual-tree-node-expander {
+                    height: 24px;
+                    width: 18px;
+                    user-select: none;
+                    display: inline-block;
+                }
+
+                .pl-virtual-tree-node-content {
+                    display: inline-block;
+                    padding-left: 18px;
+                    transition: background-color 300ms $transition;
+
+                    &:hover {
+                        background-color: mix(white, $colorPrimary, 90%);
+                    }
+                }
+
+                &.pl-virtual-tree-node-expand {
+                    & > .pl-virtual-tree-node-expander > .pl-tree-expand-icon {
+                        transform: rotate(90deg);
+                    }
+                }
             }
         }
     }

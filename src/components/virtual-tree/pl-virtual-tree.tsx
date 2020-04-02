@@ -7,8 +7,15 @@ const Tree = tree as any
 export default {
     name: "pl-virtual-tree",
     components: {PlVirtualTreeNode},
+    mixins: Tree.mixins,
+    emitters: Tree.emitters,
     props: {
         ...Tree.props,
+    },
+    provide() {
+        return {
+            plTree: this,
+        }
     },
     data() {
         const p_data: any[] = this.data
@@ -28,7 +35,7 @@ export default {
     },
     render(h) {
         return (
-            <pl-list tag="ul" class={this.classes} direction="right">
+            <pl-list tag="ul" class={this.classes} direction="top">
                 {this.formatDataFlat.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
             </pl-list>
         )
@@ -54,16 +61,47 @@ export default {
             this.iterateAll(formatData, (treeNode: TreeNode) => {
                 formatDataFlat.push(treeNode)
             }, (treeNode: TreeNode) => {
-                return treeNode.isExpand
+                return treeNode.isExpand === true
             })
             return formatDataFlat
         },
     },
     methods: {
-        formatNodeData: Tree.methods.formatNodeData,
-        checkProps: Tree.methods.checkProps,
+
+        /*---------------------------------------methods-------------------------------------------*/
+        /*current*/
+        setCurrent: Tree.methods.setCurrent,
+        getCurrent: Tree.methods.getCurrent,
+        /*expand*/
+        expand: Tree.methods.expand,
+        collapse: Tree.methods.collapse,
+        toggleExpand: Tree.methods.toggleExpand,
+        expandAll: Tree.methods.expandAll,
+        collapseAll: Tree.methods.collapseAll,
+        /*check*/
+        check: Tree.methods.check,
+        uncheck: Tree.methods.uncheck,
+        toggleCheck: Tree.methods.toggleCheck,
+        checkAll: Tree.methods.checkAll,
+        uncheckAll: Tree.methods.uncheckAll,
+        getCheckedData: Tree.methods.getCheckedData,
+
+        /*---------------------------------------utils-------------------------------------------*/
         setMark: Tree.methods.setMark,
         getMark: Tree.methods.getMark,
         iterateAll: Tree.methods.iterateAll,
+        checkProps: Tree.methods.checkProps,
+        formatNodeData: Tree.methods.formatNodeData,
+        findTreeNodeByKey: Tree.methods.findTreeNodeByKey,
+        getChildrenAsync: Tree.methods.getChildrenAsync,
+        handleKeys: Tree.methods.handleKeys,
+
+        /*---------------------------------------helper-------------------------------------------*/
+        initLazy: Tree.methods.initLazy,
+
+        /*---------------------------------------handler-------------------------------------------*/
+        onClickExpandIcon: Tree.methods.onClickExpandIcon,
+        onClickNodeContent: Tree.methods.onClickNodeContent,
+        onClickCheckbox: Tree.methods.onClickCheckbox,
     },
 }
