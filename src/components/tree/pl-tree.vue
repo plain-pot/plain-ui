@@ -790,11 +790,11 @@
                         top: 0;
                         left: 0;
                         user-select: none;
-
                         .pl-tree-node-expander {
                             height: 24px;
-                            content: '';
+                            width: 18px;
                             display: inline-block;
+                            vertical-align: middle;
                         }
 
                         .pl-checkbox-indeterminate {
@@ -832,6 +832,7 @@
             .pl-icon {
                 color: $icc;
                 margin-right: 6px;
+
                 &.pl-tree-expand-icon {
                     transition: all $transition 300ms;
                 }
