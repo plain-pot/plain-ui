@@ -5,18 +5,18 @@ import PlVirtualTreeNode from './pl-virtual-tree-node'
 const Tree = tree as any
 
 export default {
-    name: "pl-tree",
+    name: "pl-virtual-tree",
     components: {PlVirtualTreeNode},
     mixins: Tree.mixins,
-    emitters: Tree.emitters,
-    props: {
-        ...Tree.props,
-    },
     provide() {
         return {
             plTree: this,
         }
     },
+    props: {
+        ...Tree.props,
+    },
+    emitters: Tree.emitters,
     data() {
         const p_data: any[] = this.data
         const p_currentKey: string = null
@@ -37,23 +37,39 @@ export default {
             dragState,
         }
     },
+    watch: Tree.watch,
+    created: Tree.created,
+    mounted() {
+    },
     render(h) {
+        const directives = [{name: 'loading', value: this.isLoading}]
+
         return (
-            <pl-list tag="ul" class={this.classes} direction="top">
+            <pl-list tag="ul" class={this.classes} direction="right" {...{directives}}>
                 {this.formatDataFlat.map((item) => <pl-virtual-tree-node treeNode={item} key={item.key}/>)}
+                {(!this.formatDataFlat || this.formatDataFlat.length === 0) && (
+                    <li class="pl-tree-node-empty-text" key="pl-tree-node-empty-text">
+                        <pl-icon icon="el-icon-reading"/>
+                        <span>{this.emptyText}</span>
+                    </li>
+                )}
+                {!!this.draggable && <span class="pl-tree-drag-indicator" key="pl-tree-drag-indicator" {...{directives: [{name: 'show', value: this.dragState.show}]}} style={this.indicatorStyles}></span>}
             </pl-list>
         )
     },
-    created() {
-    },
     computed: {
+        ...Tree.computed,
         classes() {
             return [
                 'pl-tree',
                 'pl-tree-node-list',
+                'pl-virtual-tree',
+                {
+                    'pl-tree-highlight-current': this.highlightCurrent,
+                    'pl-tree-reflow': this.dragState.reflow,
+                }
             ]
         },
-        formatData: Tree.computed.formatData,
         /**
          * formatData偏平格式化
          * @author  韦胜健
@@ -71,41 +87,6 @@ export default {
         },
     },
     methods: {
-
-        /*---------------------------------------methods-------------------------------------------*/
-        /*current*/
-        setCurrent: Tree.methods.setCurrent,
-        getCurrent: Tree.methods.getCurrent,
-        /*expand*/
-        expand: Tree.methods.expand,
-        collapse: Tree.methods.collapse,
-        toggleExpand: Tree.methods.toggleExpand,
-        expandAll: Tree.methods.expandAll,
-        collapseAll: Tree.methods.collapseAll,
-        /*check*/
-        check: Tree.methods.check,
-        uncheck: Tree.methods.uncheck,
-        toggleCheck: Tree.methods.toggleCheck,
-        checkAll: Tree.methods.checkAll,
-        uncheckAll: Tree.methods.uncheckAll,
-        getCheckedData: Tree.methods.getCheckedData,
-
-        /*---------------------------------------utils-------------------------------------------*/
-        setMark: Tree.methods.setMark,
-        getMark: Tree.methods.getMark,
-        iterateAll: Tree.methods.iterateAll,
-        checkProps: Tree.methods.checkProps,
-        formatNodeData: Tree.methods.formatNodeData,
-        findTreeNodeByKey: Tree.methods.findTreeNodeByKey,
-        getChildrenAsync: Tree.methods.getChildrenAsync,
-        handleKeys: Tree.methods.handleKeys,
-
-        /*---------------------------------------helper-------------------------------------------*/
-        initLazy: Tree.methods.initLazy,
-
-        /*---------------------------------------handler-------------------------------------------*/
-        onClickExpandIcon: Tree.methods.onClickExpandIcon,
-        onClickNodeContent: Tree.methods.onClickNodeContent,
-        onClickCheckbox: Tree.methods.onClickCheckbox,
+        ...Tree.methods,
     },
 }
