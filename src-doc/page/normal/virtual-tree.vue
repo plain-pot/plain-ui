@@ -41,13 +41,13 @@
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="checkTree"
-                     showCheckbox
-                     checkOnClickNode
-                     :expandOnClickNode="false"
-                     :data="treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"/>
+                             showCheckbox
+                             checkOnClickNode
+                             :expandOnClickNode="false"
+                             :data="treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"/>
         </demo-row>
 
         <demo-row title="多选：父子互不关联">
@@ -61,14 +61,14 @@
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="unCheckStrictTree"
-                     showCheckbox
-                     checkOnClickNode
-                     :expandOnClickNode="false"
-                     checkStrictly
-                     :data="treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"/>
+                             showCheckbox
+                             checkOnClickNode
+                             :expandOnClickNode="false"
+                             checkStrictly
+                             :data="treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"/>
         </demo-row>
 
         <demo-row title="多选：禁用部分选项，只能勾选1结尾的节点">
@@ -82,15 +82,15 @@
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="checkableTree"
-                     showCheckbox
-                     checkOnClickNode
-                     :expandOnClickNode="false"
-                     :data="treeData"
-                     checkStrictly
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     :isCheckable="isCheckable"/>
+                             showCheckbox
+                             checkOnClickNode
+                             :expandOnClickNode="false"
+                             :data="treeData"
+                             checkStrictly
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"
+                             :isCheckable="isCheckable"/>
         </demo-row>
 
         <demo-row title="自定义内容：作用域插槽">
@@ -105,12 +105,12 @@
             </demo-line>
 
             <pl-virtual-tree ref="scopedSlotDemo"
-                     :data="scopedSlotDemo.treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     style="width: 500px"
-                     showCheckbox>
+                             :data="scopedSlotDemo.treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"
+                             style="width: 500px"
+                             showCheckbox>
                 <template slot-scope="data">
                     <div style="width:100%;display: flex;justify-content: space-between">
                         <span>{{data.data.name}}</span>
@@ -135,30 +135,30 @@
             </demo-line>
 
             <pl-virtual-tree ref="renderDemo"
-                     :data="renderDemo.treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     style="width: 500px"
-                     showCheckbox
-                     :renderContent="renderDemo.renderContent"/>
+                             :data="renderDemo.treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"
+                             style="width: 500px"
+                             showCheckbox
+                             :renderContent="renderDemo.renderContent"/>
         </demo-row>
 
         <demo-row title="节点图标">
             <pl-virtual-tree defaultExpandAll
-                     :data="treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     :nodeIcon="nodeIcon"/>
+                             :data="treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"
+                             :nodeIcon="nodeIcon"/>
         </demo-row>
 
         <demo-row title="手风琴模式，展开节点的时候关闭兄弟节点">
             <pl-virtual-tree according
-                     :data="treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"/>
+                             :data="treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"/>
         </demo-row>
 
         <demo-row title="自定义过滤函数">
@@ -166,11 +166,11 @@
                 <pl-input v-model="filterText" suffixIcon="el-icon-search" clearIcon/>
             </demo-line>
             <pl-virtual-tree defaultExpandAll
-                     :data="treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     :filterNodeMethod="filterNodeMethod"/>
+                             :data="treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"
+                             :filterNodeMethod="filterNodeMethod"/>
         </demo-row>
         <demo-row title="绑定currentKey">
             <demo-line>
@@ -179,12 +179,12 @@
                 {{currentKey}}
             </demo-line>
             <pl-virtual-tree ref="currentTree"
-                     :currentKey="currentKey"
-                     :data="treeData"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     @current-change="treeNode=>currentKey = treeNode.key"/>
+                             :currentKey="currentKey"
+                             :data="treeData"
+                             keyField="id"
+                             labelField="name"
+                             childrenField="subs"
+                             @current-change="treeNode=>currentKey = treeNode.key"/>
         </demo-row>
 
         <demo-row title="展开图标">
@@ -216,12 +216,18 @@
             </pl-virtual-tree>
         </demo-row>
 
+        <demo-row title="虚拟滚动">
+            <virtual-tree-large-data/>
+        </demo-row>
     </div>
 </template>
 
 <script>
+    import VirtualTreeLargeData from "./virtual-tree-large-data";
+
     export default {
         name: "virtual-tree",
+        components: {VirtualTreeLargeData},
         props: {},
         data() {
             const treeData = [
