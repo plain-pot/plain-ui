@@ -13,10 +13,9 @@ export class TreeNode {
     droppable: boolean;             // 是否可放置*/
 
     constructor(public data: object, public context: any, public level: number, public parent?: TreeNode | null) {
-        const {keyField, labelField, childrenField} = context
+        const {keyField, labelField} = context
         this.key = !!keyField ? data[keyField] : undefined
         this.label = !!labelField ? data[labelField] : undefined
-        this.children = !!childrenField ? data[childrenField] : undefined
     }
 
     get isExpand(): boolean {

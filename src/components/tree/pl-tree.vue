@@ -673,9 +673,7 @@
                 const treeNode = new TreeNode(data, this, level, parent)
                 this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
                 this.setMark(treeNode.key, TreeMark.formatCount, formatCount)
-                if (!!treeNode.children) {
-                    treeNode.children = treeNode.children.map(child => this.formatNodeData(child, formatCount, treeNode, level + 1))
-                }
+                treeNode.children = treeNode.childrenData.map(child => this.formatNodeData(child, formatCount, treeNode, level + 1))
                 return treeNode
             },
             /**
