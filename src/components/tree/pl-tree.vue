@@ -778,44 +778,51 @@
                 font-size: 14px;
                 line-height: 24px;
                 cursor: pointer;
+                display: block;
 
-                .pl-tree-node-content {
-                    padding-right: 12px;
-                    display: flex;
-                    align-items: center;
-                    flex-wrap: nowrap;
+                .pl-tree-node-wrapper {
+                    position: relative;
+                    width: 100%;
                     transition: all $transition 300ms;
+
+                    .pl-tree-node-operator {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        user-select: none;
+
+                        .pl-tree-node-expander {
+                            height: 24px;
+                            content: '';
+                            display: inline-block;
+                        }
+
+                        .pl-checkbox-indeterminate {
+                            user-select: none;
+                        }
+                    }
+
+                    .pl-tree-node-content {
+                        width: 100%;
+
+                        .pl-tree-node-content-label {
+                            padding: 0 6px;
+                        }
+                    }
 
                     &:hover {
                         background-color: mix(white, $colorPrimary, 90%);
                     }
-
-                    .pl-tree-node-content-label {
-                        padding: 0 6px;
-                        flex: 1;
-                    }
-
-                    .pl-checkbox-indeterminate {
-                        padding-left: 6px;
-                        user-select: none;
-                    }
-
-                    .pl-tree-node-content-expand-wrapper {
-                        position: relative;
-                        display: inline-block;
-                        width: 1em;
-                        user-select: none;
-                    }
                 }
 
                 &.pl-tree-node-expand {
-                    & > .pl-tree-node-content > .pl-tree-node-content-expand-wrapper > .pl-tree-expand-icon {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-operator > .pl-tree-expand-icon {
                         transform: rotate(90deg);
                     }
                 }
 
                 &.pl-tree-node-drop-inner {
-                    & > .pl-tree-node-content > .pl-tree-node-content-label {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-content {
                         color: $colorPrimary;
                         font-weight: bold;
                     }
@@ -824,7 +831,7 @@
 
             .pl-icon {
                 color: $icc;
-
+                margin-right: 6px;
                 &.pl-tree-expand-icon {
                     transition: all $transition 300ms;
                 }
@@ -849,7 +856,7 @@
             }
 
             &.pl-tree-highlight-current {
-                .pl-tree-node.pl-tree-node-current > .pl-tree-node-content {
+                .pl-tree-node.pl-tree-node-current > .pl-tree-node-wrapper {
                     background-color: mix(white, $colorPrimary, 90%);
                 }
             }

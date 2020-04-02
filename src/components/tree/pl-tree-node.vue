@@ -38,30 +38,34 @@
 
             return (
                 <li class="pl-tree-node" class={this.classes} {...{directives: nodeDirectives, on: nodeOn}} draggable={this.plTree.draggable}>
-                    <div class="pl-tree-node-content" style={this.contentStyles} onClick={() => this.plTree.onClickNodeContent(this.treeNode)}>
-                        <div class="pl-tree-node-content-expand-wrapper">
-                            {
-                                this.isLoading ?
-                                    <pl-loading type="beta"/>
-                                    :
-                                    (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
-                            }
+                    <div class="pl-tree-node-wrapper">
+                        <div class="pl-tree-node-operator" style={this.expanderStyles}>
+                            <span class="pl-tree-node-expander">
+                                {
+                                    this.isLoading ?
+                                        <pl-loading type="beta"/>
+                                        :
+                                        (!this.treeNode.isLeaf && <pl-icon icon={this.plTree.expandIcon || 'el-icon-arrow-right'} onClick={e => this.plTree.onClickExpandIcon(e, this.treeNode)} class="pl-tree-expand-icon"/>)
+                                }
+                            </span>
+                            {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
+                                checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
+                                status={this.treeNode.checkStatus}
+                                disabled={this.isDisabled || !this.treeNode.isCheckable}
+                                {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
+                            />}
                         </div>
-                        {!!this.plTree.showCheckbox && <pl-checkbox-indeterminate
-                            checkboxProps={{value: this.treeNode.checkStatus === 'check'}}
-                            status={this.treeNode.checkStatus}
-                            disabled={this.isDisabled || !this.treeNode.isCheckable}
-                            {...{nativeOn: {click: e => this.plTree.onClickCheckbox(e, this.treeNode)}}}
-                        />}
-                        <div class="pl-tree-node-content-label">
-                            {!this.plTree.nodeIcon ? null : <pl-icon icon={this.plTree.nodeIcon(this.treeNode)}/>}
+                        <div class="pl-tree-node-content" onClick={() => this.plTree.onClickNodeContent(this.treeNode)} style={this.contentStyles}>
                             {!!this.plTree.$scopedSlots.default ?
                                 this.plTree.$scopedSlots.default(this.treeNode)
                                 :
                                 (!!this.plTree.renderContent ?
                                     this.plTree.renderContent(h, this.treeNode)
                                     :
-                                    <span>{this.treeNode.label}</span>)
+                                    [
+                                        !this.plTree.nodeIcon ? null : <pl-icon icon={this.plTree.nodeIcon(this.treeNode)}/>,
+                                        <span class="pl-tree-node-label">{this.treeNode.label}</span>
+                                    ])
                             }
                         </div>
                     </div>
@@ -98,8 +102,24 @@
              * @date    2020/3/31 9:32
              */
             contentStyles() {
+                let paddingLeft = this.plTree.intent * this.level + 6
+                paddingLeft += 18
+                if (this.plTree.showCheckbox) {
+                    paddingLeft += 24
+                }
                 return {
-                    paddingLeft: `${this.plTree.intent * this.level + 6}px`
+                    paddingLeft: `${paddingLeft}px`
+                }
+            },
+            /**
+             * expander节点style
+             * @author  韦胜健
+             * @date    2020/4/2 11:46
+             */
+            expanderStyles() {
+                let paddingLeft = this.plTree.intent * this.level + 6
+                return {
+                    paddingLeft: `${paddingLeft}px`
                 }
             },
             /**
