@@ -630,11 +630,11 @@
              * @author  韦胜健
              * @date    2020/3/30 19:30
              */
-            iterateAll(treeNodes: TreeNode[], fn, iterateChildren: boolean = true) {
+            iterateAll(treeNodes: TreeNode[], fn, iterateChildren?: Function) {
                 if (!treeNodes) return
                 treeNodes.forEach(treeNode => {
                     fn(treeNode)
-                    if (!!treeNode.children && iterateChildren) {
+                    if (!!treeNode.children && (!iterateChildren || iterateChildren(treeNode))) {
                         this.iterateAll(treeNode.children, fn)
                     }
                 })
