@@ -51,7 +51,7 @@ export default [
             {name: 'Badge', title: '标记', icon: 'pl-badge', page: '/normal/badge', complete: true},
             {name: 'ScrollOption', title: '滚动选择', icon: 'icon-scroll', page: '/normal/scroll-option', complete: false},
             {name: 'Step', title: '步骤条', icon: 'pl-step', page: '/normal/step', complete: true},
-            {name: 'Transform', title: '穿梭框', icon: 'pl-exchange', page: '/normal/transform', complete: false},
+            // {name: 'Transform', title: '穿梭框', icon: 'pl-exchange', page: '/normal/transform', complete: false},
         ]
     },
     {
