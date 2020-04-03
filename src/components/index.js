@@ -32,10 +32,11 @@ import pagination from './pagination'
 import tree from './tree'
 import virtualTree from './virtual-tree'
 import step from './step'
+import colorPicker from './color-picker'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio, select, form, toggle, number, slider, tag, rate,
+    input, checkbox, radio, select, form, toggle, number, slider, tag, rate, colorPicker,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
     list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree, virtualTree, step,

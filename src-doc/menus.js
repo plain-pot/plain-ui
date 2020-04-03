@@ -21,7 +21,7 @@ export default [
             {name: 'Slider', title: '滑块', icon: 'pl-slider', page: '/normal/slider', complete: true},
             {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: true},
             {name: 'Rate', title: '评分', icon: 'pad-star', page: '/normal/rate', complete: true},
-            {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: false},
+            {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: true},
 
             {name: 'Cascade', title: '级联选择', icon: 'pad-doubledown', page: '/normal/cascade', complete: false},
             {name: 'Timer', title: '时间选择', icon: 'pl-time-circle-light', page: '/normal/time', complete: false},
