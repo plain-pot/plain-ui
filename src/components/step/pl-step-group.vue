@@ -320,8 +320,8 @@
 
                     &.pl-step-has-icon {
                         .pl-step-icon {
-                            border-color: initial;
-                            background-color: initial;
+                            border-color: transparent;
+                            background-color: transparent;
                             color: $colorPrimary;
                         }
                     }
@@ -357,8 +357,8 @@
 
                     &.pl-step-has-icon {
                         .pl-step-icon {
-                            border-color: initial;
-                            background-color: initial;
+                            border-color: transparent;
+                            background-color: transparent;
                             color: $colorError;
                         }
                     }
