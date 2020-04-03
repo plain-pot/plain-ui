@@ -48,7 +48,7 @@
             <pl-step-group v-model="val[3]" :currentStatus="val[3] === 'step5'?'finish':null">
                 <pl-step title="获取token" content="调用接口，获取token" val="step1"/>
                 <pl-step title="上传logo" content="使用token上传logo图片" val="step2"/>
-                <pl-step title="创建卡券" v-if="val[0]" content="调用接口创建卡券信息" val="step3"/>
+                <pl-step title="创建卡券" content="调用接口创建卡券信息" val="step3"/>
                 <pl-step title="创建二维码" content="调用接口创建二维码" val="step4"/>
                 <pl-step title="显示二维码" content="在应用中显示二维码" val="step5"/>
             </pl-step-group>
@@ -59,6 +59,19 @@
                 <h1 v-show="val[3] === 'step4'">Step 4</h1>
                 <h1 v-show="val[3] === 'step5'">Step 5</h1>
             </div>
+        </demo-row>
+
+        <demo-row title="标题位于图标下方">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="val[4]"/>
+            </demo-line>
+            <pl-step-group titleAlignBottom v-model="val[4]" :currentStatus="val[4] === 5?'finish':null">
+                <pl-step title="获取token" content="调用接口，获取token"/>
+                <pl-step title="上传logo" content="使用token上传logo图片"/>
+                <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
+                <pl-step title="创建二维码" content="调用接口创建二维码"/>
+                <pl-step title="显示二维码" content="在应用中显示二维码"/>
+            </pl-step-group>
         </demo-row>
 
     </div>

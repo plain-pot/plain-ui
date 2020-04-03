@@ -40,7 +40,10 @@
         computed: {
             classes() {
                 return [
-                    `pl-step-group-${this.vertical ? 'vertical' : 'horizontal'}`
+                    `pl-step-group-${this.vertical ? 'vertical' : 'horizontal'}`,
+                    {
+                        'pl-step-group-title-align-bottom': this.titleAlignBottom,
+                    },
                 ]
             },
             currentIndex() {
@@ -116,8 +119,6 @@
                         margin-bottom: 8px;
 
                         .pl-step-title {
-                            font-size: 16px;
-                            color: $ihc;
                             margin-right: 8px;
                         }
                     }
@@ -128,6 +129,15 @@
                         .pl-step-icon {
                             border: none;
                         }
+
+                        .pl-step-title {
+                            margin-bottom: 8px;
+                        }
+                    }
+
+                    .pl-step-title {
+                        font-size: 16px;
+                        color: $ihc;
                     }
 
                     &.pl-step-has-icon {
@@ -145,16 +155,12 @@
                     }
 
                     &.pl-step-status-wait {
-                        .pl-step-head {
-                            .pl-step-title {
-                                color: $icc;
-                            }
+                        .pl-step-title {
+                            color: $icc;
                         }
 
-                        .pl-step-body {
-                            .pl-step-content {
-                                color: $icc;
-                            }
+                        .pl-step-content {
+                            color: $icc;
                         }
                     }
 
@@ -173,15 +179,15 @@
 
                     &.pl-step-status-process {
 
+                        .pl-step-title {
+                            color: $colorPrimary;
+                        }
+
                         .pl-step-head {
                             .pl-step-icon {
                                 border-color: $colorPrimary;
                                 background-color: $colorPrimary;
                                 color: white;
-                            }
-
-                            .pl-step-title {
-                                color: $colorPrimary;
                             }
                         }
 
@@ -201,15 +207,15 @@
                     }
 
                     &.pl-step-status-error {
+                        .pl-step-title {
+                            color: $colorError;
+                        }
+
                         .pl-step-head {
                             .pl-step-icon {
                                 border-color: $colorError;
                                 background-color: $colorError;
                                 color: white;
-                            }
-
-                            .pl-step-title {
-                                color: $colorError;
                             }
                         }
 
@@ -226,6 +232,35 @@
                                 color: $colorError;
                             }
                         }
+                    }
+                }
+
+                &.pl-step-group-title-align-bottom {
+                    .pl-step {
+                        &:first-child {
+                            .pl-step-head {
+                                .pl-step-divider:first-child {
+                                    background-color: transparent !important;
+                                }
+                            }
+                        }
+
+                        &:last-child {
+                            flex: 1;
+
+                            .pl-step-head {
+                                .pl-step-divider:last-child {
+                                    background-color: transparent !important;
+                                }
+                            }
+                        }
+                    }
+
+                    .pl-step-body {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
                     }
                 }
             }
