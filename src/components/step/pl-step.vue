@@ -68,7 +68,6 @@
             icon: {type: String},
             status: {type: String},
             title: {type: [String, Object]},
-            subTitle: {type: [String, Object]},
             content: {type: [String, Object]},
             val: {type: String},
         },
