@@ -5,10 +5,11 @@
             <span class="pl-step-icon">
                 <template v-if="!!p_icon">
                     <pl-icon :icon="p_icon" v-if="currentStatus !== 'process'"/>
-                    <pl-loading v-else type="gamma"/>
+                    <pl-loading v-else type="delta"/>
                 </template>
                 <span class="pl-step-number" v-else>
-                    {{index}}
+                    <pl-icon v-if="currentStatus === STATUS.finish" icon="el-icon-check"/>
+                    <span v-else>{{index}}</span>
                 </span>
             </span>
             <span class="pl-step-title">
@@ -60,6 +61,7 @@
             title: {type: [String, Object]},
             subTitle: {type: [String, Object]},
             content: {type: [String, Object]},
+            val: {type: String},
         },
         data() {
 
@@ -102,7 +104,11 @@
                 if (this.plStepGroup.currentIndex > this.index) {
                     return STATUS.finish
                 } else if (this.plStepGroup.currentIndex === this.index) {
-                    return STATUS.process
+                    if (!!this.plStepGroup.currentStatus) {
+                        return this.plStepGroup.currentStatus
+                    } else {
+                        return STATUS.process
+                    }
                 } else if (this.plStepGroup.currentIndex < this.index) {
                     return STATUS.wait
                 }

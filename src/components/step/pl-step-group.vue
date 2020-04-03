@@ -14,6 +14,7 @@
         },
         props: {
             value: {type: [String, Number]},                                // 双向绑定，指定当前步骤条的步骤，在step组件中，可以通过 status 属性覆盖状态
+            currentStatus: {type: String},                                  // 当前激活节点的状态
             type: {type: String, default: 'normal'},                        // 步骤条类型，normal、navigation
             vertical: {type: Boolean},                                      // 步骤条是否为纵向
             titleAlignBottom: {type: Boolean},                              // 默认情况下，标题会放在图标右侧，设置该属性可以改为放在图标下面
@@ -87,9 +88,16 @@
                         border: solid 1px $ibc;
                         display: inline-block;
                         color: $icc;
+                        margin: 0 8px;
 
                         .pl-icon, .pl-loading {
                             font-size: 1.8em;
+                        }
+
+                        .pl-step-number {
+                            .pl-icon {
+                                font-size: 1.2em;
+                            }
                         }
                     }
 
@@ -110,7 +118,7 @@
                         .pl-step-title {
                             font-size: 16px;
                             color: $ihc;
-                            padding: 0 8px;
+                            margin-right: 8px;
                         }
                     }
 
@@ -119,10 +127,6 @@
 
                         .pl-step-icon {
                             border: none;
-                        }
-
-                        .pl-step-content {
-                            padding: 0 8px;
                         }
                     }
 
