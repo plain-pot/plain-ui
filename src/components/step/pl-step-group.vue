@@ -285,6 +285,14 @@
                             background-color: $colorPrimary;
                         }
                     }
+
+                    & + .pl-step {
+                        .pl-step-head {
+                            .pl-step-divider-prev {
+                                background-color: $colorPrimary;
+                            }
+                        }
+                    }
                 }
 
                 &.pl-step-status-process {

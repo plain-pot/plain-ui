@@ -6,11 +6,13 @@
                 <pl-number v-model="d[1].index"/>
                 <pl-checkbox label="纵向" v-model="d[1].vertical"/>
                 <pl-checkbox label="迷你尺寸" v-model="d[1].mini"/>
+                <pl-checkbox label="标题放在图标下方" v-model="d[1].titleAlignBottom"/>
             </demo-line>
             <demo-line>
                 <pl-step-group v-model="d[1].index"
                                :vertical="d[1].vertical"
                                :mini="d[1].mini"
+                               :titleAlignBottom="d[1].titleAlignBottom"
                                :currentStatus="d[1].index === 5?'finish':null">
                     <pl-step title="获取token" content="调用接口，获取token"/>
                     <pl-step title="上传logo" content="使用token上传logo图片"/>
@@ -26,11 +28,13 @@
                 <pl-number v-model="d[2].index"/>
                 <pl-checkbox label="纵向" v-model="d[2].vertical"/>
                 <pl-checkbox label="迷你尺寸" v-model="d[2].mini"/>
+                <pl-checkbox label="标题放在图标下方" v-model="d[2].titleAlignBottom"/>
             </demo-line>
             <demo-line>
                 <pl-step-group v-model="d[2].index"
                                :vertical="d[2].vertical"
                                :mini="d[2].mini"
+                               :titleAlignBottom="d[2].titleAlignBottom"
                                :currentStatus="d[2].index === 5?'finish':null">
                     <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
                     <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
@@ -46,11 +50,13 @@
                 <pl-number v-model="d[3].index"/>
                 <pl-checkbox label="纵向" v-model="d[3].vertical"/>
                 <pl-checkbox label="迷你尺寸" v-model="d[3].mini"/>
+                <pl-checkbox label="标题放在图标下方" v-model="d[3].titleAlignBottom"/>
             </demo-line>
             <demo-line>
                 <pl-step-group v-model="d[3].index"
                                :vertical="d[3].vertical"
                                :mini="d[3].mini"
+                               :titleAlignBottom="d[3].titleAlignBottom"
                                dotIcon
                                :currentStatus="d[3].index === 5?'finish':null">
                     <pl-step title="获取token" content="调用接口，获取token"/>
@@ -121,20 +127,6 @@
                 <h1 v-show="val[3] === 'step5'">Step 5</h1>
             </div>
         </demo-row>
-
-        <demo-row title="标题位于图标下方">
-            <demo-line title="当前步骤索引">
-                <pl-number v-model="val[4]"/>
-                <pl-checkbox label="dot" v-model="val[5]"/>
-            </demo-line>
-            <pl-step-group titleAlignBottom v-model="val[4]" :currentStatus="val[4] === 5?'finish':null" :dotIcon="val[5]">
-                <pl-step title="获取token" content="调用接口，获取token"/>
-                <pl-step title="上传logo" content="使用token上传logo图片"/>
-                <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
-                <pl-step title="创建二维码" content="调用接口创建二维码"/>
-                <pl-step title="显示二维码" content="在应用中显示二维码"/>
-            </pl-step-group>
-        </demo-row>
     </div>
 </template>
 
@@ -154,16 +146,19 @@
                         index: 1,
                         vertical: false,
                         mini: false,
+                        titleAlignBottom: false,
                     },
                     2: {
                         index: 1,
                         vertical: false,
                         mini: false,
+                        titleAlignBottom: false,
                     },
                     3: {
                         index: 1,
                         vertical: false,
                         mini: false,
+                        titleAlignBottom: false,
                     },
                 },
             }
