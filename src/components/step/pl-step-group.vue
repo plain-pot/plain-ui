@@ -42,7 +42,7 @@
                 return [
                     `pl-step-group-${this.vertical ? 'vertical' : 'horizontal'}`,
                     {
-                        'pl-step-group-title-align-bottom': this.titleAlignBottom,
+                        'pl-step-group-title-align-bottom': this.isTitleAlignBottom,
                     },
                 ]
             },
@@ -55,6 +55,9 @@
                         if (item.val === this.p_value) return item.index
                     }
                 }
+            },
+            isTitleAlignBottom() {
+                return this.titleAlignBottom || this.vertical
             },
         },
         methods: {
@@ -74,35 +77,38 @@
 <style lang="scss">
     @include themify {
         .pl-step-group {
+
+            .pl-step {
+                .pl-step-icon {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 16px;
+                    line-height: 32px;
+                    text-align: center;
+                    border-radius: 32px;
+                    border: solid 1px $ibc;
+                    display: inline-block;
+                    color: $icc;
+                    margin: 0 8px;
+
+                    .pl-icon, .pl-loading {
+                        font-size: 1.8em;
+                    }
+
+                    .pl-step-number {
+                        .pl-icon {
+                            font-size: 1.2em;
+                        }
+                    }
+                }
+            }
+
             &.pl-step-group-horizontal {
                 display: flex;
                 align-items: center;
 
                 .pl-step {
                     flex: 1;
-
-                    .pl-step-icon {
-                        width: 32px;
-                        height: 32px;
-                        font-size: 16px;
-                        line-height: 32px;
-                        text-align: center;
-                        border-radius: 32px;
-                        border: solid 1px $ibc;
-                        display: inline-block;
-                        color: $icc;
-                        margin: 0 8px;
-
-                        .pl-icon, .pl-loading {
-                            font-size: 1.8em;
-                        }
-
-                        .pl-step-number {
-                            .pl-icon {
-                                font-size: 1.2em;
-                            }
-                        }
-                    }
 
                     .pl-step-divider {
                         flex: 1;
@@ -140,98 +146,8 @@
                         color: $ihc;
                     }
 
-                    &.pl-step-has-icon {
-                        .pl-step-head {
-                            .pl-step-icon {
-                                border: none;
-                                position: relative;
-                                top: 1px;
-                            }
-                        }
-                    }
-
                     &.pl-step-last {
                         flex: initial;
-                    }
-
-                    &.pl-step-status-wait {
-                        .pl-step-title {
-                            color: $icc;
-                        }
-
-                        .pl-step-content {
-                            color: $icc;
-                        }
-                    }
-
-                    &.pl-step-status-finish {
-                        .pl-step-head {
-                            .pl-step-icon {
-                                border-color: $colorPrimary;
-                                color: $colorPrimary;
-                            }
-
-                            .pl-step-divider.pl-step-divider-next {
-                                background-color: $colorPrimary;
-                            }
-                        }
-                    }
-
-                    &.pl-step-status-process {
-
-                        .pl-step-title {
-                            color: $colorPrimary;
-                        }
-
-                        .pl-step-head {
-                            .pl-step-icon {
-                                border-color: $colorPrimary;
-                                background-color: $colorPrimary;
-                                color: white;
-                            }
-                        }
-
-                        .pl-step-body {
-                            .pl-step-content {
-                                color: $colorPrimary;
-                            }
-                        }
-
-                        &.pl-step-has-icon {
-                            .pl-step-icon {
-                                border-color: initial;
-                                background-color: initial;
-                                color: $colorPrimary;
-                            }
-                        }
-                    }
-
-                    &.pl-step-status-error {
-                        .pl-step-title {
-                            color: $colorError;
-                        }
-
-                        .pl-step-head {
-                            .pl-step-icon {
-                                border-color: $colorError;
-                                background-color: $colorError;
-                                color: white;
-                            }
-                        }
-
-                        .pl-step-body {
-                            .pl-step-content {
-                                color: $colorError;
-                            }
-                        }
-
-                        &.pl-step-has-icon {
-                            .pl-step-icon {
-                                border-color: initial;
-                                background-color: initial;
-                                color: $colorError;
-                            }
-                        }
                     }
                 }
 
@@ -261,6 +177,145 @@
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
+                    }
+                }
+            }
+
+            &.pl-step-group-vertical {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: revert;
+
+                .pl-step {
+                    display: flex;
+
+                    .pl-step-head {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        .pl-step-divider {
+                            flex: 1;
+                            width: 1px;
+                            background-color: $icc;
+                        }
+                    }
+
+                    .pl-step-body {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+
+                        .pl-step-title {
+                            line-height: 32px;
+                            font-size: 16px;
+                            color: $ihc;
+                        }
+
+                        .pl-step-content {
+                            padding: 8px 0;
+                            color: $itc;
+                        }
+                    }
+
+                    &:last-child {
+                        .pl-step-head .pl-step-divider {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            .pl-step {
+                &.pl-step-has-icon {
+                    .pl-step-head {
+                        .pl-step-icon {
+                            border: none;
+                            position: relative;
+                            top: 1px;
+                        }
+                    }
+                }
+
+                &.pl-step-status-wait {
+                    .pl-step-body{
+                        .pl-step-title {
+                            color: $icc;
+                        }
+
+                        .pl-step-content {
+                            color: $icc;
+                        }
+                    }
+                }
+                &.pl-step-status-finish {
+                    .pl-step-head {
+                        .pl-step-icon {
+                            border-color: $colorPrimary;
+                            color: $colorPrimary;
+                        }
+
+                        .pl-step-divider.pl-step-divider-next {
+                            background-color: $colorPrimary;
+                        }
+                    }
+                }
+                &.pl-step-status-process {
+
+                    .pl-step-head {
+                        .pl-step-icon {
+                            border-color: $colorPrimary;
+                            background-color: $colorPrimary;
+                            color: white;
+                        }
+                        .pl-step-title {
+                            color: $colorPrimary;
+                        }
+                    }
+
+                    .pl-step-body {
+                        .pl-step-content {
+                            color: $colorPrimary;
+                        }
+                        .pl-step-title {
+                            color: $colorPrimary;
+                        }
+                    }
+
+                    &.pl-step-has-icon {
+                        .pl-step-icon {
+                            border-color: initial;
+                            background-color: initial;
+                            color: $colorPrimary;
+                        }
+                    }
+                }
+
+                &.pl-step-status-error {
+                    .pl-step-title {
+                        color: $colorError;
+                    }
+
+                    .pl-step-head {
+                        .pl-step-icon {
+                            border-color: $colorError;
+                            background-color: $colorError;
+                            color: white;
+                        }
+                    }
+
+                    .pl-step-body {
+                        .pl-step-content {
+                            color: $colorError;
+                        }
+                    }
+
+                    &.pl-step-has-icon {
+                        .pl-step-icon {
+                            border-color: initial;
+                            background-color: initial;
+                            color: $colorError;
+                        }
                     }
                 }
             }

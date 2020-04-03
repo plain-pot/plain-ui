@@ -1,7 +1,7 @@
 <template>
     <div class="pl-step" :class="classes">
         <div class="pl-step-head">
-            <span class="pl-step-divider pl-step-divider-prev" v-if="plStepGroup.titleAlignBottom || isLast"/>
+            <span class="pl-step-divider pl-step-divider-prev" v-if="!plStepGroup.vertical && (plStepGroup.isTitleAlignBottom || isLast)"/>
             <span class="pl-step-icon">
                 <template v-if="!!p_icon">
                     <pl-icon :icon="p_icon" v-if="currentStatus !== 'process'"/>
@@ -13,13 +13,13 @@
                     <span v-else>{{index}}</span>
                 </span>
             </span>
-            <span class="pl-step-title" v-if="!plStepGroup.titleAlignBottom">
+            <span class="pl-step-title" v-if="!plStepGroup.isTitleAlignBottom">
                 {{p_title}}
             </span>
-            <span class="pl-step-divider pl-step-divider-next" v-if="plStepGroup.titleAlignBottom || !isLast"/>
+            <span class="pl-step-divider pl-step-divider-next" v-if="plStepGroup.isTitleAlignBottom || !isLast"/>
         </div>
         <div class="pl-step-body">
-            <span class="pl-step-icon" v-if="!plStepGroup.titleAlignBottom"></span>
+            <span class="pl-step-icon" v-if="!plStepGroup.isTitleAlignBottom"></span>
             <span class="pl-step-title" v-else>
                 {{p_title}}
             </span>

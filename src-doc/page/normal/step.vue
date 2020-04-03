@@ -74,6 +74,31 @@
             </pl-step-group>
         </demo-row>
 
+        <demo-row title="纵向步骤条">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="val[5]"/>
+            </demo-line>
+            <pl-step-group v-model="val[5]" :currentStatus="val[5] === 5?'finish':null" vertical>
+                <pl-step title="获取token" content="调用接口，获取token"/>
+                <pl-step title="上传logo" content="使用token上传logo图片"/>
+                <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
+                <pl-step title="创建二维码" content="调用接口创建二维码"/>
+                <pl-step title="显示二维码" content="在应用中显示二维码"/>
+            </pl-step-group>
+        </demo-row>
+        <demo-row title="纵向步骤条：图标">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="val[6]"/>
+            </demo-line>
+            <pl-step-group v-model="val[6]" :currentStatus="val[6] === 5?'finish':null" vertical>
+                <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
+                <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
+                <pl-step icon="el-icon-s-ticket" title="创建卡券" content="调用接口创建卡券信息"/>
+                <pl-step icon="el-icon-s-data" title="创建二维码" content="调用接口创建二维码"/>
+                <pl-step icon="el-icon-s-check" title="显示二维码" content="在应用中显示二维码"/>
+            </pl-step-group>
+        </demo-row>
+
     </div>
 </template>
 
