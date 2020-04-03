@@ -292,9 +292,6 @@
                 }
 
                 &.pl-step-status-error {
-                    .pl-step-title {
-                        color: $colorError;
-                    }
 
                     .pl-step-head {
                         .pl-step-icon {
@@ -302,10 +299,16 @@
                             background-color: $colorError;
                             color: white;
                         }
+                        .pl-step-title {
+                            color: $colorError;
+                        }
                     }
 
                     .pl-step-body {
                         .pl-step-content {
+                            color: $colorError;
+                        }
+                        .pl-step-title {
                             color: $colorError;
                         }
                     }
