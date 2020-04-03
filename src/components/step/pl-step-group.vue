@@ -18,7 +18,7 @@
             type: {type: String, default: 'normal'},                        // 步骤条类型，normal、navigation
             vertical: {type: Boolean},                                      // 步骤条是否为纵向
             titleAlignBottom: {type: Boolean},                              // 默认情况下，标题会放在图标右侧，设置该属性可以改为放在图标下面
-
+            mini: {type: Boolean},                                          // 迷你步骤条
         },
         watch: {
             value(val) {
@@ -43,6 +43,7 @@
                     `pl-step-group-${this.vertical ? 'vertical' : 'horizontal'}`,
                     {
                         'pl-step-group-title-align-bottom': this.isTitleAlignBottom,
+                        'pl-step-group-mini': this.mini,
                     },
                 ]
             },
@@ -101,6 +102,15 @@
                         }
                     }
                 }
+
+                .pl-step-title {
+                    font-size: 16px;
+                    color: $ihc;
+                }
+
+                .pl-step-content {
+                    font-size: 14px;
+                }
             }
 
             &.pl-step-group-horizontal {
@@ -141,10 +151,6 @@
                         }
                     }
 
-                    .pl-step-title {
-                        font-size: 16px;
-                        color: $ihc;
-                    }
 
                     &.pl-step-last {
                         flex: initial;
@@ -208,13 +214,10 @@
 
                         .pl-step-title {
                             line-height: 32px;
-                            font-size: 16px;
-                            color: $ihc;
                         }
 
                         .pl-step-content {
                             padding: 8px 0;
-                            color: $itc;
                         }
                     }
 
@@ -238,16 +241,15 @@
                 }
 
                 &.pl-step-status-wait {
-                    .pl-step-body{
-                        .pl-step-title {
-                            color: $icc;
-                        }
+                    .pl-step-title {
+                        color: $icc;
+                    }
 
-                        .pl-step-content {
-                            color: $icc;
-                        }
+                    .pl-step-content {
+                        color: $icc;
                     }
                 }
+
                 &.pl-step-status-finish {
                     .pl-step-head {
                         .pl-step-icon {
@@ -260,6 +262,7 @@
                         }
                     }
                 }
+
                 &.pl-step-status-process {
 
                     .pl-step-head {
@@ -268,6 +271,7 @@
                             background-color: $colorPrimary;
                             color: white;
                         }
+
                         .pl-step-title {
                             color: $colorPrimary;
                         }
@@ -277,6 +281,7 @@
                         .pl-step-content {
                             color: $colorPrimary;
                         }
+
                         .pl-step-title {
                             color: $colorPrimary;
                         }
@@ -299,6 +304,7 @@
                             background-color: $colorError;
                             color: white;
                         }
+
                         .pl-step-title {
                             color: $colorError;
                         }
@@ -308,6 +314,7 @@
                         .pl-step-content {
                             color: $colorError;
                         }
+
                         .pl-step-title {
                             color: $colorError;
                         }
@@ -318,6 +325,49 @@
                             border-color: initial;
                             background-color: initial;
                             color: $colorError;
+                        }
+                    }
+                }
+            }
+
+            &.pl-step-group-mini {
+                .pl-step-icon {
+                    width: 20px;
+                    height: 20px;
+                    font-size: 12px;
+                    line-height: 20px;
+                    text-align: center;
+                    border-radius: 20px;
+                    border: solid 1px $ibc;
+                    display: inline-block;
+                    color: $icc;
+                    margin: 0 8px;
+
+                    .pl-icon, .pl-loading {
+                        font-size: 1.8em;
+                    }
+
+                    .pl-step-number {
+                        .pl-icon {
+                            font-size: 1.2em;
+                        }
+                    }
+                }
+
+                .pl-step-title {
+                    font-size: 14px;
+                }
+
+                .pl-step-content {
+                    font-size: 12px;
+                }
+
+                &.pl-step-group-vertical {
+                    .pl-step{
+                        .pl-step-body{
+                            .pl-step-title {
+                                line-height: 20px;
+                            }
                         }
                     }
                 }
