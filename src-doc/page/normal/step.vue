@@ -14,14 +14,17 @@
             </pl-step-group>
         </demo-row>
 
-        <!--<demo-row title="图标">
-            <pl-step-group>
+        <demo-row title="图标">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="val[2]"/>
+            </demo-line>
+            <pl-step-group v-model="val[2]">
                 <pl-step icon="el-icon-s-promotion" title="步骤一"/>
                 <pl-step icon="el-icon-s-flag" title="步骤二"/>
-                <pl-step icon="el-icon-s-finance" title="步骤三" v-if="val[0]"/>
+                <pl-step icon="el-icon-s-finance" title="步骤三"/>
                 <pl-step icon="el-icon-s-platform" title="步骤四"/>
             </pl-step-group>
-        </demo-row>-->
+        </demo-row>
     </div>
 </template>
 

@@ -3,8 +3,11 @@
         <div class="pl-step-head">
             <span class="pl-step-divider pl-step-divider-prev" v-if="isLast"/>
             <span class="pl-step-icon">
-                <pl-icon :icon="p_icon" v-if="!!p_icon"/>
-                <span class="pl-step-number">
+                <template v-if="!!p_icon">
+                    <pl-icon :icon="p_icon" v-if="currentStatus !== 'process'"/>
+                    <pl-loading v-else type="gamma"/>
+                </template>
+                <span class="pl-step-number" v-else>
                     {{index}}
                 </span>
             </span>

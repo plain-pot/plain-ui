@@ -88,7 +88,7 @@
                         display: inline-block;
                         color: $icc;
 
-                        .pl-icon {
+                        .pl-icon, .pl-loading {
                             font-size: 1.8em;
                         }
                     }
@@ -168,6 +168,7 @@
                     }
 
                     &.pl-step-status-process {
+
                         .pl-step-head {
                             .pl-step-icon {
                                 border-color: $colorPrimary;
@@ -182,6 +183,14 @@
 
                         .pl-step-body {
                             .pl-step-content {
+                                color: $colorPrimary;
+                            }
+                        }
+
+                        &.pl-step-has-icon {
+                            .pl-step-icon {
+                                border-color: initial;
+                                background-color: initial;
                                 color: $colorPrimary;
                             }
                         }
