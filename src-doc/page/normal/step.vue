@@ -1,20 +1,17 @@
 <template>
     <div class="demo-step">
+
         <demo-row title="基本用法">
             <demo-line title="当前步骤索引">
-                <pl-number v-model="val[0]"/>
+                <pl-number v-model="d[1].index"/>
+                <pl-checkbox label="纵向" v-model="d[1].vertical"/>
+                <pl-checkbox label="迷你尺寸" v-model="d[1].mini"/>
             </demo-line>
-            <demo-line title="默认用法">
-                <pl-step-group v-model="val[0]" :currentStatus="val[0] === 5?'finish':null">
-                    <pl-step title="获取token" content="调用接口，获取token"/>
-                    <pl-step title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step title="显示二维码" content="在应用中显示二维码"/>
-                </pl-step-group>
-            </demo-line>
-            <demo-line title="纵向步骤条">
-                <pl-step-group v-model="val[0]" :currentStatus="val[0] === 5?'finish':null" vertical>
+            <demo-line>
+                <pl-step-group v-model="d[1].index"
+                               :vertical="d[1].vertical"
+                               :mini="d[1].mini"
+                               :currentStatus="d[1].index === 5?'finish':null">
                     <pl-step title="获取token" content="调用接口，获取token"/>
                     <pl-step title="上传logo" content="使用token上传logo图片"/>
                     <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
@@ -24,9 +21,49 @@
             </demo-line>
         </demo-row>
 
+        <demo-row title="图标">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="d[2].index"/>
+                <pl-checkbox label="纵向" v-model="d[2].vertical"/>
+                <pl-checkbox label="迷你尺寸" v-model="d[2].mini"/>
+            </demo-line>
+            <demo-line>
+                <pl-step-group v-model="d[2].index"
+                               :vertical="d[2].vertical"
+                               :mini="d[2].mini"
+                               :currentStatus="d[2].index === 5?'finish':null">
+                    <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
+                    <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
+                    <pl-step icon="el-icon-s-ticket" title="创建卡券" content="调用接口创建卡券信息"/>
+                    <pl-step icon="el-icon-s-data" title="创建二维码" content="调用接口创建二维码"/>
+                    <pl-step icon="el-icon-s-check" title="显示二维码" content="在应用中显示二维码"/>
+                </pl-step-group>
+            </demo-line>
+        </demo-row>
+
+        <demo-row title="小圆点">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="d[3].index"/>
+                <pl-checkbox label="纵向" v-model="d[3].vertical"/>
+                <pl-checkbox label="迷你尺寸" v-model="d[3].mini"/>
+            </demo-line>
+            <demo-line>
+                <pl-step-group v-model="d[3].index"
+                               :vertical="d[3].vertical"
+                               :mini="d[3].mini"
+                               dotIcon
+                               :currentStatus="d[3].index === 5?'finish':null">
+                    <pl-step title="获取token" content="调用接口，获取token"/>
+                    <pl-step title="上传logo" content="使用token上传logo图片"/>
+                    <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
+                    <pl-step title="创建二维码" content="调用接口创建二维码"/>
+                    <pl-step title="显示二维码" content="在应用中显示二维码"/>
+                </pl-step-group>
+            </demo-line>
+        </demo-row>
         <demo-row title="状态">
             <demo-line>
-                <pl-step-group>
+                <pl-step-group dotIcon>
                     <pl-step title="Finish" content="This step is finish" status="finish"/>
                     <pl-step title="Process" content="This step is processing..." status="process"/>
                     <pl-step title="error" content="This step is error!" status="error"/>
@@ -49,28 +86,12 @@
                     <pl-step title="Wait" content="This step is not start." status="wait"/>
                 </pl-step-group>
             </demo-line>
-        </demo-row>
-
-        <demo-row title="图标">
-            <demo-line title="当前步骤索引">
-                <pl-number v-model="val[2]"/>
-            </demo-line>
             <demo-line>
-                <pl-step-group v-model="val[2]" :currentStatus="val[2] === 5?'finish':null">
-                    <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
-                    <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step icon="el-icon-s-ticket" title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step icon="el-icon-s-data" title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step icon="el-icon-s-check" title="显示二维码" content="在应用中显示二维码"/>
-                </pl-step-group>
-            </demo-line>
-            <demo-line>
-                <pl-step-group v-model="val[2]" :currentStatus="val[2] === 5?'finish':null" vertical>
-                    <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
-                    <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step icon="el-icon-s-ticket" title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step icon="el-icon-s-data" title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step icon="el-icon-s-check" title="显示二维码" content="在应用中显示二维码"/>
+                <pl-step-group dotIcon vertical>
+                    <pl-step title="Finish" content="This step is finish" status="finish"/>
+                    <pl-step title="Process" content="This step is processing..." status="process"/>
+                    <pl-step title="error" content="This step is error!" status="error"/>
+                    <pl-step title="Wait" content="This step is not start." status="wait"/>
                 </pl-step-group>
             </demo-line>
         </demo-row>
@@ -104,8 +125,9 @@
         <demo-row title="标题位于图标下方">
             <demo-line title="当前步骤索引">
                 <pl-number v-model="val[4]"/>
+                <pl-checkbox label="dot" v-model="val[5]"/>
             </demo-line>
-            <pl-step-group titleAlignBottom v-model="val[4]" :currentStatus="val[4] === 5?'finish':null">
+            <pl-step-group titleAlignBottom v-model="val[4]" :currentStatus="val[4] === 5?'finish':null" :dotIcon="val[5]">
                 <pl-step title="获取token" content="调用接口，获取token"/>
                 <pl-step title="上传logo" content="使用token上传logo图片"/>
                 <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
@@ -113,40 +135,6 @@
                 <pl-step title="显示二维码" content="在应用中显示二维码"/>
             </pl-step-group>
         </demo-row>
-
-        <demo-row title="迷你步骤条">
-            <demo-line title="当前步骤索引">
-                <pl-number v-model="val[5]"/>
-            </demo-line>
-            <demo-line title="默认用法">
-                <pl-step-group v-model="val[5]" :currentStatus="val[5] === 5?'finish':null" mini>
-                    <pl-step title="获取token" content="调用接口，获取token"/>
-                    <pl-step title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step title="显示二维码" content="在应用中显示二维码"/>
-                </pl-step-group>
-            </demo-line>
-            <demo-line title="图标">
-                <pl-step-group v-model="val[5]" :currentStatus="val[5] === 5?'finish':null" mini>
-                    <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
-                    <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step icon="el-icon-s-ticket" title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step icon="el-icon-s-data" title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step icon="el-icon-s-check" title="显示二维码" content="在应用中显示二维码"/>
-                </pl-step-group>
-            </demo-line>
-            <demo-line title="纵向步骤条">
-                <pl-step-group v-model="val[5]" :currentStatus="val[5] === 5?'finish':null" vertical mini>
-                    <pl-step title="获取token" content="调用接口，获取token"/>
-                    <pl-step title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step title="显示二维码" content="在应用中显示二维码"/>
-                </pl-step-group>
-            </demo-line>
-        </demo-row>
-
     </div>
 </template>
 
@@ -160,7 +148,24 @@
                     0: 1,
                     1: 2,
                     3: 'step1',
-                }
+                },
+                d: {
+                    1: {
+                        index: 1,
+                        vertical: false,
+                        mini: false,
+                    },
+                    2: {
+                        index: 1,
+                        vertical: false,
+                        mini: false,
+                    },
+                    3: {
+                        index: 1,
+                        vertical: false,
+                        mini: false,
+                    },
+                },
             }
         },
         methods: {},

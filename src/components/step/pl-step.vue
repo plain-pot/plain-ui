@@ -7,6 +7,7 @@
                     <pl-icon :icon="p_icon" v-if="currentStatus !== 'process'"/>
                     <pl-loading v-else type="delta"/>
                 </template>
+                <span class="pl-step-dot" v-else-if="!!plStepGroup.dotIcon"/>
                 <span class="pl-step-number" v-else>
                     <pl-icon v-if="currentStatus === STATUS.finish" icon="el-icon-check"/>
                     <pl-icon v-else-if="currentStatus === STATUS.error" icon="el-icon-close"/>

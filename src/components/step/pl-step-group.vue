@@ -19,6 +19,7 @@
             vertical: {type: Boolean},                                      // 步骤条是否为纵向
             titleAlignBottom: {type: Boolean},                              // 默认情况下，标题会放在图标右侧，设置该属性可以改为放在图标下面
             mini: {type: Boolean},                                          // 迷你步骤条
+            dotIcon: {type: Boolean},                                       // 图标是否采用小圆点替代
         },
         watch: {
             value(val) {
@@ -44,6 +45,7 @@
                     {
                         'pl-step-group-title-align-bottom': this.isTitleAlignBottom,
                         'pl-step-group-mini': this.mini,
+                        'pl-step-group-dot-icon': this.dotIcon,
                     },
                 ]
             },
@@ -80,6 +82,24 @@
         .pl-step-group {
 
             .pl-step {
+                .pl-step-title {
+                    font-size: 16px;
+                    color: $ihc;
+                }
+
+                .pl-step-content {
+                    font-size: 14px;
+                }
+
+                .pl-step-dot {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 12px;
+                    display: inline-block;
+                }
+            }
+
+            &:not(.pl-step-group-dot-icon ) {
                 .pl-step-icon {
                     width: 32px;
                     height: 32px;
@@ -101,15 +121,6 @@
                             font-size: 1.2em;
                         }
                     }
-                }
-
-                .pl-step-title {
-                    font-size: 16px;
-                    color: $ihc;
-                }
-
-                .pl-step-content {
-                    font-size: 14px;
                 }
             }
 
@@ -135,6 +146,10 @@
                         margin-bottom: 8px;
 
                         .pl-step-title {
+                            margin-right: 8px;
+                        }
+
+                        .pl-step-dot {
                             margin-right: 8px;
                         }
                     }
@@ -248,6 +263,11 @@
                     .pl-step-content {
                         color: $icc;
                     }
+
+                    .pl-step-dot {
+                        border: solid 1px $icc;
+                        background-color: white;
+                    }
                 }
 
                 &.pl-step-status-finish {
@@ -255,6 +275,10 @@
                         .pl-step-icon {
                             border-color: $colorPrimary;
                             color: $colorPrimary;
+                        }
+
+                        .pl-step-dot {
+                            background-color: $colorPrimary;
                         }
 
                         .pl-step-divider.pl-step-divider-next {
@@ -274,6 +298,11 @@
 
                         .pl-step-title {
                             color: $colorPrimary;
+                        }
+
+                        .pl-step-dot {
+                            border: solid 4px $colorPrimary;
+                            background-color: white;
                         }
                     }
 
@@ -308,6 +337,10 @@
                         .pl-step-title {
                             color: $colorError;
                         }
+
+                        .pl-step-dot {
+                            background-color: $colorError;
+                        }
                     }
 
                     .pl-step-body {
@@ -331,25 +364,28 @@
             }
 
             &.pl-step-group-mini {
-                .pl-step-icon {
-                    width: 20px;
-                    height: 20px;
-                    font-size: 12px;
-                    line-height: 20px;
-                    text-align: center;
-                    border-radius: 20px;
-                    border: solid 1px $ibc;
-                    display: inline-block;
-                    color: $icc;
-                    margin: 0 8px;
 
-                    .pl-icon, .pl-loading {
-                        font-size: 1.8em;
-                    }
+                &:not(.pl-step-group-dot-icon) {
+                    .pl-step-icon {
+                        width: 20px;
+                        height: 20px;
+                        font-size: 12px;
+                        line-height: 20px;
+                        text-align: center;
+                        border-radius: 20px;
+                        border: solid 1px $ibc;
+                        display: inline-block;
+                        color: $icc;
+                        margin: 0 8px;
 
-                    .pl-step-number {
-                        .pl-icon {
-                            font-size: 1.2em;
+                        .pl-icon, .pl-loading {
+                            font-size: 1.8em;
+                        }
+
+                        .pl-step-number {
+                            .pl-icon {
+                                font-size: 1.2em;
+                            }
                         }
                     }
                 }
@@ -363,10 +399,73 @@
                 }
 
                 &.pl-step-group-vertical {
-                    .pl-step{
-                        .pl-step-body{
+                    .pl-step {
+                        .pl-step-body {
                             .pl-step-title {
                                 line-height: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.pl-step-group-dot-icon {
+                .pl-step {
+                    .pl-step-head {
+                        .pl-step-icon {
+                            background-color: transparent;
+                        }
+                    }
+                }
+
+                &.pl-step-group-horizontal:not(.pl-step-group-vertical) {
+                    .pl-step {
+                        .pl-step-content {
+                            padding-left: 20px;
+                        }
+                    }
+                }
+
+                &.pl-step-group-title-align-bottom {
+                    .pl-step .pl-step-head .pl-step-dot {
+                        margin-right: 0;
+                    }
+                }
+
+                &.pl-step-group-vertical {
+                    .pl-step-head {
+                        margin-right: 8px;
+                        position: relative;
+
+                        .pl-step-divider {
+                            position: absolute;
+                            left: 5px;
+                            top: 22px;
+                            bottom: -10px;
+                        }
+                    }
+
+                    .pl-step-icon {
+                        margin-top: 10px;
+                        height: 12px;
+                        display: inline-block;
+
+                        .pl-step-dot {
+                            float: left;
+                        }
+                    }
+
+                    &.pl-step-group-mini {
+                        .pl-step-icon {
+                            margin-top: 5px;
+                        }
+
+                        .pl-step-head {
+                            .pl-step-divider {
+                                position: absolute;
+                                left: 5px;
+                                top: 16px;
+                                bottom: -5px;
                             }
                         }
                     }
