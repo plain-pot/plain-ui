@@ -1,27 +1,29 @@
 <template>
-    <div class="pl-step">
-        <div class="pl-step-icon">
-            <pl-step-number>
-                {{index}}
-            </pl-step-number>
-        </div>
-        <dov class="pl-step-icon">
-            <pl-icon :icon="icon"/>
-        </dov>
-        <div class="pl-step-body">
-            <div class="pl-step-title">
+    <div class="pl-step" :class="classes">
+        <div class="pl-step-head">
+            <span class="pl-step-divider pl-step-divider-prev" v-if="isLast"/>
+            <span class="pl-step-icon">
+                <pl-icon :icon="p_icon" v-if="!!p_icon"/>
+                <span class="pl-step-number">
+                    {{index}}
+                </span>
+            </span>
+            <span class="pl-step-title">
                 {{p_title}}
-            </div>
-            <div class="pl-step-content">
-
-            </div>
+            </span>
+            <span class="pl-step-divider pl-step-divider-next" v-if="!isLast"/>
+        </div>
+        <div class="pl-step-body">
+            <span class="pl-step-icon"></span>
+            <span class="pl-step-content">
+                {{p_content}}
+            </span>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import {PropsMixinFactory} from "../../utils/mixins";
-    import PlStepNumber from "./pl-step-number";
 
     /**
      * v-if会触发created，会重新刷新index，但是v-show不会，暂时不管v-show
@@ -29,9 +31,16 @@
      * @date    2020/4/3 10:39
      */
 
+    /*节点状态类型*/
+    enum STATUS {
+        wait = 'wait',
+        finish = 'finish',
+        process = 'process',
+        error = 'error',
+    }
+
     export default {
         name: "pl-step",
-        components: {PlStepNumber},
         inject: {
             plStepGroup: {},
         },
@@ -50,8 +59,13 @@
             content: {type: [String, Object]},
         },
         data() {
+
+            /*当前步骤在dom节点中的索引*/
+            const index: number = null
+
             return {
-                index: null,
+                index,
+                STATUS,
             }
         },
         created() {
@@ -60,10 +74,42 @@
         beforeDestroy() {
             this.plStepGroup.removeItem(this)
         },
+        computed: {
+            p_icon(): string {
+                if (!!this.icon) return this.icon
+                return null
+            },
+            isLast(): boolean {
+                return this.index === this.plStepGroup.items.length
+            },
+            isFirst(): boolean {
+                return this.index === 1
+            },
+            classes() {
+                return [
+                    `pl-step-status-${this.currentStatus}`,
+                    {
+                        'pl-step-has-icon': !!this.p_icon,
+                        'pl-step-last': !!this.isLast,
+                    }
+                ]
+            },
+            currentStatus(): STATUS {
+                if (!!this.status) return this.status
+                if (this.plStepGroup.currentIndex > this.index) {
+                    return STATUS.finish
+                } else if (this.plStepGroup.currentIndex === this.index) {
+                    return STATUS.process
+                } else if (this.plStepGroup.currentIndex < this.index) {
+                    return STATUS.wait
+                }
+            },
+        },
         methods: {
             /*---------------------------------------utils-------------------------------------------*/
             async refreshIndex() {
                 await this.$plain.nextTick()
+                // @ts-ignore
                 this.index = Array.from(this.$el.parentNode.childNodes).filter(item => item.nodeName !== '#comment' && item.style.display !== 'none').indexOf(this.$el) + 1
             },
         },
