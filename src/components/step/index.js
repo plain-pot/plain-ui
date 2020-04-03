@@ -1,4 +1,5 @@
-import component from './pl-step.vue'
+import step from './pl-step.vue'
+import group from './pl-step-group'
 import {plugin} from "../../utils";
 
-export default plugin(component)
+export default plugin([step, group])
