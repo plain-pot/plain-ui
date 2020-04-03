@@ -127,6 +127,45 @@
                 <h1 v-show="val[3] === 'step5'">Step 5</h1>
             </div>
         </demo-row>
+
+        <demo-row title="自定义标题以及文本内容">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="d[4].index"/>
+                <pl-checkbox label="纵向" v-model="d[4].vertical"/>
+                <pl-checkbox label="迷你尺寸" v-model="d[4].mini"/>
+                <pl-checkbox label="标题放在图标下方" v-model="d[4].titleAlignBottom"/>
+            </demo-line>
+            <demo-line>
+                <pl-step-group :current="d[4].index"
+                               :vertical="d[4].vertical"
+                               :mini="d[4].mini"
+                               :titleAlignBottom="d[4].titleAlignBottom"
+                               :currentStatus="d[4].index === 5?'finish':null">
+                    <pl-step>
+                        <span slot="title" v-tooltip="'获取token'">获取token</span>
+                        <span slot="content">1、调用接口，获取token</span>
+                    </pl-step>
+
+                    <pl-step>
+                        <span slot="title" v-tooltip="'上传logo'">上传logo</span>
+                        <span slot="content">2、使用token上传logo图片</span>
+                    </pl-step>
+                    <pl-step>
+                        <span slot="title" v-tooltip="'创建卡券'">创建卡券</span>
+                        <span slot="content">3、调用接口创建卡券信息</span>
+                    </pl-step>
+                    <pl-step>
+                        <span slot="title" v-tooltip="'创建二维码'">创建二维码</span>
+                        <span slot="content">4、调用接口创建二维码</span>
+                    </pl-step>
+                    <pl-step>
+                        <span slot="title" v-tooltip="'显示二维码'">显示二维码</span>
+                        <span slot="content">5、在应用中显示二维码</span>
+                    </pl-step>
+                </pl-step-group>
+            </demo-line>
+        </demo-row>
+
     </div>
 </template>
 
@@ -155,6 +194,12 @@
                         titleAlignBottom: false,
                     },
                     3: {
+                        index: 1,
+                        vertical: false,
+                        mini: false,
+                        titleAlignBottom: false,
+                    },
+                    4: {
                         index: 1,
                         vertical: false,
                         mini: false,

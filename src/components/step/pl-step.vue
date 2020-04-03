@@ -15,17 +15,17 @@
                 </span>
             </span>
             <span class="pl-step-title" v-if="!plStepGroup.isTitleAlignBottom">
-                {{p_title}}
+                <slot name="title">{{p_title}}</slot>
             </span>
             <span class="pl-step-divider pl-step-divider-next" v-if="plStepGroup.isTitleAlignBottom || !isLast"/>
         </div>
         <div class="pl-step-body">
             <span class="pl-step-icon" v-if="!plStepGroup.isTitleAlignBottom"></span>
             <span class="pl-step-title" v-else>
-                {{p_title}}
+                <slot name="title">{{p_title}}</slot>
             </span>
             <span class="pl-step-content">
-                {{p_content}}
+                <slot name="content">{{p_content}}</slot>
             </span>
         </div>
     </div>
