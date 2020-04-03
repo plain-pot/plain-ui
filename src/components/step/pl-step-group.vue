@@ -201,7 +201,31 @@
                     }
 
                     &.pl-step-status-error {
+                        .pl-step-head {
+                            .pl-step-icon {
+                                border-color: $colorError;
+                                background-color: $colorError;
+                                color: white;
+                            }
 
+                            .pl-step-title {
+                                color: $colorError;
+                            }
+                        }
+
+                        .pl-step-body {
+                            .pl-step-content {
+                                color: $colorError;
+                            }
+                        }
+
+                        &.pl-step-has-icon {
+                            .pl-step-icon {
+                                border-color: initial;
+                                background-color: initial;
+                                color: $colorError;
+                            }
+                        }
                     }
                 }
             }

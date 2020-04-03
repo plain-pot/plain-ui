@@ -9,6 +9,7 @@
                 </template>
                 <span class="pl-step-number" v-else>
                     <pl-icon v-if="currentStatus === STATUS.finish" icon="el-icon-check"/>
+                    <pl-icon v-else-if="currentStatus === STATUS.error" icon="el-icon-close"/>
                     <span v-else>{{index}}</span>
                 </span>
             </span>

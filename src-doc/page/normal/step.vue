@@ -2,13 +2,23 @@
     <div class="step">
         <demo-row title="基本用法">
             <demo-line title="当前步骤索引">
-                <!--                <pl-toggle v-model="val[0]"/>-->
-                <pl-number v-model="val[1]"/>
+                <pl-number v-model="val[0]"/>
             </demo-line>
-            <pl-step-group v-model="val[1]" :currentStatus="val[1] === 3?'finish':null">
-                <pl-step title="Finish" content="This step is finish"/>
-                <pl-step title="Process" content="This step is processing..."/>
-                <pl-step title="Wait" content="This step is not start."/>
+            <pl-step-group v-model="val[0]" :currentStatus="val[0] === 5?'finish':null">
+                <pl-step title="获取token" content="调用接口，获取token"/>
+                <pl-step title="上传logo" content="使用token上传logo图片"/>
+                <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
+                <pl-step title="创建二维码" content="调用接口创建二维码"/>
+                <pl-step title="显示二维码" content="在应用中显示二维码"/>
+            </pl-step-group>
+        </demo-row>
+
+        <demo-row title="状态">
+            <pl-step-group>
+                <pl-step title="Finish" content="This step is finish" status="finish"/>
+                <pl-step title="Process" content="This step is processing..." status="process"/>
+                <pl-step title="error" content="This step is error!" status="error"/>
+                <pl-step title="Wait" content="This step is not start." status="wait"/>
             </pl-step-group>
         </demo-row>
 
@@ -18,10 +28,10 @@
             </demo-line>
             <pl-step-group v-model="val[2]" :currentStatus="val[2] === 5?'finish':null">
                 <pl-step icon="el-icon-s-promotion" title="获取token" content="调用接口，获取token"/>
-                <pl-step icon="el-icon-s-flag" title="上传logo" content="使用token上传logo图片"/>
-                <pl-step icon="el-icon-s-finance" title="创建卡券" content="调用接口创建卡券信息"/>
-                <pl-step icon="el-icon-s-platform" title="创建二维码" content="调用接口创建二维码"/>
-                <pl-step icon="el-icon-s-platform" title="显示二维码" content="在应用中显示二维码"/>
+                <pl-step icon="el-icon-upload" title="上传logo" content="使用token上传logo图片"/>
+                <pl-step icon="el-icon-s-ticket" title="创建卡券" content="调用接口创建卡券信息"/>
+                <pl-step icon="el-icon-s-data" title="创建二维码" content="调用接口创建二维码"/>
+                <pl-step icon="el-icon-s-check" title="显示二维码" content="在应用中显示二维码"/>
             </pl-step-group>
         </demo-row>
 
@@ -61,7 +71,7 @@
         data() {
             return {
                 val: {
-                    0: true,
+                    0: 1,
                     1: 2,
                     3: 'step1',
                 }
