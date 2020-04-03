@@ -9,7 +9,7 @@
                 <pl-checkbox label="标题放在图标下方" v-model="d[1].titleAlignBottom"/>
             </demo-line>
             <demo-line>
-                <pl-step-group v-model="d[1].index"
+                <pl-step-group :current="d[1].index"
                                :vertical="d[1].vertical"
                                :mini="d[1].mini"
                                :titleAlignBottom="d[1].titleAlignBottom"
@@ -31,7 +31,7 @@
                 <pl-checkbox label="标题放在图标下方" v-model="d[2].titleAlignBottom"/>
             </demo-line>
             <demo-line>
-                <pl-step-group v-model="d[2].index"
+                <pl-step-group :current="d[2].index"
                                :vertical="d[2].vertical"
                                :mini="d[2].mini"
                                :titleAlignBottom="d[2].titleAlignBottom"
@@ -53,7 +53,7 @@
                 <pl-checkbox label="标题放在图标下方" v-model="d[3].titleAlignBottom"/>
             </demo-line>
             <demo-line>
-                <pl-step-group v-model="d[3].index"
+                <pl-step-group :current="d[3].index"
                                :vertical="d[3].vertical"
                                :mini="d[3].mini"
                                :titleAlignBottom="d[3].titleAlignBottom"
@@ -112,7 +112,7 @@
                     <pl-button label="step5" @click="val[3] = 'step5'" :active="val[3] === 'step5'"/>
                 </pl-button-group>
             </demo-line>
-            <pl-step-group v-model="val[3]" :currentStatus="val[3] === 'step5'?'finish':null">
+            <pl-step-group :current="val[3]" :currentStatus="val[3] === 'step5'?'finish':null">
                 <pl-step title="获取token" content="调用接口，获取token" val="step1"/>
                 <pl-step title="上传logo" content="使用token上传logo图片" val="step2"/>
                 <pl-step title="创建卡券" content="调用接口创建卡券信息" val="step3"/>

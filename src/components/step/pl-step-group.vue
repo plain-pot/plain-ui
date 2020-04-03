@@ -13,18 +13,13 @@
             }
         },
         props: {
-            value: {type: [String, Number]},                                // 双向绑定，指定当前步骤条的步骤，在step组件中，可以通过 status 属性覆盖状态
+            current: {type: [String, Number]},                                // 双向绑定，指定当前步骤条的步骤，在step组件中，可以通过 status 属性覆盖状态
             currentStatus: {type: String},                                  // 当前激活节点的状态
             type: {type: String, default: 'normal'},                        // 步骤条类型，normal、navigation
             vertical: {type: Boolean},                                      // 步骤条是否为纵向
             titleAlignBottom: {type: Boolean},                              // 默认情况下，标题会放在图标右侧，设置该属性可以改为放在图标下面
             mini: {type: Boolean},                                          // 迷你步骤条
             dotIcon: {type: Boolean},                                       // 图标是否采用小圆点替代
-        },
-        watch: {
-            value(val) {
-                this.p_value = val
-            },
         },
         data() {
 
@@ -35,7 +30,6 @@
             return {
                 items: [],
                 refreshStepIndex,
-                p_value: this.value,
             }
         },
         computed: {
@@ -50,12 +44,12 @@
                 ]
             },
             currentIndex() {
-                if (typeof this.p_value === "number") {
-                    return this.p_value
+                if (typeof this.current === "number") {
+                    return this.current
                 } else {
                     for (let i = 0; i < this.items.length; i++) {
                         const item = this.items[i];
-                        if (item.val === this.p_value) return item.index
+                        if (item.val === this.current) return item.index
                     }
                 }
             },
