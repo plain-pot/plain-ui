@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-step" :class="classes">
+    <div class="pl-step" :class="classes" @click="emitClick">
         <div class="pl-step-head">
             <span class="pl-step-divider pl-step-divider-prev" v-if="!plStepGroup.vertical && (plStepGroup.isTitleAlignBottom || isLast)"/>
             <span class="pl-step-icon">
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-    import {PropsMixinFactory} from "../../utils/mixins";
+    import {EmitMixin, PropsMixinFactory} from "../../utils/mixins";
 
     /**
      * v-if会触发created，会重新刷新index，但是v-show不会，暂时不管v-show
@@ -54,12 +54,16 @@
             plStepGroup: {},
         },
         mixins: [
+            EmitMixin,
             PropsMixinFactory.create({
                 title: PropsMixinFactory.Promise,
                 subTitle: PropsMixinFactory.Promise,
                 content: PropsMixinFactory.Promise,
             })
         ],
+        emitters: {
+            emitClick: Function,
+        },
         props: {
             icon: {type: String},
             status: {type: String},

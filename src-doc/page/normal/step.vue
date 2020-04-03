@@ -14,11 +14,11 @@
                                :mini="d[1].mini"
                                :titleAlignBottom="d[1].titleAlignBottom"
                                :currentStatus="d[1].index === 5?'finish':null">
-                    <pl-step title="获取token" content="调用接口，获取token"/>
-                    <pl-step title="上传logo" content="使用token上传logo图片"/>
-                    <pl-step title="创建卡券" content="调用接口创建卡券信息"/>
-                    <pl-step title="创建二维码" content="调用接口创建二维码"/>
-                    <pl-step title="显示二维码" content="在应用中显示二维码"/>
+                    <pl-step title="获取token" content="调用接口，获取token" @click="$plain.log('获取token')"/>
+                    <pl-step title="上传logo" content="使用token上传logo图片" @click="$plain.log('上传logo')"/>
+                    <pl-step title="创建卡券" content="调用接口创建卡券信息" @click="$plain.log('创建卡券')"/>
+                    <pl-step title="创建二维码" content="调用接口创建二维码" @click="$plain.log('创建二维码')"/>
+                    <pl-step title="显示二维码" content="在应用中显示二维码" @click="$plain.log('显示二维码')"/>
                 </pl-step-group>
             </demo-line>
         </demo-row>
