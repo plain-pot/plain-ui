@@ -23,8 +23,8 @@
                       @blur="onInputBlur"
                       @enter="onInputEnter"/>
             <pl-button-group size="mini" mode="stroke">
-                <pl-button icon="el-icon-close" @click="reset"/>
-                <pl-button icon="el-icon-check" @click="onConfirm"/>
+                <pl-button icon="el-icon-close" @click="reset" v-tooltip="'撤销'"/>
+                <pl-button icon="el-icon-check" @click="onConfirm" v-tooltip="'确定'"/>
             </pl-button-group>
         </div>
     </div>
