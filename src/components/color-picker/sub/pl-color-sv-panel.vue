@@ -1,6 +1,8 @@
 <template>
     <div class="pl-color-sv-panel" :style="styles">
-
+        <div class="pl-color-sv-thumb-wrapper">
+            <span class="pl-color-sv-thumb" ref="thumb"/>
+        </div>
     </div>
 </template>
 
@@ -70,6 +72,26 @@
 
             &:after {
                 background: linear-gradient(to top, black, rgba(255, 255, 255, 0));
+            }
+
+            .pl-color-sv-thumb-wrapper {
+                display: inline-block;
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                left: 0;
+                top: 0;
+
+                .pl-color-sv-thumb {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    border: solid 1px $colorInfo;
+                    border-radius: 10px;
+                    position: absolute;
+                    top: -5px;
+                    left: -5px;
+                }
             }
         }
     }
