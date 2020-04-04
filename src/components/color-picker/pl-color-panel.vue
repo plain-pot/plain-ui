@@ -6,7 +6,11 @@
                            :value="color.value"
                            :saturation="color.saturation"
                            @change="onSvChange" @dblclick="emitDblclickSvPanel"/>
-        <pl-color-alpha-slider size="180" :color="color.color"/>
+        <pl-color-alpha-slider v-if="color.enableAlpha"
+                               size="180"
+                               :color="color.hex"
+                               :value="color.alpha"
+                               @change="onAlphaChange"/>
         <pl-color-hue-slider size="240"
                              v-model="color.hue"
                              @change="onHueChange"/>
@@ -36,7 +40,8 @@
             format: {type: String},                 // 格式类型：hex、rgb
         },
         data() {
-            const color = new Color(this.value, this.enableAlpha, this.format)
+            let value = this.value != null ? this.value : (this.enableAlpha ? 'rgba(120,60,60,0.5)' : '#803e3e')
+            const color = new Color(value, this.enableAlpha, this.format)
             return {
                 color,
             }
@@ -51,6 +56,11 @@
             onHueChange(hue) {
                 this.color.hue = hue
                 this.color.updateByHsv()
+                this.onConfirm()
+            },
+            onAlphaChange(alpha) {
+                this.color.alpha = alpha
+                this.color.updateByAlpha()
                 this.onConfirm()
             },
             onConfirm() {

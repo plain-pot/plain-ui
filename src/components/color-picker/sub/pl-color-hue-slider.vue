@@ -1,6 +1,6 @@
 <template>
     <div class="pl-color-hue-slider" @mousedown="mousedown" :style="styles">
-        <div class="pl-color-hue-slider-thumb" :style="thumbStyles" ref="thumb"></div>
+        <div class="pl-color-hue-slider-thumb" :style="thumbStyles"></div>
     </div>
 </template>
 

@@ -1,8 +1,12 @@
 <template>
     <div class="color-picker">
         <demo-row title="基本用法">
-            <pl-color-panel v-model="color"/>
-            color:{{color}}
+            <demo-line>
+                color:{{color}}
+            </demo-line>
+            <demo-line>
+                <pl-color-panel v-model="color" enableAlpha format="hex"/>
+            </demo-line>
         </demo-row>
     </div>
 </template>
@@ -13,7 +17,7 @@
         props: {},
         data() {
             return {
-                color: '#dddddd',
+                color: '#218379',
             }
         },
         methods: {},
