@@ -29,6 +29,14 @@
             height: {type: [String, Number], default: 180},         // 面板高度
             width: {type: [String, Number], default: 240},          // 面板宽度
         },
+        watch: {
+            saturation(val) {
+                if (this.p_saturation !== val) this.p_saturation = val
+            },
+            value(val) {
+                if (this.p_value !== 100 - val) this.p_value = (100 - val)
+            },
+        },
         data() {
             const p_value = this.value == null ? null : 100 - (this.value || 0)
             const p_saturation = this.saturation

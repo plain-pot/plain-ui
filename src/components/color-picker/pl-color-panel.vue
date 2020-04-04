@@ -5,7 +5,7 @@
                            :hue="color.hue"
                            :value="color.value"
                            :saturation="color.saturation"
-                           @change="onSvChange" @dblclick="emitDblclickSvPanel"/>
+                           @change="onSvChange" @dblclick="onDblclickSvPanel"/>
         <pl-color-alpha-slider v-if="color.enableAlpha"
                                size="180"
                                :color="color.hex"
@@ -17,8 +17,8 @@
         <div class="pl-color-panel-input-group">
             <pl-input size="mini" :value="color.color" :width="enableAlpha?204:186"/>
             <pl-button-group size="mini" mode="stroke">
-                <pl-button icon="el-icon-close"/>
-                <pl-button icon="el-icon-check"/>
+                <pl-button icon="el-icon-close" @click="reset"/>
+                <pl-button icon="el-icon-check" @click="onConfirm"/>
             </pl-button-group>
         </div>
     </div>
@@ -60,32 +60,65 @@
             },
         },
         data() {
-            let value = this.value != null ? this.value : (this.enableAlpha ? 'rgba(120,60,60,0.5)' : '#803e3e')
-            const color = new Color(value, this.enableAlpha, this.format)
+            const color = new Color(this.value, this.enableAlpha, this.format)
             return {
                 color,
             }
         },
         methods: {
+            /**
+             * 重置当前的颜色值
+             * @author  韦胜健
+             * @date    2020/4/4 22:11
+             */
+            reset() {
+                this.color.setValue(this.value)
+            },
+            /**
+             * sv中的饱和度以及亮度变化动作处理
+             * @author  韦胜健
+             * @date    2020/4/4 22:11
+             */
             onSvChange({value, saturation}) {
                 this.color.value = value
                 this.color.saturation = saturation
                 this.color.updateByHsv()
-                this.onConfirm()
             },
+            /**
+             * 色相变化动作处理
+             * @author  韦胜健
+             * @date    2020/4/4 22:11
+             */
             onHueChange(hue) {
                 this.color.hue = hue
                 this.color.updateByHsv()
-                this.onConfirm()
             },
+            /**
+             * 透明度变化动作处理
+             * @author  韦胜健
+             * @date    2020/4/4 22:11
+             */
             onAlphaChange(alpha) {
                 this.color.alpha = alpha
                 this.color.updateByAlpha()
-                this.onConfirm()
             },
+            /**
+             * 派发值变化动作
+             * @author  韦胜健
+             * @date    2020/4/4 22:12
+             */
             onConfirm() {
                 this.p_value = this.color.color
                 this.emitInput(this.p_value)
+            },
+            /**
+             * 处理双击 sv panel动作
+             * @author  韦胜健
+             * @date    2020/4/4 22:12
+             */
+            onDblclickSvPanel(e) {
+                this.onConfirm()
+                this.emitDblclickSvPanel(e)
             },
         },
     }
@@ -111,6 +144,10 @@
 
                 .pl-input {
                     margin-right: 8px;
+
+                    .pl-input-inner {
+                        text-align: center;
+                    }
                 }
             }
         }
