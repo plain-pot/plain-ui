@@ -111,6 +111,7 @@
             position: relative;
             box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.4);
             cursor: pointer;
+            display: inline-block;
 
             &:before, &:after, & span {
                 pointer-events: none;

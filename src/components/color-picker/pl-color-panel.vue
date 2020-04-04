@@ -6,10 +6,10 @@
                            :value="color.value"
                            :saturation="color.saturation"
                            @change="onSvChange" @dblclick="emitDblclickSvPanel"/>
+        <pl-color-alpha-slider size="180" :color="color.color"/>
         <pl-color-hue-slider size="240"
                              v-model="color.hue"
                              @change="onHueChange"/>
-        <!--        <pl-color-alpha-slider size="240"/>-->
     </div>
 </template>
 
@@ -69,6 +69,11 @@
 
             .pl-color-hue-slider {
                 margin-top: 8px;
+                display: block;
+            }
+
+            .pl-color-alpha-slider {
+                margin-left: 8px;
             }
         }
     }
