@@ -1,6 +1,6 @@
 <template>
     <div class="pl-color-sv-panel" :style="styles">
-        pl-color-sv-panel
+
     </div>
 </template>
 
@@ -46,23 +46,31 @@
 </script>
 
 <style lang="scss">
-    .pl-color-sv-panel {
-        position: relative;
+    @include themify {
+        .pl-color-sv-panel {
+            position: relative;
+            box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.4);
 
-        &:before, &:after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            content: '';
-        }
-        &:before {
-            background: linear-gradient(to right, white, rgba(255, 255, 255, 0));
-        }
+            &, &:before, &:after {
+                border-radius: 4px;
+            }
 
-        &:after {
-            background: linear-gradient(to top, black, rgba(255, 255, 255, 0));
+            &:before, &:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                content: '';
+            }
+
+            &:before {
+                background: linear-gradient(to right, white, rgba(255, 255, 255, 0));
+            }
+
+            &:after {
+                background: linear-gradient(to top, black, rgba(255, 255, 255, 0));
+            }
         }
     }
 </style>

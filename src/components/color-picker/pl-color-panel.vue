@@ -1,8 +1,8 @@
 <template>
     <div class="pl-color-panel">
-        <pl-color-sv-panel/>
-        <pl-color-hue-slider/>
-        <pl-color-alpha-slider/>
+        <pl-color-sv-panel height="180" width="240" :hue="hue"/>
+        <pl-color-hue-slider size="240" v-model="hue"/>
+        <!--        <pl-color-alpha-slider size="240"/>-->
     </div>
 </template>
 
@@ -16,11 +16,23 @@
         components: {PlColorAlphaSlider, PlColorHueSlider, PlColorSvPanel},
         props: {},
         data() {
-            return {}
+            return {
+                hue: 0,
+            }
         },
         methods: {},
     }
 </script>
 
 <style lang="scss">
+    @include themify{
+        .pl-color-panel {
+            display: inline-block;
+            font-size: 0;
+
+            .pl-color-hue-slider {
+                margin-top: 8px;
+            }
+        }
+    }
 </style>
