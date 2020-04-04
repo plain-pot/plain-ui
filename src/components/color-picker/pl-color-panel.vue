@@ -15,7 +15,13 @@
                              v-model="color.hue"
                              @change="onHueChange"/>
         <div class="pl-color-panel-input-group">
-            <pl-input size="mini" :value="color.color" :width="enableAlpha?204:186"/>
+            <pl-input ref="input"
+                      size="mini"
+                      :value="color.color"
+                      :width="enableAlpha?204:186"
+                      @change="onInputChange"
+                      @blur="onInputBlur"
+                      @enter="onInputEnter"/>
             <pl-button-group size="mini" mode="stroke">
                 <pl-button icon="el-icon-close" @click="reset"/>
                 <pl-button icon="el-icon-check" @click="onConfirm"/>
@@ -74,6 +80,17 @@
             reset() {
                 this.color.setValue(this.value)
             },
+            /*---------------------------------------utils-------------------------------------------*/
+            isEffectiveValue(value) {
+                if (!value) return true
+                if (value.indexOf('#') === 0 && /^#[0-9a-fA-F]{6}$/.test(value)) {
+                    return true
+                } else if (value.indexOf('rgb') === 0 && /^rgb(\(\d{1,3}(,\d{1,3}){2}|a\(\d{1,3}(,\d{1,3}){2},(1|0\.\d+))\)$/.test(value)) {
+                    return true
+                }
+                return false
+            },
+            /*---------------------------------------listener-------------------------------------------*/
             /**
              * sv中的饱和度以及亮度变化动作处理
              * @author  韦胜健
@@ -119,6 +136,51 @@
             onDblclickSvPanel(e) {
                 this.onConfirm()
                 this.emitDblclickSvPanel(e)
+            },
+            /**
+             * 输入框的值变化动作
+             * @author  韦胜健
+             * @date    2020/4/4 22:21
+             */
+            onInputChange(val) {
+                if (!val) {
+                    this.color.setValue(val)
+                    return
+                }
+                let formatVal = val.replace(/\s/g, '')
+                if (!this.isEffectiveValue(formatVal)) {
+                    return;
+                } else {
+                    this.color.setValue(formatVal)
+                    if (val !== formatVal) {
+                        this.$refs.input.p_value = formatVal
+                    }
+                }
+            },
+            /**
+             * input失去焦点的时候检查颜色是否正常
+             * @author  韦胜健
+             * @date    2020/4/4 23:18
+             */
+            onInputBlur() {
+                if (!!this.$refs.input.p_value && this.$refs.input.p_value !== this.color.color) {
+                    this.$plain.$message('请输入正确的颜色值！')
+                    this.$refs.input.p_value = this.color.color
+                }
+            },
+            /**
+             * input回车事件检查输入是否正常，是则派发更新值事件，否则提示用户驶入不正确
+             * @author  韦胜健
+             * @date    2020/4/4 23:19
+             */
+            async onInputEnter() {
+                await this.$plain.nextTick()
+                if (!!this.$refs.input.p_value && this.$refs.input.p_value !== this.color.color) {
+                    this.$plain.$message('请输入正确的颜色值！')
+                    this.$refs.input.p_value = this.color.color
+                } else {
+                    this.onConfirm()
+                }
             },
         },
     }
