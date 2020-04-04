@@ -46,11 +46,20 @@ export class Color {
     }
 
     /**
+     * 根据值更新color信息
+     * @author  韦胜健
+     * @date    2020/4/4 21:57
+     */
+    public setValue(value: string): void {
+        this.updateByString(value, false)
+    }
+
+    /**
      * 根据新值更新当前color信息
      * @author  韦胜健
      * @date    2020/4/4 12:10
      */
-    public updateByString(value: string, needInitializedEnableAlpha: boolean = false, enableAlpha: boolean): void {
+    public updateByString(value: string, needInitializedEnableAlpha: boolean = false, enableAlpha?: boolean): void {
         this._value = value
         if (value == null) {
             this.hue = 0
