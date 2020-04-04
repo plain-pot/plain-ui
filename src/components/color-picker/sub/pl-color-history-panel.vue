@@ -1,14 +1,11 @@
 <template>
-    <div class="color-picker">
-        <demo-row title="基本用法">
-            <pl-color-panel/>
-        </demo-row>
+    <div class="pl-color-history-panel">
     </div>
 </template>
 
 <script>
     export default {
-        name: "color-picker",
+        name: "pl-color-history-panel",
         props: {},
         data() {
             return {}
@@ -16,6 +13,6 @@
         methods: {},
     }
 </script>
-
+c
 <style lang="scss">
 </style>

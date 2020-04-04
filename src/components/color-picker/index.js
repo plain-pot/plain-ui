@@ -1,3 +1,6 @@
-import component from './pl-color-picker.vue'
+import picker from './pl-color-picker.vue'
+import panel from './pl-color-panel'
+
 import {plugin} from "../../utils";
-export default plugin(component)
+
+export default plugin([picker, panel])
