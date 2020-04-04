@@ -95,7 +95,7 @@
                 this.p_saturation = Math.max(0, Math.min(100, this.p_saturation))
                 this.p_value = Math.max(0, Math.min(100, this.p_value))
 
-                this.emitChange({hue: this.hue, saturation: this.p_saturation, value: this.p_value})
+                this.emitChange({hue: this.hue, saturation: this.p_saturation, value: 100 - this.p_value})
             },
             async onDblclick(e) {
                 await this.$plain.nextTick()

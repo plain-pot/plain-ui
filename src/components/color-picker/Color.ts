@@ -42,7 +42,7 @@ export class Color {
         if (enableAlpha != null) {
             this.enableAlpha = enableAlpha
         }
-
+        this.updateByString(value, true, enableAlpha)
     }
 
     /**
