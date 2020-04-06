@@ -12,6 +12,9 @@
                 <pl-color-panel v-model="color2" enableAlpha format="hex"/>
             </demo-line>
         </demo-row>
+        <demo-row title="ColorService">
+            <pl-button label="open" @click="useColorService"/>
+        </demo-row>
     </div>
 </template>
 
@@ -25,7 +28,11 @@
                 color2: null,
             }
         },
-        methods: {},
+        methods: {
+            useColorService() {
+                console.log('useColorService')
+            },
+        },
     }
 </script>
 
