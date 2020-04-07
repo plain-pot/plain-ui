@@ -85,6 +85,38 @@
             />
         </demo-row>
 
+        <demo-row title="cascade-panel:自定义内容-作用域插槽">
+            <demo-line>
+                {{val[5]}}
+            </demo-line>
+            <pl-cascade-panel
+                    v-model="val[5]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+            >
+                <template slot-scope="{node,index}">
+                    {{index+1}}. {{node.data.name}}
+                </template>
+            </pl-cascade-panel>
+        </demo-row>
+
+        <demo-row title="cascade-panel:自定义内容-渲染函数">
+            <demo-line>
+                {{val[5]}}
+            </demo-line>
+            <pl-cascade-panel
+                    v-model="val[5]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+                    :renderContent="renderContent"
+            >
+            </pl-cascade-panel>
+        </demo-row>
+
     </div>
 </template>
 
@@ -203,6 +235,13 @@
             },
             isDisabled(node) {
                 return node.isLeaf && node.label.indexOf('2') > 0
+            },
+            renderContent(h, {node, index}) {
+                return (
+                    <div>
+                        {index + 1}. {node.data.name}
+                    </div>
+                )
             },
         },
     }

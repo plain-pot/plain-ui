@@ -25,9 +25,18 @@ export default {
         childrenField: {type: String},                                      // 记录的子节点数据的字段名
 
         isDisabled: {type: Function},                                       // 是否禁用判断函数
+        renderContent: {type: Function},                                    // 渲染内容的渲染函数
     },
     emitters: {
         emitInput: Function,
+    },
+    watch: {
+        value(val) {
+            this.p_value = val
+        },
+        data(val) {
+            this.p_data = val
+        },
     },
     data() {
         const p_value: string[] = this.value                                // value内置临时变量
@@ -67,7 +76,7 @@ export default {
                             <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && this.getMark(this.expandKeys[listIndex - 1], CascadeMark.loading)}>
                                 <pl-scroll>
                                     <pl-list>
-                                        {list.map((node) => (
+                                        {list.map((node, nodeIndex) => (
                                             <pl-item block
                                                      class={[
                                                          'pl-cascade-item',
@@ -88,7 +97,7 @@ export default {
                                                          },
                                                      }}>
                                                 <div class="pl-cascade-content">
-                                                    {node.label}
+                                                    {!!this.$scopedSlots.default ? this.$scopedSlots.default({node, index: nodeIndex}) : (!!this.renderContent ? this.renderContent(h, {node, index: nodeIndex}) : node.label)}
                                                     {!node.isLeaf && (
                                                         <div class="pl-cascade-arrow">
                                                             {node.isLoading ? <pl-loading type="gamma"/> : <pl-icon icon="el-icon-arrow-right"/>}
