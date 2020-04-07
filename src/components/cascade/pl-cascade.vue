@@ -40,24 +40,24 @@
 
                 .pl-cascade-item {
                     padding: 4px 6px 4px 16px;
-                    transition: background-color 300ms $transition;
+                    transition: all 300ms $transition;
                     cursor: pointer;
-                    position: relative;
-
-                    .pl-cascade-arrow {
-                        position: absolute;
-                        top: 0;
-                        bottom: 0;
-                        right: 0;
-                        width: 30px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: $icc;
-                    }
 
                     .pl-cascade-content {
                         padding-right: 30px;
+                        position: relative;
+
+                        .pl-cascade-arrow {
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            right: 0;
+                            width: 30px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: $icc;
+                        }
                     }
 
                     &:hover {
