@@ -30,10 +30,10 @@ export default {
         return (
             <pl-popper
                 class="pl-cascade-service"
-                key={this.count}
                 {...this.popperBinding}
             >
                 <pl-cascade-panel slot="popper"
+                                  key={this.count}
                                   value={this.p_opts.value}
                                   onChange={this.onChange}
                                   {...{props: this.p_opts}}
@@ -140,9 +140,9 @@ export default {
     methods: {
         async show() {
             if (!!this.showFlag) return
+            this.count++
             await this.$plain.nextTick()
             if (!!this.cascade.option.beforeShow) await this.cascade.option.beforeShow()
-            this.count++
             this.showFlag = true
         },
         async hide() {

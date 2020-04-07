@@ -97,7 +97,7 @@
                     childrenField="subs"
             >
                 <template slot-scope="{node,index}">
-                    {{index+1}}. {{node.data.name}}
+                    <cascade-item :node="node" :index="index"/>
                 </template>
             </pl-cascade-panel>
         </demo-row>
@@ -128,9 +128,28 @@
 </template>
 
 <script>
+
+    const CascadeItem = {
+        props: {
+            node: {},
+            index: {},
+        },
+        render(h) {
+            return (
+                <div>
+                    {this.index}, {this.node.label}
+                </div>
+            )
+        },
+        mounted() {
+            console.log('mounted', this.node.label)
+        },
+    }
+
     export default {
         name: "cascade",
         props: {},
+        components: {CascadeItem},
         data() {
             const treeData = [
                 {
@@ -260,7 +279,9 @@
             }
 
             // 无初始值
-            const test0 = newData('test0', {})
+            const test0 = newData('test0', {
+                renderContent: (...args) => this.renderContent(...args)
+            })
 
             const lazyTest = newData('lazyTest', {
                 lazy: true,
@@ -291,7 +312,7 @@
             renderContent(h, {node, index}) {
                 return (
                     <div>
-                        {index + 1}. {node.data.name}
+                        <CascadeItem node={node} index={index}/>
                     </div>
                 )
             },
