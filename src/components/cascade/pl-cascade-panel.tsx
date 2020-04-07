@@ -10,11 +10,9 @@ export default {
         data: {type: Array},                                                // 选择的数据
         trigger: {type: Array, default: 'click'},                           // 展开触发类型：click，hover
         hoverDebounce: {type: Number, default: 300},                        // 触发器为hover的时候，防抖时间间隔
-        // showFormat: {type: Function},                                       // 格式化显示值函数
-        // separator: {type: String, default: ' / '},                          // 显示值分隔符
-        // filterable: {type: Boolean},                                        // 是否可筛选
-        // filterMethod: {type: Boolean},                                      // 自定义筛选函数
         emptyText: {type: Boolean, default: '暂无数据'},                    // 没有子节点时展示的文本
+        isDisabled: {type: Function},                                       // 是否禁用判断函数
+        renderContent: {type: Function},                                    // 渲染内容的渲染函数
 
         isLeaf: {type: Function},                                           // 函数，用来判断是否为叶子节点，默认根据节点是否存在子节点来判断是否为叶子节点，懒加载模式下，改属性为必需属性
         lazy: {type: Boolean},                                              // 数据是否为懒加载
@@ -24,8 +22,10 @@ export default {
         keyField: {type: String},                                           // 记录值的字段名
         childrenField: {type: String},                                      // 记录的子节点数据的字段名
 
-        isDisabled: {type: Function},                                       // 是否禁用判断函数
-        renderContent: {type: Function},                                    // 渲染内容的渲染函数
+        // showFormat: {type: Function},                                       // 格式化显示值函数
+        // separator: {type: String, default: ' / '},                          // 显示值分隔符
+        // filterable: {type: Boolean},                                        // 是否可筛选
+        // filterMethod: {type: Boolean},                                      // 自定义筛选函数
     },
     emitters: {
         emitInput: Function,
@@ -34,8 +34,20 @@ export default {
         value(val) {
             this.p_value = val
         },
-        data(val) {
-            this.p_data = val
+        data: {
+            deep: true,
+            handler(val) {
+                this.p_data = val
+
+                this.$nextTick(() => {
+                    // 清理删除的数据
+                    Object.values(this.mark).forEach((mark: CascadeMark) => {
+                        if (mark.formatCount !== this.formatCount) {
+                            this.$delete(this.mark, mark.key)
+                        }
+                    })
+                })
+            },
         },
     },
     data() {
@@ -129,6 +141,11 @@ export default {
         )
     },
     computed: {
+        /**
+         * 格式化数据
+         * @author  韦胜健
+         * @date    2020/4/7 20:45
+         */
         formatData(): CascadeData[] {
             if (!this.checkProps()) return []
             if (!this.p_data) return []
