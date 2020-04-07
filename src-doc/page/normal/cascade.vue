@@ -10,6 +10,8 @@
                     labelField="name"
                     keyField="id"
                     childrenField="subs"
+
+                    :isLeaf="isLeaf"
             />
         </demo-row>
     </div>
@@ -75,7 +77,11 @@
                 val: {},
             }
         },
-        methods: {},
+        methods: {
+            isLeaf(node) {
+                return node.level > 3
+            },
+        },
     }
 </script>
 

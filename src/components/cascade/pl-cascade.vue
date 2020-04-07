@@ -39,7 +39,7 @@
                 }
 
                 .pl-list {
-                    overflow: hidden ;
+                    overflow: hidden;
                 }
 
                 .pl-cascade-item {
@@ -79,6 +79,20 @@
 
                         .pl-cascade-arrow {
                             color: $colorPrimary;
+                        }
+                    }
+
+                    &.pl-cascade-empty {
+                        padding-right: 0;
+                        padding-left: 0;
+                        text-align: center;
+                        font-size: 12px;
+                        color: $disabledText;
+                        background-color: transparent;
+                        cursor: auto;
+
+                        .pl-icon {
+                            margin-right: 3px;
                         }
                     }
                 }

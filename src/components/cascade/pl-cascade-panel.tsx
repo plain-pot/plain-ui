@@ -53,25 +53,34 @@ export default {
             <div class="pl-cascade-panel">
                 {this.cascadeData.map((list: CascadeData[], listIndex) => (
                     <div class="pl-cascade-list" key={listIndex}>
-                        <pl-scroll>
-                            <pl-list>
-                                {list.map((node) => (
-                                    <pl-item block
-                                             class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
-                                             key={node.key}
-                                             onclick={() => this.onClickItem(node)}>
-                                        <div class="pl-cascade-content">
-                                            {node.label}
-                                            {!node.isLeaf && (
-                                                <div class="pl-cascade-arrow">
-                                                    <pl-icon icon="el-icon-arrow-right"/>
+                        {list.length > 0 ?
+                            (
+                                <pl-scroll>
+                                    <pl-list>
+                                        {list.map((node) => (
+                                            <pl-item block
+                                                     class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
+                                                     key={node.key}
+                                                     onclick={() => this.onClickItem(node)}>
+                                                <div class="pl-cascade-content">
+                                                    {node.label}
+                                                    {!node.isLeaf && (
+                                                        <div class="pl-cascade-arrow">
+                                                            <pl-icon icon="el-icon-arrow-right"/>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
-                                        </div>
-                                    </pl-item>
-                                ))}
-                            </pl-list>
-                        </pl-scroll>
+                                            </pl-item>
+                                        ))}
+                                    </pl-list>
+                                </pl-scroll>
+                            ) : (
+                                <div class="pl-cascade-item pl-cascade-empty">
+                                    <pl-icon icon="el-icon-reading"/>
+                                    {this.emptyText}
+                                </div>
+                            )
+                        }
                     </div>
                 ))}
             </div>
