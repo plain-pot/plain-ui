@@ -28,6 +28,17 @@
             <pl-color-picker :value="val[0]"/>
             <pl-color-picker :value="val[0]"/>
         </demo-row>
+        <demo-row title="pl-color-picker；禁用透明度，使用十六进制颜色值">
+            <pl-color-picker :value="val[1]" :enableAlpha="false"/>
+            <pl-color-picker :value="val[1]" :enableAlpha="false"/>
+        </demo-row>
+        <demo-row title="禁用以及只读">
+            <demo-line>
+                <pl-checkbox v-model="val[2]"/>
+            </demo-line>
+            <pl-color-picker :disabled="val[2]"/>
+            <pl-color-picker :readonly="val[2]"/>
+        </demo-row>
     </div>
 </template>
 

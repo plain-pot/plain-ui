@@ -31,7 +31,7 @@
         props: {
             value: {type: String},                                  // 当前颜色值
             enableAlpha: {type: Boolean, default: true},            // 是否启用透明度
-            format: {type: String, default: 'rgb'},                 // 颜色格式
+            format: {type: String, default: 'hex'},                 // 颜色格式
         },
         emitters: {
             emitInput: Function,
