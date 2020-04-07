@@ -38,6 +38,10 @@
                     border-right: none;
                 }
 
+                .pl-list {
+                    overflow: hidden ;
+                }
+
                 .pl-cascade-item {
                     padding: 4px 6px 4px 16px;
                     transition: all 300ms $transition;

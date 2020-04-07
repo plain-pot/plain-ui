@@ -1,16 +1,18 @@
 import {CascadeData, CascadeMark} from "./CascadeData";
+import {EmitMixin} from "../../utils/mixins";
 
 export default {
 
     name: "pl-cascade-panel",
+    mixins: [EmitMixin],
     props: {
         value: {type: Array},                                               // 数组，双向绑定值
         data: {type: Array},                                                // 选择的数据
         trigger: {type: Array},                                             // 展开触发类型：click，hover
-        showFormat: {type: Function},                                       // 格式化显示值函数
-        separator: {type: String, default: ' / '},                          // 显示值分隔符
-        filterable: {type: Boolean},                                        // 是否可筛选
-        filterMethod: {type: Boolean},                                      // 自定义筛选函数
+        // showFormat: {type: Function},                                       // 格式化显示值函数
+        // separator: {type: String, default: ' / '},                          // 显示值分隔符
+        // filterable: {type: Boolean},                                        // 是否可筛选
+        // filterMethod: {type: Boolean},                                      // 自定义筛选函数
         emptyText: {type: Boolean, default: '暂无数据'},                    // 没有子节点时展示的文本
 
         isLeaf: {type: Function},                                           // 函数，用来判断是否为叶子节点，默认根据节点是否存在子节点来判断是否为叶子节点，懒加载模式下，改属性为必需属性
@@ -21,6 +23,9 @@ export default {
         keyField: {type: String},                                           // 记录值的字段名
         childrenField: {type: String},                                      // 记录的子节点数据的字段名
     },
+    emitters: {
+        emitInput: Function,
+    },
     data() {
         const p_value: string[] = this.value                                // value内置临时变量
         const p_data = this.data                                            // data的临时变量，因为可能需要懒加载数据，所以数据需要内部管理
@@ -29,7 +34,7 @@ export default {
         const mark: { [key: string]: CascadeMark } = {}                     // 标记映射
         const p_loading: boolean = false                                    // 内置，当前是否处于loading状态
 
-        const expandKeys = []
+        const expandKeys = p_value || []
 
         return {
             p_data,
@@ -48,23 +53,25 @@ export default {
             <div class="pl-cascade-panel">
                 {this.cascadeData.map((list: CascadeData[], listIndex) => (
                     <div class="pl-cascade-list" key={listIndex}>
-                        <pl-list>
-                            {list.map((node) => (
-                                <pl-item block
-                                         class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
-                                         key={node.key}
-                                         onclick={() => this.onClickItem(node)}>
-                                    <div class="pl-cascade-content">
-                                        {node.label}
-                                        {!node.isLeaf && (
-                                            <div class="pl-cascade-arrow">
-                                                <pl-icon icon="el-icon-arrow-right"/>
-                                            </div>
-                                        )}
-                                    </div>
-                                </pl-item>
-                            ))}
-                        </pl-list>
+                        <pl-scroll>
+                            <pl-list>
+                                {list.map((node) => (
+                                    <pl-item block
+                                             class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
+                                             key={node.key}
+                                             onclick={() => this.onClickItem(node)}>
+                                        <div class="pl-cascade-content">
+                                            {node.label}
+                                            {!node.isLeaf && (
+                                                <div class="pl-cascade-arrow">
+                                                    <pl-icon icon="el-icon-arrow-right"/>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </pl-item>
+                                ))}
+                            </pl-list>
+                        </pl-scroll>
                     </div>
                 ))}
             </div>
@@ -173,6 +180,10 @@ export default {
             }
             this.expandKeys = expandKeys
 
+            if (node.isLeaf) {
+                this.p_value = expandKeys
+                this.emitInput(expandKeys)
+            }
         },
     },
 }
