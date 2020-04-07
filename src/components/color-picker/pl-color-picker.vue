@@ -117,7 +117,7 @@
                 }
             },
             onClickInput() {
-                this.show()
+                this.toggle()
             },
             onEnter() {
                 if (!!this.p_inputValue && this.p_inputValue !== this.p_value) {
@@ -138,7 +138,6 @@
             },
             onFocus() {
                 if (this.p_focusTimer === 0) {
-                    this.show()
                     this.emitFocus()
                 } else {
                     this.p_focusTimer--
