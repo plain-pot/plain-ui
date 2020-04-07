@@ -129,3 +129,18 @@ export const parseHexChannel = function (hex) {
 
     return HEX_INT_MAP[hex[1].toUpperCase()] || +hex[1];
 };
+
+/**
+ * 判断是否为一个有效的颜色值
+ * @author  韦胜健
+ * @date    2020/4/7 11:32
+ */
+export function isEffectiveColorString(color: string): boolean {
+    if (!color) return true
+    if (color.indexOf('#') === 0 && /^#[0-9a-fA-F]{6}$/.test(color)) {
+        return true
+    } else if (color.indexOf('rgb') === 0 && /^rgb(\(\d{1,3}(,\d{1,3}){2}|a\(\d{1,3}(,\d{1,3}){2},(1|0\.\d+))\)$/.test(color)) {
+        return true
+    }
+    return false
+}

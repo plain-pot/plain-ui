@@ -36,6 +36,7 @@
     import PlColorAlphaSlider from "./sub/pl-color-alpha-slider";
     import {Color} from "./Color";
     import {EmitMixin} from "../../utils/mixins";
+    import {isEffectiveColorString} from "./ColorUtils";
 
     export default {
         name: "pl-color-panel",
@@ -83,15 +84,6 @@
                 this.color.setValue(this.value || this.getDefaultColor())
             },
             /*---------------------------------------utils-------------------------------------------*/
-            isEffectiveValue(value) {
-                if (!value) return true
-                if (value.indexOf('#') === 0 && /^#[0-9a-fA-F]{6}$/.test(value)) {
-                    return true
-                } else if (value.indexOf('rgb') === 0 && /^rgb(\(\d{1,3}(,\d{1,3}){2}|a\(\d{1,3}(,\d{1,3}){2},(1|0\.\d+))\)$/.test(value)) {
-                    return true
-                }
-                return false
-            },
             getDefaultColor() {
                 if (this.format === 'hex') {
                     return '#12b4a5'
@@ -166,7 +158,8 @@
                     return
                 }
                 let formatVal = val.replace(/\s/g, '')
-                if (!this.isEffectiveValue(formatVal)) {
+
+                if (!isEffectiveColorString(formatVal)) {
                     return;
                 } else {
                     this.color.setValue(formatVal)

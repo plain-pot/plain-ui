@@ -68,6 +68,10 @@ export default {
         p_opts() {
             if (!this.color) return {}
             let option = this.color.option
+            if (typeof option === 'function') {
+                option = option()
+            }
+
             let popperOption = {
                 ...DEFAULT_POPPER_OPTION,
                 ...(option.popperProps || {}),

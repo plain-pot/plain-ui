@@ -22,7 +22,7 @@
             maxHeight: {type: [Number, String], default: 156},  // 文本域最大高度
             block: {type: Boolean},                             // 块级元素
             textarea: {type: Boolean},                          // 当前是否为文本域输入框
-            suffixIcon: {type: String},                         // 右侧图标
+            suffixIcon: {type: [String, Function]},             // 右侧图标
             prefixIcon: {type: String},                         // 左侧图标
             clearIcon: {type: Boolean},                         // 清除图标
             clearHandler: {                                     // 点击清除图标处理逻辑
@@ -208,7 +208,7 @@
                 }
             },
         },
-        render() {
+        render(h) {
             if (this.textarea) {
                 /*渲染文本域*/
                 return (
@@ -230,7 +230,9 @@
                             :
                             <input class="pl-input-inner" {...this.publicProps}/>}
 
-                        {!!this.suffixIcon && <span class="pl-input-suffix-icon"><pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/></span>}
+                        {!!this.suffixIcon && <span class="pl-input-suffix-icon">
+                            {typeof this.suffixIcon === 'function' ? this.suffixIcon(h) : <pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/>}
+                        </span>}
                         {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-circle-close"/></span>)}
                         {!!this.isLoading && <pl-loading class="pl-input-suffix-icon"/>}
                     </div>

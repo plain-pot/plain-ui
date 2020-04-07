@@ -24,6 +24,10 @@
                 <pl-button :label="`rgb值，开启透明度[${test5.option.value}]`" @click="test5.toggle()" ref="test5"/>
             </demo-line>
         </demo-row>
+        <demo-row title="pl-color-picker">
+            <pl-color-picker :value="val[0]"/>
+            <pl-color-picker :value="val[0]"/>
+        </demo-row>
     </div>
 </template>
 
@@ -97,6 +101,10 @@
                 test3,
                 test4,
                 test5,
+
+                val: {
+                    0: '#ee2356',
+                },
             }
         },
         methods: {},
