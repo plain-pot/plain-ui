@@ -23,6 +23,7 @@ export default {
             showFlag,
             openFlag,
             color,
+            count: 0,
         }
     },
     render(h) {
@@ -32,6 +33,7 @@ export default {
                 {...this.popperBinding}
             >
                 <pl-color-panel slot="popper"
+                                key={this.count}
                                 value={this.p_opts.value}
                                 enableAlpha={this.p_opts.enableAlpha}
                                 format={this.p_opts.format}
@@ -126,6 +128,7 @@ export default {
             if (!!this.showFlag) return
             await this.$plain.nextTick()
             if (!!this.color.option.beforeShow) await this.color.option.beforeShow()
+            this.count++
             this.showFlag = true
         },
         async hide() {

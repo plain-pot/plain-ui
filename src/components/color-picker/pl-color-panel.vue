@@ -17,7 +17,7 @@
         <div class="pl-color-panel-input-group">
             <pl-input ref="input"
                       size="mini"
-                      :value="color.color"
+                      :value="p_value"
                       :width="enableAlpha?204:186"
                       @change="onInputChange"
                       @blur="onInputBlur"
@@ -54,7 +54,7 @@
         },
         watch: {
             value(val) {
-                this.color.setValue(val)
+                this.color.setValue(val || this.getDefaultColor())
             },
             enableAlpha(val) {
                 this.color.enableAlpha = val
@@ -66,9 +66,10 @@
             },
         },
         data() {
-            const color = new Color(this.value, this.enableAlpha, this.format)
+            const color = new Color(this.value || this.getDefaultColor(), this.enableAlpha, this.format)
             return {
                 color,
+                p_value: this.value,
             }
         },
         methods: {
@@ -78,7 +79,8 @@
              * @date    2020/4/4 22:11
              */
             reset() {
-                this.color.setValue(this.value)
+                this.p_value = this.value
+                this.color.setValue(this.value || this.getDefaultColor())
             },
             /*---------------------------------------utils-------------------------------------------*/
             isEffectiveValue(value) {
@@ -90,6 +92,17 @@
                 }
                 return false
             },
+            getDefaultColor() {
+                if (this.format === 'hex') {
+                    return '#12b4a5'
+                } else {
+                    if (this.enableAlpha) {
+                        return 'rgba(18,180,165,0.5)'
+                    } else {
+                        return 'rgb(18,180,165)'
+                    }
+                }
+            },
             /*---------------------------------------listener-------------------------------------------*/
             /**
              * sv中的饱和度以及亮度变化动作处理
@@ -100,6 +113,8 @@
                 this.color.value = value
                 this.color.saturation = saturation
                 this.color.updateByHsv()
+
+                this.p_value = this.color.color
             },
             /**
              * 色相变化动作处理
@@ -109,6 +124,8 @@
             onHueChange(hue) {
                 this.color.hue = hue
                 this.color.updateByHsv()
+
+                this.p_value = this.color.color
             },
             /**
              * 透明度变化动作处理
@@ -118,6 +135,8 @@
             onAlphaChange(alpha) {
                 this.color.alpha = alpha
                 this.color.updateByAlpha()
+
+                this.p_value = this.color.color
             },
             /**
              * 派发值变化动作
@@ -125,7 +144,6 @@
              * @date    2020/4/4 22:12
              */
             onConfirm() {
-                this.p_value = this.color.color
                 this.emitInput(this.p_value)
             },
             /**

@@ -13,8 +13,8 @@
             </demo-line>
         </demo-row>
         <demo-row title="ColorService">
-            <pl-button label="基本用法" @click="test1.toggle()" ref="test1"/>
-            <pl-button label="透明度" @click="test2.toggle()" ref="test2"/>
+            <pl-button :label="`基本用法[${test1.option.value}]`" @click="test1.toggle()" ref="test1"/>
+            <pl-button :label="`透明度[${test2.option.value}]`" @click="test2.toggle()" ref="test2"/>
         </demo-row>
     </div>
 </template>
@@ -29,7 +29,7 @@
                 let result = {
                     service: null,
                     option: {
-                        ...option,
+                        value: null,
                         reference: () => this.$refs[name],
                         on: {
                             change: (val) => {
@@ -37,6 +37,7 @@
                                 result.option.value = val
                             },
                         },
+                        ...option,
                     },
                     toggle: async () => {
                         if (!result.service) {
@@ -48,7 +49,9 @@
                 return result
             }
 
-            const test1 = newData('test1')
+            const test1 = newData('test1', {
+                value: '#ff0000',
+            })
 
             const test2 = newData('test2', {
                 enableAlpha: true,
@@ -56,7 +59,7 @@
             })
 
             return {
-                color1: '#218379',
+                color1: '#ee2356',
                 color2: null,
 
                 test1,
