@@ -153,9 +153,9 @@ export default {
     methods: {
         async show() {
             if (!!this.showFlag) return
+            this.count++
             await this.$plain.nextTick()
             if (!!this.color.option.beforeShow) await this.color.option.beforeShow()
-            this.count++
             this.showFlag = true
         },
         async hide() {
