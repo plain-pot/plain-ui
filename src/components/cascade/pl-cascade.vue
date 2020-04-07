@@ -25,6 +25,11 @@
             border: solid 1px $ibc;
             border-radius: 2px;
 
+            & > .pl-list {
+                height: 100%;
+                overflow: hidden;
+            }
+
             .pl-cascade-list {
                 width: 180px;
                 height: 100%;
@@ -33,8 +38,8 @@
                 display: inline-block;
                 vertical-align: top;
 
-                & + .pl-cascade-list {
-                    border-left: solid 1px $ibc;
+                &:not(:last-child) {
+                    border-right: solid 1px $ibc;
                 }
 
                 .pl-list {
