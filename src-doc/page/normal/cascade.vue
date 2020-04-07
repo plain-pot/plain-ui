@@ -1,7 +1,12 @@
 <template>
     <div class="demo-cascade">
         <demo-row title="cascade-panel">
-            <pl-cascade-panel/>
+            <pl-cascade-panel
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+            />
         </demo-row>
     </div>
 </template>
@@ -11,7 +16,64 @@
         name: "cascade",
         props: {},
         data() {
-            return {}
+            const treeData = [
+                {
+                    id: '1',
+                    name: '一级 1',
+                    subs: [{
+                        id: '1-1',
+                        name: '二级 1-1',
+                        subs: [{
+                            id: '1-1-1',
+                            name: '三级 1-1-1'
+                        }]
+                    }]
+                }, {
+                    id: '2',
+                    name: '一级 2',
+                    subs: [{
+                        id: '2-1',
+                        name: '二级 2-1',
+                        subs: [{
+                            id: '2-1-1',
+                            name: '三级 2-1-1'
+                        }]
+                    }, {
+                        id: '2-2',
+                        name: '二级 2-2',
+                        subs: [{
+                            id: '2-2-1',
+                            name: '三级 2-2-1'
+                        }, {
+                            id: '2-2-2',
+                            name: '三级 2-2-2'
+                        }]
+                    }]
+                }, {
+                    id: '3',
+                    name: '一级 3',
+                    subs: [{
+                        id: '3-1',
+                        name: '二级 3-1',
+                        subs: [{
+                            id: '3-1-1',
+                            name: '三级 3-1-1'
+                        }, {
+                            id: '3-1-2',
+                            name: '三级 3-1-2'
+                        }]
+                    }, {
+                        id: '3-2',
+                        name: '二级 3-2',
+                        subs: [{
+                            id: '3-2-1',
+                            name: '三级 3-2-1'
+                        }]
+                    }]
+                }]
+            return {
+                treeData,
+            }
         },
         methods: {},
     }
