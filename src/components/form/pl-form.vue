@@ -8,7 +8,7 @@
 
 <script lang="ts">
     import {EditMixin, EmitMixin, PropsMixinFactory, StyleMixin} from "../../utils/mixins";
-    import {FormTrigger, allFieldLabels, getAllRequired, getAllRules, validateAsync, validateField} from "./validate";
+    import {allFieldLabels, FormTrigger, getAllRequired, getAllRules, validateAsync, validateField} from "./validate";
 
     export default {
         name: "pl-form",
@@ -215,6 +215,14 @@
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
+            setLoading(flag = true) {
+                if (!!this.loadingTimer) {
+                    clearTimeout(this.loadingTimer)
+                }
+                this.loadingTimer = setTimeout(() => {
+                    this.p_loadingMask = flag
+                }, 300)
+            },
             async validate(callback: Function, loadingMask: boolean = true) {
 
                 const dfd = {
@@ -232,12 +240,12 @@
                 const result = await validateAsync(this, this.p_validateResult, this.allRules, this.value, callback,
                     () => {
                         if (loadingMask) {
-                            this.p_loadingMask = true
+                            this.setLoading(true)
                         }
                     },
                     () => {
                         if (loadingMask) {
-                            this.p_loadingMask = false
+                            this.setLoading(false)
                         }
                     }
                 )

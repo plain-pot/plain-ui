@@ -6,13 +6,13 @@
         <div class="pl-form-item-body" :style="bodyStyles">
             <div class="pl-form-item-content">
                 <slot></slot>
+                <div class="pl-form-item-message">
+                    <span>{{validateMessage}}</span>
+                </div>
             </div>
             <div class="pl-form-item-suffix" v-if="!!$slots.suffix">
                 <slot name="suffix"></slot>
             </div>
-        </div>
-        <div class="pl-form-item-message">
-            <span>{{validateMessage}}</span>
         </div>
     </div>
 </template>
@@ -249,6 +249,7 @@
                         display: inline-flex;
                         align-items: center;
                         min-height: 28px;
+                        position: relative;
 
                         .pl-input, .pl-textarea, .pl-checkbox-group, .pl-radio-group {
                             flex: 1;
@@ -265,17 +266,17 @@
                         .pl-radio, .pl-checkbox {
                             padding-top: 5px;
                         }
-                    }
-                }
 
-                .pl-form-item-message {
-                    position: absolute;
-                    bottom: 4px;
-                    right: 0;
-                    font-size: 12px;
-                    color: $colorError;
-                    white-space: nowrap;
-                    overflow: visible;
+                        .pl-form-item-message {
+                            position: absolute;
+                            top: calc(100% + 3px);
+                            left: 0;
+                            font-size: 12px;
+                            color: $colorError;
+                            white-space: nowrap;
+                            overflow: visible;
+                        }
+                    }
                 }
 
                 &.pl-form-item-required {
