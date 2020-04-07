@@ -97,6 +97,7 @@
 
         <demo-row title="多选">
             <pl-select multiple :data="list" labelKey="name" valueKey="val" v-model="val[6]"/>
+            <pl-select multiple :data="list" labelKey="name" valueKey="val" v-model="val[6]" :collapseTags="false"/>
             <span>{{val[6]}}</span>
         </demo-row>
 

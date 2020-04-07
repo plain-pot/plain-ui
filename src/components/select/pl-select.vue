@@ -23,9 +23,12 @@
     >
         <span v-if="multiple" class="pl-multi-select-input-wrapper">
             <span class="pl-multi-select-input-item pl-multi-select-input-take-over">&nbsp;</span>
-            <span class="pl-multi-select-input-item" v-for="(item,index) in multipleData" :key="index">
+            <span class="pl-multi-select-input-item" v-for="(item,index) in collapseTags ? multipleData.slice(0, 3) : multipleData" :key="index">
                 <span>{{item.label}}</span>
                 <pl-icon icon="el-icon-close" @click.native.stop.prevent="onClickItemCloseIcon(item,index)"/>
+            </span>
+            <span class="pl-multi-select-input-item" v-if="collapseTags && multipleData.length>3">
+                +{{multipleData.length-3}}
             </span>
         </span>
     </pl-input>
@@ -59,6 +62,7 @@
             iconKey: {type: String},                                    //图标key
 
             multipleLimit: {type: Number, default: 0},                  //多选限制可以选择的项目数
+            collapseTags: {type: Boolean, default: true},               //多选情况下，是否折叠标签
             filterable: {type: Boolean, default: true},                 //是否可以输入筛选，输入的时候如果没有展开，则会自动展开，但是这个在ie下无效，原因比较复杂。简单说明的话，是因为ie下，input在 pl-select下会派发莫名其妙的 input 事件。
             filterMethod: {type: Function},                             //输入筛选自定义函数
             noMatchText: {type: String, default: '无匹配数据'},          //没有匹配的时候的显示的文本
