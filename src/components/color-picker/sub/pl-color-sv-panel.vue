@@ -126,7 +126,7 @@
             }
 
             &, &:before, &:after {
-                border-radius: 4px;
+                border-radius: 2px;
             }
 
             &:before, &:after {

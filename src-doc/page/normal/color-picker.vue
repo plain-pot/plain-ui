@@ -13,7 +13,7 @@
             </demo-line>
         </demo-row>
         <demo-row title="ColorService">
-            <pl-button label="open" @click="useColorService"/>
+            <pl-button label="open" @click="test1.toggle()" ref="test1"/>
         </demo-row>
     </div>
 </template>
@@ -23,16 +23,39 @@
         name: "color-picker",
         props: {},
         data() {
+
+            const newData = (name, option) => {
+                let result = {
+                    service: null,
+                    option: {
+                        reference: () => this.$refs[name],
+                        on: {
+                            change: (val) => {
+                                this.$message(val)
+                                result.option.value = val
+                            },
+                        },
+                    },
+                    toggle: async () => {
+                        if (!result.service) {
+                            result.service = await this.$plain.$cs(result.option)
+                        }
+                        result.service.toggle()
+                    },
+                }
+                return result
+            }
+
+            const test1 = newData('test1')
+
             return {
                 color1: '#218379',
                 color2: null,
+
+                test1,
             }
         },
-        methods: {
-            useColorService() {
-                console.log('useColorService')
-            },
-        },
+        methods: {},
     }
 </script>
 

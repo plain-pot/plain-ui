@@ -18,9 +18,10 @@ export class Color {
 
     async show() {
         if (this.isShow()) return
-
-        this.ins = await this.controller.getInstance()
-        this.ins.bind(this)
+        if (!this.isOpen()) {
+            this.ins = await this.controller.getInstance()
+            this.ins.bind(this)
+        }
         this.ins.show()
     }
 

@@ -38,4 +38,10 @@
 </script>
 
 <style lang="scss">
+    .pl-color-service-controller {
+        position: fixed;
+        top: -9999;
+        left: -9999;
+        z-index: 1500;
+    }
 </style>

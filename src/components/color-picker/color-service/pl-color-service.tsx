@@ -29,18 +29,15 @@ export default {
         return (
             <pl-popper
                 class="pl-color-service"
-                v-model={this.showFlag}
-                open={this.openFlag}
-                trigger="manual"
-                reference={this.color.option.reference}
+                {...this.popperBinding}
             >
-                <pl-color-panel/>
+                <pl-color-panel slot="popper" value={this.p_opts.value} onChange={this.onChange}/>
             </pl-popper>
         )
     },
     computed: {
         isPrivate() {
-            if (!this.option) return false
+            if (!this.color) return false
             return this.p_opts.private
         },
         isShow() {
@@ -50,11 +47,11 @@ export default {
             return this.openFlag
         },
         p_opts() {
-            if (!this.color) return null
+            if (!this.color) return {}
             let option = this.color.option
             let popperOption = {
                 ...DEFAULT_POPPER_OPTION,
-                ...(option.popperProps|| {})
+                ...(option.popperProps || {}),
             }
 
             option = {
@@ -65,12 +62,14 @@ export default {
             return option
         },
         popperBinding() {
+
             return {
                 props: {
                     value: this.showFlag,
                     open: this.openFlag,
 
                     ...this.p_opts.popperOption,
+                    reference: this.p_opts.reference,
                     rootProps: {
                         private: String(this.isPrivate)
                     },
@@ -105,6 +104,14 @@ export default {
                             this.p_opts.on.open()
                         }
                     },
+                    ['click-body']: () => {
+                        if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.clickBody) {
+                            this.p_opts.on.clickBody()
+                        }
+                        if (!!this.isShow) {
+                            this.hide()
+                        }
+                    },
                 },
             }
         },
@@ -113,12 +120,12 @@ export default {
         async show() {
             if (!!this.showFlag) return
             await this.$plain.nextTick()
-            if (!!this.color.option.beforeShow) await this.select.option.beforeShow()
+            if (!!this.color.option.beforeShow) await this.color.option.beforeShow()
             this.showFlag = true
         },
         async hide() {
             if (!this.showFlag) return
-            if (!!this.select.option.beforeHide) await this.select.option.beforeHide()
+            if (!!this.color.option.beforeHide) await this.color.option.beforeHide()
             this.showFlag = false
         },
         bind(color) {
@@ -133,6 +140,13 @@ export default {
                 this.color = null
             }
             color.ins = null
+        },
+
+        onChange(val) {
+            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.change) {
+                this.p_opts.on.change(val)
+            }
+            this.hide()
         },
     },
 }
