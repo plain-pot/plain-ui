@@ -1,3 +1,5 @@
+import {TreeMark} from "../tree/tree";
+
 export class CascadeData {
 
     key: string
@@ -24,15 +26,43 @@ export class CascadeData {
             return !this.children || this.children.length === 0
         }
     }
+
+    get expandKeys(): string[] {
+        let expandKeys = [this.key]
+        let parent = this.parent
+        while (!!parent && !!parent.key) {
+            expandKeys.unshift(parent.key)
+            parent = parent.parent
+        }
+        return expandKeys
+    }
+
+    get isExpand() {
+        let expandKeys = this.context.expandKeys
+        let selfExpandKeys = this.expandKeys
+        return expandKeys.toString() === selfExpandKeys.toString()
+    }
+
+    get isLoading(): boolean {
+        return this.context.getMark(this.key, TreeMark.loading)
+    }
+
+    setChildren(children: CascadeData[]) {
+        this.context.$set(this.data, this.context.childrenField, children)
+    }
 }
 
 export class CascadeMark {
     node: CascadeData
     formatCount: number
+    loading: boolean
+    loaded: boolean
 
     constructor(public key: string) {
     }
 
     static node = 'node'
     static formatCount = 'formatCount'
+    static loading = 'loading'
+    static loaded = 'loaded'
 }

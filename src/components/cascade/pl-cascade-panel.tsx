@@ -47,42 +47,48 @@ export default {
         }
     },
     created() {
+        this.initLazy()
     },
     render(h) {
         return (
-            <div class="pl-cascade-panel">
-                {this.cascadeData.map((list: CascadeData[], listIndex) => (
-                    <div class="pl-cascade-list" key={listIndex}>
-                        {list.length > 0 ?
-                            (
-                                <pl-scroll>
-                                    <pl-list>
-                                        {list.map((node) => (
-                                            <pl-item block
-                                                     class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
-                                                     key={node.key}
-                                                     onclick={() => this.onClickItem(node)}>
-                                                <div class="pl-cascade-content">
-                                                    {node.label}
-                                                    {!node.isLeaf && (
-                                                        <div class="pl-cascade-arrow">
-                                                            <pl-icon icon="el-icon-arrow-right"/>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </pl-item>
-                                        ))}
-                                    </pl-list>
-                                </pl-scroll>
-                            ) : (
-                                <div class="pl-cascade-item pl-cascade-empty">
-                                    <pl-icon icon="el-icon-reading"/>
-                                    {this.emptyText}
-                                </div>
-                            )
-                        }
-                    </div>
-                ))}
+            <div class="pl-cascade-panel" v-loading={this.p_loading}>
+                {this.cascadeData.length > 0 ? this.cascadeData.map((list: CascadeData[], listIndex) => (
+                        <div class="pl-cascade-list" key={listIndex}>
+                            <pl-scroll>
+                                <pl-list>
+                                    {list.map((node) => (
+                                        <pl-item block
+                                                 class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
+                                                 key={node.key}
+                                                 onclick={() => this.onClickItem(node)}>
+                                            <div class="pl-cascade-content">
+                                                {node.label}
+                                                {!node.isLeaf && (
+                                                    <div class="pl-cascade-arrow">
+                                                        {node.isLoading ? <pl-loading type="gamma"/> : <pl-icon icon="el-icon-arrow-right"/>}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </pl-item>
+                                    ))}
+                                    {list.length === 0 && (
+                                        <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
+                                            <pl-icon icon="el-icon-reading"/>
+                                            {this.emptyText}
+                                        </pl-item>
+                                    )}
+                                </pl-list>
+                            </pl-scroll>
+                        </div>
+                    )) :
+                    (
+                        <div class="pl-cascade-list">
+                            <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
+                                <pl-icon icon="el-icon-reading"/>
+                                {this.emptyText}
+                            </pl-item>
+                        </div>
+                    )}
             </div>
         )
     },
@@ -178,20 +184,53 @@ export default {
             node.children = (node.childrenData || []).map(child => this.formatNodeData(child, formatCount, node, level + 1))
             return node
         },
-        /*---------------------------------------handler-------------------------------------------*/
-        onClickItem(node: CascadeData) {
-
-            let expandKeys = [node.key]
-            let parent = node.parent
-            while (!!parent && !!parent.key) {
-                expandKeys.unshift(parent.key)
-                parent = parent.parent
+        getChildrenAsync(node: CascadeData | null) {
+            return new Promise((resolve) => {
+                if (!node.key) {
+                    this.p_loading = true
+                } else {
+                    this.setMark(node.key, CascadeMark.loading, true)
+                }
+                this.getChildren(node, (...results) => {
+                    if (!node.key) {
+                        this.p_loading = false
+                    } else {
+                        this.setMark(node.key, CascadeMark.loading, false)
+                        this.setMark(node.key, CascadeMark.loaded, true)
+                    }
+                    resolve(...results)
+                })
+            })
+        },
+        /*---------------------------------------helper-------------------------------------------*/
+        async initLazy() {
+            if (!this.lazy) {
+                return
             }
-            this.expandKeys = expandKeys
+            this.p_data = await this.getChildrenAsync(this.rootData)
+        },
+
+        /*---------------------------------------handler-------------------------------------------*/
+        async onClickItem(node: CascadeData) {
+
+            if (!node.isExpand) {
+                this.expandKeys = node.expandKeys
+
+                if (
+                    this.lazy &&                                            // 懒加载模式
+                    !this.mark[node.key].loaded &&                          // 未曾加载过子节点数据
+                    !node.isLeaf                                            // 节点不是叶子节点
+                ) {
+                    const children = await this.getChildrenAsync(node)
+                    node.setChildren(children || [])
+                    await this.$plain.nextTick()
+                }
+            }
+
 
             if (node.isLeaf) {
-                this.p_value = expandKeys
-                this.emitInput(expandKeys)
+                this.p_value = this.expandKeys
+                this.emitInput(this.expandKeys)
             }
         },
     },

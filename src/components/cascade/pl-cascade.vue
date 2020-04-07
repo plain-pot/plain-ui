@@ -30,12 +30,11 @@
                 height: 100%;
                 padding: 6px 0;
                 font-size: 14px;
-                border-right: solid 1px $ibc;
                 display: inline-block;
                 vertical-align: top;
 
-                &:last-child {
-                    border-right: none;
+                & + .pl-cascade-list {
+                    border-left: solid 1px $ibc;
                 }
 
                 .pl-list {
