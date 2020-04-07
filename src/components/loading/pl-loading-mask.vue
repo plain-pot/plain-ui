@@ -61,10 +61,10 @@
             justify-content: center;
             flex-direction: column;
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
             background-color: rgba(255, 255, 255, 0.5);
             transition: all linear 300ms;
             transform-origin: center center;
