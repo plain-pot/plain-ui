@@ -1,7 +1,7 @@
 <template>
     <div class="demo-cascade">
-        <demo-row title="基本用法">
-            <pl-cascade/>
+        <demo-row title="cascade-panel">
+            <pl-cascade-panel/>
         </demo-row>
     </div>
 </template>
