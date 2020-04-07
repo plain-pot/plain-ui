@@ -43,5 +43,11 @@
         top: -9999;
         left: -9999;
         z-index: 1500;
+
+        .pl-color-service-popper {
+            .plain-popper-content {
+                padding: 12px;
+            }
+        }
     }
 </style>

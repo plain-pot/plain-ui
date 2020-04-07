@@ -53,6 +53,18 @@ export default {
         isOpen() {
             return this.openFlag
         },
+        enableAlpha() {
+            if (!this.color) return undefined
+            if (this.p_opts.enableAlpha !== null) return this.p_opts.enableAlpha
+            if (this.p_opts.value == null) return false
+            return this.p_opts.value.indexOf('rgba') > -1
+        },
+        format() {
+            if (!this.color) return undefined
+            if (this.p_opts.format !== null) return this.p_opts.format
+            if (this.p_opts.value == null) return 'hex'
+            return (this.enableAlpha || this.p_opts.value.indexOf('rgb') > -1) ? 'rgb' : 'hex'
+        },
         p_opts() {
             if (!this.color) return {}
             let option = this.color.option
@@ -77,6 +89,7 @@ export default {
 
                     ...this.p_opts.popperOption,
                     reference: this.p_opts.reference,
+                    popperClass: 'pl-color-service-popper',
                     rootProps: {
                         private: String(this.isPrivate)
                     },
