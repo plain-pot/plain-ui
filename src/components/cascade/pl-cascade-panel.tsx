@@ -54,7 +54,7 @@ export default {
             <div class="pl-cascade-panel" v-loading={this.p_loading}>
                 <pl-list>
                     {this.cascadeData.length > 0 ? this.cascadeData.map((list: CascadeData[], listIndex) => (
-                            <pl-item class="pl-cascade-list" key={listIndex}>
+                            <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && this.getMark(this.expandKeys[listIndex - 1], CascadeMark.loading)}>
                                 <pl-scroll>
                                     <pl-list>
                                         {list.map((node) => (
