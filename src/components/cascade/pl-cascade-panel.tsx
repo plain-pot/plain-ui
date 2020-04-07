@@ -148,11 +148,15 @@ export default {
          */
         formatData(): CascadeData[] {
             if (!this.checkProps()) return []
-            if (!this.p_data) return []
+            let data = this.p_data
+            if (typeof data === "function") {
+                data = data()
+            }
+            if (!data) return []
 
             this.formatCount++
-            this.rootData.children = this.p_data.map(item => this.formatNodeData(item, this.formatCount, this.rootData))
-            this.rootData.data = {[this.childrenField]: this.p_data}
+            this.rootData.children = data.map(item => this.formatNodeData(item, this.formatCount, this.rootData))
+            this.rootData.data = {[this.childrenField]: data}
             return this.rootData.children
         },
         cascadeData(): CascadeData[] {
@@ -235,6 +239,7 @@ export default {
          * @date    2020/3/30 18:48
          */
         checkProps() {
+            if (!this.data) return true
             if (!this.keyField) {
                 console.error('pl-cascade 的 keyField属性不能为空，每一条记录必须要有一个key标识')
                 return false

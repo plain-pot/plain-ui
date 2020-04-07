@@ -117,6 +117,13 @@
             </pl-cascade-panel>
         </demo-row>
 
+        <demo-row title="cascade service：基本用法">
+            <pl-button label="open cascade" ref="test0" @click="test0.toggle()"/>
+        </demo-row>
+        <demo-row title="cascade service：懒加载">
+            <pl-button label="open cascade" ref="lazyTest" @click="lazyTest.toggle()"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -174,59 +181,104 @@
                         }]
                     }]
                 }]
+
+            const lazyDemo = {
+                isLeaf: (node) => {
+                    return node.level >= 3
+                },
+                getChildren: (node, resolve) => {
+                    switch (node.level) {
+                        case 0:
+                            // 加载一级数据
+                            this.lazyDemo.getCitiesByParentId(null).then(resolve)
+                            break
+                        case 1:
+                            // 加载二级数据
+                            this.lazyDemo.getCitiesByParentId(node.data.id).then(resolve)
+                            break
+                        case 2:
+                            // 加载三级数据
+                            this.lazyDemo.getCitiesByParentId(node.data.id).then(resolve)
+                            break
+                        default:
+                            return null
+                    }
+                },
+                getCitiesByParentId(parentId) {
+                    return new Promise((resolve) => {
+                        // 这个是模拟在数据库表中的数据
+                        const data = [
+                            {id: '1', name: '广东省', parentId: null, subs: []},
+                            {id: '2', name: '佛山市', parentId: '1', subs: []},
+                            {id: '3', name: '深圳市', parentId: '1', subs: []},
+                            {id: '4', name: '禅城区', parentId: '2', subs: []},
+                            {id: '5', name: '南山区', parentId: '3', subs: []},
+
+                            {id: '6', name: '湖南省', parentId: null, subs: []},
+                            {id: '7', name: '长沙市', parentId: '6', subs: []},
+                            {id: '8', name: '邵阳市', parentId: '6', subs: []},
+                            {id: '9', name: '天心区', parentId: '7', subs: []},
+
+                            {id: '11', name: '陕西省', parentId: null, subs: []},
+                        ]
+
+                        // 模拟请求，请求时间大概在1s-2s之间
+                        setTimeout(() => {
+                            resolve(data.filter(item => item.parentId === parentId))
+                        }, Math.random() * 1000 + 1000)
+                    })
+                },
+            }
+
+            const newData = (name, option) => {
+                let result = {
+                    service: null,
+                    option: {
+                        data: () => this.treeData,
+                        labelField: 'name',
+                        keyField: 'id',
+                        childrenField: 'subs',
+
+                        value: null,
+                        reference: () => this.$refs[name],
+                        on: {
+                            change: (val) => {
+                                this.$message(val.toString())
+                                result.option.value = val
+                            },
+                        },
+                        ...option,
+                    },
+                    toggle: async () => {
+                        if (!result.service) {
+                            result.service = await this.$plain.$cascade(result.option)
+                        }
+                        result.service.toggle()
+                    },
+                }
+                return result
+            }
+
+            // 无初始值
+            const test0 = newData('test0', {})
+
+            const lazyTest = newData('lazyTest', {
+                lazy: true,
+                isLeaf: lazyDemo.isLeaf,
+                getChildren: lazyDemo.getChildren,
+                data: null,
+            })
+
             return {
                 treeData,
-                lazyDemo: {
-                    isLeaf: (node) => {
-                        return node.level >= 3
-                    },
-                    getChildren: (node, resolve) => {
-                        switch (node.level) {
-                            case 0:
-                                // 加载一级数据
-                                this.lazyDemo.getCitiesByParentId(null).then(resolve)
-                                break
-                            case 1:
-                                // 加载二级数据
-                                this.lazyDemo.getCitiesByParentId(node.data.id).then(resolve)
-                                break
-                            case 2:
-                                // 加载三级数据
-                                this.lazyDemo.getCitiesByParentId(node.data.id).then(resolve)
-                                break
-                            default:
-                                return null
-                        }
-                    },
-                    getCitiesByParentId(parentId) {
-                        return new Promise((resolve) => {
-                            // 这个是模拟在数据库表中的数据
-                            const data = [
-                                {id: '1', name: '广东省', parentId: null, subs: []},
-                                {id: '2', name: '佛山市', parentId: '1', subs: []},
-                                {id: '3', name: '深圳市', parentId: '1', subs: []},
-                                {id: '4', name: '禅城区', parentId: '2', subs: []},
-                                {id: '5', name: '南山区', parentId: '3', subs: []},
-
-                                {id: '6', name: '湖南省', parentId: null, subs: []},
-                                {id: '7', name: '长沙市', parentId: '6', subs: []},
-                                {id: '8', name: '邵阳市', parentId: '6', subs: []},
-                                {id: '9', name: '天心区', parentId: '7', subs: []},
-
-                                {id: '11', name: '陕西省', parentId: null, subs: []},
-                            ]
-
-                            // 模拟请求，请求时间大概在1s-2s之间
-                            setTimeout(() => {
-                                resolve(data.filter(item => item.parentId === parentId))
-                            }, Math.random() * 1000 + 1000)
-                        })
-                    },
-                },
+                lazyDemo,
                 val: {
                     11: ["6", "7", "9"],
                     2: ["2", "2-1", "2-1-1"],
                 },
+
+                test0,
+                lazyTest,
             }
         },
         methods: {
