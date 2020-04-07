@@ -139,7 +139,7 @@ export function isEffectiveColorString(color: string): boolean {
     if (!color) return true
     if (color.indexOf('#') === 0 && /^#[0-9a-fA-F]{6}$/.test(color)) {
         return true
-    } else if (color.indexOf('rgb') === 0 && /^rgb(\(\d{1,3}(,\d{1,3}){2}|a\(\d{1,3}(,\d{1,3}){2},(1|0\.\d+))\)$/.test(color)) {
+    } else if (color.indexOf('rgb') === 0 && /^rgb(\(\d{1,3}(,\d{1,3}){2}|a\(\d{1,3}(,\d{1,3}){2},(1\.?0*|0\.\d+))\)$/.test(color)) {
         return true
     }
     return false

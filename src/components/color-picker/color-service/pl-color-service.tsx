@@ -136,6 +136,16 @@ export default {
                             this.hide()
                         }
                     },
+                    ['mousedown-popper']: () => {
+                        if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.mousedownPopper) {
+                            this.p_opts.on.mousedownPopper()
+                        }
+                    },
+                    ['click-popper']: () => {
+                        if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.clickPopper) {
+                            this.p_opts.on.clickPopper()
+                        }
+                    },
                 },
             }
         },

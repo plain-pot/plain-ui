@@ -1,10 +1,11 @@
 <template>
-    <pl-input class="pl-color-picker"
+    <pl-input ref="input"
+              class="pl-color-picker"
               :value="p_inputValue"
               :suffixIcon="suffixIcon"
 
-              @change="onInputChange"
               @click-input="onClickInput"
+              @change="onInputChange"
               @keydown.enter="onEnter"
               @keydown.esc="onEsc"
               @blur="onBlur"
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-    import {EditMixin, EmitMixin} from "../../utils/mixins";
+    import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {isEffectiveColorString} from "./ColorUtils";
 
     const opacityBg = require('./sub/opacity.png')
@@ -23,6 +24,9 @@
         mixins: [
             EmitMixin,
             EditMixin,
+            RefsMixinFactory({
+                input: Object
+            }),
         ],
         props: {
             value: {type: String},                                  // 当前颜色值
@@ -37,6 +41,9 @@
                 p_value: this.value,
                 p_inputValue: this.value,
 
+                p_focusTimer: 0,
+                p_blurTimer: 0,
+
                 colorService: null,
                 colorOption: () => {
                     return {
@@ -49,6 +56,14 @@
                                 this.p_inputValue = val
                                 this.emitValue(val)
                             },
+                            mousedownPopper: async () => {
+                                this.p_focusTimer++
+                                this.p_blurTimer++
+                                this.input.focus()
+                            },
+                            clickPopper: () => {
+                                this.input.focus()
+                            },
                         },
                     }
                 }
@@ -57,6 +72,10 @@
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
             async show() {
+                if (!this.isEditable) {
+                    return
+                }
+
                 if (!this.colorService) {
                     this.colorService = await this.$plain.$cs(this.colorOption)
                 }
@@ -89,17 +108,14 @@
             },
 
             /*---------------------------------------handler-------------------------------------------*/
-            async onClickInput() {
-                if (!this.isEditable) {
-                    return
-                }
-                this.toggle()
-            },
             onInputChange(val) {
                 this.p_inputValue = val
                 if (isEffectiveColorString(val)) {
                     this.emitValue(val)
                 }
+            },
+            onClickInput() {
+                this.show()
             },
             onEnter() {
                 if (!!this.p_inputValue && this.p_inputValue !== this.p_value) {
@@ -111,7 +127,18 @@
                 this.hide()
             },
             onBlur() {
-                // this.hide()
+                if (this.p_blurTimer === 0) {
+                    this.hide()
+                } else {
+                    this.p_blurTimer--
+                }
+            },
+            onFocus() {
+                if (this.p_focusTimer === 0) {
+                    this.show()
+                } else {
+                    this.p_focusTimer--
+                }
             },
         },
     }

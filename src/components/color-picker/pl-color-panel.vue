@@ -56,6 +56,7 @@
         watch: {
             value(val) {
                 this.color.setValue(val || this.getDefaultColor())
+                this.p_value = val
             },
             enableAlpha(val) {
                 this.color.enableAlpha = val
