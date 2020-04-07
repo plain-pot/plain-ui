@@ -9,11 +9,12 @@
         <demo-row title="颜色面板：透明度">
             <demo-line>{{color2}}</demo-line>
             <demo-line>
-                <pl-color-panel v-model="color2" enableAlpha format="hex"/>
+                <pl-color-panel v-model="color2" enableAlpha format="rgb"/>
             </demo-line>
         </demo-row>
         <demo-row title="ColorService">
-            <pl-button label="open" @click="test1.toggle()" ref="test1"/>
+            <pl-button label="基本用法" @click="test1.toggle()" ref="test1"/>
+            <pl-button label="透明度" @click="test2.toggle()" ref="test2"/>
         </demo-row>
     </div>
 </template>
@@ -28,6 +29,7 @@
                 let result = {
                     service: null,
                     option: {
+                        ...option,
                         reference: () => this.$refs[name],
                         on: {
                             change: (val) => {
@@ -48,11 +50,17 @@
 
             const test1 = newData('test1')
 
+            const test2 = newData('test2', {
+                enableAlpha: true,
+                format: 'rgb',
+            })
+
             return {
                 color1: '#218379',
                 color2: null,
 
                 test1,
+                test2,
             }
         },
         methods: {},

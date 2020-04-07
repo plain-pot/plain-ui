@@ -31,7 +31,12 @@ export default {
                 class="pl-color-service"
                 {...this.popperBinding}
             >
-                <pl-color-panel slot="popper" value={this.p_opts.value} onChange={this.onChange}/>
+                <pl-color-panel slot="popper"
+                                value={this.p_opts.value}
+                                enableAlpha={this.p_opts.enableAlpha}
+                                format={this.p_opts.format}
+                                onChange={this.onChange}
+                />
             </pl-popper>
         )
     },

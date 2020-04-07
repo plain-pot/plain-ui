@@ -20,6 +20,9 @@ export class Color {
 
     /*当前rgb颜色值，如果启用透明度，则为rgba*/
     get rgbColor(): string {
+        if (!this.red && !this.green && !this.blue) {
+            return null
+        }
         return `rgb${this.enableAlpha ? 'a' : ''}(${this.red},${this.green},${this.blue}${this.enableAlpha ? ',' + (this.alpha / 100).toFixed(2) : ''})`
     }
 
