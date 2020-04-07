@@ -95,6 +95,12 @@
                             margin-right: 3px;
                         }
                     }
+
+                    &.pl-cascade-item-disabled {
+                        background-color: transparent;
+                        color: $disabledText;
+                        cursor: not-allowed;
+                    }
                 }
             }
         }

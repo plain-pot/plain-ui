@@ -57,11 +57,27 @@
 
         <demo-row title="cascade-panel:hover 触发器">
             <demo-line>
-                {{val[0]}}
+                {{val[3]}}
             </demo-line>
             <pl-cascade-panel
                     trigger="hover"
-                    v-model="val[0]"
+                    v-model="val[3]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+            />
+        </demo-row>
+        <demo-row title="cascade-panel:禁用部分选项">
+            <demo-line>
+                禁用掉叶子节点，并且节点名称中含有[2]的节点
+            </demo-line>
+            <demo-line>
+                {{val[4]}}
+            </demo-line>
+            <pl-cascade-panel
+                    :isDisabled="isDisabled"
+                    v-model="val[4]"
                     :data="treeData"
                     labelField="name"
                     keyField="id"
@@ -184,6 +200,9 @@
         methods: {
             isLeaf(node) {
                 return node.level > 3
+            },
+            isDisabled(node) {
+                return node.isLeaf && node.label.indexOf('2') > 0
             },
         },
     }

@@ -47,6 +47,10 @@ export class CascadeData {
         return this.context.getMark(this.key, TreeMark.loading)
     }
 
+    get isDisabled(): boolean {
+        return !!this.context.isDisabled && this.context.isDisabled(this)
+    }
+
     setChildren(children: CascadeData[]) {
         this.context.$set(this.data, this.context.childrenField, children)
     }

@@ -23,6 +23,8 @@ export default {
         labelField: {type: String},                                         // 记录显示文本的字段名
         keyField: {type: String},                                           // 记录值的字段名
         childrenField: {type: String},                                      // 记录的子节点数据的字段名
+
+        isDisabled: {type: Function},                                       // 是否禁用判断函数
     },
     emitters: {
         emitInput: Function,
@@ -72,6 +74,7 @@ export default {
                                                          {
                                                              'pl-cascade-item-expand': node.key === this.expandKeys[listIndex],
                                                              'pl-cascade-item-active': !!this.p_value && this.p_value[listIndex] === node.key,
+                                                             'pl-cascade-item-disabled': node.isDisabled,
                                                          }
                                                      ]}
                                                      key={node.key}
@@ -256,6 +259,8 @@ export default {
             }
 
             if (node.isLeaf) {
+                if (node.isDisabled) return
+
                 this.p_value = this.expandKeys
                 this.emitInput(this.expandKeys)
             }
