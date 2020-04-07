@@ -13,7 +13,7 @@
             />
         </demo-row>
 
-        <demo-row title="cascade-panel: lazy">
+        <demo-row title="cascade-panel: 懒加载">
             <demo-line>
                 {{val[1]}}
             </demo-line>
@@ -25,6 +25,33 @@
                     lazy
                     :isLeaf="lazyDemo.isLeaf"
                     :getChildren="lazyDemo.getChildren"
+            />
+        </demo-row>
+        <demo-row title="cascade-panel: 懒加载，有默认值">
+            <demo-line>
+                {{val[11]}}
+            </demo-line>
+            <pl-cascade-panel
+                    v-model="val[11]"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+                    lazy
+                    :isLeaf="lazyDemo.isLeaf"
+                    :getChildren="lazyDemo.getChildren"
+            />
+        </demo-row>
+
+        <demo-row title="cascade-panel: init value">
+            <demo-line>
+                {{val[2]}}
+            </demo-line>
+            <pl-cascade-panel
+                    v-model="val[2]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
             />
         </demo-row>
     </div>
@@ -133,7 +160,10 @@
                         })
                     },
                 },
-                val: {},
+                val: {
+                    11: ["6", "7", "9"],
+                    2: ["2", "2-1", "2-1-1"],
+                },
             }
         },
         methods: {

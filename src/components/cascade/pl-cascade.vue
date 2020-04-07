@@ -69,21 +69,17 @@
                     }
 
                     &:hover {
-                        background-color: rgba($colorPrimary, 0.1);
-                        color: $colorPrimary;
-
-                        .pl-cascade-arrow {
-                            color: $colorPrimary;
-                        }
+                        background-color: rgba($colorInfo, 0.1);
                     }
 
                     &.pl-cascade-item-expand {
+                        color: $ihc;
+                        background-color: rgba($colorInfo, 0.1);
+                    }
+
+                    &.pl-cascade-item-active {
                         color: $colorPrimary;
                         background-color: rgba($colorPrimary, 0.1);
-
-                        .pl-cascade-arrow {
-                            color: $colorPrimary;
-                        }
                     }
 
                     &.pl-cascade-empty {

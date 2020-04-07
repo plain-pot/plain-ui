@@ -34,7 +34,7 @@ export default {
         const mark: { [key: string]: CascadeMark } = {}                     // 标记映射
         const p_loading: boolean = false                                    // 内置，当前是否处于loading状态
 
-        const expandKeys = p_value || []
+        const expandKeys: string[] = []
 
         return {
             p_data,
@@ -59,7 +59,13 @@ export default {
                                     <pl-list>
                                         {list.map((node) => (
                                             <pl-item block
-                                                     class={['pl-cascade-item', {'pl-cascade-item-expand': node.key === this.expandKeys[listIndex]}]}
+                                                     class={[
+                                                         'pl-cascade-item',
+                                                         {
+                                                             'pl-cascade-item-expand': node.key === this.expandKeys[listIndex],
+                                                             'pl-cascade-item-active': !!this.p_value && this.p_value[listIndex] === node.key,
+                                                         }
+                                                     ]}
                                                      key={node.key}
                                                      onclick={() => this.onClickItem(node)}>
                                                 <div class="pl-cascade-content">
@@ -110,7 +116,7 @@ export default {
             let expandKeys = []
             if (!!this.expandKeys && this.expandKeys.length > 0) {
                 expandKeys = this.expandKeys
-            } else if (!!this.p_value && this.p_value.length > 0) {
+            } else if (!!this.p_value && this.p_value.length > 0 && !this.lazy) {
                 expandKeys = this.p_value
             }
 
