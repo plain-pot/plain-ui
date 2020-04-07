@@ -54,6 +54,21 @@
                     childrenField="subs"
             />
         </demo-row>
+
+        <demo-row title="cascade-panel:hover 触发器">
+            <demo-line>
+                {{val[0]}}
+            </demo-line>
+            <pl-cascade-panel
+                    trigger="hover"
+                    v-model="val[0]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+            />
+        </demo-row>
+
     </div>
 </template>
 

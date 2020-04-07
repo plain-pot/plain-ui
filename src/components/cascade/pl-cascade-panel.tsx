@@ -8,7 +8,8 @@ export default {
     props: {
         value: {type: Array},                                               // 数组，双向绑定值
         data: {type: Array},                                                // 选择的数据
-        trigger: {type: Array},                                             // 展开触发类型：click，hover
+        trigger: {type: Array, default: 'click'},                           // 展开触发类型：click，hover
+        hoverDebounce: {type: Number, default: 300},                        // 触发器为hover的时候，防抖时间间隔
         // showFormat: {type: Function},                                       // 格式化显示值函数
         // separator: {type: String, default: ' / '},                          // 显示值分隔符
         // filterable: {type: Boolean},                                        // 是否可筛选
@@ -33,8 +34,13 @@ export default {
         let rootData: CascadeData = new CascadeData({}, this, 0);           // 根节点 treeNode对象
         const mark: { [key: string]: CascadeMark } = {}                     // 标记映射
         const p_loading: boolean = false                                    // 内置，当前是否处于loading状态
+        const expandKeys: string[] = []                                     // 当前展开的key数组
 
-        const expandKeys: string[] = []
+        const onMouseenterItem = this.$plain.utils.debounce((node) => {
+            if (this.trigger === 'hover') {
+                this.expand(node)
+            }
+        }, this.hoverDebounce)
 
         return {
             p_data,
@@ -44,6 +50,8 @@ export default {
             mark,
             p_loading,
             expandKeys,
+
+            onMouseenterItem,
         }
     },
     created() {
@@ -67,7 +75,15 @@ export default {
                                                          }
                                                      ]}
                                                      key={node.key}
-                                                     onclick={() => this.onClickItem(node)}>
+
+                                                     {...{
+                                                         nativeOn: {
+                                                             click: () => this.onClickItem(node),
+                                                             ...(this.trigger === 'hover' ? {
+                                                                 mouseenter: () => this.onMouseenterItem(node),
+                                                             } : {})
+                                                         },
+                                                     }}>
                                                 <div class="pl-cascade-content">
                                                     {node.label}
                                                     {!node.isLeaf && (
@@ -143,6 +159,21 @@ export default {
         /*---------------------------------------methods-------------------------------------------*/
 
         /*---------------------------------------utils-------------------------------------------*/
+        async expand(node: CascadeData) {
+            if (!node.isExpand) {
+                this.expandKeys = node.expandKeys
+
+                if (
+                    this.lazy &&                                            // 懒加载模式
+                    !this.mark[node.key].loaded &&                          // 未曾加载过子节点数据
+                    !node.isLeaf                                            // 节点不是叶子节点
+                ) {
+                    const children = await this.getChildrenAsync(node)
+                    node.setChildren(children || [])
+                    await this.$plain.nextTick()
+                }
+            }
+        },
         /**
          * 设置标记属性
          * @author  韦胜健
@@ -220,21 +251,9 @@ export default {
 
         /*---------------------------------------handler-------------------------------------------*/
         async onClickItem(node: CascadeData) {
-
-            if (!node.isExpand) {
-                this.expandKeys = node.expandKeys
-
-                if (
-                    this.lazy &&                                            // 懒加载模式
-                    !this.mark[node.key].loaded &&                          // 未曾加载过子节点数据
-                    !node.isLeaf                                            // 节点不是叶子节点
-                ) {
-                    const children = await this.getChildrenAsync(node)
-                    node.setChildren(children || [])
-                    await this.$plain.nextTick()
-                }
+            if (this.trigger === 'click') {
+                this.expand(node)
             }
-
 
             if (node.isLeaf) {
                 this.p_value = this.expandKeys
