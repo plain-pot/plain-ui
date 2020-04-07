@@ -16,4 +16,70 @@
 </script>
 
 <style lang="scss">
+
+
+    @include themify {
+        .pl-cascade-panel {
+            display: inline-block;
+            height: 200px;
+            border: solid 1px $ibc;
+            border-radius: 2px;
+
+            .pl-cascade-list {
+                width: 180px;
+                height: 100%;
+                padding: 6px 0;
+                font-size: 14px;
+                border-right: solid 1px $ibc;
+                display: inline-block;
+                vertical-align: top;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                .pl-cascade-item {
+                    padding: 4px 6px 4px 16px;
+                    transition: background-color 300ms $transition;
+                    cursor: pointer;
+                    position: relative;
+
+                    .pl-cascade-arrow {
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        width: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: $icc;
+                    }
+
+                    .pl-cascade-content {
+                        padding-right: 30px;
+                    }
+
+                    &:hover {
+                        background-color: rgba($colorPrimary, 0.1);
+                        color: $colorPrimary;
+
+                        .pl-cascade-arrow {
+                            color: $colorPrimary;
+                        }
+                    }
+
+                    &.pl-cascade-item-expand {
+                        color: $colorPrimary;
+                        background-color: rgba($colorPrimary, 0.1);
+
+                        .pl-cascade-arrow {
+                            color: $colorPrimary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 </style>
