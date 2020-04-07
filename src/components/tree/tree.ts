@@ -55,8 +55,8 @@ export class TreeNode {
 
     /*是否为叶子节点*/
     get isLeaf(): boolean {
-        const {lazy, isLeaf} = this.context
-        if (!!lazy && !!isLeaf) {
+        const {isLeaf} = this.context
+        if (!!isLeaf) {
             return isLeaf(this)
         } else {
             return !this.children || this.children.length === 0
