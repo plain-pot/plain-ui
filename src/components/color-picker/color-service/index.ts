@@ -1,5 +1,7 @@
 import Controller from './pl-color-service-controller.vue'
 
+type ColorFormat = 'rgb' | 'hex'
+
 export interface ColorOption {
     value: string,                                              // 当前颜色值
     private: boolean | Function                                 // 是否为私有实例
@@ -8,6 +10,9 @@ export interface ColorOption {
 
     beforeShow: Function                                        // 打开之前钩子函数
     beforeHide: Function                                        // 关闭之前钩子函数
+
+    enableAlpha: boolean                                        // 是否启用透明度
+    format: ColorFormat                                         // 颜色格式
 }
 
 export class Color {
