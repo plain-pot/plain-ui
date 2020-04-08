@@ -173,6 +173,9 @@
                     return
                 }
 
+                this.p_placeholder = this.showValue || this.placeolder || ''
+                this.p_inputValue = null
+
                 if (!this.service) {
                     this.service = await this.$plain.$cascade(this.option)
                 }
@@ -185,11 +188,7 @@
                 this.service.hide()
             },
             async toggle() {
-                if (!this.service) {
-                    this.show()
-                } else {
-                    this.service.toggle()
-                }
+                this.isShow ? this.hide() : this.show()
             },
             /*---------------------------------------utils-------------------------------------------*/
             emitValue(...args) {

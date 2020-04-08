@@ -233,6 +233,21 @@
                         :isLeaf="lazyDemo.isLeaf"
                 />
             </demo-row>
+
+            <demo-row title="输入筛选">
+                <demo-line>
+                    {{val[10]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[10]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        filterable
+                />
+            </demo-row>
+
         </demo-row>
     </div>
 </template>
