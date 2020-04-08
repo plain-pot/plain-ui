@@ -6,7 +6,7 @@
             clearIcon
             suffixIcon="el-icon-d-arrow-right"
             :value="(isShow&&filterable)?p_inputValue:showValue"
-            :placeholder="p_placeholder"
+            :placeholder="((isShow&&filterable)?showValue:(!!inputProps?inputProps.placeholder:null)) || ''"
             :clearHandler="clearHandler"
             :inputReadonly="!filterable"
             :isFocus="isOpen"
@@ -30,7 +30,9 @@
         showLast: {type: Boolean},                                          // 格式化显示值函数
         separator: {type: String, default: ' / '},                          // 显示值分隔符
         filterable: {type: Boolean},                                        // 是否可筛选
-        showFormat: {type: Function}                                        // 显示值格式化函数
+        showFormat: {type: Function},                                       // 显示值格式化函数
+
+        inputProps: {type: Boolean},                                        // 输入框属性值
     }
 
     export default {
@@ -58,7 +60,6 @@
         },
         data() {
             const p_inputValue: string = null
-            const p_placeholder: string = this.placeholder
 
             const service: Cascade = null
             const p_focusTimer: number = 0
@@ -102,7 +103,6 @@
 
             return {
                 p_inputValue,
-                p_placeholder,
                 service,
                 p_focusTimer,
                 p_blurTimer,
@@ -110,8 +110,6 @@
                 option,
                 cacheData,
             }
-        },
-        created() {
         },
         beforeDestroy() {
             if (!!this.service) this.service.destroy()
@@ -170,6 +168,7 @@
         methods: {
             clearHandler() {
                 this.emitValue(null)
+                this.p_inputValue = null
             },
 
             /*---------------------------------------methods-------------------------------------------*/
@@ -178,7 +177,6 @@
                     return
                 }
 
-                this.p_placeholder = this.showValue || this.placeolder || ''
                 this.p_inputValue = null
 
                 if (!this.service) {

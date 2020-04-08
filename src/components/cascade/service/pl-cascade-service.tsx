@@ -104,7 +104,9 @@ export default {
                             this.p_opts.on.close()
                         }
 
-                        this.cascade.ins = null
+                        if (!!this.cascade) {
+                            this.cascade.ins = null
+                        }
                         this.cascade = null
                     },
                     show: () => {

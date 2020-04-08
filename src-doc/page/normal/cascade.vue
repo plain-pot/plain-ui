@@ -264,6 +264,17 @@
                 </pl-cascade>
             </demo-row>
 
+            <demo-row title="禁用以及只读">
+                <demo-line title="禁用">
+                    <pl-checkbox v-model="flag.disabled" label="禁用"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" :disabled="flag.disabled" v-model="val[13]"/>
+                </demo-line>
+                <demo-line title="只读">
+                    <pl-checkbox v-model="flag.readonly" label="只读"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" :readonly="flag.readonly" v-model="val[13]"/>
+                </demo-line>
+            </demo-row>
+
         </demo-row>
     </div>
 </template>
@@ -455,6 +466,11 @@
                     level2Key: '3',
                     level3Name: '南山区',
                     level3Key: '5',
+                },
+
+                flag: {
+                    disabled: true,
+                    readonly: true
                 },
             }
         },
