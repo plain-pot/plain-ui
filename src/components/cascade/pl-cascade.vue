@@ -381,6 +381,13 @@
                 }
             }
         }
+
+        .pl-loading-mask {
+            top: 1px;
+            bottom: 1px;
+            left: 1px;
+            right: 1px;
+        }
     }
 
 </style>

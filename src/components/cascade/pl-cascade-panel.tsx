@@ -174,24 +174,15 @@ export default {
 
         return (
             <div class="pl-cascade-panel" v-loading={this.p_loading}>
-                {!!this.filterText ?
-                    (
-                        <pl-list>
-                            {filterList}
-                        </pl-list>
-                    )
-                    : !!isEmpty ?
-                        (
+                {!!this.filterText ? filterList : (
+                    <pl-list>
+                        {isEmpty ? (
                             <div class="pl-cascade-list" key="empty">
                                 {empty}
                             </div>
-                        ) : (
-                            <pl-list>
-                                {cascadeList}
-                            </pl-list>
-                        )
-                }
-
+                        ) : cascadeList}
+                    </pl-list>
+                )}
             </div>
         )
     },

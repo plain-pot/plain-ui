@@ -396,7 +396,7 @@
                         // 模拟请求，请求时间大概在1s-2s之间
                         setTimeout(() => {
                             resolve(data.filter(item => item.parentId === parentId))
-                        }, Math.random() * 1000 + 1000)
+                        }, Math.random() * 500 + 500)
                     })
                 },
             }
@@ -507,7 +507,7 @@
                 }
             },
             showFormat() {
-                return [this.formData.level1Name, this.formData.level2Name, this.formData.level3Name].join(' / ')
+                return [this.formData.level1Name, this.formData.level2Name, this.formData.level3Name].filter(item => !!item).join(' / ')
             },
         },
     }
