@@ -268,7 +268,7 @@
     @include themify {
         .pl-cascade-panel {
             display: inline-block;
-            height: 200px;
+            height: 100%;
             border: solid 1px $ibc;
             border-radius: 2px;
 

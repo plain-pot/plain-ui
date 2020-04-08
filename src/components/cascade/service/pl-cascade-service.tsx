@@ -10,6 +10,7 @@ const DEFAULT_POPPER_OPTION = {
     trigger: 'manual',
     transition: 'pl-transition-popper-drop',
     arrow: false,
+    height: '200px',
 }
 
 export default {
