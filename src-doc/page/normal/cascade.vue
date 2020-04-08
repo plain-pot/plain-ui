@@ -1,160 +1,169 @@
 <template>
     <div class="demo-cascade">
         <demo-row title="cascade-panel">
+            <demo-row title="cascade-panel">
+                <demo-line>
+                    {{val[0]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[0]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel: 懒加载">
+                <demo-line>
+                    {{val[1]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[1]"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :isLeaf="lazyDemo.isLeaf"
+                        :getChildren="lazyDemo.getChildren"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel: 懒加载，有默认值">
+                <demo-line>
+                    {{val[11]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[11]"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :isLeaf="lazyDemo.isLeaf"
+                        :getChildren="lazyDemo.getChildren"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel: init value">
+                <demo-line>
+                    {{val[2]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[2]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:hover 触发器">
+                <demo-line>
+                    {{val[3]}}
+                </demo-line>
+                <pl-cascade-panel
+                        trigger="hover"
+                        v-model="val[3]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:禁用部分选项">
+                <demo-line>
+                    禁用掉叶子节点，并且节点名称中含有[2]的节点
+                </demo-line>
+                <demo-line>
+                    {{val[4]}}
+                </demo-line>
+                <pl-cascade-panel
+                        :isDisabled="isDisabled"
+                        v-model="val[4]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:自定义内容-作用域插槽">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[5]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                >
+                    <template slot-scope="{node,index}">
+                        <cascade-item :node="node" :index="index"/>
+                    </template>
+                </pl-cascade-panel>
+            </demo-row>
+            <demo-row title="cascade-panel:自定义内容-渲染函数">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[5]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :renderContent="renderContent"
+                >
+                </pl-cascade-panel>
+            </demo-row>
+            <demo-row title="cascade-panel:点击分支的时候也能触发change">
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[6]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        selectBranch
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:筛选文本以及自定义筛选函数">
+                <demo-line>
+                    <pl-input v-model="filterText"/>
+                </demo-line>
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[6]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :filterText="filterText"
+                        :filterMethod="filterMethod"
+                />
+            </demo-row>
+        </demo-row>
+        <demo-row title="cascade-service">
+            <demo-row title="cascade service：基本用法">
+                <pl-button label="open cascade" ref="test0" @click="test0.toggle()"/>
+            </demo-row>
+            <demo-row title="cascade service：懒加载">
+                <pl-button label="open cascade" ref="lazyTest" @click="lazyTest.toggle()"/>
+            </demo-row>
+        </demo-row>
+
+        <demo-row title="pl-cascade">
             <demo-line>
-                {{val[0]}}
+                {{val[7]}}
             </demo-line>
-            <pl-cascade-panel
-                    v-model="val[0]"
+            <pl-cascade
+                    v-model="val[7]"
                     :data="treeData"
                     labelField="name"
                     keyField="id"
                     childrenField="subs"
             />
         </demo-row>
-
-        <demo-row title="cascade-panel: 懒加载">
-            <demo-line>
-                {{val[1]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[1]"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-                    lazy
-                    :isLeaf="lazyDemo.isLeaf"
-                    :getChildren="lazyDemo.getChildren"
-            />
-        </demo-row>
-        <demo-row title="cascade-panel: 懒加载，有默认值">
-            <demo-line>
-                {{val[11]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[11]"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-                    lazy
-                    :isLeaf="lazyDemo.isLeaf"
-                    :getChildren="lazyDemo.getChildren"
-            />
-        </demo-row>
-
-        <demo-row title="cascade-panel: init value">
-            <demo-line>
-                {{val[2]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[2]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-            />
-        </demo-row>
-
-        <demo-row title="cascade-panel:hover 触发器">
-            <demo-line>
-                {{val[3]}}
-            </demo-line>
-            <pl-cascade-panel
-                    trigger="hover"
-                    v-model="val[3]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-            />
-        </demo-row>
-        <demo-row title="cascade-panel:禁用部分选项">
-            <demo-line>
-                禁用掉叶子节点，并且节点名称中含有[2]的节点
-            </demo-line>
-            <demo-line>
-                {{val[4]}}
-            </demo-line>
-            <pl-cascade-panel
-                    :isDisabled="isDisabled"
-                    v-model="val[4]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-            />
-        </demo-row>
-
-        <demo-row title="cascade-panel:自定义内容-作用域插槽">
-            <demo-line>
-                {{val[5]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[5]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-            >
-                <template slot-scope="{node,index}">
-                    <cascade-item :node="node" :index="index"/>
-                </template>
-            </pl-cascade-panel>
-        </demo-row>
-
-        <demo-row title="cascade-panel:自定义内容-渲染函数">
-            <demo-line>
-                {{val[5]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[5]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-                    :renderContent="renderContent"
-            >
-            </pl-cascade-panel>
-        </demo-row>
-
-        <demo-row title="cascade-panel:点击分支的时候也能触发change">
-            <demo-line>
-                {{val[6]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[6]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-                    selectBranch
-            />
-        </demo-row>
-        <demo-row title="cascade-panel:筛选文本以及自定义筛选函数">
-            <demo-line>
-                <pl-input v-model="filterText"/>
-            </demo-line>
-            <demo-line>
-                {{val[6]}}
-            </demo-line>
-            <pl-cascade-panel
-                    v-model="val[6]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-                    :filterText="filterText"
-                    :filterMethod="filterMethod"
-            />
-        </demo-row>
-
-        <demo-row title="cascade service：基本用法">
-            <pl-button label="open cascade" ref="test0" @click="test0.toggle()"/>
-        </demo-row>
-        <demo-row title="cascade service：懒加载">
-            <pl-button label="open cascade" ref="lazyTest" @click="lazyTest.toggle()"/>
-        </demo-row>
-
     </div>
 </template>
 
