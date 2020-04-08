@@ -168,7 +168,9 @@ export default {
             if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.change) {
                 this.p_opts.on.change(val)
             }
-            this.hide()
+            if (!!this.p_opts && !this.p_opts.selectBranch) {
+                this.hide()
+            }
         },
     },
 }

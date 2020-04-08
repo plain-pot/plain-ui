@@ -191,6 +191,19 @@
                         showLast
                 />
             </demo-row>
+            <demo-row title="可以选择分支（可以选择非叶子节点）">
+                <demo-line>
+                    {{val[9]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[9]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        selectBranch
+                />
+            </demo-row>
         </demo-row>
     </div>
 </template>
