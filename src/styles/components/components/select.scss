@@ -21,7 +21,8 @@
           }
 
           &:hover {
-            background-color: rgba($colorPrimary, 0.1);
+            background-color: rgba($colorInfo, 0.1);
+            color: $ihc;
             cursor: pointer;
           }
 

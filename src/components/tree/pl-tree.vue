@@ -898,7 +898,8 @@
                     }
 
                     &:hover {
-                        background-color: mix(white, $colorPrimary, 90%);
+                        background-color: rgba($colorInfo, 0.1);
+                        color: $ihc;
                     }
                 }
 
@@ -945,7 +946,8 @@
 
             &.pl-tree-highlight-current {
                 .pl-tree-node.pl-tree-node-current > .pl-tree-node-wrapper {
-                    background-color: mix(white, $colorPrimary, 90%);
+                    background-color: rgba($colorPrimary, 0.1);
+                    color: $colorPrimary;
                 }
             }
 

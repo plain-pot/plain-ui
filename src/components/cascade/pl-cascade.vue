@@ -326,11 +326,7 @@
                         }
                     }
 
-                    &:hover {
-                        background-color: rgba($colorInfo, 0.1);
-                    }
-
-                    &.pl-cascade-item-expand {
+                    &.pl-cascade-item-expand, &:hover {
                         color: $ihc;
                         background-color: rgba($colorInfo, 0.1);
                     }
