@@ -281,7 +281,7 @@
             display: inline-block;
             height: 200px;
             border: solid 1px $ibc;
-            border-radius: 2px;
+            border-radius: 4px;
 
             & > .pl-list {
                 height: 100%;
