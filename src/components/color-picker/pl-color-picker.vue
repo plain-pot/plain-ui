@@ -61,7 +61,6 @@
                             mousedownPopper: async () => {
                                 this.p_focusTimer++
                                 this.p_blurTimer++
-                                this.input.focus()
                             },
                             clickPopper: () => {
                                 this.input.focus()
