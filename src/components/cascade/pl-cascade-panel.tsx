@@ -10,9 +10,10 @@ export default {
         data: {type: Array},                                                // 选择的数据
         trigger: {type: Array, default: 'click'},                           // 展开触发类型：click，hover
         hoverDebounce: {type: Number, default: 300},                        // 触发器为hover的时候，防抖时间间隔
-        emptyText: {type: Boolean, default: '暂无数据'},                    // 没有子节点时展示的文本
+        emptyText: {type: Boolean, default: '暂无数据'},                     // 没有子节点时展示的文本
         isDisabled: {type: Function},                                       // 是否禁用判断函数
         renderContent: {type: Function},                                    // 渲染内容的渲染函数
+        selectBranch: {type: Boolean},                                      // 点击分支的时候也能够触发 change 事件
 
         isLeaf: {type: Function},                                           // 函数，用来判断是否为叶子节点，默认根据节点是否存在子节点来判断是否为叶子节点，懒加载模式下，改属性为必需属性
         lazy: {type: Boolean},                                              // 数据是否为懒加载
@@ -275,6 +276,10 @@ export default {
                 })
             })
         },
+        emitValue(value) {
+            this.p_value = value
+            this.emitInput(value)
+        },
         /*---------------------------------------helper-------------------------------------------*/
         async initLazy() {
             if (!this.lazy) {
@@ -289,11 +294,9 @@ export default {
                 this.expand(node)
             }
 
-            if (node.isLeaf) {
-                if (node.isDisabled) return
-
-                this.p_value = this.expandKeys
-                this.emitInput(this.expandKeys)
+            if (node.isDisabled) return
+            if (node.isLeaf || this.selectBranch) {
+                this.emitValue(this.expandKeys)
             }
         },
     },

@@ -117,6 +117,20 @@
             </pl-cascade-panel>
         </demo-row>
 
+        <demo-row title="cascade-panel:点击分支的时候也能触发change">
+            <demo-line>
+                {{val[6]}}
+            </demo-line>
+            <pl-cascade-panel
+                    v-model="val[6]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+                    selectBranch
+            />
+        </demo-row>
+
         <demo-row title="cascade service：基本用法">
             <pl-button label="open cascade" ref="test0" @click="test0.toggle()"/>
         </demo-row>
