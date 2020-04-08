@@ -5,10 +5,13 @@
             :class="classes"
             clearIcon
             suffixIcon="el-icon-d-arrow-right"
-            :value="showValue"
+            :value="(isShow&&filterable)?p_inputValue:showValue"
             :placeholder="p_placeholder"
             :clearHandler="clearHandler"
+            :inputReadonly="!filterable"
+            :isFocus="isOpen"
 
+            @change="onInputChange"
             @click-input="onClickInput"
             @keydown.esc="onEsc"
             @blur="onBlur"
@@ -24,7 +27,7 @@
 
     const props = {
         ...panel.props,
-        showFormat: {type: Function},                                       // 格式化显示值函数
+        showLast: {type: Boolean},                                          // 格式化显示值函数
         separator: {type: String, default: ' / '},                          // 显示值分隔符
         filterable: {type: Boolean},                                        // 是否可筛选
     }
@@ -65,6 +68,7 @@
                     ret[key] = this[key]
                     return ret
                 }, {})),
+                filterText: this.p_inputValue,
                 on: {
                     change: (val) => {
                         this.p_value = val
@@ -97,14 +101,20 @@
             if (!!this.service) this.service.destroy()
         },
         computed: {
+            isShow() {
+                return !!this.service && this.service.isShow()
+            },
+            isOpen() {
+                if (!this.service) return false
+                return this.service.isOpen()
+            },
             classes() {
                 return {
-                    'pl-cascade-open': !!this.service && this.service.isShow()
+                    'pl-cascade-open': this.isShow,
                 }
             },
             showValue() {
                 if (!this.p_value) return null
-                if (!!this.showFormat) return this.showFormat(this.p_value)
 
                 let result = []
                 let list = this.formatData as CascadeData[]
@@ -114,6 +124,9 @@
                     for (let j = 0; j < list.length; j++) {
                         const target = list[j];
                         if (sourceKey === target.key) {
+                            if (this.showLast) {
+                                return target.label
+                            }
                             result.push(target.label)
                             list = target.children
                             flag = true
@@ -196,6 +209,9 @@
 
             onClickInput() {
                 this.toggle()
+            },
+            onInputChange(val) {
+                this.p_inputValue = val
             },
             onEsc() {
                 this.hide()
@@ -319,7 +335,7 @@
                 transition: transform 300ms $transition;
             }
 
-            &.pl-cascade-open{
+            &.pl-cascade-open {
                 .pl-input-suffix-icon .pl-icon {
                     transform: rotate(-90deg);
                 }

@@ -74,7 +74,7 @@
                     {{val[4]}}
                 </demo-line>
                 <pl-cascade-panel
-                        :isDisabled="isDisabled"
+                        :nodeDisabled="nodeDisabled"
                         v-model="val[4]"
                         :data="treeData"
                         labelField="name"
@@ -153,16 +153,44 @@
         </demo-row>
 
         <demo-row title="pl-cascade">
-            <demo-line>
-                {{val[7]}}
-            </demo-line>
-            <pl-cascade
-                    v-model="val[7]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-            />
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[7]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[7]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="禁用选项">
+                <demo-line>
+                    {{val[7]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[7]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :nodeDisabled="nodeDisabled"
+                />
+            </demo-row>
+            <demo-row title="只显示最后一级文本">
+                <demo-line>
+                    {{val[8]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[8]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        showLast
+                />
+            </demo-row>
         </demo-row>
     </div>
 </template>
@@ -352,7 +380,7 @@
             isLeaf(node) {
                 return node.level > 3
             },
-            isDisabled(node) {
+            nodeDisabled(node) {
                 return node.isLeaf && node.label.indexOf('2') > 0
             },
             renderContent(h, {node, index}) {

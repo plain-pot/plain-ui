@@ -15,7 +15,7 @@ export interface CascadeOption {
     trigger: CascadeTrigger                                     // 选择的数据
     hoverDebounce: number                                       // 展开触发类型：click，hover
     emptyText: string                                           // 触发器为hover的时候，防抖时间间隔
-    isDisabled: Function                                        // 没有子节点时展示的文本
+    nodeDisabled: Function                                        // 没有子节点时展示的文本
     renderContent: Function                                     // 是否禁用判断函数
     isLeaf: Function                                            // 渲染内容的渲染函数
     lazy: boolean                                               // 函数，用来判断是否为叶子节点，默认根据节点是否存在子节点来判断是否为叶子节点，懒加载模式下，改属性为必需属性

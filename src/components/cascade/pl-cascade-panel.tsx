@@ -11,7 +11,7 @@ export default {
         trigger: {type: Array, default: 'click'},                           // 展开触发类型：click，hover
         hoverDebounce: {type: Number, default: 300},                        // 触发器为hover的时候，防抖时间间隔
         emptyText: {type: Boolean, default: '暂无数据'},                     // 没有子节点时展示的文本
-        isDisabled: {type: Function},                                       // 是否禁用判断函数
+        nodeDisabled: {type: Function},                                       // 是否禁用判断函数
         renderContent: {type: Function},                                    // 渲染内容的渲染函数
         selectBranch: {type: Boolean},                                      // 点击分支的时候也能够触发 change 事件
 
@@ -96,7 +96,7 @@ export default {
                                                      'pl-cascade-item',
                                                      {
                                                          'pl-cascade-item-active': !!this.p_value && this.p_value.toString() === nodes.map(node => node.key).toString(),
-                                                         'pl-cascade-item-disabled': nodes.some(node => node.isDisabled),
+                                                         'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
                                                      }
                                                  ]}
                                                  key={nodes.map(node => node.key).join(' ')}
@@ -126,7 +126,7 @@ export default {
                                                          {
                                                              'pl-cascade-item-expand': node.key === this.expandKeys[listIndex],
                                                              'pl-cascade-item-active': !!this.p_value && this.p_value[listIndex] === node.key,
-                                                             'pl-cascade-item-disabled': node.isDisabled,
+                                                             'pl-cascade-item-disabled': node.nodeDisabled,
                                                          }
                                                      ]}
                                                      key={node.key}
@@ -342,7 +342,7 @@ export default {
                 this.expand(node)
             }
 
-            if (node.isDisabled) return
+            if (node.nodeDisabled) return
             if (node.isLeaf || this.selectBranch) {
                 this.emitValue(this.expandKeys)
             }

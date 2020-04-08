@@ -47,8 +47,8 @@ export class CascadeData {
         return this.context.getMark(this.key, TreeMark.loading)
     }
 
-    get isDisabled(): boolean {
-        return !!this.context.isDisabled && this.context.isDisabled(this)
+    get nodeDisabled(): boolean {
+        return !!this.context.nodeDisabled && this.context.nodeDisabled(this)
     }
 
     get filterData(): CascadeData[] {
