@@ -53,6 +53,7 @@
         watch: {
             value(val) {
                 this.p_value = val
+                this.p_inputValue = null
             },
         },
         data() {
@@ -75,6 +76,10 @@
                 }, {})),
                 filterText: this.p_inputValue,
                 getChildren: (...args) => this.p_getChildren(...args),
+                renderContent: (!!this.$scopedSlots.default || !!this.renderContent) ? (h, {node, index}) => {
+                    if (!!this.$scopedSlots.default) return this.$scopedSlots.default({node, index})
+                    if (!!this.renderContent) return this.renderContent(h, {node, index})
+                } : null,
                 on: {
                     change: (...args) => {
                         this.emitValue(...args)

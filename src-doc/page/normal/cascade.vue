@@ -247,6 +247,22 @@
                         filterable
                 />
             </demo-row>
+            <demo-row title="自定义节点内容">
+                <demo-line>
+                    {{val[12]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[12]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                >
+                    <template slot-scope="{node,index}">
+                        {{index+1}}、{{node.data.name}}
+                    </template>
+                </pl-cascade>
+            </demo-row>
 
         </demo-row>
     </div>
