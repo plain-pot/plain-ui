@@ -23,6 +23,8 @@ export interface CascadeOption {
     labelField: string                                          // 懒加载数据函数
     keyField: string                                            // 记录显示文本的字段名
     childrenField: string                                       // 记录值的字段名
+    filterText: string                                          // 筛选文本
+    filterMethod: Function                                      // 自定义筛选方法
 }
 
 export class Cascade {
