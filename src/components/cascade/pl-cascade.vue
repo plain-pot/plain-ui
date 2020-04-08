@@ -14,6 +14,7 @@
             @change="onInputChange"
             @click-input="onClickInput"
             @keydown.esc="onEsc"
+            @keydown.enter="onEnter"
             @blur="onBlur"
             @focus="onFocus"
     />
@@ -29,7 +30,7 @@
         ...panel.props,
         showLast: {type: Boolean},                                          // 格式化显示值函数
         separator: {type: String, default: ' / '},                          // 显示值分隔符
-        filterable: {type: Boolean},                                        // 是否可筛选
+        filterable: {type: Boolean, default: true},                         // 是否可筛选
         showFormat: {type: Function},                                       // 显示值格式化函数
 
         inputProps: {type: Boolean},                                        // 输入框属性值
@@ -238,9 +239,20 @@
             },
             onInputChange(val) {
                 this.p_inputValue = val
+
+                if (!this.isShow && !this.$plain.utils.ie) {
+                    this.show()
+                }
             },
             onEsc() {
                 this.hide()
+            },
+            async onEnter(e) {
+                e.stopPropagation()
+                e.preventDefault()
+                if (!this.isShow) {
+                    this.show()
+                }
             },
             onBlur() {
                 if (this.p_blurTimer === 0) {
