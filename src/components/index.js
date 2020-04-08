@@ -34,10 +34,11 @@ import virtualTree from './virtual-tree'
 import step from './step'
 import colorPicker from './color-picker'
 import cascade from './cascade'
+import time from './time'
 
 const plugins = [
     button, icon,
-    input, checkbox, radio, select, form, toggle, number, slider, tag, rate, colorPicker, cascade,
+    input, checkbox, radio, select, form, toggle, number, slider, tag, rate, colorPicker, cascade, time,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
     list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree, virtualTree, step,
