@@ -279,7 +279,7 @@
     @include themify {
         .pl-cascade-panel {
             display: inline-block;
-            height: 100%;
+            height: 200px;
             border: solid 1px $ibc;
             border-radius: 2px;
 
@@ -364,6 +364,12 @@
                 &.pl-cascade-filter-list {
                     width: 360px;
                 }
+            }
+        }
+
+        .pl-cascade-service-popper {
+            .pl-cascade-panel {
+                height: 100%;
             }
         }
 
