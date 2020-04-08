@@ -84,7 +84,7 @@
         }
 
         &.demo-row-show {
-            .demo-row-icon-expand {
+            & > .demo-row-title > .demo-row-icon-expand {
                 transform: rotate(-90deg);
             }
         }
