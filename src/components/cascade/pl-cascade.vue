@@ -2,6 +2,7 @@
     <pl-input
             ref="input"
             class="pl-cascade"
+            :class="classes"
             clearIcon
             suffixIcon="el-icon-d-arrow-right"
             :value="showValue"
@@ -96,6 +97,11 @@
             if (!!this.service) this.service.destroy()
         },
         computed: {
+            classes() {
+                return {
+                    'pl-cascade-open': !!this.service && this.service.isShow()
+                }
+            },
             showValue() {
                 if (!this.p_value) return null
                 if (!!this.showFormat) return this.showFormat(this.p_value)
@@ -310,6 +316,13 @@
         .pl-cascade {
             .pl-input-suffix-icon .pl-icon {
                 transform: rotate(90deg);
+                transition: transform 300ms $transition;
+            }
+
+            &.pl-cascade-open{
+                .pl-input-suffix-icon .pl-icon {
+                    transform: rotate(-90deg);
+                }
             }
         }
     }
