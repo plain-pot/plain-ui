@@ -30,6 +30,7 @@
         showLast: {type: Boolean},                                          // 格式化显示值函数
         separator: {type: String, default: ' / '},                          // 显示值分隔符
         filterable: {type: Boolean},                                        // 是否可筛选
+        showFormat: {type: Function}                                        // 显示值格式化函数
     }
 
     export default {
@@ -125,6 +126,7 @@
             },
             showValue() {
                 if (!this.p_value) return null
+                if (!!this.showFormat) return this.showFormat(this.p_value)
 
                 let result = []
                 let list = this.formatData as CascadeData[]

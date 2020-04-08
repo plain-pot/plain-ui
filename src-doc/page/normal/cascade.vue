@@ -206,11 +206,12 @@
             </demo-row>
             <demo-row title="动态加载">
                 <demo-line>
-                    {{val[10]}}
+                    {{formData}}
                 </demo-line>
                 <pl-cascade
-                        :value="val[10]"
+                        :value="[formData.level1Key,formData.level2Key,formData.level3Key]"
                         @change="onCascadeChange"
+                        :showFormat="showFormat"
 
                         labelField="name"
                         keyField="id"
@@ -220,8 +221,9 @@
                         :isLeaf="lazyDemo.isLeaf"
                 />
                 <pl-cascade
-                        :value="val[10]"
+                        :value="[formData.level1Key,formData.level2Key,formData.level3Key]"
                         @change="onCascadeChange"
+                        :showFormat="showFormat"
 
                         labelField="name"
                         keyField="id"
@@ -449,15 +451,16 @@
                     this.formData.level3Name = null
                     this.formData.level3Key = null
                 } else {
-                    this.formData.level1Name = null
+                    this.formData.level1Name = nodes[0].data.name
                     this.formData.level1Key = value[0]
-                    this.formData.level2Name = null
+                    this.formData.level2Name = nodes[1].data.name
                     this.formData.level2Key = value[1]
-                    this.formData.level3Name = null
+                    this.formData.level3Name = nodes[2].data.name
                     this.formData.level3Key = value[2]
                 }
-                console.log('onCascadeChange')
-                console.log(nodes)
+            },
+            showFormat() {
+                return [this.formData.level1Name, this.formData.level2Name, this.formData.level3Name].join(' / ')
             },
         },
     }
