@@ -23,23 +23,26 @@
         },
         inject: {
             appHome: {},
+            PlDemoRow: {default: null}
         },
         props: {
             title: {},
         },
         watch: {
             show(val) {
-                this.appHome.updateDemoRowCache(this.title, val)
+                this.appHome.updateDemoRowCache(this.id, val)
             },
         },
         data() {
 
-            let show = this.appHome.pathCache[this.title]
+            const id = this.title + (!!this.PlDemoRow ? this.PlDemoRow.id : '')
+            let show = this.appHome.pathCache[id]
             if (show == null) show = true
 
             return {
                 maxTitleWidth: null,
                 show,
+                id,
             }
         },
         methods: {
