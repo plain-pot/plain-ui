@@ -85,91 +85,113 @@ export default {
         this.initLazy()
     },
     render(h) {
+
+        const empty = (
+            <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
+                <pl-icon icon="el-icon-reading"/>
+                {this.emptyText}
+            </pl-item>
+        )
+
+        const filterList = (
+            <pl-item class="pl-cascade-list pl-cascade-filter-list" key={0}>
+                <pl-scroll>
+                    <pl-list>
+                        {(!this.filterData || this.filterData.length === 0) && empty}
+                        {this.filterData.map((nodes: CascadeData[]) => (
+                            <pl-item block
+                                     class={[
+                                         'pl-cascade-item',
+                                         {
+                                             'pl-cascade-item-active': !!this.p_value && this.p_value.toString() === nodes.map(node => node.key).toString(),
+                                             'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
+                                         }
+                                     ]}
+                                     key={nodes.map(node => node.key).join(' ')}
+                                     {...{
+                                         nativeOn: {
+                                             click: () => {
+                                                 this.onClickItem(nodes[nodes.length - 1])
+                                             },
+                                         }
+                                     }}>
+                                <div class="pl-cascade-content">
+                                    {nodes.map(node => node.label).join(' / ')}
+                                </div>
+                            </pl-item>
+                        ))}
+                    </pl-list>
+                </pl-scroll>
+            </pl-item>
+        )
+
+        const cascadeList = this.cascadeData.map((list: CascadeData[], listIndex) => (
+            <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && this.getMark(this.expandKeys[listIndex - 1], CascadeMark.loading)}>
+                <pl-scroll>
+                    <pl-list>
+                        {list.map((node, nodeIndex) => (
+                            <pl-item block
+                                     class={[
+                                         'pl-cascade-item',
+                                         {
+                                             'pl-cascade-item-expand': node.key === this.expandKeys[listIndex],
+                                             'pl-cascade-item-active': !!this.p_value && this.p_value[listIndex] === node.key,
+                                             'pl-cascade-item-disabled': node.nodeDisabled,
+                                         }
+                                     ]}
+                                     key={node.key}
+
+                                     {...{
+                                         nativeOn: {
+                                             click: () => this.onClickItem(node),
+                                             ...(this.trigger === 'hover' ? {
+                                                 mouseenter: () => this.onMouseenterItem(node),
+                                             } : {})
+                                         },
+                                     }}>
+                                <div class="pl-cascade-content">
+                                    {!!this.$scopedSlots.default ? this.$scopedSlots.default({node, index: nodeIndex}) : (!!this.renderContent ? this.renderContent(h, {node, index: nodeIndex}) : node.label)}
+                                    {!node.isLeaf && (
+                                        <div class="pl-cascade-arrow">
+                                            {node.isLoading ? <pl-loading type="gamma"/> : <pl-icon icon="el-icon-arrow-right"/>}
+                                        </div>
+                                    )}
+                                </div>
+                            </pl-item>
+                        ))}
+                        {list.length === 0 && (
+                            <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
+                                <pl-icon icon="el-icon-reading"/>
+                                {this.emptyText}
+                            </pl-item>
+                        )}
+                    </pl-list>
+                </pl-scroll>
+            </pl-item>
+        ))
+
+        const isEmpty = !!this.filterText ? (this.filterData.length === 0) : (this.cascadeData.length === 0)
+
         return (
             <div class="pl-cascade-panel" v-loading={this.p_loading}>
-                <pl-list>
-                    {!!this.filterText ? (
-                        <pl-item class="pl-cascade-list pl-cascade-filter-list" key={0}>
-                            <pl-scroll>
-                                <pl-list>
-                                    {this.filterData.map((nodes: CascadeData[]) => (
-                                        <pl-item block
-                                                 class={[
-                                                     'pl-cascade-item',
-                                                     {
-                                                         'pl-cascade-item-active': !!this.p_value && this.p_value.toString() === nodes.map(node => node.key).toString(),
-                                                         'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
-                                                     }
-                                                 ]}
-                                                 key={nodes.map(node => node.key).join(' ')}
-                                                 {...{
-                                                     nativeOn: {
-                                                         click: () => {
-                                                             this.onClickItem(nodes[nodes.length - 1])
-                                                         },
-                                                     }
-                                                 }}>
-                                            <div class="pl-cascade-content">
-                                                {nodes.map(node => node.label).join(' / ')}
-                                            </div>
-                                        </pl-item>
-                                    ))}
-                                </pl-list>
-                            </pl-scroll>
-                        </pl-item>
-                    ) : this.cascadeData.length > 0 ? this.cascadeData.map((list: CascadeData[], listIndex) => (
-                            <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && this.getMark(this.expandKeys[listIndex - 1], CascadeMark.loading)}>
-                                <pl-scroll>
-                                    <pl-list>
-                                        {list.map((node, nodeIndex) => (
-                                            <pl-item block
-                                                     class={[
-                                                         'pl-cascade-item',
-                                                         {
-                                                             'pl-cascade-item-expand': node.key === this.expandKeys[listIndex],
-                                                             'pl-cascade-item-active': !!this.p_value && this.p_value[listIndex] === node.key,
-                                                             'pl-cascade-item-disabled': node.nodeDisabled,
-                                                         }
-                                                     ]}
-                                                     key={node.key}
-
-                                                     {...{
-                                                         nativeOn: {
-                                                             click: () => this.onClickItem(node),
-                                                             ...(this.trigger === 'hover' ? {
-                                                                 mouseenter: () => this.onMouseenterItem(node),
-                                                             } : {})
-                                                         },
-                                                     }}>
-                                                <div class="pl-cascade-content">
-                                                    {!!this.$scopedSlots.default ? this.$scopedSlots.default({node, index: nodeIndex}) : (!!this.renderContent ? this.renderContent(h, {node, index: nodeIndex}) : node.label)}
-                                                    {!node.isLeaf && (
-                                                        <div class="pl-cascade-arrow">
-                                                            {node.isLoading ? <pl-loading type="gamma"/> : <pl-icon icon="el-icon-arrow-right"/>}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </pl-item>
-                                        ))}
-                                        {list.length === 0 && (
-                                            <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
-                                                <pl-icon icon="el-icon-reading"/>
-                                                {this.emptyText}
-                                            </pl-item>
-                                        )}
-                                    </pl-list>
-                                </pl-scroll>
-                            </pl-item>
-                        )) :
+                {!!this.filterText ?
+                    (
+                        <pl-list>
+                            {filterList}
+                        </pl-list>
+                    )
+                    : !!isEmpty ?
                         (
                             <div class="pl-cascade-list" key="empty">
-                                <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
-                                    <pl-icon icon="el-icon-reading"/>
-                                    {this.emptyText}
-                                </pl-item>
+                                {empty}
                             </div>
-                        )}
-                </pl-list>
+                        ) : (
+                            <pl-list>
+                                {cascadeList}
+                            </pl-list>
+                        )
+                }
+
             </div>
         )
     },
