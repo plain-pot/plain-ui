@@ -31,6 +31,8 @@ export default {
     },
     emitters: {
         emitInput: Function,
+        emitClickItem: Function,
+        emitGetChildren: Function,
     },
     watch: {
         value(val) {
@@ -227,6 +229,26 @@ export default {
             })
             return filterData
         },
+        expandNodes() {
+            if (!this.expandKeys) return []
+            let result = []
+            let nodes = this.formatData
+
+            this.expandKeys.forEach((key: string) => {
+                for (let i = 0; i < nodes.length; i++) {
+                    const child = nodes[i];
+                    if (child.key === key) {
+                        result.push(child)
+                        if (!child.children || child.children.length === 0) {
+                            break
+                        } else {
+                            nodes = child.children
+                        }
+                    }
+                }
+            })
+            return result
+        },
     },
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
@@ -311,13 +333,14 @@ export default {
                         this.setMark(node.key, CascadeMark.loading, false)
                         this.setMark(node.key, CascadeMark.loaded, true)
                     }
+                    this.emitGetChildren(...results)
                     resolve(...results)
                 })
             })
         },
-        emitValue(value) {
-            this.p_value = value
-            this.emitInput(value)
+        emitValue(...args) {
+            this.p_value = args[0]
+            this.emitInput(...args)
         },
         iterateAll(nodes: CascadeData[], fn: Function, iterateChildren?: Function) {
             if (!nodes) return
@@ -344,8 +367,10 @@ export default {
 
             if (node.nodeDisabled) return
             if (node.isLeaf || this.selectBranch) {
-                this.emitValue(this.expandKeys)
+                this.emitValue(this.expandKeys, this.expandNodes)
             }
+
+            this.emitClickItem(node)
         },
     },
 }

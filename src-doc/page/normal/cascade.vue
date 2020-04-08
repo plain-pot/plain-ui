@@ -204,6 +204,33 @@
                         selectBranch
                 />
             </demo-row>
+            <demo-row title="动态加载">
+                <demo-line>
+                    {{val[10]}}
+                </demo-line>
+                <pl-cascade
+                        :value="val[10]"
+                        @change="onCascadeChange"
+
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :getChildren="lazyDemo.getChildren"
+                        :isLeaf="lazyDemo.isLeaf"
+                />
+                <pl-cascade
+                        :value="val[10]"
+                        @change="onCascadeChange"
+
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :getChildren="lazyDemo.getChildren"
+                        :isLeaf="lazyDemo.isLeaf"
+                />
+            </demo-row>
         </demo-row>
     </div>
 </template>
@@ -387,6 +414,15 @@
                 filterMethod: (nodes, text) => {
                     return nodes.some(node => node.key.indexOf(text) > -1)
                 },
+
+                formData: {
+                    level1Name: '广东省',
+                    level1Key: '1',
+                    level2Name: '深圳市',
+                    level2Key: '3',
+                    level3Name: '南山区',
+                    level3Key: '5',
+                },
             }
         },
         methods: {
@@ -402,6 +438,26 @@
                         <CascadeItem node={node} index={index}/>
                     </div>
                 )
+            },
+
+            onCascadeChange(value, nodes) {
+                if (!value) {
+                    this.formData.level1Name = null
+                    this.formData.level1Key = null
+                    this.formData.level2Name = null
+                    this.formData.level2Key = null
+                    this.formData.level3Name = null
+                    this.formData.level3Key = null
+                } else {
+                    this.formData.level1Name = null
+                    this.formData.level1Key = value[0]
+                    this.formData.level2Name = null
+                    this.formData.level2Key = value[1]
+                    this.formData.level3Name = null
+                    this.formData.level3Key = value[2]
+                }
+                console.log('onCascadeChange')
+                console.log(nodes)
             },
         },
     }

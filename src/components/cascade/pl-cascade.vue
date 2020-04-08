@@ -46,6 +46,8 @@
             emitInput: Function,
             emitBlur: Function,
             emitFocus: Function,
+            emitClickItem: Function,
+            emitGetChildren: Function,
         },
         watch: {
             value(val) {
@@ -61,6 +63,8 @@
             const p_blurTimer: number = 0
             const p_value = this.value
 
+            const cacheData: { [key: string]: object[] } = {}
+
             const option = () => ({
                 value: this.p_value,
                 reference: this.$el,
@@ -69,10 +73,10 @@
                     return ret
                 }, {})),
                 filterText: this.p_inputValue,
+                getChildren: (...args) => this.p_getChildren(...args),
                 on: {
-                    change: (val) => {
-                        this.p_value = val
-                        this.emitValue(val)
+                    change: (...args) => {
+                        this.emitValue(...args)
                     },
                     mousedownPopper: async () => {
                         this.p_focusTimer++
@@ -80,6 +84,12 @@
                     },
                     clickPopper: () => {
                         this.input.focus()
+                    },
+                    clickItem: (node) => {
+                        this.emitClickItem(node)
+                    },
+                    getChildren: (data) => {
+                        this.emitGetChildren(data)
                     },
                 },
             })
@@ -92,7 +102,7 @@
                 p_blurTimer,
                 p_value,
                 option,
-
+                cacheData,
             }
         },
         created() {
@@ -146,6 +156,7 @@
                 if (typeof data === "function") {
                     data = data()
                 }
+                if (!data) return []
                 return data.map(item => this.formatNodeData(item, this.rootData))
             },
         },
@@ -179,9 +190,9 @@
                 }
             },
             /*---------------------------------------utils-------------------------------------------*/
-            emitValue(val) {
-                this.p_value = val
-                this.emitInput(val)
+            emitValue(...args) {
+                this.p_value = args[0]
+                this.emitInput(...args)
             },
             /**
              * 检查props是否合法
@@ -204,6 +215,16 @@
                 const node = new CascadeData(data, this, level, parent)
                 node.children = (node.childrenData || []).map(child => this.formatNodeData(child, node, level + 1))
                 return node
+            },
+            p_getChildren(node, resolve) {
+                if (this.cacheData[node.key]) {
+                    resolve(this.cacheData[node.key])
+                } else {
+                    this.getChildren(node, (data) => {
+                        this.cacheData[node.key] = data
+                        resolve(data)
+                    })
+                }
             },
             /*---------------------------------------handler-------------------------------------------*/
 

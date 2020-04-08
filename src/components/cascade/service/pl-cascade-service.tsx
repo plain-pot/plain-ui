@@ -35,8 +35,14 @@ export default {
                 <pl-cascade-panel slot="popper"
                                   key={this.count}
                                   value={this.p_opts.value}
-                                  onChange={this.onChange}
-                                  {...{props: this.p_opts}}
+                                  {...{
+                                      props: this.p_opts,
+                                      on: {
+                                          change: this.onChange,
+                                          'click-item': this.onClickItem,
+                                          'get-children': this.onGetChildren
+                                      },
+                                  }}
                 />
             </pl-popper>
         )
@@ -164,12 +170,23 @@ export default {
             cascade.ins = null
         },
 
-        onChange(val) {
+        /*---------------------------------------handler-------------------------------------------*/
+        onChange(...args) {
             if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.change) {
-                this.p_opts.on.change(val)
+                this.p_opts.on.change(...args)
             }
             if (!!this.p_opts && !this.p_opts.selectBranch) {
                 this.hide()
+            }
+        },
+        onClickItem(...args) {
+            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.clickItem) {
+                this.p_opts.on.clickItem(...args)
+            }
+        },
+        onGetChildren(...args) {
+            if (!!this.p_opts && !!this.p_opts.on && !!this.p_opts.on.getChildren) {
+                this.p_opts.on.getChildren(...args)
             }
         },
     },
