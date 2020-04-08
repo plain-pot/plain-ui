@@ -136,9 +136,9 @@ export const EmitMixin = {
             const kebabCaseName = this.$plain.utils.kebabCase(name).replace('emit-', '').replace('update-', 'update:')
             // console.log(name, kebabCaseName)
             ret[name] = name === 'emitInput' ?
-                (val) => {
-                    this.$emit('input', val)
-                    this.$emit('change', val)
+                (...args) => {
+                    this.$emit('input', ...args)
+                    this.$emit('change', ...args)
                 } :
                 (...args) => this.$emit(kebabCaseName, ...args)
             return ret
