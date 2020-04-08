@@ -51,6 +51,30 @@ export class CascadeData {
         return !!this.context.isDisabled && this.context.isDisabled(this)
     }
 
+    get filterData(): CascadeData[] {
+        let filterData: CascadeData[] = [this]
+        let parent = this.parent
+        while (!!parent && !!parent.key) {
+            filterData.unshift(parent)
+            parent = parent.parent
+        }
+        return filterData
+    }
+
+    /**
+     * 是否被筛选
+     * @author  韦胜健
+     * @date    2020/4/8 9:29
+     */
+    get isPassFilter(): boolean {
+        if (!this.context.filterText) return false
+        let filterData = this.filterData
+        if (!!this.context.filterMethod) {
+            return this.context.filterMethod(filterData, this.context.filterText)
+        }
+        return filterData.some(item => item.label.indexOf(this.context.filterText) > -1)
+    }
+
     setChildren(children: CascadeData[]) {
         this.context.$set(this.data, this.context.childrenField, children)
     }

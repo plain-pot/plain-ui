@@ -130,6 +130,23 @@
                     selectBranch
             />
         </demo-row>
+        <demo-row title="cascade-panel:筛选文本以及自定义筛选函数">
+            <demo-line>
+                <pl-input v-model="filterText"/>
+            </demo-line>
+            <demo-line>
+                {{val[6]}}
+            </demo-line>
+            <pl-cascade-panel
+                    v-model="val[6]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+                    :filterText="filterText"
+                    :filterMethod="filterMethod"
+            />
+        </demo-row>
 
         <demo-row title="cascade service：基本用法">
             <pl-button label="open cascade" ref="test0" @click="test0.toggle()"/>
@@ -314,6 +331,12 @@
 
                 test0,
                 lazyTest,
+
+                filterText: null,
+                // filterMethod: null,
+                filterMethod: (nodes, text) => {
+                    return nodes.some(node => node.key.indexOf(text) > -1)
+                },
             }
         },
         methods: {

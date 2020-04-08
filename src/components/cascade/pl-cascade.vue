@@ -102,6 +102,10 @@
                         cursor: not-allowed;
                     }
                 }
+
+                &.pl-cascade-filter-list {
+                    width: 360px;
+                }
             }
         }
     }

@@ -26,7 +26,8 @@ export default {
         // showFormat: {type: Function},                                       // 格式化显示值函数
         // separator: {type: String, default: ' / '},                          // 显示值分隔符
         // filterable: {type: Boolean},                                        // 是否可筛选
-        // filterMethod: {type: Boolean},                                      // 自定义筛选函数
+        filterText: {type: String},                                         // 筛选文本
+        filterMethod: {type: Boolean},                                      // 自定义筛选函数
     },
     emitters: {
         emitInput: Function,
@@ -85,7 +86,36 @@ export default {
         return (
             <div class="pl-cascade-panel" v-loading={this.p_loading}>
                 <pl-list>
-                    {this.cascadeData.length > 0 ? this.cascadeData.map((list: CascadeData[], listIndex) => (
+                    {!!this.filterText ? (
+                        <pl-item class="pl-cascade-list pl-cascade-filter-list" key={0}>
+                            <pl-scroll>
+                                <pl-list>
+                                    {this.filterData.map((nodes: CascadeData[]) => (
+                                        <pl-item block
+                                                 class={[
+                                                     'pl-cascade-item',
+                                                     {
+                                                         'pl-cascade-item-active': !!this.p_value && this.p_value.toString() === nodes.map(node => node.key).toString(),
+                                                         'pl-cascade-item-disabled': nodes.some(node => node.isDisabled),
+                                                     }
+                                                 ]}
+                                                 key={nodes.map(node => node.key).join(' ')}
+                                                 {...{
+                                                     nativeOn: {
+                                                         click: () => {
+                                                             this.onClickItem(nodes[nodes.length - 1])
+                                                         },
+                                                     }
+                                                 }}>
+                                            <div class="pl-cascade-content">
+                                                {nodes.map(node => node.label).join(' / ')}
+                                            </div>
+                                        </pl-item>
+                                    ))}
+                                </pl-list>
+                            </pl-scroll>
+                        </pl-item>
+                    ) : this.cascadeData.length > 0 ? this.cascadeData.map((list: CascadeData[], listIndex) => (
                             <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && this.getMark(this.expandKeys[listIndex - 1], CascadeMark.loading)}>
                                 <pl-scroll>
                                     <pl-list>
@@ -188,6 +218,15 @@ export default {
 
             return cascadeData
         },
+        filterData(): CascadeData[][] {
+            let filterData: CascadeData[][] = []
+            this.iterateAll(this.formatData, (node: CascadeData) => {
+                if (node.isPassFilter && (node.isLeaf || this.selectBranch)) {
+                    filterData.push(node.filterData)
+                }
+            })
+            return filterData
+        },
     },
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
@@ -279,6 +318,15 @@ export default {
         emitValue(value) {
             this.p_value = value
             this.emitInput(value)
+        },
+        iterateAll(nodes: CascadeData[], fn: Function, iterateChildren?: Function) {
+            if (!nodes) return
+            nodes.forEach(node => {
+                fn(node)
+                if (!!node.children && (!iterateChildren || iterateChildren(node))) {
+                    this.iterateAll(node.children, fn, iterateChildren)
+                }
+            })
         },
         /*---------------------------------------helper-------------------------------------------*/
         async initLazy() {
