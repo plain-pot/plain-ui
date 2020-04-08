@@ -71,6 +71,9 @@
                 }
             }
         },
+        beforeDestroy() {
+            if (!!this.colorService) this.colorService.destroy()
+        },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
             async show() {
