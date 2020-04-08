@@ -3,6 +3,7 @@
               class="pl-color-picker"
               :value="p_inputValue"
               :suffixIcon="suffixIcon"
+              :isFocus="isOpen"
 
               @click-input="onClickInput"
               @change="onInputChange"
@@ -72,6 +73,12 @@
         },
         beforeDestroy() {
             if (!!this.colorService) this.colorService.destroy()
+        },
+        computed: {
+            isOpen() {
+                if (!this.colorService) return false
+                return this.colorService.isOpen()
+            },
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
