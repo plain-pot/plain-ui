@@ -169,6 +169,7 @@
             clearHandler() {
                 this.emitValue(null)
                 this.p_inputValue = null
+                this.input.focus()
             },
 
             /*---------------------------------------methods-------------------------------------------*/

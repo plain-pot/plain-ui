@@ -335,6 +335,8 @@
             onClickClearIcon() {
                 this.p_value = null
                 this.emitInput(this.p_value)
+
+                this.$refs.input.focus()
             },
             /**
              * 点击后置图标动作
