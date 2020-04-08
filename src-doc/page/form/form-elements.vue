@@ -23,8 +23,11 @@
                     </pl-checkbox-group>
                 </pl-form-item>
 
-                <pl-form-item label="下拉选项" field="field6" :rules="{required:true,message:'只能选择二级', options:'2'}">
+                <pl-form-item label="下拉选项" field="field6" required :rules="{message:'只能选择二级', options:'2'}">
                     <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field6"/>
+                </pl-form-item>
+                <pl-form-item label="级联选择" field="field61" :rules="{required:true,message:'不能为空'}">
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" v-model="form1.formData.field61"/>
                 </pl-form-item>
 
                 <pl-form-item label="单选按钮组" field="field9" required>
@@ -73,7 +76,59 @@
         name: "form-elements",
         props: {},
         data() {
+
+            const treeData = [
+                {
+                    id: '1',
+                    name: '一级 1',
+                    subs: [
+                        ...([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
+                            id: '1-' + index,
+                            name: '二级 1-' + index,
+                            subs: [{
+                                id: `1-${index}-1`,
+                                name: `三级 1-${index}-1`
+                            }]
+                        })))
+                    ]
+                }, {
+                    id: '2',
+                    name: '一级 2',
+                    subs: [
+                        ...([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
+                            id: '2-' + index,
+                            name: '二级 2-' + index,
+                            subs: [{
+                                id: `2-${index}-1`,
+                                name: `三级 2-${index}-1`
+                            }]
+                        })))
+                    ]
+                }, {
+                    id: '3',
+                    name: '一级 3',
+                    subs: [{
+                        id: '3-1',
+                        name: '二级 3-1',
+                        subs: [{
+                            id: '3-1-1',
+                            name: '三级 3-1-1'
+                        }, {
+                            id: '3-1-2',
+                            name: '三级 3-1-2'
+                        }]
+                    }, {
+                        id: '3-2',
+                        name: '二级 3-2',
+                        subs: [{
+                            id: '3-2-1',
+                            name: '三级 3-2-1'
+                        }]
+                    }]
+                }]
+
             return {
+                treeData,
                 form1: {
                     formData: {
                         field12: ['唐人街'],
