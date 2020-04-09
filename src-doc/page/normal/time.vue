@@ -90,8 +90,18 @@
         </demo-row>
 
         <demo-row title="time-range-panel">
+            <demo-line>
+                start:{{val[14]}}
+            </demo-line>
+            <demo-line>
+                end:{{val[15]}}
+            </demo-line>
+            <demo-line>
+                <pl-button mode="text" label="clear" @click="()=>{$set(val,14,null);$set(val,15,null)}"/>
+            </demo-line>
             <demo-row title="基本用法">
-                <pl-time-range-panel/>
+                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>
+                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>
             </demo-row>
         </demo-row>
 

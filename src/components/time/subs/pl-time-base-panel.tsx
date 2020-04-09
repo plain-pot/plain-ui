@@ -1,5 +1,6 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
+import {TimePublicProps} from "./index";
 
 export default {
     name: "pl-time-base-panel",
@@ -11,13 +12,7 @@ export default {
     },
     props: {
         value: {type: String},
-        displayFormat: {type: String, default: 'HH:mm:ss'},
-        valueFormat: {type: String, default: 'HH:mm:ss'},
-        max: {type: String},
-        min: {type: String},
-        layout: {type: Array, default: () => (['h', 'm', 's'])},
-        custom: {type: Function},
-        checkDisabled: {type: Function},
+        ...TimePublicProps,
     },
     data() {
         return {}
