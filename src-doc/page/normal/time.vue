@@ -1,7 +1,13 @@
 <template>
     <div class="demo-time">
-        <demo-row title="基本用法">
-            <pl-time-panel/>
+        <demo-row title="time-base-column">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[0]}}
+                </demo-line>
+                <pl-time-base-column v-model="val[0]"/>
+                <pl-time-base-column v-model="val[0]"/>
+            </demo-row>
         </demo-row>
     </div>
 </template>
@@ -11,7 +17,9 @@
         name: "demo-time",
         props: {},
         data() {
-            return {}
+            return {
+                val: {},
+            }
         },
         methods: {},
     }

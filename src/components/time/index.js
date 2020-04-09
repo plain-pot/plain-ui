@@ -1,5 +1,8 @@
 import time from './pl-time.vue'
 import panel from './pl-time-panel'
+import base from './subs/pl-time-base-panel'
+import column from './subs/pl-time-base-column'
+
 import {plugin} from "../../utils";
 
-export default plugin([time, panel])
+export default plugin([time, panel, base, column])
