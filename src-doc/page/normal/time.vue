@@ -8,6 +8,21 @@
                 <pl-time-base-column v-model="val[0]"/>
                 <pl-time-base-column v-model="val[0]"/>
             </demo-row>
+            <demo-row title="模式">
+                <demo-line>
+                    {{val[1]}}:{{val[2]}}:{{val[3]}}
+                </demo-line>
+                <pl-time-base-column v-model="val[1]" layout="h"/>
+                <pl-time-base-column v-model="val[2]" layout="m"/>
+                <pl-time-base-column v-model="val[3]" layout="s"/>
+            </demo-row>
+            <demo-row title="最大最小值">
+                <demo-line>
+                    {{val[4]}}
+                </demo-line>
+                <pl-time-base-column v-model="val[4]" :max="30" :min="10"/>
+            </demo-row>
+
         </demo-row>
     </div>
 </template>

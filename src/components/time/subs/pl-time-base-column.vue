@@ -5,7 +5,10 @@
                 <li class="pl-time-base-column-item" v-for="item in 3" :key="-item"></li>
                 <li v-for="item in options"
                     class="pl-time-base-column-item pl-time-base-column-option-item"
-                    :class="{'pl-time-base-column-item-current':p_value == item}"
+                    :class="{
+                            'pl-time-base-column-item-current':p_value == item,
+                            'pl-time-base-column-item-disabled': checkDisabled(item),
+                        }"
                     :key="item"
                     @click="onClickItem(item)">
                     {{item}}
@@ -17,12 +20,13 @@
 </template>
 
 <script>
-    import {EmitMixin, RefsMixinFactory} from "../../../utils/mixins";
+    import {EditMixin, EmitMixin, RefsMixinFactory} from "../../../utils/mixins";
 
     export default {
         name: "pl-time-base-column",
         mixins: [
             EmitMixin,
+            EditMixin,
             RefsMixinFactory({
                 scroll: Object,
             })
@@ -41,9 +45,8 @@
             value(val) {
                 this.p_value = val
             },
-            p_value(val) {
-                let scrollTop = !val ? 0 : (Number(val)) * 24
-                this.scroll.scroll({y: scrollTop}, 150)
+            p_value() {
+                this.resetPosition()
             },
         },
         data() {
@@ -62,7 +65,23 @@
             },
         },
         methods: {
+            /*---------------------------------------methods-------------------------------------------*/
+            resetPosition() {
+                let scrollTop = !this.p_value ? 0 : (Number(this.p_value)) * 24
+                this.scroll.scroll({y: scrollTop}, 150)
+            },
+            /*---------------------------------------utils-------------------------------------------*/
+            checkDisabled(item) {
+                if (this.isDisabled) return true
+                if (this.max != null && this.max < item) return true
+                if (this.min != null && this.min > item) return true
+                return false
+            },
+            /*---------------------------------------handler-------------------------------------------*/
             onClickItem(item) {
+                if (this.checkDisabled(item)) {
+                    return
+                }
                 this.p_value = Number(item)
                 this.emitInput(this.p_value)
                 this.emitClickItem(item)
@@ -81,6 +100,7 @@
             height: 7*$item_height;
             width: 60px;
             border: solid $ibc 1px;
+            border-radius: 2px;
 
             .pl-time-base-column-list {
                 margin: 0;
@@ -104,8 +124,17 @@
                         }
                     }
 
+                    &.pl-time-base-column-item-disabled {
+                        color: $disabledText;
+                        cursor: not-allowed;
+                        &:hover {
+                            color: $disabledText;
+                            background-color: transparent;
+                        }
+                    }
+
                     &.pl-time-base-column-item-current {
-                        background-color: rgba($colorInfo, 0.1);
+                        background-color: rgba($colorPrimary, 0.1);
                         color: $colorPrimary;
 
                         &:hover {
