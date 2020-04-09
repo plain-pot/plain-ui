@@ -30,6 +30,10 @@
             </demo-row>
 
         </demo-row>
+
+        <demo-row title="time-base-panel">
+            <pl-time-base-panel/>
+        </demo-row>
     </div>
 </template>
 
