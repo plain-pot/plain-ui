@@ -1,4 +1,3 @@
-import {BaseTimePanelProps} from "./index";
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 
@@ -11,7 +10,14 @@ export default {
         emitInput: Function,
     },
     props: {
-        ...BaseTimePanelProps,
+        value: {type: String},
+        displayFormat: {type: String, default: 'HH:mm:ss'},
+        valueFormat: {type: String, default: 'HH:mm:ss'},
+        max: {type: String},
+        min: {type: String},
+        layout: {type: Array, default: () => (['h', 'm', 's'])},
+        custom: {type: Function},
+        checkDisabled: {type: Function},
     },
     data() {
         return {}
@@ -19,9 +25,30 @@ export default {
     render(h) {
 
         let layout = {
-            h: <pl-time-base-column layout="h" value={this.formatData.value.hour} onChange={val => this.onColumnChange(val, 'h')} max={this.maxmin.max.hour} min={this.maxmin.min.hour}/>,
-            m: <pl-time-base-column layout="m" value={this.formatData.value.minute} onChange={val => this.onColumnChange(val, 'm')} max={this.maxmin.max.minute} min={this.maxmin.min.minute}/>,
-            s: <pl-time-base-column layout="s" value={this.formatData.value.second} onChange={val => this.onColumnChange(val, 's')} max={this.maxmin.max.second} min={this.maxmin.min.second}/>,
+            h: <pl-time-base-column layout="h"
+                                    value={this.formatData.value.hour}
+                                    max={this.maxmin.max.hour}
+                                    min={this.maxmin.min.hour}
+                                    checkDisabled={this.p_checkDisabled}
+                                    custom={this.p_custom}
+                                    onChange={val => this.onColumnChange(val, 'h')}
+            />,
+            m: <pl-time-base-column layout="m"
+                                    value={this.formatData.value.minute}
+                                    max={this.maxmin.max.minute}
+                                    min={this.maxmin.min.minute}
+                                    checkDisabled={this.p_checkDisabled}
+                                    custom={this.p_custom}
+                                    onChange={val => this.onColumnChange(val, 'm')}
+            />,
+            s: <pl-time-base-column layout="s"
+                                    value={this.formatData.value.second}
+                                    max={this.maxmin.max.second}
+                                    min={this.maxmin.min.second}
+                                    checkDisabled={this.p_checkDisabled}
+                                    custom={this.p_custom}
+                                    onChange={val => this.onColumnChange(val, 's')}
+            />,
         }
         const content = this.layout.map(i => layout[i])
 
@@ -110,6 +137,15 @@ export default {
             return {
                 max, min,
             }
+        },
+
+        p_checkDisabled() {
+            if (!this.checkDisabled) return null
+            return (num, layout) => this.checkDisabled(num, layout, this.formatData.value)
+        },
+        p_custom() {
+            if (!this.custom) return null
+            return (layout) => this.custom(layout, this.formatData.value)
         },
     },
     created() {

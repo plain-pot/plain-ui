@@ -7,7 +7,7 @@
                     class="pl-time-base-column-item pl-time-base-column-option-item"
                     :class="{
                             'pl-time-base-column-item-current':p_value!=null && p_value == item,
-                            'pl-time-base-column-item-disabled': checkDisabled(item),
+                            'pl-time-base-column-item-disabled': p_checkDisabled(item),
                         }"
                     :key="item"
                     @click="onClickItem(item)">
@@ -41,6 +41,7 @@
             max: {type: Number},                    // 最大值
             min: {type: Number},                    // 最小值
             custom: {type: Function},               // 自定义选项函数
+            checkDisabled: {type: Function},        // 用来判断选项是否禁用的函数
         },
         watch: {
             value(val) {
@@ -86,15 +87,16 @@
                 this.scroll.scroll({y: scrollTop}, 150)
             },
             /*---------------------------------------utils-------------------------------------------*/
-            checkDisabled(item) {
+            p_checkDisabled(item) {
                 if (this.isDisabled) return true
+                if (!!this.checkDisabled && this.checkDisabled(item, this.layout)) return true
                 if (this.max != null && this.max < item) return true
                 if (this.min != null && this.min > item) return true
                 return false
             },
             /*---------------------------------------handler-------------------------------------------*/
             onClickItem(item) {
-                if (this.checkDisabled(item)) {
+                if (this.p_checkDisabled(item)) {
                     return
                 }
                 this.p_value = Number(item)

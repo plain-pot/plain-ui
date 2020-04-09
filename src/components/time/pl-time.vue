@@ -6,7 +6,9 @@
 <script>
     export default {
         name: "pl-time",
-        props: {},
+        props: {
+            buttonBar: {type: [Function, Boolean]},
+        },
         data() {
             return {}
         },
