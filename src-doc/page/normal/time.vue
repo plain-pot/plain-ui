@@ -32,6 +32,10 @@
         </demo-row>
 
         <demo-row title="time-base-panel">
+            <demo-line>
+                {{val[6]}}
+            </demo-line>
+            <pl-time-base-panel v-model="val[6]"/>
             <pl-time-base-panel v-model="val[6]"/>
         </demo-row>
     </div>
