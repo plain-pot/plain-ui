@@ -53,7 +53,22 @@
                 border: none;
 
                 & + .pl-time-base-column {
-                    border-left: solid 1px rgba($ibc, 0.5);
+                    border-left: dashed 1px $ibc;
+                }
+            }
+        }
+
+        .pl-time-range-panel {
+            border: solid $ibc 1px;
+            border-radius: 4px;
+            display: inline-block;
+
+            .pl-time-base-panel {
+                border: none;
+
+                &:first-child {
+                    border-right: solid 1px $ibc;
+                    border-radius: 0;
                 }
             }
         }

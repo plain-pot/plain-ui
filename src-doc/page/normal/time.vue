@@ -88,6 +88,13 @@
                 </demo-row>
             </demo-row>
         </demo-row>
+
+        <demo-row title="time-range-panel">
+            <demo-row title="基本用法">
+                <pl-time-range-panel/>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
