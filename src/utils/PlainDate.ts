@@ -105,6 +105,30 @@ export class PlainDate {
         this.dateObject.setSeconds(second)
     }
 
+    greaterThan(plainDate: PlainDate): boolean {
+        if (this.dateObject == null) {
+            console.error('greaterThan: self is null')
+            return false
+        }
+        if (plainDate.dateObject == null) {
+            console.error('greaterThan: target is null')
+            return false
+        }
+        return this.dateObject.getTime() > plainDate.dateObject.getTime()
+    }
+
+    lessThan(plainDate: PlainDate) {
+        if (this.dateObject == null) {
+            console.error('lessThan: self is null')
+            return false
+        }
+        if (plainDate.dateObject == null) {
+            console.error('lessThan: target is null')
+            return false
+        }
+        return this.dateObject.getTime() < plainDate.dateObject.getTime()
+    }
+
     static defaultDate(): Date {
         const date = new Date()
         date.setMonth(0, 1)

@@ -6,7 +6,7 @@
                 <li v-for="item in options"
                     class="pl-time-base-column-item pl-time-base-column-option-item"
                     :class="{
-                            'pl-time-base-column-item-current':p_value == item,
+                            'pl-time-base-column-item-current':p_value!=null && p_value == item,
                             'pl-time-base-column-item-disabled': checkDisabled(item),
                         }"
                     :key="item"
@@ -52,7 +52,7 @@
         },
         data() {
             return {
-                p_value: Number(this.value),
+                p_value: this.value == null ? null : this.value,
             }
         },
         mounted() {

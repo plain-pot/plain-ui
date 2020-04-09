@@ -32,11 +32,26 @@
         </demo-row>
 
         <demo-row title="time-base-panel">
-            <demo-line>
-                {{val[6]}}
-            </demo-line>
-            <pl-time-base-panel v-model="val[6]"/>
-            <pl-time-base-panel v-model="val[6]"/>
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-time-base-panel v-model="val[6]"/>
+                <pl-time-base-panel v-model="val[6]"/>
+            </demo-row>
+
+            <demo-row title="最大最小值">
+                <demo-line>
+                    min:{{val[8]}}
+                    max:{{val[7]}}
+                </demo-line>
+                <demo-line>
+                    <pl-button mode="text" label="clear" @click="$set(val,9,null)"/>
+                    {{val[9]}}
+                </demo-line>
+                <pl-time-base-panel :max="val[7]" :min="val[8]" v-model="val[9]"/>
+            </demo-row>
+
         </demo-row>
     </div>
 </template>
@@ -49,6 +64,9 @@
             return {
                 val: {
                     6: '20:15:10',
+
+                    7: '12:12:12',
+                    8: '08:08:08',
                 },
 
                 timeBaseColumn: {
