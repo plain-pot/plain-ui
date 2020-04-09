@@ -48,7 +48,7 @@
         },
         data() {
             return {
-                p_value: this.value,
+                p_value: Number(this.value),
             }
         },
         computed: {
@@ -63,7 +63,7 @@
         },
         methods: {
             onClickItem(item) {
-                this.p_value = item
+                this.p_value = Number(item)
                 this.emitInput(this.p_value)
                 this.emitClickItem(item)
             },
@@ -80,6 +80,7 @@
             display: inline-block;
             height: 7*$item_height;
             width: 60px;
+            border: solid $ibc 1px;
 
             .pl-time-base-column-list {
                 margin: 0;
