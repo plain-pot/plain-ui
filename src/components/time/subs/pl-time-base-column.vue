@@ -55,6 +55,11 @@
                 p_value: Number(this.value),
             }
         },
+        mounted() {
+            if (this.value != null) {
+                setTimeout(() => this.resetPosition(), 300)
+            }
+        },
         computed: {
             options() {
                 if (!!this.custom) {

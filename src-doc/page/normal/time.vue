@@ -32,7 +32,7 @@
         </demo-row>
 
         <demo-row title="time-base-panel">
-            <pl-time-base-panel/>
+            <pl-time-base-panel v-model="val[6]"/>
         </demo-row>
     </div>
 </template>
@@ -43,7 +43,9 @@
         props: {},
         data() {
             return {
-                val: {},
+                val: {
+                    6: '20:15:10',
+                },
 
                 timeBaseColumn: {
                     custom: () => {
