@@ -338,15 +338,16 @@
                     const run = () => {
                         let nowTime = Date.now()
                         let delta = nowTime - startTime
-                        let top = delta * ky + ny
-                        // console.log(top)
-                        this.wrapper!.scrollTop = top
-
+                        let top;
                         if (delta >= time) {
                             this.cancelAnimate = null
-                            return
+                            top = time * ky + ny
+                            this.wrapper!.scrollTop = top
+                        } else {
+                            top = delta * ky + ny
+                            this.wrapper!.scrollTop = top
+                            this.cancelAnimate = requestAnimationFrame(run)
                         }
-                        this.cancelAnimate = requestAnimationFrame(run)
                     }
                     run()
                 }
