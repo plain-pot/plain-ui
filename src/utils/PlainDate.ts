@@ -16,48 +16,52 @@ export class PlainDate {
     }
 
     get year() {
-        if (!!this.dateObject) return this.dateObject.getFullYear()
+        if (!this.isNull) return this.dateObject.getFullYear()
         else return null
     }
 
     get month() {
-        if (!!this.dateObject) return this.dateObject.getMonth()
+        if (!this.isNull) return this.dateObject.getMonth()
         else return null
     }
 
     get date() {
-        if (!!this.dateObject) return this.dateObject.getDate()
+        if (!this.isNull) return this.dateObject.getDate()
         else return null
     }
 
     get hour() {
-        if (!!this.dateObject) return this.dateObject.getHours()
+        if (!this.isNull) return this.dateObject.getHours()
         else return null
     }
 
     get minute() {
-        if (!!this.dateObject) return this.dateObject.getMinutes()
+        if (!this.isNull) return this.dateObject.getMinutes()
         else return null
     }
 
     get second() {
-        if (!!this.dateObject) return this.dateObject.getSeconds()
+        if (!this.isNull) return this.dateObject.getSeconds()
         else return null
     }
 
     get day() {
-        if (!!this.dateObject) return this.dateObject.getDay()
+        if (!this.isNull) return this.dateObject.getDay()
         else return null
     }
 
     get displayString(): string {
-        if (!this.dateObject) return null
+        if (this.isNull) return null
         return fecha.format(this.dateObject, this.displayFormat)
     }
 
     get valueString(): string {
-        if (!this.dateObject) return null
+        if (this.isNull) return null
         return fecha.format(this.dateObject, this.valueFormat)
+    }
+
+    get isNull(): boolean {
+        return !this.dateObject
     }
 
     /*---------------------------------------method-------------------------------------------*/
@@ -71,46 +75,46 @@ export class PlainDate {
     }
 
     setYear(year: number): void {
-        if (!this.dateObject) {
+        if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
         }
         this.dateObject.setFullYear(year)
     }
 
     setMonthDate(month: number, date: number): void {
-        if (!this.dateObject) {
+        if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
         }
         this.dateObject.setMonth(month, date)
     }
 
     setHour(hour: number): void {
-        if (!this.dateObject) {
+        if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
         }
         this.dateObject.setHours(hour)
     }
 
     setMinute(minute: number): void {
-        if (!this.dateObject) {
+        if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
         }
         this.dateObject.setMinutes(minute)
     }
 
     setSecond(second: number): void {
-        if (!this.dateObject) {
+        if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
         }
         this.dateObject.setSeconds(second)
     }
 
     greaterThan(plainDate: PlainDate): boolean {
-        if (this.dateObject == null) {
+        if (this.isNull) {
             console.error('greaterThan: self is null')
             return false
         }
-        if (plainDate.dateObject == null) {
+        if (plainDate.isNull) {
             console.error('greaterThan: target is null')
             return false
         }
@@ -118,11 +122,11 @@ export class PlainDate {
     }
 
     lessThan(plainDate: PlainDate) {
-        if (this.dateObject == null) {
+        if (this.isNull) {
             console.error('lessThan: self is null')
             return false
         }
-        if (plainDate.dateObject == null) {
+        if (plainDate.isNull) {
             console.error('lessThan: target is null')
             return false
         }

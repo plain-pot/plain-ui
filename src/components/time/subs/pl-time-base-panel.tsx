@@ -113,7 +113,7 @@ export default {
         },
     },
     created() {
-        console.log(this.formatData)
+        // console.log(this.formatData)
     },
     methods: {
         onColumnChange(value, type) {
@@ -130,11 +130,11 @@ export default {
                     break
             }
 
-            if (vpd.greaterThan(maxpd)) {
+            if (!maxpd.isNull && vpd.greaterThan(maxpd)) {
                 vpd.setValue(maxpd.valueString)
             }
 
-            if (vpd.lessThan(minpd)) {
+            if (!minpd.isNull && vpd.lessThan(minpd)) {
                 vpd.setValue(minpd.valueString)
             }
 
