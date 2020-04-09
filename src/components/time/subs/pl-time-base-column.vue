@@ -36,10 +36,11 @@
             emitClickItem: Function,
         },
         props: {
-            layout: {type: String},                 // 模式，h：时，m：分，s：秒
+            layout: {type: String, default: 'h'},   // 模式，h：时，m：分，s：秒
             value: {type: Number},                  // 当前值
             max: {type: Number},                    // 最大值
             min: {type: Number},                    // 最小值
+            custom: {type: Function},               // 自定义选项函数
         },
         watch: {
             value(val) {
@@ -56,6 +57,9 @@
         },
         computed: {
             options() {
+                if (!!this.custom) {
+                    return this.custom(this.layout).map(item => this.$plain.utils.zeroize(item, 2))
+                }
                 let count = this.layout === 'h' ? 24 : 60
                 let options = []
                 for (let i = 0; i < count; i++) {
@@ -67,7 +71,13 @@
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
             resetPosition() {
-                let scrollTop = !this.p_value ? 0 : (Number(this.p_value)) * 24
+                let value = this.p_value || 0
+                let start = 0
+                let find = this.$plain.utils.findOne(this.options, item => item == value, true)
+                if (!!find) {
+                    start = find.index
+                }
+                let scrollTop = start * 24
                 this.scroll.scroll({y: scrollTop}, 150)
             },
             /*---------------------------------------utils-------------------------------------------*/
@@ -127,6 +137,7 @@
                     &.pl-time-base-column-item-disabled {
                         color: $disabledText;
                         cursor: not-allowed;
+
                         &:hover {
                             color: $disabledText;
                             background-color: transparent;

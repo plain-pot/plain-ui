@@ -20,7 +20,13 @@
                 <demo-line>
                     {{val[4]}}
                 </demo-line>
-                <pl-time-base-column v-model="val[4]" :max="30" :min="10"/>
+                <pl-time-base-column v-model="val[4]" :max="20" :min="10"/>
+            </demo-row>
+            <demo-row title="自定义选项">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-time-base-column v-model="val[5]" :custom="timeBaseColumn.custom"/>
             </demo-row>
 
         </demo-row>
@@ -34,6 +40,19 @@
         data() {
             return {
                 val: {},
+
+                timeBaseColumn: {
+                    custom: () => {
+                        let start = 0
+                        let step = 15
+                        let options = []
+                        while (start < 60) {
+                            options.push(start)
+                            start += step
+                        }
+                        return options
+                    }
+                },
             }
         },
         methods: {},
