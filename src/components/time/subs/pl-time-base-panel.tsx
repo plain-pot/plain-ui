@@ -144,7 +144,7 @@ export default {
         },
     },
     created() {
-        console.log(this.formatData)
+        // console.log(this.formatData)
     },
     methods: {
         onColumnChange(value, type) {
