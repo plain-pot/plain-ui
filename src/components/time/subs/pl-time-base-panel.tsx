@@ -144,7 +144,7 @@ export default {
         },
     },
     created() {
-        // console.log(this.formatData)
+        console.log(this.formatData)
     },
     methods: {
         onColumnChange(value, type) {
@@ -161,11 +161,11 @@ export default {
                     break
             }
 
-            if (!maxpd.isNull && vpd.greaterThan(maxpd)) {
+            if (!maxpd.isNull && vpd.greaterThan(maxpd, PlainDate.CompareMode.time) > 0) {
                 vpd.setValue(maxpd.valueString)
             }
 
-            if (!minpd.isNull && vpd.lessThan(minpd)) {
+            if (!minpd.isNull && vpd.lessThan(minpd, PlainDate.CompareMode.time) > 0) {
                 vpd.setValue(minpd.valueString)
             }
 

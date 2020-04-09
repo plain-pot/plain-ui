@@ -1,5 +1,22 @@
 import fecha from 'fecha'
 
+const zeroize = (value, length = 2) => {
+    if (value == null) {
+        value = '';
+    }
+    value = String(value);
+    const zeroLen = length - value.length;
+    if (zeroLen <= 0)
+        return value;
+    return new Array(zeroLen).fill('0').join('') + value;
+};
+
+enum CompareMode {
+    time = 'time',
+    date = 'date',
+    datetime = 'datetime',
+}
+
 export class PlainDate {
 
     displayFormat: string = null                                        // 显示值格式字符串
@@ -50,6 +67,11 @@ export class PlainDate {
         else return null
     }
 
+    get time(): number {
+        if (!this.isNull) return this.dateObject.getTime()
+        return null
+    }
+
     get displayString(): string {
         if (this.isNull) return null
         return fecha.format(this.dateObject, this.displayFormat)
@@ -62,6 +84,16 @@ export class PlainDate {
 
     get isNull(): boolean {
         return !this.dateObject
+    }
+
+    get timeString(): string {
+        if (this.isNull) return null
+        return `${zeroize(this.hour)}${zeroize(this.minute)}${zeroize(this.second)}`
+    }
+
+    get dateString(): string {
+        if (this.isNull) return null
+        return `${zeroize(this.year)}${zeroize(this.month + 1)}${zeroize(this.date)}`
     }
 
     /*---------------------------------------method-------------------------------------------*/
@@ -109,28 +141,36 @@ export class PlainDate {
         this.dateObject.setSeconds(second)
     }
 
-    greaterThan(plainDate: PlainDate): boolean {
+    greaterThan(plainDate: PlainDate, compareMode: CompareMode): number {
         if (this.isNull) {
             console.error('greaterThan: self is null')
-            return false
+            return -1
         }
         if (plainDate.isNull) {
             console.error('greaterThan: target is null')
-            return false
+            return -1
         }
-        return this.dateObject.getTime() > plainDate.dateObject.getTime()
+
+        switch (compareMode) {
+            case CompareMode.time:
+                return Number(this.timeString) - Number(plainDate.timeString)
+            case CompareMode.date:
+                return Number(this.dateString) - Number(plainDate.dateString)
+            case CompareMode.datetime:
+                return this.time - plainDate.time
+        }
     }
 
-    lessThan(plainDate: PlainDate) {
+    lessThan(plainDate: PlainDate, compareMode: CompareMode): number {
         if (this.isNull) {
             console.error('lessThan: self is null')
-            return false
+            return -1
         }
         if (plainDate.isNull) {
             console.error('lessThan: target is null')
-            return false
+            return -1
         }
-        return this.dateObject.getTime() < plainDate.dateObject.getTime()
+        return this.greaterThan(plainDate, compareMode) * -1
     }
 
     static defaultDate(): Date {
@@ -154,4 +194,6 @@ export class PlainDate {
             return fecha.parse(dateString, formatString)
         }
     }
+
+    static CompareMode = CompareMode
 }
