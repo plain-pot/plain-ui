@@ -101,7 +101,7 @@
             </demo-line>
             <demo-row title="基本用法">
                 <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>
-                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>
+<!--                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>-->
             </demo-row>
         </demo-row>
 

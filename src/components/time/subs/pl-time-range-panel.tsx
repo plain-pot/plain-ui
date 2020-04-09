@@ -1,5 +1,6 @@
 import {TimePublicProps} from "./index";
 import {EmitMixin} from "../../../utils/mixins";
+import {PlainDate} from "../../../utils/PlainDate";
 
 export default {
     name: 'pl-time-range-panel',
@@ -31,42 +32,92 @@ export default {
         }
     },
     render(h) {
-
-        const publicProps = Object.keys(TimePublicProps).reduce((ret, key) => {
-            ret[key] = this.key
-            return ret
-        }, {})
-
-        const startBinding = {
-            props: {
-                value: this.p_start,
-                ...publicProps,
-            },
-            on: {
-                change: (value) => {
-                    this.emitUpdateStart(value)
-                    this.emitInput(value, 'start')
-                }
-            }
-        }
-        const endBinding = {
-            props: {
-                value: this.p_end,
-                ...publicProps,
-            },
-            on: {
-                change: (value) => {
-                    this.emitUpdateEnd(value)
-                    this.emitInput(value, 'end')
-                }
-            }
-        }
-
+        const {start, end} = this.binding
         return (
             <div class="pl-time-range-panel">
-                <pl-time-base-panel {...startBinding}/>
-                <pl-time-base-panel {...endBinding}/>
+                <pl-time-base-panel {...start}/>
+                <pl-time-base-panel {...end}/>
             </div>
         )
+    },
+    computed: {
+        formatData() {
+            let {p_start: start, p_end: end, max, min, displayFormat, valueFormat} = this
+            start = new PlainDate(start, displayFormat, valueFormat)
+            end = new PlainDate(end, displayFormat, valueFormat)
+            max = new PlainDate(max, displayFormat, valueFormat)
+            min = new PlainDate(min, displayFormat, valueFormat)
+
+            return {
+                start, end, max, min
+            }
+        },
+        binding() {
+            const publicProps = Object.keys(TimePublicProps).reduce((ret, key) => {
+                ret[key] = this.key
+                return ret
+            }, {})
+
+            const {start, end, max, min} = this.formatData as { start: PlainDate, end: PlainDate, max: PlainDate, min: PlainDate }
+
+            let startMax = null, startMin = min.valueString, endMax = max.valueString, endMin = null
+
+            if (!end.isNull && !max.isNull) {
+                startMax = end.lessThan(max, PlainDate.CompareMode.time) > 0 ? end.valueString : max.valueString
+            } else {
+                if (!end.isNull) {
+                    startMax = end.valueString
+                }
+                if (!max.isNull) {
+                    startMax = max.valueString
+                }
+            }
+
+            if (!start.isNull && !min.isNull) {
+                endMin = start.greaterThan(max, PlainDate.CompareMode.time) > 0 ? max.valueString : start.valueString
+            } else {
+                if (!start.isNull) {
+                    endMin = start.valueString
+                }
+                if (!min.isNull) {
+                    endMax = min.valueString
+                }
+            }
+
+            const startBinding = {
+                props: {
+                    value: this.p_start,
+                    ...publicProps,
+                    max: startMax,
+                    min: startMin,
+                },
+                on: {
+                    change: (value) => {
+                        this.emitUpdateStart(value)
+                        this.emitInput(value, 'start')
+                    }
+                }
+            }
+
+            const endBinding = {
+                props: {
+                    value: this.p_end,
+                    ...publicProps,
+                    max: endMax,
+                    min: endMin,
+                },
+                on: {
+                    change: (value) => {
+                        this.emitUpdateEnd(value)
+                        this.emitInput(value, 'end')
+                    }
+                }
+            }
+
+            return {
+                start: startBinding,
+                end: endBinding,
+            }
+        },
     },
 }

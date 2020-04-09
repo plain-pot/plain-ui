@@ -88,18 +88,21 @@
             },
             /*---------------------------------------utils-------------------------------------------*/
             p_checkDisabled(item) {
+                item = Number(item)
                 if (this.isDisabled) return true
                 if (!!this.checkDisabled && this.checkDisabled(item, this.layout)) return true
+
                 if (this.max != null && this.max < item) return true
                 if (this.min != null && this.min > item) return true
                 return false
             },
             /*---------------------------------------handler-------------------------------------------*/
             onClickItem(item) {
+                item = Number(item)
                 if (this.p_checkDisabled(item)) {
                     return
                 }
-                this.p_value = Number(item)
+                this.p_value = item
                 this.emitInput(this.p_value)
                 this.emitClickItem(item)
             },

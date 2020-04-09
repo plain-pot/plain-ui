@@ -81,8 +81,8 @@ export default {
                 max.hour = maxpd.hour
                 if (vpd.hour == null) {
                     // 有最大值，但是没有选择【时】的情况下，分以及秒不能选择任意选项
-                    max.minute = -1
-                    max.second = -1
+                    max.minute = -Infinity
+                    max.second = -Infinity
                 } else {
                     if (vpd.hour < max.hour) {
                         // 有最大值，但是【时】没有达到最大值，此时分以及秒可以任意选择
@@ -91,7 +91,7 @@ export default {
                     } else {
                         max.minute = maxpd.minute
                         if (vpd.minute == null) {
-                            max.second = -1
+                            max.second = -Infinity
                         } else {
                             if (vpd.minute < max.minute) {
                                 max.second = null
@@ -107,8 +107,8 @@ export default {
                 min.hour = minpd.hour
                 if (vpd.hour == null) {
                     // 有最小值，但是没有选择【时】的情况下，分以及秒不能选择任意选项
-                    min.minute = -1
-                    min.second = -1
+                    min.minute = Infinity
+                    min.second = Infinity
                 } else {
                     if (vpd.hour > min.hour) {
                         // 有最小值，但是【时】没有达到最小值，此时分以及秒可以任意选择
@@ -117,7 +117,7 @@ export default {
                     } else {
                         min.minute = minpd.minute
                         if (vpd.minute == null) {
-                            min.second = -1
+                            min.second = Infinity
                         } else {
                             if (vpd.minute > min.minute) {
                                 min.second = null
