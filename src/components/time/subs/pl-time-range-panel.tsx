@@ -74,13 +74,13 @@ export default {
             }
 
             if (!start.isNull && !min.isNull) {
-                endMin = start.greaterThan(max, PlainDate.CompareMode.time) > 0 ? max.valueString : start.valueString
+                endMin = start.greaterThan(min, PlainDate.CompareMode.time) > 0 ? start.valueString : min.valueString
             } else {
                 if (!start.isNull) {
                     endMin = start.valueString
                 }
                 if (!min.isNull) {
-                    endMax = min.valueString
+                    endMin = min.valueString
                 }
             }
 
@@ -93,8 +93,15 @@ export default {
                 },
                 on: {
                     change: (value) => {
+                        this.p_start = value
                         this.emitUpdateStart(value)
                         this.emitInput(value, 'start')
+
+                        if (end.isNull) {
+                            this.p_end = value
+                            this.emitUpdateEnd(value)
+                            this.emitInput(value, 'end')
+                        }
                     }
                 }
             }
@@ -108,8 +115,15 @@ export default {
                 },
                 on: {
                     change: (value) => {
+                        this.p_end = value
                         this.emitUpdateEnd(value)
                         this.emitInput(value, 'end')
+
+                        if (end.isNull) {
+                            this.p_start = value
+                            this.emitUpdateStart(value)
+                            this.emitInput(value, 'start')
+                        }
                     }
                 }
             }
