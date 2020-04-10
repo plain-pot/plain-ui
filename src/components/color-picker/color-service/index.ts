@@ -1,4 +1,4 @@
-import PlainService from "../../service";
+import PlainService from "../../service/service";
 import PlColorService from './pl-color-service'
 
 export default {
