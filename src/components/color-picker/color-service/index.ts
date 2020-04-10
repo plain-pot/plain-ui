@@ -1,4 +1,5 @@
-import Controller from './pl-color-service-controller.vue'
+import PlainService from "../../service";
+import PlColorService from './pl-color-service'
 
 type ColorFormat = 'rgb' | 'hex'
 
@@ -69,7 +70,7 @@ export default {
         let $plain = Vue.prototype.$plain
         $plain.$cs = (option) => {
             if (!controller) {
-                controller = $plain.newInstance(Controller)
+                controller = $plain.newInstance(PlainService.generateController('pl-color-service-controller', PlColorService))
             }
             return new Color(option, controller)
         }
