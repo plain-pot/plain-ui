@@ -1,5 +1,3 @@
-import {Color} from "./index";
-
 const DEFAULT_OPTION = {
     reference: null,
     private: false,
@@ -17,7 +15,7 @@ export default {
     data() {
         const showFlag: boolean = false
         const openFlag: boolean = false
-        const color: Color = null
+        const color = null
 
         return {
             showFlag,

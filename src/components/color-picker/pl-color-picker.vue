@@ -77,7 +77,7 @@
         computed: {
             isOpen() {
                 if (!this.colorService) return false
-                return this.colorService.isOpen()
+                return this.colorService.isOpen
             },
         },
         methods: {

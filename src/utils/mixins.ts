@@ -1,3 +1,6 @@
+// @ts-ignore
+import PlainUtils from 'plain-utils'
+
 /**
  * 用来判断是否已经挂载的mixin
  * @author  韦胜健
@@ -123,6 +126,12 @@ export const StyleMixin = {
     },
 }
 
+// emitInput        -> input
+// emitItemClick    -> item-click
+// emitUpdateSTart  -> update:start
+export function emitName2ListenName(emitName) {
+    return PlainUtils.kebabCase(emitName).replace('emit-', '').replace('update-', 'update:')
+}
 
 /**
  * 用来生成派发事件方法的迷信
@@ -133,7 +142,7 @@ export const EmitMixin = {
     data() {
         const emitters = this.$options.emitters || {}
         const emitter = Object.keys(emitters).reduce((ret, name) => {
-            const kebabCaseName = this.$plain.utils.kebabCase(name).replace('emit-', '').replace('update-', 'update:')
+            const kebabCaseName = emitName2ListenName(name)
             // console.log(name, kebabCaseName)
             ret[name] = name === 'emitInput' ?
                 (...args) => {
