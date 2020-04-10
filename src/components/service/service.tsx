@@ -114,11 +114,11 @@ function factory(name: string, ServiceComponent: any) {
         },
         methods: {
             async getInstance() {
-                let service = this.items.find(item => (!item.showFlag && !item.openFlag) && !item.isPrivate)
+                let service = this.items.find(item => !item.isShow && !item.isOpen && !item.isPrivate)
                 if (!service) {
                     this.count++
                     await this.$plain.nextTick()
-                    return this.getInstance()
+                    return await this.getInstance()
                 } else {
                     return service
                 }
