@@ -45,6 +45,11 @@
             <demo-line style="margin-bottom: 40px">
                 <pl-icon icon="el-icon-question" v-tooltip="{content:'指令调用',trigger:'always',placement:`${direction}-${align}`,theme:'light'}"/>
             </demo-line>
+
+            <demo-line>
+                <pl-icon icon="el-icon-question" v-tooltip="{content:'指令调用',trigger:'always',placement:`${direction}-${align}`,theme:'dark'}"/>
+            </demo-line>
+
             <demo-line>
                 <pl-radio-group v-model="direction">
                     <pl-radio v-for="item in ['top','bottom','left','right']" :key="item" :val="item" :label="item"/>
