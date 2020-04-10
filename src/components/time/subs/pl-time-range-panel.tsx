@@ -58,38 +58,14 @@ export default {
                 return ret
             }, {})
 
-            const {start, end, max, min} = this.formatData as { start: PlainDate, end: PlainDate, max: PlainDate, min: PlainDate }
-
-            let startMax = null, startMin = min.valueString, endMax = max.valueString, endMin = null
-
-            if (!end.isNull && !max.isNull) {
-                startMax = end.lessThan(max, PlainDate.CompareMode.time) > 0 ? end.valueString : max.valueString
-            } else {
-                if (!end.isNull) {
-                    startMax = end.valueString
-                }
-                if (!max.isNull) {
-                    startMax = max.valueString
-                }
-            }
-
-            if (!start.isNull && !min.isNull) {
-                endMin = start.greaterThan(min, PlainDate.CompareMode.time) > 0 ? start.valueString : min.valueString
-            } else {
-                if (!start.isNull) {
-                    endMin = start.valueString
-                }
-                if (!min.isNull) {
-                    endMin = min.valueString
-                }
-            }
+            const {max, min} = this
 
             const startBinding = {
                 props: {
                     value: this.p_start,
                     ...publicProps,
-                    max: startMax,
-                    min: startMin,
+                    max,
+                    min,
                 },
                 on: {
                     change: (value) => {
@@ -97,10 +73,12 @@ export default {
                         this.emitUpdateStart(value)
                         this.emitInput(value, 'start')
 
-                        if (end.isNull) {
-                            this.p_end = value
-                            this.emitUpdateEnd(value)
-                            this.emitInput(value, 'end')
+                        const {end, start} = this.formatData as { start: PlainDate, end: PlainDate }
+
+                        if (end.isNull || start.greaterThan(end, PlainDate.CompareMode.time) > 0) {
+                            this.p_end = this.p_start
+                            this.emitUpdateEnd(this.p_start)
+                            this.emitInput(this.p_end, 'end')
                         }
                     }
                 }
@@ -110,8 +88,8 @@ export default {
                 props: {
                     value: this.p_end,
                     ...publicProps,
-                    max: endMax,
-                    min: endMin,
+                    max,
+                    min,
                 },
                 on: {
                     change: (value) => {
@@ -119,10 +97,12 @@ export default {
                         this.emitUpdateEnd(value)
                         this.emitInput(value, 'end')
 
-                        if (end.isNull) {
-                            this.p_start = value
-                            this.emitUpdateStart(value)
-                            this.emitInput(value, 'start')
+                        const {end, start} = this.formatData as { start: PlainDate, end: PlainDate }
+
+                        if (start.isNull || end.lessThan(start, PlainDate.CompareMode.time) > 0) {
+                            this.p_start = this.p_end
+                            this.emitUpdateStart(this.p_start)
+                            this.emitInput(this.p_start, 'start')
                         }
                     }
                 }
