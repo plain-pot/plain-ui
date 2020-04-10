@@ -127,9 +127,31 @@ function factory(name: string, ServiceComponent: any) {
     }
 }
 
-function service(name: string, content: (h: Function, Service: any) => any) {
+function service({
+                     name,
+                     content,
+                     mixins,
+                     externalPopperListener,
+                     externalListener,
+                     emitters
+                 }: {
+    name: string,
+    content: (h: Function, Service: any) => any,
+    mixins?: any[],
+    externalListener?: { [key: string]: Function },
+    externalPopperListener?: { [key: string]: Function },
+    emitters?: { [key: string]: Function },
+}) {
+
+    externalPopperListener = externalPopperListener || {}
+    externalListener = externalListener || {}
+    emitters = emitters || {}
+
     return {
         name: "pl-color-service",
+        mixins: [
+            ...(mixins || [])
+        ],
         data() {
             const showFlag: boolean = false
             const openFlag: boolean = false
@@ -151,26 +173,49 @@ function service(name: string, content: (h: Function, Service: any) => any) {
         },
         computed: {
             options() {
-                if (!this.agent) return {}
-                let option = this.agent.option as AgentOption
+                let option = !!this.agent ? this.agent.option : {} as AgentOption
+
                 if (typeof option === "function") {
                     // @ts-ignore
                     option = option()
                 }
 
-                let {props, popperProps, listener, popperListener, reference, beforeShow, beforeHide} = option
+                let {props, popperProps, listener, popperListener, beforeShow, beforeHide} = option
+                listener = listener || {}
+
+                const contentListener = Object.keys(emitters).reduce((ret, key) => {
+                    let listenName = emitName2ListenName(key)
+                    ret[listenName] = (...args) => {
+                        if (!!externalListener[listenName]) {
+                            externalListener[listenName].apply(this, args)
+                        }
+                        if (!!listener[listenName]) {
+                            listener[listenName](...args)
+                        }
+                    }
+                    if (listenName === 'input') {
+                        ret['change'] = (...args) => {
+                            if (!!externalListener['change']) {
+                                externalListener['change'].apply(this, args)
+                            }
+                            if (!!listener['change']) {
+                                listener['change'](...args)
+                            }
+                        }
+                    }
+                    return ret
+                }, {})
 
                 popperProps = {
                     ...DEFAULT_POPPER_OPTION,
                     ...(popperProps || {}),
-                    reference: reference,
                 }
 
                 return {
                     popperProps,
-                    props,
-                    listener,
-                    popperListener,
+                    props: props || {},
+                    listener: contentListener,
+                    popperListener: popperListener || {},
                     beforeShow,
                     beforeHide,
                 }
@@ -187,14 +232,14 @@ function service(name: string, content: (h: Function, Service: any) => any) {
             },
             popperBinding() {
 
-                const {popperListener} = this.options
+                const {popperListener, popperProps} = this.options
 
                 return {
                     props: {
                         value: this.showFlag,
                         open: this.openFlag,
                         popperClass: `${name}-popper`,
-                        ...this.options.popperOption,
+                        ...popperProps,
                     },
                     on: {
 
@@ -222,8 +267,11 @@ function service(name: string, content: (h: Function, Service: any) => any) {
                                         break
                                 }
 
+                                if (!!externalPopperListener[listenName]) {
+                                    externalPopperListener[listenName](...args)
+                                }
                                 if (!!popperListener[listenName]) {
-                                    popperListener[listenName](...args)
+                                    (popperListener[listenName] as Function).apply(this, args)
                                 }
                             }
                             return ret

@@ -50,20 +50,26 @@
                 colorService: null,
                 colorOption: () => {
                     return {
-                        value: this.p_value,
-                        reference: this.$el,
-                        enableAlpha: this.enableAlpha,
-                        format: this.format,
-                        on: {
+                        props: {
+                            value: this.p_value,
+                            enableAlpha: this.enableAlpha,
+                            format: this.format,
+                        },
+                        popperProps: {
+                            reference: this.$el,
+                        },
+                        listener: {
                             change: (val) => {
                                 this.p_inputValue = val
                                 this.emitValue(val)
                             },
-                            mousedownPopper: async () => {
+                        },
+                        popperListener: {
+                            'mousedown-popper': async () => {
                                 this.p_focusTimer++
                                 this.p_blurTimer++
                             },
-                            clickPopper: () => {
+                            'click-popper': () => {
                                 this.input.focus()
                             },
                         },

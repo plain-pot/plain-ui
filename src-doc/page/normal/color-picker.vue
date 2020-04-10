@@ -14,14 +14,14 @@
         </demo-row>
         <demo-row title="ColorService">
             <demo-line>
-                <pl-button :label="`无初始值[${test0.option.value}]`" @click="test0.toggle()" ref="test0"/>
-                <pl-button :label="`hex值[${test1.option.value}]`" @click="test1.toggle()" ref="test1"/>
-                <pl-button :label="`rgb值[${test2.option.value}]`" @click="test2.toggle()" ref="test2"/>
-                <pl-button :label="`rgba值[${test3.option.value}]`" @click="test3.toggle()" ref="test3"/>
+                <pl-button :label="`无初始值[${test0.option.props.value}]`" @click="test0.toggle()" ref="test0"/>
+                <pl-button :label="`hex值[${test1.option.props.value}]`" @click="test1.toggle()" ref="test1"/>
+                <pl-button :label="`rgb值[${test2.option.props.value}]`" @click="test2.toggle()" ref="test2"/>
+                <pl-button :label="`rgba值[${test3.option.props.value}]`" @click="test3.toggle()" ref="test3"/>
             </demo-line>
             <demo-line>
-                <pl-button :label="`hex值，开启透明度[${test4.option.value}]`" @click="test4.toggle()" ref="test4"/>
-                <pl-button :label="`rgb值，开启透明度[${test5.option.value}]`" @click="test5.toggle()" ref="test5"/>
+                <pl-button :label="`hex值，开启透明度[${test4.option.props.value}]`" @click="test4.toggle()" ref="test4"/>
+                <pl-button :label="`rgb值，开启透明度[${test5.option.props.value}]`" @click="test5.toggle()" ref="test5"/>
             </demo-line>
         </demo-row>
         <demo-row title="pl-color-picker">
@@ -52,12 +52,17 @@
                 let result = {
                     service: null,
                     option: {
-                        value: null,
-                        reference: () => this.$refs[name],
-                        on: {
+                        props: {
+                            value: null,
+                            ...option,
+                        },
+                        popperProps: {
+                            reference: () => this.$refs[name],
+                        },
+                        listener: {
                             change: (val) => {
                                 this.$message(val)
-                                result.option.value = val
+                                result.option.props.value = val
                             },
                         },
                         ...option,

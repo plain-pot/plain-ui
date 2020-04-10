@@ -85,6 +85,10 @@ module.exports = {
                 if (!!this.isExist(p)) {
                     return
                 }
+                p = resolve(join(itemPath, 'index.tsx'))
+                if (!!this.isExist(p)) {
+                    return
+                }
                 console.log(`create index file:` + p)
                 fs.writeFileSync(join(itemPath, 'index.js'), `
 import component from './pl-${item}.vue'
@@ -106,6 +110,10 @@ export default plugin(component)
                     ret[item] = p
                 }
                 p = resolve(join(itemPath, 'index.ts'))
+                if (!!this.isExist(p)) {
+                    ret[item] = p
+                }
+                p = resolve(join(itemPath, 'index.tsx'))
                 if (!!this.isExist(p)) {
                     ret[item] = p
                 }

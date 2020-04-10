@@ -1,6 +1,6 @@
 import picker from './pl-color-picker.vue'
 import panel from './pl-color-panel'
-import service from './color-service/index'
+import service from './color-service/index.tsx'
 
 import {plugin} from "../../utils";
 

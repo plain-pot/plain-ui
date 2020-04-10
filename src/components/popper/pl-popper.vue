@@ -361,6 +361,7 @@
              * @date    2020/3/7 21:43
              */
             refresh() {
+                if (!this.referenceEl) return
                 this.popper.refresh()
             },
             /*---------------------------------------handler-------------------------------------------*/
