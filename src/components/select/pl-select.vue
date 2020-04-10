@@ -23,7 +23,7 @@
     >
         <span v-if="multiple" class="pl-multi-select-input-wrapper">
             <span class="pl-multi-select-input-item pl-multi-select-input-take-over">&nbsp;</span>
-            <span class="pl-multi-select-input-item" v-for="(item,index) in collapseTags ? multipleData.slice(0, 3) : multipleData" :key="index">
+            <span class="pl-multi-select-input-item" v-for="(item,index) in (collapseTags ? multipleData.slice(0, 3) : multipleData)" :key="index">
                 <span>{{item.label}}</span>
                 <pl-icon icon="el-icon-close" @click.native.stop.prevent="onClickItemCloseIcon(item,index)"/>
             </span>
@@ -244,12 +244,12 @@
              * @date    2020/1/28 10:55
              */
             multipleData() {
-                if (!this.p_value) return null
+                if (!this.p_value) return []
                 if (this.$plain.utils.typeOf(this.p_value) !== 'array') {
                     console.error('The value of multiple select should be array')
                     return
                 }
-                if (!this.p_data || this.p_data.length === 0) return
+                if (!this.p_data || this.p_data.length === 0) return []
                 return this.p_data.filter(d => this.p_value.indexOf(d.value) > -1)
             },
             /**
