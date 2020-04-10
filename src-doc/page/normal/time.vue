@@ -138,8 +138,7 @@
                 <pl-time-panel v-model="val[19]" max="12:12:12" min="08:08:08"/>
                 <pl-time-panel v-model="val[19]" max="12:12:12" min="08:08:08"/>
             </demo-row>
-
-            <demo-row>
+            <demo-row title="range panel">
                 <demo-row title="range panel:基本用法">
                     <demo-line>
                         start:{{val[20]}}
@@ -165,7 +164,6 @@
                     <pl-time-panel :start.sync="val[22]" :end.sync="val[23]" max="12:12:12" min="08:08:08" range/>
                 </demo-row>
             </demo-row>
-
         </demo-row>
 
     </div>
