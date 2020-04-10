@@ -120,6 +120,54 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-time-panel">
+            <demo-row title="base panel:基本用法">
+                <demo-line>
+                    {{val[18]}}
+                </demo-line>
+                <pl-time-panel v-model="val[18]"/>
+                <pl-time-panel v-model="val[18]"/>
+            </demo-row>
+            <demo-row title="base panel:最大最小值">
+                <demo-line>
+                    max="12:12:12" min="08:08:08"
+                </demo-line>
+                <demo-line>
+                    {{val[19]}}
+                </demo-line>
+                <pl-time-panel v-model="val[19]" max="12:12:12" min="08:08:08"/>
+                <pl-time-panel v-model="val[19]" max="12:12:12" min="08:08:08"/>
+            </demo-row>
+
+            <demo-row>
+                <demo-row title="range panel:基本用法">
+                    <demo-line>
+                        start:{{val[20]}}
+                    </demo-line>
+                    <demo-line>
+                        end:{{val[21]}}
+                    </demo-line>
+                    <pl-time-panel :start.sync="val[20]" :end.sync="val[21]" range/>
+                    <pl-time-panel :start.sync="val[20]" :end.sync="val[21]" range/>
+                </demo-row>
+
+                <demo-row title="range panel:最大最小值">
+                    <demo-line>
+                        max="12:12:12" min="08:08:08"
+                    </demo-line>
+                    <demo-line>
+                        start:{{val[22]}}
+                    </demo-line>
+                    <demo-line>
+                        end:{{val[23]}}
+                    </demo-line>
+                    <pl-time-panel :start.sync="val[22]" :end.sync="val[23]" max="12:12:12" min="08:08:08" range/>
+                    <pl-time-panel :start.sync="val[22]" :end.sync="val[23]" max="12:12:12" min="08:08:08" range/>
+                </demo-row>
+            </demo-row>
+
+        </demo-row>
+
     </div>
 </template>
 
