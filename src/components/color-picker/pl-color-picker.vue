@@ -47,7 +47,7 @@
                 p_focusTimer: 0,
                 p_blurTimer: 0,
 
-                colorService: null,
+                service: null,
                 colorOption: () => {
                     return {
                         props: {
@@ -78,12 +78,16 @@
             }
         },
         beforeDestroy() {
-            if (!!this.colorService) this.colorService.destroy()
+            if (!!this.service) this.service.destroy()
         },
         computed: {
             isOpen() {
-                if (!this.colorService) return false
-                return this.colorService.isOpen
+                if (!this.service) return false
+                return this.service.isOpen
+            },
+            isShow() {
+                if (!this.service) return false
+                return this.service.isShow
             },
         },
         methods: {
@@ -93,22 +97,22 @@
                     return
                 }
 
-                if (!this.colorService) {
-                    this.colorService = await this.$plain.$cs(this.colorOption)
+                if (!this.service) {
+                    this.service = await this.$plain.$cs(this.colorOption)
                 }
-                this.colorService.show()
+                this.service.show()
             },
             async hide() {
-                if (!this.colorService) {
+                if (!this.service) {
                     return
                 }
-                this.colorService.hide()
+                this.service.hide()
             },
             async toggle() {
-                if (!this.colorService) {
+                if (!this.isShow) {
                     this.show()
                 } else {
-                    this.colorService.toggle()
+                    this.hide()
                 }
             },
             /*---------------------------------------utils-------------------------------------------*/

@@ -1,5 +1,4 @@
 import PlainService from "../../service/service";
-import PlColorService from './pl-color-service'
 import Panel from '../pl-color-panel.vue'
 
 export default {
@@ -33,7 +32,7 @@ export default {
 
         $plain.$cs = (option) => {
             if (!controllerService) {
-                controllerService = $plain.newInstance(ColorController, PlColorService)
+                controllerService = $plain.newInstance(ColorController)
             }
             return new ColorAgent(option, controllerService)
         }
