@@ -70,7 +70,7 @@ export default {
         let $plain = Vue.prototype.$plain
         $plain.$cs = (option) => {
             if (!controller) {
-                controller = $plain.newInstance(PlainService.generateController('pl-color-service-controller', PlColorService))
+                controller = $plain.newInstance(PlainService.factory('pl-color-service-controller', PlColorService))
             }
             return new Color(option, controller)
         }
