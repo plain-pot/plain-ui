@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts">
-    import {Cascade} from "./service";
     import panel from './pl-cascade-panel'
     import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {CascadeData} from "./CascadeData";
@@ -62,7 +61,7 @@
         data() {
             const p_inputValue: string = null
 
-            const service: Cascade = null
+            const service = null
             const p_focusTimer: number = 0
             const p_blurTimer: number = 0
             const p_value = this.value
@@ -70,36 +69,45 @@
             const cacheData: { [key: string]: object[] } = {}
 
             const option = () => ({
-                value: this.p_value,
-                reference: this.$el,
-                ...(Object.keys(props).reduce((ret, key) => {
-                    ret[key] = this[key]
-                    return ret
-                }, {})),
-                filterText: this.p_inputValue,
-                getChildren: (...args) => this.p_getChildren(...args),
-                renderContent: (!!this.$scopedSlots.default || !!this.renderContent) ? (h, {node, index}) => {
-                    if (!!this.$scopedSlots.default) return this.$scopedSlots.default({node, index})
-                    if (!!this.renderContent) return this.renderContent(h, {node, index})
-                } : null,
-                on: {
+                props: {
+                    ...(Object.keys(props).reduce((ret, key) => {
+                        ret[key] = this[key]
+                        return ret
+                    }, {})),
+                    value: this.p_value,
+
+                    filterText: this.p_inputValue,
+                    getChildren: (...args) => this.p_getChildren(...args),
+                    renderContent: (!!this.$scopedSlots.default || !!this.renderContent) ? (h, {node, index}) => {
+                        if (!!this.$scopedSlots.default) return this.$scopedSlots.default({node, index})
+                        if (!!this.renderContent) return this.renderContent(h, {node, index})
+                    } : null,
+                },
+                popperProps: {
+                    reference: this.$el,
+                },
+
+                listener: {
                     change: (...args) => {
                         this.emitValue(...args)
                     },
-                    mousedownPopper: async () => {
-                        this.p_focusTimer++
-                        this.p_blurTimer++
-                    },
-                    clickPopper: () => {
-                        this.input.focus()
-                    },
-                    clickItem: (node) => {
+                    'click-item': (node) => {
                         this.emitClickItem(node)
                     },
-                    getChildren: (data) => {
+                    'get-children': (data) => {
                         this.emitGetChildren(data)
                     },
                 },
+                popperListener: {
+                    'mousedown-popper': () => {
+                        this.p_focusTimer++
+                        this.p_blurTimer++
+                    },
+                    'click-popper': () => {
+                        this.input.focus()
+                    },
+
+                }
             })
 
             return {
@@ -116,12 +124,17 @@
             if (!!this.service) this.service.destroy()
         },
         computed: {
-            isShow() {
-                return !!this.service && this.service.isShow()
+            isShow: {
+                cache: false,
+                get() {
+                    return !!this.service && this.service.isShow
+                },
             },
-            isOpen() {
-                if (!this.service) return false
-                return this.service.isOpen()
+            isOpen: {
+                cache: false,
+                get() {
+                    return !!this.service && this.service.isOpen
+                },
             },
             classes() {
                 return {
@@ -178,9 +191,9 @@
                 if (!this.isEditable) {
                     return
                 }
+                if (this.isShow) return
 
                 this.p_inputValue = null
-
                 if (!this.service) {
                     this.service = await this.$plain.$cascade(this.option)
                 }
@@ -364,8 +377,14 @@
         }
 
         .pl-cascade-service-popper {
+            .plain-popper-content {
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+
             .pl-cascade-panel {
                 height: 100%;
+                border: none !important;
             }
         }
 

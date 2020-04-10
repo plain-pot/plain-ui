@@ -133,7 +133,8 @@ function service({
                      mixins,
                      externalPopperListener,
                      externalListener,
-                     emitters
+                     emitters,
+                     defaultPopperProps,
                  }: {
     name: string,
     content: (h: Function, Service: any) => any,
@@ -141,11 +142,13 @@ function service({
     externalListener?: { [key: string]: Function },
     externalPopperListener?: { [key: string]: Function },
     emitters?: { [key: string]: Function },
+    defaultPopperProps?: { [key: string]: any },
 }) {
 
     externalPopperListener = externalPopperListener || {}
     externalListener = externalListener || {}
     emitters = emitters || {}
+    defaultPopperProps = defaultPopperProps || {}
 
     return {
         name: "pl-color-service",
@@ -181,6 +184,7 @@ function service({
                 }
 
                 let {props, popperProps, listener, popperListener, beforeShow, beforeHide} = option
+
                 listener = listener || {}
 
                 const contentListener = Object.keys(emitters).reduce((ret, key) => {
@@ -208,6 +212,7 @@ function service({
 
                 popperProps = {
                     ...DEFAULT_POPPER_OPTION,
+                    ...defaultPopperProps,
                     ...(popperProps || {}),
                 }
 

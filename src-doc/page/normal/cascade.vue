@@ -405,20 +405,24 @@
                 let result = {
                     service: null,
                     option: {
-                        data: () => this.treeData,
-                        labelField: 'name',
-                        keyField: 'id',
-                        childrenField: 'subs',
+                        props: {
+                            data: () => this.treeData,
+                            labelField: 'name',
+                            keyField: 'id',
+                            childrenField: 'subs',
 
-                        value: null,
-                        reference: () => this.$refs[name],
-                        on: {
+                            value: null,
+                            ...option,
+                        },
+                        popperProps: {
+                            reference: () => this.$refs[name],
+                        },
+                        listener: {
                             change: (val) => {
                                 this.$message(val.toString())
-                                result.option.value = val
+                                result.option.props.value = val
                             },
                         },
-                        ...option,
                     },
                     toggle: async () => {
                         if (!result.service) {
