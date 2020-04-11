@@ -175,6 +175,15 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-time">
+            <deon-row title="基本用法">
+                <demo-line>
+                    {{val[30]}}
+                </demo-line>
+                <pl-time v-model="val[30]"/>
+            </deon-row>
+        </demo-row>
+
     </div>
 </template>
 

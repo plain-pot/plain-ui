@@ -1,18 +1,177 @@
 <template>
-    <div class="pl-time">
-    </div>
+    <pl-input ref="input"
+              class="pl-time"
+              :value="p_inputValue"
+              suffixIcon="'el-icon-time'"
+              clearIcon
+              :isFocus="isOpen"
+
+              :clearHandler="clearHandler"
+              @click-input="onClickInput"
+              @change="onInputChange"
+              @keydown.enter="onEnter"
+              @keydown.esc="onEsc"
+              @blur="onBlur"
+              @focus="onFocus"
+    />
 </template>
 
-<script>
+<script lang="ts">
+    import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {TimePublicProps} from "./subs";
+    import {Agent, AgentMixin} from "../service/service";
+
     export default {
         name: "pl-time",
+        mixins: [
+            AgentMixin,
+            EmitMixin,
+            EditMixin,
+            RefsMixinFactory({
+                input: Object
+            }),
+        ],
         props: {
-            buttonBar: {type: [Function, Boolean]},
+            value: {type: String},
+            start: {type: String},
+            end: {type: String},
+            range: {type: Boolean},
+            ...TimePublicProps,
+        },
+        emitters: {
+            emitInput: Function,
+            emitBlur: Function,
+            emitFocus: Function,
+            emitUpdateStart: Function,
+            emitUpdateEnd: Function,
         },
         data() {
-            return {}
+
+            const p_value: string = this.value
+            const p_start: string = this.start
+            const p_end: string = this.end
+
+            const p_inputValue = p_value
+            const p_focusTimer: number = 0
+            const p_blurTimer: number = 0
+
+            const service: Agent = null
+            const serviceOption = () => ({
+                props: {
+                    value: this.p_value,
+                    start: this.p_start,
+                    end: this.p_end,
+                    range: this.p_range,
+                    ...(Object.keys(TimePublicProps).reduce((ret, key) => {
+                        ret[key] = this[key]
+                        return ret
+                    }, {}))
+                },
+                popperProps: {
+                    reference: this.$el,
+                },
+                listener: {
+                    change: (val, type) => {
+                        /*this.p_inputValue = val
+                        this.emitValue(val)*/
+                        if (!this.range) {
+                            this.p_value = val
+                        } else {
+                            if (type === 'start') {
+                                this.p_start = val
+                                this.emitUpdateStart(val)
+                            } else {
+                                this.p_end = val
+                                this.emitUpdateEnd(val)
+                            }
+                        }
+                    },
+                },
+                popperListener: {
+                    'mousedown-popper': async () => {
+                        this.p_focusTimer++
+                        this.p_blurTimer++
+                    },
+                    'click-popper': () => {
+                        this.input.focus()
+                    },
+                },
+            })
+
+            return {
+                p_start,
+                p_end,
+                p_inputValue,
+                p_focusTimer,
+                p_blurTimer,
+                service,
+                serviceOption,
+            }
         },
-        methods: {},
+        beforeDestroy() {
+            if (!!this.service) this.service.destroy()
+        },
+        computed: {
+            isOpen() {
+                if (!this.service) return false
+                return this.service.isOpen
+            },
+            isShow() {
+                if (!this.service) return false
+                return this.service.isShow
+            },
+        },
+        methods: {
+            async show() {
+                if (!this.isEditable) {
+                    return
+                }
+
+                if (!this.service) {
+                    this.service = await this.$plain.$time(this.serviceOption)
+                }
+                this.service.show()
+            },
+            async hide() {
+                if (!this.service) {
+                    return
+                }
+                this.service.hide()
+            },
+            async toggle() {
+                if (!this.isShow) {
+                    this.show()
+                } else {
+                    this.hide()
+                }
+            },
+
+            /*---------------------------------------handler-------------------------------------------*/
+            onClickInput() {
+                this.toggle()
+            },
+            onEsc() {
+                this.hide()
+            },
+            onBlur() {
+                if (this.p_blurTimer === 0) {
+                    this.hide()
+                    this.emitBlur()
+                } else {
+                    this.p_blurTimer--
+                }
+            },
+            onFocus() {
+                if (this.p_focusTimer === 0) {
+                    this.emitFocus()
+                } else {
+                    this.p_focusTimer--
+                }
+            },
+            clearHandler(){
+
+            },
+        },
     }
 </script>
 
