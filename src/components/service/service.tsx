@@ -38,7 +38,7 @@ class AgentService {
 }
 
 export class Agent {
-    service: AgentService
+    service: AgentService = null
 
     constructor(public option: AgentOption, public controller) {
     }
@@ -106,17 +106,15 @@ export const AgentMixin = {
         if (!!this.service) this.service.destroy()
     },
     computed: {
-        isShow: {
-            cache: false,
-            get() {
-                return !!this.service && this.service.isShow
-            },
+        isShow(): boolean {
+            if (!this.service) return false
+            if (!this.service.service) return false
+            return this.service.service.isShow
         },
-        isOpen: {
-            cache: false,
-            get() {
-                return !!this.service && this.service.isOpen
-            },
+        isOpen(): boolean {
+            if (!this.service) return false
+            if (!this.service.service) return false
+            return this.service.service.isOpen
         },
     },
     methods: {
@@ -142,6 +140,9 @@ export const AgentMixin = {
             this.isShow ? this.hide() : this.show()
         },
         /*---------------------------------------handler-------------------------------------------*/
+        onClickInput() {
+            this.toggle()
+        },
         onBlur() {
             if (this.p_blurTimer === 0) {
                 this.hide()
@@ -155,6 +156,16 @@ export const AgentMixin = {
                 this.emitFocus()
             } else {
                 this.p_focusTimer--
+            }
+        },
+        onEsc() {
+            this.hide()
+        },
+        async onEnter(e) {
+            e.stopPropagation()
+            e.preventDefault()
+            if (!this.isShow) {
+                this.show()
             }
         },
     },

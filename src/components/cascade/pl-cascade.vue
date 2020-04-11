@@ -103,7 +103,9 @@
                     'click-popper': () => {
                         this.input.focus()
                     },
-
+                    'hide': () => {
+                        this.p_inputValue = null
+                    },
                 }
             })
 
@@ -160,18 +162,6 @@
         },
         methods: {
             /*---------------------------------------methods-------------------------------------------*/
-            async show() {
-                if (!this.isEditable) {
-                    return
-                }
-                if (this.isShow) return
-
-                this.p_inputValue = null
-                if (!this.service) {
-                    this.service = await this.CreateService(this.serviceOption)
-                }
-                this.service.show()
-            },
             /*---------------------------------------utils-------------------------------------------*/
             CreateService(option) {
                 return this.$plain.$cascade(option)
@@ -218,23 +208,10 @@
                 this.p_inputValue = null
                 this.input.focus()
             },
-            onClickInput() {
-                this.toggle()
-            },
             onInputChange(val) {
                 this.p_inputValue = val
 
                 if (!this.isShow && !this.$plain.utils.ie) {
-                    this.show()
-                }
-            },
-            onEsc() {
-                this.hide()
-            },
-            async onEnter(e) {
-                e.stopPropagation()
-                e.preventDefault()
-                if (!this.isShow) {
                     this.show()
                 }
             },
