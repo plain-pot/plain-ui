@@ -100,8 +100,8 @@
                 <demo-line>
                     <pl-button mode="text" label="clear" @click="()=>{$set(val,14,null);$set(val,15,null)}"/>
                 </demo-line>
-                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>
-                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]"/>
+                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]" valueFormat="HHmmss"/>
+                <pl-time-range-panel :start.sync="val[14]" :end.sync="val[15]" valueFormat="HHmmss"/>
             </demo-row>
 
             <demo-row title="最大最小值">
@@ -177,19 +177,33 @@
 
         <demo-row title="pl-time">
             <demo-row title="基本用法">
-                <demo-line>
-                    {{val[30]}}
-                </demo-line>
                 <div>
                     <pl-input/>
                 </div>
                 <div>
-                    <pl-time v-model="val[30]"/>
+                    <pl-time/>
                 </div>
                 <div>
-                    <pl-time range :start.sync="val[31]" :end.sync="val[32]"/>
+                    <pl-time range/>
                 </div>
             </demo-row>
+
+            <demo-row title="格式化显示值">
+                <demo-line>
+                    {{val[33]}}
+                </demo-line>
+                <demo-row title="单值">
+                    <pl-time v-model="val[33]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        <div>start:{{val[34]}}</div>
+                        <div>end:{{val[35]}}</div>
+                    </demo-line>
+                    <pl-time range :start.sync="val[34]" :end.sync="val[35]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss"/>
+                </demo-row>
+            </demo-row>
+
         </demo-row>
 
     </div>

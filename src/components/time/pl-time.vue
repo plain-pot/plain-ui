@@ -16,12 +16,12 @@
     >
         <div class="pl-time-inner">
             <template v-if="!range">
-                <pl-time-input-inner :value="p_value"/>
+                <pl-time-input-inner :value="formatData.value.displayString"/>
             </template>
             <template v-else>
-                <pl-time-input-inner width="100" :value="p_start"/>
+                <pl-time-input-inner width="100" :value="formatData.start.displayString"/>
                 <span>至</span>
-                <pl-time-input-inner width="100" :value="p_end"/>
+                <pl-time-input-inner width="100" :value="formatData.end.displayString"/>
             </template>
         </div>
     </pl-input>
@@ -32,6 +32,7 @@
     import {TimePublicProps} from "./subs";
     import {Agent, AgentMixin} from "../service/service";
     import PlTimeInputInner from "./pl-time-input-inner.vue";
+    import {PlainDate} from "../../utils/PlainDate";
 
     export default {
         name: "pl-time",
@@ -122,6 +123,15 @@
         computed: {
             inputValue() {
                 return !this.range ? this.p_value : ((this.p_start || '') || (this.p_end || ''))
+            },
+            formatData() {
+                const value = new PlainDate(this.p_value, this.displayFormat, this.valueFormat)
+                const start = new PlainDate(this.p_start, this.displayFormat, this.valueFormat)
+                const end = new PlainDate(this.p_end, this.displayFormat, this.valueFormat)
+
+                return {
+                    value, start, end
+                }
             },
         },
         methods: {

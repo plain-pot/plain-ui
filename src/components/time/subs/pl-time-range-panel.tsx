@@ -54,7 +54,7 @@ export default {
         },
         binding() {
             const publicProps = Object.keys(TimePublicProps).reduce((ret, key) => {
-                ret[key] = this.key
+                ret[key] = this[key]
                 return ret
             }, {})
 
