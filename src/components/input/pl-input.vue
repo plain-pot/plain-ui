@@ -135,11 +135,6 @@
         },
         computed: {
             classes() {
-                console.log('pl input', {
-                    value:this.value,
-                    p_value: this.p_value,
-                    placeValue: this.placeValue
-                })
                 return [
                     `pl-input-shape-${this.p_shape || 'fillet'}`,
                     `pl-input-size-${this.p_size || 'normal'}`,
@@ -194,12 +189,15 @@
                         ...this.nativeProps,
                     },
                     on: {
-                        input: e => {
-                            /*ie 下不知道为什么页面初始化的之后这里默认就执行了一次，这里判断绕过这个问题*/
-                            if (e.target === document.activeElement) {
-                                this.onInput(e)
-                            }
-                        },
+                        // 发现一个非常奇怪的现象，div.pl-input-inner 里面的input、派发的input事件，居然也能够在 div.pl-input-inner这个div节点上监听到。神奇
+                        ...(!this.$slots.default ? {
+                            input: e => {
+                                /*ie 下不知道为什么页面初始化的之后这里默认就执行了一次，这里判断绕过这个问题*/
+                                if (e.target === document.activeElement) {
+                                    this.onInput(e)
+                                }
+                            },
+                        } : {}),
                         click: this.emitClickInput,
                         focus: this.emitFocus,
                         blur: this.emitBlur,

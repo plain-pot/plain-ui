@@ -132,7 +132,6 @@
         },
         computed: {
             inputValue() {
-                console.log('inputValue', ((this.p_start || '') + (this.p_end || '')))
                 return !this.range ? this.p_value : ((this.p_start || '') + (this.p_end || ''))
             },
             formatData() {
