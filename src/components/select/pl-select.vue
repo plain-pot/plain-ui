@@ -4,6 +4,7 @@
             class="pl-select-input"
             :class="{'pl-multi-select-input':!!multiple,'pl-select-input-show':isShow}"
             :value="multiple?multipleInputValue: ((isShow&&filterable)?p_inputValue:inputValue)"
+            :placeValue="inputValue"
             :placeholder="p_placeholder"
             :isFocus="isOpen"
             :clearHandler="onClickClearIcon"
