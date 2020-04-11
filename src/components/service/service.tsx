@@ -344,8 +344,10 @@ function service({
                                         this.openFlag = val
                                         break
                                     case 'close':
-                                        this.agent.service = null
-                                        this.agent = null
+                                        if (!!this.agent) {
+                                            this.agent.service = null
+                                            this.agent = null
+                                        }
                                         break
                                     case 'click-body':
                                         if (!!this.isShow) {

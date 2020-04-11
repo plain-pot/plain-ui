@@ -106,6 +106,14 @@ export class PlainDate {
         }
     }
 
+    setDisplayValue(value: string) {
+        if (!value) {
+            this.dateObject = null
+        } else {
+            this.dateObject = PlainDate.parse(value, this.displayFormat)
+        }
+    }
+
     setYear(year: number): void {
         if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
@@ -171,6 +179,21 @@ export class PlainDate {
             return -1
         }
         return this.greaterThan(plainDate, compareMode) * -1
+    }
+
+    format(dateObject: Date): string {
+        if (!dateObject) return null
+        return PlainDate.format(dateObject, this.displayFormat)
+    }
+
+    parseDisplayString(displayString: string): Date {
+        if (!displayString) return null
+        return PlainDate.parse(displayString, this.displayFormat)
+    }
+
+    parseValueString(valueString: string): Date {
+        if (!valueString) return null
+        return PlainDate.parse(valueString, this.valueFormat)
     }
 
     static defaultDate(): Date {

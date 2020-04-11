@@ -1,6 +1,6 @@
 <template>
-    <pl-input ref="input"
-              class="pl-time"
+    <pl-input class="pl-time"
+              :class="{'pl-time-range':range}"
               :value="inputValue"
               suffixIcon="el-icon-time"
               clearIcon
@@ -16,12 +16,23 @@
     >
         <div class="pl-time-inner">
             <template v-if="!range">
-                <pl-time-input-inner :value="formatData.value.displayString"/>
+                <pl-time-input-inner :value="formatData.value.displayString"
+                                     @change="val=>onInputChange(val,'value')"
+                                     :displayFormat="displayFormat"
+                                     ref="valueInput"/>
             </template>
             <template v-else>
-                <pl-time-input-inner width="100" :value="formatData.start.displayString"/>
+                <pl-time-input-inner width="100"
+                                     :value="formatData.start.displayString"
+                                     @change="val=>onInputChange(val,'start')"
+                                     :displayFormat="displayFormat"
+                                     ref="startInput"/>
                 <span>至</span>
-                <pl-time-input-inner width="100" :value="formatData.end.displayString"/>
+                <pl-time-input-inner width="100"
+                                     :value="formatData.end.displayString"
+                                     @change="val=>onInputChange(val,'end')"
+                                     :displayFormat="displayFormat"
+                                     ref="endInput"/>
             </template>
         </div>
     </pl-input>
@@ -42,7 +53,9 @@
             EmitMixin,
             EditMixin,
             RefsMixinFactory({
-                input: Object
+                valueInput: Object,
+                startInput: Object,
+                endInput: Object,
             }),
         ],
         props: {
@@ -65,7 +78,6 @@
             const p_start: string = this.start
             const p_end: string = this.end
 
-            const p_inputValue = p_value
             const serviceOption = () => ({
                 props: {
                     value: this.p_value,
@@ -82,8 +94,6 @@
                 },
                 listener: {
                     change: (val, type) => {
-                        /*this.p_inputValue = val
-                        this.emitValue(val)*/
                         if (!this.range) {
                             this.p_value = val
                             this.emitInput(val)
@@ -104,10 +114,11 @@
                         this.p_blurTimer++
                     },
                     'click-popper': () => {
-                        this.input.focus()
-                    },
-                    'hide': () => {
-
+                        if (!this.range) {
+                            this.valueInput.focus()
+                        } else {
+                            this.startInput.focus()
+                        }
                     },
                 },
             })
@@ -116,13 +127,13 @@
                 p_value,
                 p_start,
                 p_end,
-                p_inputValue,
                 serviceOption,
             }
         },
         computed: {
             inputValue() {
-                return !this.range ? this.p_value : ((this.p_start || '') || (this.p_end || ''))
+                console.log('inputValue', ((this.p_start || '') + (this.p_end || '')))
+                return !this.range ? this.p_value : ((this.p_start || '') + (this.p_end || ''))
             },
             formatData() {
                 const value = new PlainDate(this.p_value, this.displayFormat, this.valueFormat)
@@ -156,6 +167,68 @@
                     this.toggle()
                 } else {
                     this.show()
+                }
+            },
+            onInputChange(val, type) {
+                const {value, start, end} = this.formatData as { value: PlainDate, start: PlainDate, end: PlainDate }
+                switch (type) {
+                    case 'value':
+
+                        if (!val) {
+                            value.setValue(null)
+                            this.p_value = null
+                            this.emitInput(this.p_value)
+                            return;
+                        }
+                        if (value.format(value.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        value.setDisplayValue(val)
+                        this.p_value = value.valueString
+                        this.emitInput(this.p_value)
+
+                        break
+                    case 'start':
+
+                        if (!val) {
+                            return;
+                        }
+                        if (start.format(start.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        start.setDisplayValue(val)
+                        this.p_start = start.valueString
+                        this.emitUpdateStart(this.p_start)
+
+                        if (end.isNull || start.greaterThan(end, PlainDate.CompareMode.time) > 0) {
+                            this.p_end = this.p_start
+                            this.emitUpdateEnd(this.p_start)
+                        }
+
+                        break
+                    case 'end':
+
+                        if (!val) {
+                            return;
+                        }
+                        if (end.format(end.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        end.setDisplayValue(val)
+                        this.p_end = end.valueString
+                        this.emitUpdateEnd(this.p_end)
+
+                        if (start.isNull || end.lessThan(start, PlainDate.CompareMode.time) > 0) {
+                            this.p_start = this.p_end
+                            this.emitUpdateStart(this.p_end)
+                        }
+
+                        console.log(this.inputValue, !!this.inputValue)
+
+                        break
                 }
             },
         },
@@ -238,6 +311,20 @@
 
                 & > span {
                     color: $icc;
+                }
+
+                .pl-time-input-inner {
+                    border: none;
+                    outline: none;
+                    width: 90px;
+                    height: 100%;
+                    background: transparent;
+                }
+            }
+
+            &.pl-time-range {
+                .pl-time-input-inner {
+                    text-align: center;
                 }
             }
 

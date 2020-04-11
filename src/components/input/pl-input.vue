@@ -135,6 +135,11 @@
         },
         computed: {
             classes() {
+                console.log('pl input', {
+                    value:this.value,
+                    p_value: this.p_value,
+                    placeValue: this.placeValue
+                })
                 return [
                     `pl-input-shape-${this.p_shape || 'fillet'}`,
                     `pl-input-size-${this.p_size || 'normal'}`,
