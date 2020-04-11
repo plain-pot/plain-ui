@@ -1,10 +1,11 @@
 <template>
     <pl-input ref="input"
               class="pl-time"
-              :value="p_value"
+              :value="inputValue"
               suffixIcon="el-icon-time"
               clearIcon
               :isFocus="isOpen"
+              :width="null"
 
               :clearHandler="clearHandler"
               @click-input="onClickInput"
@@ -12,16 +13,29 @@
               @keydown.esc="onEsc"
               @blur="onBlur"
               @focus="onFocus"
-    />
+    >
+        <div class="pl-time-inner">
+            <template v-if="!range">
+                <pl-time-input-inner :value="p_value"/>
+            </template>
+            <template v-else>
+                <pl-time-input-inner width="100" :value="p_start"/>
+                <span>至</span>
+                <pl-time-input-inner width="100" :value="p_end"/>
+            </template>
+        </div>
+    </pl-input>
 </template>
 
 <script lang="ts">
     import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {TimePublicProps} from "./subs";
     import {Agent, AgentMixin} from "../service/service";
+    import PlTimeInputInner from "./pl-time-input-inner.vue";
 
     export default {
         name: "pl-time",
+        components: {PlTimeInputInner},
         mixins: [
             AgentMixin,
             EmitMixin,
@@ -56,7 +70,7 @@
                     value: this.p_value,
                     start: this.p_start,
                     end: this.p_end,
-                    range: this.p_range,
+                    range: this.range,
                     ...(Object.keys(TimePublicProps).reduce((ret, key) => {
                         ret[key] = this[key]
                         return ret
@@ -105,6 +119,11 @@
                 serviceOption,
             }
         },
+        computed: {
+            inputValue() {
+                return !this.range ? this.p_value : ((this.p_start || '') || (this.p_end || ''))
+            },
+        },
         methods: {
             /*---------------------------------------utils-------------------------------------------*/
             CreateService(option) {
@@ -120,6 +139,13 @@
                     this.p_end = null
                     this.emitUpdateStart(this.p_start)
                     this.emitUpdateEnd(this.p_end)
+                }
+            },
+            onClickInput() {
+                if (!this.range) {
+                    this.toggle()
+                } else {
+                    this.show()
                 }
             },
         },
@@ -190,6 +216,23 @@
                 & > .pl-time-base-panel, & > .pl-time-range-panel {
                     border: none;
                 }
+            }
+        }
+
+
+        .pl-time {
+            .pl-time-inner {
+                display: flex;
+                align-items: stretch;
+                height: 100%;
+
+                & > span {
+                    color: $icc;
+                }
+            }
+
+            .pl-input-inner {
+                width: initial !important;
             }
         }
     }

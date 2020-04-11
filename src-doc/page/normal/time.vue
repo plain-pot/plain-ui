@@ -176,12 +176,20 @@
         </demo-row>
 
         <demo-row title="pl-time">
-            <deon-row title="基本用法">
+            <demo-row title="基本用法">
                 <demo-line>
                     {{val[30]}}
                 </demo-line>
-                <pl-time v-model="val[30]"/>
-            </deon-row>
+                <div>
+                    <pl-input/>
+                </div>
+                <div>
+                    <pl-time v-model="val[30]"/>
+                </div>
+                <div>
+                    <pl-time range :start.sync="val[31]" :end.sync="val[32]"/>
+                </div>
+            </demo-row>
         </demo-row>
 
     </div>
