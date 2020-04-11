@@ -24,6 +24,7 @@
     import panel from './pl-cascade-panel'
     import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {CascadeData} from "./CascadeData";
+    import {AgentMixin} from "../service/service";
 
     const props = {
         ...panel.props,
@@ -39,6 +40,7 @@
         name: "pl-cascade",
         props,
         mixins: [
+            AgentMixin,
             EmitMixin,
             EditMixin,
             RefsMixinFactory({
@@ -60,15 +62,10 @@
         },
         data() {
             const p_inputValue: string = null
-
-            const service = null
-            const p_focusTimer: number = 0
-            const p_blurTimer: number = 0
             const p_value = this.value
-
             const cacheData: { [key: string]: object[] } = {}
 
-            const option = () => ({
+            const serviceOption = () => ({
                 props: {
                     ...(Object.keys(props).reduce((ret, key) => {
                         ret[key] = this[key]
@@ -112,30 +109,12 @@
 
             return {
                 p_inputValue,
-                service,
-                p_focusTimer,
-                p_blurTimer,
+                serviceOption,
                 p_value,
-                option,
                 cacheData,
             }
         },
-        beforeDestroy() {
-            if (!!this.service) this.service.destroy()
-        },
         computed: {
-            isShow: {
-                cache: false,
-                get() {
-                    return !!this.service && this.service.isShow
-                },
-            },
-            isOpen: {
-                cache: false,
-                get() {
-                    return !!this.service && this.service.isOpen
-                },
-            },
             classes() {
                 return {
                     'pl-cascade-open': this.isShow,
@@ -180,12 +159,6 @@
             },
         },
         methods: {
-            clearHandler() {
-                this.emitValue(null)
-                this.p_inputValue = null
-                this.input.focus()
-            },
-
             /*---------------------------------------methods-------------------------------------------*/
             async show() {
                 if (!this.isEditable) {
@@ -195,20 +168,14 @@
 
                 this.p_inputValue = null
                 if (!this.service) {
-                    this.service = await this.$plain.$cascade(this.option)
+                    this.service = await this.CreateService(this.serviceOption)
                 }
                 this.service.show()
             },
-            async hide() {
-                if (!this.service) {
-                    return
-                }
-                this.service.hide()
-            },
-            async toggle() {
-                this.isShow ? this.hide() : this.show()
-            },
             /*---------------------------------------utils-------------------------------------------*/
+            CreateService(option) {
+                return this.$plain.$cascade(option)
+            },
             emitValue(...args) {
                 this.p_value = args[0]
                 this.emitInput(...args)
@@ -246,7 +213,11 @@
                 }
             },
             /*---------------------------------------handler-------------------------------------------*/
-
+            clearHandler() {
+                this.emitValue(null)
+                this.p_inputValue = null
+                this.input.focus()
+            },
             onClickInput() {
                 this.toggle()
             },
@@ -265,21 +236,6 @@
                 e.preventDefault()
                 if (!this.isShow) {
                     this.show()
-                }
-            },
-            onBlur() {
-                if (this.p_blurTimer === 0) {
-                    this.hide()
-                    this.emitBlur()
-                } else {
-                    this.p_blurTimer--
-                }
-            },
-            onFocus() {
-                if (this.p_focusTimer === 0) {
-                    this.emitFocus()
-                } else {
-                    this.p_focusTimer--
                 }
             },
         },

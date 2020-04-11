@@ -37,7 +37,7 @@ class AgentService {
     unbind: (agent: Agent) => void
 }
 
-class Agent {
+export class Agent {
     service: AgentService
 
     constructor(public option: AgentOption, public controller) {
@@ -87,6 +87,77 @@ class Agent {
             this.service.unbind(this)
         }
     }
+}
+
+export const AgentMixin = {
+    data() {
+        const service: Agent = null
+
+        const p_focusTimer: number = 0
+        const p_blurTimer: number = 0
+
+        return {
+            service,
+            p_focusTimer,
+            p_blurTimer,
+        }
+    },
+    beforeDestroy() {
+        if (!!this.service) this.service.destroy()
+    },
+    computed: {
+        isShow: {
+            cache: false,
+            get() {
+                return !!this.service && this.service.isShow
+            },
+        },
+        isOpen: {
+            cache: false,
+            get() {
+                return !!this.service && this.service.isOpen
+            },
+        },
+    },
+    methods: {
+        /*---------------------------------------methods-------------------------------------------*/
+        async show() {
+            if (!this.isEditable) {
+                return
+            }
+            if (this.isShow) return
+
+            if (!this.service) {
+                this.service = await this.CreateService(this.serviceOption)
+            }
+            this.service.show()
+        },
+        async hide() {
+            if (!this.service) {
+                return
+            }
+            this.service.hide()
+        },
+        async toggle() {
+            this.isShow ? this.hide() : this.show()
+        },
+        /*---------------------------------------handler-------------------------------------------*/
+        onBlur() {
+            if (this.p_blurTimer === 0) {
+                this.hide()
+                this.emitBlur()
+            } else {
+                this.p_blurTimer--
+            }
+        },
+        onFocus() {
+            if (this.p_focusTimer === 0) {
+                this.emitFocus()
+            } else {
+                this.p_focusTimer--
+            }
+        },
+    },
 }
 
 /**
