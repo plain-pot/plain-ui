@@ -322,6 +322,9 @@
              * @date    2020/3/23 19:33
              */
             scroll(point: { x?: number, y?: number }, time: number | null = null) {
+
+                if (!this.wrapper) return
+
                 // if (point.x != null) this.wrapper!.scrollLeft = point.x
                 // if (point.y != null) this.wrapper!.scrollTop = point.y
                 if (time == null) {
