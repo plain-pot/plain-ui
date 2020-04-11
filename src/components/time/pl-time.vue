@@ -1,14 +1,13 @@
 <template>
     <pl-input ref="input"
               class="pl-time"
-              :value="p_inputValue"
-              suffixIcon="'el-icon-time'"
+              :value="p_value"
+              suffixIcon="el-icon-time"
               clearIcon
               :isFocus="isOpen"
 
               :clearHandler="clearHandler"
               @click-input="onClickInput"
-              @change="onInputChange"
               @keydown.enter="onEnter"
               @keydown.esc="onEsc"
               @blur="onBlur"
@@ -52,10 +51,6 @@
             const p_end: string = this.end
 
             const p_inputValue = p_value
-            const p_focusTimer: number = 0
-            const p_blurTimer: number = 0
-
-            const service: Agent = null
             const serviceOption = () => ({
                 props: {
                     value: this.p_value,
@@ -76,6 +71,7 @@
                         this.emitValue(val)*/
                         if (!this.range) {
                             this.p_value = val
+                            this.emitInput(val)
                         } else {
                             if (type === 'start') {
                                 this.p_start = val
@@ -95,81 +91,36 @@
                     'click-popper': () => {
                         this.input.focus()
                     },
+                    'hide': () => {
+
+                    },
                 },
             })
 
             return {
+                p_value,
                 p_start,
                 p_end,
                 p_inputValue,
-                p_focusTimer,
-                p_blurTimer,
-                service,
                 serviceOption,
             }
         },
-        beforeDestroy() {
-            if (!!this.service) this.service.destroy()
-        },
-        computed: {
-            isOpen() {
-                if (!this.service) return false
-                return this.service.isOpen
-            },
-            isShow() {
-                if (!this.service) return false
-                return this.service.isShow
-            },
-        },
         methods: {
-            async show() {
-                if (!this.isEditable) {
-                    return
-                }
-
-                if (!this.service) {
-                    this.service = await this.$plain.$time(this.serviceOption)
-                }
-                this.service.show()
+            /*---------------------------------------utils-------------------------------------------*/
+            CreateService(option) {
+                return this.$plain.$time(option)
             },
-            async hide() {
-                if (!this.service) {
-                    return
-                }
-                this.service.hide()
-            },
-            async toggle() {
-                if (!this.isShow) {
-                    this.show()
-                } else {
-                    this.hide()
-                }
-            },
-
             /*---------------------------------------handler-------------------------------------------*/
-            onClickInput() {
-                this.toggle()
-            },
-            onEsc() {
-                this.hide()
-            },
-            onBlur() {
-                if (this.p_blurTimer === 0) {
-                    this.hide()
-                    this.emitBlur()
+            clearHandler() {
+                if (!this.range) {
+                    this.p_value = null
+                    this.emitInput(this.p_value)
                 } else {
-                    this.p_blurTimer--
+                    this.p_start = null
+                    this.p_end = null
+                    this.emitUpdateStart(this.p_start)
+                    this.emitUpdateEnd(this.p_end)
                 }
-            },
-            onFocus() {
-                if (this.p_focusTimer === 0) {
-                    this.emitFocus()
-                } else {
-                    this.p_focusTimer--
-                }
-            },
-            clearHandler(){
-
             },
         },
     }
