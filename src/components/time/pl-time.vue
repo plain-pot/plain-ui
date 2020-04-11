@@ -72,5 +72,15 @@
                 }
             }
         }
+
+        .pl-time-service-popper {
+            .plain-popper-content {
+                padding: 0 !important;
+
+                & > .pl-time-base-panel, & > .pl-time-range-panel {
+                    border: none;
+                }
+            }
+        }
     }
 </style>

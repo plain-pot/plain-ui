@@ -103,6 +103,9 @@
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.onWindowResize)
+            if (!!this.cancelAnimate) {
+                cancelAnimationFrame(this.cancelAnimate)
+            }
 
             if (!!this.plPopper) {
                 this.plPopper.$off('open', this.popperHandler.open)

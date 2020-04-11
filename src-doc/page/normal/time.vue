@@ -166,6 +166,15 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="time service">
+            <demo-row title="基本用法">
+                <pl-button label="basic" ref="basic" @click="basic.toggle()"/>
+            </demo-row>
+            <demo-row title="事件范围">
+                <pl-button label="range" ref="range" @click="range.toggle()"/>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
@@ -174,6 +183,53 @@
         name: "demo-time",
         props: {},
         data() {
+
+            const newData = (name, option, adjust) => {
+                const result = {
+                    service: null,
+                    option: {
+                        props: {
+                            value: null,
+                            ...(option || {}),
+                        },
+                        popperProps: {
+                            reference: () => this.$refs[name]
+                        },
+                        listener: {
+                            change: (val) => {
+                                this.$notice(val)
+                                result.option.props.value = val
+                            },
+                        },
+                    },
+                    toggle: async () => {
+                        if (!result.service) {
+                            result.service = await this.$plain.$time(result.option)
+                        }
+                        result.service.toggle()
+                    },
+                }
+                if (!!adjust) adjust(result)
+                return result
+            }
+
+            const basic = new newData('basic')
+            const range = new newData('range', {
+                range: true,
+            }, (data) => {
+                data.option.props.start = null
+                data.option.props.end = null
+                data.option.listener.change = (val, type) => {
+                    if (type === 'start') {
+                        data.option.props.start = val
+                    } else {
+                        data.option.props.end = val
+                    }
+                    this.$notice(`${type}:${val}`)
+                }
+
+            })
+
             return {
                 val: {
                     6: '20:15:10',
@@ -194,6 +250,9 @@
                         return options
                     }
                 },
+
+                basic,
+                range,
             }
         },
         methods: {
