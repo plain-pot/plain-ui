@@ -16,6 +16,7 @@
         ],
         props: {
             value: {type: String},
+            placeValue: {},
 
             width: {type: [Number, String], default: null,},    // 输入框默认宽度
             minHeight: {type: [Number, String], default: 100},   // 文本域最小高度
@@ -146,7 +147,7 @@
                         'pl-input-prefix': !!this.prefixIcon,
                         'pl-input-suffix': !!this.suffixIcon || this.isLoading,
                         'pl-input-clear': !!this.clearIcon,
-                        'pl-input-empty': !this.p_value,
+                        'pl-input-empty': !this.p_value && !this.placeValue,
                         'pl-input-focus': this.isFocus,
                         'pl-input-not-editable': !this.isEditable,
                     }
@@ -233,7 +234,7 @@
                         {!!this.suffixIcon && <span class="pl-input-suffix-icon">
                             {typeof this.suffixIcon === 'function' ? this.suffixIcon(h) : <pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/>}
                         </span>}
-                        {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-circle-close"/></span>)}
+                        {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-error"/></span>)}
                         {!!this.isLoading && <pl-loading class="pl-input-suffix-icon"/>}
                     </div>
                 )

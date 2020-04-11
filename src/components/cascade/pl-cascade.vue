@@ -6,6 +6,7 @@
             clearIcon
             suffixIcon="el-icon-d-arrow-right"
             :value="(isShow&&filterable)?p_inputValue:showValue"
+            :placeValue="showValue"
             :placeholder="((isShow&&filterable)?showValue:(!!inputProps?inputProps.placeholder:null)) || ''"
             :clearHandler="clearHandler"
             :inputReadonly="!filterable"
