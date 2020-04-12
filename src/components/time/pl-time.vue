@@ -241,6 +241,27 @@
                         break
                 }
             },
+            onTimeInputInnerFocus() {
+
+            },
+            onTimeInputInnerBlur() {
+
+            },
+            onBlur() {
+                if (this.p_blurTimer === 0) {
+                    this.hide()
+                    this.emitBlur()
+                } else {
+                    this.p_blurTimer--
+                }
+            },
+            onFocus() {
+                if (this.p_focusTimer === 0) {
+                    this.emitFocus()
+                } else {
+                    this.p_focusTimer--
+                }
+            },
         },
     }
 </script>
