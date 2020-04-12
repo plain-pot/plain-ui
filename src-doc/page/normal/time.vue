@@ -188,11 +188,28 @@
                 </div>
             </demo-row>
 
-            <demo-row title="格式化显示值">
+            <demo-row title="选择任意时间">
                 <demo-line>
-                    {{val[33]}}
+                    {{val[18]}}
                 </demo-line>
+                <pl-time v-model="val[18]"/>
+                <pl-time v-model="val[18]"/>
+            </demo-row>
+
+            <demo-row title="选择时间范围">
+                <demo-line>
+                    <div>start:{{val[19]}}</div>
+                    <div>end:{{val[20]}}</div>
+                </demo-line>
+                <pl-time :start.sync="val[19]" :end.sync="val[20]" range/>
+                <pl-time :start.sync="val[19]" :end.sync="val[20]" range/>
+            </demo-row>
+
+            <demo-row title="格式化值以及显示值">
                 <demo-row title="单值">
+                    <demo-line>
+                        {{val[33]}}
+                    </demo-line>
                     <pl-time v-model="val[33]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss"/>
                 </demo-row>
                 <demo-row title="范围选择">
@@ -201,6 +218,25 @@
                         <div>end:{{val[35]}}</div>
                     </demo-line>
                     <pl-time range :start.sync="val[34]" :end.sync="val[35]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss"/>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="最大最小值">
+                <demo-line>
+                    max="121212" min="040404"
+                </demo-line>
+                <demo-row title="单值">
+                    <demo-line>
+                        {{val[36]}}
+                    </demo-line>
+                    <pl-time v-model="val[36]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss" max="121212" min="040404"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        <div>start:{{val[37]}}</div>
+                        <div>end:{{val[38]}}</div>
+                    </demo-line>
+                    <pl-time range :start.sync="val[37]" :end.sync="val[38]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss" max="121212" min="040404"/>
                 </demo-row>
             </demo-row>
 

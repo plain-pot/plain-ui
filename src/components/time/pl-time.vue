@@ -72,6 +72,17 @@
             emitUpdateStart: Function,
             emitUpdateEnd: Function,
         },
+        watch: {
+            value(val) {
+                this.p_value = val
+            },
+            start(val) {
+                this.p_start = val
+            },
+            end(val) {
+                this.p_end = val
+            },
+        },
         data() {
 
             const p_value: string = this.value
