@@ -275,9 +275,18 @@
                     <demo-line>
                         {{val[40]}}
                     </demo-line>
-                    <pl-time v-model="val[40]" valueFormat="HHmm" displayFormat="HH时mm分" :layout="['h','m']" :custom="custom"/>
+                    <pl-time v-model="val[43]" valueFormat="HHmm" displayFormat="HH时mm分" :layout="['h','m']" :custom="custom"/>
                 </demo-row>
             </demo-row>
+
+            <demo-row title="只读以及禁用">
+                <demo-line>
+                    <pl-checkbox v-model="val[44]"/>
+                </demo-line>
+                <pl-time v-model="val[45]" :disabled="val[44]"/>f
+                <pl-time v-model="val[45]" :readonly="val[44]"/>
+            </demo-row>
+
         </demo-row>
 
     </div>

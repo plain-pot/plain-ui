@@ -342,5 +342,16 @@
                 width: initial !important;
             }
         }
+
+        .pl-form-item-content {
+            .pl-time-inner {
+                display: flex;
+                align-items: center;
+
+                .pl-time-input-inner {
+                    flex: 1;
+                }
+            }
+        }
     }
 </style>
