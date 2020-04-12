@@ -240,6 +240,44 @@
                 </demo-row>
             </demo-row>
 
+            <demo-row title="四种视图">
+                <demo-row title="时">
+                    <demo-line>
+                        {{val[39]}}
+                    </demo-line>
+                    <pl-time v-model="val[39]" valueFormat="HH" displayFormat="HH时" :layout="['h']"/>
+                </demo-row>
+                <demo-row title="时分">
+                    <demo-line>
+                        {{val[40]}}
+                    </demo-line>
+                    <pl-time v-model="val[40]" valueFormat="HHmm" displayFormat="HH时mm分" :layout="['h','m']"/>
+                </demo-row>
+                <demo-row title="时分秒">
+                    <demo-line>
+                        {{val[41]}}
+                    </demo-line>
+                    <pl-time v-model="val[41]"/>
+                </demo-row>
+
+                <demo-row title="分秒">
+                    <demo-row title="时分">
+                        <demo-line>
+                            {{val[42]}}
+                        </demo-line>
+                        <pl-time v-model="val[42]" valueFormat="mmss" displayFormat="mm分ss秒" :layout="['m','s']"/>
+                    </demo-row>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="自定义可选时间点">
+                <demo-row title="时分">
+                    <demo-line>
+                        {{val[40]}}
+                    </demo-line>
+                    <pl-time v-model="val[40]" valueFormat="HHmm" displayFormat="HH时mm分" :layout="['h','m']" :custom="custom"/>
+                </demo-row>
+            </demo-row>
         </demo-row>
 
     </div>
@@ -363,14 +401,18 @@
             },
 
             custom(layout, value) {
+
+                let five = [0, 5, 10, 15, 20, 25, 30, 25, 40, 45, 50, 55]
+                let ten = [0, 10, 20, 30, 40, 50]
+
                 if (layout === 'h') {
-                    return [8, 10, 12, 14, 16, 18]
+                    return [8, 9, 10, 11, 13, 15, 17]
                 }
                 if (layout === 'm') {
                     if (value.isNull) {
                         return []
                     }
-                    return value.hour > 12 ? [15, 30] : [30]
+                    return value.hour > 12 ? ten : five
                 }
             },
             onCustomChange(value) {
