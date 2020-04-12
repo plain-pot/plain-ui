@@ -17,12 +17,14 @@
 <script>
     import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {isEffectiveColorString} from "./ColorUtils";
+    import {AgentMixin} from "../service/service";
 
     const opacityBg = require('./sub/opacity.png')
 
     export default {
         name: "pl-color-picker",
         mixins: [
+            AgentMixin,
             EmitMixin,
             EditMixin,
             RefsMixinFactory({
@@ -44,11 +46,8 @@
                 p_value: this.value,
                 p_inputValue: this.value,
 
-                p_focusTimer: 0,
-                p_blurTimer: 0,
-
                 service: null,
-                colorOption: () => {
+                serviceOption: () => {
                     return {
                         props: {
                             value: this.p_value,
@@ -77,45 +76,11 @@
                 }
             }
         },
-        beforeDestroy() {
-            if (!!this.service) this.service.destroy()
-        },
-        computed: {
-            isOpen() {
-                if (!this.service) return false
-                return this.service.isOpen
-            },
-            isShow() {
-                if (!this.service) return false
-                return this.service.isShow
-            },
-        },
         methods: {
-            /*---------------------------------------methods-------------------------------------------*/
-            async show() {
-                if (!this.isEditable) {
-                    return
-                }
-
-                if (!this.service) {
-                    this.service = await this.$plain.$cs(this.colorOption)
-                }
-                this.service.show()
-            },
-            async hide() {
-                if (!this.service) {
-                    return
-                }
-                this.service.hide()
-            },
-            async toggle() {
-                if (!this.isShow) {
-                    this.show()
-                } else {
-                    this.hide()
-                }
-            },
             /*---------------------------------------utils-------------------------------------------*/
+            CreateService(option) {
+                return this.$plain.$cs(option)
+            },
             suffixIcon(h) {
                 return (
                     <div class="pl-color-picker-suffix" style={{backgroundImage: `url(${opacityBg})`}}>
@@ -135,31 +100,10 @@
                     this.emitValue(val)
                 }
             },
-            onClickInput() {
-                this.toggle()
-            },
             onEnter() {
                 if (!!this.p_inputValue && this.p_inputValue !== this.p_value) {
                     this.$plain.$message('请输入有效的颜色值')
                     this.p_inputValue = this.p_value
-                }
-            },
-            onEsc() {
-                this.hide()
-            },
-            onBlur() {
-                if (this.p_blurTimer === 0) {
-                    this.hide()
-                    this.emitBlur()
-                } else {
-                    this.p_blurTimer--
-                }
-            },
-            onFocus() {
-                if (this.p_focusTimer === 0) {
-                    this.emitFocus()
-                } else {
-                    this.p_focusTimer--
                 }
             },
         },

@@ -18,7 +18,7 @@
                     <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field6"/>
                 </pl-form-item>
                 <pl-form-item label="级联选择" field="field61" :rules="{required:true,trigger:'blur'}">
-                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" v-model="form1.formData.field61"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" v-model="form1.formData.field61" @focus="$plain.log('focus')" @blur="$plain.log('blur')"/>
                 </pl-form-item>
 
                 <pl-form-item label="开关按钮" field="field10" :rules="{required:true,trigger:'blur'}">
@@ -26,7 +26,14 @@
                 </pl-form-item>
 
                 <pl-form-item label="颜色选择器" field="field14" :rules="{required:true,trigger:'blur'}">
-                    <pl-color-picker v-model="form1.formData.field14"/>
+                    <pl-color-picker v-model="form1.formData.field14" @focus="$plain.log('focus')" @blur="$plain.log('blur')"/>
+                </pl-form-item>
+
+                <pl-form-item label="时间选择" field="field15" :rules="{required:true,trigger:'blur'}">
+                    <pl-time v-model="form1.formData.field15" @blur="$plain.log('blur')"/>
+                </pl-form-item>
+                <pl-form-item label="时间范围选择" :field="['field17','field18']" required>
+                    <pl-time :start.sync="form1.formData.field17" :end.sync="form1.formData.field18" range/>
                 </pl-form-item>
 
                 <pl-form-item>
