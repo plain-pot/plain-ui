@@ -88,11 +88,44 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                width: 252px;
+                height: 220px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .pl-transition-slide-next-enter-active, .pl-transition-slide-next-leave-active {
+                transform: translate3d(0, 0, 0);
+            }
+
+            .pl-transition-slide-next-enter {
+                transform: translate3d(100%, 0, 0);
+            }
+
+            .pl-transition-slide-next-leave-to {
+                transform: translate3d(-100%, 0, 0);
+            }
+
+            .pl-transition-slide-prev-enter-active, .pl-transition-slide-prev-leave-active {
+                transform: translate3d(0, 0, 0);
+            }
+
+            .pl-transition-slide-prev-enter {
+                transform: translate3d(-100%, 0, 0);
+            }
+
+            .pl-transition-slide-prev-leave-to {
+                transform: translate3d(100%, 0, 0);
             }
 
             .pl-date-base-panel-year-list {
+                transition: all $transition 1000ms;
+                position: absolute;
+                left: 0;
+                top: 0;
+
                 .pl-date-base-panel-year-item {
-                    width: 25%;
+                    width: 63px;
                     text-align: center;
                     height: 36px;
                     line-height: 36px;

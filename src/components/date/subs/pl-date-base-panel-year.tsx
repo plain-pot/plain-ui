@@ -35,21 +35,23 @@ export default {
                     <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYearList}/>
                 </template>
                 <template slot="content">
-                    <ul class="pl-date-base-panel-year-list">
-                        {this.data.list.map(item => (
-                            <li class={[
-                                'pl-date-base-panel-year-item',
-                                {
-                                    'pl-date-base-panel-year-item-now': item.now,
-                                    'pl-date-base-panel-year-item-active': item.active,
-                                }
-                            ]}
-                                key={item.year}
-                                onClick={() => this.onClickItem(item)}>
-                                <span>{item.year}</span>
-                            </li>
-                        ))}
-                    </ul>
+                    <transition name={`pl-transition-slide-${this.transitionDirection}`}>
+                        <ul class="pl-date-base-panel-year-list" key={this.data.selectYear}>
+                            {this.data.list.map(item => (
+                                <li class={[
+                                    'pl-date-base-panel-year-item',
+                                    {
+                                        'pl-date-base-panel-year-item-now': item.now,
+                                        'pl-date-base-panel-year-item-active': item.active,
+                                    }
+                                ]}
+                                    key={item.year}
+                                    onclick={() => this.onClickItem(item)}>
+                                    <span>{item.year}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </transition>
                 </template>
             </pl-date-base-panel>
         )
@@ -69,19 +71,25 @@ export default {
                     active: value === i
                 })
             }
+
+            const transitionDirection: 'next' | 'prev' = 'next'
+
             return {
                 list,
                 title: `${selectYear}-${selectYear + 19}`,
                 selectYear,
+                transitionDirection,
             }
         },
     },
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
         prevYearList() {
+            this.transitionDirection = 'prev'
             this.selectYear = this.data.selectYear - 20
         },
         nextYearList() {
+            this.transitionDirection = 'next'
             this.selectYear = this.data.selectYear + 20
         },
         /*---------------------------------------handler-------------------------------------------*/
