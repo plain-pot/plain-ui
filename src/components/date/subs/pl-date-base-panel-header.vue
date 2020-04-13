@@ -28,11 +28,17 @@
         .pl-date-base-panel-header {
             display: flex;
             align-items: center;
-            font-size: 12px;
             color: $itc;
+            height: 40px;
 
             & > div:nth-child(2) {
-                flex: 1;
+                width: 180px;
+                text-align: center;
+
+                .pl-button {
+                    font-size: 14px;
+                }
+
             }
         }
     }

@@ -1,5 +1,17 @@
 import fecha from 'fecha'
 
+export interface DecodeDate {
+    dateObject: Date,
+    year: number,
+    month: number,
+    date: number,
+    hour: number,
+    minute: number,
+    second: number,
+    day: number,
+    time: number,
+}
+
 const zeroize = (value, length = 2) => {
     if (value == null) {
         value = '';
@@ -215,6 +227,23 @@ export class PlainDate {
         if (!dateString) return null
         else {
             return fecha.parse(dateString, formatString)
+        }
+    }
+
+    static decode(dateObject: Date): DecodeDate {
+        if (!dateObject) {
+            return null
+        }
+        return {
+            dateObject,
+            year: dateObject.getFullYear(),
+            month: dateObject.getMonth(),
+            date: dateObject.getDate(),
+            hour: dateObject.getHours(),
+            minute: dateObject.getMinutes(),
+            second: dateObject.getSeconds(),
+            day: dateObject.getDay(),
+            time: dateObject.getTime(),
         }
     }
 
