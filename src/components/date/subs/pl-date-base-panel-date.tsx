@@ -1,4 +1,3 @@
-import PlDateBasePanelHeader from "./pl-date-base-panel-header.vue";
 import {DecodeDate, PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 
@@ -11,7 +10,6 @@ interface DateItemType {
 
 export default {
     name: "pl-date-base-panel-date",
-    components: {PlDateBasePanelHeader},
     mixins: [
         EmitMixin,
     ],
@@ -75,44 +73,46 @@ export default {
     },
     render(h) {
         return (
-            <div class="pl-date-base-panel-date">
-                <pl-date-base-panel-header>
-                    <div slot="left">
-                        <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
-                        <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
-                    </div>
-                    <div slot="center">
-                        <span>{this.decode.selectDate.year}-{this.$plain.utils.zeroize(this.decode.selectDate.month + 1)}</span>
-                        {/*<span>12:00:00</span>*/}
-                    </div>
-                    <div slot="right">
-                        <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
-                        <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
-                    </div>
-                </pl-date-base-panel-header>
-                <ul class="pl-date-base-panel-date-week-list">
-                    {this.weekList.map(item => (
-                        <li key={item} class="pl-date-base-panel-date-item">{item}</li>
-                    ))}
-                </ul>
-                <pl-list class="pl-date-base-panel-date-date-list" tag="ul">
-                    {this.dateList.map((item: DateItemType, index) => (
-                        <pl-item key={item.isSelectMonth ? item.decode.date : `_${index}`}
-                                 tag="li"
-                                 onClick={() => this.onClickItem(item)}
-                                 class={[
-                                     'pl-date-base-panel-date-item',
-                                     {
-                                         'pl-date-base-panel-date-item-today': item.isToday,
-                                         'pl-date-base-panel-date-item-select-month': item.isSelectMonth,
-                                         'pl-date-base-panel-date-item-active': item.isActive,
-                                     }
-                                 ]}>
-                            <span>{item.decode.date}</span>
-                        </pl-item>
-                    ))}
-                </pl-list>
-            </div>
+            <pl-date-base-panel class="pl-date-base-panel-date">
+                <div slot="left">
+                    <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
+                    <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
+                </div>
+                <div slot="center">
+                    <span>{this.decode.selectDate.year}-{this.$plain.utils.zeroize(this.decode.selectDate.month + 1)}</span>
+                    {/*<span>12:00:00</span>*/}
+                </div>
+                <div slot="right">
+                    <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
+                    <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
+                </div>
+
+                <template slot="content">
+                    <ul class="pl-date-base-panel-date-week-list">
+                        {this.weekList.map(item => (
+                            <li key={item} class="pl-date-base-panel-date-item">{item}</li>
+                        ))}
+                    </ul>
+                    <pl-list class="pl-date-base-panel-date-date-list" tag="ul">
+                        {this.dateList.map((item: DateItemType, index) => (
+                            <pl-item key={item.isSelectMonth ? item.decode.date : `_${index}`}
+                                     tag="li"
+                                     onClick={() => this.onClickItem(item)}
+                                     class={[
+                                         'pl-date-base-panel-date-item',
+                                         {
+                                             'pl-date-base-panel-date-item-today': item.isToday,
+                                             'pl-date-base-panel-date-item-select-month': item.isSelectMonth,
+                                             'pl-date-base-panel-date-item-active': item.isActive,
+                                         }
+                                     ]}>
+                                <span>{item.decode.date}</span>
+                            </pl-item>
+                        ))}
+                    </pl-list>
+                </template>
+
+            </pl-date-base-panel>
         )
     },
     methods: {
