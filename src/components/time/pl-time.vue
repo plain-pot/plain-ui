@@ -366,7 +366,7 @@
             }
 
             .pl-input-inner {
-                width: initial !important;
+                width: auto !important;
             }
         }
 

@@ -284,7 +284,6 @@
                     <pl-checkbox v-model="val[44]"/>
                 </demo-line>
                 <pl-time v-model="val[45]" :disabled="val[44]"/>
-                f
                 <pl-time v-model="val[45]" :readonly="val[44]"/>
             </demo-row>
 
