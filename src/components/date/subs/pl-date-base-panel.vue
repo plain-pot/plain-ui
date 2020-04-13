@@ -5,7 +5,9 @@
             <slot name="center" slot="center"/>
             <slot name="right" slot="right"/>
         </pl-date-base-panel-header>
-        <slot name="content"/>
+        <div class="pl-date-base-panel-body">
+            <slot name="content"/>
+        </div>
     </div>
 </template>
 

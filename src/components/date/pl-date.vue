@@ -19,13 +19,27 @@
     @include themify {
 
         .pl-date-base-panel {
+
+            border: solid 1px $ibc;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 8px 12px 12px 12px;
+
             .pl-date-base-panel-header {
                 width: 276px;
                 box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                color: $itc;
+                height: 40px;
 
                 & > div:nth-child(2) {
+                    flex: 1;
+                    text-align: center;
+
                     span {
                         padding: 3px 8px;
+                        transition: all $transition 300ms;
 
                         &:hover {
                             box-shadow: plvar(boxShadow);
@@ -38,6 +52,11 @@
                         margin-left: 8px;
                     }
                 }
+            }
+
+            .pl-date-base-panel-body {
+                width: 276px;
+                height: 220px;
             }
 
             ul {
@@ -56,11 +75,6 @@
         }
 
         .pl-date-base-panel-date {
-            border: solid 1px $ibc;
-            border-radius: 2px;
-            display: inline-block;
-            padding: 8px 12px 12px 12px;
-
             ul {
                 &.pl-date-base-panel-date-week-list {
                     border-bottom: solid 1px $ibc;
@@ -73,6 +87,7 @@
                     margin-left: auto;
                     margin-right: auto;
                 }
+
                 li {
                     &, & span {
                         transition: all $transition 300ms;

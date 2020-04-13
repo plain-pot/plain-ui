@@ -22,24 +22,3 @@
         methods: {},
     }
 </script>
-
-<style lang="scss">
-    @include themify {
-        .pl-date-base-panel-header {
-            display: flex;
-            align-items: center;
-            color: $itc;
-            height: 40px;
-
-            & > div:nth-child(2) {
-                width: 180px;
-                text-align: center;
-
-                .pl-button {
-                    font-size: 14px;
-                }
-
-            }
-        }
-    }
-</style>
