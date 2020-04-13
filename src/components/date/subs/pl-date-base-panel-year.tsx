@@ -24,22 +24,20 @@ export default {
                     <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYearList}/>
                 </template>
                 <template slot="content">
-                    <transition name="pl-transition-fade" mode="out-in">
-                        <ul class="pl-date-base-panel-year-list" key={this.data.selectYear}>
-                            {this.data.list.map((item, index) => (
-                                <li class={[
-                                    'pl-date-base-panel-year-item',
-                                    {
-                                        'pl-date-base-panel-year-item-now': item.now,
-                                        'pl-date-base-panel-year-item-active': item.active,
-                                    }
-                                ]}
-                                    key={index}>
-                                    <span>{item.year}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </transition>
+                    <ul class="pl-date-base-panel-year-list">
+                        {this.data.list.map(item => (
+                            <li class={[
+                                'pl-date-base-panel-year-item',
+                                {
+                                    'pl-date-base-panel-year-item-now': item.now,
+                                    'pl-date-base-panel-year-item-active': item.active,
+                                }
+                            ]}
+                                key={item.year}>
+                                <span>{item.year}</span>
+                            </li>
+                        ))}
+                    </ul>
                 </template>
             </pl-date-base-panel>
         )

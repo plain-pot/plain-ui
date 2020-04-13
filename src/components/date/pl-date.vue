@@ -91,8 +91,6 @@
             }
 
             .pl-date-base-panel-year-list {
-                transition: all $transition 30ms;
-
                 .pl-date-base-panel-year-item {
                     width: 25%;
                     text-align: center;
