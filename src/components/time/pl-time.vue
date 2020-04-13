@@ -1,57 +1,48 @@
 <template>
-    <div>
-        <pl-input class="pl-time"
-                  :class="{'pl-time-range':range}"
-                  :value="inputValue"
-                  suffixIcon="el-icon-time"
-                  clearIcon
-                  :isFocus="isOpen"
-                  :width="null"
-                  :inputInnerTabindex="null"
+    <pl-input class="pl-time"
+              :class="{'pl-time-range':range}"
+              :value="inputValue"
+              suffixIcon="el-icon-time"
+              clearIcon
+              :isFocus="focusCounter>0"
+              :width="null"
+              :inputInnerTabindex="null"
 
-                  :clearHandler="clearHandler"
-                  @click-input="onClickInput"
-                  @keydown.enter="onEnter"
-                  @keydown.esc="onEsc"
-                  @blur="onBlur"
-                  @focus="onFocus"
-        >
-            <div class="pl-time-inner">
-                <template v-if="!range">
-                    <pl-time-input-inner :value="formatData.value.displayString"
-                                         @change="val=>onInputChange(val,'value')"
-                                         :displayFormat="displayFormat"
-                                         ref="valueInput"
-                                         @focus="onTimeInputInnerFocus"
-                                         @blur="onTimeInputInnerBlur"
-                    />
-                </template>
-                <template v-else>
-                    <pl-time-input-inner width="100"
-                                         :value="formatData.start.displayString"
-                                         @change="val=>onInputChange(val,'start')"
-                                         :displayFormat="displayFormat"
-                                         ref="startInput"
-                                         @focus="onTimeInputInnerFocus"
-                                         @blur="onTimeInputInnerBlur"
-                    />
-                    <span>至</span>
-                    <pl-time-input-inner width="100"
-                                         :value="formatData.end.displayString"
-                                         @change="val=>onInputChange(val,'end')"
-                                         :displayFormat="displayFormat"
-                                         ref="endInput"
-                                         @focus="onTimeInputInnerFocus"
-                                         @blur="onTimeInputInnerBlur"
-                    />
-                </template>
-            </div>
-        </pl-input>
-        [
-        p_focusTimer:{{p_focusTimer}};
-        p_blurTimer:{{p_blurTimer}}
-        ]
-    </div>
+              :clearHandler="clearHandler"
+              @click-input="onClickInput"
+              @keydown.enter="onEnter"
+              @keydown.esc="onEsc">
+        <div class="pl-time-inner">
+            <template v-if="!range">
+                <pl-time-input-inner :value="formatData.value.displayString"
+                                     @change="val=>onInputChange(val,'value')"
+                                     :displayFormat="displayFormat"
+                                     ref="valueInput"
+                                     @focus="onTimeInputInnerFocus"
+                                     @blur="onTimeInputInnerBlur"
+                />
+            </template>
+            <template v-else>
+                <pl-time-input-inner width="100"
+                                     :value="formatData.start.displayString"
+                                     @change="val=>onInputChange(val,'start')"
+                                     :displayFormat="displayFormat"
+                                     ref="startInput"
+                                     @focus="onTimeInputInnerFocus"
+                                     @blur="onTimeInputInnerBlur"
+                />
+                <span>至</span>
+                <pl-time-input-inner width="100"
+                                     :value="formatData.end.displayString"
+                                     @change="val=>onInputChange(val,'end')"
+                                     :displayFormat="displayFormat"
+                                     ref="endInput"
+                                     @focus="onTimeInputInnerFocus"
+                                     @blur="onTimeInputInnerBlur"
+                />
+            </template>
+        </div>
+    </pl-input>
 </template>
 
 <script lang="ts">
@@ -137,8 +128,7 @@
                 },
                 popperListener: {
                     'mousedown-popper': async () => {
-                        this.p_focusTimer = 1
-                        this.p_blurTimer = 1
+                        this.focusCounter++
                     },
                     'click-popper': () => {
                         if (!this.range) {
@@ -252,25 +242,27 @@
                             this.emitUpdateStart(this.p_end)
                         }
 
-                        console.log(this.inputValue, !!this.inputValue)
-
                         break
                 }
             },
-            onTimeInputInnerFocus() {
-                if (this.p_focusTimer === 0) {
-                    this.p_focusTimer++
-                    this.emitFocus()
-                } else {
-                    this.p_focusTimer--
-                }
+            onTimeInputInnerFocus(e) {
+                this.onFocus(e)
             },
-            onTimeInputInnerBlur() {
-                if (this.p_blurTimer === 0) {
-                    this.emitBlur()
-                    this.hide()
+            async onTimeInputInnerBlur(e) {
+                if (!this.range) {
+                    this.onBlur(e)
                 } else {
-                    this.p_blurTimer--
+                    await this.$plain.utils.delay(0)
+                    if ([
+                        this.startInput.$el,
+                        this.endInput.$el,
+                    ].indexOf(document.activeElement) === -1) {
+                        this.focusCounter--
+                        if (this.focusCounter === 0) {
+                            this.emitBlur()
+                            this.hide()
+                        }
+                    }
                 }
             },
         },
