@@ -11,6 +11,9 @@ export default {
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
         emitInput: Function,
+
+        emitMousedownStartPanel: Function,
+        emitMousedownEndPanel: Function,
     },
     props: {
         start: {type: String},
@@ -80,7 +83,8 @@ export default {
                             this.emitUpdateEnd(this.p_start)
                             this.emitInput(this.p_end, 'end')
                         }
-                    }
+                    },
+                    'mousedown-panel': this.emitMousedownStartPanel,
                 }
             }
 
@@ -104,7 +108,8 @@ export default {
                             this.emitUpdateStart(this.p_start)
                             this.emitInput(this.p_start, 'start')
                         }
-                    }
+                    },
+                    'mousedown-panel': this.emitMousedownEndPanel,
                 }
             }
 

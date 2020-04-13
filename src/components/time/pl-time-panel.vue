@@ -11,6 +11,10 @@
             emitInput: Function,
             emitUpdateStart: Function,
             emitUpdateEnd: Function,
+
+            emitMousedownBasePanel: Function,
+            emitMousedownStartPanel: Function,
+            emitMousedownEndPanel: Function,
         },
         props: {
             value: {type: String},
@@ -64,6 +68,7 @@
                             this.p_value = val
                             this.emitInput(this.p_value)
                         },
+                        'mousedown-panel': this.emitMousedownBasePanel,
                     },
                 }
 
@@ -85,6 +90,8 @@
                             }
                             this.emitInput(val, type)
                         },
+                        'mousedown-start-panel': this.emitMousedownStartPanel,
+                        'mousedown-end-panel': this.emitMousedownEndPanel,
                     },
                 }
 

@@ -125,17 +125,20 @@
                             }
                         }
                     },
-                },
-                popperListener: {
-                    'mousedown-popper': async () => {
+                    'mousedown-base-panel': async () => {
                         this.focusCounter++
+                        await this.$plain.utils.delay(0)
+                        this.valueInput.focus()
                     },
-                    'click-popper': () => {
-                        if (!this.range) {
-                            this.valueInput.focus()
-                        } else {
-                            this.startInput.focus()
-                        }
+                    'mousedown-start-panel': async () => {
+                        this.focusCounter++
+                        await this.$plain.utils.delay(0)
+                        this.startInput.focus()
+                    },
+                    'mousedown-end-panel': async () => {
+                        this.focusCounter++
+                        await this.$plain.utils.delay(0)
+                        this.endInput.focus()
                     },
                 },
             })

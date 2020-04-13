@@ -9,6 +9,7 @@ export default {
     ],
     emitters: {
         emitInput: Function,
+        emitMousedownPanel: Function,
     },
     props: {
         value: {type: String},
@@ -48,7 +49,7 @@ export default {
         const content = this.layout.map(i => layout[i])
 
         return (
-            <div class="pl-time-base-panel">
+            <div class="pl-time-base-panel" onMousedown={this.emitMousedownPanel}>
                 {content}
             </div>
         )
