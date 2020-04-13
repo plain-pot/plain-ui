@@ -128,7 +128,7 @@
                     .pl-step-divider {
                         flex: 1;
                         height: 1px;
-                        background-color: $icc;
+                        background-color: $ibl;
                     }
 
                     .pl-step-head, .pl-step-body {
@@ -212,7 +212,7 @@
                         .pl-step-divider {
                             flex: 1;
                             width: 1px;
-                            background-color: $icc;
+                            background-color: $ibl;
                         }
                     }
 

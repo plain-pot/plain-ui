@@ -423,7 +423,7 @@
 
                 .pl-dialog-head {
                     color: $ihc;
-                    border-bottom: solid 1px $ibc;
+                    border-bottom: solid 1px $ibl;
 
                     .pl-dialog-head-close {
                         color: $icc;
