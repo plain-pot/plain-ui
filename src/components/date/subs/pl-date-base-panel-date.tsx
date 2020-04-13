@@ -92,7 +92,7 @@ export default {
                 </ul>
                 <pl-list class="pl-date-base-panel-date-date-list" tag="ul">
                     {this.dateList.map((item: DateItemType, index) => (
-                        <pl-item key={item.isSelectMonth ? item.decode.date : String(index) + 'a'}
+                        <pl-item key={item.isSelectMonth ? item.decode.date : `_${index}`}
                                  tag="li"
                                  onClick={() => this.onClickItem(item)}
                                  class={[
