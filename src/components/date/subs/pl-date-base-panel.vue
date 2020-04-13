@@ -15,13 +15,5 @@
     export default {
         name: "pl-date-base-panel",
         components: {PlDateBasePanelHeader},
-        props: {},
-        data() {
-            return {}
-        },
-        methods: {},
     }
 </script>
-
-<style lang="scss">
-</style>

@@ -74,18 +74,18 @@ export default {
     render(h) {
         return (
             <pl-date-base-panel class="pl-date-base-panel-date">
-                <div slot="left">
+                <template slot="left">
                     <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
                     <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
-                </div>
-                <div slot="center">
+                </template>
+                <template slot="center">
                     <span>{this.decode.selectDate.year}-{this.$plain.utils.zeroize(this.decode.selectDate.month + 1)}</span>
                     {/*<span>12:00:00</span>*/}
-                </div>
-                <div slot="right">
+                </template>
+                <template slot="right">
                     <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
                     <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
-                </div>
+                </template>
 
                 <template slot="content">
                     <ul class="pl-date-base-panel-date-week-list">

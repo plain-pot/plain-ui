@@ -17,13 +17,12 @@
 
 <style lang="scss">
     @include themify {
-        .pl-date-base-panel-date {
-            border: solid 1px $ibc;
-            border-radius: 2px;
-            display: inline-block;
-            padding: 8px 12px 12px 12px;
 
+        .pl-date-base-panel {
             .pl-date-base-panel-header {
+                width: 276px;
+                box-sizing: border-box;
+
                 & > div:nth-child(2) {
                     span {
                         padding: 3px 8px;
@@ -47,6 +46,22 @@
                 list-style: none;
                 display: block;
 
+                li {
+                    display: inline-block;
+                    font-size: 12px;
+                    color: $itc;
+                }
+            }
+
+        }
+
+        .pl-date-base-panel-date {
+            border: solid 1px $ibc;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 8px 12px 12px 12px;
+
+            ul {
                 &.pl-date-base-panel-date-week-list {
                     border-bottom: solid 1px $ibc;
                     padding-bottom: 8px;
@@ -58,12 +73,7 @@
                     margin-left: auto;
                     margin-right: auto;
                 }
-
                 li {
-                    display: inline-block;
-                    font-size: 12px;
-                    color: $itc;
-
                     &, & span {
                         transition: all $transition 300ms;
                     }
