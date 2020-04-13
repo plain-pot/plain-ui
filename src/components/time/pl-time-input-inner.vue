@@ -6,6 +6,7 @@
            :value="p_value"
            @input="onInput"
            @blur="onBlur"
+           @focus="onFocus"
            :disabled="isDisabled"
            :readonly="isReadonly"
     >
@@ -28,6 +29,8 @@
         ],
         emitters: {
             emitInput: Function,
+            emitBlur: Function,
+            emitFocus: Function,
         },
         props: {
             width: {type: [String, Number], default: 138},
@@ -72,8 +75,12 @@
                 }
                 this.emitInput(this.p_value)
             },
-            onBlur() {
+            onBlur(e) {
                 this.p_value = this.value
+                this.emitBlur(e)
+            },
+            onFocus(e) {
+                this.emitFocus(e)
             },
         },
     }

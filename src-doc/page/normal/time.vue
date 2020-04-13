@@ -181,10 +181,10 @@
                     <pl-input/>
                 </div>
                 <div>
-                    <pl-time/>
+                    <pl-time @focus="$plain.log('focus')" @blur="$plain.log('blur')"/>
                 </div>
                 <div>
-                    <pl-time range/>
+                    <pl-time range @focus="$plain.log('focus')" @blur="$plain.log('blur')"/>
                 </div>
             </demo-row>
 
@@ -283,7 +283,8 @@
                 <demo-line>
                     <pl-checkbox v-model="val[44]"/>
                 </demo-line>
-                <pl-time v-model="val[45]" :disabled="val[44]"/>f
+                <pl-time v-model="val[45]" :disabled="val[44]"/>
+                f
                 <pl-time v-model="val[45]" :readonly="val[44]"/>
             </demo-row>
 
