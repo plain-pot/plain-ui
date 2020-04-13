@@ -1,7 +1,18 @@
+import {EmitMixin} from "../../../utils/mixins";
+
 export default {
     name: 'pl-date-base-panel-year',
+    mixins: [EmitMixin],
+    emitters: {
+        emitInput: Function,
+    },
     props: {
         value: {type: Number},
+    },
+    watch: {
+        value(val) {
+            this.p_value = val
+        },
     },
     data() {
         const p_value: number = this.value
@@ -33,7 +44,8 @@ export default {
                                     'pl-date-base-panel-year-item-active': item.active,
                                 }
                             ]}
-                                key={item.year}>
+                                key={item.year}
+                                onClick={() => this.onClickItem(item)}>
                                 <span>{item.year}</span>
                             </li>
                         ))}
@@ -54,7 +66,7 @@ export default {
                 list.push({
                     year: i,
                     now: i === nowYear,
-                    active: value === nowYear
+                    active: value === i
                 })
             }
             return {
@@ -71,6 +83,10 @@ export default {
         },
         nextYearList() {
             this.selectYear = this.data.selectYear + 20
+        },
+        /*---------------------------------------handler-------------------------------------------*/
+        onClickItem(item) {
+            this.emitInput(item.year)
         },
     },
 }
