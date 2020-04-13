@@ -64,6 +64,10 @@
                     font-size: 12px;
                     color: $itc;
 
+                    &, & span {
+                        transition: all $transition 300ms;
+                    }
+
                     &.pl-date-base-panel-date-item {
                         width: 36px;
                         height: 30px;
@@ -82,6 +86,8 @@
                 }
 
                 &.pl-date-base-panel-date-date-list {
+                    overflow: hidden;
+
                     li {
 
                         &:hover {

@@ -90,22 +90,23 @@ export default {
                         <li key={item} class="pl-date-base-panel-date-item">{item}</li>
                     ))}
                 </ul>
-                <ul class="pl-date-base-panel-date-date-list">
+                <pl-list class="pl-date-base-panel-date-date-list" tag="ul">
                     {this.dateList.map((item: DateItemType, index) => (
-                        <li key={index}
-                            onClick={() => this.onClickItem(item)}
-                            class={[
-                                'pl-date-base-panel-date-item',
-                                {
-                                    'pl-date-base-panel-date-item-today': item.isToday,
-                                    'pl-date-base-panel-date-item-select-month': item.isSelectMonth,
-                                    'pl-date-base-panel-date-item-active': item.isActive,
-                                }
-                            ]}>
+                        <pl-item key={item.isSelectMonth ? item.decode.date : String(index) + 'a'}
+                                 tag="li"
+                                 onClick={() => this.onClickItem(item)}
+                                 class={[
+                                     'pl-date-base-panel-date-item',
+                                     {
+                                         'pl-date-base-panel-date-item-today': item.isToday,
+                                         'pl-date-base-panel-date-item-select-month': item.isSelectMonth,
+                                         'pl-date-base-panel-date-item-active': item.isActive,
+                                     }
+                                 ]}>
                             <span>{item.decode.date}</span>
-                        </li>
+                        </pl-item>
                     ))}
-                </ul>
+                </pl-list>
             </div>
         )
     },
