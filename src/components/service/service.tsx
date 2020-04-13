@@ -183,7 +183,7 @@ function factory(name: string, ServiceComponent: any) {
         },
         render(h) {
             return (
-                <div class={name}>
+                <div class={[name,'pl-service-controller']}>
                     {new Array(this.count).fill(0).map((item, index) => <ServiceComponent {...{key: index, ref: 'items', refInFor: true}}/>)}
                 </div>
             )

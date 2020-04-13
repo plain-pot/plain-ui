@@ -10,3 +10,10 @@
 .pl-select-none {
   user-select: none;
 }
+
+.pl-service-controller {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  z-index: 9999;
+}
