@@ -1,7 +1,8 @@
 <template>
     <div class="demo-date">
         <demo-row title="pl-date-base-panel-date">
-            <pl-date-base-panel-date/>
+            <pl-date-base-panel-date v-model="val[0]"/>
+            <pl-date-base-panel-date v-model="val[0]"/>
         </demo-row>
         <!--<demo-row title="基本用法">
             <pl-date/>
@@ -14,7 +15,11 @@
         name: "date",
         props: {},
         data() {
-            return {}
+            return {
+                val:{
+                    0: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+                },
+            }
         },
         methods: {},
     }

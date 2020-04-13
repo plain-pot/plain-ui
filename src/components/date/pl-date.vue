@@ -30,8 +30,8 @@
 
                         &:hover {
                             box-shadow: plvar(boxShadow);
-                            border-radius: 2px;
                             cursor: pointer;
+                            border-radius: 100px;
                         }
                     }
 
@@ -79,21 +79,34 @@
                             line-height: 24px;
                         }
                     }
+                }
 
-                    &.pl-date-base-panel-date-item-today {
-                        color: $colorPrimary;
-                        font-weight: bold;
-                        position: relative;
+                &.pl-date-base-panel-date-date-list {
+                    li {
 
-                        &:after {
-                            position: absolute;
-                            top: 3px;
-                            right: 3px;
-                            content: '';
-                            width: 5px;
-                            height: 5px;
-                            background-color: $colorPrimary;
-                            border-radius: 3px;
+                        &:hover {
+                            span {
+                                background-color: rgba($colorPrimary, 0.1);
+                                border-radius: 100px;
+                            }
+                        }
+
+                        &.pl-date-base-panel-date-item-today {
+                            color: $colorPrimary;
+                            font-weight: bold;
+                        }
+
+                        &.pl-date-base-panel-date-item-active {
+                            span {
+                                background-color: $colorPrimary;
+                                color: white;
+                                font-weight: bold;
+                                border-radius: 100px;
+                            }
+                        }
+
+                        &:not(.pl-date-base-panel-date-item-select-month) {
+                            opacity: 0.2;
                         }
                     }
                 }

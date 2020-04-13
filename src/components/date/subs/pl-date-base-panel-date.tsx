@@ -1,60 +1,88 @@
 import PlDateBasePanelHeader from "./pl-date-base-panel-header.vue";
 import {DecodeDate, PlainDate} from "../../../utils/PlainDate";
+import {EmitMixin} from "../../../utils/mixins";
 
-interface DateListType {
+interface DateItemType {
     decode: DecodeDate,
     isToday?: boolean,
-    isCurrentMonth?: boolean,
+    isSelectMonth?: boolean,
     isActive?: boolean,
 }
 
 export default {
     name: "pl-date-base-panel-date",
     components: {PlDateBasePanelHeader},
-    props: {},
+    mixins: [
+        EmitMixin,
+    ],
+    emitters: {
+        emitInput: Function,
+        emitClickItem: Function,
+    },
+    props: {
+        value: {type: Date},
+    },
+    watch: {
+        value(val) {
+            this.selectDate = !!val ? new Date(val) : new Date()
+        },
+    },
     data() {
-        return {}
+        const selectDate = !!this.value ? new Date(this.value) : new Date()
+        return {
+            selectDate,
+        }
     },
     computed: {
         weekList(): string[] {
             return ['一', '二', '三', '四', '五', '六', '日',]
         },
-        dateList(): DateListType[] {
-            let today = PlainDate.decode(new Date())
-            const currentMonthFirstDate = PlainDate.decode(new Date(today.year, today.month, 1))
+        decode() {
+            const today = PlainDate.decode(new Date())
+            const selectDate = PlainDate.decode(this.selectDate || today)
+            const value = PlainDate.decode(this.value)
+            return {
+                today,
+                selectDate,
+                value,
+            }
+        },
+        dateList(): DateItemType[] {
+
+            const {today, selectDate, value} = this.decode
+
+            const currentMonthFirstDate = PlainDate.decode(new Date(selectDate.year, selectDate.month, 1))
             let firstDateTime = new Date(currentMonthFirstDate.time - (currentMonthFirstDate.day === 1 ? 7 : currentMonthFirstDate.day - 1) * 24 * 60 * 60 * 1000).getTime()
 
-            let list: DateListType[] = []
+            let list: DateItemType[] = []
             for (let i = 0; i < 42; i++) {
                 const decode = PlainDate.decode(new Date(firstDateTime))
                 list.push({
                     decode,
                     isToday: today.year === decode.year && today.month === decode.month && today.date === decode.date,
-                    isCurrentMonth: today.year === decode.year && today.month === decode.month,
+                    isSelectMonth: selectDate.year === decode.year && selectDate.month === decode.month,
+                    isActive: !!value && (value.year === decode.year && value.month === decode.month && value.date === decode.date)
                 })
                 firstDateTime += 24 * 60 * 60 * 1000
             }
             return list
         },
     },
-    created() {
-
-    },
     render(h) {
         return (
             <div class="pl-date-base-panel-date">
                 <pl-date-base-panel-header>
                     <div slot="left">
-                        <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini"/>
-                        <pl-button icon="el-icon-arrow-left" mode="text" size="mini"/>
+                        <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
+                        <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
                     </div>
                     <div slot="center">
-                        <span>2020年04月</span>
-                        <span>12:00:00</span>
+                        <span>{this.decode.selectDate.year}-{this.$plain.utils.zeroize(this.decode.selectDate.month + 1)}</span>
+                        {/*<span>12:00:00</span>*/}
                     </div>
                     <div slot="right">
-                        <pl-button icon="el-icon-arrow-right" mode="text" size="mini"/>
-                        <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini"/>
+                        <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
+                        <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
                     </div>
                 </pl-date-base-panel-header>
                 <ul class="pl-date-base-panel-date-week-list">
@@ -63,13 +91,14 @@ export default {
                     ))}
                 </ul>
                 <ul class="pl-date-base-panel-date-date-list">
-                    {this.dateList.map((item: DateListType, index) => (
+                    {this.dateList.map((item: DateItemType, index) => (
                         <li key={index}
+                            onClick={() => this.onClickItem(item)}
                             class={[
                                 'pl-date-base-panel-date-item',
                                 {
                                     'pl-date-base-panel-date-item-today': item.isToday,
-                                    'pl-date-base-panel-date-item-current-month': item.isCurrentMonth,
+                                    'pl-date-base-panel-date-item-select-month': item.isSelectMonth,
                                     'pl-date-base-panel-date-item-active': item.isActive,
                                 }
                             ]}>
@@ -80,5 +109,28 @@ export default {
             </div>
         )
     },
-    methods: {},
+    methods: {
+        /*---------------------------------------methods-------------------------------------------*/
+        prevYear() {
+            const {selectDate} = this.decode
+            this.selectDate = new Date(selectDate.year - 1, selectDate.month, selectDate.date)
+        },
+        nextYear() {
+            const {selectDate} = this.decode
+            this.selectDate = new Date(selectDate.year + 1, selectDate.month, selectDate.date)
+        },
+        prevMonth() {
+            const {selectDate} = this.decode
+            this.selectDate = new Date(selectDate.year, selectDate.month - 1, selectDate.date)
+        },
+        nextMonth() {
+            const {selectDate} = this.decode
+            this.selectDate = new Date(selectDate.year, selectDate.month + 1, selectDate.date)
+        },
+        /*---------------------------------------handler-------------------------------------------*/
+        onClickItem(item: DateItemType) {
+            this.emitClickItem(item)
+            this.emitInput(item.decode.dateObject)
+        },
+    },
 }
