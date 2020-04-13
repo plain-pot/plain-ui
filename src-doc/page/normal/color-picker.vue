@@ -25,12 +25,12 @@
             </demo-line>
         </demo-row>
         <demo-row title="pl-color-picker">
-            <pl-color-picker :value="val[0]"/>
-            <pl-color-picker :value="val[0]"/>
+            <pl-color-picker v-model="val[0]" @focus="$plain.log('focus')" @blur="$plain.log('blur')"/>
+            <pl-color-picker v-model="val[0]"/>
         </demo-row>
         <demo-row title="pl-color-picker；禁用透明度，使用十六进制颜色值">
-            <pl-color-picker :value="val[1]" :enableAlpha="false"/>
-            <pl-color-picker :value="val[1]" :enableAlpha="false"/>
+            <pl-color-picker v-model="val[1]" :enableAlpha="false"/>
+            <pl-color-picker v-model="val[1]" :enableAlpha="false"/>
         </demo-row>
         <demo-row title="禁用以及只读">
             <demo-line>

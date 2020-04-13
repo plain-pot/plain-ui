@@ -3,7 +3,7 @@
               class="pl-color-picker"
               :value="p_inputValue"
               :suffixIcon="suffixIcon"
-              :isFocus="isOpen"
+              :isFocus="focusCounter>0"
 
               @click-input="onClickInput"
               @change="onInputChange"
@@ -41,6 +41,12 @@
             emitBlur: Function,
             emitFocus: Function,
         },
+        watch: {
+            value(val) {
+                this.p_value = val
+                this.p_inputValue = val
+            },
+        },
         data() {
             return {
                 p_value: this.value,
@@ -65,8 +71,7 @@
                         },
                         popperListener: {
                             'mousedown-popper': async () => {
-                                this.p_focusTimer++
-                                this.p_blurTimer++
+                                this.focusCounter++
                             },
                             'click-popper': () => {
                                 this.input.focus()
@@ -104,6 +109,15 @@
                 if (!!this.p_inputValue && this.p_inputValue !== this.p_value) {
                     this.$plain.$message('请输入有效的颜色值')
                     this.p_inputValue = this.p_value
+                }
+            },
+            onBlur() {
+                this.focusCounter--
+                if (this.focusCounter === 0) {
+                    this.emitBlur()
+                    this.hide()
+                    this.p_value = this.value
+                    this.p_inputValue = this.value
                 }
             },
         },

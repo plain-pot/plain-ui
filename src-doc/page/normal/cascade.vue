@@ -163,7 +163,9 @@
                         labelField="name"
                         keyField="id"
                         childrenField="subs"
+                        @focus="$plain.log('focus')" @blur="$plain.log('blur')"
                 />
+
             </demo-row>
             <demo-row title="禁用选项">
                 <demo-line>

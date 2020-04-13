@@ -92,14 +92,10 @@ export class Agent {
 export const AgentMixin = {
     data() {
         const service: Agent = null
-
-        const p_focusTimer: number = 0
-        const p_blurTimer: number = 0
-
+        const focusCounter: number = 0
         return {
             service,
-            p_focusTimer,
-            p_blurTimer,
+            focusCounter,
         }
     },
     beforeDestroy() {
@@ -144,19 +140,17 @@ export const AgentMixin = {
             this.toggle()
         },
         onBlur() {
-            if (this.p_blurTimer === 0) {
-                this.hide()
+            this.focusCounter--
+            if (this.focusCounter === 0) {
                 this.emitBlur()
-            } else {
-                this.p_blurTimer--
+                this.hide()
             }
         },
         onFocus() {
-            if (this.p_focusTimer === 0) {
+            if (this.focusCounter === 0) {
                 this.emitFocus()
-            } else {
-                this.p_focusTimer--
             }
+            this.focusCounter = 1
         },
         onEsc() {
             this.hide()

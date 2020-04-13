@@ -10,7 +10,7 @@
             :placeholder="((isShow&&filterable)?showValue:(!!inputProps?inputProps.placeholder:null)) || ''"
             :clearHandler="clearHandler"
             :inputReadonly="!filterable"
-            :isFocus="isOpen"
+            :isFocus="focusCounter>0"
 
             @change="onInputChange"
             @click-input="onClickInput"
@@ -98,8 +98,7 @@
                 },
                 popperListener: {
                     'mousedown-popper': () => {
-                        this.p_focusTimer++
-                        this.p_blurTimer++
+                        this.focusCounter++
                     },
                     'click-popper': () => {
                         this.input.focus()
