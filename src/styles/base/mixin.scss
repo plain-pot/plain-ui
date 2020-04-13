@@ -22,6 +22,7 @@
   $transition: plvar(transition) !global;
   $transition2: plvar(transition2) !global;
   $shapeFillet: plvar(shapeFillet) !global;
+  $popperRadius: plvar(popperRadius) !global;
 
   @if (str_length($name)>0) {
     .theme-#{$name} {

@@ -32,5 +32,6 @@ $theme-default: (
                 transition2:cubic-bezier(0.410, 1.110, 0.615, 0.995),
 
                 boxShadow:0 2px 12px 0 rgba(0, 0, 0, .1),                               //阴影
+                popperRadius:2px,
         )
 );

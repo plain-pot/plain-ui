@@ -73,7 +73,7 @@
             width: 200px;
             margin-bottom: 12px;
             margin-right: 12px;
-            border-radius: 4px;
+            border-radius: $popperRadius;
             padding: 12px;
             color: white;
             background-color: $colorPrimary;

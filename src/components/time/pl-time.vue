@@ -276,7 +276,7 @@
     @include themify {
         .pl-time-base-panel {
             border: solid $ibc 1px;
-            border-radius: 4px;
+            border-radius: $popperRadius;
             display: inline-block;
             position: relative;
             color: $itc;
@@ -316,7 +316,7 @@
 
         .pl-time-range-panel {
             border: solid $ibc 1px;
-            border-radius: 4px;
+            border-radius: $popperRadius;
             display: inline-block;
 
             .pl-time-base-panel {

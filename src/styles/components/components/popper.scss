@@ -27,48 +27,64 @@
     }
 
     &.pl-popper-el-animate-pl-transition-popper-drop {
-      overflow: hidden;
 
+      padding: 2px;
       $showTransition: transform 300ms $transition2;
 
       .plain-popper-content {
         transition: $showTransition;
-        box-shadow: none;
-        border: solid 1px $ibc;
 
         &.pl-transition-popper-drop-enter-active, &.pl-transition-popper-drop-leave-active {
           transform: translateY(0) translateX(0);
         }
 
-        &[direction=top] {
+      }
+
+      &[direction=top] {
+        overflow-y: hidden;
+
+        .plain-popper-content {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             transform: translate3d(0, 100%, 0);
           }
         }
+      }
 
-        &[direction=bottom] {
+      &[direction=bottom] {
+        overflow-y: hidden;
+
+        .plain-popper-content {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             transform: translate3d(0, -100%, 0);
           }
         }
+      }
 
-        &[direction=left] {
+      &[direction=left] {
+        overflow-x: hidden;
+
+        .plain-popper-content {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             transform: translate3d(100%, 0, 0);
           }
         }
+      }
 
-        &[direction=right] {
+      &[direction=right] {
+        overflow-x: hidden;
+
+        .plain-popper-content {
           &.pl-transition-popper-drop-enter, &.pl-transition-popper-drop-leave-to {
             transform: translate3d(-100%, 0, 0);
           }
         }
       }
+
     }
 
     .plain-popper-content {
       pointer-events: auto;
-      border-radius: 4px;
+      border-radius: $popperRadius;
       color: #606266;
       font-size: 14px;
       padding: 16px 12px;

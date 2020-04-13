@@ -227,7 +227,7 @@
             display: inline-block;
             height: 200px;
             border: solid 1px $ibc;
-            border-radius: 4px;
+            border-radius: $popperRadius;
 
             & > .pl-list {
                 height: 100%;
@@ -312,7 +312,6 @@
         .pl-cascade-service-popper {
             .plain-popper-content {
                 padding: 0 !important;
-                box-shadow: none !important;
             }
 
             .pl-cascade-panel {
