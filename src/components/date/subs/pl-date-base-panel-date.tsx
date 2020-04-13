@@ -21,6 +21,7 @@ export default {
     },
     props: {
         value: {type: Date},
+        firstWeekDay: {type: Number, default: 1},
     },
     watch: {
         value(val) {
@@ -52,7 +53,10 @@ export default {
             const {today, selectDate, value} = this.decode
 
             const currentMonthFirstDate = PlainDate.decode(new Date(selectDate.year, selectDate.month, 1))
-            let firstDateTime = new Date(currentMonthFirstDate.time - (currentMonthFirstDate.day === 1 ? 7 : currentMonthFirstDate.day - 1) * 24 * 60 * 60 * 1000).getTime()
+            let weekDayDuration = currentMonthFirstDate.day - this.firstWeekDay
+            let offsetDay = weekDayDuration === 0 ? 7 : weekDayDuration > 0 ? weekDayDuration : 7 + weekDayDuration
+
+            let firstDateTime = new Date(currentMonthFirstDate.time - (offsetDay) * 24 * 60 * 60 * 1000).getTime()
 
             let list: DateItemType[] = []
             for (let i = 0; i < 42; i++) {
