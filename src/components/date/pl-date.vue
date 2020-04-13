@@ -52,11 +52,20 @@
                         margin-left: 8px;
                     }
                 }
+
+                .pl-button {
+                    color: $icc !important;
+
+                    &:hover {
+                        color: $colorPrimary !important;
+                    }
+                }
             }
 
             .pl-date-base-panel-body {
-                width: 276px;
+                width: 252px;
                 height: 220px;
+                margin: auto;
             }
 
             ul {
@@ -74,6 +83,53 @@
 
         }
 
+        .pl-date-base-panel-year {
+            .pl-date-base-panel-body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .pl-date-base-panel-year-list {
+                transition: all $transition 30ms;
+
+                .pl-date-base-panel-year-item {
+                    width: 25%;
+                    text-align: center;
+                    height: 36px;
+                    line-height: 36px;
+                    margin-bottom: 4px;
+                    cursor: pointer;
+
+                    span {
+                        display: inline-block;
+                        height: 24px;
+                        line-height: 24px;
+                        padding: 0 8px;
+                        border-radius: 100px;
+                    }
+
+                    &:hover {
+                        span {
+                            background-color: rgba($colorPrimary, 0.1);
+                        }
+                    }
+
+                    &.pl-date-base-panel-year-item-now {
+                        color: $colorPrimary;
+                        font-weight: bold;
+                    }
+
+                    &.pl-date-base-panel-year-item-active {
+                        span {
+                            background-color: $colorPrimary;
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+
         .pl-date-base-panel-date {
             ul {
                 &.pl-date-base-panel-date-week-list {
@@ -84,8 +140,6 @@
 
                 &.pl-date-base-panel-date-date-list, &.pl-date-base-panel-date-week-list {
                     width: 36*7px;
-                    margin-left: auto;
-                    margin-right: auto;
                 }
 
                 li {
