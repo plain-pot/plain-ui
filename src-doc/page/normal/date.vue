@@ -2,7 +2,7 @@
     <div class="demo-date">
         <demo-row title="pl-date-base-panel-date">
             <pl-date-base-panel-date v-model="val[0]"/>
-            <pl-date-base-panel-date v-model="val[0]"/>
+            <pl-date-base-panel-date v-model="val[0]" :firstWeekDay="0"/>
         </demo-row>
         <!--<demo-row title="基本用法">
             <pl-date/>

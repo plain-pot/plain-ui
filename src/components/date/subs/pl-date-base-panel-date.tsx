@@ -36,7 +36,8 @@ export default {
     },
     computed: {
         weekList(): string[] {
-            return ['一', '二', '三', '四', '五', '六', '日',]
+            const weeks = ['日', '一', '二', '三', '四', '五', '六']
+            return weeks.slice(this.firstWeekDay).concat(weeks.slice(0, this.firstWeekDay))
         },
         decode() {
             const today = PlainDate.decode(new Date())
