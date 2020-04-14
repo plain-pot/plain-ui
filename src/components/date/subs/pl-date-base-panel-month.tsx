@@ -7,6 +7,8 @@ export default {
     mixins: [EmitMixin],
     emitters: {
         emitInput: Function,
+        emitUpdateStart: Function,
+        emitUpdateEnd: Function,
     },
     props: {
         value: {type: String},
@@ -14,10 +16,10 @@ export default {
         valueFormat: {type: String},
         max: {type: String},
         min: {type: String},
-        range: {type: String},
+        range: {type: Boolean},
         start: {type: String},
         end: {type: String},
-        checkDisabled: {type: String},
+        checkDisabled: {type: Function},
     },
     watch: {
         value(val) {
@@ -32,6 +34,9 @@ export default {
         start(val) {
             this.p_start = val
 
+            this.valueRange = [new PlainDate(val, this.displayFormat, this.valueFormat), new PlainDate(this.p_end, this.displayFormat, this.valueFormat)]
+            this.hoverRange = null
+
             const startPd = new PlainDate(val, this.displayFormat, this.valueFormat)
             if (!startPd.isNull) {
                 this.transitionDirection = this.selectYear > startPd.year ? 'prev' : 'next'
@@ -40,13 +45,17 @@ export default {
         },
         end(val) {
             this.p_end = val
+
+            this.valueRange = [new PlainDate(this.p_start, this.displayFormat, this.valueFormat), new PlainDate(val, this.displayFormat, this.valueFormat)]
+            this.hoverRange = null
         },
     },
     data() {
         const {value, start, end, displayFormat, valueFormat} = this
 
         const vpd = new PlainDate(value, displayFormat, valueFormat)
-        const startpd = new PlainDate(start, displayFormat, valueFormat)
+        const startPd = new PlainDate(start, displayFormat, valueFormat)
+        const endPd = new PlainDate(end, displayFormat, valueFormat)
         const today = PlainDate.decode(new Date())
 
         let selectYear
@@ -54,7 +63,7 @@ export default {
         if (!this.range) {
             selectYear = !vpd.isNull ? vpd.year : today.year
         } else {
-            selectYear = !startpd.isNull ? startpd.year : today.year
+            selectYear = !startPd.isNull ? startPd.year : today.year
         }
 
         const tempPd = new PlainDate(null, this.displayFormat, this.valueFormat)
@@ -65,6 +74,9 @@ export default {
 
         const transitionDirection = 'next'
 
+        const hoverRange: [PlainDate, PlainDate] = null
+        const valueRange: [PlainDate, PlainDate] = [startPd, endPd]
+
         return {
             today,
             selectYear,
@@ -73,6 +85,9 @@ export default {
             p_value,
             p_start,
             p_end,
+
+            hoverRange,
+            valueRange,
 
             transitionDirection,
         }
@@ -137,21 +152,46 @@ export default {
             }
         },
         monthList() {
+
+            const [startPd, endPd] = this.valueRange as [PlainDate, PlainDate]
+            const hoverRange = this.hoverRange as [PlainDate, PlainDate]
+
             let ret: DateBasePanelItemData[] = [];
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(i => {
-                ret.push({
+
+                this.tempPd.setYear(this.selectYear)
+                this.tempPd.setMonthDate(i, 1)
+                const ipd = this.tempPd.copy()
+
+                const item = {
                     label: this.months[i],
                     disabled: this.getDisabled(i),
                     now: this.selectYear === this.today.year && (this.today.month == i),
                     active: (!this.formatData.value.isNull && this.formatData.value.year == this.selectYear && this.formatData.value.month == i),
 
-                    hover: false,
                     hoverStart: false,
                     hoverEnd: false,
+                    hover: false,
 
                     range: this.range,
                     month: i,
-                })
+                    ipd,
+                }
+
+                if (this.range) {
+                    item.hoverStart = !!hoverRange ?
+                        hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
+                        (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    item.hoverEnd = !!hoverRange ?
+                        hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
+                        (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    item.hover = !!hoverRange ?
+                        hoverRange[0].lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 :
+                        (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
+                    item.active = ((!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) || (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0))
+                }
+
+                ret.push(item)
             })
             return ret
         },
@@ -184,18 +224,6 @@ export default {
             }
             return false
         },
-        getItemListener(item) {
-            let ret: { [key: string]: Function } = {}
-            ret.click = () => {
-                this.onClickItem(item)
-            }
-            if (this.range) {
-                ret.mouseenter = () => {
-                    this.onMouseEnterItem(item)
-                }
-            }
-            return ret
-        },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item) {
             if (!this.range) {
@@ -203,10 +231,39 @@ export default {
                 this.tempPd.setMonthDate(item.month, 1)
                 this.p_value = this.tempPd.valueString
                 this.emitInput(this.p_value)
+            } else {
+
+                if (!this.hoverRange) {
+                    this.tempPd.setYear(this.selectYear)
+                    this.tempPd.setMonthDate(item.month, 1)
+                    item = this.tempPd.copy()
+
+                    this.hoverRange = [item, item]
+                    this.valueRange = [item, item]
+                } else {
+                    const [startPd, endPd] = this.hoverRange as [PlainDate, PlainDate]
+
+                    this.p_start = startPd.valueString
+                    this.p_end = endPd.valueString
+
+                    this.hoverRange = null
+                    this.valueRange = [startPd, endPd]
+
+                    this.emitUpdateStart(this.p_start)
+                    this.emitInput(this.p_start, 'start')
+                    this.emitUpdateEnd(this.p_end)
+                    this.emitInput(this.p_end, 'end')
+                }
             }
         },
         onMouseEnterItem(item) {
-
+            if (!!this.hoverRange) {
+                let midpd = this.valueRange[0] as PlainDate
+                this.tempPd.setYear(this.selectYear)
+                this.tempPd.setMonthDate(item.month, 1)
+                item = this.tempPd.copy()
+                this.hoverRange = midpd.greaterThan(item, PlainDate.CompareMode.yearmonth) > 0 ? [item, midpd] : [midpd, item]
+            }
         },
     },
 }

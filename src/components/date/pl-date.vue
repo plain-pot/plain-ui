@@ -215,7 +215,6 @@
                 .pl-date-base-panel-month-item {
                     width: 92px;
                     height: 36px;
-                    padding: 0 5px;
                 }
             }
         }

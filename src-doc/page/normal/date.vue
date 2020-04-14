@@ -38,6 +38,17 @@
                 <pl-date-base-panel-month v-model="val[4]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" max="2030-05-01" min="2018-10-01"/>
                 <pl-date-base-panel-month v-model="val[4]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
             </demo-row>
+            <demo-row title="范围选择">
+                <demo-line>
+                    max="2030-05-01" min="2018-10-1"
+                </demo-line>
+                <demo-line>
+                    <div>start:{{val[5]}}</div>
+                    <div>end:{{val[6]}}</div>
+                </demo-line>
+                <pl-date-base-panel-month :start.sync="val[5]" :end.sync="val[6]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" max="2030-05-01" min="2018-10-01" range/>
+                <pl-date-base-panel-month :start.sync="val[5]" :end.sync="val[6]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" range/>
+            </demo-row>
         </demo-row>
 
 
