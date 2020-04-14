@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-date-base-panel">
+    <div class="pl-date-base-panel" :direction="direction">
         <pl-date-base-panel-header>
             <slot name="left" slot="left"/>
             <slot name="center" slot="center"/>
@@ -17,5 +17,8 @@
     export default {
         name: "pl-date-base-panel",
         components: {PlDateBasePanelHeader},
+        props: {
+            direction: {type: String},
+        },
     }
 </script>
