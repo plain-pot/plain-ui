@@ -68,7 +68,7 @@ export default {
                     <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYearList}/>
                 </template>
                 <template slot="center">
-                    <span>{this.data.title}</span>
+                    <span class="pl-date-base-panel-header-static-label">{this.data.title}</span>
                 </template>
                 <template slot="right">
                     <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYearList}/>

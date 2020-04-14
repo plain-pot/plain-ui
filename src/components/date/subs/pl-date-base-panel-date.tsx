@@ -130,8 +130,8 @@ export default {
                     <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
                 </template>
                 <template slot="center">
-                    <span>{this.selectDate.year}-{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
-                    {/*<span>12:00:00</span>*/}
+                    <span>{this.selectDate.year}</span>-<span>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
+                    {!!this.datetime && <span>12:00:00</span>}
                 </template>
                 <template slot="right">
                     <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>

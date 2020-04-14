@@ -43,18 +43,23 @@
                     text-align: center;
 
                     span {
-                        padding: 3px 8px;
                         transition: all $transition 300ms;
 
-                        &:hover {
-                            box-shadow: plvar(boxShadow);
+                        &:hover:not(.pl-date-base-panel-header-static-label) {
+                            position: relative;
                             cursor: pointer;
-                            border-radius: 100px;
-                        }
-                    }
 
-                    & span:nth-child(2) {
-                        margin-left: 8px;
+                            &:before {
+                                position: absolute;
+                                top: -3px;
+                                left: -8px;
+                                bottom: -3px;
+                                right: -8px;
+                                content: '';
+                                box-shadow: plvar(boxShadow);
+                                border-radius: 100px;
+                            }
+                        }
                     }
                 }
 
@@ -108,6 +113,8 @@
                         }
 
                         &:hover:not(.pl-date-base-panel-item-disabled) {
+                            opacity: 1;
+
                             & > div {
                                 background-color: rgba($colorPrimary, 0.1);
                             }
@@ -255,6 +262,7 @@
                     .pl-date-base-panel-date-week-item {
                         width: $itemWidth;
                         height: $itemHeight;
+                        padding: 0 3px;
                     }
                 }
 
