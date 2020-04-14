@@ -211,6 +211,10 @@ export class PlainDate {
         return PlainDate.parse(valueString, this.valueFormat)
     }
 
+    copy(): PlainDate {
+        return new PlainDate(this.valueString, this.displayFormat, this.valueFormat)
+    }
+
     static defaultDate(): Date {
         const date = new Date()
         date.setMonth(0, 1)
