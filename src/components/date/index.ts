@@ -7,8 +7,6 @@ import basePanelYear from './subs/pl-date-base-panel-year'
 import basePanelMonth from './subs/pl-date-base-panel-month'
 import basePanelItem from './subs/pl-date-base-panel-item'
 
-import panelMonth from './subs/pl-date-panel-month'
-
 import {plugin} from "../../utils";
 
 
@@ -21,5 +19,4 @@ export default plugin([
     basePanelMonth,
     basePanelItem,
 
-    panelMonth,
 ])

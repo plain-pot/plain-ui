@@ -221,10 +221,6 @@
             }
         }
 
-        .pl-date-panel-month {
-
-        }
-
         .pl-date-base-panel-date {
 
             .pl-date-base-panel-body {

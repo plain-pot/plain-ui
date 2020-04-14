@@ -51,17 +51,6 @@
             </demo-row>
         </demo-row>
 
-        <demo-row title="pl-date-panel-month">
-            <demo-row title="基本用法">
-                <demo-line>
-                    <div>{{val[7]}}</div>
-                </demo-line>
-                <pl-date-panel-month v-model="val[7]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
-                <pl-date-panel-month v-model="val[7]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
-            </demo-row>
-        </demo-row>
-
-
         <demo-row title="pl-date-base-panel-date">
             <pl-date-base-panel-date v-model="val[10]"/>
             <pl-date-base-panel-date v-model="val[10]" :firstWeekDay="0"/>
