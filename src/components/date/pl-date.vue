@@ -194,7 +194,19 @@
         }
 
         .pl-date-base-panel-month {
+
+            .pl-date-base-panel-body {
+                position: relative;
+                overflow: hidden;
+            }
+
             .pl-date-base-panel-month-list {
+                transition: all $transition 1000ms;
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -203,50 +215,7 @@
                 .pl-date-base-panel-month-item {
                     width: 92px;
                     height: 36px;
-                    cursor: pointer;
                     padding: 3px 5px;
-                    box-sizing: border-box;
-
-                    & > div {
-                        width: 100%;
-                        height: 100%;
-                        padding: 3px;
-                        box-sizing: border-box;
-                        border-radius: 100px;
-
-                        span {
-                            display: inline-flex;
-                            width: 100%;
-                            height: 100%;
-                            border-radius: 100px;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                    }
-
-                    &:hover:not(.pl-date-base-panel-month-item-disabled) {
-                        & > div {
-                            background-color: rgba($colorPrimary, 0.1);
-                        }
-                    }
-
-                    &.pl-date-base-panel-month-item-now {
-                        color: $colorPrimary;
-                        font-weight: bold;
-                    }
-
-                    &.pl-date-base-panel-month-item-active {
-                        span {
-                            background-color: $colorPrimary;
-                            color: white;
-                        }
-                    }
-
-                    &.pl-date-base-panel-month-item-disabled {
-                        cursor: not-allowed;
-                        color: $disabledText;
-                    }
-
                 }
             }
         }

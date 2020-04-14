@@ -46,6 +46,7 @@ export default {
         const valueRange: [number, number] = [p_start, p_end]
 
         const selectYear: number = !this.range ? this.value : this.start
+        const transitionDirection: 'next' | 'prev' = 'next'
         return {
             selectYear,
             p_value,
@@ -53,6 +54,7 @@ export default {
             p_end,
             hoverRange,
             valueRange,
+            transitionDirection,
         }
     },
     render(h) {
@@ -108,13 +110,10 @@ export default {
                 })
             }
 
-            const transitionDirection: 'next' | 'prev' = 'next'
-
             return {
                 list,
                 title: `${selectYear}-${selectYear + 19}`,
                 selectYear,
-                transitionDirection,
             }
         },
     },

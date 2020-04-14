@@ -1,5 +1,6 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
+import {DateBasePanelItemData} from "./pl-date-base-panel-item";
 
 export default {
     name: 'pl-date-base-panel-month',
@@ -73,20 +74,19 @@ export default {
                     <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
                 </template>
                 <template slot="content">
-                    <ul class="pl-date-base-panel-month-list">
-                        {this.monthList.map(item => (
-                            <li class={[
-                                "pl-date-base-panel-month-item",
-                                {
-                                    'pl-date-base-panel-month-item-now': item.now,
-                                    'pl-date-base-panel-month-item-active': item.active,
-                                    'pl-date-base-panel-month-item-disabled': item.disabled,
-                                }
-                            ]} {...{on: this.getItemListener(item)}}>
-                                <div><span>{this.months[item.month]}</span></div>
-                            </li>
-                        ))}
-                    </ul>
+                    <transition name={`pl-transition-slide-${this.transitionDirection}`}>
+                        <ul class="pl-date-base-panel-month-list" key={this.selectYear} direction="vertical">
+                            {this.monthList.map(item => (
+                                <pl-date-base-panel-item
+                                    class="pl-date-base-panel-month-item"
+                                    item={item}
+                                    onClick={this.onClickItem}
+                                    onMouseenter={this.onMouseEnterItem}
+                                    key={item.month}
+                                />
+                            ))}
+                        </ul>
+                    </transition>
                 </template>
             </pl-date-base-panel>
         )
@@ -121,13 +121,20 @@ export default {
             }
         },
         monthList() {
-            let ret = [];
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(item => {
+            let ret: DateBasePanelItemData[] = [];
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(i => {
                 ret.push({
-                    month: item,
-                    disabled: this.getDisabled(item),
-                    now: this.selectYear === this.today.year && (this.today.month == item),
-                    active: (!this.formatData.value.isNull && this.formatData.value.year == this.selectYear && this.formatData.value.month == item),
+                    label: this.months[i],
+                    disabled: this.getDisabled(i),
+                    now: this.selectYear === this.today.year && (this.today.month == i),
+                    active: (!this.formatData.value.isNull && this.formatData.value.year == this.selectYear && this.formatData.value.month == i),
+
+                    hover: false,
+                    hoverStart: false,
+                    hoverEnd: false,
+
+                    range: this.range,
+                    month: i,
                 })
             })
             return ret
@@ -136,9 +143,11 @@ export default {
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
         prevYear() {
+            this.transitionDirection = 'prev'
             this.selectYear--
         },
         nextYear() {
+            this.transitionDirection = 'next'
             this.selectYear++
         },
         /*---------------------------------------utils-------------------------------------------*/
