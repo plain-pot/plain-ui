@@ -9,3 +9,9 @@ export const DatePublicProps = {
     end: {type: String},
     checkDisabled: {type: Function},
 }
+
+export enum DateView {
+    year = 'year',
+    month = 'month',
+    date = 'date'
+}

@@ -1,11 +1,7 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-
-enum MonthView {
-    year = 'year',
-    month = 'month'
-}
+import {DateView} from "./index";
 
 export default {
     name: 'pl-date-base-panel-month',
@@ -25,6 +21,7 @@ export default {
         start: {type: String},
         end: {type: String},
         checkDisabled: {type: Function},
+        view: {type: String, default: DateView.month},
     },
     watch: {
         value(val) {
@@ -76,7 +73,7 @@ export default {
         const hoverRange: [PlainDate, PlainDate] = null
         const valueRange: [PlainDate, PlainDate] = [startPd, endPd]
 
-        const view: MonthView = MonthView.year
+        const p_view = this.view || DateView.year
 
         return {
             today,
@@ -91,20 +88,20 @@ export default {
             valueRange,
 
             transitionDirection,
-            view,
+            p_view,
         }
     },
     render(h) {
         return (
             <div class="pl-date-base-panel-month-wrapper pl-date-base-panel">
-                <transition name={`pl-transition-slide-${this.view === 'year' ? 'prev' : 'next'}`}>
-                    {this.view === 'month' ? (
+                <transition name={`pl-transition-slide-${this.p_view === 'year' ? 'prev' : 'next'}`}>
+                    {this.p_view === 'month' ? (
                         <pl-date-base-panel class="pl-date-base-panel-month" direction="horizontal">
                             <template slot="left">
                                 <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
                             </template>
                             <template slot="center">
-                                <span onClick={() => this.view = MonthView.year}>{this.selectYear}</span>
+                                <span onClick={() => this.p_view = DateView.year}>{this.selectYear}</span>
                             </template>
                             <template slot="right">
                                 <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
@@ -302,7 +299,7 @@ export default {
             }
         },
         onSelectYearChange(val) {
-            this.view = MonthView.month
+            this.p_view = DateView.month
             this.setSelectYear(val)
         },
         checkYearActive(val) {
