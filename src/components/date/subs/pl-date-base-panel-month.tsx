@@ -22,6 +22,8 @@ export default {
         end: {type: String},
         checkDisabled: {type: Function},
         view: {type: String, default: DateView.month},
+
+        direction: {type: String},
     },
     watch: {
         value(val) {
@@ -93,7 +95,7 @@ export default {
     },
     render(h) {
         return (
-            <div class="pl-date-base-panel-month-wrapper pl-date-base-panel">
+            <div class="pl-date-base-panel-month-wrapper pl-date-base-panel" direction={this.direction}>
                 <transition name={`pl-transition-slide-${this.p_view === 'year' ? 'prev' : 'next'}`}>
                     {this.p_view === 'month' ? (
                         <pl-date-base-panel class="pl-date-base-panel-month" direction="horizontal">
