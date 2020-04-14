@@ -16,6 +16,9 @@ export default {
         end: {type: Number},
         max: {type: Number},
         min: {type: Number},
+
+        direction: {type: String},
+
         checkDisabled: {type: Function},
         checkActive: {type: Function},
     },
@@ -60,7 +63,7 @@ export default {
     },
     render(h) {
         return (
-            <pl-date-base-panel class="pl-date-base-panel-year">
+            <pl-date-base-panel class="pl-date-base-panel-year" direction={this.direction}>
                 <template slot="left">
                     <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYearList}/>
                 </template>
