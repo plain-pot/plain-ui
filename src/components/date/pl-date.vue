@@ -28,6 +28,7 @@
             padding: 8px 12px 12px 12px;
             width: 302px;
             height: 282px;
+            transition: all $transition 1000ms;
 
             .pl-date-base-panel-header {
                 width: $width;
@@ -195,29 +196,43 @@
             }
         }
 
-        .pl-date-base-panel-month {
+        .pl-date-base-panel-month-wrapper {
+            position: relative;
+            overflow: hidden;
 
-            .pl-date-base-panel-body {
-                position: relative;
-                overflow: hidden;
+            .pl-date-base-panel-month {
+
+                .pl-date-base-panel-body {
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .pl-date-base-panel-month-list {
+                    transition: all $transition 1000ms;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-wrap: wrap;
+
+                    .pl-date-base-panel-month-item {
+                        width: 92px;
+                        height: 36px;
+                    }
+                }
             }
 
-            .pl-date-base-panel-month-list {
-                transition: all $transition 1000ms;
+            padding: 0;
+
+            & > div {
+                border: none;
                 position: absolute;
                 left: 0;
                 top: 0;
-                right: 0;
-                bottom: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-wrap: wrap;
-
-                .pl-date-base-panel-month-item {
-                    width: 92px;
-                    height: 36px;
-                }
             }
         }
 

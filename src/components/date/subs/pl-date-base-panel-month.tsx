@@ -2,6 +2,11 @@ import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
 
+enum MonthView {
+    year = 'year',
+    month = 'month'
+}
+
 export default {
     name: 'pl-date-base-panel-month',
     mixins: [EmitMixin],
@@ -26,10 +31,7 @@ export default {
             this.p_value = val
 
             const vpd = new PlainDate(val, this.displayFormat, this.valueFormat)
-            if (!vpd.isNull) {
-                this.transitionDirection = this.selectYear > vpd.year ? 'prev' : 'next'
-                this.selectYear = vpd.year
-            }
+            this.setSelectYear(vpd.year)
         },
         start(val) {
             this.p_start = val
@@ -38,10 +40,7 @@ export default {
             this.hoverRange = null
 
             const startPd = new PlainDate(val, this.displayFormat, this.valueFormat)
-            if (!startPd.isNull) {
-                this.transitionDirection = this.selectYear > startPd.year ? 'prev' : 'next'
-                this.selectYear = startPd.year
-            }
+            this.setSelectYear(startPd.year)
         },
         end(val) {
             this.p_end = val
@@ -77,6 +76,8 @@ export default {
         const hoverRange: [PlainDate, PlainDate] = null
         const valueRange: [PlainDate, PlainDate] = [startPd, endPd]
 
+        const view: MonthView = MonthView.year
+
         return {
             today,
             selectYear,
@@ -90,36 +91,45 @@ export default {
             valueRange,
 
             transitionDirection,
+            view,
         }
     },
     render(h) {
         return (
-            <pl-date-base-panel class="pl-date-base-panel-month">
-                <template slot="left">
-                    <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
-                </template>
-                <template slot="center">
-                    <span>{this.selectYear}</span>
-                </template>
-                <template slot="right">
-                    <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
-                </template>
-                <template slot="content">
-                    <transition name={`pl-transition-slide-${this.transitionDirection}`}>
-                        <ul class="pl-date-base-panel-month-list" key={this.selectYear} direction="vertical">
-                            {this.monthList.map(item => (
-                                <pl-date-base-panel-item
-                                    class="pl-date-base-panel-month-item"
-                                    item={item}
-                                    onClick={this.onClickItem}
-                                    onMouseenter={this.onMouseEnterItem}
-                                    key={item.month}
-                                />
-                            ))}
-                        </ul>
-                    </transition>
-                </template>
-            </pl-date-base-panel>
+            <div class="pl-date-base-panel-month-wrapper pl-date-base-panel">
+                <transition name={`pl-transition-slide-${this.view === 'year' ? 'prev' : 'next'}`}>
+                    {this.view === 'month' ? (
+                        <pl-date-base-panel class="pl-date-base-panel-month" direction="horizontal">
+                            <template slot="left">
+                                <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
+                            </template>
+                            <template slot="center">
+                                <span onClick={() => this.view = MonthView.year}>{this.selectYear}</span>
+                            </template>
+                            <template slot="right">
+                                <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
+                            </template>
+                            <template slot="content">
+                                <transition name={`pl-transition-slide-${this.transitionDirection}`}>
+                                    <ul class="pl-date-base-panel-month-list" key={this.selectYear} direction="vertical">
+                                        {this.monthList.map(item => (
+                                            <pl-date-base-panel-item
+                                                class="pl-date-base-panel-month-item"
+                                                item={item}
+                                                onClick={this.onClickItem}
+                                                onMouseenter={this.onMouseEnterItem}
+                                                key={item.month}
+                                            />
+                                        ))}
+                                    </ul>
+                                </transition>
+                            </template>
+                        </pl-date-base-panel>
+                    ) : (
+                        <pl-date-base-panel-year {...this.yearPanelBinding} direction="horizontal"/>
+                    )}
+                </transition>
+            </div>
         )
     },
     computed: {
@@ -151,6 +161,17 @@ export default {
                 min: new PlainDate(min, displayFormat, valueFormat),
             }
         },
+        yearPanelBinding() {
+            return {
+                props: {
+                    value: this.selectYear,
+                    checkActive: this.checkYearActive,
+                },
+                on: {
+                    change: this.onSelectYearChange,
+                },
+            }
+        },
         monthList() {
 
             const [startPd, endPd] = this.valueRange as [PlainDate, PlainDate]
@@ -167,7 +188,7 @@ export default {
                     label: this.months[i],
                     disabled: this.getDisabled(i),
                     now: this.selectYear === this.today.year && (this.today.month == i),
-                    active: (!this.formatData.value.isNull && this.formatData.value.year == this.selectYear && this.formatData.value.month == i),
+                    active: this.getActive(i, {vpd: this.formatData.value, ipd, range: this.range}),
 
                     hoverStart: false,
                     hoverEnd: false,
@@ -207,6 +228,13 @@ export default {
             this.selectYear++
         },
         /*---------------------------------------utils-------------------------------------------*/
+        setSelectYear(target) {
+            if (!target) {
+                target = this.today.year
+            }
+            this.transitionDirection = this.selectYear > target ? 'prev' : 'next'
+            this.selectYear = target
+        },
         getDisabled(item) {
             if (this.checkDisabled) {
                 return this.checkDisabled(item, 'month')
@@ -223,6 +251,12 @@ export default {
                 return true
             }
             return false
+        },
+        getActive(item, option: { vpd: PlainDate, ipd: PlainDate, range: boolean }) {
+            if (!!this.checkActive) {
+                return this.checkActive(item, 'month', option)
+            }
+            return (!option.vpd.isNull && option.vpd.year == this.selectYear && option.vpd.month == item)
         },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item) {
@@ -263,6 +297,18 @@ export default {
                 this.tempPd.setMonthDate(item.month, 1)
                 item = this.tempPd.copy()
                 this.hoverRange = midpd.greaterThan(item, PlainDate.CompareMode.yearmonth) > 0 ? [item, midpd] : [midpd, item]
+            }
+        },
+        onSelectYearChange(val) {
+            this.view = MonthView.month
+            this.setSelectYear(val)
+        },
+        checkYearActive(val) {
+            const {value, start, end} = this.formatData as { start: PlainDate, end: PlainDate, value: PlainDate }
+            if (!this.range) {
+                return (!value.isNull && value.year === val)
+            } else {
+                return (!start.isNull && start.year === val) || (!end.isNull && end.year === val)
             }
         },
     },
