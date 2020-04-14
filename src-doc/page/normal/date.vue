@@ -18,8 +18,18 @@
                 <pl-date-base-panel-year range :start.sync="val[1]" :end.sync="val[2]" :max="2030" :min="2021"/>
                 <pl-date-base-panel-year range :start.sync="val[1]" :end.sync="val[2]"/>
             </demo-row>
-
         </demo-row>
+
+        <demo-row title="pl-date-base-panel-month">
+            <demo-row title="基本用法">
+                <demo-line>
+                    <div>{{val[3]}}</div>
+                </demo-line>
+                <pl-date-base-panel-month v-model="val[3]"/>
+                <pl-date-base-panel-month v-model="val[3]"/>
+            </demo-row>
+        </demo-row>
+
 
         <demo-row title="pl-date-base-panel-date">
             <pl-date-base-panel-date v-model="val[10]"/>
