@@ -28,6 +28,16 @@
                 <pl-date-base-panel-month v-model="val[3]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
                 <pl-date-base-panel-month v-model="val[3]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
             </demo-row>
+            <demo-row title="最大最小值">
+                <demo-line>
+                    max="2030-05-01" min="2018-10-1"
+                </demo-line>
+                <demo-line>
+                    <div>{{val[4]}}</div>
+                </demo-line>
+                <pl-date-base-panel-month v-model="val[4]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" max="2030-05-01" min="2018-10-01"/>
+                <pl-date-base-panel-month v-model="val[4]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
+            </demo-row>
         </demo-row>
 
 
