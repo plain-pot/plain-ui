@@ -52,8 +52,20 @@
         </demo-row>
 
         <demo-row title="pl-date-base-panel-date">
-            <pl-date-base-panel-date v-model="val[10]"/>
-            <pl-date-base-panel-date v-model="val[10]" :firstWeekDay="0"/>
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[10]}}
+                </demo-line>
+                <pl-date-base-panel-date v-model="val[10]"/>
+                <pl-date-base-panel-date v-model="val[10]" :firstWeekDay="0"/>
+            </demo-row>
+            <demo-row title="日期时间选择">
+                <demo-line>
+                    {{val[11]}}
+                </demo-line>
+                <pl-date-base-panel-date v-model="val[11]" datetime/>
+                <pl-date-base-panel-date v-model="val[11]" datetime :firstWeekDay="0"/>
+            </demo-row>
         </demo-row>
 
         <!--<demo-row title="基本用法">

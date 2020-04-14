@@ -1,7 +1,7 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicProps, DateView} from "./index";
+import {DatePublicProps, DateView, DateViewSeq} from "./index";
 
 export default {
     name: "pl-date-base-panel-date",
@@ -36,6 +36,7 @@ export default {
         const selectDate: PlainDate = !!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy()
         const tempPd = new PlainDate(null, displayFormat, valueFormat)
         const p_view = DateView.date
+        const transitionDirection: 'prev' | 'next' = 'next'
 
         return {
             p_value,
@@ -45,6 +46,7 @@ export default {
 
             tempPd,
             p_view,
+            transitionDirection,
         }
     },
     computed: {
@@ -123,53 +125,72 @@ export default {
     render(h) {
         return (
             <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
-                <transition name={`pl-transition-slide-${(this.p_view === 'month') || (this.p_view === 'year') ? 'prev' : 'next'}`}>
-                    {this.p_view === 'date' ? (
-                        <pl-date-base-panel class="pl-date-base-panel-date" direction="horizontal">
-                            <template slot="left">
-                                <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
-                                <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
-                            </template>
-                            <template slot="center">
-                                <span onClick={() => this.p_view = DateView.year}>{this.selectDate.year}</span>
-                                -
-                                <span onClick={() => this.p_view = DateView.month}>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
-                                {!!this.datetime && <span>12:00:00</span>}
-                            </template>
-                            <template slot="right">
-                                <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
-                                <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
-                            </template>
+                <transition name={`pl-transition-slide-${this.transitionDirection}`}>
+                    {{
+                        date: (
+                            <pl-date-base-panel class="pl-date-base-panel-date" direction="horizontal" key="date">
+                                <template slot="left">
+                                    <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
+                                    <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
+                                </template>
+                                <template slot="center">
+                                    <span onclick={() => this.changeView(DateView.year)}>{this.selectDate.year}</span>
+                                    -
+                                    <span onclick={() => this.changeView(DateView.month) }>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
+                                    {!!this.datetime && <span class="pl-date-base-panel-date-time-label" onClick={() => this.changeView(DateView.time)}>12:00:00</span>}
+                                </template>
+                                <template slot="right">
+                                    <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
+                                    <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
+                                </template>
 
-                            <template slot="content">
-                                <ul class="pl-date-base-panel-date-week-list">
-                                    {this.weekList.map(item => (
-                                        <pl-date-base-panel-item key={item} class="pl-date-base-panel-date-week-item" item={{label: item,}}/>
-                                    ))}
-                                </ul>
-                                <pl-list class="pl-date-base-panel-date-list" tag="ul">
-                                    {this.dateList.map((item: DateBasePanelItemData, index) => (
-                                        <pl-date-base-panel-item
-                                            component="pl-item"
-                                            componentProps={{tag: 'li'}}
-                                            class={[
-                                                'pl-date-base-panel-date-item',
-                                                {
-                                                    'pl-date-base-panel-date-item-other-month': !item.isSelectMonth,
-                                                }
-                                            ]}
-                                            item={item}
-                                            onClick={this.onClickItem}
-                                            onMouseenter={this.onMouseEnterItem}
-                                            key={item.isSelectMonth ? item.ipd.date : `_${index}`}
-                                        />
-                                    ))}
-                                </pl-list>
-                            </template>
-                        </pl-date-base-panel>
-                    ) : (
-                        <pl-date-base-panel-month {...this.monthPanelBinding} direction="horizontal"/>
-                    )}
+                                <template slot="content">
+                                    <ul class="pl-date-base-panel-date-week-list">
+                                        {this.weekList.map(item => (
+                                            <pl-date-base-panel-item key={item} class="pl-date-base-panel-date-week-item" item={{label: item,}}/>
+                                        ))}
+                                    </ul>
+                                    <pl-list class="pl-date-base-panel-date-list" tag="ul">
+                                        {this.dateList.map((item: DateBasePanelItemData, index) => (
+                                            <pl-date-base-panel-item
+                                                component="pl-item"
+                                                componentProps={{tag: 'li'}}
+                                                class={[
+                                                    'pl-date-base-panel-date-item',
+                                                    {
+                                                        'pl-date-base-panel-date-item-other-month': !item.isSelectMonth,
+                                                    }
+                                                ]}
+                                                item={item}
+                                                onClick={this.onClickItem}
+                                                onMouseenter={this.onMouseEnterItem}
+                                                key={item.isSelectMonth ? item.ipd.date : `_${index}`}
+                                            />
+                                        ))}
+                                    </pl-list>
+                                </template>
+                            </pl-date-base-panel>
+                        ),
+                        month: (
+                            <pl-date-base-panel-month {...this.monthPanelBinding} direction="horizontal" key={this.p_view}/>
+                        ),
+                        time: (
+                            <pl-date-base-panel class="pl-date-base-panel-time" direction="horizontal" key="time">
+                                <template slot="center">
+                                    <span onclick={() => this.changeView(DateView.date)}>
+                                        {this.selectDate.year}
+                                        -
+                                        {this.$plain.utils.zeroize(this.selectDate.month + 1)}
+                                        -
+                                        {this.$plain.utils.zeroize(this.selectDate.date)}
+                                    </span>
+                                </template>
+                                <template slot="content">
+                                    this time panel content
+                                </template>
+                            </pl-date-base-panel>
+                        )
+                    }[this.p_view === 'year' ? 'month' : this.p_view]}
                 </transition>
             </div>
         )
@@ -202,14 +223,14 @@ export default {
                 if (!this.datetime) {
                     ret.displayFormat = 'YYYY-MM-DD'
                 } else {
-                    ret.displayFormat = 'YYYY-MM-DD HH:mmLss'
+                    ret.displayFormat = 'YYYY-MM-DD HH:mm:ss'
                 }
             }
             if (!ret.valueFormat) {
                 if (!this.datetime) {
                     ret.valueFormat = 'YYYY-MM-DD'
                 } else {
-                    ret.valueFormat = 'YYYY-MM-DD HH:mmLss'
+                    ret.valueFormat = 'YYYY-MM-DD HH:mm:ss'
                 }
             }
             return ret
@@ -217,8 +238,14 @@ export default {
         setSelectDate(val: string) {
             this.selectDate = !!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today
         },
-        /*---------------------------------------helper-------------------------------------------*/
-
+        /*---------------------------------------utils-------------------------------------------*/
+        changeView(view: DateView) {
+            if (view === this.p_view) return
+            const oldSeq = DateViewSeq[this.p_view]
+            const newSeq = DateViewSeq[view]
+            this.transitionDirection = newSeq > oldSeq ? 'next' : 'prev'
+            this.p_view = view
+        },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item: DateBasePanelItemData) {
             this.emitClickItem(item)
@@ -235,7 +262,7 @@ export default {
         onSelectMonthChange(val) {
             this.selectDate.setValue(val)
             this.selectDate = this.selectDate.copy()
-            this.p_view = DateView.date
+            this.changeView(DateView.date)
         },
     },
 }

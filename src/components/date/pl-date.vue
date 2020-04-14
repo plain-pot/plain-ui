@@ -255,6 +255,10 @@
                     flex-direction: column;
                 }
 
+                .pl-date-base-panel-date-time-label {
+                    margin-left: 8px;
+                }
+
                 ul {
                     $itemWidth: 36px;
                     $itemHeight: 30px;

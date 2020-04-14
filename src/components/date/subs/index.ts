@@ -13,5 +13,13 @@ export const DatePublicProps = {
 export enum DateView {
     year = 'year',
     month = 'month',
-    date = 'date'
+    date = 'date',
+    time = 'time',
+}
+
+export const DateViewSeq = {
+    year: 1,
+    month: 2,
+    date: 3,
+    time: 4,
 }
