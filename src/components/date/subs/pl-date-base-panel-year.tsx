@@ -149,7 +149,7 @@ export default {
             } else {
                 if (!this.hoverRange) {
                     this.hoverRange = [item.year, item.year]
-                    this.valueRange = [item.year]
+                    this.valueRange = [item.year, item.year]
                 } else {
 
                     const [start, end] = this.hoverRange
