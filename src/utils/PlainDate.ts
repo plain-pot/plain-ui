@@ -27,6 +27,7 @@ enum CompareMode {
     time = 'time',
     date = 'date',
     datetime = 'datetime',
+    yearmonth = 'yearmonth',
 }
 
 export class PlainDate {
@@ -178,6 +179,8 @@ export class PlainDate {
                 return Number(this.dateString) - Number(plainDate.dateString)
             case CompareMode.datetime:
                 return this.time - plainDate.time
+            case CompareMode.yearmonth:
+                return this.year === plainDate.year ? this.month - plainDate.month : this.year - plainDate.year
         }
     }
 

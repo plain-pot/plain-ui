@@ -25,8 +25,8 @@
                 <demo-line>
                     <div>{{val[3]}}</div>
                 </demo-line>
-                <pl-date-base-panel-month v-model="val[3]"/>
-                <pl-date-base-panel-month v-model="val[3]"/>
+                <pl-date-base-panel-month v-model="val[3]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
+                <pl-date-base-panel-month v-model="val[3]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
             </demo-row>
         </demo-row>
 

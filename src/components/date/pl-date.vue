@@ -191,6 +191,64 @@
             }
         }
 
+        .pl-date-base-panel-month {
+            .pl-date-base-panel-month-list {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+
+                .pl-date-base-panel-month-item {
+                    width: 92px;
+                    height: 36px;
+                    cursor: pointer;
+                    padding: 3px 5px;
+                    box-sizing: border-box;
+
+                    & > div {
+                        width: 100%;
+                        height: 100%;
+                        padding: 3px;
+                        box-sizing: border-box;
+                        border-radius: 100px;
+
+                        span {
+                            display: inline-flex;
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 100px;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+
+                    &:hover:not(.pl-date-base-panel-month-item-disabled) {
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                        }
+                    }
+
+                    &.pl-date-base-panel-month-item-now {
+                        color: $colorPrimary;
+                        font-weight: bold;
+                    }
+
+                    &.pl-date-base-panel-month-item-active {
+                        span {
+                            background-color: $colorPrimary;
+                            color: white;
+                        }
+                    }
+
+                    &.pl-date-base-panel-month-item-disabled {
+                        cursor: not-allowed;
+                        color: $disabledText;
+                    }
+
+                }
+            }
+        }
+
         .pl-date-base-panel-date {
 
             .pl-date-base-panel-body {
