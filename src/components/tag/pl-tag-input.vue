@@ -10,7 +10,7 @@
                   v-if="!noInput"
                   ref="input"
                   key="input"
-                  @enter="onInputEnter">
+                  @keydown.enter="onInputEnter">
             <div class="pl-tag-input-not-edit" v-if="!isEditing" @click="onClickEditButton">
                 <pl-icon icon="el-icon-plus"/>
                 <span>添加</span>

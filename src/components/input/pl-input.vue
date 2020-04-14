@@ -44,14 +44,14 @@
             nativeProps: {type: Object, default: () => ({})},
         },
         emitters: {
-            emitInput: '输入文本事件',
-            emitFocus: '获取焦点事件',
-            emitBlur: '失去焦点事件',
-            emitKeydown: '按键事件',
-            emitClickInput: '点击input输入框事件',
-            emitClickPrefixIcon: '点击前置图标事件',
-            emitClickSuffixIcon: '点击后置图标事件',
-            emitClickClearIcon: '点击清除图标事件',
+            emitInput: Function,
+            emitFocus: Function,
+            emitBlur: Function,
+            emitKeydown: Function,
+            emitClickInput: Function,
+            emitClickPrefixIcon: Function,
+            emitClickSuffixIcon: Function,
+            emitClickClearIcon: Function,
         },
         watch: {
             value(val) {
