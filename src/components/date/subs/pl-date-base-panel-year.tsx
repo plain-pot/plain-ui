@@ -17,6 +17,7 @@ export default {
         max: {type: Number},
         min: {type: Number},
         checkDisabled: {type: Function},
+        checkActive: {type: Function},
     },
     watch: {
         value(val) {
@@ -99,7 +100,7 @@ export default {
                 list.push({
                     label: i,
                     now: i === nowYear,
-                    active: !this.range ? value === i : (this.valueRange[0] == i || this.valueRange[1] == i),
+                    active: this.getActive(i, {value, start: this.valueRange[0], end: this.valueRange[1]}),
                     disabled: this.getDisabled(i),
                     hoverStart: !!this.hoverRange ? (this.hoverRange[0] === i) : this.valueRange[0] == i,
                     hoverEnd: !!this.hoverRange ? (this.hoverRange[1] === i) : this.valueRange[1] == i,
@@ -121,7 +122,7 @@ export default {
         /*---------------------------------------utils-------------------------------------------*/
         getDisabled(item) {
             if (!!this.checkDisabled) {
-                return this.checkDisabled(item)
+                return this.checkDisabled(item, 'year')
             }
             if (this.max != null && item > this.max) {
                 return true
@@ -130,6 +131,12 @@ export default {
                 return true
             }
             return false
+        },
+        getActive(item, data: { value: number, start: number, end: number }) {
+            if (!!this.checkActive) {
+                return this.checkActive(item, 'year', data)
+            }
+            return !this.range ? data.value === item : (data.start == item || data.end == item)
         },
         /*---------------------------------------methods-------------------------------------------*/
         prevYearList() {
