@@ -227,76 +227,41 @@
             }
 
             ul {
+                $itemWidth: 36px;
+                $itemHeight: 30px;
+
                 &.pl-date-base-panel-date-week-list {
                     border-bottom: solid 1px $ibl;
                     padding-bottom: 8px;
                     margin-bottom: 8px;
-                }
+                    width: $itemWidth*7;
 
-                &.pl-date-base-panel-date-date-list, &.pl-date-base-panel-date-week-list {
-                    width: 100%;
-                    padding: 0 ($width - 36*7)/2;
-                }
-
-                li {
-                    &, & span {
-                        transition: all $transition 300ms;
+                    .pl-date-base-panel-date-week-item {
+                        width: $itemWidth;
+                        height: $itemHeight;
                     }
+                }
 
-                    &.pl-date-base-panel-date-item {
-                        width: 36px;
-                        height: 30px;
-                        cursor: pointer;
-                        padding: 0 3px;
-                        box-sizing: border-box;
+                &.pl-date-base-panel-date-list {
+                    width: $itemWidth*7;
+
+                    .pl-date-base-panel-date-item {
+                        width: $itemWidth;
+                        height: $itemHeight;
+                        text-align: center;
 
                         & > div {
-                            width: 100%;
-                            height: 100%;
-                            align-items: center;
-                            justify-content: center;
-                            display: inline-flex;
+                            width: $itemHeight;
+                            height: $itemHeight;
+                            display: inline-block;
                             padding: 3px;
-                            box-sizing: border-box;
                         }
 
-                        span {
-                            width: 100%;
-                            height: 100%;
-                            align-items: center;
-                            justify-content: center;
-                            display: inline-flex;
-                        }
-                    }
-                }
-
-                &.pl-date-base-panel-date-date-list {
-                    overflow: hidden;
-
-                    li {
-
-                        &:hover {
-                            & > div {
-                                background-color: rgba($colorPrimary, 0.1);
-                                border-radius: 100px;
-                            }
+                        &, & span {
+                            transition: all $transition 300ms;
                         }
 
-                        &.pl-date-base-panel-date-item-today {
-                            color: $colorPrimary;
-                            font-weight: bold;
-                        }
-
-                        &.pl-date-base-panel-date-item-active {
-                            span {
-                                background-color: $colorPrimary;
-                                color: white;
-                                font-weight: bold;
-                                border-radius: 100px;
-                            }
-                        }
-
-                        &:not(.pl-date-base-panel-date-item-select-month) {
+                        &.pl-date-base-panel-date-item-other-month {
                             opacity: 0.2;
                         }
                     }

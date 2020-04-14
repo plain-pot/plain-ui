@@ -25,12 +25,15 @@ export default {
     },
     props: {
         item: {type: DateBasePanelItemData},
+        component: {default: 'li'},
+        componentProps: {type: Object},
     },
     render(h) {
+        const Component = this.component
         return (
-            <li class={this.classes} {...{on: this.listener}}>
+            <Component class={this.classes} {...{props: this.componentProps, on: this.listener}}>
                 <div><span>{this.item.label}</span></div>
-            </li>
+            </Component>
         )
     },
     computed: {

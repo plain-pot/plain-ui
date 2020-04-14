@@ -1,5 +1,6 @@
 import {DecodeDate, PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
+import {DateBasePanelItemData} from "./pl-date-base-panel-item";
 
 interface DateItemType {
     decode: DecodeDate,
@@ -47,7 +48,7 @@ export default {
                 value,
             }
         },
-        dateList(): DateItemType[] {
+        dateList(): DateBasePanelItemData[] {
 
             const {today, selectDate, value} = this.decode
 
@@ -57,14 +58,21 @@ export default {
 
             let firstDateTime = new Date(currentMonthFirstDate.time - (offsetDay) * 24 * 60 * 60 * 1000).getTime()
 
-            let list: DateItemType[] = []
+            let list: DateBasePanelItemData[] = []
             for (let i = 0; i < 42; i++) {
                 const decode = PlainDate.decode(new Date(firstDateTime))
                 list.push({
+                    label: String(decode.date),
+                    now: today.year === decode.year && today.month === decode.month && today.date === decode.date,
+                    active: !!value && (value.year === decode.year && value.month === decode.month && value.date === decode.date),
+                    hover: false,
+                    hoverStart: false,
+                    hoverEnd: false,
+                    range: this.range,
+                    disabled: false,
+
                     decode,
-                    isToday: today.year === decode.year && today.month === decode.month && today.date === decode.date,
                     isSelectMonth: selectDate.year === decode.year && selectDate.month === decode.month,
-                    isActive: !!value && (value.year === decode.year && value.month === decode.month && value.date === decode.date)
                 })
                 firstDateTime += 24 * 60 * 60 * 1000
             }
@@ -90,24 +98,29 @@ export default {
                 <template slot="content">
                     <ul class="pl-date-base-panel-date-week-list">
                         {this.weekList.map(item => (
-                            <li key={item} class="pl-date-base-panel-date-item"><div><span>{item}</span></div></li>
+                            <pl-date-base-panel-item key={item}
+                                                     class="pl-date-base-panel-date-week-item"
+                                                     item={{
+                                                         label: item,
+                                                     }}/>
                         ))}
                     </ul>
-                    <pl-list class="pl-date-base-panel-date-date-list" tag="ul">
+                    <pl-list class="pl-date-base-panel-date-list" tag="ul">
                         {this.dateList.map((item: DateItemType, index) => (
-                            <pl-item key={item.isSelectMonth ? item.decode.date : `_${index}`}
-                                     tag="li"
-                                     onClick={() => this.onClickItem(item)}
-                                     class={[
-                                         'pl-date-base-panel-date-item',
-                                         {
-                                             'pl-date-base-panel-date-item-today': item.isToday,
-                                             'pl-date-base-panel-date-item-select-month': item.isSelectMonth,
-                                             'pl-date-base-panel-date-item-active': item.isActive,
-                                         }
-                                     ]}>
-                                <div><span>{item.decode.date}</span></div>
-                            </pl-item>
+                            <pl-date-base-panel-item
+                                component="pl-item"
+                                componentProps={{tag: 'li'}}
+                                class={[
+                                    'pl-date-base-panel-date-item',
+                                    {
+                                        'pl-date-base-panel-date-item-other-month': !item.isSelectMonth,
+                                    }
+                                ]}
+                                item={item}
+                                onClick={this.onClickItem}
+                                onMouseenter={this.onMouseEnterItem}
+                                key={item.isSelectMonth ? item.decode.date : `_${index}`}
+                            />
                         ))}
                     </pl-list>
                 </template>
