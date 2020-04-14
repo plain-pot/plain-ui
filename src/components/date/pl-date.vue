@@ -26,6 +26,8 @@
             border-radius: 2px;
             display: inline-block;
             padding: 8px 12px 12px 12px;
+            width: 302px;
+            height: 282px;
 
             .pl-date-base-panel-header {
                 width: $width;
