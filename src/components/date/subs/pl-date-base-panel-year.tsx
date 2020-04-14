@@ -93,7 +93,7 @@ export default {
             let nowYear = new Date().getFullYear()
 
             selectYear = selectYear || nowYear
-            selectYear = Number(String(selectYear).slice(0, -1) + '0')
+            selectYear = selectYear - selectYear % 20
             let list: DateBasePanelItemData[] = []
             for (let i = selectYear; i < selectYear + 20; i++) {
                 list.push({
