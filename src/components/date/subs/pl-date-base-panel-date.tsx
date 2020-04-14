@@ -15,7 +15,7 @@ export default {
     props: {
         ...DatePublicProps,
 
-        datetime: {type: Boolean},
+        datetime: {type: Boolean},                                                          // 是否为选择日期时间
         firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
     },
     watch: {
@@ -32,11 +32,11 @@ export default {
 
         const {displayFormat, valueFormat} = this.getFormatString()
 
-        const today = PlainDate.today(displayFormat, valueFormat)
-        const selectDate: PlainDate = !!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy()
-        const tempPd = new PlainDate(null, displayFormat, valueFormat)
-        const p_view = DateView.date
-        const transitionDirection: 'prev' | 'next' = 'next'
+        const today = PlainDate.today(displayFormat, valueFormat)                                                           // 今天
+        const selectDate: PlainDate = !!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy()         // 当前选择的年月信息对象
+        const tempPd = new PlainDate(null, displayFormat, valueFormat)                                                // PlainDate临时对象
+        const p_view = DateView.date                                                                                        // 当前视图
+        const transitionDirection: 'prev' | 'next' = 'next'                                                                 // 当前视图切换动画
 
         return {
             p_value,
@@ -50,13 +50,28 @@ export default {
         }
     },
     computed: {
+        /**
+         * 周列表
+         * @author  韦胜健
+         * @date    2020/4/14 23:19
+         */
         weekList(): string[] {
             const weeks = ['日', '一', '二', '三', '四', '五', '六']
             return weeks.slice(this.firstWeekDay).concat(weeks.slice(0, this.firstWeekDay))
         },
+        /**
+         * 根据datetime自动计算 displayFormat以及valueFormat格式化字符串
+         * @author  韦胜健
+         * @date    2020/4/14 23:19
+         */
         formatString() {
             return this.getFormatString()
         },
+        /**
+         * 解析当前值，最大值，最小值
+         * @author  韦胜健
+         * @date    2020/4/14 23:19
+         */
         formatData() {
             const {p_value: value} = this
             const {displayFormat, valueFormat} = this.formatString
@@ -65,6 +80,11 @@ export default {
             }
 
         },
+        /**
+         * 日期列表数据
+         * @author  韦胜健
+         * @date    2020/4/14 23:20
+         */
         dateList(): DateBasePanelItemData[] {
             const {displayFormat, valueFormat} = this.formatString
             const {today, selectDate, tempPd} = this as { [key: string]: PlainDate }
@@ -136,7 +156,7 @@ export default {
                                 <template slot="center">
                                     <span onclick={() => this.changeView(DateView.year)}>{this.selectDate.year}</span>
                                     -
-                                    <span onclick={() => this.changeView(DateView.month) }>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
+                                    <span onclick={() => this.changeView(DateView.month)}>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
                                     {!!this.datetime && <span class="pl-date-base-panel-date-time-label" onClick={() => this.changeView(DateView.time)}>12:00:00</span>}
                                 </template>
                                 <template slot="right">

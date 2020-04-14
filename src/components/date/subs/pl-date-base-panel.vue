@@ -18,7 +18,7 @@
         name: "pl-date-base-panel",
         components: {PlDateBasePanelHeader},
         props: {
-            direction: {type: String},
+            direction: {type: String},                          // 面板切换动画所需要的属性
         },
     }
 </script>
