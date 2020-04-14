@@ -55,7 +55,7 @@ export default {
         const vpd = new PlainDate(value, displayFormat, valueFormat)
         const startPd = new PlainDate(start, displayFormat, valueFormat)
         const endPd = new PlainDate(end, displayFormat, valueFormat)
-        const today = PlainDate.decode(new Date())
+        const today = PlainDate.today(displayFormat, valueFormat)
 
         let selectYear
 

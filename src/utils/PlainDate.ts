@@ -1,17 +1,5 @@
 import fecha from 'fecha'
 
-export interface DecodeDate {
-    dateObject: Date,
-    year: number,
-    month: number,
-    date: number,
-    hour: number,
-    minute: number,
-    second: number,
-    day: number,
-    time: number,
-}
-
 const zeroize = (value, length = 2) => {
     if (value == null) {
         value = '';
@@ -162,6 +150,13 @@ export class PlainDate {
         this.dateObject.setSeconds(second)
     }
 
+    setTime(time: number): void {
+        if (this.isNull) {
+            this.dateObject = PlainDate.defaultDate()
+        }
+        this.dateObject.setTime(time)
+    }
+
     greaterThan(plainDate: PlainDate, compareMode: CompareMode): number {
         if (this.isNull) {
             console.error('greaterThan: self is null')
@@ -237,21 +232,10 @@ export class PlainDate {
         }
     }
 
-    static decode(dateObject: Date): DecodeDate {
-        if (!dateObject) {
-            return null
-        }
-        return {
-            dateObject,
-            year: dateObject.getFullYear(),
-            month: dateObject.getMonth(),
-            date: dateObject.getDate(),
-            hour: dateObject.getHours(),
-            minute: dateObject.getMinutes(),
-            second: dateObject.getSeconds(),
-            day: dateObject.getDay(),
-            time: dateObject.getTime(),
-        }
+    static today(displayFormat: string, valueFormat: string): PlainDate {
+        let today = new PlainDate(null, displayFormat, valueFormat)
+        today.setTime(new Date().getTime())
+        return today
     }
 
     static CompareMode = CompareMode
