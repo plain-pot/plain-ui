@@ -1,4 +1,5 @@
 import {EmitMixin} from "../../../utils/mixins";
+import {DateBasePanelItemData} from "./pl-date-base-panel-item";
 
 export default {
     name: 'pl-date-base-panel-year',
@@ -20,6 +21,8 @@ export default {
     watch: {
         value(val) {
             this.p_value = val
+            this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
+            this.selectYear = this.p_value
         },
         start(val) {
             this.p_start = val
@@ -68,21 +71,13 @@ export default {
                     <transition name={`pl-transition-slide-${this.transitionDirection}`}>
                         <ul class="pl-date-base-panel-year-list" key={this.data.selectYear} direction="vertical">
                             {this.data.list.map(item => (
-                                <li class={[
-                                    'pl-date-base-panel-year-item',
-                                    {
-                                        'pl-date-base-panel-year-item-now': item.now,
-                                        'pl-date-base-panel-year-item-active': item.active,
-                                        'pl-date-base-panel-year-item-disabled': item.disabled,
-                                        'pl-date-base-panel-year-item-hover-start': item.hoverStart,
-                                        'pl-date-base-panel-year-item-hover': item.hover,
-                                        'pl-date-base-panel-year-item-hover-end': item.hoverEnd,
-                                    }
-                                ]}
-                                    {...{on: this.getItemListener(item)}}
-                                    key={item.year}>
-                                    <div><span>{item.year}</span></div>
-                                </li>
+                                <pl-date-base-panel-item
+                                    class="pl-date-base-panel-year-item"
+                                    item={item}
+                                    onClick={this.onClickItem}
+                                    onMouseenter={this.onMouseEnterItem}
+                                    key={item.year}
+                                />
                             ))}
                         </ul>
                     </transition>
@@ -97,16 +92,19 @@ export default {
 
             selectYear = selectYear || nowYear
             selectYear = Number(String(selectYear).slice(0, -1) + '0')
-            let list = []
+            let list: DateBasePanelItemData[] = []
             for (let i = selectYear; i < selectYear + 20; i++) {
                 list.push({
-                    year: i,
+                    label: i,
                     now: i === nowYear,
                     active: !this.range ? value === i : (this.valueRange[0] == i || this.valueRange[1] == i),
                     disabled: this.getDisabled(i),
                     hoverStart: !!this.hoverRange ? (this.hoverRange[0] === i) : this.valueRange[0] == i,
                     hoverEnd: !!this.hoverRange ? (this.hoverRange[1] === i) : this.valueRange[1] == i,
                     hover: !!this.hoverRange ? (this.hoverRange[0] < i && this.hoverRange[1] > i) : ((!!this.valueRange[0] && this.valueRange[1]) && this.valueRange[0] < i && this.valueRange[1] > i),
+
+                    range: this.range,
+                    year: i,
                 })
             }
 
@@ -134,20 +132,6 @@ export default {
             }
             return false
         },
-        getItemListener(item) {
-            let ret: { [key: string]: Function } = {}
-
-            ret.click = () => {
-                this.onClickItem(item)
-            }
-
-            if (this.range) {
-                ret.mouseenter = () => {
-                    this.onMouseEnterItem(item)
-                }
-            }
-            return ret
-        },
         /*---------------------------------------methods-------------------------------------------*/
         prevYearList() {
             this.transitionDirection = 'prev'
@@ -159,9 +143,6 @@ export default {
         },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item) {
-            if (item.disabled) {
-                return
-            }
 
             if (!this.range) {
                 this.p_value = item.year

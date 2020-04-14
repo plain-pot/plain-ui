@@ -5,6 +5,7 @@ import basePanelHeader from './subs/pl-date-base-panel-header.vue'
 import basePanelDate from './subs/pl-date-base-panel-date'
 import basePanelYear from './subs/pl-date-base-panel-year'
 import basePanelMonth from './subs/pl-date-base-panel-month'
+import basePanelItem from './subs/pl-date-base-panel-item'
 
 import {plugin} from "../../utils";
 
@@ -16,4 +17,5 @@ export default plugin([
     basePanelDate,
     basePanelYear,
     basePanelMonth,
+    basePanelItem,
 ])

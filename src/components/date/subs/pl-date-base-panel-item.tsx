@@ -1,0 +1,65 @@
+import {EmitMixin} from "../../../utils/mixins";
+
+export class DateBasePanelItemData {
+    label: string
+    active: boolean
+    now: boolean
+    disabled: boolean
+    hoverStart: boolean
+    hover: boolean
+    hoverEnd: boolean
+
+    range: boolean
+
+    [key: string]: any
+}
+
+export default {
+    name: "pl-date-base-panel-item",
+    mixins: [
+        EmitMixin,
+    ],
+    emitters: {
+        emitClick: Function,
+        emitMouseenter: Function,
+    },
+    props: {
+        item: {type: DateBasePanelItemData},
+    },
+    render(h) {
+        return (
+            <li class={this.classes} {...{on: this.listener}}>
+                <div><span>{this.item.label}</span></div>
+            </li>
+        )
+    },
+    computed: {
+        classes() {
+            return [
+                'pl-date-base-panel-item', {
+                    'pl-date-base-panel-item-active': this.item.active,
+                    'pl-date-base-panel-item-now': this.item.now,
+                    'pl-date-base-panel-item-disabled': this.item.disabled,
+                    'pl-date-base-panel-item-hover-start': this.item.hoverStart,
+                    'pl-date-base-panel-item-hover': this.item.hover,
+                    'pl-date-base-panel-item-hover-end': this.item.hoverEnd,
+                }
+            ]
+        },
+        listener() {
+            if (this.item.disabled) {
+                return {}
+            }
+            return {
+                click: () => {
+                    this.emitClick(this.item)
+                },
+                ...(this.item.range ? {
+                    mouseenter: () => {
+                        this.emitMouseenter(this.item)
+                    },
+                } : {})
+            }
+        },
+    },
+}
