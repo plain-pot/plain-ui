@@ -90,7 +90,7 @@ export default {
                 <template slot="content">
                     <ul class="pl-date-base-panel-date-week-list">
                         {this.weekList.map(item => (
-                            <li key={item} class="pl-date-base-panel-date-item">{item}</li>
+                            <li key={item} class="pl-date-base-panel-date-item"><div><span>{item}</span></div></li>
                         ))}
                     </ul>
                     <pl-list class="pl-date-base-panel-date-date-list" tag="ul">
@@ -106,7 +106,7 @@ export default {
                                              'pl-date-base-panel-date-item-active': item.isActive,
                                          }
                                      ]}>
-                                <span>{item.decode.date}</span>
+                                <div><span>{item.decode.date}</span></div>
                             </pl-item>
                         ))}
                     </pl-list>

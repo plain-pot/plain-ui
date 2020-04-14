@@ -18,6 +18,8 @@
 <style lang="scss">
     @include themify {
 
+        $width: 276px;
+
         .pl-date-base-panel {
 
             border: solid 1px $ibc;
@@ -26,7 +28,7 @@
             padding: 8px 12px 12px 12px;
 
             .pl-date-base-panel-header {
-                width: 276px;
+                width: $width;
                 box-sizing: border-box;
                 display: flex;
                 align-items: center;
@@ -63,9 +65,11 @@
             }
 
             .pl-date-base-panel-body {
-                width: 252px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: $width;
                 height: 220px;
-                margin: auto;
             }
 
             ul {
@@ -85,11 +89,6 @@
 
         .pl-date-base-panel-year {
             .pl-date-base-panel-body {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 252px;
-                height: 220px;
                 position: relative;
                 overflow: hidden;
             }
@@ -162,15 +161,21 @@
         }
 
         .pl-date-base-panel-date {
+
+            .pl-date-base-panel-body {
+                flex-direction: column;
+            }
+
             ul {
                 &.pl-date-base-panel-date-week-list {
-                    border-bottom: solid 1px $ibc;
+                    border-bottom: solid 1px $ibl;
                     padding-bottom: 8px;
                     margin-bottom: 8px;
                 }
 
                 &.pl-date-base-panel-date-date-list, &.pl-date-base-panel-date-week-list {
-                    width: 36*7px;
+                    width: 100%;
+                    padding: 0 ($width - 36*7)/2;
                 }
 
                 li {
@@ -181,16 +186,26 @@
                     &.pl-date-base-panel-date-item {
                         width: 36px;
                         height: 30px;
-                        line-height: 30px;
-                        text-align: center;
                         cursor: pointer;
+                        padding: 0 3px;
+                        box-sizing: border-box;
+
+                        & > div {
+                            width: 100%;
+                            height: 100%;
+                            align-items: center;
+                            justify-content: center;
+                            display: inline-flex;
+                            padding: 3px;
+                            box-sizing: border-box;
+                        }
 
                         span {
-                            display: inline-block;
-                            width: 24px;
-                            height: 24px;
-                            text-align: center;
-                            line-height: 24px;
+                            width: 100%;
+                            height: 100%;
+                            align-items: center;
+                            justify-content: center;
+                            display: inline-flex;
                         }
                     }
                 }
@@ -201,7 +216,7 @@
                     li {
 
                         &:hover {
-                            span {
+                            & > div {
                                 background-color: rgba($colorPrimary, 0.1);
                                 border-radius: 100px;
                             }
