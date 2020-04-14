@@ -28,22 +28,13 @@ export default {
 
         const {
             value: p_value,
-            range,
         } = this
 
         const {displayFormat, valueFormat} = this.getFormatString()
 
         const today = PlainDate.today(displayFormat, valueFormat)
-
-        let selectDate: PlainDate = null
-        if (!range) {
-            selectDate = !!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy()
-        } else {
-            // todo
-        }
-
+        const selectDate: PlainDate = !!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy()
         const tempPd = new PlainDate(null, displayFormat, valueFormat)
-
         const p_view = DateView.date
 
         return {
