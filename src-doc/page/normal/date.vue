@@ -10,6 +10,14 @@
             <demo-row title="最大最小值">
                 <pl-date-base-panel-year :max="2030" :min="2021"/>
             </demo-row>
+            <demo-row title="范围选择">
+                <demo-line>
+                    <div>start:{{val[1]}}</div>
+                    <div>end:{{val[2]}}</div>
+                </demo-line>
+                <pl-date-base-panel-year range :start.sync="val[1]" :end.sync="val[2]" :max="2030" :min="2021"/>
+                <pl-date-base-panel-year range :start.sync="val[1]" :end.sync="val[2]"/>
+            </demo-row>
 
         </demo-row>
 

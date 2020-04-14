@@ -5,10 +5,12 @@ export default {
     mixins: [EmitMixin],
     emitters: {
         emitInput: Function,
+        emitUpdateStart: Function,
+        emitUpdateEnd: Function,
     },
     props: {
         value: {type: Number},
-        range: {type: Number},
+        range: {type: Boolean},
         start: {type: Number},
         end: {type: Number},
         max: {type: Number},
@@ -19,13 +21,35 @@ export default {
         value(val) {
             this.p_value = val
         },
+        start(val) {
+            this.p_start = val
+            this.valueRange = [this.p_start, this.p_end]
+            this.hoverRange = null
+            this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
+            this.selectYear = this.p_start
+        },
+        end(val) {
+            this.p_end = val
+            this.valueRange = [this.p_start, this.p_end]
+            this.hoverRange = null
+        },
     },
     data() {
         const p_value: number = this.value
-        const selectYear: number = this.value
+        const p_start: number = this.start
+        const p_end: number = this.end
+
+        const hoverRange: [number, number] = null
+        const valueRange: [number, number] = [p_start, p_end]
+
+        const selectYear: number = !this.range ? this.value : this.start
         return {
-            p_value,
             selectYear,
+            p_value,
+            p_start,
+            p_end,
+            hoverRange,
+            valueRange,
         }
     },
     render(h) {
@@ -50,10 +74,13 @@ export default {
                                         'pl-date-base-panel-year-item-now': item.now,
                                         'pl-date-base-panel-year-item-active': item.active,
                                         'pl-date-base-panel-year-item-disabled': item.disabled,
+                                        'pl-date-base-panel-year-item-hover-start': item.hoverStart,
+                                        'pl-date-base-panel-year-item-hover': item.hover,
+                                        'pl-date-base-panel-year-item-hover-end': item.hoverEnd,
                                     }
                                 ]}
-                                    key={item.year}
-                                    onclick={() => this.onClickItem(item)}>
+                                    {...{on: this.getItemListener(item)}}
+                                    key={item.year}>
                                     <div><span>{item.year}</span></div>
                                 </li>
                             ))}
@@ -75,8 +102,11 @@ export default {
                 list.push({
                     year: i,
                     now: i === nowYear,
-                    active: value === i,
-                    disabled: this.getDisabled(i)
+                    active: !this.range ? value === i : (this.valueRange[0] == i || this.valueRange[1] == i),
+                    disabled: this.getDisabled(i),
+                    hoverStart: !!this.hoverRange ? (this.hoverRange[0] === i) : this.valueRange[0] == i,
+                    hoverEnd: !!this.hoverRange ? (this.hoverRange[1] === i) : this.valueRange[1] == i,
+                    hover: !!this.hoverRange ? (this.hoverRange[0] < i && this.hoverRange[1] > i) : ((!!this.valueRange[0] && this.valueRange[1]) && this.valueRange[0] < i && this.valueRange[1] > i),
                 })
             }
 
@@ -104,6 +134,20 @@ export default {
             }
             return false
         },
+        getItemListener(item) {
+            let ret: { [key: string]: Function } = {}
+
+            ret.click = () => {
+                this.onClickItem(item)
+            }
+
+            if (this.range) {
+                ret.mouseenter = () => {
+                    this.onMouseEnterItem(item)
+                }
+            }
+            return ret
+        },
         /*---------------------------------------methods-------------------------------------------*/
         prevYearList() {
             this.transitionDirection = 'prev'
@@ -118,8 +162,37 @@ export default {
             if (item.disabled) {
                 return
             }
-            this.p_value = item.year
-            this.emitInput(item.year)
+
+            if (!this.range) {
+                this.p_value = item.year
+                this.emitInput(item.year)
+            } else {
+                if (!this.hoverRange) {
+                    this.hoverRange = [item.year, item.year]
+                    this.valueRange = [item.year]
+                } else {
+
+                    const [start, end] = this.hoverRange
+
+                    this.p_start = start
+                    this.p_end = end
+
+                    this.hoverRange = null
+                    this.valueRange = [start, end]
+
+                    this.emitUpdateStart(this.p_start)
+                    this.emitInput(this.p_start, 'start')
+                    this.emitUpdateEnd(this.p_end)
+                    this.emitInput(this.p_end, 'end')
+                }
+            }
+        },
+        onMouseEnterItem(item) {
+            item = item.year
+            if (!!this.hoverRange) {
+                let mid = this.valueRange[0]
+                this.hoverRange = mid > item ? [item, mid] : [mid, item]
+            }
         },
     },
 }

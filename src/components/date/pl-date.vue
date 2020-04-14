@@ -175,6 +175,42 @@
                         cursor: not-allowed;
                         color: $disabledText;
                     }
+
+                    &.pl-date-base-panel-year-item-hover-start {
+                        padding-right: 0;
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 100px 0 0 100px;
+                        }
+                    }
+
+                    &.pl-date-base-panel-year-item-hover {
+                        padding-left: 0;
+                        padding-right: 0;
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 0;
+                        }
+                    }
+
+                    &.pl-date-base-panel-year-item-hover-end {
+                        padding-left: 0;
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 0 100px 100px 0;
+                        }
+
+                        &.pl-date-base-panel-year-item-hover-start {
+                            & > div {
+                                border-top-left-radius: 100px;
+                                border-bottom-left-radius: 100px;
+                            }
+
+                        }
+                    }
                 }
             }
         }
