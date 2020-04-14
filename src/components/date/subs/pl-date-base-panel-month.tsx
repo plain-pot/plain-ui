@@ -21,6 +21,7 @@ export default {
         start: {type: String},
         end: {type: String},
         checkDisabled: {type: Function},
+        checkActive: {type: Function},
         view: {type: String, default: DateView.month},
 
         direction: {type: String},
@@ -304,7 +305,10 @@ export default {
             this.p_view = DateView.month
             this.setSelectYear(val)
         },
-        checkYearActive(val) {
+        checkYearActive(val, type, option) {
+            if (!!this.checkActive) {
+                return this.checkActive(val, type, option)
+            }
             const {value, start, end} = this.formatData as { start: PlainDate, end: PlainDate, value: PlainDate }
             if (!this.range) {
                 return (!value.isNull && value.year === val)

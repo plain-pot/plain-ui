@@ -204,6 +204,7 @@
         }
 
         .pl-date-base-panel-month-wrapper {
+            display: inline-block;
             position: relative;
             overflow: hidden;
 
@@ -243,53 +244,68 @@
             }
         }
 
-        .pl-date-base-panel-date {
+        .pl-date-base-panel-date-wrapper {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
 
-            .pl-date-base-panel-body {
-                flex-direction: column;
+            .pl-date-base-panel-date {
+
+                .pl-date-base-panel-body {
+                    flex-direction: column;
+                }
+
+                ul {
+                    $itemWidth: 36px;
+                    $itemHeight: 30px;
+
+                    &.pl-date-base-panel-date-week-list {
+                        border-bottom: solid 1px $ibl;
+                        padding-bottom: 8px;
+                        margin-bottom: 8px;
+                        width: $itemWidth*7;
+
+                        .pl-date-base-panel-date-week-item {
+                            width: $itemWidth;
+                            height: $itemHeight;
+                            padding: 0 3px;
+                        }
+                    }
+
+                    &.pl-date-base-panel-date-list {
+                        width: $itemWidth*7;
+
+                        .pl-date-base-panel-date-item {
+                            width: $itemWidth;
+                            height: $itemHeight;
+                            text-align: center;
+
+                            & > div {
+                                width: $itemHeight;
+                                height: $itemHeight;
+                                display: inline-block;
+                                padding: 3px;
+                            }
+
+                            &, & span {
+                                transition: all $transition 300ms;
+                            }
+
+                            &.pl-date-base-panel-date-item-other-month {
+                                opacity: 0.2;
+                            }
+                        }
+                    }
+                }
             }
 
-            ul {
-                $itemWidth: 36px;
-                $itemHeight: 30px;
+            padding: 0;
 
-                &.pl-date-base-panel-date-week-list {
-                    border-bottom: solid 1px $ibl;
-                    padding-bottom: 8px;
-                    margin-bottom: 8px;
-                    width: $itemWidth*7;
-
-                    .pl-date-base-panel-date-week-item {
-                        width: $itemWidth;
-                        height: $itemHeight;
-                        padding: 0 3px;
-                    }
-                }
-
-                &.pl-date-base-panel-date-list {
-                    width: $itemWidth*7;
-
-                    .pl-date-base-panel-date-item {
-                        width: $itemWidth;
-                        height: $itemHeight;
-                        text-align: center;
-
-                        & > div {
-                            width: $itemHeight;
-                            height: $itemHeight;
-                            display: inline-block;
-                            padding: 3px;
-                        }
-
-                        &, & span {
-                            transition: all $transition 300ms;
-                        }
-
-                        &.pl-date-base-panel-date-item-other-month {
-                            opacity: 0.2;
-                        }
-                    }
-                }
+            & > div {
+                border: none;
+                position: absolute;
+                left: 0;
+                top: 0;
             }
         }
     }
