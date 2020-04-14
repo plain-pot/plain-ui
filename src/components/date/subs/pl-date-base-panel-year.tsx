@@ -47,7 +47,7 @@ export default {
                                 ]}
                                     key={item.year}
                                     onclick={() => this.onClickItem(item)}>
-                                    <span>{item.year}</span>
+                                    <div><span>{item.year}</span></div>
                                 </li>
                             ))}
                         </ul>

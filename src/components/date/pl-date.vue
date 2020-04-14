@@ -122,25 +122,39 @@
                 position: absolute;
                 left: 0;
                 top: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
 
                 .pl-date-base-panel-year-item {
                     width: 63px;
-                    text-align: center;
                     height: 36px;
-                    line-height: 36px;
-                    margin-bottom: 4px;
                     cursor: pointer;
+                    padding: 3px;
+                    box-sizing: border-box;
 
-                    span {
-                        display: inline-block;
-                        height: 24px;
-                        line-height: 24px;
-                        padding: 0 8px;
+                    & > div {
+                        width: 100%;
+                        height: 100%;
+                        padding: 3px;
+                        box-sizing: border-box;
                         border-radius: 100px;
+
+                        span {
+                            display: inline-flex;
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 100px;
+                            align-items: center;
+                            justify-content: center;
+                        }
                     }
 
                     &:hover {
-                        span {
+                        & > div {
                             background-color: rgba($colorPrimary, 0.1);
                         }
                     }
