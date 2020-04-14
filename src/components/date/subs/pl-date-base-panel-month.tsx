@@ -22,9 +22,21 @@ export default {
     watch: {
         value(val) {
             this.p_value = val
+
+            const vpd = new PlainDate(val, this.displayFormat, this.valueFormat)
+            if (!vpd.isNull) {
+                this.transitionDirection = this.selectYear > vpd.year ? 'prev' : 'next'
+                this.selectYear = vpd.year
+            }
         },
         start(val) {
             this.p_start = val
+
+            const startPd = new PlainDate(val, this.displayFormat, this.valueFormat)
+            if (!startPd.isNull) {
+                this.transitionDirection = this.selectYear > startPd.year ? 'prev' : 'next'
+                this.selectYear = startPd.year
+            }
         },
         end(val) {
             this.p_end = val
@@ -51,6 +63,8 @@ export default {
         const p_start = start
         const p_end = end
 
+        const transitionDirection = 'next'
+
         return {
             today,
             selectYear,
@@ -59,6 +73,8 @@ export default {
             p_value,
             p_start,
             p_end,
+
+            transitionDirection,
         }
     },
     render(h) {
