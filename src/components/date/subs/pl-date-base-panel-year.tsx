@@ -66,7 +66,7 @@ export default {
                 </template>
                 <template slot="content">
                     <transition name={`pl-transition-slide-${this.transitionDirection}`}>
-                        <ul class="pl-date-base-panel-year-list" key={this.data.selectYear}>
+                        <ul class="pl-date-base-panel-year-list" key={this.data.selectYear} direction="vertical">
                             {this.data.list.map(item => (
                                 <li class={[
                                     'pl-date-base-panel-year-item',

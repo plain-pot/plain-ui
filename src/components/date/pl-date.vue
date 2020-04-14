@@ -93,30 +93,6 @@
                 overflow: hidden;
             }
 
-            .pl-transition-slide-next-enter-active, .pl-transition-slide-next-leave-active {
-                transform: translate3d(0, 0, 0);
-            }
-
-            .pl-transition-slide-next-enter {
-                transform: translate3d(100%, 0, 0);
-            }
-
-            .pl-transition-slide-next-leave-to {
-                transform: translate3d(-100%, 0, 0);
-            }
-
-            .pl-transition-slide-prev-enter-active, .pl-transition-slide-prev-leave-active {
-                transform: translate3d(0, 0, 0);
-            }
-
-            .pl-transition-slide-prev-enter {
-                transform: translate3d(-100%, 0, 0);
-            }
-
-            .pl-transition-slide-prev-leave-to {
-                transform: translate3d(100%, 0, 0);
-            }
-
             .pl-date-base-panel-year-list {
                 transition: all $transition 1000ms;
                 position: absolute;
