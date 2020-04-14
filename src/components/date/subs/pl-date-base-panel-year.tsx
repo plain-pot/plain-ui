@@ -8,6 +8,12 @@ export default {
     },
     props: {
         value: {type: Number},
+        range: {type: Number},
+        start: {type: Number},
+        end: {type: Number},
+        max: {type: Number},
+        min: {type: Number},
+        checkDisabled: {type: Function},
     },
     watch: {
         value(val) {
@@ -43,6 +49,7 @@ export default {
                                     {
                                         'pl-date-base-panel-year-item-now': item.now,
                                         'pl-date-base-panel-year-item-active': item.active,
+                                        'pl-date-base-panel-year-item-disabled': item.disabled,
                                     }
                                 ]}
                                     key={item.year}
@@ -68,7 +75,8 @@ export default {
                 list.push({
                     year: i,
                     now: i === nowYear,
-                    active: value === i
+                    active: value === i,
+                    disabled: this.getDisabled(i)
                 })
             }
 
@@ -83,6 +91,19 @@ export default {
         },
     },
     methods: {
+        /*---------------------------------------utils-------------------------------------------*/
+        getDisabled(item) {
+            if (!!this.checkDisabled) {
+                return this.checkDisabled(item)
+            }
+            if (this.max != null && item > this.max) {
+                return true
+            }
+            if (this.min != null && item < this.min) {
+                return true
+            }
+            return false
+        },
         /*---------------------------------------methods-------------------------------------------*/
         prevYearList() {
             this.transitionDirection = 'prev'
@@ -94,6 +115,10 @@ export default {
         },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item) {
+            if (item.disabled) {
+                return
+            }
+            this.p_value = item.year
             this.emitInput(item.year)
         },
     },

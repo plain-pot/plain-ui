@@ -153,7 +153,7 @@
                         }
                     }
 
-                    &:hover {
+                    &:hover:not(.pl-date-base-panel-year-item-disabled) {
                         & > div {
                             background-color: rgba($colorPrimary, 0.1);
                         }
@@ -169,6 +169,11 @@
                             background-color: $colorPrimary;
                             color: white;
                         }
+                    }
+
+                    &.pl-date-base-panel-year-item-disabled {
+                        cursor: not-allowed;
+                        color: $disabledText;
                     }
                 }
             }

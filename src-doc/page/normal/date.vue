@@ -2,8 +2,15 @@
     <div class="demo-date">
 
         <demo-row title="pl-date-base-panel-year">
-            <pl-date-base-panel-year v-model="val[0]"/>
-            <pl-date-base-panel-year v-model="val[0]"/>
+            <demo-row title="基本用法">
+                <pl-date-base-panel-year v-model="val[0]"/>
+                <pl-date-base-panel-year v-model="val[0]"/>
+            </demo-row>
+
+            <demo-row title="最大最小值">
+                <pl-date-base-panel-year :max="2030" :min="2021"/>
+            </demo-row>
+
         </demo-row>
 
         <demo-row title="pl-date-base-panel-date">
