@@ -166,6 +166,8 @@ export default {
                 props: {
                     value: this.selectYear,
                     checkActive: this.checkYearActive,
+                    start: this.formatData.start.year,
+                    end: this.formatData.end.year,
                 },
                 on: {
                     change: this.onSelectYearChange,
