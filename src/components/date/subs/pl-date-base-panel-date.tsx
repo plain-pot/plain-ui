@@ -13,16 +13,21 @@ export default {
         emitInput: Function,
         emitClickItem: Function,
         emitMouseenterItem: Function,
+        emitSelectDateChange: Function,
     },
     props: {
         datetime: {type: Boolean},                                                          // 是否为选择日期时间
         firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
         defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
+        selectDate: {type: PlainDate},                                                      // 当前面板的年月日期对象
     },
     watch: {
         value(val) {
             this.p_value = val
             this.setSelectDate(val)
+        },
+        selectDate(val) {
+            this.p_selectDate = val
         },
     },
     data() {
@@ -34,7 +39,7 @@ export default {
         const {displayFormat, valueFormat} = this.getFormatString()
 
         const today = PlainDate.today(displayFormat, valueFormat)                                                           // 今天
-        const selectDate: PlainDate = !!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy()         // 当前选择的年月信息对象
+        const p_selectDate: PlainDate = !!this.selectDate ? this.selectDate : (!!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy())         // 当前选择的年月信息对象
         const tempPd = new PlainDate(null, displayFormat, valueFormat)                                                // PlainDate临时对象
         const p_view = DateView.date                                                                                        // 当前视图
         const transitionDirection: 'prev' | 'next' = 'next'                                                                 // 当前视图切换动画
@@ -43,7 +48,7 @@ export default {
             p_value,
 
             today,
-            selectDate,
+            p_selectDate,
 
             tempPd,
             p_view,
@@ -64,9 +69,9 @@ export default {
                                     <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={this.prevMonth}/>
                                 </template>
                                 <template slot="center">
-                                    <span onclick={() => this.changeView(DateView.year)}>{this.selectDate.year}</span>
+                                    <span onclick={() => this.changeView(DateView.year)}>{this.p_selectDate.year}</span>
                                     -
-                                    <span onclick={() => this.changeView(DateView.month)}>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
+                                    <span onclick={() => this.changeView(DateView.month)}>{this.$plain.utils.zeroize(this.p_selectDate.month + 1)}</span>
                                     {!!this.datetime && (
                                         <span class="pl-date-base-panel-date-time-label" onclick={() => this.changeView(DateView.time)}>
                                             {this.timePanelBinding.props.value}
@@ -112,11 +117,11 @@ export default {
                             <pl-date-base-panel class="pl-date-base-panel-time" direction="horizontal" key="time">
                                 <template slot="center">
                                     <span onclick={() => this.changeView(DateView.date)}>
-                                        {this.selectDate.year}
+                                        {this.p_selectDate.year}
                                         -
-                                        {this.$plain.utils.zeroize(this.selectDate.month + 1)}
+                                        {this.$plain.utils.zeroize(this.p_selectDate.month + 1)}
                                         -
-                                        {this.$plain.utils.zeroize(this.selectDate.date)}
+                                        {this.$plain.utils.zeroize(this.p_selectDate.date)}
                                     </span>
                                 </template>
                                 <template slot="content">
@@ -174,11 +179,11 @@ export default {
          */
         dateList(): DateBasePanelItemData[] {
             const {displayFormat, valueFormat} = this.formatString
-            const {today, selectDate, tempPd} = this as { [key: string]: PlainDate }
+            const {today, p_selectDate, tempPd} = this as { [key: string]: PlainDate }
             const {value} = this.formatData as { [key: string]: PlainDate }
 
-            tempPd.setYear(selectDate.year)
-            tempPd.setMonthDate(selectDate.month, 1)
+            tempPd.setYear(p_selectDate.year)
+            tempPd.setMonthDate(p_selectDate.month, 1)
 
             const currentMonthFirstDate = tempPd.copy()
 
@@ -206,7 +211,7 @@ export default {
                     disabled: this.getDisabled(i, {vpd: value, ipd, range: this.range}),
 
                     ipd,
-                    isSelectMonth: ipd.greaterThan(selectDate, PlainDate.CompareMode.yearmonth) === 0,
+                    isSelectMonth: ipd.greaterThan(p_selectDate, PlainDate.CompareMode.yearmonth) === 0,
                 }
 
                 if (this.range) {
@@ -227,10 +232,10 @@ export default {
          */
         monthPanelBinding() {
             const {displayFormat, valueFormat} = this.formatString
-            const {selectDate} = this as { [key: string]: PlainDate }
+            const {p_selectDate} = this as { [key: string]: PlainDate }
             return {
                 props: {
-                    value: selectDate.valueString,
+                    value: p_selectDate.valueString,
                     displayFormat,
                     valueFormat,
                     checkActive: this.checkMonthActive,
@@ -299,8 +304,8 @@ export default {
          * @date    2020/4/15 10:56
          */
         prevYear() {
-            this.selectDate.setYear(this.selectDate.year - 1)
-            this.selectDate = this.selectDate.copy()
+            this.p_selectDate.setYear(this.p_selectDate.year - 1)
+            this.setSelectDate(this.p_selectDate.copy())
         },
         /**
          * 面板切换到下一年
@@ -308,8 +313,8 @@ export default {
          * @date    2020/4/15 10:56
          */
         nextYear() {
-            this.selectDate.setYear(this.selectDate.year + 1)
-            this.selectDate = this.selectDate.copy()
+            this.p_selectDate.setYear(this.p_selectDate.year + 1)
+            this.setSelectDate(this.p_selectDate.copy())
         },
         /**
          * 面板切换到上一个月份
@@ -317,8 +322,8 @@ export default {
          * @date    2020/4/15 10:56
          */
         prevMonth() {
-            this.selectDate.setMonthDate(this.selectDate.month - 1, 1)
-            this.selectDate = this.selectDate.copy()
+            this.p_selectDate.setMonthDate(this.p_selectDate.month - 1, 1)
+            this.setSelectDate(this.p_selectDate.copy())
         },
         /**
          * 面板切换到下一个月份
@@ -326,8 +331,8 @@ export default {
          * @date    2020/4/15 10:56
          */
         nextMonth() {
-            this.selectDate.setMonthDate(this.selectDate.month + 1, 1)
-            this.selectDate = this.selectDate.copy()
+            this.p_selectDate.setMonthDate(this.p_selectDate.month + 1, 1)
+            this.setSelectDate(this.p_selectDate.copy())
         },
         /**
          * 切换视图，确定动画方向
@@ -347,8 +352,12 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 10:57
          */
-        setSelectDate(val: string) {
-            this.selectDate = !!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today
+        setSelectDate(val: string | PlainDate) {
+            if (typeof val === 'string') {
+                val = (!!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today) as PlainDate
+            }
+            this.p_selectDate = val
+            this.emitSelectDateChange(this.p_selectDate)
         },
         /**
          * 判断日期是否禁用
@@ -455,15 +464,15 @@ export default {
          * @date    2020/4/15 10:58
          */
         onSelectTime(val) {
-            const {selectDate} = this
+            const {p_selectDate} = this
             const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
 
             const tempPd = defaultTime.copy()
             tempPd.setValue(val)
 
             if (value.isNull) {
-                value.setYear(selectDate.year)
-                value.setMonthDate(selectDate.month, selectDate.date)
+                value.setYear(p_selectDate.year)
+                value.setMonthDate(p_selectDate.month, p_selectDate.date)
             }
 
             value.setHour(tempPd.hour)
@@ -491,8 +500,8 @@ export default {
          * @date    2020/4/15 10:59
          */
         onSelectMonthChange(val) {
-            this.selectDate.setValue(val)
-            this.selectDate = this.selectDate.copy()
+            this.p_selectDate.setValue(val)
+            this.setSelectDate(this.p_selectDate.copy())
             this.changeView(DateView.date)
         },
     },
