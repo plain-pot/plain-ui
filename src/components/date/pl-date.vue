@@ -86,91 +86,88 @@
                 list-style: none;
                 display: block;
 
-                li {
+                .pl-date-base-panel-item {
+                    cursor: pointer;
+                    box-sizing: border-box;
                     display: inline-block;
                     font-size: 12px;
                     color: $itc;
 
-                    &.pl-date-base-panel-item {
-                        cursor: pointer;
+                    & > div {
+                        width: 100%;
+                        height: 100%;
+                        padding: 4px;
                         box-sizing: border-box;
+                        border-radius: 100px;
 
-                        & > div {
+                        span {
+                            display: inline-flex;
                             width: 100%;
                             height: 100%;
-                            padding: 4px;
-                            box-sizing: border-box;
                             border-radius: 100px;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
 
-                            span {
-                                display: inline-flex;
-                                width: 100%;
-                                height: 100%;
-                                border-radius: 100px;
-                                align-items: center;
-                                justify-content: center;
+                    &:hover:not(.pl-date-base-panel-item-disabled) {
+                        opacity: 1;
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                        }
+                    }
+
+                    &.pl-date-base-panel-item-now {
+                        color: $colorPrimary;
+                        font-weight: bold;
+                    }
+
+                    &.pl-date-base-panel-item-active {
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+
+                            & > span {
+                                background-color: $colorPrimary;
+                                color: white;
                             }
                         }
+                    }
 
-                        &:hover:not(.pl-date-base-panel-item-disabled) {
-                            opacity: 1;
+                    &.pl-date-base-panel-item-disabled {
+                        cursor: not-allowed;
+                        color: $disabledText;
+                    }
 
-                            & > div {
-                                background-color: rgba($colorPrimary, 0.1);
-                            }
+                    &.pl-date-base-panel-item-hover-start {
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 100px 0 0 100px;
                         }
+                    }
 
-                        &.pl-date-base-panel-item-now {
-                            color: $colorPrimary;
-                            font-weight: bold;
+                    &.pl-date-base-panel-item-hover {
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 0;
                         }
+                    }
 
-                        &.pl-date-base-panel-item-active {
-                            & > div {
-                                background-color: rgba($colorPrimary, 0.1);
+                    &.pl-date-base-panel-item-hover-end {
 
-                                & > span {
-                                    background-color: $colorPrimary;
-                                    color: white;
-                                }
-                            }
-                        }
-
-                        &.pl-date-base-panel-item-disabled {
-                            cursor: not-allowed;
-                            color: $disabledText;
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 0 100px 100px 0;
                         }
 
                         &.pl-date-base-panel-item-hover-start {
-
                             & > div {
-                                background-color: rgba($colorPrimary, 0.1);
-                                border-radius: 100px 0 0 100px;
-                            }
-                        }
-
-                        &.pl-date-base-panel-item-hover {
-
-                            & > div {
-                                background-color: rgba($colorPrimary, 0.1);
-                                border-radius: 0;
-                            }
-                        }
-
-                        &.pl-date-base-panel-item-hover-end {
-
-                            & > div {
-                                background-color: rgba($colorPrimary, 0.1);
-                                border-radius: 0 100px 100px 0;
+                                border-top-left-radius: 100px;
+                                border-bottom-left-radius: 100px;
                             }
 
-                            &.pl-date-base-panel-item-hover-start {
-                                & > div {
-                                    border-top-left-radius: 100px;
-                                    border-bottom-left-radius: 100px;
-                                }
-
-                            }
                         }
                     }
                 }
@@ -300,6 +297,12 @@
                             }
                         }
                     }
+                }
+            }
+
+            .pl-date-base-panel-body {
+                & > .pl-time-panel {
+                    border: none;
                 }
             }
 

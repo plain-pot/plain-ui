@@ -206,7 +206,7 @@ export default {
                                     </span>
                                 </template>
                                 <template slot="content">
-                                    this time panel content
+                                    <pl-time-panel/>
                                 </template>
                             </pl-date-base-panel>
                         )
