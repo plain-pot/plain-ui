@@ -353,6 +353,29 @@
                         width: 1px;
                     }
                 }
+
+                .pl-date-base-panel-date-item {
+                    &.pl-date-base-panel-item-hover-start {
+                        & > div {
+
+                        }
+                    }
+
+                    &.pl-date-base-panel-item-hover {
+                        & > div {
+                        }
+                    }
+
+                    &.pl-date-base-panel-item-hover-end {
+                        & > div {
+                        }
+
+                        &.pl-date-base-panel-item-hover-start {
+                            & > div {
+                            }
+                        }
+                    }
+                }
             }
         }
     }
