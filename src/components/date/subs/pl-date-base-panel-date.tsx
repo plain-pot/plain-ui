@@ -219,6 +219,11 @@ export default {
             }
             return list
         },
+        /**
+         * 月份面板绑定值
+         * @author  韦胜健
+         * @date    2020/4/15 10:56
+         */
         monthPanelBinding() {
             const {displayFormat, valueFormat} = this.formatString
             const {selectDate} = this as { [key: string]: PlainDate }
@@ -235,34 +240,51 @@ export default {
                 },
             }
         },
+        /**
+         * 时间面板绑定值
+         * @author  韦胜健
+         * @date    2020/4/15 10:56
+         */
         timePanelBinding() {
 
-            const {selectDate} = this as { [key: string]: PlainDate }
-            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+            const {value, defaultTime, max, min} = this.formatData as { [key: string]: PlainDate }
             const timePd = value.isNull ? defaultTime : value
             const timeString = defaultTime.format(timePd.dateObject)
 
+            const props = {
+                value: timeString,
+                displayFormat: 'HH:mm:ss',
+                valueFormat: 'HH:mm:ss',
+                max: undefined,
+                min: undefined,
+            }
+
+            /*限制最大最小值*/
+            if (!max.isNull && !value.isNull) {
+                if (max.greaterThan(value, PlainDate.CompareMode.date) === 0) {
+                    let tempDefaultTime = defaultTime.copy()
+                    tempDefaultTime.setHour(max.hour)
+                    tempDefaultTime.setMinute(max.minute)
+                    tempDefaultTime.setSecond(max.second)
+                    props.max = tempDefaultTime.valueString
+                }
+            }
+
+            if (!min.isNull && !value.isNull) {
+                if (min.lessThan(value, PlainDate.CompareMode.date) === 0) {
+                    let tempDefaultTime = defaultTime.copy()
+                    tempDefaultTime.setHour(min.hour)
+                    tempDefaultTime.setMinute(min.minute)
+                    tempDefaultTime.setSecond(min.second)
+                    props.min = tempDefaultTime.valueString
+                }
+            }
+
             return {
-                props: {
-                    value: timeString,
-                    displayFormat: 'HH:mm:ss',
-                    valueFormat: 'HH:mm:ss',
-                },
+                props,
                 on: {
                     change: (val) => {
-                        const tempPd = defaultTime.copy()
-                        tempPd.setValue(val)
-
-                        if (value.isNull) {
-                            value.setYear(selectDate.year)
-                            value.setMonthDate(selectDate.month, selectDate.date)
-                        }
-
-                        value.setHour(tempPd.hour)
-                        value.setMinute(tempPd.minute)
-                        value.setSecond(tempPd.second)
-                        this.p_value = value.valueString
-                        this.emitInput(this.p_value)
+                        this.onSelectTime(val)
                     },
                 },
             }
@@ -270,22 +292,47 @@ export default {
     },
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
+        /**
+         * 面板切换到上一年
+         * @author  韦胜健
+         * @date    2020/4/15 10:56
+         */
         prevYear() {
             this.selectDate.setYear(this.selectDate.year - 1)
             this.selectDate = this.selectDate.copy()
         },
+        /**
+         * 面板切换到下一年
+         * @author  韦胜健
+         * @date    2020/4/15 10:56
+         */
         nextYear() {
             this.selectDate.setYear(this.selectDate.year + 1)
             this.selectDate = this.selectDate.copy()
         },
+        /**
+         * 面板切换到上一个月份
+         * @author  韦胜健
+         * @date    2020/4/15 10:56
+         */
         prevMonth() {
             this.selectDate.setMonthDate(this.selectDate.month - 1, 1)
             this.selectDate = this.selectDate.copy()
         },
+        /**
+         * 面板切换到下一个月份
+         * @author  韦胜健
+         * @date    2020/4/15 10:56
+         */
         nextMonth() {
             this.selectDate.setMonthDate(this.selectDate.month + 1, 1)
             this.selectDate = this.selectDate.copy()
         },
+        /**
+         * 切换视图，确定动画方向
+         * @author  韦胜健
+         * @date    2020/4/15 10:57
+         */
         changeView(view: DateView) {
             if (view === this.p_view) return
             const oldSeq = DateViewSeq[this.p_view]
@@ -294,6 +341,11 @@ export default {
             this.p_view = view
         },
         /*---------------------------------------utils-------------------------------------------*/
+        /**
+         * 根据datetime自动计算displayFormat以及valueFormat
+         * @author  韦胜健
+         * @date    2020/4/15 10:57
+         */
         getFormatString() {
             let ret = {
                 displayFormat: this.displayFormat,
@@ -315,9 +367,19 @@ export default {
             }
             return ret
         },
+        /**
+         * 设置当前面板的年月
+         * @author  韦胜健
+         * @date    2020/4/15 10:57
+         */
         setSelectDate(val: string) {
             this.selectDate = !!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today
         },
+        /**
+         * 判断日期是否禁用
+         * @author  韦胜健
+         * @date    2020/4/15 10:57
+         */
         getDisabled(item, option: { vpd: PlainDate, ipd: PlainDate, range: boolean }) {
             if (!!this.checkDisabled) {
                 return this.checkDisabled(item, 'date', option)
@@ -332,8 +394,32 @@ export default {
             }
             return false
         },
+        /**
+         * 派发值变化事件，先校验值是否大于最大值，小于最小值，是则取最大值（最小值）
+         * @author  韦胜健
+         * @date    2020/4/15 10:58
+         */
+        emitValue(valueString) {
+            const {max, min} = this.formatData as { [key: string]: PlainDate }
+
+            const vpd = new PlainDate(valueString, this.formatString.displayFormat, this.formatString.valueFormat)
+            if (!max.isNull && vpd.greaterThan(max, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
+                valueString = max.valueString
+            }
+            if (!min.isNull && vpd.lessThan(min, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
+                valueString = min.valueString
+            }
+
+            this.p_value = valueString
+            this.emitInput(this.p_value)
+        },
 
         /*---------------------------------------handler-------------------------------------------*/
+        /**
+         * 点击日期元素处理动作
+         * @author  韦胜健
+         * @date    2020/4/15 10:58
+         */
         onClickItem(item: DateBasePanelItemData) {
             const {ipd} = item as { [key: string]: PlainDate }
             const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
@@ -349,8 +435,36 @@ export default {
             }
 
             this.emitClickItem(item)
-            this.emitInput(item.ipd.valueString)
+            this.emitValue(item.ipd.valueString)
         },
+        /**
+         * 处理选择时间处理动作
+         * @author  韦胜健
+         * @date    2020/4/15 10:58
+         */
+        onSelectTime(val) {
+            const {selectDate} = this
+            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+
+            const tempPd = defaultTime.copy()
+            tempPd.setValue(val)
+
+            if (value.isNull) {
+                value.setYear(selectDate.year)
+                value.setMonthDate(selectDate.month, selectDate.date)
+            }
+
+            value.setHour(tempPd.hour)
+            value.setMinute(tempPd.minute)
+            value.setSecond(tempPd.second)
+
+            this.emitValue(value.valueString)
+        },
+        /**
+         * 检查月份面板中，应该高亮激活的年月
+         * @author  韦胜健
+         * @date    2020/4/15 10:59
+         */
         checkMonthActive(item, type, option) {
             const {value} = this.formatData as { [key: string]: PlainDate }
             if (type === 'year') {
@@ -359,6 +473,11 @@ export default {
                 return !value.isNull && (value.greaterThan(option.ipd as PlainDate, PlainDate.CompareMode.yearmonth) === 0)
             }
         },
+        /**
+         * 月份选择面板的值发生变化之后，改变视图
+         * @author  韦胜健
+         * @date    2020/4/15 10:59
+         */
         onSelectMonthChange(val) {
             this.selectDate.setValue(val)
             this.selectDate = this.selectDate.copy()
