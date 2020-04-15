@@ -70,7 +70,12 @@
 
         <demo-row title="pl-date-panel-date-range">
             <demo-row title="基本用法">
-                <pl-date-panel-date-range/>
+                <demo-line>
+                    <div>start:{{val[12]}}</div>
+                    <div>end:{{val[13]}}</div>
+                </demo-line>
+                <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]"/>
+                <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]" max="2030-05-01" min="2018-10-01"/>
             </demo-row>
         </demo-row>
 

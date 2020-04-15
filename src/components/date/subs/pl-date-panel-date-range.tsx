@@ -15,10 +15,31 @@ export default {
         DatePublicMixin,
         EmitMixin,
     ],
+    props: {
+        range: {type: Boolean, default: true},
+    },
     emitters: {
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
         emitInput: Function,
+    },
+    watch: {
+        start(val) {
+            this.p_start = val
+            const {displayFormat, valueFormat} = this.formatString
+            this.valueRange = [new PlainDate(val, displayFormat, valueFormat), new PlainDate(this.p_end, displayFormat, valueFormat)]
+            this.hoverRange = null
+
+            const startPd = new PlainDate(val, displayFormat, valueFormat)
+            this.selectDate = startPd.copy()
+        },
+        end(val) {
+            this.p_end = val
+            const {displayFormat, valueFormat} = this.formatString
+
+            this.valueRange = [new PlainDate(this.p_start, displayFormat, valueFormat), new PlainDate(val, displayFormat, valueFormat)]
+            this.hoverRange = null
+        },
     },
     data() {
 
