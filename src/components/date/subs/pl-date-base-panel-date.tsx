@@ -50,139 +50,6 @@ export default {
             transitionDirection,
         }
     },
-    computed: {
-        /**
-         * 周列表
-         * @author  韦胜健
-         * @date    2020/4/14 23:19
-         */
-        weekList(): string[] {
-            const weeks = ['日', '一', '二', '三', '四', '五', '六']
-            return weeks.slice(this.firstWeekDay).concat(weeks.slice(0, this.firstWeekDay))
-        },
-        /**
-         * 根据datetime自动计算 displayFormat以及valueFormat格式化字符串
-         * @author  韦胜健
-         * @date    2020/4/14 23:19
-         */
-        formatString() {
-            return this.getFormatString()
-        },
-        /**
-         * 解析当前值，最大值，最小值
-         * @author  韦胜健
-         * @date    2020/4/14 23:19
-         */
-        formatData() {
-            let {p_value: value, defaultTime: defaultTimeString} = this
-            let {displayFormat, valueFormat} = this.formatString
-
-            value = new PlainDate(value, displayFormat, valueFormat)
-            if (!defaultTimeString) {
-                defaultTimeString = '12:00:00'
-            }
-            let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
-
-            return {
-                value,
-                defaultTime,
-            }
-
-        },
-        /**
-         * 日期列表数据
-         * @author  韦胜健
-         * @date    2020/4/14 23:20
-         */
-        dateList(): DateBasePanelItemData[] {
-            const {displayFormat, valueFormat} = this.formatString
-            const {today, selectDate, tempPd} = this as { [key: string]: PlainDate }
-            const {value} = this.formatData as { [key: string]: PlainDate }
-
-            tempPd.setYear(selectDate.year)
-            tempPd.setMonthDate(selectDate.month, 1)
-
-            const currentMonthFirstDate = tempPd.copy()
-
-            let weekDayDuration = currentMonthFirstDate.day - this.firstWeekDay
-            let offsetDay = weekDayDuration === 0 ? 7 : weekDayDuration > 0 ? weekDayDuration : 7 + weekDayDuration
-
-            let firstDateTime = new Date(currentMonthFirstDate.time - (offsetDay) * 24 * 60 * 60 * 1000).getTime()
-
-            let list: DateBasePanelItemData[] = []
-            for (let i = 0; i < 42; i++) {
-
-                const ipd = new PlainDate(null, displayFormat, valueFormat)
-                ipd.setTime(firstDateTime)
-
-                list.push({
-                    label: String(ipd.date),
-                    now: today.greaterThan(ipd, PlainDate.CompareMode.date) === 0,
-                    active: !value.isNull && (value.greaterThan(ipd, PlainDate.CompareMode.date) === 0),
-
-                    hover: false,
-                    hoverStart: false,
-                    hoverEnd: false,
-
-                    range: this.range,
-                    disabled: false,
-
-                    ipd,
-                    isSelectMonth: ipd.greaterThan(selectDate, PlainDate.CompareMode.yearmonth) === 0,
-                })
-                firstDateTime += 24 * 60 * 60 * 1000
-            }
-            return list
-        },
-        monthPanelBinding() {
-            const {displayFormat, valueFormat} = this.formatString
-            const {selectDate} = this as { [key: string]: PlainDate }
-            return {
-                props: {
-                    value: selectDate.valueString,
-                    displayFormat,
-                    valueFormat,
-                    checkActive: this.checkMonthActive,
-                    view: this.p_view,
-                },
-                on: {
-                    change: this.onSelectMonthChange,
-                },
-            }
-        },
-        timePanelBinding() {
-
-            const {selectDate} = this as { [key: string]: PlainDate }
-            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
-            const timePd = value.isNull ? defaultTime : value
-            const timeString = defaultTime.format(timePd.dateObject)
-
-            return {
-                props: {
-                    value: timeString,
-                    displayFormat: 'HH:mm:ss',
-                    valueFormat: 'HH:mm:ss',
-                },
-                on: {
-                    change: (val) => {
-                        const tempPd = defaultTime.copy()
-                        tempPd.setValue(val)
-
-                        if (value.isNull) {
-                            value.setYear(selectDate.year)
-                            value.setMonthDate(selectDate.month, selectDate.date)
-                        }
-
-                        value.setHour(tempPd.hour)
-                        value.setMinute(tempPd.minute)
-                        value.setSecond(tempPd.second)
-                        this.p_value = value.valueString
-                        this.emitInput(this.p_value)
-                    },
-                },
-            }
-        },
-    },
     render(h) {
 
 
@@ -262,6 +129,145 @@ export default {
             </div>
         )
     },
+    computed: {
+        /**
+         * 周列表
+         * @author  韦胜健
+         * @date    2020/4/14 23:19
+         */
+        weekList(): string[] {
+            const weeks = ['日', '一', '二', '三', '四', '五', '六']
+            return weeks.slice(this.firstWeekDay).concat(weeks.slice(0, this.firstWeekDay))
+        },
+        /**
+         * 根据datetime自动计算 displayFormat以及valueFormat格式化字符串
+         * @author  韦胜健
+         * @date    2020/4/14 23:19
+         */
+        formatString() {
+            return this.getFormatString()
+        },
+        /**
+         * 解析当前值，最大值，最小值
+         * @author  韦胜健
+         * @date    2020/4/14 23:19
+         */
+        formatData() {
+            let {p_value: value, defaultTime: defaultTimeString, max, min} = this
+            let {displayFormat, valueFormat} = this.formatString
+
+            value = new PlainDate(value, displayFormat, valueFormat)
+            max = new PlainDate(max, displayFormat, valueFormat)
+            min = new PlainDate(min, displayFormat, valueFormat)
+
+
+            if (!defaultTimeString) {
+                defaultTimeString = '12:00:00'
+            }
+            let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
+
+            return {
+                value,
+                defaultTime,
+                max,
+                min,
+            }
+
+        },
+        /**
+         * 日期列表数据
+         * @author  韦胜健
+         * @date    2020/4/14 23:20
+         */
+        dateList(): DateBasePanelItemData[] {
+            const {displayFormat, valueFormat} = this.formatString
+            const {today, selectDate, tempPd} = this as { [key: string]: PlainDate }
+            const {value} = this.formatData as { [key: string]: PlainDate }
+
+            tempPd.setYear(selectDate.year)
+            tempPd.setMonthDate(selectDate.month, 1)
+
+            const currentMonthFirstDate = tempPd.copy()
+
+            let weekDayDuration = currentMonthFirstDate.day - this.firstWeekDay
+            let offsetDay = weekDayDuration === 0 ? 7 : weekDayDuration > 0 ? weekDayDuration : 7 + weekDayDuration
+
+            let firstDateTime = new Date(currentMonthFirstDate.time - (offsetDay) * 24 * 60 * 60 * 1000).getTime()
+
+            let list: DateBasePanelItemData[] = []
+            for (let i = 0; i < 42; i++) {
+
+                const ipd = new PlainDate(null, displayFormat, valueFormat)
+                ipd.setTime(firstDateTime)
+
+                list.push({
+                    label: String(ipd.date),
+                    now: today.greaterThan(ipd, PlainDate.CompareMode.date) === 0,
+                    active: !value.isNull && (value.greaterThan(ipd, PlainDate.CompareMode.date) === 0),
+
+                    hover: false,
+                    hoverStart: false,
+                    hoverEnd: false,
+
+                    range: this.range,
+                    disabled: this.getDisabled(i, {vpd: value, ipd, range: this.range}),
+
+                    ipd,
+                    isSelectMonth: ipd.greaterThan(selectDate, PlainDate.CompareMode.yearmonth) === 0,
+                })
+                firstDateTime += 24 * 60 * 60 * 1000
+            }
+            return list
+        },
+        monthPanelBinding() {
+            const {displayFormat, valueFormat} = this.formatString
+            const {selectDate} = this as { [key: string]: PlainDate }
+            return {
+                props: {
+                    value: selectDate.valueString,
+                    displayFormat,
+                    valueFormat,
+                    checkActive: this.checkMonthActive,
+                    view: this.p_view,
+                },
+                on: {
+                    change: this.onSelectMonthChange,
+                },
+            }
+        },
+        timePanelBinding() {
+
+            const {selectDate} = this as { [key: string]: PlainDate }
+            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+            const timePd = value.isNull ? defaultTime : value
+            const timeString = defaultTime.format(timePd.dateObject)
+
+            return {
+                props: {
+                    value: timeString,
+                    displayFormat: 'HH:mm:ss',
+                    valueFormat: 'HH:mm:ss',
+                },
+                on: {
+                    change: (val) => {
+                        const tempPd = defaultTime.copy()
+                        tempPd.setValue(val)
+
+                        if (value.isNull) {
+                            value.setYear(selectDate.year)
+                            value.setMonthDate(selectDate.month, selectDate.date)
+                        }
+
+                        value.setHour(tempPd.hour)
+                        value.setMinute(tempPd.minute)
+                        value.setSecond(tempPd.second)
+                        this.p_value = value.valueString
+                        this.emitInput(this.p_value)
+                    },
+                },
+            }
+        },
+    },
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
         prevYear() {
@@ -279,6 +285,13 @@ export default {
         nextMonth() {
             this.selectDate.setMonthDate(this.selectDate.month + 1, 1)
             this.selectDate = this.selectDate.copy()
+        },
+        changeView(view: DateView) {
+            if (view === this.p_view) return
+            const oldSeq = DateViewSeq[this.p_view]
+            const newSeq = DateViewSeq[view]
+            this.transitionDirection = newSeq > oldSeq ? 'next' : 'prev'
+            this.p_view = view
         },
         /*---------------------------------------utils-------------------------------------------*/
         getFormatString() {
@@ -305,14 +318,21 @@ export default {
         setSelectDate(val: string) {
             this.selectDate = !!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today
         },
-        /*---------------------------------------utils-------------------------------------------*/
-        changeView(view: DateView) {
-            if (view === this.p_view) return
-            const oldSeq = DateViewSeq[this.p_view]
-            const newSeq = DateViewSeq[view]
-            this.transitionDirection = newSeq > oldSeq ? 'next' : 'prev'
-            this.p_view = view
+        getDisabled(item, option: { vpd: PlainDate, ipd: PlainDate, range: boolean }) {
+            if (!!this.checkDisabled) {
+                return this.checkDisabled(item, 'date', option)
+            }
+            const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
+
+            if (!max.isNull && max.lessThan(option.ipd, PlainDate.CompareMode.date) > 0) {
+                return true
+            }
+            if (!min.isNull && min.greaterThan(option.ipd, PlainDate.CompareMode.date) > 0) {
+                return true
+            }
+            return false
         },
+
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item: DateBasePanelItemData) {
             const {ipd} = item as { [key: string]: PlainDate }
