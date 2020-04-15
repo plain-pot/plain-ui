@@ -319,9 +319,13 @@ export default {
             switch (type) {
                 case DateView.month:
                     ipd = ipd as PlainDate
-                    return !!hoverRange ?
-                        hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
-                        (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    if (!!this.firstDatePanel) {
+                        return this.firstDatePanel.getHoverStart(ipd, type)
+                    } else {
+                        return !!hoverRange ?
+                            hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
+                            (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    }
                 case DateView.year:
                     ipd = ipd as number
                     return !!hoverRange ?
@@ -335,9 +339,13 @@ export default {
             switch (type) {
                 case DateView.month:
                     ipd = ipd as PlainDate
-                    return !!hoverRange ?
-                        hoverRange[0].lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 :
-                        (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
+                    if (!!this.firstDatePanel) {
+                        return this.firstDatePanel.getHover(ipd, type)
+                    } else {
+                        return !!hoverRange ?
+                            hoverRange[0].lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 :
+                            (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
+                    }
                 case DateView.year:
                     ipd = ipd as number
                     return !!hoverRange ?
@@ -351,7 +359,11 @@ export default {
             switch (type) {
                 case DateView.month:
                     ipd = ipd as PlainDate
-                    return !!hoverRange ? hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 : (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    if (!!this.firstDatePanel) {
+                        return this.firstDatePanel.getHoverEnd(ipd, type)
+                    } else {
+                        return !!hoverRange ? hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 : (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    }
                 case DateView.year:
                     ipd = ipd as number
                     return !!hoverRange ?
