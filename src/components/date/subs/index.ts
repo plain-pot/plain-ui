@@ -1,3 +1,10 @@
+export const enum DateView {
+    year = 'year',
+    month = 'month',
+    date = 'date',
+    time = 'time',
+}
+
 export const DatePublicProps = {
     value: {type: String},
     displayFormat: {type: String},
@@ -7,14 +14,30 @@ export const DatePublicProps = {
     range: {type: Boolean},
     start: {type: String},
     end: {type: String},
-    checkDisabled: {type: Function},
+
+    direction: {type: String},
+    view: {type: String, default: DateView.month},
 }
 
-export enum DateView {
-    year = 'year',
-    month = 'month',
-    date = 'date',
-    time = 'time',
+export const DatePublicMixin = {
+    props: DatePublicProps,
+    provide() {
+        return {
+            plDatePanel: this,
+        }
+    },
+    inject: {
+        plDatePanel: {default: null},
+    },
+    computed: {
+        firstDatePanel() {
+            let parent = this.plDatePanel
+            while (!!parent && !!parent.plDatePanel) {
+                parent = parent.plDatePanel
+            }
+            return parent
+        },
+    },
 }
 
 export const DateViewSeq = {

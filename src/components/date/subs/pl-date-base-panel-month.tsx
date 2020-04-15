@@ -1,30 +1,25 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DateView} from "./index";
+import {DatePublicMixin, DateView} from "./index";
+
+interface MonthGetDataType {
+    hoverRange?: [PlainDate, PlainDate],
+    startPd?: PlainDate,
+    endPd?: PlainDate,
+    vpd?: PlainDate
+}
 
 export default {
     name: 'pl-date-base-panel-month',
-    mixins: [EmitMixin],
+    mixins: [
+        EmitMixin,
+        DatePublicMixin,
+    ],
     emitters: {
         emitInput: Function,
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
-    },
-    props: {
-        value: {type: String},
-        displayFormat: {type: String},
-        valueFormat: {type: String},
-        max: {type: String},
-        min: {type: String},
-        range: {type: Boolean},
-        start: {type: String},
-        end: {type: String},
-        checkDisabled: {type: Function},
-        checkActive: {type: Function},
-        view: {type: String, default: DateView.month},
-
-        direction: {type: String},
     },
     watch: {
         value(val) {
@@ -191,9 +186,6 @@ export default {
          */
         monthList() {
 
-            const [startPd, endPd] = this.valueRange as [PlainDate, PlainDate]
-            const hoverRange = this.hoverRange as [PlainDate, PlainDate]
-
             let ret: DateBasePanelItemData[] = [];
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(i => {
 
@@ -205,7 +197,7 @@ export default {
                     label: this.months[i],
                     disabled: this.getDisabled(i),
                     now: this.selectYear === this.today.year && (this.today.month == i),
-                    active: this.getActive(i, {vpd: this.formatData.value, ipd, range: this.range}),
+                    active: this.getActive(ipd),
 
                     hoverStart: false,
                     hoverEnd: false,
@@ -217,21 +209,24 @@ export default {
                 }
 
                 if (this.range) {
-                    item.hoverStart = !!hoverRange ?
-                        hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
-                        (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
-                    item.hoverEnd = !!hoverRange ?
-                        hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
-                        (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
-                    item.hover = !!hoverRange ?
-                        hoverRange[0].lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 :
-                        (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
-                    item.active = ((!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) || (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0))
+                    item.hoverStart = this.getHoverStart(ipd)
+                    item.hoverEnd = this.getHoverEnd(ipd)
+                    item.hover = this.getHover(ipd)
                 }
 
                 ret.push(item)
             })
             return ret
+        },
+        MonthGetData(): MonthGetDataType {
+            const {value} = this.formatData
+            const [start, end] = this.valueRange
+            return {
+                hoverRange: this.hoverRange,
+                startPd: start,
+                endPd: end,
+                vpd: value,
+            }
         },
     },
     methods: {
@@ -294,11 +289,75 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:13
          */
-        getActive(item, option: { vpd: PlainDate, ipd: PlainDate, range: boolean }) {
-            if (!!this.checkActive) {
-                return this.checkActive(item, 'month', option)
+        getActive(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
+            const {vpd, startPd, endPd} = this.MonthGetData as MonthGetDataType
+
+            if (type === DateView.month) {
+                ipd = ipd as PlainDate
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getActive(ipd, type)
+                } else {
+                    if (!this.range) {
+                        return (!vpd.isNull && vpd.year == this.selectYear && vpd.month == ipd.month)
+                    } else {
+                        return ((!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) || (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0))
+                    }
+                }
+            } else if (type === DateView.year) {
+                ipd = ipd as number
+                if (!this.range) {
+                    return (!vpd.isNull && vpd.year === ipd)
+                } else {
+                    return (!startPd.isNull && startPd.year === ipd) || (!endPd.isNull && endPd.year === ipd)
+                }
             }
-            return (!option.vpd.isNull && option.vpd.year == this.selectYear && option.vpd.month == item)
+        },
+        getHoverStart(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
+
+            const {startPd, hoverRange} = this.MonthGetData as MonthGetDataType
+
+            switch (type) {
+                case DateView.month:
+                    ipd = ipd as PlainDate
+                    return !!hoverRange ?
+                        hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
+                        (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                case DateView.year:
+                    ipd = ipd as number
+                    return !!hoverRange ?
+                        false :
+                        (!startPd.isNull && startPd.year === ipd)
+            }
+        },
+        getHover(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
+            const {startPd, endPd, hoverRange} = this.MonthGetData as MonthGetDataType
+
+            switch (type) {
+                case DateView.month:
+                    ipd = ipd as PlainDate
+                    return !!hoverRange ?
+                        hoverRange[0].lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 :
+                        (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
+                case DateView.year:
+                    ipd = ipd as number
+                    return !!hoverRange ?
+                        false :
+                        ((!startPd.isNull && startPd.year < ipd) && (!endPd.isNull && endPd.year > ipd))
+            }
+        },
+        getHoverEnd(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
+            const {endPd, hoverRange} = this.MonthGetData as MonthGetDataType
+
+            switch (type) {
+                case DateView.month:
+                    ipd = ipd as PlainDate
+                    return !!hoverRange ? hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 : (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                case DateView.year:
+                    ipd = ipd as number
+                    return !!hoverRange ?
+                        false :
+                        (!endPd.isNull && endPd.year === ipd)
+            }
         },
         /*---------------------------------------handler-------------------------------------------*/
         /**

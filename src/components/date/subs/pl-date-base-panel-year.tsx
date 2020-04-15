@@ -1,9 +1,13 @@
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
+import {DatePublicMixin, DateView} from "./index";
 
 export default {
     name: 'pl-date-base-panel-year',
-    mixins: [EmitMixin],
+    mixins: [
+        EmitMixin,
+        DatePublicMixin,
+    ],
     emitters: {
         emitInput: Function,
         emitUpdateStart: Function,
@@ -11,16 +15,10 @@ export default {
     },
     props: {
         value: {type: Number},
-        range: {type: Boolean},
         start: {type: Number},
         end: {type: Number},
         max: {type: Number},
         min: {type: Number},
-
-        direction: {type: String},
-
-        checkDisabled: {type: Function},
-        checkActive: {type: Function},
     },
     watch: {
         value(val) {
@@ -103,11 +101,11 @@ export default {
                 list.push({
                     label: i,
                     now: i === nowYear,
-                    active: this.getActive(i, {value, start: this.valueRange[0], end: this.valueRange[1]}),
+                    active: this.getActive(i),
                     disabled: this.getDisabled(i),
-                    hoverStart: !!this.hoverRange ? (this.hoverRange[0] === i) : this.valueRange[0] == i,
-                    hoverEnd: !!this.hoverRange ? (this.hoverRange[1] === i) : this.valueRange[1] == i,
-                    hover: !!this.hoverRange ? (this.hoverRange[0] < i && this.hoverRange[1] > i) : ((!!this.valueRange[0] && this.valueRange[1]) && this.valueRange[0] < i && this.valueRange[1] > i),
+                    hoverStart: this.getHoverStart(i),
+                    hover: this.getHover(i),
+                    hoverEnd: this.getHoverEnd(i),
 
                     range: this.range,
                     year: i,
@@ -145,11 +143,43 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:17
          */
-        getActive(item, data: { value: number, start: number, end: number }) {
-            if (!!this.checkActive) {
-                return this.checkActive(item, 'year', data)
+        getActive(item, type: DateView = DateView.year): boolean {
+            if (type === DateView.year) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getActive(item, type)
+                } else {
+                    const {p_value: value} = this
+                    const [start, end] = this.valueRange
+                    return !this.range ? value === item : (start == item || end == item)
+                }
             }
-            return !this.range ? data.value === item : (data.start == item || data.end == item)
+        },
+        getHoverStart(item, type: DateView = DateView.year): boolean {
+            if (type === DateView.year) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getHoverStart(item, type)
+                } else {
+                    return !!this.hoverRange ? (this.hoverRange[0] === item) : this.valueRange[0] == item
+                }
+            }
+        },
+        getHover(item, type: DateView = DateView.year): boolean {
+            if (type === DateView.year) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getHover(item, type)
+                } else {
+                    return !!this.hoverRange ? (this.hoverRange[0] < item && this.hoverRange[1] > item) : ((!!this.valueRange[0] && this.valueRange[1]) && this.valueRange[0] < item && this.valueRange[1] > item)
+                }
+            }
+        },
+        getHoverEnd(item, type: DateView = DateView.year): boolean {
+            if (type === DateView.year) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getHoverEnd(item, type)
+                } else {
+                    return !!this.hoverRange ? (this.hoverRange[1] === item) : this.valueRange[1] == item
+                }
+            }
         },
         /*---------------------------------------methods-------------------------------------------*/
         /**
