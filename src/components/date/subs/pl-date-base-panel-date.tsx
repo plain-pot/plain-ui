@@ -1,11 +1,12 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicProps, DateView, DateViewSeq} from "./index";
+import {DatePublicMixin, DateView, DateViewSeq} from "./index";
 
 export default {
     name: "pl-date-base-panel-date",
     mixins: [
+        DatePublicMixin,
         EmitMixin,
     ],
     emitters: {
@@ -13,8 +14,6 @@ export default {
         emitClickItem: Function,
     },
     props: {
-        ...DatePublicProps,
-
         datetime: {type: Boolean},                                                          // 是否为选择日期时间
         firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
         defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
@@ -200,10 +199,10 @@ export default {
                 const ipd = new PlainDate(null, displayFormat, valueFormat)
                 ipd.setTime(firstDateTime)
 
-                list.push({
+                let item = {
                     label: String(ipd.date),
                     now: today.greaterThan(ipd, PlainDate.CompareMode.date) === 0,
-                    active: !value.isNull && (value.greaterThan(ipd, PlainDate.CompareMode.date) === 0),
+                    active: this.getActive(ipd),
 
                     hover: false,
                     hoverStart: false,
@@ -214,7 +213,15 @@ export default {
 
                     ipd,
                     isSelectMonth: ipd.greaterThan(selectDate, PlainDate.CompareMode.yearmonth) === 0,
-                })
+                }
+
+                if (this.range) {
+                    item.hoverStart = this.getHoverStart(ipd)
+                    item.hover = this.getHover(ipd)
+                    item.hoverEnd = this.getHoverEnd(ipd)
+                }
+
+                list.push(item)
                 firstDateTime += 24 * 60 * 60 * 1000
             }
             return list
@@ -411,6 +418,44 @@ export default {
 
             this.p_value = valueString
             this.emitInput(this.p_value)
+        },
+
+        getActive(ipd: PlainDate, type: DateView = DateView.date) {
+            const {value} = this.formatData
+            if (type === DateView.date) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getActive(ipd, type)
+                } else {
+                    return !value.isNull && (value.greaterThan(ipd, PlainDate.CompareMode.date) === 0)
+                }
+            }
+        },
+        getHoverStart(ipd: PlainDate, type: DateView = DateView.date) {
+            if (type === DateView.date) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getHoverStart(ipd, type)
+                } else {
+                    return false
+                }
+            }
+        },
+        getHover(ipd: PlainDate, type: DateView = DateView.date) {
+            if (type === DateView.date) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getHover(ipd, type)
+                } else {
+                    return false
+                }
+            }
+        },
+        getHoverEnd(ipd: PlainDate, type: DateView = DateView.date) {
+            if (type === DateView.date) {
+                if (!!this.firstDatePanel) {
+                    return this.firstDatePanel.getHoverEnd(ipd, type)
+                } else {
+                    return false
+                }
+            }
         },
 
         /*---------------------------------------handler-------------------------------------------*/
