@@ -52,13 +52,13 @@ export default {
         const selectYear: number = !this.range ? this.value : this.start
         const transitionDirection: 'next' | 'prev' = 'next'
         return {
-            selectYear,
-            p_value,
-            p_start,
-            p_end,
-            hoverRange,
-            valueRange,
-            transitionDirection,
+            selectYear,                                                     // 当前选择的年份
+            p_value,                                                        // value临时变量
+            p_start,                                                        // start临时变量
+            p_end,                                                          // end临时变量
+            hoverRange,                                                     // 年份范围选择开始以及结束的年份
+            valueRange,                                                     // [start,end]
+            transitionDirection,                                            // 年份列表切换的时候的动画方向
         }
     },
     render(h) {
@@ -115,14 +115,19 @@ export default {
             }
 
             return {
-                list,
-                title: `${selectYear}-${selectYear + 19}`,
-                selectYear,
+                list,                                               // 年份可选列表
+                title: `${selectYear}-${selectYear + 19}`,          // 年份面板标题，展示列表中年份的范围
+                selectYear,                                         // 当前选择的年份
             }
         },
     },
     methods: {
         /*---------------------------------------utils-------------------------------------------*/
+        /**
+         * 检查年份是否需要禁用
+         * @author  韦胜健
+         * @date    2020/4/15 11:17
+         */
         getDisabled(item) {
             if (!!this.checkDisabled) {
                 return this.checkDisabled(item, 'year')
@@ -135,6 +140,11 @@ export default {
             }
             return false
         },
+        /**
+         * 检查需要激活高亮的年份
+         * @author  韦胜健
+         * @date    2020/4/15 11:17
+         */
         getActive(item, data: { value: number, start: number, end: number }) {
             if (!!this.checkActive) {
                 return this.checkActive(item, 'year', data)
@@ -142,15 +152,30 @@ export default {
             return !this.range ? data.value === item : (data.start == item || data.end == item)
         },
         /*---------------------------------------methods-------------------------------------------*/
+        /**
+         * 切换上一个年份列表
+         * @author  韦胜健
+         * @date    2020/4/15 11:17
+         */
         prevYearList() {
             this.transitionDirection = 'prev'
             this.selectYear = this.data.selectYear - 20
         },
+        /**
+         *
+         * @author  切换下一个年份列表
+         * @date    2020/4/15 11:18
+         */
         nextYearList() {
             this.transitionDirection = 'next'
             this.selectYear = this.data.selectYear + 20
         },
         /*---------------------------------------handler-------------------------------------------*/
+        /**
+         * 处理点击分年元素动作
+         * @author  韦胜健
+         * @date    2020/4/15 11:18
+         */
         onClickItem(item) {
 
             if (!this.range) {
@@ -177,6 +202,11 @@ export default {
                 }
             }
         },
+        /**
+         * 处理鼠标进入年份元素动作
+         * @author  韦胜健
+         * @date    2020/4/15 11:18
+         */
         onMouseEnterItem(item) {
             item = item.year
             if (!!this.hoverRange) {

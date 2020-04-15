@@ -79,19 +79,19 @@ export default {
         const p_view = this.view || DateView.year
 
         return {
-            today,
-            selectYear,
-            tempPd,
+            today,                                                                  // 今天
+            selectYear,                                                             // 选择的年份
+            tempPd,                                                                 // PlainDate临时变量，用来设值以及格式化值
 
-            p_value,
-            p_start,
-            p_end,
+            p_value,                                                                // value临时变量
+            p_start,                                                                // start临时变量
+            p_end,                                                                  // end临时变量
 
-            hoverRange,
-            valueRange,
+            hoverRange,                                                             // 当前鼠标hover的开始年份以及结束年份
+            valueRange,                                                             // [start,end]
 
-            transitionDirection,
-            p_view,
+            transitionDirection,                                                    // 年月视图切换时的动画
+            p_view,                                                                 // 当前视图
         }
     },
     render(h) {
@@ -149,6 +149,11 @@ export default {
                 '十二月',
             ]
         },
+        /**
+         * 格式化值
+         * @author  韦胜健
+         * @date    2020/4/15 11:11
+         */
         formatData() {
 
             const {p_value: value, p_start: start, p_end: end, max, min, displayFormat, valueFormat} = this
@@ -161,6 +166,11 @@ export default {
                 min: new PlainDate(min, displayFormat, valueFormat),
             }
         },
+        /**
+         * 月份面板绑定值
+         * @author  韦胜健
+         * @date    2020/4/15 11:12
+         */
         yearPanelBinding() {
             return {
                 props: {
@@ -174,6 +184,11 @@ export default {
                 },
             }
         },
+        /**
+         * 月份列表
+         * @author  韦胜健
+         * @date    2020/4/15 11:12
+         */
         monthList() {
 
             const [startPd, endPd] = this.valueRange as [PlainDate, PlainDate]
@@ -221,15 +236,30 @@ export default {
     },
     methods: {
         /*---------------------------------------methods-------------------------------------------*/
+        /**
+         * 切换到上一年
+         * @author  韦胜健
+         * @date    2020/4/15 11:12
+         */
         prevYear() {
             this.transitionDirection = 'prev'
             this.selectYear--
         },
+        /**
+         * 切换到下一年
+         * @author  韦胜健
+         * @date    2020/4/15 11:12
+         */
         nextYear() {
             this.transitionDirection = 'next'
             this.selectYear++
         },
         /*---------------------------------------utils-------------------------------------------*/
+        /**
+         * 设置当前选择的年份
+         * @author  韦胜健
+         * @date    2020/4/15 11:12
+         */
         setSelectYear(target) {
             if (!target) {
                 target = this.today.year
@@ -237,6 +267,11 @@ export default {
             this.transitionDirection = this.selectYear > target ? 'prev' : 'next'
             this.selectYear = target
         },
+        /**
+         * 检查需要禁用的月份
+         * @author  韦胜健
+         * @date    2020/4/15 11:13
+         */
         getDisabled(item) {
             if (this.checkDisabled) {
                 return this.checkDisabled(item, 'month')
@@ -254,6 +289,11 @@ export default {
             }
             return false
         },
+        /**
+         * 检查当前需要激活的月份
+         * @author  韦胜健
+         * @date    2020/4/15 11:13
+         */
         getActive(item, option: { vpd: PlainDate, ipd: PlainDate, range: boolean }) {
             if (!!this.checkActive) {
                 return this.checkActive(item, 'month', option)
@@ -261,6 +301,11 @@ export default {
             return (!option.vpd.isNull && option.vpd.year == this.selectYear && option.vpd.month == item)
         },
         /*---------------------------------------handler-------------------------------------------*/
+        /**
+         * 处理点击月份元素的动作
+         * @author  韦胜健
+         * @date    2020/4/15 11:13
+         */
         onClickItem(item) {
             if (!this.range) {
                 this.tempPd.setYear(this.selectYear)
@@ -292,6 +337,11 @@ export default {
                 }
             }
         },
+        /**
+         * 处理鼠标进入月份元素的动作
+         * @author  韦胜健
+         * @date    2020/4/15 11:13
+         */
         onMouseEnterItem(item) {
             if (!!this.hoverRange) {
                 let midpd = this.valueRange[0] as PlainDate
@@ -301,10 +351,20 @@ export default {
                 this.hoverRange = midpd.greaterThan(item, PlainDate.CompareMode.yearmonth) > 0 ? [item, midpd] : [midpd, item]
             }
         },
+        /**
+         * 处理年份面板选择年份变化动作
+         * @author  韦胜健
+         * @date    2020/4/15 11:14
+         */
         onSelectYearChange(val) {
             this.p_view = DateView.month
             this.setSelectYear(val)
         },
+        /**
+         * 设置年份面板中，需要激活高亮的年份
+         * @author  韦胜健
+         * @date    2020/4/15 11:14
+         */
         checkYearActive(val, type, option) {
             if (!!this.checkActive) {
                 return this.checkActive(val, type, option)

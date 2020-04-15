@@ -49,6 +49,11 @@ export default {
                 }
             ]
         },
+        /**
+         * 监听事件绑定对象，如果range=true为范围选择的情况下才会监听鼠标enter事件，否则只监听click事件
+         * @author  韦胜健
+         * @date    2020/4/15 11:09
+         */
         listener() {
             if (this.item.disabled) {
                 return {}
