@@ -111,7 +111,6 @@
                     }
 
                     &:hover:not(.pl-date-base-panel-item-disabled) {
-                        opacity: 1;
 
                         & > div {
                             background-color: rgba($colorPrimary, 0.1);
@@ -292,7 +291,7 @@
                                 transition: all $transition 300ms;
                             }
 
-                            &.pl-date-base-panel-date-item-other-month {
+                            &.pl-date-base-panel-date-item-other-month:not(:hover) {
                                 opacity: 0.2;
                             }
                         }
