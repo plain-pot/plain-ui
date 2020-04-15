@@ -294,6 +294,26 @@
                             &.pl-date-base-panel-date-item-other-month:not(:hover) {
                                 opacity: 0.2;
                             }
+
+                            &.pl-date-base-panel-item-disabled {
+                                & > div {
+                                    span {
+                                        position: relative;
+
+                                        &:after {
+                                            position: absolute;
+                                            left: 5px;
+                                            top: 5px;
+                                            bottom: 0;
+                                            width: 1px;
+                                            content: '';
+                                            background-color: $ibc;
+                                            transform: rotate(-45deg);
+                                            transform-origin: top left;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
