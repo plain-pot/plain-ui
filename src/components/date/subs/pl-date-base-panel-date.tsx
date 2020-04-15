@@ -139,14 +139,7 @@ export default {
             const weeks = ['日', '一', '二', '三', '四', '五', '六']
             return weeks.slice(this.firstWeekDay).concat(weeks.slice(0, this.firstWeekDay))
         },
-        /**
-         * 根据datetime自动计算 displayFormat以及valueFormat格式化字符串
-         * @author  韦胜健
-         * @date    2020/4/14 23:19
-         */
-        formatString() {
-            return this.getFormatString()
-        },
+
         /**
          * 解析当前值，最大值，最小值
          * @author  韦胜健
@@ -349,32 +342,6 @@ export default {
             this.p_view = view
         },
         /*---------------------------------------utils-------------------------------------------*/
-        /**
-         * 根据datetime自动计算displayFormat以及valueFormat
-         * @author  韦胜健
-         * @date    2020/4/15 10:57
-         */
-        getFormatString() {
-            let ret = {
-                displayFormat: this.displayFormat,
-                valueFormat: this.valueFormat,
-            }
-            if (!ret.displayFormat) {
-                if (!this.datetime) {
-                    ret.displayFormat = 'YYYY-MM-DD'
-                } else {
-                    ret.displayFormat = 'YYYY-MM-DD HH:mm:ss'
-                }
-            }
-            if (!ret.valueFormat) {
-                if (!this.datetime) {
-                    ret.valueFormat = 'YYYY-MM-DD'
-                } else {
-                    ret.valueFormat = 'YYYY-MM-DD HH:mm:ss'
-                }
-            }
-            return ret
-        },
         /**
          * 设置当前面板的年月
          * @author  韦胜健
