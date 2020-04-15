@@ -29,6 +29,7 @@ export default {
         item: {type: DateBasePanelItemData},
         component: {default: 'li'},
         componentProps: {type: Object},
+        nativeListener: {type: Boolean},
     },
     render(h) {
         const Component = this.component
@@ -61,12 +62,10 @@ export default {
                 return {}
             }
             return {
-                on: {
+                [this.nativeListener ? 'nativeOn' : 'on']: {
                     click: () => {
                         this.emitClick(this.item)
                     },
-                },
-                nativeOn: {
                     ...(this.item.range ? {
                         mouseenter: () => {
                             this.emitMouseenter(this.item)

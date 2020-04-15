@@ -101,6 +101,7 @@ export default {
                                                     }
                                                 ]}
                                                 item={item}
+                                                nativeListener
                                                 onClick={this.onClickItem}
                                                 onMouseenter={this.emitMouseenterItem}
                                                 key={item.isSelectMonth ? item.ipd.date : `_${index}`}
