@@ -405,8 +405,7 @@ export default {
             const vpd = new PlainDate(valueString, this.formatString.displayFormat, this.formatString.valueFormat)
             if (!max.isNull && vpd.greaterThan(max, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
                 valueString = max.valueString
-            }
-            if (!min.isNull && vpd.lessThan(min, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
+            } else if (!min.isNull && vpd.lessThan(min, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
                 valueString = min.valueString
             }
 
