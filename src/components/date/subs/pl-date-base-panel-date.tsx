@@ -17,6 +17,7 @@ export default {
 
         datetime: {type: Boolean},                                                          // 是否为选择日期时间
         firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
+        defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
     },
     watch: {
         value(val) {
@@ -73,10 +74,18 @@ export default {
          * @date    2020/4/14 23:19
          */
         formatData() {
-            const {p_value: value} = this
-            const {displayFormat, valueFormat} = this.formatString
+            let {p_value: value, defaultTime: defaultTimeString} = this
+            let {displayFormat, valueFormat} = this.formatString
+
+            value = new PlainDate(value, displayFormat, valueFormat)
+            if (!defaultTimeString) {
+                defaultTimeString = '12:00:00'
+            }
+            let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
+
             return {
-                value: new PlainDate(value, displayFormat, valueFormat),
+                value,
+                defaultTime,
             }
 
         },
@@ -141,8 +150,42 @@ export default {
                 },
             }
         },
+        timePanelBinding() {
+
+            const {selectDate} = this as { [key: string]: PlainDate }
+            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+            const timePd = value.isNull ? defaultTime : value
+            const timeString = defaultTime.format(timePd.dateObject)
+
+            return {
+                props: {
+                    value: timeString,
+                    displayFormat: 'HH:mm:ss',
+                    valueFormat: 'HH:mm:ss',
+                },
+                on: {
+                    change: (val) => {
+                        const tempPd = defaultTime.copy()
+                        tempPd.setValue(val)
+
+                        if (value.isNull) {
+                            value.setYear(selectDate.year)
+                            value.setMonthDate(selectDate.month, selectDate.date)
+                        }
+
+                        value.setHour(tempPd.hour)
+                        value.setMinute(tempPd.minute)
+                        value.setSecond(tempPd.second)
+                        this.p_value = value.valueString
+                        this.emitInput(this.p_value)
+                    },
+                },
+            }
+        },
     },
     render(h) {
+
+
         return (
             <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
                 <transition name={`pl-transition-slide-${this.transitionDirection}`}>
@@ -157,7 +200,11 @@ export default {
                                     <span onclick={() => this.changeView(DateView.year)}>{this.selectDate.year}</span>
                                     -
                                     <span onclick={() => this.changeView(DateView.month)}>{this.$plain.utils.zeroize(this.selectDate.month + 1)}</span>
-                                    {!!this.datetime && <span class="pl-date-base-panel-date-time-label" onClick={() => this.changeView(DateView.time)}>12:00:00</span>}
+                                    {!!this.datetime && (
+                                        <span class="pl-date-base-panel-date-time-label" onclick={() => this.changeView(DateView.time)}>
+                                            {this.timePanelBinding.props.value}
+                                        </span>
+                                    )}
                                 </template>
                                 <template slot="right">
                                     <pl-button icon="el-icon-arrow-right" mode="text" size="mini" onClick={this.nextMonth}/>
@@ -206,7 +253,7 @@ export default {
                                     </span>
                                 </template>
                                 <template slot="content">
-                                    <pl-time-panel/>
+                                    <pl-time-panel {...this.timePanelBinding}/>
                                 </template>
                             </pl-date-base-panel>
                         )
@@ -268,6 +315,19 @@ export default {
         },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem(item: DateBasePanelItemData) {
+            const {ipd} = item as { [key: string]: PlainDate }
+            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+
+            if (!value.isNull) {
+                ipd.setHour(value.hour)
+                ipd.setMinute(value.minute)
+                ipd.setSecond(value.second)
+            } else {
+                ipd.setHour(defaultTime.hour)
+                ipd.setMinute(defaultTime.minute)
+                ipd.setSecond(defaultTime.second)
+            }
+
             this.emitClickItem(item)
             this.emitInput(item.ipd.valueString)
         },

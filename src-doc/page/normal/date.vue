@@ -64,7 +64,7 @@
                     {{val[11]}}
                 </demo-line>
                 <pl-date-base-panel-date v-model="val[11]" datetime/>
-                <pl-date-base-panel-date v-model="val[11]" datetime :firstWeekDay="0"/>
+                <pl-date-base-panel-date v-model="val[11]" datetime :firstWeekDay="0" defaultTime="08:30:00"/>
             </demo-row>
         </demo-row>
 
