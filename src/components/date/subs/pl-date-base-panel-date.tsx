@@ -12,6 +12,7 @@ export default {
     emitters: {
         emitInput: Function,
         emitClickItem: Function,
+        emitMouseenterItem: Function,
     },
     props: {
         datetime: {type: Boolean},                                                          // 是否为选择日期时间
@@ -96,7 +97,7 @@ export default {
                                                 ]}
                                                 item={item}
                                                 onClick={this.onClickItem}
-                                                onMouseenter={this.onMouseEnterItem}
+                                                onMouseenter={this.emitMouseenterItem}
                                                 key={item.isSelectMonth ? item.ipd.date : `_${index}`}
                                             />
                                         ))}
