@@ -204,7 +204,7 @@ export default {
                 case DateView.date:
                     ipd = ipd as PlainDate
                     return !!hoverRange ?
-                        hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.date) === 0 :
+                        hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.date) === 0 :
                         (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0)
             }
         },
@@ -237,7 +237,7 @@ export default {
             if (!!this.hoverRange) {
                 let midpd = this.valueRange[0] as PlainDate
                 ipd = ipd.copy()
-                this.hoverRange = midpd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 ? [ipd, midpd] : [midpd, ipd]
+                this.hoverRange = midpd.greaterThan(ipd, PlainDate.CompareMode.date) > 0 ? [ipd, midpd] : [midpd, ipd]
             }
         },
     },
