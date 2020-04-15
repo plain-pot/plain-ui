@@ -334,5 +334,26 @@
                 top: 0;
             }
         }
+
+        .pl-date-panel-date-range {
+            width: auto;
+            padding: 0;
+
+            & > .pl-date-base-panel {
+                border: none;
+
+                &:first-child {
+                    &:after {
+                        top: 16px;
+                        bottom: 16px;
+                        right: 0;
+                        content: '';
+                        position: absolute;
+                        background-color: $ibl;
+                        width: 1px;
+                    }
+                }
+            }
+        }
     }
 </style>

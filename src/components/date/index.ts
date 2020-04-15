@@ -6,6 +6,7 @@ import basePanelDate from './subs/pl-date-base-panel-date'
 import basePanelYear from './subs/pl-date-base-panel-year'
 import basePanelMonth from './subs/pl-date-base-panel-month'
 import basePanelItem from './subs/pl-date-base-panel-item'
+import dateRange from './subs/pl-date-panel-date-range'
 
 import {plugin} from "../../utils";
 
@@ -19,4 +20,5 @@ export default plugin([
     basePanelMonth,
     basePanelItem,
 
+    dateRange,
 ])

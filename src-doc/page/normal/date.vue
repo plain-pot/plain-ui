@@ -68,6 +68,12 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date-panel-date-range">
+            <demo-row title="基本用法">
+                <pl-date-panel-date-range/>
+            </demo-row>
+        </demo-row>
+
         <!--<demo-row title="基本用法">
             <pl-date/>
         </demo-row>-->
