@@ -1,4 +1,5 @@
 import {EmitMixin} from "../../../utils/mixins";
+import {PlainDate} from "../../../utils/PlainDate";
 
 export class DateBasePanelItemData {
     label: string
@@ -8,6 +9,7 @@ export class DateBasePanelItemData {
     hoverStart: boolean
     hover: boolean
     hoverEnd: boolean
+    ipd?: PlainDate
 
     range: boolean
 
@@ -31,7 +33,7 @@ export default {
     render(h) {
         const Component = this.component
         return (
-            <Component class={this.classes} {...{props: this.componentProps, on: this.listener}}>
+            <Component class={this.classes} {...{props: this.componentProps, ...this.listener}}>
                 <div><span>{this.item.label}</span></div>
             </Component>
         )
@@ -59,14 +61,18 @@ export default {
                 return {}
             }
             return {
-                click: () => {
-                    this.emitClick(this.item)
-                },
-                ...(this.item.range ? {
-                    mouseenter: () => {
-                        this.emitMouseenter(this.item)
+                on: {
+                    click: () => {
+                        this.emitClick(this.item)
                     },
-                } : {})
+                },
+                nativeOn: {
+                    ...(this.item.range ? {
+                        mouseenter: () => {
+                            this.emitMouseenter(this.item)
+                        },
+                    } : {})
+                },
             }
         },
     },
