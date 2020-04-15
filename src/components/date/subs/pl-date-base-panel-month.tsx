@@ -208,7 +208,7 @@ export default {
                     ipd,
                 }
 
-                if (this.range) {
+                if (this.range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
                     item.hoverStart = this.getHoverStart(ipd)
                     item.hoverEnd = this.getHoverEnd(ipd)
                     item.hover = this.getHover(ipd)

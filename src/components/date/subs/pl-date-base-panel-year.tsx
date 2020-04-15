@@ -98,18 +98,26 @@ export default {
             selectYear = selectYear - selectYear % 20
             let list: DateBasePanelItemData[] = []
             for (let i = selectYear; i < selectYear + 20; i++) {
-                list.push({
+                let item = {
                     label: i,
                     now: i === nowYear,
                     active: this.getActive(i),
                     disabled: this.getDisabled(i),
-                    hoverStart: this.getHoverStart(i),
-                    hover: this.getHover(i),
-                    hoverEnd: this.getHoverEnd(i),
+                    hoverStart: false,
+                    hover: false,
+                    hoverEnd: false,
 
                     range: this.range,
                     year: i,
-                })
+                }
+
+                if (this.range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
+                    item.hoverStart = this.getHoverStart(i)
+                    item.hover = this.getHover(i)
+                    item.hoverEnd = this.getHoverEnd(i)
+                }
+
+                list.push(item)
             }
 
             return {
