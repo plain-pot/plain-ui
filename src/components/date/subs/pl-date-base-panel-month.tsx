@@ -23,25 +23,31 @@ export default {
     },
     watch: {
         value(val) {
-            this.p_value = val
+            if (this.p_value != val) {
+                this.p_value = val
 
-            const vpd = new PlainDate(val, this.displayFormat, this.valueFormat)
-            this.setSelectYear(vpd.year)
+                const vpd = new PlainDate(val, this.displayFormat, this.valueFormat)
+                this.setSelectYear(vpd.year)
+            }
         },
         start(val) {
-            this.p_start = val
+            if (this.p_start != val) {
+                this.p_start = val
 
-            this.valueRange = [new PlainDate(val, this.displayFormat, this.valueFormat), new PlainDate(this.p_end, this.displayFormat, this.valueFormat)]
-            this.hoverRange = null
+                this.valueRange = [new PlainDate(val, this.displayFormat, this.valueFormat), new PlainDate(this.p_end, this.displayFormat, this.valueFormat)]
+                this.hoverRange = null
 
-            const startPd = new PlainDate(val, this.displayFormat, this.valueFormat)
-            this.setSelectYear(startPd.year)
+                const startPd = new PlainDate(val, this.displayFormat, this.valueFormat)
+                this.setSelectYear(startPd.year)
+            }
         },
         end(val) {
-            this.p_end = val
+            if (this.p_end != val) {
+                this.p_end = val
 
-            this.valueRange = [new PlainDate(this.p_start, this.displayFormat, this.valueFormat), new PlainDate(val, this.displayFormat, this.valueFormat)]
-            this.hoverRange = null
+                this.valueRange = [new PlainDate(this.p_start, this.displayFormat, this.valueFormat), new PlainDate(val, this.displayFormat, this.valueFormat)]
+                this.hoverRange = null
+            }
         },
     },
     data() {

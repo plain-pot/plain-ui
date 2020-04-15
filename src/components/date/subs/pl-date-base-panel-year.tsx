@@ -22,21 +22,27 @@ export default {
     },
     watch: {
         value(val) {
-            this.p_value = val
-            this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
-            this.selectYear = this.p_value
+            if (this.p_value != val) {
+                this.p_value = val
+                this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
+                this.selectYear = this.p_value
+            }
         },
         start(val) {
-            this.p_start = val
-            this.valueRange = [this.p_start, this.p_end]
-            this.hoverRange = null
-            this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
-            this.selectYear = this.p_start
+            if (this.p_start != val) {
+                this.p_start = val
+                this.valueRange = [this.p_start, this.p_end]
+                this.hoverRange = null
+                this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
+                this.selectYear = this.p_start
+            }
         },
         end(val) {
-            this.p_end = val
-            this.valueRange = [this.p_start, this.p_end]
-            this.hoverRange = null
+            if (this.p_end != val) {
+                this.p_end = val
+                this.valueRange = [this.p_start, this.p_end]
+                this.hoverRange = null
+            }
         },
     },
     data() {

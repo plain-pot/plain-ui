@@ -25,20 +25,24 @@ export default {
     },
     watch: {
         start(val) {
-            this.p_start = val
-            const {displayFormat, valueFormat} = this.formatString
-            this.valueRange = [new PlainDate(val, displayFormat, valueFormat), new PlainDate(this.p_end, displayFormat, valueFormat)]
-            this.hoverRange = null
+            if (this.p_start != val) {
+                this.p_start = val
+                const {displayFormat, valueFormat} = this.formatString
+                this.valueRange = [new PlainDate(val, displayFormat, valueFormat), new PlainDate(this.p_end, displayFormat, valueFormat)]
+                this.hoverRange = null
 
-            const startPd = new PlainDate(val, displayFormat, valueFormat)
-            this.selectDate = startPd.copy()
+                const startPd = new PlainDate(val, displayFormat, valueFormat)
+                this.selectDate = startPd.copy()
+            }
         },
         end(val) {
-            this.p_end = val
-            const {displayFormat, valueFormat} = this.formatString
+            if (this.p_end != val) {
+                this.p_end = val
+                const {displayFormat, valueFormat} = this.formatString
 
-            this.valueRange = [new PlainDate(this.p_start, displayFormat, valueFormat), new PlainDate(val, displayFormat, valueFormat)]
-            this.hoverRange = null
+                this.valueRange = [new PlainDate(this.p_start, displayFormat, valueFormat), new PlainDate(val, displayFormat, valueFormat)]
+                this.hoverRange = null
+            }
         },
     },
     data() {
