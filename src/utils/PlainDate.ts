@@ -167,6 +167,17 @@ export class PlainDate {
         }
     }
 
+    setYMD(year: number | PlainDate, month?: number, date?: number) {
+        if (typeof year === 'string') {
+            this.setYear(year)
+            this.setMonthDate(month, date)
+        } else {
+            const pd = year as PlainDate
+            this.setYear(pd.year)
+            this.setMonthDate(pd.month, pd.date)
+        }
+    }
+
     setTime(time: number): void {
         if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
