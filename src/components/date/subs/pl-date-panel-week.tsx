@@ -19,6 +19,22 @@ export default {
         value(val) {
             this.p_value = val
         },
+        start(val) {
+            if (this.p_start != val) {
+                this.p_start = val
+                const {displayFormat, valueFormat} = this.formatString
+                this.valueRange = [new PlainDate(val, displayFormat, valueFormat), new PlainDate(this.p_end, displayFormat, valueFormat)]
+                this.hoverRange = null
+            }
+        },
+        end(val) {
+            if (this.p_end != val) {
+                this.p_end = val
+                const {displayFormat, valueFormat} = this.formatString
+                this.valueRange = [new PlainDate(this.p_start, displayFormat, valueFormat), new PlainDate(val, displayFormat, valueFormat)]
+                this.hoverRange = null
+            }
+        },
     },
     data() {
         const {value: p_value, start: p_start, end: p_end} = this
@@ -241,15 +257,13 @@ export default {
         },
         onMouseenterItem({ipd}: DateBasePanelItemData) {
             const {start: itemStartPd} = this.getWeekPdByPlainDate(ipd)
-            console.log(itemStartPd.valueString)
 
             if (!this.range) {
                 this.hoverPd = itemStartPd
             } else {
                 if (!!this.hoverRange) {
-                    const {start: {range}} = this.WeekGetData
-                    const midPd = range[0]
-                    this.hoverRange = midPd.greaterThan(itemStartPd, PlainDate.CompareMode.yearmonth) > 0 ? [itemStartPd, midPd] : [midPd, itemStartPd]
+                    const {start: {range: {start}}} = this.WeekGetData
+                    this.hoverRange = start.greaterThan(itemStartPd, PlainDate.CompareMode.date) > 0 ? [itemStartPd, start] : [start, itemStartPd]
                 }
             }
         },

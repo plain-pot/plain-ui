@@ -98,6 +98,15 @@
                 <pl-date-panel-week v-model="val[16]"/>
                 <pl-date-panel-week v-model="val[16]"/>
             </demo-row>
+
+            <demo-row title="范围选择">
+                <demo-line>
+                    <div>start:{{val[17]}}</div>
+                    <div>end:{{val[18]}}</div>
+                </demo-line>
+                <pl-date-panel-week :start.sync="val[17]" :end.sync="val[18]" range/>
+                <pl-date-panel-week :start.sync="val[17]" :end.sync="val[18]" range/>
+            </demo-row>
         </demo-row>
 
         <!--<demo-row title="基本用法">
