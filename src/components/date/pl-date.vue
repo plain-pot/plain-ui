@@ -46,19 +46,9 @@
                         transition: all $transition 300ms;
 
                         &:hover:not(.pl-date-base-panel-header-static-label) {
-                            position: relative;
+                            color: $colorPrimary;
                             cursor: pointer;
-
-                            &:before {
-                                position: absolute;
-                                top: -3px;
-                                left: -8px;
-                                bottom: -3px;
-                                right: -8px;
-                                content: '';
-                                box-shadow: plvar(boxShadow);
-                                border-radius: 100px;
-                            }
+                            text-decoration: underline;
                         }
                     }
                 }
