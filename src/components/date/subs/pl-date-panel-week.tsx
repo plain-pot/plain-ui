@@ -17,14 +17,22 @@ export default {
     props: {},
     watch: {
         value(val) {
-            this.p_value = val
+            if (this.p_value != val) {
+                this.p_value = val
+                const vpd = new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat)
+                this.p_selectDate = vpd.isNull ? this.today.copy() : vpd.copy()
+            }
         },
         start(val) {
             if (this.p_start != val) {
                 this.p_start = val
                 const {displayFormat, valueFormat} = this.formatString
-                this.valueRange = [new PlainDate(val, displayFormat, valueFormat), new PlainDate(this.p_end, displayFormat, valueFormat)]
+                const startPd = new PlainDate(val, displayFormat, valueFormat)
+                const endPd = new PlainDate(this.p_end, displayFormat, valueFormat)
+                this.valueRange = [startPd, endPd]
                 this.hoverRange = null
+
+                this.p_selectDate = startPd.isNull ? this.today.copy() : startPd.copy()
             }
         },
         end(val) {
@@ -40,13 +48,24 @@ export default {
         const {value: p_value, start: p_start, end: p_end} = this
         const {displayFormat, valueFormat} = this.getFormatString()
 
+        const vpd = new PlainDate(p_value, displayFormat, valueFormat)
         const startPd = new PlainDate(p_start, displayFormat, valueFormat)
         const endPd = new PlainDate(p_end, displayFormat, valueFormat)
+        const today = PlainDate.today(displayFormat, valueFormat)
 
         const hoverRange: [PlainDate, PlainDate] = null
         const valueRange = [startPd, endPd]
 
         const hoverPd: PlainDate = null
+
+        let p_selectDate = this.selectDate
+        if (!p_selectDate) {
+            if (!this.range) {
+                p_selectDate = vpd.isNull ? today.copy() : vpd.copy()
+            } else {
+                p_selectDate = startPd.isNull ? today.copy() : startPd.copy()
+            }
+        }
 
         return {
             p_value,
@@ -56,6 +75,9 @@ export default {
             hoverRange,
             valueRange,
             hoverPd,
+
+            today,
+            p_selectDate,
         }
     },
     render(h) {
@@ -90,6 +112,8 @@ export default {
                     range: true,
                     displayFormat,
                     valueFormat,
+                    value: this.p_start,
+                    selectDate: this.p_selectDate,
                     dateListBinding: {
                         nativeOn: {
                             'mouseleave': () => {
@@ -100,7 +124,10 @@ export default {
                 },
                 on: {
                     'mouseenter-item': this.onMouseenterItem,
-                    'click-item': this.onClickItem
+                    'click-item': this.onClickItem,
+                    'select-date-change': val => {
+                        this.p_selectDate = val
+                    }
                 },
             }
         },
@@ -279,6 +306,7 @@ export default {
             if (!this.range) {
                 this.p_value = start.valueString
                 this.emitInput(this.p_value)
+
             } else {
                 if (!this.hoverRange) {
                     const {start: itemStart} = this.getWeekPdByPlainDate(ipd)
