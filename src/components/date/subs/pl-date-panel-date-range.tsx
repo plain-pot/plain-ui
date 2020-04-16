@@ -78,12 +78,10 @@ export default {
     computed: {
         formatData() {
             const {displayFormat, valueFormat} = this.formatString
-            let {p_start: start, p_end: end, defaultTime: defaultTimeString, max, min} = this
+            let {p_start: start, p_end: end, defaultTime: defaultTimeString} = this
 
             const startDate = new PlainDate(start, displayFormat, valueFormat)
             const endDate = new PlainDate(end, displayFormat, valueFormat)
-            max = new PlainDate(max, displayFormat, valueFormat)
-            min = new PlainDate(min, displayFormat, valueFormat)
 
             if (!defaultTimeString) defaultTimeString = '12:00:00'
             let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
@@ -104,7 +102,6 @@ export default {
                 endDate,
                 startTime,
                 endTime,
-                max, min,
             }
         },
         CompareMode() {
@@ -135,8 +132,8 @@ export default {
                     'select-date-change': (val: PlainDate) => {
                         this.p_selectDate = val
                     },
-                    'click-item': this.onClickItem,
                     'mouseenter-item': this.onMouseenterItem,
+                    'click-item': (item) => this.onClickItem(item, 'start'),
                     'select-time': (val) => this.onSelectTime(val, 'start')
                 },
             }
@@ -155,8 +152,8 @@ export default {
                         val.setMonthDate(val.month - 1, 1)
                         this.p_selectDate = val.copy()
                     },
-                    'click-item': this.onClickItem,
                     'mouseenter-item': this.onMouseenterItem,
+                    'click-item': (item) => this.onClickItem(item, 'end'),
                     'select-time': (val) => this.onSelectTime(val, 'end')
                 },
             }
@@ -248,31 +245,6 @@ export default {
         },
         emitValue(startPd: PlainDate, endPd: PlainDate) {
 
-            const {max, min} = this.formatData as { [key: string]: PlainDate }
-
-            if (startPd.greaterThan(endPd, this.CompareMode) > 0) {
-                let temp = startPd
-                startPd = endPd
-                endPd = temp
-            }
-
-            if (!max.isNull) {
-                if (startPd.greaterThan(max, this.CompareMode) > 0) {
-                    startPd = max
-                }
-                if (endPd.greaterThan(max, this.CompareMode) > 0) {
-                    endPd = max
-                }
-            }
-            if (!min.isNull) {
-                if (startPd.lessThan(min, this.CompareMode) > 0) {
-                    startPd = min
-                }
-                if (endPd.lessThan(min, this.CompareMode) > 0) {
-                    endPd = min
-                }
-            }
-
             this.p_start = startPd.valueString
             this.p_end = endPd.valueString
 
@@ -285,7 +257,7 @@ export default {
             this.emitInput(this.p_end, 'end')
         },
         /*---------------------------------------handler-------------------------------------------*/
-        async onClickItem(item: DateBasePanelItemData) {
+        async onClickItem(item: DateBasePanelItemData, type: 'start' | 'end') {
             await this.$plain.nextTick()
             const {startTime, endTime} = this.formatData as { [key: string]: PlainDate }
 
@@ -297,10 +269,20 @@ export default {
                 this.hoverRange = [ipd, ipd]
                 this.valueRange = [ipd, ipd]
             } else {
-                const [startPd, endPd] = hoverRange as [PlainDate, PlainDate]
+                let [startPd, endPd] = hoverRange as [PlainDate, PlainDate]
 
                 startPd.setHms(startTime)
                 endPd.setHms(endTime)
+
+                if (type === 'start') {
+                    if (startPd.greaterThan(endPd, this.CompareMode) > 0) {
+                        endPd = startPd
+                    }
+                } else if (type === 'end') {
+                    if (endPd.lessThan(startPd, this.CompareMode) > 0) {
+                        startPd = endPd
+                    }
+                }
 
                 this.emitValue(startPd, endPd)
             }
@@ -327,6 +309,10 @@ export default {
                 startDate.setHms(defaultTime)
                 if (endDate.isNull) {
                     endDate = startDate.copy()
+                } else {
+                    if (startDate.greaterThan(endDate, this.CompareMode) > 0) {
+                        endDate = startDate
+                    }
                 }
             } else if (type === 'end') {
                 if (endDate.isNull) {
@@ -335,6 +321,10 @@ export default {
                 endDate.setHms(defaultTime)
                 if (startDate.isNull) {
                     startDate = endDate.copy()
+                } else {
+                    if (endDate.lessThan(startDate, this.CompareMode) > 0) {
+                        startDate = endDate
+                    }
                 }
             }
 
