@@ -124,6 +124,15 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date-panel-dates">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[19]}}
+                </demo-line>
+                <pl-date-panel-dates v-model="val[19]"/>
+            </demo-row>
+        </demo-row>
+
         <!--<demo-row title="基本用法">
             <pl-date/>
         </demo-row>-->
