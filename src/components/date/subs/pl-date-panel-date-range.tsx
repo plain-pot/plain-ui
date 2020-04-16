@@ -76,6 +76,40 @@ export default {
         )
     },
     computed: {
+        formatData() {
+            const {displayFormat, valueFormat} = this.formatString
+            let {p_start: start, p_end: end, defaultTime: defaultTimeString, max, min} = this
+
+            const startDate = new PlainDate(start, displayFormat, valueFormat)
+            const endDate = new PlainDate(end, displayFormat, valueFormat)
+            max = new PlainDate(max, displayFormat, valueFormat)
+            min = new PlainDate(min, displayFormat, valueFormat)
+
+            if (!defaultTimeString) defaultTimeString = '12:00:00'
+            let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
+
+            const startTime = defaultTime.copy()
+            if (!startDate.isNull) {
+                startTime.setHms(startDate)
+            }
+
+            const endTime = defaultTime.copy()
+            if (!endDate.isNull) {
+                endTime.setHms(endDate)
+            }
+
+            return {
+                defaultTime,
+                startDate,
+                endDate,
+                startTime,
+                endTime,
+                max, min,
+            }
+        },
+        CompareMode() {
+            return this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date
+        },
         binding() {
             const {p_selectDate} = this
             const {displayFormat, valueFormat} = this.formatString
@@ -95,6 +129,7 @@ export default {
                 props: {
                     ...publicProps,
                     selectDate: p_selectDate,
+                    value: this.p_start,
                 },
                 on: {
                     'select-date-change': (val: PlainDate) => {
@@ -102,6 +137,7 @@ export default {
                     },
                     'click-item': this.onClickItem,
                     'mouseenter-item': this.onMouseenterItem,
+                    'select-time': (val) => this.onSelectTime(val, 'start')
                 },
             }
 
@@ -112,6 +148,7 @@ export default {
                 props: {
                     ...publicProps,
                     selectDate: endSelectDate,
+                    value: this.p_end,
                 },
                 on: {
                     'select-date-change': (val: PlainDate) => {
@@ -120,6 +157,7 @@ export default {
                     },
                     'click-item': this.onClickItem,
                     'mouseenter-item': this.onMouseenterItem,
+                    'select-time': (val) => this.onSelectTime(val, 'end')
                 },
             }
 
@@ -208,9 +246,49 @@ export default {
                         (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0)
             }
         },
+        emitValue(startPd: PlainDate, endPd: PlainDate) {
 
+            const {max, min} = this.formatData as { [key: string]: PlainDate }
+
+            if (startPd.greaterThan(endPd, this.CompareMode) > 0) {
+                let temp = startPd
+                startPd = endPd
+                endPd = temp
+            }
+
+            if (!max.isNull) {
+                if (startPd.greaterThan(max, this.CompareMode) > 0) {
+                    startPd = max
+                }
+                if (endPd.greaterThan(max, this.CompareMode) > 0) {
+                    endPd = max
+                }
+            }
+            if (!min.isNull) {
+                if (startPd.lessThan(min, this.CompareMode) > 0) {
+                    startPd = min
+                }
+                if (endPd.lessThan(min, this.CompareMode) > 0) {
+                    endPd = min
+                }
+            }
+
+            this.p_start = startPd.valueString
+            this.p_end = endPd.valueString
+
+            this.hoverRange = null
+            this.valueRange = [startPd, endPd]
+
+            this.emitUpdateStart(this.p_start)
+            this.emitInput(this.p_start, 'start')
+            this.emitUpdateEnd(this.p_end)
+            this.emitInput(this.p_end, 'end')
+        },
         /*---------------------------------------handler-------------------------------------------*/
-        onClickItem(item: DateBasePanelItemData) {
+        async onClickItem(item: DateBasePanelItemData) {
+            await this.$plain.nextTick()
+            const {startTime, endTime} = this.formatData as { [key: string]: PlainDate }
+
             let {ipd} = item
             const {hoverRange} = this
 
@@ -221,16 +299,10 @@ export default {
             } else {
                 const [startPd, endPd] = hoverRange as [PlainDate, PlainDate]
 
-                this.p_start = startPd.valueString
-                this.p_end = endPd.valueString
+                startPd.setHms(startTime)
+                endPd.setHms(endTime)
 
-                this.hoverRange = null
-                this.valueRange = [startPd, endPd]
-
-                this.emitUpdateStart(this.p_start)
-                this.emitInput(this.p_start, 'start')
-                this.emitUpdateEnd(this.p_end)
-                this.emitInput(this.p_end, 'end')
+                this.emitValue(startPd, endPd)
             }
         },
         onMouseenterItem({ipd}: DateBasePanelItemData) {
@@ -239,6 +311,34 @@ export default {
                 ipd = ipd.copy()
                 this.hoverRange = midpd.greaterThan(ipd, PlainDate.CompareMode.date) > 0 ? [ipd, midpd] : [midpd, ipd]
             }
+        },
+        async onSelectTime(val: string, type: 'start' | 'end') {
+            await this.$plain.nextTick()
+
+            let {p_selectDate} = this as { [key: string]: PlainDate }
+            let {startDate, endDate, defaultTime} = this.formatData as { [key: string]: PlainDate }
+            defaultTime = defaultTime.copy()
+            defaultTime.setValue(val)
+
+            if (type === 'start') {
+                if (startDate.isNull) {
+                    startDate.setYMD(p_selectDate)
+                }
+                startDate.setHms(defaultTime)
+                if (endDate.isNull) {
+                    endDate = startDate.copy()
+                }
+            } else if (type === 'end') {
+                if (endDate.isNull) {
+                    endDate.setYMD(p_selectDate)
+                }
+                endDate.setHms(defaultTime)
+                if (startDate.isNull) {
+                    startDate = endDate.copy()
+                }
+            }
+
+            this.emitValue(startDate, endDate)
         },
     },
 }
