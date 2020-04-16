@@ -75,7 +75,7 @@
                     <div>end:{{val[13]}}</div>
                 </demo-line>
                 <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]"/>
-                <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]" max="2030-05-01" min="2018-10-01"/>
+                <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]" max="2021-05-01" min="2018-10-01"/>
             </demo-row>
             <demo-row title="日期时间">
                 <demo-line>

@@ -28,7 +28,7 @@
             padding: 8px 12px 12px 12px;
             width: 302px;
             height: 282px;
-            transition: all $transition 1000ms;
+            transition: all $transition 500ms;
 
             .pl-date-base-panel-header {
                 width: $width;
@@ -171,7 +171,7 @@
             }
 
             .pl-date-base-panel-year-list {
-                transition: all $transition 1000ms;
+                transition: all $transition 500ms;
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -202,7 +202,7 @@
                 }
 
                 .pl-date-base-panel-month-list {
-                    transition: all $transition 1000ms;
+                    transition: all $transition 500ms;
                     position: absolute;
                     left: 0;
                     top: 0;
