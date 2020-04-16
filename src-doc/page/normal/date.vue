@@ -90,6 +90,15 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date-panel-week">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[16]}}
+                </demo-line>
+                <pl-date-panel-week v-model="val[16]"/>
+            </demo-row>
+        </demo-row>
+
         <!--<demo-row title="基本用法">
             <pl-date/>
         </demo-row>-->
