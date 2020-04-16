@@ -32,7 +32,7 @@ export default {
                 this.hoverRange = null
 
                 const startPd = new PlainDate(val, displayFormat, valueFormat)
-                this.selectDate = startPd.copy()
+                this.p_selectDate = startPd.copy()
             }
         },
         end(val) {
@@ -54,7 +54,7 @@ export default {
         const startPd = new PlainDate(p_start, displayFormat, valueFormat)                                                  // 开始时间：PlainDate
         const endPd = new PlainDate(p_end, displayFormat, valueFormat)                                                      // 结束时间：PlainDate
 
-        const selectDate: PlainDate = !!p_start ? new PlainDate(p_start, displayFormat, valueFormat) : today.copy()         // 当前选择的年月信息对象
+        const p_selectDate: PlainDate = !!p_start ? new PlainDate(p_start, displayFormat, valueFormat) : today.copy()         // 当前选择的年月信息对象
         const hoverRange: [PlainDate, PlainDate] = null                                                                     // 当前鼠标enter的日期范围
         const valueRange: [PlainDate, PlainDate] = [startPd, endPd]                                                         // [startPd,endPd]
 
@@ -62,7 +62,7 @@ export default {
             p_start,
             p_end,
             today,
-            selectDate,
+            p_selectDate,
             hoverRange,
             valueRange,
         }
@@ -77,7 +77,7 @@ export default {
     },
     computed: {
         binding() {
-            const {selectDate} = this
+            const {p_selectDate} = this
             const {displayFormat, valueFormat} = this.formatString
 
             const publicProps = Object.keys(DatePublicProps).reduce((ret, key) => {
@@ -94,18 +94,18 @@ export default {
             const start = {
                 props: {
                     ...publicProps,
-                    selectDate,
+                    selectDate: p_selectDate,
                 },
                 on: {
                     'select-date-change': (val: PlainDate) => {
-                        this.selectDate = val
+                        this.p_selectDate = val
                     },
                     'click-item': this.onClickItem,
                     'mouseenter-item': this.onMouseenterItem,
                 },
             }
 
-            const endSelectDate = selectDate.copy()
+            const endSelectDate = p_selectDate.copy()
             endSelectDate.setMonthDate(endSelectDate.month + 1, 1)
 
             const end = {
@@ -116,7 +116,7 @@ export default {
                 on: {
                     'select-date-change': (val: PlainDate) => {
                         val.setMonthDate(val.month - 1, 1)
-                        this.selectDate = val.copy()
+                        this.p_selectDate = val.copy()
                     },
                     'click-item': this.onClickItem,
                     'mouseenter-item': this.onMouseenterItem,

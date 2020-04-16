@@ -1,3 +1,5 @@
+import {PlainDate} from "../../../utils/PlainDate";
+
 export const enum DateView {
     year = 'year',
     month = 'month',
@@ -15,8 +17,14 @@ export const DatePublicProps = {
     start: {type: String},
     end: {type: String},
 
-    direction: {type: String},
-    view: {type: String, default: DateView.month},
+    direction: {type: String},                                                          // 根节点在 pl-transition-slide 动画下的动画方向，是horizontal还是vertical
+    view: {type: String, default: DateView.month},                                      //
+
+    /* base panel date 专用*/
+    datetime: {type: Boolean},                                                          // 是否为选择日期时间
+    firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
+    defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
+    selectDate: {type: PlainDate},                                                      // 当前面板的年月日期对象
 }
 
 export const DatePublicMixin = {

@@ -15,12 +15,6 @@ export default {
         emitMouseenterItem: Function,
         emitSelectDateChange: Function,
     },
-    props: {
-        datetime: {type: Boolean},                                                          // 是否为选择日期时间
-        firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
-        defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
-        selectDate: {type: PlainDate},                                                      // 当前面板的年月日期对象
-    },
     watch: {
         value(val) {
             this.p_value = val
@@ -387,15 +381,15 @@ export default {
         emitValue(valueString) {
             const {max, min} = this.formatData as { [key: string]: PlainDate }
 
-            const vpd = new PlainDate(valueString, this.formatString.displayFormat, this.formatString.valueFormat)
+            let vpd = new PlainDate(valueString, this.formatString.displayFormat, this.formatString.valueFormat)
             if (!max.isNull && vpd.greaterThan(max, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
-                valueString = max.valueString
+                vpd = max
             } else if (!min.isNull && vpd.lessThan(min, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
-                valueString = min.valueString
+                vpd = min
             }
 
-            this.p_value = valueString
-            this.emitInput(this.p_value)
+            this.p_value = vpd.valueString
+            this.emitInput(this.p_value, vpd)
         },
 
         getActive(ipd: PlainDate, type: DateView = DateView.date) {

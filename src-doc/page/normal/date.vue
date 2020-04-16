@@ -77,6 +77,17 @@
                 <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]"/>
                 <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]" max="2030-05-01" min="2018-10-01"/>
             </demo-row>
+            <demo-row title="日期时间">
+                <demo-line>
+                    defaultTime="08:30:00" max="2021-10-10 12:00:00" min="2019-05-05 08:30:15"
+                </demo-line>
+                <demo-line>
+                    <div>start:{{val[14]}}</div>
+                    <div>end:{{val[15]}}</div>
+                </demo-line>
+                <pl-date-panel-date-range :start.sync="val[14]" :end.sync="val[15]" datetime/>
+                <pl-date-panel-date-range :start.sync="val[14]" :end.sync="val[15]" datetime defaultTime="08:30:00" max="2021-10-10 12:00:00" min="2019-05-05 08:30:15"/>
+            </demo-row>
         </demo-row>
 
         <!--<demo-row title="基本用法">
