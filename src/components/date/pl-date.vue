@@ -261,8 +261,7 @@
 
                     &.pl-date-base-panel-date-week-list {
                         border-bottom: solid 1px $ibl;
-                        padding-bottom: 8px;
-                        margin-bottom: 8px;
+                        padding-bottom: 4px;
                         width: $itemWidth*7;
 
                         .pl-date-base-panel-date-week-item {
@@ -355,23 +354,72 @@
                 }
 
                 .pl-date-base-panel-date-item {
+                    margin-top: 2px;
+
                     &.pl-date-base-panel-item-hover-start {
                         & > div {
+                            position: relative;
 
+                            &:after {
+                                position: absolute;
+                                top: 0;
+                                bottom: 0;
+                                right: -3px;
+                                width: 3px;
+                                background-color: rgba($colorPrimary, 0.1);
+                                content: '';
+                            }
                         }
                     }
 
                     &.pl-date-base-panel-item-hover {
                         & > div {
+                            position: relative;
+
+                            &:after {
+                                position: absolute;
+                                top: 0;
+                                bottom: 0;
+                                right: -3px;
+                                width: 3px;
+                                background-color: rgba($colorPrimary, 0.1);
+                                content: '';
+                            }
+
+                            &:before {
+                                position: absolute;
+                                top: 0;
+                                bottom: 0;
+                                left: -3px;
+                                width: 3px;
+                                background-color: rgba($colorPrimary, 0.1);
+                                content: '';
+                            }
                         }
                     }
 
                     &.pl-date-base-panel-item-hover-end {
                         & > div {
+                            position: relative;
+
+                            &:before {
+                                position: absolute;
+                                top: 0;
+                                bottom: 0;
+                                left: -3px;
+                                width: 3px;
+                                background-color: rgba($colorPrimary, 0.1);
+                                content: '';
+                            }
                         }
 
                         &.pl-date-base-panel-item-hover-start {
                             & > div {
+                                position: relative;
+
+                                &:before, &:after {
+                                    display: none;
+                                }
                             }
                         }
                     }
