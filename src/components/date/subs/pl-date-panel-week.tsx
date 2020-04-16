@@ -163,8 +163,25 @@ export default {
         },
 
         getActive(ipd: PlainDate | number, type: DateView) {
-            if (type === DateView.date) {
-                const {value, start, end} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
+            const {value, start, end} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
+
+            if (type === DateView.year) {
+                ipd = ipd as number
+
+                if (!this.range) {
+                    return !value.pd.isNull && (value.pd.year == ipd)
+                } else {
+                    return (!start.pd.isNull && start.pd.year == ipd) || (!end.pd.isNull && end.pd.year == ipd)
+                }
+            } else if (type === DateView.month) {
+                ipd = ipd as PlainDate
+                if (!this.range) {
+                    return !value.pd.isNull && (value.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                } else {
+                    return (!start.pd.isNull && start.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) ||
+                        (!end.pd.isNull && end.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                }
+            } else if (type === DateView.date) {
 
                 ipd = ipd as PlainDate
                 if (!this.range) {
@@ -190,19 +207,40 @@ export default {
             }
         },
         getHoverStart(ipd: PlainDate | number, type: DateView) {
-            return false
+            const {start} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
+
+            if (type === DateView.year) {
+                ipd = ipd as number
+                return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.year == ipd)
+            } else if (type === DateView.month) {
+                ipd = ipd as PlainDate
+                return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+            }
         },
         getHover(ipd: PlainDate | number, type: DateView) {
-            if (type === DateView.date) {
+            const {value, start, end, hoverStart, hoverEnd, hoverRange} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
+
+            if (type === DateView.year) {
+                ipd = ipd as number
+                if (!this.range) {
+                    return (!value.pd.isNull && value.pd.year == ipd)
+                } else {
+                    return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.year <= ipd) && (!end.pd.isNull && end.pd.year >= ipd)
+                }
+            } else if (type === DateView.month) {
+                ipd = ipd as PlainDate
+                if (!this.range) {
+                    return (!value.pd.isNull && value.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                } else {
+                    return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.lessThan(ipd, PlainDate.CompareMode.yearmonth) >= 0) && (!end.pd.isNull && end.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) >= 0)
+                }
+            } else if (type === DateView.date) {
                 ipd = ipd as PlainDate
                 if (!!this.hoverPd) {
                     if (this.isHover(this.hoverPd, ipd)) {
                         return true
                     }
                 }
-
-                const {value, start, end, hoverStart, hoverEnd, hoverRange} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
-
                 if (!this.range) {
                     if (!value.pd.isNull) {
                         const {start: startPd, end: endPd} = value.range
@@ -224,7 +262,15 @@ export default {
             }
         },
         getHoverEnd(ipd: PlainDate | number, type: DateView) {
-            return false
+            const {end,} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
+
+            if (type === DateView.year) {
+                ipd = ipd as number
+                return !!this.hoverRange ? false : (!end.pd.isNull && end.pd.year == ipd)
+            } else if (type === DateView.month) {
+                ipd = ipd as PlainDate
+                return !!this.hoverRange ? false : (!end.pd.isNull && end.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+            }
         },
         /*---------------------------------------handler-------------------------------------------*/
         onClickItem({ipd}: DateBasePanelItemData) {

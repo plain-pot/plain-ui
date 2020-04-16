@@ -129,19 +129,19 @@
                         color: $disabledText;
                     }
 
-                    &.pl-date-base-panel-item-hover-start {
-
-                        & > div {
-                            background-color: rgba($colorPrimary, 0.1);
-                            border-radius: 100px 0 0 100px;
-                        }
-                    }
-
                     &.pl-date-base-panel-item-hover {
 
                         & > div {
                             background-color: rgba($colorPrimary, 0.1);
                             border-radius: 0;
+                        }
+                    }
+
+                    &.pl-date-base-panel-item-hover-start {
+
+                        & > div {
+                            background-color: rgba($colorPrimary, 0.1);
+                            border-radius: 100px 0 0 100px;
                         }
                     }
 
