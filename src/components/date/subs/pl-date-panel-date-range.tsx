@@ -175,6 +175,8 @@ export default {
     },
     methods: {
         /*---------------------------------------utils-------------------------------------------*/
+        getDisabled() {
+        },
         getActive(ipd: PlainDate | number, type: DateView) {
             const {startPd, endPd} = this.DateRangeGetData as DateRangeGetDataType
 

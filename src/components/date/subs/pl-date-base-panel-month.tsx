@@ -201,7 +201,7 @@ export default {
 
                 const item = {
                     label: this.months[i],
-                    disabled: this.getDisabled(i),
+                    disabled: this.getDisabled(ipd),
                     now: this.selectYear === this.today.year && (this.today.month == i),
                     active: this.getActive(ipd),
 
@@ -273,21 +273,29 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:13
          */
-        getDisabled(item) {
-            if (this.checkDisabled) {
-                return this.checkDisabled(item, 'month')
+        getDisabled(ipd: PlainDate, type: DateView = DateView.month): boolean {
+            if (!!this.firstDatePanel) {
+                let flag = this.firstDatePanel.getDisabled(ipd, type)
+                if (flag != null) {
+                    return flag
+                }
             }
-            const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
 
-            this.tempPd.setYear(this.selectYear)
-            this.tempPd.setMonthDate(item, 1)
+            if (type === DateView.month) {
+                const item = ipd.month
+                const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
 
-            if (!max.isNull && max.lessThan(this.tempPd, PlainDate.CompareMode.yearmonth) > 0) {
-                return true
+                this.tempPd.setYear(this.selectYear)
+                this.tempPd.setMonthDate(item, 1)
+
+                if (!max.isNull && max.lessThan(this.tempPd, PlainDate.CompareMode.yearmonth) > 0) {
+                    return true
+                }
+                if (!min.isNull && min.greaterThan(this.tempPd, PlainDate.CompareMode.yearmonth) > 0) {
+                    return true
+                }
             }
-            if (!min.isNull && min.greaterThan(this.tempPd, PlainDate.CompareMode.yearmonth) > 0) {
-                return true
-            }
+
             return false
         },
         /**

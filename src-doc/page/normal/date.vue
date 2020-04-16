@@ -54,12 +54,18 @@
         <demo-row title="pl-date-base-panel-date">
             <demo-row title="基本用法">
                 <demo-line>
+                    max="2021-05-05" min="2019-05-05"
+                </demo-line>
+                <demo-line>
                     {{val[10]}}
                 </demo-line>
                 <pl-date-base-panel-date v-model="val[10]"/>
                 <pl-date-base-panel-date v-model="val[10]" :firstWeekDay="0" max="2021-05-05" min="2019-05-05"/>
             </demo-row>
             <demo-row title="日期时间选择">
+                <demo-line>
+                    max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"
+                </demo-line>
                 <demo-line>
                     {{val[11]}}
                 </demo-line>
@@ -70,6 +76,9 @@
 
         <demo-row title="pl-date-panel-date-range">
             <demo-row title="基本用法">
+                <demo-line>
+                    max="2021-05-01" min="2018-10-01"
+                </demo-line>
                 <demo-line>
                     <div>start:{{val[12]}}</div>
                     <div>end:{{val[13]}}</div>

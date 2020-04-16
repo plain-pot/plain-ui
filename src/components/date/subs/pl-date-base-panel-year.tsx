@@ -140,16 +140,23 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:17
          */
-        getDisabled(item) {
-            if (!!this.checkDisabled) {
-                return this.checkDisabled(item, 'year')
+        getDisabled(item, type: DateView = DateView.year) {
+            if (!!this.firstDatePanel) {
+                let flag = this.firstDatePanel.getDisabled(item, type)
+                if (flag != null) {
+                    return flag
+                }
             }
-            if (this.max != null && item > this.max) {
-                return true
+
+            if (type === DateView.year) {
+                if (this.max != null && item > this.max) {
+                    return true
+                }
+                if (this.min != null && item < this.min) {
+                    return true
+                }
             }
-            if (this.min != null && item < this.min) {
-                return true
-            }
+
             return false
         },
         /**

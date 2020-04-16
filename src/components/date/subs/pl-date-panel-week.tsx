@@ -188,7 +188,9 @@ export default {
             const {start, end} = this.getWeekPdByPlainDate(weekPd)
             return ipd.greaterThan(start, PlainDate.CompareMode.date) >= 0 && ipd.lessThan(end, PlainDate.CompareMode.date) >= 0
         },
+        getDisabled(ipd: number | PlainDate, type: DateView) {
 
+        },
         getActive(ipd: PlainDate | number, type: DateView) {
             const {value, start, end} = this.WeekGetData as { [key: string]: { pd: PlainDate, range: { start: PlainDate, end: PlainDate } | null } }
 

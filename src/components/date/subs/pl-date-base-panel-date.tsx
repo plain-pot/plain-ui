@@ -183,7 +183,6 @@ export default {
         dateList(): DateBasePanelItemData[] {
             const {displayFormat, valueFormat} = this.formatString
             const {today, p_selectDate, tempPd} = this as { [key: string]: PlainDate }
-            const {value} = this.formatData as { [key: string]: PlainDate }
 
             tempPd.setYear(p_selectDate.year)
             tempPd.setMonthDate(p_selectDate.month, 1)
@@ -211,7 +210,7 @@ export default {
                     hoverEnd: false,
 
                     range: this.range,
-                    disabled: this.getDisabled(i, {vpd: value, ipd, range: this.range}),
+                    disabled: this.getDisabled(ipd),
 
                     ipd,
                     isSelectMonth: ipd.greaterThan(p_selectDate, PlainDate.CompareMode.yearmonth) === 0,
@@ -365,18 +364,25 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 10:57
          */
-        getDisabled(item, option: { vpd: PlainDate, ipd: PlainDate, range: boolean }) {
-            if (!!this.checkDisabled) {
-                return this.checkDisabled(item, 'date', option)
+        getDisabled(ipd: PlainDate, type: DateView = DateView.date): boolean {
+            if (!!this.firstDatePanel) {
+                let flag = this.firstDatePanel.getDisabled(ipd, type)
+                if (flag != null) {
+                    return flag
+                }
             }
-            const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
 
-            if (!max.isNull && max.lessThan(option.ipd, PlainDate.CompareMode.date) > 0) {
-                return true
+            if (type === DateView.date) {
+                const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
+
+                if (!max.isNull && max.lessThan(ipd, PlainDate.CompareMode.date) > 0) {
+                    return true
+                }
+                if (!min.isNull && min.greaterThan(ipd, PlainDate.CompareMode.date) > 0) {
+                    return true
+                }
             }
-            if (!min.isNull && min.greaterThan(option.ipd, PlainDate.CompareMode.date) > 0) {
-                return true
-            }
+
             return false
         },
         /**
