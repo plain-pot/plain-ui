@@ -96,6 +96,7 @@
                     {{val[16]}}
                 </demo-line>
                 <pl-date-panel-week v-model="val[16]"/>
+                <pl-date-panel-week v-model="val[16]"/>
             </demo-row>
         </demo-row>
 

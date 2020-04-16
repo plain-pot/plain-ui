@@ -15,6 +15,11 @@ export default {
         emitUpdateEnd: Function,
     },
     props: {},
+    watch: {
+        value(val) {
+            this.p_value = val
+        },
+    },
     data() {
         const {value: p_value, start: p_start, end: p_end} = this
         const {displayFormat, valueFormat} = this.getFormatString()
