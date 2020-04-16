@@ -82,6 +82,7 @@
                     display: inline-block;
                     font-size: 12px;
                     color: $itc;
+                    user-select: none;
 
                     & > div {
                         width: 100%;

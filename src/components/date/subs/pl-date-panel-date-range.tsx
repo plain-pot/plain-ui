@@ -270,18 +270,14 @@ export default {
                 this.valueRange = [ipd, ipd]
             } else {
                 let [startPd, endPd] = hoverRange as [PlainDate, PlainDate]
+                startPd = startPd.copy()
+                endPd = endPd.copy()
 
                 startPd.setHms(startTime)
                 endPd.setHms(endTime)
 
-                if (type === 'start') {
-                    if (startPd.greaterThan(endPd, this.CompareMode) > 0) {
-                        endPd = startPd
-                    }
-                } else if (type === 'end') {
-                    if (endPd.lessThan(startPd, this.CompareMode) > 0) {
-                        startPd = endPd
-                    }
+                if (startPd.greaterThan(endPd, this.CompareMode) > 0) {
+                    endPd = startPd
                 }
 
                 this.emitValue(startPd, endPd)
@@ -311,7 +307,7 @@ export default {
                     endDate = startDate.copy()
                 } else {
                     if (startDate.greaterThan(endDate, this.CompareMode) > 0) {
-                        endDate = startDate
+                        endDate = startDate.copy()
                     }
                 }
             } else if (type === 'end') {
@@ -323,7 +319,7 @@ export default {
                     startDate = endDate.copy()
                 } else {
                     if (endDate.lessThan(startDate, this.CompareMode) > 0) {
-                        startDate = endDate
+                        startDate = endDate.copy()
                     }
                 }
             }
