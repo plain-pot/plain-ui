@@ -12,13 +12,16 @@ export default {
     emitters: {
         emitInput: Function,
         emitClickItem: Function,
+        emitSelectTime: Function,
         emitMouseenterItem: Function,
         emitSelectDateChange: Function,
     },
     watch: {
         value(val) {
             this.p_value = val
-            this.setSelectDate(val)
+            if (!this.selectDate) {
+                this.setSelectDate(val, false)
+            }
         },
         selectDate(val) {
             this.p_selectDate = val
@@ -51,6 +54,8 @@ export default {
     },
     render(h) {
 
+        let timePd = this.formatData.value
+        if (timePd.isNull) timePd = this.p_selectDate
 
         return (
             <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
@@ -112,11 +117,11 @@ export default {
                             <pl-date-base-panel class="pl-date-base-panel-time" direction="horizontal" key="time">
                                 <template slot="center">
                                     <span onclick={() => this.changeView(DateView.date)}>
-                                        {this.p_selectDate.year}
+                                        {timePd.year}
                                         -
-                                        {this.$plain.utils.zeroize(this.p_selectDate.month + 1)}
+                                        {this.$plain.utils.zeroize(timePd.month + 1)}
                                         -
-                                        {this.$plain.utils.zeroize(this.p_selectDate.date)}
+                                        {this.$plain.utils.zeroize(timePd.date)}
                                     </span>
                                 </template>
                                 <template slot="content">
@@ -343,12 +348,14 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 10:57
          */
-        setSelectDate(val: string | PlainDate) {
+        setSelectDate(val: string | PlainDate, emitEvent: boolean = true) {
             if (typeof val === 'string') {
                 val = (!!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today) as PlainDate
             }
             this.p_selectDate = val
-            this.emitSelectDateChange(this.p_selectDate)
+            if (emitEvent) {
+                this.emitSelectDateChange(this.p_selectDate)
+            }
         },
         /**
          * 判断日期是否禁用
@@ -465,6 +472,7 @@ export default {
             value.setHms(tempPd)
 
             this.emitValue(value.valueString)
+            this.emitSelectTime(val)
         },
         /**
          * 检查月份面板中，应该高亮激活的年月
