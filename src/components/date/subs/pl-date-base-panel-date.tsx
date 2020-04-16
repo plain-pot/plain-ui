@@ -264,9 +264,7 @@ export default {
             if (!max.isNull && !value.isNull) {
                 if (max.greaterThan(value, PlainDate.CompareMode.date) === 0) {
                     let tempDefaultTime = defaultTime.copy()
-                    tempDefaultTime.setHour(max.hour)
-                    tempDefaultTime.setMinute(max.minute)
-                    tempDefaultTime.setSecond(max.second)
+                    tempDefaultTime.setHms(max)
                     props.max = tempDefaultTime.valueString
                 }
             }
@@ -274,9 +272,7 @@ export default {
             if (!min.isNull && !value.isNull) {
                 if (min.lessThan(value, PlainDate.CompareMode.date) === 0) {
                     let tempDefaultTime = defaultTime.copy()
-                    tempDefaultTime.setHour(min.hour)
-                    tempDefaultTime.setMinute(min.minute)
-                    tempDefaultTime.setSecond(min.second)
+                    tempDefaultTime.setHms(max)
                     props.min = tempDefaultTime.valueString
                 }
             }
@@ -441,13 +437,9 @@ export default {
             const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
 
             if (!value.isNull) {
-                ipd.setHour(value.hour)
-                ipd.setMinute(value.minute)
-                ipd.setSecond(value.second)
+                ipd.setHms(value)
             } else {
-                ipd.setHour(defaultTime.hour)
-                ipd.setMinute(defaultTime.minute)
-                ipd.setSecond(defaultTime.second)
+                ipd.setHms(defaultTime)
             }
 
             this.emitClickItem(item)
@@ -470,9 +462,7 @@ export default {
                 value.setMonthDate(p_selectDate.month, p_selectDate.date)
             }
 
-            value.setHour(tempPd.hour)
-            value.setMinute(tempPd.minute)
-            value.setSecond(tempPd.second)
+            value.setHms(tempPd)
 
             this.emitValue(value.valueString)
         },

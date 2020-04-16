@@ -150,6 +150,23 @@ export class PlainDate {
         this.dateObject.setSeconds(second)
     }
 
+    setHms(hour: number | PlainDate, minute?: number, second?: number): void {
+        if (typeof hour === "number") {
+            this.setHour(hour)
+            if (minute != null) {
+                this.setMinute(minute)
+            }
+            if (second != null) {
+                this.setSecond(second)
+            }
+        } else {
+            const pd = hour as PlainDate
+            this.setHour(pd.hour)
+            this.setMinute(pd.minute)
+            this.setSecond(pd.second)
+        }
+    }
+
     setTime(time: number): void {
         if (this.isNull) {
             this.dateObject = PlainDate.defaultDate()
