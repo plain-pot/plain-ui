@@ -9,6 +9,9 @@ export default {
         DatePublicMixin,
         EmitMixin,
     ],
+    props: {
+        dateListBinding: {type: Object},
+    },
     emitters: {
         emitInput: Function,
         emitClickItem: Function,
@@ -88,7 +91,7 @@ export default {
                                             <pl-date-base-panel-item key={item} class="pl-date-base-panel-date-week-item" item={{label: item,}}/>
                                         ))}
                                     </ul>
-                                    <pl-list class="pl-date-base-panel-date-list" tag="ul">
+                                    <pl-list class="pl-date-base-panel-date-list" tag="ul" {...(this.dateListBinding || {})}>
                                         {this.dateList.map((item: DateBasePanelItemData, index) => (
                                             <pl-date-base-panel-item
                                                 component="pl-item"

@@ -282,7 +282,9 @@
                             }
 
                             &.pl-date-base-panel-date-item-other-month:not(:hover) {
-                                opacity: 0.2;
+                                span {
+                                    opacity: 0.2;
+                                }
                             }
 
                             &.pl-date-base-panel-item-disabled {
@@ -300,6 +302,76 @@
                                             background-color: $ibc;
                                             transform: rotate(-45deg);
                                             transform-origin: top left;
+                                        }
+                                    }
+                                }
+                            }
+
+                            margin-top: 2px;
+
+                            &.pl-date-base-panel-item-hover-start {
+                                & > div {
+                                    position: relative;
+
+                                    &:after {
+                                        position: absolute;
+                                        top: 0;
+                                        bottom: 0;
+                                        right: -3px;
+                                        width: 3px;
+                                        background-color: rgba($colorPrimary, 0.1);
+                                        content: '';
+                                    }
+                                }
+                            }
+
+                            &.pl-date-base-panel-item-hover {
+                                & > div {
+                                    position: relative;
+
+                                    &:after {
+                                        position: absolute;
+                                        top: 0;
+                                        bottom: 0;
+                                        right: -3px;
+                                        width: 3px;
+                                        background-color: rgba($colorPrimary, 0.1);
+                                        content: '';
+                                    }
+
+                                    &:before {
+                                        position: absolute;
+                                        top: 0;
+                                        bottom: 0;
+                                        left: -3px;
+                                        width: 3px;
+                                        background-color: rgba($colorPrimary, 0.1);
+                                        content: '';
+                                    }
+                                }
+                            }
+
+                            &.pl-date-base-panel-item-hover-end {
+                                & > div {
+                                    position: relative;
+
+                                    &:before {
+                                        position: absolute;
+                                        top: 0;
+                                        bottom: 0;
+                                        left: -3px;
+                                        width: 3px;
+                                        background-color: rgba($colorPrimary, 0.1);
+                                        content: '';
+                                    }
+                                }
+
+                                &.pl-date-base-panel-item-hover-start {
+                                    & > div {
+                                        position: relative;
+
+                                        &:before, &:after {
+                                            display: none;
                                         }
                                     }
                                 }
@@ -343,78 +415,12 @@
                         width: 1px;
                     }
                 }
+            }
+        }
 
-                .pl-date-base-panel-date-item {
-                    margin-top: 2px;
+        .pl-date-panel-week {
+            .pl-date-base-panel-date-item {
 
-                    &.pl-date-base-panel-item-hover-start {
-                        & > div {
-                            position: relative;
-
-                            &:after {
-                                position: absolute;
-                                top: 0;
-                                bottom: 0;
-                                right: -3px;
-                                width: 3px;
-                                background-color: rgba($colorPrimary, 0.1);
-                                content: '';
-                            }
-                        }
-                    }
-
-                    &.pl-date-base-panel-item-hover {
-                        & > div {
-                            position: relative;
-
-                            &:after {
-                                position: absolute;
-                                top: 0;
-                                bottom: 0;
-                                right: -3px;
-                                width: 3px;
-                                background-color: rgba($colorPrimary, 0.1);
-                                content: '';
-                            }
-
-                            &:before {
-                                position: absolute;
-                                top: 0;
-                                bottom: 0;
-                                left: -3px;
-                                width: 3px;
-                                background-color: rgba($colorPrimary, 0.1);
-                                content: '';
-                            }
-                        }
-                    }
-
-                    &.pl-date-base-panel-item-hover-end {
-                        & > div {
-                            position: relative;
-
-                            &:before {
-                                position: absolute;
-                                top: 0;
-                                bottom: 0;
-                                left: -3px;
-                                width: 3px;
-                                background-color: rgba($colorPrimary, 0.1);
-                                content: '';
-                            }
-                        }
-
-                        &.pl-date-base-panel-item-hover-start {
-                            & > div {
-                                position: relative;
-
-                                &:before, &:after {
-                                    display: none;
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }
