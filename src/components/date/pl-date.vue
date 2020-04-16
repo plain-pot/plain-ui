@@ -420,7 +420,27 @@
 
         .pl-date-panel-week {
             .pl-date-base-panel-date-item {
+                &:nth-child(7n+1) {
+                    & > div {
+                        border-top-left-radius: 100px !important;
+                        border-bottom-left-radius: 100px !important;
 
+                        &:before {
+                            display: none;
+                        }
+                    }
+                }
+
+                &:nth-child(7n) {
+                    & > div {
+                        border-top-right-radius: 100px !important;
+                        border-bottom-right-radius: 100px !important;
+
+                        &:after {
+                            display: none;
+                        }
+                    }
+                }
             }
         }
     }
