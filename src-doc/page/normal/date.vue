@@ -163,6 +163,52 @@
                     <pl-date-panel range :start.sync="val[21]" :end.sync="val[22]" panel="year"/>
                 </demo-row>
             </demo-row>
+            <demo-row title="year-month">
+                <demo-row title="基本用法">
+                    <demo-line>
+                        max="2030-05" min="2020-08"
+                    </demo-line>
+                    <demo-line>
+                        {{val[23]}}
+                    </demo-line>
+                    <pl-date-panel v-model="val[23]" panel="month" max="2030-05" min="2020-08"/>
+                    <pl-date-panel v-model="val[23]" panel="month"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        max="2030-05" min="2020-08"
+                    </demo-line>
+                    <demo-line>
+                        <div>start:{{val[24]}}</div>
+                        <div>end:{{val[25]}}</div>
+                    </demo-line>
+                    <pl-date-panel range :start.sync="val[24]" :end.sync="val[25]" panel="month" max="2030-05" min="2020-08"/>
+                    <pl-date-panel range :start.sync="val[24]" :end.sync="val[25]" panel="month"/>
+                </demo-row>
+            </demo-row>
+            <demo-row title="date">
+                <demo-row title="基本用法">
+                    <demo-line>
+                        max="2030-05-05" min="2020-01-01"
+                    </demo-line>
+                    <demo-line>
+                        {{val[26]}}
+                    </demo-line>
+                    <pl-date-panel v-model="val[26]" panel="date" max="2030-05-05" min="2020-01-01"/>
+                    <pl-date-panel v-model="val[26]" panel="date"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        max="2030-05-05" min="2020-01-01"
+                    </demo-line>
+                    <demo-line>
+                        <div>start:{{val[27]}}</div>
+                        <div>end:{{val[28]}}</div>
+                    </demo-line>
+                    <pl-date-panel range :start.sync="val[27]" :end.sync="val[28]" panel="date" max="2030-05-05" min="2020-01-01"/>
+                    <pl-date-panel range :start.sync="val[27]" :end.sync="val[28]" panel="date"/>
+                </demo-row>
+            </demo-row>
         </demo-row>
 
         <!--<demo-row title="基本用法">

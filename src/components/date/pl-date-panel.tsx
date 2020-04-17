@@ -53,51 +53,83 @@ export default {
         panelBinding() {
             const {p_value: value, p_start: start, p_end: end, range, max, min, displayFormat, valueFormat} = this
 
+            const publicProps = {
+                range,
+                value,
+                start,
+                end,
+                max,
+                min,
+            }
+            const publicChange = (val, type) => {
+                if (!range) {
+                    this.p_value = val
+                    this.emitInput(this.p_value)
+                } else {
+                    if (type === DateEmitType.start) {
+                        this.p_start = val
+                        this.emitUpdateStart(this.p_start)
+                    } else {
+                        this.p_end = val
+                        this.emitUpdateEnd(this.p_end)
+                    }
+
+                    this.emitInput(val, type)
+                }
+            }
+
             switch (this.panel as DatePanelType) {
                 case DatePanelType.year:
                     return {
                         props: {
-                            range,
-                            value,
-                            start,
-                            end,
-                            max,
-                            min,
+                            ...publicProps,
                             displayFormat: displayFormat || 'YYYY',
                             valueFormat: valueFormat || 'YYYY',
                         },
-                        on: {
-                            change: (val, type) => {
-                                if (!range) {
-                                    this.p_value = val
-                                    this.emitInput(this.p_value)
-                                } else {
-                                    if (type === DateEmitType.start) {
-                                        this.p_start = val
-                                        this.emitUpdateStart(this.p_start)
-                                    } else {
-                                        this.p_end = val
-                                        this.emitUpdateEnd(this.p_end)
-                                    }
-
-                                    this.emitInput(val, type)
-                                }
-                            },
+                        on: {change: publicChange,},
+                    }
+                case DatePanelType.month:
+                    return {
+                        props: {
+                            ...publicProps,
+                            displayFormat: displayFormat || 'YYYY-MM',
+                            valueFormat: valueFormat || 'YYYY-MM',
                         },
+                        on: {change: publicChange,},
                     }
                 case DatePanelType.date:
-                    return {}
+                    return {
+                        props: {
+                            ...publicProps,
+                            displayFormat: displayFormat || 'YYYY-MM-DD',
+                            valueFormat: valueFormat || 'YYYY-MM-DD',
+                        },
+                        on: {change: publicChange,},
+                    }
+                case DatePanelType.datetime:
+                    return {
+                        props: {
+                            ...publicProps,
+                            displayFormat: displayFormat || 'YYYY-MM-DD',
+                            valueFormat: valueFormat || 'YYYY-MM-DD',
+                            datetime: true,
+                        },
+                        on: {change: publicChange,},
+                    }
                 default:
                     return {}
             }
         },
     },
     render(h) {
+
+        const binding = this.panelBinding
+
         const panel = {
             year: 'pl-date-base-panel-year',
             month: 'pl-date-base-panel-month',
-            date: 'pl-date-base-panel-date',
-            datetime: 'pl-date-base-panel-date',
+            date: binding.props.range ? 'pl-date-panel-date-range' : 'pl-date-base-panel-date',
+            datetime: binding.props.range ? 'pl-date-panel-date-range' : 'pl-date-base-panel-date',
             week: 'pl-date-base-panel-week',
             dates: 'pl-date-base-panel-dates',
         }
