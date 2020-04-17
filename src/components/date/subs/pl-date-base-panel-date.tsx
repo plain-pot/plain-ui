@@ -251,7 +251,7 @@ export default {
             if (!min.isNull && !value.isNull) {
                 if (min.YMD >= value.YMD) {
                     let tempDefaultTime = defaultTime.copy()
-                    tempDefaultTime.setHms(max)
+                    tempDefaultTime.setHms(min)
                     props.min = tempDefaultTime.valueString
                 }
             }

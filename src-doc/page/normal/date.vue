@@ -59,8 +59,8 @@
                 <demo-line>
                     {{val[10]}}
                 </demo-line>
-                <pl-date-base-panel-date v-model="val[10]"/>
-                <pl-date-base-panel-date v-model="val[10]" :firstWeekDay="0" max="2021-05-05" min="2019-05-05"/>
+                <pl-date-base-panel-date v-model="val[10]" max="2021-05-05" min="2019-05-05"/>
+                <pl-date-base-panel-date v-model="val[10]" :firstWeekDay="0"/>
             </demo-row>
             <demo-row title="日期时间选择">
                 <demo-line>
@@ -69,8 +69,8 @@
                 <demo-line>
                     {{val[11]}}
                 </demo-line>
-                <pl-date-base-panel-date v-model="val[11]" datetime/>
-                <pl-date-base-panel-date v-model="val[11]" datetime :firstWeekDay="0" defaultTime="08:30:00" max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"/>
+                <pl-date-base-panel-date v-model="val[11]" datetime max="2021-05-05 12:00:00" min="2019-05-05 08:30:15" defaultTime="08:30:00"/>
+                <pl-date-base-panel-date v-model="val[11]" datetime :firstWeekDay="0"/>
             </demo-row>
         </demo-row>
 
@@ -83,8 +83,8 @@
                     <div>start:{{val[12]}}</div>
                     <div>end:{{val[13]}}</div>
                 </demo-line>
-                <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]"/>
                 <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]" max="2021-05-01" min="2018-10-01"/>
+                <pl-date-panel-date-range :start.sync="val[12]" :end.sync="val[13]"/>
             </demo-row>
             <demo-row title="日期时间">
                 <demo-line>
@@ -94,8 +94,8 @@
                     <div>start:{{val[14]}}</div>
                     <div>end:{{val[15]}}</div>
                 </demo-line>
-                <pl-date-panel-date-range :start.sync="val[14]" :end.sync="val[15]" datetime/>
                 <pl-date-panel-date-range :start.sync="val[14]" :end.sync="val[15]" datetime defaultTime="08:30:00" max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"/>
+<!--                <pl-date-panel-date-range :start.sync="val[14]" :end.sync="val[15]" datetime/>-->
             </demo-row>
         </demo-row>
 

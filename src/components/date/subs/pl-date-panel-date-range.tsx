@@ -135,7 +135,7 @@ export default {
             }
         },
         provideData(): PanelParentProvider {
-            const {value, hoverRange, valueRange} = this.panelItemParam as PanelItemParam
+            const {value, hoverRange, valueRange, max, min} = this.panelItemParam as PanelItemParam
             return {
                 year: {
                     range: true,
@@ -154,14 +154,14 @@ export default {
                     value: value,
                     hoverRange,
                     valueRange,
+                    max,
+                    min,
                 },
             }
         },
     },
     methods: {
         /*---------------------------------------utils-------------------------------------------*/
-        getDisabled() {
-        },
         getActive(ipd: PlainDate, {valueRange: [startPd, endPd]}: PanelItemParam) {
             return ((!startPd.isNull && startPd.YMD === ipd.YMD) || (!endPd.isNull && endPd.YMD === ipd.YMD))
         },
@@ -178,6 +178,20 @@ export default {
         },
 
         emitValue(startPd: PlainDate, endPd: PlainDate) {
+
+            const {max, min} = this.panelItemParam
+
+            if (!max.isNull && (this.datetime ? max.YMDHms < startPd.YMDHms : max.YMD < startPd.YMD)) {
+                startPd = max
+            } else if (!min.isNull && (this.datetime ? min.YMDHms > startPd.YMDHms : min.YMD > startPd.YMD)) {
+                startPd = min
+            }
+
+            if (!max.isNull && (this.datetime ? max.YMDHms < endPd.YMDHms : max.YMD < endPd.YMD)) {
+                endPd = max
+            } else if (!min.isNull && (this.datetime ? min.YMDHms > endPd.YMDHms : min.YMD > endPd.YMD)) {
+                endPd = min
+            }
 
             this.p_start = startPd.valueString
             this.p_end = endPd.valueString
@@ -208,7 +222,7 @@ export default {
                 startPd.setHms(startTime)
                 endPd.setHms(endTime)
 
-                if (startPd.greaterThan(endPd, this.CompareMode) > 0) {
+                if ((this.datetime ? startPd.YMDHms > endPd.YMDHms : startPd.YMD > endPd.YMD)) {
                     endPd = startPd
                 }
 
@@ -238,7 +252,7 @@ export default {
                 if (endDate.isNull) {
                     endDate = startDate.copy()
                 } else {
-                    if (startDate.greaterThan(endDate, this.CompareMode) > 0) {
+                    if ((this.datetime ? startDate.YMDHms > endDate.YMDHms : startDate.YMD > endDate.YMD)) {
                         endDate = startDate.copy()
                     }
                 }
@@ -250,7 +264,7 @@ export default {
                 if (startDate.isNull) {
                     startDate = endDate.copy()
                 } else {
-                    if (endDate.lessThan(startDate, this.CompareMode) > 0) {
+                    if ((this.datetime ? startDate.YMDHms > endDate.YMDHms : startDate.YMD > endDate.YMD)) {
                         startDate = endDate.copy()
                     }
                 }
