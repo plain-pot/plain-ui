@@ -59,6 +59,11 @@ export const DatePublicMixin = {
     inject: {
         plDatePanel: {default: null},
     },
+    watch: {
+        view(val) {
+            this.p_view = val
+        },
+    },
     data() {
         const {displayFormat, valueFormat} = this.getFormatString()
 
@@ -91,6 +96,8 @@ export const DatePublicMixin = {
         const hoverRange: [PlainDate, PlainDate] = null
         const valueRange: [PlainDate, PlainDate] = [startPd, endPd]
 
+        const p_view: DateView = this.view
+
         return {
             today,
             p_selectDate,
@@ -104,6 +111,7 @@ export const DatePublicMixin = {
             valueRange,
 
             transitionDirection,
+            p_view,
         }
     },
     computed: {
