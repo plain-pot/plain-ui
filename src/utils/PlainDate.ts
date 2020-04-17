@@ -117,6 +117,11 @@ export class PlainDate {
         return Number(this.dateString + this.timeString)
     }
 
+    get Hms() {
+        if (this.isNull) return null
+        return Number(this.timeString)
+    }
+
     /*---------------------------------------method-------------------------------------------*/
 
     setValue(value: string) {
@@ -203,40 +208,6 @@ export class PlainDate {
             this.dateObject = PlainDate.defaultDate()
         }
         this.dateObject.setTime(time)
-    }
-
-    greaterThan(plainDate: PlainDate, compareMode: CompareMode): number {
-        if (this.isNull) {
-            console.error('greaterThan: self is null')
-            return -1
-        }
-        if (plainDate.isNull) {
-            console.error('greaterThan: target is null')
-            return -1
-        }
-
-        switch (compareMode) {
-            case CompareMode.time:
-                return Number(this.timeString) - Number(plainDate.timeString)
-            case CompareMode.date:
-                return Number(this.dateString) - Number(plainDate.dateString)
-            case CompareMode.datetime:
-                return this.time - plainDate.time
-            case CompareMode.yearmonth:
-                return this.year === plainDate.year ? this.month - plainDate.month : this.year - plainDate.year
-        }
-    }
-
-    lessThan(plainDate: PlainDate, compareMode: CompareMode): number {
-        if (this.isNull) {
-            console.error('lessThan: self is null')
-            return -1
-        }
-        if (plainDate.isNull) {
-            console.error('lessThan: target is null')
-            return -1
-        }
-        return this.greaterThan(plainDate, compareMode) * -1
     }
 
     format(dateObject: Date): string {
