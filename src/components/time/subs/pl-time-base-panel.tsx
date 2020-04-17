@@ -162,11 +162,11 @@ export default {
                     break
             }
 
-            if (!maxpd.isNull && vpd.greaterThan(maxpd, PlainDate.CompareMode.time) > 0) {
+            if (!maxpd.isNull && vpd.Hms > maxpd.Hms) {
                 vpd.setValue(maxpd.valueString)
             }
 
-            if (!minpd.isNull && vpd.lessThan(minpd, PlainDate.CompareMode.time) > 0) {
+            if (!minpd.isNull && vpd.Hms < minpd.Hms) {
                 vpd.setValue(minpd.valueString)
             }
 

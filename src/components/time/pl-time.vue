@@ -48,7 +48,7 @@
 <script lang="ts">
     import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {TimePublicProps} from "./subs";
-    import {Agent, AgentMixin} from "../service/service";
+    import {AgentMixin} from "../service/service";
     import PlTimeInputInner from "./pl-time-input-inner.vue";
     import {PlainDate} from "../../utils/PlainDate";
 
@@ -221,7 +221,7 @@
                         this.p_start = start.valueString
                         this.emitUpdateStart(this.p_start)
 
-                        if (end.isNull || start.greaterThan(end, PlainDate.CompareMode.time) > 0) {
+                        if (end.isNull || start.Hms > end.Hms) {
                             this.p_end = this.p_start
                             this.emitUpdateEnd(this.p_start)
                         }
@@ -240,7 +240,7 @@
                         this.p_end = end.valueString
                         this.emitUpdateEnd(this.p_end)
 
-                        if (start.isNull || end.lessThan(start, PlainDate.CompareMode.time) > 0) {
+                        if (start.isNull || end.Hms < start.Hms) {
                             this.p_start = this.p_end
                             this.emitUpdateStart(this.p_end)
                         }
