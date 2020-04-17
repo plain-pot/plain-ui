@@ -28,7 +28,7 @@ export class PlainDate {
         this.displayFormat = displayFormat
         this.valueFormat = valueFormat
 
-        if (!!value) {
+        if (value != null) {
             this.setValue(value)
         }
     }
@@ -97,13 +97,33 @@ export class PlainDate {
         return `${zeroize(this.year)}${zeroize(this.month + 1)}${zeroize(this.date)}`
     }
 
+    get Y() {
+        if (this.isNull) return null
+        return this.year
+    }
+
+    get YM() {
+        if (this.isNull) return null
+        return Number(`${this.year}${zeroize(this.month + 1)}`)
+    }
+
+    get YMD() {
+        if (this.isNull) return null
+        return Number(this.dateString)
+    }
+
+    get YMDHms() {
+        if (this.isNull) return null
+        return Number(this.dateString + this.timeString)
+    }
+
     /*---------------------------------------method-------------------------------------------*/
 
     setValue(value: string) {
-        if (!value) {
+        if (value == null) {
             this.dateObject = null
         } else {
-            this.dateObject = PlainDate.parse(value, this.valueFormat)
+            this.dateObject = PlainDate.parse(String(value), this.valueFormat)
         }
     }
 
@@ -111,7 +131,7 @@ export class PlainDate {
         if (!value) {
             this.dateObject = null
         } else {
-            this.dateObject = PlainDate.parse(value, this.displayFormat)
+            this.dateObject = PlainDate.parse(String(value), this.displayFormat)
         }
     }
 

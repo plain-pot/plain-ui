@@ -12,6 +12,15 @@ export const enum SlideTransitionDirection {
     prev = 'prev'
 }
 
+export interface PanelItemParam {
+    max: PlainDate,
+    min: PlainDate,
+    value: PlainDate,
+    hoverRange: [PlainDate, PlainDate] | null,
+    valueRange: [PlainDate, PlainDate],
+    range: boolean,
+}
+
 export const DatePublicProps = {
     value: {type: String},
     displayFormat: {type: String},
@@ -22,7 +31,7 @@ export const DatePublicProps = {
     start: {type: String},
     end: {type: String},
 
-    direction: {type: String},                                                          // 根节点在 pl-transition-slide 动画下的动画方向，是horizontal还是vertical
+    direction: {type: String, default: 'horizontal'},                                   // 根节点在 pl-transition-slide 动画下的动画方向，是horizontal还是vertical
     view: {type: String, default: DateView.month},                                      //
 
     /* base panel date 专用*/

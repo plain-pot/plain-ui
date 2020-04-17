@@ -1,7 +1,7 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicMixin, DateView} from "./index";
+import {DatePublicMixin, DateView, PanelItemParam} from "./index";
 
 interface MonthGetDataType {
     hoverRange?: [PlainDate, PlainDate],
@@ -16,6 +16,10 @@ export default {
         EmitMixin,
         DatePublicMixin,
     ],
+    props: {
+        displayFormat: {type: String, default: 'YYYY-MM'},
+        valueFormat: {type: String, default: 'YYYY-MM'},
+    },
     emitters: {
         emitInput: Function,
         emitUpdateStart: Function,
@@ -51,47 +55,9 @@ export default {
         },
     },
     data() {
-        const {value, start, end, displayFormat, valueFormat} = this
-
-        const vpd = new PlainDate(value, displayFormat, valueFormat)
-        const startPd = new PlainDate(start, displayFormat, valueFormat)
-        const endPd = new PlainDate(end, displayFormat, valueFormat)
-        const today = PlainDate.today(displayFormat, valueFormat)
-
-        let selectYear
-
-        if (!this.range) {
-            selectYear = !vpd.isNull ? vpd.year : today.year
-        } else {
-            selectYear = !startPd.isNull ? startPd.year : today.year
-        }
-
-        const tempPd = new PlainDate(null, this.displayFormat, this.valueFormat)
-
-        const p_value = value
-        const p_start = start
-        const p_end = end
-
-        const transitionDirection = 'next'
-
-        const hoverRange: [PlainDate, PlainDate] = null
-        const valueRange: [PlainDate, PlainDate] = [startPd, endPd]
-
         const p_view = this.view || DateView.year
 
         return {
-            today,                                                                  // 今天
-            selectYear,                                                             // 选择的年份
-            tempPd,                                                                 // PlainDate临时变量，用来设值以及格式化值
-
-            p_value,                                                                // value临时变量
-            p_start,                                                                // start临时变量
-            p_end,                                                                  // end临时变量
-
-            hoverRange,                                                             // 当前鼠标hover的开始年份以及结束年份
-            valueRange,                                                             // [start,end]
-
-            transitionDirection,                                                    // 年月视图切换时的动画
             p_view,                                                                 // 当前视图
         }
     },
@@ -105,14 +71,14 @@ export default {
                                 <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYear}/>
                             </template>
                             <template slot="center">
-                                <span onClick={() => this.p_view = DateView.year}>{this.selectYear}</span>
+                                <span onClick={() => this.p_view = DateView.year}>{this.p_selectDate.year}</span>
                             </template>
                             <template slot="right">
                                 <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={this.nextYear}/>
                             </template>
                             <template slot="content">
                                 <transition name={`pl-transition-slide-${this.transitionDirection}`}>
-                                    <ul class="pl-date-base-panel-month-list" key={this.selectYear} direction="vertical">
+                                    <ul class="pl-date-base-panel-month-list" key={this.p_selectDate.year} direction="vertical">
                                         {this.monthList.map(item => (
                                             <pl-date-base-panel-item
                                                 class="pl-date-base-panel-month-item"
@@ -151,34 +117,15 @@ export default {
             ]
         },
         /**
-         * 格式化值
-         * @author  韦胜健
-         * @date    2020/4/15 11:11
-         */
-        formatData() {
-
-            const {p_value: value, p_start: start, p_end: end, max, min, displayFormat, valueFormat} = this
-
-            return {
-                value: new PlainDate(value, displayFormat, valueFormat),
-                start: new PlainDate(start, displayFormat, valueFormat),
-                end: new PlainDate(end, displayFormat, valueFormat),
-                max: new PlainDate(max, displayFormat, valueFormat),
-                min: new PlainDate(min, displayFormat, valueFormat),
-            }
-        },
-        /**
          * 月份面板绑定值
          * @author  韦胜健
          * @date    2020/4/15 11:12
          */
         yearPanelBinding() {
+            const {p_selectDate} = this
             return {
                 props: {
-                    value: this.selectYear,
-                    checkActive: this.checkYearActive,
-                    start: this.formatData.start.year,
-                    end: this.formatData.end.year,
+                    value: p_selectDate.year,
                 },
                 on: {
                     change: this.onSelectYearChange,
@@ -192,47 +139,52 @@ export default {
          */
         monthList() {
 
+            const {p_selectDate, today} = this as { [key: string]: PlainDate }
+            const {range} = this
+            const {value, max, min} = this.formatData
+            const {hoverRange, valueRange} = this
+
+            const panelItemParam: PanelItemParam = {
+                max,
+                min,
+                value,
+                hoverRange,
+                valueRange,
+                range,
+            }
+
+
             let ret: DateBasePanelItemData[] = [];
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(i => {
 
-                this.tempPd.setYear(this.selectYear)
+                this.tempPd.setYear(p_selectDate.year)
                 this.tempPd.setMonthDate(i, 1)
                 const ipd = this.tempPd.copy()
 
                 const item = {
                     label: this.months[i],
-                    disabled: this.getDisabled(ipd),
-                    now: this.selectYear === this.today.year && (this.today.month == i),
-                    active: this.getActive(ipd),
+                    now: today.YM === ipd.YM,
 
+                    disabled: this.getDisabled(ipd, panelItemParam),
+                    active: this.getActive(ipd, panelItemParam),
                     hoverStart: false,
                     hoverEnd: false,
                     hover: false,
 
-                    range: this.range,
+                    range,
                     month: i,
                     ipd,
                 }
 
                 if (this.range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
-                    item.hoverStart = this.getHoverStart(ipd)
-                    item.hoverEnd = this.getHoverEnd(ipd)
-                    item.hover = this.getHover(ipd)
+                    item.hoverStart = this.getHoverStart(ipd, panelItemParam)
+                    item.hoverEnd = this.getHoverEnd(ipd, panelItemParam)
+                    item.hover = this.getHover(ipd, panelItemParam)
                 }
 
                 ret.push(item)
             })
             return ret
-        },
-        MonthGetData(): MonthGetDataType {
-            const {value} = this.formatData
-            const [start, end] = this.valueRange
-            return {
-                hoverRange: this.hoverRange,
-                startPd: start,
-                endPd: end,
-                vpd: value,
-            }
         },
     },
     methods: {
@@ -244,7 +196,8 @@ export default {
          */
         prevYear() {
             this.transitionDirection = 'prev'
-            this.selectYear--
+            this.p_selectDate.setYear(this.p_selectDate.year - 1)
+            this.setSelectDate(this.p_selectDate)
         },
         /**
          * 切换到下一年
@@ -253,7 +206,8 @@ export default {
          */
         nextYear() {
             this.transitionDirection = 'next'
-            this.selectYear++
+            this.p_selectDate.setYear(this.p_selectDate.year + 1)
+            this.setSelectDate(this.p_selectDate)
         },
         /*---------------------------------------utils-------------------------------------------*/
         /**
@@ -265,125 +219,40 @@ export default {
             if (!target) {
                 target = this.today.year
             }
-            this.transitionDirection = this.selectYear > target ? 'prev' : 'next'
-            this.selectYear = target
+            this.transitionDirection = this.p_selectDate.year > target ? 'prev' : 'next'
+            this.p_selectDate.setYear(target)
+            this.setSelectDate(this.p_selectDate)
         },
         /**
          * 检查需要禁用的月份
          * @author  韦胜健
          * @date    2020/4/15 11:13
          */
-        getDisabled(ipd: PlainDate, type: DateView = DateView.month): boolean {
-            if (!!this.firstDatePanel) {
-                let flag = this.firstDatePanel.getDisabled(ipd, type)
-                if (flag != null) {
-                    return flag
-                }
-            }
-
-            if (type === DateView.month) {
-                const item = ipd.month
-                const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
-
-                this.tempPd.setYear(this.selectYear)
-                this.tempPd.setMonthDate(item, 1)
-
-                if (!max.isNull && max.lessThan(this.tempPd, PlainDate.CompareMode.yearmonth) > 0) {
-                    return true
-                }
-                if (!min.isNull && min.greaterThan(this.tempPd, PlainDate.CompareMode.yearmonth) > 0) {
-                    return true
-                }
-            }
-
-            return false
+        getDisabled(ipd: PlainDate, {max, min}: PanelItemParam): boolean {
+            if (!max.isNull && max.YM < ipd.YM) return true
+            if (!min.isNull && min.YM > ipd.YM) return true
         },
         /**
          * 检查当前需要激活的月份
          * @author  韦胜健
          * @date    2020/4/15 11:13
          */
-        getActive(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
-            const {vpd, startPd, endPd} = this.MonthGetData as MonthGetDataType
-
-            if (type === DateView.month) {
-                ipd = ipd as PlainDate
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getActive(ipd, type)
-                } else {
-                    if (!this.range) {
-                        return (!vpd.isNull && vpd.year == this.selectYear && vpd.month == ipd.month)
-                    } else {
-                        return ((!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) || (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0))
-                    }
-                }
-            } else if (type === DateView.year) {
-                ipd = ipd as number
-                if (!this.range) {
-                    return (!vpd.isNull && vpd.year === ipd)
-                } else {
-                    return (!startPd.isNull && startPd.year === ipd) || (!endPd.isNull && endPd.year === ipd)
-                }
+        getActive(ipd: PlainDate, {value, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!this.range) {
+                return (!value.isNull && value.YM === ipd.YM)
+            } else {
+                return ((!start.isNull && start.YM === ipd.YM) || (!end.isNull && end.YM === ipd.YM))
             }
         },
-        getHoverStart(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
-
-            const {startPd, hoverRange} = this.MonthGetData as MonthGetDataType
-
-            switch (type) {
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    if (!!this.firstDatePanel) {
-                        return this.firstDatePanel.getHoverStart(ipd, type)
-                    } else {
-                        return !!hoverRange ?
-                            hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 :
-                            (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
-                    }
-                case DateView.year:
-                    ipd = ipd as number
-                    return !!hoverRange ?
-                        false :
-                        (!startPd.isNull && startPd.year === ipd)
-            }
+        getHoverStart(ipd: PlainDate, {hoverRange, valueRange: [start]}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[0].YM === ipd.YM : (!start.isNull && start.YM === ipd.YM)
         },
-        getHover(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
-            const {startPd, endPd, hoverRange} = this.MonthGetData as MonthGetDataType
-
-            switch (type) {
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    if (!!this.firstDatePanel) {
-                        return this.firstDatePanel.getHover(ipd, type)
-                    } else {
-                        return !!hoverRange ?
-                            hoverRange[0].lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0 :
-                            (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
-                    }
-                case DateView.year:
-                    ipd = ipd as number
-                    return !!hoverRange ?
-                        false :
-                        ((!startPd.isNull && startPd.year < ipd) && (!endPd.isNull && endPd.year > ipd))
-            }
+        getHover(ipd: PlainDate, {hoverRange, valueRange: [start, end]}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[0].YM < ipd.YM && hoverRange[1].YM > ipd.YM :
+                (!start.isNull && !end.isNull) && (start.YM < ipd.YM && end.YM > ipd.YM)
         },
-        getHoverEnd(ipd: number | PlainDate, type: DateView = DateView.month): boolean {
-            const {endPd, hoverRange} = this.MonthGetData as MonthGetDataType
-
-            switch (type) {
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    if (!!this.firstDatePanel) {
-                        return this.firstDatePanel.getHoverEnd(ipd, type)
-                    } else {
-                        return !!hoverRange ? hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0 : (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
-                    }
-                case DateView.year:
-                    ipd = ipd as number
-                    return !!hoverRange ?
-                        false :
-                        (!endPd.isNull && endPd.year === ipd)
-            }
+        getHoverEnd(ipd: PlainDate, {hoverRange, valueRange: [, end]}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[1].YM === ipd.YM : (!end.isNull && end.YM === ipd.YM)
         },
         /*---------------------------------------handler-------------------------------------------*/
         /**
@@ -392,20 +261,21 @@ export default {
          * @date    2020/4/15 11:13
          */
         onClickItem(item) {
+
+            const temp = this.p_selectDate.copy()
+            temp.setMonthDate(item.month, 1)
+
             if (!this.range) {
-                this.tempPd.setYear(this.selectYear)
-                this.tempPd.setMonthDate(item.month, 1)
-                this.p_value = this.tempPd.valueString
+                this.p_value = temp.valueString
                 this.emitInput(this.p_value)
             } else {
 
                 if (!this.hoverRange) {
-                    this.tempPd.setYear(this.selectYear)
-                    this.tempPd.setMonthDate(item.month, 1)
-                    item = this.tempPd.copy()
 
-                    this.hoverRange = [item, item]
-                    this.valueRange = [item, item]
+                    temp.setMonthDate(item.month, 1)
+                    this.hoverRange = [temp, temp]
+                    this.valueRange = [temp, temp]
+
                 } else {
                     const [startPd, endPd] = this.hoverRange as [PlainDate, PlainDate]
 
@@ -429,11 +299,10 @@ export default {
          */
         onMouseEnterItem(item) {
             if (!!this.hoverRange) {
-                let midpd = this.valueRange[0] as PlainDate
-                this.tempPd.setYear(this.selectYear)
-                this.tempPd.setMonthDate(item.month, 1)
-                item = this.tempPd.copy()
-                this.hoverRange = midpd.greaterThan(item, PlainDate.CompareMode.yearmonth) > 0 ? [item, midpd] : [midpd, item]
+                let midPd = this.valueRange[0] as PlainDate
+                const temp = this.p_selectDate.copy()
+                temp.setMonthDate(item.month, 1)
+                this.hoverRange = midPd.YM > temp.YM ? [temp, midPd] : [midPd, temp]
             }
         },
         /**
@@ -443,23 +312,8 @@ export default {
          */
         onSelectYearChange(val) {
             this.p_view = DateView.month
-            this.setSelectYear(val)
-        },
-        /**
-         * 设置年份面板中，需要激活高亮的年份
-         * @author  韦胜健
-         * @date    2020/4/15 11:14
-         */
-        checkYearActive(val, type, option) {
-            if (!!this.checkActive) {
-                return this.checkActive(val, type, option)
-            }
-            const {value, start, end} = this.formatData as { start: PlainDate, end: PlainDate, value: PlainDate }
-            if (!this.range) {
-                return (!value.isNull && value.year === val)
-            } else {
-                return (!start.isNull && start.year === val) || (!end.isNull && end.year === val)
-            }
+            this.p_selectDate.setYear(val)
+            this.setSelectDate(this.p_selectDate)
         },
     },
 }
