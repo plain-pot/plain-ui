@@ -184,7 +184,7 @@ export default {
 
                     range,
                     ipd,
-                    isSelectMonth: ipd.greaterThan(p_selectDate, PlainDate.CompareMode.yearmonth) === 0,
+                    isSelectMonth: ipd.YM === p_selectDate.YM,
                 }
 
                 if (range) {
