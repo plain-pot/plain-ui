@@ -1,6 +1,16 @@
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicMixin, DateView} from "./index";
+import {DatePublicMixin} from "./index";
+import {PlainDate} from "../../../utils/PlainDate";
+
+interface YearItemParam {
+    max: number,
+    min: number,
+    value: number,
+    hoverRange: [number, number] | null,
+    valueRange: [number, number],
+    range: boolean,
+}
 
 export default {
     name: 'pl-date-base-panel-year',
@@ -14,18 +24,16 @@ export default {
         emitUpdateEnd: Function,
     },
     props: {
-        value: {type: Number},
-        start: {type: Number},
-        end: {type: Number},
-        max: {type: Number},
-        min: {type: Number},
+        displayFormat: {type: String, default: 'YYYY'},
+        valueFormat: {type: String, default: 'YYYY'},
     },
     watch: {
         value(val) {
             if (this.p_value != val) {
                 this.p_value = val
                 this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
-                this.selectYear = this.p_value
+                this.p_selectDate.setYear(this.p_value || this.today.year)
+                this.setSelectDate(this.p_selectDate)
             }
         },
         start(val) {
@@ -34,7 +42,8 @@ export default {
                 this.valueRange = [this.p_start, this.p_end]
                 this.hoverRange = null
                 this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
-                this.selectYear = this.p_start
+                this.p_selectDate.setYear(this.p_start || this.today.year)
+                this.setSelectDate(this.p_selectDate)
             }
         },
         end(val) {
@@ -46,24 +55,7 @@ export default {
         },
     },
     data() {
-        const p_value: number = this.value
-        const p_start: number = this.start
-        const p_end: number = this.end
-
-        const hoverRange: [number, number] = null
-        const valueRange: [number, number] = [p_start, p_end]
-
-        const selectYear: number = !this.range ? this.value : this.start
-        const transitionDirection: 'next' | 'prev' = 'next'
-        return {
-            selectYear,                                                     // 当前选择的年份
-            p_value,                                                        // value临时变量
-            p_start,                                                        // start临时变量
-            p_end,                                                          // end临时变量
-            hoverRange,                                                     // 年份范围选择开始以及结束的年份
-            valueRange,                                                     // [start,end]
-            transitionDirection,                                            // 年份列表切换的时候的动画方向
-        }
+        return {}
     },
     render(h) {
         return (
@@ -97,30 +89,33 @@ export default {
     },
     computed: {
         data() {
-            let {p_value: value, selectYear} = this
-            let nowYear = new Date().getFullYear()
+            let {p_selectDate, today} = this as { [key: string]: PlainDate }
+            const {range} = this
+            const {max, min, p_value: value, hoverRange, valueRange} = this
+            const yearItemParam: YearItemParam = {max, min, value, hoverRange, valueRange, range}
 
-            selectYear = selectYear || nowYear
+            let selectYear = p_selectDate.year
             selectYear = selectYear - selectYear % 20
+
             let list: DateBasePanelItemData[] = []
             for (let i = selectYear; i < selectYear + 20; i++) {
                 let item = {
                     label: i,
-                    now: i === nowYear,
-                    active: this.getActive(i),
-                    disabled: this.getDisabled(i),
+                    now: i === today.year,
+                    disabled: this.getDisabled(i, yearItemParam),
+                    active: this.getActive(i, yearItemParam),
                     hoverStart: false,
                     hover: false,
                     hoverEnd: false,
 
-                    range: this.range,
+                    range,
                     year: i,
                 }
 
                 if (this.range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
-                    item.hoverStart = this.getHoverStart(i)
-                    item.hover = this.getHover(i)
-                    item.hoverEnd = this.getHoverEnd(i)
+                    item.hoverStart = this.getHoverStart(i, yearItemParam)
+                    item.hover = this.getHover(i, yearItemParam)
+                    item.hoverEnd = this.getHoverEnd(i, yearItemParam)
                 }
 
                 list.push(item)
@@ -140,67 +135,30 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:17
          */
-        getDisabled(item, type: DateView = DateView.year) {
-            if (!!this.firstDatePanel) {
-                let flag = this.firstDatePanel.getDisabled(item, type)
-                if (flag != null) {
-                    return flag
-                }
+        getDisabled(item, {max, min}: YearItemParam) {
+            if (max != null && item > max) {
+                return true
             }
-
-            if (type === DateView.year) {
-                if (this.max != null && item > this.max) {
-                    return true
-                }
-                if (this.min != null && item < this.min) {
-                    return true
-                }
+            if (min != null && item < min) {
+                return true
             }
-
-            return false
         },
         /**
          * 检查需要激活高亮的年份
          * @author  韦胜健
          * @date    2020/4/15 11:17
          */
-        getActive(item, type: DateView = DateView.year): boolean {
-            if (type === DateView.year) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getActive(item, type)
-                } else {
-                    const {p_value: value} = this
-                    const [start, end] = this.valueRange
-                    return !this.range ? value === item : (start == item || end == item)
-                }
-            }
+        getActive(item, {value, valueRange: [valueStart, valueEnd], range}: YearItemParam): boolean {
+            return !range ? value === item : (valueStart == item || valueEnd == item)
         },
-        getHoverStart(item, type: DateView = DateView.year): boolean {
-            if (type === DateView.year) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getHoverStart(item, type)
-                } else {
-                    return !!this.hoverRange ? (this.hoverRange[0] === item) : this.valueRange[0] == item
-                }
-            }
+        getHoverStart(item, {hoverRange, valueRange}: YearItemParam): boolean {
+            return !!hoverRange ? (hoverRange[0] == item) : valueRange[0] == item
         },
-        getHover(item, type: DateView = DateView.year): boolean {
-            if (type === DateView.year) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getHover(item, type)
-                } else {
-                    return !!this.hoverRange ? (this.hoverRange[0] < item && this.hoverRange[1] > item) : ((!!this.valueRange[0] && this.valueRange[1]) && this.valueRange[0] < item && this.valueRange[1] > item)
-                }
-            }
+        getHover(item, {hoverRange, valueRange}: YearItemParam): boolean {
+            return !!hoverRange ? (hoverRange[0] < item && hoverRange[1] > item) : ((!!valueRange[0] && valueRange[1]) && valueRange[0] < item && valueRange[1] > item)
         },
-        getHoverEnd(item, type: DateView = DateView.year): boolean {
-            if (type === DateView.year) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getHoverEnd(item, type)
-                } else {
-                    return !!this.hoverRange ? (this.hoverRange[1] === item) : this.valueRange[1] == item
-                }
-            }
+        getHoverEnd(item, {hoverRange, valueRange}: YearItemParam): boolean {
+            return !!hoverRange ? (hoverRange[1] == item) : valueRange[1] == item
         },
         /*---------------------------------------methods-------------------------------------------*/
         /**
@@ -210,7 +168,8 @@ export default {
          */
         prevYearList() {
             this.transitionDirection = 'prev'
-            this.selectYear = this.data.selectYear - 20
+            this.p_selectDate.setYear(this.data.selectYear - 20)
+            this.setSelectDate(this.p_selectDate)
         },
         /**
          *
@@ -219,7 +178,8 @@ export default {
          */
         nextYearList() {
             this.transitionDirection = 'next'
-            this.selectYear = this.data.selectYear + 20
+            this.p_selectDate.setYear(this.data.selectYear + 20)
+            this.setSelectDate(this.p_selectDate)
         },
         /*---------------------------------------handler-------------------------------------------*/
         /**

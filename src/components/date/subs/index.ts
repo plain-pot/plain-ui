@@ -7,6 +7,11 @@ export const enum DateView {
     time = 'time',
 }
 
+export const enum SlideTransitionDirection {
+    next = 'next',
+    prev = 'prev'
+}
+
 export const DatePublicProps = {
     value: {type: String},
     displayFormat: {type: String},
@@ -28,7 +33,9 @@ export const DatePublicProps = {
 }
 
 export const DatePublicMixin = {
-    props: DatePublicProps,
+    props: {
+        ...DatePublicProps,
+    },
     provide() {
         return {
             plDatePanel: this,
@@ -36,6 +43,53 @@ export const DatePublicMixin = {
     },
     inject: {
         plDatePanel: {default: null},
+    },
+    data() {
+        const {displayFormat, valueFormat} = this.getFormatString()
+
+        const {
+            value: p_value,
+            start: p_start,
+            end: p_end,
+
+            range
+        } = this
+
+        const today = PlainDate.today(displayFormat, valueFormat)
+        const vpd = new PlainDate(p_value, displayFormat, valueFormat)
+        const startPd = new PlainDate(p_start, displayFormat, valueFormat)
+        const endPd = new PlainDate(p_end, displayFormat, valueFormat)
+
+        let p_selectDate = this.selectDate;
+
+        if (!p_selectDate) {
+            if (!range) {
+                p_selectDate = !vpd.isNull ? vpd : today.copy()
+            } else {
+                p_selectDate = !startPd.isNull ? startPd : today.copy()
+            }
+        }
+
+        const tempPd = vpd.copy()
+        const transitionDirection: SlideTransitionDirection = SlideTransitionDirection.next
+
+        const hoverRange: [PlainDate, PlainDate] = null
+        const valueRange: [PlainDate, PlainDate] = [startPd, endPd]
+
+        return {
+            today,
+            p_selectDate,
+            tempPd,
+
+            p_value,
+            p_start,
+            p_end,
+
+            hoverRange,
+            valueRange,
+
+            transitionDirection,
+        }
     },
     computed: {
         firstDatePanel() {
@@ -52,6 +106,22 @@ export const DatePublicMixin = {
          */
         formatString() {
             return this.getFormatString()
+        },
+        formatData() {
+            const {displayFormat, valueFormat} = this.formatString
+            let {p_value: value, max, min} = this
+            const [start, end] = this.valueRange
+            value = new PlainDate(value, displayFormat, valueFormat)
+            max = new PlainDate(max, displayFormat, valueFormat)
+            min = new PlainDate(min, displayFormat, valueFormat)
+
+            return {
+                value,
+                max,
+                min,
+                start,
+                end,
+            }
         },
     },
     methods: {
@@ -81,6 +151,9 @@ export const DatePublicMixin = {
                 }
             }
             return ret
+        },
+        setSelectDate(selectDate: PlainDate) {
+            this.p_selectDate = selectDate.copy()
         },
     },
 }

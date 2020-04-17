@@ -2,7 +2,7 @@ import {EmitMixin} from "../../../utils/mixins";
 import {PlainDate} from "../../../utils/PlainDate";
 
 export class DateBasePanelItemData {
-    label: string
+    label: string | number
     active: boolean
     now: boolean
     disabled: boolean
