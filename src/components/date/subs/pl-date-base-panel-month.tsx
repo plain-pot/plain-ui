@@ -12,6 +12,7 @@ export default {
     props: {
         displayFormat: {type: String, default: 'YYYY-MM'},
         valueFormat: {type: String, default: 'YYYY-MM'},
+        view: {type: String, default: DateView.month},
     },
     emitters: {
         emitInput: Function,
@@ -124,8 +125,8 @@ export default {
             }
         },
         targetPanelItemParam(): PanelItemParam {
-            if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.year) {
-                return this.firstDatePanel.provideData.year
+            if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.month) {
+                return this.firstDatePanel.provideData.month
             } else {
                 return this.panelItemParam
             }
