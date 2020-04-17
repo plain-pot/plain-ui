@@ -147,8 +147,8 @@ export default {
          * @date    2020/4/15 11:17
          */
         getDisabled(item, {max, min}: PanelItemParam) {
-            if (!max.isNull && max.year < item) return true
-            if (!min.isNull && min.year > item) return true
+            if (!!max && !max.isNull && max.year < item) return true
+            if (!!min && !min.isNull && min.year > item) return true
         },
         /**
          * 检查需要激活高亮的年份

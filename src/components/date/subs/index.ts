@@ -13,12 +13,18 @@ export const enum SlideTransitionDirection {
 }
 
 export interface PanelItemParam {
-    max: PlainDate,
-    min: PlainDate,
+    max?: PlainDate,
+    min?: PlainDate,
     value: PlainDate,
     hoverRange: [PlainDate, PlainDate] | null,
     valueRange: [PlainDate, PlainDate],
     range: boolean,
+}
+
+export interface PanelParentProvider {
+    year?: PanelItemParam,
+    month?: PanelItemParam,
+    date?: PanelItemParam,
 }
 
 export const DatePublicProps = {
@@ -116,20 +122,22 @@ export const DatePublicMixin = {
         formatString() {
             return this.getFormatString()
         },
-        formatData() {
+        formatData(): PanelItemParam {
             const {displayFormat, valueFormat} = this.formatString
-            let {p_value: value, max, min} = this
-            const [start, end] = this.valueRange
+            let {p_value: value, max, min, range} = this
             value = new PlainDate(value, displayFormat, valueFormat)
             max = new PlainDate(max, displayFormat, valueFormat)
             min = new PlainDate(min, displayFormat, valueFormat)
 
+            const {hoverRange, valueRange} = this
+
             return {
-                value,
                 max,
                 min,
-                start,
-                end,
+                value,
+                hoverRange,
+                valueRange,
+                range,
             }
         },
     },

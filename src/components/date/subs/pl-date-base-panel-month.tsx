@@ -1,14 +1,7 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicMixin, DateView, PanelItemParam} from "./index";
-
-interface MonthGetDataType {
-    hoverRange?: [PlainDate, PlainDate],
-    startPd?: PlainDate,
-    endPd?: PlainDate,
-    vpd?: PlainDate
-}
+import {DatePublicMixin, DateView, PanelItemParam, PanelParentProvider} from "./index";
 
 export default {
     name: 'pl-date-base-panel-month',
@@ -38,10 +31,12 @@ export default {
             if (this.p_start != val) {
                 this.p_start = val
 
-                this.valueRange = [new PlainDate(val, this.displayFormat, this.valueFormat), new PlainDate(this.p_end, this.displayFormat, this.valueFormat)]
+                const startPd = new PlainDate(this.p_start, this.formatString.displayFormat, this.formatString.valueFormat)
+                const endPd = new PlainDate(this.p_end, this.formatString.displayFormat, this.formatString.valueFormat)
+
+                this.valueRange = [startPd, endPd]
                 this.hoverRange = null
 
-                const startPd = new PlainDate(val, this.displayFormat, this.valueFormat)
                 this.setSelectYear(startPd.year)
             }
         },
@@ -49,7 +44,10 @@ export default {
             if (this.p_end != val) {
                 this.p_end = val
 
-                this.valueRange = [new PlainDate(this.p_start, this.displayFormat, this.valueFormat), new PlainDate(val, this.displayFormat, this.valueFormat)]
+                const startPd = new PlainDate(this.p_start, this.formatString.displayFormat, this.formatString.valueFormat)
+                const endPd = new PlainDate(this.p_end, this.formatString.displayFormat, this.formatString.valueFormat)
+
+                this.valueRange = [startPd, endPd]
                 this.hoverRange = null
             }
         },
@@ -132,6 +130,13 @@ export default {
                 },
             }
         },
+        targetPanelItemParam(): PanelItemParam {
+            if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.year) {
+                return this.firstDatePanel.provideData.year
+            } else {
+                return this.formatData
+            }
+        },
         /**
          * 月份列表
          * @author  韦胜健
@@ -140,18 +145,9 @@ export default {
         monthList() {
 
             const {p_selectDate, today} = this as { [key: string]: PlainDate }
-            const {range} = this
-            const {value, max, min} = this.formatData
-            const {hoverRange, valueRange} = this
 
-            const panelItemParam: PanelItemParam = {
-                max,
-                min,
-                value,
-                hoverRange,
-                valueRange,
-                range,
-            }
+            const panelItemParam: PanelItemParam = this.targetPanelItemParam
+            const {range} = panelItemParam
 
 
             let ret: DateBasePanelItemData[] = [];
@@ -185,6 +181,17 @@ export default {
                 ret.push(item)
             })
             return ret
+        },
+        provideData(): PanelParentProvider {
+            const {value, hoverRange, valueRange, range} = this.formatData as PanelItemParam
+            return {
+                year: {
+                    range,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                }
+            }
         },
     },
     methods: {
