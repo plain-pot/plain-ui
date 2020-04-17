@@ -134,7 +134,7 @@ export default {
             if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.year) {
                 return this.firstDatePanel.provideData.year
             } else {
-                return this.formatData
+                return this.panelItemParam
             }
         },
         /**
@@ -183,7 +183,7 @@ export default {
             return ret
         },
         provideData(): PanelParentProvider {
-            const {value, hoverRange, valueRange, range} = this.formatData as PanelItemParam
+            const {value, hoverRange, valueRange, range} = this.panelItemParam as PanelItemParam
             return {
                 year: {
                     range,

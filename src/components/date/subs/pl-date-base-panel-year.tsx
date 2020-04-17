@@ -92,7 +92,7 @@ export default {
             if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.year) {
                 return this.firstDatePanel.provideData.year
             } else {
-                return this.formatData
+                return this.panelItemParam
             }
         },
         data() {
