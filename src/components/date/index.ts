@@ -1,4 +1,4 @@
-import date from './pl-date.vue'
+import date from './pl-date'
 
 import basePanel from './subs/pl-date-base-panel.vue'
 import basePanelHeader from './subs/pl-date-base-panel-header.vue'
