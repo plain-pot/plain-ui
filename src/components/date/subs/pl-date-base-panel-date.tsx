@@ -375,8 +375,8 @@ export default {
             if (!!max && !max.isNull && max.YMD < ipd.YMD) return true
             if (!!min && !min.isNull && min.YMD > ipd.YMD) return true
         },
-        getActive(ipd: PlainDate, {value, valueRange: [start, end]}: PanelItemParam): boolean {
-            if (!this.range) {
+        getActive(ipd: PlainDate, {range, value, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!range) {
                 if (!Array.isArray(value)) {
                     value = [value] as PlainDate[]
                 }
