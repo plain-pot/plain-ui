@@ -375,18 +375,22 @@ export default {
             if (!!max && !max.isNull && max.YMD < ipd.YMD) return true
             if (!!min && !min.isNull && min.YMD > ipd.YMD) return true
         },
-        getActive(ipd: PlainDate, {value}: PanelItemParam): boolean {
-            return !value.isNull && value.YMD === ipd.YMD
+        getActive(ipd: PlainDate, {value, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!this.range) {
+                return (!value.isNull && value.YMD === ipd.YMD)
+            } else {
+                return ((!start.isNull && start.YMD === ipd.YMD) || (!end.isNull && end.YMD === ipd.YMD))
+            }
         },
-        getHoverStart(ipd: PlainDate, {hoverRange, valueRange}: PanelItemParam): boolean {
-            return !!hoverRange ? hoverRange[0].YMD === ipd.YMD : valueRange[0].YMD === ipd.YMD
+        getHoverStart(ipd: PlainDate, {hoverRange, valueRange: [start]}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[0].YMD === ipd.YMD : (!start.isNull && start.YMD === ipd.YMD)
         },
-        getHover(ipd: PlainDate, {hoverRange, valueRange}: PanelItemParam): boolean {
-            return !!hoverRange ? hoverRange[0].YMD <= ipd.YMD && hoverRange[1].YMD >= ipd.YMD :
-                (!valueRange[0].isNull && !valueRange[1].isNull && (valueRange[0].YMD <= ipd.YMD && valueRange[1].YMD >= ipd.YMD))
+        getHover(ipd: PlainDate, {hoverRange, valueRange: [start, end]}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[0].YMD < ipd.YMD && hoverRange[1].YMD > ipd.YMD :
+                (!start.isNull && !end.isNull) && (start.YMD < ipd.YMD && end.YMD > ipd.YMD)
         },
-        getHoverEnd(ipd: PlainDate, {hoverRange, valueRange}: PanelItemParam): boolean {
-            return !!hoverRange ? hoverRange[1].YMD === ipd.YMD : valueRange[1].YMD === ipd.YMD
+        getHoverEnd(ipd: PlainDate, {hoverRange, valueRange: [, end]}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[1].YMD === ipd.YMD : (!end.isNull && end.YMD === ipd.YMD)
         },
 
         /*---------------------------------------handler-------------------------------------------*/

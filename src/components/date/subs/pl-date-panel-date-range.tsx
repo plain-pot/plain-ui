@@ -1,13 +1,7 @@
-import {DatePublicMixin, DatePublicProps, DateView} from "./index";
+import {DatePublicMixin, DatePublicProps, DateView, PanelItemParam, PanelParentProvider} from "./index";
 import {PlainDate} from "../../../utils/PlainDate";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
 import {EmitMixin} from "../../../utils/mixins";
-
-interface DateRangeGetDataType {
-    startPd: PlainDate,
-    endPd: PlainDate,
-    hoverRange: [PlainDate, PlainDate],
-}
 
 export default {
     name: 'pl-date-panel-date-range',
@@ -17,6 +11,7 @@ export default {
     ],
     props: {
         range: {type: Boolean, default: true},
+        view: {type: String, default: DateView.date}
     },
     emitters: {
         emitUpdateStart: Function,
@@ -44,28 +39,6 @@ export default {
                 this.hoverRange = null
             }
         },
-    },
-    data() {
-
-        const {displayFormat, valueFormat} = this.getFormatString()
-        const {start: p_start, end: p_end} = this
-
-        const today = PlainDate.today(displayFormat, valueFormat)                                                           // 今天
-        const startPd = new PlainDate(p_start, displayFormat, valueFormat)                                                  // 开始时间：PlainDate
-        const endPd = new PlainDate(p_end, displayFormat, valueFormat)                                                      // 结束时间：PlainDate
-
-        const p_selectDate: PlainDate = !!p_start ? new PlainDate(p_start, displayFormat, valueFormat) : today.copy()         // 当前选择的年月信息对象
-        const hoverRange: [PlainDate, PlainDate] = null                                                                     // 当前鼠标enter的日期范围
-        const valueRange: [PlainDate, PlainDate] = [startPd, endPd]                                                         // [startPd,endPd]
-
-        return {
-            p_start,
-            p_end,
-            today,
-            p_selectDate,
-            hoverRange,
-            valueRange,
-        }
     },
     render(h) {
         return (
@@ -104,9 +77,7 @@ export default {
                 endTime,
             }
         },
-        CompareMode() {
-            return this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date
-        },
+
         binding() {
             const {p_selectDate} = this
             const {displayFormat, valueFormat} = this.formatString
@@ -163,13 +134,27 @@ export default {
                 end
             }
         },
-        DateRangeGetData() {
-            const {hoverRange} = this
-            const [startPd, endPd] = this.valueRange
+        provideData(): PanelParentProvider {
+            const {value, hoverRange, valueRange} = this.panelItemParam as PanelItemParam
             return {
-                hoverRange,
-                startPd,
-                endPd
+                year: {
+                    range: true,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
+                month: {
+                    range: true,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
+                date: {
+                    range: true,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
             }
         },
     },
@@ -177,74 +162,21 @@ export default {
         /*---------------------------------------utils-------------------------------------------*/
         getDisabled() {
         },
-        getActive(ipd: PlainDate | number, type: DateView) {
-            const {startPd, endPd} = this.DateRangeGetData as DateRangeGetDataType
+        getActive(ipd: PlainDate, {valueRange: [startPd, endPd]}: PanelItemParam) {
+            return ((!startPd.isNull && startPd.YMD === ipd.YMD) || (!endPd.isNull && endPd.YMD === ipd.YMD))
+        },
+        getHoverStart(ipd: PlainDate, {hoverRange, valueRange: [startPd,]}: PanelItemParam) {
+            return !!hoverRange ? hoverRange[0].YMD === ipd.YMD : (!startPd.isNull && startPd.YMD === ipd.YMD)
+        },
+        getHover(ipd: PlainDate, {hoverRange, valueRange: [startPd, endPd]}: PanelItemParam) {
+            return !!hoverRange ?
+                hoverRange[0].YMD < ipd.YMD && hoverRange[1].YMD > ipd.YMD :
+                (!startPd.isNull && startPd.YMD < ipd.YMD) && (!endPd.isNull && endPd.YMD > ipd.YMD)
+        },
+        getHoverEnd(ipd: PlainDate, {hoverRange, valueRange: [, endPd]}: PanelItemParam) {
+            return !!hoverRange ? hoverRange[0].YMD === ipd.YMD : (!endPd.isNull && endPd.YMD === ipd.YMD)
+        },
 
-            switch (type) {
-                case DateView.year:
-                    ipd = ipd as number
-                    return (!startPd.isNull && startPd.year === ipd) || (!endPd.isNull && endPd.year == ipd)
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    return ((!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) || (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0))
-                case DateView.date:
-                    ipd = ipd as PlainDate
-                    return ((!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0) || (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0))
-            }
-        },
-        getHoverStart(ipd: PlainDate | number, type: DateView) {
-            const {startPd, endPd, hoverRange} = this.DateRangeGetData as DateRangeGetDataType
-            switch (type) {
-                case DateView.year:
-                    ipd = ipd as number
-                    return !!hoverRange ? false : (startPd.year === ipd)
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    return !!hoverRange ? false : (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
-                case DateView.date:
-                    ipd = ipd as PlainDate
-                    return !!hoverRange ?
-                        hoverRange[0].greaterThan(ipd, PlainDate.CompareMode.date) === 0 :
-                        (!startPd.isNull && startPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0)
-            }
-        },
-        getHover(ipd: PlainDate | number, type: DateView) {
-            const {startPd, endPd, hoverRange} = this.DateRangeGetData as DateRangeGetDataType
-            switch (type) {
-                case DateView.year:
-                    ipd = ipd as number
-                    return !!hoverRange ?
-                        false :
-                        ((!startPd.isNull && startPd.year < ipd) && (!endPd.isNull && endPd.year > ipd))
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    // console.log(!!hoverRange, (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0),(!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0))
-                    return !!hoverRange ?
-                        false :
-                        (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.yearmonth) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) > 0)
-                case DateView.date:
-                    ipd = ipd as PlainDate
-                    return !!hoverRange ?
-                        hoverRange[0].lessThan(ipd, PlainDate.CompareMode.date) > 0 && hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.date) > 0 :
-                        (!startPd.isNull && startPd.lessThan(ipd, PlainDate.CompareMode.date) > 0) && (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.date) > 0)
-            }
-        },
-        getHoverEnd(ipd: PlainDate | number, type: DateView) {
-            const {startPd, endPd, hoverRange} = this.DateRangeGetData as DateRangeGetDataType
-            switch (type) {
-                case DateView.year:
-                    ipd = ipd as number
-                    return !!hoverRange ? false : (endPd.year === ipd)
-                case DateView.month:
-                    ipd = ipd as PlainDate
-                    return !!hoverRange ? false : (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
-                case DateView.date:
-                    ipd = ipd as PlainDate
-                    return !!hoverRange ?
-                        hoverRange[1].greaterThan(ipd, PlainDate.CompareMode.date) === 0 :
-                        (!endPd.isNull && endPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0)
-            }
-        },
         emitValue(startPd: PlainDate, endPd: PlainDate) {
 
             this.p_start = startPd.valueString
@@ -259,11 +191,9 @@ export default {
             this.emitInput(this.p_end, 'end')
         },
         /*---------------------------------------handler-------------------------------------------*/
-        async onClickItem(item: DateBasePanelItemData, type: 'start' | 'end') {
+        async onClickItem(ipd: PlainDate) {
             await this.$plain.nextTick()
             const {startTime, endTime} = this.formatData as { [key: string]: PlainDate }
-
-            let {ipd} = item
             const {hoverRange} = this
 
             if (!hoverRange) {
@@ -287,9 +217,9 @@ export default {
         },
         onMouseenterItem({ipd}: DateBasePanelItemData) {
             if (!!this.hoverRange) {
-                let midpd = this.valueRange[0] as PlainDate
+                let midPd = this.valueRange[0] as PlainDate
                 ipd = ipd.copy()
-                this.hoverRange = midpd.greaterThan(ipd, PlainDate.CompareMode.date) > 0 ? [ipd, midpd] : [midpd, ipd]
+                this.hoverRange = midPd.YMD > ipd.YMD ? [ipd, midPd] : [midPd, ipd]
             }
         },
         async onSelectTime(val: string, type: 'start' | 'end') {

@@ -166,7 +166,7 @@ export default {
                     ipd,
                 }
 
-                if (this.range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
+                if (range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
                     item.hoverStart = this.getHoverStart(ipd, panelItemParam)
                     item.hoverEnd = this.getHoverEnd(ipd, panelItemParam)
                     item.hover = this.getHover(ipd, panelItemParam)
@@ -238,8 +238,8 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:13
          */
-        getActive(ipd: PlainDate, {value, valueRange: [start, end]}: PanelItemParam): boolean {
-            if (!this.range) {
+        getActive(ipd: PlainDate, {range, value, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!range) {
                 return (!value.isNull && value.YM === ipd.YM)
             } else {
                 return ((!start.isNull && start.YM === ipd.YM) || (!end.isNull && end.YM === ipd.YM))
