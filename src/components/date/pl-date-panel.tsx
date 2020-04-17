@@ -51,7 +51,18 @@ export default {
     },
     computed: {
         panelBinding() {
-            const {p_value: value, p_start: start, p_end: end, range, max, min, displayFormat, valueFormat} = this
+            const {
+                p_value: value,
+                p_start: start,
+                p_end: end,
+                range,
+                max,
+                min,
+                displayFormat,
+                valueFormat,
+                firstWeekDay,
+                defaultTime,
+            } = this
 
             const publicProps = {
                 range,
@@ -60,6 +71,9 @@ export default {
                 end,
                 max,
                 min,
+
+                firstWeekDay,
+                defaultTime,
             }
             const publicChange = (val, type) => {
                 if (!range) {
@@ -110,9 +124,27 @@ export default {
                     return {
                         props: {
                             ...publicProps,
+                            displayFormat: displayFormat || 'YYYY-MM-DD HH:mm:ss',
+                            valueFormat: valueFormat || 'YYYY-MM-DD HH:mm:ss',
+                            datetime: true,
+                        },
+                        on: {change: publicChange,},
+                    }
+                case DatePanelType.week:
+                    return {
+                        props: {
+                            ...publicProps,
                             displayFormat: displayFormat || 'YYYY-MM-DD',
                             valueFormat: valueFormat || 'YYYY-MM-DD',
-                            datetime: true,
+                        },
+                        on: {change: publicChange,},
+                    }
+                case DatePanelType.dates:
+                    return {
+                        props: {
+                            ...publicProps,
+                            displayFormat: displayFormat || 'YYYY-MM-DD',
+                            valueFormat: valueFormat || 'YYYY-MM-DD',
                         },
                         on: {change: publicChange,},
                     }
@@ -130,8 +162,8 @@ export default {
             month: 'pl-date-base-panel-month',
             date: binding.props.range ? 'pl-date-panel-date-range' : 'pl-date-base-panel-date',
             datetime: binding.props.range ? 'pl-date-panel-date-range' : 'pl-date-base-panel-date',
-            week: 'pl-date-base-panel-week',
-            dates: 'pl-date-base-panel-dates',
+            week: 'pl-date-panel-week',
+            dates: 'pl-date-panel-dates',
         }
         const Component = panel[this.panel]
 

@@ -11,6 +11,11 @@ export default {
     emitters: {
         emitInput: Function,
     },
+    watch: {
+        value(val) {
+            this.p_value = val
+        },
+    },
     data() {
         const {value: p_value} = this
         return {

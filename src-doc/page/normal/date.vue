@@ -111,7 +111,6 @@
                     <pl-date-panel-week v-model="val[16]"/>
                     <pl-date-panel-week v-model="val[16]" max="2021-05-09" min="2019-10-07"/>
                 </demo-row>
-
                 <demo-row title="范围选择">
                     <demo-line>
                         max="2021-05-09" min="2019-10-07"
@@ -209,6 +208,65 @@
                     <pl-date-panel range :start.sync="val[27]" :end.sync="val[28]" panel="date"/>
                 </demo-row>
             </demo-row>
+            <demo-row title="datetime">
+                <demo-row title="基本用法">
+                    <demo-line>
+                        max="2030-05-05 13:00:00" min="2020-01-01 08:30:15"
+                    </demo-line>
+                    <demo-line>
+                        {{val[29]}}
+                    </demo-line>
+                    <pl-date-panel v-model="val[29]" panel="datetime" max="2030-05-05 13:00:00" min="2020-01-01 08:30:15"/>
+                    <pl-date-panel v-model="val[29]" panel="datetime"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        max="2030-05-05 13:00:00" min="2020-01-01 08:30:15"
+                    </demo-line>
+                    <demo-line>
+                        <div>start:{{val[30]}}</div>
+                        <div>end:{{val[31]}}</div>
+                    </demo-line>
+                    <pl-date-panel range :start.sync="val[30]" :end.sync="val[31]" panel="datetime" max="2030-05-05 13:00:00" min="2020-01-01 08:30:15" defaultTime="08:30:00"/>
+                    <pl-date-panel range :start.sync="val[30]" :end.sync="val[31]" panel="datetime"/>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="week">
+                <demo-row title="基本用法">
+                    <demo-line>
+                        max="2021-05-09" min="2019-10-07"
+                    </demo-line>
+                    <demo-line>
+                        {{val[32]}}
+                    </demo-line>
+                    <pl-date-panel v-model="val[32]" panel="week" max="2021-05-09" min="2019-10-07"/>
+                    <pl-date-panel v-model="val[32]" panel="week" :firstWeekDay="0"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        max="2021-05-09" min="2019-10-07"
+                    </demo-line>
+                    <demo-line>
+                        <div>start:{{val[33]}}</div>
+                        <div>end:{{val[34]}}</div>
+                    </demo-line>
+                    <pl-date-panel range :start.sync="val[33]" :end.sync="val[34]" panel="week" max="2021-05-09" min="2019-10-07"/>
+                    <pl-date-panel range :start.sync="val[33]" :end.sync="val[34]" panel="week" :firstWeekDay="0"/>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="dates">
+                <demo-line>
+                    max="2021-05-09" min="2019-10-07"
+                </demo-line>
+                <demo-line>
+                    {{val[35]}}
+                </demo-line>
+                <pl-date-panel panel="dates" v-model="val[35]" max="2021-05-09" min="2019-10-07"/>
+                <pl-date-panel panel="dates" v-model="val[35]"/>
+            </demo-row>
+
         </demo-row>
 
         <!--<demo-row title="基本用法">
