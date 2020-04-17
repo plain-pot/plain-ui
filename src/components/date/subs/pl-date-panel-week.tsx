@@ -209,19 +209,19 @@ export default {
          */
         isHover(weekPd: PlainDate, ipd: PlainDate) {
             const {start, end} = this.getWeekPdByPlainDate(weekPd)
-            return ipd.greaterThan(start, PlainDate.CompareMode.date) >= 0 && ipd.lessThan(end, PlainDate.CompareMode.date) >= 0
+            return ipd.YMD >= start.YMD && ipd.YMD <= end.YMD
         },
         getChildDisabled(ipd: number | PlainDate, type: DateView) {
             if (type === DateView.date) {
                 ipd = ipd as PlainDate
                 const {max, min} = this.formatData as { [key: string]: PlainDate }
                 if (!max.isNull) {
-                    if (ipd.greaterThan(max, PlainDate.CompareMode.date) > 0) {
+                    if (ipd.YMD > max.YMD) {
                         return true
                     }
                 }
                 if (!min.isNull) {
-                    if (ipd.lessThan(min, PlainDate.CompareMode.date) > 0) {
+                    if (ipd.YMD < min.YMD) {
                         return true
                     }
                 }
@@ -241,10 +241,9 @@ export default {
             } else if (type === DateView.month) {
                 ipd = ipd as PlainDate
                 if (!this.range) {
-                    return !value.pd.isNull && (value.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    return !value.pd.isNull && (value.pd.YM === ipd.YM)
                 } else {
-                    return (!start.pd.isNull && start.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0) ||
-                        (!end.pd.isNull && end.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    return (!start.pd.isNull && start.pd.YM === ipd.YM) || (!end.pd.isNull && end.pd.YM === ipd.YM)
                 }
             } else if (type === DateView.date) {
 
@@ -253,18 +252,18 @@ export default {
                     if (!value.pd.isNull) {
                         const {start: startPd, end: endPd} = value.range
 
-                        return !startPd.isNull && ((ipd.greaterThan(startPd, PlainDate.CompareMode.date) === 0) || (ipd.lessThan(endPd, PlainDate.CompareMode.date) === 0))
+                        return !startPd.isNull && ((ipd.YMD === startPd.YMD) || (ipd.YMD === endPd.YMD))
                     }
                 } else {
                     if (!start.pd.isNull) {
                         const {start: startPd, end: endPd} = start.range
-                        if (startPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0 || endPd.lessThan(ipd, PlainDate.CompareMode.date) === 0) {
+                        if (startPd.YMD === ipd.YMD || endPd.YMD === ipd.YMD) {
                             return true
                         }
                     }
                     if (!end.pd.isNull) {
                         const {start: startPd, end: endPd} = end.range
-                        if (startPd.greaterThan(ipd, PlainDate.CompareMode.date) === 0 || endPd.lessThan(ipd, PlainDate.CompareMode.date) === 0) {
+                        if (startPd.YMD === ipd.YMD || endPd.YMD === ipd.YMD) {
                             return true
                         }
                     }
@@ -279,7 +278,7 @@ export default {
                 return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.year == ipd)
             } else if (type === DateView.month) {
                 ipd = ipd as PlainDate
-                return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.YM === ipd.YM)
             }
         },
         getChildHover(ipd: PlainDate | number, type: DateView) {
@@ -288,16 +287,16 @@ export default {
             if (type === DateView.year) {
                 ipd = ipd as number
                 if (!this.range) {
-                    return (!value.pd.isNull && value.pd.year == ipd)
+                    return false
                 } else {
                     return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.year <= ipd) && (!end.pd.isNull && end.pd.year >= ipd)
                 }
             } else if (type === DateView.month) {
                 ipd = ipd as PlainDate
                 if (!this.range) {
-                    return (!value.pd.isNull && value.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                    return false
                 } else {
-                    return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.lessThan(ipd, PlainDate.CompareMode.yearmonth) >= 0) && (!end.pd.isNull && end.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) >= 0)
+                    return !!this.hoverRange ? false : (!start.pd.isNull && start.pd.YM <= ipd.YM) && (!end.pd.isNull && end.pd.YM >= ipd.YM)
                 }
             } else if (type === DateView.date) {
                 ipd = ipd as PlainDate
@@ -311,18 +310,18 @@ export default {
                 if (!this.range) {
                     if (!value.pd.isNull) {
                         const {start: startPd, end: endPd} = value.range
-                        return startPd.lessThan(ipd, PlainDate.CompareMode.date) >= 0 && endPd.greaterThan(ipd, PlainDate.CompareMode.date) >= 0
+                        return startPd.YMD <= ipd.YMD && endPd.YMD >= ipd.YMD
                     }
                 } else {
                     if (!!hoverRange) {
                         let startPd = hoverStart.range.start
                         let endPd = hoverEnd.range.end
-                        return startPd.lessThan(ipd, PlainDate.CompareMode.date) >= 0 && endPd.greaterThan(ipd, PlainDate.CompareMode.date) >= 0
+                        return startPd.YMD <= ipd.YMD && endPd.YMD >= ipd.YMD
                     } else {
                         if (!!start.range && !!end.range) {
                             let startPd = start.range.start
                             let endPd = end.range.end
-                            return startPd.lessThan(ipd, PlainDate.CompareMode.date) >= 0 && endPd.greaterThan(ipd, PlainDate.CompareMode.date) >= 0
+                            return startPd.YMD <= ipd.YMD && endPd.YMD >= ipd.YMD
                         }
                     }
                 }
@@ -336,7 +335,7 @@ export default {
                 return !!this.hoverRange ? false : (!end.pd.isNull && end.pd.year == ipd)
             } else if (type === DateView.month) {
                 ipd = ipd as PlainDate
-                return !!this.hoverRange ? false : (!end.pd.isNull && end.pd.greaterThan(ipd, PlainDate.CompareMode.yearmonth) === 0)
+                return !!this.hoverRange ? false : (!end.pd.isNull && end.pd.YM === ipd.YM)
             }
         },
         /*---------------------------------------handler-------------------------------------------*/
@@ -375,7 +374,7 @@ export default {
 
             if (!!this.hoverRange) {
                 const {start: {range: {start}}} = this.WeekGetData
-                this.hoverRange = start.greaterThan(itemStartPd, PlainDate.CompareMode.date) > 0 ? [itemStartPd, start] : [start, itemStartPd]
+                this.hoverRange = start.YMD > itemStartPd.YMD ? [itemStartPd, start] : [start, itemStartPd]
             }
         },
     },
