@@ -377,7 +377,10 @@ export default {
         },
         getActive(ipd: PlainDate, {value, valueRange: [start, end]}: PanelItemParam): boolean {
             if (!this.range) {
-                return (!value.isNull && value.YMD === ipd.YMD)
+                if (!Array.isArray(value)) {
+                    value = [value] as PlainDate[]
+                }
+                return value.some(iv => (!iv.isNull && iv.YMD === ipd.YMD))
             } else {
                 return ((!start.isNull && start.YMD === ipd.YMD) || (!end.isNull && end.YMD === ipd.YMD))
             }

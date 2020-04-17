@@ -156,7 +156,14 @@ export default {
          * @date    2020/4/15 11:17
          */
         getActive(item, {value, valueRange: [valueStart, valueEnd], range}: PanelItemParam): boolean {
-            return !range ? value.year === item : (valueStart.year == item || valueEnd.year == item)
+            if (!range) {
+                if (!Array.isArray(value)) {
+                    value = [value] as PlainDate[]
+                }
+                return value.some(iv => (!iv.isNull && iv.year === item))
+            } else {
+                return valueStart.year == item || valueEnd.year == item
+            }
         },
         getHoverStart(item, {hoverRange, valueRange}: PanelItemParam): boolean {
             return !!hoverRange ? (hoverRange[0].year == item) : valueRange[0].year == item

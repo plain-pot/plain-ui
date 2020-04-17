@@ -15,7 +15,7 @@ export const enum SlideTransitionDirection {
 export interface PanelItemParam {
     max?: PlainDate,
     min?: PlainDate,
-    value: PlainDate,
+    value: PlainDate | PlainDate[],
     hoverRange: [PlainDate, PlainDate] | null,
     valueRange: [PlainDate, PlainDate],
     range: boolean,
