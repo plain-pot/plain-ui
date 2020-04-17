@@ -1,4 +1,4 @@
-import {DatePublicMixin, DateView} from "./index";
+import {DatePublicMixin, DateView, PanelItemParam, PanelParentProvider} from "./index";
 import {PlainDate} from "../../../utils/PlainDate";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
 import {EmitMixin} from "../../../utils/mixins";
@@ -161,6 +161,29 @@ export default {
                 hoverRange,
             }
         },
+        provideData(): PanelParentProvider {
+            const {value, hoverRange, valueRange, range} = this.panelItemParam as PanelItemParam
+            return {
+                year: {
+                    range: true,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
+                month: {
+                    range: true,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
+                date: {
+                    range: true,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
+            }
+        },
     },
     methods: {
         /*---------------------------------------utils-------------------------------------------*/
@@ -278,11 +301,13 @@ export default {
                 }
             } else if (type === DateView.date) {
                 ipd = ipd as PlainDate
+
                 if (!!this.hoverPd) {
                     if (this.isHover(this.hoverPd, ipd)) {
                         return true
                     }
                 }
+
                 if (!this.range) {
                     if (!value.pd.isNull) {
                         const {start: startPd, end: endPd} = value.range
