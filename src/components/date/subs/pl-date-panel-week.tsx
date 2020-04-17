@@ -114,6 +114,8 @@ export default {
                     valueFormat,
                     value: this.p_start,
                     selectDate: this.p_selectDate,
+                    firstWeekDay: this.firstWeekDay,
+
                     dateListBinding: {
                         nativeOn: {
                             'mouseleave': () => {
