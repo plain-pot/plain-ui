@@ -1,7 +1,7 @@
 import {PlainDate} from "../../../utils/PlainDate";
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicMixin, DateView, DateViewSeq} from "./index";
+import {DatePublicMixin, DateView, DateViewSeq, PanelItemParam, PanelParentProvider} from "./index";
 
 export default {
     name: "pl-date-base-panel-date",
@@ -11,6 +11,7 @@ export default {
     ],
     props: {
         dateListBinding: {type: Object},
+        view: {type: String, default: DateView.date},
     },
     emitters: {
         emitInput: Function,
@@ -30,34 +31,8 @@ export default {
             this.p_selectDate = val
         },
     },
-    data() {
-
-        const {
-            value: p_value,
-        } = this
-
-        const {displayFormat, valueFormat} = this.getFormatString()
-
-        const today = PlainDate.today(displayFormat, valueFormat)                                                           // 今天
-        const p_selectDate: PlainDate = !!this.selectDate ? this.selectDate : (!!p_value ? new PlainDate(p_value, displayFormat, valueFormat) : today.copy())         // 当前选择的年月信息对象
-        const tempPd = new PlainDate(null, displayFormat, valueFormat)                                                // PlainDate临时对象
-        const p_view = DateView.date                                                                                        // 当前视图
-        const transitionDirection: 'prev' | 'next' = 'next'                                                                 // 当前视图切换动画
-
-        return {
-            p_value,
-
-            today,
-            p_selectDate,
-
-            tempPd,
-            p_view,
-            transitionDirection,
-        }
-    },
     render(h) {
-
-        let timePd = this.formatData.value
+        let {value: timePd} = this.panelItemParam
         if (timePd.isNull) timePd = this.p_selectDate
 
         return (
@@ -154,26 +129,21 @@ export default {
          * @date    2020/4/14 23:19
          */
         formatData() {
-            let {p_value: value, defaultTime: defaultTimeString, max, min} = this
-            let {displayFormat, valueFormat} = this.formatString
-
-            value = new PlainDate(value, displayFormat, valueFormat)
-            max = new PlainDate(max, displayFormat, valueFormat)
-            min = new PlainDate(min, displayFormat, valueFormat)
-
-
+            let {defaultTime: defaultTimeString} = this
             if (!defaultTimeString) {
                 defaultTimeString = '12:00:00'
             }
             let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
-
             return {
-                value,
                 defaultTime,
-                max,
-                min,
             }
-
+        },
+        targetPanelItemParam() {
+            if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.date) {
+                return this.firstDatePanel.provideData.date
+            } else {
+                return this.panelItemParam
+            }
         },
         /**
          * 日期列表数据
@@ -181,7 +151,6 @@ export default {
          * @date    2020/4/14 23:20
          */
         dateList(): DateBasePanelItemData[] {
-            const {displayFormat, valueFormat} = this.formatString
             const {today, p_selectDate, tempPd} = this as { [key: string]: PlainDate }
 
             tempPd.setYear(p_selectDate.year)
@@ -194,32 +163,34 @@ export default {
 
             let firstDateTime = new Date(currentMonthFirstDate.time - (offsetDay) * 24 * 60 * 60 * 1000).getTime()
 
+            const panelItemParam = this.targetPanelItemParam
+            const {range} = panelItemParam
+
             let list: DateBasePanelItemData[] = []
             for (let i = 0; i < 42; i++) {
 
-                const ipd = new PlainDate(null, displayFormat, valueFormat)
+                const ipd = tempPd.copy()
                 ipd.setTime(firstDateTime)
 
                 let item = {
-                    label: String(ipd.date),
-                    now: today.greaterThan(ipd, PlainDate.CompareMode.date) === 0,
-                    active: this.getActive(ipd),
+                    label: ipd.date,
+                    now: today.YMD === ipd.YMD,
+                    disabled: this.getDisabled(ipd, panelItemParam),
+                    active: this.getActive(ipd, panelItemParam),
 
                     hover: false,
                     hoverStart: false,
                     hoverEnd: false,
 
-                    range: this.range,
-                    disabled: this.getDisabled(ipd),
-
+                    range,
                     ipd,
                     isSelectMonth: ipd.greaterThan(p_selectDate, PlainDate.CompareMode.yearmonth) === 0,
                 }
 
-                if (this.range) {
-                    item.hoverStart = this.getHoverStart(ipd)
-                    item.hover = this.getHover(ipd)
-                    item.hoverEnd = this.getHoverEnd(ipd)
+                if (range) {
+                    item.hoverStart = this.getHoverStart(ipd, panelItemParam)
+                    item.hover = this.getHover(ipd, panelItemParam)
+                    item.hoverEnd = this.getHoverEnd(ipd, panelItemParam)
                 }
 
                 list.push(item)
@@ -240,7 +211,6 @@ export default {
                     value: p_selectDate.valueString,
                     displayFormat,
                     valueFormat,
-                    checkActive: this.checkMonthActive,
                     view: this.p_view,
                 },
                 on: {
@@ -255,7 +225,9 @@ export default {
          */
         timePanelBinding() {
 
-            const {value, defaultTime, max, min} = this.formatData as { [key: string]: PlainDate }
+            const {value, max, min} = this.panelItemParam as { [key: string]: PlainDate }
+            const {defaultTime} = this.formatData
+
             const timePd = value.isNull ? defaultTime : value
             const timeString = defaultTime.format(timePd.dateObject)
 
@@ -269,7 +241,7 @@ export default {
 
             /*限制最大最小值*/
             if (!max.isNull && !value.isNull) {
-                if (max.greaterThan(value, PlainDate.CompareMode.date) === 0) {
+                if (max.YMD <= value.YMD) {
                     let tempDefaultTime = defaultTime.copy()
                     tempDefaultTime.setHms(max)
                     props.max = tempDefaultTime.valueString
@@ -277,7 +249,7 @@ export default {
             }
 
             if (!min.isNull && !value.isNull) {
-                if (min.lessThan(value, PlainDate.CompareMode.date) === 0) {
+                if (min.YMD >= value.YMD) {
                     let tempDefaultTime = defaultTime.copy()
                     tempDefaultTime.setHms(max)
                     props.min = tempDefaultTime.valueString
@@ -290,6 +262,23 @@ export default {
                     change: (val) => {
                         this.onSelectTime(val)
                     },
+                },
+            }
+        },
+        provideData(): PanelParentProvider {
+            const {value, hoverRange, valueRange} = this.panelItemParam as PanelItemParam
+            return {
+                year: {
+                    range: false,
+                    value: value,
+                    hoverRange,
+                    valueRange,
+                },
+                month: {
+                    range: false,
+                    value: value,
+                    hoverRange,
+                    valueRange,
                 },
             }
         },
@@ -360,86 +349,44 @@ export default {
             }
         },
         /**
-         * 判断日期是否禁用
-         * @author  韦胜健
-         * @date    2020/4/15 10:57
-         */
-        getDisabled(ipd: PlainDate, type: DateView = DateView.date): boolean {
-            if (!!this.firstDatePanel) {
-                let flag = this.firstDatePanel.getDisabled(ipd, type)
-                if (flag != null) {
-                    return flag
-                }
-            }
-
-            if (type === DateView.date) {
-                const {max, min} = this.formatData as { max: PlainDate, min: PlainDate }
-
-                if (!max.isNull && max.lessThan(ipd, PlainDate.CompareMode.date) > 0) {
-                    return true
-                }
-                if (!min.isNull && min.greaterThan(ipd, PlainDate.CompareMode.date) > 0) {
-                    return true
-                }
-            }
-
-            return false
-        },
-        /**
          * 派发值变化事件，先校验值是否大于最大值，小于最小值，是则取最大值（最小值）
          * @author  韦胜健
          * @date    2020/4/15 10:58
          */
         emitValue(valueString) {
-            const {max, min} = this.formatData as { [key: string]: PlainDate }
+            const {max, min} = this.panelItemParam as { [key: string]: PlainDate }
 
             let vpd = new PlainDate(valueString, this.formatString.displayFormat, this.formatString.valueFormat)
-            if (!max.isNull && vpd.greaterThan(max, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
+            if (!max.isNull && (!!this.datetime ? (vpd.YMDHms > max.YMDHms) : (vpd.YMD > max.YMD))) {
                 vpd = max
-            } else if (!min.isNull && vpd.lessThan(min, this.datetime ? PlainDate.CompareMode.datetime : PlainDate.CompareMode.date) > 0) {
+            } else if (!min.isNull && (!!this.datetime ? (vpd.YMDHms < min.YMDHms) : (vpd.YMD < min.YMD))) {
                 vpd = min
             }
 
             this.p_value = vpd.valueString
             this.emitInput(this.p_value, vpd)
         },
-
-        getActive(ipd: PlainDate, type: DateView = DateView.date) {
-            const {value} = this.formatData
-            if (type === DateView.date) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getActive(ipd, type)
-                } else {
-                    return !value.isNull && (value.greaterThan(ipd, PlainDate.CompareMode.date) === 0)
-                }
-            }
+        /**
+         * 判断日期是否禁用
+         * @author  韦胜健
+         * @date    2020/4/15 10:57
+         */
+        getDisabled(ipd: PlainDate, {max, min}: PanelItemParam): boolean {
+            if (!!max && !max.isNull && max.YMD < ipd.YMD) return true
+            if (!!min && !min.isNull && min.YMD > ipd.YMD) return true
         },
-        getHoverStart(ipd: PlainDate, type: DateView = DateView.date) {
-            if (type === DateView.date) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getHoverStart(ipd, type)
-                } else {
-                    return false
-                }
-            }
+        getActive(ipd: PlainDate, {value}: PanelItemParam): boolean {
+            return !value.isNull && value.YMD === ipd.YMD
         },
-        getHover(ipd: PlainDate, type: DateView = DateView.date) {
-            if (type === DateView.date) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getHover(ipd, type)
-                } else {
-                    return false
-                }
-            }
+        getHoverStart(ipd: PlainDate, {hoverRange, valueRange}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[0].YMD === ipd.YMD : valueRange[0].YMD === ipd.YMD
         },
-        getHoverEnd(ipd: PlainDate, type: DateView = DateView.date) {
-            if (type === DateView.date) {
-                if (!!this.firstDatePanel) {
-                    return this.firstDatePanel.getHoverEnd(ipd, type)
-                } else {
-                    return false
-                }
-            }
+        getHover(ipd: PlainDate, {hoverRange, valueRange}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[0].YMD <= ipd.YMD && hoverRange[1].YMD >= ipd.YMD :
+                (!valueRange[0].isNull && !valueRange[1].isNull && (valueRange[0].YMD <= ipd.YMD && valueRange[1].YMD >= ipd.YMD))
+        },
+        getHoverEnd(ipd: PlainDate, {hoverRange, valueRange}: PanelItemParam): boolean {
+            return !!hoverRange ? hoverRange[1].YMD === ipd.YMD : valueRange[1].YMD === ipd.YMD
         },
 
         /*---------------------------------------handler-------------------------------------------*/
@@ -448,9 +395,9 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 10:58
          */
-        onClickItem(item: DateBasePanelItemData) {
-            const {ipd} = item as { [key: string]: PlainDate }
-            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+        onClickItem({ipd}: DateBasePanelItemData) {
+            const {value} = this.panelItemParam as { [key: string]: PlainDate }
+            const {defaultTime} = this.formatData
 
             if (!value.isNull) {
                 ipd.setHms(value)
@@ -458,8 +405,8 @@ export default {
                 ipd.setHms(defaultTime)
             }
 
-            this.emitClickItem(item)
-            this.emitValue(item.ipd.valueString)
+            this.emitClickItem(ipd)
+            this.emitValue(ipd.valueString)
         },
         /**
          * 处理选择时间处理动作
@@ -468,7 +415,8 @@ export default {
          */
         onSelectTime(val) {
             const {p_selectDate} = this
-            const {value, defaultTime} = this.formatData as { [key: string]: PlainDate }
+            const {value} = this.panelItemParam as { [key: string]: PlainDate }
+            const {defaultTime} = this.formatData
 
             const tempPd = defaultTime.copy()
             tempPd.setValue(val)
@@ -482,19 +430,6 @@ export default {
 
             this.emitValue(value.valueString)
             this.emitSelectTime(val)
-        },
-        /**
-         * 检查月份面板中，应该高亮激活的年月
-         * @author  韦胜健
-         * @date    2020/4/15 10:59
-         */
-        checkMonthActive(item, type, option) {
-            const {value} = this.formatData as { [key: string]: PlainDate }
-            if (type === 'year') {
-                return !value.isNull && (value.year === item)
-            } else if (type === 'month') {
-                return !value.isNull && (value.greaterThan(option.ipd as PlainDate, PlainDate.CompareMode.yearmonth) === 0)
-            }
         },
         /**
          * 月份选择面板的值发生变化之后，改变视图
