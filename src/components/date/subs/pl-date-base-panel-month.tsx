@@ -230,6 +230,9 @@ export default {
          * @date    2020/4/15 11:13
          */
         getDisabled(ipd: PlainDate, {max, min}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildDisabled) {
+                return this.firstDatePanel.getChildDisabled(ipd, DateView.month)
+            }
             if (!!max && !max.isNull && max.YM < ipd.YM) return true
             if (!!min && !min.isNull && min.YM > ipd.YM) return true
         },
@@ -239,6 +242,9 @@ export default {
          * @date    2020/4/15 11:13
          */
         getActive(ipd: PlainDate, {range, value, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildActive) {
+                return this.firstDatePanel.getChildActive(ipd, DateView.month)
+            }
             if (!range) {
                 if (!Array.isArray(value)) {
                     value = [value] as PlainDate[]
@@ -249,13 +255,22 @@ export default {
             }
         },
         getHoverStart(ipd: PlainDate, {hoverRange, valueRange: [start]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHoverStart) {
+                return this.firstDatePanel.getChildHoverStart(ipd, DateView.month)
+            }
             return !!hoverRange ? hoverRange[0].YM === ipd.YM : (!start.isNull && start.YM === ipd.YM)
         },
         getHover(ipd: PlainDate, {hoverRange, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHover) {
+                return this.firstDatePanel.getChildHover(ipd, DateView.month)
+            }
             return !!hoverRange ? hoverRange[0].YM < ipd.YM && hoverRange[1].YM > ipd.YM :
                 (!start.isNull && !end.isNull) && (start.YM < ipd.YM && end.YM > ipd.YM)
         },
         getHoverEnd(ipd: PlainDate, {hoverRange, valueRange: [, end]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHoverEnd) {
+                return this.firstDatePanel.getChildHoverEnd(ipd, DateView.month)
+            }
             return !!hoverRange ? hoverRange[1].YM === ipd.YM : (!end.isNull && end.YM === ipd.YM)
         },
         /*---------------------------------------handler-------------------------------------------*/

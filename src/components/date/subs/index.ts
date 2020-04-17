@@ -19,6 +19,7 @@ export interface PanelItemParam {
     hoverRange: [PlainDate, PlainDate] | null,
     valueRange: [PlainDate, PlainDate],
     range: boolean,
+    itemAlwaysRange?: boolean,
 }
 
 export interface PanelParentProvider {

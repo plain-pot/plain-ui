@@ -372,10 +372,16 @@ export default {
          * @date    2020/4/15 10:57
          */
         getDisabled(ipd: PlainDate, {max, min}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildDisabled) {
+                return this.firstDatePanel.getChildDisabled(ipd, DateView.date)
+            }
             if (!!max && !max.isNull && max.YMD < ipd.YMD) return true
             if (!!min && !min.isNull && min.YMD > ipd.YMD) return true
         },
         getActive(ipd: PlainDate, {range, value, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildActive) {
+                return this.firstDatePanel.getChildActive(ipd, DateView.date)
+            }
             if (!range) {
                 if (!Array.isArray(value)) {
                     value = [value] as PlainDate[]
@@ -386,13 +392,22 @@ export default {
             }
         },
         getHoverStart(ipd: PlainDate, {hoverRange, valueRange: [start]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHoverStart) {
+                return this.firstDatePanel.getChildHoverStart(ipd, DateView.date)
+            }
             return !!hoverRange ? hoverRange[0].YMD === ipd.YMD : (!start.isNull && start.YMD === ipd.YMD)
         },
         getHover(ipd: PlainDate, {hoverRange, valueRange: [start, end]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHover) {
+                return this.firstDatePanel.getChildHover(ipd, DateView.date)
+            }
             return !!hoverRange ? hoverRange[0].YMD < ipd.YMD && hoverRange[1].YMD > ipd.YMD :
                 (!start.isNull && !end.isNull) && (start.YMD < ipd.YMD && end.YMD > ipd.YMD)
         },
         getHoverEnd(ipd: PlainDate, {hoverRange, valueRange: [, end]}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHoverEnd) {
+                return this.firstDatePanel.getChildHoverEnd(ipd, DateView.date)
+            }
             return !!hoverRange ? hoverRange[1].YMD === ipd.YMD : (!end.isNull && end.YMD === ipd.YMD)
         },
 

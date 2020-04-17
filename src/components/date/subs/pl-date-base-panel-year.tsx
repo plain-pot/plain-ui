@@ -1,6 +1,6 @@
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicMixin, PanelItemParam} from "./index";
+import {DatePublicMixin, DateView, PanelItemParam} from "./index";
 import {PlainDate} from "../../../utils/PlainDate";
 
 export default {
@@ -147,6 +147,9 @@ export default {
          * @date    2020/4/15 11:17
          */
         getDisabled(item, {max, min}: PanelItemParam) {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildDisabled) {
+                return this.firstDatePanel.getChildDisabled(item, DateView.year)
+            }
             if (!!max && !max.isNull && max.year < item) return true
             if (!!min && !min.isNull && min.year > item) return true
         },
@@ -156,6 +159,9 @@ export default {
          * @date    2020/4/15 11:17
          */
         getActive(item, {value, valueRange: [valueStart, valueEnd], range}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildActive) {
+                return this.firstDatePanel.getChildActive(item, DateView.year)
+            }
             if (!range) {
                 if (!Array.isArray(value)) {
                     value = [value] as PlainDate[]
@@ -166,12 +172,21 @@ export default {
             }
         },
         getHoverStart(item, {hoverRange, valueRange}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHoverStart) {
+                return this.firstDatePanel.getChildHoverStart(item, DateView.year)
+            }
             return !!hoverRange ? (hoverRange[0].year == item) : valueRange[0].year == item
         },
         getHover(item, {hoverRange, valueRange}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHover) {
+                return this.firstDatePanel.getChildHover(item, DateView.year)
+            }
             return !!hoverRange ? (hoverRange[0].year < item && hoverRange[1].year > item) : ((!valueRange[0].isNull && !valueRange[1].isNull) && valueRange[0].year < item && valueRange[1].year > item)
         },
         getHoverEnd(item, {hoverRange, valueRange}: PanelItemParam): boolean {
+            if (!!this.firstDatePanel && !!this.firstDatePanel.getChildHoverEnd) {
+                return this.firstDatePanel.getChildHoverEnd(item, DateView.year)
+            }
             return !!hoverRange ? (hoverRange[1].year == item) : valueRange[1].year == item
         },
         /*---------------------------------------methods-------------------------------------------*/
