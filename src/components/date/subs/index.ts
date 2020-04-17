@@ -122,7 +122,7 @@ export const DatePublicMixin = {
         formatString() {
             return this.getFormatString()
         },
-        formatData(): PanelItemParam {
+        panelItemParam(): PanelItemParam {
             const {displayFormat, valueFormat} = this.formatString
             let {p_value: value, max, min, range} = this
             value = new PlainDate(value, displayFormat, valueFormat)
