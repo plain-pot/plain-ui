@@ -230,8 +230,8 @@ export default {
          * @date    2020/4/15 11:13
          */
         getDisabled(ipd: PlainDate, {max, min}: PanelItemParam): boolean {
-            if (!max.isNull && max.YM < ipd.YM) return true
-            if (!min.isNull && min.YM > ipd.YM) return true
+            if (!!max && !max.isNull && max.YM < ipd.YM) return true
+            if (!!min && !min.isNull && min.YM > ipd.YM) return true
         },
         /**
          * 检查当前需要激活的月份
