@@ -10,6 +10,8 @@ import dateRange from './subs/pl-date-panel-date-range'
 import panelWeek from './subs/pl-date-panel-week'
 import panelDates from './subs/pl-date-panel-dates'
 
+import datePanel from './pl-date-panel'
+
 import {plugin} from "../../utils";
 
 
@@ -21,6 +23,7 @@ export default plugin([
     basePanelYear,
     basePanelMonth,
     basePanelItem,
+    datePanel,
 
     dateRange,
     panelWeek,
