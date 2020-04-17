@@ -346,14 +346,11 @@ export default {
         },
         onMouseenterItem({ipd}: DateBasePanelItemData) {
             const {start: itemStartPd} = this.getWeekPdByPlainDate(ipd)
+            this.hoverPd = itemStartPd
 
-            if (!this.range) {
-                this.hoverPd = itemStartPd
-            } else {
-                if (!!this.hoverRange) {
-                    const {start: {range: {start}}} = this.WeekGetData
-                    this.hoverRange = start.greaterThan(itemStartPd, PlainDate.CompareMode.date) > 0 ? [itemStartPd, start] : [start, itemStartPd]
-                }
+            if (!!this.hoverRange) {
+                const {start: {range: {start}}} = this.WeekGetData
+                this.hoverRange = start.greaterThan(itemStartPd, PlainDate.CompareMode.date) > 0 ? [itemStartPd, start] : [start, itemStartPd]
             }
         },
     },
