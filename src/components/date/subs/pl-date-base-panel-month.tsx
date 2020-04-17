@@ -52,13 +52,6 @@ export default {
             }
         },
     },
-    data() {
-        const p_view = this.view || DateView.year
-
-        return {
-            p_view,                                                                 // 当前视图
-        }
-    },
     render(h) {
         return (
             <div class="pl-date-base-panel-month-wrapper pl-date-base-panel" direction={this.direction}>
