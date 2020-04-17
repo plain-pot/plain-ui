@@ -1,16 +1,7 @@
 import {EmitMixin} from "../../../utils/mixins";
 import {DateBasePanelItemData} from "./pl-date-base-panel-item";
-import {DatePublicMixin} from "./index";
+import {DatePublicMixin, PanelItemParam} from "./index";
 import {PlainDate} from "../../../utils/PlainDate";
-
-interface YearItemParam {
-    max: number,
-    min: number,
-    value: number,
-    hoverRange: [number, number] | null,
-    valueRange: [number, number],
-    range: boolean,
-}
 
 export default {
     name: 'pl-date-base-panel-year',
@@ -39,8 +30,13 @@ export default {
         start(val) {
             if (this.p_start != val) {
                 this.p_start = val
-                this.valueRange = [this.p_start, this.p_end]
+
+                const startPd = new PlainDate(this.p_start, this.formatString.displayFormat, this.formatString.valueFormat)
+                const endPd = new PlainDate(this.p_end, this.formatString.displayFormat, this.formatString.valueFormat)
+
+                this.valueRange = [startPd, endPd]
                 this.hoverRange = null
+
                 this.transitionDirection = val == null ? 'next' : val > this.data.selectYear + 19 ? 'next' : 'prev'
                 this.p_selectDate.setYear(this.p_start || this.today.year)
                 this.setSelectDate(this.p_selectDate)
@@ -49,7 +45,11 @@ export default {
         end(val) {
             if (this.p_end != val) {
                 this.p_end = val
-                this.valueRange = [this.p_start, this.p_end]
+
+                const startPd = new PlainDate(this.p_start, this.formatString.displayFormat, this.formatString.valueFormat)
+                const endPd = new PlainDate(this.p_end, this.formatString.displayFormat, this.formatString.valueFormat)
+
+                this.valueRange = [startPd, endPd]
                 this.hoverRange = null
             }
         },
@@ -88,34 +88,45 @@ export default {
         )
     },
     computed: {
+        targetPanelItemParam(): PanelItemParam {
+            if (!!this.firstDatePanel && this.firstDatePanel.provideData && this.firstDatePanel.provideData.year) {
+                return this.firstDatePanel.provideData.year
+            } else {
+                return this.formatData
+            }
+        },
         data() {
             let {p_selectDate, today} = this as { [key: string]: PlainDate }
-            const {range} = this
-            const {max, min, p_value: value, hoverRange, valueRange} = this
-            const yearItemParam: YearItemParam = {max, min, value, hoverRange, valueRange, range}
-
             let selectYear = p_selectDate.year
             selectYear = selectYear - selectYear % 20
 
+            const panelItemPanel: PanelItemParam = this.targetPanelItemParam
+            const {range} = panelItemPanel
+
             let list: DateBasePanelItemData[] = []
             for (let i = selectYear; i < selectYear + 20; i++) {
-                let item = {
+
+                this.tempPd.setYear(i)
+                const ipd = this.tempPd.copy()
+
+                let item: DateBasePanelItemData = {
                     label: i,
                     now: i === today.year,
-                    disabled: this.getDisabled(i, yearItemParam),
-                    active: this.getActive(i, yearItemParam),
+                    disabled: this.getDisabled(i, panelItemPanel),
+                    active: this.getActive(i, panelItemPanel),
                     hoverStart: false,
                     hover: false,
                     hoverEnd: false,
+                    ipd,
 
                     range,
                     year: i,
                 }
 
-                if (this.range || (!!this.firstDatePanel && !!this.firstDatePanel.range)) {
-                    item.hoverStart = this.getHoverStart(i, yearItemParam)
-                    item.hover = this.getHover(i, yearItemParam)
-                    item.hoverEnd = this.getHoverEnd(i, yearItemParam)
+                if (range) {
+                    item.hoverStart = this.getHoverStart(i, panelItemPanel)
+                    item.hover = this.getHover(i, panelItemPanel)
+                    item.hoverEnd = this.getHoverEnd(i, panelItemPanel)
                 }
 
                 list.push(item)
@@ -135,30 +146,26 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:17
          */
-        getDisabled(item, {max, min}: YearItemParam) {
-            if (max != null && item > max) {
-                return true
-            }
-            if (min != null && item < min) {
-                return true
-            }
+        getDisabled(item, {max, min}: PanelItemParam) {
+            if (!max.isNull && max.year < item) return true
+            if (!min.isNull && min.year > item) return true
         },
         /**
          * 检查需要激活高亮的年份
          * @author  韦胜健
          * @date    2020/4/15 11:17
          */
-        getActive(item, {value, valueRange: [valueStart, valueEnd], range}: YearItemParam): boolean {
-            return !range ? value === item : (valueStart == item || valueEnd == item)
+        getActive(item, {value, valueRange: [valueStart, valueEnd], range}: PanelItemParam): boolean {
+            return !range ? value.year === item : (valueStart.year == item || valueEnd.year == item)
         },
-        getHoverStart(item, {hoverRange, valueRange}: YearItemParam): boolean {
-            return !!hoverRange ? (hoverRange[0] == item) : valueRange[0] == item
+        getHoverStart(item, {hoverRange, valueRange}: PanelItemParam): boolean {
+            return !!hoverRange ? (hoverRange[0].year == item) : valueRange[0].year == item
         },
-        getHover(item, {hoverRange, valueRange}: YearItemParam): boolean {
-            return !!hoverRange ? (hoverRange[0] < item && hoverRange[1] > item) : ((!!valueRange[0] && valueRange[1]) && valueRange[0] < item && valueRange[1] > item)
+        getHover(item, {hoverRange, valueRange}: PanelItemParam): boolean {
+            return !!hoverRange ? (hoverRange[0].year < item && hoverRange[1].year > item) : ((!valueRange[0].isNull && !valueRange[1].isNull) && valueRange[0].year < item && valueRange[1].year > item)
         },
-        getHoverEnd(item, {hoverRange, valueRange}: YearItemParam): boolean {
-            return !!hoverRange ? (hoverRange[1] == item) : valueRange[1] == item
+        getHoverEnd(item, {hoverRange, valueRange}: PanelItemParam): boolean {
+            return !!hoverRange ? (hoverRange[1].year == item) : valueRange[1].year == item
         },
         /*---------------------------------------methods-------------------------------------------*/
         /**
@@ -187,21 +194,21 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:18
          */
-        onClickItem(item) {
+        onClickItem({ipd}: DateBasePanelItemData) {
 
             if (!this.range) {
-                this.p_value = item.year
-                this.emitInput(item.year)
+                this.p_value = ipd.year
+                this.emitInput(ipd.year)
             } else {
                 if (!this.hoverRange) {
-                    this.hoverRange = [item.year, item.year]
-                    this.valueRange = [item.year, item.year]
+                    this.hoverRange = [ipd, ipd]
+                    this.valueRange = [ipd, ipd]
                 } else {
 
                     const [start, end] = this.hoverRange
 
-                    this.p_start = start
-                    this.p_end = end
+                    this.p_start = start.year
+                    this.p_end = end.year
 
                     this.hoverRange = null
                     this.valueRange = [start, end]
@@ -218,11 +225,10 @@ export default {
          * @author  韦胜健
          * @date    2020/4/15 11:18
          */
-        onMouseEnterItem(item) {
-            item = item.year
+        onMouseEnterItem({ipd}) {
             if (!!this.hoverRange) {
                 let mid = this.valueRange[0]
-                this.hoverRange = mid > item ? [item, mid] : [mid, item]
+                this.hoverRange = mid.year > ipd.year ? [ipd, mid] : [mid, ipd]
             }
         },
     },
