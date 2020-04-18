@@ -34,6 +34,7 @@ export default {
     render(h) {
         let {value: timePd} = this.panelItemParam
         if (timePd.isNull) timePd = this.p_selectDate
+        if (!timePd) return null
 
         return (
             <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
