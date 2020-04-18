@@ -70,10 +70,15 @@
 
             const {value: p_value, start: p_start, end: p_end} = this
             const serviceOption = () => ({
-                props: (Object.keys(Panel.props).reduce((ret, key) => {
-                    ret[key] = this[key]
-                    return ret
-                }, {})),
+                props: {
+                    ...(Object.keys(Panel.props).reduce((ret, key) => {
+                        ret[key] = this[key]
+                        return ret
+                    }, {})),
+                    value: this.p_value,
+                    start: this.p_start,
+                    end: this.p_end,
+                },
                 popperProps: {
                     reference: this.$el,
                 },

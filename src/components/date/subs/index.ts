@@ -30,7 +30,7 @@ export interface PanelParentProvider {
 
 export const DefaultFormatString = {
     year: 'YYYY',
-    month: 'YYY-MM',
+    month: 'YYYY-MM',
     date: 'YYYY-MM-DD',
     datetime: 'YYYY-MM-DD HH:mm:ss',
     week: 'YYYY-MM-DD',
