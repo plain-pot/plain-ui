@@ -43,7 +43,7 @@
     </pl-input>
 </template>
 
-<script>
+<script lang="ts">
     import {DefaultFormatString} from "./subs";
     import {PlainDate} from "../../utils/PlainDate";
     import Panel from './pl-date-panel'
@@ -143,7 +143,64 @@
             },
             /*---------------------------------------handler-------------------------------------------*/
             onInputChange(val, type) {
+                const {value, start, end} = this.formatData as { value: PlainDate, start: PlainDate, end: PlainDate }
+                switch (type) {
+                    case 'value':
 
+                        if (!val) {
+                            value.setValue(null)
+                            this.p_value = null
+                            this.emitInput(this.p_value)
+                            return;
+                        }
+                        if (value.format(value.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        value.setDisplayValue(val)
+                        this.p_value = value.valueString
+                        this.emitInput(this.p_value)
+
+                        break
+                    case 'start':
+
+                        if (!val) {
+                            return;
+                        }
+                        if (start.format(start.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        start.setDisplayValue(val)
+                        this.p_start = start.valueString
+                        this.emitUpdateStart(this.p_start)
+
+                        if (end.isNull || (!!this.datetime ? start.YMDHms > end.YMDHms : start.YMD > end.YMD)) {
+                            this.p_end = this.p_start
+                            this.emitUpdateEnd(this.p_start)
+                        }
+
+                        break
+                    case 'end':
+
+                        if (!val) {
+                            return;
+                        }
+                        if (end.format(end.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        end.setDisplayValue(val)
+                        this.p_end = end.valueString
+                        this.emitUpdateEnd(this.p_end)
+
+                        if (start.isNull || (!!this.datetime ? start.YMDHms > end.YMDHms : start.YMD > end.YMD)) {
+                            this.p_start = this.p_end
+                            this.emitUpdateStart(this.p_end)
+                        }
+
+                        break
+                }
             },
         },
     }

@@ -29,13 +29,12 @@ export default {
             }
         },
         selectDate(val) {
-            this.p_selectDate = val
+            this.p_selectDate = val || this.today
         },
     },
     render(h) {
         let {value: timePd} = this.panelItemParam
         if (timePd.isNull) timePd = this.p_selectDate
-        if (!timePd) return null
 
         return (
             <div class="pl-date-base-panel-date-wrapper pl-date-base-panel" onMousedown={this.emitMousedownPanel}>
@@ -345,7 +344,7 @@ export default {
             if (typeof val === 'string') {
                 val = (!!val ? new PlainDate(val, this.formatString.displayFormat, this.formatString.valueFormat) : this.today) as PlainDate
             }
-            this.p_selectDate = val
+            this.p_selectDate = val || this.today
             if (emitEvent) {
                 this.emitSelectDateChange(this.p_selectDate)
             }
