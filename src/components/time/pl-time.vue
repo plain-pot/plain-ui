@@ -17,8 +17,8 @@
                                          @change="val=>onInputChange(val,'value')"
                                          :displayFormat="displayFormat"
                                          ref="valueInput"
-                                         @focus="onTimeInputInnerFocus"
-                                         @blur="onTimeInputInnerBlur"
+                                         @focus="onCustomInnerInputFocus"
+                                         @blur="onCustomInnerInputBlur"
                 />
             </template>
             <template v-else>
@@ -27,8 +27,8 @@
                                          @change="val=>onInputChange(val,'start')"
                                          :displayFormat="displayFormat"
                                          ref="startInput"
-                                         @focus="onTimeInputInnerFocus"
-                                         @blur="onTimeInputInnerBlur"
+                                         @focus="onCustomInnerInputFocus"
+                                         @blur="onCustomInnerInputBlur"
                 />
                 <span>~</span>
                 <pl-datetime-input-inner width="100"
@@ -36,8 +36,8 @@
                                          @change="val=>onInputChange(val,'end')"
                                          :displayFormat="displayFormat"
                                          ref="endInput"
-                                         @focus="onTimeInputInnerFocus"
-                                         @blur="onTimeInputInnerBlur"
+                                         @focus="onCustomInnerInputFocus"
+                                         @blur="onCustomInnerInputBlur"
                 />
             </template>
         </div>
@@ -45,24 +45,14 @@
 </template>
 
 <script lang="ts">
-    import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {TimePublicProps} from "./subs";
-    import {AgentMixin} from "../service/service";
     import {PlainDate} from "../../utils/PlainDate";
-    import {PlDatetimeInputInner} from "./date-time-inner-input";
+    import DatetimeMixin from "./DatetimeMixin";
 
     export default {
         name: "pl-time",
-        components: {PlDatetimeInputInner},
-        mixins: [
-            AgentMixin,
-            EmitMixin,
-            EditMixin,
-            RefsMixinFactory({
-                valueInput: Object,
-                startInput: Object,
-                endInput: Object,
-            }),
+        mixins:[
+            DatetimeMixin
         ],
         props: {
             value: {type: String},
@@ -77,17 +67,6 @@
             emitFocus: Function,
             emitUpdateStart: Function,
             emitUpdateEnd: Function,
-        },
-        watch: {
-            value(val) {
-                this.p_value = val
-            },
-            start(val) {
-                this.p_start = val
-            },
-            end(val) {
-                this.p_end = val
-            },
         },
         data() {
 
@@ -150,9 +129,6 @@
             }
         },
         computed: {
-            inputValue() {
-                return !this.range ? this.p_value : ((this.p_start || '') + (this.p_end || ''))
-            },
             formatData() {
                 const value = new PlainDate(this.p_value, this.displayFormat, this.valueFormat)
                 const start = new PlainDate(this.p_start, this.displayFormat, this.valueFormat)
@@ -169,24 +145,6 @@
                 return this.$plain.$time(option)
             },
             /*---------------------------------------handler-------------------------------------------*/
-            clearHandler() {
-                if (!this.range) {
-                    this.p_value = null
-                    this.emitInput(this.p_value)
-                } else {
-                    this.p_start = null
-                    this.p_end = null
-                    this.emitUpdateStart(this.p_start)
-                    this.emitUpdateEnd(this.p_end)
-                }
-            },
-            onClickInput() {
-                if (!this.range) {
-                    this.toggle()
-                } else {
-                    this.show()
-                }
-            },
             onInputChange(val, type) {
                 const {value, start, end} = this.formatData as { value: PlainDate, start: PlainDate, end: PlainDate }
                 switch (type) {
@@ -245,26 +203,6 @@
                         }
 
                         break
-                }
-            },
-            onTimeInputInnerFocus(e) {
-                this.onFocus(e)
-            },
-            async onTimeInputInnerBlur(e) {
-                if (!this.range) {
-                    this.onBlur(e)
-                } else {
-                    await this.$plain.utils.delay(0)
-                    if ([
-                        this.startInput.$el,
-                        this.endInput.$el,
-                    ].indexOf(document.activeElement) === -1) {
-                        this.focusCounter--
-                        if (this.focusCounter === 0) {
-                            this.emitBlur()
-                            this.hide()
-                        }
-                    }
                 }
             },
         },
