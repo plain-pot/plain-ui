@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-date-base-panel" :direction="direction">
+    <div class="pl-date-base-panel" :direction="direction" @click="emitClickPanel">
         <pl-date-base-panel-header>
             <slot name="left" slot="left"/>
             <slot name="center" slot="center"/>
@@ -13,10 +13,17 @@
 
 <script>
     import PlDateBasePanelHeader from "./pl-date-base-panel-header";
+    import {EmitMixin} from "../../../utils/mixins";
 
     export default {
         name: "pl-date-base-panel",
         components: {PlDateBasePanelHeader},
+        mixins:[
+            EmitMixin,
+        ],
+        emitters:{
+            emitClickPanel: Function,
+        },
         props: {
             direction: {type: String},                          // 面板切换动画所需要的属性
         },

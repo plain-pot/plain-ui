@@ -10,6 +10,7 @@ export default {
     ],
     emitters: {
         emitInput: Function,
+        emitClickPanel: Function,
     },
     watch: {
         value(val) {
@@ -24,7 +25,7 @@ export default {
     },
     render(h) {
         return (
-            <pl-date-base-panel-date {...this.datePanelBinding}/>
+            <pl-date-base-panel-date {...this.datePanelBinding} {...{on: {'click-panel': this.emitClickPanel}}}/>
         )
     },
     computed: {

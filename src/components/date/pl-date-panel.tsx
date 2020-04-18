@@ -24,6 +24,7 @@ export default {
         emitInput: Function,
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
+        emitClickPanel: Function,
     },
     props: {
         ...DatePublicProps,
@@ -167,6 +168,12 @@ export default {
         }
         const Component = panel[this.panel]
 
-        return <Component {...this.panelBinding}/>
+        return <Component {...this.panelBinding} {...{
+            on: {
+                'click-panel': (...args) => {
+                    this.emitClickPanel(...args)
+                }
+            }
+        }}/>
     }
 }

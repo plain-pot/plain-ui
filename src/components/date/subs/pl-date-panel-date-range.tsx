@@ -17,6 +17,7 @@ export default {
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
         emitInput: Function,
+        emitClickPanel: Function,
     },
     watch: {
         start(val) {
@@ -43,8 +44,8 @@ export default {
     render(h) {
         return (
             <div class="pl-date-base-panel pl-date-panel-date-range">
-                <pl-date-base-panel-date {...this.binding.start}/>
-                <pl-date-base-panel-date {...this.binding.end}/>
+                <pl-date-base-panel-date {...this.binding.start} {...{on: {'click-panel': e=>this.emitClickPanel(e,'start')}}}/>
+                <pl-date-base-panel-date {...this.binding.end} {...{on: {'click-panel': e=>this.emitClickPanel(e,'end')}}}/>
             </div>
         )
     },

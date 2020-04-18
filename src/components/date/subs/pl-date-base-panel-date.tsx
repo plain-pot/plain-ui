@@ -19,6 +19,7 @@ export default {
         emitSelectTime: Function,
         emitMouseenterItem: Function,
         emitSelectDateChange: Function,
+        emitClickPanel: Function,
     },
     watch: {
         value(val) {
@@ -37,7 +38,7 @@ export default {
         if (!timePd) return null
 
         return (
-            <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
+            <div class="pl-date-base-panel-date-wrapper pl-date-base-panel" onClick={this.emitClickPanel}>
                 <transition name={`pl-transition-slide-${this.transitionDirection}`}>
                     {{
                         date: (

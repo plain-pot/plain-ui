@@ -305,6 +305,7 @@
                     option: {
                         props: {
                             value: null,
+                            range: true,
                             ...(option || {})
                         },
                         popperProps: {
@@ -322,6 +323,9 @@
                             change: (val) => {
                                 this.$notice(String(val))
                                 ret.option.props.value = val
+                            },
+                            'click-panel': (e, type) => {
+                                // console.log(type, e)
                             },
                         },
                     },

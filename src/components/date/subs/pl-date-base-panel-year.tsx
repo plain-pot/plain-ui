@@ -13,6 +13,7 @@ export default {
         emitInput: Function,
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
+        emitClickPanel: Function,
     },
     props: {
         displayFormat: {type: String, default: 'YYYY'},
@@ -59,7 +60,7 @@ export default {
     },
     render(h) {
         return (
-            <pl-date-base-panel class="pl-date-base-panel-year" direction={this.direction}>
+            <pl-date-base-panel class="pl-date-base-panel-year" direction={this.direction} {...{on: {'click-panel': this.emitClickPanel}}}>
                 <template slot="left">
                     <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={this.prevYearList}/>
                 </template>
