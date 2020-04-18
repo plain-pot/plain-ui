@@ -4,7 +4,6 @@
   "main": "docs/lib/index.js",
   "private": false,
   "types": "src/types/index.d.ts",
-  "type": "module",
   "files": [
     "src-doc",
     "src",
