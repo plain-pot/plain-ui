@@ -22,7 +22,12 @@ export default {
             },
             externalListener: {
                 change() {
-                    this.hide()
+                    if ([
+                        'datetime',
+                        'dates'
+                    ].indexOf(this.options.props.panel) === -1) {
+                        this.hide()
+                    }
                 },
             },
         })

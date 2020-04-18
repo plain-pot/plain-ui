@@ -273,6 +273,9 @@
             <demo-row title="基本用法">
                 <pl-button :label="basic.option.props.value || '请选择'" ref="basic" @click="basic.toggle"/>
             </demo-row>
+            <demo-row title="六种视图模式">
+                <pl-button v-for="item in panels" :key="item.title" :label="`${item.title}：${item.option.props.value}`" ref="panels" @click="item.toggle"/>
+            </demo-row>
         </demo-row>
 
         <!--<demo-row title="基本用法">
@@ -296,7 +299,15 @@
                             ...(option || {})
                         },
                         popperProps: {
-                            reference: () => this.$refs[name]
+                            reference: () => {
+                                const [ref, index] = name.split('.')
+
+                                if (index != null) {
+                                    return this.$refs[ref][index]
+                                } else {
+                                    return this.$refs[ref]
+                                }
+                            }
                         },
                         listener: {
                             change: (val) => {
@@ -317,12 +328,40 @@
 
             const basic = newData('basic')
 
+            const panels = [
+                {
+                    title: '年',
+                    panel: 'year',
+                },
+                {
+                    title: '年月',
+                    panel: 'month',
+                },
+                {
+                    title: '年月日',
+                    panel: 'date',
+                },
+                {
+                    title: '日期时间',
+                    panel: 'datetime',
+                },
+                {
+                    title: '周',
+                    panel: 'week',
+                },
+                {
+                    title: '多个日期',
+                    panel: 'dates',
+                },
+            ].map((item, index) => Object.assign(newData(`panels.${index}`, {panel: item.panel}), {title: item.title}))
+
             return {
                 val: {
                     10: null,
                 },
 
                 basic,
+                panels,
             }
         },
         methods: {},
