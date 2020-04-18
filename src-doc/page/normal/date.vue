@@ -302,6 +302,13 @@
                 <demo-line title="周"><pl-date panel="week"/></demo-line>
                 <demo-line title="多个日期"><pl-date panel="dates"/></demo-line>
             </demo-row>
+            <demo-row title="六中视图：范围选择">
+                <demo-line title="年"><pl-date panel="year" range/></demo-line>
+                <demo-line title="年月"><pl-date panel="month" range/></demo-line>
+                <demo-line title="年月日"><pl-date panel="date" range/></demo-line>
+                <demo-line title="日期时间"><pl-date panel="datetime" range/></demo-line>
+                <demo-line title="周"><pl-date panel="week" range/></demo-line>
+            </demo-row>
 
         </demo-row>
 

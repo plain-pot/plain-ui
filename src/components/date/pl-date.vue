@@ -11,7 +11,10 @@
             @click-input="onClickInput"
     >
         <div class="pl-input-custom-inner" :range="range">
-            <template v-if="!range">
+            <template v-if="panel === 'dates'">
+
+            </template>
+            <template v-else-if="!range">
                 <pl-datetime-input-inner :value="formatData.value.displayString"
                                          @change="val=>onInputChange(val,'value')"
                                          :displayFormat="formatString.displayFormat"
