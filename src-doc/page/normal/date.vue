@@ -324,7 +324,7 @@
                                 this.$notice(String(val))
                                 ret.option.props.value = val
                             },
-                            'click-panel': (e, type) => {
+                            'mousedown-panel': (e, type) => {
                                 // console.log(type, e)
                             },
                         },

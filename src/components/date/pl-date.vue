@@ -78,21 +78,37 @@
                 popperProps: {
                     reference: this.$el,
                 },
-                listener: (val, type) => {
-                    console.log(val)
-                    if (!this.range) {
-                        this.p_value = val
-                        this.emitInput(val)
-                    } else {
-                        if (type === 'start') {
-                            this.p_start = val
-                            this.emitUpdateStart(val)
+                listener: {
+                    change: (val, type) => {
+                        console.log(val)
+                        if (!this.range) {
+                            this.p_value = val
+                            this.emitInput(val)
                         } else {
-                            this.p_end = val
-                            this.emitUpdateEnd(val)
+                            if (type === 'start') {
+                                this.p_start = val
+                                this.emitUpdateStart(val)
+                            } else {
+                                this.p_end = val
+                                this.emitUpdateEnd(val)
+                            }
                         }
-                    }
-                },
+                    },
+                    'mousedown-panel': async (e, type) => {
+                        console.log('mousedown-panel')
+                        this.focusCounter++
+                        await this.$plain.utils.delay(0)
+                        if (!this.range) {
+                            this.valueInput.focus()
+                        } else {
+                            if (type === 'start') {
+                                this.startInput.focus()
+                            } else {
+                                this.endInput.focus()
+                            }
+                        }
+                    },
+                }
             })
 
             return {

@@ -17,7 +17,7 @@ export default {
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
         emitInput: Function,
-        emitClickPanel: Function,
+        emitMousedownPanel: Function,
     },
     watch: {
         start(val) {
@@ -44,8 +44,8 @@ export default {
     render(h) {
         return (
             <div class="pl-date-base-panel pl-date-panel-date-range">
-                <pl-date-base-panel-date {...this.binding.start} {...{on: {'click-panel': e=>this.emitClickPanel(e,'start')}}}/>
-                <pl-date-base-panel-date {...this.binding.end} {...{on: {'click-panel': e=>this.emitClickPanel(e,'end')}}}/>
+                <pl-date-base-panel-date {...this.binding.start} {...{on: {'mousedown-panel': e=>this.emitMousedownPanel(e,'start')}}}/>
+                <pl-date-base-panel-date {...this.binding.end} {...{on: {'mousedown-panel': e=>this.emitMousedownPanel(e,'end')}}}/>
             </div>
         )
     },

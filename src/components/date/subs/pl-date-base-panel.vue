@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-date-base-panel" :direction="direction" @click="emitClickPanel">
+    <div class="pl-date-base-panel" :direction="direction" @mousedown="emitMousedownPanel">
         <pl-date-base-panel-header>
             <slot name="left" slot="left"/>
             <slot name="center" slot="center"/>
@@ -22,7 +22,7 @@
             EmitMixin,
         ],
         emitters:{
-            emitClickPanel: Function,
+            emitMousedownPanel: Function,
         },
         props: {
             direction: {type: String},                          // 面板切换动画所需要的属性

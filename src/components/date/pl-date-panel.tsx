@@ -24,7 +24,7 @@ export default {
         emitInput: Function,
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
-        emitClickPanel: Function,
+        emitMousedownPanel: Function,
     },
     props: {
         ...DatePublicProps,
@@ -170,8 +170,8 @@ export default {
 
         return <Component {...this.panelBinding} {...{
             on: {
-                'click-panel': (...args) => {
-                    this.emitClickPanel(...args)
+                'mousedown-panel': (...args) => {
+                    this.emitMousedownPanel(...args)
                 }
             }
         }}/>

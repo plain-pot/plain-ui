@@ -18,7 +18,7 @@ export default {
         emitInput: Function,
         emitUpdateStart: Function,
         emitUpdateEnd: Function,
-        emitClickPanel: Function,
+        emitMousedownPanel: Function,
     },
     watch: {
         value(val) {
@@ -56,7 +56,7 @@ export default {
     },
     render(h) {
         return (
-            <div class="pl-date-base-panel-month-wrapper pl-date-base-panel" direction={this.direction} onClick={this.emitClickPanel}>
+            <div class="pl-date-base-panel-month-wrapper pl-date-base-panel" direction={this.direction} onMousedown={this.emitMousedownPanel}>
                 <transition name={`pl-transition-slide-${this.p_view === 'year' ? 'prev' : 'next'}`}>
                     {this.p_view === 'month' ? (
                         <pl-date-base-panel class="pl-date-base-panel-month" direction="horizontal">
