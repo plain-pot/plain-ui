@@ -278,6 +278,15 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[36]}}
+                </demo-line>
+                <pl-date v-model="val[36]"/>
+            </demo-row>
+        </demo-row>
+
         <!--<demo-row title="基本用法">
             <pl-date/>
         </demo-row>-->

@@ -28,6 +28,15 @@ export interface PanelParentProvider {
     date?: PanelItemParam,
 }
 
+export const DefaultFormatString = {
+    year: 'YYYY',
+    month: 'YYY-MM',
+    date: 'YYYY-MM-DD',
+    datetime: 'YYYY-MM-DD HH:mm:ss',
+    week: 'YYYY-MM-DD',
+    dates: 'YYYY-MM-DD',
+}
+
 export const DatePublicProps = {
     value: {type: String},
     displayFormat: {type: String},
