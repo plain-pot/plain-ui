@@ -1,6 +1,5 @@
 <template>
-    <pl-input class="pl-time"
-              :class="{'pl-time-range':range}"
+    <pl-input class="pl-time pl-input-custom"
               :value="inputValue"
               suffixIcon="el-icon-time"
               clearIcon
@@ -12,33 +11,33 @@
               @click-input="onClickInput"
               @keydown.enter="onEnter"
               @keydown.esc="onEsc">
-        <div class="pl-time-inner">
+        <div class="pl-input-custom-inner" :range="range">
             <template v-if="!range">
-                <pl-time-input-inner :value="formatData.value.displayString"
-                                     @change="val=>onInputChange(val,'value')"
-                                     :displayFormat="displayFormat"
-                                     ref="valueInput"
-                                     @focus="onTimeInputInnerFocus"
-                                     @blur="onTimeInputInnerBlur"
+                <pl-datetime-input-inner :value="formatData.value.displayString"
+                                         @change="val=>onInputChange(val,'value')"
+                                         :displayFormat="displayFormat"
+                                         ref="valueInput"
+                                         @focus="onTimeInputInnerFocus"
+                                         @blur="onTimeInputInnerBlur"
                 />
             </template>
             <template v-else>
-                <pl-time-input-inner width="100"
-                                     :value="formatData.start.displayString"
-                                     @change="val=>onInputChange(val,'start')"
-                                     :displayFormat="displayFormat"
-                                     ref="startInput"
-                                     @focus="onTimeInputInnerFocus"
-                                     @blur="onTimeInputInnerBlur"
+                <pl-datetime-input-inner width="100"
+                                         :value="formatData.start.displayString"
+                                         @change="val=>onInputChange(val,'start')"
+                                         :displayFormat="displayFormat"
+                                         ref="startInput"
+                                         @focus="onTimeInputInnerFocus"
+                                         @blur="onTimeInputInnerBlur"
                 />
-                <span>至</span>
-                <pl-time-input-inner width="100"
-                                     :value="formatData.end.displayString"
-                                     @change="val=>onInputChange(val,'end')"
-                                     :displayFormat="displayFormat"
-                                     ref="endInput"
-                                     @focus="onTimeInputInnerFocus"
-                                     @blur="onTimeInputInnerBlur"
+                <span>~</span>
+                <pl-datetime-input-inner width="100"
+                                         :value="formatData.end.displayString"
+                                         @change="val=>onInputChange(val,'end')"
+                                         :displayFormat="displayFormat"
+                                         ref="endInput"
+                                         @focus="onTimeInputInnerFocus"
+                                         @blur="onTimeInputInnerBlur"
                 />
             </template>
         </div>
@@ -49,12 +48,12 @@
     import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {TimePublicProps} from "./subs";
     import {AgentMixin} from "../service/service";
-    import PlTimeInputInner from "./pl-time-input-inner.vue";
     import {PlainDate} from "../../utils/PlainDate";
+    import {PlDatetimeInputInner} from "./date-time-inner-input";
 
     export default {
         name: "pl-time",
-        components: {PlTimeInputInner},
+        components: {PlDatetimeInputInner},
         mixins: [
             AgentMixin,
             EmitMixin,
