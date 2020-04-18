@@ -227,7 +227,7 @@ function service({
     defaultPopperProps = defaultPopperProps || {}
 
     return {
-        name: "pl-color-service",
+        name,
         mixins: [
             ...(mixins || [])
         ],
@@ -245,7 +245,7 @@ function service({
         },
         render(h) {
             return (
-                <pl-popper class="pl-color-service" {...this.popperBinding}>
+                <pl-popper class={name} {...this.popperBinding}>
                     {content(h, this)}
                 </pl-popper>
             )
