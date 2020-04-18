@@ -285,6 +285,14 @@
                 </demo-line>
                 <pl-date v-model="val[36]"/>
             </demo-row>
+            <demo-row title="日期范围">
+                <demo-line>
+                    <div>start:{{val[37]}}</div>
+                    <div>end:{{val[38]}}</div>
+                </demo-line>
+                <pl-date :start.sync="val[37]" :end.sync="val[38]" range/>
+                <pl-date :start.sync="val[37]" :end.sync="val[38]" range/>
+            </demo-row>
         </demo-row>
 
         <!--<demo-row title="基本用法">

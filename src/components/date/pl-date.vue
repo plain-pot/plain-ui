@@ -44,7 +44,6 @@
 </template>
 
 <script>
-    import {TimePublicProps} from "../time/subs";
     import {DefaultFormatString} from "./subs";
     import {PlainDate} from "../../utils/PlainDate";
     import Panel from './pl-date-panel'
@@ -71,7 +70,7 @@
 
             const {value: p_value, start: p_start, end: p_end} = this
             const serviceOption = () => ({
-                props: (Object.keys(TimePublicProps).reduce((ret, key) => {
+                props: (Object.keys(Panel.props).reduce((ret, key) => {
                     ret[key] = this[key]
                     return ret
                 }, {})),
@@ -80,7 +79,6 @@
                 },
                 listener: {
                     change: (val, type) => {
-                        console.log(val)
                         if (!this.range) {
                             this.p_value = val
                             this.emitInput(val)
@@ -95,7 +93,6 @@
                         }
                     },
                     'mousedown-panel': async (e, type) => {
-                        console.log('mousedown-panel')
                         this.focusCounter++
                         await this.$plain.utils.delay(0)
                         if (!this.range) {
