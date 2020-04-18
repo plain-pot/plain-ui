@@ -1,7 +1,6 @@
 <template>
     <pl-input
-            class="pl-date"
-            :class="{'pl-date-range':range}"
+            class="pl-date pl-input-custom"
             :value="inputValue"
             suffixIcon="el-icon-date"
             clearIcon
@@ -11,31 +10,53 @@
             :clearHandler="clearHandler"
             @click-input="onClickInput"
     >
-        <div class="pl-date-inner">
+        <div class="pl-input-custom-inner" :range="range">
+            <template v-if="!range">
+                <pl-datetime-input-inner :value="formatData.value.displayString"
+                                         @change="val=>onInputChange(val,'value')"
+                                         :displayFormat="formatString.displayFormat"
+                                         ref="valueInput"
+                                         @focus="onCustomInnerInputFocus"
+                                         @blur="onCustomInnerInputBlur"
+                />
+            </template>
+            <template v-else>
+                <pl-datetime-input-inner width="100"
+                                         :value="formatData.start.displayString"
+                                         @change="val=>onInputChange(val,'start')"
+                                         :displayFormat="formatString.displayFormat"
+                                         ref="startInput"
+                                         @focus="onCustomInnerInputFocus"
+                                         @blur="onCustomInnerInputBlur"
+                />
+                <span>~</span>
+                <pl-datetime-input-inner width="100"
+                                         :value="formatData.end.displayString"
+                                         @change="val=>onInputChange(val,'end')"
+                                         :displayFormat="formatString.displayFormat"
+                                         ref="endInput"
+                                         @focus="onCustomInnerInputFocus"
+                                         @blur="onCustomInnerInputBlur"
+                />
+            </template>
         </div>
     </pl-input>
 </template>
 
 <script>
-    import {AgentMixin} from "../service/service";
-    import {EditMixin, EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {TimePublicProps} from "../time/subs";
     import {DefaultFormatString} from "./subs";
     import {PlainDate} from "../../utils/PlainDate";
+    import Panel from './pl-date-panel'
+    import DatetimeMixin from "../time/DatetimeMixin";
 
     export default {
         name: "pl-date",
         mixins: [
-            AgentMixin,
-            EmitMixin,
-            EditMixin,
-            RefsMixinFactory({
-                valueInput: Object,
-                startInput: Object,
-                endInput: Object,
-            }),
+            DatetimeMixin,
         ],
         props: {
+            ...Panel.props,
             panel: {type: String, default: 'date'},
         },
         emitters: {
@@ -45,17 +66,7 @@
             emitUpdateStart: Function,
             emitUpdateEnd: Function,
         },
-        watch: {
-            value(val) {
-                this.p_value = val
-            },
-            start(val) {
-                this.p_start = val
-            },
-            end(val) {
-                this.p_end = val
-            },
-        },
+
         data() {
 
             const {value: p_value, start: p_start, end: p_end} = this
@@ -67,7 +78,8 @@
                 popperProps: {
                     reference: this.$el,
                 },
-                listener: (val) => {
+                listener: (val, type) => {
+                    console.log(val)
                     if (!this.range) {
                         this.p_value = val
                         this.emitInput(val)
@@ -91,9 +103,6 @@
             }
         },
         computed: {
-            inputValue() {
-                return !this.range ? this.p_value : ((this.p_start || '') + (this.p_end || ''))
-            },
             formatString() {
                 let {displayFormat, valueFormat} = this
                 displayFormat = displayFormat || DefaultFormatString[this.panel]
@@ -120,23 +129,8 @@
                 return this.$plain.$date(option)
             },
             /*---------------------------------------handler-------------------------------------------*/
-            clearHandler() {
-                if (!this.range) {
-                    this.p_value = null
-                    this.emitInput(this.p_value)
-                } else {
-                    this.p_start = null
-                    this.p_end = null
-                    this.emitUpdateStart(this.p_start)
-                    this.emitUpdateEnd(this.p_end)
-                }
-            },
-            onClickInput() {
-                if (!this.range) {
-                    this.toggle()
-                } else {
-                    this.show()
-                }
+            onInputChange(val, type) {
+
             },
         },
     }
