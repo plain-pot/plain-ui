@@ -269,6 +269,12 @@
 
         </demo-row>
 
+        <demo-row title="date service">
+            <demo-row title="基本用法">
+                <pl-button :label="basic.option.props.value || '请选择'" ref="basic" @click="basic.toggle"/>
+            </demo-row>
+        </demo-row>
+
         <!--<demo-row title="基本用法">
             <pl-date/>
         </demo-row>-->
@@ -280,10 +286,43 @@
         name: "date",
         props: {},
         data() {
+
+            const newData = (name, option) => {
+                const ret = {
+                    service: null,
+                    option: {
+                        props: {
+                            value: null,
+                            ...(option || {})
+                        },
+                        popperProps: {
+                            reference: () => this.$refs[name]
+                        },
+                        listener: {
+                            change: (val) => {
+                                this.$notice(String(val))
+                                ret.option.props.value = val
+                            },
+                        },
+                    },
+                    toggle: async () => {
+                        if (!ret.service) {
+                            ret.service = await this.$plain.$date(ret.option)
+                        }
+                        ret.service.toggle()
+                    },
+                }
+                return ret
+            }
+
+            const basic = newData('basic')
+
             return {
                 val: {
                     10: null,
                 },
+
+                basic,
             }
         },
         methods: {},
