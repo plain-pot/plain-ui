@@ -36,6 +36,14 @@
                     <pl-time :start.sync="form1.formData.field17" :end.sync="form1.formData.field18" range/>
                 </pl-form-item>
 
+                <pl-form-item label="日期时间选择" field="field19" :rules="{required:true,trigger:'blur'}">
+                    <pl-date v-model="form1.formData.field19"/>
+                </pl-form-item>
+
+                <pl-form-item label="日期时间范围选择" :field="['field20','field21']">
+                    <pl-date :start.sync="form1.formData.field20" :end.sync="form1.formData.field21" range panel="datetime"/>
+                </pl-form-item>
+
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>

@@ -235,9 +235,9 @@
                             <input class="pl-input-inner" {...this.publicProps}/>}
 
                         {!!this.suffixIcon && <span class="pl-input-suffix-icon">
-                            {typeof this.suffixIcon === 'function' ? this.suffixIcon(h) : <pl-icon nativeOn={{click: this.onClickSuffixIcon}} icon={this.suffixIcon}/>}
+                            {typeof this.suffixIcon === 'function' ? this.suffixIcon(h) : <pl-icon nativeOn={{mousedown: this.onClickSuffixIcon}} icon={this.suffixIcon}/>}
                         </span>}
-                        {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{click: this.onClickClearIcon}} icon="el-icon-error"/></span>)}
+                        {!!this.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{mousedown: this.onClickClearIcon}} icon="el-icon-error"/></span>)}
                         {!!this.isLoading && <pl-loading class="pl-input-suffix-icon"/>}
                     </div>
                 )
