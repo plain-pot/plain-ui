@@ -3,8 +3,8 @@
         <demo-row title="基本用法">
             <demo-line title="使用双向绑定控制展示的索引位置" width="250px">
                 <pl-button :label="index" box-type="line"/>
-                <pl-button label="prev" @click="prev"/>
-                <pl-button label="next" @click="next"/>
+                <pl-button label="prev" @click="index--"/>
+                <pl-button label="next" @click="index++"/>
             </demo-line>
             <div class="demo-carousel-box">
                 <pl-carousel :data="[1,2,3,4,5]" v-model="index">
@@ -73,21 +73,11 @@
                 index: 0
             }
         },
-        methods: {
-            prev() {
-                // debugger
-                this.index--
-            },
-            next() {
-                // debugger
-                this.index++
-            },
-        },
     }
 </script>
 
 <style lang="scss">
-    @include themify {
+    @include themify{
         .demo-carousel {
             .demo-carousel-box {
                 width: 400px;
