@@ -101,16 +101,5 @@
         transform: rotate(-180deg);
       }
     }
-
-    &.pl-multi-select-input {
-      user-select: none;
-
-      div.pl-input-inner {
-        padding-left: 3px !important;
-        height: auto !important;
-        line-height: normal !important;
-        cursor: pointer;
-      }
-    }
   }
 }

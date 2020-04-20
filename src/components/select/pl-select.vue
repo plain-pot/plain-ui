@@ -2,7 +2,7 @@
     <pl-input
             ref="input"
             class="pl-select-input"
-            :class="{'pl-multi-select-input':!!multiple,'pl-select-input-show':isShow}"
+            :class="classes"
             :value="multiple?multipleInputValue: ((isShow&&filterable)?p_inputValue:inputValue)"
             :placeValue="inputValue"
             :placeholder="p_placeholder"
@@ -171,6 +171,13 @@
             if (!!this.p_select) this.p_select.destroy()
         },
         computed: {
+            classes() {
+                return {
+                    'pl-multi-select-input': !!this.multiple,
+                    'pl-input-tags': !!this.multiple,
+                    'pl-select-input-show': this.isShow,
+                }
+            },
             inputBinding() {
                 return {
                     suffixIcon: "el-icon-arrow-down",
