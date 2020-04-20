@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-tab-group">
+    <div class="pl-tab-group" :class="classes">
         <div class="pl-tab-head-wrapper">
             <div class="pl-tab-head-bottom"/>
             <pl-scroll :scrollY="false" :scrollX="true" :scrollbarSize="6" ref="headScroll">
@@ -11,7 +11,7 @@
                         @click="onClickTitle(item)">
                         {{item.title}}
                     </li>
-                    <li class="pl-tab-head-indicator" :style="headIndicatorStyles"></li>
+                    <li class="pl-tab-head-indicator" :style="headIndicatorStyles" v-if="!type"/>
                 </ul>
             </pl-scroll>
         </div>
@@ -28,6 +28,8 @@
         name: "pl-tab-group",
         props: {
             value: {},
+            type: {type: String},                                           // 页签样式：card,border-card
+            direction: {type: String, default: 'top'},                      // 选项卡位置：top、bottom、left、right
         },
         mixins: [
             EmitMixin,
@@ -61,6 +63,14 @@
             }
         },
         computed: {
+            classes() {
+                return [
+                    `pl-tab-group-direction-${this.direction}`,
+                    {
+                        [`pl-tab-group-type-${this.type}`]: !!this.type
+                    }
+                ]
+            },
             sortItems() {
                 return this.items.sort((a, b) => a.index - b.index)
             },
@@ -120,34 +130,39 @@
 <style lang="scss">
     @include themify {
         .pl-tab-group {
+            &.pl-tab-group-direction-top {
+                .pl-tab-head-wrapper {
+                    overflow: auto;
+                    width: 100%;
+                    position: relative;
 
-            .pl-tab-head-wrapper {
-                overflow: auto;
-                width: 100%;
-                position: relative;
+                    & > .pl-scroll {
+                        & > .pl-horizontal-scrollbar-wrapper {
+                            bottom: 12px;
+                        }
+                    }
 
-                & > .pl-scroll {
-                    & > .pl-horizontal-scrollbar-wrapper {
-                        bottom: 12px;
+                    .pl-tab-head-bottom {
+                        position: absolute;
+                        bottom: 20px;
+                        left: 0;
+                        right: 0;
+                        height: 2px;
+                        background-color: $ibl;
                     }
                 }
 
-                .pl-tab-head-bottom {
-                    position: absolute;
-                    bottom: 20px;
-                    left: 0;
-                    right: 0;
-                    height: 2px;
-                    background-color: $ibl;
+                .pl-tab-head, .pl-tab-body {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+
+                    & > li {
+                        display: inline-block;
+                    }
                 }
-            }
 
-            .pl-tab-head, .pl-tab-body {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-
-                &.pl-tab-head {
+                .pl-tab-head {
                     white-space: nowrap;
                     display: inline-block;
                     position: relative;
@@ -183,11 +198,68 @@
                     }
                 }
 
-                & > li {
-                    display: inline-block;
+                .pl-tab-body {
+                    padding-bottom: 20px;
                 }
 
-                .pl-tab {
+
+                &.pl-tab-group-type-card, &.pl-tab-group-type-card-border {
+                    border-radius: 2px;
+
+                    .pl-tab-head-item {
+                        padding-left: 20px;
+                        padding-right: 20px;
+
+                        border-top: solid 1px $ibl;
+                        border-right: solid 1px $ibl;
+                        border-bottom: solid 1px $ibl;
+
+                        transition: background-color 300ms $transition;
+                        background-color: #f6f6f6;
+
+                        &:not(:first-child ) {
+                            margin-left: 0;
+                        }
+
+                        &:first-child {
+                            border-left: solid 1px $ibl;
+                            border-top-left-radius: 2px;
+                        }
+
+                        &:last-child {
+                            border-top-right-radius: 2px;
+                        }
+
+                        &.pl-tab-head-item-current {
+                            background-color: white;
+                        }
+                    }
+
+                    .pl-tab-head-bottom {
+                        height: 1px;
+                    }
+                }
+
+                &.pl-tab-group-type-card-border {
+                    box-shadow: $boxshadow;
+
+                    .pl-tab-head-item {
+                        border-top: none;
+
+                        &:first-child {
+                            border-left: none;
+                        }
+
+                        &.pl-tab-head-item-current {
+                            border-bottom-color: white;
+                        }
+
+                    }
+
+                    .pl-tab-body {
+                        padding-left: 12px;
+                        padding-right: 12px;
+                    }
                 }
             }
         }
