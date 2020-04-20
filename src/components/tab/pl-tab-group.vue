@@ -322,6 +322,69 @@
                             top: 0;
                         }
                     }
+
+                    &.pl-tab-group-type-card, &.pl-tab-group-type-card-border {
+                        border-radius: 2px;
+
+                        .pl-tab-head-item {
+                            padding-left: 20px;
+                            padding-right: 20px;
+
+                            border-bottom: solid 1px $ibl;
+                            border-right: solid 1px $ibl;
+                            border-top: solid 1px $ibl;
+
+                            transition: background-color 300ms $transition;
+                            background-color: #f6f6f6;
+
+                            &:not(:first-child ) {
+                                margin-left: 0;
+                            }
+
+                            &:first-child {
+                                border-left: solid 1px $ibl;
+                                border-bottom-left-radius: 2px;
+                            }
+
+                            &:last-child {
+                                border-bottom-right-radius: 2px;
+                            }
+
+                            &.pl-tab-head-item-current {
+                                background-color: white;
+                            }
+                        }
+
+                        .pl-tab-head-bottom {
+                            height: 1px;
+                        }
+                    }
+
+                    &.pl-tab-group-type-card-border {
+                        box-shadow: $boxshadow;
+
+                        .pl-tab-head {
+                            background-color: #f6f6f6;
+                        }
+
+                        .pl-tab-head-item {
+                            border-bottom: none;
+
+                            &:first-child {
+                                border-left: none;
+                            }
+
+                            &.pl-tab-head-item-current {
+                                border-top-color: white;
+                            }
+
+                        }
+
+                        .pl-tab-body {
+                            padding-left: 12px;
+                            padding-right: 12px;
+                        }
+                    }
                 }
             }
         }
