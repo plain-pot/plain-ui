@@ -11,7 +11,7 @@
                         @click="onClickTitle(item)">
                         {{item.title}}
                     </li>
-                    <li class="pl-tab-head-indicator" :style="headIndicatorStyles" v-if="!type"/>
+                    <li class="pl-tab-head-indicator" :style="headIndicatorStyles" v-if="type === 'default'"/>
                 </ul>
             </pl-scroll>
         </div>
@@ -28,7 +28,7 @@
         name: "pl-tab-group",
         props: {
             value: {},
-            type: {type: String},                                           // 页签样式：card,border-card
+            type: {type: String, default: 'default'},                      // 页签样式：card,border-card
             position: {type: String, default: 'top'},                      // 选项卡位置：top、bottom、left、right
         },
         mixins: [
@@ -130,7 +130,7 @@
 <style lang="scss">
     @include themify {
         .pl-tab-group {
-            &.pl-tab-group-position-top {
+            &.pl-tab-group-position-top, &.pl-tab-group-position-bottom {
                 .pl-tab-head-wrapper {
                     overflow: auto;
                     width: 100%;
