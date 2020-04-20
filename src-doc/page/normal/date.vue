@@ -313,6 +313,15 @@
                 <demo-line title="周"><pl-date panel="week" range/></demo-line>
             </demo-row>
 
+            <demo-row title="六中视图：最大最小值">
+                <demo-line title="年"><pl-date panel="year" max="2022" min="2020"/></demo-line>
+                <demo-line title="年月"><pl-date panel="month" max="2022-05" min="2020-01"/></demo-line>
+                <demo-line title="年月日"><pl-date panel="date" max="2022-05-05" min="2020-01-03"/></demo-line>
+                <demo-line title="日期时间"><pl-date panel="datetime" max="2022-05-05 12:30:20" min="2020-01-03 08:15:00"/></demo-line>
+                <demo-line title="周"><pl-date panel="week" max="2022-05-05" min="2020-01-03"/></demo-line>
+                <demo-line title="多个日期"><pl-date panel="dates" max="2022-05-05" min="2020-01-03"/></demo-line>
+            </demo-row>
+
         </demo-row>
 
         <!--<demo-row title="基本用法">
