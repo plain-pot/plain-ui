@@ -11,8 +11,6 @@
                 <pl-tab title="数据集" val="role management">
                     数据集
                 </pl-tab>
-
-
             </pl-tab-group>
         </demo-row>
 
