@@ -1,7 +1,18 @@
-
 <template>
     <div class="demo-tab">
-        demo-tab
+        <demo-row title="基本用法">
+            <pl-tab-group v-model="val[0]">
+                <pl-tab title="用户管理" val="user management">
+                    用户管理
+                </pl-tab>
+                <pl-tab title="子模块数据管理" val="submodule management">
+                    子模块数据管理
+                </pl-tab>
+                <pl-tab title="数据集" val="role management">
+                    数据集
+                </pl-tab>
+            </pl-tab-group>
+        </demo-row>
     </div>
 </template>
 
@@ -10,7 +21,9 @@
         name: "demo-tab",
         props: {},
         data() {
-            return {}
+            return {
+                val: {},
+            }
         },
         methods: {},
     }
