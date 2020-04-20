@@ -77,7 +77,7 @@
             </div>
         </demo-row>-->
 
-        <demo-row title="滚动到底部">
+        <demo-row title="滚动：纵向">
             <div class="demo-scroll-wrapper">
                 <pl-scroll ref="scroll">
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
@@ -85,6 +85,23 @@
                         <div>
                             <p>
                                 <pl-button label="scroll" @click="$refs.scroll.scroll({y:100},1000)"/>
+                            </p>
+                            <p>
+                                <pl-button label="scrollEnd" @click="$refs.scroll.scrollEnd()"/>
+                            </p>
+                        </div>
+                    </div>
+                </pl-scroll>
+            </div>
+        </demo-row>
+        <demo-row title="滚动：横向">
+            <div class="demo-scroll-wrapper">
+                <pl-scroll ref="scroll" scrollX>
+                    <div style="height: 400px;width: 400px;" class="demo-scroll-content">
+                        this is content
+                        <div>
+                            <p>
+                                <pl-button label="scroll" @click="$refs.scroll.scroll({x:100},1000)"/>
                             </p>
                             <p>
                                 <pl-button label="scrollEnd" @click="$refs.scroll.scrollEnd()"/>

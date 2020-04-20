@@ -338,20 +338,31 @@
                     }
 
                     let ny = this.wrapper!.scrollTop
+                    let nx = this.wrapper!.scrollLeft
+
                     let ky = (point.y - ny) / time
+                    let kx = (point.x - nx) / time
 
                     let startTime = Date.now()
                     const run = () => {
                         let nowTime = Date.now()
                         let delta = nowTime - startTime
                         let top;
+                        let left;
+
                         if (delta >= time) {
                             this.cancelAnimate = null
                             top = time * ky + ny
+                            left = time * kx + nx
+
                             this.wrapper!.scrollTop = top
+                            this.wrapper!.scrollLeft = left
                         } else {
                             top = delta * ky + ny
+                            left = delta * kx + nx
+
                             this.wrapper!.scrollTop = top
+                            this.wrapper!.scrollLeft = left
                             this.cancelAnimate = requestAnimationFrame(run)
                         }
                     }
