@@ -26,6 +26,10 @@
                 <pl-form-item label="下拉选项" field="field6" required :rules="{message:'只能选择二级', options:'2'}">
                     <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field6"/>
                 </pl-form-item>
+                <pl-form-item label="下拉选项:多选" field="field62" :rules="{required:true,min:1,message:'最少选择一项'}">
+                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field62" multiple/>
+                </pl-form-item>
+
                 <pl-form-item label="级联选择" field="field61" :rules="{required:true,message:'不能为空'}">
                     <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" v-model="form1.formData.field61"/>
                 </pl-form-item>
@@ -145,6 +149,13 @@
                     {levelName: '一级', code: '1'},
                     {levelName: '二级', code: '2'},
                     {levelName: '三级', code: '3'},
+                    {levelName: '四级', code: '4'},
+                    {levelName: '五级', code: '5'},
+                    {levelName: '六级', code: '6'},
+                    {levelName: '七级', code: '7'},
+                    {levelName: '八级', code: '8'},
+                    {levelName: '九级', code: '9'},
+                    {levelName: '十级', code: '10'},
                 ],
                 disabled: false,
             }
