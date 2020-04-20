@@ -451,4 +451,17 @@
       }
     }
   }
+
+  .pl-form-item-content {
+    .pl-input-custom {
+      .pl-input-custom-inner {
+        display: flex;
+        align-items: center;
+
+        .pl-input-custom-inner-input {
+          flex: 1;
+        }
+      }
+    }
+  }
 }
