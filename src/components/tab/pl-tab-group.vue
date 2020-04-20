@@ -156,11 +156,6 @@
 <style lang="scss">
     @include themify {
         .pl-tab-group {
-            position: relative;
-
-            .pl-tab-head-wrapper {
-                position: absolute;
-            }
 
             .pl-tab-head, .pl-tab-body {
                 margin: 0;
@@ -173,11 +168,13 @@
             }
 
             &.pl-tab-group-position-top, &.pl-tab-group-position-bottom {
+                position: relative;
 
                 .pl-tab-head-wrapper {
                     width: 100%;
                     left: 0;
                     right: 0;
+                    position: absolute;
 
                     & > .pl-scroll {
                         & > .pl-horizontal-scrollbar-wrapper {
@@ -384,6 +381,20 @@
                             padding-left: 12px;
                             padding-right: 12px;
                         }
+                    }
+                }
+            }
+
+            &.pl-tab-group-position-left, &.pl-tab-group-position-right {
+                &.pl-tab-group-position-left {
+                    .pl-tab-head-wrapper {
+                        float: left;
+                    }
+                }
+
+                &.pl-tab-group-position-right {
+                    .pl-tab-head-wrapper {
+                        float: right;
                     }
                 }
             }
