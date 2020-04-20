@@ -28,7 +28,7 @@ export default {
                 this.hoverRange = null
 
                 const startPd = new PlainDate(val, displayFormat, valueFormat)
-                this.p_selectDate = startPd.copy()
+                this.p_selectDate = startPd.isNull ? this.today : startPd.copy()
             }
         },
         end(val) {
@@ -44,8 +44,8 @@ export default {
     render(h) {
         return (
             <div class="pl-date-base-panel pl-date-panel-date-range">
-                <pl-date-base-panel-date {...this.binding.start} {...{on: {'mousedown-panel': e=>this.emitMousedownPanel(e,'start')}}}/>
-                <pl-date-base-panel-date {...this.binding.end} {...{on: {'mousedown-panel': e=>this.emitMousedownPanel(e,'end')}}}/>
+                <pl-date-base-panel-date {...this.binding.start} {...{on: {'mousedown-panel': e => this.emitMousedownPanel(e, 'start')}}}/>
+                <pl-date-base-panel-date {...this.binding.end} {...{on: {'mousedown-panel': e => this.emitMousedownPanel(e, 'end')}}}/>
             </div>
         )
     },
