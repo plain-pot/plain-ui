@@ -29,7 +29,7 @@
         props: {
             value: {},
             type: {type: String},                                           // 页签样式：card,border-card
-            direction: {type: String, default: 'top'},                      // 选项卡位置：top、bottom、left、right
+            position: {type: String, default: 'top'},                      // 选项卡位置：top、bottom、left、right
         },
         mixins: [
             EmitMixin,
@@ -65,7 +65,7 @@
         computed: {
             classes() {
                 return [
-                    `pl-tab-group-direction-${this.direction}`,
+                    `pl-tab-group-position-${this.position}`,
                     {
                         [`pl-tab-group-type-${this.type}`]: !!this.type
                     }
@@ -130,7 +130,7 @@
 <style lang="scss">
     @include themify {
         .pl-tab-group {
-            &.pl-tab-group-direction-top {
+            &.pl-tab-group-position-top {
                 .pl-tab-head-wrapper {
                     overflow: auto;
                     width: 100%;
