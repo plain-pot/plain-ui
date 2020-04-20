@@ -12,11 +12,11 @@
                  :key="index" :class="{'pl-carousel-dot-item-active':index === p_value}">
             </div>
         </div>
-        <div class="pl-carousel-prev-button" @click="p_clickButton(false)" v-if="!disabledButton">
-            <pl-icon icon="el-icon-arrow-left"/>
+        <div class="pl-carousel-prev-button" v-if="!disabledButton">
+            <span @click="p_clickButton(false)"><pl-icon icon="el-icon-arrow-left"/></span>
         </div>
-        <div class="pl-carousel-next-button" @click="p_clickButton(true)" v-if="!disabledButton">
-            <pl-icon icon="el-icon-arrow-right"/>
+        <div class="pl-carousel-next-button" v-if="!disabledButton">
+            <span @click="p_clickButton(true)"><pl-icon icon="el-icon-arrow-right"/></span>
         </div>
         <slot name="hover"></slot>
     </div>
@@ -39,7 +39,7 @@
             disabledButton: {type: Boolean},                            //禁用左右翻页按钮
             disabledDot: {type: Boolean},                               //禁用指示器
         },
-        emitters:{
+        emitters: {
             emitInput: Function,
         },
         watch: {
