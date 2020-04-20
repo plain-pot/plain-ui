@@ -130,7 +130,6 @@
                 list-style: none;
 
                 &.pl-tab-head {
-                    position: relative;
                     white-space: nowrap;
                     display: inline-block;
 
@@ -139,6 +138,7 @@
                         font-size: 14px;
                         color: $itc;
                         cursor: pointer;
+                        user-select: none;
 
                         &:hover {
                             color: $colorPrimary;
@@ -155,7 +155,7 @@
 
                     .pl-tab-head-indicator {
                         position: absolute;
-                        bottom: 0;
+                        bottom: 20px;
                         left: 0;
                         height: 1px;
                         background-color: $colorPrimary;
@@ -164,7 +164,7 @@
 
                     .pl-tab-head-bottom {
                         position: absolute;
-                        bottom: 0;
+                        bottom: 20px;
                         left: 0;
                         right: 0;
                         height: 1px;
