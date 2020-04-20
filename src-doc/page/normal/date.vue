@@ -295,6 +295,9 @@
             </demo-row>
 
             <demo-row title="六中视图">
+                <demo-line title="input">
+                    <pl-input/>
+                </demo-line>
                 <demo-line title="年"><pl-date panel="year"/></demo-line>
                 <demo-line title="年月"><pl-date panel="month"/></demo-line>
                 <demo-line title="年月日"><pl-date panel="date"/></demo-line>

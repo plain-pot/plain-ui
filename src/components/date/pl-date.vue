@@ -1,18 +1,17 @@
 <template>
     <pl-input
-            class="pl-date pl-input-custom"
-            :value="inputValue"
-            suffixIcon="el-icon-date"
-            clearIcon
-            :isFocus="focusCounter>0"
-            :width="null"
-            :inputInnerTabindex="null"
-            :clearHandler="clearHandler"
-            @click-input="onClickInput"
-    >
+            ref="plInput"
+            :class="inputBinding.class"
+            v-bind="inputBinding.props"
+            v-on="inputBinding.on">
         <div class="pl-input-custom-inner" :range="range">
             <template v-if="panel === 'dates'">
-
+                <pl-input-inner-tags :data="formatData.datesString||[]" :collapseTags="collapseTags">
+                    <template slot-scope="{item,index}">
+                        <span>{{item}}</span>
+                        <pl-icon icon="el-icon-close" @click.native.stop.prevent="onClickItemCloseIcon(item,index)"/>
+                    </template>
+                </pl-input-inner-tags>
             </template>
             <template v-else-if="!range">
                 <pl-datetime-input-inner :value="formatData.value.displayString"
@@ -60,6 +59,7 @@
         props: {
             ...Panel.props,
             panel: {type: String, default: 'date'},
+            collapseTags: {type: Boolean, default: true},
         },
         emitters: {
             emitInput: Function,
@@ -103,7 +103,10 @@
                     'mousedown-panel': async (e, type) => {
                         this.focusCounter++
                         await this.$plain.utils.delay(0)
-                        if (!this.range) {
+
+                        if (this.panel === 'dates') {
+                            this.plInput.focus()
+                        } else if (!this.range) {
                             this.valueInput.focus()
                         } else {
                             if (type === 'start') {
@@ -135,12 +138,50 @@
             },
             formatData() {
                 const {displayFormat, valueFormat} = this.formatString
+
+                if (this.panel === 'dates') {
+                    let value = this.p_value || []
+                    value = value.map(item => new PlainDate(item, displayFormat, valueFormat))
+                    const datesString = value.map(item => item.displayString)
+                    return {
+                        value,
+                        datesString,
+                    }
+                }
+
                 const value = new PlainDate(this.p_value, displayFormat, valueFormat)
                 const start = new PlainDate(this.p_start, displayFormat, valueFormat)
                 const end = new PlainDate(this.p_end, displayFormat, valueFormat)
 
                 return {
                     value, start, end
+                }
+            },
+            inputBinding() {
+                const {panel} = this
+                const isDates = panel === 'dates'
+                return {
+                    class: [
+                        'pl-date',
+                        {
+                            'pl-input-custom': !isDates,
+                            'pl-input-tags': isDates,
+                        },
+                    ],
+                    props: {
+                        value: this.inputValue,
+                        suffixIcon: 'el-icon-date',
+                        clearIcon: true,
+                        isFocus: this.focusCounter > 0,
+                        width: isDates ? undefined : null,
+                        inputInnerTabindex: isDates ? 0 : null,
+                        clearHandler: this.clearHandler,
+                    },
+                    on: {
+                        'click-input': this.onClickInput,
+                        focus: this.onCustomInnerInputFocus,
+                        blur: this.onCustomInnerInputBlur,
+                    },
                 }
             },
         },
@@ -152,6 +193,12 @@
             /*---------------------------------------handler-------------------------------------------*/
             onInputChange(val, type) {
                 const {value, start, end} = this.formatData as { value: PlainDate, start: PlainDate, end: PlainDate }
+
+                if (this.panel === 'dates') {
+                    this.p_value = val
+                    this.emitInput(this.p_value)
+                }
+
                 switch (type) {
                     case 'value':
 
@@ -210,6 +257,9 @@
                         break
                 }
             },
+            onClickItemCloseIcon(item, index) {
+                console.log(item, index)
+            },
         },
     }
 </script>
@@ -248,10 +298,6 @@
                 .pl-date-input-inner {
                     text-align: center;
                 }
-            }
-
-            .pl-input-inner {
-                width: auto !important;
             }
         }
     }

@@ -12,6 +12,7 @@ export default {
             valueInput: Object,
             startInput: Object,
             endInput: Object,
+            plInput: Object,
         }),
     ],
     watch: {
