@@ -127,7 +127,7 @@
             async refreshIndex() {
                 await this.$plain.nextTick()
                 // @ts-ignore
-                this.index = Array.from(this.$el.parentNode.childNodes).filter(item => item.nodeName !== '#comment' && item.style.display !== 'none').indexOf(this.$el) + 1
+                this.index = Array.from(this.$el.parentNode.childNodes).filter(item => item.nodeName !== '#comment' && (!item.style || item.style.display !== 'none')).indexOf(this.$el) + 1
             },
         },
     }
