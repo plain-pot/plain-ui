@@ -243,6 +243,10 @@
                 &.pl-tab-group-type-card-border {
                     box-shadow: $boxshadow;
 
+                    .pl-tab-head {
+                        background-color: #f6f6f6;
+                    }
+
                     .pl-tab-head-item {
                         border-top: none;
 

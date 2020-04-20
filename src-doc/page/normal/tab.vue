@@ -51,7 +51,27 @@
         </demo-row>
 
         <demo-row title="选项卡位置">
-
+            <demo-line title="位置">
+                <pl-button-group>
+                    <pl-button v-for="item in positions" :key="item" :label="item" :active="position === item" @click="position = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="样式">
+                <pl-button-group>
+                    <pl-button v-for="item in types" :key="item" :label="item" :active="type === item" @click="type = item"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tab-group type="card-border" style="height:300px" :type="type">
+                <pl-tab title="用户管理" val="user management">
+                    用户管理
+                </pl-tab>
+                <pl-tab title="子模块数据管理" val="submodule management">
+                    子模块数据管理
+                </pl-tab>
+                <pl-tab title="数据集" val="role management">
+                    数据集
+                </pl-tab>
+            </pl-tab-group>
         </demo-row>
 
     </div>
@@ -63,6 +83,12 @@
         props: {},
         data() {
             return {
+                positions: ['top', 'bottom', 'left', 'right'],
+                types: ['default', 'card', 'card-border'],
+
+                position: 'top',
+                type: 'default',
+
                 val: {},
             }
         },
