@@ -1,8 +1,9 @@
 <template>
     <div class="pl-tab-group">
         <div class="pl-tab-head-wrapper">
-            <pl-scroll :scrollY="false" :scrollX="true" :scrollbarSize="6">
-                <ul class="pl-tab-head" ref="head">
+            <div class="pl-tab-head-bottom"/>
+            <pl-scroll :scrollY="false" :scrollX="true" :scrollbarSize="6" ref="headScroll">
+                <ul class="pl-tab-head" ref="head" @mousewheel="onMousewheelHeadList">
                     <li v-for="(item) in sortItems"
                         :key="item.tabId"
                         class="pl-tab-head-item"
@@ -10,7 +11,6 @@
                         @click="onClickTitle(item)">
                         {{item.title}}
                     </li>
-                    <li class="pl-tab-head-bottom"/>
                     <li class="pl-tab-head-indicator" :style="headIndicatorStyles"></li>
                 </ul>
             </pl-scroll>
@@ -33,6 +33,7 @@
             EmitMixin,
             RefsMixinFactory({
                 head: Object,
+                headScroll: Object,
             })
         ],
         emitters: {
@@ -105,6 +106,13 @@
                 this.p_value = item.tabId
                 this.emitInput(this.p_value)
             },
+            onMousewheelHeadList(e) {
+                e.stopPropagation()
+                e.preventDefault()
+                let oldLeft = this.headScroll.p_wrapperScrollLeft
+                let delta = e.deltaX || e.deltaY
+                this.headScroll.scroll({x: oldLeft + delta})
+            },
         },
     }
 </script>
@@ -116,11 +124,21 @@
             .pl-tab-head-wrapper {
                 overflow: auto;
                 width: 100%;
+                position: relative;
 
                 & > .pl-scroll {
                     & > .pl-horizontal-scrollbar-wrapper {
                         bottom: 12px;
                     }
+                }
+
+                .pl-tab-head-bottom {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background-color: $ibl;
                 }
             }
 
@@ -132,9 +150,11 @@
                 &.pl-tab-head {
                     white-space: nowrap;
                     display: inline-block;
+                    position: relative;
+                    min-width: 100%;
 
                     .pl-tab-head-item {
-                        padding: 8px 0;
+                        padding: 12px 0;
                         font-size: 14px;
                         color: $itc;
                         cursor: pointer;
@@ -155,20 +175,11 @@
 
                     .pl-tab-head-indicator {
                         position: absolute;
-                        bottom: 20px;
+                        bottom: 0;
                         left: 0;
-                        height: 1px;
+                        height: 2px;
                         background-color: $colorPrimary;
                         transition: all 500ms $transition;
-                    }
-
-                    .pl-tab-head-bottom {
-                        position: absolute;
-                        bottom: 20px;
-                        left: 0;
-                        right: 0;
-                        height: 1px;
-                        background-color: $ibl;
                     }
                 }
 
