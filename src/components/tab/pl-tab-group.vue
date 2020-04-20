@@ -1,26 +1,3 @@
-<template>
-    <div class="pl-tab-group" :class="classes">
-        <div class="pl-tab-head-wrapper">
-            <div class="pl-tab-head-bottom"/>
-            <pl-scroll :scrollY="false" :scrollX="true" :scrollbarSize="6" ref="headScroll">
-                <ul class="pl-tab-head" ref="head" @mousewheel="onMousewheelHeadList">
-                    <li v-for="(item) in sortItems"
-                        :key="item.tabId"
-                        class="pl-tab-head-item"
-                        :class="{'pl-tab-head-item-current':item.tabId === p_value}"
-                        @click="onClickTitle(item)">
-                        {{item.title}}
-                    </li>
-                    <li class="pl-tab-head-indicator" :style="headIndicatorStyles" v-if="type === 'default'"/>
-                </ul>
-            </pl-scroll>
-        </div>
-        <ul class="pl-tab-body">
-            <slot></slot>
-        </ul>
-    </div>
-</template>
-
 <script>
     import {EmitMixin, RefsMixinFactory} from "../../utils/mixins";
 
@@ -62,14 +39,63 @@
                 p_value,
             }
         },
+        render() {
+
+            const head = (
+                <div class="pl-tab-head-wrapper">
+                    <div class="pl-tab-head-bottom"/>
+                    <pl-scroll scrollY={false} scrollX={true} scrollbarSize={6} ref="headScroll">
+                        <ul class="pl-tab-head" ref="head" onMousewheel={this.onMousewheelHeadList}>
+                            {this.sortItems.map(item => (
+                                <li
+                                    key={item.tabId}
+                                    class={['pl-tab-head-item', {'pl-tab-head-item-current': item.tabId === this.p_value}]}
+                                    onClick={() => this.onClickTitle(item)}
+                                >
+                                    {item.title}
+                                </li>
+                            ))}
+                            {this.type === 'default' && <li class="pl-tab-head-indicator" style={this.headIndicatorStyles}/>}
+                        </ul>
+                    </pl-scroll>
+                </div>
+            )
+
+            const body = (
+                <ul class="pl-tab-body" style={this.borderStyles}>
+                    {this.$slots.default}
+                </ul>
+            )
+
+            const content = [head, body]
+
+            return (
+                <div class={this.classes}>
+                    {content}
+                </div>
+            )
+        },
         computed: {
             classes() {
                 return [
+                    'pl-tab-group',
                     `pl-tab-group-position-${this.position}`,
                     {
                         [`pl-tab-group-type-${this.type}`]: !!this.type
                     }
                 ]
+            },
+            borderStyles() {
+                const {position} = this
+                const styles = {}
+
+                if (position === 'top') {
+                    styles.paddingTop = '62px'
+                } else if (position === 'bottom') {
+                    styles.paddingBottom = '62px'
+                }
+
+                return styles
             },
             sortItems() {
                 return this.items.sort((a, b) => a.index - b.index)
@@ -130,36 +156,48 @@
 <style lang="scss">
     @include themify {
         .pl-tab-group {
+            position: relative;
+
+            .pl-tab-head-wrapper {
+                position: absolute;
+            }
+
+            .pl-tab-head, .pl-tab-body {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+
+                & > li {
+                    display: inline-block;
+                }
+            }
+
             &.pl-tab-group-position-top, &.pl-tab-group-position-bottom {
+
                 .pl-tab-head-wrapper {
-                    overflow: auto;
                     width: 100%;
-                    position: relative;
+                    left: 0;
+                    right: 0;
 
                     & > .pl-scroll {
                         & > .pl-horizontal-scrollbar-wrapper {
                             bottom: 12px;
                         }
                     }
-
-                    .pl-tab-head-bottom {
-                        position: absolute;
-                        bottom: 20px;
-                        left: 0;
-                        right: 0;
-                        height: 2px;
-                        background-color: $ibl;
-                    }
                 }
 
-                .pl-tab-head, .pl-tab-body {
-                    margin: 0;
-                    padding: 0;
-                    list-style: none;
+                .pl-tab-body {
+                    padding: 20px 0;
+                    width: 100%;
+                    height: 100%;
+                }
 
-                    & > li {
-                        display: inline-block;
-                    }
+                .pl-tab-head-bottom {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background-color: $ibl;
                 }
 
                 .pl-tab-head {
@@ -198,71 +236,91 @@
                     }
                 }
 
-                .pl-tab-body {
-                    padding-bottom: 20px;
+
+                &.pl-tab-group-position-top {
+                    .pl-tab-head-wrapper {
+                        top: 0;
+
+                        .pl-tab-head-bottom {
+                            bottom: 20px;
+                        }
+                    }
+
+                    &.pl-tab-group-type-card, &.pl-tab-group-type-card-border {
+                        border-radius: 2px;
+
+                        .pl-tab-head-item {
+                            padding-left: 20px;
+                            padding-right: 20px;
+
+                            border-top: solid 1px $ibl;
+                            border-right: solid 1px $ibl;
+                            border-bottom: solid 1px $ibl;
+
+                            transition: background-color 300ms $transition;
+                            background-color: #f6f6f6;
+
+                            &:not(:first-child ) {
+                                margin-left: 0;
+                            }
+
+                            &:first-child {
+                                border-left: solid 1px $ibl;
+                                border-top-left-radius: 2px;
+                            }
+
+                            &:last-child {
+                                border-top-right-radius: 2px;
+                            }
+
+                            &.pl-tab-head-item-current {
+                                background-color: white;
+                            }
+                        }
+
+                        .pl-tab-head-bottom {
+                            height: 1px;
+                        }
+                    }
+
+                    &.pl-tab-group-type-card-border {
+                        box-shadow: $boxshadow;
+
+                        .pl-tab-head {
+                            background-color: #f6f6f6;
+                        }
+
+                        .pl-tab-head-item {
+                            border-top: none;
+
+                            &:first-child {
+                                border-left: none;
+                            }
+
+                            &.pl-tab-head-item-current {
+                                border-bottom-color: white;
+                            }
+
+                        }
+
+                        .pl-tab-body {
+                            padding-left: 12px;
+                            padding-right: 12px;
+                        }
+                    }
                 }
 
+                &.pl-tab-group-position-bottom {
+                    .pl-tab-head-wrapper {
+                        bottom: -20px;
 
-                &.pl-tab-group-type-card, &.pl-tab-group-type-card-border {
-                    border-radius: 2px;
-
-                    .pl-tab-head-item {
-                        padding-left: 20px;
-                        padding-right: 20px;
-
-                        border-top: solid 1px $ibl;
-                        border-right: solid 1px $ibl;
-                        border-bottom: solid 1px $ibl;
-
-                        transition: background-color 300ms $transition;
-                        background-color: #f6f6f6;
-
-                        &:not(:first-child ) {
-                            margin-left: 0;
+                        .pl-tab-head-bottom {
+                            top: 0;
                         }
 
-                        &:first-child {
-                            border-left: solid 1px $ibl;
-                            border-top-left-radius: 2px;
+                        .pl-tab-head-indicator {
+                            top: 0;
                         }
-
-                        &:last-child {
-                            border-top-right-radius: 2px;
-                        }
-
-                        &.pl-tab-head-item-current {
-                            background-color: white;
-                        }
-                    }
-
-                    .pl-tab-head-bottom {
-                        height: 1px;
-                    }
-                }
-
-                &.pl-tab-group-type-card-border {
-                    box-shadow: $boxshadow;
-
-                    .pl-tab-head {
-                        background-color: #f6f6f6;
-                    }
-
-                    .pl-tab-head-item {
-                        border-top: none;
-
-                        &:first-child {
-                            border-left: none;
-                        }
-
-                        &.pl-tab-head-item-current {
-                            border-bottom-color: white;
-                        }
-
-                    }
-
-                    .pl-tab-body {
-                        padding-left: 12px;
-                        padding-right: 12px;
                     }
                 }
             }
