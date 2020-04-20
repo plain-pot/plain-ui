@@ -11,6 +11,16 @@
                 <pl-tab title="数据集" val="role management">
                     数据集
                 </pl-tab>
+
+
+            </pl-tab-group>
+        </demo-row>
+
+        <demo-row title="超长列表">
+            <pl-tab-group>
+                <pl-tab v-for="item in 40" :key="item" :title="`页签 ${item}`">
+                    {{`tab ${item}`}}
+                </pl-tab>
             </pl-tab-group>
         </demo-row>
     </div>

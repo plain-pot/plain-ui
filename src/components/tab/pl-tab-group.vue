@@ -1,16 +1,19 @@
 <template>
     <div class="pl-tab-group">
         <div class="pl-tab-head-wrapper">
-            <ul class="pl-tab-head" ref="head">
-                <li v-for="(item) in sortItems"
-                    :key="item.tabId"
-                    class="pl-tab-head-item"
-                    :class="{'pl-tab-head-item-current':item.tabId === p_value}"
-                    @click="onClickTitle(item)">
-                    {{item.title}}
-                </li>
-                <li class="pl-tab-head-indicator" :style="headIndicatorStyles"></li>
-            </ul>
+            <pl-scroll :scrollY="false" :scrollX="true" :scrollbarSize="6">
+                <ul class="pl-tab-head" ref="head">
+                    <li v-for="(item) in sortItems"
+                        :key="item.tabId"
+                        class="pl-tab-head-item"
+                        :class="{'pl-tab-head-item-current':item.tabId === p_value}"
+                        @click="onClickTitle(item)">
+                        {{item.title}}
+                    </li>
+                    <li class="pl-tab-head-bottom"/>
+                    <li class="pl-tab-head-indicator" :style="headIndicatorStyles"></li>
+                </ul>
+            </pl-scroll>
         </div>
         <ul class="pl-tab-body">
             <slot></slot>
@@ -110,14 +113,26 @@
     @include themify {
         .pl-tab-group {
 
+            .pl-tab-head-wrapper {
+                overflow: auto;
+                width: 100%;
+
+                & > .pl-scroll {
+                    & > .pl-horizontal-scrollbar-wrapper {
+                        bottom: 12px;
+                    }
+                }
+            }
+
             .pl-tab-head, .pl-tab-body {
                 margin: 0;
                 padding: 0;
                 list-style: none;
 
                 &.pl-tab-head {
-                    border-bottom: solid 1px $ibl;
                     position: relative;
+                    white-space: nowrap;
+                    display: inline-block;
 
                     .pl-tab-head-item {
                         padding: 8px 0;
@@ -140,11 +155,20 @@
 
                     .pl-tab-head-indicator {
                         position: absolute;
-                        bottom: -1px;
+                        bottom: 0;
                         left: 0;
                         height: 1px;
                         background-color: $colorPrimary;
                         transition: all 500ms $transition;
+                    }
+
+                    .pl-tab-head-bottom {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 1px;
+                        background-color: $ibl;
                     }
                 }
 
@@ -153,7 +177,6 @@
                 }
 
                 .pl-tab {
-                    padding: 16px 0;
                 }
             }
         }
