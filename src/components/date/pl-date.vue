@@ -258,7 +258,12 @@
                 }
             },
             onClickItemCloseIcon(item, index) {
-                console.log(item, index)
+                if (!this.isEditable) {
+                    return
+                }
+                this.p_value.splice(index, 1)
+                this.p_value = [...this.p_value]
+                this.emitInput(this.p_value)
             },
         },
     }
