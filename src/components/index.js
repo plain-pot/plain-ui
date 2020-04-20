@@ -36,13 +36,14 @@ import colorPicker from './color-picker'
 import cascade from './cascade'
 import time from './time'
 import date from './date'
+import tab from './tab'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form, toggle, number, slider, tag, rate, colorPicker, cascade, time, date,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
-    list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree, virtualTree, step,
+    list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree, virtualTree, step, tab,
 
     virtualList,
 ]

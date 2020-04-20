@@ -52,13 +52,12 @@ export default [
             {name: 'Badge', title: '标记', icon: 'pl-badge', page: '/normal/badge', complete: true},
             {name: 'ScrollOption', title: '滚动选择', icon: 'icon-scroll', page: '/normal/scroll-option', complete: false},
             {name: 'Step', title: '步骤条', icon: 'pl-step', page: '/normal/step', complete: true},
+            {name: 'Tab', title: '页签', icon: 'pl-tabs', page: '/normal/tab', complete: true},
             // {name: 'Transform', title: '穿梭框', icon: 'pl-exchange', page: '/normal/transform', complete: false},
         ]
     },
     {
         name: '导航', children: [
-            {name: 'Tabs', title: '页签', icon: 'pl-tabs', page: '/normal/tabs', complete: false},
-            {name: 'TabsHeader', title: '页签标题', icon: 'pl-tabs', page: '/normal/tab-header', complete: false},
             {name: 'NavTab', title: '页签导航', icon: 'pl-tabs', page: '/nav/nav-tab', complete: false},
             {name: 'NavPages', title: '页面导航', icon: 'pl-page', page: '/nav/nav-page', complete: false},
             {name: 'Nav', title: '应用导航', icon: 'pl-tabs', page: '/nav/nav', complete: false},
