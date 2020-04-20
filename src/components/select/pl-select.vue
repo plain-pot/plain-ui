@@ -22,16 +22,12 @@
             @blur="onBlur"
             @focus="onFocus"
     >
-        <span v-if="multiple" class="pl-multi-select-input-wrapper">
-            <span class="pl-multi-select-input-item pl-multi-select-input-take-over">&nbsp;</span>
-            <span class="pl-multi-select-input-item" v-for="(item,index) in (collapseTags ? multipleData.slice(0, 3) : multipleData)" :key="index">
+        <pl-input-inner-tags :data="multipleData" v-if="multiple" :collapseTags="collapseTags">
+            <template slot-scope="{item,index}">
                 <span>{{item.label}}</span>
                 <pl-icon icon="el-icon-close" @click.native.stop.prevent="onClickItemCloseIcon(item,index)"/>
-            </span>
-            <span class="pl-multi-select-input-item" v-if="collapseTags && multipleData.length>3">
-                +{{multipleData.length-3}}
-            </span>
-        </span>
+            </template>
+        </pl-input-inner-tags>
     </pl-input>
 </template>
 
