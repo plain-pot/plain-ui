@@ -21,7 +21,7 @@
             </pl-tab-group>
         </demo-row>
         <demo-row title="卡片选项卡">
-            <pl-tab-group type="card">
+            <pl-tab-group card="title">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>
@@ -34,7 +34,7 @@
             </pl-tab-group>
         </demo-row>
         <demo-row title="卡片化页签">
-            <pl-tab-group type="card-border">
+            <pl-tab-group card="border">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>

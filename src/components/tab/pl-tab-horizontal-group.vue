@@ -71,7 +71,7 @@
             }
 
             .pl-tab-horizontal-head-wrapper {
-                height: 42px;
+                height: 44px;
                 overflow: hidden;
                 box-sizing: border-box;
             }
@@ -98,11 +98,18 @@
                 padding: 20px 0;
             }
 
+            &.pl-tab-group-position-top, &.pl-tab-group-position-bottom {
+                .pl-tab-horizontal-head-wrapper {
+                    .pl-scroll-content {
+                        min-width: 100%;
+                    }
+                }
+            }
+
             &.pl-tab-group-card-default {
                 .pl-tab-horizontal-head-wrapper {
                     .pl-scroll-content {
                         position: relative;
-                        min-width: 100%;
 
                         &:before {
                             position: absolute;
@@ -150,7 +157,7 @@
                 &.pl-tab-group-position-top {
                     .pl-scroll-content {
                         &:before {
-                            bottom: 2px;
+                            bottom: 4px;
                         }
                     }
 
@@ -177,7 +184,13 @@
             }
 
             &.pl-tab-group-card-title {
-
+                .pl-tab-horizontal-head-wrapper {
+                    .pl-tab-horizontal-head {
+                        .pl-tab-horizontal-head-item {
+                            padding: 0 12px;
+                        }
+                    }
+                }
             }
 
             &.pl-tab-group-card-border {
