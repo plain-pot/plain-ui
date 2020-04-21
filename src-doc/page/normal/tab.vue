@@ -58,7 +58,10 @@
                     <pl-button v-for="item in cards" :key="item" :label="item" :active="card === item" @click="card = item"/>
                 </pl-button-group>
             </demo-line>
-            <pl-tab-group style="height:300px" :position="position" :key="`${position}-${card}`" :card="card">
+            <demo-line>
+                <pl-checkbox label="显示关闭图标" v-model="showClose"/>
+            </demo-line>
+            <pl-tab-group style="height:300px" :position="position" :key="`${position}-${card}`" :card="card" :closeIcon="showClose">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>
@@ -69,7 +72,7 @@
                     数据集
                 </pl-tab>
             </pl-tab-group>
-            <pl-tab-group style="height:300px" :position="position" :key="`${position}-${card}`" :card="card">
+            <pl-tab-group style="height:300px" :position="position" :key="`${position}-${card}`" :card="card" :closeIcon="showClose">
                 <pl-tab v-for="item in 40" :key="item" :title="`页签 ${item}`">
                     {{`tab ${item}`}}
                 </pl-tab>
@@ -83,7 +86,7 @@
                     <pl-button label="minus" @click="counts.shift()"/>
                 </pl-button-group>
             </demo-line>
-            <pl-tab-group closeIcon>
+            <pl-tab-group closeIcon @close="onClose">
                 <pl-tab v-for="item in counts" :key="item" :title="`页签 ${item}`" :val="item">
                     {{`tab ${item}`}}
                 </pl-tab>
@@ -109,9 +112,15 @@
 
                 counts: [1, 2, 3],
                 record: 4,
+
+                showClose: false,
             }
         },
-        methods: {},
+        methods: {
+            onClose({index}) {
+                this.counts.splice(index, 1)
+            },
+        },
     }
 </script>
 

@@ -30,7 +30,8 @@
                                         }
                                     ]}
                                         onClick={() => this.plTabGroup.onClickTabTitle(item)}>
-                                        {item.title}
+                                        <span>{item.title}</span>
+                                        {this.closeIcon && <pl-button class="pl-tab-close" icon="el-icon-close" size="mini" mode="text" onClick={(e) => this.plTabGroup.onClickCloseButton(e, item)}/>}
                                     </li>
                                 ))}
                             </ul>
@@ -59,6 +60,8 @@
                 overflow-y: hidden;
 
                 .pl-tab-vertical-head {
+                    overflow-y: hidden;
+
                     .pl-tab-vertical-head-item {
                         padding: 0 12px;
                         line-height: 32px;

@@ -31,7 +31,7 @@
                                     key={item.tabId}
                                     onClick={() => this.plTabGroup.onClickTabTitle(item)}>
                                     <span>{item.title}</span>
-                                    {this.closeIcon && <pl-button icon="el-icon-close" mode="text" size="mini"/>}
+                                    {this.closeIcon && <pl-button class="pl-tab-close" icon="el-icon-close" size="mini" mode="text" onClick={(e) => this.plTabGroup.onClickCloseButton(e,item)}/>}
                                 </li>
                             ))}
                         </ul>

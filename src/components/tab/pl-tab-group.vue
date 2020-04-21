@@ -18,6 +18,7 @@
         ],
         emitters: {
             emitInput: Function,
+            emitClose: Function,
         },
         props: {
             ...TabProps,
@@ -84,7 +85,24 @@
             onClickTabTitle(item) {
                 this.p_value = item.tabId
             },
+            onClickCloseButton(e, item) {
+                e.stopPropagation()
+                const {title, val, index} = item
+                this.emitClose({title, val, index})
+            },
         },
 
     }
 </script>
+
+<style lang="scss">
+    @include themify {
+        .pl-tab-group {
+            .pl-tab-close {
+                line-height: 14px;
+                color: $icc !important;
+            }
+
+        }
+    }
+</style>
