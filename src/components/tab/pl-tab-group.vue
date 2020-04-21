@@ -1,5 +1,5 @@
 <script>
-    import {EmitMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {EmitMixin, MountedMixin, RefsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-tab-group",
@@ -10,6 +10,7 @@
         },
         mixins: [
             EmitMixin,
+            MountedMixin,
             RefsMixinFactory({
                 head: Object,
                 headScroll: Object,
@@ -41,10 +42,17 @@
         },
         render() {
 
+            const scrollProps = {scrollbarSize: 6,}
+
+            if (['top', 'bottom'].indexOf(this.position) > -1) {
+                scrollProps.scrollX = true
+                scrollProps.scrollY = false
+            }
+
             const head = (
                 <div class="pl-tab-head-wrapper">
                     <div class="pl-tab-head-bottom"/>
-                    <pl-scroll scrollY={false} scrollX={true} scrollbarSize={6} ref="headScroll">
+                    <pl-scroll {...{props: scrollProps}} ref="headScroll">
                         <ul class="pl-tab-head" ref="head" onMousewheel={this.onMousewheelHeadList}>
                             {this.sortItems.map(item => (
                                 <li
@@ -107,22 +115,45 @@
                 }
             },
             headIndicatorStyles() {
-                let offsetLeft, offsetWidth;
-                const currentIndex = this.currentIndex
+                if (!this.isMounted) return
+
                 if (!this.head || !this.head.childNodes) {
                     return null
                 }
-                for (let i = 0; i < this.head.childNodes.length; i++) {
-                    const childNode = this.head.childNodes[i]
-                    if (currentIndex === i) {
-                        offsetLeft = childNode.offsetLeft
-                        offsetWidth = childNode.offsetWidth
+                const currentIndex = this.currentIndex
+
+                if (['top', 'bottom'].indexOf(this.position) > -1) {
+                    let offsetLeft, offsetWidth;
+
+                    for (let i = 0; i < this.head.childNodes.length; i++) {
+                        const childNode = this.head.childNodes[i]
+                        if (currentIndex === i) {
+                            offsetLeft = childNode.offsetLeft
+                            offsetWidth = childNode.offsetWidth
+                        }
+                    }
+
+                    return {
+                        width: `${offsetWidth}px`,
+                        left: `${offsetLeft}px`,
+                    }
+                } else {
+                    let offsetTop, offsetHeight;
+
+                    for (let i = 0; i < this.head.childNodes.length; i++) {
+                        const childNode = this.head.childNodes[i]
+                        if (currentIndex === i) {
+                            offsetTop = childNode.offsetTop
+                            offsetHeight = childNode.offsetHeight
+                        }
+                    }
+                    return {
+                        top: `${offsetTop}px`,
+                        height: `${offsetHeight}px`,
                     }
                 }
-                return {
-                    width: `${offsetWidth}px`,
-                    left: `${offsetLeft}px`,
-                }
+
+
             },
         },
         methods: {
@@ -143,11 +174,13 @@
                 this.emitInput(this.p_value)
             },
             onMousewheelHeadList(e) {
-                e.stopPropagation()
-                e.preventDefault()
-                let oldLeft = this.headScroll.p_wrapperScrollLeft
-                let delta = e.deltaX || e.deltaY
-                this.headScroll.scroll({x: oldLeft + delta})
+                if (['top', 'bottom'].indexOf(this.position) > -1) {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    let oldLeft = this.headScroll.p_wrapperScrollLeft
+                    let delta = e.deltaX || e.deltaY
+                    this.headScroll.scroll({x: oldLeft + delta})
+                }
             },
         },
     }
@@ -386,15 +419,82 @@
             }
 
             &.pl-tab-group-position-left, &.pl-tab-group-position-right {
+                .pl-tab-head-wrapper {
+                    height: 100%;
+                    position: relative;
+
+                    .pl-tab-head {
+                        position: relative;
+
+                        .pl-tab-head-item {
+                            display: block;
+                            text-align: right;
+                            cursor: pointer;
+                            line-height: 2em;
+                            transition: background-color 300ms $transition;
+
+                            &:hover {
+                                color: $colorPrimary;
+                            }
+
+                            &.pl-tab-head-item-current {
+                                color: $colorPrimary;
+                                background-color: rgba($colorPrimary, 0.1);
+                            }
+                        }
+
+                        .pl-tab-head-indicator {
+                            position: absolute;
+                            right: 1px;
+                            top: 0;
+                            width: 2px;
+                            background-color: $colorPrimary;
+                            transition: all 500ms $transition;
+                        }
+                    }
+
+                    .pl-tab-head-bottom {
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        width: 2px;
+                        background-color: $ibl;
+                    }
+                }
+
                 &.pl-tab-group-position-left {
                     .pl-tab-head-wrapper {
                         float: left;
+                        margin-right: 20px;
+
+                        .pl-tab-head-bottom {
+                            right: 1px;
+                        }
+
+                        .pl-tab-head-item {
+                            padding-right: 12px;
+                        }
                     }
                 }
 
                 &.pl-tab-group-position-right {
                     .pl-tab-head-wrapper {
                         float: right;
+
+                        .pl-tab-head-bottom {
+                            left: 1px;
+                        }
+
+                        .pl-tab-head-item {
+                            text-align: left;
+                            padding-left: 12px;
+                        }
+
+                        .pl-tab-head-indicator {
+                            right: auto;
+                            left: 1px;
+                            top: 0;
+                        }
                     }
                 }
             }

@@ -61,7 +61,7 @@
                     <pl-button v-for="item in types" :key="item" :label="item" :active="type === item" @click="type = item"/>
                 </pl-button-group>
             </demo-line>
-            <pl-tab-group type="card-border" style="height:300px" :type="type" :position="position">
+            <pl-tab-group type="card-border" style="height:300px" :type="type" :position="position" :key="`${position}-${type}`">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>
@@ -70,6 +70,9 @@
                 </pl-tab>
                 <pl-tab title="数据集" val="role management">
                     数据集
+                </pl-tab>
+                <pl-tab v-for="item in 40" :key="item" :title="`页签 ${item}`">
+                    {{`tab ${item}`}}
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
