@@ -20,13 +20,25 @@ export const TabProps = {
 }
 
 export const TabMixin = {
+    inject: {
+        plTabGroup: {default: null}
+    },
     computed: {
         classes() {
             return [
-                this.className,
+                this.groupClass,
                 [`pl-tab-group-position-${this.position}`],
                 [`pl-tab-group-card-${this.card}`],
             ]
+        },
+    },
+    methods: {
+        onMousewheelHeadList(e) {
+            e.stopPropagation()
+            e.preventDefault()
+            const delta = e.deltaX || e.deltaY
+            let oldLeft = this.$refs.scroll.p_wrapperScrollLeft
+            this.$refs.scroll.scroll({x: delta + oldLeft})
         },
     },
 }

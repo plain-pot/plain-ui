@@ -14,33 +14,42 @@
         },
         data() {
             return {
-                className: 'pl-tab-horizontal-group',
+                groupClass: 'pl-tab-horizontal-group',
             }
         },
         render() {
 
+            const head = (
+                <div class="pl-tab-horizontal-head-wrapper">
+                    <pl-scroll scrollX={true} scrollY={false} scrollbarSize={4} ref="scroll">
+                        <ul class="pl-tab-horizontal-head" onMousewheel={this.onMousewheelHeadList}>
+                            {this.items.map(item => (
+                                <li class={[
+                                    'pl-tab-horizontal-head-item',
+                                    {
+                                        'pl-tab-horizontal-head-item-active': item.tabId === this.plTabGroup.p_value
+                                    }
+                                ]}
+                                    onClick={() => this.plTabGroup.onClickTabTitle(item)}>
+                                    {item.title}
+                                </li>
+                            ))}
+                        </ul>
+                    </pl-scroll>
+                </div>
+            )
+
+            const body = (
+                <ul class="pl-tab-horizontal-list">
+                    {this.items.map(item => (
+                        <pl-tab-group-inner-tab key={item.tabId} item={item}/>
+                    ))}
+                </ul>
+            )
+
             return (
                 <div class={this.classes}>
-
-                    <div class="pl-tab-horizontal-head-wrapper">
-                        <pl-scroll scrollX={true} scrollY={false}>
-                            <ul class="pl-tab-horizontal-head">
-                                {this.items.map(item => (
-                                    <li class="pl-tab-horizontal-head-item">
-                                        {item.title}
-                                    </li>
-                                ))}
-                            </ul>
-                        </pl-scroll>
-                    </div>
-
-                    <ul class="pl-tab-horizontal-list">
-                        {this.items.map(item => item.$slots.default).flat().map(item => (
-                            <li class="pl-tab">
-                                {item}
-                            </li>
-                        ))}
-                    </ul>
+                    {this.position === 'top' ? [head, body] : [body, head]}
                 </div>
             )
         },
@@ -62,27 +71,108 @@
             }
 
             .pl-tab-horizontal-head-wrapper {
-                height: 40px;
+                height: 42px;
                 overflow: hidden;
-                border-bottom: solid 2px $ibl;
+                box-sizing: border-box;
             }
 
             .pl-tab-horizontal-head {
                 height: 40px;
+                display: inline-block;
+                white-space: nowrap;
 
                 .pl-tab-horizontal-head-item {
                     height: 40px;
                     line-height: 40px;
                     cursor: pointer;
-
-                    &:not(:first-child) {
-                        margin-left: 16px;
-                    }
+                    font-size: 14px;
+                    color: $ihc;
 
                     &:hover {
                         color: $colorPrimary;
                     }
                 }
+            }
+
+            .pl-tab-horizontal-list {
+                padding: 20px 0;
+            }
+
+            &.pl-tab-group-card-default {
+                .pl-tab-horizontal-head-wrapper {
+                    .pl-scroll-content {
+                        position: relative;
+                        min-width: 100%;
+
+                        &:before {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            content: '';
+                            background: $ibl;
+                            height: 2px;
+                            min-width: 100%;
+                        }
+                    }
+
+                    .pl-horizontal-scrollbar {
+                        bottom: 0;
+                    }
+                }
+
+                .pl-tab-horizontal-head-item {
+                    position: relative;
+
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        bottom: 0px;
+                        left: 50%;
+                        right: 50%;
+                        height: 2px;
+                        background-color: $colorPrimary;
+                        transition: all 500ms $transition;
+                    }
+
+                    &:not(:first-child) {
+                        margin-left: 32px;
+                    }
+
+                    &.pl-tab-horizontal-head-item-active {
+                        color: $colorPrimary;
+
+                        &:after {
+                            left: 0;
+                            right: 0;
+                        }
+                    }
+                }
+
+                &.pl-tab-group-position-top {
+                    .pl-tab-horizontal-head-wrapper {
+                        .pl-scroll-content {
+                            &:before {
+                                bottom: 2px;
+                            }
+                        }
+                    }
+                }
+
+                &.pl-tab-group-position-bottom {
+                    .pl-scroll-content {
+                        &:before {
+                            top: 2px;
+                        }
+                    }
+                }
+            }
+
+            &.pl-tab-group-card-title {
+
+            }
+
+            &.pl-tab-group-card-border {
+
             }
         }
     }

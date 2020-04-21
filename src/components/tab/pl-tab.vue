@@ -13,7 +13,6 @@
         data() {
             return {
                 index: 0,
-                init: false,
             }
         },
         computed: {

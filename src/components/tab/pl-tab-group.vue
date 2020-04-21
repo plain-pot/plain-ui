@@ -29,6 +29,7 @@
         },
         data() {
             return {
+                p_value: null,
                 tabs: [],
             }
         },
@@ -60,15 +61,23 @@
             },
         },
         methods: {
+            /*---------------------------------------handler-------------------------------------------*/
             addItem(item) {
                 const $el = item.$el
                 const children = Array.from(item.$el.parentNode.childNodes)
                 const index = children.indexOf($el)
                 item.index = index
                 this.tabs.splice(index, 0, item)
+
+                if (this.p_value == null) {
+                    this.p_value = item.tabId
+                }
             },
             removeItem(item) {
                 this.tabs.splice(this.tabs.indexOf(item), 1)
+            },
+            onClickTabTitle(item) {
+                this.p_value = item.tabId
             },
         },
 
