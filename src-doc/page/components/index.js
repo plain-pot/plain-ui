@@ -1,10 +1,12 @@
 import DemoRow from './demo-row'
 import DemoLine from './demo-line'
+import DemoChild from './demo-child'
 import TestVuexComponent from "./TestVuexComponent";
 
 const Components = {
     DemoRow,
     DemoLine,
+    DemoChild,
     TestVuexComponent,
 }
 

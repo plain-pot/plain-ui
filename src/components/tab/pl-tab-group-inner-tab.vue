@@ -1,6 +1,11 @@
 <script>
+    import {MountedMixin} from "../../utils/mixins";
+
     export default {
         name: "pl-tab-group-inner-tab",
+        mixins: [
+            MountedMixin,
+        ],
         inject: {
             plTabGroup: {default: null}
         },
@@ -18,14 +23,22 @@
             },
         },
         render() {
-            const directives = [
-                {name: 'show', value: this.isShow}
-            ]
-            return (
-                <div class="pl-tab" {...{directives}}>
-                    {this.item.$slots.default}
-                </div>
-            )
+            if (!this.isMounted) return null
+            const {isShow, init} = this
+
+            if (isShow && !init) {
+                setTimeout(() => this.init = true)
+                return null
+            } else {
+                const directives = [
+                    {name: 'show', value: this.isShow}
+                ]
+                return (
+                    <div class="pl-tab" {...{directives}}>
+                        {!!init && this.item.$slots.default}
+                    </div>
+                )
+            }
         },
     }
 </script>

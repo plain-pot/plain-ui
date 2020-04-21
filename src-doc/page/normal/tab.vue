@@ -4,12 +4,15 @@
             <pl-tab-group v-model="val[0]">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
+                    <input type="text">
                 </pl-tab>
                 <pl-tab title="子模块数据管理" val="submodule management">
                     子模块数据管理
+                    <input type="text">
                 </pl-tab>
                 <pl-tab title="数据集" val="role management">
                     数据集
+                    <input type="text">
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
