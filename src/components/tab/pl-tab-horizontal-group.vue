@@ -29,7 +29,7 @@
                                     }
                                 ]}
                                     onClick={() => this.plTabGroup.onClickTabTitle(item)}>
-                                    {item.title}
+                                    <span>{item.title}</span>
                                 </li>
                             ))}
                         </ul>
@@ -225,86 +225,38 @@
             }
 
             &.pl-tab-group-card-border {
-                box-shadow: $boxshadow;
 
                 .pl-tab-horizontal-head-wrapper {
-                    background-color: #f6f6f6;
-
+                    box-shadow: $boxshadow;
+                    border-radius: 2px;
 
                     .pl-tab-horizontal-head {
                         .pl-tab-horizontal-head-item {
                             padding: 0 20px;
-                            border: solid 1px transparent;
-
                             &.pl-tab-horizontal-head-item-active {
+                                background-color: #f6f6f6;
                                 color: $colorPrimary;
-                                position: relative;
-                                background-color: white;
-                                border-left-color: $ibl;
-                                border-right-color: $ibl;
-
-                                &:after {
-                                    position: absolute;
-                                    left: 0;
-                                    right: 0;
-                                    background: white;
-                                    height: 1px;
-                                    content: '';
-                                }
-                            }
-
-                            &:first-child {
-                                border-left: none;
                             }
                         }
                     }
+                }
+
+                .pl-tab-horizontal-list {
+                    box-shadow: $boxshadow;
+                    border-radius: 2px;
                 }
 
                 &.pl-tab-group-position-top {
-                    .pl-scroll-content {
-                        position: relative;
-
-                        &:before {
-                            position: absolute;
-                            left: 0;
-                            right: 0;
-                            bottom: 1px;
-                            background: $ibl;
-                            height: 1px;
-                            content: '';
-                        }
-
-                        .pl-tab-horizontal-head-item-active {
-                            &:after {
-                                bottom: 0;
-                            }
-                        }
+                    .pl-tab-horizontal-list {
+                        margin-top: 20px;
                     }
-
                 }
 
                 &.pl-tab-group-position-bottom {
-                    .pl-scroll-content {
-                        position: relative;
-
-                        &:before {
-                            position: absolute;
-                            left: 0;
-                            right: 0;
-                            top: 0;
-                            background: $ibl;
-                            height: 1px;
-                            content: '';
-                        }
-
-                        .pl-tab-horizontal-head-item-active {
-                            &:after {
-                                top: 0;
-                            }
-                        }
+                    .pl-tab-horizontal-list {
+                        margin-bottom: 20px;
                     }
                 }
-
             }
         }
     }
