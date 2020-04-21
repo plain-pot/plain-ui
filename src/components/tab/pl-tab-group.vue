@@ -1,185 +1,44 @@
 <script>
-    import {EmitMixin, MountedMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {EmitMixin} from "../../utils/mixins";
+    import {TabProps} from "./tab";
+    import PlTabHorizontalGroup from "./pl-tab-horizontal-group";
+    import PlTabVerticalGroup from "./pl-tab-vertical-group";
 
     export default {
         name: "pl-tab-group",
+        components: {PlTabVerticalGroup, PlTabHorizontalGroup},
         props: {
-            value: {},
-            type: {type: String, default: 'default'},                      // 页签样式：card,border-card
-            position: {type: String, default: 'top'},                      // 选项卡位置：top、bottom、left、right
+            ...TabProps,
         },
         mixins: [
             EmitMixin,
-            MountedMixin,
-            RefsMixinFactory({
-                head: Object,
-                headScroll: Object,
-            })
         ],
         emitters: {
             emitInput: Function,
         },
-        provide() {
-            return {
-                plTabGroup: this,
-            }
-        },
-        data() {
-            // 刷新每个step的index，以便step知道自己处于哪个位置
-            const refreshStepIndex = this.$plain.utils.debounce((callback) => {
-                this.items.forEach(item => item.refreshIndex())
-                if (!!callback) callback()
-            }, 100)
-
-            const {value: p_value} = this
-
-            return {
-                items: [],
-                refreshStepIndex,
-
-                p_value,
-            }
-        },
         render() {
-
-            const scrollProps = {scrollbarSize: 6,}
-
-            if (['top', 'bottom'].indexOf(this.position) > -1) {
-                scrollProps.scrollX = true
-                scrollProps.scrollY = false
-            }
-
-            const head = (
-                <div class="pl-tab-head-wrapper">
-                    <div class="pl-tab-head-bottom"/>
-                    <pl-scroll {...{props: scrollProps}} ref="headScroll">
-                        <ul class="pl-tab-head" ref="head" onMousewheel={this.onMousewheelHeadList}>
-                            {this.sortItems.map(item => (
-                                <li
-                                    key={item.tabId}
-                                    class={['pl-tab-head-item', {'pl-tab-head-item-current': item.tabId === this.p_value}]}
-                                    onClick={() => this.onClickTitle(item)}
-                                >
-                                    {item.title}
-                                </li>
-                            ))}
-                            {this.type === 'default' && <li class="pl-tab-head-indicator" style={this.headIndicatorStyles}/>}
-                        </ul>
-                    </pl-scroll>
-                </div>
-            )
-
-            const body = (
-                <ul class="pl-tab-body" style={this.borderStyles}>
-                    {this.$slots.default}
-                </ul>
-            )
-
-            const content = [head, body]
-
             return (
-                <div class={this.classes}>
-                    {content}
+                <div class="pl-tab-group">
+                    {this.position === 'top' || this.position === 'bottom' ? (
+                        <pl-tab-horizontal-group {...this.binding}/>
+                    ) : (
+                        <pl-tab-vertical-group {...this.binding}/>
+                    )}
                 </div>
             )
         },
         computed: {
-            classes() {
-                return [
-                    'pl-tab-group',
-                    `pl-tab-group-position-${this.position}`,
-                    {
-                        [`pl-tab-group-type-${this.type}`]: !!this.type
-                    }
-                ]
-            },
-            borderStyles() {
-                const {position} = this
-                const styles = {}
-
-                if (position === 'top') {
-                    styles.paddingTop = '62px'
-                } else if (position === 'bottom') {
-                    styles.paddingBottom = '62px'
-                }
-
-                return styles
-            },
-            sortItems() {
-                return this.items.sort((a, b) => a.index - b.index)
-            },
-            currentIndex() {
-                const target = this.$plain.utils.findOne(this.sortItems, item => item.tabId == this.p_value, true)
-                if (!!target) {
-                    return target.index
-                }
-            },
-            headIndicatorStyles() {
-                if (!this.isMounted) return
-
-                if (!this.head || !this.head.childNodes) {
-                    return null
-                }
-                const currentIndex = this.currentIndex
-
-                if (['top', 'bottom'].indexOf(this.position) > -1) {
-                    let offsetLeft, offsetWidth;
-
-                    for (let i = 0; i < this.head.childNodes.length; i++) {
-                        const childNode = this.head.childNodes[i]
-                        if (currentIndex === i) {
-                            offsetLeft = childNode.offsetLeft
-                            offsetWidth = childNode.offsetWidth
-                        }
-                    }
-
-                    return {
-                        width: `${offsetWidth}px`,
-                        left: `${offsetLeft}px`,
-                    }
-                } else {
-                    let offsetTop, offsetHeight;
-
-                    for (let i = 0; i < this.head.childNodes.length; i++) {
-                        const childNode = this.head.childNodes[i]
-                        if (currentIndex === i) {
-                            offsetTop = childNode.offsetTop
-                            offsetHeight = childNode.offsetHeight
-                        }
-                    }
-                    return {
-                        top: `${offsetTop}px`,
-                        height: `${offsetHeight}px`,
-                    }
-                }
-
-
-            },
-        },
-        methods: {
-            /*---------------------------------------utils-------------------------------------------*/
-            addItem(item) {
-                this.items.push(item)
-                this.refreshStepIndex(this.p_value == null ? () => {
-                    this.p_value = this.items[0].tabId
-                } : null)
-            },
-            removeItem(item) {
-                this.items.splice(this.items.indexOf(item), 1)
-                this.refreshStepIndex()
-            },
-            /*---------------------------------------handler-------------------------------------------*/
-            onClickTitle(item) {
-                this.p_value = item.tabId
-                this.emitInput(this.p_value)
-            },
-            onMousewheelHeadList(e) {
-                if (['top', 'bottom'].indexOf(this.position) > -1) {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    let oldLeft = this.headScroll.p_wrapperScrollLeft
-                    let delta = e.deltaX || e.deltaY
-                    this.headScroll.scroll({x: oldLeft + delta})
+            binding() {
+                return {
+                    props: Object.keys(TabProps).reduce((ret, key) => {
+                        ret[key] = this[key]
+                        return ret
+                    }, {}),
+                    on: {
+                        change(val) {
+                            this.emitInput(val)
+                        },
+                    },
                 }
             },
         },

@@ -13,7 +13,6 @@
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
-
         <demo-row title="超长列表">
             <pl-tab-group>
                 <pl-tab v-for="item in 40" :key="item" :title="`页签 ${item}`">
@@ -21,7 +20,6 @@
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
-
         <demo-row title="卡片选项卡">
             <pl-tab-group type="card">
                 <pl-tab title="用户管理" val="user management">
@@ -35,7 +33,6 @@
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
-
         <demo-row title="卡片化页签">
             <pl-tab-group type="card-border">
                 <pl-tab title="用户管理" val="user management">
@@ -50,7 +47,7 @@
             </pl-tab-group>
         </demo-row>
 
-        <demo-row title="选项卡位置">
+        <!--<demo-row title="选项卡位置">
             <demo-line title="位置">
                 <pl-button-group>
                     <pl-button v-for="item in positions" :key="item" :label="item" :active="position === item" @click="position = item"/>
@@ -61,7 +58,7 @@
                     <pl-button v-for="item in types" :key="item" :label="item" :active="type === item" @click="type = item"/>
                 </pl-button-group>
             </demo-line>
-            <pl-tab-group type="card-border" style="height:300px" :type="type" :position="position" :key="`${position}-${type}`">
+            <pl-tab-group type="card-border" style="height:300px" :position="position" :key="`${position}-${type}`">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>
@@ -75,8 +72,7 @@
                     {{`tab ${item}`}}
                 </pl-tab>
             </pl-tab-group>
-        </demo-row>
-
+        </demo-row>-->
     </div>
 </template>
 
