@@ -185,9 +185,43 @@
 
             &.pl-tab-group-card-title {
                 .pl-tab-horizontal-head-wrapper {
+                    .pl-scroll-content {
+                        padding-top: 3px;
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            bottom: 1px;
+                            background: $ibc;
+                            height: 1px;
+                            content: '';
+                        }
+                    }
+
                     .pl-tab-horizontal-head {
+                        border-top: solid 1px $ibc;
+                        border-left: solid 1px $ibc;
+                        border-right: solid 1px $ibc;
+                        border-top-left-radius: 2px;
+                        border-top-right-radius: 2px;
+                        box-sizing: border-box;
+
                         .pl-tab-horizontal-head-item {
-                            padding: 0 12px;
+                            padding: 0 20px;
+                            background-color: #f9f9f9;
+                            color: $ipc;
+                            transition: all 300ms $transition;
+
+                            &:not(:last-child) {
+                                border-right: solid 1px $ibc;
+                            }
+
+                            &.pl-tab-horizontal-head-item-active {
+                                background-color: white;
+                                color: $colorPrimary;
+                            }
                         }
                     }
                 }
