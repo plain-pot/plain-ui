@@ -186,11 +186,11 @@
                     .pl-scroll-content {
                         position: relative;
 
-                        &:after {
+                        &:before {
                             position: absolute;
                             left: 0;
                             right: 0;
-                            bottom: 1px;
+                            bottom: 0;
                             background: $ibc;
                             height: 1px;
                             content: '';
@@ -198,26 +198,35 @@
                     }
 
                     .pl-tab-horizontal-head {
-                        border-top: solid 1px $ibc;
-                        border-left: solid 1px $ibc;
-                        border-right: solid 1px $ibc;
-                        border-top-left-radius: 2px;
-                        border-top-right-radius: 2px;
-                        box-sizing: border-box;
-
                         .pl-tab-horizontal-head-item {
                             padding: 0 20px;
                             background-color: #f9f9f9;
                             color: $itc;
+                            border-top-left-radius: 2px;
+                            border-top-right-radius: 2px;
                             transition: all 300ms $transition;
+                            border-top: solid 1px $ibc;
+                            border-left: solid 1px $ibc;
+                            border-right: solid 1px $ibc;
 
                             &:not(:last-child) {
-                                border-right: solid 1px $ibc;
+                                margin-right: 4px;
                             }
 
                             &.pl-tab-horizontal-head-item-active {
                                 background-color: white;
                                 color: $colorPrimary;
+                                position: relative;
+
+                                &:after {
+                                    position: absolute;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    background: white;
+                                    height: 1px;
+                                    content: '';
+                                }
                             }
                         }
                     }
@@ -233,6 +242,7 @@
                     .pl-tab-horizontal-head {
                         .pl-tab-horizontal-head-item {
                             padding: 0 20px;
+
                             &.pl-tab-horizontal-head-item-active {
                                 background-color: #f6f6f6;
                                 color: $colorPrimary;
