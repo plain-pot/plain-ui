@@ -208,7 +208,7 @@
                         .pl-tab-horizontal-head-item {
                             padding: 0 20px;
                             background-color: #f9f9f9;
-                            color: $ipc;
+                            color: $itc;
                             transition: all 300ms $transition;
 
                             &:not(:last-child) {
@@ -217,7 +217,7 @@
 
                             &.pl-tab-horizontal-head-item-active {
                                 background-color: white;
-                                color: $ihc;
+                                color: $colorPrimary;
                             }
                         }
                     }
@@ -240,8 +240,8 @@
                                 color: $colorPrimary;
                                 position: relative;
                                 background-color: white;
-                                border-left-color: $ibc;
-                                border-right-color: $ibc;
+                                border-left-color: $ibl;
+                                border-right-color: $ibl;
 
                                 &:after {
                                     position: absolute;
@@ -269,7 +269,7 @@
                             left: 0;
                             right: 0;
                             bottom: 1px;
-                            background: $ibc;
+                            background: $ibl;
                             height: 1px;
                             content: '';
                         }
@@ -292,7 +292,7 @@
                             left: 0;
                             right: 0;
                             top: 0;
-                            background: $ibc;
+                            background: $ibl;
                             height: 1px;
                             content: '';
                         }
