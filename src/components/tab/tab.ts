@@ -15,4 +15,8 @@ export const TabProps = {
     value: {},
     card: {type: String, default: TabCardType.default},
     position: {type: String, default: TabPosition.top},
+
+    items: {type: Array},
 }
+
+export const TabMixin = {}
