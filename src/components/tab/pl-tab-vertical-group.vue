@@ -5,8 +5,23 @@
 </template>
 
 <script>
+    import {TabMixin, TabProps} from "./tab";
+    import {MountedMixin} from "../../utils/mixins";
+
     export default {
-        name: "pl-tab-vertical-group"
+        name: "pl-tab-vertical-group",
+        mixins: [
+            TabMixin,
+            MountedMixin,
+        ],
+        props: {
+            ...TabProps,
+        },
+        data() {
+            return {
+                groupClass: 'pl-tab-vertical-group',
+            }
+        },
     }
 </script>
 

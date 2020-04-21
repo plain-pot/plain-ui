@@ -99,7 +99,7 @@
             &.pl-tab-group-position-top, &.pl-tab-group-position-bottom {
                 .pl-tab-horizontal-head-wrapper {
                     .pl-scroll-content {
-                        min-width: 100%;
+                        min-width: calc(100% - 2px);
                     }
                 }
             }
@@ -230,19 +230,6 @@
                 .pl-tab-horizontal-head-wrapper {
                     background-color: #f6f6f6;
 
-                    .pl-scroll-content {
-                        position: relative;
-
-                        &:before {
-                            position: absolute;
-                            left: 0;
-                            right: 0;
-                            bottom: 1px;
-                            background: $ibl;
-                            height: 1px;
-                            content: '';
-                        }
-                    }
 
                     .pl-tab-horizontal-head {
                         .pl-tab-horizontal-head-item {
@@ -253,14 +240,13 @@
                                 color: $colorPrimary;
                                 position: relative;
                                 background-color: white;
-                                border-left-color: $ibl;
-                                border-right-color: $ibl;
+                                border-left-color: $ibc;
+                                border-right-color: $ibc;
 
                                 &:after {
                                     position: absolute;
                                     left: 0;
                                     right: 0;
-                                    bottom: 0;
                                     background: white;
                                     height: 1px;
                                     content: '';
@@ -269,6 +255,51 @@
 
                             &:first-child {
                                 border-left: none;
+                            }
+                        }
+                    }
+                }
+
+                &.pl-tab-group-position-top {
+                    .pl-scroll-content {
+                        position: relative;
+
+                        &:before {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            bottom: 1px;
+                            background: $ibc;
+                            height: 1px;
+                            content: '';
+                        }
+
+                        .pl-tab-horizontal-head-item-active {
+                            &:after {
+                                bottom: 0;
+                            }
+                        }
+                    }
+
+                }
+
+                &.pl-tab-group-position-bottom {
+                    .pl-scroll-content {
+                        position: relative;
+
+                        &:before {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            top: 0;
+                            background: $ibc;
+                            height: 1px;
+                            content: '';
+                        }
+
+                        .pl-tab-horizontal-head-item-active {
+                            &:after {
+                                top: 0;
                             }
                         }
                     }
