@@ -19,4 +19,14 @@ export const TabProps = {
     items: {type: Array},
 }
 
-export const TabMixin = {}
+export const TabMixin = {
+    computed: {
+        classes() {
+            return [
+                this.className,
+                [`pl-tab-group-position-${this.position}`],
+                [`pl-tab-group-card-${this.card}`],
+            ]
+        },
+    },
+}
