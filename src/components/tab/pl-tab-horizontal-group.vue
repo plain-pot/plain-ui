@@ -1,13 +1,11 @@
 <script>
 
     import {TabMixin, TabProps} from "./tab";
-    import {MountedMixin} from "../../utils/mixins";
 
     export default {
         name: 'pl-tab-horizontal-group',
         mixins: [
             TabMixin,
-            MountedMixin,
         ],
         props: {
             ...TabProps,
