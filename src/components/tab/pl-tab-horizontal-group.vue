@@ -71,7 +71,7 @@
             }
 
             .pl-tab-horizontal-head-wrapper {
-                height: 44px;
+                height: 40px;
                 overflow: hidden;
                 box-sizing: border-box;
             }
@@ -157,7 +157,7 @@
                 &.pl-tab-group-position-top {
                     .pl-scroll-content {
                         &:before {
-                            bottom: 4px;
+                            bottom: 0;
                         }
                     }
 
@@ -186,7 +186,6 @@
             &.pl-tab-group-card-title {
                 .pl-tab-horizontal-head-wrapper {
                     .pl-scroll-content {
-                        padding-top: 3px;
                         position: relative;
 
                         &:after {
@@ -220,7 +219,7 @@
 
                             &.pl-tab-horizontal-head-item-active {
                                 background-color: white;
-                                color: $colorPrimary;
+                                color: $ihc;
                             }
                         }
                     }
@@ -228,6 +227,54 @@
             }
 
             &.pl-tab-group-card-border {
+                box-shadow: $boxshadow;
+
+                .pl-tab-horizontal-head-wrapper {
+                    background-color: #f6f6f6;
+
+                    .pl-scroll-content {
+                        position: relative;
+
+                        &:before {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            bottom: 1px;
+                            background: $ibl;
+                            height: 1px;
+                            content: '';
+                        }
+                    }
+
+                    .pl-tab-horizontal-head {
+                        .pl-tab-horizontal-head-item {
+                            padding: 0 20px;
+                            border: solid 1px transparent;
+
+                            &.pl-tab-horizontal-head-item-active {
+                                color: $colorPrimary;
+                                position: relative;
+                                background-color: white;
+                                border-left-color: $ibl;
+                                border-right-color: $ibl;
+
+                                &:after {
+                                    position: absolute;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    background: white;
+                                    height: 1px;
+                                    content: '';
+                                }
+                            }
+
+                            &:first-child {
+                                border-left: none;
+                            }
+                        }
+                    }
+                }
 
             }
         }
