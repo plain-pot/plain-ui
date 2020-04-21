@@ -126,7 +126,6 @@
                     &:after {
                         position: absolute;
                         content: '';
-                        bottom: 0px;
                         left: 50%;
                         right: 50%;
                         height: 2px;
@@ -149,11 +148,15 @@
                 }
 
                 &.pl-tab-group-position-top {
-                    .pl-tab-horizontal-head-wrapper {
-                        .pl-scroll-content {
-                            &:before {
-                                bottom: 2px;
-                            }
+                    .pl-scroll-content {
+                        &:before {
+                            bottom: 2px;
+                        }
+                    }
+
+                    .pl-tab-horizontal-head-item {
+                        &:after {
+                            bottom: 0;
                         }
                     }
                 }
@@ -161,7 +164,13 @@
                 &.pl-tab-group-position-bottom {
                     .pl-scroll-content {
                         &:before {
-                            top: 2px;
+                            top: 0;
+                        }
+                    }
+
+                    .pl-tab-horizontal-head-item {
+                        &:after {
+                            top: 0;
                         }
                     }
                 }
