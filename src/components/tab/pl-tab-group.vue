@@ -75,6 +75,11 @@
             },
             removeItem(item) {
                 this.tabs.splice(this.tabs.indexOf(item), 1)
+
+                this.tabs.forEach((tab, index) => tab.index = index)
+                if (this.p_value == item.tabId && this.tabs.length > 0) {
+                    this.p_value = this.tabs[0].tabId
+                }
             },
             onClickTabTitle(item) {
                 this.p_value = item.tabId

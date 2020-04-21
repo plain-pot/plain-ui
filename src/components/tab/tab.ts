@@ -15,6 +15,7 @@ export const TabProps = {
     value: {},
     card: {type: String, default: TabCardType.default},
     position: {type: String, default: TabPosition.top},
+    closeIcon: {type: Boolean},
 
     items: {type: Array},
 }

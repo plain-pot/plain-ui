@@ -75,6 +75,21 @@
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
+
+        <demo-row title="动态增删标签">
+            <demo-line title="操作按钮">
+                <pl-button-group>
+                    <pl-button label="add" @click="counts.push(record++)"/>
+                    <pl-button label="minus" @click="counts.shift()"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tab-group closeIcon>
+                <pl-tab v-for="item in counts" :key="item" :title="`页签 ${item}`" :val="item">
+                    {{`tab ${item}`}}
+                </pl-tab>
+            </pl-tab-group>
+        </demo-row>
+
     </div>
 </template>
 
@@ -91,6 +106,9 @@
                 card: 'default',
 
                 val: {},
+
+                counts: [1, 2, 3],
+                record: 4,
             }
         },
         methods: {},

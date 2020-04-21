@@ -28,8 +28,10 @@
                                         'pl-tab-horizontal-head-item-active': item.tabId === this.plTabGroup.p_value
                                     }
                                 ]}
+                                    key={item.tabId}
                                     onClick={() => this.plTabGroup.onClickTabTitle(item)}>
                                     <span>{item.title}</span>
+                                    {this.closeIcon && <pl-button icon="el-icon-close" mode="text" size="mini"/>}
                                 </li>
                             ))}
                         </ul>
