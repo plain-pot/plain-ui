@@ -1,20 +1,26 @@
 <template>
     <div class="pl-table">
-        <plc-controller>
+        <plc-list ref="plcList">
             <slot></slot>
-        </plc-controller>
-
+        </plc-list>
 
 
     </div>
 </template>
 
 <script>
-    import PlcController from "./basic/plc-controller";
+    import {RefsMixinFactory} from "../../utils/mixins";
 
     export default {
         name: "pl-table",
-        components: {PlcController},
+        mixins: [
+            RefsMixinFactory({
+                plcList: Object
+            })
+        ],
+        mounted() {
+            console.log(this.plcList.children)
+        },
     }
 </script>
 
