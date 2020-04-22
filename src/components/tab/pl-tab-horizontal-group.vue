@@ -262,19 +262,13 @@
                 .pl-tab-horizontal-list {
                     box-shadow: $boxshadow;
                     border-radius: 2px;
-                }
 
-                &.pl-tab-group-position-top {
-                    .pl-tab-horizontal-list {
-                        margin-top: 20px;
+                    & > .pl-tab {
+                        padding: 20px 0;
                     }
                 }
 
-                &.pl-tab-group-position-bottom {
-                    .pl-tab-horizontal-list {
-                        margin-bottom: 20px;
-                    }
-                }
+
             }
         }
     }

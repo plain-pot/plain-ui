@@ -114,14 +114,9 @@
                 opacity: 1;
             }
 
-            .pl-transition-tab-enter {
+            .pl-transition-tab-enter, .pl-transition-tab-leave-to {
                 opacity: 0;
                 transform: translateX(30px);
-            }
-
-            .pl-transition-tab-leave-to {
-                opacity: 0;
-                transform: translateX(-30px);
             }
 
             .pl-transition-tab-leave-active {
