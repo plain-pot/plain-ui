@@ -102,7 +102,33 @@
                 line-height: 14px;
                 color: $icc !important;
             }
+        }
 
+        .pl-tab-horizontal-group {
+            .pl-tab {
+                transform-origin: left top;
+                transition: all 500ms $transition;
+            }
+
+            .pl-transition-tab-enter-active, .pl-transition-tab-leave-active {
+                opacity: 1;
+            }
+
+            .pl-transition-tab-enter {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            .pl-transition-tab-leave-to {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            .pl-transition-tab-leave-active {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
         }
     }
 </style>

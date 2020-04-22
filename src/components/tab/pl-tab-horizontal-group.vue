@@ -31,7 +31,7 @@
                                     key={item.tabId}
                                     onClick={() => this.plTabGroup.onClickTabTitle(item)}>
                                     <span>{item.title}</span>
-                                    {this.closeIcon && <pl-button class="pl-tab-close" icon="el-icon-close" size="mini" mode="text" onClick={(e) => this.plTabGroup.onClickCloseButton(e,item)}/>}
+                                    {this.closeIcon && <pl-button class="pl-tab-close" icon="el-icon-close" size="mini" mode="text" onClick={(e) => this.plTabGroup.onClickCloseButton(e, item)}/>}
                                 </li>
                             ))}
                         </ul>
@@ -40,11 +40,13 @@
             )
 
             const body = (
-                <ul class="pl-tab-horizontal-list">
-                    {this.items.map(item => (
-                        <pl-tab-group-inner-tab key={item.tabId} item={item}/>
-                    ))}
-                </ul>
+                <div class="pl-tab-list-wrapper">
+                    <ul class="pl-tab-horizontal-list">
+                        {this.items.map(item => (
+                            <pl-tab-group-inner-tab key={item.tabId} item={item} horizontal/>
+                        ))}
+                    </ul>
+                </div>
             )
 
             return (
@@ -94,8 +96,12 @@
                 }
             }
 
-            .pl-tab-horizontal-list {
+            .pl-tab-list-wrapper {
                 padding: 20px 0;
+
+                .pl-tab-horizontal-list {
+                    position: relative;
+                }
             }
 
             &.pl-tab-group-position-top, &.pl-tab-group-position-bottom {

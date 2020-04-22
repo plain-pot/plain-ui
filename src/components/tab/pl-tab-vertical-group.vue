@@ -37,11 +37,13 @@
                             </ul>
                         </pl-scroll>
                     </div>
-                    <ul class="pl-tab-vertical-list">
-                        {this.items.map(item => (
-                            <pl-tab-group-inner-tab key={item.tabId} item={item}/>
-                        ))}
-                    </ul>
+                    <div class="pl-tab-list-wrapper">
+                        <ul class="pl-tab-vertical-list">
+                            {this.items.map(item => (
+                                <pl-tab-group-inner-tab key={item.tabId} item={item}/>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             )
         },
@@ -58,6 +60,8 @@
             .pl-tab-vertical-head-wrapper {
                 height: 100%;
                 overflow-y: hidden;
+                position: relative;
+                z-index: 1;
 
                 .pl-tab-vertical-head {
                     overflow-y: hidden;
@@ -74,6 +78,10 @@
                 margin: 0;
                 padding: 0;
                 list-style: none;
+            }
+
+            .pl-tab-vertical-list {
+                position: relative;
             }
 
             &.pl-tab-group-position-left {

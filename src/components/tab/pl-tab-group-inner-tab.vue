@@ -11,16 +11,37 @@
         },
         props: {
             item: {},
+            horizontal: {type: Boolean},
         },
         data() {
             return {
                 init: false,
+                isShow: false,
             }
         },
-        computed: {
-            isShow() {
-                return this.item.tabId === this.plTabGroup.p_value
-            },
+        computed: {},
+        created() {
+            this.unwatch = this.$watch('plTabGroup.p_value', {
+                immediate: true,
+                handler: (val) => {
+                    const flag = val === this.item.tabId
+
+                    if (this.horizontal) {
+                        this.isShow = flag
+                    } else {
+                        if (flag === true && !this.isShow) {
+                            setTimeout(() => this.isShow = true, 23)
+                        } else {
+                            this.isShow = flag
+                        }
+                    }
+                },
+            })
+        },
+        beforeDestroy() {
+            if (!!this.unwatch) {
+                this.unwatch()
+            }
         },
         render() {
             if (!this.isMounted) return null
@@ -34,9 +55,11 @@
                     {name: 'show', value: this.isShow}
                 ]
                 return (
-                    <div class="pl-tab" {...{directives}}>
-                        {!!init && this.item.$slots.default}
-                    </div>
+                    <transition name="pl-transition-tab">
+                        <div class="pl-tab" {...{directives}}>
+                            {!!init && this.item.$slots.default}
+                        </div>
+                    </transition>
                 )
             }
         },
