@@ -17,8 +17,12 @@
                 items: [],
             }
         },
+        mounted() {
+            console.log('mounted plc controller')
+        },
         methods: {
             addItem(item) {
+
             },
             removeItem() {
 

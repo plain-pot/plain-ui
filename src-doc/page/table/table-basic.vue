@@ -2,9 +2,11 @@
     <div class="demo-table-basic">
         <demo-row title="基础用法">
             <pl-table :data="tableData">
-                <plc field="id" title="编号"/>
-                <plc field="date" title="日期"/>
-                <plc field="color" title="颜色"/>
+                <div>
+                    <plc field="id" title="编号"/>
+                    <plc field="date" title="日期"/>
+                    <plc field="color" title="颜色"/>
+                </div>
                 <plc field="name" title="名称"/>
                 <plc field="size" title="大小"/>
                 <plc field="star" title="评分"/>
