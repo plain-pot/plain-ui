@@ -89,7 +89,7 @@ export default [
     },
     {
         name: '表格', children: [
-            {name: 'Table Basic', title: '基础表格', icon: 'pl-table-solid', page: '/table/base-table', complete: false},
+            {name: 'Table Basic', title: '基础表格', icon: 'pl-table-solid', page: '/table/table-basic', complete: false},
             {name: 'Table Fixed Column', title: '固定列', icon: 'pl-table-solid', page: '/table/base-table-fixed', complete: false},
             {name: 'Table Fill', title: '宽高填满父元素', icon: 'pl-table-solid', page: '/table/base-table-fit-parent', complete: false},
             {name: 'Table Basic Props', title: '基本属性', icon: 'pl-table-solid', page: '/table/base-table-props', complete: false},

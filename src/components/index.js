@@ -38,13 +38,14 @@ import time from './time'
 import date from './date'
 import tab from './tab'
 import alert from './alert'
+import table from './table'
 
 const plugins = [
     button, icon,
     input, checkbox, radio, select, form, toggle, number, slider, tag, rate, colorPicker, cascade, time, date,
     loading, popper, popover, tooltip, dropdown,
     message, dialog, notice,
-    list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree, virtualTree, step, tab, alert,
+    list, scroll, dom, collapse, card, carousel, grid, progress, badge, pagination, tree, virtualTree, step, tab, alert, table,
 
     virtualList,
 ]
