@@ -88,12 +88,13 @@
                     <pl-button label="add" @click="counts.push(record++)"/>
                     <pl-button label="minus" @click="counts.shift()"/>
                 </pl-button-group>
+                <pl-toggle v-model="show"/>
             </demo-line>
             <pl-tab-group closeIcon @close="onClose">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>
-                <pl-tab title="子模块数据管理" val="submodule management">
+                <pl-tab title="子模块数据管理" val="submodule management" v-if="show">
                     子模块数据管理
                 </pl-tab>
                 <pl-tab title="数据集" val="role management">
@@ -126,6 +127,7 @@
                 record: 4,
 
                 showClose: false,
+                show: true,
             }
         },
         methods: {
