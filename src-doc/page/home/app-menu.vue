@@ -11,7 +11,7 @@
                                 <div class="app-menu-name">
                                     <span>{{menu.name}}</span>
                                     <span>{{menu.title}}</span>
-                                    <pl-icon icon="el-icon-star-on" status="success" v-if="!!menu.complete"/>
+                                    <pl-icon icon="el-icon-star-on" status="primary" v-if="!!menu.complete"/>
                                 </div>
                             </li>
                         </ul>
