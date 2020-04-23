@@ -20,8 +20,8 @@
             })
         ],
         mounted() {
-            const plcs = formatPlcList(this.plcList.children)
-            console.log(plcs)
+            const plcList = formatPlcList(this.plcList.children)
+            console.log(plcList)
         },
     }
 </script>

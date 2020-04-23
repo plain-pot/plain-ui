@@ -1,7 +1,7 @@
 <template>
-    <span class="plc">
-        <slot></slot>
-    </span>
+    <div class="plc">
+        {{title}}-{{field}}
+    </div>
 </template>
 
 <script lang="ts">

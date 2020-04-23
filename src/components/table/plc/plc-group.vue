@@ -1,14 +1,18 @@
 <template>
     <div class="plc-group">
+        <slot></slot>
     </div>
 </template>
 
 <script lang="ts">
-    import {PlcType} from "./plc-utils";
+    import {PlcMixin, PlcType} from "./plc-utils";
 
     export default {
         name: "plc-group",
         props: {},
+        mixins: [
+            PlcMixin,
+        ],
         data() {
 
             const plcType: PlcType = PlcType.GROUP
