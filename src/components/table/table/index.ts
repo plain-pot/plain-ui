@@ -3,6 +3,7 @@ import headItem from './plt-head-item.vue'
 import headCell from './plt-head-cell'
 import body from './plt-body.vue'
 import bodyItem from './plt-body-item.vue'
+import bodyCell from './plt-body-cell'
 
 export const TableComponent = [
     head,
@@ -10,4 +11,5 @@ export const TableComponent = [
     headCell,
     body,
     bodyItem,
+    bodyCell,
 ]

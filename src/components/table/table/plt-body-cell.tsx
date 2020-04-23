@@ -2,30 +2,31 @@ import {TableComponentMixin} from "./table-utils";
 import {Plc} from "../plc/plc-utils";
 
 export default {
-    name: 'plt-head-cell',
+    name: 'plt-body-cell',
     mixins: [
         TableComponentMixin,
     ],
     props: {
         plc: {type: Object},
+        rowData: {type: Object},
     },
     render(h) {
         const plc = this.plc as Plc
         return (
-            <th class={this.classes} colspan={plc.colspan} rowspan={plc.rowspan} style={this.styles}>
-                {plc.title}
-            </th>
+            <td class={this.classes} colspan={1} rowspan={1} style={this.styles}>
+                {this.rowData.row[plc.props.field]}
+            </td>
         )
     },
     computed: {
         classes() {
             return [
-                'plt-head-cell',
+                'plt-body-cell',
                 'plt-cell',
             ]
         },
         styles() {
-            const height = `${this.plTable.headRowHeight}px`
+            const height = `${this.plTable.bodyRowHeight}px`
             const width = `${this.plc.props.width}px`
             return {
                 height,

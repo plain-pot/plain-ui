@@ -4,6 +4,7 @@
             <slot></slot>
         </plc-list>
         <plt-head ref="head"/>
+        <plt-body ref="body"/>
     </div>
 </template>
 
@@ -34,7 +35,7 @@
             headRowHeight: {type: [String, Number], default: 40},   // 表头行高
             bodyRowHeight: {type: [String, Number], default: 32},   // 表体行高
             hideHeader: {type: Boolean},                            // 是否隐藏表头
-            showRows: {type: Number},                               // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
+            showRows: {type: Number, default: 10},                  // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
             emptyText: {type: String},                              // 空数据时显示的文本
 
             // class style
@@ -61,6 +62,8 @@
         computed: {
             plcList() {
                 if (!this.isMounted) return
+
+                /*---------------------------------------计算列宽度-------------------------------------------*/
 
                 // 总宽度
                 const totalWidth = this.$el.offsetWidth
@@ -108,9 +111,16 @@
                     })
                 }
 
+                /*---------------------------------------end-------------------------------------------*/
+
                 return plcList
             },
-
+            tableData() {
+                return (this.data || []).map((row, rowIndex) => ({
+                    row,
+                    rowIndex,
+                }))
+            },
         },
         mounted() {
             // console.log(this.$plain.utils.deepcopy(this.plcList))
@@ -133,16 +143,14 @@
         .pl-table {
             .plt-head {
                 .plt-head-item {
-                    background-color: #f2f2f2;
+                    background-color: #f8f8f8;
 
                     .plt-head-cell {
-                        font-size: 14px;
                         color: $ihc;
                         transition: background-color 500ms $transition;
+                        font-weight: 500;
                         /*border-bottom: solid 1px black;*/
                         /*border-right: solid 1px black;*/
-                        padding: 0 12px;
-                        box-sizing: border-box;
 
                         &:hover {
                             background-color: #e1e1e1;
@@ -150,6 +158,23 @@
                         }
                     }
                 }
+            }
+
+            .plt-body {
+                .plt-body-item {
+                    .plt-body-cell {
+                        color: $itc;
+                        font-size: 14px;
+
+                    }
+                }
+            }
+
+            .plt-cell {
+                padding: 0 12px;
+                box-sizing: border-box;
+                font-size: 14px;
+
             }
         }
     }

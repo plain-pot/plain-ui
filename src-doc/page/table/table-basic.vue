@@ -45,6 +45,8 @@
                 width: '200px',
             }
         },
+        mounted() {
+        }
     }
 </script>
 
