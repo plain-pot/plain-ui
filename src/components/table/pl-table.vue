@@ -175,6 +175,17 @@
                 box-sizing: border-box;
                 font-size: 14px;
 
+                &.plt-cell-align-left {
+                    text-align: left;
+                }
+
+                &.plt-cell-align-center {
+                    text-align: center;
+                }
+
+                &.plt-cell-align-right {
+                    text-align: right;
+                }
             }
         }
     }

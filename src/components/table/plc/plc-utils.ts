@@ -27,9 +27,9 @@ export const PlcProps = {
     ...PlcGroupProps,
     field: {type: String},
     width: {default: '200px', watch: true, formatNumber: true},//列宽度
-    // fit: {type: Number, default: 0},                    //当列不满表格宽度时，该列所占剩下宽度的权重
+    fit: {type: Number, default: 0},                    //当列不满表格宽度时，该列所占剩下宽度的权重
     // hide: {type: Boolean},                              //是否隐藏
-    // align: {type: String, default: 'left'},             //非编辑状态下文本对其方式
+    align: {type: String, default: 'left'},             //非编辑状态下文本对其方式
     //
     // search: {type: Boolean, default: true},             //可查询
     // searchType: {type: String, default: 'input'},       //查询类型

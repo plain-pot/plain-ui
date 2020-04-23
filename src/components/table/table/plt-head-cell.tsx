@@ -1,4 +1,4 @@
-import {TableComponentMixin} from "./table-utils";
+import {getCellClass, TableComponentMixin} from "./table-utils";
 import {Plc} from "../plc/plc-utils";
 
 export default {
@@ -22,6 +22,7 @@ export default {
             return [
                 'plt-head-cell',
                 'plt-cell',
+                ...getCellClass(this, this.plc, this.rowData),
             ]
         },
         styles() {
