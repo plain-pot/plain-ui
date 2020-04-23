@@ -22,7 +22,9 @@
         mixins: [
             MountedMixin,
             RefsMixinFactory({
-                plc: Object
+                plc: Object,
+                head: Object,
+                body: Object,
             })
         ],
         props: {
@@ -142,7 +144,17 @@
             },
         },
         mounted() {
-            // console.log(this.$plain.utils.deepcopy(this.plcList))
+            this.unwatch = this.$watch('totalContentWidth', (newVal, oldVal) => {
+                if (newVal !== oldVal) {
+                    this.head.scroll.refresh()
+                    this.body.scroll.refresh()
+                }
+            })
+        },
+        beforeDestroy() {
+            if (!!this.unwatch) {
+                this.unwatch()
+            }
         },
         methods: {
             iterate(plcList: Plc[], handler: (plc: Plc) => void) {

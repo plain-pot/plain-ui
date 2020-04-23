@@ -1,6 +1,6 @@
 <template>
     <div class="plt-body" :style="styles">
-        <pl-scroll scrollX>
+        <pl-scroll scrollX ref="scroll">
             <plt-body-item/>
         </pl-scroll>
     </div>
@@ -8,6 +8,7 @@
 
 <script lang="ts">
     import {TableComponentMixin} from "./table-utils";
+    import {RefsMixinFactory} from "../../../utils/mixins";
 
     export default {
         name: "plt-body",
@@ -18,6 +19,9 @@
         },
         mixins: [
             TableComponentMixin,
+            RefsMixinFactory({
+                scroll: Object
+            })
         ],
         computed: {
             styles() {

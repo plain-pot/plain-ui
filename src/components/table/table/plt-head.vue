@@ -1,6 +1,6 @@
 <template>
     <div class="plt-head" :style="styles">
-        <pl-scroll scrollX :scrollY="false">
+        <pl-scroll scrollX :scrollY="false" ref="scroll">
             <plt-head-item/>
         </pl-scroll>
     </div>
@@ -9,6 +9,7 @@
 <script lang="ts">
 
     import {TableComponentMixin} from "./table-utils";
+    import {RefsMixinFactory} from "../../../utils/mixins";
 
     export default {
         name: "plt-head",
@@ -19,6 +20,9 @@
         },
         mixins: [
             TableComponentMixin,
+            RefsMixinFactory({
+                scroll: Object
+            })
         ],
         computed: {
             styles() {
