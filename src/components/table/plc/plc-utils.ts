@@ -74,7 +74,7 @@ export function formatPlcList(plcListChildren) {
             newPlcListChildren.push(children)
         } else {
             // plc or group
-            const source = plcType === PlcType.GROUP ? {plcNode, plcType, children} : {plcNode, plcType}
+            const source = plcType === PlcType.GROUP ? {plcNode, plcType, children, group: true} : {plcNode, plcType}
             Object.assign(formatPlc, source)
             newPlcListChildren.push(formatPlc)
         }
