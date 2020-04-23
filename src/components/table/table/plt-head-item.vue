@@ -1,10 +1,8 @@
 <template>
     <div class="plt-head-item">
-        <table>
+        <table cellspacing="0" cellpadding="0" border="0">
             <tr v-for="(row,rowIndex) in pltHead.headPlcList" :key="rowIndex">
-                <td v-for="(cell,cellIndex) in row" :key="cellIndex" :colspan="cell.colspan" :rowspan="cell.rowspan">
-                    {{cell.title}}
-                </td>
+                <plt-head-cell v-for="(cell,cellIndex) in row" :key="cellIndex" :plc="cell"/>
             </tr>
         </table>
     </div>

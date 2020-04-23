@@ -9,7 +9,7 @@
 
 <script lang="ts">
     import {MountedMixin, RefsMixinFactory} from "../../utils/mixins";
-    import {formatPlcList} from "./plc/plc-utils";
+    import {formatPlcList, Plc} from "./plc/plc-utils";
 
     export default {
         name: "pl-table",
@@ -61,16 +61,96 @@
         computed: {
             plcList() {
                 if (!this.isMounted) return
-                return formatPlcList(this.plc.children)
+
+                // 总宽度
+                const totalWidth = this.$el.offsetWidth
+                // 额外的宽度（在iterate执行完之后得到真实值）
+                let externalWidth = totalWidth
+                // 填充宽度的列
+                const fitPlcList: Plc[] = []
+                // 填充宽度分配总份数
+                let totalFits = 0
+
+                // 列信息
+                const plcList = formatPlcList(this.plc.children)
+                // 展开的列信息，如果是分组表头，则取叶子节点
+                let flatPlcList: Plc[] = []
+
+                this.iterate(plcList, (plc) => {
+                    if (!plc.group) {
+                        flatPlcList.push(plc)
+                        externalWidth = externalWidth - plc.props.width
+                        if (!!plc.props.fit) {
+                            totalFits += plc.props.fit
+                            fitPlcList.push(plc)
+                        }
+                    }
+                })
+
+                if (externalWidth > 0) {
+                    if (fitPlcList.length === 0) {
+                        fitPlcList.push(flatPlcList[flatPlcList.length - 1])
+                        totalFits = 1
+                    }
+                    const fitBlockWidth = Math.floor(externalWidth / totalFits)
+
+                    fitPlcList.forEach((fitPlc, index) => {
+                        if (index === fitPlcList.length - 1) {
+                            // 如果是最后一个，用完剩下的宽度
+                            fitPlc.props.width = fitPlc.props.width + externalWidth
+                            externalWidth = 0
+                        } else {
+                            // 根据fit分配宽度
+                            const newWidth = fitPlc.props.fit * fitBlockWidth + fitPlc.props.width
+                            fitPlc.props.width = newWidth
+                            externalWidth -= newWidth
+                        }
+                    })
+                }
+
+                return plcList
             },
 
         },
         mounted() {
-            console.log(this.$plain.utils.deepcopy(this.plcList))
+            // console.log(this.$plain.utils.deepcopy(this.plcList))
+        },
+        methods: {
+            iterate(plcList: Plc[], handler: (plc: Plc) => void) {
+                plcList.forEach(plc => {
+                    handler(plc)
+                    if (plc.group) {
+                        this.iterate(plc.children, handler)
+                    }
+                })
+            },
         },
     }
 </script>
 
 <style lang="scss">
+    @include themify {
+        .pl-table {
+            .plt-head {
+                .plt-head-item {
+                    background-color: #f2f2f2;
 
+                    .plt-head-cell {
+                        font-size: 14px;
+                        color: $ihc;
+                        transition: background-color 500ms $transition;
+                        /*border-bottom: solid 1px black;*/
+                        /*border-right: solid 1px black;*/
+                        padding: 0 12px;
+                        box-sizing: border-box;
+
+                        &:hover {
+                            background-color: #e1e1e1;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
 </style>

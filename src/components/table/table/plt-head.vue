@@ -1,5 +1,5 @@
 <template>
-    <div class="plt-head">
+    <div class="plt-head" :style="styles">
         <pl-scroll scrollX :scrollY="false">
             <plt-head-item/>
         </pl-scroll>
@@ -21,6 +21,11 @@
             TableComponentMixin,
         ],
         computed: {
+            styles() {
+                return {
+                    height: `${this.plTable.headRowHeight * this.headPlcList.length}px`
+                }
+            },
             headPlcList() {
                 if (!this.plTable.plcList) return []
 

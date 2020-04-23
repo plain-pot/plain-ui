@@ -95,14 +95,20 @@ interface PlcPropsType extends PlcGroupPropsType {
     renderHead: Function
 }
 
-class Plc {
+export class Plc {
+
+    title: string
+    field: string
+
     children: Plc[]
     plcType: PlcType
     originProps: PlcPropsType
     props: PlcPropsType
+
     group: boolean
-    title: string
-    field: string
+    colspan: number
+    rowspan: number
+    level: number
 
     constructor(plc) {
         const props = Object.keys(PlcProps).reduce((ret, propName) => {
