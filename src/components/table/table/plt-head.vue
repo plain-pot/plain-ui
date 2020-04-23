@@ -12,6 +12,11 @@
 
     export default {
         name: "plt-head",
+        provide() {
+            return {
+                pltHead: this,
+            }
+        },
         mixins: [
             TableComponentMixin,
         ],

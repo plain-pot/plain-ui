@@ -170,6 +170,7 @@ export function formatPlcList(plcList: Plc[]): Plc[] {
             let {plcType, children} = plc
             if (plcType === PlcType.GROUP) {
                 plc.children = formatPlcList(children)
+                plc.group = true
             } else {
                 delete plc.children
             }

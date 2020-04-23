@@ -4,7 +4,6 @@
             <slot></slot>
         </plc-list>
         <plt-head ref="head"/>
-        {{plcList}}
     </div>
 </template>
 
