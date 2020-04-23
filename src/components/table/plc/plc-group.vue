@@ -5,10 +5,13 @@
 </template>
 
 <script lang="ts">
-    import {PlcGroupProps, PlcMixin, PlcType} from "./plc-utils";
+    import {getPlcWatch, PlcGroupProps, PlcMixin, PlcType} from "./plc-utils";
 
     export default {
         name: "plc-group",
+        watch: {
+            ...getPlcWatch(PlcGroupProps),
+        },
         props: {
             ...PlcGroupProps,
         },

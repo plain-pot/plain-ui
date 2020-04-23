@@ -3,10 +3,11 @@
         <demo-row title="基础用法">
             <demo-line>
                 <pl-toggle v-model="init"/>
+                <pl-input v-model="width"/>
             </demo-line>
             <pl-table :data="tableData">
                 <plc-list>
-                    <plc field="id" title="编号"/>
+                    <plc field="id" title="编号" :width="width"/>
                     <plc field="size" title="大小"/>
                     <plc-group title="地址">
                         <plc field="date" title="日期"/>
@@ -41,6 +42,7 @@
             return {
                 tableData: data,
                 init: true,
+                width: '200px',
             }
         },
     }

@@ -16,17 +16,17 @@ export const enum PlcAlign {
 }
 
 export const PlcGroupProps = {
-    title: {type: String},                      // 列标题
-    // order: {type: Number},                      // 列排序
-    // fixed: {type: String},                      // 冻结列位置：left、right、undefined
-    // placeLeft: {type: String},                  // 当出现左固定列的时候，是否自动设置为左固定列
-    // placeRight: {type: String},                 // 当出现右固定列的时候，是否自动设置为右固定列
+    title: {type: String},                          // 列标题
+    // order: {type: Number},                       // 列排序
+    // fixed: {type: String},                       // 冻结列位置：left、right、undefined
+    // placeLeft: {type: String},                   // 当出现左固定列的时候，是否自动设置为左固定列
+    // placeRight: {type: String},                  // 当出现右固定列的时候，是否自动设置为右固定列
 }
 
 export const PlcProps = {
     ...PlcGroupProps,
     field: {type: String},
-    width: {default: '200px'},                          //列宽度
+    width: {default: '200px', watch: true, formatNumber: true},//列宽度
     // fit: {type: Number, default: 0},                    //当列不满表格宽度时，该列所占剩下宽度的权重
     // hide: {type: Boolean},                              //是否隐藏
     // align: {type: String, default: 'left'},             //非编辑状态下文本对其方式
@@ -106,7 +106,13 @@ class Plc {
 
     constructor(plc) {
         const props = Object.keys(PlcProps).reduce((ret, propName) => {
-            ret[propName] = plc[propName]
+            let val = plc[propName]
+            if (PlcProps[propName].formatNumber) {
+                if (typeof val === "string" && (/^[\d]+$/.test(val) || val.endsWith('px'))) {
+                    val = Number(val.replace('px', ''))
+                }
+            }
+            ret[propName] = val
             return ret
         }, {}) as PlcPropsType
 
@@ -144,10 +150,14 @@ export const PlcMixin = {
         removeItem({plc}) {
             this.children.splice(this.children.indexOf(plc), 1)
         },
+        setProps(propName: string, val: any) {
+            if (!this.plc) return
+            this.plc.originProps[propName] = val
+            this.plc.props[propName] = val
+        },
     },
     mounted() {
         this.plc = new Plc(this)
-
         if (!!this.plcNode) {
             this.plcNode.addItem(this)
         }
@@ -178,4 +188,32 @@ export function formatPlcList(plcList: Plc[]): Plc[] {
         }
         return ret
     }, [])
+}
+
+export function getPlcWatch(plcProps): Object {
+    return Object.keys(plcProps).reduce((ret, propName) => {
+
+        if (!!plcProps[propName].watch) {
+            ret[propName] = function (val) {
+                if (!this.plc) {
+                    return
+                }
+                if (plcProps[propName].formatNumber) {
+                    if (typeof val === "number") {
+                        this.setProps(propName, val)
+                    } else {
+                        val = String(val)
+                        if (/^[\d]+$/.test(val) || val.endsWith('px')) {
+                            val = Number(val.replace('px', ''))
+                        }
+                        this.setProps(propName, val)
+                    }
+                } else {
+                    this.setProps(propName, val)
+                }
+            }
+        }
+
+        return ret
+    }, {})
 }

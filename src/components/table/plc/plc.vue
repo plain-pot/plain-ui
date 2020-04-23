@@ -1,9 +1,12 @@
 <script lang="ts">
-    import {PlcMixin, PlcProps, PlcType} from "./plc-utils";
+    import {getPlcWatch, PlcMixin, PlcProps, PlcType} from "./plc-utils";
 
     export default {
         name: "plc",
         props: PlcProps,
+        watch: {
+            ...getPlcWatch(PlcProps)
+        },
         mixins: [
             PlcMixin,
         ],
