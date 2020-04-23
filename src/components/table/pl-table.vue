@@ -105,7 +105,7 @@
                     fitPlcList.forEach((fitPlc, index) => {
                         if (index === fitPlcList.length - 1) {
                             // 如果是最后一个，用完剩下的宽度
-                            fitPlc.props.width = fitPlc.props.width + externalWidth
+                            fitPlc.props.width = fitPlc.props.width + externalWidth - 1
                             externalWidth = 0
                         } else {
                             // 根据fit分配宽度
@@ -144,23 +144,41 @@
 </script>
 
 <style lang="scss">
+
+
+    $tableHeadColor: rgba(0, 0, 0, 0.85);
+    $tableHeadBackground: #f8f8f8;
+    $tableHeadHoverBackground: #e1e1e1;
+    $tableHeadBorder: solid 1px #e6e6e6;
+
+    $tableBodyBorder: solid 1px #f0f0f0;
+    $tableBodyColor: rgba(0, 0, 0, 0.65);
+
     @include themify {
         .pl-table {
+
+            font-size: 12px;
+            box-sizing: border-box;
+
+            table {
+                border-collapse: collapse;
+            }
+
             .plt-head {
-                border-bottom: solid 1px #f0f0f0;
+                color: $tableHeadColor;
+                border-bottom: $tableHeadBorder;
+                border-width: 0.5px;
 
                 .plt-head-item {
-                    background-color: #f8f8f8;
+                    background-color: $tableHeadBackground;
 
                     .plt-head-cell {
-                        color: $ihc;
                         transition: background-color 500ms $transition;
                         font-weight: 500;
-                        /*border-bottom: solid 1px black;*/
-                        /*border-right: solid 1px black;*/
+                        border-bottom: $tableHeadBorder;
 
                         &:hover {
-                            background-color: #e1e1e1;
+                            background-color: $tableHeadHoverBackground;
                             cursor: pointer;
                         }
                     }
@@ -168,12 +186,12 @@
             }
 
             .plt-body {
+                color: $tableBodyColor;
+
                 .plt-body-item {
 
                     .plt-body-cell {
-                        color: $itc;
-                        font-size: 14px;
-                        border-bottom: solid 1px #f0f0f0;
+                        border-bottom: $tableBodyBorder;
                     }
                 }
             }
@@ -181,7 +199,6 @@
             .plt-cell {
                 padding: 0 12px;
                 box-sizing: border-box;
-                font-size: 14px;
 
                 &.plt-cell-align-left {
                     text-align: left;
@@ -195,6 +212,26 @@
                     text-align: right;
                 }
             }
+
+            &.pl-table-border {
+                .plt-head-item {
+                    .plt-cell {
+                        border: $tableHeadBorder;
+                    }
+                }
+
+                .plt-body {
+                    border-bottom: $tableBodyBorder;
+                    border-width: 0.5px;
+
+                    .plt-body-item {
+                        .plt-cell {
+                            border: $tableBodyBorder;
+                        }
+                    }
+                }
+            }
+
         }
     }
 </style>

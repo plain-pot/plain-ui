@@ -15,8 +15,11 @@
                         <pl-radio label="right" val="right"/>
                     </pl-radio-group>
                 </pl-form-item>
+                <pl-form-item label="带边框">
+                    <pl-checkbox v-model="border"/>
+                </pl-form-item>
             </pl-form>
-            <pl-table :data="tableData">
+            <pl-table :data="tableData" :border="border">
                 <plc-list>
                     <plc field="id" title="编号" :width="width" :align="align"/>
                     <plc field="size" title="大小" :align="align"/>
@@ -56,6 +59,7 @@
                 width: '200px',
 
                 align: 'left',
+                border: true,
             }
         },
         mounted() {
