@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-table">
+    <div class="pl-table" :class="classes">
         <plc-list ref="plc">
             <slot></slot>
         </plc-list>
@@ -60,6 +60,11 @@
             summaryText: {type: String, default: '合计'},            // 表尾合计行第一列的文本
         },
         computed: {
+            classes() {
+                return {
+                    'pl-table-border': this.border,
+                }
+            },
             plcList() {
                 if (!this.isMounted) return
 

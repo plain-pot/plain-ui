@@ -8,6 +8,6 @@ export const TableComponentMixin = {
 
 export function getCellClass(context, plc: Plc, rowData) {
     return [
-        `plt-cell-align-${plc.props.align || 'center'}`
+        `plt-cell-align-${plc.props.align || 'left'}`
     ]
 }
