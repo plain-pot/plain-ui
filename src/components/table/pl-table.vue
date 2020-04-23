@@ -86,7 +86,7 @@
                 let totalFits = 0
 
                 // 列信息
-                const plcList = formatPlcList(this.plc.children)
+                const plcList = formatPlcList(this.plc.items)
                 // 展开的列信息，如果是分组表头，则取叶子节点
                 let flatPlcList: Plc[] = []
 

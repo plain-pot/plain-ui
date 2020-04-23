@@ -19,14 +19,14 @@
                     <pl-checkbox v-model="border"/>
                 </pl-form-item>
             </pl-form>
-            <pl-table :data="tableData" :border="border">
+            <pl-table :data="tableData" :border="border" :summaryData="summaryData">
                 <plc-list>
                     <plc field="id" title="编号" :width="width" :align="align"/>
                     <plc field="size" title="大小" :align="align"/>
                     <plc-group title="地址" :align="align">
                         <plc field="date" title="日期" :align="align"/>
-                        <plc field="color" title="颜色" :align="align"/>
                         <plc-list>
+                            <plc field="color" title="颜色" :align="align"/>
                             <plc field="name" title="名称" v-if="init" :align="align"/>
                         </plc-list>
                     </plc-group>
@@ -55,6 +55,25 @@
             // const {color, date, id, name, size, star} = {}
             return {
                 tableData: data,
+                summaryData: [
+                    {
+                        id: '',
+                        size: '500',
+                        date: '2020-12-31',
+                        color: '#000',
+                        name: '合计行',
+                        star: 10
+                    },
+                    {
+                        id: '',
+                        size: '1000',
+                        date: '2021-12-31',
+                        color: '#fff',
+                        name: '合计行',
+                        star: 20
+                    },
+                ],
+
                 init: true,
                 width: '200',
 

@@ -101,11 +101,12 @@ export class Plc {
     title: string
     field: string
 
-    children: Plc[]
+    items: Plc[]
     plcType: PlcType
+
     originProps: PlcPropsType
     props: PlcPropsType
-
+    children: Plc[]
     group: boolean
     colspan: number
     rowspan: number
@@ -126,7 +127,7 @@ export class Plc {
         Object.assign(this, {
             originProps: {...props},
             props: {...props},
-            children: plc.children,
+            items: plc.items,
             plcType: plc.plcType,
             title: props.title,
             field: props.field,
@@ -146,16 +147,16 @@ export const PlcMixin = {
     },
     data() {
         return {
-            children: [],
+            items: [],
             plc: null,
         }
     },
     methods: {
         addItem({plc, $el}) {
-            this.children.splice(Array.from($el.parentNode.childNodes).indexOf($el), 0, plc.plcType === PlcType.LIST ? plc.children : plc)
+            this.items.splice(Array.from($el.parentNode.childNodes).indexOf($el), 0, plc.plcType === PlcType.LIST ? plc.items : plc)
         },
         removeItem({plc}) {
-            this.children.splice(this.children.indexOf(plc), 1)
+            this.items.splice(this.items.indexOf(plc), 1)
         },
         setProps(propName: string, val: any) {
             if (!this.plc) return
@@ -178,19 +179,19 @@ export const PlcMixin = {
 
 export function formatPlcList(plcList: Plc[]): Plc[] {
     if (!plcList) return []
+
     return plcList.reduce((ret: Plc[], plc: Plc | Plc[]) => {
         if (Array.isArray(plc)) {
             // plc list
             ret.push(...formatPlcList(plc))
         } else {
             // plc or group
-            let {plcType, children} = plc
+            let {plcType, items} = plc
             if (plcType === PlcType.GROUP) {
-                plc.children = formatPlcList(children)
+                plc.children = formatPlcList(items)
                 plc.group = true
-            } else {
-                delete plc.children
             }
+
             ret.push(plc)
         }
         return ret
