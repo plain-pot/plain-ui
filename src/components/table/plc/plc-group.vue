@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts">
-    import {PlcMixin, PlcType, PublicPlcProps} from "./plc-utils";
+    import {PlcGroupProps, PlcMixin, PlcType} from "./plc-utils";
 
     export default {
         name: "plc-group",
         props: {
-            ...PublicPlcProps,
+            ...PlcGroupProps,
         },
         mixins: [
             PlcMixin,

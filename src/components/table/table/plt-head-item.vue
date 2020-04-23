@@ -1,12 +1,12 @@
 <template>
     <div class="plt-head-item">
-        <table>
+        <!--<table>
             <tr v-for="(row,rowIndex) in plTable.headPlcList" :key="rowIndex">
                 <td v-for="(cell,cellIndex) in row" :key="cellIndex" :colspan="cell.colspan" :rowspan="cell.rowspan">
                     {{cell.title}}
                 </td>
             </tr>
-        </table>
+        </table>-->
     </div>
 </template>
 
@@ -19,9 +19,6 @@
             TableComponentMixin
         ],
         mounted() {
-            this.$nextTick(() => {
-                console.log(this.plTable.headPlcList)
-            })
         }
     }
 </script>
