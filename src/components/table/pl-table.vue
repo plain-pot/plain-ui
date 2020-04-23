@@ -10,6 +10,7 @@
 
 <script>
     import {RefsMixinFactory} from "../../utils/mixins";
+    import {formatPlcList} from "./plc/plc-utils";
 
     export default {
         name: "pl-table",
@@ -19,7 +20,8 @@
             })
         ],
         mounted() {
-            console.log(this.plcList.children)
+            const plcs = formatPlcList(this.plcList.children)
+            console.log(plcs)
         },
     }
 </script>

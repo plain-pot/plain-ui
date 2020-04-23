@@ -46,8 +46,28 @@ export const enum PlcType {
 export function formatPlcList(plcListChildren) {
     if (!plcListChildren) return []
     return plcListChildren.map(plc => {
-        Object.keys(PlcProps).reduce((ret, key) => {
+        const format = Object.keys(PlcProps).reduce((ret, key) => {
+            ret[key] = plc[key]
             return ret
         }, {})
+        let {plcNode, plcType, children} = plc
+
+        if ((plcType === PlcType.GROUP || plcType === PlcType.LIST) && !!children) {
+            children = formatPlcList(children)
+
+            const plcListArray = []
+            for (let i = 0; i < children; i++) {
+                const child = children[i];
+                if (child.plcType === PlcType.LIST) {
+                    i--
+                    children.splice(  )
+                }
+            }
+        }
+
+
+        Object.assign(format, {plcNode, plcType, children})
+
+        return format
     })
 }
