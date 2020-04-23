@@ -91,7 +91,7 @@
                 this.iterate(plcList, (plc) => {
                     if (!plc.group) {
                         flatPlcList.push(plc)
-                        externalWidth = externalWidth - plc.props.width
+                        externalWidth = externalWidth - plc.originProps.width
                         if (!!plc.props.fit) {
                             totalFits += plc.props.fit
                             fitPlcList.push(plc)
@@ -109,11 +109,11 @@
                     fitPlcList.forEach((fitPlc, index) => {
                         if (index === fitPlcList.length - 1) {
                             // 如果是最后一个，用完剩下的宽度
-                            fitPlc.props.width = fitPlc.props.width + externalWidth - 1
+                            fitPlc.props.width = fitPlc.originProps.width + externalWidth - 1
                             externalWidth = 0
                         } else {
                             // 根据fit分配宽度
-                            const newWidth = fitPlc.props.fit * fitBlockWidth + fitPlc.props.width
+                            const newWidth = fitPlc.props.fit * fitBlockWidth + fitPlc.originProps.width
                             fitPlc.props.width = newWidth
                             externalWidth -= newWidth
                         }
