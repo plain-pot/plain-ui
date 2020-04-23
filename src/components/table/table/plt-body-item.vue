@@ -1,7 +1,7 @@
 <template>
     <div class="plt-body-item">
         <table cellpadding="0" cellspacing="0" border="0">
-            <tr v-for="rowData in plTable.tableData" :key="rowData.rowIndex">
+            <tr v-for="rowData in plTable.tableData" :key="rowData.rowIndex" class="plt-row">
                 <plt-body-cell v-for="(plc,plcIndex) in pltBody.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="rowData"/>
             </tr>
         </table>

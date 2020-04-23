@@ -33,7 +33,7 @@
             border: {type: Boolean},                                // 是否带纵向边框
             stripe: {type: Boolean},                                // 是否为斑马纹table
             headRowHeight: {type: [String, Number], default: 40},   // 表头行高
-            bodyRowHeight: {type: [String, Number], default: 32},   // 表体行高
+            bodyRowHeight: {type: [String, Number], default: 36},   // 表体行高
             hideHeader: {type: Boolean},                            // 是否隐藏表头
             showRows: {type: Number, default: 10},                  // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
             emptyText: {type: String},                              // 空数据时显示的文本
@@ -142,6 +142,8 @@
     @include themify {
         .pl-table {
             .plt-head {
+                border-bottom: solid 1px #f0f0f0;
+
                 .plt-head-item {
                     background-color: #f8f8f8;
 
@@ -162,10 +164,11 @@
 
             .plt-body {
                 .plt-body-item {
+
                     .plt-body-cell {
                         color: $itc;
                         font-size: 14px;
-
+                        border-bottom: solid 1px #f0f0f0;
                     }
                 }
             }
