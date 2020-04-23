@@ -1,6 +1,6 @@
 <template>
-    <div class="plt-head-item">
-        <table cellspacing="0" cellpadding="0" border="0">
+    <div class="plt-head-item" :class="classes">
+        <table cellspacing="0" cellpadding="0" border="0" :style="tableStyles">
             <tr v-for="(row,rowIndex) in pltHead.headPlcList" :key="rowIndex">
                 <plt-head-cell v-for="(cell,cellIndex) in row" :key="cellIndex" :plc="cell"/>
             </tr>
@@ -19,8 +19,22 @@
         mixins: [
             TableComponentMixin
         ],
-        mounted() {
-        }
+        props: {
+            part: {type: String, default: 'center'},
+        },
+        computed: {
+            classes() {
+                return [
+                    `pl-head-item-part-${this.part}`
+                ]
+            },
+            tableStyles() {
+                if (!this.plTable.totalContentWidth) return
+                return {
+                    width: `${this.plTable.totalContentWidth}px`
+                }
+            },
+        },
     }
 </script>
 

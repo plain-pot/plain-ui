@@ -1,6 +1,6 @@
 <template>
     <div class="plt-body" :style="styles">
-        <pl-scroll>
+        <pl-scroll scrollX>
             <plt-body-item/>
         </pl-scroll>
     </div>
@@ -24,16 +24,6 @@
                 return {
                     height: `${this.plTable.bodyRowHeight * this.plTable.showRows}px`
                 }
-            },
-            bodyPlcList() {
-                if (!this.plTable.plcList) return []
-                const flatPlcList = []
-                this.plTable.iterate(this.plTable.plcList, (plc) => {
-                    if (!plc.group) {
-                        flatPlcList.push(plc)
-                    }
-                })
-                return flatPlcList
             },
         },
     }

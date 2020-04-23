@@ -3,7 +3,7 @@
         <demo-row title="基础用法">
             <pl-form>
                 <pl-form-item label="列宽度响应测试">
-                    <pl-input v-model="width"/>
+                    <pl-number v-model="width" :step="100"/>
                 </pl-form-item>
                 <pl-form-item label="列销毁测试">
                     <pl-toggle v-model="init"/>
@@ -56,7 +56,7 @@
             return {
                 tableData: data,
                 init: true,
-                width: '200px',
+                width: '200',
 
                 align: 'left',
                 border: true,

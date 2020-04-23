@@ -1,8 +1,8 @@
 <template>
-    <div class="plt-body-item">
-        <table cellpadding="0" cellspacing="0" border="0">
+    <div class="plt-body-item" :class="classes">
+        <table cellpadding="0" cellspacing="0" border="0" :style="tableStyles">
             <tr v-for="rowData in plTable.tableData" :key="rowData.rowIndex" class="plt-row">
-                <plt-body-cell v-for="(plc,plcIndex) in pltBody.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="rowData"/>
+                <plt-body-cell v-for="(plc,plcIndex) in plTable.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="rowData"/>
             </tr>
         </table>
     </div>
@@ -18,6 +18,22 @@
         ],
         inject: {
             pltBody: {default: null}
+        },
+        props: {
+            part: {type: String, default: 'center'},
+        },
+        computed: {
+            classes() {
+                return [
+                    `pl-body-item-part-${this.part}`
+                ]
+            },
+            tableStyles() {
+                if (!this.plTable.totalContentWidth) return
+                return {
+                    width: `${this.plTable.totalContentWidth}px`
+                }
+            },
         },
 
     }

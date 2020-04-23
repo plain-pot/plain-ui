@@ -65,15 +65,19 @@
                     'pl-table-border': this.border,
                 }
             },
+            totalContentWidth() {
+                if (!this.bodyPlcList) return
+                return this.bodyPlcList.reduce((ret, plc) => {
+                    return ret + plc.props.width
+                }, 0)
+            },
             plcList() {
                 if (!this.isMounted) return
 
                 /*---------------------------------------计算列宽度-------------------------------------------*/
 
-                // 总宽度
-                const totalWidth = this.$el.offsetWidth
                 // 额外的宽度（在iterate执行完之后得到真实值）
-                let externalWidth = totalWidth
+                let externalWidth = this.$el.offsetWidth
                 // 填充宽度的列
                 const fitPlcList: Plc[] = []
                 // 填充宽度分配总份数
@@ -119,6 +123,16 @@
                 /*---------------------------------------end-------------------------------------------*/
 
                 return plcList
+            },
+            bodyPlcList() {
+                if (!this.plcList) return []
+                const flatPlcList = []
+                this.iterate(this.plcList, (plc) => {
+                    if (!plc.group) {
+                        flatPlcList.push(plc)
+                    }
+                })
+                return flatPlcList
             },
             tableData() {
                 return (this.data || []).map((row, rowIndex) => ({
@@ -192,6 +206,12 @@
 
                     .plt-body-cell {
                         border-bottom: $tableBodyBorder;
+                    }
+
+                    &.pl-body-item-part-center {
+                        & > table {
+                            min-width: 100%;
+                        }
                     }
                 }
             }
