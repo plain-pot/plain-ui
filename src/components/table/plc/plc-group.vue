@@ -1,15 +1,17 @@
 <template>
-    <div class="plc-group">
+    <span class="plc-group">
         <slot></slot>
-    </div>
+    </span>
 </template>
 
 <script lang="ts">
-    import {PlcMixin, PlcType} from "./plc-utils";
+    import {PlcMixin, PlcType, PublicPlcProps} from "./plc-utils";
 
     export default {
         name: "plc-group",
-        props: {},
+        props: {
+            ...PublicPlcProps,
+        },
         mixins: [
             PlcMixin,
         ],

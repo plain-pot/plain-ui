@@ -1,7 +1,7 @@
 <template>
-    <div class="plc-list">
+    <span class="plc-list">
         <slot></slot>
-    </div>
+    </span>
 </template>
 
 <script lang="ts">

@@ -32,9 +32,18 @@ export const PlcMixin = {
     },
 }
 
+export const PublicPlcProps = {
+    title: {type: String},                      // 列标题
+    order: {type: String},                      // 列排序
+    fixed: {type: String},                      // 冻结列位置：left、right、undefined
+    placeLeft: {type: String},                  // 当出现左固定列的时候，是否自动设置为左固定列
+    placeRight: {type: String},                 // 当出现右固定列的时候，是否自动设置为右固定列
+}
+
 export const PlcProps = {
     field: {type: String},
     title: {type: String},
+    ...PublicPlcProps,
 }
 
 export const enum PlcType {

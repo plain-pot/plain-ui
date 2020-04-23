@@ -1,9 +1,3 @@
-<template>
-    <div class="plc">
-        {{title}}-{{field}}
-    </div>
-</template>
-
 <script lang="ts">
     import {PlcMixin, PlcProps, PlcType} from "./plc-utils";
 
@@ -19,6 +13,9 @@
             return {
                 plcType,
             }
+        },
+        render() {
+            return null
         },
     }
 </script>
