@@ -278,26 +278,26 @@
             overflow: hidden;
             position: relative;
 
-            background-color: #f2f2f2;
+            border: solid 1px $ibl;
+            border-radius: 2px;
 
-            td {
-                border-bottom: solid 1px #ddd;
-            }
-
-            .pl-virtual-list-content {
-                position: relative;
-                .pl-virtual-table-summary-table {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    background-color: white;
+            tr {
+                &:not(:last-child) {
+                    td {
+                        border-bottom: solid 1px $ibl;
+                    }
                 }
             }
 
-            &:not(.pl-virtual-list-disabled) {
-                .pl-virtual-list-content {
-                    position: absolute;
-                }
+            .pl-virtual-table-summary-table {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background-color: white;
+            }
+
+            .pl-vertical-scrollbar, .pl-horizontal-scrollbar {
+                z-index: 1;
             }
         }
     }

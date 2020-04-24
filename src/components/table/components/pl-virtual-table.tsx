@@ -14,6 +14,8 @@ export default {
 
         remain: {type: Number},
         dynamicSize: {type: Number},
+
+        scrollProps: {type: Object},
     },
     mixins: [
         VirtualList,
@@ -28,6 +30,7 @@ export default {
             virtualTable: {
                 scrollFlag: false,
                 disabledQueenAnimation,
+                scrollLeft: 0,
             },
         }
     },
@@ -40,7 +43,7 @@ export default {
     render(h) {
         return (
             <div class={[...this.classes, 'pl-virtual-table']}>
-                <pl-scroll ref="scroll" onScroll={this.onScroll} scrollX={true}>
+                <pl-scroll ref="scroll" onScroll={this.onScroll} scrollX={true} {...{props: this.scrollProps}}>
                     <div class="pl-virtual-list-strut" style={{...this.strutStyles, width: `${this.width}px`}}>
                         <div class="pl-virtual-list-content" style={this.contentStyles}>
                             <pl-list tag="table"
@@ -51,20 +54,27 @@ export default {
                                      style={this.tableStyles}>
                                 {this.targetData.map(({item, index}) => !this.$scopedSlots.default ? null : this.$scopedSlots.default({item, index}))}
                             </pl-list>
-                            {!!this.summaryData && (
-                                <table class="pl-virtual-table-summary-table" style={this.tableStyles}>
-                                    {this.summaryData.map((item, index) => !this.$scopedSlots.default ? null : this.$scopedSlots.default({item, index}))}
-                                </table>
-                            )}
                         </div>
                     </div>
                 </pl-scroll>
+                {!!this.summaryData && (
+                    <table class="pl-virtual-table-summary-table" style={this.summaryTableStyles}>
+                        {this.summaryData.map((item, index) => !this.$scopedSlots.default ? null : this.$scopedSlots.default({item, index}))}
+                    </table>
+                )}
             </div>
         )
     },
     computed: {
         tableStyles() {
             return {width: `${this.width}px`}
+        },
+        summaryTableStyles() {
+            return {
+                ...this.tableStyles,
+                left: `${-this.virtualTable.scrollLeft}px`,
+                height: `${this.summaryData.length * this.size + 10}px`
+            }
         },
         strutStyles() {
             if (this.isDisabled) return
@@ -86,9 +96,11 @@ export default {
         },
     },
     methods: {
-        onVirtualTableScroll() {
+        onVirtualTableScroll(e) {
             this.virtualTable.scrollFlag = true
             this.virtualTable.disabledQueenAnimation()
+
+            this.virtualTable.scrollLeft = e.currentTarget.scrollLeft
         },
     },
 

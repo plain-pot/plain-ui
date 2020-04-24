@@ -1,8 +1,16 @@
 <template>
     <div class="virtual-table">
+
+        <demo-row title="属性控制">
+            <pl-form>
+                <pl-form-item label="禁用虚拟滚动">
+                    <pl-toggle v-model="disabled"/>
+                </pl-form-item>
+            </pl-form>
+        </demo-row>
         <demo-row title="基本用法">
             <div style="height: 410px;overflow: hidden">
-                <pl-virtual-table :data="tableData" :size="40" :width="3000" :summaryData="summaryData">
+                <pl-virtual-table :data="tableData" :size="40" :width="3000" :summaryData="summaryData" :scrollProps="{alwaysShowScrollbar: true}" :disabled="disabled">
                     <template slot-scope="{item,index}">
                         <pl-item tag="tr" :key="index" :vid="index" block>
                             <td style="height: 40px;">{{JSON.stringify(item)}}</td>
@@ -42,6 +50,8 @@
             return {
                 tableData: data,
                 summaryData,
+
+                disabled: false,
             }
         },
     }
