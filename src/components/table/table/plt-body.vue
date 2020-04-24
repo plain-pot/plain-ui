@@ -1,8 +1,6 @@
 <template>
     <div class="plt-body" :style="styles">
-        <pl-scroll scrollX ref="scroll">
-            <plt-body-item/>
-        </pl-scroll>
+        <plt-body-item/>
     </div>
 </template>
 

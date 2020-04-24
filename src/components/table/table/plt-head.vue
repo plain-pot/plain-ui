@@ -1,5 +1,5 @@
 <template>
-    <div class="plt-head" :style="styles">
+    <div class="plt-head" :style="styles" :class="classes">
         <pl-scroll scrollX :scrollY="false" ref="scroll">
             <plt-head-item/>
         </pl-scroll>
@@ -28,6 +28,11 @@
             styles() {
                 return {
                     height: `${this.plTable.headRowHeight * this.headPlcList.length}px`
+                }
+            },
+            classes() {
+                return {
+                    'plt-head-border': !!this.plTable.border || (!!this.headPlcList && this.headPlcList.length > 1)
                 }
             },
             headPlcList() {

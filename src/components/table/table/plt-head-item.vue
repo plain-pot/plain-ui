@@ -25,7 +25,7 @@
         computed: {
             classes() {
                 return [
-                    `pl-head-item-part-${this.part}`
+                    `pl-head-item-part-${this.part}`,
                 ]
             },
             tableStyles() {
