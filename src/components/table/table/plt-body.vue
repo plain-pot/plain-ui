@@ -39,7 +39,7 @@
         },
         methods: {
             refreshScroll() {
-                Object.values(this.bodyItems).filter(Boolean).forEach((bodyItem: any) => bodyItem.scroll.refresh())
+                Object.values(this.bodyItems).filter(Boolean).forEach((bodyItem: any) => bodyItem.virtualTable.scroll.refresh())
             },
         },
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="plt-body-item" :class="classes">
-        <pl-virtual-table :width="plTable.totalContentWidth" :data="plTable.tableData" :summaryData="plTable.tableSummaryData" :size="plTable.bodyRowHeight">
+        <pl-virtual-table :width="plTable.totalContentWidth" :data="plTable.tableData" :summaryData="plTable.tableSummaryData" :size="plTable.bodyRowHeight" ref="virtualTable">
             <template slot-scope="{item,index}">
                 <pl-item tag="tr" :key="index" class="plt-row">
                     <plt-body-cell v-for="(plc,plcIndex) in plTable.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="item"/>
@@ -19,7 +19,7 @@
         mixins: [
             TableComponentMixin,
             RefsMixinFactory({
-                scroll: Object,
+                virtualTable: Object,
             })
         ],
         inject: {
