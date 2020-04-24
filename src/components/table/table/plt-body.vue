@@ -33,7 +33,7 @@
         computed: {
             styles() {
                 return {
-                    height: `${this.plTable.bodyRowHeight * this.plTable.showRows + 14}px`
+                    height: `${this.plTable.bodyRowHeight * this.plTable.showRows + 12}px`
                 }
             },
         },

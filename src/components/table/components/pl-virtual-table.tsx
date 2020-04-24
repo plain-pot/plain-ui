@@ -57,7 +57,7 @@ export default {
                         </div>
                     </div>
                 </pl-scroll>
-                {!!this.summaryData && (
+                {(!!this.summaryData && this.summaryData.length > 0) && (
                     <table class="pl-virtual-table-summary-table"
                            style={this.summaryTableStyles}
                            cellspacing={0}
@@ -74,7 +74,6 @@ export default {
         tableStyles() {
             return {
                 width: `${this.width}px`,
-                paddingBottom: '14px',
             }
         },
         summaryTableStyles() {
@@ -90,7 +89,7 @@ export default {
             const summaryHeight = (!!this.summaryData && this.summaryData.length > 0) ? (this.summaryData || []).length * this.size : 0
 
             return {
-                height: `${dataHeight + summaryHeight + 14}px`
+                height: `${dataHeight + summaryHeight + 12}px`
             }
         },
         contentStyles() {

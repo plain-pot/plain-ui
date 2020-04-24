@@ -284,6 +284,16 @@
             overflow: hidden;
             position: relative;
 
+            table {
+                border-collapse: collapse;
+                &:after {
+                    content: '';
+                    display: inline-block;
+                    height: 12px;
+                    width: 100%;
+                }
+            }
+
             .pl-virtual-table-summary-table {
                 position: absolute;
                 bottom: 0;
