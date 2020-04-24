@@ -84,6 +84,14 @@
       }
     }
 
+    &.pl-scroll-always-show-scroll-bar {
+      & > .pl-horizontal-scrollbar-wrapper, & > .pl-vertical-scrollbar-wrapper {
+        .pl-vertical-scrollbar, .pl-horizontal-scrollbar {
+          opacity: 1;
+        }
+      }
+    }
+
     &:hover, &.pl-scroll-draging {
       & > .pl-horizontal-scrollbar-wrapper, & > .pl-vertical-scrollbar-wrapper {
         .pl-vertical-scrollbar, .pl-horizontal-scrollbar {

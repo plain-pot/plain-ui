@@ -50,6 +50,7 @@
             scrollX: {type: Boolean},                                                                       // 可以横向滚动
             scrollY: {type: Boolean, default: true},                                                        // 可以纵向滚动
             hideScrollbar: {type: Boolean},                                                                 // 隐藏滚动条
+            alwaysShowScrollbar: {type: Boolean},                                                           // 一直显示滚动条
             fitContentWidth: {type: Boolean},                                                               // 适配内容宽度
             fitContentHeight: {type: Boolean},                                                              // 适配内容高度
             fitHostWidth: {type: Boolean},                                                                  // 适配容器宽度
@@ -154,6 +155,7 @@
                 return {
                     'pl-scroll-draging': this.draging,
                     'pl-scroll-disabled': this.disableScroll,
+                    'pl-scroll-always-show-scroll-bar': this.alwaysShowScrollbar,
                 }
             },
             /**
