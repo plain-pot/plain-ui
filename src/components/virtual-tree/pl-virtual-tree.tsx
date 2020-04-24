@@ -48,8 +48,8 @@ export default {
                 {!!this.virtual ?
                     <pl-virtual-list data={this.formatDataFlat}
                                      size={24}
-                                     contentIs={this.virtualScrollFlag ? 'div' : 'pl-list'}
-                                     contentProps={{direction: "right"}}
+                                     contentIs="pl-list"
+                                     contentProps={{direction: "right", disabled: this.virtualScrollFlag}}
                                      onScroll={this.onVirtualScroll}
                                      {...{
                                          scopedSlots: {default: ({item, index}) => <pl-virtual-tree-node treeNode={item} key={item.key} vid={index}/>}

@@ -1,7 +1,7 @@
 <template>
-    <transition-group :name="`pl-list-move-${direction}`" :tag="tag" class="pl-list">
+    <component :is="disabled?tag:'transition-group'" :name="`pl-list-move-${direction}`" :tag="tag" class="pl-list">
         <slot></slot>
-    </transition-group>
+    </component>
 </template>
 
 <script>
@@ -14,6 +14,7 @@
 
             },
             tag: {type: String, default: 'div'},
+            disabled: {type: Boolean},
         },
     }
 </script>
