@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import data from '../data/data'
+    import data from '../data/data-2'
 
     export default {
         name: "virtual-table",
