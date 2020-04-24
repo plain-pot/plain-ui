@@ -40,12 +40,36 @@
                 </pl-virtual-list>
             </div>
         </demo-row>
+
+        <demo-row title="禁用虚拟滚动">
+            <div class="demo-virtual-list-container">
+                <pl-virtual-list :data="data2" :size="40" disabled>
+                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                        <div class="seq">
+                            {{index}}
+                        </div>
+                        <div class="content">
+                            <div class="label">
+                                <span>{{item.name}}</span>
+                                <span>{{item.date}}</span>
+                            </div>
+                            <div class="star">
+                                {{item.star}}
+                            </div>
+                        </div>
+                    </div>
+                </pl-virtual-list>
+            </div>
+        </demo-row>
     </div>
 </template>
 
 <script>
 
     import data from '../data/data.json'
+    import data2 from '../data/data-2'
+
+    console.log(data2.length)
 
     export default {
         name: "demo-virtual-list",
@@ -53,6 +77,7 @@
         data() {
             return {
                 list: data,
+                data2,
             }
         },
         methods: {
