@@ -1,12 +1,12 @@
 <template>
     <div class="plt-body-item" :class="classes">
-        <pl-scroll scrollX ref="scroll">
-            <table cellpadding="0" cellspacing="0" border="0" :style="tableStyles">
-                <tr v-for="rowData in plTable.tableData" :key="rowData.rowIndex" class="plt-row">
-                    <plt-body-cell v-for="(plc,plcIndex) in plTable.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="rowData"/>
-                </tr>
-            </table>
-        </pl-scroll>
+        <pl-virtual-table :width="plTable.totalContentWidth" :data="plTable.tableData" :summaryData="plTable.tableSummaryData" :size="plTable.bodyRowHeight">
+            <template slot-scope="{item,index}">
+                <pl-item tag="tr" :key="index" class="plt-row">
+                    <plt-body-cell v-for="(plc,plcIndex) in plTable.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="item"/>
+                </pl-item>
+            </template>
+        </pl-virtual-table>
     </div>
 </template>
 
@@ -39,12 +39,6 @@
                 return [
                     `pl-body-item-part-${this.part}`
                 ]
-            },
-            tableStyles() {
-                if (!this.plTable.totalContentWidth) return
-                return {
-                    width: `${this.plTable.totalContentWidth}px`
-                }
             },
         },
 

@@ -142,6 +142,12 @@
                     rowIndex,
                 }))
             },
+            tableSummaryData() {
+                return (this.summaryData || []).map((row, rowIndex) => ({
+                    row,
+                    rowIndex,
+                }))
+            },
         },
         mounted() {
             this.unwatch = this.$watch('totalContentWidth', (newVal, oldVal) => {
@@ -277,17 +283,6 @@
             width: 100%;
             overflow: hidden;
             position: relative;
-
-            border: solid 1px $ibl;
-            border-radius: 2px;
-
-            tr {
-                &:not(:last-child) {
-                    td {
-                        border-bottom: solid 1px $ibl;
-                    }
-                }
-            }
 
             .pl-virtual-table-summary-table {
                 position: absolute;

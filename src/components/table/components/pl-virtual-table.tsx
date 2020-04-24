@@ -58,7 +58,12 @@ export default {
                     </div>
                 </pl-scroll>
                 {!!this.summaryData && (
-                    <table class="pl-virtual-table-summary-table" style={this.summaryTableStyles}>
+                    <table class="pl-virtual-table-summary-table"
+                           style={this.summaryTableStyles}
+                           cellspacing={0}
+                           cellpadding={0}
+                           border={0}
+                    >
                         {this.summaryData.map((item, index) => !this.$scopedSlots.default ? null : this.$scopedSlots.default({item, index}))}
                     </table>
                 )}
@@ -73,13 +78,13 @@ export default {
             return {
                 ...this.tableStyles,
                 left: `${-this.virtualTable.scrollLeft}px`,
-                height: `${this.summaryData.length * this.size + 10}px`
+                height: `${this.summaryData.length * this.size}px`
             }
         },
         strutStyles() {
             if (this.isDisabled) return
             const dataHeight = (this.data || []).length * this.size
-            const summaryHeight = (this.summaryData || []).length * this.size
+            const summaryHeight = (!!this.summaryData && this.summaryData.length > 0) ? (this.summaryData || []).length * this.size : 0
 
             return {
                 height: `${dataHeight + summaryHeight}px`

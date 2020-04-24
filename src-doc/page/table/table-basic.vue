@@ -57,20 +57,20 @@
                 tableData: data,
                 summaryData: [
                     {
-                        id: '',
-                        size: '500',
-                        date: '2020-12-31',
-                        color: '#000',
-                        name: '合计行',
-                        star: 10
+                        "id": 0,
+                        "color": "#79f285",
+                        "name": "Lisa",
+                        "date": "2002-04-28",
+                        "star": "★★★★★★★",
+                        "size": 49
                     },
                     {
-                        id: '',
-                        size: '1000',
-                        date: '2021-12-31',
-                        color: '#fff',
-                        name: '合计行',
-                        star: 20
+                        "id": 1,
+                        "color": "#f27990",
+                        "name": "George",
+                        "date": "2019-01-06",
+                        "star": "★★★★★★★★",
+                        "size": 74
                     },
                 ],
 
