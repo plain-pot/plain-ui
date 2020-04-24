@@ -69,7 +69,7 @@
             const Content = this.contentIs || 'div'
 
             return (
-                <pl-scroll class="pl-virtual-list" onScroll={this.onScroll} ref="scroll">
+                <pl-scroll onScroll={this.onScroll} ref="scroll" class={this.classes}>
                     <div class="pl-virtual-list-strut" style={this.strutStyles}>
                         <Content class="pl-virtual-list-content" style={this.contentStyles} ref="content" {...{props: this.contentProps || {}}}>
                             {!!this.renderContent ?
@@ -112,6 +112,14 @@
             }
         },
         computed: {
+            classes() {
+                return [
+                    'pl-virtual-list',
+                    {
+                        'pl-virtual-list-disabled': this.isDisabled,
+                    }
+                ]
+            },
             isDisabled() {
                 return this.disabled
             },
@@ -129,11 +137,13 @@
                 return (this.data || []).map((item, index) => ({item, index})).slice(this.targetStart, this.targetEnd)
             },
             strutStyles() {
+                if (this.isDisabled) return
                 return {
                     height: `${!!this.dynamicSize ? this.dataInfo[this.dataInfo.length - 1].bottom : this.data.length * this.size}px`
                 }
             },
             contentStyles() {
+                if (this.isDisabled) return
                 return {
                     transform: `translate3d(0,${this.offset}px,0)`
                 }
@@ -195,16 +205,21 @@
 
 <style lang="scss">
     .pl-virtual-list {
-        .pl-virtual-list-strut {
-            position: relative;
-            overflow: hidden;
+        position: relative;
 
-            .pl-virtual-list-content {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
+        &:not(.pl-virtual-list-disabled) {
+            .pl-virtual-list-strut {
+                position: relative;
+                overflow: hidden;
+
+                .pl-virtual-list-content {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                }
             }
         }
+
     }
 </style>
