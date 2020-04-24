@@ -27,7 +27,7 @@
         computed: {
             styles() {
                 return {
-                    height: `${this.plTable.headRowHeight * this.headPlcList.length +1}px`
+                    height: `${this.plTable.headRowHeight * this.headPlcList.length + 1}px`
                 }
             },
             classes() {
@@ -83,6 +83,11 @@
                 calculateHeadColumns(plcList)
 
                 return headCols
+            },
+        },
+        methods: {
+            refreshScroll() {
+                this.scroll.refresh()
             },
         },
     }

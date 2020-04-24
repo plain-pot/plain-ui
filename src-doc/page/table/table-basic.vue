@@ -34,7 +34,7 @@
                 <plc field="star" title="评分" :align="align"/>-->
 
                 <plc field="id" title="编号"/>
-                <plc field="size" title="大小"/>
+                <plc field="size" title="大小" :width="width"/>
                 <plc field="date" title="日期"/>
                 <plc field="color" title="颜色"/>
                 <plc field="name" title="名称" v-if="init"/>

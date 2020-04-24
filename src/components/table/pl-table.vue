@@ -146,8 +146,8 @@
         mounted() {
             this.unwatch = this.$watch('totalContentWidth', (newVal, oldVal) => {
                 if (newVal !== oldVal) {
-                    this.head.scroll.refresh()
-                    this.body.scroll.refresh()
+                    this.head.refreshScroll()
+                    this.body.refreshScroll()
                 }
             })
         },

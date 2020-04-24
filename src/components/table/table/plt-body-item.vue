@@ -12,17 +12,27 @@
 
 <script>
     import {TableComponentMixin} from "./table-utils";
+    import {RefsMixinFactory} from "../../../utils/mixins";
 
     export default {
         name: "plt-body-item",
         mixins: [
-            TableComponentMixin
+            TableComponentMixin,
+            RefsMixinFactory({
+                scroll: Object,
+            })
         ],
         inject: {
             pltBody: {default: null}
         },
         props: {
             part: {type: String, default: 'center'},
+        },
+        created() {
+            this.pltBody.bodyItems[this.part] = this
+        },
+        beforeDestroy() {
+            this.pltBody.bodyItems[this.part] = null
         },
         computed: {
             classes() {

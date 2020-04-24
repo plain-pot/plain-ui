@@ -21,11 +21,25 @@
                 scroll: Object
             })
         ],
+        data() {
+            return {
+                bodyItems: {
+                    center: null,
+                    left: null,
+                    right: null,
+                },
+            }
+        },
         computed: {
             styles() {
                 return {
                     height: `${this.plTable.bodyRowHeight * this.plTable.showRows}px`
                 }
+            },
+        },
+        methods: {
+            refreshScroll() {
+                Object.values(this.bodyItems).filter(Boolean).forEach((bodyItem: any) => bodyItem.scroll.refresh())
             },
         },
     }
