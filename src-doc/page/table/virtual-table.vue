@@ -4,7 +4,7 @@
             <div style="height: 400px;overflow: hidden">
                 <pl-virtual-table :data="tableData" :size="40" :width="3000">
                     <template slot-scope="{item,index}">
-                        <pl-item tag="tr" :key="index" :vid="index">
+                        <pl-item tag="tr" :key="index" :vid="index" block>
                             <td style="height: 40px;">{{JSON.stringify(item)}}</td>
                         </pl-item>
                     </template>

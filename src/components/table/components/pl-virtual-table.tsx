@@ -37,10 +37,10 @@ export default {
     },
     render(h) {
         return (
-            <div class="pl-virtual-table">
+            <div class={[...this.classes, 'pl-virtual-table']}>
                 <pl-scroll ref="scroll" onScroll={this.onScroll} scrollX={true}>
-                    <div class="pl-virtual-table-strut" style={{...this.strutStyles, width: `${this.width}px`}}>
-                        <div class="pl-virtual-table-content" style={this.contentStyles}>
+                    <div class="pl-virtual-list-strut" style={{...this.strutStyles, width: `${this.width}px`}}>
+                        <div class="pl-virtual-list-content" style={this.contentStyles}>
                             <pl-list tag="table" disabled={!this.isDisabled && this.virtualTable.scrollFlag} cellspacing={0} cellpadding={0} border={0} style={{width: `${this.width}px`}}>
                                 {this.targetData.map(({item, index}) => !this.$scopedSlots.default ? null : this.$scopedSlots.default({item, index}))}
                             </pl-list>
@@ -50,9 +50,7 @@ export default {
             </div>
         )
     },
-    computed: {
-
-    },
+    computed: {},
     methods: {
         onVirtualTableScroll() {
             this.virtualTable.scrollFlag = true

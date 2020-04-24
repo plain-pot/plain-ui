@@ -277,19 +277,6 @@
             width: 100%;
             overflow: hidden;
             position: relative;
-
-            .pl-virtual-table-strut {
-                position: relative;
-                overflow: hidden;
-                display: inline-block;
-
-                .pl-virtual-table-content {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    display: inline-block;
-                }
-            }
         }
     }
 </style>
