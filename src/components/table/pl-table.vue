@@ -251,20 +251,13 @@
                             position: absolute;
                             top: 0;
                             bottom: 0;
-                            width: 3px;
+                            width: 6px;
+                            right: 0;
                             content: '';
                             background-color: rgba(black, 0.1);
                             cursor: ew-resize;
                             opacity: 0;
                             transition: opacity 500ms $transition;
-
-                            &[start] {
-                                left: 0;
-                            }
-
-                            &[end] {
-                                right: 0;
-                            }
                         }
 
                         &:hover {
