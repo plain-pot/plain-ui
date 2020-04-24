@@ -72,7 +72,10 @@ export default {
     },
     computed: {
         tableStyles() {
-            return {width: `${this.width}px`}
+            return {
+                width: `${this.width}px`,
+                paddingBottom: '14px',
+            }
         },
         summaryTableStyles() {
             return {
@@ -87,7 +90,7 @@ export default {
             const summaryHeight = (!!this.summaryData && this.summaryData.length > 0) ? (this.summaryData || []).length * this.size : 0
 
             return {
-                height: `${dataHeight + summaryHeight}px`
+                height: `${dataHeight + summaryHeight + 14}px`
             }
         },
         contentStyles() {

@@ -18,8 +18,11 @@
                 <pl-form-item label="带边框">
                     <pl-checkbox v-model="border"/>
                 </pl-form-item>
+                <pl-form-item label="合计行">
+                    <pl-toggle v-model="hasSummaryData"/>
+                </pl-form-item>
             </pl-form>
-            <pl-table :data="tableData" :border="border" :summaryData="summaryData">
+            <pl-table :data="tableData" :border="border" :summaryData="hasSummaryData?summaryData:null">
                 <!--<plc-list>
                     <plc field="id" title="编号" :width="width" :align="align"/>
                     <plc field="size" title="大小" :align="align"/>
@@ -79,6 +82,7 @@
 
                 align: 'left',
                 border: true,
+                hasSummaryData: true,
             }
         },
         mounted() {

@@ -288,7 +288,7 @@
                 position: absolute;
                 bottom: 0;
                 left: 0;
-                background-color: white;
+                background-color: $tableHeadBackground;
             }
 
             .pl-vertical-scrollbar, .pl-horizontal-scrollbar {
