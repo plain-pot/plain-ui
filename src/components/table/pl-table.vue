@@ -277,6 +277,28 @@
             width: 100%;
             overflow: hidden;
             position: relative;
+
+            background-color: #f2f2f2;
+
+            td {
+                border-bottom: solid 1px #ddd;
+            }
+
+            .pl-virtual-list-content {
+                position: relative;
+                .pl-virtual-table-summary-table {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    background-color: white;
+                }
+            }
+
+            &:not(.pl-virtual-list-disabled) {
+                .pl-virtual-list-content {
+                    position: absolute;
+                }
+            }
         }
     }
 </style>

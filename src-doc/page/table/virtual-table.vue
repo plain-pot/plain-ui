@@ -1,8 +1,8 @@
 <template>
     <div class="virtual-table">
         <demo-row title="基本用法">
-            <div style="height: 400px;overflow: hidden">
-                <pl-virtual-table :data="tableData" :size="40" :width="3000">
+            <div style="height: 410px;overflow: hidden">
+                <pl-virtual-table :data="tableData" :size="40" :width="3000" :summaryData="summaryData">
                     <template slot-scope="{item,index}">
                         <pl-item tag="tr" :key="index" :vid="index" block>
                             <td style="height: 40px;">{{JSON.stringify(item)}}</td>
@@ -17,11 +17,31 @@
 <script>
     import data from '../data/data-2'
 
+    const summaryData = [
+        {
+            "id": 0,
+            "color": "#79f285",
+            "name": "Lisa",
+            "date": "2002-04-28",
+            "star": "★★★★★★★",
+            "size": 49
+        },
+        {
+            "id": 1,
+            "color": "#f27990",
+            "name": "George",
+            "date": "2019-01-06",
+            "star": "★★★★★★★★",
+            "size": 74
+        },
+    ]
+
     export default {
         name: "virtual-table",
         data() {
             return {
                 tableData: data,
+                summaryData,
             }
         },
     }
