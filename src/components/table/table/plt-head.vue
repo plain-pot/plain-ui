@@ -27,7 +27,7 @@
         computed: {
             styles() {
                 return {
-                    height: `${this.plTable.headRowHeight * this.headPlcList.length}px`
+                    height: `${this.plTable.headRowHeight * this.headPlcList.length +1}px`
                 }
             },
             classes() {

@@ -20,7 +20,7 @@
                 </pl-form-item>
             </pl-form>
             <pl-table :data="tableData" :border="border" :summaryData="summaryData">
-                <plc-list>
+                <!--<plc-list>
                     <plc field="id" title="编号" :width="width" :align="align"/>
                     <plc field="size" title="大小" :align="align"/>
                     <plc-group title="地址" :align="align">
@@ -31,14 +31,14 @@
                         </plc-list>
                     </plc-group>
                 </plc-list>
-                <plc field="star" title="评分" :align="align"/>
+                <plc field="star" title="评分" :align="align"/>-->
 
-                <!--<plc field="id" title="编号"/>
+                <plc field="id" title="编号"/>
                 <plc field="size" title="大小"/>
                 <plc field="date" title="日期"/>
                 <plc field="color" title="颜色"/>
                 <plc field="name" title="名称" v-if="init"/>
-                <plc field="star" title="评分"/>-->
+                <plc field="star" title="评分"/>
 
             </pl-table>
         </demo-row>

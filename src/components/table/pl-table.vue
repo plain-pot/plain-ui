@@ -192,8 +192,6 @@
 
             .plt-head {
                 color: $tableHeadColor;
-                border-bottom: $tableHeadBorder;
-                border-width: 0.5px;
 
                 .plt-head-item {
                     background-color: $tableHeadBackground;
@@ -201,7 +199,7 @@
                     .plt-head-cell {
                         transition: background-color 500ms $transition;
                         font-weight: 500;
-                        border-bottom: $tableHeadBorder;
+                        border-bottom: $tableBodyBorder;
 
                         &:hover {
                             background-color: $tableHeadHoverBackground;
