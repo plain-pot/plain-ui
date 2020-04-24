@@ -1,8 +1,13 @@
 <template>
     <div class="plt-body-item" :class="classes">
-        <pl-virtual-table :width="plTable.totalContentWidth" :data="plTable.tableData" :summaryData="plTable.tableSummaryData" :size="plTable.bodyRowHeight" ref="virtualTable">
+        <pl-virtual-table :width="plTable.totalContentWidth"
+                          :data="plTable.tableData"
+                          :summaryData="plTable.tableSummaryData"
+                          :size="plTable.bodyRowHeight"
+                          :disabled="plTable.isDisabledVirtualScroll"
+                          ref="virtualTable">
             <template slot-scope="{item,index}">
-                <pl-item tag="tr" :key="index" class="plt-row">
+                <pl-item tag="tr" :key="index" class="plt-row" :vid="index">
                     <plt-body-cell v-for="(plc,plcIndex) in plTable.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="item"/>
                 </pl-item>
             </template>

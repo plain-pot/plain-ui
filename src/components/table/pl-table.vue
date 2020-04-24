@@ -29,6 +29,7 @@
         ],
         props: {
             data: {type: Array},                                    // 显示的数据
+            virtual: {type: Boolean, default: true},                // 虚拟滚动
 
             // theme
             size: {type: String, default: 'normal'},                // 表格尺寸
@@ -62,17 +63,32 @@
             summaryText: {type: String, default: '合计'},            // 表尾合计行第一列的文本
         },
         computed: {
+            /**
+             * 根节点样式
+             * @author  韦胜健
+             * @date    2020/4/24 18:34
+             */
             classes() {
                 return {
                     'pl-table-border': this.border,
                 }
             },
+            /**
+             * 总的列宽度
+             * @author  韦胜健
+             * @date    2020/4/24 18:35
+             */
             totalContentWidth() {
                 if (!this.bodyPlcList) return
                 return this.bodyPlcList.reduce((ret, plc) => {
                     return ret + plc.props.width
                 }, 0)
             },
+            /**
+             * 列信息数组
+             * @author  韦胜健
+             * @date    2020/4/24 18:35
+             */
             plcList() {
                 if (!this.isMounted) return
 
@@ -126,6 +142,11 @@
 
                 return plcList
             },
+            /**
+             * 表体列信息数组
+             * @author  韦胜健
+             * @date    2020/4/24 18:35
+             */
             bodyPlcList() {
                 if (!this.plcList) return []
                 const flatPlcList = []
@@ -136,17 +157,35 @@
                 })
                 return flatPlcList
             },
+            /**
+             * 表格数据格式化
+             * @author  韦胜健
+             * @date    2020/4/24 18:35
+             */
             tableData() {
                 return (this.data || []).map((row, rowIndex) => ({
                     row,
                     rowIndex,
                 }))
             },
+            /**
+             * 表格合计行数据格式化
+             * @author  韦胜健
+             * @date    2020/4/24 18:35
+             */
             tableSummaryData() {
                 return (this.summaryData || []).map((row, rowIndex) => ({
                     row,
                     rowIndex,
                 }))
+            },
+            /**
+             * 是否禁用虚拟滚动
+             * @author  韦胜健
+             * @date    2020/4/24 18:36
+             */
+            isDisabledVirtualScroll() {
+                return !this.virtual
             },
         },
         mounted() {
@@ -286,6 +325,7 @@
 
             table {
                 border-collapse: collapse;
+
                 &:after {
                     content: '';
                     display: inline-block;

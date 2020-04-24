@@ -1,7 +1,7 @@
 <template>
     <div class="demo-table-basic">
         <demo-row title="基础用法">
-            <pl-form>
+            <pl-form column="3">
                 <pl-form-item label="列宽度响应测试">
                     <pl-number v-model="plc.width" :step="100"/>
                 </pl-form-item>
@@ -29,6 +29,9 @@
                 </pl-form-item>
                 <pl-form-item label="表头分组">
                     <pl-toggle v-model="other.groupHead"/>
+                </pl-form-item>
+                <pl-form-item label="启用虚拟滚动">
+                    <pl-toggle v-model="props.virtual"/>
                 </pl-form-item>
             </pl-form>
             <pl-table :data="tableData"
@@ -98,6 +101,7 @@
                     headRowHeight: 40,
                     bodyRowHeight: 36,
                     border: false,
+                    virtual: true,
                 },
                 plc: {
                     width: 200,
