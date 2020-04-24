@@ -245,10 +245,35 @@
                         transition: background-color 500ms $transition;
                         font-weight: 500;
                         border-bottom: $tableBodyBorder;
+                        position: relative;
+
+                        .plt-head-cell-indicator {
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            width: 3px;
+                            content: '';
+                            background-color: rgba(black, 0.1);
+                            cursor: ew-resize;
+                            opacity: 0;
+                            transition: opacity 500ms $transition;
+
+                            &[start] {
+                                left: 0;
+                            }
+
+                            &[end] {
+                                right: 0;
+                            }
+                        }
 
                         &:hover {
                             background-color: $tableHeadHoverBackground;
                             cursor: pointer;
+
+                            .plt-head-cell-indicator {
+                                opacity: 1;
+                            }
                         }
                     }
                 }

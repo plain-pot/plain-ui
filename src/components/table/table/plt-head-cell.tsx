@@ -13,7 +13,9 @@ export default {
         const plc = this.plc as Plc
         return (
             <th class={this.classes} colspan={plc.colspan} rowspan={plc.rowspan} style={this.styles}>
+                <span class="plt-head-cell-indicator" start/>
                 {plc.title}
+                <span class="plt-head-cell-indicator" end/>
             </th>
         )
     },
