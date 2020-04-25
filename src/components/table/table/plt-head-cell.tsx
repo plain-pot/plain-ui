@@ -11,14 +11,25 @@ const DragMixin = {
                 this.startX = e.clientX
 
                 this.indicatorEl = document.createElement('div')
-                this.indicatorEl.style.width = `${e.currentTarget.offsetWidth}px`
-                this.indicatorEl.style.backgroundColor = '#ddd'
-                this.indicatorEl.style.zIndex = 9999
-                this.indicatorEl.style.height = `${this.plTable.$el.offsetHeight}px`
-                this.indicatorEl.style.display = 'inline-block'
-                this.indicatorEl.style.position = 'absolute'
-                this.indicatorEl.style.top = `${this.plTable.$el.getBoundingClientRect().top}px`
-                this.indicatorEl.style.left = `${e.clientX - e.currentTarget.offsetWidth / 2}px`
+
+                const cell = e.currentTarget
+                const table = this.plTable.$el
+
+                const {left, width} = cell.getBoundingClientRect()
+                const {top, height} = table.getBoundingClientRect()
+
+                Object.assign(this.indicatorEl.style, {
+                    display: 'inline-block',
+                    zIndex: 9999,
+                    position: 'fixed',
+
+                    width: `${width}px`,
+                    backgroundColor: '#ddd',
+                    height: `${height}px`,
+                    top: `${top}px`,
+                    left: `${left}px`,
+                })
+
                 document.body.appendChild(this.indicatorEl)
             },
             mousemove: (e: any) => {
@@ -32,10 +43,9 @@ const DragMixin = {
                 this.endX = e.clientX
 
                 let durX = this.endX - this.startX
-                let width = this.plc.props.width
-                width = width + durX
-                width = width > 30 ? width : 30
-                this.plc.props.width = width
+
+                this.plc.setDurWidth(durX)
+                this.plTable.refreshPlcWidth()
             },
         }
 

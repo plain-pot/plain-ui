@@ -20,7 +20,6 @@
             }
         },
         mixins: [
-            MountedMixin,
             RefsMixinFactory({
                 plc: Object,
                 head: Object,
@@ -62,6 +61,26 @@
             summaryData: {type: Array},                             // 表尾合计行数据
             summaryText: {type: String, default: '合计'},            // 表尾合计行第一列的文本
         },
+        data() {
+            return {
+                isMounted: false,
+            }
+        },
+        mounted() {
+            this.unwatch = this.$watch('totalContentWidth', (newVal, oldVal) => {
+                if (newVal !== oldVal) {
+                    this.head.refreshScroll()
+                    this.body.refreshScroll()
+                }
+            })
+            this.isMounted = true
+            setTimeout(() => this.refreshPlcWidth())
+        },
+        beforeDestroy() {
+            if (!!this.unwatch) {
+                this.unwatch()
+            }
+        },
         computed: {
             /**
              * 根节点样式
@@ -91,56 +110,7 @@
              */
             plcList() {
                 if (!this.isMounted) return
-
-                /*---------------------------------------计算列宽度-------------------------------------------*/
-
-                // 额外的宽度（在iterate执行完之后得到真实值）
-                let externalWidth = this.$el.offsetWidth
-                // 填充宽度的列
-                const fitPlcList: Plc[] = []
-                // 填充宽度分配总份数
-                let totalFits = 0
-
-                // 列信息
-                const plcList = formatPlcList(this.plc.items)
-                // 展开的列信息，如果是分组表头，则取叶子节点
-                let flatPlcList: Plc[] = []
-
-                this.iterate(plcList, (plc) => {
-                    if (!plc.group) {
-                        flatPlcList.push(plc)
-                        externalWidth = externalWidth - plc.originProps.width
-                        if (!!plc.props.fit) {
-                            totalFits += plc.props.fit
-                            fitPlcList.push(plc)
-                        }
-                    }
-                })
-
-                if (externalWidth > 0) {
-                    if (fitPlcList.length === 0) {
-                        fitPlcList.push(flatPlcList[flatPlcList.length - 1])
-                        totalFits = 1
-                    }
-                    const fitBlockWidth = Math.floor(externalWidth / totalFits)
-
-                    fitPlcList.forEach((fitPlc, index) => {
-                        if (index === fitPlcList.length - 1) {
-                            // 如果是最后一个，用完剩下的宽度
-                            fitPlc.props.width = fitPlc.originProps.width + externalWidth - 1
-                            externalWidth = 0
-                        } else {
-                            // 根据fit分配宽度
-                            const newWidth = fitPlc.props.fit * fitBlockWidth + fitPlc.originProps.width
-                            fitPlc.props.width = newWidth
-                            externalWidth -= newWidth
-                        }
-                    })
-                }
-
-                /*---------------------------------------end-------------------------------------------*/
-
-                return plcList
+                return formatPlcList(this.plc.items)
             },
             /**
              * 表体列信息数组
@@ -188,20 +158,12 @@
                 return !this.virtual
             },
         },
-        mounted() {
-            this.unwatch = this.$watch('totalContentWidth', (newVal, oldVal) => {
-                if (newVal !== oldVal) {
-                    this.head.refreshScroll()
-                    this.body.refreshScroll()
-                }
-            })
-        },
-        beforeDestroy() {
-            if (!!this.unwatch) {
-                this.unwatch()
-            }
-        },
         methods: {
+            /**
+             * 深度遍历所有的plc信息对象
+             * @author  韦胜健
+             * @date    2020/4/25 10:35
+             */
             iterate(plcList: Plc[], handler: (plc: Plc) => void) {
                 plcList.forEach(plc => {
                     handler(plc)
@@ -209,6 +171,52 @@
                         this.iterate(plc.children, handler)
                     }
                 })
+            },
+
+            refreshPlcWidth() {
+                const bodyPlcList = this.bodyPlcList
+                const tableWidth = this.$el.offsetWidth
+
+                // 填充宽度的列
+                const fitPlcList: Plc[] = []
+                // 填充宽度分配总份数
+                let totalFits = 0
+                // 剩余的列宽
+                let externalWidth = tableWidth
+
+                // console.log('tableWidth', tableWidth)
+
+                bodyPlcList.forEach(plc => {
+                    plc.props.width = plc.originProps.width
+                    externalWidth -= plc.originProps.width
+
+                    if (!!plc.originProps.fit) {
+                        totalFits += plc.originProps.fit
+                        fitPlcList.push(plc)
+                    }
+                })
+                if (totalFits === 0) {
+                    totalFits = 1
+                    fitPlcList.push(bodyPlcList[bodyPlcList.length - 1])
+                }
+
+                if (externalWidth > 0) {
+                    const fitBlockWidth = Math.floor(externalWidth / totalFits)
+
+                    fitPlcList.forEach((fitPlc, index) => {
+                        if (index === fitPlcList.length - 1) {
+                            // 如果是最后一个，用完剩下的宽度
+                            fitPlc.props.width = fitPlc.originProps.width + externalWidth - 1
+                            externalWidth = 0
+                        } else {
+                            // 根据fit分配宽度
+                            const newWidth = fitPlc.originProps.fit * fitBlockWidth + fitPlc.originProps.width
+                            fitPlc.props.width = newWidth
+                            externalWidth -= newWidth
+                        }
+                    })
+                }
+                // console.log(bodyPlcList.reduce((ret, item) => ret + item.props.width, 0))
             },
         },
     }

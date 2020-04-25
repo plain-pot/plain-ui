@@ -133,8 +133,16 @@ export class Plc {
             field: props.field,
         })
     }
-}
 
+    setDurWidth(durWidth: number) {
+        if (!this.group) {
+            this.originProps.width = this.props.width + durWidth
+        } else {
+            const itemDurWidth = durWidth / this.items.length
+            this.children.forEach(child => child.setDurWidth(itemDurWidth))
+        }
+    }
+}
 
 export const PlcMixin = {
     inject: {
