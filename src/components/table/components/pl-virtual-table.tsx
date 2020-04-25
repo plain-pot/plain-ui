@@ -93,11 +93,11 @@ export default {
             }
         },
         contentStyles() {
-            if (this.isDisabled) return
             const summaryHeight = (this.summaryData || []).length * this.size
+            const offset = this.isDisabled ? 0 : this.offset
 
             return {
-                transform: `translate3d(0,${this.offset}px,0)`,
+                transform: `translate3d(0,${offset}px,0)`,
                 paddingBottom: `${summaryHeight}px`,
             }
         },

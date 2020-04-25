@@ -75,11 +75,11 @@
             })
             this.isMounted = true
             setTimeout(() => this.refreshPlcWidth())
+            window.addEventListener('resize', this.refreshPlcWidth)
         },
         beforeDestroy() {
-            if (!!this.unwatch) {
-                this.unwatch()
-            }
+            this.unwatch()
+            window.removeEventListener('resize', this.refreshPlcWidth)
         },
         computed: {
             /**
@@ -172,7 +172,11 @@
                     }
                 })
             },
-
+            /**
+             * 重新计算列宽
+             * @author  韦胜健
+             * @date    2020/4/25 11:18
+             */
             refreshPlcWidth() {
                 const bodyPlcList = this.bodyPlcList
                 const tableWidth = this.$el.offsetWidth
