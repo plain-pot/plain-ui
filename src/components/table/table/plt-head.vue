@@ -1,5 +1,5 @@
 <template>
-    <div class="plt-head" :style="styles" :class="classes">
+    <div class="plt-head" :style="styles" :class="classes" @mousewheel="onMousewheel">
         <pl-scroll scrollX :scrollY="false" ref="scroll" @scroll="onScroll" hideScrollbar>
             <plt-head-item/>
         </pl-scroll>
@@ -105,6 +105,11 @@
                     // console.log('scroll left', TableHoverPart.head)
                     this.scroll.scroll({x: e.target.scrollLeft})
                 }
+            },
+            onMousewheel(e: any) {
+                e.preventDefault()
+                e.stopPropagation()
+                this.scroll.scroll({x: this.scroll.p_wrapperScrollLeft + (e.deltaX || e.deltaY)})
             },
         },
     }
