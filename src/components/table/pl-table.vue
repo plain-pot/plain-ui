@@ -267,6 +267,7 @@
                             cursor: ew-resize;
                             opacity: 0;
                             transition: opacity 500ms $transition;
+                            z-index: 1;
                         }
 
                         &:hover {
