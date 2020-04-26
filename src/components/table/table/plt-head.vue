@@ -101,8 +101,8 @@
                 this.plTable.emitScrollLeft(e, TableHoverPart.head)
             },
             onScrollLeft(e, part) {
-                if (part === TableHoverPart.body) {
-                    console.log('scroll left', TableHoverPart.head)
+                if (part === TableHoverPart.body && this.plTable.hoverState.part === TableHoverPart.body) {
+                    // console.log('scroll left', TableHoverPart.head)
                     this.scroll.scroll({x: e.target.scrollLeft})
                 }
             },

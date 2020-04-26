@@ -1,7 +1,12 @@
 <template>
     <div class="table-fixed">
+        <pl-form column="3">
+            <pl-form-item label="启用虚拟滚动">
+                <pl-toggle v-model="props.virtual"/>
+            </pl-form-item>
+        </pl-form>
         <demo-row title="固定列">
-            <pl-table :data="tableData">
+            <pl-table :data="tableData" v-bind="props">
                 <plc field="id" title="编号" fixed="left"/>
                 <plc field="id" title="编号"/>
                 <plc field="size" title="大小"/>
@@ -37,6 +42,13 @@
         data() {
             return {
                 tableData: data,
+
+                props: {
+                    headRowHeight: 40,
+                    bodyRowHeight: 36,
+                    border: false,
+                    virtual: true,
+                },
             }
         },
     }
