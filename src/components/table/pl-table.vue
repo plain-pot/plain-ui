@@ -101,7 +101,7 @@
             totalContentWidth() {
                 if (!this.bodyPlcList) return
                 return this.bodyPlcList.reduce((ret, plc) => {
-                    return ret + plc.props.width
+                    return ret + plc.actualProps.width
                 }, 0)
             },
             /**
@@ -200,12 +200,12 @@
 
                 // console.log('tableWidth', tableWidth)
 
-                bodyPlcList.forEach(plc => {
-                    plc.props.width = plc.originProps.width
-                    externalWidth -= plc.originProps.width
+                bodyPlcList.forEach((plc: Plc) => {
+                    plc.actualProps.width = plc.configProps.width
+                    externalWidth -= plc.actualProps.width
 
-                    if (!!plc.originProps.fit) {
-                        totalFits += plc.originProps.fit
+                    if (!!plc.configProps.fit) {
+                        totalFits += plc.configProps.fit
                         fitPlcList.push(plc)
                     }
                 })
@@ -220,17 +220,17 @@
                     fitPlcList.forEach((fitPlc, index) => {
                         if (index === fitPlcList.length - 1) {
                             // 如果是最后一个，用完剩下的宽度
-                            fitPlc.props.width = fitPlc.originProps.width + externalWidth - 1
+                            fitPlc.actualProps.width = fitPlc.configProps.width + externalWidth - 1
                             externalWidth = 0
                         } else {
                             // 根据fit分配宽度
-                            const newWidth = fitPlc.originProps.fit * fitBlockWidth + fitPlc.originProps.width
-                            fitPlc.props.width = newWidth
+                            const newWidth = fitPlc.configProps.fit * fitBlockWidth + fitPlc.configProps.width
+                            fitPlc.actualProps.width = newWidth
                             externalWidth -= newWidth
                         }
                     })
                 }
-                // console.log(bodyPlcList.reduce((ret, item) => ret + item.props.width, 0))
+                // console.log(bodyPlcList.reduce((ret, item) => ret + item.actualProps.width, 0))
             },
         },
     }

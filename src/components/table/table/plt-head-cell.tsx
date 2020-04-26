@@ -89,7 +89,7 @@ export default {
         },
         styles() {
             const height = `${this.plTable.headRowHeight}px`
-            const width = `${this.plc.props.width}px`
+            const width = `${this.plc.actualProps.width}px`
             return {
                 height,
                 width,

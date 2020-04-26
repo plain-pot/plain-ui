@@ -104,8 +104,10 @@ export class Plc {
     items: Plc[]
     plcType: PlcType
 
-    originProps: PlcPropsType
     props: PlcPropsType
+    actualProps: PlcPropsType
+    configProps: PlcPropsType
+
     children: Plc[]
     group: boolean
     colspan: number
@@ -125,8 +127,10 @@ export class Plc {
         }, {}) as PlcPropsType
 
         Object.assign(this, {
-            originProps: {...props},
             props: {...props},
+            configProps: {...props},
+            actualProps: {...props},
+
             items: plc.items,
             plcType: plc.plcType,
             title: props.title,
@@ -136,7 +140,7 @@ export class Plc {
 
     setDurWidth(durWidth: number) {
         if (!this.group) {
-            this.originProps.width = this.props.width + durWidth
+            this.configProps.width = this.actualProps.width + durWidth
         } else {
             const itemDurWidth = durWidth / this.items.length
             this.children.forEach(child => child.setDurWidth(itemDurWidth))
@@ -154,9 +158,11 @@ export const PlcMixin = {
         }
     },
     data() {
+        const plc: Plc = null
+        const items: Plc[] = []
         return {
-            items: [],
-            plc: null,
+            plc,
+            items
         }
     },
     methods: {
@@ -168,8 +174,9 @@ export const PlcMixin = {
         },
         setProps(propName: string, val: any) {
             if (!this.plc) return
-            this.plc.originProps[propName] = val
             this.plc.props[propName] = val
+            this.plc.configProps[propName] = val
+            this.plc.actualProps[propName] = val
         },
     },
     mounted() {
