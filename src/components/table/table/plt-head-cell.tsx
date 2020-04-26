@@ -85,7 +85,6 @@ export default {
             attrs: {
                 colspan,
                 rowspan,
-                // draggable: this.pltHead.headPlcList.length > 1,
             },
         }
 
