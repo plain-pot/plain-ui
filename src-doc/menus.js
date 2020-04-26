@@ -91,7 +91,7 @@ export default [
         name: '表格', children: [
             {name: 'pl-virtual-table', title: '基础虚拟表格', icon: 'pl-table-solid', page: '/table/virtual-table', complete: true},
             {name: 'Table Basic', title: '基础表格', icon: 'pl-table-solid', page: '/table/table-basic', complete: true},
-            {name: 'Table Fixed Column', title: '固定列', icon: 'pl-table-solid', page: '/table/base-table-fixed', complete: false},
+            {name: 'Table Fixed Column', title: '固定列', icon: 'pl-table-solid', page: '/table/table-fixed', complete: true},
             {name: 'Table Fill', title: '宽高填满父元素', icon: 'pl-table-solid', page: '/table/base-table-fit-parent', complete: false},
             {name: 'Table Basic Props', title: '基本属性', icon: 'pl-table-solid', page: '/table/base-table-props', complete: false},
             {name: 'Table Edit', title: '基本编辑', icon: 'pl-table-solid', page: '/table/base-table-edit', complete: false},

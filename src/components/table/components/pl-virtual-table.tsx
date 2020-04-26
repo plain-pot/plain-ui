@@ -47,6 +47,7 @@ export default {
                     <div class="pl-virtual-list-strut" style={{...this.strutStyles, width: `${this.width}px`}}>
                         <div class="pl-virtual-list-content" style={this.contentStyles}>
                             <pl-list tag="table"
+                                     direction={'left'}
                                      disabled={!this.isDisabled && this.virtualTable.scrollFlag}
                                      cellspacing={0}
                                      cellpadding={0}
