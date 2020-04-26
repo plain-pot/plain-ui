@@ -1,20 +1,26 @@
 import {getCellClass, TableComponentMixin} from "./table-utils";
-import {Plc} from "../plc/plc-utils";
+import {Plc, PlcFixedType} from "../plc/plc-utils";
 
 export default {
     name: 'plt-body-cell',
     mixins: [
         TableComponentMixin,
     ],
+    inject: {
+        pltBodyItem: {default: null}
+    },
     props: {
         plc: {type: Object},
         rowData: {type: Object},
     },
     render(h) {
         const plc = this.plc as Plc
+
+        if (this.pltBodyItem.fixed !== PlcFixedType.center && plc.actualProps.fixed !== this.pltBodyItem.fixed) return null
+
         return (
             <td class={this.classes} colspan={1} rowspan={1} style={this.styles}>
-                {this.rowData.row[plc.props.field]}
+                {this.pltBodyItem.fixed === this.plc.actualProps.fixed ? this.rowData.row[plc.props.field]: null}
             </td>
         )
     },

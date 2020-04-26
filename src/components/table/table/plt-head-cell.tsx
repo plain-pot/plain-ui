@@ -65,7 +65,6 @@ const ResizeMixin = {
 export default {
     name: 'plt-head-cell',
     inject: {
-        plTable: {default: null},
         pltHeadItem: {default: null},
     },
     mixins: [

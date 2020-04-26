@@ -1,6 +1,8 @@
 <template>
     <div class="plt-body" :style="styles">
         <plt-body-item/>
+        <plt-body-item fixed="left"/>
+        <plt-body-item fixed="right"/>
     </div>
 </template>
 

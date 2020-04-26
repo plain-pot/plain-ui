@@ -32,7 +32,7 @@ import {PlcFixedType} from "../plc/plc-utils";
         computed: {
             classes() {
                 return [
-                    `pl-head-item-fixed-${this.fixed}`,
+                    `pl-table-item-fixed-${this.fixed}`,
                 ]
             },
             tableStyles() {

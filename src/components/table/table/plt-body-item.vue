@@ -1,6 +1,6 @@
 <template>
-    <div class="plt-body-item" :class="classes">
-        <pl-virtual-table :width="plTable.totalContentWidth"
+    <div class="plt-body-item" :class="classes" :style="styles">
+        <pl-virtual-table :width="width"
                           :data="plTable.tableData"
                           :summaryData="plTable.tableSummaryData"
                           :size="plTable.bodyRowHeight"
@@ -15,9 +15,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import {TableComponentMixin} from "./table-utils";
     import {RefsMixinFactory} from "../../../utils/mixins";
+    import {Plc, PlcFixedType} from "../plc/plc-utils";
 
     export default {
         name: "plt-body-item",
@@ -31,19 +32,44 @@
             pltBody: {default: null}
         },
         props: {
-            part: {type: String, default: 'center'},
+            fixed: {type: String, default: 'center'},
+        },
+        provide() {
+            return {
+                pltBodyItem: this,
+            }
         },
         created() {
-            this.pltBody.bodyItems[this.part] = this
+            this.pltBody.bodyItems[this.fixed] = this
         },
         beforeDestroy() {
-            this.pltBody.bodyItems[this.part] = null
+            this.pltBody.bodyItems[this.fixed] = null
         },
         computed: {
             classes() {
                 return [
-                    `pl-body-item-part-${this.part}`
+                    `pl-table-item-fixed-${this.fixed}`
                 ]
+            },
+            width() {
+                if (!this.plTable.totalContentWidth) return
+                const flatPlcList: Plc[] = this.plTable.bodyPlcList
+                let totalWidth = 0
+                flatPlcList.forEach(plc => {
+                    if (plc.actualProps.fixed === this.fixed || this.fixed === PlcFixedType.center) {
+                        totalWidth += plc.actualProps.width
+                    }
+                })
+                return totalWidth
+            },
+            styles() {
+                if (this.fixed === PlcFixedType.center) {
+                    return null
+                } else {
+                    return {
+                        width: `${this.width}px`
+                    }
+                }
             },
         },
 
