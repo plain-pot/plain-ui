@@ -18,16 +18,20 @@
         </div>
 
         <div class="pl-vertical-scrollbar-wrapper" v-if="!hideScrollbar && scrollY">
-            <div class="pl-vertical-scrollbar"
-                 :style="verticalScrollbarStyles"
-                 @mousedown="onVerticalDragStart">
-            </div>
+            <slot name="vertical-scrollbar" :data="{style:verticalScrollbarStyles,onMousedown:onVerticalDragStart}">
+                <div class="pl-vertical-scrollbar"
+                     :style="verticalScrollbarStyles"
+                     @mousedown="onVerticalDragStart">
+                </div>
+            </slot>
         </div>
         <div class="pl-horizontal-scrollbar-wrapper" v-if="!hideScrollbar && scrollX">
-            <div class="pl-horizontal-scrollbar"
-                 :style="horizontalScrollbarStyles"
-                 @mousedown="onHorizontalDragStart">
-            </div>
+            <slot name="horizontal-scrollbar" :data="{style:horizontalScrollbarStyles,onMousedown:onHorizontalDragStart}">
+                <div class="pl-horizontal-scrollbar"
+                     :style="horizontalScrollbarStyles"
+                     @mousedown="onHorizontalDragStart">
+                </div>
+            </slot>
         </div>
     </div>
 </template>

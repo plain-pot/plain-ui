@@ -35,9 +35,23 @@ export default {
         }
     },
     render(h) {
+
+        const horizontalScrollbar = ({data: {style, onMousedown}}) => {
+            return (
+                <div
+                    {...{directives: [{name: 'tooltip', value: '在【表头】使用【鼠标滚轮】或者在【表体】中使用【ALT + 鼠标滚动】以横向滚动'}]}}
+                    class="pl-horizontal-scrollbar"
+                    style={style}
+                    onMousedown={onMousedown}>
+                </div>
+            )
+        }
+
         return (
             <div class={[...this.classes, 'pl-virtual-table']}>
-                <pl-scroll ref="scroll" onScroll={this.onVirtualTableScroll} scrollX={true} {...{props: this.scrollProps}}>
+                <pl-scroll ref="scroll" onScroll={this.onVirtualTableScroll} scrollX={true} {...{
+                    props: this.scrollProps, scopedSlots: {'horizontal-scrollbar': horizontalScrollbar}
+                }}>
                     <div class="pl-virtual-list-strut" style={{...this.strutStyles, width: `${this.width}px`}}>
                         <div class="pl-virtual-list-content" style={this.contentStyles}>
                             <pl-list tag="table"
