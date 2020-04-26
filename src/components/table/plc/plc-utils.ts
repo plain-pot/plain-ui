@@ -30,7 +30,7 @@ export const PlcGroupProps = {
 export const PlcProps = {
     ...PlcGroupProps,
     field: {type: String},
-    width: {default: '200px', watch: true, formatNumber: true},             //列宽度
+    width: {default: '120', watch: true, formatNumber: true},             //列宽度
     fit: {type: Number, default: 0},                                        //当列不满表格宽度时，该列所占剩下宽度的权重
 
     // search: {type: Boolean, default: true},                              //可查询

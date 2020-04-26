@@ -1,4 +1,3 @@
-import {TableHoverPart} from "./table-utils";
 <template>
     <div class="plt-body-item" :class="classes" :style="styles" @mouseenter="onMouseenter">
         <pl-virtual-table :width="width"
@@ -6,6 +5,7 @@ import {TableHoverPart} from "./table-utils";
                           :summaryData="plTable.tableSummaryData"
                           :size="plTable.bodyRowHeight"
                           :disabled="plTable.isDisabledVirtualScroll"
+                          :scrollProps="scrollProps"
                           @scroll="onScroll"
                           ref="virtualTable">
             <template slot-scope="{item,index}">
@@ -18,6 +18,7 @@ import {TableHoverPart} from "./table-utils";
 </template>
 
 <script lang="ts">
+
     import {TableComponentMixin, TableHoverPart} from "./table-utils";
     import {EmitMixin, RefsMixinFactory} from "../../../utils/mixins";
     import {Plc, PlcFixedType} from "../plc/plc-utils";
@@ -75,6 +76,13 @@ import {TableHoverPart} from "./table-utils";
                     return {
                         width: `${this.width}px`
                     }
+                }
+            },
+            scrollProps() {
+                return {
+                    hideScrollbar: this.fixed === PlcFixedType.left,
+                    scrollX: this.fixed === PlcFixedType.center,
+                    scrollbarSize: 6,
                 }
             },
         },

@@ -47,7 +47,7 @@
                     headRowHeight: 40,
                     bodyRowHeight: 36,
                     border: false,
-                    virtual: true,
+                    virtual: false,
                 },
             }
         },

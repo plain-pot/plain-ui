@@ -1,6 +1,6 @@
 <template>
     <div class="plt-head" :style="styles" :class="classes">
-        <pl-scroll scrollX :scrollY="false" ref="scroll" @scroll="onScroll">
+        <pl-scroll scrollX :scrollY="false" ref="scroll" @scroll="onScroll" hideScrollbar>
             <plt-head-item/>
         </pl-scroll>
         <plt-head-item fixed="left"/>

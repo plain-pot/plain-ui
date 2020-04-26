@@ -1,6 +1,5 @@
 <template>
-    <div class="pl-table" :class="classes" @mouseleave="onMouseleave">
-        {{hoverState}}
+    <div class="pl-table" :class="classes">
         <plc-list ref="plc">
             <slot></slot>
         </plc-list>
@@ -92,7 +91,7 @@
                     this.body.refreshScroll()
                 }
             })
-            setTimeout(() => this.isMounted = true)
+            this.$nextTick(() => this.isMounted = true)
             window.addEventListener('resize', this.refreshPlcWidth)
         },
         beforeDestroy() {
@@ -191,10 +190,6 @@
             onHoverPart(part: TableHoverPart, fixed: PlcFixedType) {
                 this.hoverState.part = part
                 this.hoverState.fixed = fixed
-            },
-            onMouseleave() {
-                this.hoverState.part = null
-                this.hoverState.fixed = null
             },
         },
     }
