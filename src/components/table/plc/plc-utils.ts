@@ -1,5 +1,6 @@
 export const enum PlcFixedType {
     left = 'left',
+    center = 'center',
     right = 'right',
 }
 
@@ -19,10 +20,11 @@ export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题
     align: {type: String, default: 'left', watch: true},                    //非编辑状态下文本对其方式
 
-    // order: {type: Number},                                               // 列排序
-    // fixed: {type: String},                                               // 冻结列位置：left、right、undefined
-    // placeLeft: {type: String},                                           // 当出现左固定列的时候，是否自动设置为左固定列
-    // placeRight: {type: String},                                          // 当出现右固定列的时候，是否自动设置为右固定列
+    hide: {type: Boolean},                                                  //是否隐藏
+    order: {type: Number},                                                  // 列排序
+    fixed: {type: String, default: 'center'},                               // 冻结列位置：left、right、undefined
+    autoFixedLeft: {type: String},                                          // 当出现左固定列的时候，是否自动设置为左固定列
+    autoFixedRight: {type: String},                                         // 当出现右固定列的时候，是否自动设置为右固定列
 }
 
 export const PlcProps = {
@@ -30,8 +32,7 @@ export const PlcProps = {
     field: {type: String},
     width: {default: '200px', watch: true, formatNumber: true},             //列宽度
     fit: {type: Number, default: 0},                                        //当列不满表格宽度时，该列所占剩下宽度的权重
-    // hide: {type: Boolean},                                               //是否隐藏
-    //
+
     // search: {type: Boolean, default: true},                              //可查询
     // searchType: {type: String, default: 'input'},                        //查询类型
     // searchField: {type: String},                                         //查询字段
@@ -59,18 +60,18 @@ export const PlcProps = {
 
 interface PlcGroupPropsType {
     title: string
+    align: PlcAlign
+    hide: boolean
     order: number
     fixed: PlcFixedType
-    placeLeft: boolean
-    placeRight: boolean
+    autoFixedLeft: boolean
+    autoFixedRight: boolean
 }
 
 interface PlcPropsType extends PlcGroupPropsType {
     field: string
     width: number
     fit: number
-    hide: boolean
-    align: PlcAlign
 
     search: boolean
     searchType: string
@@ -190,29 +191,6 @@ export const PlcMixin = {
             this.plcNode.removeItem(this)
         }
     },
-}
-
-export function formatPlcList(plcList: Plc[]): Plc[] {
-    if (!plcList) return []
-
-    return plcList.reduce((ret: Plc[], plc: Plc) => {
-
-        switch (plc.plcType) {
-            case PlcType.LIST:
-                ret.push(...formatPlcList(plc.items))
-                break
-            case PlcType.GROUP:
-                plc.children = formatPlcList(plc.items)
-                plc.group = true
-                ret.push(plc)
-                break
-            case PlcType.PLC:
-                ret.push(plc)
-                break
-        }
-
-        return ret
-    }, [])
 }
 
 export function getPlcWatch(plcProps): Object {

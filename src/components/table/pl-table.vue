@@ -10,7 +10,7 @@
 
 <script lang="ts">
     import {RefsMixinFactory} from "../../utils/mixins";
-    import {formatPlcList, Plc} from "./plc/plc-utils";
+    import {formatPlcList, refreshPlcWidth} from "./plc/plc-process";
 
     export default {
         name: "pl-table",
@@ -71,11 +71,9 @@
                 if (newVal !== oldVal) {
                     this.head.refreshScroll()
                     this.body.refreshScroll()
-                    this.refreshPlcWidth()
                 }
             })
-            this.isMounted = true
-            setTimeout(() => this.refreshPlcWidth())
+            setTimeout(() => this.isMounted = true)
             window.addEventListener('resize', this.refreshPlcWidth)
         },
         beforeDestroy() {
@@ -104,17 +102,23 @@
                     return ret + plc.actualProps.width
                 }, 0)
             },
+            formatPlcList() {
+                if (!this.isMounted) return
+                // console.log('this.plc.items', this.$plain.utils.deepcopy(this.plc.items))
+                // console.log('ret', this.$plain.utils.deepcopy(ret))
+                console.log('formatPlcList')
+                return formatPlcList(this.plc.items, {
+                    totalWidth: this.$el.offsetWidth
+                })
+            },
             /**
              * 列信息数组
              * @author  韦胜健
              * @date    2020/4/24 18:35
              */
             plcList() {
-                if (!this.isMounted) return
-                const ret = formatPlcList(this.plc.items)
-                // console.log('this.plc.items', this.$plain.utils.deepcopy(this.plc.items))
-                // console.log('ret', this.$plain.utils.deepcopy(ret))
-                return ret
+                if (!this.formatPlcList) return
+                return this.formatPlcList.plcList
             },
             /**
              * 表体列信息数组
@@ -122,14 +126,8 @@
              * @date    2020/4/24 18:35
              */
             bodyPlcList() {
-                if (!this.plcList) return []
-                const flatPlcList = []
-                this.iterate(this.plcList, (plc) => {
-                    if (!plc.group) {
-                        flatPlcList.push(plc)
-                    }
-                })
-                return flatPlcList
+                if (!this.formatPlcList) return
+                return this.formatPlcList.flatPlcList
             },
             /**
              * 表格数据格式化
@@ -164,73 +162,12 @@
         },
         methods: {
             /**
-             * 深度遍历所有的plc信息对象
-             * @author  韦胜健
-             * @date    2020/4/25 10:35
-             */
-            iterate(plcList: Plc[], handler: (plc: Plc) => void) {
-                plcList.forEach(plc => {
-                    handler(plc)
-                    if (plc.group) {
-                        this.iterate(plc.children, handler)
-                    }
-                })
-            },
-            /**
              * 重新计算列宽
              * @author  韦胜健
              * @date    2020/4/25 11:18
              */
             refreshPlcWidth() {
-                const bodyPlcList = this.bodyPlcList
-
-                if (bodyPlcList.length === 0) {
-                    return
-                }
-
-                // 表格总宽度
-                const tableWidth = this.$el.offsetWidth
-
-                // 填充宽度的列
-                const fitPlcList: Plc[] = []
-                // 填充宽度分配总份数
-                let totalFits = 0
-                // 剩余的列宽
-                let externalWidth = tableWidth
-
-                // console.log('tableWidth', tableWidth)
-
-                bodyPlcList.forEach((plc: Plc) => {
-                    plc.actualProps.width = plc.configProps.width
-                    externalWidth -= plc.actualProps.width
-
-                    if (!!plc.configProps.fit) {
-                        totalFits += plc.configProps.fit
-                        fitPlcList.push(plc)
-                    }
-                })
-                if (totalFits === 0) {
-                    totalFits = 1
-                    fitPlcList.push(bodyPlcList[bodyPlcList.length - 1])
-                }
-
-                if (externalWidth > 0) {
-                    const fitBlockWidth = Math.floor(externalWidth / totalFits)
-
-                    fitPlcList.forEach((fitPlc, index) => {
-                        if (index === fitPlcList.length - 1) {
-                            // 如果是最后一个，用完剩下的宽度
-                            fitPlc.actualProps.width = fitPlc.configProps.width + externalWidth - 1
-                            externalWidth = 0
-                        } else {
-                            // 根据fit分配宽度
-                            const newWidth = fitPlc.configProps.fit * fitBlockWidth + fitPlc.configProps.width
-                            fitPlc.actualProps.width = newWidth
-                            externalWidth -= newWidth
-                        }
-                    })
-                }
-                // console.log(bodyPlcList.reduce((ret, item) => ret + item.actualProps.width, 0))
+                refreshPlcWidth(this.plcList, this.$el.offsetWidth)
             },
         },
     }

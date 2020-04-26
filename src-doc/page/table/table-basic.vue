@@ -40,8 +40,8 @@
                           v-bind="props">
                     <template v-if="other.groupHead">
                         <plc-list>
-                            <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
-                            <plc field="size" title="大小" :align="plc.align"/>
+                            <plc field="id" title="编号" :width="plc.width" :align="plc.align" :order="5"/>
+                            <plc field="size" title="大小" :align="plc.align" :order="4"/>
                             <plc-group title="地址" :align="plc.align">
                                 <plc field="date" title="日期" :align="plc.align"/>
                                 <plc-list>
