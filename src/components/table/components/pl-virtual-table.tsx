@@ -34,16 +34,10 @@ export default {
             },
         }
     },
-    created() {
-        this.$on('scroll', this.onVirtualTableScroll)
-    },
-    beforeDestroy() {
-        this.$off('scroll', this.onVirtualTableScroll)
-    },
     render(h) {
         return (
             <div class={[...this.classes, 'pl-virtual-table']}>
-                <pl-scroll ref="scroll" onScroll={this.onScroll} scrollX={true} {...{props: this.scrollProps}}>
+                <pl-scroll ref="scroll" onScroll={this.onVirtualTableScroll} scrollX={true} {...{props: this.scrollProps}}>
                     <div class="pl-virtual-list-strut" style={{...this.strutStyles, width: `${this.width}px`}}>
                         <div class="pl-virtual-list-content" style={this.contentStyles}>
                             <pl-list tag="table"
@@ -107,8 +101,9 @@ export default {
         onVirtualTableScroll(e) {
             this.virtualTable.scrollFlag = true
             this.virtualTable.disabledQueenAnimation()
-
             this.virtualTable.scrollLeft = e.currentTarget.scrollLeft
+
+            this.onScroll(e)
         },
     },
 
