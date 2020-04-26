@@ -74,7 +74,7 @@ import {TableHoverPart} from "./table-utils";
                     this.plTable.emitScrollLeft(e, TableHoverPart.body)
                 }
 
-                Object.values(this.bodyItems).forEach((bodyItem: any) => {
+                Object.values(this.bodyItems).filter(Boolean).forEach((bodyItem: any) => {
                     if (bodyItem.fixed === fixed) return
                     /*console.log({
                         bodyItem: bodyItem.fixed,

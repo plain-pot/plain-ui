@@ -1,5 +1,5 @@
 <template>
-    <div class="plt-body-item" :class="classes" :style="styles" @mouseenter="onMouseenter">
+    <div class="plt-body-item" :class="classes" :style="styles" @mouseenter="onMouseenter" v-on="on">
         <pl-virtual-table :width="width"
                           :data="plTable.tableData"
                           :summaryData="plTable.tableSummaryData"
@@ -44,6 +44,24 @@
         provide() {
             return {
                 pltBodyItem: this,
+            }
+        },
+        data() {
+            const on: any = {}
+
+            // 当鼠标
+            if (this.fixed === PlcFixedType.center) {
+                on.mousewheel = (e: any) => {
+                    if (e.altKey) {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        this.virtualTable.scroll.scroll({x: this.virtualTable.scroll.p_wrapperScrollLeft + (e.deltaX || e.deltaY)})
+                    }
+                }
+            }
+
+            return {
+                on,
             }
         },
         created() {
