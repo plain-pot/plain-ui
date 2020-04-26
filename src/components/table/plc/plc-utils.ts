@@ -143,7 +143,7 @@ export class Plc {
         if (!this.group) {
             this.configProps.width = this.actualProps.width + durWidth
         } else {
-            const itemDurWidth = durWidth / this.items.length
+            const itemDurWidth = durWidth / (this.items.length + 1)
             this.children.forEach(child => child.setDurWidth(itemDurWidth))
         }
     }
