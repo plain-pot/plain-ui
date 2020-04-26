@@ -194,6 +194,16 @@
                 border-collapse: collapse;
             }
 
+            .pl-vertical-scrollbar {
+                z-index: 1;
+                opacity: 1 !important;
+            }
+
+            .pl-horizontal-scrollbar {
+                z-index: 3;
+                opacity: 1 !important;
+            }
+
             .pl-table-item-fixed-right, .pl-table-item-fixed-left {
                 position: absolute;
                 top: 0;
@@ -209,10 +219,6 @@
                 }
             }
 
-            .pl-horizontal-scrollbar, .pl-vertical-scrollbar {
-                z-index: 3;
-                opacity: 1 !important;
-            }
 
             .plt-head {
                 color: $tableHeadColor;

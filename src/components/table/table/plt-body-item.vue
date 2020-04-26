@@ -5,6 +5,7 @@
                           :summaryData="plTable.tableSummaryData"
                           :size="plTable.bodyRowHeight"
                           :disabled="plTable.isDisabledVirtualScroll"
+                          @scroll="onScroll"
                           ref="virtualTable">
             <template slot-scope="{item,index}">
                 <pl-item tag="tr" :key="index" class="plt-row" :vid="index">
@@ -17,17 +18,21 @@
 
 <script lang="ts">
     import {TableComponentMixin} from "./table-utils";
-    import {RefsMixinFactory} from "../../../utils/mixins";
+    import {EmitMixin, RefsMixinFactory} from "../../../utils/mixins";
     import {Plc, PlcFixedType} from "../plc/plc-utils";
 
     export default {
         name: "plt-body-item",
         mixins: [
+            EmitMixin,
             TableComponentMixin,
             RefsMixinFactory({
                 virtualTable: Object,
             })
         ],
+        emitters: {
+            emitScroll: Function
+        },
         inject: {
             pltBody: {default: null}
         },
@@ -70,6 +75,11 @@
                         width: `${this.width}px`
                     }
                 }
+            },
+        },
+        methods: {
+            onScroll(e) {
+                this.emitScroll(e, this.fixed)
             },
         },
 

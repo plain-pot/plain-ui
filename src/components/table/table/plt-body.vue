@@ -1,8 +1,8 @@
 <template>
     <div class="plt-body" :style="styles">
-        <plt-body-item/>
-        <plt-body-item fixed="left"/>
-        <plt-body-item fixed="right"/>
+        <plt-body-item @scroll="onScroll"/>
+        <plt-body-item fixed="left" @scroll="onScroll"/>
+        <plt-body-item fixed="right" @scroll="onScroll"/>
     </div>
 </template>
 
@@ -42,6 +42,12 @@
         methods: {
             refreshScroll() {
                 Object.values(this.bodyItems).filter(Boolean).forEach((bodyItem: any) => bodyItem.virtualTable.scroll.refresh())
+            },
+            onScroll(e, fixed) {
+                Object.values(this.bodyItems).forEach((item: any) => {
+                    if (item.fixed === fixed) return
+                    item.virtualTable.scroll.scroll({y: e.target.scrollTop})
+                })
             },
         },
     }
