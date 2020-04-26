@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import {getPlcWatch, PlcMixin, PlcProps, PlcType} from "./plc-utils";
 
     export default {
@@ -11,13 +11,14 @@
             PlcMixin,
         ],
         data() {
-            const plcType: PlcType = PlcType.PLC
+            const plcType = PlcType.PLC
 
             return {
                 plcType,
             }
         },
         render() {
+            // return <span title={this.title} field={this.field}/>
             return null
         },
     }

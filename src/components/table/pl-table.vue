@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-    import {MountedMixin, RefsMixinFactory} from "../../utils/mixins";
+    import {RefsMixinFactory} from "../../utils/mixins";
     import {formatPlcList, Plc} from "./plc/plc-utils";
 
     export default {
@@ -71,6 +71,7 @@
                 if (newVal !== oldVal) {
                     this.head.refreshScroll()
                     this.body.refreshScroll()
+                    this.refreshPlcWidth()
                 }
             })
             this.isMounted = true
@@ -110,7 +111,10 @@
              */
             plcList() {
                 if (!this.isMounted) return
-                return formatPlcList(this.plc.items)
+                const ret = formatPlcList(this.plc.items)
+                // console.log('this.plc.items', this.$plain.utils.deepcopy(this.plc.items))
+                // console.log('ret', this.$plain.utils.deepcopy(ret))
+                return ret
             },
             /**
              * 表体列信息数组
@@ -179,6 +183,12 @@
              */
             refreshPlcWidth() {
                 const bodyPlcList = this.bodyPlcList
+
+                if (bodyPlcList.length === 0) {
+                    return
+                }
+
+                // 表格总宽度
                 const tableWidth = this.$el.offsetWidth
 
                 // 填充宽度的列

@@ -161,7 +161,7 @@ export const PlcMixin = {
     },
     methods: {
         addItem({plc, $el}) {
-            this.items.splice(Array.from($el.parentNode.childNodes).indexOf($el), 0, plc.plcType === PlcType.LIST ? plc.items : plc)
+            this.items.splice(Array.from($el.parentNode.childNodes).indexOf($el), 0, plc)
         },
         removeItem({plc}) {
             this.items.splice(this.items.indexOf(plc), 1)
@@ -188,20 +188,22 @@ export const PlcMixin = {
 export function formatPlcList(plcList: Plc[]): Plc[] {
     if (!plcList) return []
 
-    return plcList.reduce((ret: Plc[], plc: Plc | Plc[]) => {
-        if (Array.isArray(plc)) {
-            // plc list
-            ret.push(...formatPlcList(plc))
-        } else {
-            // plc or group
-            let {plcType, items} = plc
-            if (plcType === PlcType.GROUP) {
-                plc.children = formatPlcList(items)
-                plc.group = true
-            }
+    return plcList.reduce((ret: Plc[], plc: Plc) => {
 
-            ret.push(plc)
+        switch (plc.plcType) {
+            case PlcType.LIST:
+                ret.push(...formatPlcList(plc.items))
+                break
+            case PlcType.GROUP:
+                plc.children = formatPlcList(plc.items)
+                plc.group = true
+                ret.push(plc)
+                break
+            case PlcType.PLC:
+                ret.push(plc)
+                break
         }
+
         return ret
     }, [])
 }
