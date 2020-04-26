@@ -201,11 +201,7 @@ export function formatPlcList(originPlcList: Plc[], option: {
     processOrder(plcList)
 
     const flatPlcList = []
-    iteratePlcList(plcList, (plc) => {
-        if (!plc.group) {
-            flatPlcList.push(plc)
-        }
-    })
+    iteratePlcList(plcList, (plc) => !plc.group && flatPlcList.push(plc))
     processWidth(flatPlcList, option.totalWidth)
 
     return {
