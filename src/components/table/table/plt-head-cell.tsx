@@ -1,5 +1,5 @@
 import {getCellClass, TableComponentMixin} from "./table-utils";
-import {Plc} from "../plc/plc-utils";
+import {Plc, PlcFixedType} from "../plc/plc-utils";
 
 const ResizeMixin = {
     data() {
@@ -66,7 +66,7 @@ export default {
     name: 'plt-head-cell',
     inject: {
         plTable: {default: null},
-        pltHead: {default: null},
+        pltHeadItem: {default: null},
     },
     mixins: [
         TableComponentMixin,
@@ -77,6 +77,9 @@ export default {
     },
     render(h) {
         const plc = this.plc as Plc
+
+        if (this.pltHeadItem.fixed !== PlcFixedType.center && plc.actualProps.fixed !== this.pltHeadItem.fixed) return null
+
         const {colspan, rowspan, title} = plc
 
         const binding = {
@@ -90,8 +93,12 @@ export default {
 
         return (
             <th {...binding}>
-                {title}
-                <span class="plt-head-cell-indicator" onMousedown={this.resize.handler.mousedown}/>
+                {this.pltHeadItem.fixed === this.plc.actualProps.fixed ? (
+                    [
+                        title,
+                        <span class="plt-head-cell-indicator" onmousedown={this.resize.handler.mousedown}/>,
+                    ]
+                ) : null}
             </th>
         )
     },

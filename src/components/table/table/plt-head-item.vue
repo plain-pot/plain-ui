@@ -1,3 +1,4 @@
+import {PlcFixedType} from "../plc/plc-utils";
 <template>
     <div class="plt-head-item" :class="classes">
         <table cellspacing="0" cellpadding="0" border="0" :style="tableStyles">
@@ -8,8 +9,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import {TableComponentMixin} from "./table-utils";
+    import {Plc, PlcFixedType} from "../plc/plc-utils";
 
     export default {
         name: "plt-head-item",
@@ -20,18 +22,30 @@
             TableComponentMixin
         ],
         props: {
-            part: {type: String, default: 'center'},
+            fixed: {type: String, default: 'center'},
+        },
+        provide() {
+            return {
+                pltHeadItem: this,
+            }
         },
         computed: {
             classes() {
                 return [
-                    `pl-head-item-part-${this.part}`,
+                    `pl-head-item-fixed-${this.fixed}`,
                 ]
             },
             tableStyles() {
                 if (!this.plTable.totalContentWidth) return
+                const flatPlcList: Plc[] = this.plTable.bodyPlcList
+                let totalWidth = 0
+                flatPlcList.forEach(plc => {
+                    if (plc.actualProps.fixed === this.fixed || this.fixed === PlcFixedType.center) {
+                        totalWidth += plc.actualProps.width
+                    }
+                })
                 return {
-                    width: `${this.plTable.totalContentWidth}px`
+                    width: `${totalWidth}px`
                 }
             },
         },

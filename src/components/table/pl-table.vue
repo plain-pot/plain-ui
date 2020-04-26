@@ -196,6 +196,8 @@
 
             .plt-head {
                 color: $tableHeadColor;
+                position: relative;
+                overflow: hidden;
 
                 .plt-head-item {
                     background-color: $tableHeadBackground;
@@ -227,6 +229,20 @@
                                 opacity: 1;
                             }
                         }
+                    }
+
+                    &.pl-head-item-fixed-left {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        box-shadow: $boxshadow;
+                    }
+
+                    &.pl-head-item-fixed-right {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        box-shadow: $boxshadow;
                     }
                 }
 

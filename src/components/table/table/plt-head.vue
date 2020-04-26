@@ -3,6 +3,8 @@
         <pl-scroll scrollX :scrollY="false" ref="scroll">
             <plt-head-item/>
         </pl-scroll>
+        <plt-head-item fixed="left"/>
+        <plt-head-item fixed="right"/>
     </div>
 </template>
 
