@@ -49,7 +49,6 @@ const ResizeMixin = {
                     let durX = resize.endX - resize.startX
 
                     this.plc.setDurWidth(durX)
-                    this.plTable.refreshPlcWidth()
                 },
             },
         }

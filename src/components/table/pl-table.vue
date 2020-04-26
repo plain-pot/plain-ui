@@ -106,7 +106,7 @@
                 if (!this.isMounted) return
                 // console.log('this.plc.items', this.$plain.utils.deepcopy(this.plc.items))
                 // console.log('ret', this.$plain.utils.deepcopy(ret))
-                console.log('formatPlcList')
+                // console.log('formatPlcList')
                 return formatPlcList(this.plc.items, {
                     totalWidth: this.$el.offsetWidth
                 })

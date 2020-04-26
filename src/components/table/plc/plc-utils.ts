@@ -17,12 +17,12 @@ export const enum PlcAlign {
 }
 
 export const PlcGroupProps = {
-    title: {type: String},                                                  // 列标题
+    title: {type: String, watch: true},                                                  // 列标题
     align: {type: String, default: 'left', watch: true},                    //非编辑状态下文本对其方式
 
-    hide: {type: Boolean},                                                  //是否隐藏
-    order: {type: Number},                                                  // 列排序
-    fixed: {type: String, default: 'center'},                               // 冻结列位置：left、right、undefined
+    hide: {type: Boolean, watch: true},                                                  //是否隐藏
+    order: {type: Number, watch: true},                                                  // 列排序
+    fixed: {type: String, default: 'center', watch: true},                               // 冻结列位置：left、right、undefined
     autoFixedLeft: {type: String},                                          // 当出现左固定列的时候，是否自动设置为左固定列
     autoFixedRight: {type: String},                                         // 当出现右固定列的时候，是否自动设置为右固定列
 }

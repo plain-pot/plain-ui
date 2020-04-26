@@ -106,7 +106,7 @@ function getPlcOrder(plc: Plc) {
     if (plc.actualProps.fixed === PlcFixedType.left) {
         order -= 9999
     } else if (plc.actualProps.fixed === PlcFixedType.right) {
-        order += 999
+        order += 9999
     }
     return order
 }
@@ -121,8 +121,7 @@ function processOrder(plcList: Plc[]) {
         PlainUtils.insertSort(plcList, (a: Plc, b: Plc) => {
             const ao = getPlcOrder(a)
             const bo = getPlcOrder(b)
-            console.log(a.title, ao, b.title, bo)
-            return ao - bo
+            return ao > bo
         })
         plcList.forEach(plc => {
             if (plc.group) {

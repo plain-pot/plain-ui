@@ -33,6 +33,14 @@
                 <pl-form-item label="启用虚拟滚动">
                     <pl-toggle v-model="props.virtual"/>
                 </pl-form-item>
+                <template v-if="!other.groupHead">
+                    <pl-form-item label="order">
+                        <pl-number v-model="plc.order"/>
+                    </pl-form-item>
+                    <pl-form-item label="hide">
+                        <pl-toggle v-model="plc.hide"/>
+                    </pl-form-item>
+                </template>
             </pl-form>
             <div style="margin-right: 0">
                 <pl-table :data="tableData"
@@ -40,8 +48,8 @@
                           v-bind="props">
                     <template v-if="other.groupHead">
                         <plc-list>
-                            <plc field="id" title="编号" :width="plc.width" :align="plc.align" :order="5"/>
-                            <plc field="size" title="大小" :align="plc.align" :order="4"/>
+                            <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
+                            <plc field="size" title="大小" :align="plc.align"/>
                             <plc-group title="地址" :align="plc.align">
                                 <plc field="date" title="日期" :align="plc.align"/>
                                 <plc-list>
@@ -53,12 +61,12 @@
                         <plc field="star" title="评分" :align="plc.align"/>
                     </template>
                     <template v-else>
-                        <plc field="id" title="编号"/>
-                        <plc field="size" title="大小" :width="plc.width"/>
-                        <plc field="date" title="日期"/>
+                        <plc field="id" title="编号" :order="4"/>
+                        <plc field="size" title="大小" :width="plc.width" :order="plc.order"/>
+                        <plc field="date" title="日期" :order="6"/>
                         <plc field="color" title="颜色"/>
                         <plc field="name" title="名称" v-if="plc.init"/>
-                        <plc field="star" title="评分"/>
+                        <plc field="star" title="评分" :hide="plc.hide"/>
                     </template>
                 </pl-table>
             </div>
@@ -109,6 +117,7 @@
                     width: 200,
                     align: 'left',
                     init: true,
+                    order: 5,
                 },
             }
         },
