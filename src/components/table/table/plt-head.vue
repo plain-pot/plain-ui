@@ -1,6 +1,6 @@
 <template>
     <div class="plt-head" :style="styles" :class="classes">
-        <pl-scroll scrollX :scrollY="false" ref="scroll">
+        <pl-scroll scrollX :scrollY="false" ref="scroll" @scroll="onScroll">
             <plt-head-item/>
         </pl-scroll>
         <plt-head-item fixed="left"/>
@@ -10,7 +10,7 @@
 
 <script lang="ts">
 
-    import {TableComponentMixin} from "./table-utils";
+    import {TableComponentMixin, TableHoverPart} from "./table-utils";
     import {RefsMixinFactory} from "../../../utils/mixins";
 
     export default {
@@ -26,6 +26,12 @@
                 scroll: Object
             })
         ],
+        created() {
+            this.plTable.$on('scroll-left', this.onScrollLeft)
+        },
+        beforeDestroy() {
+            this.plTable.$off('scroll-left', this.onScrollLeft)
+        },
         computed: {
             styles() {
                 return {
@@ -90,6 +96,15 @@
         methods: {
             refreshScroll() {
                 this.scroll.refresh()
+            },
+            onScroll(e) {
+                this.plTable.emitScrollLeft(e, TableHoverPart.head)
+            },
+            onScrollLeft(e, part) {
+                if (part === TableHoverPart.body) {
+                    console.log('scroll left', TableHoverPart.head)
+                    this.scroll.scroll({x: e.target.scrollLeft})
+                }
             },
         },
     }

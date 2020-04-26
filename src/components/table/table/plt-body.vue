@@ -7,8 +7,10 @@
 </template>
 
 <script lang="ts">
-    import {TableComponentMixin} from "./table-utils";
-    import {RefsMixinFactory} from "../../../utils/mixins";
+
+    import {TableComponentMixin, TableHoverPart} from "./table-utils";
+    import {EmitMixin, RefsMixinFactory} from "../../../utils/mixins";
+    import {PlcFixedType} from "../plc/plc-utils";
 
     export default {
         name: "plt-body",
@@ -18,11 +20,15 @@
             }
         },
         mixins: [
+            EmitMixin,
             TableComponentMixin,
             RefsMixinFactory({
                 scroll: Object
             })
         ],
+        emitters: {
+            emitScrollLeft: Function,
+        },
         data() {
             return {
                 bodyItems: {
@@ -30,7 +36,17 @@
                     left: null,
                     right: null,
                 },
+                scrollState: {
+                    scrollTop: 0,
+                    scrollLeft: 0,
+                },
             }
+        },
+        created() {
+            this.plTable.$on('scroll-left', this.onScrollLeft)
+        },
+        beforeDestroy() {
+            this.plTable.$off('scroll-left', this.onScrollLeft)
         },
         computed: {
             styles() {
@@ -43,11 +59,32 @@
             refreshScroll() {
                 Object.values(this.bodyItems).filter(Boolean).forEach((bodyItem: any) => bodyItem.virtualTable.scroll.refresh())
             },
-            onScroll(e, fixed) {
-                Object.values(this.bodyItems).forEach((item: any) => {
-                    if (item.fixed === fixed) return
-                    item.virtualTable.scroll.scroll({y: e.target.scrollTop})
-                })
+            onScroll(e) {
+                const {part, fixed} = this.plTable.hoverState
+
+                this.plTable.emitScroll(e, {part, fixed})
+
+                if (this.plTable.hoverState.part === TableHoverPart.body) {
+
+                    if (fixed === PlcFixedType.center) {
+                        this.plTable.emitScrollLeft(e, TableHoverPart.body)
+                    }
+
+                    Object.values(this.bodyItems).forEach((item: any) => {
+                        if (item.fixed !== this.plTable.hoverState.fixed) {
+                            console.log('scroll top', item.fixed)
+                            item.virtualTable.scroll.scroll({y: e.target.scrollTop})
+                        }
+                    })
+                }
+            },
+            onScrollLeft(e, part) {
+                if (part === TableHoverPart.head) {
+                    if (!!this.bodyItems.center) {
+                        console.log('scroll left', TableHoverPart.body)
+                        this.bodyItems.center.virtualTable.scroll.scroll({x: e.target.scrollLeft})
+                    }
+                }
             },
         },
     }

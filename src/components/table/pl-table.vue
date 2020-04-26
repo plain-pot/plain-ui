@@ -1,5 +1,6 @@
 <template>
-    <div class="pl-table" :class="classes">
+    <div class="pl-table" :class="classes" @mouseleave="onMouseleave">
+        {{hoverState}}
         <plc-list ref="plc">
             <slot></slot>
         </plc-list>
@@ -9,8 +10,11 @@
 </template>
 
 <script lang="ts">
-    import {RefsMixinFactory} from "../../utils/mixins";
+
+    import {EmitMixin, RefsMixinFactory} from "../../utils/mixins";
     import {formatPlcList, refreshPlcWidth} from "./plc/plc-process";
+    import {TableHoverPart} from "./table/table-utils";
+    import {PlcFixedType} from "./plc/plc-utils";
 
     export default {
         name: "pl-table",
@@ -20,12 +24,17 @@
             }
         },
         mixins: [
+            EmitMixin,
             RefsMixinFactory({
                 plc: Object,
                 head: Object,
                 body: Object,
             })
         ],
+        emitters: {
+            emitScroll: Function,
+            emitScrollLeft: Function,
+        },
         props: {
             data: {type: Array},                                    // 显示的数据
             virtual: {type: Boolean, default: true},                // 虚拟滚动
@@ -62,8 +71,18 @@
             summaryText: {type: String, default: '合计'},            // 表尾合计行第一列的文本
         },
         data() {
+
+            const hoverState: {
+                part: TableHoverPart,
+                fixed: PlcFixedType
+            } = {
+                part: TableHoverPart.body,
+                fixed: PlcFixedType.center,
+            }
+
             return {
                 isMounted: false,
+                hoverState,
             }
         },
         mounted() {
@@ -168,6 +187,14 @@
              */
             refreshPlcWidth() {
                 refreshPlcWidth(this.plcList, this.$el.offsetWidth)
+            },
+            onHoverPart(part: TableHoverPart, fixed: PlcFixedType) {
+                this.hoverState.part = part
+                this.hoverState.fixed = fixed
+            },
+            onMouseleave() {
+                this.hoverState.part = null
+                this.hoverState.fixed = null
             },
         },
     }

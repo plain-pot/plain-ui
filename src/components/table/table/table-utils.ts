@@ -14,3 +14,8 @@ export function getCellClass(context, plc: Plc, rowData) {
         }
     ]
 }
+
+export const enum TableHoverPart {
+    body = 'body',
+    head = 'head'
+}

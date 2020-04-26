@@ -1,6 +1,5 @@
-import {PlcFixedType} from "../plc/plc-utils";
 <template>
-    <div class="plt-head-item" :class="classes">
+    <div class="plt-head-item" :class="classes" @mouseenter="onMouseenter">
         <table cellspacing="0" cellpadding="0" border="0" :style="tableStyles">
             <tr v-for="(row,rowIndex) in pltHead.headPlcList" :key="rowIndex">
                 <plt-head-cell v-for="(cell,cellIndex) in row" :key="cellIndex" :plc="cell"/>
@@ -10,7 +9,7 @@ import {PlcFixedType} from "../plc/plc-utils";
 </template>
 
 <script lang="ts">
-    import {TableComponentMixin} from "./table-utils";
+    import {TableComponentMixin, TableHoverPart} from "./table-utils";
     import {Plc, PlcFixedType} from "../plc/plc-utils";
 
     export default {
@@ -49,6 +48,11 @@ import {PlcFixedType} from "../plc/plc-utils";
                 }
             },
         },
+        methods: {
+            onMouseenter(e) {
+                this.plTable.onHoverPart(TableHoverPart.head, this.fixed)
+            },
+        }
     }
 </script>
 
