@@ -9,6 +9,9 @@ const ResizeMixin = {
             endX: null,
             handler: {
                 mousedown: (e: any) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+
                     window.addEventListener('mousemove', resize.handler.mousemove)
                     window.addEventListener('mouseup', resize.handler.mouseup)
                     this.$plain.enableSelectNone()

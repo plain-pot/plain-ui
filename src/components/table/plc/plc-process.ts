@@ -102,7 +102,7 @@ function processFixed(plcList: Plc[]) {
 }
 
 function getPlcOrder(plc: Plc) {
-    let order = plc.configProps.order || 10
+    let order = plc.configProps.order || 1
     if (plc.actualProps.fixed === PlcFixedType.left) {
         order -= 9999
     } else if (plc.actualProps.fixed === PlcFixedType.right) {
