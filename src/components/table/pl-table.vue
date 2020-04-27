@@ -112,6 +112,7 @@
             classes() {
                 return {
                     'pl-table-border': this.border,
+                    'pl-table-disabled-high-current': this.disabledHighCurrentRow,
                 }
             },
             /**
@@ -358,9 +359,6 @@
                             background-color: $tableRowHoverBackground;
                         }
 
-                        &.plt-row-current {
-                            background-color: $tableRowCurrentBackground;
-                        }
                     }
                 }
             }
@@ -404,6 +402,12 @@
                             }
                         }
                     }
+                }
+            }
+
+            &:not(.pl-table-disabled-high-current) {
+                .plt-row-current {
+                    background-color: $tableRowCurrentBackground;
                 }
             }
 
