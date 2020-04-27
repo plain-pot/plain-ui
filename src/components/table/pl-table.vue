@@ -249,6 +249,11 @@
 
                 .plt-head-item {
                     background-color: $tableHeadBackground;
+                    height: 100%;
+
+                    & > table {
+                        height: 100%;
+                    }
 
                     .plt-head-cell {
                         transition: background-color 500ms $transition;

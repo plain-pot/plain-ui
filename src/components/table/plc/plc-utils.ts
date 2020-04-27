@@ -23,8 +23,8 @@ export const PlcGroupProps = {
     hide: {type: Boolean, watch: true},                                                  //是否隐藏
     order: {type: Number, watch: true},                                                  // 列排序
     fixed: {type: String, default: 'center', watch: true},                               // 冻结列位置：left、right、undefined
-    autoFixedLeft: {type: String},                                          // 当出现左固定列的时候，是否自动设置为左固定列
-    autoFixedRight: {type: String},                                         // 当出现右固定列的时候，是否自动设置为右固定列
+    autoFixedLeft: {type: Boolean},                                          // 当出现左固定列的时候，是否自动设置为左固定列
+    autoFixedRight: {type: Boolean},                                         // 当出现右固定列的时候，是否自动设置为右固定列
 }
 
 export const PlcProps = {
@@ -147,6 +147,12 @@ export class Plc {
             this.children.forEach(child => child.setDurWidth(itemDurWidth))
         }
     }
+
+    setProps(propName: string, val: any) {
+        this.props[propName] = val
+        this.configProps[propName] = val
+        this.actualProps[propName] = val
+    }
 }
 
 export const PlcMixin = {
@@ -175,9 +181,7 @@ export const PlcMixin = {
         },
         setProps(propName: string, val: any) {
             if (!this.plc) return
-            this.plc.props[propName] = val
-            this.plc.configProps[propName] = val
-            this.plc.actualProps[propName] = val
+            this.plc.setProps(propName, val)
         },
     },
     mounted() {

@@ -35,6 +35,12 @@ function expandPlcList(plcList: Plc[]): Plc[] {
                 plc.children = expandPlcList(plc.items)
                 plc.group = true
                 ret.push(plc)
+                // group 子节点的固定列信息应该与group一直
+                plc.children.forEach(child => {
+                    child.setProps('fixed', plc.props.fixed)
+                    child.setProps('autoFixedLeft', plc.props.autoFixedLeft)
+                    child.setProps('autoFixedRight', plc.props.autoFixedRight)
+                })
                 break
             case PlcType.PLC:
                 ret.push(plc)
