@@ -167,3 +167,56 @@ export class TreeMark {
     constructor(public key: string) {
     }
 }
+
+export class TreeProp {
+    [key: string]: boolean
+}
+
+export const enum TreeAttr {
+    expand = 'expand',
+    check = 'check',
+    loading = 'loading',
+    loaded = 'loaded',
+}
+
+export class TreeValue {
+    expandMap: TreeProp = {}
+    checkMap: TreeProp = {}
+    loadingMap: TreeProp = {}
+    loadedMap: TreeProp = {}
+
+    keyField: string
+    $set: Function
+
+    constructor(public context: any) {
+        this.keyField = context.keyField
+        this.$set = context.$set
+    }
+
+    getMark(row: object, attr: TreeAttr): boolean {
+        const attrName = `${attr}Map`
+        if (!attrName) {
+            console.error(`pl-tree: no attr:${attr}`)
+            return
+        }
+        return this[attrName][this.getKey(row)]
+    }
+
+    setMark(row: object, attr: TreeAttr, value: boolean) {
+        const attrName = `${attr}Map`
+        if (!attrName) {
+            console.error(`pl-tree: no attr:${attr}`)
+            return
+        }
+        this.$set(this[attrName], this.getKey(row), value)
+    }
+
+    getKey(row) {
+        return row[this.keyField]
+    }
+
+    static expand = TreeAttr.expand
+    static check = TreeAttr.check
+    static loading = TreeAttr.loading
+    static loaded = TreeAttr.loaded
+}
