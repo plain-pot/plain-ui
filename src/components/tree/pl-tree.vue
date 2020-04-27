@@ -703,10 +703,11 @@
 
                 if (!!key) {
                     treeNode = this.getMark(key, TreeMark.treeNode)
-                    if (!treeNode) {
-                        treeNode = new TreeNode(data, this, level, parent)
-                        this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
-                    }
+                }
+
+                if (!treeNode) {
+                    treeNode = new TreeNode(data, this, level, parent)
+                    this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
                 }
 
                 this.setMark(treeNode.key, TreeMark.formatCount, formatCount)
