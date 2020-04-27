@@ -9,9 +9,7 @@
                           @scroll="onScroll"
                           ref="virtualTable">
             <template slot-scope="{item,index}">
-                <pl-item tag="tr" :key="index" class="plt-row" :vid="index">
-                    <plt-body-cell v-for="(plc,plcIndex) in plTable.bodyPlcList" :key="plcIndex" :plc="plc" :rowData="item"/>
-                </pl-item>
+                <plt-row :key="index" :vid="index" :rowData="item"/>
             </template>
         </pl-virtual-table>
     </div>
