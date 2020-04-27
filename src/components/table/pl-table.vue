@@ -291,6 +291,8 @@
                 color: $tableHeadColor;
                 position: relative;
                 overflow: hidden;
+                border-bottom: $tableHeadBorder;
+                border-width: 0.5px;
 
                 .plt-head-item {
                     background-color: $tableHeadBackground;
@@ -381,9 +383,6 @@
             }
 
             &.pl-table-border {
-                .plt-head {
-                    border-bottom: none;
-                }
 
                 .plt-body {
                     border-bottom: $tableBodyBorder;
