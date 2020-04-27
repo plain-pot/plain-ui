@@ -33,6 +33,9 @@
         emitters: {
             emitScroll: Function,
             emitScrollLeft: Function,
+            emitHoverChange: Function,
+            emitCurrentChange: Function,
+            emitClickRow: Function,
         },
         props: {
             data: {type: Array},                                    // 显示的数据
@@ -80,9 +83,10 @@
             }
 
             return {
-                isMounted: false,
-                hoverState,
-                hoverRow: null,
+                isMounted: false,                                   // 当前组件dom是否已经挂载
+                hoverState,                                         // 鼠标的hover状态
+                hoverRow: null,                                     // 当前鼠标悬浮所在的行
+                currentRowOrKey: null,                              // 当前选中行
             }
         },
         mounted() {
@@ -180,6 +184,7 @@
             },
         },
         methods: {
+            /*---------------------------------------metthods-------------------------------------------*/
             /**
              * 重新计算列宽
              * @author  韦胜健
@@ -188,6 +193,8 @@
             refreshPlcWidth() {
                 refreshPlcWidth(this.plcList, this.$el.offsetWidth)
             },
+
+            /*---------------------------------------handler-------------------------------------------*/
             /**
              * 鼠标进入表格的某一部分的时候的处理动作
              * @author  韦胜健
@@ -197,15 +204,6 @@
                 this.hoverState.part = part
                 this.hoverState.fixed = fixed
             },
-
-            /**
-             * 鼠标进入某一行的处理动作
-             * @author  韦胜健
-             * @date    2020/4/27 15:43
-             */
-            onHoverRow(rowData) {
-                this.hoverRow = rowData
-            },
             /**
              * 鼠标离开表格的处理动作
              * @author  韦胜健
@@ -214,24 +212,45 @@
             onMouseleaveTable() {
                 this.hoverRow = null
             },
+            /*---------------------------------------row handler-------------------------------------------*/
+            /**
+             * 鼠标进入某一行的处理动作
+             * @author  韦胜健
+             * @date    2020/4/27 15:43
+             */
+            onHoverRow(rowData) {
+                this.hoverRow = rowData
+                this.emitHoverChange(rowData)
+            },
+            /**
+             * 鼠标单击行的处理动作
+             * @author  韦胜健
+             * @date    2020/4/27 16:01
+             */
+            onClickRow(rowData) {
+                this.currentRowOrKey = rowData
+                this.emitCurrentChange(rowData)
+                this.emitClickRow(rowData)
+            },
         },
     }
 </script>
 
 <style lang="scss">
 
-
-    $tableHeadColor: rgba(0, 0, 0, 0.85);
-    $tableHeadBackground: #f8f8f8;
-    $tableHeadHoverBackground: #e1e1e1;
-    $tableHeadBorder: solid 1px #e6e6e6;
-
-    $tableBodyBorder: solid 1px #f0f0f0;
-    $tableBodyColor: rgba(0, 0, 0, 0.65);
-
-    $tableRowHoverBackground: #eaeaea;
-
     @include themify {
+
+        $tableHeadColor: rgba(0, 0, 0, 0.85);
+        $tableHeadBackground: #f8f8f8;
+        $tableHeadHoverBackground: #e1e1e1;
+        $tableHeadBorder: solid 1px #e6e6e6;
+
+        $tableBodyBorder: solid 1px #f0f0f0;
+        $tableBodyColor: rgba(0, 0, 0, 0.65);
+
+        $tableRowHoverBackground: #eaeaea;
+        $tableRowCurrentBackground: rgba($colorPrimary, 0.1);
+
         .pl-table {
 
             font-size: 12px;
@@ -337,6 +356,10 @@
 
                         &.plt-row-hover, &:hover {
                             background-color: $tableRowHoverBackground;
+                        }
+
+                        &.plt-row-current {
+                            background-color: $tableRowCurrentBackground;
                         }
                     }
                 }
