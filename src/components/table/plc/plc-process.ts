@@ -32,12 +32,6 @@ function expandPlcList(plcList: Plc[]): Plc[] {
                 ret.push(...expandPlcList(plc.items))
                 break
             case PlcType.GROUP:
-                /*// group 子节点的固定列信息应该与group一直
-                plc.children.forEach(child => {
-                    child.setProps('fixed', plc.props.fixed)
-                    child.setProps('autoFixedLeft', plc.props.autoFixedLeft)
-                    child.setProps('autoFixedRight', plc.props.autoFixedRight)
-                })*/
                 plc.children = expandPlcList(plc.items)
                 plc.group = true
                 ret.push(plc)
@@ -85,6 +79,15 @@ function processFixed(plcList: Plc[]) {
     let hasFixedRight = false
 
     iteratePlcList(plcList, (plc) => {
+        if (plc.plcType === PlcType.GROUP) {
+            // group 子节点的固定列信息应该与group一直
+            plc.children.forEach(child => {
+                child.setProps('fixed', plc.props.fixed)
+                child.setProps('autoFixedLeft', plc.props.autoFixedLeft)
+                child.setProps('autoFixedRight', plc.props.autoFixedRight)
+            })
+        }
+
         if (!hasFixedLeft && plc.configProps.fixed === PlcFixedType.left) {
             hasFixedLeft = true
         }
