@@ -1,8 +1,8 @@
 <template>
     <div class="plt-body" :style="styles">
         <plt-body-item @scroll="onScroll"/>
-        <plt-body-item fixed="left" @scroll="onScroll"/>
-        <plt-body-item fixed="right" @scroll="onScroll"/>
+        <plt-body-item fixed="left" @scroll="onScroll" v-if="!!plTable.formatPlcList && plTable.formatPlcList.hasFixedLeft"/>
+        <plt-body-item fixed="right" @scroll="onScroll" v-if="!!plTable.formatPlcList && plTable.formatPlcList.hasFixedRight"/>
     </div>
 </template>
 

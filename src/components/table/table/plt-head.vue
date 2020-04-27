@@ -3,8 +3,8 @@
         <pl-scroll scrollX :scrollY="false" ref="scroll" @scroll="onScroll" hideScrollbar>
             <plt-head-item/>
         </pl-scroll>
-        <plt-head-item fixed="left"/>
-        <plt-head-item fixed="right"/>
+        <plt-head-item fixed="left" v-if="!!plTable.formatPlcList && plTable.formatPlcList.hasFixedLeft"/>
+        <plt-head-item fixed="right" v-if="!!plTable.formatPlcList && plTable.formatPlcList.hasFixedRight"/>
     </div>
 </template>
 

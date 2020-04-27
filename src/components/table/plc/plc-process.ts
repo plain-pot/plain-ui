@@ -72,7 +72,7 @@ function processHide(plcList: Plc[]) {
  * @author  韦胜健
  * @date    2020/4/26 11:12
  */
-function processFixed(plcList: Plc[]) {
+function processFixed(plcList: Plc[]): { hasFixedLeft: boolean, hasFixedRight: boolean } {
     const autoFixedLeftPlcList: Plc[] = []
     const autoFixedRightPlcList: Plc[] = []
     let hasFixedLeft = false
@@ -107,6 +107,11 @@ function processFixed(plcList: Plc[]) {
     }
     if (hasFixedRight) {
         autoFixedRightPlcList.forEach(plc => plc.actualProps.fixed = PlcFixedType.right)
+    }
+
+    return {
+        hasFixedLeft,
+        hasFixedRight,
     }
 }
 
@@ -197,6 +202,9 @@ export function formatPlcList(originPlcList: Plc[], option: {
 }): {
     plcList: Plc[],
     flatPlcList: Plc[],
+
+    hasFixedLeft: boolean,
+    hasFixedRight: boolean
 } {
     /*---------------------------------------展开 plc list-------------------------------------------*/
     const plcList = expandPlcList(originPlcList)
@@ -206,7 +214,7 @@ export function formatPlcList(originPlcList: Plc[], option: {
     }
     /*---------------------------------------调整 plc 的各个属性-------------------------------------------*/
     processHide(plcList)
-    processFixed(plcList)
+    const {hasFixedLeft, hasFixedRight} = processFixed(plcList)
     processOrder(plcList)
 
     const flatPlcList = []
@@ -216,6 +224,9 @@ export function formatPlcList(originPlcList: Plc[], option: {
     return {
         plcList,
         flatPlcList,
+
+        hasFixedLeft,
+        hasFixedRight
     }
 }
 
