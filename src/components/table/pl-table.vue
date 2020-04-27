@@ -357,8 +357,10 @@
                     .plt-row {
                         transition: all 500ms $transition;
 
-                        &.plt-row-hover, &:hover {
-                            background-color: $tableRowHoverBackground;
+                        &:not(.plt-row-current) {
+                            &.plt-row-hover, &:hover {
+                                background-color: $tableRowHoverBackground;
+                            }
                         }
 
                     }
