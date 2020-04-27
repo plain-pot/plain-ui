@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-table" :class="classes">
+    <div class="pl-table" :class="classes" @mouseleave="onMouseleaveTable">
         <plc-list ref="plc">
             <slot></slot>
         </plc-list>
@@ -82,6 +82,7 @@
             return {
                 isMounted: false,
                 hoverState,
+                hoverRow: null,
             }
         },
         mounted() {
@@ -196,8 +197,22 @@
                 this.hoverState.part = part
                 this.hoverState.fixed = fixed
             },
-            onHoverRow(rowData) {
 
+            /**
+             * 鼠标进入某一行的处理动作
+             * @author  韦胜健
+             * @date    2020/4/27 15:43
+             */
+            onHoverRow(rowData) {
+                this.hoverRow = rowData
+            },
+            /**
+             * 鼠标离开表格的处理动作
+             * @author  韦胜健
+             * @date    2020/4/27 15:43
+             */
+            onMouseleaveTable() {
+                this.hoverRow = null
             },
         },
     }
@@ -213,6 +228,8 @@
 
     $tableBodyBorder: solid 1px #f0f0f0;
     $tableBodyColor: rgba(0, 0, 0, 0.65);
+
+    $tableRowHoverBackground: #eaeaea;
 
     @include themify {
         .pl-table {
@@ -313,6 +330,12 @@
 
                     .plt-body-cell {
                         border-bottom: $tableBodyBorder;
+                    }
+
+                    .plt-row {
+                        &.plt-row-hover {
+                            background-color: $tableRowHoverBackground;
+                        }
                     }
                 }
             }
