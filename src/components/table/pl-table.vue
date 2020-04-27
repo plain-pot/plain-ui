@@ -187,6 +187,11 @@
             refreshPlcWidth() {
                 refreshPlcWidth(this.plcList, this.$el.offsetWidth)
             },
+            /**
+             * 鼠标进入表格的某一部分的时候的处理动作
+             * @author  韦胜健
+             * @date    2020/4/27 15:39
+             */
             onHoverPart(part: TableHoverPart, fixed: PlcFixedType) {
                 this.hoverState.part = part
                 this.hoverState.fixed = fixed
