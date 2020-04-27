@@ -697,8 +697,18 @@
              * @date    2020/3/30 17:16
              */
             formatNodeData(data, formatCount: number, parent?: TreeNode, level: number = 1): TreeNode {
-                const treeNode = new TreeNode(data, this, level, parent)
-                this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
+
+                let treeNode;
+                const key = !!this.keyField ? data[this.keyField] : undefined
+
+                if (!!key) {
+                    treeNode = this.getMark(key, TreeMark.treeNode)
+                    if (!treeNode) {
+                        treeNode = new TreeNode(data, this, level, parent)
+                        this.setMark(treeNode.key, TreeMark.treeNode, treeNode)
+                    }
+                }
+
                 this.setMark(treeNode.key, TreeMark.formatCount, formatCount)
                 treeNode.children = (treeNode.childrenData || []).map(child => this.formatNodeData(child, formatCount, treeNode, level + 1))
                 return treeNode
