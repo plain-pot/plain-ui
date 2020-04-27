@@ -196,6 +196,9 @@
                 this.hoverState.part = part
                 this.hoverState.fixed = fixed
             },
+            onHoverRow(rowData) {
+
+            },
         },
     }
 </script>

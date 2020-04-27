@@ -108,7 +108,7 @@
 
 <script>
 
-    import data from '../data/data-2'
+    import data from '../data/data'
 
 
     export default {
