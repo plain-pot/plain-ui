@@ -1,4 +1,3 @@
-import {TreeMarkAttr} from "./tree";
 <template>
     <div class="pl-tree" :class="classes" v-loading="loading || state.loading">
         <div class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
@@ -196,6 +195,46 @@ import {TreeMarkAttr} from "./tree";
                 return this.findTreeNodeByKey(this.p_currentKey)
             },
 
+            /**
+             * 展开树节点
+             * @author  韦胜健
+             * @date    2020/3/30 18:58
+             */
+            async expand(keys: string | string[]) {
+                await this.handleKeys(keys, async (key: string) => {
+                    const treeNode = this.findTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (!treeNode.isExpand) {
+
+                        if (
+                            this.lazy &&                            // 懒加载模式
+                            !treeNode.isLoaded &&               // 未曾加载过子节点数据
+                            !treeNode.isLeaf                        // 节点不是叶子节点
+                        ) {
+                            const children = await this.getChildrenAsync(treeNode)
+                            treeNode.setChildren(children || [])
+                            await this.$plain.nextTick()
+                        }
+
+                        if (this.according) {
+                            // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
+                            if (!!treeNode.parent && !!treeNode.parent.children) {
+                                treeNode.parent.children.forEach((child: TreeNode) => child.key !== treeNode.key && this.collapse(child.key))
+                            }
+                        }
+
+                        this.treeMark.setMark(treeNode.key, TreeMarkAttr.expand, true)
+                        await this.$plain.nextTick()
+                        // console.log('expand ', treeNode.key)
+                        this.emitExpand(treeNode)
+                        this.emitExpandChange(this.emitExpandKeys)
+                    }
+                    if (!!this.autoExpandParent && !!treeNode.parent && treeNode.parent.key) {
+                        await this.expand(treeNode.parent.key)
+                    }
+                })
+            },
+
             /*---------------------------------------utils-------------------------------------------*/
             format({
                        row,
@@ -210,7 +249,16 @@ import {TreeMarkAttr} from "./tree";
             })
                 : TreeNode {
                 return new TreeNode(row, this, level, parent, treeMark)
-            }
+            },
+            /**
+             * 处理keys
+             * @author  韦胜健
+             * @date    2020/3/31 15:23
+             */
+            async handleKeys(keys: string | string[], handler: (value: unknown, index: number, array: []) => unknown) {
+                keys = Array.isArray(keys) ? keys : [keys]
+                return await Promise.all(keys.map(handler))
+            },
         },
     }
 </script>
