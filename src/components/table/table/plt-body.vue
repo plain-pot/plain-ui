@@ -1,6 +1,3 @@
-import {TableHoverPart} from "./table-utils";
-import {PlcFixedType} from "../plc/plc-utils";
-import {TableHoverPart} from "./table-utils";
 <template>
     <div class="plt-body" :style="styles">
         <plt-body-item @scroll="onScroll"/>
