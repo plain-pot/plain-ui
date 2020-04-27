@@ -4,7 +4,7 @@
             <pl-icon icon="el-icon-reading"/>
             <span>{{emptyText}}</span>
         </div>
-        <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :data="item" :tree-node="item"/>
+        <pl-tree-node v-else v-for="(item,index) in formatData" :key="item.key || index" :tree-node="item"/>
         <span class="pl-tree-drag-indicator" v-if="draggable" v-show="dragState.show" :style="indicatorStyles"></span>
     </div>
 </template>
