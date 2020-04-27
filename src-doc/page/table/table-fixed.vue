@@ -108,7 +108,7 @@
 
 <script>
 
-    import data from '../data/data'
+    import data from '../data/data-1'
 
 
     export default {
@@ -144,7 +144,7 @@
                     headRowHeight: 40,
                     bodyRowHeight: 36,
                     border: false,
-                    virtual: true,
+                    virtual: false,
                 },
                 plc: {
                     width: 200,

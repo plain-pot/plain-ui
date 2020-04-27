@@ -333,7 +333,9 @@
                     }
 
                     .plt-row {
-                        &.plt-row-hover {
+                        transition: all 500ms $transition;
+
+                        &.plt-row-hover, &:hover {
                             background-color: $tableRowHoverBackground;
                         }
                     }
