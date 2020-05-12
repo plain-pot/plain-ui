@@ -1,0 +1,91 @@
+@import "./theme/default";
+
+@function plv($key) {
+  @if (map_has_key($globalTheme, $key)) {
+    @return map-get($globalTheme, $key);
+  } @else {
+    @return map-get($theme-default, $key);
+  }
+}
+
+@mixin generateThemeContent($name,$theme) {
+  $globalTheme: $theme !global;
+
+  $colorPrimary: plv(colorPrimary) !global;
+  $colorSuccess: plv(colorSuccess) !global;
+  $colorWarn: plv(colorWarn) !global;
+  $colorError: plv(colorError) !global;
+  $colorInfo: plv(colorInfo) !global;
+  $disabled: plv(disabled) !global;
+  $disabledLight: plv(disabledLight) !global;
+  $disabledDeep: plv(disabledDeep) !global;
+  $disabledText: plv(disabledText) !global;
+  $font: plv(font) !global;
+  $ibc: plv(ibc) !global;
+  $ibl: plv(ibl) !global;
+  $itc: plv(itc) !global;
+  $ihc: plv(ihc) !global;
+  $ipc: plv(ipc) !global;
+  $icc: plv(icc) !global;
+  $transitionFlexible: plv(transitionFlexible) !global;
+  $transition: plv(transition) !global;
+  $transition2: plv(transition2) !global;
+  $shapeFillet: plv(shapeFillet) !global;
+  $popperRadius: plv(popperRadius) !global;
+
+  @if (str_length($name)>0) {
+    .theme-#{$name} {
+      font-family: $font;
+      @content;
+    }
+  } @else {
+    html {
+      font-family: $font;
+      @content;
+    }
+  }
+}
+
+@mixin statusMixin($component) {
+  @each $key in (Primary, Success, Warn, Error, Info) {
+
+    $value: plv(color#{$key}) !global;
+
+    $name: to-lower-case($key) !global;
+    &.pl-#{$component}-status-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin shapeMixin($component) {
+  @each $key in (Fillet, Round, Square) {
+
+    $value: plv(shape#{$key}) !global;
+    $name: to-lower-case($key) !global;
+
+    &.pl-#{$component}-shape-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin sizeMixin($component) {
+  @each $key in (Large, Normal, Mini) {
+
+    $value: plv(size#{$key}) !global;
+    $name: to-lower-case($key) !global;
+
+    &.pl-#{$component}-size-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin public-style {
+  box-sizing: border-box;
+  font-weight: 400;
+  color: $itc;
+  margin: 0;
+  padding: 0;
+}

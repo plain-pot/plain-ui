@@ -30,6 +30,11 @@ module.exports = {
     }),
     css: {
         sourceMap: true,
+        loaderOptions: {
+            sass: {
+                prependData: `@import "src/style/global-import.scss";`
+            }
+        },
         extract: {
             filename: `css/[name].css`
         }

@@ -30,6 +30,14 @@ module.exports = {
             '@vue/composition-api': 'vueCompositionApi'
         },
     }),
+    css: {
+        sourceMap: true,
+        loaderOptions: {
+            sass: {
+                prependData: `@import "src/style/global-import.scss";`
+            }
+        },
+    },
     chainWebpack: config => {
         config.plugins
             .delete('prefetch-index')

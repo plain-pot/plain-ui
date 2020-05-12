@@ -1,6 +1,8 @@
-.pl-button {
-  background-color: #12b4a5;
-  color: white;
-  border: none;
-  outline: none;
+@include theme {
+  .pl-button {
+    background-color: $colorPrimary;
+    color: white;
+    border: none;
+    outline: none;
+  }
 }

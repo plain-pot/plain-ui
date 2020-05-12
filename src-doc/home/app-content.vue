@@ -1,7 +1,13 @@
 <template>
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
-            app-content-body
+            <pl-button></pl-button>
+            <pl-input></pl-input>
+
+            <div class="theme-dark">
+                <pl-button></pl-button>
+                <pl-input></pl-input>
+            </div>
         </div>
     </div>
 </template>
@@ -33,6 +39,7 @@
 
         .app-content-body {
             padding: 16px;
+            min-height: calc(100vh - 100px);
         }
     }
 </style>
