@@ -1,8 +1,11 @@
 import button from './packages/button'
 import input from './packages/input'
+import icon from './packages/icon'
+
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
+    icon,
     button, input,
 ]
 
@@ -11,8 +14,9 @@ const install: PluginType['install'] = Vue => {
 }
 
 export {
-    button,
-    input,
+    icon,
+    button, input,
+
     install,
 }
 

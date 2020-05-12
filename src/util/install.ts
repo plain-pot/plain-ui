@@ -1,4 +1,5 @@
 import {toArray} from "@/util/util";
+import {VueConstructor} from "vue/types/umd";
 
 interface VueType {
     use: (plugin: PluginType) => void
@@ -10,10 +11,10 @@ export interface PluginType {
     install?: (Vue: VueType) => void
 }
 
-export function installPlugin(defaultPlugins: PluginType | PluginType[], externalsPlugins?: PluginType | PluginType[]): PluginType {
+export function installPlugin(defaultPlugins: VueConstructor | PluginType | PluginType[], externalsPlugins?: VueConstructor | PluginType | PluginType[]): PluginType {
 
     const install: PluginType['install'] = Vue => {
-        defaultPlugins = toArray(defaultPlugins)
+        defaultPlugins = toArray(defaultPlugins) as PluginType[]
         defaultPlugins.forEach(plugin => {
             if (!plugin.install && !!plugin.name) {
                 plugin.install = Vue => Vue.component(plugin.name!, plugin)
@@ -22,7 +23,7 @@ export function installPlugin(defaultPlugins: PluginType | PluginType[], externa
         })
 
         if (!!externalsPlugins) {
-            externalsPlugins = toArray(externalsPlugins)
+            externalsPlugins = toArray(externalsPlugins) as PluginType[]
             externalsPlugins.forEach(plugin => Vue.use(plugin))
         }
     }

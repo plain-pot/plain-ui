@@ -2,6 +2,7 @@
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
             <pl-button></pl-button>
+            <pl-icon icon="el-icon-search"/>
         </div>
     </div>
 </template>
