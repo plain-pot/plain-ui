@@ -2,12 +2,6 @@
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
             <pl-button></pl-button>
-            <pl-input></pl-input>
-
-            <div class="theme-dark">
-                <pl-button></pl-button>
-                <pl-input></pl-input>
-            </div>
         </div>
     </div>
 </template>

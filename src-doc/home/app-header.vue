@@ -23,11 +23,13 @@
 </script>
 
 <style lang="scss">
-    .app-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        box-shadow: 0 2px 8px #f0f1f2;
+    @include theme {
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-shadow: $boxshadow;
+        }
     }
 </style>

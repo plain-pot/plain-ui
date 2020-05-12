@@ -32,6 +32,7 @@
   $transition2: plv(transition2) !global;
   $shapeFillet: plv(shapeFillet) !global;
   $popperRadius: plv(popperRadius) !global;
+  $boxshadow: plv(boxshadow) !global;
 
   @if (str_length($name)>0) {
     .theme-#{$name} {
