@@ -226,30 +226,38 @@ export class TreeNode {
         this.context.$set(this.data, this.context.childrenField, children)
     }
 
-    /*将当前节点从当前节点的父节点移除*/
-    removeSelf() {
-        const parentChildrenData = this.parent.childrenData
-        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
-    }
-
-    /*在当前节点所有的数组中插入一个节点*/
-    splice(index, count, replace) {
-        let parentChildrenData = this.parent.childrenData
-
-        if (!parentChildrenData) {
-            parentChildrenData = []
-            this.parent.setChildren(parentChildrenData)
-        }
-        return parentChildrenData.splice(index, count, replace)
-    }
-
-    /*在当前节点所在的数组中添加一个节点*/
-    push(data) {
+    getReactiveChildrenData() {
         let childrenData = this.childrenData
         if (!childrenData) {
             childrenData = []
             this.setChildren(childrenData)
         }
-        childrenData.push(data)
+        return childrenData
+    }
+
+    removeSelf() {
+        const parentChildrenData = this.parent.childrenData
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
+    }
+
+    previousSibling(treeNode: TreeNode) {
+        let parentChildrenData = this.parent.getReactiveChildrenData()
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 0, treeNode.data)
+        treeNode.parent = this.parent
+        treeNode.level = this.level
+    }
+
+    nextSibling(treeNode: TreeNode) {
+        let parentChildrenData = this.parent.getReactiveChildrenData()
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data) + 1, 0, treeNode.data)
+        treeNode.parent = this.parent
+        treeNode.level = this.level
+    }
+
+    appendChild(treeNode: TreeNode) {
+        let childrenData = this.getReactiveChildrenData()
+        childrenData.push(treeNode.data)
+        treeNode.parent = this
+        treeNode.level = this.level + 1
     }
 }
