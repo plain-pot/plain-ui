@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-tree" :class="classes" v-loading="loading || p_loading">
+    <div class="pl-tree" :class="classes" v-loading="isLoading">
         <div class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
             <pl-icon icon="el-icon-reading"/>
             <span>{{emptyText}}</span>
@@ -123,6 +123,9 @@
             }
         },
         computed: {
+            isLoading() {
+                return this.p_loading || this.loading
+            },
             formatData(): TreeNode[] {
                 return this.rootTreeNode.children
             },

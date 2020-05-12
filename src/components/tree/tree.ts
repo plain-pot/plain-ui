@@ -77,7 +77,8 @@ export class TreeMark {
         let node = this.nodeMap[key]
         if (!node) {
             node = new TreeNode(data, context, level, parent, this)
-            this.nodeMap[key] = node
+            // @ts-ignore
+            this.setMark(key, TreeMarkAttr.node, node)
         } else {
             node.data = data
         }
@@ -226,7 +227,7 @@ export class TreeNode {
         this.context.$set(this.data, this.context.childrenField, children)
     }
 
-    getReactiveChildrenData() {
+    getReactiveChildrenData(): object[] {
         let childrenData = this.childrenData
         if (!childrenData) {
             childrenData = []
@@ -242,22 +243,22 @@ export class TreeNode {
 
     previousSibling(treeNode: TreeNode) {
         let parentChildrenData = this.parent.getReactiveChildrenData()
-        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 0, treeNode.data)
         treeNode.parent = this.parent
         treeNode.level = this.level
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 0, treeNode.data)
     }
 
     nextSibling(treeNode: TreeNode) {
         let parentChildrenData = this.parent.getReactiveChildrenData()
-        parentChildrenData.splice(parentChildrenData.indexOf(this.data) + 1, 0, treeNode.data)
         treeNode.parent = this.parent
         treeNode.level = this.level
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data) + 1, 0, treeNode.data)
     }
 
-    appendChild(treeNode: TreeNode) {
+    unshiftChild(treeNode: TreeNode) {
         let childrenData = this.getReactiveChildrenData()
-        childrenData.push(treeNode.data)
         treeNode.parent = this
         treeNode.level = this.level + 1
+        childrenData.unshift(treeNode.data)
     }
 }

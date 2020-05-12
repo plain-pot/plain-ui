@@ -56,7 +56,8 @@ export default {
                             break
                         case TreeDropType.inner:
                             // console.log(`添加到 ${dropTreeNode.label} 内部`)
-                            dropTreeNode.appendChild(dragTreeNode)
+                            dropTreeNode.unshiftChild(dragTreeNode)
+                            this.expand(dropTreeNode.key)
                             break
                         case TreeDropType.next:
                             // console.log(`添加到 ${dropTreeNode.label} 之后`)
