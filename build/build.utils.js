@@ -70,34 +70,6 @@ module.exports = {
             return null
         }
     },
-    checkEntries(path) {
-        let files = fs.readdirSync(resolve(path));
-        files.forEach((item) => {
-            let itemPath = join(path, item)
-            let isDir = fs.statSync(itemPath).isDirectory();
-            if (isDir) {
-                let p;
-                p = resolve(join(itemPath, 'index.js'))
-                if (!!this.isExist(p)) {
-                    return
-                }
-                p = resolve(join(itemPath, 'index.ts'))
-                if (!!this.isExist(p)) {
-                    return
-                }
-                p = resolve(join(itemPath, 'index.tsx'))
-                if (!!this.isExist(p)) {
-                    return
-                }
-                console.log(`create index file:` + p)
-                fs.writeFileSync(join(itemPath, 'index.js'), `
-import component from './pl-${item}.vue'
-import {plugin} from "../../utils";
-export default plugin(component)
-                `.trim())
-            }
-        })
-    },
     getEntries(path) {
         let files = fs.readdirSync(resolve(path));
         const componentEntries = files.reduce((ret, item) => {

@@ -9,8 +9,7 @@
     "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --report",
-    "release": "vue-cli-service build --release --package --no-clean && vue-cli-service build --release --all --no-clean --report",
-    "check": "node build/check.entries.js"
+    "release": "vue-cli-service build --release --package --no-clean && vue-cli-service build --release --all --no-clean --report"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
