@@ -1,8 +1,21 @@
+/**
+ * 拖拽放置的类型
+ * @author  韦胜健
+ * @date    2020/4/1 17:15
+ */
+export enum TreeDropType {
+    prev = 'prev',
+    inner = 'inner',
+    next = 'next',
+    null = 'null',
+}
+
 export const enum TreeMarkAttr {
     expand = 'expand',
     check = 'check',
     loading = 'loading',
     loaded = 'loaded',
+    node = 'node',
 }
 
 export const enum TreeNodeCheckStatus {
@@ -16,6 +29,7 @@ export class TreeMark {
     checkMap: { [key: string]: boolean } = {}
     loadingMap: { [key: string]: boolean } = {}
     loadedMap: { [key: string]: boolean } = {}
+    nodeMap: { [key: string]: TreeNode } = {}
 
     keyField: string
     $set: Function
@@ -58,21 +72,34 @@ export class TreeMark {
         return keys
     }
 
+    getTreeNode(data, context, level, parent) {
+        const key = data[this.keyField]
+        let node = this.nodeMap[key]
+        if (!node) {
+            node = new TreeNode(data, context, level, parent, this)
+            this.nodeMap[key] = node
+        } else {
+            node.data = data
+        }
+        return node
+    }
+
     static expand = TreeMarkAttr.expand
     static check = TreeMarkAttr.check
     static loading = TreeMarkAttr.loading
     static loaded = TreeMarkAttr.loaded
+    static node = TreeMarkAttr.node
 }
 
 export class TreeNode {
 
     constructor(
-        public row: object,
+        public data: object,
         public context: {
             keyField: string,
             labelField: string,
             childrenField: string,
-            allowCheck: Function,
+            isCheckable: Function,
             isLeaf: Function,
             checkStrictly: boolean
             filterNodeMethod: Function,
@@ -97,26 +124,20 @@ export class TreeNode {
 
     /*---------------------------------------format prop-------------------------------------------*/
 
-    get key(): string {return !!this.context.keyField ? this.row[this.context.keyField] : undefined}
+    get key(): string {return (!!this.context.keyField && !!this.data) ? this.data[this.context.keyField] : undefined}
 
-    get label(): string {return !!this.context.labelField ? this.row[this.context.labelField] : undefined}
+    get label(): string {return (!!this.context.labelField && !!this.data) ? this.data[this.context.labelField] : undefined}
 
-    get childrenData(): object[] {return !this.context.childrenField ? null : this.row[this.context.childrenField]}
+    get childrenData(): object[] {return (!!this.context.childrenField && !!this.data) ? this.data[this.context.childrenField] : undefined}
 
     get children(): TreeNode[] {
         if (!this.childrenData) {return null}
-        return this.childrenData.map(child => new TreeNode(
-            child,
-            this.context,
-            this.level + 1,
-            this,
-            this.treeMark,
-        ))
+        return this.childrenData.map(child => this.treeMark.getTreeNode(child, this.context, this.level + 1, this,))
     }
 
     /*---------------------------------------judge props-------------------------------------------*/
 
-    get isCheckable(): boolean {return !this.context.allowCheck || this.context.allowCheck(this.row)}
+    get isCheckable(): boolean {return !this.context.isCheckable || this.context.isCheckable(this)}
 
     get isLeaf(): boolean {
         const {isLeaf} = this.context
@@ -187,18 +208,28 @@ export class TreeNode {
     }
 
     /**
+     * 展开/收起当前节点
+     * @author  韦胜健
+     * @date    2020/5/12 9:47
+     */
+    expand(val: boolean) {
+        if (this.isLeaf) return
+        this.treeMark.setMark(this.key, TreeMarkAttr.expand, val)
+    }
+
+    /**
      * 设置子节点数据
      * @author  韦胜健
      * @date    2020/4/3 0:09
      */
     setChildren(children: object[]) {
-        this.context.$set(this.row, this.context.childrenField, children)
+        this.context.$set(this.data, this.context.childrenField, children)
     }
 
     /*将当前节点从当前节点的父节点移除*/
     removeSelf() {
         const parentChildrenData = this.parent.childrenData
-        parentChildrenData.splice(parentChildrenData.indexOf(this.row), 1)
+        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
     }
 
     /*在当前节点所有的数组中插入一个节点*/

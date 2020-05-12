@@ -476,7 +476,7 @@
                 return data.name.indexOf(this.filterText) !== -1;
             },
             isCheckable(treeNode) {
-                return treeNode.label.endsWith('1')
+                return treeNode.data.name.endsWith('1')
             },
             nodeIcon(treeNode) {
                 return treeNode.isLeaf ? 'el-icon-document' : 'el-icon-folder-opened'

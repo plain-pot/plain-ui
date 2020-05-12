@@ -1,5 +1,5 @@
 <template>
-    <div class="pl-tree" :class="classes" v-loading="loading || state.loading">
+    <div class="pl-tree" :class="classes" v-loading="loading || p_loading">
         <div class="pl-tree-node-empty-text" v-if="!formatData || formatData.length === 0">
             <pl-icon icon="el-icon-reading"/>
             <span>{{emptyText}}</span>
@@ -10,11 +10,13 @@
 </template>
 <script lang="ts">
     import {EmitMixin} from "../../utils/mixins";
-    import {TreeMark, TreeMarkAttr, TreeNode} from "./tree";
+    import {TreeDropType, TreeMark, TreeMarkAttr, TreeNode} from "./tree";
     import TreeDraggableMixin from "./TreeDraggableMixin";
+    import plTreeNode from './pl-tree-node.vue'
 
     export default {
         name: 'pl-tree',
+        components: {plTreeNode},
         mixins: [
             EmitMixin,
             TreeDraggableMixin,
@@ -85,6 +87,9 @@
             emitDrop: Function,
         },
         watch: {
+            data(val) {
+                this.rootTreeNode.setChildren(val)
+            },
             /**
              * 单向绑定currentKey
              * @author  韦胜健
@@ -95,31 +100,31 @@
             },
         },
         data() {
-            const state = {
-                currentKey: this.currentKey,
-                loading: false,
-                virtualScrollFlag: false,
-            }
+            const p_currentKey = this.currentKey
+            const p_loading = this.p_loading
+            const virtualScrollFlag = false
+
             const treeMark = new TreeMark(this)
-            const rootTreeNode = new TreeNode(null, this, 0, null, treeMark)
+            const rootTreeNode = new TreeNode({[this.childrenField]: this.data}, this, 0, null, treeMark)
 
             return {
-                state,
+                p_currentKey,
+                p_loading,
+                virtualScrollFlag,
                 treeMark,
                 rootTreeNode,
             }
         },
-        mounted() {
-            // console.log(this.formatData)
+        created() {
+            this.initLazy()
+
+            if (this.defaultExpandAll) {
+                this.$nextTick(() => this.expandAll())
+            }
         },
         computed: {
             formatData(): TreeNode[] {
-                const {treeMark, rootTreeNode} = this
-                return (this.data || []).map(item => this.format({
-                    row: item,
-                    parent: rootTreeNode,
-                    treeMark,
-                }))
+                return this.rootTreeNode.children
             },
             /**
              * 根节点class
@@ -133,7 +138,7 @@
                     {
                         'pl-tree-highlight-current': this.highlightCurrent,
                         'pl-tree-reflow': this.dragState.reflow,
-                        'pl-tree-virtual-scrolling': this.state.virtualScrollFlag,
+                        'pl-tree-virtual-scrolling': this.virtualScrollFlag,
                     }
                 ]
             },
@@ -223,7 +228,7 @@
                             }
                         }
 
-                        this.treeMark.setMark(treeNode.key, TreeMarkAttr.expand, true)
+                        treeNode.expand(true)
                         await this.$plain.nextTick()
                         // console.log('expand ', treeNode.key)
                         this.emitExpand(treeNode)
@@ -234,21 +239,163 @@
                     }
                 })
             },
+            /**
+             * 折叠树节点
+             * @author  韦胜健
+             * @date    2020/3/30 18:58
+             */
+            async collapse(keys: string | string[]) {
+                await this.handleKeys(keys, async (key: string) => {
+                    const treeNode = this.findTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (treeNode.isExpand) {
+                        treeNode.expand(false)
+                        await this.$plain.nextTick()
+                        this.emitCollapse(treeNode)
+                        this.emitExpandChange(this.emitExpandKeys)
+                    }
+                })
+            },
+            /**
+             * 根据树节点当前的展开状态，反向展开或者收起内容
+             * @author  韦胜健
+             * @date    2020/3/30 19:19
+             */
+            toggleExpand(key: string) {
+                const treeNode = this.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (treeNode.isExpand) {
+                    this.collapse(key)
+                } else {
+                    this.expand(key)
+                }
+            },
+            expandAll() {
+                this.iterateAll(this.formatData, treeNode => this.expand(treeNode.key))
+            },
+            collapseAll() {
+                this.treeMark.expandMap = {}
+            },
+
+            /*check*/
+
+            /**
+             * 根据key选中树节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            async check(keys: string | string[]) {
+                await this.handleKeys(keys, async (key: string) => {
+                    const treeNode = this.findTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (!treeNode.isCheck) {
+                        treeNode.check(true)
+
+                        // 父子关联模式下，改变子节点以及父节点状态
+                        if (!this.checkStrictly) {
+                            // 选中所有子节点
+                            this.iterateAll(treeNode.children, (child) => child.check(true))
+                            // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                            let parent = treeNode.parent
+                            while (!!parent && !!parent.key) {
+                                if (parent.children.every(child => child.isCheck)) {
+                                    parent.check(true)
+                                    parent = parent.parent
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+
+                        await this.$plain.nextTick()
+                        this.emitCheck(treeNode)
+                        this.emitCheckChange(this.emitCheckKeys)
+                    }
+                })
+            },
+            /**
+             * 根据key取消选中树节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            async uncheck(keys: string | string[]) {
+                await this.handleKeys(keys, async (key: string) => {
+                    const treeNode = this.findTreeNodeByKey(key)
+                    if (!treeNode) return
+                    if (treeNode.isCheck) {
+                        treeNode.check(false)
+
+                        // 父子关联模式下，改变子节点以及父节点状态
+                        if (!this.checkStrictly) {
+                            // 取消选中所有子节点
+                            this.iterateAll(treeNode.children, (child) => child.check(false))
+                            // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                            let parent = treeNode.parent
+                            while (!!parent && !!parent.key) {
+                                if (parent.isCheck) {
+                                    parent.check(false)
+                                    parent = parent.parent
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+
+                        await this.$plain.nextTick()
+                        this.emitCheck(treeNode)
+                        this.emitCheckChange(this.emitCheckKeys)
+                    }
+                })
+            },
+            /**
+             * 根据key选中或者取消选中树节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            toggleCheck(key) {
+                const treeNode = this.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (!treeNode.isCheckable) return
+                if (treeNode.isCheck) {
+                    this.uncheck(key)
+                } else {
+                    this.check(key)
+                }
+            },
+            /**
+             * 选中所有节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            checkAll() {
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => treeNode.check(true))
+            },
+            /**
+             * 取消选中所有节点
+             * @author  韦胜健
+             * @date    2020/3/31 17:33
+             */
+            uncheckAll() {
+                this.treeMark.checkMap = {}
+            },
+            /**
+             * 获取选中的数据
+             * @author  韦胜健
+             * @date    2020/3/31 17:34
+             */
+            getCheckedData() {
+                let ret: object[] = []
+                this.iterateAll(this.formatData, (treeNode: TreeNode) => {
+                    if (treeNode.isCheck) {
+                        ret.push(treeNode.data)
+                    }
+                })
+                return ret
+            },
 
             /*---------------------------------------utils-------------------------------------------*/
-            format({
-                       row,
-                       parent,
-                       level = 1,
-                       treeMark,
-                   }: {
-                row: object,
-                parent?: TreeNode,
-                level?: number,
-                treeMark: TreeMark
-            })
-                : TreeNode {
-                return new TreeNode(row, this, level, parent, treeMark)
+            format({data, parent,}: { data: object, parent?: TreeNode }): TreeNode {
+                return this.treeMark.getTreeNode(data, this, 1, parent)
             },
             /**
              * 处理keys
@@ -259,6 +406,175 @@
                 keys = Array.isArray(keys) ? keys : [keys]
                 return await Promise.all(keys.map(handler))
             },
+            /**
+             * 遍历所有的treeNode
+             * @author  韦胜健
+             * @date    2020/3/30 19:30
+             */
+            iterateAll(treeNodes: TreeNode[], fn, iterateChildren?: Function) {
+                if (!treeNodes) return
+                treeNodes.forEach(treeNode => {
+                    fn(treeNode)
+                    if (!!treeNode.children && (!iterateChildren || iterateChildren(treeNode))) {
+                        this.iterateAll(treeNode.children, fn, iterateChildren)
+                    }
+                })
+            },
+            /**
+             * 检查props是否合法
+             * @author  韦胜健
+             * @date    2020/3/30 18:48
+             */
+            checkProps() {
+                if (!this.keyField) {
+                    console.error('pl-tree 的 keyField属性不能为空，每一条记录必须要有一个key标识')
+                    return false
+                }
+                if (!this.childrenField) {
+                    console.error('pl-tree 的 childrenKey不能为空')
+                    return false
+                }
+                return true
+            },
+            /**
+             * 通过 key 寻找treeNode
+             * @author  韦胜健
+             * @date    2020/3/30 20:52
+             */
+            findTreeNodeByKey(key: string): TreeNode {
+                const treeNode = this.treeMark.getMark(key, TreeMarkAttr.node)
+                if (!treeNode) {
+                    console.warn(`无法找到treeNode：${key}`, this.treeMark.nodeMap)
+                    return null
+                }
+                return treeNode
+            },
+            /**
+             * 获取子节点数据异步方法
+             * @author  韦胜健
+             * @date    2020/3/31 15:21
+             */
+            getChildrenAsync(treeNode: TreeNode | null) {
+                return new Promise((resolve) => {
+                    if (!treeNode.key) {
+                        this.p_loading = true
+                    } else {
+                        this.treeMark.setMark(treeNode.key, TreeMarkAttr.loading, true)
+                    }
+                    this.getChildren(treeNode, (...results) => {
+                        if (!treeNode.key) {
+                            this.p_loading = false
+                        } else {
+                            this.treeMark.setMark(treeNode.key, TreeMarkAttr.loading, false)
+                            this.treeMark.setMark(treeNode.key, TreeMarkAttr.loaded, true)
+                        }
+                        resolve(...results)
+                    })
+                })
+            },
+            getTreeNodeFromEl(el: any) {
+                const instance = el.__vue__
+                if (!!instance.treeNode) return instance.treeNode
+                if (!!instance.$parent && !!instance.$parent.treeNode) return instance.$parent.treeNode
+                return null
+            },
+            /**
+             * 刷新节点选中状态
+             * @author  韦胜健
+             * @date    2020/4/1 22:17
+             */
+            refreshCheckStatus() {
+                if (!this.showCheckbox) return
+                if (this.checkStrictly) return;
+
+                const next = (treeNode: TreeNode) => {
+                    let hasCheck = false
+                    let hasUncheck = false
+
+                    if (!!treeNode.children) {
+                        treeNode.children.forEach(child => {
+                            next(child)
+                            if (child.isCheck) {
+                                hasCheck = true
+                            } else {
+                                hasUncheck = true
+                            }
+                        })
+                    }
+                    if (hasCheck && !hasUncheck) {
+                        // 所有子节点选中
+                        if (!treeNode.isCheck) {
+                            treeNode.check(true)
+                        }
+                    } else if (hasUncheck) {
+                        // 有子节点未选中
+                        if (treeNode.isCheck) {
+                            treeNode.check(false)
+                        }
+                    }
+                }
+
+                this.formatData.forEach(next)
+            },
+            /**
+             * 判断是否可以拖拽
+             * @author  韦胜健
+             * @date    2020/4/1 23:12
+             */
+            isAllowDrag(dragTreeNode: TreeNode, event: DragEvent) {
+                return !this.allowDrag || this.allowDrag(dragTreeNode, event)
+            },
+            /**
+             * 判断是否可以放置
+             * @author  韦胜健
+             * @date    2020/4/1 23:12
+             */
+            isAllowDrop(dragTreeNode: TreeNode, dropTreeNode: TreeNode, dropType: TreeDropType, event) {
+                return !this.allowDrop || this.allowDrop(dragTreeNode, dropTreeNode, dropType, event)
+            },
+
+            /*---------------------------------------helper-------------------------------------------*/
+            async initLazy() {
+                if (!this.lazy) {
+                    return
+                }
+                this.rootTreeNode.setChildren(await this.getChildrenAsync(this.rootTreeNode))
+            },
+
+            /*---------------------------------------handler-------------------------------------------*/
+            /**
+             * 处理树节点点击展开图标的动作
+             * @author  韦胜健
+             * @date    2020/3/30 19:02
+             */
+            onClickExpandIcon(e, treeNode: TreeNode): void {
+                e.stopPropagation()
+                this.toggleExpand(treeNode.key)
+            },
+            /**
+             * 处理点击节点内容动作
+             * @author  韦胜健
+             * @date    2020/3/30 19:17
+             */
+            onClickNodeContent(treeNode: TreeNode): void {
+                this.emitNodeClick(treeNode)
+                this.setCurrent(treeNode.key)
+                if (this.expandOnClickNode !== false) {
+                    this.toggleExpand(treeNode.key)
+                }
+                if (this.checkOnClickNode == true) {
+                    this.toggleCheck(treeNode.key)
+                }
+            },
+            /**
+             * 处理点击子节点 checkbox 动作
+             * @author  韦胜健
+             * @date    2020/3/31 15:06
+             */
+            onClickCheckbox(e, treeNode) {
+                e.stopPropagation()
+                this.toggleCheck(treeNode.key)
+            },
         },
     }
 </script>
@@ -266,7 +582,116 @@
 <style lang="scss">
     @include themify {
         .pl-tree {
+            position: relative;
+            min-height: 100px;
 
+            .pl-tree-node {
+                font-size: 14px;
+                line-height: 24px;
+                cursor: pointer;
+                display: block;
+
+                .pl-tree-node-wrapper {
+                    position: relative;
+                    width: 100%;
+                    transition: all $transition 300ms;
+
+                    .pl-tree-node-operator {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        user-select: none;
+
+                        .pl-tree-node-expander {
+                            height: 24px;
+                            width: 18px;
+                            display: inline-block;
+                            vertical-align: top;
+                        }
+
+                        .pl-checkbox-indeterminate {
+                            user-select: none;
+                        }
+                    }
+
+                    .pl-tree-node-content {
+                        width: 100%;
+
+                        .pl-tree-node-content-label {
+                            padding: 0 6px;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: rgba($colorInfo, 0.1);
+                        color: $ihc;
+                    }
+                }
+
+                &.pl-tree-node-expand {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-operator > .pl-tree-node-expander > .pl-tree-expand-icon {
+                        transform: rotate(90deg);
+                    }
+                }
+
+                &.pl-tree-node-drop-inner {
+                    & > .pl-tree-node-wrapper > .pl-tree-node-content {
+                        color: $colorPrimary;
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .pl-icon {
+                color: $icc;
+                margin-right: 6px;
+
+                &.pl-tree-expand-icon {
+                    transition: all $transition 300ms;
+                }
+            }
+
+            .pl-tree-node-empty-text {
+                color: $disabledText;
+                font-size: 12px;
+                line-height: 28px;
+
+                & > .pl-icon {
+                    margin-right: 6px;
+                }
+            }
+
+            .pl-tree-drag-indicator {
+                position: fixed;
+                z-index: 9999;
+                height: 2px;
+                background-color: $colorPrimary;
+                display: inline-block;
+            }
+
+            &.pl-tree-highlight-current {
+                .pl-tree-node.pl-tree-node-current > .pl-tree-node-wrapper {
+                    background-color: rgba($colorPrimary, 0.1);
+                    color: $colorPrimary;
+                }
+            }
+
+            &.pl-tree-reflow {
+                .pl-tree-node-list {
+                    transition: none !important;
+                }
+            }
+
+            &.pl-tree-virtual-scrolling {
+                .pl-tree-node {
+                    transition: none !important;
+                }
+            }
+
+            .pl-list-move-right-enter {
+                opacity: 0;
+                transform: translateX(100px);
+            }
         }
     }
 </style>
