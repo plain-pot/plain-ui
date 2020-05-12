@@ -4,7 +4,11 @@ export enum FormatPropsType {
     number = 'number',
 }
 
-export function useProps<PropsType extends object, PropsKey extends keyof PropsType, OptionType extends { [key in PropsKey]?: FormatPropsType }>
-(props: PropsType, option: OptionType): undefined | { [key in keyof OptionType]: PropsType[PropsKey] } {
+type OptionType<T> = {
+    [key in keyof T]: FormatPropsType
+}
+
+export function useProps<T>(props: T, option: { [key in keyof T]?: FormatPropsType }): T {
+    // @ts-ignore
     return undefined
 }
