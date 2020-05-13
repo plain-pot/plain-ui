@@ -1,7 +1,7 @@
 <template>
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
-            <pl-button></pl-button>
+            <pl-button width="300px" :label="label"></pl-button>
             <pl-icon icon="el-icon-search"/>
         </div>
     </div>
@@ -14,6 +14,13 @@
         name: "app-content",
         inject: {
             appHome: {}
+        },
+        data() {
+            return {
+                label: new Promise((resolve) => {
+                    setTimeout(() => resolve('HELLO'), 2000)
+                })
+            }
         },
         computed: {
             rootStyles() {

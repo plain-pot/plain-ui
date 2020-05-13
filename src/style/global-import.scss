@@ -1,5 +1,6 @@
 @import "./theme/blue";
 @import "./index";
+@import "./mixin/wave";
 
 $themes: map_merge($theme-default, $theme-dark);
 

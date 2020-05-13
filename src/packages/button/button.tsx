@@ -1,8 +1,12 @@
-import {defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, reactive} from "@vue/composition-api";
 import {FormatPropsType, useProps} from "@/util/use";
+import PlainUtils from '../../../submodules/plain-utils'
+import {button} from "@/index";
+import ClickWave from "@/directives/click-wave";
 
 export default defineComponent({
     name: 'pl-button',
+    directives: {ClickWave},
     props: {
         mode: {type: String, default: 'fill'},                  // fill,stroke,text
         label: {type: String},                                  // 按钮文本
@@ -20,15 +24,54 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const newProps = useProps(props, {
+        /*---------------------------------------state-------------------------------------------*/
+
+        const propsState = useProps(props, {
             width: FormatPropsType.number,
             label: FormatPropsType.promise,
         })
+        const state = reactive({
+            wave: false,
+        })
+        /*---------------------------------------computed-------------------------------------------*/
 
+        const classes = computed(() => ([
+            'pl-button',
+            'plain-click-node',
+
+            // `pl-button-status-${this.p_status || 'primary'}`,
+            `pl-button-mode-${props.mode}`,
+            // `pl-button-shape-${this.p_shape || 'fillet'}`,
+            // `pl-button-size-${this.p_size || 'normal'}`,
+            `pl-button-status-primary`,
+            `pl-button-shape-fillet`,
+            `pl-button-size-normal`,
+
+            {
+                'pl-button-icon': !!props.icon,
+                'pl-button-active': !!props.active,
+                'pl-button-noPadding': !!props.noPadding,
+
+                // 'pl-button-loading': !!this.isLoading,
+                'pl-button-wave': !!state.wave,
+                'pl-button-has-icon': !!props.icon,
+                'pl-button-block': !!props.block,
+                // 'pl-button-disabled': !!this.isDisabled,
+                'pl-button-icon-only': !!props.icon && !propsState.label,
+            },
+        ]))
+
+        const styles = computed(() => ({
+            width: PlainUtils.suffixPx(propsState.width),
+        }))
 
         return () => (
-            <button class={'pl-button'}>
-                111
+            <button
+                style={styles.value}
+                class={classes.value}
+                {...{directives: [{name: 'click-wave', value: 'large'}]}}
+            >
+                {propsState.label}
             </button>
         )
     },
