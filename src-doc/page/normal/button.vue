@@ -160,7 +160,6 @@
 
 <script>
     import DemoMixins from "../../component/DemoMixins";
-    import PlainUtils from "../../../submodules/plain-utils";
 
     export default {
         name: "demo-button",
@@ -175,7 +174,7 @@
         methods: {
             async asyncHandler(e) {
                 this.$message('async task start')
-                await PlainUtils.delay(3000)
+                await this.$plain.utils.delay(3000)
                 if (Math.random() > 0.5) {
                     this.$message.error('async task error')
                     throw new Error('异步任务出错')

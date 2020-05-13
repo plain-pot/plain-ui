@@ -38,7 +38,7 @@
             return {
                 menus,
                 handleClickMenu(menu) {
-                    // this.emitClickMenuItem(menu)
+                    this.$emit('click-menu-item', menu)
                 },
             }
         },

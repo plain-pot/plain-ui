@@ -1,7 +1,7 @@
 <template>
     <div class="app-home">
-        <app-header/>
-        <app-menu/>
+        <app-header @click-refresh="$refs.nav.refresh()"/>
+        <app-menu @click-menu-item="menu=>this.$refs.nav.open(menu)" :currentPath="currentPath"/>
         <app-content>
             <app-navigator default-path="/normal/button" ref="nav" @open="onOpen"/>
         </app-content>
