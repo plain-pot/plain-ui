@@ -15,10 +15,10 @@ export default defineComponent({
         active: {type: Boolean},                                // 按钮是否高亮
         noPadding: {type: Boolean},                             // 按钮是否无边距
         block: {type: Boolean},                                 // 块级元素
-        throttleClick: {type: [Boolean, Number]},                 // click节流
+        throttleClick: {type: [Boolean, Number]},               // click节流
         autoLoading: {type: Boolean},                           // 在执行click处理函数时，是否自动变更为加载状态
 
-        /*---------------------------------------native-------------------------------------------*/
+        /*native*/
         type: {type: String, default: 'button'},
         nativeProps: {},
     },
@@ -81,6 +81,8 @@ export default defineComponent({
                 emit.click(e)
             },
         }
+
+        /*---------------------------------------render-------------------------------------------*/
 
         return () => (
             <button
