@@ -68,23 +68,39 @@
                 padding: 0;
 
                 .app-menu-name, .app-menu-group-name {
-                    font-size: 14px;
+                    font-size: 13px;
                     height: 40px;
                     line-height: 40px;
                     white-space: nowrap;
                     margin-bottom: 8px;
                     margin-top: 4px;
                     color: $itc;
-                    padding-left: 40px;
+                    padding-left: 32px;
+                    cursor: pointer;
+                    transition: all 300ms linear;
 
                     &:hover {
+                        background-color: rgba($colorPrimary, 0.1);
+                        color: $colorPrimary;
+                    }
+                }
 
+                .app-menu-name {
+                    & > span {
+                        &:nth-child(2) {
+                            font-size: 12px;
+                            margin-left: 0.5em;
+                            color: $itl;
+                        }
                     }
                 }
 
                 .app-menu-group-name {
                     padding-left: 20px;
                     letter-spacing: 1px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: $ihc;
                 }
             }
         }
