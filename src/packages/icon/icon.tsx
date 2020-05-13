@@ -21,20 +21,20 @@ export default defineComponent({
             }
         ]))
 
-        const binding = {
+        const binding = computed(() => ({
             class: classes.value,
             on: {
                 click: onClick,
             }
-        }
+        }))
 
         return () => {
             if (props.icon!.indexOf('el-') === 0 || !props.svg) {
-                return <i {...binding}/>
+                return <i {...binding.value}/>
             }
             if (props.svg) {
                 return (
-                    <svg aria-hidden="true" {...binding}>
+                    <svg aria-hidden="true" {...binding.value}>
                         <use {...{attrs: {'xlink:href': `#${props.icon}`}}}/>
                     </svg>
                 )

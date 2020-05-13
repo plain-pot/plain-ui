@@ -11,7 +11,7 @@ export interface PluginType {
     install?: (Vue: VueType) => void
 }
 
-export function installPlugin(defaultPlugins: VueConstructor | PluginType | PluginType[], externalsPlugins?: VueConstructor | PluginType | PluginType[]): PluginType {
+export function installPlugin(defaultPlugins: VueConstructor | VueConstructor[] | PluginType | PluginType[], externalsPlugins?: VueConstructor | PluginType | PluginType[]): PluginType {
 
     const install: PluginType['install'] = Vue => {
         defaultPlugins = toArray(defaultPlugins) as PluginType[]

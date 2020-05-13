@@ -1,0 +1,59 @@
+@include theme {
+  .pl-collapse {
+    width: 100%;
+    border: solid 1px $ibc;
+
+    .pl-collapse-head {
+      position: relative;
+      box-sizing: border-box;
+      padding: 12px 32px 12px 16px;
+
+      .pl-collapse-head-icon-wrapper {
+        position: absolute;
+        right: 16px;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+
+        .pl-icon {
+          transition: transform 300ms $transition;
+        }
+      }
+    }
+
+    .pl-collapse-body {
+
+    }
+
+    &.pl-collapse-active {
+      .pl-collapse-head-icon-wrapper .pl-icon {
+        transform: rotate(180deg);
+      }
+    }
+
+  }
+  .pl-collapse-group {
+    display: block;
+    vertical-align: middle;
+    border: solid 1px $ibc;
+
+    .pl-collapse {
+      border: none;
+
+      &:not(:last-child) {
+        border-bottom: solid 1px $ibc;
+        box-sizing: border-box;
+      }
+    }
+
+  }
+  /*shape*/
+  @include shapeMixin(collapse-group) {
+    border-radius: $shapeFillet;
+    overflow: hidden;
+  }
+  .pl-collapse-transition {
+    transition: 0.15s height ease-in-out, 0.15s padding-top ease-in-out, 0.15s padding-bottom ease-in-out;
+  }
+}

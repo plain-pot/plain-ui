@@ -65,7 +65,7 @@
                 list-style: none;
 
                 & > li {
-                    margin-left: 36px;
+                    padding: 0 24px;
                     font-size: 14px;
                     cursor: pointer;
                     color: $itl;
@@ -75,6 +75,10 @@
 
                     &:hover {
                         color: $colorPrimary;
+                    }
+
+                    &:last-child {
+                        padding-right: 12px;
                     }
                 }
             }
