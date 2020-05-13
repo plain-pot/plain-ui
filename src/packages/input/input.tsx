@@ -1,9 +1,12 @@
 import {defineComponent, reactive} from '@vue/composition-api'
-import {EditProps, StyleProps, useEmit} from "@/util/use";
+import {EditProps, StyleProps, useEdit, useEmit} from "@/util/use";
 
 export default defineComponent({
     name: 'pl-input',
     props: {
+        ...EditProps,
+        ...StyleProps,
+
         value: {type: String},
         placeValue: {},
 
@@ -15,12 +18,8 @@ export default defineComponent({
         suffixIcon: {type: [String, Function]},             // 右侧图标
         prefixIcon: {type: String},                         // 左侧图标
         clearIcon: {type: Boolean},                         // 清除图标
-        clearHandler: {                                     // 点击清除图标处理逻辑
-            type: Function, default: function (e) {
-                // @ts-ignore
-                this.clearValue(e)
-            }
-        },
+        clearHandler: {type: Function},                     // 点击清除图标处理逻辑
+
         autoHeight: {type: Boolean},                        // 自适应高度
         isFocus: {type: Boolean},                           // 当前是否处于激活状态
         inputReadonly: {type: Boolean},                     // 输入框只读
@@ -35,11 +34,14 @@ export default defineComponent({
     },
     setup(props, context) {
 
+        /*---------------------------------------emitter-------------------------------------------*/
+
         const emit = useEmit(context, {
             input: '值绑定事件',
             focus: '获取焦点事件',
             blur: '失去焦点事件',
-            keydown: '',
+            keydown: '按键事件',
+            enter: '回车事件',
 
             clickInput: '点击输入框事件',
             clickPrefixIcon: '点击前置图标事件',
@@ -47,8 +49,42 @@ export default defineComponent({
             clickClearIcon: '点击清空图标事件',
         })
 
+        /*---------------------------------------state-------------------------------------------*/
 
-        const state = reactive({})
+        const {editState, editComputed} = useEdit(props)
+
+        const state = reactive({
+            value: props.value,
+            autoHeight: null,
+            handleEnter: null,
+            handlerEnterInner: async (e) => {
+                if (editComputed.value.editable) {
+                    if (props.autoLoading) {
+                        editState.loading = true
+                        try {
+                            if (!!context.listeners.enter) {
+                                await context.listeners.enter(e)
+                            }
+                        } catch (e) {
+                        } finally {
+                            editState.loading = null
+                        }
+                    } else {
+                        emit.enter(e)
+                    }
+                }
+            },
+        })
+
+
+        /*---------------------------------------handler-------------------------------------------*/
+
+        const handler = {
+            input: e => {
+
+            },
+
+        }
 
         return () => (
             <input type="text" class={'pl-input'}/>

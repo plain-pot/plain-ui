@@ -57,7 +57,7 @@ export default defineComponent({
                             }
                         } catch (e) {
                         } finally {
-                            editState.loading = false
+                            editState.loading = null
                         }
                     } else {
                         emit.click(e)
