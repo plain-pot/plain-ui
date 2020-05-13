@@ -7,8 +7,12 @@
             <li>文档</li>
             <li>示例</li>
             <li>PLAIN</li>
-            <li>Gitee</li>
-            <li>Github</li>
+            <li>
+                <pl-icon icon="plc-gitee"/>
+            </li>
+            <li>
+                <pl-icon icon="plc-git"/>
+            </li>
         </ul>
     </header>
 </template>
@@ -64,7 +68,7 @@
                     margin-left: 36px;
                     font-size: 14px;
                     cursor: pointer;
-                    color: $itc;
+                    color: $itl;
                     height: 100%;
                     display: flex;
                     align-items: center;

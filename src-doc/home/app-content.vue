@@ -2,8 +2,7 @@
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
             <pl-icon icon="el-icon-search"/>
-            <pl-icon icon="plc-gitee"/>
-            <pl-icon icon="plc-git"/>
+
         </div>
     </div>
 </template>
