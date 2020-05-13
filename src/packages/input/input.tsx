@@ -8,7 +8,7 @@ export default defineComponent({
         ...StyleProps,
 
         value: {type: String},
-        placeValue: {},
+        placeValue: {type: String},
 
         width: {type: [Number, String], default: null,},    // 输入框默认宽度
         minHeight: {type: [Number, String], default: 100},   // 文本域最小高度
@@ -52,29 +52,6 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editState, editComputed} = useEdit(props)
-
-        const state = reactive({
-            value: props.value,
-            autoHeight: null,
-            handleEnter: null,
-            handlerEnterInner: async (e) => {
-                if (editComputed.value.editable) {
-                    if (props.autoLoading) {
-                        editState.loading = true
-                        try {
-                            if (!!context.listeners.enter) {
-                                await context.listeners.enter(e)
-                            }
-                        } catch (e) {
-                        } finally {
-                            editState.loading = null
-                        }
-                    } else {
-                        emit.enter(e)
-                    }
-                }
-            },
-        })
 
 
         /*---------------------------------------handler-------------------------------------------*/
