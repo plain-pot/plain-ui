@@ -1,4 +1,7 @@
 @include theme {
+
+  @include wave(button);
+
   .pl-button {
     vertical-align: middle;
     box-sizing: border-box;
@@ -256,6 +259,4 @@
     }
 
   }
-
-  @include wave(button)
 }
