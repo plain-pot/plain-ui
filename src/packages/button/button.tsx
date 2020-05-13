@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {FormatPropsType, useProps} from "@/util/use";
+import {FormatPropsType, useEmit, useProps} from "@/util/use";
 import PlainUtils from '../../../submodules/plain-utils'
 import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
@@ -33,6 +33,15 @@ export default defineComponent({
         const state = reactive({
             wave: false,
         })
+
+        /*---------------------------------------emitter-------------------------------------------*/
+
+        const emit = useEmit(context, {
+            click: null,
+            focus: null,
+        })
+
+
         /*---------------------------------------computed-------------------------------------------*/
 
         const classes = computed(() => ([

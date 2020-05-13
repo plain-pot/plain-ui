@@ -50,5 +50,14 @@ export function useProps<T = any>(props: T, option: { [key in keyof T]?: FormatP
     return state
 }
 
+export function useEmit<T = { [k: string]: any }>(context: any, option: T): { [key in keyof T]: ((...args: any[]) => void) } {
+    // @ts-ignore
+    return Object.keys(option).reduce((ret, key) => {
+        ret[key] = (...args: any[]) => {
+            context.emit(key, ...args)
+        }
+        return ret
+    }, {})
+}
 
 
