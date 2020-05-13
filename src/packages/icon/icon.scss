@@ -1,0 +1,17 @@
+@import "~element-theme-chalk/lib/icon.css";
+
+
+@include theme {
+  .pl-icon {
+    @include statusMixin(icon) {
+      color: $value;
+    }
+  }
+  svg.pl-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.1em;
+    fill: currentColor;
+    overflow: hidden;
+  }
+}
