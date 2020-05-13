@@ -69,7 +69,6 @@
         &:after {
           border-color: $value;
         }
-
       }
     }
 
@@ -111,6 +110,9 @@
         color: $value;
         &:active, &.pl-button-active {
           color: rgba($value, 0.5);
+        }
+        &:after {
+          border-color: $value;
         }
       }
 

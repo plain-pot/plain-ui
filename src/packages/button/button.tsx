@@ -133,7 +133,12 @@ export default defineComponent({
 
                 onClick={state.handleClick}
             >
-                {propsState.label}
+                {!!editComputed.value.loading && <pl-loading type="gamma" v-if="isLoading"/>}
+                {!!context.slots.default ? context.slots.default() :
+                    [
+                        (!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null,
+                        propsState.label ? <span>{propsState.label}</span> : null
+                    ].filter(Boolean)}
             </button>
         )
     },
