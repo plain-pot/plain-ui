@@ -77,7 +77,7 @@
 </script>
 
 <style lang="scss">
-    @include themify{
+    @include theme{
         .demo-carousel {
             .demo-carousel-box {
                 width: 400px;

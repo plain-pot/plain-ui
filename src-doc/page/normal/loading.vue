@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import DemoMixins from "../components/DemoMixins";
+    import DemoMixins from "../../component/DemoMixins";
 
     export default {
         name: "loading",

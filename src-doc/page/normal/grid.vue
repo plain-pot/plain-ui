@@ -190,7 +190,7 @@
         }
     }
 
-    @include themify {
+    @include theme {
         .ct-cls {
             background-color: #f2f2f2;
             height: 32px;

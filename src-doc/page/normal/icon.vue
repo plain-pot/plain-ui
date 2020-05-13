@@ -98,7 +98,7 @@
         }
     }
 
-    @include themify {
+    @include theme {
         .demo-icon-list {
             li {
                 transition: all 300ms linear;
