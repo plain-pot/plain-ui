@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {FormatPropsType, useEmit, useProps} from "@/util/use";
+import {FormatPropsType, useEmit, useProps, useStyle} from "@/util/use";
 import PlainUtils from '../../../submodules/plain-utils'
 import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
@@ -33,6 +33,7 @@ export default defineComponent({
         const state = reactive({
             wave: false,
         })
+        const styleState = useStyle(props)
 
         /*---------------------------------------emitter-------------------------------------------*/
 
@@ -48,13 +49,10 @@ export default defineComponent({
             'pl-button',
             'plain-click-node',
 
-            // `pl-button-status-${this.p_status || 'primary'}`,
             `pl-button-mode-${props.mode}`,
-            // `pl-button-shape-${this.p_shape || 'fillet'}`,
-            // `pl-button-size-${this.p_size || 'normal'}`,
-            `pl-button-status-primary`,
-            `pl-button-shape-fillet`,
-            `pl-button-size-normal`,
+            `pl-button-status-${styleState.value.status}`,
+            `pl-button-shape-${styleState.value.shape}`,
+            `pl-button-size-${styleState.value.size}`,
 
             {
                 'pl-button-icon': !!props.icon,

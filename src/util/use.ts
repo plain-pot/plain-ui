@@ -1,4 +1,4 @@
-import {reactive, watch} from "@vue/composition-api";
+import {computed, inject, provide, reactive, watch} from "@vue/composition-api";
 import {toArray} from "@/util/util";
 
 export enum FormatPropsType {
@@ -58,6 +58,34 @@ export function useEmit<T = { [k: string]: any }>(context: any, option: T): { [k
         }
         return ret
     }, {})
+}
+
+const StyleProvider = '@@PLAIN_STYLE_PROVIDER'
+
+export function useStyle(props: any, defaultValue?: { shape: string, size: string, status: string }) {
+
+    const {shape, size, status} = props
+    const parent = inject(StyleProvider, null)
+    defaultValue = Object.assign({
+        shape: 'fillet',
+        size: 'normal',
+        status: 'primary',
+    }, defaultValue || {})
+
+    const style = computed(() => {
+        // @ts-ignore
+        const parentStyler = !!parent ? parent.value : <any>{}
+
+        return {
+            shape: shape || parentStyler.shape || defaultValue!.shape,
+            size: size || parentStyler.size || defaultValue!.size,
+            status: shape || parentStyler.status || defaultValue!.status,
+        }
+    })
+
+    provide(StyleProvider, style)
+
+    return style
 }
 
 

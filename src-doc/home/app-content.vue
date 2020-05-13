@@ -33,7 +33,7 @@
         },
         methods: {
             onClick(e) {
-                console.log('click', e)
+                console.log('click', new Date().getTime())
             },
         },
     }
