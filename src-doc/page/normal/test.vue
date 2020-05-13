@@ -1,7 +1,13 @@
 <template>
     <div class="test">
-        <child-component v-model="val[0]"/>
-        <input type="text" v-model="val[0]">
+        <!--<child-component v-model="val[0]"/>
+        <input type="text" v-model="val[0]">-->
+        <div>
+            <pl-input v-model="val[0]"/>
+        </div>
+        <div>
+            <pl-input v-model="val[0]"/>
+        </div>
     </div>
 </template>
 

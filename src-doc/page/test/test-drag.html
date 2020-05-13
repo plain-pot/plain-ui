@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang=en>
+<title>Examples of DataTransfer.{dropEffect,effectAllowed} properties</title>
+<meta content="width=device-width">
+<style>
+    div {
+        margin: 0em;
+        padding: 2em;
+    }
+    #source {
+        color: blue;
+        border: 1px solid black;
+    }
+    #target {
+        border: 1px solid black;
+    }
+</style>
+<script>
+    function dragstart_handler(ev) {
+        console.log("dragStart: dropEffect = " + ev.dataTransfer.dropEffect + " ; effectAllowed = " + ev.dataTransfer.effectAllowed);
+        // 将这个元素的id添加到drag载荷中，
+        // 以便drop事件知道将哪个元素添加到其树中。
+        ev.dataTransfer.setData("text", ev.target.id);
+        ev.dataTransfer.effectAllowed = "move";
+    }
+
+    function drop_handler(ev) {
+        console.log("drop: dropEffect = " + ev.dataTransfer.dropEffect + " ; effectAllowed = " + ev.dataTransfer.effectAllowed);
+        ev.preventDefault();
+        // 得到目标的id并且将移动的元素添加到目标DOM中
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+    function dragover_handler(ev) {
+        console.log("dragOver: dropEffect = " + ev.dataTransfer.dropEffect + " ; effectAllowed = " + ev.dataTransfer.effectAllowed);
+        ev.preventDefault();
+        // 设置 dropEffect 为 move
+        ev.dataTransfer.dropEffect = "move"
+    }
+</script>
+<body>
+<h1>Examples <code>DataTransfer</code>.{<code>dropEffect</code>, <code>effectAllowed</code>} properties</h1>
+<div>
+    <p id="source" ondragstart="dragstart_handler(event);" draggable="true">
+        Select this element, drag it to the Drop Zone and then release the selection to move the element.</p>
+</div>
+<div id="target" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">Drop Zone</div>
+</body>
+</html>

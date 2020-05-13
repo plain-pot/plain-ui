@@ -1,5 +1,5 @@
 import {defineComponent, reactive} from '@vue/composition-api'
-import {EditProps, StyleProps, useEdit, useEmit} from "@/util/use";
+import {EditProps, StyleProps, useEdit, useEmit, useModel} from "@/util/use";
 
 export default defineComponent({
     name: 'pl-input',
@@ -52,19 +52,21 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editState, editComputed} = useEdit(props)
-
+        const value = useModel(() => props.value, emit.input)
 
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
-            input: e => {
-
+            input: (e: any) => {
+                value.value = e.target.value
             },
 
         }
 
         return () => (
-            <input type="text" class={'pl-input'}/>
+            <div>
+                <input type="text" class={'pl-input'} value={value.value} oninput={handler.input}/>
+            </div>
         )
     },
 })

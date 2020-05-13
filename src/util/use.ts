@@ -169,4 +169,25 @@ export function useEdit(props) {
     }
 }
 
+export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void) {
 
+    const state = reactive({
+        val: getter(),
+    })
+
+    watch(
+        getter,
+        (val: any) => {
+            state.val = val
+        }
+    )
+
+    const computedState = computed({
+        get: () => state.val,
+        set: (val) => {
+            state.val = val
+            emitter(state.val)
+        },
+    })
+    return computedState
+}
