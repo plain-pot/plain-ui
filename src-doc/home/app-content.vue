@@ -1,8 +1,13 @@
 <template>
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
-            <pl-button width="300px" :label="label" @click="onClick"></pl-button>
-            <pl-icon icon="el-icon-search"/>
+
+            <input type="text">
+            <pl-button-group>
+                <pl-button label="山脉" @click="onClick(1)"/>
+                <pl-button label="深林" @click="onClick(2)"/>
+                <pl-button label="沼泽" @click="onClick(3)"/>
+            </pl-button-group>
         </div>
     </div>
 </template>
@@ -33,7 +38,7 @@
         },
         methods: {
             onClick(e) {
-                console.log('click', new Date().getTime())
+                console.log('click', new Date().getTime(), e,)
             },
         },
     }

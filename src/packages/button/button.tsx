@@ -1,8 +1,9 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {FormatPropsType, useEmit, useProps, useStyle} from "@/util/use";
+import {computed, defineComponent, inject, reactive, watch} from "@vue/composition-api";
+import {EditProps, FormatPropsType, StyleProps, useEdit, useEmit, useProps, useStyle} from "@/util/use";
 import PlainUtils from '../../../submodules/plain-utils'
 import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
+import {BUTTON_GROUP_PROVIDER} from "@/packages/button/button-group";
 
 export default defineComponent({
     name: 'pl-button',
@@ -18,6 +19,9 @@ export default defineComponent({
         throttleClick: {type: [Boolean, Number]},               // click节流
         autoLoading: {type: Boolean},                           // 在执行click处理函数时，是否自动变更为加载状态
 
+        ...EditProps,
+        ...StyleProps,
+
         /*native*/
         type: {type: String, default: 'button'},
         nativeProps: {},
@@ -30,10 +34,52 @@ export default defineComponent({
             width: FormatPropsType.number,
             label: FormatPropsType.promise,
         })
+
+        const styleComputed = useStyle(props)
+
+        const {editState, editComputed} = useEdit(props)
+
+        const buttonGroup = inject(BUTTON_GROUP_PROVIDER, null) as any
+
+        const otherComputed = computed(() => ({
+            mode: !!buttonGroup ? buttonGroup.value.mode : props.mode
+        }))
+
         const state = reactive({
-            wave: false,
+            handleClick: null as any,
+            handleClickInner: async (e) => {
+                if (editComputed.value.editable) {
+                    if (props.autoLoading) {
+                        editState.loading = true
+                        try {
+                            if (!!context.listeners.click) {
+                                await context.listeners.click(e)
+                            }
+                        } catch (e) {
+                        } finally {
+                            editState.loading = false
+                        }
+                    } else {
+                        emit.click(e)
+                    }
+                }
+            },
         })
-        const styleState = useStyle(props)
+
+        /*---------------------------------------watch-------------------------------------------*/
+
+        watch(
+            () => props.throttleClick,
+            (val) => {
+                if (!val) {
+                    return state.handleClick = state.handleClickInner
+                }
+                if (val === true) {
+                    val = 1000
+                }
+                state.handleClick = PlainUtils.throttle(state.handleClickInner, val, {trailing: false})
+            }
+        )
 
         /*---------------------------------------emitter-------------------------------------------*/
 
@@ -42,43 +88,33 @@ export default defineComponent({
             focus: '获取焦点事件',
         })
 
-
         /*---------------------------------------computed-------------------------------------------*/
 
         const classes = computed(() => ([
             'pl-button',
             'plain-click-node',
 
-            `pl-button-mode-${props.mode}`,
-            `pl-button-status-${styleState.value.status}`,
-            `pl-button-shape-${styleState.value.shape}`,
-            `pl-button-size-${styleState.value.size}`,
+            `pl-button-mode-${otherComputed.value.mode}`,
+            `pl-button-status-${styleComputed.value.status}`,
+            `pl-button-shape-${styleComputed.value.shape}`,
+            `pl-button-size-${styleComputed.value.size}`,
 
             {
                 'pl-button-icon': !!props.icon,
                 'pl-button-active': !!props.active,
                 'pl-button-noPadding': !!props.noPadding,
 
-                // 'pl-button-loading': !!this.isLoading,
-                'pl-button-wave': !!state.wave,
+                'pl-button-loading': !!editComputed.value.loading,
                 'pl-button-has-icon': !!props.icon,
                 'pl-button-block': !!props.block,
-                // 'pl-button-disabled': !!this.isDisabled,
+                'pl-button-disabled': !!editComputed.value.disabled,
                 'pl-button-icon-only': !!props.icon && !propsState.label,
             },
         ]))
 
         const styles = computed(() => ({
-            width: PlainUtils.suffixPx(propsState.width),
+            width: !!propsState.width ? PlainUtils.suffixPx(propsState.width) : null,
         }))
-
-        /*---------------------------------------handler-------------------------------------------*/
-
-        const handler = {
-            click: (e: MouseEvent) => {
-                emit.click(e)
-            },
-        }
 
         /*---------------------------------------render-------------------------------------------*/
 
@@ -86,8 +122,16 @@ export default defineComponent({
             <button
                 style={styles.value}
                 class={classes.value}
-                {...{directives: [{name: 'click-wave', value: 'large'}]}}
-                onClick={handler.click}
+                type={props.type}
+                disabled={editComputed.value.disabled}
+                readonly={editComputed.value.readonly}
+
+                {...{
+                    attrs: props.nativeProps,
+                    directives: [{name: 'click-wave', value: 'large'}],
+                }}
+
+                onClick={state.handleClick}
             >
                 {propsState.label}
             </button>
