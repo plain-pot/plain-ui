@@ -160,7 +160,7 @@
 </template>
 
 <script>
-    import DemoMixins from "../../component/DemoMixins";
+    import DemoMixins from "../components/DemoMixins";
     import data from '../data/data-1'
 
     const str = JSON.stringify(data, null, 2)

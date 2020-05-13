@@ -67,7 +67,7 @@
 </script>
 
 <style lang="scss">
-    @include theme {
+    @include themify {
         .test-item {
             height: 120px;
             width: 200px;

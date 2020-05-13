@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import DemoMixins from "../../component/DemoMixins";
+    import DemoMixins from "../components/DemoMixins";
 
     export default {
         name: "dom",
