@@ -1,6 +1,15 @@
 <template>
     <header class="app-header" :style="rootStyles">
-        app-header
+        <div class="app-header-left" :style="leftStyle">
+            <plain-logo/>
+        </div>
+        <ul class="app-header-right">
+            <li>文档</li>
+            <li>示例</li>
+            <li>PLAIN</li>
+            <li>Gitee</li>
+            <li>Github</li>
+        </ul>
     </header>
 </template>
 
@@ -13,6 +22,11 @@
             appHome: {}
         },
         computed: {
+            leftStyle() {
+                return {
+                    width: PlainUtils.suffixPx(this.appHome.menuWidth)
+                }
+            },
             rootStyles() {
                 return {
                     height: PlainUtils.suffixPx(this.appHome.headerHeight)
@@ -30,6 +44,36 @@
             left: 0;
             width: 100%;
             box-shadow: $boxshadow;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .app-header-left {
+                text-align: center;
+            }
+
+            .app-header-right {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-right: 64px;
+                list-style: none;
+
+                & > li {
+                    margin-left: 36px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    color: $itc;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    &:hover {
+                        color: $colorPrimary;
+                    }
+                }
+            }
         }
     }
 </style>

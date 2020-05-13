@@ -2,12 +2,8 @@
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
 
-            <input type="text">
-            <pl-button-group>
-                <pl-button label="山脉" @click="onClick(1)"/>
-                <pl-button label="深林" @click="onClick(2)"/>
-                <pl-button label="沼泽" @click="onClick(3)"/>
-            </pl-button-group>
+
+
         </div>
     </div>
 </template>
