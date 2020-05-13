@@ -1,8 +1,7 @@
 <template>
     <div class="app-content" :style="rootStyles">
         <div class="app-content-body">
-            <pl-icon icon="el-icon-search"/>
-
+            <slot></slot>
         </div>
     </div>
 </template>
