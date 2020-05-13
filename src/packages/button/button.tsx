@@ -21,9 +21,14 @@ export default defineComponent({
     setup(props, context) {
 
         const formatProps = useProps(props, {
-            mode: FormatPropsType.promise,
-            label: FormatPropsType.promise,
+            width: FormatPropsType.promise,
+
         })
+
+
+
+
+
 
 
         return () => (
