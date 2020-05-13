@@ -37,8 +37,8 @@ export default defineComponent({
         /*---------------------------------------emitter-------------------------------------------*/
 
         const emit = useEmit(context, {
-            click: null,
-            focus: null,
+            click: '单机事件',
+            focus: '获取焦点事件',
         })
 
 
@@ -74,11 +74,20 @@ export default defineComponent({
             width: PlainUtils.suffixPx(propsState.width),
         }))
 
+        /*---------------------------------------handler-------------------------------------------*/
+
+        const handler = {
+            click: (e: MouseEvent) => {
+                emit.click(e)
+            },
+        }
+
         return () => (
             <button
                 style={styles.value}
                 class={classes.value}
                 {...{directives: [{name: 'click-wave', value: 'large'}]}}
+                onClick={handler.click}
             >
                 {propsState.label}
             </button>
