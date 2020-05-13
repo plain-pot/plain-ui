@@ -1,5 +1,6 @@
 import {computed, inject, provide, reactive, watch} from "@vue/composition-api";
 import {toArray} from "@/util/util";
+import PlainUtils from '../../submodules/plain-utils'
 
 export enum FormatPropsType {
     promise = 'promise',
@@ -60,11 +61,23 @@ export function useProps<T = any>(props: T, option: { [key in keyof T]?: FormatP
  * @author  韦胜健
  * @date    2020/5/13 14:54
  */
+
+// emitInput        -> input
+// emitItemClick    -> item-click
+// emitUpdateSTart  -> update:start
+export function emitName2ListenName(emitName) {
+    return PlainUtils.kebabCase(emitName).replace('update-', 'update:')
+}
+
 export function useEmit<T = { [k: string]: any }>(context: any, option: T): { [key in keyof T]: ((...args: any[]) => void) } {
     // @ts-ignore
     return Object.keys(option).reduce((ret, key) => {
         ret[key] = (...args: any[]) => {
-            context.emit(key, ...args)
+            const kebabCaseName = emitName2ListenName(key)
+            context.emit(kebabCaseName, ...args)
+            if (key === 'input') {
+                context.emit('change', ...args)
+            }
         }
         return ret
     }, {})
