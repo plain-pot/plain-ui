@@ -176,7 +176,7 @@ export function useEdit(props) {
  * @author  韦胜健
  * @date    2020/5/14 10:23
  */
-export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void) {
+export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void): { value: T } {
 
     const state = reactive({
         val: getter(),
@@ -196,6 +196,7 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void) 
             emitter(state.val)
         },
     })
+    // @ts-ignore
     return computedState
 }
 
