@@ -12,6 +12,7 @@
   $globalTheme: $theme !global;
 
   $colorPrimary: plv(colorPrimary) !global;
+  $colorPrimaryLight: rgba(plv(colorPrimary), 0.1) !global;
   $colorSuccess: plv(colorSuccess) !global;
   $colorWarn: plv(colorWarn) !global;
   $colorError: plv(colorError) !global;
@@ -90,4 +91,8 @@
   color: $itc;
   margin: 0;
   padding: 0;
+}
+
+@mixin transition {
+  transition: all $transition 300ms;
 }

@@ -102,15 +102,17 @@ export default defineComponent({
                  onClick={handler.click}
                  onKeydown={handler.keydown}
             >
-                <span class="plain-click-node">
-                    <transition name="pl-transition-fade" mode="out-in">
-                        {!!context.slots['radio-inner'] ? context.slots['radio-inner'] : [
-                            !!isChecked.value ? <pl-radio-inner status="check" key="check" disabled={editComputed.value.disabled}/> : null,
-                            !isChecked.value ? <pl-radio-inner status="uncheck" key="uncheck" disabled={editComputed.value.disabled}/> : null,
-                        ].filter(Boolean)}
-                    </transition>
-                </span>
-                {!!props.label && <div class="pl-radio-label">{props.label}</div>}
+                {!!context.slots.default ? context.slots.default() : (
+                    [
+                        <span class="plain-click-node">
+                            <transition name="pl-transition-fade" mode="out-in">
+                                {!!isChecked.value && <pl-radio-inner status="check" key="check" disabled={editComputed.value.disabled}/>}
+                                {!isChecked.value && <pl-radio-inner status="uncheck" key="uncheck" disabled={editComputed.value.disabled}/>}
+                            </transition>
+                        </span>,
+                        !!props.label ? <div class="pl-radio-label">{props.label}</div> : null
+                    ].filter(Boolean)
+                )}
             </div>
         )
     },

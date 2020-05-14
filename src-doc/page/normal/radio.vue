@@ -58,6 +58,26 @@
                 <pl-radio label="标签三" val="tag3"/>
             </pl-radio-group>
         </demo-row>
+
+        <demo-row title="自定义内容">
+            <pl-radio-group v-model="val[3]">
+                <pl-radio val="tag1">
+                    <div class="demo-radio-block" :class="{'demo-radio-block-is-active':'tag1' === val[3]}">
+                        标签一
+                    </div>
+                </pl-radio>
+                <pl-radio val="tag2">
+                    <div class="demo-radio-block" :class="{'demo-radio-block-is-active':'tag2' === val[3]}">
+                        标签二
+                    </div>
+                </pl-radio>
+                <pl-radio val="tag3">
+                    <div class="demo-radio-block" :class="{'demo-radio-block-is-active':'tag3' === val[3]}">
+                        标签三
+                    </div>
+                </pl-radio>
+            </pl-radio-group>
+        </demo-row>
     </div>
 </template>
 
@@ -76,4 +96,23 @@
 </script>
 
 <style lang="scss">
+    @include theme {
+        .demo-radio {
+            .demo-radio-block {
+                width: 120px;
+                height: 80px;
+                border: solid 1px $ibl;
+                border-radius: $shapeFillet;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                @include transition;
+            }
+
+            .demo-radio-block-is-active {
+                background-color: $colorPrimaryLight;
+                border-color: $colorPrimary;
+            }
+        }
+    }
 </style>
