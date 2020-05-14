@@ -214,7 +214,7 @@ export default defineComponent({
 
         const methods = {
             clearValue: () => {
-                value.value = null
+                value.value = undefined
             },
             focus: () => {
                 if (!!input.value && !!input.value.focus) {
