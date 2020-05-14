@@ -89,13 +89,13 @@ export default defineComponent({
             },
         })
 
-        const value = useModel(() => props.value, emit.input)
+        const model = useModel(() => props.value, emit.input)
 
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
             input: (e: any) => {
-                value.value = e.target.value
+                model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
                 state.handlerEnter!(e)
@@ -146,7 +146,7 @@ export default defineComponent({
                 'pl-input-prefix': !!props.prefixIcon,
                 'pl-input-suffix': !!props.suffixIcon || editComputed.value.loading,
                 'pl-input-clear': !!props.clearIcon,
-                'pl-input-empty': !value.value && !props.placeValue,
+                'pl-input-empty': !model.value && !props.placeValue,
                 'pl-input-focus': props.isFocus,
                 'pl-input-not-editable': !editComputed.value.editable,
             }
@@ -182,7 +182,7 @@ export default defineComponent({
                 readonly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
             },
             domProps: {
-                value: value.value,
+                value: model.value,
                 placeholder: props.placeholder,
                 ...(props.nativeProps || {}),
             },
@@ -214,7 +214,7 @@ export default defineComponent({
 
         const methods = {
             clearValue: () => {
-                value.value = undefined
+                model.value = undefined
             },
             focus: () => {
                 if (!!input.value && !!input.value.focus) {
@@ -236,7 +236,7 @@ export default defineComponent({
 
         /*---------------------------------------watcher-------------------------------------------*/
 
-        watch(() => value.value, () => {
+        watch(() => model.value, () => {
             methods.resetTextAreaHeight()
         })
         watch(() => props.throttleEnter, (val) => {
@@ -251,7 +251,7 @@ export default defineComponent({
 
         useRefer(context, {
             methods,
-            value,
+            model,
         })
 
         /*---------------------------------------render-------------------------------------------*/
@@ -262,7 +262,7 @@ export default defineComponent({
                 return (
                     <div class={['pl-textarea', classes.value]}>
                         <textarea class="pl-textarea-inner" {...publicProps.value}></textarea>
-                        <textarea class="pl-textarea-inner pl-textarea-hidden" ref="hiddenInput" value={value.value}></textarea>
+                        <textarea class="pl-textarea-inner pl-textarea-hidden" ref="hiddenInput" value={model.value}></textarea>
                     </div>
                 )
             } else {
