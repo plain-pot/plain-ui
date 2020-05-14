@@ -14,6 +14,7 @@
             return () => (
                 <div>
                     <pl-input refer={input}/>
+                    [{!!input.value ? input.value.model : 'no input'}]
                 </div>
             )
         },

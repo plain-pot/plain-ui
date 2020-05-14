@@ -252,6 +252,13 @@ export default defineComponent({
         useRefer(context, {
             methods,
             model,
+            input,
+            hiddenInput,
+            propsState,
+            styleState,
+            editState,
+            editComputed,
+            state,
         })
 
         /*---------------------------------------render-------------------------------------------*/
