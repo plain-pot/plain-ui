@@ -13,3 +13,7 @@ export interface ResizeDetectFunc {
 }
 
 export type StyleType = Partial<CSSStyleDeclaration>;
+
+interface HTMLInputEvent extends Event {
+    target: HTMLInputElement & EventTarget;
+}

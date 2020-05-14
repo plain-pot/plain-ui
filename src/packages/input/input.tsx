@@ -1,6 +1,6 @@
 import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
 import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useRefer, useStyle} from "@/util/use";
-import {StyleType} from "@/types/utils";
+import {HTMLInputEvent, StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 
 export default defineComponent({
@@ -94,7 +94,7 @@ export default defineComponent({
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
-            input: (e: any) => {
+            input: (e: HTMLInputEvent) => {
                 model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
