@@ -1,0 +1,7 @@
+$font-include-times: 0 !global;
+@mixin font-mixin() {
+  @if ($font-include-times == 0) {
+    $font-include-times: 1 !global;
+    font-family: $font;
+  }
+}
