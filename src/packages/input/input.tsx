@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
-import {EditProps, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
 import {StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 
@@ -44,16 +44,16 @@ export default defineComponent({
         /*---------------------------------------emitter-------------------------------------------*/
 
         const emit = useEmit(context, {
-            input: '值绑定事件',
-            focus: '获取焦点事件',
-            blur: '失去焦点事件',
-            keydown: '按键事件',
-            enter: '回车事件',
+            input: EmitFunc,
+            focus: EmitFunc,
+            blur: EmitFunc,
+            keydown: EmitFunc,
+            enter: EmitFunc,
 
-            clickInput: '点击输入框事件',
-            clickPrefixIcon: '点击前置图标事件',
-            clickSuffixIcon: '点击后置图标事件',
-            clickClearIcon: '点击清空图标事件',
+            clickInput: EmitFunc,
+            clickPrefixIcon: EmitFunc,
+            clickSuffixIcon: EmitFunc,
+            clickClearIcon: EmitFunc,
         })
 
         /*---------------------------------------state-------------------------------------------*/
