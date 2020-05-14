@@ -31,6 +31,8 @@
 </template>
 
 <script>
+    import PlainUtils from "../../../submodules/plain-utils";
+
     export default {
         name: "demo-list",
         data() {
@@ -60,7 +62,7 @@
                 this.cities.splice(this.randomIndex(), 1);
             },
             shuffle() {
-                this.cities = this.$plain.utils.shuffle(this.cities);
+                this.cities = PlainUtils.shuffle(this.cities);
             },
         }
     }
