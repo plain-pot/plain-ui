@@ -1,5 +1,6 @@
 import {toArray} from "@/util/util";
 import {VueConstructor} from "vue/types/umd";
+import PLAIN from "@/packages/base";
 
 interface VueType {
     use: (plugin: PluginType) => void
@@ -14,6 +15,9 @@ export interface PluginType {
 export function installPlugin(defaultPlugins: VueConstructor | VueConstructor[] | PluginType | PluginType[], externalsPlugins?: VueConstructor | PluginType | PluginType[]): PluginType {
 
     const install: PluginType['install'] = Vue => {
+
+        Vue.use(PLAIN)
+
         defaultPlugins = toArray(defaultPlugins) as PluginType[]
         defaultPlugins.forEach(plugin => {
             if (!plugin.install && !!plugin.name) {
