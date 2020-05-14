@@ -69,7 +69,9 @@ export function emitName2ListenName(emitName) {
     return PlainUtils.kebabCase(emitName).replace('update-', 'update:')
 }
 
-export function useEmit<T = { [k: string]: any }>(context: any, option: T): { [key in keyof T]: ((...args: any[]) => void) } {
+export const EmitFunc: ((data) => void) = (() => null)
+
+export function useEmit<T extends { [key: string]: Function }>(context: SetupContext, option: T): T {
     // @ts-ignore
     return Object.keys(option).reduce((ret, key) => {
         ret[key] = (...args: any[]) => {
