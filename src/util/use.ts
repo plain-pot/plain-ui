@@ -205,8 +205,29 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void):
  * @author  韦胜健
  * @date    2020/5/14 10:23
  */
-export function useRef<T = HTMLElement>(name: string, context: SetupContext): Ref<T | null> {
-    // return ref(null)
+export function useRef<T = HTMLElement>(name?: string, context?: SetupContext): { value: T } {
+
+    if (!!name && !!context) {
+        // @ts-ignore
+        return computed(() => context.refs[name])
+    } else {
+        // @ts-ignore
+        return ref(null)
+    }
+}
+
+export function useRefer(context: SetupContext, ref: any): void {
+
     // @ts-ignore
-    return computed(() => context.refs[name])
+    const refer: ((ref: any) => void) | { value: any } | undefined = context.attrs.refer
+
+    if (!refer) {
+        return
+    }
+
+    if (typeof refer === "function") {
+        refer(ref)
+    } else if (typeof refer === "object") {
+        refer.value = ref
+    }
 }

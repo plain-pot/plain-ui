@@ -1,52 +1,22 @@
-<template>
-    <div class="test">
-        <!--<child-component v-model="val[0]"/>
-        <input type="text" v-model="val[0]">-->
-        <div>
-            <pl-input v-model="val[0]"/>
-        </div>
-        <div>
-            <pl-input v-model="val[0]"/>
-        </div>
-    </div>
-</template>
-
 <script>
-
-    /* 组件里面的watch与 mixin里面的watch会同时生效 */
-    const ChildComponent = {
-        mixins: [{
-            watch: {
-                value(val) {
-                    console.log('mixin change', val)
-                },
-            },
-        }],
-        props: {
-            value: {},
-        },
-        watch: {
-            value(val) {
-                console.log('self change', val)
-            },
-        },
-        render() {
-            return (
-                <input value="value" onInput={e => this.$emit('input', e.target.value)}/>
-            )
-        },
-    };
+    import {useRef} from "../../../src/util/use";
+    import {onMounted} from "@vue/composition-api";
 
     export default {
         name: "test",
-        components: {ChildComponent},
-        props: {},
-        data() {
-            return {
-                val: {},
-            }
+        setup(props, context) {
+            const input = useRef()
+
+            onMounted(() => {
+                console.log(input.value)
+            })
+
+            return () => (
+                <div>
+                    <pl-input refer={input}/>
+                </div>
+            )
         },
-        methods: {},
     }
 </script>
 

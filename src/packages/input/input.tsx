@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useRefer, useStyle} from "@/util/use";
 import {StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 
@@ -248,6 +248,13 @@ export default defineComponent({
             }
             state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val, {trailing: true})
         })
+
+        useRefer(context, {
+            methods,
+            value,
+        })
+
+        /*---------------------------------------render-------------------------------------------*/
 
         return () => {
             if (props.textarea) {
