@@ -1,4 +1,4 @@
-import {computed, inject, provide, reactive, watch} from "@vue/composition-api";
+import {computed, inject, provide, reactive, Ref, ref, SetupContext, watch} from "@vue/composition-api";
 import {toArray} from "@/util/util";
 import PlainUtils from '../../submodules/plain-utils'
 
@@ -169,6 +169,11 @@ export function useEdit(props) {
     }
 }
 
+/**
+ * 双向绑定值组合函数
+ * @author  韦胜健
+ * @date    2020/5/14 10:23
+ */
 export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void) {
 
     const state = reactive({
@@ -190,4 +195,15 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void) 
         },
     })
     return computedState
+}
+
+/**
+ * 组件引用组合函数
+ * @author  韦胜健
+ * @date    2020/5/14 10:23
+ */
+export function useRef<T = HTMLElement>(name: string, context: SetupContext): Ref<T | null> {
+    // return ref(null)
+    // @ts-ignore
+    return computed(() => context.refs[name])
 }

@@ -11,3 +11,5 @@ export interface ResizeDetectFuncParam {
 export interface ResizeDetectFunc {
     (option: ResizeDetectFuncParam): void
 }
+
+export type StyleType = Partial<CSSStyleDeclaration>;

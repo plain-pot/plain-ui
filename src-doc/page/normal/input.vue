@@ -7,10 +7,10 @@
         </demo-row>
 
         <demo-row title="前后图标">
-            <demo-line title="前置图标">
+            <demo-line title="前置图标（禁用）">
                 <pl-input prefixIcon="el-icon-search" @click-prefix-icon="log('click-prefix-icon')" disabled/>
             </demo-line>
-            <demo-line title="后置图标">
+            <demo-line title="后置图标（只读）">
                 <pl-input suffixIcon="el-icon-full-screen" @click-suffix-icon="log('click-suffix-icon')" readonly/>
             </demo-line>
             <demo-line title="前后置图标">
