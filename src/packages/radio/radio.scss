@@ -1,4 +1,7 @@
 @include theme {
+
+  @include wave(radio);
+
   .pl-radio {
     @include public-style;
     display: inline-block;
