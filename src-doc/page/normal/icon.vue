@@ -9,7 +9,7 @@
             <ul>
                 <li v-for="item in targetIcons" :key="item" @click="onClickItem(item)">
                     <p><i :class="`el-icon-${item}`"/></p>
-                    <span>el-icon-{{item}}</span>
+                    <div>el-icon-{{item}}</div>
                 </li>
             </ul>
         </div>
@@ -33,7 +33,7 @@
         computed: {
             targetIcons() {
                 if (!this.targetSearchValue) return this.icons
-                return this.icons.filter(icon => icon.indexOf(this.targetSearchValue) > -1)
+                return this.icons.filter(icon => `el-icon-${icon}`.indexOf(this.targetSearchValue) > -1)
             },
         },
         methods: {
@@ -73,26 +73,26 @@
                 align-items: center;
                 justify-content: center;
                 position: relative;
+                box-sizing: border-box;
 
                 & > p {
                     font-size: 24px;
                     color: #606266;
                 }
 
-                & > span {
+                & > div {
                     position: absolute;
                     bottom: 0;
                     left: 0;
-                    right: 0;
                     height: 50px;
-
-
+                    display: block;
                     font-size: 12px;
                     word-break: break-word;
                     width: 100%;
                     padding: 0 16px;
                     text-align: center;
                     color: #99a9bf;
+                    box-sizing: border-box;
                 }
             }
         }
@@ -107,7 +107,7 @@
                     cursor: pointer;
                     background-color: rgba($colorPrimary, 0.1);
 
-                    span, p {
+                    div, p {
                         color: $colorPrimary;
                     }
                 }
