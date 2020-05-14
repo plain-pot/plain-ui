@@ -1,6 +1,12 @@
 import Vue, { VNode } from 'vue'
 import { ComponentRenderProxy } from '@vue/composition-api'
 
+declare module '@vue/composition-api/dist/component/component' {
+  interface SetupContext {
+    readonly refs: { [key: string]: Vue | Element | Vue[] | Element[] };
+  }
+}
+
 declare global {
   namespace JSX {
     // tslint:disable no-empty-interface
