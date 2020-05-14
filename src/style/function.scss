@@ -1,7 +1,31 @@
-$font-include-times: 0 !global;
-@mixin font-mixin() {
-  @if ($font-include-times == 0) {
-    $font-include-times: 1 !global;
-    font-family: $font;
+$include-record-map: (default:()) !global;
+
+@mixin include-once($tag) {
+  $cur-theme: map_get($include-record-map, $globalThemeName) !global;
+  @if (type_of($cur-theme) == null) {
+    $cur-theme: ($tag:null) !global;
   }
+  $cur-flag: map_get($cur-theme, $tag) !global;
+  @if ($cur-flag == null) {
+    @debug 'content';
+    @content;
+
+    $cur-theme: map_merge($cur-theme, ($tag:true));
+    $include-record-map: map_merge($include-record-map, ($globalThemeName:$cur-theme)) !global;
+  }
+}
+
+@mixin font-mixin() {
+  @include include-once(font) {
+    background: #3E97EC;
+  }
+}
+
+$globalThemeName: default !global;
+$font: 'Avenir,-apple-system' !global;
+
+html {
+  @include font-mixin;
+  @include font-mixin;
+  @include font-mixin;
 }

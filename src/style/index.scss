@@ -10,6 +10,7 @@
 
 @mixin generateThemeContent($name,$theme) {
   $globalTheme: $theme !global;
+  $globalThemeName: $name !global;
 
   $colorPrimary: plv(colorPrimary) !global;
   $colorPrimaryLight: rgba(plv(colorPrimary), 0.1) !global;

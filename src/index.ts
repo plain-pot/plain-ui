@@ -1,3 +1,5 @@
+import './style/function.scss'
+
 import button from './packages/button'
 import input from './packages/input'
 import icon from './packages/icon'
