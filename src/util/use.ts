@@ -183,8 +183,8 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void) 
     )
 
     const computedState = computed({
-        get: () => state.val,
-        set: (val) => {
+        get: () => state.val as (T | null),
+        set: (val: any) => {
             state.val = val
             emitter(state.val)
         },
