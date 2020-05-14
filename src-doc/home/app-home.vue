@@ -1,5 +1,5 @@
 <template>
-    <div class="app-home">
+    <div class="app-home theme-dark">
         <app-header @click-refresh="$refs.nav.refresh()"/>
         <app-menu @click-menu-item="menu=>this.$refs.nav.open(menu)" :currentPath="currentPath"/>
         <app-content>

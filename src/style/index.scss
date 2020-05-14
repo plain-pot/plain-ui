@@ -1,4 +1,5 @@
 @import "./theme/default";
+@import "./mixin";
 
 @function plv($key) {
   @if (map_has_key($globalTheme, $key)) {
@@ -39,12 +40,12 @@
 
   @if (str_length($name)>0) {
     .theme-#{$name} {
-      font-family: $font;
+      @include font-mixin;
       @content;
     }
   } @else {
     html {
-      font-family: $font;
+      @include font-mixin;
       @content;
     }
   }
