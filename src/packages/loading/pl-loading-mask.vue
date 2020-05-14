@@ -1,6 +1,6 @@
 <template>
     <transition name="pl-transition-loading-mask">
-        <div class="pl-loading-mask" v-if="value || p_value" :style="{background:background,zIndex}" :class="{'pl-loading-mask-unlock':unlock}">
+        <div class="pl-loading-mask" v-if="value || p_value" :style="{background:background,zIndex}" :class="classes">
             <pl-loading :type="loadingType"/>
             <span v-if="!!message">
             {{message}}
@@ -17,8 +17,9 @@
             value: {type: Boolean},                                         // 是否打开loading遮罩
             message: {type: String},                                        // 提示信息
             loadingType: {type: String, default: 'delta'},                  // loading类型
-            background: {type: String, default: 'rgba(255,255,255,0.85)'},   // 遮罩背景色
+            background: {type: String, default: 'rgba(255,255,255,0.85)'},  // 遮罩背景色
             unlock: {type: Boolean},                                        // 取消阻止点击事件
+            fixedPosition: {type: Boolean},                                 // 是否为根节点的加载遮罩
         },
         watch: {
             value(val) {
@@ -33,7 +34,14 @@
                 zIndex: null,
             }
         },
-        methods: {},
+        computed: {
+            classes() {
+                return {
+                    'pl-loading-mask-unlock': this.unlock,
+                    'pl-loading-mask-fixed-position': this.fixedPosition
+                }
+            },
+        },
         mounted() {
             const parentNode = this.$el.parentNode
             if (!!parentNode) {
@@ -83,6 +91,10 @@
 
             &.pl-loading-mask-unlock {
                 pointer-events: none;
+            }
+
+            &.pl-loading-mask-fixed-position {
+                position: fixed;
             }
         }
     }

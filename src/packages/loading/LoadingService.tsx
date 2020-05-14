@@ -41,6 +41,10 @@ class LoadingService {
         let mask;
         const $plain = Vue.prototype.$plain
         const $loading = (option) => {
+
+            option = typeof option === 'boolean' ? {value: option} : option
+            option.fixedPosition = true
+
             if (!mask) {
                 mask = new LoadingService(document.body, option, $plain.$root)
             }
