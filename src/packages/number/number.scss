@@ -1,7 +1,9 @@
 @include theme {
+
   .pl-number {
     display: inline-block;
     width: initial;
+    @include wave(number);
 
     .pl-input-inner {
       position: relative;
@@ -17,6 +19,7 @@
         float: left;
         color: $itc;
         font-size: inherit;
+        box-sizing: border-box;
 
         &::placeholder {
           color: $ipc;
