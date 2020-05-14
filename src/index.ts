@@ -6,13 +6,14 @@ import loading from './packages/loading'
 import list from './packages/list'
 import message from './packages/message'
 import notice from './packages/notice'
+import grid from './packages/grid'
 
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
     icon,
     button, input, loading,
-    collapse, list,
+    collapse, list, grid,
     message, notice,
 ]
 
@@ -23,7 +24,7 @@ const install: PluginType['install'] = Vue => {
 export {
     icon,
     button, input, loading,
-    collapse, list,
+    collapse, list, grid,
     message, notice,
 
     install,
