@@ -242,9 +242,11 @@ export default defineComponent({
         watch(() => props.throttleEnter, (val) => {
             if (!val) {
                 state.handlerEnter = state.handleEnterInner
-            } else {
-                state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, 1000, {trailing: true})
             }
+            if (val === true) {
+                val = 1000
+            }
+            state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val, {trailing: true})
         })
 
         return () => {

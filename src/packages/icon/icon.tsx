@@ -29,6 +29,10 @@ export default defineComponent({
         }))
 
         return () => {
+            if (!props.icon) {
+                console.warn('pl-icon: icon is require!')
+                return null
+            }
             if (props.icon!.indexOf('el-') === 0 || !props.svg) {
                 return <i {...binding.value}/>
             }
