@@ -18,7 +18,7 @@ export let $plain: {
         error: { icon: string, status: string },
         info: { icon: string, status: string },
     },
-    $message: (message: string | object, option: object) => void
+    $message: ((message: string | object, option: object) => void) | any
 } = {} as any
 
 export default {
