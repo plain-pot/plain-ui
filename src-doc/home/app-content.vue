@@ -47,7 +47,7 @@
             margin: 0 auto;
             text-align: left;
             width: 800px;
-            min-height: calc(100vh - 100px);
+            min-height: calc(100vh - 200px);
             padding: 36px 0;
         }
     }
