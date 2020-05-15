@@ -31,6 +31,7 @@ const entryName = (() => {
 })();
 
 module.exports = {
+    path,
     // 当前是否为生产模式
     isProduction: process.env.NODE_ENV === 'production',
     // 包名
