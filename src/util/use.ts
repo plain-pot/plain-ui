@@ -1,6 +1,16 @@
-import {computed, inject, provide, reactive, Ref, ref, SetupContext, watch} from "@vue/composition-api";
+import {computed, inject, onBeforeUnmount, onMounted, provide, reactive, Ref, ref, SetupContext, watch} from "@vue/composition-api";
 import {toArray} from "@/util/util";
 import PlainUtils from '../../submodules/plain-utils'
+
+export function useMounted() {
+    const state = reactive({
+        val: false,
+    })
+    const flag = computed(() => state.val)
+    onMounted(() => state.val = true)
+    onBeforeUnmount(() => state.val = false)
+    return flag
+}
 
 export enum FormatPropsType {
     promise = 'promise',
