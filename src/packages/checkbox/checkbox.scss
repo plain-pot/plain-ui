@@ -1,7 +1,5 @@
 @include theme {
 
-  @include wave(checkbox);
-
   .pl-checkbox {
     @include public-style;
     cursor: pointer;

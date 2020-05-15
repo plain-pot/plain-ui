@@ -3,7 +3,6 @@
   .pl-number {
     display: inline-block;
     width: initial;
-    @include wave(number);
 
     .pl-input-inner {
       position: relative;
