@@ -95,7 +95,12 @@ export default defineComponent({
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
+            // 发现一个非常奇怪的现象，div.pl-input-inner 里面的input、派发的input事件，居然也能够在 div.pl-input-inner这个div节点上监听到。神奇
+            // ie 下不知道为什么页面初始化的之后这里默认就执行了一次，这里判断绕过这个问题
             input: (e: HTMLInputEvent) => {
+                if (e.target !== document.activeElement) {
+                    return
+                }
                 model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
@@ -188,15 +193,6 @@ export default defineComponent({
                 ...(props.nativeProps || {}),
             },
             on: {
-                // 发现一个非常奇怪的现象，div.pl-input-inner 里面的input、派发的input事件，居然也能够在 div.pl-input-inner这个div节点上监听到。神奇
-                ...(!context.slots.default ? {
-                    input: e => {
-                        /*ie 下不知道为什么页面初始化的之后这里默认就执行了一次，这里判断绕过这个问题*/
-                        if (e.target === document.activeElement) {
-                            handler.input(e)
-                        }
-                    },
-                } : {}),
                 click: emit.clickInput,
                 focus: emit.focus,
                 blur: emit.blur,
@@ -265,11 +261,19 @@ export default defineComponent({
         /*---------------------------------------render-------------------------------------------*/
 
         return () => {
+
+            const ppp = publicProps.value
+
+            // 突然发现，在composition-api的情况下，slots不是响应式属性，这里为了解决这个办法，先暂时在render函数中实时计算这个input属性
+            if (!context.slots.default) {
+                (ppp.on as any).input = handler.input
+            }
+
             if (props.textarea) {
                 /*渲染文本域*/
                 return (
                     <div class={['pl-textarea', classes.value]}>
-                        <textarea class="pl-textarea-inner" {...publicProps.value}></textarea>
+                        <textarea class="pl-textarea-inner" {...ppp}></textarea>
                         <textarea class="pl-textarea-inner pl-textarea-hidden" ref="hiddenInput" value={model.value}></textarea>
                     </div>
                 )
@@ -279,11 +283,11 @@ export default defineComponent({
                     <div class={['pl-input', classes.value]}>
                         {!!props.prefixIcon && <span class="pl-input-prefix-icon" onClick={handler.clickPrefixIcon}><pl-icon icon={props.prefixIcon}/></span>}
                         {!!context.slots.default ?
-                            <div tabIndex={props.inputInnerTabindex} class="pl-input-inner" {...publicProps.value}>
+                            <div tabIndex={props.inputInnerTabindex} class="pl-input-inner" {...ppp}>
                                 {context.slots.default()}
                             </div>
                             :
-                            <input class="pl-input-inner" {...publicProps.value}/>}
+                            <input class="pl-input-inner" {...ppp}/>}
 
                         {!!props.suffixIcon && <span class="pl-input-suffix-icon">
                             {typeof props.suffixIcon === 'function' ? props.suffixIcon() : <pl-icon nativeOn={{mousedown: handler.clickSuffixIcon}} icon={props.suffixIcon}/>}
