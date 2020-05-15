@@ -142,7 +142,9 @@ export function getKey(e: KeyboardEvent): KEY | null {
     if (!!KEY[key]) {
         return KEY[key]
     } else {
-        console.warn(`Can't recognise key`, e)
+        /*if (e.keyCode !== 229) {
+            console.warn(`Can't recognise key`, e)
+        }*/
         return null
     }
 }
