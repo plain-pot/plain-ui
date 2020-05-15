@@ -32,7 +32,18 @@ module.exports = {
         sourceMap: true,
         loaderOptions: {
             sass: {
-                prependData: `@import "src/style/global-import.scss";`
+                prependData: ({resourcePath, rootContext}) => {
+                    const filePath = $utils.path.relative(rootContext, resourcePath)
+                    const data = [...buildConfig.scss.globalImport]
+
+                    // 分开打包的时候，每个都需要引入 global 以及 public 的scss文件；
+                    // 统一打包的时候，每个都需要引入 global文件，只有 src/style/index.scss 需要引入 public这个scss文件
+                    if ($utils.argv.package || filePath === 'src\\style\\index.scss') {
+                        data.push(...buildConfig.scss.importOnce)
+                    }
+
+                    return data.map(path => `@import "${path}";`).join('\n')
+                }
             }
         },
         extract: {
