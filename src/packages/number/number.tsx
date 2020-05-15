@@ -2,6 +2,7 @@ import {computed, defineComponent, reactive} from "@vue/composition-api";
 import ClickWave from "@/directives/click-wave";
 import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
 import {HTMLInputEvent} from "@/types/utils";
+import {getKey, KEY} from "@/packages/keyboard";
 
 const NAN = 'NAN'
 
@@ -193,7 +194,18 @@ export default defineComponent({
             },
             clearHandler: () => {
                 model.value = null
-            }
+            },
+            keydown: (e: KeyboardEvent) => {
+                if (getKey(e) === KEY.up) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    methods.add()
+                } else if (getKey(e) === KEY.down) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    methods.minus()
+                }
+            },
         }
 
         return () => (
@@ -215,9 +227,7 @@ export default defineComponent({
                        onFocus={handler.focus}
                        onBlur={handler.blur}
                        onInput={handler.input}
-                       onKeydown_up_prevent={methods.add}
-                       onKeydown_down_prevent={methods.minus}
-                       onKeyup_enter={handler.enter}
+                       onKeydown={handler.keydown}
                        ref="innerInput"/>
                 {!props.hideButton && (
                     <div class="pl-number-append-button plain-click-node" onMousedown={handler.intervalAdd} {...{directives: [{name: 'click-wave'}]}}>
