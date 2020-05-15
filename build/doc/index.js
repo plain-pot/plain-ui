@@ -1,6 +1,7 @@
 const $utils = require('../build.utils')
 const WebpackPublic = require('../build.public')
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
+const buildConfig = require('../build.config')
 
 console.log('build doc...')
 
@@ -31,10 +32,18 @@ module.exports = {
         },
     }),
     css: {
-        sourceMap: true,
+        sourceMap: false,
         loaderOptions: {
             sass: {
-                prependData: `@import "src/style/global-import.scss";`
+                prependData: ({resourcePath, rootContext}) => {
+                    const filePath = $utils.path.relative(rootContext, resourcePath)
+                    const data = [...buildConfig.scss.globalImport]
+
+                    if (filePath === 'src\\style\\index.scss') {
+                        data.push(...buildConfig.scss.importOnce)
+                    }
+                    return data.map(path => `@import "${path}";`).join('\n')
+                }
             }
         },
     },

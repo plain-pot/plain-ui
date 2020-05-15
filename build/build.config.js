@@ -5,4 +5,12 @@ module.exports = {
         packagePath: 'src/packages',
         output: 'dist',
     },
+    scss: {
+        globalImport: [
+            'src/style/global-import.scss',
+        ],
+        importOnce: [
+            'src/style/public.scss',
+        ]
+    },
 }
