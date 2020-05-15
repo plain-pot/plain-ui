@@ -61,7 +61,7 @@
             display: inline-block;
 
             & > * {
-                margin-right: 16px;
+                margin-right: 16px !important;
             }
         }
     }
