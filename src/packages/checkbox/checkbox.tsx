@@ -3,6 +3,7 @@ import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useM
 import {PLAIN_CHECKBOX_PROVIDER} from "@/packages/checkbox/checkbox-group";
 import {$plain} from "@/packages/base";
 import ClickWave from "@/directives/click-wave";
+import {getKey, KEY} from "@/packages/keyboard";
 
 export default defineComponent({
     name: 'pl-checkbox',
@@ -74,7 +75,7 @@ export default defineComponent({
                 }
             },
             keydown: (e: KeyboardEvent) => {
-                if (e.keyCode === 32) {
+                if (getKey(e) === KEY.space) {
                     e.preventDefault()
                     e.stopPropagation()
                     handler.click()

@@ -2,6 +2,7 @@ import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
 import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useRefer, useStyle} from "@/util/use";
 import {HTMLInputEvent, StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
+import {getKey, KEY} from "@/packages/keyboard";
 
 export default defineComponent({
     name: 'pl-input',
@@ -201,7 +202,7 @@ export default defineComponent({
                 blur: emit.blur,
                 keydown: (e) => {
                     emit.keydown(e)
-                    if (e.keyCode === 13) {
+                    if (getKey(e) === KEY.enter) {
                         handler.enter(e)
                     }
                 },

@@ -3,6 +3,7 @@ import ClickWave from "@/directives/click-wave";
 import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useStyle} from "@/util/use";
 import {PLAIN_RADIO_GROUP_PROVIDER} from "@/packages/radio/radio-group";
 import {PlainUtils} from "@/util/util";
+import {getKey, KEY} from "@/packages/keyboard";
 
 export default defineComponent({
     name: 'pl-radio',
@@ -84,7 +85,7 @@ export default defineComponent({
                 }
             },
             keydown: (e: KeyboardEvent) => {
-                if (e.keyCode === 32) {
+                if (getKey(e) === KEY.space) {
                     e.preventDefault()
                     e.stopPropagation()
                     handler.click()
