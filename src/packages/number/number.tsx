@@ -42,7 +42,7 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const model = useModel(() => props.value, emit.input)
+        const model = useModel(() => props.value, emit.input, false)
 
         useStyle(props, {status: undefined})
         const {editComputed} = useEdit(props)
@@ -100,6 +100,7 @@ export default defineComponent({
                 }
                 // stepStrictly
                 if (props.stepStrictly && value! % propsState.step !== 0) {
+                    console.log('props.value', props.value)
                     value = props.value
                 }
                 // precision
@@ -142,6 +143,7 @@ export default defineComponent({
                 value += propsState.step
                 value = utils.checkValue(value)
                 model.value = value
+                emit.input(model.value)
             },
             minus: () => {
                 if (!editComputed.value.editable) {
@@ -154,6 +156,7 @@ export default defineComponent({
                 value -= propsState.step
                 value = utils.checkValue(value)
                 model.value = value
+                emit.input(model.value)
             },
             clearInterval: () => {              // 清除定时器
                 if (state.interval != null) {
@@ -172,6 +175,7 @@ export default defineComponent({
             },
             blur: (e) => {
                 model.value = utils.checkValue(utils.getEffectiveValue())
+                emit.input(model.value)
                 state.isFocus = false
                 emit.blur(e)
             },
@@ -180,6 +184,7 @@ export default defineComponent({
             },
             enter: (e: KeyboardEvent) => {
                 model.value = utils.checkValue(utils.getEffectiveValue())
+                emit.input(model.value)
                 emit.enter(e)
             },
             intervalAdd: () => {
@@ -194,6 +199,7 @@ export default defineComponent({
             },
             clearHandler: () => {
                 model.value = null
+                emit.input(model.value)
             },
             keydown: (e: KeyboardEvent) => {
                 if (getKey(e) === KEY.up) {
