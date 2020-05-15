@@ -1,11 +1,12 @@
 @import "./theme/default";
-@import "./mixin";
+
+$dt: map_get($theme-default,'');
 
 @function plv($key) {
   @if (map_has_key($globalTheme, $key)) {
     @return map-get($globalTheme, $key);
   } @else {
-    @return map-get($theme-default, $key);
+    @return map-get($dt, $key);
   }
 }
 
@@ -40,12 +41,10 @@
 
   @if (str_length($name)>0) {
     .theme-#{$name} {
-      @include font-mixin;
       @content;
     }
   } @else {
     html {
-      @include font-mixin;
       @content;
     }
   }
