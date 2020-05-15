@@ -1,6 +1,6 @@
-const $utils = require('./build.utils')
-const buildConfig = require('./build.config')
-const WebpackPublic = require('./build.public')
+const $utils = require('../build.utils')
+const buildConfig = require('../build.config')
+const WebpackPublic = require('../build.public')
 
 if (!$utils.argv.all) {
     console.log('build packages...')

@@ -1,6 +1,6 @@
-const $utils = require('./build.utils')
+const $utils = require('../build.utils')
 const buildPackage = require('./build.package')
-const buildConfig = require('./build.config')
+const buildConfig = require('../build.config')
 
 console.log('build all...')
 

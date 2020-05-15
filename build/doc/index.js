@@ -1,5 +1,5 @@
-const $utils = require('./build.utils')
-const WebpackPublic = require('./build.public')
+const $utils = require('../build.utils')
+const WebpackPublic = require('../build.public')
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
 
 console.log('build doc...')

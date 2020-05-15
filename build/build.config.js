@@ -4,6 +4,5 @@ module.exports = {
         exportName: 'PLAIN',
         packagePath: 'src/packages',
         output: 'dist',
-
     },
 }
