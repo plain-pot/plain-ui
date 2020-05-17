@@ -16,13 +16,14 @@ import toggle from './packages/toggle'
 import slider from './packages/slider'
 import tag from './packages/tag'
 import rate from './packages/rate'
+import scroll from './packages/scroll'
 
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate,
-    collapse, list, grid,
+    collapse, list, grid, scroll,
     message, notice,
 ]
 
@@ -33,7 +34,7 @@ const install: PluginType['install'] = Vue => {
 export {
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate,
-    collapse, list, grid,
+    collapse, list, grid, scroll,
     message, notice,
 
     install,

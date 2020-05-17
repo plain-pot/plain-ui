@@ -1,6 +1,6 @@
 <template>
     <div class="demo-scroll">
-        <!--<demo-row title="基本用法1">
+        <demo-row title="基本用法1">
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <div>
@@ -75,7 +75,7 @@
                     </div>
                 </pl-scroll>
             </div>
-        </demo-row>-->
+        </demo-row>
 
         <demo-row title="滚动：纵向">
             <div class="demo-scroll-wrapper">

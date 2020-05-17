@@ -3,7 +3,7 @@ import {PlainUtils} from "@/util/util";
 export let $plain: {
     utils: PlainUtils,
     $root: any,
-    nextTick: () => Promise<any>,
+    nextTick: (callback?: () => void) => Promise<any>,
     newInstance: (component: any, option?: { el?: HTMLElement, parent?: any, parentNode?: HTMLElement }) => any,
     log: (...args: any[]) => void
     nextIndex: () => number,
@@ -34,7 +34,22 @@ export default {
         })
 
         $plain.utils = PlainUtils
-        $plain.nextTick = () => new Promise(resolve => Vue.prototype.$nextTick(resolve))
+
+        $plain.nextTick = (() => {
+            const $nextTick = Vue.prototype.$nextTick
+            return (callback) => {
+                return new Promise((resolve) => {
+                    $nextTick(() => {
+                        resolve()
+                        if (!!callback) {
+                            callback()
+                        }
+                    })
+                })
+            }
+        })()
+
+
         /**
          * 创建一个vue实例
          * @author  韦胜健
@@ -92,5 +107,6 @@ export default {
 
         // console.log('install plain')
         Vue.prototype.$plain = $plain
-    },
+    }
+    ,
 }
