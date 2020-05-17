@@ -1,24 +1,26 @@
 <template>
     <div class="app-menu" :style="rootStyles">
-        <div class="app-menu-list">
-            <ul>
-                <li v-for="menuGroup in menus" :key="menuGroup.name">
-                    <div class="app-menu-group-name">
-                        <pl-icon icon="plc-diamond" status="primary"/>
-                        <span>{{menuGroup.name}}</span>
-                    </div>
-                    <ul>
-                        <li v-for="menu in menuGroup.children" :key="menu.title" @click="handleClickMenu(menu)" :class="{'app-menu-active':currentPath === menu.page}">
-                            <div class="app-menu-name">
-                                <span>{{menu.name}}</span>
-                                <span>{{menu.title}}</span>
-                                <pl-icon icon="el-icon-star-on" status="primary" v-if="!!menu.complete"/>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <pl-scroll>
+            <div class="app-menu-list">
+                <ul>
+                    <li v-for="menuGroup in menus" :key="menuGroup.name">
+                        <div class="app-menu-group-name">
+                            <pl-icon icon="plc-diamond" status="primary"/>
+                            <span>{{menuGroup.name}}</span>
+                        </div>
+                        <ul>
+                            <li v-for="menu in menuGroup.children" :key="menu.title" @click="handleClickMenu(menu)" :class="{'app-menu-active':currentPath === menu.page}">
+                                <div class="app-menu-name">
+                                    <span>{{menu.name}}</span>
+                                    <span>{{menu.title}}</span>
+                                    <pl-icon icon="el-icon-star-on" status="primary" v-if="!!menu.complete"/>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </pl-scroll>
     </div>
 </template>
 
