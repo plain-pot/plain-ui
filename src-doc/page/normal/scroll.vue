@@ -79,15 +79,15 @@
 
         <demo-row title="滚动：纵向">
             <div class="demo-scroll-wrapper">
-                <pl-scroll ref="scroll">
+                <pl-scroll :refer="scroll.vertical">
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="$refs.scroll.scroll({y:100},1000)"/>
+                                <pl-button label="scroll" @click="scroll.vertical.value.methods.scroll({y:100},1000)"/>
                             </p>
                             <p>
-                                <pl-button label="scrollEnd" @click="$refs.scroll.scrollEnd()"/>
+                                <pl-button label="scrollEnd" @click="scroll.vertical.value.methods.scrollEnd()"/>
                             </p>
                         </div>
                     </div>
@@ -96,15 +96,15 @@
         </demo-row>
         <demo-row title="滚动：横向">
             <div class="demo-scroll-wrapper">
-                <pl-scroll ref="scroll" scrollX>
+                <pl-scroll :refer="scroll.horizontal" scrollX>
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="$refs.scroll.scroll({x:100},1000)"/>
+                                <pl-button label="scroll" @click="scroll.horizontal.value.methods.scroll({x:100},1000)"/>
                             </p>
                             <p>
-                                <pl-button label="scrollEnd" @click="$refs.scroll.scrollEnd()"/>
+                                <pl-button label="scrollEnd" @click="scroll.horizontal.value.methods.scrollEnd()"/>
                             </p>
                         </div>
                     </div>
@@ -121,8 +121,15 @@
         data() {
             return {
                 list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+                scroll: {
+                    vertical: {value: null},
+                    horizontal: {value: null},
+                },
             }
         },
+        mounted() {
+            console.log(this.scroll)
+        }
     }
 </script>
 

@@ -1,6 +1,6 @@
 import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
 import {ResizeDetectorDirective} from "@/util/ResizeDetector";
-import {EmitFunc, useEmit, useMounted, useRef} from "@/util/use";
+import {EmitFunc, useEmit, useMounted, useRef, useRefer} from "@/util/use";
 import {PLAIN_POPPER_PROVIDER} from "@/packages/popper/popper";
 import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
@@ -39,7 +39,7 @@ export default defineComponent({
 
         /*---------------------------------------ref-------------------------------------------*/
 
-        const host = useRef('name', context)
+        const host = useRef('host', context)
         const wrapper = useRef('wrapper', context)
         const content = useRef('content', context)
 
@@ -156,7 +156,7 @@ export default defineComponent({
             return {
                 height: `${targetScrollbarSize.value}px`,
                 width: `${horizontalScrollbarWidth.value}px`,
-                left: `${horizontalScrollbarLeft}px`,
+                left: `${horizontalScrollbarLeft.value}px`,
                 backgroundColor: props.scrollbarColor,
             } as StyleType
         })
@@ -177,6 +177,7 @@ export default defineComponent({
         const methods = {
             refresh: async () => {
                 await $plain.nextTick()
+
                 const {scrollWidth: width1, scrollHeight: height1} = content.value
                 handler.contentResize({
                     width: Math.ceil(width1),
@@ -347,6 +348,11 @@ export default defineComponent({
                 },
             },
         }
+
+        useRefer(context, {
+            methods,
+            state,
+        })
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 
