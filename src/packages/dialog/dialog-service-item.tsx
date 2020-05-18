@@ -19,7 +19,7 @@ export default defineComponent({
     name: 'pl-dialog-service-item',
     setup(props, context) {
 
-        const input = useRef<any>()
+        const input = useRef<any>('input', context)
 
         const state = reactive({
             show: false,
@@ -129,7 +129,7 @@ export default defineComponent({
                 }
                 serviceClass += ` pl-dialog-service-edit`
 
-                content = <pl-input refer={input}
+                content = <pl-input ref="input"
                                     minHeight={null}
                                     maxHeight={null}
                                     autoHeight={false}
