@@ -39,8 +39,7 @@ export default defineComponent({
             label: FormatPropsType.promise,
         })
 
-        const styleComputed = useStyle()
-
+        const {styleComputed} = useStyle()
         const {editState, editComputed} = useEdit()
 
         const buttonGroup = inject(BUTTON_GROUP_PROVIDER, null) as any

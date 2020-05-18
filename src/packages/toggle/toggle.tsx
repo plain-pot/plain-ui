@@ -32,7 +32,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const model = useModel(() => props.value, emit.input)
 
@@ -47,8 +47,8 @@ export default defineComponent({
         const classes = computed(() => ([
             `pl-toggle`,
             `plain-click-node`,
-            `pl-toggle-status-${styleState.value.status}`,
-            `pl-toggle-size-${styleState.value.size}`,
+            `pl-toggle-status-${styleComputed.value.status}`,
+            `pl-toggle-size-${styleComputed.value.size}`,
             {
                 'pl-toggle-on': !!isChecked.value,
                 'pl-toggle-active': !!state.isActive,

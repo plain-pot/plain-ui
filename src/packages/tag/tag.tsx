@@ -20,14 +20,14 @@ export default defineComponent({
         })
 
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const classes = computed(() => ([
             `pl-tag`,
             `pl-tag-mode-${props.mode}`,
-            `pl-tag-status-${styleState.value.status}`,
-            `pl-tag-shape-${styleState.value.shape}`,
-            `pl-tag-size-${styleState.value.size}`,
+            `pl-tag-status-${styleComputed.value.status}`,
+            `pl-tag-shape-${styleComputed.value.shape}`,
+            `pl-tag-size-${styleComputed.value.size}`,
             {
                 'pl-tag-disabled': !!editComputed.value.disabled,
             },

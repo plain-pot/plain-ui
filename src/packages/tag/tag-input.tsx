@@ -38,11 +38,11 @@ export default defineComponent({
             inputValue: null as string | null,
         })
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const classes = computed(() => ([
             'pl-tag-input',
-            `pl-tag-input-status-${styleState.value.status}`,
+            `pl-tag-input-status-${styleComputed.value.status}`,
             {
                 'pl-tag-input-disabled': editComputed.value.disabled,
             },

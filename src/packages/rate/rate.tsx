@@ -42,7 +42,7 @@ export default defineComponent({
         })
 
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const mounted = useMounted()
 
@@ -50,8 +50,8 @@ export default defineComponent({
 
         const classes = computed(() => ([
             `pl-rate`,
-            `pl-rate-status-${styleState.value.status}`,
-            `pl-rate-size-${styleState.value.size}`,
+            `pl-rate-status-${styleComputed.value.status}`,
+            `pl-rate-size-${styleComputed.value.size}`,
             {
                 'pl-rate-disabled': editComputed.value.disabled,
             },

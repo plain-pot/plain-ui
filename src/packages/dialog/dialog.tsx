@@ -71,7 +71,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editState, editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const propsState = useProps(props, {
             height: FormatPropsType.number,
@@ -113,7 +113,7 @@ export default defineComponent({
 
         const bodyClasses = computed(() => [
             'pl-dialog-body',
-            `pl-dialog-body-shape-${styleState.value.shape}`,
+            `pl-dialog-body-shape-${styleComputed.value.shape}`,
         ])
 
         const hasHead = computed(() => {

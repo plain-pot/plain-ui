@@ -74,7 +74,7 @@ export default defineComponent({
             maxHeight: [FormatPropsType.number, FormatPropsType.function, FormatPropsType.promise],
         })
 
-        const styleState = useStyle({status: undefined})
+        const {styleComputed} = useStyle({status: undefined})
         const {editState, editComputed} = useEdit()
 
         const state = reactive({
@@ -150,10 +150,10 @@ export default defineComponent({
         /*---------------------------------------computer-------------------------------------------*/
 
         const classes = computed(() => ([
-            `pl-input-shape-${styleState.value.shape}`,
-            `pl-input-size-${styleState.value.size}`,
+            `pl-input-shape-${styleComputed.value.shape}`,
+            `pl-input-size-${styleComputed.value.size}`,
             {
-                [`pl-input-status-${styleState.value.status}`]: !!styleState.value.status,
+                [`pl-input-status-${styleComputed.value.status}`]: !!styleComputed.value.status,
                 'pl-input-block': props.block,
                 'pl-input-disabled': !!editComputed.value.disabled,
                 'pl-input-prefix-padding': !!props.prefixIcon,
@@ -259,7 +259,7 @@ export default defineComponent({
             methods,
             model,
             propsState,
-            styleState,
+            styleComputed,
             editState,
             editComputed,
             state,

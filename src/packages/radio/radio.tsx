@@ -35,7 +35,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const propsState = useProps(props, {
             width: FormatPropsType.number,
@@ -63,8 +63,8 @@ export default defineComponent({
 
         const classes = computed(() => [
             'pl-radio',
-            `pl-radio-status-${styleState.value.status}`,
-            `pl-radio-size-${styleState.value.size}`,
+            `pl-radio-status-${styleComputed.value.status}`,
+            `pl-radio-size-${styleComputed.value.size}`,
             {
                 'pl-radio-checked': isChecked.value,
                 'pl-radio-disabled': editComputed.value.disabled,

@@ -35,7 +35,7 @@ export default defineComponent({
             width: FormatPropsType.number,
         })
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const checkboxGroupProvider = inject(PLAIN_CHECKBOX_PROVIDER, null) as ({ propsState, utils, handler } | null)
 
@@ -56,8 +56,8 @@ export default defineComponent({
 
         const classes = computed(() => ([
             'pl-checkbox',
-            `pl-checkbox-status-${styleState.value.status}`,
-            `pl-checkbox-size-${styleState.value.size}`,
+            `pl-checkbox-status-${styleComputed.value.status}`,
+            `pl-checkbox-size-${styleComputed.value.size}`,
             {
                 'pl-checkbox-checked': isChecked.value,
                 'pl-checkbox-disabled': editComputed.value.disabled,

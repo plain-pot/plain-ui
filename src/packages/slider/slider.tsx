@@ -51,7 +51,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        const styleState = useStyle()
+        const {styleComputed} = useStyle()
 
         const model = useModel(() => props.value, emit.input)
         const start = useModel(() => props.start, emit.updateStart)
@@ -112,7 +112,7 @@ export default defineComponent({
             },
             `pl-slider-${!!props.vertical ? 'vertical' : 'horizontal'}`,
             `pl-slider-align-${!!props.alignEnd ? 'end' : 'start'}`,
-            `pl-slider-status-${!!editComputed.value.disabled ? 'info' : (styleState.value.status)}`,
+            `pl-slider-status-${!!editComputed.value.disabled ? 'info' : (styleComputed.value.status)}`,
         ]))
 
         const totalLength = computed(() => {

@@ -35,5 +35,7 @@ export function useStyle(defaultValue?: { shape?: string, size?: string, status?
 
     provide(StyleProvider, style)
 
-    return style
+    return {
+        styleComputed: style
+    }
 }
