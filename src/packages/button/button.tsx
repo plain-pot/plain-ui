@@ -1,9 +1,13 @@
 import {computed, defineComponent, inject, reactive, watch} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useProps, useStyle} from "@/util/use";
+
 import PlainUtils from '../../../submodules/plain-utils'
 import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
 import {BUTTON_GROUP_PROVIDER} from "@/packages/button/button-group";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {FormatPropsType, useProps} from "@/use/useProps";
 
 export default defineComponent({
     name: 'pl-button',

@@ -1,5 +1,7 @@
 import {computed, defineComponent, inject, provide} from "@vue/composition-api";
-import {EditProps, StyleProps, useEdit, useStyle} from "@/util/use";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {StyleProps, useStyle} from "@/use/useStyle";
+
 
 export const BUTTON_GROUP_PROVIDER = '@@BUTTON_GROUP_PROVIDER'
 

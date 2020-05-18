@@ -28,7 +28,8 @@
 </template>
 
 <script>
-    import {EmitFunc, useListener} from "../../../src/util/use";
+
+    import {EmitFunc, useListener} from "../../../src/use/useEvent";
 
     export default {
         name: "test-listener",

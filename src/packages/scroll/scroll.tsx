@@ -1,9 +1,13 @@
 import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {useRef} from "@/use/useRef";
+import {useRefer} from "@/use/useRefer";
+
 import {ResizeDetectorDirective} from "@/util/ResizeDetector";
-import {EmitFunc, useListener, useMounted, useRef, useRefer} from "@/util/use";
 import {PLAIN_POPPER_PROVIDER} from "@/packages/popper/popper";
 import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
+import {useMounted} from "@/use/useMounted";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',

@@ -1,5 +1,10 @@
 import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, ref, watch} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {FormatPropsType, useProps} from "@/use/useProps";
+import {useRef} from "@/use/useRef";
+
 import {$plain} from "@/packages/base";
 import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
 

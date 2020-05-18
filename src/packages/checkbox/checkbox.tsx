@@ -1,9 +1,14 @@
 import {computed, defineComponent, inject, onBeforeUnmount} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useStyle} from "@/util/use";
+
 import {PLAIN_CHECKBOX_PROVIDER} from "@/packages/checkbox/checkbox-group";
 import {$plain} from "@/packages/base";
 import ClickWave from "@/directives/click-wave";
 import {getKey, KEY} from "@/packages/keyboard";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {useModel} from "@/use/useModel";
+import {FormatPropsType, useProps} from "@/use/useProps";
 
 export default defineComponent({
     name: 'pl-checkbox',

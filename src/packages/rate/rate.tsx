@@ -1,6 +1,12 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {EditProps, EmitFunc, StyleProps, useEdit, useListener, useModel, useMounted, useRef, useStyle} from "@/util/use";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {useModel} from "@/use/useModel";
+import {useRef} from "@/use/useRef";
+
 import {$plain} from "@/packages/base";
+import {useMounted} from "@/use/useMounted";
 
 export default defineComponent({
     name: 'pl-rate',

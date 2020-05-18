@@ -1,5 +1,7 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {useRef, useRefer} from "@/util/use";
+import {useRef} from "@/use/useRef";
+import {useRefer} from "@/use/useRefer";
+
 import {$plain} from "@/packages/base";
 
 const optionKeys = [

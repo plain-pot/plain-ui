@@ -1,6 +1,11 @@
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import ClickWave from "@/directives/click-wave";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useStyle} from "@/util/use";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {FormatPropsType, useProps} from "@/use/useProps";
+import {useModel} from "@/use/useModel";
+
 import {PLAIN_RADIO_GROUP_PROVIDER} from "@/packages/radio/radio-group";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";

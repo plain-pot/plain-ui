@@ -1,5 +1,7 @@
 import {computed, defineComponent} from "@vue/composition-api";
-import {EditProps, EmitFunc, StyleProps, useEdit, useListener, useStyle} from "@/util/use";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {EmitFunc, useListener} from "@/use/useEvent";
 
 export default defineComponent({
     name: 'pl-tag',

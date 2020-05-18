@@ -1,6 +1,12 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
 import ClickWave from "@/directives/click-wave";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {StyleProps, useStyle} from "@/use/useStyle";
+import {EditProps, useEdit} from "@/use/useEdit";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {FormatPropsType, useProps} from "@/use/useProps";
+import {useModel} from "@/use/useModel";
+import {useRef} from "@/use/useRef";
+
 import {HTMLInputEvent} from "@/types/utils";
 import {getKey, KEY} from "@/packages/keyboard";
 

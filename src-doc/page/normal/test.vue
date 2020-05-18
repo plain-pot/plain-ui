@@ -1,6 +1,6 @@
 <script>
-    import {useRef} from "../../../src/util/use";
     import {onMounted} from "@vue/composition-api";
+    import {useRef} from "../../../src/use/useRef";
 
     export default {
         name: "test",

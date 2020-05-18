@@ -1,5 +1,7 @@
 import {computed, defineComponent, onBeforeUnmount, reactive, watch} from "@vue/composition-api";
-import {EmitFunc, useListener, useRef} from "@/util/use";
+import {EmitFunc, useListener} from "@/use/useEvent";
+import {useRef} from "@/use/useRef";
+
 import {$plain} from "@/packages/base";
 
 export default defineComponent({
