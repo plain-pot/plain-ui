@@ -142,7 +142,7 @@ export default defineComponent({
                 }
                 content = <div class="pl-dialog-service-item-message">{!!status && $plain.STATUS[status] && <pl-icon icon={$plain.STATUS[status].icon}/>}{option.message}</div>
             } else if (!!option.render) {
-                content = option.render()
+                content = option.render(context.parent!.$createElement)
             }
 
 
