@@ -217,11 +217,15 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void, 
  * @author  韦胜健
  * @date    2020/5/14 10:23
  */
-export function useRef<T = HTMLElement>(name?: string, context?: SetupContext): { value: T } {
+export function useRef<T = HTMLElement>(name?: string, context?: SetupContext): Readonly<{ value: T }> {
 
-    if (!!name && !!context) {
-        // @ts-ignore
-        return computed(() => context.refs[name])
+    if (!!name) {
+        return {
+            // @ts-ignore
+            get value() {
+                return context!.refs[name!]
+            },
+        }
     } else {
         // @ts-ignore
         return ref(null)
