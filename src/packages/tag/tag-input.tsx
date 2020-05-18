@@ -23,7 +23,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const input = useRef<any>()
+        const input = useRef<any>('input', context)
 
         const {emit} = useListener(context, {
             input: EmitFunc,
@@ -53,7 +53,7 @@ export default defineComponent({
 
         const handler = {
             clickWindow: (e: MouseEvent) => {
-                if (!input.value.input.contains(e.target as Node)) {
+                if (!input.value.input.value.contains(e.target as Node)) {
                     state.isEditing = false
                     window.removeEventListener('click', handler.clickWindow, true)
                 }
@@ -126,7 +126,7 @@ export default defineComponent({
                 {!props.noInput && (
                     <pl-input value={state.inputValue}
                               onInput={handler.input}
-                              refer={input}
+                              ref="input"
                               key={state.isEditing ? 1 : 2}
                               onKeydown={handler.keydown}>
                         {!state.isEditing ? (

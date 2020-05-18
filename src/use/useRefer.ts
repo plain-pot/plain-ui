@@ -1,17 +1,23 @@
 import {SetupContext} from "@vue/composition-api";
+import {$plain} from "@/packages/base";
+
+const map = new WeakMap()
+
+export function getCtx(context: SetupContext): SetupContext['root'] {
+    let ctx = map.get(context)
+    if (!!ctx) {
+        return ctx
+    } else {
+        const {attrs, parent} = context
+        if (!parent) {
+            console.log(context)
+            throw new Error('parent not exist!')
+        }
+        return $plain.utils.findOne(parent.$children, child => child.$attrs === attrs)
+    }
+}
 
 export function useRefer(context: SetupContext, ref: any): void {
-
-    // @ts-ignore
-    const refer: ((ref: any) => void) | { value: any } | undefined = context.attrs.refer
-
-    if (!refer) {
-        return
-    }
-
-    if (typeof refer === "function") {
-        refer(ref)
-    } else if (typeof refer === "object") {
-        refer.value = ref
-    }
+    const ctx = getCtx(context)
+    Object.assign(ctx, ref)
 }
