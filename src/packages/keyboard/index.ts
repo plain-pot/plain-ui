@@ -149,7 +149,57 @@ export function getKey(e: KeyboardEvent): KEY | null {
     }
 }
 
+export class KeyboardServiceOption {
+    [key: string]: (e?: KeyboardEvent) => (void | undefined | boolean)
+}
+
+export const KeyboardService = {
+    options: [] as KeyboardServiceOption[],
+    /*订阅点击事件*/
+    listen(option: KeyboardServiceOption) {
+        if (!option) return
+        this.options.push(option)
+    },
+    /*取消订阅事件*/
+    unbindListener(option: KeyboardServiceOption) {
+        let index = this.options.indexOf(option)
+        if (index > -1) {
+            this.options.splice(index, 1)
+        }
+    },
+    /*取消当前激活的元素*/
+    cancelActiveElement() {
+        const activeElement = document.activeElement as HTMLElement
+        if (!!activeElement) activeElement.blur()
+        return activeElement
+    },
+    /*处理window的点击事件*/
+    _onkeydown(e) {
+        if (e.currentTarget !== e.target) return
+        const names = [] as string[];
+        e.ctrlKey && names.push('ctrl')
+        e.shiftKey && names.push('shift')
+        e.altKey && names.push('alt')
+        names.push(KeyBoardMap[e.keyCode])
+        const compositionKeyName = names.join('+')
+
+        const option = this.options[this.options.length - 1]
+        if (!!option && !!option[compositionKeyName]) {
+            const flag = option[compositionKeyName](e)
+            /*默认阻止事件冒泡*/
+            if (flag !== false) {
+                e.stopPropagation()
+                e.preventDefault()
+            }
+        }
+    },
+}
+
+document.body.addEventListener('keydown', e => KeyboardService._onkeydown(e))
+
 export default {
     install(Vue) {
+        let $plain = Vue.prototype.$plain;
+        $plain.$keyboard = KeyboardService
     },
 }

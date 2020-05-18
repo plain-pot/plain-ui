@@ -79,7 +79,7 @@ export function emitName2ListenName(emitName) {
     return PlainUtils.kebabCase(emitName).replace('update-', 'update:')
 }
 
-export const EmitFunc: ((data) => void) = (() => null)
+export const EmitFunc: ((data?) => void) = (() => null)
 
 export function useEmit<T extends { [key: string]: Function }>(context: SetupContext, option: T): T {
     // @ts-ignore

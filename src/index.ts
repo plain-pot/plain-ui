@@ -18,6 +18,7 @@ import tag from './packages/tag'
 import rate from './packages/rate'
 import scroll from './packages/scroll'
 import portal from './packages/portal'
+import dialog from './packages/dialog'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -25,7 +26,7 @@ const plugins = [
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate,
     collapse, list, grid, scroll, portal,
-    message, notice,
+    message, notice, dialog,
 ]
 
 const install: PluginType['install'] = Vue => {
@@ -36,7 +37,7 @@ export {
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate,
     collapse, list, grid, scroll, portal,
-    message, notice,
+    message, notice, dialog,
 
     install,
 }

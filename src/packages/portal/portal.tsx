@@ -22,7 +22,7 @@ export default defineComponent({
 
         const state = reactive({
             contentEl: null as null | HTMLElement,                      // content节点
-            parentNode: null as null | HTMLElement,                     // pl-dom 在 mounted 的时候的父节点
+            parentNode: null as null | HTMLElement,                     // pl-portal 在 mounted 的时候的父节点
             containerNode: null as null | HTMLElement,                  // 移动内容所挂载的父节点
             commentNode: document.createComment('pl-portal'),     // 注释节点，用来在 parentNode 中替代 childNode
             isMoved: false,                                             // 标志位，判断当前是否已经移动到containerNode下
@@ -98,8 +98,8 @@ export default defineComponent({
         })
 
         return () => (
-            <span class="pl-dom" ref="el">
-                <span ref="content" class={['pl-dom-content', props.contentClass]} style={props.contentStyle} onClick={emit.clickContent}>
+            <span class="pl-portal" ref="el">
+                <span ref="content" class={['pl-portal-content', props.contentClass]} style={props.contentStyle} onClick={emit.clickContent}>
                     {!!context.slots.default && context.slots.default()}
                 </span>
             </span>

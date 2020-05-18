@@ -1,10 +1,13 @@
-import {defineComponent, reactive} from "@vue/composition-api";
-import {EmitFunc, FormatPropsType, StyleProps, useEmit, useProps, useRef} from "@/util/use";
+import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, ref, watch} from "@vue/composition-api";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {$plain} from "@/packages/base";
+import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
 
 export default defineComponent({
     name: 'pl-dialog',
     props: {
         ...StyleProps,
+        ...EditProps,
 
         value: {type: Boolean},                                                 // model绑定是否打开对话框
 
@@ -29,7 +32,7 @@ export default defineComponent({
         serviceClass: {type: String},                                           // 对话框服务内容自定义类名
         cancelOnClickMask: {type: Boolean, default: true},                       // 是否在点击遮罩的时候关闭对话框
         showClose: {type: Boolean, default: true},                              // 是否展示关闭按钮
-        beforeClose: {type: Boolean},                                           // 关闭之前的回调
+        beforeClose: {type: Function},                                           // 关闭之前的回调
         center: {type: Boolean},                                                // 是否纵向居中对其
         destroyOnClose: {type: Boolean, default: true},                         // 关闭的时候是否销毁内容
 
@@ -60,6 +63,9 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
+        const {editState, editComputed} = useEdit(props)
+        const styleState = useStyle(props)
+
         const propsState = useProps(props, {
             height: FormatPropsType.number,
             width: FormatPropsType.number,
@@ -73,14 +79,209 @@ export default defineComponent({
 
         const state = reactive({
             zIndex: 0,
-            loading: false,
+            isMoved: false,
         })
 
+        const model = ref(false)
 
-        return () => (
-            <div>
+        /*---------------------------------------computer-------------------------------------------*/
 
-            </div>
-        )
+        const wrapperStyles = computed(() => ({
+            alignItems: props.center ? null : `flex-${props.vertical}`.replace('flex-center', 'center'),
+            justifyContent: `flex-${props.horizontal}`.replace('flex-center', 'center'),
+            zIndex: state.zIndex,
+            padding: !!props.center ? null : props.wrapperPadding,
+        }))
+
+        const wrapperClasses = computed(() => ({
+            [props.transition]: true,
+            ['pl-dialog-wrapper']: true,
+            [props.dialogClass!]: !!props.dialogClass,
+            [props.serviceClass!]: !!props.serviceClass,
+            'pl-dialog-fullscreen': props.fullscreen,
+            'pl-dialog-no-mask': !props.mask,
+            'pl-dialog-vertical-center': props.center,
+            'pl-dialog-no-content-padding': !props.contentPadding,
+        }))
+
+        const bodyClasses = computed(() => [
+            'pl-dialog-body',
+            `pl-dialog-body-shape-${styleState.value.shape}`,
+        ])
+
+        const hasHead = computed(() => {
+            return props.showHead
+        })
+        const hasFoot = computed(() => {
+            return context.slots.foot || props.confirmButton || props.cancelButton
+        })
+
+        const contentStyle = computed(() => {
+            let height = props.fullHeight ? `calc(100vh - ${(!!hasHead.value ? 40 : 0) + (!!hasFoot.value ? 60 : 0)}px)` : propsState.height
+            let width = props.fullWidth ? '100vw' : propsState.width
+
+            let minHeight = propsState.minHeight != null ? propsState.minHeight : height != null ? null : '15vh'
+            let minWidth = propsState.minWidth != null ? propsState.minWidth : width != null ? null : '25vw'
+            let maxHeight = propsState.maxHeight != null ? propsState.maxHeight : height != null ? null : '80vh'
+            let maxWidth = propsState.maxWidth != null ? propsState.maxWidth : width != null ? null : '60vw'
+
+            return {
+                height: $plain.utils.suffixPx(height),
+                width: $plain.utils.suffixPx(width),
+                minHeight: $plain.utils.suffixPx(minHeight),
+                minWidth: $plain.utils.suffixPx(minWidth),
+                maxHeight: $plain.utils.suffixPx(maxHeight),
+                maxWidth: $plain.utils.suffixPx(maxWidth),
+            }
+        })
+
+        /*---------------------------------------handler-------------------------------------------*/
+
+        const handler = {
+            keyboardEventOption: {
+                "enter": () => {
+                    if (editComputed.value.loading) return
+                    if (!!props.confirmOnEnter) {
+                        methods.confirm()
+                    }
+                },
+                "esc": () => {
+                    if (editComputed.value.loading) return
+                    if (!!props.cancelOnEsc) {
+                        methods.cancel()
+                    }
+                }
+            } as KeyboardServiceOption,
+            clickWrapper: (e: MouseEvent) => {
+                if (editComputed.value.loading) {
+                    return
+                }
+                if (!!props.cancelOnClickMask) {
+                    if (!!body.value && !body.value.contains(e.target as HTMLElement)) {
+                        methods.cancel()
+                    }
+                }
+            },
+            clickClose: () => {
+                if (editComputed.value.loading) {
+                    return
+                }
+                methods.cancel()
+            }
+        }
+
+        /*---------------------------------------methods-------------------------------------------*/
+
+        const methods = {
+            show: async () => {
+                if (!!model.value) return
+                if (!state.isMoved) {
+                    state.isMoved = true
+                    await $plain.nextTick()
+                }
+                KeyboardService.listen(handler.keyboardEventOption)
+                KeyboardService.cancelActiveElement()
+
+                state.zIndex = $plain.nextIndex()
+                await methods.open()
+            },
+            async hide() {
+                if (!model.value) return
+                KeyboardService.unbindListener(handler.keyboardEventOption)
+
+                await this.close()
+            },
+            confirm() {
+                if (props.disabledConfirm) {
+                    return
+                }
+                if (props.closeOnConfirm) {
+                    methods.hide()
+                }
+                emit.confirm()
+            },
+            cancel() {
+                if (props.disabledCancel) {
+                    return
+                }
+                if (props.closeOnCancel) {
+                    methods.hide()
+                }
+                emit.cancel()
+            },
+            open() {
+                model.value = true
+                emit.input(model.value)
+            },
+            async close() {
+                try {
+                    if (!!props.beforeClose) {
+                        editState.loading = true
+                        let flag = await props.beforeClose()
+                        if (flag === false) return
+                    }
+                    model.value = false
+                    emit.input(model.value)
+                } catch (e) {
+                    console.error(e)
+                } finally {
+                    editState.loading = null
+                }
+            },
+        }
+
+        /*---------------------------------------watch-------------------------------------------*/
+
+        watch(() => props.value, (val) => {
+            if (val) {
+                methods.show()
+            } else {
+                methods.hide()
+            }
+        }, {lazy: true})
+
+        /*---------------------------------------lifecycle-------------------------------------------*/
+
+        onMounted(() => {
+            if (!!props.value) {
+                methods.show()
+            }
+        })
+
+        onBeforeUnmount(() => {
+            KeyboardService.unbindListener(handler.keyboardEventOption)
+        })
+
+        return () => {
+            const directives = props.destroyOnClose ? [] : [{name: 'show', value: model.value,}]
+
+            return (
+                <pl-portal class="pl-dialog"
+                           container=".pl-dialog-container"
+                           autoCreateContainer
+                           value={state.isMoved}>
+                    <transition name={props.transition}>
+                        {(!props.destroyOnClose ? true : model.value) && <div onClick={handler.clickWrapper} style={wrapperStyles.value} class={wrapperClasses.value} {...{directives}}>
+                            <div class={bodyClasses.value} ref="body">
+                                {hasHead.value && <div class="pl-dialog-head">
+                                    {!!context.slots.head ? context.slots.head() : <span>{propsState.title}</span>}
+                                    {!!props.showClose && <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" onClick={handler.clickClose}/>}
+                                </div>}
+                                <div class="pl-dialog-content" style={contentStyle.value}>
+                                    {context.slots.default && context.slots.default()}
+                                </div>
+                                {hasFoot.value && <div class="pl-dialog-foot">
+                                    {!!context.slots.foot ? context.slots.foot() : null}
+
+                                    {!!props.cancelButton && <pl-button label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
+                                    {!!props.confirmButton && <pl-button label={props.confirmButtonText} onClick={methods.confirm}/>}
+                                </div>}
+                                <pl-loading-mask value={editComputed.value.loading}/>
+                            </div>
+                        </div>}
+                    </transition>
+                </pl-portal>
+            )
+        }
     },
 })
