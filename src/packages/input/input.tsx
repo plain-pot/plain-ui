@@ -74,7 +74,7 @@ export default defineComponent({
             maxHeight: [FormatPropsType.number, FormatPropsType.function, FormatPropsType.promise],
         })
 
-        const styleState = useStyle(props, {status: undefined})
+        const styleState = useStyle({status: undefined})
         const {editState, editComputed} = useEdit()
 
         const state = reactive({

@@ -35,7 +35,7 @@ export default defineComponent({
             width: FormatPropsType.number,
         })
         const {editComputed} = useEdit()
-        const styleState = useStyle(props)
+        const styleState = useStyle()
 
         const checkboxGroupProvider = inject(PLAIN_CHECKBOX_PROVIDER, null) as ({ propsState, utils, handler } | null)
 

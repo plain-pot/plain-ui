@@ -19,7 +19,7 @@ export default defineComponent({
     setup(props, context) {
 
         useEdit()
-        useStyle(props)
+        useStyle()
 
         /*---------------------------------------emit-------------------------------------------*/
         const {emit} = useListener(context, {

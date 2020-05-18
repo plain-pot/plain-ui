@@ -44,7 +44,7 @@ export default defineComponent({
 
         const model = useModel(() => props.value, emit.input, false)
 
-        useStyle(props, {status: undefined})
+        useStyle({status: undefined})
         const {editComputed} = useEdit()
 
         const state = reactive({

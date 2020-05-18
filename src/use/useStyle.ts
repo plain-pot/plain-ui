@@ -1,4 +1,4 @@
-import {computed, inject, provide} from "@vue/composition-api";
+import {computed, inject, provide, getCurrentInstance} from "@vue/composition-api";
 
 /**
  * 生成styleComputed对象，用于继承父组件的style属性；
@@ -13,14 +13,16 @@ export const StyleProps = {
     status: {type: String},                     // primary,success,error,warn,info
 }
 
-export function useStyle(props: any, defaultValue?: { shape?: string, size?: string, status?: string }) {
+export function useStyle(defaultValue?: { shape?: string, size?: string, status?: string }) {
+
+    const ctx = getCurrentInstance()!
 
     const parent = inject(StyleProvider, null)
     defaultValue = Object.assign({shape: 'fillet', size: 'normal', status: 'primary',}, defaultValue || {})
 
     const style = computed(() => {
         // 这句代码不可以放在外边，会导致变成非响应式属性
-        const {shape, size, status} = props
+        const {shape, size, status} = ctx.$props
         // @ts-ignore
         const parentStyler = !!parent ? parent.value : <any>{}
 

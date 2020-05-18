@@ -35,7 +35,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        const styleState = useStyle(props)
+        const styleState = useStyle()
 
         const propsState = useProps(props, {
             width: FormatPropsType.number,

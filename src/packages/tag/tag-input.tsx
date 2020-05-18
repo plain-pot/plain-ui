@@ -38,7 +38,7 @@ export default defineComponent({
             inputValue: null as string | null,
         })
         const {editComputed} = useEdit()
-        const styleState = useStyle(props)
+        const styleState = useStyle()
 
         const classes = computed(() => ([
             'pl-tag-input',

@@ -32,7 +32,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        useStyle(props)
+        useStyle()
 
         const propsState = useProps(props, {
             min: FormatPropsType.number,

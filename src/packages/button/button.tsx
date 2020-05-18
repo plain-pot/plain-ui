@@ -39,7 +39,7 @@ export default defineComponent({
             label: FormatPropsType.promise,
         })
 
-        const styleComputed = useStyle(props)
+        const styleComputed = useStyle()
 
         const {editState, editComputed} = useEdit()
 

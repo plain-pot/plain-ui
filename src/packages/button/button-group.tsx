@@ -16,7 +16,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const styleComputed = useStyle(props)
+        const styleComputed = useStyle()
 
         const {editComputed} = useEdit()
 
