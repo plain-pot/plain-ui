@@ -1,5 +1,5 @@
-import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRef, useRefer, useStyle} from "@/util/use";
+import {computed, defineComponent, reactive, ref, watch} from '@vue/composition-api'
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRefer, useStyle} from "@/util/use";
 import {HTMLInputEvent, StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
@@ -39,8 +39,8 @@ export default defineComponent({
 
         /*---------------------------------------ref-------------------------------------------*/
 
-        const input = useRef('input', context)
-        const hiddenInput = useRef('hiddenInput', context)
+        const input = ref<HTMLInputElement>(null)
+        const hiddenInput = ref<HTMLTextAreaElement>(null)
 
         /*---------------------------------------emitter-------------------------------------------*/
 
@@ -203,7 +203,7 @@ export default defineComponent({
                     }
                 },
             },
-            ref: 'input',
+            ref: input,
         }))
 
 
@@ -274,7 +274,7 @@ export default defineComponent({
                 return (
                     <div class={['pl-textarea', classes.value]}>
                         <textarea class="pl-textarea-inner" {...ppp}></textarea>
-                        <textarea class="pl-textarea-inner pl-textarea-hidden" ref="hiddenInput" value={model.value}></textarea>
+                        <textarea class="pl-textarea-inner pl-textarea-hidden" ref={hiddenInput} value={model.value}></textarea>
                     </div>
                 )
             } else {
