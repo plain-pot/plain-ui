@@ -112,10 +112,10 @@ export function useListener<T extends { [key: string]: Function }>(context: Setu
 
         /*执行监听函数*/
         function callListener(key, args) {
-            if (onListeners.value[key].length > 0) {
+            if (!!onListeners.value[key] && onListeners.value[key].length > 0) {
                 onListeners.value[key].forEach(listener => listener(...args))
             }
-            if (onceListeners.value[key].length > 0) {
+            if (!!onceListeners.value[key] && onceListeners.value[key].length > 0) {
                 onceListeners.value[key].forEach(listener => listener(...args))
                 onceListeners.value[key].splice(0, onceListeners.value[key].length)
             }
