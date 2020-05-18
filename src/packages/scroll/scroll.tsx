@@ -1,6 +1,6 @@
 import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
 import {ResizeDetectorDirective} from "@/util/ResizeDetector";
-import {EmitFunc, useEmit, useMounted, useRef, useRefer} from "@/util/use";
+import {EmitFunc, useListener, useMounted, useRef, useRefer} from "@/util/use";
 import {PLAIN_POPPER_PROVIDER} from "@/packages/popper/popper";
 import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
@@ -30,7 +30,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             scroll: EmitFunc,
             verticalScrollTop: EmitFunc,
             verticalScrollBottom: EmitFunc,

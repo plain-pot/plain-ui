@@ -1,6 +1,6 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
 import ClickWave from "@/directives/click-wave";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRef, useStyle} from "@/util/use";
 import {HTMLInputEvent} from "@/types/utils";
 import {getKey, KEY} from "@/packages/keyboard";
 
@@ -33,7 +33,7 @@ export default defineComponent({
 
         /*---------------------------------------emit-------------------------------------------*/
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             focus: EmitFunc,
             blur: EmitFunc,
             input: EmitFunc,

@@ -1,5 +1,5 @@
 import {computed, defineComponent, inject, onBeforeUnmount} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useStyle} from "@/util/use";
 import {PLAIN_CHECKBOX_PROVIDER} from "@/packages/checkbox/checkbox-group";
 import {$plain} from "@/packages/base";
 import ClickWave from "@/directives/click-wave";
@@ -23,7 +23,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const emit = useEmit(context, {input: EmitFunc,})
+        const {emit} = useListener(context, {input: EmitFunc,})
         const model = useModel(() => props.value, emit.input)
         const propsState = useProps(props, {
             label: FormatPropsType.promise,

@@ -1,6 +1,6 @@
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import ClickWave from "@/directives/click-wave";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useStyle} from "@/util/use";
 import {PLAIN_RADIO_GROUP_PROVIDER} from "@/packages/radio/radio-group";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
@@ -23,7 +23,7 @@ export default defineComponent({
     setup(props, context) {
 
         /*---------------------------------------emitter-------------------------------------------*/
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             input: EmitFunc,
         })
 

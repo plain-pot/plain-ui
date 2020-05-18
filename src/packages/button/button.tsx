@@ -1,5 +1,5 @@
 import {computed, defineComponent, inject, reactive, watch} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useProps, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useProps, useStyle} from "@/util/use";
 import PlainUtils from '../../../submodules/plain-utils'
 import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
@@ -83,7 +83,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             click: EmitFunc,
             focus: EmitFunc,
         })

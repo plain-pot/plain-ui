@@ -1,5 +1,5 @@
 import {computed, defineComponent, onBeforeUnmount, reactive, watch} from "@vue/composition-api";
-import {EmitFunc, useEmit, useRef} from "@/util/use";
+import {EmitFunc, useListener, useRef} from "@/util/use";
 import {$plain} from "@/packages/base";
 
 export default defineComponent({
@@ -16,7 +16,7 @@ export default defineComponent({
         const content = useRef('content', context)
         const el = useRef('el', context)
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             clickContent: EmitFunc,
         })
 

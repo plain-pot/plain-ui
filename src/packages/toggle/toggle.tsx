@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {EditProps, EmitFunc, StyleProps, useEdit, useEmit, useModel, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, StyleProps, useEdit, useListener, useModel, useStyle} from "@/util/use";
 import {getKey, KEY} from "@/packages/keyboard";
 import ClickWave from "@/directives/click-wave";
 
@@ -16,7 +16,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             input: EmitFunc,
             mouseup: EmitFunc,
             mousedown: EmitFunc,

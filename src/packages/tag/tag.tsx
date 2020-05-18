@@ -1,5 +1,5 @@
 import {computed, defineComponent} from "@vue/composition-api";
-import {EditProps, EmitFunc, StyleProps, useEdit, useEmit, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, StyleProps, useEdit, useListener, useStyle} from "@/util/use";
 
 export default defineComponent({
     name: 'pl-tag',
@@ -12,7 +12,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             click: EmitFunc,
             close: EmitFunc,
         })

@@ -1,6 +1,6 @@
 export default [
-    {name:'简介'},
-    {name:'快速上手'},
+    {name: '简介'},
+    {name: '快速上手'},
     {
         name: '基础', children: [
             // {name: 'Color', title: '颜色', icon: 'pl-color', page: '/normal/color', complete: false},
@@ -113,6 +113,7 @@ export default [
             {name: 'Svg', title: '测试svg', icon: 'pl-table-solid', page: '/test/test-svg', complete: false},
             {name: 'Canvas', title: '测试canvas', icon: 'pl-table-solid', page: '/test/test-canvas', complete: false},
             {name: 'High', title: '测试高阶组件', icon: 'pl-table-solid', page: '/test/test-high', complete: false},
+            {name: 'Listener', title: '测试事件', icon: 'pl-table-solid', page: '/test/test-listener', complete: false},
         ]
     },
 ]

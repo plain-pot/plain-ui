@@ -1,5 +1,5 @@
 import {defineComponent, provide} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useStyle} from "@/util/use";
 
 export const PLAIN_RADIO_GROUP_PROVIDER = '@@PLAIN_RADIO_GROUP_PROVIDER'
 
@@ -18,7 +18,7 @@ export default defineComponent({
         useStyle(props)
 
         /*---------------------------------------emit-------------------------------------------*/
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             input: EmitFunc,
         })
 

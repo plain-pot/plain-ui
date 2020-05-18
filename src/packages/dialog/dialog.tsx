@@ -1,5 +1,5 @@
 import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, ref, watch} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRef, useStyle} from "@/util/use";
 import {$plain} from "@/packages/base";
 import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
 
@@ -55,7 +55,7 @@ export default defineComponent({
 
         const body = useRef('body', context)
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             input: EmitFunc,
             confirm: EmitFunc,
             cancel: EmitFunc,

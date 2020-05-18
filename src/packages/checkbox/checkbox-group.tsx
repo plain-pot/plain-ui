@@ -1,5 +1,5 @@
 import {computed, defineComponent, provide, reactive, Ref} from "@vue/composition-api";
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useStyle} from "@/util/use";
 import {PLAIN_CHECK_STATUS} from "@/util/constant";
 import {$plain} from "@/packages/base";
 
@@ -20,7 +20,7 @@ export default defineComponent({
     setup(props, context) {
 
         /*---------------------------------------emitter-------------------------------------------*/
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             input: EmitFunc,
         })
 

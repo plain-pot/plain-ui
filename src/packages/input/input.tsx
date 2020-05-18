@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
-import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useEmit, useModel, useProps, useRef, useRefer, useStyle} from "@/util/use";
+import {EditProps, EmitFunc, FormatPropsType, StyleProps, useEdit, useListener, useModel, useProps, useRef, useRefer, useStyle} from "@/util/use";
 import {HTMLInputEvent, StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
@@ -44,7 +44,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const emit = useEmit(context, {
+        const {emit} = useListener(context, {
             input: EmitFunc,
             focus: EmitFunc,
             blur: EmitFunc,
