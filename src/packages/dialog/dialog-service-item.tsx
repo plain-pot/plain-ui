@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {useRef} from "@/use/useRef";
+import {useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
 
 import {$plain} from "@/packages/base";
@@ -19,7 +19,7 @@ export default defineComponent({
     name: 'pl-dialog-service-item',
     setup(props, context) {
 
-        const input = useRef<any>('input', context)
+        const input = useRefs<any>('input', context)
 
         const state = reactive({
             show: false,

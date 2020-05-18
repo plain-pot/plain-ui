@@ -1,11 +1,11 @@
 <script>
     import {onMounted} from "@vue/composition-api";
-    import {useRef} from "../../../src/use/useRef";
+    import {useRefs} from "../../../src/use/useRefs";
 
     export default {
         name: "test",
         setup(props, context) {
-            const input = useRef()
+            const input = useRefs()
 
             onMounted(() => {
                 console.log(input.value)

@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {useRef} from "@/use/useRef";
+import {useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {getKey, KEY} from "@/packages/keyboard";
@@ -23,7 +23,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const input = useRef<any>('input', context)
+        const input = useRefs<any>('input', context)
 
         const {emit} = useListener(context, {
             input: EmitFunc,

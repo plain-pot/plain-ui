@@ -1,6 +1,6 @@
 import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
 import {EmitFunc, useListener} from "@/use/useEvent";
-import {useRef} from "@/use/useRef";
+import {useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
 
 import {ResizeDetectorDirective} from "@/util/ResizeDetector";
@@ -43,9 +43,9 @@ export default defineComponent({
 
         /*---------------------------------------ref-------------------------------------------*/
 
-        const host = useRef('host', context)
-        const wrapper = useRef('wrapper', context)
-        const content = useRef('content', context)
+        const host = useRefs('host', context)
+        const wrapper = useRefs('wrapper', context)
+        const content = useRefs('content', context)
 
         /*---------------------------------------state-------------------------------------------*/
 

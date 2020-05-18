@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {useRef} from "@/use/useRef";
+import {useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {useMounted} from "@/use/useMounted";
@@ -24,7 +24,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const el = useRef('el', context)
+        const el = useRefs('el', context)
 
         const {emit} = useListener(context, {
             input: EmitFunc,

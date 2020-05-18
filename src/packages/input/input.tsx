@@ -9,7 +9,7 @@ import {useRefer} from "@/use/useRefer";
 import {HTMLInputEvent, StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
-import {useRef} from "@/use/useRef";
+import {useRefs} from "@/use/useRefs";
 
 export default defineComponent({
     name: 'pl-input',
@@ -46,8 +46,8 @@ export default defineComponent({
 
         /*---------------------------------------ref-------------------------------------------*/
 
-        const input = useRef('input', context)
-        const hiddenInput = useRef('hiddenInput', context)
+        const input = useRefs('input', context)
+        const hiddenInput = useRefs('hiddenInput', context)
 
         /*---------------------------------------emitter-------------------------------------------*/
 

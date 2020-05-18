@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
-import {useRef} from "@/use/useRef";
+import {useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
@@ -58,7 +58,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const body = useRef('body', context)
+        const body = useRefs('body', context)
 
         const {emit} = useListener(context, {
             input: EmitFunc,
