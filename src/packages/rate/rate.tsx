@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {useRefs} from "@/use/useRefs";
+import {ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {useMounted} from "@/use/useMounted";
@@ -24,7 +24,9 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const el = useRefs('el', context)
+        const refs = useRefs({
+            el: ElRef,
+        })
 
         const {emit} = useListener(context, {
             input: EmitFunc,
@@ -71,12 +73,12 @@ export default defineComponent({
 
         const totalWidth = computed(() => {
             if (!mounted.value) return 0
-            if (!state.totalWidth) state.totalWidth = el.value.offsetWidth
+            if (!state.totalWidth) state.totalWidth = refs.el.offsetWidth
             return state.totalWidth
         })
 
         const elLeft = computed(() => {
-            if (!state.elLeft) state.elLeft = el.value.getBoundingClientRect().left
+            if (!state.elLeft) state.elLeft = refs.el.getBoundingClientRect().left
             return state.elLeft
         })
 

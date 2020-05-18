@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
-import {useRefs} from "@/use/useRefs";
+import {ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
@@ -58,7 +58,9 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const body = useRefs('body', context)
+        const refs = useRefs({
+            body: ElRef
+        })
 
         const {emit} = useListener(context, {
             input: EmitFunc,
@@ -162,7 +164,7 @@ export default defineComponent({
                     return
                 }
                 if (!!props.cancelOnClickMask) {
-                    if (!!body.value && !body.value.contains(e.target as HTMLElement)) {
+                    if (!!refs.body && !refs.body.contains(e.target as HTMLElement)) {
                         methods.cancel()
                     }
                 }

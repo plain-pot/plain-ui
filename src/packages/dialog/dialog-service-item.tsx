@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {useRefs} from "@/use/useRefs";
+import {CompRef, useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
 
 import {$plain} from "@/packages/base";
@@ -19,7 +19,9 @@ export default defineComponent({
     name: 'pl-dialog-service-item',
     setup(props, context) {
 
-        const input = useRefs<any>('input', context)
+        const refs = useRefs({
+            input: CompRef,
+        })
 
         const state = reactive({
             show: false,
@@ -94,7 +96,7 @@ export default defineComponent({
                     await $plain.utils.delay(0)
                     if (!!targetOption.value.option.editType) {
                         state.editValue = targetOption.value.option.editValue
-                        input.value.methods.focus()
+                        refs.input.methods.focus()
                     }
                 })
 
@@ -105,11 +107,10 @@ export default defineComponent({
             },
         }
 
-        useRefer(context, {
+        useRefer({
             methods,
             targetOption,
             state,
-            input,
         })
 
         return () => {

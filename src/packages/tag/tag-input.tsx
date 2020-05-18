@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {useRefs} from "@/use/useRefs";
+import {CompRef, ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {getKey, KEY} from "@/packages/keyboard";
@@ -23,7 +23,9 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const input = useRefs<any>('input', context)
+        const refs = useRefs({
+            input: CompRef,
+        })
 
         const {emit} = useListener(context, {
             input: EmitFunc,
@@ -53,7 +55,7 @@ export default defineComponent({
 
         const handler = {
             clickWindow: (e: MouseEvent) => {
-                if (!input.value.input.value.contains(e.target as Node)) {
+                if (!refs.input.$refs.input.contains(e.target as Node)) {
                     state.isEditing = false
                     window.removeEventListener('click', handler.clickWindow, true)
                 }
@@ -64,7 +66,7 @@ export default defineComponent({
                 }
                 state.isEditing = true
                 await $plain.nextTick()
-                input.value.methods.focus()
+                refs.input.methods.focus()
 
                 // 点击其他元素的时候关闭输入状态
                 await $plain.utils.delay(0)

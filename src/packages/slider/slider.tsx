@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {useRefs} from "@/use/useRefs";
+import {ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {useMounted} from "@/use/useMounted";
@@ -36,7 +36,9 @@ export default defineComponent({
 
         /*---------------------------------------refs-------------------------------------------*/
 
-        const el = useRefs('el', context)
+        const refs = useRefs({
+            el: ElRef,
+        })
 
         /*---------------------------------------emitter-------------------------------------------*/
 
@@ -115,7 +117,7 @@ export default defineComponent({
 
         const totalLength = computed(() => {
             if (!isMounted.value) return 0
-            if (state.totalLength == null) state.totalLength = el.value[!!props.vertical ? 'offsetHeight' : 'offsetWidth']
+            if (state.totalLength == null) state.totalLength = refs.el[!!props.vertical ? 'offsetHeight' : 'offsetWidth']
             return state.totalLength
         })
 

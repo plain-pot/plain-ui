@@ -1,6 +1,6 @@
 import {computed, defineComponent, onBeforeUnmount, reactive, watch} from "@vue/composition-api";
 import {EmitFunc, useListener} from "@/use/useEvent";
-import {useRefs} from "@/use/useRefs";
+import {ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 
@@ -15,8 +15,10 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const content = useRefs('content', context)
-        const el = useRefs('el', context)
+        const refs = useRefs({
+            content: ElRef,
+            el: ElRef,
+        })
 
         const {emit} = useListener(context, {
             clickContent: EmitFunc,
@@ -58,11 +60,11 @@ export default defineComponent({
                 if (val) {
                     if (!state.isMoved) {
                         // 当前没有移动
-                        state.contentEl = content.value
+                        state.contentEl = refs.content
                         state.containerNode = targetContainer.value as HTMLElement
 
                         // @ts-ignore
-                        el.value.replaceChild(state.commentNode, state.contentEl)
+                        refs.el.replaceChild(state.commentNode, state.contentEl)
                         state.containerNode.appendChild(state.contentEl)
 
                         state.isMoved = true
@@ -73,7 +75,7 @@ export default defineComponent({
                     if (!!state.isMoved) {
                         state.containerNode!.removeChild(state.contentEl!)
                         // @ts-ignore
-                        el.value.replaceChild(state.contentEl, state.commentNode)
+                        refs.el.replaceChild(state.contentEl, state.commentNode)
 
                         state.contentEl = null
                         state.containerNode = null

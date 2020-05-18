@@ -9,7 +9,7 @@ import {useRefer} from "@/use/useRefer";
 import {HTMLInputEvent, StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
-import {useRefs} from "@/use/useRefs";
+import {CompRef, ElRef, useRefs} from "@/use/useRefs";
 
 export default defineComponent({
     name: 'pl-input',
@@ -46,8 +46,10 @@ export default defineComponent({
 
         /*---------------------------------------ref-------------------------------------------*/
 
-        const input = useRefs('input', context)
-        const hiddenInput = useRefs('hiddenInput', context)
+        const refs = useRefs({
+            input: CompRef,
+            hiddenInput: ElRef,
+        })
 
         /*---------------------------------------emitter-------------------------------------------*/
 
@@ -221,19 +223,19 @@ export default defineComponent({
                 model.value = undefined
             },
             focus: () => {
-                if (!!input.value && !!input.value.focus) {
-                    input.value.focus()
+                if (!!refs.input && !!refs.input.focus) {
+                    refs.input.focus()
                 }
             },
             blur: () => {
-                if (!!input.value && !!input.value.blur) {
-                    input.value.blur()
+                if (!!refs.input && !!refs.input.blur) {
+                    refs.input.blur()
                 }
             },
             /*重置文本域高度*/
             resetTextAreaHeight: PlainUtils.throttle(() => {
                 if (!!props.autoHeight && !!props.textarea) {
-                    setTimeout(() => state.autoHeight = hiddenInput.value!.scrollHeight + 12, 0)
+                    setTimeout(() => state.autoHeight = refs.hiddenInput!.scrollHeight + 12, 0)
                 }
             }, 300),
         }
@@ -253,11 +255,9 @@ export default defineComponent({
             state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val, {trailing: true})
         })
 
-        useRefer(context, {
+        useRefer({
             methods,
             model,
-            input,
-            hiddenInput,
             propsState,
             styleState,
             editState,

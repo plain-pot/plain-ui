@@ -1,6 +1,6 @@
 import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
 import {EmitFunc, useListener} from "@/use/useEvent";
-import {useRefs} from "@/use/useRefs";
+import {ElRef, useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
 
 import {ResizeDetectorDirective} from "@/util/ResizeDetector";
@@ -43,9 +43,11 @@ export default defineComponent({
 
         /*---------------------------------------ref-------------------------------------------*/
 
-        const host = useRefs('host', context)
-        const wrapper = useRefs('wrapper', context)
-        const content = useRefs('content', context)
+        const refs = useRefs({
+            host: ElRef,
+            wrapper: ElRef,
+            content: ElRef,
+        })
 
         /*---------------------------------------state-------------------------------------------*/
 
@@ -182,26 +184,26 @@ export default defineComponent({
             refresh: async () => {
                 await $plain.nextTick()
 
-                const {scrollWidth: width1, scrollHeight: height1} = content.value
+                const {scrollWidth: width1, scrollHeight: height1} = refs.content
                 handler.contentResize({
                     width: Math.ceil(width1),
                     height: Math.ceil(height1),
                 })
 
-                const {scrollWidth: width2, scrollHeight: height2} = host.value
+                const {scrollWidth: width2, scrollHeight: height2} = refs.host
                 handler.hostResize({
                     width: Math.ceil(width2),
                     height: Math.ceil(height2),
                 })
             },
             scroll(point: { x?: number, y?: number }, time: number | null = null) {
-                if (!wrapper.value) return
+                if (!refs.wrapper) return
 
                 // if (point.x != null) this.wrapper!.scrollLeft = point.x
                 // if (point.y != null) this.wrapper!.scrollTop = point.y
                 if (time == null) {
-                    if (point.x != null) wrapper.value!.scrollLeft = point.x
-                    if (point.y != null) wrapper.value!.scrollTop = point.y
+                    if (point.x != null) refs.wrapper!.scrollLeft = point.x
+                    if (point.y != null) refs.wrapper!.scrollTop = point.y
                 } else {
 
                     if (!!state.cancelAnimate) {
@@ -209,8 +211,8 @@ export default defineComponent({
                         state.cancelAnimate = null
                     }
 
-                    let ny = wrapper.value!.scrollTop
-                    let nx = wrapper.value!.scrollLeft
+                    let ny = refs.wrapper!.scrollTop
+                    let nx = refs.wrapper!.scrollLeft
 
                     let ky = (point.y! - ny) / time
                     let kx = (point.x! - nx) / time
@@ -227,14 +229,14 @@ export default defineComponent({
                             top = time * ky + ny
                             left = time * kx + nx
 
-                            wrapper.value!.scrollTop = top
-                            wrapper.value!.scrollLeft = left
+                            refs.wrapper!.scrollTop = top
+                            refs.wrapper!.scrollLeft = left
                         } else {
                             top = delta * ky + ny
                             left = delta * kx + nx
 
-                            wrapper.value!.scrollTop = top
-                            wrapper.value!.scrollLeft = left
+                            refs.wrapper!.scrollTop = top
+                            refs.wrapper!.scrollLeft = left
                             state.cancelAnimate = requestAnimationFrame(run)
                         }
                     }
@@ -248,8 +250,8 @@ export default defineComponent({
                 methods.scroll({x: scrollLeft}, time)
             },
             scrollEnd(point: { x: boolean, y?: boolean } = {x: true, y: true}) {
-                if (!!point.x) wrapper.value!.scrollLeft = wrapper.value!.scrollWidth
-                if (!!point.y) wrapper.value!.scrollTop = wrapper.value!.scrollHeight
+                if (!!point.x) refs.wrapper!.scrollLeft = refs.wrapper!.scrollWidth
+                if (!!point.y) refs.wrapper!.scrollTop = refs.wrapper!.scrollHeight
             },
         }
 
@@ -321,7 +323,7 @@ export default defineComponent({
                 dragmove: (e: MouseEvent) => {
                     let deltaY = e.clientY - state.dragY
                     let top = state.dragTop + deltaY
-                    wrapper.value.scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
+                    refs.wrapper.scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
                 },
                 dragend: () => {
                     state.draging = false
@@ -342,7 +344,7 @@ export default defineComponent({
                 dragmove: (e: MouseEvent) => {
                     let deltaX = e.clientX - state.dragX
                     const left = state.dragLeft + deltaX
-                    wrapper.value.scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
+                    refs.wrapper.scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
                 },
                 dragend: () => {
                     state.draging = false
@@ -353,7 +355,7 @@ export default defineComponent({
             },
         }
 
-        useRefer(context, {
+        useRefer({
             methods,
             state,
         })

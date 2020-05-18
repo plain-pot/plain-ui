@@ -16,7 +16,7 @@
         },
         methods: {
             async newService(...args) {
-                let service = this.$refs.items.find(({state}) => !state.show)
+                let service = this.$refs.items.find(({state: {show}}) => !show)
                 if (!service) {
                     this.count++
                     await this.$plain.nextTick()
