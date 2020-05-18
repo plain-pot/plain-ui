@@ -1,0 +1,225 @@
+.pl-dialog {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  pointer-events: none;
+}
+
+.pl-dialog-wrapper {
+  z-index: 1500;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: all linear 300ms;
+
+  &:before {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    user-select: none;
+    transition: all linear 300ms;
+  }
+
+  .pl-dialog-body {
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
+    box-shadow: 0 0 20px 8px rgba(100, 100, 100, 0.1);
+    overflow: hidden;
+    pointer-events: auto;
+    box-sizing: border-box;
+
+    .pl-dialog-head {
+      height: 40px;
+      line-height: 40px;
+      padding: 0 16px;
+      font-size: 16px;
+      letter-spacing: 2px;
+      background-color: white;
+
+      .pl-dialog-head-close {
+        position: absolute;
+        top: 5px;
+        bottom: 0;
+        right: 5px;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;
+      }
+    }
+
+    .pl-dialog-content {
+      overflow: auto;
+      padding: 16px;
+      font-size: 14px;
+    }
+
+    .pl-dialog-foot {
+      height: 60px;
+      padding: 0 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      & > * + * {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  &.pl-dialog-fullscreen {
+    padding: 0 !important;
+
+    .pl-dialog-body {
+      position: fixed;
+      height: 100% !important;
+      width: 100% !important;
+    }
+  }
+
+  &.pl-dialog-no-mask {
+    pointer-events: none;
+
+    &:before {
+      display: none;
+    }
+  }
+
+  &.pl-dialog-vertical-center {
+    padding: 0;
+    align-items: center;
+  }
+
+  &.pl-dialog-no-content-padding {
+    .pl-dialog-content {
+      padding: 0;
+    }
+  }
+}
+
+.pl-transition-dialog {
+  &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
+    &:before {
+      opacity: 1;
+    }
+
+    .pl-dialog-body {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  &.pl-transition-dialog-enter, &.pl-transition-dialog-leave-to {
+    &:before {
+      opacity: 0;
+    }
+
+    .pl-dialog-body {
+      transform: translateY(-5vh) scale(0.85);
+      opacity: 0;
+    }
+  }
+}
+
+@include theme {
+  .pl-dialog-wrapper {
+    .pl-dialog-body {
+      color: $itc;
+
+      .pl-dialog-head {
+        color: $ihc;
+        border-bottom: solid 1px $ibl;
+
+        .pl-dialog-head-close {
+          color: $icc;
+
+          &:hover {
+            color: $colorPrimary;
+          }
+        }
+      }
+
+      @include shapeMixin(dialog-body) {
+        border-radius: $value;
+      }
+    }
+  }
+
+  $dialogTransition: (
+          left:translate3d(-100%, 0, 0),
+          right:translate3d(100%, 0, 0),
+          top:translate3d(0, -100%, 0),
+          bottom:translate3d(0, 100%, 0),
+  );
+
+  @each $key, $value in $dialogTransition {
+    .pl-transition-dialog-#{$key} {
+      .pl-dialog-body {
+        transition: all $transition2 300ms;
+      }
+
+      &.pl-transition-dialog-#{$key}-enter-active, &.pl-transition-dialog-#{$key}-leave-active {
+        &:before {
+          opacity: 1;
+        }
+
+        .pl-dialog-body {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      &.pl-transition-dialog-#{$key}-enter, &.pl-transition-dialog-#{$key}-leave-to {
+        &:before {
+          opacity: 0;
+        }
+
+        .pl-dialog-body {
+          transform: $value;
+        }
+      }
+    }
+  }
+}
+
+/*---------------------------------------dialog service-------------------------------------------*/
+
+.pl-dialog-service-edit {
+  .pl-dialog-body {
+    .pl-dialog-content {
+      padding-bottom: 0;
+    }
+  }
+
+  .pl-textarea, .pl-textarea-inner {
+    height: 100%;
+  }
+}
+
+@include theme {
+  .pl-dialog-service {
+    @include statusMixin(dialog-service) {
+      .pl-dialog-service-item-message {
+        white-space: pre-wrap;
+
+        .pl-icon {
+          color: $value;
+          font-size: 24px;
+          vertical-align: middle;
+          margin-right: 14px;
+        }
+      }
+    }
+  }
+}
