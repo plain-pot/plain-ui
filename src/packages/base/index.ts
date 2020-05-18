@@ -86,8 +86,8 @@ export default {
                 return index++
             }
         })(1500)
-        $plain.enableSelect = $plain.utils.addClass(document.body, 'pl-select-none')
-        $plain.disableSelect = $plain.utils.removeClass(document.body, 'pl-select-none')
+        $plain.enableSelect = () => $plain.utils.addClass(document.body, 'pl-select-none')
+        $plain.disableSelect = () => $plain.utils.removeClass(document.body, 'pl-select-none')
         $plain.STATUS = {
             white: {icon: 'el-icon-info', status: 'white'},
             black: {icon: 'el-icon-info', status: 'black'},
