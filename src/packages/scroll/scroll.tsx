@@ -265,8 +265,8 @@ export default defineComponent({
                 if (data.height != null) state.contentHeight = data.height
             },
             hostResize: (data: ResizeDetectFuncParam) => {
-                if (data.width != null) state.hostWidth = data.width - 17
-                if (data.height != null) state.hostHeight = data.height - 17
+                if (data.width != null) state.hostWidth = data.width - 16
+                if (data.height != null) state.hostHeight = data.height - 16
             },
             wrapperMousewheel: (e: MouseWheelEvent) => {
                 if (!!state.cancelAnimate) {
