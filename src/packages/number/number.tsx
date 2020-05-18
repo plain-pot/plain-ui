@@ -5,7 +5,6 @@ import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useListener} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
-import {useRef} from "@/use/useRef";
 
 import {HTMLInputEvent} from "@/types/utils";
 import {getKey, KEY} from "@/packages/keyboard";
@@ -31,11 +30,6 @@ export default defineComponent({
         inputProps: {type: Object},                                 // pl-input属性配置对象
     },
     setup(props, context) {
-
-        /*---------------------------------------ref-------------------------------------------*/
-
-        const input = useRef()
-        const innerInput = useRef('innerInput', context)
 
         /*---------------------------------------emit-------------------------------------------*/
 
@@ -223,7 +217,6 @@ export default defineComponent({
         return () => (
             <pl-input class={classes.value}
                       isFocus={state.isFocus}
-                      refer={input}
                       inputInnerTabindex={null}
                       {...{props: props.inputProps}}
             >
@@ -239,8 +232,7 @@ export default defineComponent({
                        onFocus={handler.focus}
                        onBlur={handler.blur}
                        onInput={handler.input}
-                       onKeydown={handler.keydown}
-                       ref="innerInput"/>
+                       onKeydown={handler.keydown}/>
                 {!props.hideButton && (
                     <div class="pl-number-append-button plain-click-node" onMousedown={handler.intervalAdd} {...{directives: [{name: 'click-wave'}]}}>
                         <pl-icon icon="el-icon-plus"/>
