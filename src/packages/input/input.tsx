@@ -235,7 +235,7 @@ export default defineComponent({
 
         watch(() => model.value, () => {
             methods.resetTextAreaHeight()
-        })
+        }, {lazy: true})
         watch(() => props.throttleEnter, (val) => {
             if (!val) {
                 state.handlerEnter = state.handleEnterInner
