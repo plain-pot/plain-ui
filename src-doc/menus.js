@@ -76,7 +76,7 @@ export default [
             {name: 'Carousel', title: '轮播', icon: 'pl-carousel', page: '/normal/carousel', complete: false},
             {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: false},
             {name: 'Alert', title: '提示信息', icon: 'pl-collapse', page: '/normal/alert', complete: false},
-            {name: 'Dom', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/dom', complete: false},
+            {name: 'Portal', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/portal', complete: false},
         ]
     },
     {
