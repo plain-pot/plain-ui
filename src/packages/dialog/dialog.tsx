@@ -70,7 +70,7 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const {editState, editComputed} = useEdit(props)
+        const {editState, editComputed} = useEdit()
         const styleState = useStyle(props)
 
         const propsState = useProps(props, {

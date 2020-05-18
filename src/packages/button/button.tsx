@@ -41,7 +41,7 @@ export default defineComponent({
 
         const styleComputed = useStyle(props)
 
-        const {editState, editComputed} = useEdit(props)
+        const {editState, editComputed} = useEdit()
 
         const buttonGroup = inject(BUTTON_GROUP_PROVIDER, null) as any
 

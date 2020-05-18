@@ -18,7 +18,7 @@ export default defineComponent({
 
         const styleComputed = useStyle(props)
 
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
 
         const buttonGroupProvide = computed(() => ({mode: props.mode}))
 

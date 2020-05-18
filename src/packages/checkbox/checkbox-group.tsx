@@ -31,7 +31,7 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
         useStyle(props)
 
         const propsState = useProps(props, {

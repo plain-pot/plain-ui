@@ -45,7 +45,7 @@ export default defineComponent({
         const model = useModel(() => props.value, emit.input, false)
 
         useStyle(props, {status: undefined})
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
 
         const state = reactive({
             isFocus: false,                     // 当前是否获取焦点

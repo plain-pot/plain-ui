@@ -41,7 +41,7 @@ export default defineComponent({
             elLeft: null as null | number,
         })
 
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
         const styleState = useStyle(props)
 
         const mounted = useMounted()

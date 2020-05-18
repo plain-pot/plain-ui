@@ -18,7 +18,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        useEdit(props)
+        useEdit()
         useStyle(props)
 
         /*---------------------------------------emit-------------------------------------------*/

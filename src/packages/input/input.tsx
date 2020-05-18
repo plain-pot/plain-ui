@@ -75,7 +75,7 @@ export default defineComponent({
         })
 
         const styleState = useStyle(props, {status: undefined})
-        const {editState, editComputed} = useEdit(props)
+        const {editState, editComputed} = useEdit()
 
         const state = reactive({
             autoHeight: null as null | number,

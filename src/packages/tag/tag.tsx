@@ -19,7 +19,7 @@ export default defineComponent({
             close: EmitFunc,
         })
 
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
         const styleState = useStyle(props)
 
         const classes = computed(() => ([

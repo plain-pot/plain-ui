@@ -37,7 +37,7 @@ export default defineComponent({
             isEditing: false,
             inputValue: null as string | null,
         })
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
         const styleState = useStyle(props)
 
         const classes = computed(() => ([

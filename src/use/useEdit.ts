@@ -1,4 +1,4 @@
-import {computed, inject, provide, reactive} from "@vue/composition-api";
+import {computed, inject, provide, reactive, getCurrentInstance} from "@vue/composition-api";
 
 /**
  * 生成editComputed，用于继承父组件的edit属性
@@ -13,14 +13,15 @@ export const EditProps = {
     loading: {type: Boolean, default: null},
 }
 
-export function useEdit(props) {
+export function useEdit() {
 
+    const ctx = getCurrentInstance()!
     const parent = inject(EditProvider, null) as any
 
     const editState = reactive({loading: null} as { loading: boolean | null })
 
     const editComputed = computed(() => {
-        let {disabled, readonly, loading} = props
+        let {disabled, readonly, loading} = ctx.$props
         const p = {disabled, readonly, loading}
 
         if (p.disabled == null) {

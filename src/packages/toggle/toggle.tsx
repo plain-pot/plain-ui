@@ -31,7 +31,7 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const {editComputed} = useEdit(props)
+        const {editComputed} = useEdit()
         const styleState = useStyle(props)
 
         const model = useModel(() => props.value, emit.input)
