@@ -20,7 +20,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
             mouseup: EmitFunc,
             mousedown: EmitFunc,

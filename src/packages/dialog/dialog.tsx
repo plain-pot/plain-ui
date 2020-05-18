@@ -62,7 +62,7 @@ export default defineComponent({
             body: ElRef
         })
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
             confirm: EmitFunc,
             cancel: EmitFunc,

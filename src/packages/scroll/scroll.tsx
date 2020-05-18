@@ -34,7 +34,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             scroll: EmitFunc,
             verticalScrollTop: EmitFunc,
             verticalScrollBottom: EmitFunc,

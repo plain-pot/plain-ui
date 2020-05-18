@@ -22,7 +22,7 @@ export default defineComponent({
         useStyle()
 
         /*---------------------------------------emit-------------------------------------------*/
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
         })
 

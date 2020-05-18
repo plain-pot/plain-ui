@@ -28,7 +28,7 @@ export default defineComponent({
             el: ElRef,
         })
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
         })
 

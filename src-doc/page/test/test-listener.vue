@@ -34,7 +34,7 @@
     export default {
         name: "test-listener",
         setup(props, context) {
-            const {emit, on, once, off, onListeners, onceListeners} = useListener(context, {
+            const {emit, on, once, off, onListeners, onceListeners} = useListener({
                 show: EmitFunc,
                 hide: EmitFunc,
                 clickRow: (row, rowIndex) => undefined

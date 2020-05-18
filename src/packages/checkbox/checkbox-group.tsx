@@ -25,7 +25,7 @@ export default defineComponent({
     setup(props, context) {
 
         /*---------------------------------------emitter-------------------------------------------*/
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
         })
 

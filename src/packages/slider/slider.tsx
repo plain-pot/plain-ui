@@ -42,7 +42,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
             updateStart: EmitFunc,
             updateEnd: EmitFunc,

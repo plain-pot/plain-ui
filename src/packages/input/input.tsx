@@ -53,7 +53,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
             focus: EmitFunc,
             blur: EmitFunc,

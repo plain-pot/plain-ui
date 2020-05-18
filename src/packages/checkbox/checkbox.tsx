@@ -28,7 +28,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener(context, {input: EmitFunc,})
+        const {emit} = useListener({input: EmitFunc,})
         const model = useModel(() => props.value, emit.input)
         const propsState = useProps(props, {
             label: FormatPropsType.promise,

@@ -27,7 +27,7 @@ export default defineComponent({
             input: CompRef,
         })
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             input: EmitFunc,
         })
 

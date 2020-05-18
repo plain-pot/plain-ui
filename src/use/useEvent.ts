@@ -1,4 +1,4 @@
-import {ref, Ref, set, SetupContext} from "@vue/composition-api";
+import {getCurrentInstance} from "@vue/composition-api";
 import {PlainUtils} from "@/util/util";
 
 /**
@@ -16,82 +16,33 @@ export function emitName2ListenName(emitName) {
 
 export const EmitFunc: ((data?) => void) = (() => null)
 
-export function useListener<T extends { [key: string]: Function }>(context: SetupContext, option: T): {
+export function useListener<T extends { [key: string]: Function }>(option: T): {
     emit: T,
     on: { [key in keyof T]?: (cb: T[key]) => void },
     once: { [key in keyof T]?: (cb: T[key]) => (() => void) },
     off: { [key in keyof T]?: (cb: T[key]) => (() => void) },
-    onListeners: Ref<{ [key in keyof T]: Function[] }>,
-    onceListeners: Ref<{ [key in keyof T]: Function[] }>,
 } {
 
     const keys = Object.keys(option)
+    const {$emit, $on, $once, $off,} = getCurrentInstance()!
 
-    // @ts-ignore
-    const onListeners: Ref<{ [key in keyof T]: Function[] }> = ref({})
-    // @ts-ignore
-    const onceListeners: Ref<{ [key in keyof T]: Function[] }> = ref({})
-
-    const emit = {} as any
-    const on = {} as any
-    const once = {} as any
-    const off = {} as any
+    let emit = {} as any
+    let on = {} as any
+    let once = {} as any
+    let off = {} as any
 
     keys.forEach(key => {
-
-        set(onListeners.value, key, [])
-        set(onceListeners.value, key, [])
-
         /*派发事件名称，横岗命名*/
         const kebabCaseName = emitName2ListenName(key)
-
-        /*执行监听函数*/
-        function callListener(key, args) {
-            if (!!onListeners.value[key] && onListeners.value[key].length > 0) {
-                onListeners.value[key].forEach(listener => listener(...args))
-            }
-            if (!!onceListeners.value[key] && onceListeners.value[key].length > 0) {
-                onceListeners.value[key].forEach(listener => listener(...args))
-                onceListeners.value[key].splice(0, onceListeners.value[key].length)
-            }
-        }
-
-        /*派发事件*/
         emit[key] = (...args) => {
-            context.emit(kebabCaseName, ...args)
-            callListener(key, args)
-
-            if (key === 'input') {
-                context.emit('change', ...args)
-                callListener('change', args)
-            }
+            if (key === 'input') $emit('change', ...args)
+            console.log(kebabCaseName, args)
+            return $emit(kebabCaseName, ...args)
         }
-
-        /*监听事件*/
-        on[key] = (cb) => {
-            onListeners.value[key].push(cb)
-            return () => off[key](cb)
-        }
-
-        /*监听一次事件*/
-        once[key] = (cb) => {
-            onceListeners.value[key].push(cb)
-            return () => off[key](cb)
-        }
-
-        /*解除监听事件*/
-        off[key] = (cb) => {
-            let onIndex = onListeners.value[key].indexOf(cb)
-            if (onIndex > -1) {
-                onListeners.value[key].splice(onIndex, 1)
-            }
-            let onceIndex = onceListeners.value[key].indexOf(cb)
-            if (onceIndex > -1) {
-                onceListeners.value[key].splice(onceIndex, 1)
-            }
-        }
-
+        on[key] = (cb) => $on(kebabCaseName, cb)
+        once[key] = (cb) => $once(kebabCaseName, cb)
+        off[key] = (cb) => $off(kebabCaseName, cb)
     })
 
-    return {emit, on, once, off, onListeners, onceListeners}
+    return {emit, on, once, off}
 }

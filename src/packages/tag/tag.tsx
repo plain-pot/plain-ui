@@ -14,7 +14,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             click: EmitFunc,
             close: EmitFunc,
         })

@@ -86,7 +86,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const {emit} = useListener(context, {
+        const {emit} = useListener({
             click: EmitFunc,
             focus: EmitFunc,
         })
