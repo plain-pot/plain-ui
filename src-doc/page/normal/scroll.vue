@@ -42,7 +42,7 @@
         </demo-row>
         <demo-row title="适配内容高度">
             <div class="demo-scroll-wrapper" style="height: auto">
-                <pl-scroll scrollX fitContentHeight>
+                <pl-scroll scrollX fitContentHeight alwaysShowScrollbar>
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                     </div>
