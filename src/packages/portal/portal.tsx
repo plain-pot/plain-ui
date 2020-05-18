@@ -87,8 +87,10 @@ export default defineComponent({
         })
 
         watch(() => props.container, () => {
-            // methods.update(false)
-            // methods.update(true)
+            methods.update(false)
+            methods.update(true)
+        }, {
+            lazy: true,
         })
 
         onBeforeUnmount(() => {

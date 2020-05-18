@@ -23,12 +23,12 @@ module.exports = {
             new AddAssetHtmlWebpackPlugin([
                 {filepath: $utils.resolve('src-doc/lib/vue.min.js')},
                 {filepath: $utils.resolve('src-doc/lib/vuex.min.js')},
-                {filepath: $utils.resolve('src-doc/lib/vue-composition-api.umd.js')},
+                // {filepath: $utils.resolve('src-doc/lib/vue-composition-api.umd.js')},
             ])
         ],
         externals: {
             vue: 'Vue',
-            '@vue/composition-api': 'vueCompositionApi'
+            // '@vue/composition-api': 'vueCompositionApi'
         },
     }),
     css: {
