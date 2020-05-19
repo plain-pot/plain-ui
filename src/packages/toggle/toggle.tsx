@@ -1,7 +1,7 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 
 import {getKey, KEY} from "@/packages/keyboard";
@@ -20,7 +20,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             input: EmitFunc,
             mouseup: EmitFunc,
             mousedown: EmitFunc,

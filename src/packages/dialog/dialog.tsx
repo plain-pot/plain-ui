@@ -1,7 +1,7 @@
 import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, ref, watch} from "@vue/composition-api";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {ElRef, useRefs} from "@/use/useRefs";
 
@@ -62,7 +62,7 @@ export default defineComponent({
             body: ElRef
         })
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             input: EmitFunc,
             confirm: EmitFunc,
             cancel: EmitFunc,

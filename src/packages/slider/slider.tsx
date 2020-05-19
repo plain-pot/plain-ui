@@ -1,7 +1,7 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {ElRef, useRefs} from "@/use/useRefs";
 
@@ -42,7 +42,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             input: EmitFunc,
             updateStart: EmitFunc,
             updateEnd: EmitFunc,

@@ -1,7 +1,7 @@
 import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 import {useRefer} from "@/use/useRefer";
@@ -53,7 +53,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             input: EmitFunc,
             focus: EmitFunc,
             blur: EmitFunc,

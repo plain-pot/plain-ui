@@ -4,7 +4,7 @@ import PlainUtils from '../../../submodules/plain-utils'
 import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
 import {BUTTON_GROUP_PROVIDER} from "@/packages/button/button-group";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {FormatPropsType, useProps} from "@/use/useProps";
@@ -86,7 +86,7 @@ export default defineComponent({
 
         /*---------------------------------------emitter-------------------------------------------*/
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             click: EmitFunc,
             focus: EmitFunc,
         })

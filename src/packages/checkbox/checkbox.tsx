@@ -6,7 +6,7 @@ import ClickWave from "@/directives/click-wave";
 import {getKey, KEY} from "@/packages/keyboard";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {FormatPropsType, useProps} from "@/use/useProps";
 
@@ -28,7 +28,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener({input: EmitFunc,})
+        const {emit} = useEvent({input: EmitFunc,})
         const model = useModel(() => props.value, emit.input)
         const propsState = useProps(props, {
             label: FormatPropsType.promise,

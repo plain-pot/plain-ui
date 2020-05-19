@@ -42,7 +42,7 @@
         </demo-row>
         <demo-row title="适配内容高度">
             <div class="demo-scroll-wrapper" style="height: auto">
-                <pl-scroll scrollX fitContentHeight alwaysShowScrollbar>
+                <pl-scroll scrollX fitContentHeight>
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                     </div>
@@ -79,15 +79,15 @@
 
         <demo-row title="滚动：纵向">
             <div class="demo-scroll-wrapper">
-                <pl-scroll :refer="scroll.vertical">
+                <pl-scroll ref="scroll1">
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="scroll.vertical.value.methods.scroll({y:100},1000)"/>
+                                <pl-button label="scroll" @click="$refs.scroll1.methods.scroll({y:100},1000)"/>
                             </p>
                             <p>
-                                <pl-button label="scrollEnd" @click="scroll.vertical.value.methods.scrollEnd()"/>
+                                <pl-button label="scrollEnd" @click="$refs.scroll1.methods.scrollEnd()"/>
                             </p>
                         </div>
                     </div>
@@ -96,15 +96,15 @@
         </demo-row>
         <demo-row title="滚动：横向">
             <div class="demo-scroll-wrapper">
-                <pl-scroll :refer="scroll.horizontal" scrollX>
+                <pl-scroll ref="scroll2" scrollX>
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="scroll.horizontal.value.methods.scroll({x:100},1000)"/>
+                                <pl-button label="scroll" @click="$refs.scroll2.methods.scroll({x:100},1000)"/>
                             </p>
                             <p>
-                                <pl-button label="scrollEnd" @click="scroll.horizontal.value.methods.scrollEnd()"/>
+                                <pl-button label="scrollEnd" @click="$refs.scroll2.methods.scrollEnd()"/>
                             </p>
                         </div>
                     </div>
@@ -121,15 +121,8 @@
         data() {
             return {
                 list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-                scroll: {
-                    vertical: {value: null},
-                    horizontal: {value: null},
-                },
             }
         },
-        mounted() {
-            console.log(this.scroll)
-        }
     }
 </script>
 

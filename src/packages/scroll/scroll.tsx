@@ -1,5 +1,5 @@
 import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {ElRef, useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
 
@@ -34,7 +34,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             scroll: EmitFunc,
             verticalScrollTop: EmitFunc,
             verticalScrollBottom: EmitFunc,

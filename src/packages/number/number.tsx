@@ -2,7 +2,7 @@ import {computed, defineComponent, reactive} from "@vue/composition-api";
 import ClickWave from "@/directives/click-wave";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 
@@ -33,7 +33,7 @@ export default defineComponent({
 
         /*---------------------------------------emit-------------------------------------------*/
 
-        const {emit} = useListener({
+        const {emit} = useEvent({
             focus: EmitFunc,
             blur: EmitFunc,
             input: EmitFunc,

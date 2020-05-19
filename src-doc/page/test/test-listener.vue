@@ -29,12 +29,12 @@
 
 <script>
 
-    import {EmitFunc, useListener} from "../../../src/use/useEvent";
+    import {EmitFunc, useEvent} from "../../../src/use/useEvent";
 
     export default {
         name: "test-listener",
         setup(props, context) {
-            const {emit, on, once, off, onListeners, onceListeners} = useListener({
+            const {emit, on, once, off, onListeners, onceListeners} = useEvent({
                 show: EmitFunc,
                 hide: EmitFunc,
                 clickRow: (row, rowIndex) => undefined

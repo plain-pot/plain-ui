@@ -5,16 +5,11 @@
     export default {
         name: "test",
         setup(props, context) {
-            const input = useRefs()
-
-            onMounted(() => {
-                console.log(input.value)
-            })
 
             return () => (
                 <div>
-                    <pl-input refer={input}/>
-                    [{!!input.value ? input.value.model : 'no input'}]
+                    <pl-input />
+
                 </div>
             )
         },

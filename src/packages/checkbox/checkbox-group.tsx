@@ -4,7 +4,7 @@ import {PLAIN_CHECK_STATUS} from "@/util/constant";
 import {$plain} from "@/packages/base";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {EmitFunc, useListener} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 
@@ -25,7 +25,7 @@ export default defineComponent({
     setup(props, context) {
 
         /*---------------------------------------emitter-------------------------------------------*/
-        const {emit} = useListener({
+        const {emit} = useEvent({
             input: EmitFunc,
         })
 
