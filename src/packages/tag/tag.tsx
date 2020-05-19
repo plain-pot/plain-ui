@@ -2,6 +2,7 @@ import {computed, defineComponent} from "@vue/composition-api";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 
 export default defineComponent({
     name: 'pl-tag',
@@ -12,7 +13,9 @@ export default defineComponent({
         label: {type: String},
         close: {type: Boolean},
     },
-    setup(props, context) {
+    setup(props) {
+
+        const {slots} = useSlots()
 
         const {emit} = useEvent({
             click: EmitFunc,
@@ -51,7 +54,7 @@ export default defineComponent({
 
         return () => (
             <div class={classes.value} onClick={handler.click}>
-                {!!context.slots.default ? context.slots.default() : props.label}
+                {slots.default(props.label)}
                 {!!props.close && <pl-icon icon="el-icon-close" class="pl-tag-close" onClick={handler.clickClose}/>}
             </div>
         )

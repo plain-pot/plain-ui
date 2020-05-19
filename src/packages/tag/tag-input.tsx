@@ -7,6 +7,7 @@ import {CompRef, ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {getKey, KEY} from "@/packages/keyboard";
+import {useSlots} from "@/use/useSlots";
 
 export default defineComponent({
     name: 'pl-tag-input',

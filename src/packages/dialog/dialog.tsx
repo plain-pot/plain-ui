@@ -7,6 +7,7 @@ import {ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
 import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 
 export default defineComponent({
     name: 'pl-dialog',
@@ -57,6 +58,11 @@ export default defineComponent({
         loading: {type: Boolean},                                               // 弹出框添加 加载中的遮罩
     },
     setup(props, context) {
+
+        const {slots, $slots} = useSlots({
+            head: SlotFunc,
+            foot: SlotFunc,
+        })
 
         const refs = useRefs({
             body: ElRef
@@ -120,7 +126,7 @@ export default defineComponent({
             return props.showHead
         })
         const hasFoot = computed(() => {
-            return context.slots.foot || props.confirmButton || props.cancelButton
+            return !!$slots.foot || props.confirmButton || props.cancelButton
         })
 
         const contentStyle = computed(() => {
@@ -271,14 +277,14 @@ export default defineComponent({
                         {(!props.destroyOnClose ? true : model.value) && <div onClick={handler.clickWrapper} style={wrapperStyles.value} class={wrapperClasses.value} {...{directives}}>
                             <div class={bodyClasses.value} ref="body">
                                 {hasHead.value && <div class="pl-dialog-head">
-                                    {!!context.slots.head ? context.slots.head() : <span>{propsState.title}</span>}
+                                    {slots.head(<span>{propsState.title}</span>)}
                                     {!!props.showClose && <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" onClick={handler.clickClose}/>}
                                 </div>}
                                 <div class="pl-dialog-content" style={contentStyle.value}>
-                                    {context.slots.default && context.slots.default()}
+                                    {slots.default()}
                                 </div>
                                 {hasFoot.value && <div class="pl-dialog-foot">
-                                    {!!context.slots.foot ? context.slots.foot() : null}
+                                    {slots.foot()}
 
                                     {!!props.cancelButton && <pl-button label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
                                     {!!props.confirmButton && <pl-button label={props.confirmButtonText} onClick={methods.confirm}/>}

@@ -3,6 +3,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {ElRef, useRefs} from "@/use/useRefs";
 
 import {$plain} from "@/packages/base";
+import {useSlots} from "@/use/useSlots";
 
 export default defineComponent({
     name: 'pl-portal',
@@ -14,6 +15,8 @@ export default defineComponent({
         contentStyle: {},                                               // content节点的style
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         const refs = useRefs({
             content: ElRef,
@@ -104,7 +107,7 @@ export default defineComponent({
         return () => (
             <span class="pl-portal" ref="el">
                 <span ref="content" class={['pl-portal-content', props.contentClass]} style={props.contentStyle} onClick={emit.clickContent}>
-                    {!!context.slots.default && context.slots.default()}
+                    {slots.default()}
                 </span>
             </span>
         )

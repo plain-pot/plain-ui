@@ -9,6 +9,7 @@ import {useModel} from "@/use/useModel";
 import {PLAIN_RADIO_GROUP_PROVIDER} from "@/packages/radio/radio-group";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
+import {useSlots} from "@/use/useSlots";
 
 export default defineComponent({
     name: 'pl-radio',
@@ -26,6 +27,8 @@ export default defineComponent({
         ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         /*---------------------------------------emitter-------------------------------------------*/
         const {emit} = useEvent({
@@ -108,17 +111,19 @@ export default defineComponent({
                  onClick={handler.click}
                  onKeydown={handler.keydown}
             >
-                {!!context.slots.default ? context.slots.default() : (
-                    [
-                        <span class="plain-click-node">
-                            <transition name="pl-transition-fade" mode="out-in">
-                                {!!isChecked.value && <pl-radio-inner status="check" key="check" disabled={editComputed.value.disabled}/>}
-                                {!isChecked.value && <pl-radio-inner status="uncheck" key="uncheck" disabled={editComputed.value.disabled}/>}
-                            </transition>
-                        </span>,
-                        !!props.label ? <div class="pl-radio-label">{props.label}</div> : null
-                    ].filter(Boolean)
-                )}
+                {
+                    slots.default(
+                        [
+                            <span class="plain-click-node">
+                                <transition name="pl-transition-fade" mode="out-in">
+                                    {!!isChecked.value && <pl-radio-inner status="check" key="check" disabled={editComputed.value.disabled}/>}
+                                    {!isChecked.value && <pl-radio-inner status="uncheck" key="uncheck" disabled={editComputed.value.disabled}/>}
+                                </transition>
+                            </span>,
+                            !!props.label ? <div class="pl-radio-label">{props.label}</div> : null
+                        ]
+                    )
+                }
             </div>
         )
     },

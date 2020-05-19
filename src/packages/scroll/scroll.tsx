@@ -8,6 +8,7 @@ import {PLAIN_POPPER_PROVIDER} from "@/packages/popper/popper";
 import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
 import {useMounted} from "@/use/useMounted";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -33,6 +34,8 @@ export default defineComponent({
         bottomThreshold: {type: Number, default: 20},                                                   // 距离底部多少距离派发滚动到底部事件
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         const {emit} = useEvent({
             scroll: EmitFunc,
@@ -393,7 +396,7 @@ export default defineComponent({
                          style={contentStyles.value}
                          {...{directives: [{name: 'resize', value: handler.contentResize}]}}
                     >
-                        {!!context.slots.default && context.slots.default()}
+                        {slots.default()}
                     </div>
                 </div>
 

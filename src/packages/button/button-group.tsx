@@ -1,6 +1,7 @@
 import {computed, defineComponent, inject, provide} from "@vue/composition-api";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
+import {useSlots} from "@/use/useSlots";
 
 
 export const BUTTON_GROUP_PROVIDER = '@@BUTTON_GROUP_PROVIDER'
@@ -15,6 +16,8 @@ export default defineComponent({
         ...StyleProps,
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         const {styleComputed} = useStyle()
 
@@ -44,7 +47,7 @@ export default defineComponent({
 
         return () => (
             <div class={classes.value}>
-                {context.slots.default && context.slots.default()}
+                {slots.default()}
             </div>
         )
     },

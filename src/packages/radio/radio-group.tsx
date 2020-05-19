@@ -4,6 +4,7 @@ import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
+import {useSlots} from "@/use/useSlots";
 
 export const PLAIN_RADIO_GROUP_PROVIDER = '@@PLAIN_RADIO_GROUP_PROVIDER'
 
@@ -17,6 +18,8 @@ export default defineComponent({
         itemWidth: {type: [String, Number]},                       // 每一个单选框的宽度
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         useEdit()
         useStyle()
@@ -52,7 +55,7 @@ export default defineComponent({
 
         return () => (
             <div class={'pl-radio-group'}>
-                {!!context.slots.default && context.slots.default()}
+                {slots.default()}
             </div>
         )
     },

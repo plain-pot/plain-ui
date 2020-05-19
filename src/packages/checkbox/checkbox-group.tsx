@@ -7,6 +7,7 @@ import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
+import {useSlots} from "@/use/useSlots";
 
 export const PLAIN_CHECKBOX_PROVIDER = '@@PLAIN_CHECKBOX_PROVIDER'
 
@@ -23,6 +24,8 @@ export default defineComponent({
         itemWidth: {type: [String, Number]},                       // 文本宽度
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         /*---------------------------------------emitter-------------------------------------------*/
         const {emit} = useEvent({
@@ -136,7 +139,7 @@ export default defineComponent({
                                            status={checkStatus.value}
                                            disabled={editComputed.value.disabled}
                                            onClick={handler.onClickCheckBoxForAll}/>
-                {!!context.slots.default && context.slots.default()}
+                {slots.default()}
             </div>
         )
     },

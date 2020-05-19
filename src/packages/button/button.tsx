@@ -8,6 +8,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {FormatPropsType, useProps} from "@/use/useProps";
+import {useSlots} from "@/use/useSlots";
 
 export default defineComponent({
     name: 'pl-button',
@@ -31,6 +32,8 @@ export default defineComponent({
         nativeProps: {},
     },
     setup(props, context) {
+
+        const {slots} = useSlots()
 
         /*---------------------------------------state-------------------------------------------*/
 
@@ -137,11 +140,12 @@ export default defineComponent({
                 onClick={state.handleClick}
             >
                 {!!editComputed.value.loading && <pl-loading type="gamma" v-if="isLoading"/>}
-                {!!context.slots.default ? context.slots.default() :
+                {slots.default(
                     [
                         (!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null,
                         propsState.label ? <span>{propsState.label}</span> : null
-                    ].filter(Boolean)}
+                    ]
+                )}
             </button>
         )
     },
