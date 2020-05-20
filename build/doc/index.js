@@ -35,11 +35,10 @@ module.exports = {
         sourceMap: false,
         loaderOptions: {
             sass: {
-                prependData: ({resourcePath, rootContext}) => {
-                    const filePath = $utils.path.relative(rootContext, resourcePath)
+                prependData: ({resourcePath}) => {
                     const data = [...buildConfig.scss.globalImport]
 
-                    if (filePath === 'src\\style\\index.scss') {
+                    if (resourcePath === $utils.resolve("src/style/index.scss")) {
                         data.push(...buildConfig.scss.importOnce)
                     }
                     return data.map(path => `@import "${path}";`).join('\n')
