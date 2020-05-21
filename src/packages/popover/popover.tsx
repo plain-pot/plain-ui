@@ -64,7 +64,15 @@ export default defineComponent({
                        onInput={handler.input}
             >
                 {slots.default()}
-                {slots.popper()}
+                <template slot="popper">
+                    {props.width == null && props.height == null && !props.sizeEqual ? (
+                        slots.popper()
+                    ) : (
+                        <pl-scroll ref="scroll" fitHostWidth {...{props: props.scrollProps}}>
+                            {slots.popper()}
+                        </pl-scroll>
+                    )}
+                </template>
             </pl-popper>
 
         )

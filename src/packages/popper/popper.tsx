@@ -1,4 +1,4 @@
-import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, onBeforeUnmount, onMounted, provide, reactive, watch} from "@vue/composition-api";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
@@ -9,6 +9,7 @@ import {PlainPlacementType} from "../../../submodules/plain-popper/types";
 import {getTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
+import {useRefer} from "@/use/useRefer";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
 
@@ -363,6 +364,19 @@ export default defineComponent({
         onBeforeUnmount(() => {
             utils.dstry()
         })
+
+        useRefer({
+            methods,
+            direction,
+            state,
+            model,
+            open,
+            propsState,
+            emit, on, off,
+            refs,
+        })
+
+        provide(PLAIN_POPPER_PROVIDER, getCurrentInstance())
 
         return () => (
             <span class={"pl-popper"} onClick={emit.clickPopper} onMousedown={emit.mousedownPopper} {...{props: props.rootProps}} show={model.value} ref={"el"}>

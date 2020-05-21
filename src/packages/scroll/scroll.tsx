@@ -8,7 +8,7 @@ import {PLAIN_POPPER_PROVIDER} from "@/packages/popper/popper";
 import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
 import {useMounted} from "@/use/useMounted";
-import {SlotFunc, useSlots} from "@/use/useSlots";
+import {useSlots} from "@/use/useSlots";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -368,16 +368,16 @@ export default defineComponent({
         onMounted(() => {
             window.addEventListener('resize', handler.windowResize)
             if (!!popperProvider) {
-                popperProvider.context.on('open', handler.popperOpen)
-                popperProvider.context.on('show', handler.popperShow)
+                popperProvider.on.open(handler.popperOpen)
+                popperProvider.on.show(handler.popperShow)
             }
         })
 
         onBeforeUnmount(() => {
             window.removeEventListener('resize', handler.windowResize)
             if (!!popperProvider) {
-                popperProvider.context.off('open', handler.popperOpen)
-                popperProvider.context.off('show', handler.popperShow)
+                popperProvider.off.open(handler.popperOpen)
+                popperProvider.off.show(handler.popperShow)
             }
         })
 
