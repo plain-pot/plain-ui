@@ -31,6 +31,7 @@
         watch: {
             show(val) {
                 this.appHome.updateDemoRowCache(this.id, val)
+                this.$emit('change', val)
             },
         },
         data() {

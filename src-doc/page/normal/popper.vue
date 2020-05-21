@@ -73,7 +73,7 @@
             </pl-popper>
         </demo-row>
 
-        <demo-row title="自定义reference">
+        <demo-row title="自定义reference" @change="$nextTick(()=>reference = $refs.button)">
             <pl-button label="click激活" ref="button"/>
             <pl-popper trigger="click" :reference="reference">
                 <div slot="popper" class="demo-popper-content">
