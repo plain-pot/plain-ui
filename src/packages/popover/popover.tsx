@@ -1,5 +1,8 @@
-import {defineComponent} from "@vue/composition-api";
+import {computed, defineComponent} from "@vue/composition-api";
 import {POPPER_PROPS} from "@/packages/popper/popper";
+import {EmitFunc, useEvent} from "@/use/useEvent";
+import {useModel} from "@/use/useModel";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 
 
 export default defineComponent({
@@ -18,14 +21,52 @@ export default defineComponent({
 
         scrollProps: {type: Object},
     },
-    setup(props, context) {
+    setup(props) {
 
+        const {slots} = useSlots({
+            popper: SlotFunc,
+        })
 
+        const {emit} = useEvent({
+            input: EmitFunc,
+        })
+
+        const popperProps = computed(() => {
+            const result = Object.keys(POPPER_PROPS).reduce((ret, key) => {
+                switch (key) {
+                    case 'popperClass':
+                        ret[key] = !!props[key] ? ['pl-popover-popper', props[key]].join(' ') : 'pl-popover-popper'
+                        break
+                    default:
+                        ret[key] = props[key]
+                        break
+                }
+
+                return ret
+            }, {})
+            // console.log('popperProps', result)
+            return result
+        })
+
+        const model = useModel(() => props.value, emit.input, false)
+
+        const handler = {
+            input: (val) => {
+                model.value = val
+            },
+        }
 
         return () => (
-            <div>
+            <pl-popper class="pl-popover"
+                       {...{props: popperProps.value}}
+                       value={model.value}
+                       noContentPadding
+                       onInput={handler.input}
+            >
+                {slots.default()}
+                {slots.popper()}
+            </pl-popper>
 
-            </div>
         )
     },
 })

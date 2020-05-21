@@ -20,6 +20,7 @@ import scroll from './packages/scroll'
 import portal from './packages/portal'
 import dialog from './packages/dialog'
 import popper from './packages/popper'
+import popover from './packages/popover'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -27,7 +28,7 @@ const plugins = [
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate,
     collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper,
+    message, notice, dialog, popper, popover,
 ]
 
 const install: PluginType['install'] = Vue => {
@@ -38,7 +39,7 @@ export {
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate,
     collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper,
+    message, notice, dialog, popper, popover,
 
     install,
 }

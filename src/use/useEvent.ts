@@ -17,7 +17,7 @@ export function emitName2ListenName(emitName) {
 export const EmitFunc: ((data?) => void) = (() => null)
 
 export function useEvent<T extends { [key: string]: Function }>(option: T): {
-    emit: T,
+    emit: T & { handleEmit: (data: { event: string, args: any[] }) => void },
     on: { [key in keyof T]: (cb: T[key]) => void },
     once: { [key in keyof T]: (cb: T[key]) => void },
     off: { [key in keyof T]: (cb: T[key]) => void },
@@ -46,6 +46,13 @@ export function useEvent<T extends { [key: string]: Function }>(option: T): {
         once[key] = (cb) => ctx.$once(kebabCaseName, cb)
         off[key] = (cb) => ctx.$off(kebabCaseName, cb)
     })
+
+    emit.handleEmit = (data) => {
+        if (!data || !data.event) {
+            throw new Error('监听的不是一个emit事件！')
+        }
+        ctx.$emit(data.event, ...(data.args || []))
+    }
 
     return {emit, on, once, off}
 }
