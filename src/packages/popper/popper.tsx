@@ -361,7 +361,7 @@ export default defineComponent({
         })
 
         return () => (
-            <span class={"pl-popper"} onClick={emit.clickPopper} onMousedown={emit.mousedownPopper} {...{props: props.rootProps}} show={model.value}>
+            <span class={"pl-popper"} onClick={emit.clickPopper} onMousedown={emit.mousedownPopper} {...{props: props.rootProps}} show={model.value} ref={"el"}>
                 {slots.default()}
                 <div ref={"popper"}
                      class={['pl-popper-el', props.transition, {[props.popperClass as string]: !!props.popperClass}, `pl-popper-el-animate-${props.transition}`]}
