@@ -35,8 +35,12 @@ export function useEvent<T extends { [key: string]: Function }>(option: T): {
         /*派发事件名称，横岗命名*/
         const kebabCaseName = emitName2ListenName(key)
         emit[key] = (...args) => {
-            if (key === 'input') ctx.$emit('change', ...args)
-            return ctx.$emit(kebabCaseName, ...args)
+            ctx.$emit(kebabCaseName, ...args)
+            ctx.$emit('emit', {event: kebabCaseName, args})
+            if (key === 'input') {
+                ctx.$emit('change', ...args)
+                ctx.$emit('emit', {event: 'change', args})
+            }
         }
         on[key] = (cb) => ctx.$on(kebabCaseName, cb)
         once[key] = (cb) => ctx.$once(kebabCaseName, cb)
