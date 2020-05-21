@@ -124,7 +124,7 @@
             </pl-popper>
         </demo-row>
 
-        <demo-row>
+        <demo-row title="测试show以及open的区别">
             <div>flag:{{flag}}</div>
             <div>open:{{open}}</div>
             <pl-checkbox label="open" v-model="flag"/>

@@ -12,6 +12,32 @@ import {SlotFunc, useSlots} from "@/use/useSlots";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
 
+export const POPPER_PROPS = {
+    value: {type: Boolean},                                     // 双向绑定是否显示
+    open: {type: Boolean},                                      // 当前是否显示，与value不同的是，value为false，动画可能才开始关闭，而 open 则是动画结束之后才会派发false出去
+
+    trigger: {type: String, default: 'hover'},                  // hover,click,focus,manual
+    title: {type: String},                                      // 标题
+    content: {type: String},                                    // 内容
+    disabled: {type: Boolean},                                  // 是否可以弹出
+    transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
+    popperClass: {type: String},                                // popper容器节点样式
+    offset: {type: [Number, String]},                           // 偏移量
+    width: {type: [Number, String]},                            // 宽度
+    height: {type: [Number, String]},                           // 高度
+    hoverOpenDelay: {type: [Number, String], default: 0},       // hover触发条件下，打开延迟时间
+    hoverCloseDelay: {type: [Number, String], default: 200},    // hover触发条件下，关闭延迟时间
+    noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
+
+    reference: {type: [Function, Element]},                     // 目标dom元素
+    placement: {type: String, default: 'top-start'},            // 位置
+    arrow: {type: Boolean, default: true},                      // 是否需要箭头
+    boundary: {default: 'window'},                              // 边界元素
+
+    sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
+    rootProps: {type: Object},                                  // 根节点dom元素的属性
+}
+
 /*
 * 1. 不能将 v-show 放在 pl-popper-el 元素上，因为这个元素需要使用 transform来定位，会跟 打开/关闭动画有冲突；
 * 2. 不能根据 打开|关闭状态来设置content的样式，可能会导致打开的时候有弹跳的问题出现；
@@ -21,29 +47,7 @@ export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
 export default defineComponent({
     name: 'pl-popper',
     props: {
-        value: {type: Boolean},                                     // 双向绑定是否显示
-        open: {type: Boolean},                                      // 当前是否显示，与value不同的是，value为false，动画可能才开始关闭，而 open 则是动画结束之后才会派发false出去
-
-        trigger: {type: String, default: 'hover'},                  // hover,click,focus,manual
-        title: {type: String},                                      // 标题
-        content: {type: String},                                    // 内容
-        disabled: {type: Boolean},                                  // 是否可以弹出
-        transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
-        popperClass: {type: String},                                // popper容器节点样式
-        offset: {type: [Number, String]},                           // 偏移量
-        width: {type: [Number, String]},                            // 宽度
-        height: {type: [Number, String]},                           // 高度
-        hoverOpenDelay: {type: [Number, String], default: 0},       // hover触发条件下，打开延迟时间
-        hoverCloseDelay: {type: [Number, String], default: 200},    // hover触发条件下，关闭延迟时间
-        noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
-
-        reference: {type: [Function, Element]},                     // 目标dom元素
-        placement: {type: String, default: 'top-start'},            // 位置
-        arrow: {type: Boolean, default: true},                      // 是否需要箭头
-        boundary: {default: 'window'},                              // 边界元素
-
-        sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
-        rootProps: {type: Object},                                  // 根节点dom元素的属性
+        ...POPPER_PROPS,
     },
     setup(props) {
 
@@ -95,8 +99,8 @@ export default defineComponent({
             height: FormatPropsType.number,
         })
 
-        const model = useModel(() => props.value, emit.input, false)
-        const open = useModel(() => props.open, emit.updateOpen, false)
+        const model = useModel(() => props.value, emit.input, false, false)
+        const open = useModel(() => props.open, emit.updateOpen, false, false)
 
         const state = reactive({
             trigger: null as PopperTrigger | null,
