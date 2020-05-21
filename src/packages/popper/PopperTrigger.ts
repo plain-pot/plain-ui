@@ -1,5 +1,3 @@
-import {Ref} from "@vue/composition-api";
-
 export class PopperTrigger {
     data: any
 
@@ -8,7 +6,6 @@ export class PopperTrigger {
         public init: Function,              // 触发器初始化的时候执行函数
         public destroy: Function            // 触发器销毁的时候执行函数
     ) {
-        this.data = {}
     }
 }
 
