@@ -20,7 +20,7 @@ export enum PopperTriggerType {
 }
 
 export function getTrigger(triggerName: PopperTriggerType, {
-    value,
+    model,
     show,
     hide,
     emitEnterReference,
@@ -40,13 +40,17 @@ export function getTrigger(triggerName: PopperTriggerType, {
     off,
 
 }: {
-    value: boolean,
+    model: { value: boolean | undefined },
+    open: { value: boolean | undefined },
+
     show: Function,
     hide: Function,
+
     emitEnterReference: Function,
     emitLeaveReference: Function,
     emitEnterPopper: Function,
     emitLeavePopper: Function,
+
     hoverOpenDelay: number,
     hoverCloseDelay: number,
     reference: HTMLElement,
@@ -54,8 +58,6 @@ export function getTrigger(triggerName: PopperTriggerType, {
 
     emitReferenceFocus: Function,
     emitReferenceBlur: Function,
-
-    open: Ref<boolean>,
 
     on: {
         clickReference: Function,
@@ -70,7 +72,7 @@ export function getTrigger(triggerName: PopperTriggerType, {
     switch (triggerName) {
         case PopperTriggerType.hover:
             return getHoverTrigger({
-                value,
+                model,
                 show,
                 hide,
                 emitEnterReference,
@@ -84,7 +86,7 @@ export function getTrigger(triggerName: PopperTriggerType, {
             })
         case PopperTriggerType.click:
             return getClickTrigger({
-                value,
+                model,
                 show,
                 hide,
                 open,
@@ -107,7 +109,7 @@ export function getTrigger(triggerName: PopperTriggerType, {
 }
 
 function getHoverTrigger({
-                             value,
+                             model,
                              show,
                              hide,
                              emitEnterReference,
@@ -119,7 +121,7 @@ function getHoverTrigger({
                              reference,
                              popper,
                          }: {
-    value: boolean,
+    model: { value: boolean | undefined },
     show: Function,
     hide: Function,
     emitEnterReference: Function,
@@ -145,7 +147,7 @@ function getHoverTrigger({
                 openTimer = setTimeout(() => {
                     show()
                     openTimer = undefined
-                    emitEnterReference(value)
+                    emitEnterReference(model.value)
                 }, hoverOpenDelay)
             },
             leave: () => {
@@ -156,7 +158,7 @@ function getHoverTrigger({
                 closeTimer = setTimeout(() => {
                     hide()
                     closeTimer = undefined
-                    emitLeaveReference(value)
+                    emitLeaveReference(model.value)
                 }, hoverCloseDelay)
             },
         },
@@ -169,7 +171,7 @@ function getHoverTrigger({
                 openTimer = setTimeout(() => {
                     show()
                     openTimer = undefined
-                    emitEnterPopper(value)
+                    emitEnterPopper(model.value)
                 }, hoverOpenDelay)
             },
             leave: () => {
@@ -180,7 +182,7 @@ function getHoverTrigger({
                 closeTimer = setTimeout(() => {
                     hide()
                     closeTimer = undefined
-                    emitLeavePopper(value)
+                    emitLeavePopper(model.value)
                 }, hoverCloseDelay)
             },
         },
@@ -204,17 +206,17 @@ function getHoverTrigger({
 }
 
 function getClickTrigger({
-                             value,
+                             model,
                              show,
                              hide,
                              open,
                              on,
                              off,
                          }: {
-    value: boolean,
+    model: { value: boolean | undefined },
     show: Function,
     hide: Function,
-    open: Ref<boolean>,
+    open: { value: boolean | undefined },
 
     on: {
         clickReference: Function,
@@ -229,7 +231,7 @@ function getClickTrigger({
 
     const handler = {
         clickReference: () => {
-            if (value) {
+            if (model.value) {
                 hide()
             } else {
                 show()

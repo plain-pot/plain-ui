@@ -1,11 +1,22 @@
-import {defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 import PlainPopper from "../../../submodules/plain-popper";
 import {$plain} from "@/packages/base";
+import {ElRef, useRefs} from "@/use/useRefs";
+import {PlainPlacementType} from "../../../submodules/plain-popper/types";
+import {getTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
+import {StyleType} from "@/types/utils";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
+
+/*
+* 1. 不能将 v-show 放在 pl-popper-el 元素上，因为这个元素需要使用 transform来定位，会跟 打开/关闭动画有冲突；
+* 2. 不能根据 打开|关闭状态来设置content的样式，可能会导致打开的时候有弹跳的问题出现；
+* 3. pl-popper-el的pointer-event应该是none，否则会导致遮住页面元素的问题出现；
+*/
 
 export default defineComponent({
     name: 'pl-popper',
@@ -26,7 +37,7 @@ export default defineComponent({
         hoverCloseDelay: {type: [Number, String], default: 200},    // hover触发条件下，关闭延迟时间
         noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
 
-        reference: {},                                              // 目标dom元素
+        reference: {type: [Function, Element]},                     // 目标dom元素
         placement: {type: String, default: 'top-start'},            // 位置
         arrow: {type: Boolean, default: true},                      // 是否需要箭头
         boundary: {default: 'window'},                              // 边界元素
@@ -36,7 +47,17 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {emit} = useEvent({
+        const refs = useRefs({
+            el: ElRef,
+            popper: ElRef,
+            content: ElRef,
+        })
+
+        const {slots} = useSlots({
+            popper: SlotFunc,
+        })
+
+        const {emit, on, off} = useEvent({
             input: EmitFunc,                                        // v-model绑定
             updateOpen: EmitFunc,                                   // open属性更新
             open: EmitFunc,                                         // 派发打开事件，打开完毕，打开动画执行完毕
@@ -49,7 +70,7 @@ export default defineComponent({
             clickReference: EmitFunc,                               // 点击reference事件
             clickPopper: EmitFunc,                                  // 点击popper的事件
             clickPopperContent: EmitFunc,                           // 点击popper的内容的事件
-            body: EmitFunc,                                         // 点击除了reference 以及popper派发的事件
+            clickBody: EmitFunc,                                         // 点击除了reference 以及popper派发的事件
             mousedownPopper: EmitFunc,                              // 鼠标摁住popperEl派发的事件
 
             enterReference: EmitFunc,                               // trigger为hover下，进入 reference 事件
@@ -78,13 +99,42 @@ export default defineComponent({
         const open = useModel(() => props.open, emit.updateOpen, false)
 
         const state = reactive({
+            trigger: null as PopperTrigger | null,
             popper: null as PlainPopper | null,
-            referenceEl: null as HTMLElement | null,
+            referenceEl: null as Element | null,
             popperEl: null as HTMLElement | null,
             contentEl: null as HTMLElement | null,
             onTransitionend: null as Function | null,
 
             zIndex: 0,
+        })
+
+        /*---------------------------------------computer-------------------------------------------*/
+
+        const direction = computed(() => {
+            const [direction] = props.placement.split('-')
+            return direction
+        })
+
+        const popperStyles = computed(() => {
+            const styles = {} as StyleType
+            styles.zIndex = String(state.zIndex)
+            if (propsState.width != null) {
+                styles.width = propsState.width + 'px'
+            }
+            if (propsState.height != null) {
+                styles.height = propsState.height + 'px'
+            }
+
+            if (!!props.sizeEqual && !!state.referenceEl) {
+                if (['top', 'bottom'].indexOf(direction.value) > -1) {
+                    styles.width = (state.referenceEl as HTMLElement).offsetWidth + 'px'
+                } else if (['left', 'right'].indexOf(direction.value) > -1) {
+                    styles.height = (state.referenceEl as HTMLElement).offsetHeight + 'px'
+                }
+            }
+
+            return styles
         })
 
         /*---------------------------------------methods-------------------------------------------*/
@@ -121,13 +171,211 @@ export default defineComponent({
             },
         }
 
+        /*---------------------------------------utils-------------------------------------------*/
+
+        const utils = {
+            init() {
+                const children = Array.from(refs.el.children)
+
+                if (children[0] !== refs.popper) {
+                    state.referenceEl = children[0]
+                } else if (!!props.reference) {
+                    if (typeof props.reference === 'function') {
+                        // @ts-ignore
+                        const reference = props.reference()
+                        state.referenceEl = reference.$el || reference
+                    } else {
+                        // @ts-ignore
+                        state.referenceEl = props.reference.$el || props.reference
+                    }
+                } else {
+                    /*没有reference，等待reference初始化在初始化popper*/
+                    return
+                }
+
+                state.popperEl = refs.popper
+                state.contentEl = refs.content
+
+                state.popper = new PlainPopper({
+                    popperEl: state.popperEl,
+                    targetEl: state.referenceEl as HTMLElement,
+                    arrow: props.arrow,
+                    placement: props.placement as PlainPlacementType,
+                    offset: propsState.offset,
+                    boundary: props.boundary,
+                    boxShadow: undefined,
+                })
+
+                utils.bindEvents()
+
+                state.trigger = getTrigger(props.trigger as PopperTriggerType, {
+                    model,
+                    open,
+                    show: methods.show,
+                    hide: methods.hide,
+
+                    emitEnterReference: emit.enterReference,
+                    emitLeaveReference: emit.leaveReference,
+                    emitEnterPopper: emit.enterPopper,
+                    emitLeavePopper: emit.leavePopper,
+
+                    hoverOpenDelay: propsState.hoverOpenDelay,
+                    hoverCloseDelay: propsState.hoverCloseDelay,
+                    reference: state.referenceEl as HTMLElement,
+                    popper: state.popperEl,
+
+                    emitReferenceFocus: emit.referenceFocus,
+                    emitReferenceBlur: emit.referenceBlur,
+
+                    on,
+                    off,
+                })
+
+                state.trigger.init()
+                emit.init()
+
+                if (!!model.value) {
+                    $plain.nextTick(() => methods.show(false))
+                }
+            },
+            dstry: () => {
+                utils.unbindEvents()
+                if (!!state.trigger) {
+                    state.trigger.destroy()
+                }
+                if (!!state.popper) {
+                    state.popper.destroy()
+                }
+                emit.dstry()
+            },
+            bindEvents: () => {
+                if (!!state.referenceEl) {
+                    state.referenceEl.addEventListener('click', handler.clickReference)
+                }
+                if (!!state.contentEl) {
+                    state.contentEl.addEventListener('click', handler.clickPopperContent)
+                }
+                document.body.addEventListener('click', handler.clickBody)
+            },
+            unbindEvents: () => {
+                if (!!state.referenceEl) {
+                    state.referenceEl.removeEventListener('click', handler.clickReference)
+                }
+                if (!!state.contentEl) {
+                    state.contentEl.removeEventListener('click', handler.clickPopperContent)
+                }
+                document.body.removeEventListener('click', handler.clickBody)
+            },
+        }
+
         /*---------------------------------------handler-------------------------------------------*/
 
+        const handler = {
+            clickReference: (e: Event) => {
+                emit.clickReference(e)
+            },
+            clickPopperContent: (e: Event) => {
+                emit.clickPopperContent(e)
+            },
+            clickBody: (e: Event) => {
+                if (state.referenceEl!.contains(e.target as Node)) {
+                    /*点击了reference*/
+                    return
+                }
+                if (state.contentEl!.contains(e.target as Node)) {
+                    /*点击了content*/
+                    return
+                }
+                emit.clickBody(e)
+            },
+
+            beforeEnter: () => {
+                methods.refersh()
+            },
+            afterEnter: () => {
+                open.value = true
+            },
+            afterLeave: () => {
+                open.value = false
+            },
+        }
+
+        /*---------------------------------------watch-------------------------------------------*/
+        watch(() => props.value, (val) => {
+            if (val === model.value) {
+                return
+            }
+            if (val) {
+                methods.show(false)
+            } else {
+                methods.hide(false)
+            }
+        }, {lazy: true})
+
+        watch(() => model.value, (val) => {
+            if (!!val) {
+                if (!!state.popper) {
+                    $plain.nextTick(() => {
+                        methods.refersh()
+                    })
+                }
+            }
+        }, {lazy: true})
+
+        watch(() => open.value, (val) => {
+            if (!!val) {
+                emit.updateOpen(true)
+                emit.open()
+            } else {
+                emit.updateOpen(false)
+                emit.close()
+            }
+        }, {lazy: true})
+
+        watch(() => props.placement, (val) => {
+            if (!!state.popper) {
+                state.popper.setPlacement(val as PlainPlacementType)
+            }
+        }, {lazy: true})
+
+        watch(() => props.reference, () => {
+            utils.dstry()
+            utils.init()
+        }, {lazy: true})
+
+        watch(() => props.arrow, () => {
+            $plain.nextTick(() => {
+                utils.dstry()
+                utils.init()
+            })
+        }, {lazy: true})
+
+        /*---------------------------------------lifecycle-------------------------------------------*/
+
+        onMounted(() => {
+            utils.init()
+        })
+
+        onBeforeUnmount(() => {
+            utils.dstry()
+        })
 
         return () => (
-            <div>
-
-            </div>
+            <span class={"pl-popper"} onClick={emit.clickPopper} onMousedown={emit.mousedownPopper} {...{props: props.rootProps}} show={model.value}>
+                {slots.default()}
+                <div ref={"popper"}
+                     class={['pl-popper-el', props.transition, {[props.popperClass as string]: !!props.popperClass}, `pl-popper-el-animate-${props.transition}`]}
+                     style={popperStyles.value}>
+                     <transition name={props.transition} onAfterLeave={handler.afterLeave} onAfterEnter={handler.afterEnter} onBeforeEnter={handler.beforeEnter}>
+                        <div {...{directives: [{name: 'show', value: model.value}]}}
+                             ref="content"
+                             class={['plain-popper-content', {'plain-popper-content-no-padding': props.noContentPadding}]}>
+                            {!!props.arrow && <div class="plain-popper-arrow"/>}
+                            {slots.popper()}
+                        </div>
+                    </transition>
+                </div>
+            </span>
         )
     },
 })

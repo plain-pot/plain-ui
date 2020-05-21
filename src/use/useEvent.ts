@@ -18,9 +18,9 @@ export const EmitFunc: ((data?) => void) = (() => null)
 
 export function useEvent<T extends { [key: string]: Function }>(option: T): {
     emit: T,
-    on: { [key in keyof T]?: (cb: T[key]) => void },
-    once: { [key in keyof T]?: (cb: T[key]) => (() => void) },
-    off: { [key in keyof T]?: (cb: T[key]) => (() => void) },
+    on: { [key in keyof T]: (cb: T[key]) => void },
+    once: { [key in keyof T]: (cb: T[key]) => void },
+    off: { [key in keyof T]: (cb: T[key]) => void },
 } {
 
     const keys = Object.keys(option)
