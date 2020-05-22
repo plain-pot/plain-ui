@@ -150,12 +150,13 @@ export default defineComponent({
                 <div class="pl-color-panel-input-group">
                     <pl-input ref="input"
                               size="mini"
+                              shape="round"
                               value={state.val}
                               width={props.enableAlpha ? 204 : 186}
                               onChange={handler.inputChange}
                               onBlur={handler.inputBlur}
                               onEnter={handler.inputEnter}/>
-                    <pl-button-group size="mini" mode="stroke">
+                    <pl-button-group size="mini" shape="round">
                         <pl-button icon="el-icon-close" onClick={methods.reset}/>
                         <pl-button icon="el-icon-check" onClick={handler.confirm}/>
                     </pl-button-group>

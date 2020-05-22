@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {$plain} from "@/packages/base";
@@ -94,6 +94,22 @@ export default defineComponent({
                 emit.dblclick(e)
             },
         }
+
+        watch(() => props.value, (val) => {
+            if (val == null) {
+                state.val = null
+                return
+            }
+            if (state.val !== 100 - val) state.val = 100 - val
+        }, {lazy: true})
+        watch(() => props.saturation, (val) => {
+            if (val == null) {
+                state.saturation = undefined
+                return
+            }
+            if (state.saturation !== val) state.saturation = val
+        }, {lazy: true})
+
 
         return () => (
             <div class="pl-color-sv-panel" style={styles.value} onMousedown={handler.mousedown} onDblclick={handler.dblclick}>
