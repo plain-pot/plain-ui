@@ -60,7 +60,7 @@ export default defineComponent({
                     methods.setLeft(e.offsetX - propsState.thumbSize / 2)
                     methods.emitValue()
                 }
-                $plain.disableSelect
+                $plain.disableSelect()
                 state.startX = e.clientX
                 state.tempLeft = state.left
             },
@@ -81,7 +81,7 @@ export default defineComponent({
         })
 
         return () => (
-            <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value}>
+            <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value} ref={"el"}>
                 <div class="pl-color-hue-slider-thumb" style={thumbStyles.value}/>
             </div>
         )

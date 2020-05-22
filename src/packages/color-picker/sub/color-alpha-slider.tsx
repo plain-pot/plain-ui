@@ -92,7 +92,7 @@ export default defineComponent({
         })
 
         return () => (
-            <div class="pl-color-alpha-slider" style={styles.value} onMousedown={handler.mousedown}>
+            <div class="pl-color-alpha-slider" style={styles.value} onMousedown={handler.mousedown} ref={"el"}>
                 <div class="pl-color-alpha-shadow" style={shadowStyles.value}/>
                 <span class="pl-color-alpha-thumb" style={thumbStyles.value}/>
             </div>
