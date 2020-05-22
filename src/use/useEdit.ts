@@ -1,4 +1,4 @@
-import {computed, inject, provide, reactive, getCurrentInstance} from "@vue/composition-api";
+import {computed, inject, provide, reactive, getCurrentInstance, ref} from "@vue/composition-api";
 
 /**
  * 生成editComputed，用于继承父组件的edit属性
@@ -49,4 +49,18 @@ export function useEdit() {
         editState,
         editComputed,
     }
+}
+
+export function useEditOuterLoading(editComputed): { value: boolean } {
+    const loading = ref(false)
+
+    const result = computed({
+        get: () => loading.value || editComputed.value.loading,
+        set: (val) => {
+            loading.value = val
+        },
+    })
+
+    // @ts-ignore
+    return result
 }

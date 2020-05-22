@@ -1,6 +1,6 @@
 import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, ref, watch} from "@vue/composition-api";
 import {StyleProps, useStyle} from "@/use/useStyle";
-import {EditProps, useEdit} from "@/use/useEdit";
+import {EditProps, useEdit, useEditOuterLoading} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {ElRef, useRefs} from "@/use/useRefs";
@@ -57,7 +57,7 @@ export default defineComponent({
         horizontal: {type: String, default: 'center'},                          // 横向对其方式：start,center,end
         loading: {type: Boolean},                                               // 弹出框添加 加载中的遮罩
     },
-    setup(props, context) {
+    setup(props) {
 
         const {slots, $slots} = useSlots({
             head: SlotFunc,
@@ -76,7 +76,9 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const {editState, editComputed} = useEdit()
+        const {editComputed} = useEdit()
+        const loading = useEditOuterLoading(editComputed)
+
         const {styleComputed} = useStyle()
 
         const propsState = useProps(props, {
@@ -153,20 +155,20 @@ export default defineComponent({
         const handler = {
             keyboardEventOption: {
                 "enter": () => {
-                    if (editComputed.value.loading) return
+                    if (loading.value) return
                     if (!!props.confirmOnEnter) {
                         methods.confirm()
                     }
                 },
                 "esc": () => {
-                    if (editComputed.value.loading) return
+                    if (loading.value) return
                     if (!!props.cancelOnEsc) {
                         methods.cancel()
                     }
                 }
             } as KeyboardServiceOption,
             clickWrapper: (e: MouseEvent) => {
-                if (editComputed.value.loading) {
+                if (loading.value) {
                     return
                 }
                 if (!!props.cancelOnClickMask) {
@@ -176,7 +178,7 @@ export default defineComponent({
                 }
             },
             clickClose: () => {
-                if (editComputed.value.loading) {
+                if (loading.value) {
                     return
                 }
                 methods.cancel()
@@ -229,7 +231,7 @@ export default defineComponent({
             async close() {
                 try {
                     if (!!props.beforeClose) {
-                        editState.loading = true
+                        loading.value = true
                         let flag = await props.beforeClose()
                         if (flag === false) return
                     }
@@ -238,7 +240,7 @@ export default defineComponent({
                 } catch (e) {
                     console.error(e)
                 } finally {
-                    editState.loading = null
+                    loading.value = false
                 }
             },
         }
@@ -289,7 +291,7 @@ export default defineComponent({
                                     {!!props.cancelButton && <pl-button label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
                                     {!!props.confirmButton && <pl-button label={props.confirmButtonText} onClick={methods.confirm}/>}
                                 </div>}
-                                <pl-loading-mask value={editComputed.value.loading}/>
+                                <pl-loading-mask value={loading.value}/>
                             </div>
                         </div>}
                     </transition>
