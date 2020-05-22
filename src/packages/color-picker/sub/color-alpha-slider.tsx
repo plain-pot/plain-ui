@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
 import {EditProps} from "@/use/useEdit";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
@@ -86,6 +86,10 @@ export default defineComponent({
                 $plain.enableSelect()
             },
         }
+
+        watch(() => props.value, (val) => {
+            $plain.nextTick(() => methods.setTop(val / 100 * height.value))
+        })
 
         return () => (
             <div class="pl-color-alpha-slider" style={styles.value} onMousedown={handler.mousedown}>
