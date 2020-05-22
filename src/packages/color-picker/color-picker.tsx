@@ -25,7 +25,6 @@ export default defineComponent({
         useStyle()
 
         const refs = useRefs({
-            el: ElRef,
             input: CompRef,
         })
 
@@ -41,30 +40,32 @@ export default defineComponent({
 
         })
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$cs(() => ({
-            props: {
-                value: state.val,
-                enableAlpha: props.enableAlpha,
-                format: props.format,
-            },
-            popperProps: {
-                reference: refs.el,
-            },
-            listener: {
-                change: (val) => {
-                    state.inputValue = val
-                    methods.emitValue(val)
+        const agentState = usePopperAgentEditor(() => ($plain as any).$cs(() => {
+            return ({
+                props: {
+                    value: state.val,
+                    enableAlpha: props.enableAlpha,
+                    format: props.format,
                 },
-            },
-            popperListener: {
-                'mousedown-popper': async () => {
-                    agentState.state.focusCounter++
+                popperProps: {
+                    reference: refs.input,
                 },
-                'click-popper': () => {
-                    refs.input.methods.focus()
+                listener: {
+                    change: (val) => {
+                        state.inputValue = val
+                        methods.emitValue(val)
+                    },
                 },
-            }
-        })))
+                popperListener: {
+                    'mousedown-popper': async () => {
+                        agentState.state.focusCounter++
+                    },
+                    'click-popper': () => {
+                        refs.input.methods.focus()
+                    },
+                }
+            })
+        }))
 
         const methods = {
             emitValue(val) {
