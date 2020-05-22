@@ -36,7 +36,7 @@ function formatValue(state: any, key: string, val: any, types: FormatPropsType |
  * @author  韦胜健
  * @date    2020/5/13 14:53
  */
-export function useProps<T = any>(props: T, option: { [key in keyof T]?: FormatPropsType | FormatPropsType[] }, watcher?: any): any {
+export function useProps<T extends object, O extends { [key in keyof T]?: FormatPropsType | FormatPropsType[] }>(props: T, option: O, watcher?: any): { [key in keyof O]: any } {
     const keys = Object.keys(option)
 
     let state = {} as any
