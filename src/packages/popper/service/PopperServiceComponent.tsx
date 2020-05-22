@@ -23,7 +23,7 @@ export interface PopperServiceComponent {
     toggle: Function,
 }
 
-function usePopperServiceComponent(
+export function usePopperServiceComponent(
     {
         name,
         content,

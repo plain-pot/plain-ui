@@ -5,6 +5,8 @@ import hue from './sub/color-hue-slider'
 import sv from './sub/color-sv-panel'
 import panel from './color-panel'
 
+import service from './color-service'
+
 import {installPlugin} from "@/util/install";
 
 export default installPlugin([
@@ -12,4 +14,6 @@ export default installPlugin([
     alpha,
     hue,
     sv,
+], [
+    service,
 ])

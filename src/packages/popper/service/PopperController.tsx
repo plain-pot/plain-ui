@@ -11,7 +11,7 @@ export function usePopperController(name: string, PSC: any) {
     return defineComponent({
         name,
         setup() {
-            const count = ref(0)
+            const count = ref(1)
 
             const ctx = getCurrentInstance()
 
