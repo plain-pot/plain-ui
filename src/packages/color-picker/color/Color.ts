@@ -12,7 +12,7 @@ export class Color {
 
     hue: number = 0                                     // 色相
     saturation: number = 0                              // 饱和度
-    value: number = 0                                   // 明亮度
+    val: number = 0                                     // 明亮度
 
     alpha: number = 0                                   // 透明度
     hex: string = ''                                    // 十六进制值
@@ -22,22 +22,22 @@ export class Color {
     _value;                                             // 当前值，hex或者rgb字符串
 
     /*当前rgb颜色值，如果启用透明度，则为rgba*/
-    get rgbColor(): string | null {
+    get rgbColor(): string | undefined {
         if (!this.red && !this.green && !this.blue) {
-            return null
+            return undefined
         }
         return `rgb${this.enableAlpha ? 'a' : ''}(${this.red},${this.green},${this.blue}${this.enableAlpha ? ',' + (this.alpha / 100).toFixed(2) : ''})`
     }
 
     /*当前颜色，可能是rgb，也可能是hex*/
-    get currentColor(): string | null {
+    get currentColor(): string | undefined {
         /*如果是带透明度的，强制使用rgb格式*/
         return this.enableAlpha || this.format === 'rgb' ? this.rgbColor : this.hex
     }
 
     /*当前颜色值*/
-    get color(): string | null {
-        if (this._value == null) return null
+    get color(): string | undefined {
+        if (this._value == null) return undefined
         return this.currentColor
     }
 
@@ -71,7 +71,7 @@ export class Color {
         if (value == null) {
             this.hue = 0
             this.saturation = 0
-            this.value = 100
+            this.val = 100
             this.alpha = 100
             return
         }
@@ -119,7 +119,7 @@ export class Color {
         const {h, s, v} = rgb2hsv(r, g, b)
         this.hue = h
         this.saturation = s
-        this.value = v
+        this.val = v
 
         /*设置hex*/
         this.hex = rgb2hex(r, g, b)
@@ -165,7 +165,7 @@ export class Color {
         const {h, s, v} = rgb2hsv(this.red, this.green, this.blue)
         this.hue = h
         this.saturation = s
-        this.value = v
+        this.val = v
 
         this._value = this.currentColor
     }
@@ -184,13 +184,13 @@ export class Color {
      *  @author     martsforever
      *  @datetime   2019/2/17 19:14
      */
-    setHsv(hue: number, saturation: number, value: number) {
+    setHsv(hue: number, saturation: number, val: number) {
         this.hue = hue
         this.saturation = saturation
-        this.value = value
+        this.val = val
 
         /*设置rgb*/
-        const {r, g, b} = hsv2rgb(hue, saturation, value)
+        const {r, g, b} = hsv2rgb(hue, saturation, val)
         this.red = r
         this.green = g
         this.blue = b
@@ -207,7 +207,7 @@ export class Color {
      *  @datetime   2019/2/17 19:23
      */
     updateByHsv() {
-        this.setHsv(this.hue, this.saturation, this.value)
+        this.setHsv(this.hue, this.saturation, this.val)
     }
 
     updateByAlpha() {

@@ -110,4 +110,30 @@
     }
   }
 
+  .pl-color-panel {
+    display: inline-block;
+    font-size: 0;
+
+    .pl-color-hue-slider {
+      margin-top: 8px;
+      display: block;
+    }
+
+    .pl-color-alpha-slider {
+      margin-left: 8px;
+    }
+
+    .pl-color-panel-input-group {
+      margin-top: 8px;
+
+      .pl-input {
+        margin-right: 8px;
+
+        .pl-input-inner {
+          text-align: center;
+        }
+      }
+    }
+  }
+
 }
