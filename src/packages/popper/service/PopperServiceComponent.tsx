@@ -92,7 +92,7 @@ export function usePopperServiceComponent(
                 return {
                     popperProps,
                     props,
-                    contentListener,
+                    listener: contentListener,
                     popperListener,
                     beforeShow,
                     beforeHide,
