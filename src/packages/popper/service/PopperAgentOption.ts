@@ -9,4 +9,6 @@ export interface PopperAgentOption {
 
     props?: object,
     listener?: object,
+
+    isPrivate?: boolean,
 }
