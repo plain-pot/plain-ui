@@ -1,11 +1,5 @@
 <template>
     <div v-if="!!agent">
-        <h1>Agent</h1>
-        <div>
-            {{agent.state.flag}}
-        </div>
-        <button @click="agent.methods.show">show</button>
-        <button @click="agent.methods.hide">hide</button>
     </div>
 </template>
 
@@ -21,11 +15,7 @@
             }
         },
         mounted() {
-            setTimeout(() => {
-                const agent = usePopperAgent()
 
-                this.agent = agent
-            }, 1000)
         }
     }
 </script>
