@@ -9,6 +9,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {FormatPropsType, useProps} from "@/use/useProps";
+import {useScopedSlots} from "@/use/useScopedSlots";
 
 export default defineComponent({
     name: 'pl-checkbox',
@@ -27,6 +28,10 @@ export default defineComponent({
         ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
     },
     setup(props, context) {
+
+        const {scopedSlots} = useScopedSlots({
+            default: {checked: Boolean},
+        })
 
         const {emit} = useEvent({input: EmitFunc,})
         const model = useModel(() => props.value, emit.input)
@@ -105,22 +110,25 @@ export default defineComponent({
                  onKeydown={handler.keydown}
             >
                 {
-                    !!context.slots.default ? context.slots.default() : [
-                        <span class="plain-click-node">
-                            <transition name="pl-transition-fade" mode="out-in">
-                                {!!context.slots['checkbox-inner'] ? context.slots['checkbox-inner']() : (
-                                    isChecked.value ?
-                                        <pl-checkbox-inner status="check" key="check" disabled={editComputed.value.disabled}/> :
-                                        <pl-checkbox-inner status="uncheck" key="uncheck" disabled={editComputed.value.disabled}/>
-                                )}
-                            </transition>
-                        </span>,
-                        !propsState.label ? null : (
-                            <div class="pl-checkbox-label">
-                                {propsState.label}
-                            </div>
-                        )
-                    ].filter(Boolean)
+                    scopedSlots.default({
+                        param: {checked: isChecked.value},
+                        content: [
+                            <span class="plain-click-node">
+                                <transition name="pl-transition-fade" mode="out-in">
+                                    {!!context.slots['checkbox-inner'] ? context.slots['checkbox-inner']() : (
+                                        isChecked.value ?
+                                            <pl-checkbox-inner status="check" key="check" disabled={editComputed.value.disabled}/> :
+                                            <pl-checkbox-inner status="uncheck" key="uncheck" disabled={editComputed.value.disabled}/>
+                                    )}
+                                </transition>
+                            </span>,
+                            !propsState.label ? null : (
+                                <div class="pl-checkbox-label">
+                                    {propsState.label}
+                                </div>
+                            )
+                        ]
+                    })
                 }
             </div>
         )

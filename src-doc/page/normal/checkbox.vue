@@ -55,6 +55,16 @@
             </pl-checkbox-group>
         </demo-row>
 
+        <demo-row title="自定义渲染内容">
+            <pl-checkbox-group v-model="val[3]">
+                <pl-checkbox v-for="item in ['tag1','tag2','tag3']" :val="item" :key="item">
+                    <div slot-scope="{checked}" class="demo-checkbox-custom-item" :class="{'demo-checkbox-custom-item-active':checked}">
+                        {{item}}
+                    </div>
+                </pl-checkbox>
+            </pl-checkbox-group>
+        </demo-row>
+
         <demo-row title="复选框组：状态以及大小">
             <pl-checkbox-group v-model="val[3]" status="warn" size="large">
                 <pl-checkbox label="标签一" val="tag1"/>
@@ -113,9 +123,25 @@
 </script>
 
 <style lang="scss">
-    .demo-checkbox-row {
-        & > * {
-            margin-right: 1em;
+    .demo-checkbox {
+        .demo-checkbox-row {
+            & > * {
+                margin-right: 1em;
+            }
+        }
+
+        .demo-checkbox-custom-item {
+            height: 80px;
+            width: 80px;
+            border-radius: 4px;
+            border: solid 1px #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.demo-checkbox-custom-item-active {
+                background-color: #f1f1f1;
+            }
         }
     }
 </style>
