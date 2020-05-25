@@ -1,7 +1,10 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
 import PlainPopper from "../../../submodules/plain-popper";
 import {useRefs} from "@/use/useRefs";
 import {FormatPropsType, useProps} from "@/use/useProps";
+import {$plain} from "@/packages/base";
+import {useSlots} from "@/use/useSlots";
+import {useRefer} from "@/use/useRefer";
 
 const PlainTooltip = PlainPopper.PlainTooltip
 
@@ -29,6 +32,7 @@ export default defineComponent({
     setup(props, context) {
 
         const refs = useRefs()
+        const {slots} = useSlots()
 
         const propsState = useProps(props, {
             text: FormatPropsType.promise,
@@ -45,6 +49,13 @@ export default defineComponent({
             return state.tooltip.isShow
         })
 
+        const classes = computed(() => [
+            'pl-tooltip',
+            {
+                'pl-tooltip-show-overflow-tooltip': props.showOverflowTooltip
+            }
+        ])
+
         const utils = {
             initTooltip: () => {
                 // @ts-ignore
@@ -60,19 +71,90 @@ export default defineComponent({
                     animate: props.animate,
                     trigger: props.trigger,
                 })
+            },
+            destroyTooltip: () => {
+                if (!!state.tooltip) {
+                    state.tooltip.hide()
+                    state.tooltip.destroy()
+                    state.tooltip = null
+                }
+            },
+            reset: () => {
+                if (!!state.tooltip) {
+                    utils.destroyTooltip()
+                }
+                utils.initTooltip()
             }
         }
 
         const methods = {
             show: () => {
-
+                if (!state.tooltip) {
+                    utils.initTooltip()
+                }
+                state.tooltip.show()
+            },
+            hide: () => {
+                if (!!state.tooltip) {
+                    state.tooltip.hide()
+                }
             }
         }
 
-        return () => (
-            <div>
+        onMounted(() => {
+            utils.initTooltip()
+        })
 
-            </div>
+        onBeforeUnmount(() => {
+            utils.destroyTooltip()
+            if (!!state.unwatch) {
+                state.unwatch()
+            }
+        })
+
+        Object.keys(props).forEach(propsName => {
+            if (propsName === 'showOverflowTooltip') {
+                watch(() => props.showOverflowTooltip, (val) => {
+                    if (val) {
+                        state.unwatch = watch(() => props.text, async () => {
+                            await $plain.nextTick()
+                            const {offsetWidth, scrollWidth} = refs.$el
+                            if (offsetWidth >= scrollWidth) {
+                                if (!!state.tooltip) {
+                                    utils.destroyTooltip()
+                                }
+                            } else {
+                                if (!state.tooltip) {
+                                    utils.initTooltip()
+                                }
+                            }
+                        })
+                        console.log('state.unwatch', state.unwatch)
+                    } else {
+                        !!state.unwatch && state.unwatch()
+                    }
+                })
+            } else {
+                watch(() => props[propsName], () => {
+                    utils.reset()
+                }, {lazy: true})
+            }
+        })
+
+        useRefer({
+            utils,
+            methods,
+            isShow,
+            state,
+            propsState,
+            refs,
+            slots,
+        })
+
+        return () => (
+            <span class={classes.value} tabIndex={props.trigger === 'focus' ? '0' : null}>
+                {slots.default(propsState.text)}&nbsp;&nbsp;
+            </span>
         )
     },
 })

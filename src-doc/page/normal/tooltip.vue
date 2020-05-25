@@ -18,7 +18,7 @@
                 <pl-radio-group v-model="trigger">
                     <pl-radio v-for="item in ['click','hover','manual','focus','always']" :key="item" :label="item" :val="item"/>
                 </pl-radio-group>
-                <pl-button :label="$refs.tooltip.isShow?'hide':'show'" v-if="trigger === 'manual'" @click="$refs.tooltip.isShow?$refs.tooltip.hide():$refs.tooltip.show()"/>
+                <pl-button :label="$refs.tooltip.isShow.value?'hide':'show'" v-if="trigger === 'manual'" @click="$refs.tooltip.isShow.value?$refs.tooltip.methods.hide():$refs.tooltip.methods.show()"/>
             </demo-line>
             <demo-line title="animate">
                 <pl-radio-group v-model="animate">
