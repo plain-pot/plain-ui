@@ -6,7 +6,7 @@ import PlainPopper from "../../../submodules/plain-popper";
 import {$plain} from "@/packages/base";
 import {ElRef, useRefs} from "@/use/useRefs";
 import {PlainPlacementType} from "../../../submodules/plain-popper/types";
-import {getTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
+import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
@@ -212,7 +212,7 @@ export default defineComponent({
 
                 utils.bindEvents()
 
-                state.trigger = getTrigger(props.trigger as PopperTriggerType, {
+                state.trigger = getPopperTrigger(props.trigger as PopperTriggerType, {
                     model,
                     open,
                     show: methods.show,

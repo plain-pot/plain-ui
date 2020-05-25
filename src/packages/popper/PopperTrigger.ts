@@ -18,7 +18,7 @@ export enum PopperTriggerType {
     manual = 'manual'
 }
 
-export function getTrigger(triggerName: PopperTriggerType, {
+export function getPopperTrigger(triggerName: PopperTriggerType, {
     model,
     open,
 
