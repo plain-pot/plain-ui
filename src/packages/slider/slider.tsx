@@ -36,9 +36,7 @@ export default defineComponent({
 
         /*---------------------------------------refs-------------------------------------------*/
 
-        const refs = useRefs({
-            el: ElRef,
-        })
+        const refs = useRefs()
 
         /*---------------------------------------emitter-------------------------------------------*/
 
@@ -117,7 +115,7 @@ export default defineComponent({
 
         const totalLength = computed(() => {
             if (!isMounted.value) return 0
-            if (state.totalLength == null) state.totalLength = refs.el[!!props.vertical ? 'offsetHeight' : 'offsetWidth']
+            if (state.totalLength == null) state.totalLength = refs.$el[!!props.vertical ? 'offsetHeight' : 'offsetWidth']
             return state.totalLength
         })
 

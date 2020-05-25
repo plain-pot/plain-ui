@@ -13,9 +13,7 @@ export default defineComponent({
     },
     setup(props) {
 
-        const refs = useRefs({
-            el: ElRef,
-        })
+        const refs = useRefs()
 
         const propsState = useProps(props, {
             size: FormatPropsType.number,
@@ -56,7 +54,7 @@ export default defineComponent({
             mousedown: (e: MouseEvent) => {
                 document.body.addEventListener('mousemove', handler.mousemove)
                 document.body.addEventListener('mouseup', handler.mouseup)
-                if (e.target === refs.el) {
+                if (e.target === refs.$el) {
                     methods.setLeft(e.offsetX - propsState.thumbSize / 2)
                     methods.emitValue()
                 }
@@ -81,7 +79,7 @@ export default defineComponent({
         })
 
         return () => (
-            <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value} ref={"el"}>
+            <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value}>
                 <div class="pl-color-hue-slider-thumb" style={thumbStyles.value}/>
             </div>
         )

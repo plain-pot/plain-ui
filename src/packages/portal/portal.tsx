@@ -20,7 +20,6 @@ export default defineComponent({
 
         const refs = useRefs({
             content: ElRef,
-            el: ElRef,
         })
 
         const {emit} = useEvent({
@@ -67,7 +66,7 @@ export default defineComponent({
                         state.containerNode = targetContainer.value as HTMLElement
 
                         // @ts-ignore
-                        refs.el.replaceChild(state.commentNode, state.contentEl)
+                        refs.$el.replaceChild(state.commentNode, state.contentEl)
                         state.containerNode.appendChild(state.contentEl)
 
                         state.isMoved = true
@@ -78,7 +77,7 @@ export default defineComponent({
                     if (!!state.isMoved) {
                         state.containerNode!.removeChild(state.contentEl!)
                         // @ts-ignore
-                        refs.el.replaceChild(state.contentEl, state.commentNode)
+                        refs.$el.replaceChild(state.contentEl, state.commentNode)
 
                         state.contentEl = null
                         state.containerNode = null

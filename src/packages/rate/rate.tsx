@@ -24,9 +24,7 @@ export default defineComponent({
     },
     setup(props, context) {
 
-        const refs = useRefs({
-            el: ElRef,
-        })
+        const refs = useRefs()
 
         const {emit} = useEvent({
             input: EmitFunc,
@@ -73,12 +71,12 @@ export default defineComponent({
 
         const totalWidth = computed(() => {
             if (!mounted.value) return 0
-            if (!state.totalWidth) state.totalWidth = refs.el.offsetWidth
+            if (!state.totalWidth) state.totalWidth = refs.$el.offsetWidth
             return state.totalWidth
         })
 
         const elLeft = computed(() => {
-            if (!state.elLeft) state.elLeft = refs.el.getBoundingClientRect().left
+            if (!state.elLeft) state.elLeft = refs.$el.getBoundingClientRect().left
             return state.elLeft
         })
 

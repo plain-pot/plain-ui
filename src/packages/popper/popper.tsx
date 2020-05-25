@@ -53,7 +53,6 @@ export default defineComponent({
     setup(props) {
 
         const refs = useRefs({
-            el: ElRef,
             popper: ElRef,
             content: ElRef,
         })
@@ -180,7 +179,7 @@ export default defineComponent({
 
         const utils = {
             init() {
-                const children = Array.from(refs.el.children)
+                const children = Array.from(refs.$el.children)
 
                 if (children[0] !== refs.popper) {
                     state.referenceEl = children[0]

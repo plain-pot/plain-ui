@@ -67,7 +67,7 @@ export default defineComponent({
             mousedown: (e: MouseEvent) => {
                 document.body.addEventListener('mousemove', handler.mousemove)
                 document.body.addEventListener('mouseup', handler.mouseup)
-                if (e.target === refs.el) {
+                if (e.target === refs.$el) {
                     methods.setTop(e.offsetY - propsState.thumbSize / 2)
                     methods.emitValue()
                 }
