@@ -218,21 +218,15 @@ export default defineComponent({
                     show: methods.show,
                     hide: methods.hide,
 
-                    emitEnterReference: emit.enterReference,
-                    emitLeaveReference: emit.leaveReference,
-                    emitEnterPopper: emit.enterPopper,
-                    emitLeavePopper: emit.leavePopper,
-
                     hoverOpenDelay: propsState.hoverOpenDelay,
                     hoverCloseDelay: propsState.hoverCloseDelay,
+
                     reference: state.referenceEl as HTMLElement,
                     popper: state.popperEl,
 
-                    emitReferenceFocus: emit.referenceFocus,
-                    emitReferenceBlur: emit.referenceBlur,
-
                     on,
                     off,
+                    emit,
                 })
 
                 state.trigger.init()
