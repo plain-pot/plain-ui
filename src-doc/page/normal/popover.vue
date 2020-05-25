@@ -10,7 +10,7 @@
         </demo-row>
 
         <demo-row title="不使用scroll滚动条，height，width为null，sizeEqual为false">
-            <pl-popover :sizeEqual="false">
+            <pl-popover :sizeEqual="false" :height="null" :width="null">
                 <pl-button label="reference"/>
                 <div slot="popper" style="height: 300px;width: 300px">
                     <div>这里是popover的内容</div>
