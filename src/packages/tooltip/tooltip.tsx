@@ -129,7 +129,6 @@ export default defineComponent({
                                 }
                             }
                         })
-                        console.log('state.unwatch', state.unwatch)
                     } else {
                         !!state.unwatch && state.unwatch()
                     }
