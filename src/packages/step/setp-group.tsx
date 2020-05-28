@@ -12,7 +12,7 @@ export default defineComponent({
         type: {type: String, default: 'normal'},                        // 步骤条类型，normal、navigation
         vertical: {type: Boolean},                                      // 步骤条是否为纵向
         titleAlignBottom: {type: Boolean},                              // 默认情况下，标题会放在图标右侧，设置该属性可以改为放在图标下面
-        mini: {type: Boolean},                                          // 迷你步骤条
+        mini: {type: Boolean, default: true},                           // 迷你步骤条
         dotIcon: {type: Boolean},                                       // 图标是否采用小圆点替代
     },
     setup(props) {
@@ -43,7 +43,7 @@ export default defineComponent({
             } else {
                 for (let i = 0; i < state.items.length; i++) {
                     const item = state.items[i];
-                    if (item.val === props.current) return item.index
+                    if (item.val === props.current) return item.state.index
                 }
             }
         })

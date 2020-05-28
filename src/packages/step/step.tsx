@@ -102,6 +102,7 @@ export default defineComponent({
         }
 
         const ctx = useRefer({
+            state,
             utils,
         })
 
