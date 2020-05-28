@@ -30,12 +30,14 @@ export function usePopperServiceComponent(
         externalListener,
         externalPopperListener,
         defaultPopperProps,
+        hideOnClickBody = true,
     }: {
         name: string,                                                       // service组件名称
         content: (h: Function, Service: any) => any,                        // 内容渲染函数
         externalListener?: { [key: string]: Function },                     // 额外的事件监听器
         externalPopperListener?: { [key: string]: Function },               // 额外的popper事件监听器
         defaultPopperProps?: { [key: string]: any },                        // 默认的popper参数
+        hideOnClickBody?: boolean                                            // 点击body的时候是否自动关闭
     }
 ) {
 
@@ -134,7 +136,7 @@ export function usePopperServiceComponent(
                             }
                         },
                         'click-body': () => {
-                            if (state.show) {
+                            if (hideOnClickBody && state.show) {
                                 methods.hide()
                             }
                         },
