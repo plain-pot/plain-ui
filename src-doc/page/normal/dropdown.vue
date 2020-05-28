@@ -69,7 +69,7 @@
                             <pl-dropdown-item label="设置" @click="$message('设置')"/>
                         </pl-dropdown-menu>
                     </pl-dropdown>
-                    <pl-button :label="'toggle==>>'+val[0]" @click="val[0] = !val[0]"/>
+                    <pl-button :label="'toggle button:'+val[0]" @click="val[0] = !val[0]"/>
                 </pl-button-group>
             </demo-row>
             <demo-row title="禁用选项">
