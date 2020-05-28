@@ -24,6 +24,7 @@ import popover from './packages/popover'
 import colorPicker from './packages/color-picker'
 import tooltip from './packages/tooltip'
 import dropdown from './packages/dropdown'
+import card from './packages/card'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -31,7 +32,7 @@ const plugins = [
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper, popover, tooltip, dropdown,
+    message, notice, dialog, popper, popover, tooltip, dropdown, card,
 ]
 
 const install: PluginType['install'] = Vue => {

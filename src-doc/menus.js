@@ -72,7 +72,7 @@ export default [
             {name: 'Dropdown', title: '悬浮层', icon: 'pl-popper', page: '/normal/dropdown', complete: true},
             {name: 'Popover', title: '弹出框', icon: 'pl-popper', page: '/normal/popover', complete: true},
             {name: 'Popper', title: '悬浮框', icon: 'pl-popper', page: '/normal/popper', complete: true},
-            {name: 'Card', title: '卡片', icon: 'pl-card', page: '/normal/card', complete: false},
+            {name: 'Card', title: '卡片', icon: 'pl-card', page: '/normal/card', complete: true},
             {name: 'Carousel', title: '轮播', icon: 'pl-carousel', page: '/normal/carousel', complete: false},
             {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: false},
             {name: 'Alert', title: '提示信息', icon: 'pl-collapse', page: '/normal/alert', complete: false},

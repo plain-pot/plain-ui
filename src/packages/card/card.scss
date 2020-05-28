@@ -1,0 +1,38 @@
+@include theme {
+  .pl-card {
+    @include public-style;
+    display: inline-block;
+    border-radius: 2px;
+
+    &:hover {
+      box-shadow: $boxshadow;
+    }
+
+    &.pl-card-shadow-always {
+      box-shadow: $boxshadow;
+    }
+
+    &.pl-card-shadow-never {
+      box-shadow: initial;
+    }
+  }
+
+  .pl-card-content {
+    @include public-style;
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+
+  .pl-card-header {
+    @include public-style;
+    height: 44px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    padding: 0 16px;
+    border-bottom: solid 1px $ibl;
+    color: $ihc;
+  }
+}
