@@ -4,6 +4,7 @@
 
     .pl-dropdown-item {
       padding: 4px 16px;
+      box-sizing: border-box;
       cursor: pointer;
       transition: background-color 300ms $transition;
 

@@ -28,10 +28,12 @@ export default {
             },
             externalListener: {
                 'click-item'() {
-                    // @ts-ignore
-                    this.hide()
+                    if ((this as any).options.value.props.closeOnClickItem !== false) {
+                        this.hide()
+                    }
                 },
-            }
+            },
+            hideOnClickBody: false,
         })
 
         const DropdownController = usePopperController('pl-dropdown-service-controller', DropdownServiceComponent)

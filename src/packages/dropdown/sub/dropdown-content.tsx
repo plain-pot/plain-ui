@@ -15,6 +15,8 @@ export default defineComponent({
 
         const {emit} = useEvent({
             clickItem: EmitFunc,
+            enterPopper: EmitFunc,
+            leavePopper: EmitFunc,
         })
 
         const ctx = getCurrentInstance()!
@@ -37,7 +39,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class="pl-dropdown-content" style={styles.value}>
+                <div class="pl-dropdown-content" style={styles.value} onMouseenter={emit.enterPopper} onMouseleave={emit.leavePopper}>
                     {props.width == null && props.height == null ? (
                         !!props.content && props.content(ctx.$createElement)
                     ) : (

@@ -23,7 +23,7 @@
                 </pl-dropdown>
             </demo-row>
             <demo-row title="宽高设置">
-                <pl-dropdown ref="sizeDropdown" width="100" height="200px">
+                <pl-dropdown ref="sizeDropdown" width="150" height="150px">
                     <pl-button>宽高设置</pl-button>
                     <pl-dropdown-menu slot="dropdown">
                         <pl-dropdown-item label="新建" @click="$message('新建')"/>
