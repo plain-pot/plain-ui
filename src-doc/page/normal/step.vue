@@ -166,6 +166,12 @@
             </demo-line>
         </demo-row>
 
+        <demo-row title="箭头步骤条">
+            <pl-arrow-step-group>
+                <pl-arrow-step></pl-arrow-step>
+                <pl-arrow-step></pl-arrow-step>
+            </pl-arrow-step-group>
+        </demo-row>
     </div>
 </template>
 
