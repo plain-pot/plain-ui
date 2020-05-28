@@ -33,7 +33,7 @@ export default defineComponent({
 
         const refs = useRefs()
 
-        const model = useModel(() => props.value, emit.input, false, false)
+        const model = useModel(() => props.value == null ? 0 : props.value, emit.input)
 
         const state = reactive({
             containerWidth: null as null | number,
@@ -175,17 +175,14 @@ export default defineComponent({
             }
             methods.play()
             if (!props.data || props.data.length === 0) return
-            model.value = props.value == null ? 0 : props.value
             utils.update()
         })
 
         watch(() => props.value, (val) => {
-            if (model.value !== val && val > -1 && val < props.data.length) {
-                model.value = val
+            if (val > -1 && val < props.data.length) {
                 state.x = -val * state.containerWidth!
             }
         }, {lazy: true})
-
 
         return () => (
             <div class="pl-carousel">
