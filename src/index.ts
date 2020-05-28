@@ -30,6 +30,7 @@ import carousel from './packages/carousel'
 import virtualList from './packages/virtual-list'
 import progress from './packages/progress'
 import pagination from "@/packages/pagination";
+import badge from './packages/badge'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -38,7 +39,7 @@ const plugins = [
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
     message, notice, dialog, popper, popover, tooltip, dropdown,
-    card, alert, carousel, virtualList, progress, pagination,
+    card, alert, carousel, virtualList, progress, pagination, badge,
 ]
 
 const install: PluginType['install'] = Vue => {
