@@ -1,5 +1,5 @@
 import {computed, defineComponent} from "@vue/composition-api";
-import {DEFAULT_PROGRESS_PROPS} from "@/packages/progress/progress";
+import {PROGRESS_DEFAULT_PROPS} from "@/packages/progress/progress";
 
 export default defineComponent({
     name: 'pl-progress-bar',
@@ -8,7 +8,7 @@ export default defineComponent({
         height: {type: String, default: '6px'},
         inlineText: {type: Boolean},
 
-        ...DEFAULT_PROGRESS_PROPS,
+        ...PROGRESS_DEFAULT_PROPS,
     },
     setup(props) {
 
@@ -53,8 +53,8 @@ export default defineComponent({
                     {props.inlineText && props.value < 20 && (
                         <div>
                             <div class="pl-progress-bar-content">
-                                {props.status === 'success' && <pl-icon icon="el-icon-check" className="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                                {props.status === 'error' && <pl-icon icon="el-icon-close" className="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                                {props.status === 'success' && <pl-icon icon="el-icon-check" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                                {props.status === 'error' && <pl-icon icon="el-icon-close" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                                 {props.status !== 'success' && props.status !== 'error' && <span>{props.value}%</span>}
                             </div>
                         </div>
@@ -63,8 +63,8 @@ export default defineComponent({
                 {
                     !props.inlineText && (
                         <div class="pl-progress-bar-content">
-                            {props.status === 'success' && <pl-icon icon="el-icon-success" className="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                            {props.status === 'error' && <pl-icon icon="el-icon-error" className="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                            {props.status === 'success' && <pl-icon icon="el-icon-success" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                            {props.status === 'error' && <pl-icon icon="el-icon-error" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                             {props.status !== 'success' && props.status !== 'error' && <span>{props.value}%</span>}
                         </div>
                     )
