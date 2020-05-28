@@ -189,8 +189,6 @@
 </template>
 
 <script>
-    import dropdown from "../../../src/packages/dropdown/dropdown";
-
     export default {
         name: "demo-dropdown",
         props: {},
