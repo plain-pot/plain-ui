@@ -52,7 +52,7 @@ export default [
             {name: 'Virtual Tree', title: '虚拟树', icon: 'pl-tree', page: '/normal/virtual-tree', complete: false},
             {name: 'Pagination', title: '分页', icon: 'pl-book2', page: '/normal/pagination', complete: false},
             {name: 'Badge', title: '标记', icon: 'pl-badge', page: '/normal/badge', complete: true},
-            {name: 'Step', title: '步骤条', icon: 'pl-step', page: '/normal/step', complete: false},
+            {name: 'Step', title: '步骤条', icon: 'pl-step', page: '/normal/step', complete: true},
             {name: 'Tab', title: '页签', icon: 'pl-tabs', page: '/normal/tab', complete: false},
             // {name: 'Transform', title: '穿梭框', icon: 'pl-exchange', page: '/normal/transform', complete: false},
         ]
