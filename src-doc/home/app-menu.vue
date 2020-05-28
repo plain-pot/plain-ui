@@ -88,12 +88,20 @@
                 }
 
                 .app-menu-name {
+                    position: relative;
+
                     & > span {
                         &:nth-child(2) {
                             font-size: 12px;
                             margin-left: 0.5em;
                             color: $itl;
                         }
+                    }
+
+                    .pl-icon {
+                        position: absolute;
+                        right: 16px;
+                        line-height: 40px;
                     }
                 }
 

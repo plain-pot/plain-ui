@@ -4,26 +4,26 @@ export default [
     {
         name: '基础', children: [
             // {name: 'Color', title: '颜色', icon: 'pl-color', page: '/normal/color', complete: false},
-            {name: 'Icon', title: '图标', icon: 'pad-font-colors', page: '/normal/icon', complete: false},
-            {name: 'Button', title: '按钮', icon: 'pad-play-circle', page: '/normal/button', complete: false},
-            {name: 'Grid', title: '栅格', icon: 'pad-play-circle', page: '/normal/grid', complete: false},
+            {name: 'Icon', title: '图标', icon: 'pad-font-colors', page: '/normal/icon', complete: true},
+            {name: 'Button', title: '按钮', icon: 'pad-play-circle', page: '/normal/button', complete: true},
+            {name: 'Grid', title: '栅格', icon: 'pad-play-circle', page: '/normal/grid', complete: true},
             // {name: 'Container', title: '容器', icon: 'pad-play-circle', page: '/normal/container', complete: false},
         ]
     },
     {
         name: '表单元素', children: [
-            {name: 'Input', title: '输入框', icon: 'pl-edit-square-light', page: '/normal/input', complete: false},
+            {name: 'Input', title: '输入框', icon: 'pl-edit-square-light', page: '/normal/input', complete: true},
             // {name: 'Textarea', title: '文本域', icon: 'pl-textarea', page: '/normal/textarea', complete: false},
-            {name: 'Radio', title: '单选框', icon: 'pl-circle-radio', page: '/normal/radio', complete: false},
-            {name: 'Checkbox', title: '复选框', icon: 'pl-circle-radio', page: '/normal/checkbox', complete: false},
-            {name: 'Number', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: false},
-            {name: 'Loading', title: '加载', icon: 'pl-loading-section-three', page: '/normal/loading', complete: false},
+            {name: 'Radio', title: '单选框', icon: 'pl-circle-radio', page: '/normal/radio', complete: true},
+            {name: 'Checkbox', title: '复选框', icon: 'pl-circle-radio', page: '/normal/checkbox', complete: true},
+            {name: 'Number', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: true},
+            {name: 'Loading', title: '加载', icon: 'pl-loading-section-three', page: '/normal/loading', complete: true},
             {name: 'Select', title: '下拉选择', icon: 'pad-down', page: '/normal/select', complete: false},
-            {name: 'Toggle', title: '开关切换', icon: 'pl-toggle', page: '/normal/toggle', complete: false},
-            {name: 'Slider', title: '滑块', icon: 'pl-slider', page: '/normal/slider', complete: false},
-            {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: false},
-            {name: 'Rate', title: '评分', icon: 'pad-star', page: '/normal/rate', complete: false},
-            {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: false},
+            {name: 'Toggle', title: '开关切换', icon: 'pl-toggle', page: '/normal/toggle', complete: true},
+            {name: 'Slider', title: '滑块', icon: 'pl-slider', page: '/normal/slider', complete: true},
+            {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: true},
+            {name: 'Rate', title: '评分', icon: 'pad-star', page: '/normal/rate', complete: true},
+            {name: 'ColorPicker', title: '颜色选择', icon: 'pl-color', page: '/normal/color-picker', complete: true},
 
             {name: 'Cascade', title: '级联选择', icon: 'pad-doubledown', page: '/normal/cascade', complete: false},
             {name: 'Time', title: '时间选择', icon: 'pl-time-circle-light', page: '/normal/time', complete: false},
@@ -45,7 +45,7 @@ export default [
     },
     {
         name: '视图', children: [
-            {name: 'List', title: '列表', icon: 'pl-list', page: '/normal/list', complete: false},
+            {name: 'List', title: '列表', icon: 'pl-list', page: '/normal/list', complete: true},
             {name: 'VirtualList', title: '虚拟列表', icon: 'pl-list', page: '/normal/virtual-list', complete: false},
             {name: 'Progress', title: '进度条', icon: 'pl-progress', page: '/normal/progress', complete: false},
             {name: 'Tree', title: '树形组件', icon: 'pl-tree', page: '/normal/tree', complete: false},
@@ -66,26 +66,26 @@ export default [
     },
     {
         name: '其他', children: [
-            {name: 'Scroll', title: '滚动条', icon: 'icon-scroll', page: '/normal/scroll', complete: false},
-            {name: 'Dialog', title: '对话框', icon: 'pl-window', page: '/normal/dialog', complete: false},
-            {name: 'Tooltip', title: '文字提示', icon: 'pl-tooltip', page: '/normal/tooltip', complete: false},
-            {name: 'Dropdown', title: '悬浮层', icon: 'pl-popper', page: '/normal/dropdown', complete: false},
-            {name: 'Popover', title: '弹出框', icon: 'pl-popper', page: '/normal/popover', complete: false},
-            {name: 'Popper', title: '悬浮框', icon: 'pl-popper', page: '/normal/popper', complete: false},
+            {name: 'Scroll', title: '滚动条', icon: 'icon-scroll', page: '/normal/scroll', complete: true},
+            {name: 'Dialog', title: '对话框', icon: 'pl-window', page: '/normal/dialog', complete: true},
+            {name: 'Tooltip', title: '文字提示', icon: 'pl-tooltip', page: '/normal/tooltip', complete: true},
+            {name: 'Dropdown', title: '悬浮层', icon: 'pl-popper', page: '/normal/dropdown', complete: true},
+            {name: 'Popover', title: '弹出框', icon: 'pl-popper', page: '/normal/popover', complete: true},
+            {name: 'Popper', title: '悬浮框', icon: 'pl-popper', page: '/normal/popper', complete: true},
             {name: 'Card', title: '卡片', icon: 'pl-card', page: '/normal/card', complete: false},
             {name: 'Carousel', title: '轮播', icon: 'pl-carousel', page: '/normal/carousel', complete: false},
             {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: false},
             {name: 'Alert', title: '提示信息', icon: 'pl-collapse', page: '/normal/alert', complete: false},
-            {name: 'Portal', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/portal', complete: false},
+            {name: 'Portal', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/portal', complete: true},
         ]
     },
     {
         name: '服务', children: [
-            {name: '$message', title: '消息服务', icon: 'pad-message', page: '/service/message-service', complete: false},
+            {name: '$message', title: '消息服务', icon: 'pad-message', page: '/service/message-service', complete: true},
             {name: '$select', title: '选择服务', icon: 'pad-message', page: '/service/select-service', complete: false},
             {name: '$popper', title: '悬浮框服务', icon: 'pad-message', page: '/service/popper-service', complete: false},
-            {name: '$dialog', title: '对话框服务', icon: 'pl-window', page: '/service/dialog-service', complete: false},
-            {name: '$notice', title: '通知', icon: 'pad-bell', page: '/service/notice-service', complete: false},
+            {name: '$dialog', title: '对话框服务', icon: 'pl-window', page: '/service/dialog-service', complete: true},
+            {name: '$notice', title: '通知', icon: 'pad-bell', page: '/service/notice-service', complete: true},
             {name: '$file', title: '文件服务', icon: 'pad-bell', page: '/service/file', complete: false},
         ]
     },
@@ -108,12 +108,12 @@ export default [
     {name: '指令'},
     {
         name: '其他', children: [
-            {name: 'Test', title: '测试手动渲染实例', icon: 'pl-table-solid', page: '/normal/test', complete: false},
-            {name: 'Drag', title: '测试拖拽节点', icon: 'pl-table-solid', page: '/test/test-drag', complete: false},
-            {name: 'Svg', title: '测试svg', icon: 'pl-table-solid', page: '/test/test-svg', complete: false},
-            {name: 'Canvas', title: '测试canvas', icon: 'pl-table-solid', page: '/test/test-canvas', complete: false},
-            {name: 'High', title: '测试高阶组件', icon: 'pl-table-solid', page: '/test/test-high', complete: false},
-            {name: 'Listener', title: '测试事件', icon: 'pl-table-solid', page: '/test/test-listener', complete: false},
+            {name: 'Test', title: '测试手动渲染实例', icon: 'pl-table-solid', page: '/normal/test', complete: true},
+            {name: 'Drag', title: '测试拖拽节点', icon: 'pl-table-solid', page: '/test/test-drag', complete: true},
+            {name: 'Svg', title: '测试svg', icon: 'pl-table-solid', page: '/test/test-svg', complete: true},
+            {name: 'Canvas', title: '测试canvas', icon: 'pl-table-solid', page: '/test/test-canvas', complete: true},
+            {name: 'High', title: '测试高阶组件', icon: 'pl-table-solid', page: '/test/test-high', complete: true},
+            {name: 'Listener', title: '测试事件', icon: 'pl-table-solid', page: '/test/test-listener', complete: true},
         ]
     },
 ]
