@@ -230,6 +230,7 @@
 
           .pl-step-dot {
             border: solid 4px $colorPrimary;
+            box-sizing: border-box;
             background-color: white;
           }
         }
