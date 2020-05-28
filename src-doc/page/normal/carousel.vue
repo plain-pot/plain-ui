@@ -14,7 +14,7 @@
                 </pl-carousel>
             </div>
         </demo-row>
-        <demo-row title="禁用滑动">
+        <!--<demo-row title="禁用滑动">
             <div class="demo-carousel-box">
                 <pl-carousel :data="[1,2,3,4,5]" disabled-swipe>
                     <div slot-scope="{item,index}" class="demo-carousel-item">
@@ -61,7 +61,7 @@
                     </div>
                 </pl-carousel>
             </div>
-        </demo-row>
+        </demo-row>-->
     </div>
 </template>
 
