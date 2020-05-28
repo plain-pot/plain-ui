@@ -123,6 +123,7 @@
                 display: flex;
                 justify-content: center;
                 flex-direction: column;
+                box-sizing: border-box;
 
                 .label {
                     font-size: 12px;

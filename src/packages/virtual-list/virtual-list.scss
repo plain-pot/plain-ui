@@ -1,0 +1,18 @@
+.pl-virtual-list {
+  position: relative;
+
+  &:not(.pl-virtual-list-disabled) {
+    .pl-virtual-list-strut {
+      position: relative;
+      overflow: hidden;
+
+      .pl-virtual-list-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+
+}

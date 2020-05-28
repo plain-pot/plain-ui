@@ -46,7 +46,7 @@ export default [
     {
         name: '视图', children: [
             {name: 'List', title: '列表', icon: 'pl-list', page: '/normal/list', complete: true},
-            {name: 'VirtualList', title: '虚拟列表', icon: 'pl-list', page: '/normal/virtual-list', complete: false},
+            {name: 'VirtualList', title: '虚拟列表', icon: 'pl-list', page: '/normal/virtual-list', complete: true},
             {name: 'Progress', title: '进度条', icon: 'pl-progress', page: '/normal/progress', complete: false},
             {name: 'Tree', title: '树形组件', icon: 'pl-tree', page: '/normal/tree', complete: false},
             {name: 'Virtual Tree', title: '虚拟树', icon: 'pl-tree', page: '/normal/virtual-tree', complete: false},

@@ -27,6 +27,7 @@ import dropdown from './packages/dropdown'
 import card from './packages/card'
 import alert from './packages/alert'
 import carousel from './packages/carousel'
+import virtualList from './packages/virtual-list'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -34,7 +35,7 @@ const plugins = [
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper, popover, tooltip, dropdown, card, alert, carousel,
+    message, notice, dialog, popper, popover, tooltip, dropdown, card, alert, carousel, virtualList,
 ]
 
 const install: PluginType['install'] = Vue => {
