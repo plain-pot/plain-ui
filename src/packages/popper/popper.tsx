@@ -348,6 +348,13 @@ export default defineComponent({
             })
         }, {lazy: true})
 
+        watch(() => props.trigger, () => {
+            $plain.nextTick(() => {
+                utils.dstry()
+                utils.init()
+            })
+        })
+
         /*---------------------------------------lifecycle-------------------------------------------*/
 
         onMounted(() => {
