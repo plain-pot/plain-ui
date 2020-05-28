@@ -2,7 +2,7 @@
     <div class="demo-carousel">
         <demo-row title="基本用法">
             <demo-line title="使用双向绑定控制展示的索引位置" width="250px">
-                <pl-button :label="index" box-type="line"/>
+                <pl-button :label="JSON.stringify(index)" box-type="line"/>
                 <pl-button label="prev" @click="index--"/>
                 <pl-button label="next" @click="index++"/>
             </demo-line>
@@ -14,7 +14,7 @@
                 </pl-carousel>
             </div>
         </demo-row>
-        <!--<demo-row title="禁用滑动">
+        <demo-row title="禁用滑动">
             <div class="demo-carousel-box">
                 <pl-carousel :data="[1,2,3,4,5]" disabled-swipe>
                     <div slot-scope="{item,index}" class="demo-carousel-item">
@@ -61,7 +61,7 @@
                     </div>
                 </pl-carousel>
             </div>
-        </demo-row>-->
+        </demo-row>
     </div>
 </template>
 
@@ -77,7 +77,7 @@
 </script>
 
 <style lang="scss">
-    @include theme{
+    @include theme {
         .demo-carousel {
             .demo-carousel-box {
                 width: 400px;

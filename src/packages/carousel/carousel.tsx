@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, reactive, watch} from "@vue/composition-api";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {StyleType} from "@/types/utils";
@@ -74,7 +74,7 @@ export default defineComponent({
             },
             prev: () => {
                 if (!props.data || props.data.length === 0) return
-                const target = model.value + 1
+                const target = model.value - 1
                 model.value = target < 0 ? 0 : target
                 utils.update()
                 emit.input(model.value)
@@ -168,6 +168,17 @@ export default defineComponent({
             }
         }
 
+        onMounted(() => {
+            state.containerWidth = refs.$el.offsetWidth
+            if (!props.disabledSwipe) {
+                refs.$el.addEventListener('mousedown', handler.mouse.down)
+            }
+            methods.play()
+            if (!props.data || props.data.length === 0) return
+            model.value = props.value == null ? 0 : props.value
+            utils.update()
+        })
+
         watch(() => props.value, (val) => {
             if (model.value !== val && val > -1 && val < props.data.length) {
                 model.value = val
@@ -204,14 +215,14 @@ export default defineComponent({
                 {
                     !props.disabledButton && (
                         <div class="pl-carousel-prev-button">
-                            <span onClick={handler.clickButton(false)}><pl-icon icon="el-icon-arrow-left"/></span>
+                            <span onClick={() => handler.clickButton(false)}><pl-icon icon="el-icon-arrow-left"/></span>
                         </div>
                     )
                 }
                 {
                     !props.disabledButton && (
                         <div class="pl-carousel-next-button">
-                            <span onClick={handler.clickButton(true)}><pl-icon icon="el-icon-arrow-right"/></span>
+                            <span onClick={() => handler.clickButton(true)}><pl-icon icon="el-icon-arrow-right"/></span>
                         </div>
                     )
                 }
