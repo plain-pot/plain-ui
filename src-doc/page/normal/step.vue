@@ -214,6 +214,9 @@
 
 <style lang="scss">
     .demo-step {
+        width: 1060px;
+        margin-left: -130px;
+
         .demo-line {
             display: flex;
 

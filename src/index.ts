@@ -31,6 +31,7 @@ import virtualList from './packages/virtual-list'
 import progress from './packages/progress'
 import pagination from "@/packages/pagination";
 import badge from './packages/badge'
+import step from './packages/step'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -38,7 +39,7 @@ const plugins = [
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper, popover, tooltip, dropdown,
+    message, notice, dialog, popper, popover, tooltip, dropdown, step,
     card, alert, carousel, virtualList, progress, pagination, badge,
 ]
 
