@@ -29,7 +29,7 @@ export default defineComponent({
     props: {
         
     },
-    setup(props, context) {
+    setup(props) {
         return () => (
             <div>
                 
