@@ -2,6 +2,7 @@ import {computed, defineComponent, provide, reactive} from "@vue/composition-api
 import {TabHeadStyle, TabPosition} from "@/packages/tab/tab-utils";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
+import {useCollectParent} from "@/use/useCollect";
 
 export const TAB_GROUP_PROVIDER = '@@TAB_GROUP_PROVIDER'
 
@@ -19,9 +20,9 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const state = reactive({
-            items: [] as any[]
-        })
+        const state = reactive({})
+
+        const items = useCollectParent()
 
         /*---------------------------------------computer-------------------------------------------*/
 
@@ -31,19 +32,12 @@ export default defineComponent({
 
         /*---------------------------------------utils-------------------------------------------*/
 
-        const utils = {
-            addItem: (item) => {
-                const index = item.methods.getIndex()
-                state.items.splice(index, 0, item)
-            },
-            removeItem: (item) => {
-                state.items.splice(state.items.indexOf(item), 1)
-            },
-        }
+        const utils = {}
 
         const ctx = useRefer({
             state,
             utils,
+            props,
         })
 
         provide(TAB_GROUP_PROVIDER, ctx)
@@ -52,7 +46,7 @@ export default defineComponent({
             <div class={classes.value}>
                 <span class="pl-tab-group-slot">{slots.default()}</span>
                 <div>
-                    {state.items.map((item, index) => (
+                    {items.value.map((item, index) => (
                         <div key={index}>
                             {item.props.title}-{index}
                         </div>
