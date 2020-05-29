@@ -4,6 +4,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {ARROW_STEP_GROUP_PROVIDER} from "@/packages/step/arrow-step/arrow-step-group";
 import {StepStatus} from "@/packages/step/step";
 import {useCollectChild} from "@/use/useCollect";
+import {StepUtils} from "@/packages/step/step-utils";
 
 export default defineComponent({
     name: 'pl-arrow-step',
@@ -42,20 +43,13 @@ export default defineComponent({
         })
 
         const currentStatus: Ref<StepStatus | null> = computed(() => {
-            if (!!props.status) return props.status as StepStatus
-            if (stepGroup.currentIndex.value > index.value) {
-                return StepStatus.finish
-            } else if (stepGroup.currentIndex.value === index.value) {
-                if (!!stepGroup.props.currentStatus) {
-                    return stepGroup.props.currentStatus as StepStatus
-                } else {
-                    return StepStatus.process
-                }
-            } else if (stepGroup.currentIndex.value < index.value) {
-                return StepStatus.wait
-            } else {
-                return null
-            }
+            return StepUtils.getStepStatus({
+                currentIndex: stepGroup.currentIndex,
+                currentStatus: stepGroup.props.currentStatus
+            }, {
+                status: props.status,
+                index
+            })
         })
 
         const classes = computed(() => [

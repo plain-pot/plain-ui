@@ -3,6 +3,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {STEP_GROUP_PROVIDER} from "@/packages/step/setp-group";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useCollectChild} from "@/use/useCollect";
+import {StepUtils} from "@/packages/step/step-utils";
 
 /**
  * v-if会触发created，会重新刷新index，但是v-show不会，暂时不管v-show
@@ -58,20 +59,13 @@ export default defineComponent({
         })
 
         const currentStatus: Ref<StepStatus | null> = computed(() => {
-            if (!!props.status) return props.status as StepStatus
-            if (stepGroup.currentIndex.value > index.value) {
-                return StepStatus.finish
-            } else if (stepGroup.currentIndex.value === index.value) {
-                if (!!stepGroup.props.currentStatus) {
-                    return stepGroup.props.currentStatus as StepStatus
-                } else {
-                    return StepStatus.process
-                }
-            } else if (stepGroup.currentIndex.value < index.value) {
-                return StepStatus.wait
-            } else {
-                return null
-            }
+            return StepUtils.getStepStatus({
+                currentIndex: stepGroup.currentIndex,
+                currentStatus: stepGroup.props.currentStatus
+            }, {
+                status: props.status,
+                index
+            })
         })
 
 
@@ -107,7 +101,7 @@ export default defineComponent({
                                                     (currentStatus.value === StepStatus.error ?
                                                             <pl-icon icon="el-icon-close"/>
                                                             :
-                                                            <span v-else>{index.value+1}</span>
+                                                            <span v-else>{index.value + 1}</span>
                                                     )
                                                 }
                                             </span>
