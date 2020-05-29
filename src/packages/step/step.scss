@@ -401,4 +401,15 @@
       }
     }
   }
+
+  .pl-arrow-step-group {
+    display: flex;
+    align-items: center;
+
+    .pl-arrow-step {
+      flex: 1;
+      background-color: $colorPrimary;
+      height: 40px;
+    }
+  }
 }

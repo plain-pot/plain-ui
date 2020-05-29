@@ -168,8 +168,11 @@
 
         <demo-row title="箭头步骤条">
             <pl-arrow-step-group>
-                <pl-arrow-step></pl-arrow-step>
-                <pl-arrow-step></pl-arrow-step>
+                <pl-arrow-step title="获取token" @click="$plain.log('获取token')"/>
+                <pl-arrow-step title="上传logo" @click="$plain.log('上传logo')"/>
+                <pl-arrow-step title="创建卡券" @click="$plain.log('创建卡券')"/>
+                <pl-arrow-step title="创建二维码" @click="$plain.log('创建二维码')"/>
+                <pl-arrow-step title="显示二维码" @click="$plain.log('显示二维码')"/>
             </pl-arrow-step-group>
         </demo-row>
     </div>

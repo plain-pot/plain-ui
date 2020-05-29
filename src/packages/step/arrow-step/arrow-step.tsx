@@ -1,12 +1,104 @@
-import {defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, inject, onBeforeUnmount, reactive, Ref} from "@vue/composition-api";
+import {useRefs} from "@/use/useRefs";
+import {SlotFunc, useSlots} from "@/use/useSlots";
+import {EmitFunc, useEvent} from "@/use/useEvent";
+import {ARROW_STEP_GROUP_PROVIDER} from "@/packages/step/arrow-step/arrow-step-group";
+import {StepStatus} from "@/packages/step/step";
+import {$plain} from "@/packages/base";
+import {useRefer} from "@/use/useRefer";
 
 export default defineComponent({
     name: 'pl-arrow-step',
-    props: {},
+    props: {
+        icon: {type: String},
+        status: {type: String},
+        title: {type: String},
+        val: {type: String},
+    },
     setup: (props) => {
+
+        const refs = useRefs()
+
+        const {slots} = useSlots({
+            title: SlotFunc,
+        })
+
+        const {emit} = useEvent({
+            click: EmitFunc
+        })
+
+        const state = reactive({
+            index: null as null | number,
+        })
+
+        const stepGroup = inject(ARROW_STEP_GROUP_PROVIDER) as any
+
+        /*---------------------------------------computer-------------------------------------------*/
+
+        const icon = computed(() => {
+            if (!!props.icon) return props.icon
+            return null
+        })
+
+        const isLast = computed(() => {
+            return state.index === stepGroup.state.items.length
+        })
+
+        const isFirst = computed(() => {
+            return state.index === 1
+        })
+
+        const currentStatus: Ref<StepStatus | null> = computed(() => {
+            if (!!props.status) return props.status as StepStatus
+            if (stepGroup.currentIndex.value > state.index!) {
+                return StepStatus.finish
+            } else if (stepGroup.currentIndex.value === state.index!) {
+                if (!!stepGroup.props.currentStatus) {
+                    return stepGroup.props.currentStatus as StepStatus
+                } else {
+                    return StepStatus.process
+                }
+            } else if (stepGroup.currentIndex.value < state.index!) {
+                return StepStatus.wait
+            } else {
+                return null
+            }
+        })
+
+        const classes = computed(() => [
+            'pl-arrow-step',
+            `pl-arrow-step-status-${currentStatus.value}`,
+            {
+                'pl-arrow-step-has-icon': !!icon.value,
+                'pl-arrow-step-last': isLast.value,
+            }
+        ])
+
+        const utils = {
+            refreshIndex: async () => {
+                await $plain.nextTick()
+
+                state.index = Array
+                    .from(refs.$el!.parentNode!.childNodes)
+                    .filter((item: any) => item.nodeName !== '#comment' && (!item.style || item.style.display !== 'none'))
+                    .indexOf(refs.$el) + 1
+            }
+        }
+
+        const ctx = useRefer({
+            state,
+            utils,
+        })
+
+        stepGroup.utils.addItem(ctx)
+
+        onBeforeUnmount(() => {
+            stepGroup.utils.removeItem(ctx)
+        })
+
         return () => (
-            <div>
-                arrow-step
+            <div class={classes.value}>
+                {slots.default(props.title)}
             </div>
         )
     },
