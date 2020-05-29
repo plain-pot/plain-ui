@@ -1,6 +1,7 @@
 import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 import {useSlots} from "@/use/useSlots";
+import {StepUtils} from "@/packages/step/step-utils";
 
 export const STEP_GROUP_PROVIDER = '@@STEP_GROUP_PROVIDER'
 
@@ -37,30 +38,9 @@ export default defineComponent({
             },
         ])
 
-        const currentIndex = computed(() => {
-            if (typeof props.current === "number") {
-                return props.current
-            } else {
-                for (let i = 0; i < state.items.length; i++) {
-                    const item = state.items[i];
-                    if (item.val === props.current) return item.state.index
-                }
-            }
-        })
+        const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, state.items))
 
-        const utils = {
-            refreshStepIndex: $plain.utils.debounce((): void => {
-                state.items.forEach(item => item.utils.refreshIndex())
-            }, 100),
-            addItem: (item) => {
-                state.items.push(item)
-                utils.refreshStepIndex()
-            },
-            removeItem: (item) => {
-                state.items.splice(state.items.indexOf(item), 1)
-                utils.refreshStepIndex()
-            }
-        }
+        const utils = StepUtils.getStepUtils(state.items)
 
         provide(STEP_GROUP_PROVIDER, {
             state,

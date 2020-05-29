@@ -13,7 +13,7 @@ import {SlotFunc, useSlots} from "@/use/useSlots";
  */
 
 /*节点状态类型*/
-enum STATUS {
+export enum StepStatus {
     wait = 'wait',
     finish = 'finish',
     process = 'process',
@@ -63,18 +63,18 @@ export default defineComponent({
             return state.index === 1
         })*/
 
-        const currentStatus: Ref<STATUS | null> = computed(() => {
-            if (!!props.status) return props.status as STATUS
+        const currentStatus: Ref<StepStatus | null> = computed(() => {
+            if (!!props.status) return props.status as StepStatus
             if (stepGroup.currentIndex.value > state.index!) {
-                return STATUS.finish
+                return StepStatus.finish
             } else if (stepGroup.currentIndex.value === state.index!) {
                 if (!!stepGroup.props.currentStatus) {
-                    return stepGroup.props.currentStatus as STATUS
+                    return stepGroup.props.currentStatus as StepStatus
                 } else {
-                    return STATUS.process
+                    return StepStatus.process
                 }
             } else if (stepGroup.currentIndex.value < state.index!) {
-                return STATUS.wait
+                return StepStatus.wait
             } else {
                 return null
             }
@@ -127,10 +127,10 @@ export default defineComponent({
                                         :
                                         (
                                             <span class="pl-step-number">
-                                                {currentStatus.value === STATUS.finish ?
+                                                {currentStatus.value === StepStatus.finish ?
                                                     <pl-icon icon="el-icon-check"/>
                                                     :
-                                                    (currentStatus.value === STATUS.error ?
+                                                    (currentStatus.value === StepStatus.error ?
                                                             <pl-icon icon="el-icon-close"/>
                                                             :
                                                             <span v-else>{state.index}</span>
