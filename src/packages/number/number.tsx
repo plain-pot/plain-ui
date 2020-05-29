@@ -202,14 +202,23 @@ export default defineComponent({
                 emit.input(model.value)
             },
             keydown: (e: KeyboardEvent) => {
-                if (getKey(e) === KEY.up) {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    methods.add()
-                } else if (getKey(e) === KEY.down) {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    methods.minus()
+
+                const key = getKey(e)
+
+                switch (key) {
+                    case KEY.up:
+                        e.preventDefault()
+                        e.stopPropagation()
+                        methods.add()
+                        break
+                    case KEY.down:
+                        e.preventDefault()
+                        e.stopPropagation()
+                        methods.minus()
+                        break
+                    case KEY.enter:
+                        handler.enter(e)
+                        break
                 }
             },
         }
