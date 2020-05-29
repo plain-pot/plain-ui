@@ -3,5 +3,38 @@
     .pl-tab-group-slot {
       display: none;
     }
+
+    .pl-tab-group-horizontal {
+      .pl-tab-group-horizontal-head {
+
+        height: 56px;
+        border-bottom: solid 4px $disabled;
+
+        ul {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+
+        .pl-tab-group-horizontal-head-list {
+          height: 100%;
+          white-space: nowrap;
+
+          .pl-tab-group-horizontal-head-item {
+            height: 100%;
+            vertical-align: top;
+            display: inline-flex;
+            align-items: center;
+            color: $disabledText;
+            font-size: 14px;
+
+            &:not(:last-child) {
+              margin-right: 36px;
+            }
+          }
+        }
+      }
+    }
+
   }
 }

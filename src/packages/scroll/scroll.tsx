@@ -332,7 +332,7 @@ export default defineComponent({
                     state.draging = false
                     document.removeEventListener('mousemove', handler.vertical.dragmove)
                     document.removeEventListener('mouseup', handler.vertical.dragend)
-                    $plain.disableSelect
+                    $plain.enableSelect()
                 }
             },
             horizontal: {

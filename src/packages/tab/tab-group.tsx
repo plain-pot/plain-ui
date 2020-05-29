@@ -1,5 +1,5 @@
 import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
-import {TabHeadStyle, TabPosition} from "@/packages/tab/tab-utils";
+import {TabHeadType, TabHeadPosition} from "@/packages/tab/tab-utils";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
 import {useCollectParent} from "@/use/useCollect";
@@ -10,8 +10,8 @@ export default defineComponent({
     name: 'pl-tab-group',
     props: {
         value: {},
-        card: {type: String, default: TabHeadStyle.default},
-        position: {type: String, default: TabPosition.top},
+        headType: {type: String, default: TabHeadType.default},
+        headPosition: {type: String, default: TabHeadPosition.top},
         closeIcon: {type: Boolean},
     },
     setup(props) {
@@ -19,8 +19,6 @@ export default defineComponent({
         const {slots} = useSlots()
 
         /*---------------------------------------state-------------------------------------------*/
-
-        const state = reactive({})
 
         const items = useCollectParent(true)
 
@@ -35,7 +33,7 @@ export default defineComponent({
         const utils = {}
 
         const ctx = useRefer({
-            state,
+            items,
             utils,
             props,
         })
@@ -45,7 +43,7 @@ export default defineComponent({
 
         return () => {
 
-            const Component = ['top', 'bottom'].indexOf(props.position) > -1 ? 'pl-tab-group-horizontal' : 'pl-tab-group-vertical'
+            const Component = ['top', 'bottom'].indexOf(props.headPosition) > -1 ? 'pl-tab-group-horizontal' : 'pl-tab-group-vertical'
 
             return (
                 <div class={classes.value}>

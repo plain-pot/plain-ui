@@ -1,10 +1,10 @@
-export enum TabHeadStyle {
+export enum TabHeadType {
     default = 'default',
     card = 'card',
     integrate = 'integrate',
 }
 
-export enum TabPosition {
+export enum TabHeadPosition {
     top = 'top',
     bottom = 'bottom',
     left = 'left',
