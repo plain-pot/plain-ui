@@ -33,6 +33,7 @@ import pagination from "@/packages/pagination";
 import badge from './packages/badge'
 import step from './packages/step'
 import triangle from './packages/triangle'
+import tab from './packages/tab'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -41,7 +42,7 @@ const plugins = [
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
     message, notice, dialog, popper, popover, tooltip, dropdown, step,
-    card, alert, carousel, virtualList, progress, pagination, badge, triangle,
+    card, alert, carousel, virtualList, progress, pagination, badge, triangle, tab,
 ]
 
 const install: PluginType['install'] = Vue => {
@@ -52,7 +53,8 @@ export {
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper, popover,
+    message, notice, dialog, popper, popover, tooltip, dropdown, step,
+    card, alert, carousel, virtualList, progress, pagination, badge, triangle, tab,
 
     install,
 }
