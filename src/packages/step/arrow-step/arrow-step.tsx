@@ -1,11 +1,9 @@
-import {computed, defineComponent, inject, onBeforeUnmount, reactive, Ref} from "@vue/composition-api";
-import {useRefs} from "@/use/useRefs";
+import {computed, defineComponent, getCurrentInstance, inject, Ref} from "@vue/composition-api";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {ARROW_STEP_GROUP_PROVIDER} from "@/packages/step/arrow-step/arrow-step-group";
 import {StepStatus} from "@/packages/step/step";
-import {$plain} from "@/packages/base";
-import {useRefer} from "@/use/useRefer";
+import {useCollectChild} from "@/use/useCollect";
 
 export default defineComponent({
     name: 'pl-arrow-step',
@@ -17,7 +15,7 @@ export default defineComponent({
     },
     setup: (props) => {
 
-        const refs = useRefs()
+        const ctx = getCurrentInstance()
 
         const {slots} = useSlots({
             title: SlotFunc,
@@ -27,33 +25,33 @@ export default defineComponent({
             click: EmitFunc
         })
 
-        const state = reactive({
-            index: null as null | number,
-        })
-
         const stepGroup = inject(ARROW_STEP_GROUP_PROVIDER) as any
 
         /*---------------------------------------computer-------------------------------------------*/
 
+        const index = computed(() => {
+            return stepGroup.items.value.indexOf(ctx) as number
+        })
+
         const isLast = computed(() => {
-            return state.index === stepGroup.state.items.length
+            return index.value === stepGroup.items.value.length - 1
         })
 
         const isFirst = computed(() => {
-            return state.index === 1
+            return index.value === 0
         })
 
         const currentStatus: Ref<StepStatus | null> = computed(() => {
             if (!!props.status) return props.status as StepStatus
-            if (stepGroup.currentIndex.value > state.index!) {
+            if (stepGroup.currentIndex.value > index.value) {
                 return StepStatus.finish
-            } else if (stepGroup.currentIndex.value === state.index!) {
+            } else if (stepGroup.currentIndex.value === index.value) {
                 if (!!stepGroup.props.currentStatus) {
                     return stepGroup.props.currentStatus as StepStatus
                 } else {
                     return StepStatus.process
                 }
-            } else if (stepGroup.currentIndex.value < state.index!) {
+            } else if (stepGroup.currentIndex.value < index.value) {
                 return StepStatus.wait
             } else {
                 return null
@@ -65,33 +63,13 @@ export default defineComponent({
             `pl-arrow-step-status-${currentStatus.value}`,
         ])
 
-        const utils = {
-            refreshIndex: async () => {
-                await $plain.nextTick()
-
-                state.index = Array
-                    .from(refs.$el!.parentNode!.childNodes)
-                    .filter((item: any) => item.nodeName !== '#comment' && (!item.style || item.style.display !== 'none'))
-                    .indexOf(refs.$el) + 1
-            }
-        }
-
-        const ctx = useRefer({
-            state,
-            utils,
-        })
-
-        stepGroup.utils.addItem(ctx)
-
-        onBeforeUnmount(() => {
-            stepGroup.utils.removeItem(ctx)
-        })
+        useCollectChild()
 
         return () => (
-            state.index != null ? (
+            index.value != null ? (
                 <div class={classes.value} onClick={emit.click}>
                     <div class="pl-arrow-step-content">
-                        {!props.hideIndex && <span class="pl-arrow-step-sequence">{state.index}. &nbsp;</span>}
+                        {!props.hideIndex && <span class="pl-arrow-step-sequence">{index.value + 1}. &nbsp;</span>}
                         <span>{slots.default(props.title)}</span>
                     </div>
                     {!isLast.value ? <pl-triangle direction="right" size={null}/> : null}

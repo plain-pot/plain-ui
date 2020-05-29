@@ -1,10 +1,8 @@
-import {computed, defineComponent, inject, onBeforeUnmount, reactive, Ref} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, inject, onBeforeUnmount, Ref} from "@vue/composition-api";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {STEP_GROUP_PROVIDER} from "@/packages/step/setp-group";
-import {$plain} from "@/packages/base";
-import {useRefs} from "@/use/useRefs";
-import {useRefer} from "@/use/useRefer";
 import {SlotFunc, useSlots} from "@/use/useSlots";
+import {useCollectChild} from "@/use/useCollect";
 
 /**
  * v-if会触发created，会重新刷新index，但是v-show不会，暂时不管v-show
@@ -31,7 +29,7 @@ export default defineComponent({
     },
     setup(props) {
 
-        const refs = useRefs()
+        const ctx = getCurrentInstance()
 
         const {slots} = useSlots({
             title: SlotFunc,
@@ -42,13 +40,13 @@ export default defineComponent({
             click: EmitFunc
         })
 
-        const state = reactive({
-            index: null as null | number,
-        })
-
         const stepGroup = inject(STEP_GROUP_PROVIDER) as any
 
         /*---------------------------------------computer-------------------------------------------*/
+
+        const index = computed(() => {
+            return stepGroup.items.value.indexOf(ctx) as number
+        })
 
         const icon = computed(() => {
             if (!!props.icon) return props.icon
@@ -56,24 +54,20 @@ export default defineComponent({
         })
 
         const isLast = computed(() => {
-            return state.index === stepGroup.state.items.length
+            return index.value === stepGroup.items.value.length - 1
         })
-
-        /*const isFirst = computed(() => {
-            return state.index === 1
-        })*/
 
         const currentStatus: Ref<StepStatus | null> = computed(() => {
             if (!!props.status) return props.status as StepStatus
-            if (stepGroup.currentIndex.value > state.index!) {
+            if (stepGroup.currentIndex.value > index.value) {
                 return StepStatus.finish
-            } else if (stepGroup.currentIndex.value === state.index!) {
+            } else if (stepGroup.currentIndex.value === index.value) {
                 if (!!stepGroup.props.currentStatus) {
                     return stepGroup.props.currentStatus as StepStatus
                 } else {
                     return StepStatus.process
                 }
-            } else if (stepGroup.currentIndex.value < state.index!) {
+            } else if (stepGroup.currentIndex.value < index.value) {
                 return StepStatus.wait
             } else {
                 return null
@@ -90,27 +84,7 @@ export default defineComponent({
             }
         ])
 
-        const utils = {
-            refreshIndex: async () => {
-                await $plain.nextTick()
-
-                state.index = Array
-                    .from(refs.$el!.parentNode!.childNodes)
-                    .filter((item: any) => item.nodeName !== '#comment' && (!item.style || item.style.display !== 'none'))
-                    .indexOf(refs.$el) + 1
-            }
-        }
-
-        const ctx = useRefer({
-            state,
-            utils,
-        })
-
-        stepGroup.utils.addItem(ctx)
-
-        onBeforeUnmount(() => {
-            stepGroup.utils.removeItem(ctx)
-        })
+        useCollectChild()
 
         return () => (
             <div class={classes.value} onClick={emit.click}>
@@ -133,7 +107,7 @@ export default defineComponent({
                                                     (currentStatus.value === StepStatus.error ?
                                                             <pl-icon icon="el-icon-close"/>
                                                             :
-                                                            <span v-else>{state.index}</span>
+                                                            <span v-else>{index.value+1}</span>
                                                     )
                                                 }
                                             </span>

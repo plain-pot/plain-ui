@@ -1,7 +1,7 @@
-import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
-import {$plain} from "@/packages/base";
+import {computed, defineComponent, provide} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {StepUtils} from "@/packages/step/step-utils";
+import {useCollectParent} from "@/use/useCollect";
 
 export const STEP_GROUP_PROVIDER = '@@STEP_GROUP_PROVIDER'
 
@@ -20,9 +20,7 @@ export default defineComponent({
 
         const {slots} = useSlots()
 
-        const state = reactive({
-            items: [] as any[],
-        })
+        const items = useCollectParent()
 
         /*---------------------------------------computer-------------------------------------------*/
         const isTitleAlignBottom = computed(() => {
@@ -38,13 +36,11 @@ export default defineComponent({
             },
         ])
 
-        const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, state.items))
+        const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, items.value))
 
-        const utils = StepUtils.getStepUtils(state.items)
 
         provide(STEP_GROUP_PROVIDER, {
-            state,
-            utils,
+            items,
             currentIndex,
             props,
             isTitleAlignBottom,

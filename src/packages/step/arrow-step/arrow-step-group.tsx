@@ -1,6 +1,7 @@
 import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {StepUtils} from "@/packages/step/step-utils";
+import {useCollectParent} from "@/use/useCollect";
 
 export const ARROW_STEP_GROUP_PROVIDER = '@@ARROW_STEP_GROUP_PROVIDER'
 
@@ -14,17 +15,11 @@ export default defineComponent({
     setup: (props) => {
 
         const {slots} = useSlots()
-        const state = reactive({
-            items: [] as any[],
-        })
-
-        const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, state.items))
-
-        const utils = StepUtils.getStepUtils(state.items)
+        const items = useCollectParent()
+        const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, items.value))
 
         provide(ARROW_STEP_GROUP_PROVIDER, {
-            state,
-            utils,
+            items,
             currentIndex,
             props,
         })
