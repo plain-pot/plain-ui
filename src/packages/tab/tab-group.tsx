@@ -42,17 +42,17 @@ export default defineComponent({
 
         provide(TAB_GROUP_PROVIDER, ctx)
 
-        return () => (
-            <div class={classes.value}>
-                <span class="pl-tab-group-slot">{slots.default()}</span>
-                <div>
-                    {items.value.map((item, index) => (
-                        <div key={index}>
-                            {item.props.title}-{index}
-                        </div>
-                    ))}
+
+        return () => {
+
+            const Component = ['top', 'bottom'].indexOf(props.position) > -1 ? 'pl-tab-group-horizontal' : 'pl-tab-group-vertical'
+
+            return (
+                <div class={classes.value}>
+                    <span class="pl-tab-group-slot">{slots.default()}</span>
+                    {items.value.length > 0 && <Component/>}
                 </div>
-            </div>
-        )
+            )
+        }
     },
 })

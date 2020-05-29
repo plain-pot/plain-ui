@@ -1,9 +1,9 @@
 <template>
     <div class="demo-tab">
         <demo-row title="基本用法">
-            <demo-line label="show tab2">
+            <!--<demo-line label="show tab2">
                 <pl-checkbox v-model="showFlag"/>
-            </demo-line>
+            </demo-line>-->
             <pl-tab-group v-model="val[0]">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
