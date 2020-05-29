@@ -167,7 +167,10 @@
         </demo-row>
 
         <demo-row title="箭头步骤条">
-            <pl-arrow-step-group>
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="d[5].index"/>
+            </demo-line>
+            <pl-arrow-step-group :current="d[5].index">
                 <pl-arrow-step title="获取token" @click="$plain.log('获取token')"/>
                 <pl-arrow-step title="上传logo" @click="$plain.log('上传logo')"/>
                 <pl-arrow-step title="创建卡券" @click="$plain.log('创建卡券')"/>
@@ -175,6 +178,16 @@
                 <pl-arrow-step title="显示二维码" @click="$plain.log('显示二维码')"/>
             </pl-arrow-step-group>
         </demo-row>
+
+        <demo-row title="箭头步骤条：状态">
+            <pl-arrow-step-group>
+                <pl-arrow-step title="Finish" status="finish"/>
+                <pl-arrow-step title="Process" status="process"/>
+                <pl-arrow-step title="error" status="error"/>
+                <pl-arrow-step title="Wait" status="wait"/>
+            </pl-arrow-step-group>
+        </demo-row>
+
     </div>
 </template>
 
@@ -213,6 +226,9 @@
                         vertical: false,
                         mini: true,
                         titleAlignBottom: false,
+                    },
+                    5: {
+                        index: 2,
                     },
                 },
             }

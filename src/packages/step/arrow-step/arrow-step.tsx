@@ -97,9 +97,19 @@ export default defineComponent({
         })
 
         return () => (
-            <div class={classes.value}>
-                {slots.default(props.title)}
-            </div>
+            state.index != null ? (
+                <div class={classes.value}>
+                    <div class="pl-arrow-step-content">
+                        <span class="pl-arrow-step-sequence">{state.index}. &nbsp;</span>
+                        <span>{slots.default(props.title)}</span>
+                    </div>
+                    {!isLast.value ? <pl-triangle direction="right" size={20}/> : null}
+                    {!isFirst.value ? [
+                        <pl-triangle direction="bottom" half="start" size={20}/>,
+                        <pl-triangle direction="top" half="start" size={20}/>
+                    ] : null}
+                </div>
+            ) : <div/>
         )
     },
 })
