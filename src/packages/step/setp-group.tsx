@@ -20,7 +20,7 @@ export default defineComponent({
 
         const {slots} = useSlots()
 
-        const items = useCollectParent()
+        const items = useCollectParent(true)
 
         /*---------------------------------------computer-------------------------------------------*/
         const isTitleAlignBottom = computed(() => {

@@ -22,7 +22,7 @@ export default defineComponent({
 
         const state = reactive({})
 
-        const items = useCollectParent()
+        const items = useCollectParent(true)
 
         /*---------------------------------------computer-------------------------------------------*/
 

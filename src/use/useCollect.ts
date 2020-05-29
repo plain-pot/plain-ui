@@ -9,12 +9,16 @@ function getIndex(el: HTMLElement): number {
         .indexOf(el)
 }
 
-export function useCollectParent() {
+export function useCollectParent(sort = false) {
     const items = ref([] as any[])
     const utils = {
         addItem: (item) => {
-            const index = getIndex(item.$el)
-            items.value.splice(index, 0, item)
+            if (sort) {
+                const index = getIndex(item.$el)
+                items.value.splice(index, 0, item)
+            } else {
+                items.value.push(item)
+            }
         },
         removeItem: (item) => {
             items.value.splice(items.value.indexOf(item), 1)

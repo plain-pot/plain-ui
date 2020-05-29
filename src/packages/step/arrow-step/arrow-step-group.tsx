@@ -15,7 +15,7 @@ export default defineComponent({
     setup: (props) => {
 
         const {slots} = useSlots()
-        const items = useCollectParent()
+        const items = useCollectParent(true)
         const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, items.value))
 
         provide(ARROW_STEP_GROUP_PROVIDER, {
