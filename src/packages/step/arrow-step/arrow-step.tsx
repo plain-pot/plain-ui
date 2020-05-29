@@ -94,10 +94,10 @@ export default defineComponent({
                         {!props.hideIndex && <span class="pl-arrow-step-sequence">{state.index}. &nbsp;</span>}
                         <span>{slots.default(props.title)}</span>
                     </div>
-                    {!isLast.value ? <pl-triangle direction="right" size={20}/> : null}
+                    {!isLast.value ? <pl-triangle direction="right" size={null}/> : null}
                     {!isFirst.value ? [
-                        <pl-triangle direction="bottom" half="start" size={20}/>,
-                        <pl-triangle direction="top" half="start" size={20}/>
+                        <pl-triangle direction="bottom" half="start" size={null}/>,
+                        <pl-triangle direction="top" half="start" size={null}/>
                     ] : null}
                 </div>
             ) : <div/>

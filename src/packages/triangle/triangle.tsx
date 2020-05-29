@@ -1,7 +1,8 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, onMounted} from "@vue/composition-api";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {StyleType} from "@/types/utils";
 import {$plain} from "@/packages/base";
+import {useRefs} from "@/use/useRefs";
 
 const DirectionMap = {
     top: 'bottom',
@@ -23,6 +24,8 @@ export default defineComponent({
         size: {type: [Number, String], default: 20},
     },
     setup(props) {
+
+        const refs = useRefs()
 
         const propsState = useProps(props, {
             size: FormatPropsType.number,
@@ -66,10 +69,19 @@ export default defineComponent({
             return ret
         })
 
+        if (propsState.size == null) {
+            onMounted(() => {
+                // @ts-ignore
+                propsState.size = refs.$el.parentNode.offsetHeight / 2
+            })
+        }
+
         return () => (
-            <div class={classes.value} style={styles.value}>
-                <div class="pl-triangle-target" style={targetStyles.value}/>
-            </div>
+            propsState.size == null ? null : (
+                <div class={classes.value} style={styles.value}>
+                    <div class="pl-triangle-target" style={targetStyles.value}/>
+                </div>
+            )
         )
     },
 })
