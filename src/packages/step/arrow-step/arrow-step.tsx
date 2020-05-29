@@ -10,10 +10,10 @@ import {useRefer} from "@/use/useRefer";
 export default defineComponent({
     name: 'pl-arrow-step',
     props: {
-        icon: {type: String},
         status: {type: String},
         title: {type: String},
         val: {type: String},
+        hideIndex: {type: Boolean},
     },
     setup: (props) => {
 
@@ -34,11 +34,6 @@ export default defineComponent({
         const stepGroup = inject(ARROW_STEP_GROUP_PROVIDER) as any
 
         /*---------------------------------------computer-------------------------------------------*/
-
-        const icon = computed(() => {
-            if (!!props.icon) return props.icon
-            return null
-        })
 
         const isLast = computed(() => {
             return state.index === stepGroup.state.items.length
@@ -68,10 +63,6 @@ export default defineComponent({
         const classes = computed(() => [
             'pl-arrow-step',
             `pl-arrow-step-status-${currentStatus.value}`,
-            {
-                'pl-arrow-step-has-icon': !!icon.value,
-                'pl-arrow-step-last': isLast.value,
-            }
         ])
 
         const utils = {
@@ -98,9 +89,9 @@ export default defineComponent({
 
         return () => (
             state.index != null ? (
-                <div class={classes.value}>
+                <div class={classes.value} onClick={emit.click}>
                     <div class="pl-arrow-step-content">
-                        <span class="pl-arrow-step-sequence">{state.index}. &nbsp;</span>
+                        {!props.hideIndex && <span class="pl-arrow-step-sequence">{state.index}. &nbsp;</span>}
                         <span>{slots.default(props.title)}</span>
                     </div>
                     {!isLast.value ? <pl-triangle direction="right" size={20}/> : null}

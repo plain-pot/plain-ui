@@ -188,6 +188,34 @@
             </pl-arrow-step-group>
         </demo-row>
 
+        <demo-row title="箭头步骤条：自定义内容">
+            <demo-line title="当前步骤索引">
+                <pl-number v-model="d[6].index"/>
+            </demo-line>
+            <pl-arrow-step-group :current="d[6].index" class="custom-content-slot">
+                <pl-arrow-step hideIndex>
+                    <pl-icon icon="el-icon-s-promotion" v-tooltip="'调用接口，获取token'"/>
+                    <span>获取token</span>
+                </pl-arrow-step>
+                <pl-arrow-step hideIndex>
+                    <pl-icon icon="el-icon-upload" v-tooltip="'使用token上传logo图片'"/>
+                    <span>上传logo</span>
+                </pl-arrow-step>
+                <pl-arrow-step hideIndex>
+                    <pl-icon icon="el-icon-s-ticket" v-tooltip="'调用接口创建卡券信息'"/>
+                    <span>创建卡券</span>
+                </pl-arrow-step>
+                <pl-arrow-step hideIndex>
+                    <pl-icon icon="el-icon-s-data" v-tooltip="'调用接口创建二维码'"/>
+                    <span>创建二维码</span>
+                </pl-arrow-step>
+                <pl-arrow-step hideIndex>
+                    <pl-icon icon="el-icon-s-check" v-tooltip="'在应用中显示二维码'"/>
+                    <span>显示二维码</span>
+                </pl-arrow-step>
+            </pl-arrow-step-group>
+        </demo-row>
+
     </div>
 </template>
 
@@ -230,6 +258,9 @@
                     5: {
                         index: 2,
                     },
+                    6: {
+                        index: 1,
+                    },
                 },
             }
         },
@@ -247,6 +278,13 @@
 
             .demo-line-content {
                 flex: 1;
+            }
+        }
+
+        .custom-content-slot {
+            .pl-icon {
+                margin-right: 6px;
+                font-size: 1.2em;
             }
         }
     }
