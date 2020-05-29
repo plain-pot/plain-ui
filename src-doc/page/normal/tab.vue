@@ -1,12 +1,15 @@
 <template>
     <div class="demo-tab">
         <demo-row title="基本用法">
+            <demo-line label="show tab2">
+                <pl-checkbox v-model="showFlag"/>
+            </demo-line>
             <pl-tab-group v-model="val[0]">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                     <input type="text">
                 </pl-tab>
-                <pl-tab title="子模块数据管理" val="submodule management">
+                <pl-tab title="子模块数据管理" val="submodule management" v-if="showFlag">
                     子模块数据管理
                     <input type="text">
                 </pl-tab>
@@ -128,6 +131,7 @@
 
                 showClose: false,
                 show: true,
+                showFlag: true,
             }
         },
         methods: {
