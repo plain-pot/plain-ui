@@ -1,4 +1,5 @@
 import {computed, inject, provide, reactive, getCurrentInstance, ref} from "@vue/composition-api";
+import {useWrapper} from "@/use/useWrapper";
 
 /**
  * 生成editComputed，用于继承父组件的edit属性
@@ -13,7 +14,7 @@ export const EditProps = {
     loading: {type: Boolean, default: null},
 }
 
-export function useEdit() {
+export const useEdit = useWrapper('edit', () => {
 
     const ctx = getCurrentInstance()!
     const parent = inject(EditProvider, null) as any
@@ -49,18 +50,17 @@ export function useEdit() {
         editState,
         editComputed,
     }
-}
+})
 
-export function useEditOuterLoading(editComputed): { value: boolean } {
+export const useEditOuterLoading = useWrapper('loading', () => {
     const loading = ref(false)
+    const {editComputed} = useEdit()
 
-    const result = computed({
+    // @ts-ignore
+    return computed({
         get: () => loading.value || editComputed.value.loading,
         set: (val) => {
             loading.value = val
         },
-    })
-
-    // @ts-ignore
-    return result
-}
+    }) as { value: boolean }
+})

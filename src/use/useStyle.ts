@@ -1,4 +1,5 @@
 import {computed, inject, provide, getCurrentInstance} from "@vue/composition-api";
+import {useWrapper} from "@/use/useWrapper";
 
 /**
  * 生成styleComputed对象，用于继承父组件的style属性；
@@ -13,8 +14,7 @@ export const StyleProps = {
     status: {type: String},                     // primary,success,error,warn,info
 }
 
-export function useStyle(defaultValue?: { shape?: string, size?: string, status?: string }) {
-
+export const useStyle = useWrapper('style', (defaultValue?: { shape?: string, size?: string, status?: string }) => {
     const ctx = getCurrentInstance()!
 
     const parent = inject(StyleProvider, null)
@@ -38,4 +38,4 @@ export function useStyle(defaultValue?: { shape?: string, size?: string, status?
     return {
         styleComputed: style
     }
-}
+})

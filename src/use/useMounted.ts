@@ -1,6 +1,7 @@
 import {computed, onBeforeUnmount, onMounted, reactive} from "@vue/composition-api";
+import {useWrapper} from "@/use/useWrapper";
 
-export function useMounted() {
+export const useMounted = useWrapper('mounted', () => {
     const state = reactive({
         val: false,
     })
@@ -8,4 +9,4 @@ export function useMounted() {
     onMounted(() => state.val = true)
     onBeforeUnmount(() => state.val = false)
     return flag
-}
+})

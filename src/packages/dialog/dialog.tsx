@@ -76,8 +76,7 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const {editComputed} = useEdit()
-        const loading = useEditOuterLoading(editComputed)
+        const loading = useEditOuterLoading()
 
         const {styleComputed} = useStyle()
 
