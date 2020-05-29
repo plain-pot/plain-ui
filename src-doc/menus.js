@@ -77,6 +77,7 @@ export default [
             {name: 'Collapse', title: '折叠面板', icon: 'pl-collapse', page: '/normal/collapse', complete: true},
             {name: 'Alert', title: '提示信息', icon: 'pl-collapse', page: '/normal/alert', complete: true},
             {name: 'Portal', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/portal', complete: true},
+            {name: 'Triangle', title: '三角形元素', icon: 'icon-scroll', page: '/normal/triangle', complete: true},
         ]
     },
     {
