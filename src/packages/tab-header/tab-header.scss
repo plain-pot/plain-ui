@@ -13,6 +13,7 @@
         content: '';
         background-color: $disabled;
         height: $borderSize;
+        border-radius: 100px;
       }
 
       &.pl-tab-header-position-top {
@@ -68,6 +69,7 @@
             background-color: transparent;
             height: $borderSize;
             content: '';
+            border-radius: 100px;
           }
 
           &:hover {

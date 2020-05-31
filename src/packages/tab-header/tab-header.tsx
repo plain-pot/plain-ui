@@ -1,5 +1,6 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
+import {CompRef, useRefs} from "@/use/useRefs";
 
 const enum TabHeaderType {
     text = 'text',
@@ -21,6 +22,10 @@ export default defineComponent({
     },
     setup(props) {
 
+        const refs = useRefs({
+            scroll: CompRef,
+        })
+
         const {slots} = useSlots()
 
         const classes = computed(() => [
@@ -29,10 +34,20 @@ export default defineComponent({
             `pl-tab-header-position-${props.position}`,
         ])
 
+        const handler = {
+            mousewheel: e => {
+                e.stopPropagation()
+                e.preventDefault()
+                const delta = e.deltaX || e.deltaY
+                let oldLeft = refs.scroll.state.wrapperScrollLeft
+                refs.scroll.methods.scroll({x: delta + oldLeft})
+            }
+        }
+
         return () => (
             <div class={classes.value}>
-                <pl-scroll scrollX={true} scrollY={false} fitHostHeight scrollbarSize={6}>
-                    <div class="pl-tab-header-item-list">
+                <pl-scroll scrollX={true} scrollY={false} fitHostHeight scrollbarSize={6} ref={"scroll"}>
+                    <div class="pl-tab-header-item-list" onMousewheel={handler.mousewheel}>
                         {slots.default()}
                     </div>
                 </pl-scroll>
