@@ -1,6 +1,6 @@
 <template>
     <div class="demo-tab-header">
-        <demo-row title="基本用法">
+        <demo-row title="type:text">
             <demo-component position="top"/>
             <demo-component position="bottom"/>
         </demo-row>
