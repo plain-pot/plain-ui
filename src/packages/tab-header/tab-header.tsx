@@ -31,7 +31,7 @@ export default defineComponent({
 
         return () => (
             <div class={classes.value}>
-                <pl-scroll scrollX={true} scrollY={false} fitHostHeight>
+                <pl-scroll scrollX={true} scrollY={false} fitHostHeight scrollbarSize={6}>
                     <div class="pl-tab-header-item-list">
                         {slots.default()}
                     </div>

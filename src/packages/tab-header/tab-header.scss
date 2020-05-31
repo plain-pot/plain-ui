@@ -1,6 +1,5 @@
 @include theme {
   .pl-tab-header {
-
     &.pl-tab-header-type-text {
       height: 40px;
       position: relative;
@@ -42,6 +41,7 @@
 
       .pl-tab-header-item-list {
         height: 100%;
+        white-space: nowrap;
 
         .pl-tab-header-item {
           height: 100%;
@@ -86,7 +86,9 @@
         }
       }
     }
+
+    &.pl-tab-header-type-card {
+
+    }
   }
-
-
 }
