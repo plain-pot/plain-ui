@@ -78,6 +78,7 @@ export default [
             {name: 'Alert', title: '提示信息', icon: 'pl-collapse', page: '/normal/alert', complete: true},
             {name: 'Portal', title: '迁移DOM元素', icon: 'icon-scroll', page: '/normal/portal', complete: true},
             {name: 'Triangle', title: '三角形元素', icon: 'icon-scroll', page: '/normal/triangle', complete: true},
+            {name: 'TabHeader', title: '页签头组件', icon: 'icon-scroll', page: '/normal/tab-header', complete: true},
         ]
     },
     {
