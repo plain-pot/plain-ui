@@ -1,45 +1,51 @@
 <template>
     <div class="demo-tab-header">
         <demo-row title="基本用法">
-            <pl-tab-header>
-                <pl-tab-header-item v-for="item in ['订单信息','物理信息','商品信息','其他']" :key="item" :active="val[0] === item" @click="val[0] = item">
-                    {{item}}
-                </pl-tab-header-item>
-            </pl-tab-header>
-        </demo-row>
-
-        <demo-row title="位置">
-            <demo-line title="position=top">
-                <pl-tab-header position="top">
-                    <pl-tab-header-item v-for="item in ['订单信息','物理信息','商品信息','其他']" :key="item" :active="val[0] === item" @click="val[0] = item">
-                        {{item}}
-                    </pl-tab-header-item>
-                </pl-tab-header>
-            </demo-line>
-            <demo-line title="position-bottom">
-                <pl-tab-header position="bottom">
-                    <pl-tab-header-item v-for="item in ['订单信息','物理信息','商品信息','其他']" :key="item" :active="val[0] === item" @click="val[0] = item">
-                        {{item}}
-                    </pl-tab-header-item>
-                </pl-tab-header>
-            </demo-line>
+            <demo-component position="top"/>
+            <demo-component position="bottom"/>
         </demo-row>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "demo-tab-header",
+
+    const DemoComponent = {
         data() {
             return {
-                val: {
-                    0: '订单信息',
-                }
+                val: '订单信息',
+                items: [
+                    '订单信息', '物理信息', '商品信息', '其他'
+                ]
             }
+        },
+        render(h) {
+            return (
+                <pl-tab-header {...{props: this.$attrs || {}}} class="demo-component">
+                    {
+                        this.items.map(item => (
+                            <pl-tab-header-item key={item} active={item === this.val} onClick={() => this.val = item}>
+                                {item}
+                            </pl-tab-header-item>
+                        ))
+                    }
+                </pl-tab-header>
+            )
+        },
+    }
+
+    export default {
+        name: "demo-tab-header",
+        components: {DemoComponent},
+        data() {
+            return {}
         },
     }
 </script>
 
 <style lang="scss">
-
+    .demo-tab-header {
+        .demo-component {
+            margin-bottom: 20px;
+        }
+    }
 </style>
