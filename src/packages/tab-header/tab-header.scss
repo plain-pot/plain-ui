@@ -5,13 +5,15 @@
       height: 40px;
       position: relative;
 
+      $borderSize: 2px;
+
       &:before {
         position: absolute;
         left: 0;
         right: 0;
         content: '';
         background-color: $disabled;
-        height: 4px;
+        height: $borderSize;
       }
 
       &.pl-tab-header-position-top {
@@ -64,7 +66,7 @@
             left: 50%;
             right: 50%;
             background-color: transparent;
-            height: 4px;
+            height: $borderSize;
             content: '';
           }
 
