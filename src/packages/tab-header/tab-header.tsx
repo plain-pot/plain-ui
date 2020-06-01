@@ -5,6 +5,7 @@ import {CompRef, useRefs} from "@/use/useRefs";
 const enum TabHeaderType {
     text = 'text',
     card = 'card',
+    fillet = 'fillet',
 }
 
 const enum TabHeaderPosition {

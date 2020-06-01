@@ -10,6 +10,10 @@
             <demo-component position="bottom" type="card"/>
             <demo-component position="top" type="card" :moreTabs="true"/>
         </demo-row>
+        <demo-row title="type:fillet">
+            <demo-component position="top" type="fillet"/>
+            <demo-component position="bottom" type="fillet"/>
+        </demo-row>
     </div>
 </template>
 
