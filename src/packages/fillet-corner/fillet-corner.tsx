@@ -27,7 +27,6 @@ export default defineComponent({
 
         const styles = computed(() => (isMounted.value ? {
             height: $plain.utils.suffixPx(refs.$el.offsetHeight),
-            width: $plain.utils.suffixPx(refs.$el.offsetHeight),
         } : null))
 
         const path = computed(() => {
