@@ -258,6 +258,8 @@
           cursor: pointer;
           display: inline-block;
           position: relative;
+          padding: 0 $height/2;
+          overflow: visible;
 
           .pl-tab-header-item-content {
             background-color: $inactive;
@@ -271,6 +273,16 @@
 
           .pl-fillet-corner {
             color: $inactive;
+            position: absolute;
+            top: 0;
+
+            &:first-child {
+              right: 100%;
+            }
+
+            &:last-child {
+              left: 100%;
+            }
           }
 
           &.pl-tab-header-item-active {
@@ -278,7 +290,8 @@
               color: $colorPrimary;
               background-color: $active;
             }
-            .pl-fillet-corner{
+
+            .pl-fillet-corner {
               color: $active;
             }
           }
