@@ -51,7 +51,7 @@ export default defineComponent({
                 `M${startPos[0]},${startPos[1]}`,
                 `Q${firstCornerPoint[0]},${firstCornerPoint[1]} 50,50`,
                 `Q${secondCornerPoint[0]},${secondCornerPoint[1]} ${endPos[0]},${endPos[1]}`,
-                `L${startPos[1]},${endPos[0]}`,
+                part2 > 0 ? `L${endPos[0]},${startPos[1]}` : `L${startPos[0]},${endPos[1]}`,
                 `Z`
             ]
 
