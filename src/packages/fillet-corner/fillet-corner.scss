@@ -1,0 +1,12 @@
+@include theme {
+  .pl-fillet-corner {
+    height: 100%;
+    background-color: #ddd;
+    display: inline-block;
+
+    path {
+      stroke: black;
+      //fill: currentColor;
+    }
+  }
+}

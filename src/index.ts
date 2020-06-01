@@ -35,6 +35,7 @@ import step from './packages/step'
 import triangle from './packages/triangle'
 import tab from './packages/tab'
 import tabHeader from './packages/tab-header'
+import filletCorner from './packages/fillet-corner'
 
 import {installPlugin, PluginType} from "@/util/install";
 
@@ -43,7 +44,7 @@ const plugins = [
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
     message, notice, dialog, popper, popover, tooltip, dropdown, step,
-    card, alert, carousel, virtualList, progress, pagination, badge, triangle, tab, tabHeader,
+    card, alert, carousel, virtualList, progress, pagination, badge, triangle, tab, tabHeader, filletCorner,
 ]
 
 const install: PluginType['install'] = Vue => {
