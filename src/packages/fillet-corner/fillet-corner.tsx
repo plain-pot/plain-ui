@@ -7,17 +7,12 @@ export const enum FilletCornerDirection {
     vertical = 'vertical',
 }
 
-export const enum FilletCornerPart {
-    start = 'start',
-    end = 'end'
-}
-
 export default defineComponent({
     name: 'pl-fillet-corner',
     props: {
         direction: {type: String, default: FilletCornerDirection.vertical},
-        top: {type: String, default: FilletCornerPart.start},
-        bottom: {type: String, default: FilletCornerPart.start},
+        top: {type: Boolean, default: true},
+        start: {type: Boolean, default: false},
     },
     setup(props) {
 
@@ -30,8 +25,8 @@ export default defineComponent({
         }))
 
         const path = computed(() => {
-            let part1 = props.top === FilletCornerPart.start ? 1 : -1
-            let part2 = props.bottom === FilletCornerPart.start ? 1 : -1
+            let part1 = props.top ? 1 : -1
+            let part2 = props.start ? 1 : -1
 
             const startPos = [0, part1 * part2 * -1 < 0 ? 100 : 0]
             const endPos = [100 - startPos[0], 100 - startPos[1]]
