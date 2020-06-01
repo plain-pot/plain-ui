@@ -53,7 +53,9 @@ export default defineComponent({
         })
 
         onMounted(() => {
-            size.value = refs.$el.offsetHeight
+            setTimeout(() => {
+                size.value = refs.$el.offsetHeight
+            }, 0)
         })
 
         return () => (

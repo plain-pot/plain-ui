@@ -2,7 +2,7 @@
   .pl-fillet-corner {
     height: 100%;
     display: inline-block;
-    width: initial;
+    min-width: 1px;
 
     path {
       //stroke: black;
