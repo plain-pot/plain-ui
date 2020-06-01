@@ -3,7 +3,7 @@
         <demo-row title="基本用法">
             <div style="height: 40px;display: inline-flex;align-items: stretch">
                 <pl-fillet-corner top="start"/>
-                <div style="height: 100%;display: inline-block;align-items: center;background-color:rgba(0,0,0,0.1);color: white;">
+                <div style="height: 100%;display: inline-flex;align-items: center;background-color:black;color: white;">
                     this is content
                 </div>
                 <pl-fillet-corner top="start" bottom="end"/>
@@ -14,8 +14,7 @@
                 <template v-for="bottom in ['start','end']">
                     <demo-line :title="`top:${top},bottom:${bottom}`" :key="`top:${top},bottom:${bottom}`">
                         <div class="demo-fillet-corner-wrapper">
-                            111
-<!--                            <pl-fillet-corner direction="horizontal" :top="top" :bottom="bottom"/>-->
+                            <pl-fillet-corner direction="horizontal" :top="top" :bottom="bottom"/>
                         </div>
                     </demo-line>
                 </template>
@@ -45,7 +44,7 @@
     .demo-fillet-corner {
         .demo-fillet-corner-wrapper {
             height: 40px;
-            background-color: #f6f6f6;
+            /*background-color: #f6f6f6;*/
             display: inline-block;
         }
     }

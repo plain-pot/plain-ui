@@ -1,6 +1,5 @@
-import {computed, defineComponent, ref} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, ref} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
-import {useMounted} from "@/use/useMounted";
 import {useRefs} from "@/use/useRefs";
 
 export const enum FilletCornerDirection {
@@ -23,11 +22,12 @@ export default defineComponent({
     setup(props) {
 
         const refs = useRefs()
-        const isMounted = useMounted()
+        const size = ref(0)
 
-        const styles = computed(() => (isMounted.value ? {
+        const styles = computed(() => ({
             height: $plain.utils.suffixPx(refs.$el.offsetHeight),
-        } : null))
+            width: $plain.utils.suffixPx(refs.$el.offsetHeight),
+        }))
 
         const path = computed(() => {
             let part1 = props.top === FilletCornerPart.start ? 1 : -1
@@ -57,10 +57,17 @@ export default defineComponent({
             return d.join(' ')
         })
 
+        onMounted(() => {
+            size.value = refs.$el.offsetHeight
+        })
+
         return () => (
-            <svg viewBox="0 0 100 100" style={styles.value} class={'pl-fillet-corner'}>
-                <path d={path.value}/>
-            </svg>
+            !size.value ?
+                <div class={'pl-fillet-corner'}/>
+                :
+                <svg viewBox="0 0 100 100" style={styles.value} class={'pl-fillet-corner'}>
+                    <path d={path.value}/>
+                </svg>
         )
     },
 })
