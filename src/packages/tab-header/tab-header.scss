@@ -92,7 +92,7 @@
     &.pl-tab-header-type-card {
       $borderSize: 2px;
       $height: 40px;
-      $active: $colorPrimary;
+      $active: $colorPrimaryLight;
       $inactive: $disabled;
 
       height: $height;
@@ -126,7 +126,9 @@
             height: 100%;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             vertical-align: top;
+            min-width: 60px;
           }
 
           &:first-child {
@@ -150,7 +152,7 @@
 
           &.pl-tab-header-item-active {
             .pl-tab-header-item-content {
-              color: white;
+              color: $colorPrimary;
               background-color: $active;
             }
           }
@@ -160,7 +162,7 @@
           }
 
           &:hover {
-            color: $active;
+            color: $colorPrimary;
           }
         }
       }
