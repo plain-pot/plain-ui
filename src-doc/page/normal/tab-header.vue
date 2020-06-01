@@ -13,6 +13,7 @@
         <demo-row title="type:fillet">
             <demo-component position="top" type="fillet"/>
             <demo-component position="bottom" type="fillet"/>
+            <demo-component position="top" type="fillet" :moreTabs="true"/>
         </demo-row>
     </div>
 </template>

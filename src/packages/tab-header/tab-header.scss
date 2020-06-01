@@ -272,6 +272,24 @@
           .pl-fillet-corner {
             color: $inactive;
           }
+
+          &.pl-tab-header-item-active {
+            .pl-tab-header-item-content {
+              color: $colorPrimary;
+              background-color: $active;
+            }
+            .pl-fillet-corner{
+              color: $active;
+            }
+          }
+
+          .pl-tab-header-item-content, .pl-fillet-corner {
+            @include transition;
+          }
+
+          &:hover {
+            color: $colorPrimary;
+          }
         }
       }
 
