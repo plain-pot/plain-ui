@@ -23,7 +23,9 @@ export default defineComponent({
 
             return (
                 <div class={classes.value} onClick={emit.click}>
-                    {slots.default()}
+                    <div class="pl-tab-header-item-content">
+                        {slots.default()}
+                    </div>
                 </div>
             )
         }

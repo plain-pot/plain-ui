@@ -8,6 +8,7 @@
         <demo-row title="type:card">
             <demo-component position="top" type="card"/>
             <demo-component position="bottom" type="card"/>
+            <demo-component position="top" type="card" :moreTabs="true"/>
         </demo-row>
     </div>
 </template>

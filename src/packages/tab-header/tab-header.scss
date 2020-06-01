@@ -90,7 +90,140 @@
     }
 
     &.pl-tab-header-type-card {
+      $borderSize: 2px;
+      $height: 40px;
+      $active: $colorPrimary;
+      $inactive: $disabled;
 
+      height: $height;
+      position: relative;
+
+      &:before {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: $inactive;
+        content: '';
+      }
+
+      .pl-tab-header-item-list {
+        height: 100%;
+        white-space: nowrap;
+
+        .pl-tab-header-item {
+          height: 100%;
+          letter-spacing: 1px;
+          font-size: 12px;
+          color: $disabledText;
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          margin-right: 6px;
+
+          .pl-tab-header-item-content {
+            background-color: $inactive;
+            height: 100%;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: top;
+          }
+
+          &:first-child {
+            .pl-tab-header-item-content {
+              padding-left: $height/2;
+            }
+          }
+
+          &:before, &:after {
+            display: inline-block;
+            content: '';
+            width: 0;
+            height: 0;
+            border: solid $height/2 transparent;
+          }
+
+          &:before {
+            position: absolute;
+            right: 100%;
+          }
+
+          &.pl-tab-header-item-active {
+            .pl-tab-header-item-content {
+              color: white;
+              background-color: $active;
+            }
+          }
+
+          .pl-tab-header-item-content, &:before, &:after {
+            @include transition;
+          }
+
+          &:hover {
+            color: $active;
+          }
+        }
+      }
+
+      &.pl-tab-header-position-top {
+        &:before {
+          bottom: 0;
+        }
+
+        .pl-tab-header-item {
+          &:before {
+            border-top-color: $inactive;
+            border-right-color: $inactive;
+          }
+
+          &:after {
+            border-left-color: $inactive;
+            border-bottom-color: $inactive;
+          }
+
+          &.pl-tab-header-item-active {
+            &:before {
+              border-top-color: $active;
+              border-right-color: $active;
+            }
+
+            &:after {
+              border-left-color: $active;
+              border-bottom-color: $active;
+            }
+          }
+        }
+      }
+
+      &.pl-tab-header-position-bottom {
+        &:before {
+          top: 0;
+        }
+
+        .pl-tab-header-item {
+          &:before {
+            border-bottom-color: $inactive;
+            border-right-color: $inactive;
+          }
+
+          &:after {
+            border-left-color: $inactive;
+            border-top-color: $inactive;
+          }
+
+          &.pl-tab-header-item-active {
+            &:before {
+              border-bottom-color: $active;
+              border-right-color: $active;
+            }
+
+            &:after {
+              border-left-color: $active;
+              border-top-color: $active;
+            }
+          }
+        }
+      }
     }
   }
 }
