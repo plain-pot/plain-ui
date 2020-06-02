@@ -35,6 +35,7 @@
 
         .pl-tree-node-content {
           width: 100%;
+          box-sizing: border-box;
 
           .pl-tree-node-content-label {
             padding: 0 6px;
