@@ -41,11 +41,11 @@ export default defineComponent({
 
         checkFile($utils.join(itemPath, `index.ts`), `
 import './${item}.scss'
-import ${item} from './${item}'
+import ${$utils.camelCase(item)} from './${item}'
 import {installPlugin} from "@/util/install";
 
 export default installPlugin([
-    ${item},
+    ${$utils.camelCase(item)},
 ])
         `.trim())
 
