@@ -38,12 +38,13 @@ import tabHeader from './packages/tab-header'
 import filletCorner from './packages/fillet-corner'
 import tree from './packages/tree'
 import virtualTree from './packages/virtual-tree'
+import cascade from './packages/cascade'
 
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
     icon,
-    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
+    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade,
     collapse, list, grid, scroll, portal,
     message, notice, dialog, popper, popover, tooltip, dropdown, step,
     card, carousel, virtualList, progress, pagination, tab, tree, virtualTree,
