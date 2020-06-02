@@ -33,5 +33,4 @@ export interface TreeContextType {
     checkStrictly: boolean,
     filterNodeMethod: Function,
     intent: number,
-    $set: (obj: object, key: string, value: any) => void
 }
