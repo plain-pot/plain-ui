@@ -28,10 +28,14 @@ export default defineComponent({
                     state.show = true
                 }
             },
-            hide: () => {
+            hide: async () => {
                 if (!state.show) return
                 else {
                     state.show = false
+                    if (props.item!.props.destroyOnHide) {
+                        await $plain.nextTick()
+                        state.init = false
+                    }
                 }
             }
         }

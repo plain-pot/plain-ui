@@ -95,7 +95,12 @@ export default defineComponent({
                         <pl-tab-header type={props.headType} position={props.headPosition}>
                             {items.value.map((item, index) => (
                                 <pl-tab-header-item key={index} active={item.targetVal.value === model.value} onClick={() => handler.clickHeadItem(item, index)}>
-                                    <span>{item.props.title}</span>
+                                    <span>
+                                        {item.scopedSlots.head({
+                                            param: {active: item.targetVal.value === model.value},
+                                            content: item.props.title
+                                        })}
+                                    </span>
                                     {!!props.closeIcon && <pl-icon icon="el-icon-close" onClick={() => handler.clickCloseIcon(item, index)}/>}
                                 </pl-tab-header-item>
                             ))}

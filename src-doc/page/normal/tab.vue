@@ -81,6 +81,52 @@
             </pl-tab-group>
         </demo-row>
 
+        <demo-row title="页签初始化控制">
+            <pl-tab-group>
+                <pl-tab title="用户管理" val="user management">
+                    用户管理
+                    <input type="text">
+                </pl-tab>
+                <pl-tab title="子模块数据管理:立即初始化" val="submodule management" v-if="showFlag" init>
+                    子模块数据管理
+                    <input type="text">
+                </pl-tab>
+                <pl-tab title="数据集:关闭的时候销毁内容" val="role management" destroyOnHide>
+                    数据集
+                    <input type="text">
+                </pl-tab>
+            </pl-tab-group>
+        </demo-row>
+
+        <demo-row title="自定义选项卡标题">
+            <pl-tab-group>
+                <pl-tab val="user management">
+                    <div slot-scope="{active}" slot="head" v-tooltip="'用户管理'">
+                        <span>用户管理</span>
+                        <pl-icon :icon="active?'el-icon-user-solid':'el-icon-user'"/>
+                    </div>
+                    用户管理
+                    <input type="text">
+                </pl-tab>
+                <pl-tab val="submodule management" v-if="showFlag" init>
+                    <div slot-scope="{active}" slot="head" v-tooltip="'子模块数据管理'">
+                        <span>子模块数据管理</span>
+                        <pl-icon :icon="active?'el-icon-warning':'el-icon-warning-outline'"/>
+                    </div>
+                    子模块数据管理
+                    <input type="text">
+                </pl-tab>
+                <pl-tab val="role management" destroyOnHide>
+                    <div slot-scope="{active}" slot="head" v-tooltip="'数据集'">
+                        <span>数据集</span>
+                        <pl-icon :icon="active?'el-icon-message-solid':'el-icon-bell'"/>
+                    </div>
+                    数据集
+                    <input type="text">
+                </pl-tab>
+            </pl-tab-group>
+        </demo-row>
+
     </div>
 </template>
 
