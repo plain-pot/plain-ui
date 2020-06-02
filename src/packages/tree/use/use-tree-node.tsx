@@ -92,7 +92,7 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
                     <div class="pl-tree-node-content" onClick={() => tree.handler.clickNodeContent(props.treeNode)} style={contentStyles.value}>
                         {
                             tree.scopedSlots.default({
-                                param: {treeNode: props.treeNode},
+                                param: props.treeNode,
                                 content: (!!tree.props.renderContent ?
                                     tree.props.renderContent(h, props.treeNode)
                                     :

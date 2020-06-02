@@ -79,7 +79,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     })
 
     const {scopedSlots} = useScopedSlots({
-        default: {treeNode: Object}
+        default: TreeNode
     })
 
     /*---------------------------------------state-------------------------------------------*/
