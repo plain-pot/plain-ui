@@ -28,8 +28,10 @@ export default defineComponent({
             return (
                 <div class={classes.value}>
                     {head}
-                    <div>
-                        pl-tab-group-horizontal
+                    <div class="pl-tab-group-inner-tab-list">
+                        {group.items.value.map((item, index) => (
+                            <pl-inner-tab item={item} index={index}/>
+                        ))}
                     </div>
                 </div>
             )

@@ -5,34 +5,29 @@
     }
 
     .pl-tab-group-horizontal {
-      .pl-tab-group-horizontal-head {
 
-        height: 56px;
-        border-bottom: solid 4px $disabled;
+      .pl-tab-group-inner-tab-list {
+        padding: 20px 0;
+      }
 
-        ul {
-          margin: 0;
-          padding: 0;
-          list-style: none;
-        }
+      .pl-inner-tab {
+        transform-origin: left top;
+        transition: all 500ms $transition;
+      }
 
-        .pl-tab-group-horizontal-head-list {
-          height: 100%;
-          white-space: nowrap;
+      .pl-transition-tab-enter-active, .pl-transition-tab-leave-active {
+        opacity: 1;
+      }
 
-          .pl-tab-group-horizontal-head-item {
-            height: 100%;
-            vertical-align: top;
-            display: inline-flex;
-            align-items: center;
-            color: $disabledText;
-            font-size: 14px;
+      .pl-transition-tab-enter, .pl-transition-tab-leave-to {
+        opacity: 0;
+        transform: translateX(30px);
+      }
 
-            &:not(:last-child) {
-              margin-right: 36px;
-            }
-          }
-        }
+      .pl-transition-tab-leave-active {
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
 

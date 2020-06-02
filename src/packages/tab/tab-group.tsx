@@ -1,4 +1,4 @@
-import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, provide, reactive} from "@vue/composition-api";
 import {TabHeadType, TabHeadPosition} from "@/packages/tab/tab-utils";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
@@ -58,6 +58,12 @@ export default defineComponent({
         })
 
         provide(TAB_GROUP_PROVIDER, ctx)
+
+        onMounted(() => {
+            if (model.value == null && !!items.value && items.value.length > 0) {
+                model.value = items.value[0].targetVal.value
+            }
+        })
 
         return () => {
 
