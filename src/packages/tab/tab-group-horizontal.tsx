@@ -9,26 +9,21 @@ export default defineComponent({
 
         const classes = computed(() => [
             'pl-tab-group-horizontal',
-            `pl-tab-group-horizontal-style-${group.props.headType}`,
             `pl-tab-group-horizontal-position-${group.props.headPosition}`
         ])
 
         return () => {
-
-            const head = (
-                <pl-tab-header type={group.props.headType} position={group.props.headPosition}>
-                    {group.items.value.map((item, index) => (
-                        <pl-tab-header-item key={index} active={item.targetVal.value === group.model.value} onClick={() => group.handler.clickHeadItem(item, index)}>
-                            <span>{item.props.title}</span>
-                            {!!group.props.closeIcon && <pl-icon icon="el-icon-close" onClick={() => group.handler.clickCloseIcon(item, index)}/>}
-                        </pl-tab-header-item>
-                    ))}
-                </pl-tab-header>
-            )
-
             return (
                 <div class={classes.value}>
-                    {head}
+                    <pl-tab-header type={group.props.headType} position={group.props.headPosition}>
+                        {group.items.value.map((item, index) => (
+                            <pl-tab-header-item key={index} active={item.targetVal.value === group.model.value} onClick={() => group.handler.clickHeadItem(item, index)}>
+                                <span>{item.props.title}</span>
+                                {!!group.props.closeIcon && <pl-icon icon="el-icon-close" onClick={() => group.handler.clickCloseIcon(item, index)}/>}
+                            </pl-tab-header-item>
+                        ))}
+                    </pl-tab-header>
+
                     <div class="pl-tab-group-inner-tab-list">
                         {group.items.value.map((item, index) => (
                             <pl-inner-tab item={item} index={index}/>
