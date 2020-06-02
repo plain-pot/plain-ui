@@ -55,6 +55,10 @@ export const TREE_PROVIDER = '@@TREE_PROVIDER'
 
 export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
 
+    if (!props) {
+        return {} as any
+    }
+
     const {emit} = useEvent({
         clickNode: EmitFunc,
         updateCurrent: EmitFunc,
@@ -551,5 +555,5 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     return refer
 }
 
-const useTreeValue = useTree({} as any)
+const useTreeValue = useTree(null as any)
 export type UseTreeReturnType = typeof useTreeValue

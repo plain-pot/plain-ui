@@ -1,3 +1,114 @@
 @include theme {
-  
+  .pl-tree {
+    position: relative;
+    min-height: 100px;
+
+    .pl-tree-node {
+      font-size: 14px;
+      line-height: 24px;
+      cursor: pointer;
+      display: block;
+
+      .pl-tree-node-wrapper {
+        position: relative;
+        width: 100%;
+        transition: all $transition 300ms;
+
+        .pl-tree-node-operator {
+          position: absolute;
+          top: 0;
+          left: 0;
+          user-select: none;
+
+          .pl-tree-node-expander {
+            height: 24px;
+            width: 18px;
+            display: inline-block;
+            vertical-align: top;
+          }
+
+          .pl-checkbox-indeterminate {
+            user-select: none;
+          }
+        }
+
+        .pl-tree-node-content {
+          width: 100%;
+
+          .pl-tree-node-content-label {
+            padding: 0 6px;
+          }
+        }
+
+        &:hover {
+          background-color: rgba($colorInfo, 0.1);
+          color: $ihc;
+        }
+      }
+
+      &.pl-tree-node-expand {
+        & > .pl-tree-node-wrapper > .pl-tree-node-operator > .pl-tree-node-expander > .pl-tree-expand-icon {
+          transform: rotate(90deg);
+        }
+      }
+
+      &.pl-tree-node-drop-inner {
+        & > .pl-tree-node-wrapper > .pl-tree-node-content {
+          color: $colorPrimary;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .pl-icon {
+      color: $icc;
+      margin-right: 6px;
+
+      &.pl-tree-expand-icon {
+        transition: all $transition 300ms;
+      }
+    }
+
+    .pl-tree-node-empty-text {
+      color: $disabledText;
+      font-size: 12px;
+      line-height: 28px;
+
+      & > .pl-icon {
+        margin-right: 6px;
+      }
+    }
+
+    .pl-tree-drag-indicator {
+      position: fixed;
+      z-index: 9999;
+      height: 2px;
+      background-color: $colorPrimary;
+      display: inline-block;
+    }
+
+    &.pl-tree-highlight-current {
+      .pl-tree-node.pl-tree-node-current > .pl-tree-node-wrapper {
+        background-color: rgba($colorPrimary, 0.1);
+        color: $colorPrimary;
+      }
+    }
+
+    &.pl-tree-reflow {
+      .pl-tree-node-list {
+        transition: none !important;
+      }
+    }
+
+    &.pl-tree-virtual-scrolling {
+      .pl-tree-node {
+        transition: none !important;
+      }
+    }
+
+    .pl-list-move-right-enter {
+      opacity: 0;
+      transform: translateX(100px);
+    }
+  }
 }
