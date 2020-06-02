@@ -12,7 +12,7 @@ export default defineComponent({
 
         return () => (
             <div class={data.classes.value} {...{directives: [{name: 'loading', value: data.isLoading.value}]}}>
-                {(!data.formatData.value && data.formatData.value!.length === 0) ? (
+                {(!data.formatData.value || data.formatData.value!.length === 0) ? (
                     <div class="pl-tree-node-empty-text">
                         <pl-icon icon="el-icon-reading"/>
                         <span>{props.emptyText}</span>

@@ -549,6 +549,12 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     useRefer(refer)
     provide(TREE_PROVIDER, refer)
 
+    utils.initLazy()
+
+    if (props.defaultExpandAll) {
+        $plain.nextTick(() => methods.expandAll())
+    }
+
     return refer
 }
 

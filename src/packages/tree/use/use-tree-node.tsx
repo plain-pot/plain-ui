@@ -35,7 +35,7 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
         'pl-tree-node',
         {
             'pl-tree-node-expand': isExpand.value,
-            // 'pl-tree-node-current': props.treeNode.key === this.plTree.p_currentKey,
+            'pl-tree-node-current': props.treeNode.key === tree.current.value,
             // 'pl-tree-node-drop-inner': this.plTree.dragState.dropInnerKey === this.treeNode.key
         },
     ])
