@@ -2,7 +2,7 @@
     <div class="demo-tab">
         <demo-row title="基本用法">
             <demo-line label="show tab2">
-                <pl-checkbox v-model="showFlag"/>
+                <pl-checkbox v-model="showFlag" label="动态 销毁/初始化 一个tab不会影响顺序"/>
             </demo-line>
             <pl-tab-group v-model="val[0]">
                 <pl-tab title="用户管理" val="user management">
@@ -27,7 +27,7 @@
             </pl-tab-group>
         </demo-row>
         <demo-row title="三种样式">
-            <pl-tab-group v-for="item in ['text','card','fillet']" :key="item" :headType="item">
+            <pl-tab-group v-for="item in ['text','card','fillet']" :key="item" :headType="item" v-model="bindValue">
                 <pl-tab title="用户管理" val="user management">用户管理</pl-tab>
                 <pl-tab title="子模块数据管理" val="submodule management">子模块数据管理</pl-tab>
                 <pl-tab title="数据集" val="role management">数据集</pl-tab>
@@ -104,6 +104,8 @@
                 showClose: false,
                 show: true,
                 showFlag: true,
+
+                bindValue: 'user management',
             }
         },
         methods: {

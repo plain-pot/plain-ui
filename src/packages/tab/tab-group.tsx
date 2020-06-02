@@ -27,7 +27,18 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const items = useCollectParent(true)
+        const items = useCollectParent(true, undefined, (removeItem) => {
+            if (removeItem.targetVal.value === model.value) {
+                let index = items.value.indexOf(removeItem)
+                if (!!items.value[index + 1]) {
+                    model.value = items.value[index + 1].targetVal.value
+                } else if (!!items.value[index - 1]) {
+                    model.value = items.value[index - 1].targetVal.value
+                } else {
+                    model.value = null
+                }
+            }
+        })
         const model = useModel(() => props.value, emit.input)
 
         /*---------------------------------------computer-------------------------------------------*/
