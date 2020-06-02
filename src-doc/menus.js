@@ -49,7 +49,7 @@ export default [
             {name: 'VirtualList', title: '虚拟列表', icon: 'pl-list', page: '/normal/virtual-list', complete: true},
             {name: 'Progress', title: '进度条', icon: 'pl-progress', page: '/normal/progress', complete: true},
             {name: 'Tree', title: '树形组件', icon: 'pl-tree', page: '/normal/tree', complete: true},
-            {name: 'Virtual Tree', title: '虚拟树', icon: 'pl-tree', page: '/normal/virtual-tree', complete: false},
+            {name: 'Virtual Tree', title: '虚拟树', icon: 'pl-tree', page: '/normal/virtual-tree', complete: true},
             {name: 'Pagination', title: '分页', icon: 'pl-book2', page: '/normal/pagination', complete: false},
             {name: 'Badge', title: '标记', icon: 'pl-badge', page: '/normal/badge', complete: true},
             {name: 'Step', title: '步骤条', icon: 'pl-step', page: '/normal/step', complete: true},
