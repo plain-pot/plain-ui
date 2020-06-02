@@ -15,6 +15,21 @@
             <demo-component position="bottom" type="fillet"/>
             <demo-component position="top" type="fillet" :moreTabs="true"/>
         </demo-row>
+        <demo-row title="position:left">
+            <div style="height: 300px">
+                <demo-component position="left"/>
+            </div>
+        </demo-row>
+        <demo-row title="position:right">
+            <div style="height: 300px">
+                <demo-component position="right"/>
+            </div>
+        </demo-row>
+        <demo-row title="position:left,more tabs">
+            <div style="height: 300px">
+                <demo-component position="left" :moreTabs="true"/>
+            </div>
+        </demo-row>
     </div>
 </template>
 

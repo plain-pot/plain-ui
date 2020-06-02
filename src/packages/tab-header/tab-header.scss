@@ -1,17 +1,21 @@
 @include theme {
   .pl-tab-header {
+    $active: $colorPrimaryLight;
+    $inactive: $disabled;
+    $borderSize: 2px;
+    $height: 40px;
+
     &.pl-tab-header-type-text {
       height: 40px;
       position: relative;
 
-      $borderSize: 2px;
 
       &:before {
         position: absolute;
         left: 0;
         right: 0;
         content: '';
-        background-color: $disabled;
+        background-color: $inactive;
         height: $borderSize;
         border-radius: 100px;
       }
@@ -90,10 +94,6 @@
     }
 
     &.pl-tab-header-type-card {
-      $borderSize: 2px;
-      $height: 40px;
-      $active: $colorPrimaryLight;
-      $inactive: $disabled;
 
       height: $height;
       position: relative;
@@ -229,10 +229,6 @@
     }
 
     &.pl-tab-header-type-fillet {
-      $borderSize: 2px;
-      $height: 40px;
-      $active: $colorPrimaryLight;
-      $inactive: $disabled;
 
       height: $height;
       position: relative;
@@ -323,6 +319,92 @@
           top: 0;
         }
       }
+    }
+
+    &.pl-tab-header-type-vertical-text {
+      display: inline-block;
+      position: relative;
+      height: 100%;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        content: '';
+        width: $borderSize;
+        background-color: $disabled;
+      }
+
+      .pl-tab-header-item-list {
+        .pl-tab-header-item {
+          padding: 6px 12px;
+          color: $disabledText;
+          font-size: 12px;
+          cursor: pointer;
+          position: relative;
+
+          &, &:after {
+            @include transition;
+          }
+
+          &:after {
+            position: absolute;
+            top: 50%;
+            bottom: 50%;
+            width: $borderSize;
+            background-color: $colorPrimary;
+            content: '';
+            z-index: 1;
+          }
+
+          &.pl-tab-header-item-active {
+            color: $colorPrimary;
+            background-color: $active;
+
+            &:after {
+              top: 0;
+              bottom: 0;
+            }
+          }
+
+          &:hover {
+            color: $colorPrimary;
+          }
+        }
+      }
+
+      &.pl-tab-header-position-left {
+        &:after {
+          right: 0;
+        }
+
+        .pl-tab-header-item {
+          .pl-tab-header-item-content {
+            text-align: right;
+          }
+
+          &:after {
+            right: 0;
+          }
+        }
+      }
+
+      &.pl-tab-header-position-right {
+        &:after {
+          left: 0;
+        }
+
+        .pl-tab-header-item {
+          .pl-tab-header-item-content {
+            text-align: left;
+          }
+
+          &:after {
+            left: 0;
+          }
+        }
+      }
+
     }
   }
 }
