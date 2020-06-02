@@ -1,8 +1,7 @@
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {EmitFunc, useEvent} from "@/use/useEvent";
-import {TAB_HEADER_PROVIDER} from "@/packages/tab-header/tab-header";
-import {TabHeadPosition} from "@/packages/tab/tab-utils";
+import {TAB_HEADER_PROVIDER, TabHeaderPosition} from "@/packages/tab-header/tab-header";
 
 export default defineComponent({
     name: 'pl-tab-header-item',
@@ -27,11 +26,11 @@ export default defineComponent({
 
             return (
                 <div class={classes.value} onClick={emit.click}>
-                    {!!tabHeader && tabHeader.type.value === 'fillet' && <pl-fillet-corner top={tabHeader.props.position !== TabHeadPosition.top} start/>}
+                    {!!tabHeader && tabHeader.type.value === 'fillet' && <pl-fillet-corner top={tabHeader.props.position !== TabHeaderPosition.top} start/>}
                     <div class="pl-tab-header-item-content">
                         {slots.default()}
                     </div>
-                    {!!tabHeader && tabHeader.type.value === 'fillet' && <pl-fillet-corner top={tabHeader.props.position === TabHeadPosition.top}/>}
+                    {!!tabHeader && tabHeader.type.value === 'fillet' && <pl-fillet-corner top={tabHeader.props.position === TabHeaderPosition.top}/>}
                 </div>
             )
         }

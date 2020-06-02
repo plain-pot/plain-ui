@@ -16,10 +16,11 @@ export default defineComponent({
         return () => {
 
             const head = (
-                <pl-tab-header>
+                <pl-tab-header type={group.props.headType} position={group.props.headPosition}>
                     {group.items.value.map((item, index) => (
                         <pl-tab-header-item key={index} active={item.targetVal.value === group.model.value} onClick={() => group.handler.clickHeadItem(item, index)}>
-                            {item.props.title}
+                            <span>{item.props.title}</span>
+                            {!!group.props.closeIcon && <pl-icon icon="el-icon-close" onClick={() => group.handler.clickCloseIcon(item, index)}/>}
                         </pl-tab-header-item>
                     ))}
                 </pl-tab-header>

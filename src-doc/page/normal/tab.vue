@@ -26,30 +26,11 @@
                 </pl-tab>
             </pl-tab-group>
         </demo-row>
-        <demo-row title="卡片选项卡">
-            <pl-tab-group card="title">
-                <pl-tab title="用户管理" val="user management">
-                    用户管理
-                </pl-tab>
-                <pl-tab title="子模块数据管理" val="submodule management">
-                    子模块数据管理
-                </pl-tab>
-                <pl-tab title="数据集" val="role management">
-                    数据集
-                </pl-tab>
-            </pl-tab-group>
-        </demo-row>
-        <demo-row title="卡片化页签">
-            <pl-tab-group card="border">
-                <pl-tab title="用户管理" val="user management">
-                    用户管理
-                </pl-tab>
-                <pl-tab title="子模块数据管理" val="submodule management">
-                    子模块数据管理
-                </pl-tab>
-                <pl-tab title="数据集" val="role management">
-                    数据集
-                </pl-tab>
+        <demo-row title="三种样式">
+            <pl-tab-group v-for="item in ['text','card','fillet']" :key="item" :headType="item">
+                <pl-tab title="用户管理" val="user management">用户管理</pl-tab>
+                <pl-tab title="子模块数据管理" val="submodule management">子模块数据管理</pl-tab>
+                <pl-tab title="数据集" val="role management">数据集</pl-tab>
             </pl-tab-group>
         </demo-row>
 
@@ -61,13 +42,13 @@
             </demo-line>
             <demo-line title="样式">
                 <pl-button-group>
-                    <pl-button v-for="item in cards" :key="item" :label="item" :active="card === item" @click="card = item"/>
+                    <pl-button v-for="item in types" :key="item" :label="item" :active="type === item" @click="type = item"/>
                 </pl-button-group>
             </demo-line>
             <demo-line>
                 <pl-checkbox label="显示关闭图标" v-model="showClose"/>
             </demo-line>
-            <pl-tab-group style="height:300px" :position="position" :key="`${position}-${card}`" :card="card" :closeIcon="showClose">
+            <pl-tab-group style="height:300px" :headPosition="position" :key="`${position}-${type}`" :headType="type" :closeIcon="showClose">
                 <pl-tab title="用户管理" val="user management">
                     用户管理
                 </pl-tab>
@@ -78,7 +59,7 @@
                     数据集
                 </pl-tab>
             </pl-tab-group>
-            <pl-tab-group style="height:300px" :position="position" :key="`${position}-${card}`" :card="card" :closeIcon="showClose">
+            <pl-tab-group style="height:300px" :headPosition="position" :key="`${position}-${type}`" :headType="type" :closeIcon="showClose">
                 <pl-tab v-for="item in 40" :key="item" :title="`页签 ${item}`">
                     {{`tab ${item}`}}
                 </pl-tab>
@@ -94,15 +75,6 @@
                 <pl-toggle v-model="show"/>
             </demo-line>
             <pl-tab-group closeIcon @close="onClose">
-                <pl-tab title="用户管理" val="user management">
-                    用户管理
-                </pl-tab>
-                <pl-tab title="子模块数据管理" val="submodule management" v-if="show">
-                    子模块数据管理
-                </pl-tab>
-                <pl-tab title="数据集" val="role management">
-                    数据集
-                </pl-tab>
                 <pl-tab v-for="item in counts" :key="item" :title="`页签 ${item}`" :val="item">
                     {{`tab ${item}`}}
                 </pl-tab>
@@ -119,10 +91,10 @@
         data() {
             return {
                 positions: ['top', 'bottom', 'left', 'right'],
-                cards: ['default', 'title', 'border'],
+                types: ['text', 'card', 'fillet'],
 
-                position: 'bottom',
-                card: 'default',
+                position: 'top',
+                type: 'text',
 
                 val: {},
 
@@ -135,7 +107,7 @@
             }
         },
         methods: {
-            onClose({index}) {
+            onClose(item, index) {
                 this.counts.splice(index, 1)
             },
         },

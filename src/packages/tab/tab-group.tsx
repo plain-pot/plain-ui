@@ -1,10 +1,10 @@
 import {computed, defineComponent, onMounted, provide, reactive} from "@vue/composition-api";
-import {TabHeadType, TabHeadPosition} from "@/packages/tab/tab-utils";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
 import {useCollectParent} from "@/use/useCollect";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
+import {TabHeaderPosition, TabHeaderType} from "@/packages/tab-header/tab-header";
 
 export const TAB_GROUP_PROVIDER = '@@TAB_GROUP_PROVIDER'
 
@@ -12,8 +12,8 @@ export default defineComponent({
     name: 'pl-tab-group',
     props: {
         value: {},
-        headType: {type: String, default: TabHeadType.default},
-        headPosition: {type: String, default: TabHeadPosition.top},
+        headType: {type: String, default: TabHeaderType.text},
+        headPosition: {type: String, default: TabHeaderPosition.top},
         closeIcon: {type: Boolean},
     },
     setup(props) {
@@ -22,6 +22,7 @@ export default defineComponent({
         const {emit} = useEvent({
             input: EmitFunc,
             clickHeadItem: (item: any, index: number) => undefined,
+            close: (item: any, index: number) => undefined,
         })
 
         /*---------------------------------------state-------------------------------------------*/
@@ -45,6 +46,9 @@ export default defineComponent({
             clickHeadItem: (item, index) => {
                 model.value = item.targetVal.value
                 emit.clickHeadItem(item, index)
+            },
+            clickCloseIcon: (item, index) => {
+                emit.close(item, index)
             }
         }
 

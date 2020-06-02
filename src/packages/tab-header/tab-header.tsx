@@ -3,14 +3,14 @@ import {useSlots} from "@/use/useSlots";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {$plain} from "@/packages/base";
 
-const enum TabHeaderType {
+export const enum TabHeaderType {
     text = 'text',
     card = 'card',
     fillet = 'fillet',
     verticalText = 'vertical-text'
 }
 
-const enum TabHeaderPosition {
+export const enum TabHeaderPosition {
     top = 'top',
     bottom = 'bottom',
     left = 'left',
