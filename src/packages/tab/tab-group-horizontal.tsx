@@ -16,19 +16,13 @@ export default defineComponent({
         return () => {
 
             const head = (
-                <div class={'pl-tab-group-horizontal-head'}>
-                    <pl-scroll scrollX scrollY={false} fitHostHeight>
-                        <ul class={"pl-tab-group-horizontal-head-list"}>
-                            {group.items.value.map((item, index) => (
-                                <li class={[
-                                    'pl-tab-group-horizontal-head-item'
-                                ]}>
-                                    {item.props.title}
-                                </li>
-                            ))}
-                        </ul>
-                    </pl-scroll>
-                </div>
+                <pl-tab-header>
+                    {group.items.value.map((item, index) => (
+                        <pl-tab-header-item key={index} active={item.targetVal.value === group.model.value} onClick={() => group.handler.clickHeadItem(item, index)}>
+                            {item.props.title}
+                        </pl-tab-header-item>
+                    ))}
+                </pl-tab-header>
             )
 
             return (

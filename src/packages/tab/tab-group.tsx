@@ -3,6 +3,8 @@ import {TabHeadType, TabHeadPosition} from "@/packages/tab/tab-utils";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
 import {useCollectParent} from "@/use/useCollect";
+import {useModel} from "@/use/useModel";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 
 export const TAB_GROUP_PROVIDER = '@@TAB_GROUP_PROVIDER'
 
@@ -17,10 +19,15 @@ export default defineComponent({
     setup(props) {
 
         const {slots} = useSlots()
+        const {emit} = useEvent({
+            input: EmitFunc,
+            clickHeadItem: (item: any, index: number) => undefined,
+        })
 
         /*---------------------------------------state-------------------------------------------*/
 
         const items = useCollectParent(true)
+        const model = useModel(() => props.value, emit.input)
 
         /*---------------------------------------computer-------------------------------------------*/
 
@@ -32,14 +39,25 @@ export default defineComponent({
 
         const utils = {}
 
+        /*---------------------------------------handler-------------------------------------------*/
+
+        const handler = {
+            clickHeadItem: (item, index) => {
+                model.value = item.targetVal.value
+                emit.clickHeadItem(item, index)
+            }
+        }
+
         const ctx = useRefer({
             items,
             utils,
+            handler,
+
             props,
+            model,
         })
 
         provide(TAB_GROUP_PROVIDER, ctx)
-
 
         return () => {
 
