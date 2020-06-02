@@ -1,11 +1,13 @@
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
-import {computed, reactive} from "@vue/composition-api";
+import {computed, provide, reactive} from "@vue/composition-api";
 import {useModel} from "@/use/useModel";
 import {TreeMark} from "@/packages/tree/utils/TreeMark";
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
 import {TreeDropType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
 import {$plain} from "@/packages/base";
+import {useRefer} from "@/use/useRefer";
+import {useScopedSlots} from "@/use/useScopedSlots";
 
 export const TreeProps = {
     data: {type: Array},                                        // 树形结构数据
@@ -72,6 +74,10 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         dragover: EmitFunc,
         dragend: EmitFunc,
         drop: EmitFunc,
+    })
+
+    const {scopedSlots, $scopedSlots} = useScopedSlots({
+        default: {treeNode: Object}
     })
 
     /*---------------------------------------state-------------------------------------------*/
@@ -295,6 +301,15 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                 methods.toggleCheck(treeNode.key)
             }
         },
+        /**
+         * 处理点击子节点 checkbox 动作
+         * @author  韦胜健
+         * @date    2020/3/31 15:06
+         */
+        clickCheckbox(e, treeNode) {
+            e.stopPropagation()
+            methods.toggleCheck(treeNode.key)
+        },
     }
 
     /*---------------------------------------methods-------------------------------------------*/
@@ -513,7 +528,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         },
     }
 
-    return {
+    const refer = {
         props,
         emit,
         current,
@@ -527,7 +542,13 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         utils,
         handler,
         methods,
+        scopedSlots,
     }
+
+    useRefer(refer)
+    provide(TREE_PROVIDER, refer)
+
+    return refer
 }
 
 const useTreeValue = useTree({} as any)

@@ -1,5 +1,5 @@
 import {computed, getCurrentInstance, inject, reactive} from "@vue/composition-api";
-import {TREE_PROVIDER} from "@/packages/tree/use/use-tree";
+import {TREE_PROVIDER, UseTreeReturnType} from "@/packages/tree/use/use-tree";
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {$plain} from "@/packages/base";
@@ -9,7 +9,7 @@ export const TreeNodeProps = {
 }
 
 export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
-    const tree = inject(TREE_PROVIDER) as any
+    const tree = inject(TREE_PROVIDER) as UseTreeReturnType
 
     const state = reactive({
         init: !tree.props.renderAfterExpand,
@@ -90,16 +90,17 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
                         />}
                     </div>
                     <div class="pl-tree-node-content" onClick={() => tree.handler.clickNodeContent(props.treeNode)} style={contentStyles.value}>
-                        {!!tree.$scopedSlots.default ?
-                            tree.$scopedSlots.default(props.treeNode)
-                            :
-                            (!!tree.props.renderContent ?
-                                tree.props.renderContent(h, props.treeNode)
-                                :
-                                [
-                                    !tree.props.nodeIcon ? null : <pl-icon icon={tree.props.nodeIcon(props.treeNode)}/>,
-                                    <span class="pl-tree-node-label">{props.treeNode.label}</span>
-                                ])
+                        {
+                            tree.scopedSlots.default({
+                                param: {treeNode: props.treeNode},
+                                content: (!!tree.props.renderContent ?
+                                    tree.props.renderContent(h, props.treeNode)
+                                    :
+                                    [
+                                        !tree.props.nodeIcon ? null : <pl-icon icon={tree.props.nodeIcon(props.treeNode)}/>,
+                                        <span class="pl-tree-node-label">{props.treeNode.label}</span>
+                                    ])
+                            })
                         }
                     </div>
                 </div>
