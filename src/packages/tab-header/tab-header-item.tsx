@@ -27,7 +27,7 @@ export default defineComponent({
 
             return (
                 <div class={classes.value} onClick={emit.click}>
-                    {!!tabHeader && tabHeader.props.type === 'fillet' && <pl-fillet-corner top={tabHeader.props.position === TabHeadPosition.top} start/>}
+                    {!!tabHeader && tabHeader.props.type === 'fillet' && <pl-fillet-corner top={tabHeader.props.position !== TabHeadPosition.top} start/>}
                     <div class="pl-tab-header-item-content">
                         {slots.default()}
                     </div>

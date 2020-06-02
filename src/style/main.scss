@@ -15,7 +15,7 @@ $dt: map_get($theme-default,'');
   $globalThemeName: $name !global;
 
   $colorPrimary: plv(colorPrimary) !global;
-  $colorPrimaryLight: rgba(plv(colorPrimary), 0.1) !global;
+  $colorPrimaryLight: mix(white, $colorPrimary, 85%) !global;
   $colorSuccess: plv(colorSuccess) !global;
   $colorWarn: plv(colorWarn) !global;
   $colorError: plv(colorError) !global;
