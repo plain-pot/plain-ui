@@ -1,65 +1,72 @@
 @include theme {
   .pl-tab-group {
+
     .pl-tab-group-slot {
       display: none;
     }
 
-    .pl-tab-group-horizontal {
-      position: relative;
-      height: 100%;
-      box-sizing: border-box;
-
-      .pl-tab-group-inner-tab-list {
+    .pl-tab-inner-group {
+      &.pl-tab-inner-group-direction-horizontal {
         position: relative;
+        height: 100%;
+        box-sizing: border-box;
+
+        .pl-tab-group-inner-tab-list {
+          position: relative;
+
+          .pl-inner-tab {
+            padding: 20px 0;
+            color: $itc;
+          }
+        }
+
+        .pl-tab-header {
+          position: absolute;
+          left: 0;
+          right: 0;
+        }
+
+        &.pl-tab-inner-group-head-position-top {
+          padding-top: 40px;
+
+          .pl-tab-header {
+            top: 0;
+          }
+        }
+
+        &.pl-tab-inner-group-head-position-bottom {
+          padding-bottom: 40px;
+
+          .pl-tab-header {
+            bottom: 0;
+          }
+        }
+
+        /*---------------------------------------transition-------------------------------------------*/
 
         .pl-inner-tab {
-          padding: 20px 0;
-          color: $itc;
+          transform-origin: left top;
+          transition: all 500ms $transition;
         }
-      }
 
-      .pl-tab-header {
-        position: absolute;
-        left: 0;
-        right: 0;
-      }
+        .pl-transition-tab-enter-active, .pl-transition-tab-leave-active {
+          opacity: 1;
+        }
 
-      &.pl-tab-group-horizontal-position-top {
-        padding-top: 40px;
+        .pl-transition-tab-enter, .pl-transition-tab-leave-to {
+          opacity: 0;
+          transform: translateX(30px);
+        }
 
-        .pl-tab-header {
+        .pl-transition-tab-leave-active {
+          position: absolute;
           top: 0;
+          left: 0;
         }
       }
 
-      &.pl-tab-group-horizontal-position-bottom {
-        padding-bottom: 40px;
+      &.pl-tab-inner-group-direction-vertical {
 
-        .pl-tab-header {
-          bottom: 0;
-        }
-      }
-
-      /*---------------------------------------transition-------------------------------------------*/
-
-      .pl-inner-tab {
-        transform-origin: left top;
-        transition: all 500ms $transition;
-      }
-
-      .pl-transition-tab-enter-active, .pl-transition-tab-leave-active {
-        opacity: 1;
-      }
-
-      .pl-transition-tab-enter, .pl-transition-tab-leave-to {
-        opacity: 0;
-        transform: translateX(30px);
-      }
-
-      .pl-transition-tab-leave-active {
-        position: absolute;
-        top: 0;
-        left: 0;
       }
     }
 

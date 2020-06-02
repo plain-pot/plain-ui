@@ -47,6 +47,12 @@ export default defineComponent({
             'pl-tab-group',
         ])
 
+        const innerGroupClasses = computed(() => [
+            'pl-tab-inner-group',
+            `pl-tab-inner-group-head-position-${props.headPosition}`,
+            `pl-tab-inner-group-direction-${['top', 'bottom'].indexOf(props.headPosition) > -1 ? 'horizontal' : 'vertical'}`
+        ])
+
         /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {}
@@ -81,13 +87,27 @@ export default defineComponent({
         })
 
         return () => {
-
-            const Component = ['top', 'bottom'].indexOf(props.headPosition) > -1 ? 'pl-tab-group-horizontal' : 'pl-tab-group-vertical'
-
             return (
                 <div class={classes.value}>
                     <span class="pl-tab-group-slot">{slots.default()}</span>
-                    {items.value.length > 0 && <Component/>}
+
+                    <div class={innerGroupClasses.value}>
+                        <pl-tab-header type={props.headType} position={props.headPosition}>
+                            {items.value.map((item, index) => (
+                                <pl-tab-header-item key={index} active={item.targetVal.value === model.value} onClick={() => handler.clickHeadItem(item, index)}>
+                                    <span>{item.props.title}</span>
+                                    {!!props.closeIcon && <pl-icon icon="el-icon-close" onClick={() => handler.clickCloseIcon(item, index)}/>}
+                                </pl-tab-header-item>
+                            ))}
+                        </pl-tab-header>
+
+                        <div class="pl-tab-group-inner-tab-list">
+                            {items.value.map((item, index) => (
+                                <pl-inner-tab item={item} index={index}/>
+                            ))}
+                        </div>
+                    </div>
+
                 </div>
             )
         }
