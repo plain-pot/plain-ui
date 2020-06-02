@@ -5,9 +5,39 @@
     }
 
     .pl-tab-group-horizontal {
+      position: relative;
+      height: 100%;
+      box-sizing: border-box;
 
       .pl-tab-group-inner-tab-list {
-        padding: 20px 0;
+        position: relative;
+
+        .pl-inner-tab {
+          padding: 20px 0;
+          color: $itc;
+        }
+      }
+
+      .pl-tab-header {
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+
+      &.pl-tab-group-horizontal-position-top {
+        padding-top: 40px;
+
+        .pl-tab-header {
+          top: 0;
+        }
+      }
+
+      &.pl-tab-group-horizontal-position-bottom {
+        padding-bottom: 40px;
+
+        .pl-tab-header {
+          bottom: 0;
+        }
       }
 
       /*---------------------------------------transition-------------------------------------------*/
