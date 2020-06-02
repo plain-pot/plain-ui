@@ -9,6 +9,7 @@ import {$plain} from "@/packages/base";
 import {useRefer} from "@/use/useRefer";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {getReturnType} from "@/util/util";
+import {useTreeDragger} from "@/packages/tree/use/use-tree-dragger";
 
 export const TreeProps = {
     data: {type: Array},                                        // 树形结构数据
@@ -77,7 +78,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         drop: EmitFunc,
     })
 
-    const {scopedSlots, $scopedSlots} = useScopedSlots({
+    const {scopedSlots} = useScopedSlots({
         default: {treeNode: Object}
     })
 
@@ -104,13 +105,13 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         'pl-tree-node-list',
         {
             'pl-tree-highlight-current': props.highlightCurrent,
-            // 'pl-tree-reflow': this.dragState.reflow,
+            'pl-tree-reflow': dragState.state.reflow,
             'pl-tree-virtual-scrolling': state.virtualScrollFlag,
         }
     ])
     const indicatorStyles = computed(() => {
         let styles = {} as any
-        /*const indicatorStyles = this.dragState.indicatorStyles
+        const indicatorStyles = dragState.state.indicatorStyles
         if (!!indicatorStyles.left) {
             styles.left = `${indicatorStyles.left + 6}px`
         }
@@ -119,7 +120,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         }
         if (!!indicatorStyles.top) {
             styles.top = `${indicatorStyles.top}px`
-        }*/
+        }
         return styles
     })
 
@@ -205,7 +206,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                 })
             })
         },
-        getTreeNodeFromEl(el: any): HTMLElement | null {
+        getTreeNodeFromEl(el: any): TreeNode | null {
             const instance = el.__vue__
             if (!!instance.treeNode) return instance.treeNode
             if (!!instance.$parent && !!instance.$parent.treeNode) return instance.$parent.treeNode
@@ -529,6 +530,8 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         },
     }
 
+    const dragState = useTreeDragger(utils, methods)
+
     const refer = {
         props,
         emit,
@@ -544,7 +547,9 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         handler,
         methods,
         scopedSlots,
+        dragState,
     }
+
 
     useRefer(refer)
     provide(TREE_PROVIDER, refer)

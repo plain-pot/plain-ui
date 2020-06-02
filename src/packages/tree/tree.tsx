@@ -18,7 +18,7 @@ export default defineComponent({
                         <span>{props.emptyText}</span>
                     </div>
                 ) : data.formatData.value!.map((item, index) => (<pl-tree-node key={item.key || index} tree-node={item}/>))}
-                {/*{!!props.draggable && <span class="pl-tree-drag-indicator" style={data.indicatorStyles.value} {...{directives: [{name: 'show', value: dragState.show}]}}/>}*/}
+                {!!props.draggable && <span class="pl-tree-drag-indicator" style={data.indicatorStyles.value} {...{directives: [{name: 'show', value: data.dragState.state.show}]}}/>}
             </div>
         )
     },

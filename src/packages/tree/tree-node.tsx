@@ -18,9 +18,9 @@ export default defineComponent({
             }]
             const nodeOn = {
                 ...(!!data.tree.props.draggable ? {
-                    // dragstart: data.tree.dragState.dragstart,
-                    // dragend: data.tree.dragState.dragend,
-                    // dragover: data.tree.dragState.dragover,
+                    dragstart: data.tree.dragState.handler.dragstart,
+                    dragend: data.tree.dragState.handler.dragend,
+                    dragover: data.tree.dragState.handler.dragover,
                 } : {})
             }
 
