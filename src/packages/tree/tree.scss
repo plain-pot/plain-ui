@@ -42,7 +42,7 @@
         }
 
         &:hover {
-          background-color: rgba($colorInfo, 0.1);
+          background-color: $disabled;
           color: $ihc;
         }
       }
