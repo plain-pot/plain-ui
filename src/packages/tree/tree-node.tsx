@@ -1,13 +1,22 @@
 import {defineComponent} from "@vue/composition-api";
+import {TreeNodeProps, useTreeNode} from "@/packages/tree/use/use-tree-node";
 
 export default defineComponent({
     name: 'pl-tree-node',
-    props: {},
+    props: {
+        ...TreeNodeProps,
+    },
     setup(props) {
-        return () => (
-            <div>
-                pl tree
-            </div>
-        )
+
+        const state = useTreeNode(props)
+
+
+        return () => {
+            return (
+                <div>
+                    pl tree
+                </div>
+            )
+        }
     },
 })
