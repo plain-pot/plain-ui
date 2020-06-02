@@ -1,5 +1,6 @@
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
 import {TreeContextType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
+import {set} from "@vue/composition-api";
 
 export class TreeMark {
 
@@ -26,7 +27,7 @@ export class TreeMark {
             console.error(`pl-tree: no attr:${attr}`)
             return
         }
-        this.ctx.$set(this[attrName], key, value)
+        set(this[attrName], key, value)
     }
 
     getActiveKeys(attr: TreeMarkAttr): string[] {

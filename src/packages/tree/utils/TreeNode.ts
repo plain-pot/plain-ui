@@ -1,5 +1,6 @@
 import {TreeContextType, TreeMarkAttr, TreeNodeCheckStatus} from "@/packages/tree/utils/tree-constant";
 import {TreeMark} from "@/packages/tree/utils/TreeMark";
+import {set} from "@vue/composition-api";
 
 export class TreeNode {
 
@@ -122,7 +123,7 @@ export class TreeNode {
      * @date    2020/4/3 0:09
      */
     setChildren(children: object[]) {
-        this.context.$set(this.data, this.context.childrenField, children)
+        set(this.data, this.context.childrenField, children)
     }
 
     getReactiveChildrenData(): object[] {
