@@ -8,11 +8,7 @@ export const TreeNodeProps = {
     treeNode: {type: TreeNode, default: ({} as TreeNode)},
 }
 
-function wrapper<T, O>(option: T, func: (props: ExtractPropTypes<T>) => O): ((props: ExtractPropTypes<T>) => O) {
-    return func
-}
-
-export const useTreeNode = wrapper(TreeNodeProps, (props) => {
+export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
     const tree = inject(TREE_PROVIDER) as any
 
     const state = reactive({
@@ -126,4 +122,4 @@ export const useTreeNode = wrapper(TreeNodeProps, (props) => {
         h,
         methods,
     }
-});
+}

@@ -10,7 +10,6 @@ export default defineComponent({
 
         const state = useTreeNode(props)
 
-
         return () => {
             return (
                 <div>
