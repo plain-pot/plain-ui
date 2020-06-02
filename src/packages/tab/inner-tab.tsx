@@ -10,9 +10,11 @@ export default defineComponent({
     },
     setup(props) {
 
+        const tabGroup = inject(TAB_GROUP_PROVIDER) as any
+
         const state = reactive({
             show: false,
-            init: false,
+            init: props.item!.props.init,
         })
 
         const methods = {
@@ -33,8 +35,6 @@ export default defineComponent({
                 }
             }
         }
-
-        const tabGroup = inject(TAB_GROUP_PROVIDER) as any
 
         watch(() => tabGroup.model.value, (val) => {
             if (val === props.item!.targetVal.value) {
