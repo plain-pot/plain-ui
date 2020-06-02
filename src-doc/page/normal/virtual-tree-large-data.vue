@@ -2,10 +2,10 @@
     <div class="virtual-tree-large-data">
         <demo-line>
             <pl-button-group>
-                <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
-                <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
-                <pl-button label="当前选中节点" @click="$message(!!$refs.tree1.getCurrent() ? $refs.tree1.getCurrent().data.name : '未选中任何节点！')"/>
-                <pl-button label="获取选中的数据" @click="$message($refs.tree1.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                <pl-button label="全部展开" @click="$refs.tree1.methods.expandAll()"/>
+                <pl-button label="全部收起" @click="$refs.tree1.methods.collapseAll()"/>
+                <pl-button label="当前选中节点" @click="$message(!!$refs.tree1.methods.getCurrent() ? $refs.tree1.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.tree1.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 <pl-button label="打印数据" @click="$plain.log(treeData)"/>
             </pl-button-group>
         </demo-line>

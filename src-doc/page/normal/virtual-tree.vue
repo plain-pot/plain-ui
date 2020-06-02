@@ -3,9 +3,9 @@
         <demo-row title="基本用法">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
-                    <pl-button label="展开特定节点" @click="$refs.tree1.expand('2-2-2')"/>
+                    <pl-button label="全部展开" @click="$refs.tree1.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.tree1.methods.collapseAll()"/>
+                    <pl-button label="展开特定节点" @click="$refs.tree1.methods.expand('2-2-2')"/>
                     <pl-button label="展开部分节点" @click="expandSome"/>
                     <pl-button label="当前选中节点" @click="showCurrent"/>
                     <pl-button label="展开并且设置当前选中节点" @click="expandAndSelect"/>
@@ -33,11 +33,11 @@
         <demo-row title="多选">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="展开所有节点" @click="$refs.checkTree.expandAll()"/>
-                    <pl-button label="全部选中" @click="$refs.checkTree.checkAll()"/>
-                    <pl-button label="全部取消" @click="$refs.checkTree.uncheckAll()"/>
-                    <pl-button label="选中部分数据" @click="$refs.checkTree.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="展开所有节点" @click="$refs.checkTree.methods.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkTree.methods.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkTree.methods.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkTree.methods.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="checkTree"
@@ -53,11 +53,11 @@
         <demo-row title="多选：父子互不关联">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="展开所有节点" @click="$refs.unCheckStrictTree.expandAll()"/>
-                    <pl-button label="全部选中" @click="$refs.unCheckStrictTree.checkAll()"/>
-                    <pl-button label="全部取消" @click="$refs.unCheckStrictTree.uncheckAll()"/>
-                    <pl-button label="选中部分数据" @click="$refs.unCheckStrictTree.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.unCheckStrictTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="展开所有节点" @click="$refs.unCheckStrictTree.methods.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.unCheckStrictTree.methods.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.unCheckStrictTree.methods.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.unCheckStrictTree.methods.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.unCheckStrictTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="unCheckStrictTree"
@@ -74,11 +74,11 @@
         <demo-row title="多选：禁用部分选项，只能勾选1结尾的节点">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="展开所有节点" @click="$refs.checkableTree.expandAll()"/>
-                    <pl-button label="全部选中" @click="$refs.checkableTree.checkAll()"/>
-                    <pl-button label="全部取消" @click="$refs.checkableTree.uncheckAll()"/>
-                    <pl-button label="选中部分数据" @click="$refs.checkableTree.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="展开所有节点" @click="$refs.checkableTree.methods.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkableTree.methods.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkableTree.methods.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkableTree.methods.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-virtual-tree ref="checkableTree"
@@ -97,10 +97,10 @@
 
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.collapseAll()"/>
-                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.getCurrent() ? $refs.scopedSlotDemo.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.methods.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.methods.getCurrent() ? $refs.scopedSlotDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 </pl-button-group>
             </demo-line>
 
@@ -127,10 +127,10 @@
 
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.renderDemo.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.renderDemo.collapseAll()"/>
-                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.getCurrent() ? $refs.renderDemo.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="全部展开" @click="$refs.renderDemo.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.renderDemo.methods.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.methods.getCurrent() ? $refs.renderDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
                 </pl-button-group>
             </demo-line>
 
@@ -174,7 +174,7 @@
         </demo-row>
         <demo-row title="绑定currentKey">
             <demo-line>
-                <pl-button label="全部展开" @click="$refs.currentTree.expandAll()"/>
+                <pl-button label="全部展开" @click="$refs.currentTree.methods.expandAll()"/>
                 <pl-button label="设置currentKey" @click="currentKey = '3-1-1'"/>
                 {{currentKey}}
             </demo-line>
@@ -198,7 +198,7 @@
 
         <demo-row title="拖拽节点">
             <demo-line>
-                <pl-button label="全部展开" @click="$refs.dragTree.expandAll()"/>
+                <pl-button label="全部展开" @click="$refs.dragTree.methods.expandAll()"/>
             </demo-line>
             <pl-virtual-tree
                     ref="dragTree"
@@ -218,9 +218,9 @@
 
         <demo-row title="拖拽节点+可勾选">
             <demo-line>
-                <pl-button label="全部展开" @click="$refs.dragAndCheckTree.expandAll()"/>
+                <pl-button label="全部展开" @click="$refs.dragAndCheckTree.methods.expandAll()"/>
                 <pl-button label="打印数据" @click="$plain.log(treeData)"/>
-                <pl-button label="获取选中的数据" @click="$message($refs.dragAndCheckTree.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.dragAndCheckTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
             </demo-line>
             <ol>
                 <li>父子关联模式下，拖拽节点可能会引起 选中/取消选中 事件</li>
