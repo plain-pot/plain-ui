@@ -8,6 +8,7 @@ import {TreeDropType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
 import {$plain} from "@/packages/base";
 import {useRefer} from "@/use/useRefer";
 import {useScopedSlots} from "@/use/useScopedSlots";
+import {getReturnType} from "@/util/util";
 
 export const TreeProps = {
     data: {type: Array},                                        // 树形结构数据
@@ -54,10 +55,6 @@ export const TreeProps = {
 export const TREE_PROVIDER = '@@TREE_PROVIDER'
 
 export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
-
-    if (!props) {
-        return {} as any
-    }
 
     const {emit} = useEvent({
         clickNode: EmitFunc,
@@ -555,5 +552,6 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     return refer
 }
 
-const useTreeValue = useTree(null as any)
+const useTreeValue = getReturnType(useTree)
+
 export type UseTreeReturnType = typeof useTreeValue
