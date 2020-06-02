@@ -1,10 +1,11 @@
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
-import {computed, getCurrentInstance, reactive} from "@vue/composition-api";
+import {computed, reactive} from "@vue/composition-api";
 import {useModel} from "@/use/useModel";
 import {TreeMark} from "@/packages/tree/utils/TreeMark";
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
 import {TreeDropType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
+import {$plain} from "@/packages/base";
 
 export const TreeProps = {
     data: {type: Array},                                        // 树形结构数据
@@ -59,7 +60,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
 
         expandChange: EmitFunc,
         expand: EmitFunc,
-        close: EmitFunc,
+        collapse: EmitFunc,
 
         checkChange: EmitFunc,
         check: EmitFunc,
@@ -73,14 +74,12 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         drop: EmitFunc,
     })
 
-    const ctx = getCurrentInstance()
-
     /*---------------------------------------state-------------------------------------------*/
 
     const current = useModel(() => props.currentKey, emit.updateCurrent)
 
-    const treeMark = new TreeMark(ctx)
-    const rootTreeNode = new TreeNode({[props.childrenField!]: props.data}, ctx, 0, null, treeMark)
+    const treeMark = new TreeMark(props as any)
+    const rootTreeNode = new TreeNode({[props.childrenField!]: props.data}, props as any, 0, null!, treeMark)
 
     const state = reactive({
         loading: false,
@@ -137,7 +136,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
          * @author  韦胜健
          * @date    2020/3/30 19:30
          */
-        iterateAll: (treeNodes: TreeNode[], fn, iterateChildren?: Function): void => {
+        iterateAll: (treeNodes: TreeNode[] | Readonly<TreeNode[]> | null, fn, iterateChildren?: Function): void => {
             if (!treeNodes) return
             treeNodes.forEach(treeNode => {
                 fn(treeNode)
@@ -173,6 +172,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                 console.warn(`无法找到treeNode：${key}`, state.treeMark.nodeMap)
                 return null
             }
+            // @ts-ignore
             return treeNode
         },
         /**
@@ -180,7 +180,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
          * @author  韦胜健
          * @date    2020/3/31 15:21
          */
-        getChildrenAsync: (treeNode: TreeNode) => {
+        getChildrenAsync: (treeNode: TreeNode): Promise<TreeNode[]> => {
             return new Promise((resolve) => {
                 if (!treeNode.key) {
                     state.loading = true
@@ -240,7 +240,9 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                 }
             }
 
-            formatData.value.forEach(next)
+            if (!!formatData.value) {
+                formatData.value.forEach(next)
+            }
         },
         /**
          * 判断是否可以拖拽
@@ -285,19 +287,248 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
          */
         clickNodeContent: (treeNode: TreeNode): void => {
             emit.clickNode(treeNode)
-            this.setCurrent(treeNode.key)
-            if (this.expandOnClickNode !== false) {
-                this.toggleExpand(treeNode.key)
+            methods.setCurrent(treeNode.key)
+            if (props.expandOnClickNode !== false) {
+                methods.toggleExpand(treeNode.key)
             }
-            if (this.checkOnClickNode == true) {
-                this.toggleCheck(treeNode.key)
+            if (props.checkOnClickNode == true) {
+                methods.toggleCheck(treeNode.key)
             }
         },
     }
 
     /*---------------------------------------methods-------------------------------------------*/
 
-    const methods = {}
+    const methods = {
+        /**
+         * 选中某一个树节点
+         * @author  韦胜健
+         * @date    2020/3/31 9:26
+         */
+        setCurrent(key: string) {
+            current.value = key
+            emit.currentChange(utils.findTreeNodeByKey(key))
+        },
+        /**
+         * 获取当前选中节点
+         * @author  韦胜健
+         * @date    2020/3/31 9:39
+         */
+        getCurrent(): TreeNode | null {
+            if (!current.value) return null
+            return utils.findTreeNodeByKey(current.value)
+        },
+        /**
+         * 展开树节点
+         * @author  韦胜健
+         * @date    2020/3/30 18:58
+         */
+        async expand(keys: string | string[]) {
+            await utils.handleKeys(keys, async (key: string) => {
+                const treeNode = utils.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (!treeNode.isExpand) {
 
+                    if (
+                        props.lazy &&                               // 懒加载模式
+                        !treeNode.isLoaded &&                       // 未曾加载过子节点数据
+                        !treeNode.isLeaf                            // 节点不是叶子节点
+                    ) {
+                        const children = await utils.getChildrenAsync(treeNode)
+                        treeNode.setChildren(children || [])
+                        await $plain.nextTick()
+                    }
 
+                    if (props.according) {
+                        // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
+                        if (!!treeNode.parent && !!treeNode.parent.children) {
+                            treeNode.parent.children.forEach((child: TreeNode) => child.key !== treeNode.key && methods.collapse(child.key))
+                        }
+                    }
+
+                    treeNode.expand(true)
+                    await $plain.nextTick()
+                    // console.log('expand ', treeNode.key)
+                    emit.expand(treeNode)
+                    emit.expandChange(emitExpandKeys.value)
+                }
+                if (!!props.autoExpandParent && !!treeNode.parent && treeNode.parent.key) {
+                    await this.expand(treeNode.parent.key)
+                }
+            })
+        },
+        /**
+         * 折叠树节点
+         * @author  韦胜健
+         * @date    2020/3/30 18:58
+         */
+        async collapse(keys: string | string[]) {
+            await utils.handleKeys(keys, async (key: string) => {
+                const treeNode = utils.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (treeNode.isExpand) {
+                    treeNode.expand(false)
+                    await $plain.nextTick()
+                    emit.collapse(treeNode)
+                    emit.expandChange(emitExpandKeys.value)
+                }
+            })
+        },
+        /**
+         * 根据树节点当前的展开状态，反向展开或者收起内容
+         * @author  韦胜健
+         * @date    2020/3/30 19:19
+         */
+        toggleExpand(key: string) {
+            const treeNode = utils.findTreeNodeByKey(key)
+            if (!treeNode) return
+            if (treeNode.isExpand) {
+                this.collapse(key)
+            } else {
+                this.expand(key)
+            }
+        },
+        expandAll() {
+            if (!!formatData.value) {
+                utils.iterateAll(formatData.value, treeNode => this.expand(treeNode.key))
+            }
+        },
+        collapseAll() {
+            state.treeMark.expandMap = {}
+        },
+
+        /**
+         * 根据key选中树节点
+         * @author  韦胜健
+         * @date    2020/3/31 17:33
+         */
+        async check(keys: string | string[]) {
+            await utils.handleKeys(keys, async (key: string) => {
+                const treeNode = utils.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (!treeNode.isCheck) {
+                    treeNode.check(true)
+
+                    // 父子关联模式下，改变子节点以及父节点状态
+                    if (!props.checkStrictly) {
+                        // 选中所有子节点
+                        utils.iterateAll(treeNode.children || [], (child) => child.check(true))
+                        // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                        let parent = treeNode.parent
+                        while (!!parent && !!parent.key) {
+                            if ((parent.children || []).every(child => child.isCheck)) {
+                                parent.check(true)
+                                parent = parent.parent
+                            } else {
+                                break
+                            }
+                        }
+                    }
+
+                    await $plain.nextTick()
+                    emit.check(treeNode)
+                    emit.checkChange(emitCheckKeys.value)
+                }
+            })
+        },
+        /**
+         * 根据key取消选中树节点
+         * @author  韦胜健
+         * @date    2020/3/31 17:33
+         */
+        async uncheck(keys: string | string[]) {
+            await utils.handleKeys(keys, async (key: string) => {
+                const treeNode = utils.findTreeNodeByKey(key)
+                if (!treeNode) return
+                if (treeNode.isCheck) {
+                    treeNode.check(false)
+
+                    // 父子关联模式下，改变子节点以及父节点状态
+                    if (!props.checkStrictly) {
+                        // 取消选中所有子节点
+                        utils.iterateAll(treeNode.children || [], (child) => child.check(false))
+                        // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                        let parent = treeNode.parent
+                        while (!!parent && !!parent.key) {
+                            if (parent.isCheck) {
+                                parent.check(false)
+                                parent = parent.parent
+                            } else {
+                                break
+                            }
+                        }
+                    }
+
+                    await $plain.nextTick()
+                    emit.check(treeNode)
+                    emit.checkChange(emitCheckKeys.value)
+                }
+            })
+        },
+        /**
+         * 根据key选中或者取消选中树节点
+         * @author  韦胜健
+         * @date    2020/3/31 17:33
+         */
+        toggleCheck(key) {
+            const treeNode = utils.findTreeNodeByKey(key)
+            if (!treeNode) return
+            if (!treeNode.isCheckable) return
+            if (treeNode.isCheck) {
+                this.uncheck(key)
+            } else {
+                this.check(key)
+            }
+        },
+        /**
+         * 选中所有节点
+         * @author  韦胜健
+         * @date    2020/3/31 17:33
+         */
+        checkAll() {
+            utils.iterateAll(formatData.value, (treeNode: TreeNode) => treeNode.check(true))
+        },
+        /**
+         * 取消选中所有节点
+         * @author  韦胜健
+         * @date    2020/3/31 17:33
+         */
+        uncheckAll() {
+            state.treeMark.checkMap = {}
+        },
+
+        /**
+         * 获取选中的数据
+         * @author  韦胜健
+         * @date    2020/3/31 17:34
+         */
+        getCheckedData() {
+            let ret: object[] = []
+            utils.iterateAll(formatData.value, (treeNode: TreeNode) => {
+                if (treeNode.isCheck) {
+                    ret.push(treeNode.data)
+                }
+            })
+            return ret
+        },
+    }
+
+    return {
+        props,
+        emit,
+        current,
+        state,
+        isLoading,
+        formatData,
+        classes,
+        indicatorStyles,
+        emitExpandKeys,
+        emitCheckKeys,
+        utils,
+        handler,
+        methods,
+    }
 }
+
+const useTreeValue = useTree({} as any)
+export type UseTreeReturnType = typeof useTreeValue
