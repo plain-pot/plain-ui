@@ -195,6 +195,15 @@ export const KeyboardService = {
     },
 }
 
+export function handleKeyboard(option: { [key in KEY]?: (e: KeyboardEvent) => any }) {
+    return (e: KeyboardEvent) => {
+        const key = getKey(e)
+        if (!!key && !!option[key]) {
+            return option[key]!(e)
+        }
+    }
+}
+
 document.body.addEventListener('keydown', e => KeyboardService._onkeydown(e))
 
 export default {
