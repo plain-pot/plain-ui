@@ -83,6 +83,9 @@ export default defineComponent({
                 'click-popper': () => {
                     refs.input.methods.focus()
                 },
+                'hide': () => {
+                    state.inputValue = null
+                },
             }
         })))
 
