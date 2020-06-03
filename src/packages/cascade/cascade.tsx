@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
-import {CascadeContextType, CascadeProps} from "@/packages/cascade/cascade-constant";
+import {CascadeProps} from "@/packages/cascade/cascade-constant";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
@@ -33,7 +33,7 @@ export default defineComponent({
         })
 
         const {emit} = useEvent({
-            input: EmitFunc,
+            input: (expandKeys: string[] | null | undefined, nodes?: CascadeNode[]) => undefined,
             blur: EmitFunc,
             focus: EmitFunc,
             clickItem: EmitFunc,
@@ -42,7 +42,7 @@ export default defineComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const model = useModel(() => props.value, emit.input)
+        const model = useModel(() => props.value, emit.input, false)
 
         const mark = new CascadeMark(props as any)
         const rootNode = new CascadeNode({[props.childrenField!]: props.data}, props as any, 0, null, mark)
@@ -68,12 +68,11 @@ export default defineComponent({
             },
             listener: {
                 emit: ({event, args}) => {
-                    console.log(event, args)
-
                     if (event === 'change') {
                         model.value = args[0]
-                    } else {
-                        emit.handleEmit({event, args})
+                    }
+                    if (!!emit[event]) {
+                        emit[event](...args)
                     }
                 }
             },
@@ -165,6 +164,8 @@ export default defineComponent({
             }),
             clear: () => {
                 model.value = undefined
+                emit.input(model.value)
+
                 state.inputValue = null
                 refs.input.methods.focus()
             },

@@ -496,6 +496,7 @@
             },
 
             onCascadeChange(value, nodes) {
+                console.log('onCascadeChange',value, nodes)
                 if (!value) {
                     this.formData.level1Name = null
                     this.formData.level1Key = null

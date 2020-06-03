@@ -23,16 +23,15 @@ export default defineComponent({
         const h = ctx.$createElement
 
         const {emit} = useEvent({
-            input: EmitFunc,
+            input: (expandKeys: string[] | null, nodes?: CascadeNode[]) => undefined,
             clickItem: EmitFunc,
             getChildren: EmitFunc,
-            expandChange: EmitFunc,
             updateData: EmitFunc,
         })
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const model = useModel(() => props.value, emit.input)
+        const model = useModel(() => props.value, emit.input, false)
         const data = useModel(() => props.data, emit.updateData)
         const mark = new CascadeMark(props as CascadeContextType)
         const rootNode = new CascadeNode({[props.childrenField!]: data.value}, props as CascadeContextType, 0, null, mark)
@@ -184,7 +183,7 @@ export default defineComponent({
                 if (node.nodeDisabled) return
                 if (node.isLeaf || props.selectBranch) {
                     model.value = state.expandKeys
-                    emit.expandChange(expandNodes.value)
+                    emit.input(model.value as string[], expandNodes.value as CascadeNode[])
                 }
                 emit.clickItem(node)
             }

@@ -79,8 +79,14 @@ export function usePopperServiceComponent(
                         if (!!externalListener![event]) {
                             externalListener![event].apply(ctx, args)
                         }
+                        if (!!externalListener!['emit']) {
+                            externalListener!['emit'].apply(ctx, [{event, args}])
+                        }
                         if (!!listener![event]) {
                             listener![event].apply(ctx, args)
+                        }
+                        if (!!listener!['emit']) {
+                            listener!['emit'].apply(ctx, [{event, args}])
                         }
                     },
                 }
