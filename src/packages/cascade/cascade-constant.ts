@@ -30,7 +30,7 @@ export const CascadeProps = {
     filterable: {type: Boolean, default: true},                         // 是否可筛选
     showFormat: {type: Function},                                       // 显示值格式化函数
 
-    inputProps: {type: Boolean},                                        // 输入框属性值
+    inputProps: {type: Object},                                        // 输入框属性值
 }
 
 export type CascadeContextType = ExtractPropTypes<typeof CascadePanelProps> & { expandKeys: string[] }
