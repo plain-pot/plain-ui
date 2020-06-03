@@ -16,7 +16,10 @@ export class CascadeNode {
 
     get label(): string {return this.data[this.ctx.labelField!]}
 
-    get childrenData(): object[] | undefined {return this.data[this.ctx.childrenField!]}
+    get childrenData(): object[] | undefined {
+        const data = this.data[this.ctx.childrenField!]
+        return typeof data === "function" ? data() : data
+    }
 
     get children(): CascadeNode[] | undefined {
         if (!this.childrenData) return undefined
