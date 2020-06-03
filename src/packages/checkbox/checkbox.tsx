@@ -3,7 +3,7 @@ import {computed, defineComponent, inject, onBeforeUnmount} from "@vue/compositi
 import {PLAIN_CHECKBOX_PROVIDER} from "@/packages/checkbox/checkbox-group";
 import {$plain} from "@/packages/base";
 import ClickWave from "@/directives/click-wave";
-import {getKey, KEY} from "@/packages/keyboard";
+import {handleKeyboard} from "@/packages/keyboard";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EmitFunc, useEvent} from "@/use/useEvent";
@@ -84,13 +84,13 @@ export default defineComponent({
                     model.value = isChecked.value ? props.falseValue : props.trueValue
                 }
             },
-            keydown: (e: KeyboardEvent) => {
-                if (getKey(e) === KEY.space) {
+            keydown: handleKeyboard({
+                space: (e) => {
                     e.preventDefault()
                     e.stopPropagation()
                     handler.click()
-                }
-            }
+                },
+            })
         }
 
         /*---------------------------------------lifecycle-------------------------------------------*/
