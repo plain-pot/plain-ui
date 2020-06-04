@@ -41,12 +41,13 @@ import virtualTree from './packages/virtual-tree'
 import cascade from './packages/cascade'
 import time from './packages/time'
 import dateTimeInput from './packages/date-time-input'
+import date from './packages/date'
 
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
     icon,
-    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade, time, dateTimeInput,
+    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade, time, dateTimeInput, date,
     collapse, list, grid, scroll, portal,
     message, notice, dialog, popper, popover, tooltip, dropdown, step,
     card, carousel, virtualList, progress, pagination, tab, tree, virtualTree,
