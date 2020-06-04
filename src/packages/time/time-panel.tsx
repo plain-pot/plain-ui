@@ -5,14 +5,18 @@ import {useModel} from "@/use/useModel";
 import {$plain} from "@/packages/base";
 import {TimeRangePanelType} from "@/packages/time/subs/time-range-panel";
 
+export const TimePanelProps = {
+    value: {type: String},
+    start: {type: String},
+    end: {type: String},
+    range: {type: Boolean},
+    ...TimePublicProps,
+}
+
 export default defineComponent({
     name: 'pl-time-panel',
     props: {
-        value: {type: String},
-        start: {type: String},
-        end: {type: String},
-        range: {type: Boolean},
-        ...TimePublicProps,
+        ...TimePanelProps,
     },
     setup(props) {
 

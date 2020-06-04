@@ -4,6 +4,7 @@ import {PopperController} from "@/packages/popper/service/PopperController";
 import {PopperServiceComponent} from "@/packages/popper/service/PopperServiceComponent";
 import {useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
+import {getReturnType} from "@/util/util";
 
 export interface PopperAgent {
     option: PopperAgentOption | (() => PopperAgentOption),
@@ -172,3 +173,7 @@ export function usePopperAgentEditor(creator: () => Promise<PopperAgent>) {
         isOpen,
     }
 }
+
+const agentState = getReturnType(usePopperAgentEditor)
+
+export type PopperAgentStateType = typeof agentState

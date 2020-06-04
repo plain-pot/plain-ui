@@ -1,5 +1,7 @@
 import {computed, ref, watch} from "@vue/composition-api";
 
+export type ModelType = { value: any }
+
 /**
  * 双向绑定值组合函数
  * @author  韦胜健

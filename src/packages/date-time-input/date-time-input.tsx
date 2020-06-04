@@ -48,7 +48,7 @@ export default defineComponent({
 
         const methods = {
             focus: () => {
-                refs.input.methods.focus()
+                refs.input.focus()
             }
         }
 
@@ -69,6 +69,7 @@ export default defineComponent({
         }
 
         useRefer({
+            refs,
             props,
             propsState,
             model,

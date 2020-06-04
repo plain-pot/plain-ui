@@ -101,7 +101,7 @@ export class PlainDate {
 
     /*---------------------------------------methods-------------------------------------------*/
 
-    setValue(value: string) {this.dateObject = !value ? null : PlainDate.parse(String(value), this.valueFormat)}
+    setValue(value: string | undefined) {this.dateObject = !value ? null : PlainDate.parse(String(value), this.valueFormat)}
 
     setDisplayValue(value: string) {this.dateObject = !value ? null : this.dateObject = PlainDate.parse(String(value), this.displayFormat)}
 
