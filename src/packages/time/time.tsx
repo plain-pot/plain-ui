@@ -36,14 +36,13 @@ export default defineComponent({
 
         const agentState = usePopperAgentEditor(() => ($plain as any).$time(() => ({
             props: {
-                value: value.value,
-                start: start.value,
-                end: end.value,
-
                 ...(Object.keys(TimePanelProps).reduce((ret, key) => {
                     ret[key] = props[key]
                     return ret
-                }, {}))
+                }, {})),
+                value: value.value,
+                start: start.value,
+                end: end.value,
             },
             popperProps: {
                 reference: refs.$el,
