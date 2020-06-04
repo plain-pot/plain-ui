@@ -1,97 +1,17 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {TimePanelProps} from "@/packages/time/time-panel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
-import {ModelType, useModel} from "@/use/useModel";
+import {useModel} from "@/use/useModel";
 import {PlainDate} from "@/util/PlainDate";
-import {PopperAgentStateType, usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
+import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
-import {CompRef, useRefs} from "@/use/useRefs";
-import {handleKeyboard} from "@/packages/keyboard";
-
-function useDateTime(
-    {
-        value,
-        start,
-        end,
-        props,
-        agentState,
-        emit,
-    }: {
-        value: ModelType,
-        start: ModelType,
-        end: ModelType,
-        props: {
-            range?: boolean,
-        },
-        agentState: PopperAgentStateType,
-        emit: {
-            blur: Function
-        },
-    }) {
-
-    const refs = useRefs({
-        valueInput: CompRef,
-        startInput: CompRef,
-        endInput: CompRef,
-        plInput: CompRef,
-    })
-
-    const inputValue = computed(() => {
-        return !props.range ? value.value : ((start.value || '') + (end.value || ''))
-    })
-
-    const handler = {
-        clearHandler: () => {
-            if (!props.range) {
-                value.value = null
-            } else {
-                start.value = null
-                end.value = null
-            }
-        },
-        clickInput() {
-            if (!props.range) {
-                agentState.methods.toggle()
-            } else {
-                agentState.methods.show()
-            }
-        },
-        customInputFocus() {
-            agentState.handler.focus()
-        },
-        async customInputBlur() {
-            if (!props.range) {
-                agentState.handler.blur()
-            } else {
-                await $plain.utils.delay(0)
-                if ([
-                    refs.startInput.refs.$el,
-                    refs.endInput.refs.$el,
-                ].indexOf(document.activeElement) === -1) {
-                    agentState.state.focusCounter--
-                    if (agentState.state.focusCounter === 0) {
-                        emit.blur()
-                        agentState.methods.hide()
-                    }
-                }
-            }
-        },
-        keydown: handleKeyboard({
-            enter: agentState.handler.enter,
-            esc: agentState.handler.esc,
-        })
-    }
-
-    return {
-        refs,
-        inputValue,
-        handler,
-    }
-}
+import {useDateTime} from "@/packages/date-time-input/useDateTime";
+import {EditProps} from "@/use/useEdit";
 
 export default defineComponent({
     name: 'pl-time',
     props: {
+        ...EditProps,
         ...TimePanelProps,
     },
     setup(props) {
