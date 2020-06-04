@@ -1,4 +1,4 @@
-import {computed, defineComponent, Ref, watch} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, Ref, watch} from "@vue/composition-api";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {EmitFunc, useEvent} from "@/use/useEvent";
@@ -81,6 +81,8 @@ export default defineComponent({
         }
 
         watch(() => props.value, methods.resetPosition, {lazy: true})
+
+        onMounted(methods.resetPosition)
 
         return () => (
             <div class="pl-time-base-column">
