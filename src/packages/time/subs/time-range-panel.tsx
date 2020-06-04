@@ -4,7 +4,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {PlainDate} from "@/util/PlainDate";
 
-enum TimeRangePanelType {
+export enum TimeRangePanelType {
     start = 'start',
     end = 'end',
 }
