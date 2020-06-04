@@ -232,14 +232,18 @@ export default defineComponent({
                             top = time * ky + ny
                             left = time * kx + nx
 
-                            refs.wrapper!.scrollTop = top
-                            refs.wrapper!.scrollLeft = left
+                            if (!!refs.wrapper) {
+                                refs.wrapper.scrollTop = top
+                                refs.wrapper.scrollLeft = left
+                            }
                         } else {
                             top = delta * ky + ny
                             left = delta * kx + nx
 
-                            refs.wrapper!.scrollTop = top
-                            refs.wrapper!.scrollLeft = left
+                            if (!!refs.wrapper) {
+                                refs.wrapper.scrollTop = top
+                                refs.wrapper.scrollLeft = left
+                            }
                             state.cancelAnimate = requestAnimationFrame(run)
                         }
                     }
