@@ -12,14 +12,25 @@ export const enum SlideTransitionDirection {
     prev = 'prev'
 }
 
+export const enum DateEmitInputType {
+    start = 'start',
+    end = 'end',
+}
+
 export interface PanelItemParam {
     max?: PlainDate,
     min?: PlainDate,
     value?: PlainDate | PlainDate[],
     hoverRange?: [PlainDate, PlainDate] | null,
-    valueRange?: [PlainDate, PlainDate],
+    valueRange: [PlainDate, PlainDate],
     range?: boolean,
-    itemAlwaysRange?: boolean,
+}
+
+export type PanelItemParamType = {
+    range: boolean,
+    value: PlainDate,
+    hoverRange: [PlainDate, PlainDate] | null,
+    valueRange: [PlainDate, PlainDate]
 }
 
 export interface PanelParentProvider {
@@ -62,6 +73,21 @@ export const DatePublicProps = {
     firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
     defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
     selectDate: {type: PlainDate},                                                      // 当前面板的年月日期对象
+}
+
+export interface DateBasePanelItemData {
+    label: string | number
+    active: boolean
+    now: boolean
+    disabled: boolean
+    hoverStart: boolean
+    hover: boolean
+    hoverEnd: boolean
+    ipd?: PlainDate
+
+    range: boolean
+
+    [key: string]: any
 }
 
 export const DATE_PANEL_PROVIDER = '@@DATE_PANEL_PROVIDER'

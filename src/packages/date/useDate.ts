@@ -1,18 +1,38 @@
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
-import {computed, inject, provide, reactive} from "@vue/composition-api";
+import {computed, inject, provide, reactive, Ref} from "@vue/composition-api";
 import {PlainDate} from "@/util/PlainDate";
 import {useModel} from "@/use/useModel";
 import {getReturnType} from "@/util/util";
-import {DATE_PANEL_PROVIDER, DatePublicProps, SlideTransitionDirection} from "@/packages/date/date-utils";
+import {DATE_PANEL_PROVIDER, DatePublicProps, DateView, PanelItemParam, SlideTransitionDirection} from "@/packages/date/date-utils";
+
+class PanelItemParamType {
+}
 
 export function useDate(
     {
         props,
+        getProvideData,
+        injectView,
+        getChildDisabled,
+        getChildActive,
+        getChildHoverStart,
+        getChildHover,
+        getChildHoverEnd,
     }
         : {
         props: ExtractPropTypes<typeof DatePublicProps>,
-
+        getProvideData: (panelItemParam: PanelItemParam) => {
+            year: PanelItemParamType,
+            month?: PanelItemParamType,
+            date?: PanelItemParamType,
+        },
+        injectView: DateView,
+        getChildDisabled?: (ipd: PlainDate, view: DateView) => boolean,
+        getChildActive?: (ipd: PlainDate, view: DateView) => boolean,
+        getChildHoverStart?: (ipd: PlainDate, view: DateView) => boolean,
+        getChildHover?: (ipd: PlainDate, view: DateView) => boolean,
+        getChildHoverEnd?: (ipd: PlainDate, view: DateView) => boolean,
     }
 ) {
 
@@ -76,7 +96,7 @@ export function useDate(
 
     /*---------------------------------------inject-------------------------------------------*/
 
-    const datePanel = inject(DATE_PANEL_PROVIDER) as typeof ret
+    const datePanel = inject(DATE_PANEL_PROVIDER) as (typeof ret | null)
 
     /*---------------------------------------computer-------------------------------------------*/
 
@@ -86,10 +106,12 @@ export function useDate(
             parent = parent.datePanel
         }
         return parent
-    })
+    }) as Ref<typeof ret | null>
 
     const panelItemParam = computed(() => {
+
         let {value, max, min, range} = props
+
         return {
             max: new PlainDate(max, displayFormat.value, valueFormat.value),
             min: new PlainDate(min, displayFormat.value, valueFormat.value),
@@ -97,8 +119,18 @@ export function useDate(
             hoverRange: state.hoverRange,
             valueRange: state.valueRange,
             range,
-        }
+        } as PanelItemParam
     })
+
+    const provideData = computed(() => getProvideData(panelItemParam.value))
+
+    const targetPanelItemParam = computed(() => {
+        if (!!firstDatePanel.value && firstDatePanel.value!.provideData && firstDatePanel.value!.provideData.value[injectView]) {
+            return firstDatePanel.value!.provideData.value[injectView]
+        } else {
+            return panelItemParam.value
+        }
+    }) as Ref<PanelItemParam>
 
     function setSelectDate(selectDate: PlainDate) {
         state.selectDate = selectDate.copy()
@@ -117,9 +149,20 @@ export function useDate(
 
         datePanel,
         firstDatePanel,
+
+        provideData,
         panelItemParam,
+        targetPanelItemParam,
+
         setSelectDate,
         emit,
+        props,
+
+        getChildDisabled,
+        getChildActive,
+        getChildHoverStart,
+        getChildHover,
+        getChildHoverEnd,
     }
 
     provide(DATE_PANEL_PROVIDER, ret)
