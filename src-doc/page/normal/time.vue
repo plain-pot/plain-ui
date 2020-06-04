@@ -170,7 +170,7 @@
             <demo-row title="基本用法">
                 <pl-button label="basic" ref="basic" @click="basic.toggle()"/>
             </demo-row>
-            <demo-row title="事件范围">
+            <demo-row title="时间范围">
                 <pl-button label="range" ref="range" @click="range.toggle()"/>
             </demo-row>
         </demo-row>
