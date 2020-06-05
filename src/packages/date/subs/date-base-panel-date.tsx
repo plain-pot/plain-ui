@@ -29,7 +29,6 @@ export default defineComponent({
             targetPanelItemParam,
             panelItemParam,
             firstDatePanel,
-            setSelectDate,
             model,
             viewModel,
             displayFormat,
@@ -282,7 +281,7 @@ export default defineComponent({
              */
             prevYear() {
                 state.selectDate.setYear(state.selectDate.year - 1)
-                setSelectDate(state.selectDate)
+                utils.setSelectDate(state.selectDate.copy())
             },
             /**
              * 面板切换到下一年
@@ -291,7 +290,7 @@ export default defineComponent({
              */
             nextYear() {
                 state.selectDate.setYear(state.selectDate.year + 1)
-                setSelectDate(state.selectDate)
+                utils.setSelectDate(state.selectDate.copy())
             },
             /**
              * 面板切换到上一个月份
@@ -300,7 +299,7 @@ export default defineComponent({
              */
             prevMonth() {
                 state.selectDate.setMonthDate(state.selectDate.month - 1, 1)
-                setSelectDate(state.selectDate.copy())
+                utils.setSelectDate(state.selectDate.copy())
             },
             /**
              * 面板切换到下一个月份
@@ -309,7 +308,7 @@ export default defineComponent({
              */
             nextMonth() {
                 state.selectDate.setMonthDate(state.selectDate.month + 1, 1)
-                setSelectDate(state.selectDate.copy())
+                utils.setSelectDate(state.selectDate.copy())
             },
             /**
              * 切换视图，确定动画方向

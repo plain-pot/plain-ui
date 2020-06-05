@@ -61,6 +61,17 @@ export default defineComponent({
             modelAutoEmit: false,
             startModelAutoEmit: false,
             endModelAutoEmit: false,
+
+            onStartChange(val) {
+                state.valueRange = [new PlainDate(val, displayFormat.value, valueFormat.value), new PlainDate(endModel.value, displayFormat.value, valueFormat.value)]
+                state.hoverRange = null
+                const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+                state.selectDate = startPd.isNull ? state.today : startPd.copy()
+            },
+            onEndChange(val) {
+                state.valueRange = [new PlainDate(startModel.value, displayFormat.value, valueFormat.value), new PlainDate(val, displayFormat.value, valueFormat.value)]
+                state.hoverRange = null
+            },
         })
 
         const formatData = computed(() => {
@@ -250,18 +261,6 @@ export default defineComponent({
                 utils.emitValue(startDate, endDate)
             },
         }
-
-        watch(() => props.start, (val) => {
-            state.valueRange = [new PlainDate(val, displayFormat.value, valueFormat.value), new PlainDate(endModel.value, displayFormat.value, valueFormat.value)]
-            state.hoverRange = null
-            const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
-            state.selectDate = startPd.isNull ? state.today : startPd.copy()
-        }, {lazy: false})
-
-        watch(() => props.end, (val) => {
-            state.valueRange = [new PlainDate(startModel.value, displayFormat.value, valueFormat.value), new PlainDate(val, displayFormat.value, valueFormat.value)]
-            state.hoverRange = null
-        }, {lazy: false})
 
         return () => (
             <div class="pl-date-base-panel pl-date-panel-date-range">
