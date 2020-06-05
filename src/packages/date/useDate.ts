@@ -65,10 +65,10 @@ export function useDate(
     const endPd = new PlainDate(props.end, displayFormat.value, valueFormat.value)
     const tempPd = vpd.copy()
 
-    const value = useModel(() => props.value, emit.input)
-    const start = useModel(() => props.start, emit.updateStart)
-    const end = useModel(() => props.end, emit.updateEnd)
-    const view = useModel(() => props.view, emit.updateView)
+    const model = useModel(() => props.value, emit.input)
+    const startModel = useModel(() => props.start, emit.updateStart)
+    const endModel = useModel(() => props.end, emit.updateEnd)
+    const viewModel = useModel(() => props.view, emit.updateView)
 
     let selectDate = props.selectDate as (PlainDate | undefined)
     if (!selectDate) {
@@ -113,7 +113,7 @@ export function useDate(
         return {
             max: new PlainDate(max, displayFormat.value, valueFormat.value),
             min: new PlainDate(min, displayFormat.value, valueFormat.value),
-            value: new PlainDate(value.value, displayFormat.value, valueFormat.value),
+            value: new PlainDate(model.value, displayFormat.value, valueFormat.value),
             hoverRange: state.hoverRange,
             valueRange: state.valueRange,
             range,
@@ -138,10 +138,10 @@ export function useDate(
         displayFormat,
         valueFormat,
 
-        value,
-        start,
-        end,
-        view,
+        model,
+        startModel,
+        endModel,
+        viewModel,
 
         state,
 

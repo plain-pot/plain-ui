@@ -20,7 +20,7 @@ export default defineComponent({
             mousedownPanel: EmitFunc,
         })
 
-        const {targetPanelItemParam, firstDatePanel, state, setSelectDate, value, start, end, view, displayFormat, valueFormat} = useDate({
+        const {targetPanelItemParam, firstDatePanel, state, setSelectDate, model, startModel, endModel, viewModel, displayFormat, valueFormat} = useDate({
             props,
             injectView: DateView.year,
             getProvideData: (panelItemParam) => ({} as any)
@@ -154,7 +154,7 @@ export default defineComponent({
             clickItem({ipd}: DateBasePanelItemData) {
 
                 if (!props.range) {
-                    value.value = ipd!.year
+                    model.value = ipd!.year
                 } else {
                     if (!state.hoverRange) {
                         state.hoverRange = [ipd, ipd]
@@ -163,14 +163,14 @@ export default defineComponent({
 
                         const [startPd, endPd] = state.hoverRange as [PlainDate, PlainDate]
 
-                        start.value = startPd.year
-                        end.value = endPd.year
+                        startModel.value = startPd.year
+                        endModel.value = endPd.year
 
                         state.hoverRange = null
                         state.valueRange = [startPd, endPd]
 
-                        emit.input(start.value, DateEmitInputType.start)
-                        emit.input(end.value, DateEmitInputType.end)
+                        emit.input(startModel.value, DateEmitInputType.start)
+                        emit.input(endModel.value, DateEmitInputType.end)
                     }
                 }
             },
@@ -195,7 +195,7 @@ export default defineComponent({
 
         watch(() => props.start, val => {
             const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
-            const endPd = new PlainDate(end.value, displayFormat.value, valueFormat.value)
+            const endPd = new PlainDate(endModel.value, displayFormat.value, valueFormat.value)
 
             state.valueRange = [startPd, endPd]
             state.hoverRange = null
@@ -206,7 +206,7 @@ export default defineComponent({
         }, {lazy: true})
 
         watch(() => props.end, val => {
-            const startPd = new PlainDate(start.value, displayFormat.value, valueFormat.value)
+            const startPd = new PlainDate(startModel.value, displayFormat.value, valueFormat.value)
             const endPd = new PlainDate(val, displayFormat.value, valueFormat.value)
 
             state.valueRange = [startPd, endPd]
