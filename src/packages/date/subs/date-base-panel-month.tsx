@@ -1,4 +1,4 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, watch} from "@vue/composition-api";
 import {DateBasePanelItemData, DateEmitInputType, DatePublicProps, DateView, DefaultFormatString, PanelItemParam, SlideTransitionDirection} from "@/packages/date/date-utils";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useDate} from "@/packages/date/useDate";
@@ -24,7 +24,18 @@ export default defineComponent({
 
         const months = computed(() => ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月',])
 
-        const {state, targetPanelItemParam, firstDatePanel, setSelectDate, value, start, end, view} = useDate({
+        const {
+            state,
+            targetPanelItemParam,
+            firstDatePanel,
+            setSelectDate,
+            model,
+            startModel,
+            endModel,
+            viewModel,
+            displayFormat,
+            valueFormat,
+        } = useDate({
             props,
             injectView: DateView.month,
             getProvideData: (panelItemParam) => {
@@ -32,7 +43,7 @@ export default defineComponent({
                 return {
                     year: {
                         range,
-                        value: value,
+                        value,
                         hoverRange,
                         valueRange,
                     }
@@ -78,6 +89,18 @@ export default defineComponent({
                 ret.push(item)
             })
             return ret
+        })
+
+        const yearPanelBinding = computed(() => {
+            const {selectDate} = state
+            return {
+                props: {
+                    value: selectDate.year,
+                },
+                on: {
+                    change: handler.onSelectYearChange,
+                },
+            }
         })
 
         const utils = {
@@ -175,32 +198,32 @@ export default defineComponent({
              * @author  韦胜健
              * @date    2020/4/15 11:13
              */
-            onClickItem(item) {
+            onClickItem(item: DateBasePanelItemData) {
 
                 const temp = state.selectDate.copy()
                 temp.setMonthDate(item.month, 1)
 
                 if (!props.range) {
-                    value.value = temp.valueString
+                    model.value = temp.valueString
                 } else {
 
                     if (!state.hoverRange) {
 
                         temp.setMonthDate(item.month, 1)
                         state.hoverRange = [temp, temp]
-                        state.hoverRange = [temp, temp]
+                        state.valueRange = [temp, temp]
 
                     } else {
                         const [startPd, endPd] = state.hoverRange
 
-                        start.value = startPd.valueString
-                        end.value = endPd.valueString
+                        startModel.value = startPd.valueString
+                        endModel.value = endPd.valueString
 
                         state.hoverRange = null
                         state.valueRange = [startPd, endPd]
 
-                        emit.input(start.value, DateEmitInputType.start)
-                        emit.input(end.value, DateEmitInputType.end)
+                        emit.input(startModel.value, DateEmitInputType.start)
+                        emit.input(endModel.value, DateEmitInputType.end)
                     }
                 }
             },
@@ -210,8 +233,8 @@ export default defineComponent({
              * @date    2020/4/15 11:13
              */
             onMouseEnterItem(item) {
-                if (!!start.hoverRange) {
-                    let midPd = start.valueRange[0]
+                if (!!state.hoverRange) {
+                    let midPd = state.valueRange[0]
                     const temp = state.selectDate.copy()
                     temp.setMonthDate(item.month, 1)
                     state.hoverRange = midPd.YM > temp.YM ? [temp, midPd] : [midPd, temp]
@@ -223,12 +246,77 @@ export default defineComponent({
              * @date    2020/4/15 11:14
              */
             onSelectYearChange(val) {
-                view.value = DateView.month
+                viewModel.value = DateView.month
                 state.selectDate.setYear(val)
                 setSelectDate(state.selectDate)
             },
         }
 
+        watch(() => props.value, (val) => {
+            // 这个val 是按照displayFormat和valueFormat格式的字符串，不能直接 setSelectYear 赋值
+            if (!val) {
+                methods.setSelectYear(state.today.year)
+            } else {
+                state.tempPd.setValue(val)
+                methods.setSelectYear(state.tempPd.year)
+            }
+        }, {lazy: true})
 
+        watch(() => props.start, val => {
+
+            const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+            const endPd = new PlainDate(endModel.value, displayFormat.value, valueFormat.value)
+
+            state.valueRange = [startPd, endPd]
+            state.hoverRange = null
+
+            methods.setSelectYear(startPd.year || state.today.year)
+        }, {lazy: true})
+
+        watch(() => props.end, val => {
+
+            const startPd = new PlainDate(startModel.value, displayFormat.value, valueFormat.value)
+            const endPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+
+            state.valueRange = [startPd, endPd]
+            state.hoverRange = null
+        }, {lazy: true})
+
+        return () => (
+            <div class="pl-date-base-panel-month-wrapper pl-date-base-panel" direction={props.direction} onMousedown={emit.mousedownPanel}>
+                <transition name={`pl-transition-slide-${viewModel.value === DateView.year ? 'prev' : 'next'}`}>
+                    {viewModel.value === DateView.month ? (
+                        <pl-date-base-panel class="pl-date-base-panel-month" direction="horizontal">
+                            <template slot="left">
+                                <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={methods.prevYear}/>
+                            </template>
+                            <template slot="center">
+                                <span onClick={() => viewModel.value = DateView.year}>{state.selectDate.year}</span>
+                            </template>
+                            <template slot="right">
+                                <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={methods.nextYear}/>
+                            </template>
+                            <template slot="content">
+                                <transition name={`pl-transition-slide-${state.transitionDirection}`}>
+                                    <ul class="pl-date-base-panel-month-list" key={state.selectDate.year} direction="vertical">
+                                        {monthList.value.map(item => (
+                                            <pl-date-base-panel-item
+                                                class="pl-date-base-panel-month-item"
+                                                item={item}
+                                                onClick={handler.onClickItem}
+                                                onMouseenter={handler.onMouseEnterItem}
+                                                key={item.month}
+                                            />
+                                        ))}
+                                    </ul>
+                                </transition>
+                            </template>
+                        </pl-date-base-panel>
+                    ) : (
+                        <pl-date-base-panel-year {...yearPanelBinding.value} direction="horizontal"/>
+                    )}
+                </transition>
+            </div>
+        )
     },
 })
