@@ -49,6 +49,31 @@ export default defineComponent({
                     }
                 }
             },
+            onModelChange(val) {
+                // 这个val 是按照displayFormat和valueFormat格式的字符串，不能直接 setSelectYear 赋值
+                if (!val) {
+                    methods.setSelectYear(state.today.year)
+                } else {
+                    state.tempPd.setValue(val)
+                    methods.setSelectYear(state.tempPd.year)
+                }
+            },
+            onStartChange(val) {
+                const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+                const endPd = new PlainDate(endModel.value, displayFormat.value, valueFormat.value)
+
+                state.valueRange = [startPd, endPd]
+                state.hoverRange = null
+
+                methods.setSelectYear(startPd.year || state.today.year)
+            },
+            onEndChange(val) {
+                const startPd = new PlainDate(startModel.value, displayFormat.value, valueFormat.value)
+                const endPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+
+                state.valueRange = [startPd, endPd]
+                state.hoverRange = null
+            },
         })
 
         const monthList = computed(() => {
@@ -251,36 +276,6 @@ export default defineComponent({
                 setSelectDate(state.selectDate)
             },
         }
-
-        watch(() => props.value, (val) => {
-            // 这个val 是按照displayFormat和valueFormat格式的字符串，不能直接 setSelectYear 赋值
-            if (!val) {
-                methods.setSelectYear(state.today.year)
-            } else {
-                state.tempPd.setValue(val)
-                methods.setSelectYear(state.tempPd.year)
-            }
-        }, {lazy: true})
-
-        watch(() => props.start, val => {
-
-            const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
-            const endPd = new PlainDate(endModel.value, displayFormat.value, valueFormat.value)
-
-            state.valueRange = [startPd, endPd]
-            state.hoverRange = null
-
-            methods.setSelectYear(startPd.year || state.today.year)
-        }, {lazy: true})
-
-        watch(() => props.end, val => {
-
-            const startPd = new PlainDate(startModel.value, displayFormat.value, valueFormat.value)
-            const endPd = new PlainDate(val, displayFormat.value, valueFormat.value)
-
-            state.valueRange = [startPd, endPd]
-            state.hoverRange = null
-        }, {lazy: true})
 
         return () => (
             <div class="pl-date-base-panel-month-wrapper pl-date-base-panel" direction={props.direction} onMousedown={emit.mousedownPanel}>
