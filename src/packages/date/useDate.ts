@@ -109,13 +109,11 @@ export function useDate(
     }) as Ref<typeof ret | null>
 
     const panelItemParam = computed(() => {
-
-        let {value, max, min, range} = props
-
+        let {max, min, range} = props
         return {
             max: new PlainDate(max, displayFormat.value, valueFormat.value),
             min: new PlainDate(min, displayFormat.value, valueFormat.value),
-            value: new PlainDate(value, displayFormat.value, valueFormat.value),
+            value: new PlainDate(value.value, displayFormat.value, valueFormat.value),
             hoverRange: state.hoverRange,
             valueRange: state.valueRange,
             range,
