@@ -59,6 +59,13 @@ export default defineComponent({
                     },
                 }
             },
+
+            onModelChange(val) {
+                model.value = val
+                if (!props.selectDate) {
+                    utils.setSelectDate(val, false)
+                }
+            },
         })
 
         /*---------------------------------------computer-------------------------------------------*/
@@ -371,13 +378,6 @@ export default defineComponent({
                 methods.changeView(DateView.date)
             },
         }
-
-        watch(() => props.value, (val) => {
-            model.value = val
-            if (!props.selectDate) {
-                utils.setSelectDate(val, false)
-            }
-        }, {lazy: true})
 
         watch(() => props.selectDate, (val) => {
             state.selectDate = val || state.today
