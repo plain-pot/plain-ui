@@ -7,7 +7,7 @@ export type ModelType = { value: any }
  * @author  韦胜健
  * @date    2020/5/14 10:23
  */
-export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void, autoEmit = true, autoWatch = true): { value: T } {
+export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void, autoEmit = true, autoWatch = true, onChange?: (val: T) => void): { value: T } {
 
     const state = ref(getter())
 
@@ -15,7 +15,13 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void, 
         watch(
             getter,
             (val: any) => {
-                state.value = val
+                if (val != state.value) {
+                    !!onChange && onChange(val);
+                    state.value = val
+                }
+            },
+            {
+                lazy: true,
             }
         )
     }

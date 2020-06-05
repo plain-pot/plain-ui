@@ -23,7 +23,31 @@ export default defineComponent({
         const {targetPanelItemParam, firstDatePanel, state, setSelectDate, model, startModel, endModel, viewModel, displayFormat, valueFormat} = useDate({
             props,
             injectView: DateView.year,
-            getProvideData: (panelItemParam) => ({} as any)
+            getProvideData: (panelItemParam) => ({} as any),
+
+            onModelChange: (val) => {
+                state.transitionDirection = val == null ? 'next' : val > data.value.selectYear + 19 ? 'next' : 'prev'
+                state.selectDate.setYear(val || state.today.year)
+                setSelectDate(state.selectDate)
+            },
+            onStartChange: (val) => {
+                const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+                const endPd = new PlainDate(endModel.value, displayFormat.value, valueFormat.value)
+
+                state.valueRange = [startPd, endPd]
+                state.hoverRange = null
+
+                state.transitionDirection = val == null ? 'next' : val > data.value.selectYear + 19 ? 'next' : 'prev'
+                state.selectDate.setYear(val || state.today.year)
+                setSelectDate(state.selectDate)
+            },
+            onEndChange: (val) => {
+                const startPd = new PlainDate(startModel.value, displayFormat.value, valueFormat.value)
+                const endPd = new PlainDate(val, displayFormat.value, valueFormat.value)
+
+                state.valueRange = [startPd, endPd]
+                state.hoverRange = null
+            }
         })
 
         const data = computed(() => {
@@ -186,32 +210,6 @@ export default defineComponent({
                 }
             },
         }
-
-        watch(() => props.value, (val) => {
-            state.transitionDirection = val == null ? 'next' : val > data.value.selectYear + 19 ? 'next' : 'prev'
-            state.selectDate.setYear(val || state.today.year)
-            setSelectDate(state.selectDate)
-        }, {lazy: true})
-
-        watch(() => props.start, val => {
-            const startPd = new PlainDate(val, displayFormat.value, valueFormat.value)
-            const endPd = new PlainDate(endModel.value, displayFormat.value, valueFormat.value)
-
-            state.valueRange = [startPd, endPd]
-            state.hoverRange = null
-
-            state.transitionDirection = val == null ? 'next' : val > data.value.selectYear + 19 ? 'next' : 'prev'
-            state.selectDate.setYear(val || state.today.year)
-            setSelectDate(state.selectDate)
-        }, {lazy: true})
-
-        watch(() => props.end, val => {
-            const startPd = new PlainDate(startModel.value, displayFormat.value, valueFormat.value)
-            const endPd = new PlainDate(val, displayFormat.value, valueFormat.value)
-
-            state.valueRange = [startPd, endPd]
-            state.hoverRange = null
-        }, {lazy: true})
 
         return () => (
             <pl-date-base-panel class="pl-date-base-panel-year" direction={props.direction} {...{on: {'mousedown-panel': emit.mousedownPanel}}}>

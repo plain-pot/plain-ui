@@ -23,6 +23,10 @@ export function useDate(
         modelAutoEmit,
         startModelAutoEmit,
         endModelAutoEmit,
+
+        onModelChange,
+        onStartChange,
+        onEndChange,
     }
         : {
         props: ExtractPropTypes<typeof DatePublicProps>,
@@ -39,8 +43,13 @@ export function useDate(
         getChildHoverEnd?: (ipd: PlainDate, view: DateView) => boolean,
 
         modelAutoEmit?: boolean
+        onModelChange?: (val: string | undefined) => void,
+
         startModelAutoEmit?: boolean
+        onStartChange?: (val: string | undefined) => void,
+
         endModelAutoEmit?: boolean
+        onEndChange?: (val: string | undefined) => void,
     }
 ) {
 
@@ -73,9 +82,9 @@ export function useDate(
     const endPd = new PlainDate(props.end, displayFormat.value, valueFormat.value)
     const tempPd = vpd.copy()
 
-    const model = useModel(() => props.value, emit.input, modelAutoEmit)
-    const startModel = useModel(() => props.start, emit.updateStart, startModelAutoEmit,)
-    const endModel = useModel(() => props.end, emit.updateEnd, endModelAutoEmit,)
+    const model = useModel(() => props.value, emit.input, modelAutoEmit, undefined, onModelChange)
+    const startModel = useModel(() => props.start, emit.updateStart, startModelAutoEmit, undefined, onStartChange)
+    const endModel = useModel(() => props.end, emit.updateEnd, endModelAutoEmit, undefined, onEndChange)
     const viewModel = useModel(() => props.view, emit.updateView)
 
     let selectDate = props.selectDate as (PlainDate | undefined)
