@@ -10,6 +10,7 @@
     width: 302px;
     height: 282px;
     transition: all $transition 500ms;
+    box-sizing: border-box;
 
     .pl-date-base-panel-header {
       width: $width;

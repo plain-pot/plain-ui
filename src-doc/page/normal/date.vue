@@ -1,6 +1,23 @@
 <template>
     <div class="demo-date">
 
+        <demo-row title="date base panel">
+            <pl-date-base-panel>
+                <div slot="left">
+                    this is left
+                </div>
+                <div slot="center">
+                    this is center
+                </div>
+                <div slot="right">
+                    this is right
+                </div>
+                <div slot="content">
+                    this is content
+                </div>
+            </pl-date-base-panel>
+        </demo-row>
+
         <demo-row title="date panels">
             <demo-row title="pl-date-base-panel-year">
                 <demo-row title="基本用法">

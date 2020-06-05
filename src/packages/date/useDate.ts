@@ -125,7 +125,7 @@ export function useDate(
     const provideData = computed(() => getProvideData(panelItemParam.value))
 
     const targetPanelItemParam = computed(() => {
-        if (!!firstDatePanel.value && firstDatePanel.value!.provideData && firstDatePanel.value!.provideData.value[injectView]) {
+        if (!!firstDatePanel.value && firstDatePanel.value!.provideData.value && firstDatePanel.value!.provideData.value[injectView]) {
             return firstDatePanel.value!.provideData.value[injectView]
         } else {
             return panelItemParam.value
