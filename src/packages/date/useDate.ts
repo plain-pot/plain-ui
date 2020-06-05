@@ -19,6 +19,10 @@ export function useDate(
         getChildHoverStart,
         getChildHover,
         getChildHoverEnd,
+
+        modelAutoEmit,
+        startModelAutoEmit,
+        endModelAutoEmit,
     }
         : {
         props: ExtractPropTypes<typeof DatePublicProps>,
@@ -33,6 +37,10 @@ export function useDate(
         getChildHoverStart?: (ipd: PlainDate, view: DateView) => boolean,
         getChildHover?: (ipd: PlainDate, view: DateView) => boolean,
         getChildHoverEnd?: (ipd: PlainDate, view: DateView) => boolean,
+
+        modelAutoEmit?: boolean
+        startModelAutoEmit?: boolean
+        endModelAutoEmit?: boolean
     }
 ) {
 
@@ -65,9 +73,9 @@ export function useDate(
     const endPd = new PlainDate(props.end, displayFormat.value, valueFormat.value)
     const tempPd = vpd.copy()
 
-    const model = useModel(() => props.value, emit.input)
-    const startModel = useModel(() => props.start, emit.updateStart)
-    const endModel = useModel(() => props.end, emit.updateEnd)
+    const model = useModel(() => props.value, emit.input, modelAutoEmit)
+    const startModel = useModel(() => props.start, emit.updateStart, startModelAutoEmit,)
+    const endModel = useModel(() => props.end, emit.updateEnd, endModelAutoEmit,)
     const viewModel = useModel(() => props.view, emit.updateView)
 
     let selectDate = props.selectDate as (PlainDate | undefined)
@@ -117,8 +125,8 @@ export function useDate(
             hoverRange: state.hoverRange,
             valueRange: state.valueRange,
             range,
-        } as PanelItemParam
-    })
+        }
+    }) as Ref<PanelItemParam>
 
     const provideData = computed(() => getProvideData(panelItemParam.value))
 
