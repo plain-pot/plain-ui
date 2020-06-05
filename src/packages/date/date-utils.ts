@@ -75,17 +75,17 @@ export const DatePublicProps = {
     selectDate: {type: PlainDate},                                                      // 当前面板的年月日期对象
 }
 
-export interface DateBasePanelItemData {
-    label: string | number
-    active: boolean
-    now: boolean
-    disabled: boolean
-    hoverStart: boolean
-    hover: boolean
-    hoverEnd: boolean
-    ipd?: PlainDate
+export class DateBasePanelItemData {
+    label: string | number = ''
+    active: boolean = false
+    now: boolean = false
+    disabled: boolean = false
+    hoverStart: boolean = false
+    hover: boolean = false
+    hoverEnd: boolean = false
+    ipd?: PlainDate = PlainDate.today(DefaultFormatString.date, DefaultFormatString.date)
 
-    range: boolean
+    range: boolean = false;
 
     [key: string]: any
 }
