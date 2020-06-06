@@ -28,8 +28,8 @@ export interface PanelItemParam {
 
 export type PanelItemParamType = {
     range: boolean,
-    value: PlainDate,
-    hoverRange: [PlainDate, PlainDate] | null,
+    value?: PlainDate | PlainDate[],
+    hoverRange?: [PlainDate, PlainDate] | null,
     valueRange: [PlainDate, PlainDate]
 }
 

@@ -4,10 +4,7 @@ import {computed, inject, provide, reactive, Ref} from "@vue/composition-api";
 import {PlainDate} from "@/util/PlainDate";
 import {useModel} from "@/use/useModel";
 import {getReturnType} from "@/util/util";
-import {DATE_PANEL_PROVIDER, DatePublicProps, DateView, PanelItemParam, SlideTransitionDirection} from "@/packages/date/date-utils";
-
-class PanelItemParamType {
-}
+import {DATE_PANEL_PROVIDER, DatePublicProps, DateView, PanelItemParam, PanelItemParamType, SlideTransitionDirection} from "@/packages/date/date-utils";
 
 export function useDate(
     {
@@ -145,7 +142,7 @@ export function useDate(
         } else {
             return panelItemParam.value
         }
-    }) as Ref<PanelItemParam>
+    }) as Ref<PanelItemParamType>
 
     function setSelectDate(selectDate: PlainDate) {
         state.selectDate = selectDate.copy()

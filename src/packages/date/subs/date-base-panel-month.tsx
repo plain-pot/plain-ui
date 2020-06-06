@@ -42,7 +42,7 @@ export default defineComponent({
                 const {value, hoverRange, valueRange, range} = panelItemParam
                 return {
                     year: {
-                        range,
+                        range: !!range,
                         value,
                         hoverRange,
                         valueRange,
