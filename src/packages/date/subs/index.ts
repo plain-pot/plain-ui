@@ -7,6 +7,7 @@ import month from './date-base-panel-month'
 import date from './date-base-panel-date'
 import dateRange from './date-panel-date-range'
 import week from './date-panel-week'
+import dates from './date-panel-dates'
 
 import {installPlugin} from "@/util/install";
 
@@ -20,4 +21,5 @@ export default installPlugin([
     date,
     dateRange,
     week,
+    dates,
 ])
