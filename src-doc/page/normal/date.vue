@@ -401,7 +401,6 @@
                     option: {
                         props: {
                             value: null,
-                            range: true,
                             ...(option || {})
                         },
                         popperProps: {
