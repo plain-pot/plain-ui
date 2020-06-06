@@ -36,7 +36,7 @@ export function useDate(
             date?: PanelItemParamType,
         },
         injectView: DateView,
-        getChildDisabled?: (ipd: PlainDate, view: DateView) => boolean,
+        getChildDisabled?: (ipd: PlainDate|number, view: DateView) => boolean,
         getChildActive?: (ipd: PlainDate, view: DateView) => boolean,
         getChildHoverStart?: (ipd: PlainDate, view: DateView) => boolean,
         getChildHover?: (ipd: PlainDate, view: DateView) => boolean,
