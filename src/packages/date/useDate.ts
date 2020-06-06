@@ -6,6 +6,11 @@ import {useModel} from "@/use/useModel";
 import {getReturnType} from "@/util/util";
 import {DATE_PANEL_PROVIDER, DatePublicProps, DateView, PanelItemParam, PanelItemParamType, SlideTransitionDirection} from "@/packages/date/date-utils";
 
+export function getFormatString(formatString: string | undefined, datetime: boolean | undefined) {
+    if (!!formatString) return formatString
+    return datetime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
+}
+
 export function useDate(
     {
         props,
@@ -33,7 +38,7 @@ export function useDate(
             date?: PanelItemParamType,
         },
         injectView: DateView,
-        getChildDisabled?: (ipd: PlainDate|number, view: DateView) => boolean,
+        getChildDisabled?: (ipd: PlainDate | number, view: DateView) => boolean,
         getChildActive?: (ipd: PlainDate, view: DateView) => boolean,
         getChildHoverStart?: (ipd: PlainDate, view: DateView) => boolean,
         getChildHover?: (ipd: PlainDate, view: DateView) => boolean,
@@ -61,15 +66,9 @@ export function useDate(
 
     /*---------------------------------------:computer:format-------------------------------------------*/
 
-    const displayFormat = computed(() => {
-        if (!!props.displayFormat) return props.displayFormat
-        return props.datetime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
-    })
+    const displayFormat = computed(() => getFormatString(props.displayFormat, props.datetime))
 
-    const valueFormat = computed(() => {
-        if (!!props.valueFormat) return props.valueFormat
-        return props.datetime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
-    })
+    const valueFormat = computed(() => getFormatString(props.valueFormat, props.datetime))
 
     /*---------------------------------------state-------------------------------------------*/
 
