@@ -5,6 +5,7 @@ import {computed} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 import {handleKeyboard} from "@/packages/keyboard";
 import {useEdit} from "@/use/useEdit";
+import {useStyle} from "@/use/useStyle";
 
 export function useDateTime(
     {
@@ -28,6 +29,7 @@ export function useDateTime(
     }) {
 
     const {editComputed, editState} = useEdit()
+    useStyle({status: null})
 
     const refs = useRefs({
         valueInput: CompRef,

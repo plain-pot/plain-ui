@@ -14,7 +14,7 @@ export const StyleProps = {
     status: {type: String},                     // primary,success,error,warn,info
 }
 
-export const useStyle = useWrapper('style', (defaultValue?: { shape?: string, size?: string, status?: string }) => {
+export const useStyle = useWrapper('style', (defaultValue?: { shape?: string | null, size?: string | null, status?: string | null }) => {
     const ctx = getCurrentInstance()!
 
     const parent = inject(StyleProvider, null)

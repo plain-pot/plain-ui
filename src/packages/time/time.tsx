@@ -7,10 +7,12 @@ import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
 import {useDateTime} from "@/packages/date-time-input/useDateTime";
 import {EditProps} from "@/use/useEdit";
+import {StyleProps} from "@/use/useStyle";
 
 export default defineComponent({
     name: 'pl-time',
     props: {
+        ...StyleProps,
         ...EditProps,
         ...TimePanelProps,
     },
