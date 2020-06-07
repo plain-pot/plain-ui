@@ -1,7 +1,7 @@
 @include theme {
   .pl-select-panel {
     .pl-select-group {
-      padding:  6px 0;
+      padding: 6px 0;
 
       .pl-select-group-label {
         color: $disabledText;
@@ -27,6 +27,10 @@
         }
       }
 
+    }
+
+    .pl-select-panel-debug {
+      color: #12b4a5;
     }
   }
 }

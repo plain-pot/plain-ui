@@ -1,9 +1,10 @@
 <template>
     <div class="demo-select">
         <demo-row title="select-panel">
+            <pl-checkbox label="测试动态销毁/初始化选项，顺序是否正常" v-model="initFlag"/>
             <pl-select-panel>
                 <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
-                    <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val"/>
+                    <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
                 </pl-select-group>
             </pl-select-panel>
         </demo-row>
@@ -189,6 +190,7 @@
                     readonly: true,
                     loading: true,
                 },
+                initFlag: true,
             }
         },
         methods: {
