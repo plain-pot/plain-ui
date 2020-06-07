@@ -52,13 +52,17 @@ export function useCollectChild(
         {
             provideString: string
         } = {} as any) {
-    const {utils} = inject(provideString) as any
+    const injectData = inject(provideString) as any
     const ctx = getCurrentInstance()
-    onMounted(() => {
-        utils.addItem(ctx)
-    })
-    onBeforeUnmount(() => {
-        utils.removeItem(ctx)
-    })
+
+
+    if (!!injectData) {
+        onMounted(() => {
+            injectData.utils.addItem(ctx)
+        })
+        onBeforeUnmount(() => {
+            injectData.utils.removeItem(ctx)
+        })
+    }
     return ctx
 }
