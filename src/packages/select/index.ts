@@ -1,12 +1,14 @@
 import './select.scss'
 import select from './select'
 import option from './select-option'
-import selectPanel from './select-panel'
+import panel from './select-panel'
+import group from './select-group'
 
 import {installPlugin} from "@/util/install";
 
 export default installPlugin([
     select,
     option,
-    selectPanel,
+    panel,
+    group,
 ])

@@ -2,12 +2,16 @@
     <div class="demo-select">
         <demo-row title="select-panel">
             <pl-select-panel>
-                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                    <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select-group>
             </pl-select-panel>
         </demo-row>
         <demo-row title="pl-select">
             <demo-row title="基本用法">
-                <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[0]"/>
+                <pl-select labelKey="name" valueKey="val" v-model="val[0]">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
                 <span>{{val[0]}}</span>
             </demo-row>
 
@@ -139,6 +143,24 @@
                     {name: '妇女节', val: 'FuNv'},
                     {name: '教师节', val: 'JiaoShi'},
                     {name: '清明节', val: 'QingMing'},
+                ],
+                groupData: [
+                    {
+                        name: '广东省',
+                        children: [
+                            {name: '深圳市', val: 'shenzhen'},
+                            {name: '广州市', val: 'guangzhou'},
+                            {name: '佛山市', val: 'foshan'},
+                        ],
+                    },
+                    {
+                        name: '湖南省',
+                        children: [
+                            {name: '长沙市', val: 'changsha'},
+                            {name: '岳阳市', val: 'yueyang'},
+                            {name: '邵阳市', val: 'shaoyang'},
+                        ]
+                    }
                 ],
                 groupList: [
                     {name: '广东省', val: 'guangdong', row_group: true},
