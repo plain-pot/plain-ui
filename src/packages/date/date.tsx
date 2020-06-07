@@ -143,6 +143,8 @@ export default defineComponent({
                 },
                 on: {
                     'click-input': handler.clickInput,
+                    focus: agentState.handler.focus,
+                    blur: agentState.handler.blur,
                 },
             }
         })
