@@ -1,7 +1,9 @@
 <template>
     <div class="demo-select">
         <demo-row title="select-panel">
-            select-panel
+            <pl-select>
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
         </demo-row>
         <demo-row title="pl-select">
             <demo-row title="基本用法">
