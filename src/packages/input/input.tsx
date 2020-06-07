@@ -48,6 +48,7 @@ export default defineComponent({
         const {$slots} = useSlots({
             prepend: SlotFunc,
             append: SlotFunc,
+            hidden: SlotFunc,
         })
 
         /*---------------------------------------ref-------------------------------------------*/
@@ -305,6 +306,7 @@ export default defineComponent({
                         </span>}
                         {!!props.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{mousedown: handler.clickClearIcon}} icon="el-icon-error"/></span>)}
                         {!!editComputed.value.loading && <pl-loading class="pl-input-suffix-icon"/>}
+                        {!!$slots.hidden && <div class="pl-input-inner-hidden">{$slots.hidden}</div>}
                     </div>
                 )
 
