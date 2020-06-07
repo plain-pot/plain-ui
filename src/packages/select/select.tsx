@@ -11,7 +11,7 @@ export default defineComponent({
     setup(props) {
 
         const {slots} = useSlots()
-        const items = useCollectParent(true)
+        const items = useCollectParent({sort: true})
 
         onMounted(() => {
             console.log(items.value)

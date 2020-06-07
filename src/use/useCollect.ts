@@ -9,7 +9,16 @@ function getIndex(el: HTMLElement): number {
         .indexOf(el)
 }
 
-export function useCollectParent(sort = false, onAdd?: Function, onRemove?: Function) {
+export function useCollectParent(
+    {
+        sort = false,
+        onAdd,
+        onRemove
+    }: {
+        sort: boolean,
+        onAdd?: (addItem: any) => void,
+        onRemove?: (removeItem: any) => void
+    }) {
     const items = ref([] as any[])
     const utils = {
         addItem: (item) => {
