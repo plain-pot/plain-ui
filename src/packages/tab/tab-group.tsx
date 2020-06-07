@@ -98,7 +98,7 @@ export default defineComponent({
                     <div class={innerGroupClasses.value}>
                         <pl-tab-header type={props.headType} position={props.headPosition}>
                             {items.value.map((item, index) => (
-                                <pl-tab-header-item key={index} active={item.targetVal.value === model.value} onClick={() => handler.clickHeadItem(item, index)}>
+                                <pl-tab-header-item key={item.targetVal.value} active={item.targetVal.value === model.value} onClick={() => handler.clickHeadItem(item, index)}>
                                     <span>
                                         {item.scopedSlots.head({
                                             param: {active: item.targetVal.value === model.value},
@@ -112,7 +112,7 @@ export default defineComponent({
 
                         <div class="pl-tab-group-inner-tab-list">
                             {items.value.map((item, index) => (
-                                <pl-inner-tab item={item} index={index}/>
+                                <pl-inner-tab item={item} index={index} key={item.targetVal.value}/>
                             ))}
                         </div>
                     </div>
