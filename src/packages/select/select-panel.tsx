@@ -7,7 +7,9 @@ export const I_AM_SELECT_PANEL = '@@I_AM_SELECT_PANEL'
 
 export default defineComponent({
     name: 'pl-select-panel',
-    props: {},
+    props: {
+        showDebug: {type: Boolean}
+    },
     setup(props) {
 
         const {slots} = useSlots()
@@ -39,11 +41,15 @@ export default defineComponent({
             <div class="pl-select-panel">
                 {slots.default()}
 
-                <div class="pl-select-panel-debug">
-                    {formatData.value.map((item, index) => (
-                        <div>{index}-{item.label}-{item.val}</div>
-                    ))}
-                </div>
+                {
+                    !!props.showDebug && (
+                        <div class="pl-select-panel-debug">
+                            {formatData.value.map((item, index) => (
+                                <div>{index}-{item.label}-{item.val}</div>
+                            ))}
+                        </div>
+                    )
+                }
             </div>
         )
     },
