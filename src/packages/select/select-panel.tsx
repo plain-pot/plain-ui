@@ -8,7 +8,15 @@ export const I_AM_SELECT_PANEL = '@@I_AM_SELECT_PANEL'
 export default defineComponent({
     name: 'pl-select-panel',
     props: {
-        showDebug: {type: Boolean}
+        value: {type: [String, Array]},                         // 当前双向绑定值
+
+        multiple: {type: Boolean},                              // 是否多选
+        multipleLimit: {type: Number},                          // 多选最多选择个数
+
+        noMatchText: {type: Boolean, default: '暂无匹配数据'},    // 筛选无数据时展示的文本
+        noDataText: {type: Boolean, default: '暂无数据'},         // 无数据时显示的文本
+
+        showDebug: {type: Boolean},                             // 是否展示调试内容
     },
     setup(props) {
 

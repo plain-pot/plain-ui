@@ -2,6 +2,17 @@
   .pl-select-panel {
     .pl-select-group {
       padding: 6px 0;
+      position: relative;
+
+      &:after {
+        position: absolute;
+        height: 1px;
+        left: 12px;
+        right: 12px;
+        bottom: 0;
+        content: '';
+        background-color: $ibc;
+      }
 
       .pl-select-group-label {
         color: $disabledText;
@@ -11,19 +22,11 @@
 
       .pl-select-option {
         padding: 6px 12px;
+        color: $itc;
 
-        &:last-child {
-          position: relative;
-
-          &:after {
-            position: absolute;
-            height: 1px;
-            left: 12px;
-            right: 12px;
-            bottom: 0;
-            content: '';
-            background-color: $ibc;
-          }
+        &:hover {
+          background-color: $disabled;
+          cursor: pointer;
         }
       }
 
