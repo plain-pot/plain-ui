@@ -28,7 +28,9 @@ export default defineComponent({
         return () => (
             <div class="pl-select-group">
                 {(!!$slots.label || !!props.label) && (<div class="pl-select-group-label">{slots.label(props.label)}</div>)}
-                {slots.default()}
+                <div class="pl-select-group-content">
+                    {slots.default()}
+                </div>
             </div>
         )
     }
