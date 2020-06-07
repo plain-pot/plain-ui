@@ -10,8 +10,10 @@
         </demo-row>
         <demo-row title="pl-select">
             <demo-row title="基本用法">
-                <pl-select labelKey="name" valueKey="val" v-model="val[0]">
-                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                <pl-select labelKey="name" valueKey="val" value="yueyang">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
                 </pl-select>
                 <span>{{val[0]}}</span>
             </demo-row>
