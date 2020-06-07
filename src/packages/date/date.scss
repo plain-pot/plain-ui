@@ -382,9 +382,11 @@
   .pl-date-panel-date-range {
     width: auto;
     padding: 0;
+    white-space: nowrap;
 
     & > .pl-date-base-panel {
       border: none;
+      white-space: normal;
 
       &:first-child {
         &:after {

@@ -373,13 +373,13 @@
                 </demo-line>
             </demo-row>
 
-            <dmeo-row title="禁用以及只读">
+            <demo-row title="禁用以及只读">
                 <demo-line>
                     <pl-checkbox v-model="val[39]"/>
                 </demo-line>
                 <pl-date :disabled="val[39]"/>
                 <pl-date :readonly="val[39]"/>
-            </dmeo-row>
+            </demo-row>
 
         </demo-row>
 
