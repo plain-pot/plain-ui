@@ -13,12 +13,14 @@ export function useCollectParent(
     {
         sort = false,
         onAdd,
-        onRemove
+        onRemove,
+        provideString = COLLECT_PROVIDER,
     }: {
         sort: boolean,
         onAdd?: (addItem: any) => void,
-        onRemove?: (removeItem: any) => void
-    }) {
+        onRemove?: (removeItem: any) => void,
+        provideString?: string
+    } = {} as any) {
     const items = ref([] as any[])
     const utils = {
         addItem: (item) => {
@@ -36,15 +38,21 @@ export function useCollectParent(
         },
     }
 
-    provide(COLLECT_PROVIDER, {
+    provide(provideString, {
         utils,
     })
 
     return items
 }
 
-export function useCollectChild() {
-    const {utils} = inject(COLLECT_PROVIDER) as any
+export function useCollectChild(
+    {
+        provideString = COLLECT_PROVIDER,
+    }:
+        {
+            provideString: string
+        } = {} as any) {
+    const {utils} = inject(provideString) as any
     const ctx = getCurrentInstance()
     onMounted(() => {
         utils.addItem(ctx)
