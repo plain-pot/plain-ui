@@ -54,9 +54,10 @@
                     <span>{{val[3]}}</span>
                 </demo-line>
                 <pl-select v-model="val[3]">
-                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
-                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
-                    </pl-select-group>
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+                <pl-select v-model="val[3]">
+                    <pl-select-option v-for="item in list.slice(0, 4)" :key="item.val" :label="item.name" :val="item.val"/>
                 </pl-select>
             </demo-row>
 
@@ -64,7 +65,11 @@
                 <pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/>
             </demo-row>
             <demo-row title="分组">
-                <pl-select :data="groupList" labelKey="name" valueKey="val" groupKey="row_group"/>
+                <pl-select>
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select>
             </demo-row>
             <demo-row title="图标">
                 <pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/>

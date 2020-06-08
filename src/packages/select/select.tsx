@@ -47,7 +47,8 @@ export default defineComponent({
                 }, {})),
 
                 value: model.value,
-                content: () => slots.default()
+                height: items.value.length > 6 ? 256 : null,
+                content: () => slots.default(),
             },
             popperProps: {
                 reference: refs.$el,

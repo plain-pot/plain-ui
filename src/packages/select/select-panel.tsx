@@ -21,6 +21,7 @@ const Props = {
     noDataText: {type: Boolean, default: '暂无数据'},                // 无数据时显示的文本
     filterMethod: {type: Function},                                 // 筛选过滤函数
     content: {type: [Object, Function]},                            // 内容虚拟dom或者渲染函数
+    height: {type: Number},                                         // 面板高度，超过会显示自定义滚动条
 
     showDebug: {type: Boolean},                                     // 是否展示调试内容
 }
@@ -155,28 +156,38 @@ export default defineComponent({
         const {formatData, slots, classes, items, showItems} = SelectPanelSetup(props)
         const ctx = getCurrentInstance()!
 
-        return () => (
-            <div class={classes.value}>
+        const styles = computed(() => !!props.height ? {height: $plain.utils.suffixPx(props.height)} : null)
 
-                {(items.value.length === 0 || showItems.value.length === 0) && (
+        return () => {
+
+            const inner = [
+                (items.value.length === 0 || showItems.value.length === 0) ? (
                     <div class="pl-select-panel-empty-text">
                         {items.value.length === 0 ? props.noDataText : props.noMatchText}
                     </div>
-                )}
+                ) : null,
+                slots.default(),
+                !!props.content ? ((typeof props.content === "function" ? props.content(ctx.$createElement) : props.content)) : null,
+                !!props.showDebug ? (
+                    <div class="pl-select-panel-debug">
+                        {formatData.value.map((item, index) => (
+                            <div>{index}-{item.label}-{item.val}</div>
+                        ))}
+                    </div>
+                ) : null,
+            ].filter(Boolean)
 
-                {slots.default()}
-                {!!props.content && (typeof props.content === "function" ? props.content(ctx.$createElement) : props.content)}
+            const content: any = !!props.height ? (
+                <pl-scroll fitHostWidth>
+                    {inner}
+                </pl-scroll>
+            ) : inner
 
-                {
-                    !!props.showDebug && (
-                        <div class="pl-select-panel-debug">
-                            {formatData.value.map((item, index) => (
-                                <div>{index}-{item.label}-{item.val}</div>
-                            ))}
-                        </div>
-                    )
-                }
-            </div>
-        )
+            return (
+                <div class={classes.value} style={styles.value}>
+                    {content}
+                </div>
+            )
+        }
     },
 })
