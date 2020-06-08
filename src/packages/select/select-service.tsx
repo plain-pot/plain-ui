@@ -30,6 +30,7 @@ export default {
                 sizeEqual: true,
                 transition: 'pl-transition-popper-drop',
                 arrow: false,
+                offset: 3,
             },
             externalListener: {
                 change(this: PopperServiceComponent, val: string) {

@@ -120,11 +120,24 @@ export default defineComponent({
          * @date    2020/6/8 11:16
          */
         const displayValue = computed(() => {
-            for (let i = 0; i < formatData.value.length; i++) {
-                const item = formatData.value[i];
-                if (item.val === model.value) {
-                    return item.label
+            if (!props.multiple) {
+                for (let i = 0; i < formatData.value.length; i++) {
+                    const item = formatData.value[i];
+                    if (item.val === model.value) {
+                        return item.label
+                    }
                 }
+            } else {
+                let strings: string[] = []
+                if (!!model.value && Array.isArray(model.value)) {
+                    for (let i = 0; i < formatData.value.length; i++) {
+                        const item = formatData.value[i];
+                        if (model.value.indexOf(item.val!) > -1) {
+                            strings.push(item.label!)
+                        }
+                    }
+                }
+                return strings.join('').trim()
             }
             return null
         })
