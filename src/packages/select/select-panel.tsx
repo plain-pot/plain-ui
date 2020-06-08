@@ -7,7 +7,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {useRefer} from "@/use/useRefer";
 
-export const I_AM_SELECT_PANEL = '@@I_AM_SELECT_PANEL'
+export const SELECT_PANEL_PROVIDER = '@@SELECT_PANEL_PROVIDER'
 
 export default defineComponent({
     name: 'pl-select-panel',
@@ -30,7 +30,6 @@ export default defineComponent({
         })
 
         const {slots} = useSlots()
-        provide(I_AM_SELECT_PANEL, true)
 
         const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
         const formatData = computed(() => SelectUtils.formatItems(items.value))
@@ -106,6 +105,7 @@ export default defineComponent({
             methods,
         }
 
+        provide(SELECT_PANEL_PROVIDER, refer)
         useRefer(refer)
 
         return () => (

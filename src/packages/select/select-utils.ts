@@ -1,4 +1,4 @@
-export const SELECT_PANEL_COLLECTOR = '@@SELECT_PANEL_PROVIDER'
+export const SELECT_PANEL_COLLECTOR = '@@SELECT_PANEL_COLLECTOR'
 
 function iterateChildren(array: any, fn: Function) {
     (array || []).forEach((item, index) => {

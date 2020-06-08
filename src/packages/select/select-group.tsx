@@ -3,7 +3,7 @@ import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useCollectChild, useCollectParent} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR} from "@/packages/select/select-utils";
 import {useRefer} from "@/use/useRefer";
-import {I_AM_SELECT_PANEL} from "@/packages/select/select-panel";
+import {SELECT_PANEL_PROVIDER} from "@/packages/select/select-panel";
 
 export default defineComponent({
     name: 'pl-select-group',
@@ -18,7 +18,7 @@ export default defineComponent({
             label: SlotFunc,
         })
 
-        const underPanelFlag = inject(I_AM_SELECT_PANEL)
+        const selectPanel = inject(SELECT_PANEL_PROVIDER)
         useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
         const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
 
@@ -29,7 +29,7 @@ export default defineComponent({
 
         return () => (
             <div class="pl-select-group">
-                {underPanelFlag && (!!$slots.label || !!props.label) && (<div class="pl-select-group-label">{slots.label(props.label)}</div>)}
+                {!!selectPanel && (!!$slots.label || !!props.label) && (<div class="pl-select-group-label">{slots.label(props.label)}</div>)}
                 <div class="pl-select-group-content">
                     {slots.default()}
                 </div>
