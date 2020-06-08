@@ -91,21 +91,24 @@
                                           :label="item.name"
                                           :val="item.val"
                                           :icon="item.i"
-                                          />
+                        />
                     </pl-select-group>
                 </pl-select>
             </demo-row>
 
             <demo-row title="自定义内容">
-                <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[1]">
-                    <template slot-scope="{data}">
-                        <div>
-                            <span>{{data.name}}</span>
-                            <span style="float: right;font-size: 12px;color: #ccc">{{data.val}}</span>
-                        </div>
-                    </template>
+                <pl-select>
+                    <pl-select-group v-for="(group,groupIndex) in groupData" :key="group.name" :label="group.name">
+
+                        <span slot="label" style="font-style: italic;font-size: 1.2em;margin-right: 6px;opacity: 0.5">{{groupIndex+1}}</span>
+                        <span slot="label">{{group.name}}</span>
+
+                        <pl-select-option v-for="(item,itemIndex) in group.children" :key="item.val" :label="item.name" :val="item.val">
+                            <span style="font-style: italic;font-size: 1.2em;margin-right: 6px;opacity: 0.5">{{groupIndex+1}}.{{itemIndex+1}}</span>
+                            <span>{{item.name}}</span>
+                        </pl-select-option>
+                    </pl-select-group>
                 </pl-select>
-                <span>{{val[1]}}</span>
             </demo-row>
 
             <demo-row title="自定义内容情况下，会私有化select服务实例">
