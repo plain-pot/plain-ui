@@ -8,7 +8,7 @@ import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {EditProps} from "@/use/useEdit";
-import {StyleProps} from "@/use/useStyle";
+import {StyleProps, useStyle} from "@/use/useStyle";
 import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {handleKeyboard} from "@/packages/keyboard";
 import {SelectPanelContextType} from "@/packages/select/select-panel";
@@ -37,6 +37,7 @@ export default defineComponent({
     },
     setup(props) {
 
+        useStyle()
         const {slots} = useSlots()
         const refs = useRefs({
             input: CompRef,
@@ -68,12 +69,13 @@ export default defineComponent({
                     }, {})),
 
                     value: model.value,
-                    height: formatData.value.length > 6 ? 256 : null,
+                    height: popperHeight.value,
                     content: () => slots.default(),
                     filterMethod: utils.filterMethod,
                 },
                 popperProps: {
                     reference: refs.$el,
+                    height: popperHeight.value,
                 },
                 listener: {
                     change: (val) => {
@@ -126,9 +128,9 @@ export default defineComponent({
             return null
         })
 
-        const inputProps = computed(() => {
-            return Object.assign({}, props.inputProps || {})
-        })
+        const popperHeight = computed(() => formatData.value.length > 6 ? 256 : null)
+
+        const inputProps = computed(() => Object.assign({}, props.inputProps || {}))
 
         const placeholderValue = computed(() => (agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder) || '')
 
