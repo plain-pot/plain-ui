@@ -102,7 +102,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
                 }
                 model.value = [...newValue]
             }
-        }
+        },
     }
 
     const methods = {
@@ -117,6 +117,12 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
             }
             if (!highlightOption.value) {
                 highlightOption.value = showItems.value[showItems.value.length - 1]
+
+                // 滚动到高亮的选项
+                if (!!refs.scroll) {
+                    const el = (highlightOption.value as any).$el
+                    refs.scroll.methods.scrollTop(el.offsetTop, 200)
+                }
             } else {
                 let index = showItems.value.indexOf(highlightOption.value)
                 if (index === 0) {

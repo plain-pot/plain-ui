@@ -130,9 +130,7 @@ export default defineComponent({
             return Object.assign({}, props.inputProps || {})
         })
 
-        const placeholderValue = computed(() => {
-            return agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder
-        })
+        const placeholderValue = computed(() => (agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder) || '')
 
         const inputBinding = computed(() => {
             return {
@@ -169,10 +167,7 @@ export default defineComponent({
             }
         })
 
-        const panel = computed(() => {
-            return ((agentState as any).state.agent.service.$refs.panel) as SelectPanelContextType
-        })
-
+        const panel = {get value() {return ((agentState as any).state.agent.service.$refs.panel) as SelectPanelContextType}}
 
         const utils = {
             filterMethod: (option: SelectOptionCtxType) => {
