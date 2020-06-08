@@ -15,14 +15,16 @@
       &.pl-select-group-show {
         padding: 6px 0;
 
-        &:after {
-          position: absolute;
-          height: 1px;
-          left: 12px;
-          right: 12px;
-          bottom: 0;
-          content: '';
-          background-color: $ibc;
+        &:not(:last-child) {
+          &:after {
+            position: absolute;
+            height: 1px;
+            left: 12px;
+            right: 12px;
+            bottom: 0;
+            content: '';
+            background-color: $ibc;
+          }
         }
       }
 

@@ -21,7 +21,7 @@ export default defineComponent({
         const selectPanel = inject(SELECT_PANEL_PROVIDER) as SelectPanelContextType
         useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
         const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
-        const isShow = computed(() => items.value.length > 0 && items.value.some(item => selectPanel.utils.isShow(item)))
+        const isShow = computed(() => !!selectPanel && items.value.length > 0 && items.value.some(item => selectPanel.utils.isShow(item)))
 
         const classes = computed(() => [
             'pl-select-group',
