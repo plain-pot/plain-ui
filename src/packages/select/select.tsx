@@ -171,7 +171,7 @@ export default defineComponent({
 
         const utils = {
             filterMethod: (option: SelectOptionCtxType) => {
-                if (!!props.filterMethod) return props.filterMethod(option)
+                if (!!props.filterMethod) return props.filterMethod(filterText.value, option)
                 return !!filterText.value && !!filterText.value.trim() ? (!!option.label && option.label.indexOf(filterText.value) > -1) : true
             }
         }

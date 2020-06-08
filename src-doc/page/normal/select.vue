@@ -119,34 +119,34 @@
             </demo-row>
 
             <demo-row title="filterable:false，禁用可输入筛选">
-                <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[2]" :filterable="false"/>
-                <span>{{val[2]}}</span>
+                <pl-select :filterable="false">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
             </demo-row>
 
             <demo-row title="filterMethod，自定义输入筛选逻辑，支持中文以及拼音">
-                <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[3]" :filterMethod="customFilterMethod">
-                    <template slot-scope="{data}">
-                        <div>
-                            <span>{{data.name}}</span>
-                            <span style="float: right;font-size: 12px;color: #ccc">{{data.val}}</span>
-                        </div>
-                    </template>
+                <demo-line>
+                    {{val[4]}}
+                </demo-line>
+                <pl-select :filterMethod="customFilterMethod" v-model="val[4]">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
                 </pl-select>
-                <span>{{val[3]}}</span>
             </demo-row>
 
             <demo-row title="noMatchText，输入筛选时，没有匹配项显示的文本">
-                <pl-select :data="list" labelKey="name" valueKey="val" v-model="val[4]" :noMatchText="'没有数据啦'"/>
-                <span>{{val[4]}}</span>
+                <pl-select :filterMethod="customFilterMethod" noMatchText="没有匹配的数据！！">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
             </demo-row>
             <demo-row title="noDataText，data为空时显示的文本">
-                <pl-select :data="[]" labelKey="name" valueKey="val" v-model="val[5]"/>
-                <pl-select :data="[]" labelKey="name" valueKey="val" v-model="val[5]" :noDataText="'没有数据啦'"/>
-                <span>{{val[5]}}</span>
+                <pl-select :filterMethod="customFilterMethod" noDataText="没有加载到有效数据！！">
+                </pl-select>
             </demo-row>
 
             <demo-row title="派发blur事件">
-                <pl-select :data="list" labelKey="name" valueKey="val" @blur="$plain.log('blur',Date.now())" @focus="$plain.log('focus',Date.now())"/>
+                <pl-select :filterMethod="customFilterMethod" noMatchText="没有匹配的数据！！" @blur="$plain.log('blur',Date.now())" @focus="$plain.log('focus',Date.now())">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
                 <ol>
                     <li>select关闭的时候使用tab触发blur</li>
                     <li>select打开的时候使用tab触发blur</li>
@@ -159,11 +159,15 @@
             <demo-row title="禁用以及只读">
                 <demo-line title="禁用">
                     <pl-checkbox v-model="flag.disabled" label="禁用"/>
-                    <pl-select :data="list" labelKey="name" valueKey="val" :disabled="flag.disabled"/>
+                    <pl-select :disabled="flag.disabled">
+                        <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                    </pl-select>
                 </demo-line>
                 <demo-line title="只读">
                     <pl-checkbox v-model="flag.readonly" label="只读"/>
-                    <pl-select :data="list" labelKey="name" valueKey="val" :readonly="flag.readonly"/>
+                    <pl-select :readonly="flag.readonly">
+                        <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                    </pl-select>
                 </demo-line>
             </demo-row>
 
@@ -281,9 +285,10 @@
             }
         },
         methods: {
-            customFilterMethod(input, item, index) {
-                const {name, val} = item.data
-                return (name.toLowerCase() + val.toLowerCase()).indexOf(input.toLowerCase()) > -1
+            customFilterMethod(input, item) {
+                if (!input || !input.trim()) return true
+                const {label, val} = item
+                return (label.toLowerCase() + val.toLowerCase()).indexOf(input.toLowerCase()) > -1
             },
         },
     }
