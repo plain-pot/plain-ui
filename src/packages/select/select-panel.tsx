@@ -73,6 +73,9 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
          * @date    2020/6/8 9:24
          */
         clickOption: (ctx: SelectOptionCtxType) => {
+
+            if (ctx.disabled) return
+
             emit.click(ctx)
 
             if (!props.multiple) {

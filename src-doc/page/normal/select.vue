@@ -62,7 +62,19 @@
             </demo-row>
 
             <demo-row title="禁用选项">
-                <pl-select :data="list" labelKey="name" valueKey="val" disabledKey="row_disabled"/>
+                <pl-select>
+                    <pl-select-option label="深圳市" val="shenzhen"/>
+                    <pl-select-option label="韶关市" val="shaoguan"/>
+                    <pl-select-option label="珠海市" val="zhuhai"/>
+                    <pl-select-option label="汕头市" val="shantou" disabled/>
+                    <pl-select-option label="佛山市" val="foshan"/>
+                    <pl-select-option label="江门市" val="jiangmen"/>
+                    <pl-select-option label="湛江市" val="zhanjiang" disabled/>
+                    <pl-select-option label="茂名市" val="maoming"/>
+                    <pl-select-option label="肇庆市" val="zhaoqing" disabled/>
+                    <pl-select-option label="惠州市" val="huizhou"/>
+                    <pl-select-option label="梅州市" val="meizhou"/>
+                </pl-select>
             </demo-row>
             <demo-row title="分组">
                 <pl-select>
@@ -237,6 +249,7 @@
                             {name: '深圳市', val: 'shenzhen'},
                             {name: '广州市', val: 'guangzhou'},
                             {name: '佛山市', val: 'foshan'},
+                            {name: '梅州市', val: 'meizhou'},
                         ],
                     },
                     {
@@ -247,17 +260,6 @@
                             {name: '邵阳市', val: 'shaoyang'},
                         ]
                     }
-                ],
-                groupList: [
-                    {name: '广东省', val: 'guangdong', row_group: true},
-                    {name: '深圳市', val: 'shenzhen'},
-                    {name: '广州市', val: 'guangzhou'},
-                    {name: '佛山市', val: 'foshan'},
-                    {name: '汕头市', val: 'shantou'},
-                    {name: '湖南省', val: 'hunan', row_group: true},
-                    {name: '长沙市', val: 'changsha'},
-                    {name: '岳阳市', val: 'yueyang'},
-                    {name: '邵阳市', val: 'shaoyang'},
                 ],
                 iconList: [
                     {name: '广东省', val: 'guangdong', row_group: true},

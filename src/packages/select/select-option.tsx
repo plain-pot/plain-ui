@@ -9,7 +9,7 @@ const SelectOptionProps = {
     label: {type: String},
     val: {type: String},
     icon: {type: String},
-    disabled: {type: String},
+    disabled: {type: Boolean},
 }
 
 export default defineComponent({
@@ -31,6 +31,7 @@ export default defineComponent({
             {
                 'pl-select-option-selected': isSelected.value,
                 'pl-select-option-show': isShow.value,
+                'pl-select-option-disabled': props.disabled,
             }
         ]))
 
@@ -44,7 +45,6 @@ export default defineComponent({
             <div label={props.label}
                  val={props.val}
                  icon={props.icon}
-                 disabled={props.disabled}
                  class={classes.value}
                  onClick={handler.click}>
                 {!!selectPanel && isShow.value && [

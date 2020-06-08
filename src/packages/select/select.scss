@@ -47,7 +47,6 @@
       &.pl-select-option-show {
         padding: 6px 12px;
       }
-
     }
 
     .pl-select-panel-debug {
@@ -73,6 +72,13 @@
           background-color: $colorPrimaryLight;
           color: $colorPrimary;
         }
+      }
+    }
+
+    .pl-select-option {
+      &.pl-select-option-disabled {
+        color: $disabledText !important;
+        cursor: not-allowed;
       }
     }
   }

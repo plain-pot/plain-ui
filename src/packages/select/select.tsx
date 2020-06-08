@@ -39,40 +39,42 @@ export default defineComponent({
 
         const model = useModel(() => props.value, emit.input)
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$select(() => ({
-            props: {
-                ...(Object.keys(Props).reduce((ret, key) => {
-                    ret[key] = props[key]
-                    return ret
-                }, {})),
+        const agentState = usePopperAgentEditor(() => ($plain as any).$select(() => {
+            return {
+                props: {
+                    ...(Object.keys(Props).reduce((ret, key) => {
+                        ret[key] = props[key]
+                        return ret
+                    }, {})),
 
-                value: model.value,
-                height: items.value.length > 6 ? 256 : null,
-                content: () => slots.default(),
-            },
-            popperProps: {
-                reference: refs.$el,
-            },
-            listener: {
-                change: (val) => {
-                    model.value = val
+                    value: model.value,
+                    height: formatData.value.length > 6 ? 256 : null,
+                    content: () => slots.default(),
                 },
-                click: (option) => {
-                    emit.click(option)
+                popperProps: {
+                    reference: refs.$el,
+                },
+                listener: {
+                    change: (val) => {
+                        model.value = val
+                    },
+                    click: (option) => {
+                        emit.click(option)
+                    }
+                },
+                popperListener: {
+                    'mousedown-popper': async () => {
+                        agentState.state.focusCounter++
+                    },
+                    'click-popper': () => {
+                        refs.input.methods.focus()
+                    },
+                    'hide': () => {
+                        // state.inputValue = null
+                    },
                 }
-            },
-            popperListener: {
-                'mousedown-popper': async () => {
-                    agentState.state.focusCounter++
-                },
-                'click-popper': () => {
-                    refs.input.methods.focus()
-                },
-                'hide': () => {
-                    // state.inputValue = null
-                },
             }
-        })))
+        }))
 
         /**
          * 收集的option实例
@@ -96,7 +98,7 @@ export default defineComponent({
         const displayValue = computed(() => {
             for (let i = 0; i < formatData.value.length; i++) {
                 const item = formatData.value[i];
-                if (item.val === props.value) {
+                if (item.val === model.value) {
                     return item.label
                 }
             }
