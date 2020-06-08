@@ -43,6 +43,11 @@
                 </pl-select-panel>
             </demo-row>
         </demo-row>
+        <demo-row title="select-service">
+            <demo-row title="基本用法">
+                <pl-button :label="basic.option.props.value || 'open select'" @click="basic.toggle" ref="basic"/>
+            </demo-row>
+        </demo-row>
         <demo-row title="pl-select">
             <demo-row title="基本用法">
                 <pl-select labelKey="name" valueKey="val" value="yueyang">
@@ -162,6 +167,43 @@
     export default {
         name: "demo-select",
         data() {
+
+            const newData = (name, option) => {
+                let result = {
+                    service: null,
+                    option: {
+                        props: {
+                            value: null,
+                            content: (h) => {
+                                return [
+                                    <pl-select-option label="深圳市" val="shenzhen"/>,
+                                    <pl-select-option label="佛山市" val="foshan"/>,
+                                    <pl-select-option label="广州市" val="guangzhou"/>,
+                                ]
+                            },
+                            ...option,
+                        },
+                        popperProps: {
+                            reference: () => this.$refs[name],
+                        },
+                        listener: {
+                            change: (val) => {
+                                result.option.props.value = val
+                            }
+                        },
+                    },
+                    toggle: async () => {
+                        if (!result.service) {
+                            result.service = await this.$plain.$select(result.option)
+                        }
+                        result.service.toggle()
+                    },
+                }
+                return result
+            }
+
+            const basic = newData('basic')
+
             return {
                 val: {
                     0: 'shenzhen',
@@ -227,6 +269,8 @@
                     loading: true,
                 },
                 initFlag: true,
+
+                basic,
 
                 filterText: null,
                 filterMethod: (option) => {

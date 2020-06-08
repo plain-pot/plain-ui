@@ -1,4 +1,4 @@
-import {computed, defineComponent, provide} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, provide} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR, SelectUtils} from "@/packages/select/select-utils";
@@ -20,6 +20,7 @@ const Props = {
     noMatchText: {type: Boolean, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
     noDataText: {type: Boolean, default: '暂无数据'},                // 无数据时显示的文本
     filterMethod: {type: Function},                                 // 筛选过滤函数
+    content: {type: [Object, Function]},                            // 内容虚拟dom或者渲染函数
 
     showDebug: {type: Boolean},                                     // 是否展示调试内容
 }
@@ -152,6 +153,7 @@ export default defineComponent({
     setup(props) {
 
         const {formatData, slots, classes, items, showItems} = SelectPanelSetup(props)
+        const ctx = getCurrentInstance()!
 
         return () => (
             <div class={classes.value}>
@@ -163,6 +165,7 @@ export default defineComponent({
                 )}
 
                 {slots.default()}
+                {!!props.content && (typeof props.content === "function" ? props.content(ctx.$createElement) : props.content)}
 
                 {
                     !!props.showDebug && (

@@ -1,5 +1,6 @@
 @include theme {
   .pl-select-panel {
+    padding: 3px 0;
 
     .pl-select-panel-empty-text {
       color: $disabledText;
@@ -30,20 +31,19 @@
         font-size: 12px;
         padding: 3px 12px;
       }
+    }
 
-      .pl-select-option {
-        color: $itc;
-        @include transition;
+    .pl-select-option {
+      color: $itc;
+      @include transition;
 
-        &:hover {
-          background-color: $disabled;
-          cursor: pointer;
-        }
+      &:hover {
+        background-color: $disabled;
+        cursor: pointer;
+      }
 
-        &.pl-select-option-show {
-          padding: 6px 12px;
-        }
-
+      &.pl-select-option-show {
+        padding: 6px 12px;
       }
 
     }
