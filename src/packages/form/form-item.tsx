@@ -5,6 +5,9 @@ import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {FormatPropsType, useProps} from "@/use/useProps";
+import {useCollectChild} from "@/use/useCollect";
+import {FORM_PROVIDER} from "@/packages/form/form-utils";
+import {ElRef, useRefs} from "@/use/useRefs";
 
 const Props = {
     ...EditProps,
@@ -25,13 +28,26 @@ const Props = {
 
 function formItemSetup(props: ExtractPropTypes<typeof Props>) {
 
+    const refs = useRefs({
+        label: ElRef,
+    })
+
+    const {slots} = useSlots({
+        label: SlotFunc,
+        suffix: SlotFunc,
+    })
+
     const propsState = useProps(props, {
         label: FormatPropsType.promise,
         labelWidth: FormatPropsType.number,
         column: FormatPropsType.number,
     })
 
+    const ctx = useCollectChild({provideString: FORM_PROVIDER})
+
     const refer = {
+        refs,
+        slots,
         propsState,
     }
 
@@ -48,12 +64,7 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {propsState} = formItemSetup(props)
-
-        const {slots} = useSlots({
-            label: SlotFunc,
-            suffix: SlotFunc,
-        })
+        const {propsState, slots} = formItemSetup(props)
 
         const classes = computed(() => ([
             'pl-form-item',
@@ -62,7 +73,7 @@ export default defineComponent({
 
         return () => (
             <div class={classes.value}>
-                <div class="pl-form-item-label" ref="labelEl">
+                <div class="pl-form-item-label" ref="label">
                     <span>{slots.label(propsState.label)}</span>
                 </div>
                 <div class="pl-from-item-body">

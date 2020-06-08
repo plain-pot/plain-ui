@@ -1,9 +1,13 @@
-import {defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, reactive} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
 import {useSlots} from "@/use/useSlots";
+import {useCollectParent} from "@/use/useCollect";
+import {FORM_PROVIDER} from "@/packages/form/form-utils";
+import {FormItemContextType} from "@/packages/form/form-item";
+import {FormatPropsType, useProps} from "@/use/useProps";
 
 
 const Props = {
@@ -31,7 +35,69 @@ const Props = {
 
 function formSetup(props: ExtractPropTypes<typeof Props>) {
 
-    const refer = {}
+    const items = useCollectParent({
+        sort: false,
+        provideString: FORM_PROVIDER,
+        onAdd: (item: FormItemContextType) => {
+            if (propsState.labelWidth == null && !!item.refs.label) {
+                const labelWidth = item.refs.label.offsetWidth
+                if (!state.maxLabelWidth || state.maxLabelWidth < labelWidth) {
+                    state.maxLabelWidth = labelWidth
+                }
+            }
+        }
+    })
+
+    /*---------------------------------------state-------------------------------------------*/
+
+    const propsState = useProps(props, {
+        labelWidth: FormatPropsType.number,
+        contentWidth: FormatPropsType.number,
+        column: FormatPropsType.number,
+        width: FormatPropsType.number,
+    })
+
+    const state = reactive({
+        maxLabelWidth: null as null | number,
+    })
+
+    /*---------------------------------------computer-------------------------------------------*/
+
+    const targetLabelWidth = computed(() => {
+        if (!!propsState.labelWidth) return propsState.labelWidth as number
+        if (!!state.maxLabelWidth) return state.maxLabelWidth as number
+        return null
+    })
+
+    const targetContentWidth = computed(() => {
+        return propsState.contentWidth as number || 400
+    })
+
+    const targetItemWidth = computed(() => {
+        if (!targetLabelWidth.value || !targetContentWidth.value) return null
+        return targetContentWidth.value + targetLabelWidth.value
+    })
+
+    const bodyStyles = computed(() => {
+        if (!targetItemWidth.value) return null
+        return {
+            width: `${propsState.column * (targetItemWidth.value)}px`,
+            left: `${(!props.centerWhenSingleColumn && propsState.column === 1) ? -targetLabelWidth.value! / 2 : 0}px`
+        }
+    })
+
+    const refer = {
+        items,
+        propsState,
+        state,
+        props,
+
+        targetLabelWidth,
+        targetContentWidth,
+        targetItemWidth,
+
+        bodyStyles,
+    }
 
     return refer
 }
