@@ -1,4 +1,4 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, ref} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR, SelectUtils} from "@/packages/select/select-utils";
@@ -9,12 +9,15 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
+import {SelectOptionCtxType} from "@/packages/select/select-option";
 
 const Props = {
     ...EditProps,
     ...StyleProps,
 
     value: {type: [String, Array]},
+    filterable: {type: Boolean, default: true},                     // 是否可以输入筛选
+    inputProps: {type: Object},                                     // input组件绑定属性对象
 
     multiple: {type: Boolean},                                      // 是否多选
     multipleMaxLimit: {type: Number},                               // 多选最多选择个数
@@ -43,6 +46,7 @@ export default defineComponent({
         })
 
         const model = useModel(() => props.value, emit.input)
+        const filterText = ref(null as string | null)
 
         const agentState = usePopperAgentEditor(() => ($plain as any).$select(() => {
             return {
@@ -55,6 +59,7 @@ export default defineComponent({
                     value: model.value,
                     height: formatData.value.length > 6 ? 256 : null,
                     content: () => slots.default(),
+                    filterMethod: utils.filterMethod,
                 },
                 popperProps: {
                     reference: refs.$el,
@@ -75,7 +80,7 @@ export default defineComponent({
                         refs.input.methods.focus()
                     },
                     'hide': () => {
-                        // state.inputValue = null
+                        filterText.value = null
                     },
                 }
             }
@@ -110,6 +115,14 @@ export default defineComponent({
             return null
         })
 
+        const inputProps = computed(() => {
+            return Object.assign({}, props.inputProps || {})
+        })
+
+        const placeholderValue = computed(() => {
+            return agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder
+        })
+
         const inputBinding = computed(() => {
             return {
                 ref: 'input',
@@ -117,13 +130,24 @@ export default defineComponent({
                     'pl-select'
                 ],
                 props: {
-                    value: displayValue.value,
+                    ...inputProps.value,
+
+                    value: (props.filterable && agentState.isShow.value) ? filterText.value : displayValue.value,
+                    placeValue: displayValue.value,
+                    inputReadonly: !props.filterable,
+                    placeholder: placeholderValue.value,
                     suffixIcon: 'el-icon-arrow-down',
                     clearIcon: true,
                     isFocus: agentState.state.focusCounter > 0,
                     clearHandler: () => model.value = undefined,
                 },
                 on: {
+                    'input': (val) => {
+                        filterText.value = val
+                        if (!agentState.isShow.value && !$plain.utils.ie) {
+                            agentState.methods.show()
+                        }
+                    },
                     'click-input': e => {
                         agentState.handler.clickInput()
                     },
@@ -132,6 +156,14 @@ export default defineComponent({
                 }
             }
         })
+
+
+        const utils = {
+            filterMethod: (option: SelectOptionCtxType) => {
+                if (!!props.filterMethod) return props.filterMethod(option)
+                return !!filterText.value && !!filterText.value.trim() ? (!!option.label && option.label.indexOf(filterText.value) > -1) : true
+            }
+        }
 
         return () => (
             <pl-input {...inputBinding.value}>
