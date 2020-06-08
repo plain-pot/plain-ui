@@ -9,6 +9,7 @@ import {useRefer} from "@/use/useRefer";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {$plain} from "@/packages/base";
+import {CompRef, useRefs} from "@/use/useRefs";
 
 const Props = {
     value: {type: [String, Array]},                                 // 当前双向绑定值
@@ -35,6 +36,9 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
     })
 
     const {slots} = useSlots()
+    const refs = useRefs({
+        scroll: CompRef,
+    })
 
     const highlightOption = ref(null as null | SelectOptionCtxType)
     const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
@@ -48,7 +52,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
         }
     ])
 
-    const showItems = computed(() => items.value.filter(utils.isShow))
+    const showItems = computed(() => formatData.value.filter(utils.isShow))
 
     const utils = {
         /**
@@ -117,10 +121,26 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
                 let index = showItems.value.indexOf(highlightOption.value)
                 if (index === 0) {
                     index = showItems.value.length - 1
+                    highlightOption.value = showItems.value[index]
+
+                    // 滚动到高亮的选项
+                    if (!!refs.scroll) {
+                        const el = (highlightOption.value as any).$el
+                        refs.scroll.methods.scrollTop(el.offsetTop, 200)
+                    }
                 } else {
                     index--
+                    highlightOption.value = showItems.value[index]
+
+                    // 滚动到高亮的选项
+                    if (!!refs.scroll) {
+                        const el = (highlightOption.value as any).$el
+                        const {wrapperScrollTop} = refs.scroll.state
+                        if (wrapperScrollTop > el.offsetTop) {
+                            refs.scroll.methods.scrollTop(el.offsetTop, 200)
+                        }
+                    }
                 }
-                highlightOption.value = showItems.value[index]
             }
         },
         /**
@@ -138,11 +158,29 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
                 let index = showItems.value.indexOf(highlightOption.value)
                 if (index === showItems.value.length - 1) {
                     index = 0
+                    highlightOption.value = showItems.value[index]
+
+                    // 滚动到高亮的选项
+                    if (!!refs.scroll) {
+                        refs.scroll.methods.scrollTop(0, 200)
+                    }
                 } else {
                     index++
+                    highlightOption.value = showItems.value[index]
+
+                    // 滚动到高亮的选项
+                    if (!!refs.scroll) {
+                        const el = (highlightOption.value as any).$el
+                        const {hostHeight, wrapperScrollTop} = refs.scroll.state
+                        const scrollTop = el.offsetTop + el.offsetHeight - hostHeight
+                        if (scrollTop > 0 && scrollTop > wrapperScrollTop) {
+                            refs.scroll.methods.scrollTop(scrollTop, 200)
+                        }
+                    }
                 }
-                highlightOption.value = showItems.value[index]
             }
+
+
         },
         /**
          * 选中当前高亮的元素
@@ -218,7 +256,7 @@ export default defineComponent({
             ].filter(Boolean)
 
             const content: any = !!props.height ? (
-                <pl-scroll fitHostWidth>
+                <pl-scroll fitHostWidth ref="scroll">
                     {inner}
                 </pl-scroll>
             ) : inner
