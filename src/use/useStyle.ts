@@ -18,7 +18,7 @@ export const useStyle = useWrapper('style', (defaultValue?: { shape?: string | n
     const ctx = getCurrentInstance()!
 
     const parent = inject(StyleProvider, null)
-    defaultValue = Object.assign({shape: 'fillet', size: 'normal', status: 'primary',}, defaultValue || {})
+    defaultValue = Object.assign({shape: 'fillet', size: 'normal'}, defaultValue || {})
 
     const style = computed(() => {
         // 这句代码不可以放在外边，会导致变成非响应式属性

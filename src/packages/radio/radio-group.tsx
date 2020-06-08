@@ -5,6 +5,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 import {useSlots} from "@/use/useSlots";
+import {DEFAULT_STATUS} from "@/packages/base";
 
 export const PLAIN_RADIO_GROUP_PROVIDER = '@@PLAIN_RADIO_GROUP_PROVIDER'
 
@@ -22,7 +23,7 @@ export default defineComponent({
         const {slots} = useSlots()
 
         useEdit()
-        useStyle()
+        useStyle({status: DEFAULT_STATUS})
 
         /*---------------------------------------emit-------------------------------------------*/
         const {emit} = useEvent({

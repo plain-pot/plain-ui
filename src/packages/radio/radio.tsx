@@ -10,6 +10,7 @@ import {PLAIN_RADIO_GROUP_PROVIDER} from "@/packages/radio/radio-group";
 import {PlainUtils} from "@/util/util";
 import {getKey, KEY} from "@/packages/keyboard";
 import {useSlots} from "@/use/useSlots";
+import {DEFAULT_STATUS} from "@/packages/base";
 
 export default defineComponent({
     name: 'pl-radio',
@@ -38,7 +39,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const propsState = useProps(props, {
             width: FormatPropsType.number,

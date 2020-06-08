@@ -6,6 +6,7 @@ import {useModel} from "@/use/useModel";
 
 import {getKey, KEY} from "@/packages/keyboard";
 import ClickWave from "@/directives/click-wave";
+import {DEFAULT_STATUS} from "@/packages/base";
 
 export default defineComponent({
     name: 'pl-toggle',
@@ -32,7 +33,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const model = useModel(() => props.value, emit.input)
 

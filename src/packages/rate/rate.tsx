@@ -5,7 +5,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {ElRef, useRefs} from "@/use/useRefs";
 
-import {$plain} from "@/packages/base";
+import {$plain, DEFAULT_STATUS} from "@/packages/base";
 import {useMounted} from "@/use/useMounted";
 
 export default defineComponent({
@@ -40,7 +40,7 @@ export default defineComponent({
         })
 
         const {editComputed} = useEdit()
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const mounted = useMounted()
 

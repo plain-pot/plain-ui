@@ -5,7 +5,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {ElRef, useRefs} from "@/use/useRefs";
 
-import {$plain} from "@/packages/base";
+import {$plain, DEFAULT_STATUS} from "@/packages/base";
 import {KeyboardService, KeyboardServiceOption} from "@/packages/keyboard";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 
@@ -78,7 +78,7 @@ export default defineComponent({
 
         const loading = useEditOuterLoading()
 
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const propsState = useProps(props, {
             height: FormatPropsType.number,

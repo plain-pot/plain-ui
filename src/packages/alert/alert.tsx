@@ -1,6 +1,6 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {StyleProps, useStyle} from "@/use/useStyle";
-import {$plain} from "@/packages/base";
+import {$plain, DEFAULT_STATUS} from "@/packages/base";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 
 export default defineComponent({
@@ -19,7 +19,7 @@ export default defineComponent({
             message: SlotFunc,
         })
 
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const icon = computed(() => {
             if (props.icon === null) {

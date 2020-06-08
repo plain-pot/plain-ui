@@ -29,7 +29,7 @@ export function useDateTime(
     }) {
 
     const {editComputed, editState} = useEdit()
-    useStyle({status: null})
+    useStyle()
 
     const refs = useRefs({
         valueInput: CompRef,

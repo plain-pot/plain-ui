@@ -38,7 +38,7 @@ export default defineComponent({
     },
     setup(props) {
 
-        useStyle({status: null})
+        useStyle()
         const {slots} = useSlots()
         const refs = useRefs({
             input: CompRef,

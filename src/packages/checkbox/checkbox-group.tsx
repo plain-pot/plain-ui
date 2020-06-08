@@ -1,7 +1,7 @@
 import {computed, defineComponent, provide, reactive, Ref} from "@vue/composition-api";
 
 import {PLAIN_CHECK_STATUS} from "@/util/constant";
-import {$plain} from "@/packages/base";
+import {$plain, DEFAULT_STATUS} from "@/packages/base";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
@@ -35,7 +35,7 @@ export default defineComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const {editComputed} = useEdit()
-        useStyle()
+        useStyle({status: DEFAULT_STATUS})
 
         const propsState = useProps(props, {
             min: FormatPropsType.number,

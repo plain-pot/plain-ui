@@ -3,6 +3,7 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {SlotFunc, useSlots} from "@/use/useSlots";
+import {DEFAULT_STATUS} from "@/packages/base";
 
 export default defineComponent({
     name: 'pl-tag',
@@ -23,7 +24,7 @@ export default defineComponent({
         })
 
         const {editComputed} = useEdit()
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const classes = computed(() => ([
             `pl-tag`,

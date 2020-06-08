@@ -1,7 +1,7 @@
 import {computed, defineComponent, inject, onBeforeUnmount} from "@vue/composition-api";
 
 import {PLAIN_CHECKBOX_PROVIDER} from "@/packages/checkbox/checkbox-group";
-import {$plain} from "@/packages/base";
+import {$plain, DEFAULT_STATUS} from "@/packages/base";
 import ClickWave from "@/directives/click-wave";
 import {handleKeyboard} from "@/packages/keyboard";
 import {EditProps, useEdit} from "@/use/useEdit";
@@ -40,7 +40,7 @@ export default defineComponent({
             width: FormatPropsType.number,
         })
         const {editComputed} = useEdit()
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
         const checkboxGroupProvider = inject(PLAIN_CHECKBOX_PROVIDER, null) as ({ propsState, utils, handler } | null)
 

@@ -1,5 +1,7 @@
 import {PlainUtils} from "@/util/util";
 
+export const DEFAULT_STATUS = 'primary'
+
 export let $plain: {
     utils: PlainUtils,
     $root: any,

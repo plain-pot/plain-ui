@@ -9,6 +9,7 @@ import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useSlots} from "@/use/useSlots";
+import {DEFAULT_STATUS} from "@/packages/base";
 
 export default defineComponent({
     name: 'pl-button',
@@ -42,7 +43,7 @@ export default defineComponent({
             label: FormatPropsType.promise,
         })
 
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const {editState, editComputed} = useEdit()
 
         const buttonGroup = inject(BUTTON_GROUP_PROVIDER, null) as any
