@@ -1,7 +1,11 @@
 import {computed, defineComponent, provide} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
-import {SELECT_PANEL_PROVIDER, SelectUtils} from "@/packages/select/select-utils";
+import {SELECT_PANEL_COLLECTOR, SelectUtils} from "@/packages/select/select-utils";
+import {useModel} from "@/use/useModel";
+import {EmitFunc, useEvent} from "@/use/useEvent";
+import {SelectOptionCtxType} from "@/packages/select/select-option";
+import {useRefer} from "@/use/useRefer";
 
 export const I_AM_SELECT_PANEL = '@@I_AM_SELECT_PANEL'
 
@@ -20,11 +24,89 @@ export default defineComponent({
     },
     setup(props) {
 
+        const {emit} = useEvent({
+            input: EmitFunc,
+            click: EmitFunc,
+        })
+
         const {slots} = useSlots()
         provide(I_AM_SELECT_PANEL, true)
 
-        const items = useCollectParent({sort: true, provideString: SELECT_PANEL_PROVIDER})
+        const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
         const formatData = computed(() => SelectUtils.formatItems(items.value))
+
+        const model = useModel(() => props.value, emit.input)
+
+        const utils = {
+            /**
+             * 用于option判断当前是否已经被选中
+             * @author  韦胜健
+             * @date    2020/6/8 9:23
+             */
+            isSelected: (ctx: SelectOptionCtxType) => {
+                if (!model.value) return false
+                if (!props.multiple) {
+                    return (model.value as string) == ctx.val
+                } else {
+                    return (model.value as string[]).indexOf(ctx.val!) > -1
+                }
+            }
+        }
+
+        const handler = {
+            /**
+             * 处理点击option的动作
+             * @author  韦胜健
+             * @date    2020/6/8 9:24
+             */
+            clickOption: (ctx: SelectOptionCtxType) => {
+                emit.click(ctx)
+
+                if (!props.multiple) {
+                    model.value = ctx.val
+                } else {
+                    const newValue: string[] = (model.value as string[]) || []
+                    newValue.push(ctx.val!)
+                    model.value = [...newValue]
+                }
+            }
+        }
+
+        const methods = {
+            /**
+             * 高亮上一个元素
+             * @author  韦胜健
+             * @date    2020/6/8 9:18
+             */
+            highlightPrev: () => {
+                console.log('highlightPrev')
+            },
+            /**
+             * 高亮下一个元素
+             * @author  韦胜健
+             * @date    2020/6/8 9:18
+             */
+            highlightNext: () => {
+                console.log('highlightNext')
+            },
+            /**
+             * 选中当前高亮的元素
+             * @author  韦胜健
+             * @date    2020/6/8 9:18
+             */
+            selectHighlight: () => {
+                console.log('selectHighlight')
+            },
+        }
+
+        const refer = {
+            props,
+            utils,
+            handler,
+            methods,
+        }
+
+        useRefer(refer)
 
         return () => (
             <div class="pl-select-panel">

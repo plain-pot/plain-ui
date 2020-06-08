@@ -1,7 +1,7 @@
 import {defineComponent, inject} from "@vue/composition-api";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useCollectChild, useCollectParent} from "@/use/useCollect";
-import {SELECT_PANEL_PROVIDER} from "@/packages/select/select-utils";
+import {SELECT_PANEL_COLLECTOR} from "@/packages/select/select-utils";
 import {useRefer} from "@/use/useRefer";
 import {I_AM_SELECT_PANEL} from "@/packages/select/select-panel";
 
@@ -19,8 +19,8 @@ export default defineComponent({
         })
 
         const underPanelFlag = inject(I_AM_SELECT_PANEL)
-        useCollectChild({provideString: SELECT_PANEL_PROVIDER})
-        const items = useCollectParent({sort: true, provideString: SELECT_PANEL_PROVIDER})
+        useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
+        const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
 
         useRefer({
             props,

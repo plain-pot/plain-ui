@@ -1,7 +1,7 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
-import {SELECT_PANEL_PROVIDER, SelectUtils} from "@/packages/select/select-utils";
+import {SELECT_PANEL_COLLECTOR, SelectUtils} from "@/packages/select/select-utils";
 
 export default defineComponent({
     name: 'pl-select',
@@ -12,7 +12,7 @@ export default defineComponent({
     setup(props) {
 
         const {slots} = useSlots()
-        const items = useCollectParent({sort: false, provideString: SELECT_PANEL_PROVIDER})
+        const items = useCollectParent({sort: false, provideString: SELECT_PANEL_COLLECTOR})
         const formatData = computed(() => SelectUtils.formatItems(items.value))
 
         const displayValue = computed(() => {
