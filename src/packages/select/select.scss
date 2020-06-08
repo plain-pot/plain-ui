@@ -39,6 +39,11 @@
       color: $itc;
       @include transition;
 
+      .pl-select-option-icon {
+        color: $icc;
+        margin-right: 6px;
+      }
+
       &:hover {
         background-color: $disabled;
         cursor: pointer;
@@ -58,6 +63,10 @@
         &.pl-select-option-selected {
           background-color: $colorPrimary;
           color: white;
+
+          .pl-select-option-icon {
+            color: inherit;
+          }
         }
       }
     }

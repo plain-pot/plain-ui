@@ -113,7 +113,7 @@ export default defineComponent({
                 ],
                 props: {
                     value: displayValue.value,
-                    suffixIcon: 'el-icon-date',
+                    suffixIcon: 'el-icon-arrow-down',
                     clearIcon: true,
                     isFocus: agentState.state.focusCounter > 0,
                     clearHandler: () => model.value = undefined,

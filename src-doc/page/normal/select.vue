@@ -79,12 +79,21 @@
             <demo-row title="分组">
                 <pl-select>
                     <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
-                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val"/>
                     </pl-select-group>
                 </pl-select>
             </demo-row>
             <demo-row title="图标">
-                <pl-select :data="iconList" labelKey="name" valueKey="val" iconKey="row_icon" groupKey="row_group"/>
+                <pl-select>
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children"
+                                          :key="item.val"
+                                          :label="item.name"
+                                          :val="item.val"
+                                          :icon="item.i"
+                                          />
+                    </pl-select-group>
+                </pl-select>
             </demo-row>
 
             <demo-row title="自定义内容">
@@ -246,32 +255,22 @@
                     {
                         name: '广东省',
                         children: [
-                            {name: '深圳市', val: 'shenzhen'},
-                            {name: '广州市', val: 'guangzhou'},
-                            {name: '佛山市', val: 'foshan'},
-                            {name: '梅州市', val: 'meizhou'},
+                            {name: '深圳市', val: 'shenzhen', i: 'el-icon-burger'},
+                            {name: '广州市', val: 'guangzhou', i: 'el-icon-tableware'},
+                            {name: '佛山市', val: 'foshan', i: 'el-icon-sugar'},
+                            {name: '梅州市', val: 'meizhou', i: 'el-icon-dessert'},
                         ],
                     },
                     {
                         name: '湖南省',
                         children: [
-                            {name: '长沙市', val: 'changsha'},
-                            {name: '岳阳市', val: 'yueyang'},
-                            {name: '邵阳市', val: 'shaoyang'},
+                            {name: '长沙市', val: 'changsha', i: 'el-icon-ice-cream'},
+                            {name: '岳阳市', val: 'yueyang', i: 'el-icon-water-cup'},
+                            {name: '邵阳市', val: 'shaoyang', i: 'el-icon-watermelon'},
                         ]
                     }
                 ],
-                iconList: [
-                    {name: '广东省', val: 'guangdong', row_group: true},
-                    {name: '深圳市', val: 'shenzhen', row_icon: 'el-icon-burger'},
-                    {name: '广州市', val: 'guangzhou', row_icon: 'el-icon-tableware'},
-                    {name: '佛山市', val: 'foshan', row_icon: 'el-icon-sugar'},
-                    {name: '汕头市', val: 'shantou', row_icon: 'el-icon-dessert'},
-                    {name: '湖南省', val: 'hunan', row_group: true},
-                    {name: '长沙市', val: 'changsha', row_icon: 'el-icon-ice-cream'},
-                    {name: '岳阳市', val: 'yueyang', row_icon: 'el-icon-hot-water'},
-                    {name: '邵阳市', val: 'shaoyang', row_icon: 'el-icon-water-cup'},
-                ],
+
                 flag: {
                     disabled: true,
                     readonly: true,

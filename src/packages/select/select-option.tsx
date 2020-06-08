@@ -50,6 +50,8 @@ export default defineComponent({
                 {!!selectPanel && isShow.value && [
                     !!selectPanel.props.multiple ? <pl-checkbox readonly value={isSelected.value} class="pl-select-option-checkbox"/> : null
                     ,
+                    !!props.icon ? <pl-icon icon={props.icon} class="pl-select-option-icon"/> : null
+                    ,
                     slots.default(props.label)
                 ].filter(Boolean)}
             </div>
