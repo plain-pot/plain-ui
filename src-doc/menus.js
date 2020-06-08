@@ -18,7 +18,7 @@ export default [
             {name: 'Checkbox', title: '复选框', icon: 'pl-circle-radio', page: '/normal/checkbox', complete: true},
             {name: 'Number', title: '数字输入', icon: 'pl-number', page: '/normal/number', complete: true},
             {name: 'Loading', title: '加载', icon: 'pl-loading-section-three', page: '/normal/loading', complete: true},
-            {name: 'Select', title: '下拉选择', icon: 'pad-down', page: '/normal/select', complete: false},
+            {name: 'Select', title: '下拉选择', icon: 'pad-down', page: '/normal/select', complete: true},
             {name: 'Toggle', title: '开关切换', icon: 'pl-toggle', page: '/normal/toggle', complete: true},
             {name: 'Slider', title: '滑块', icon: 'pl-slider', page: '/normal/slider', complete: true},
             {name: 'Tag', title: '标签', icon: 'pl-icon-tag', page: '/normal/tag', complete: true},
