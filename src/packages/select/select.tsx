@@ -24,6 +24,7 @@ const Props = {
     multiple: {type: Boolean},                                      // 是否多选
     multipleMaxLimit: {type: Number},                               // 多选最多选择个数
     multipleMinLimit: {type: Number},                               // 多选最少选择个数
+    collapseTags: {type: Boolean, default: true},                   // 多选模式下，超过三个选项，其他的将省略显示
 
     noMatchText: {type: Boolean, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
     noDataText: {type: Boolean, default: '暂无数据'},                // 无数据时显示的文本
@@ -111,7 +112,7 @@ export default defineComponent({
          * @author  韦胜健
          * @date    2020/6/8 11:16
          */
-        const formatData = computed(() => SelectUtils.formatItems(items.value))
+        const formatData = computed(() => SelectUtils.formatItems(items.value) as SelectOptionCtxType[])
 
         /**
          * 显示值
@@ -138,7 +139,11 @@ export default defineComponent({
             return {
                 ref: 'input',
                 class: [
-                    'pl-select'
+                    'pl-select',
+                    {
+                        'pl-input-tags': !!props.multiple,
+                        'pl-select-input-show': agentState.isShow.value,
+                    }
                 ],
                 props: {
                     ...inputProps.value,
@@ -167,6 +172,18 @@ export default defineComponent({
                     keydown: handler.keydown,
                 }
             }
+        })
+
+        const multipleTags = computed(() => {
+            if (!model.value) {
+                return []
+            }
+            if (!Array.isArray(model.value)) {
+                console.error('The value of multiple select should be array')
+                return []
+            }
+            if (!formatData.value || formatData.value.length === 0) return []
+            return formatData.value.filter(option => model.value!.indexOf(option.val!) > -1)
         })
 
         const panel = {get value() {return ((agentState as any).state.agent.service.$refs.panel) as SelectPanelContextType}}
@@ -219,6 +236,14 @@ export default defineComponent({
                     }
                 },
             }),
+            onClickItemCloseIcon: (item: SelectOptionCtxType, index: number) => {
+                index = model.value!.indexOf(item.val!)
+                if (index > -1) {
+                    const value = [...model.value!]
+                    value.splice(index, 1)
+                    model.value = [...value]
+                }
+            }
         }
 
         return () => (
@@ -226,6 +251,22 @@ export default defineComponent({
                 <template slot="hidden">
                     {slots.default()}
                 </template>
+                {!!props.multiple && (
+                    <pl-input-inner-tags
+                        data={multipleTags.value}
+                        collapseTags={props.collapseTags}
+                        {
+                            ...{
+                                scopedSlots: {
+                                    default: ({item, index}: { item: SelectOptionCtxType, index: number }) => [
+                                        <span>{item.label}</span>,
+                                        <pl-icon icon="el-icon-close" onClick={() => handler.onClickItemCloseIcon(item, index)}/>
+                                    ]
+                                }
+                            }
+                        }
+                    />
+                )}
             </pl-input>
         )
     },

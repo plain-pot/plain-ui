@@ -55,6 +55,7 @@
 
       &.pl-select-option-highlight {
         background-color: $disabled;
+        text-decoration: underline;
       }
     }
 
@@ -92,6 +93,14 @@
       &.pl-select-option-disabled {
         color: $disabledText !important;
         cursor: not-allowed;
+      }
+    }
+  }
+
+  .pl-select {
+    &.pl-select-input-show {
+      .pl-input-suffix-icon:not(.pl-input-clear-icon) {
+        transform: rotate(-180deg);
       }
     }
   }
