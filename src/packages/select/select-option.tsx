@@ -1,9 +1,9 @@
-import {defineComponent, inject} from "@vue/composition-api";
+import {computed, defineComponent, inject} from "@vue/composition-api";
 import {useCollectChild} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR} from "@/packages/select/select-utils";
 import {useSlots} from "@/use/useSlots";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
-import {SELECT_PANEL_PROVIDER} from "@/packages/select/select-panel";
+import {SELECT_PANEL_PROVIDER, SelectPanelContextType} from "@/packages/select/select-panel";
 
 const SelectOptionProps = {
     label: {type: String},
@@ -20,12 +20,30 @@ export default defineComponent({
     setup(props) {
 
         useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
-        const selectPanel = inject(SELECT_PANEL_PROVIDER)
+        const selectPanel = inject(SELECT_PANEL_PROVIDER) as SelectPanelContextType
 
         const {slots} = useSlots()
 
+        const classes = computed(() => ([
+            'pl-select-option',
+            {
+                'pl-select-option-selected': !!selectPanel && selectPanel.utils.isSelected(props),
+            }
+        ]))
+
+        const handler = {
+            click: () => {
+                !!selectPanel && selectPanel.handler.clickOption(props)
+            }
+        }
+
         return () => (
-            <div label={props.label} val={props.val} icon={props.icon} disabled={props.disabled} class="pl-select-option">
+            <div label={props.label}
+                 val={props.val}
+                 icon={props.icon}
+                 disabled={props.disabled}
+                 class={classes.value}
+                 onClick={handler.click}>
                 {!!selectPanel && slots.default(props.label)}
             </div>
         )

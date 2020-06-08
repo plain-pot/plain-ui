@@ -23,10 +23,16 @@
       .pl-select-option {
         padding: 6px 12px;
         color: $itc;
+        @include transition;
 
         &:hover {
           background-color: $disabled;
           cursor: pointer;
+        }
+
+        &.pl-select-option-selected {
+          background-color: $colorPrimary;
+          color: white;
         }
       }
 
