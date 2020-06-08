@@ -158,6 +158,10 @@
 
 <style lang="scss">
     .demo-pagination {
+
+        width: 1060px;
+        margin-left: -130px;
+
         .demo-line {
             display: flex;
             align-items: center;

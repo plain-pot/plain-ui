@@ -159,8 +159,6 @@ export default defineComponent({
                     }
                 ],
                 props: {
-                    ...inputProps.value,
-
                     value: (props.filterable && agentState.isShow.value) ? filterText.value : displayValue.value,
                     placeValue: displayValue.value,
                     inputReadonly: !props.filterable,
@@ -169,6 +167,8 @@ export default defineComponent({
                     clearIcon: true,
                     isFocus: agentState.state.focusCounter > 0,
                     clearHandler: () => model.value = undefined,
+
+                    ...inputProps.value,
                 },
                 on: {
                     'input': (val) => {

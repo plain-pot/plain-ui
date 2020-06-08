@@ -5,6 +5,7 @@
     align-items: center;
     color: $itc;
     width: 100%;
+    box-sizing: border-box;
 
     .pl-icon {
       color: $icc;
@@ -36,6 +37,7 @@
       transition: all 300ms $transition;
       user-select: none;
       border: solid 1px $ibc;
+      box-sizing: border-box;
 
       &:hover {
         background-color: mix(white, $colorPrimary, 90%);
