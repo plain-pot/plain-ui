@@ -1,8 +1,10 @@
-import {defineComponent} from "@vue/composition-api";
+import {computed, defineComponent} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
+import {SlotFunc, useSlots} from "@/use/useSlots";
+import {FormatPropsType, useProps} from "@/use/useProps";
 
 const Props = {
     ...EditProps,
@@ -23,7 +25,15 @@ const Props = {
 
 function formItemSetup(props: ExtractPropTypes<typeof Props>) {
 
-    const refer = {}
+    const propsState = useProps(props, {
+        label: FormatPropsType.promise,
+        labelWidth: FormatPropsType.number,
+        column: FormatPropsType.number,
+    })
+
+    const refer = {
+        propsState,
+    }
 
     return refer
 }
@@ -38,11 +48,31 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {} = formItemSetup(props)
+        const {propsState} = formItemSetup(props)
+
+        const {slots} = useSlots({
+            label: SlotFunc,
+            suffix: SlotFunc,
+        })
+
+        const classes = computed(() => ([
+            'pl-form-item',
+
+        ]))
 
         return () => (
-            <div>
-                {props.label}-{props.field}
+            <div class={classes.value}>
+                <div class="pl-form-item-label" ref="labelEl">
+                    <span>{slots.label(propsState.label)}</span>
+                </div>
+                <div class="pl-from-item-body">
+                    <div class="pl-form-item-content">
+                        {slots.default()}
+                    </div>
+                    <div class="pl-form-item-suffix">
+                        {slots.suffix()}
+                    </div>
+                </div>
             </div>
         )
     },
