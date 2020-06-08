@@ -267,7 +267,7 @@ export default defineComponent({
             )
 
             const blank = (<div class="pl-pagination-blank"></div>)
-            const total = props.total == null ? null : (<div className="pl-pagination-total"><span>总共 {props.total} 条记录</span></div>)
+            const total = props.total == null ? null : (<div class="pl-pagination-total"><span>总共 {props.total} 条记录</span></div>)
             const slot = !$slots.default ? null : (<div class="pl-pagination-slot">{$slots.default}</div>)
             const loading = !editComputed.value.loading ? null : (
                 <div class="pl-pagination-loading">
