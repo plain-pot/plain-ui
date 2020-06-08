@@ -7,8 +7,13 @@ import {$plain} from "@/packages/base";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {CompRef, useRefs} from "@/use/useRefs";
+import {EditProps} from "@/use/useEdit";
+import {StyleProps} from "@/use/useStyle";
 
 const Props = {
+    ...EditProps,
+    ...StyleProps,
+
     value: {type: [String, Array]},
 
     multiple: {type: Boolean},                                      // 是否多选
