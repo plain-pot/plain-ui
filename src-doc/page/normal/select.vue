@@ -29,6 +29,19 @@
                     </pl-select-group>
                 </pl-select-panel>
             </demo-row>
+            <demo-row title="无数据">
+                <pl-select-panel/>
+            </demo-row>
+            <demo-row title="输入筛选">
+                <demo-line>
+                    <pl-input v-model="filterText"/>
+                </demo-line>
+                <pl-select-panel v-model="val[2]" :filterMethod="filterMethod">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
         </demo-row>
         <demo-row title="pl-select">
             <demo-row title="基本用法">
@@ -214,6 +227,14 @@
                     loading: true,
                 },
                 initFlag: true,
+
+                filterText: null,
+                filterMethod: (option) => {
+                    if (!this.filterText || !this.filterText.trim()) {
+                        return true
+                    }
+                    return option.label.indexOf(this.filterText) > -1
+                }
             }
         },
         methods: {

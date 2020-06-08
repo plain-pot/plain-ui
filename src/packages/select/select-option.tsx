@@ -22,6 +22,7 @@ export default defineComponent({
         useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
         const selectPanel = inject(SELECT_PANEL_PROVIDER) as SelectPanelContextType
         const isSelected = computed(() => !!selectPanel && selectPanel.utils.isSelected(props))
+        const isShow = computed(() => !!selectPanel && selectPanel.utils.isShow(props))
 
         const {slots} = useSlots()
 
@@ -29,6 +30,7 @@ export default defineComponent({
             'pl-select-option',
             {
                 'pl-select-option-selected': isSelected.value,
+                'pl-select-option-show': isShow.value,
             }
         ]))
 
@@ -45,7 +47,7 @@ export default defineComponent({
                  disabled={props.disabled}
                  class={classes.value}
                  onClick={handler.click}>
-                {!!selectPanel && [
+                {!!selectPanel && isShow.value && [
                     !!selectPanel.props.multiple ? <pl-checkbox readonly value={isSelected.value} class="pl-select-option-checkbox"/> : null
                     ,
                     slots.default(props.label)

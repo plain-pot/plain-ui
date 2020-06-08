@@ -19,6 +19,7 @@ const Props = {
 
     noMatchText: {type: Boolean, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
     noDataText: {type: Boolean, default: '暂无数据'},                // 无数据时显示的文本
+    filterMethod: {type: Function},                                 // 筛选过滤函数
 
     showDebug: {type: Boolean},                                     // 是否展示调试内容
 }
@@ -43,6 +44,8 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
         }
     ])
 
+    const showItems = computed(() => items.value.filter(utils.isShow))
+
     const utils = {
         /**
          * 用于option判断当前是否已经被选中
@@ -56,6 +59,9 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
             } else {
                 return (model.value as string[]).indexOf(ctx.val!) > -1
             }
+        },
+        isShow: (ctx: SelectOptionCtxType) => {
+            return !props.filterMethod || props.filterMethod(ctx)
         }
     }
     const handler = {
@@ -117,6 +123,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
 
     const refer = {
         model,
+        items,
         formatData,
         emit,
         slots,
@@ -125,6 +132,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
         handler,
         methods,
         classes,
+        showItems,
     }
 
     provide(SELECT_PANEL_PROVIDER, refer)
@@ -143,10 +151,17 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {formatData, slots, classes} = SelectPanelSetup(props)
+        const {formatData, slots, classes, items, showItems} = SelectPanelSetup(props)
 
         return () => (
             <div class={classes.value}>
+
+                {(items.value.length === 0 || showItems.value.length === 0) && (
+                    <div class="pl-select-panel-empty-text">
+                        {items.value.length === 0 ? props.noDataText : props.noMatchText}
+                    </div>
+                )}
+
                 {slots.default()}
 
                 {
