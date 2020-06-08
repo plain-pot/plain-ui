@@ -1,4 +1,4 @@
-import {computed, defineComponent, getCurrentInstance, provide} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, provide, ref} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR, SelectUtils} from "@/packages/select/select-utils";
@@ -35,6 +35,8 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
     })
 
     const {slots} = useSlots()
+
+    const highlightOption = ref(null as null | SelectOptionCtxType)
     const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
     const formatData = computed(() => SelectUtils.formatItems(items.value))
     const model = useModel(() => props.value, emit.input)
@@ -106,7 +108,20 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
          * @date    2020/6/8 9:18
          */
         highlightPrev: () => {
-            console.log('highlightPrev')
+            if (showItems.value.length === 0) {
+                return
+            }
+            if (!highlightOption.value) {
+                highlightOption.value = showItems.value[showItems.value.length - 1]
+            } else {
+                let index = showItems.value.indexOf(highlightOption.value)
+                if (index === 0) {
+                    index = showItems.value.length - 1
+                } else {
+                    index--
+                }
+                highlightOption.value = showItems.value[index]
+            }
         },
         /**
          * 高亮下一个元素
@@ -114,7 +129,20 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
          * @date    2020/6/8 9:18
          */
         highlightNext: () => {
-            console.log('highlightNext')
+            if (showItems.value.length === 0) {
+                return
+            }
+            if (!highlightOption.value) {
+                highlightOption.value = showItems.value[0]
+            } else {
+                let index = showItems.value.indexOf(highlightOption.value)
+                if (index === showItems.value.length - 1) {
+                    index = 0
+                } else {
+                    index++
+                }
+                highlightOption.value = showItems.value[index]
+            }
         },
         /**
          * 选中当前高亮的元素
@@ -122,7 +150,15 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
          * @date    2020/6/8 9:18
          */
         selectHighlight: () => {
-            console.log('selectHighlight')
+            if (showItems.value.length === 0) {
+                return
+            }
+            if (!highlightOption.value) {
+                methods.highlightNext()
+            }
+            if (!!highlightOption.value) {
+                handler.clickOption(highlightOption.value)
+            }
         },
     }
 
@@ -138,6 +174,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
         methods,
         classes,
         showItems,
+        highlightOption,
     }
 
     provide(SELECT_PANEL_PROVIDER, refer)

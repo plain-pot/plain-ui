@@ -10,6 +10,8 @@ import {CompRef, useRefs} from "@/use/useRefs";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
 import {SelectOptionCtxType} from "@/packages/select/select-option";
+import {handleKeyboard} from "@/packages/keyboard";
+import {SelectPanelContextType} from "@/packages/select/select-panel";
 
 const Props = {
     ...EditProps,
@@ -43,6 +45,15 @@ export default defineComponent({
         const {emit} = useEvent({
             input: EmitFunc,
             click: EmitFunc,
+
+            space: EmitFunc,
+            enter: EmitFunc,
+            up: EmitFunc,
+            down: EmitFunc,
+            esc: EmitFunc,
+
+            blur: EmitFunc,
+            focus: EmitFunc,
         })
 
         const model = useModel(() => props.value, emit.input)
@@ -153,8 +164,13 @@ export default defineComponent({
                     },
                     focus: agentState.handler.focus,
                     blur: agentState.handler.blur,
+                    keydown: handler.keydown,
                 }
             }
+        })
+
+        const panel = computed(() => {
+            return ((agentState as any).state.agent.service.$refs.panel) as SelectPanelContextType
         })
 
 
@@ -163,6 +179,49 @@ export default defineComponent({
                 if (!!props.filterMethod) return props.filterMethod(option)
                 return !!filterText.value && !!filterText.value.trim() ? (!!option.label && option.label.indexOf(filterText.value) > -1) : true
             }
+        }
+
+        const handler = {
+            keydown: handleKeyboard({
+                space: (e) => {
+                    if (props.multiple && agentState.isShow.value) {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        panel.value.methods.selectHighlight()
+                    }
+                    emit.space(e)
+                },
+                enter: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    if (agentState.isShow.value) {
+                        panel.value.methods.selectHighlight()
+                    } else {
+                        agentState.methods.show()
+                    }
+                },
+                up: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    if (!!agentState.isShow.value) {
+                        panel.value.methods.highlightPrev()
+                    }
+                },
+                down: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    if (!!agentState.isShow.value) {
+                        panel.value.methods.highlightNext()
+                    }
+                },
+                esc: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    if (!!agentState.isShow.value) {
+                        agentState.methods.hide()
+                    }
+                },
+            }),
         }
 
         return () => (

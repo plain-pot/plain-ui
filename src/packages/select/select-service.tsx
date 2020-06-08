@@ -13,6 +13,7 @@ export default {
             content: (h, ctx) => {
                 return (
                     <pl-select-panel
+                        ref="panel"
                         slot="popper"
                         key={ctx.state.count}
                         {

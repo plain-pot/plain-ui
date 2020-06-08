@@ -19,7 +19,7 @@ export default defineComponent({
     },
     setup(props) {
 
-        useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
+        const ctx = useCollectChild({provideString: SELECT_PANEL_COLLECTOR})
         const selectPanel = inject(SELECT_PANEL_PROVIDER) as SelectPanelContextType
         const isSelected = computed(() => !!selectPanel && selectPanel.utils.isSelected(props))
         const isShow = computed(() => !!selectPanel && selectPanel.utils.isShow(props))
@@ -32,6 +32,7 @@ export default defineComponent({
                 'pl-select-option-selected': isSelected.value,
                 'pl-select-option-show': isShow.value,
                 'pl-select-option-disabled': props.disabled,
+                'pl-select-option-highlight': !!selectPanel && selectPanel.highlightOption.value === ctx,
             }
         ]))
 

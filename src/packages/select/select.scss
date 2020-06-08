@@ -52,6 +52,10 @@
       &.pl-select-option-show {
         padding: 6px 12px;
       }
+
+      &.pl-select-option-highlight {
+        background-color: $disabled;
+      }
     }
 
     .pl-select-panel-debug {
