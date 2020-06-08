@@ -1,12 +1,34 @@
 <template>
     <div class="demo-select">
         <demo-row title="select-panel">
-            <pl-checkbox label="测试动态销毁/初始化选项，顺序是否正常" v-model="initFlag"/>
-            <pl-select-panel showDebug>
-                <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
-                    <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
-                </pl-select-group>
-            </pl-select-panel>
+            <demo-row title="基本测试">
+                <pl-checkbox label="测试动态销毁/初始化选项，顺序是否正常" v-model="initFlag"/>
+                <pl-select-panel showDebug>
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+            <demo-row title="基本单选">
+                <demo-line>
+                    {{val[0]}}
+                </demo-line>
+                <pl-select-panel v-model="val[0]">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+            <demo-row title="基本多选">
+                <demo-line>
+                    {{val[1]}}
+                </demo-line>
+                <pl-select-panel v-model="val[1]" multiple multipleMaxLimit="3" multipleMinLimit="1">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
         </demo-row>
         <demo-row title="pl-select">
             <demo-row title="基本用法">
@@ -129,9 +151,8 @@
         data() {
             return {
                 val: {
-                    0: 'WanSheng',
-                    1: 'ErTong',
-                    6: ['WanSheng', 'GuoQing', 'ZhongQiu'],
+                    0: 'shenzhen',
+
                 },
                 list: [
                     {name: '春节', val: 'Chun'},

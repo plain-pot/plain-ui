@@ -8,17 +8,19 @@ import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {useRefer} from "@/use/useRefer";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
+import {$plain} from "@/packages/base";
 
 const Props = {
-    value: {type: [String, Array]},                         // 当前双向绑定值
+    value: {type: [String, Array]},                                 // 当前双向绑定值
 
-    multiple: {type: Boolean},                              // 是否多选
-    multipleLimit: {type: Number},                          // 多选最多选择个数
+    multiple: {type: Boolean},                                      // 是否多选
+    multipleMaxLimit: {type: Number},                               // 多选最多选择个数
+    multipleMinLimit: {type: Number},                               // 多选最少选择个数
 
-    noMatchText: {type: Boolean, default: '暂无匹配数据'},    // 筛选无数据时展示的文本
-    noDataText: {type: Boolean, default: '暂无数据'},         // 无数据时显示的文本
+    noMatchText: {type: Boolean, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
+    noDataText: {type: Boolean, default: '暂无数据'},                // 无数据时显示的文本
 
-    showDebug: {type: Boolean},                             // 是否展示调试内容
+    showDebug: {type: Boolean},                                     // 是否展示调试内容
 }
 
 export const SELECT_PANEL_PROVIDER = '@@SELECT_PANEL_PROVIDER'
@@ -30,11 +32,16 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
     })
 
     const {slots} = useSlots()
-
     const items = useCollectParent({sort: true, provideString: SELECT_PANEL_COLLECTOR})
     const formatData = computed(() => SelectUtils.formatItems(items.value))
-
     const model = useModel(() => props.value, emit.input)
+
+    const classes = computed(() => [
+        'pl-select-panel',
+        {
+            'pl-select-panel-multiple': props.multiple,
+        }
+    ])
 
     const utils = {
         /**
@@ -51,7 +58,6 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
             }
         }
     }
-
     const handler = {
         /**
          * 处理点击option的动作
@@ -64,8 +70,19 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
             if (!props.multiple) {
                 model.value = ctx.val
             } else {
-                const newValue: string[] = (model.value as string[]) || []
-                newValue.push(ctx.val!)
+                const newValue: string[] = [...((model.value as string[]) || [])]
+                const index = newValue.indexOf(ctx.val!)
+                if (index > -1) {
+                    if (!!props.multipleMinLimit && newValue.length <= props.multipleMinLimit) {
+                        return $plain.$message.warn(`最少选择 ${props.multipleMinLimit} 个选项`)
+                    }
+                    newValue.splice(index, 1)
+                } else {
+                    if (!!props.multipleMaxLimit && newValue.length >= props.multipleMaxLimit) {
+                        return $plain.$message.warn(`最多选择 ${props.multipleMaxLimit} 个选项`)
+                    }
+                    newValue.push(ctx.val!)
+                }
                 model.value = [...newValue]
             }
         }
@@ -107,6 +124,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
         utils,
         handler,
         methods,
+        classes,
     }
 
     provide(SELECT_PANEL_PROVIDER, refer)
@@ -125,10 +143,10 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {formatData, slots} = SelectPanelSetup(props)
+        const {formatData, slots, classes} = SelectPanelSetup(props)
 
         return () => (
-            <div class="pl-select-panel">
+            <div class={classes.value}>
                 {slots.default()}
 
                 {

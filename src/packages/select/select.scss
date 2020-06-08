@@ -30,16 +30,34 @@
           cursor: pointer;
         }
 
-        &.pl-select-option-selected {
-          background-color: $colorPrimary;
-          color: white;
-        }
       }
 
     }
 
     .pl-select-panel-debug {
       color: #12b4a5;
+    }
+
+    &:not(.pl-select-panel-multiple) {
+      .pl-select-option {
+        &.pl-select-option-selected {
+          background-color: $colorPrimary;
+          color: white;
+        }
+      }
+    }
+
+    &.pl-select-panel-multiple {
+      .pl-select-option {
+        .pl-select-option-checkbox {
+          margin-right: 6px;
+        }
+
+        &.pl-select-option-selected {
+          background-color: $colorPrimaryLight;
+          color: $colorPrimary;
+        }
+      }
     }
   }
 }
