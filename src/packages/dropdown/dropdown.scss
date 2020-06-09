@@ -3,7 +3,7 @@
     padding: 6px 0;
 
     .pl-dropdown-item {
-      padding: 4px 16px;
+      padding: 6px 12px;
       box-sizing: border-box;
       cursor: pointer;
       transition: background-color 300ms $transition;
@@ -14,7 +14,7 @@
       }
 
       &:hover {
-        background-color: rgba($colorPrimary, 0.1);
+        background-color: $disabled;
       }
 
       &.pl-dropdown-item-disabled {
