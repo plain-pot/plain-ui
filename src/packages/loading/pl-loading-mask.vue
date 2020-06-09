@@ -62,7 +62,6 @@
                 color: $value;
             }
         }
-
         .pl-loading-mask {
             color: $colorPrimary;
             display: flex;
