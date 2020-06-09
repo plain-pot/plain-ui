@@ -136,7 +136,7 @@ export default defineComponent({
 
         return () => (
             <div class={classes.value}>
-                <div class="pl-form-body">
+                <div class="pl-form-body" style={bodyStyles.value}>
                     {slots.default()}
                 </div>
             </div>

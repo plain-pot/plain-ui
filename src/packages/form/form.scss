@@ -28,6 +28,7 @@
         padding-top: 5px;
         padding-left: 32px;
         font-size: 14px;
+        box-sizing: border-box;
 
         span {
           position: relative;
@@ -37,6 +38,7 @@
       .pl-form-item-suffix {
         padding-left: 10px;
         padding-top: 5px;
+        box-sizing: border-box;
       }
 
       .pl-form-item-body {
@@ -122,6 +124,7 @@
       .pl-form-item {
         .pl-form-item-label {
           padding-left: 1em;
+          box-sizing: border-box;
         }
       }
     }

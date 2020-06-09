@@ -177,4 +177,8 @@
 </script>
 
 <style lang="scss">
+    .form-multi-column {
+        width: 1000px;
+        margin-left: -130px;
+    }
 </style>
