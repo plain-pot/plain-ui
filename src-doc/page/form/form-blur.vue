@@ -15,7 +15,9 @@
                 </pl-form-item>
 
                 <pl-form-item label="下拉选项" field="field6" :rules="{required:true,trigger:'blur'}">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field6"/>
+                    <pl-select v-model="form1.formData.field6">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="级联选择" field="field61" :rules="{required:true,trigger:'blur'}">
                     <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" v-model="form1.formData.field61" @focus="$plain.log('focus')" @blur="$plain.log('blur')"/>
@@ -53,9 +55,6 @@
                     <pl-button :label="disabled?'启用':'禁用'" @click="disabled=!disabled" :disabled="false"/>
                 </pl-form-item>
             </pl-form>
-        </demo-row>
-        <demo-row title="其他示例">
-
         </demo-row>
     </div>
 </template>
