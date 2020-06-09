@@ -6,7 +6,7 @@ import {useWrapper} from "@/use/useWrapper";
  * @author  韦胜健
  * @date    2020/5/13 14:55
  */
-const EditProvider = '@@PLAIN_EDIT_PROVIDER'
+export const EditProvider = '@@PLAIN_EDIT_PROVIDER'
 
 export const EditProps = {
     disabled: {type: Boolean, default: null},
