@@ -166,11 +166,7 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
         }
         return null
     })
-    const {editComputed} = useFormItemEdit(props, form, (...args) => {
-        if (!!form) {
-            form.validate.onBlur(...args)
-        }
-    })
+    const {editComputed} = useFormItemEdit(props, form, () => !!form && form.validate.onBlur(props.field))
     const {styleComputed} = useFormItemStyle(props, form, validateMessage)
 
     const refer = {

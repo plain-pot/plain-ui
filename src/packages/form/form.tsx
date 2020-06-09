@@ -261,15 +261,9 @@ export default defineComponent({
         const {slots} = useSlots()
 
         const {
-            items,
             propsState,
             state,
             styleComputed,
-
-            targetLabelWidth,
-            targetContentWidth,
-            targetItemWidth,
-
             bodyStyles,
         } = formSetup(props)
 
