@@ -29,7 +29,9 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments">
                     <pl-input textarea v-model="formData.comments"/>
@@ -55,7 +57,9 @@
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments" block>
                     <pl-input textarea v-model="formData.comments"/>
@@ -74,7 +78,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="三列表单">
-            <pl-form column="3" contentWidth="300">
+            <pl-form column="3" contentWidth="200">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
@@ -102,7 +106,9 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments" column="2">
                     <pl-input textarea v-model="formData.comments"/>
@@ -114,7 +120,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="四列表单">
-            <pl-form column="4" contentWidth="240">
+            <pl-form column="4" contentWidth="150">
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
@@ -128,13 +134,13 @@
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="是否老客户" field="oldFlag">
-                    <pl-radio-group v-model="formData.oldFlag" itemWidth="50%">
+                    <pl-radio-group v-model="formData.oldFlag" itemWidth="100%">
                         <pl-radio label="老客户" val="Y"/>
                         <pl-radio label="非老客户" val="N"/>
                     </pl-radio-group>
                 </pl-form-item>
                 <pl-form-item label="客户性质" field="properties">
-                    <pl-checkbox-group v-model="formData.properties" itemWidth="50%">
+                    <pl-checkbox-group v-model="formData.properties" itemWidth="100%">
                         <pl-checkbox label="大客户" val="large"/>
                         <pl-checkbox label="潜在客户" val="potential"/>
                         <pl-checkbox label="长久客户" val="long"/>
@@ -142,7 +148,9 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments" column="2">
                     <pl-input textarea v-model="formData.comments"/>

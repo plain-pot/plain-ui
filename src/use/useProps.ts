@@ -22,9 +22,15 @@ function formatValue(state: any, key: string, val: any, types: FormatPropsType |
     }
     if (types.indexOf(FormatPropsType.number) > -1) {
         val = String(val)
-        if (!/^[\d]+$/.test(val) && val.lastIndexOf('px') === val.length - 2) {
-            val = Number(val.replace('px', ''))
+
+        if (/^[\d]+$/.test(val)) {
+            val = Number(val)
+        } else {
+            if (val.lastIndexOf('px') === val.length - 2) {
+                val = Number(val.replace('px', ''))
+            }
         }
+
         return state[key] = val
     }
 

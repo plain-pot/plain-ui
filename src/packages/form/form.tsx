@@ -8,6 +8,7 @@ import {useCollectParent} from "@/use/useCollect";
 import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {FormItemContextType} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
+import {$plain} from "@/packages/base";
 
 
 const Props = {
@@ -134,8 +135,12 @@ export default defineComponent({
             `pl-form-column-${propsState.column || 1}`,
         ])
 
+        const styles = computed(() => ({
+            width: $plain.utils.suffixPx(propsState.width)
+        }))
+
         return () => (
-            <div class={classes.value}>
+            <div class={classes.value} style={styles.value}>
                 <div class="pl-form-body" style={bodyStyles.value}>
                     {slots.default()}
                 </div>
