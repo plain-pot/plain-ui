@@ -79,7 +79,7 @@
 
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
-                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
+                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.methods.clearValidate()"/>
                 </pl-form-item>
 
                 <pl-form-item>
@@ -174,10 +174,10 @@
         },
         methods: {
             saveValidate() {
-                this.$refs.form.validate((err) => {
+                this.$refs.form.methods.validate((err) => {
                     if (!!err) {
                         console.log(err)
-                        this.$refs.form.showError(err)
+                        this.$refs.form.methods.showError(err)
                     } else {
                         this.$message.success('校验通过')
                     }
@@ -185,7 +185,7 @@
             },
             async asyncSaveValidate() {
                 try {
-                    await this.$refs.form.validateWithoutMask()
+                    await this.$refs.form.methods.validateWithoutMask()
                     this.$message.success('校验通过')
                 } catch (e) {
                     this.$message.error('请检查填写是否正确')

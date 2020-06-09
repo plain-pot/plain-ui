@@ -71,8 +71,12 @@
 
     @include sizeMixin(input) {
       &.pl-input-size-large {
-        .pl-input-inner, .pl-textarea-inner {
+
+        .pl-input-inner, .pl-textarea-inner, input {
           font-size: 16px;
+        }
+
+        .pl-input-inner, .pl-textarea-inner {
           padding-left: 12px;
           padding-right: 12px;
         }
@@ -85,10 +89,14 @@
         }
       }
       &.pl-input-size-normal {
+
+        .pl-input-inner, .pl-textarea-inner, input {
+          font-size: 14px;
+        }
+
         .pl-input-inner, .pl-textarea-inner {
           padding-left: 10px;
           padding-right: 10px;
-          font-size: 14px;
         }
 
         &.pl-input-shape-round {
@@ -99,10 +107,14 @@
         }
       }
       &.pl-input-size-mini {
+
+        .pl-input-inner, .pl-textarea-inner, input {
+          font-size: 12px;
+        }
+
         .pl-input-inner, .pl-textarea-inner {
           padding-left: 8px;
           padding-right: 8px;
-          font-size: 12px;
         }
 
         &.pl-input-shape-round {
@@ -468,6 +480,8 @@
 
         .pl-input-custom-inner-input {
           flex: 1;
+          font-size: inherit;
+          color: inherit;
         }
       }
     }
@@ -494,7 +508,7 @@
           padding: 3px 6px;
           border-radius: 2px;
           margin: 3px;
-          color: $itc;
+          color: inherit;
 
           span + .pl-icon {
             margin-left: 3px;

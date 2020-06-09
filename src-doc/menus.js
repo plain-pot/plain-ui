@@ -39,7 +39,7 @@ export default [
             {name: 'Form', title: '表单尺寸', icon: 'pl-form', page: '/form/form-size', complete: true},
             {name: 'Form', title: '表单控制', icon: 'pl-form', page: '/form/form-edit-control', complete: true},
             {name: 'Form', title: '表单校验', icon: 'pl-form', page: '/form/form-validate', complete: true},
-            {name: 'Form', title: '表单blur', icon: 'pl-form', page: '/form/form-blur', complete: false},
+            {name: 'Form', title: '表单blur', icon: 'pl-form', page: '/form/form-blur', complete: true},
             {name: 'Form', title: '表单组件', icon: 'pl-form', page: '/form/form-elements', complete: true},
         ]
     },
