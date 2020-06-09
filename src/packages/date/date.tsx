@@ -255,9 +255,8 @@ export default defineComponent({
                                                             ref="valueInput"
                                                             onChange={val => customHandler.onInputChange(val, 'value')}
                                                             displayFormat={displayFormat.value}
-
-                                                            onFocus={agentState.handler.focus}
-                                                            onBlur={agentState.handler.blur}
+                                                            onFocus={handler.customInputFocus}
+                                                            onBlur={handler.customInputBlur}
                                         />
                                     ) :
                                     (
@@ -266,10 +265,11 @@ export default defineComponent({
                                                 width="100"
                                                 value={formatData.value.start!.displayString}
                                                 ref="startInput"
-                                                onChange={val => customHandler.onInputChange(val, 'start')}
                                                 displayFormat={displayFormat.value}
-                                                onFocus={agentState.handler.focus}
-                                                onBlur={agentState.handler.blur}
+
+                                                onChange={val => customHandler.onInputChange(val, 'start')}
+                                                onFocus={handler.customInputFocus}
+                                                onBlur={handler.customInputBlur}
                                             />,
                                             <span>~</span>,
                                             <pl-date-time-input
@@ -278,8 +278,8 @@ export default defineComponent({
                                                 ref="endInput"
                                                 onChange={val => customHandler.onInputChange(val, 'end')}
                                                 displayFormat={displayFormat.value}
-                                                onFocus={agentState.handler.focus}
-                                                onBlur={agentState.handler.blur}
+                                                onFocus={handler.customInputFocus}
+                                                onBlur={handler.customInputBlur}
                                             />,
                                         ]
                                     )

@@ -42,7 +42,7 @@
                     <pl-date v-model="form1.formData.field19"/>
                 </pl-form-item>
 
-                <pl-form-item label="日期时间范围选择" :field="['field20','field21']">
+                <pl-form-item label="日期时间范围选择" :field="['field20','field21']" :rules="[{required:true,trigger:'blur',field:'field20'},{required:true,trigger:'blur',field:'field21'}]">
                     <pl-date :start.sync="form1.formData.field20" :end.sync="form1.formData.field21" range panel="datetime"/>
                 </pl-form-item>
 
