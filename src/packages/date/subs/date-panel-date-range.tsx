@@ -107,7 +107,7 @@ export default defineComponent({
         })
 
         const binding = computed(() => {
-            const {selectDate} = state
+            const selectDate = state.selectDate.copy()
 
             const publicProps = Object.keys(DatePublicProps).reduce((ret, key) => {
                 ret[key] = props[key]
