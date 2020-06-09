@@ -39,3 +39,22 @@ export const PlcProps = {
     // renderEdit: {type: Function},                                        // 渲染函数：编辑状态
     // renderHead: {type: Function},                                        // 渲染函数：列头
 }
+
+export const PLC_COLLECTOR = '@@PLC_COLLECTOR'
+
+export const enum PlcType {
+    PLC = 'PLC',
+    GROUP = 'GROUP',
+}
+
+export const enum PlcFixedType {
+    left = 'left',
+    center = 'center',
+    right = 'right',
+}
+
+export const enum PlcAlign {
+    left = 'left',
+    center = 'center',
+    right = 'right'
+}

@@ -1,6 +1,7 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, onMounted} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {useSlots} from "@/use/useSlots";
+import {CompRef, useRefs} from "@/use/useRefs";
 
 export const TableProps = {}
 
@@ -16,14 +17,22 @@ export default defineComponent({
     setup(props) {
 
         const {slots} = useSlots()
+        const refs = useRefs({
+            collector: CompRef,
+        })
 
         const classes = computed(() => [
             'pl-table',
         ])
 
+        onMounted(() => {
+            console.log(refs.collector.items.value)
+        })
+
         return () => (
             <div class={classes.value}>
-                {slots.default()}
+                <plc-collector ref="collector">{slots.default()}</plc-collector>
+
             </div>
         )
     },
