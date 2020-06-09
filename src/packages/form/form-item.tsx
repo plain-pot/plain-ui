@@ -11,7 +11,7 @@ import {ElRef, useRefs} from "@/use/useRefs";
 import {FormContextType} from "@/packages/form/form";
 import {useRefer} from "@/use/useRefer";
 
-const Props = {
+export const FormItemProps = {
     ...EditProps,
     ...StyleProps,
 
@@ -28,7 +28,7 @@ const Props = {
     block: {type: Boolean},                                             // 占用一行
 }
 
-function formItemSetup(props: ExtractPropTypes<typeof Props>) {
+function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
 
     useCollectChild({provideString: FORM_COLLECTOR})
 
@@ -117,7 +117,7 @@ export type FormItemContextType = typeof FormItemSetupValue
 export default defineComponent({
     name: 'pl-form-item',
     props: {
-        ...Props,
+        ...FormItemProps,
     },
     setup(props) {
 
