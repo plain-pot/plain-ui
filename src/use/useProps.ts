@@ -25,7 +25,7 @@ function formatValue(state: any, key: string, val: any, types: FormatPropsType |
         if (!/^[\d]+$/.test(val) && val.lastIndexOf('px') === val.length - 2) {
             val = Number(val.replace('px', ''))
         }
-        return state[key] = Number(val)
+        return state[key] = val
     }
 
     return state[key] = val
