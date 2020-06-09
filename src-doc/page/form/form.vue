@@ -189,4 +189,8 @@
 </script>
 
 <style lang="scss">
+    .demo-form{
+        width: 100%;
+        margin-left: -130px;
+    }
 </style>

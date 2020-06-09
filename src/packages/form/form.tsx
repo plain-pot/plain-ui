@@ -1,11 +1,11 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
-import {FORM_PROVIDER} from "@/packages/form/form-utils";
+import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {FormItemContextType} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 
@@ -37,7 +37,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
 
     const items = useCollectParent({
         sort: false,
-        provideString: FORM_PROVIDER,
+        provideString: FORM_COLLECTOR,
         onAdd: (item: FormItemContextType) => {
             if (propsState.labelWidth == null && !!item.refs.label) {
                 const labelWidth = item.refs.label.offsetWidth
@@ -99,6 +99,8 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         bodyStyles,
     }
 
+    provide(FORM_PROVIDER, refer)
+
     return refer
 }
 
@@ -114,9 +116,10 @@ export default defineComponent({
 
         const {slots} = useSlots()
 
+        const {} = formSetup(props)
+
         return () => (
-            <div>
-                pl-form
+            <div class="pl-form">
                 <div class="pl-form-body">
                     {slots.default()}
                 </div>

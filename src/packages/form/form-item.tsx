@@ -1,4 +1,4 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, inject} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {EditProps} from "@/use/useEdit";
@@ -6,8 +6,10 @@ import {StyleProps} from "@/use/useStyle";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useCollectChild} from "@/use/useCollect";
-import {FORM_PROVIDER} from "@/packages/form/form-utils";
+import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {ElRef, useRefs} from "@/use/useRefs";
+import {FormContextType} from "@/packages/form/form";
+import {useRefer} from "@/use/useRefer";
 
 const Props = {
     ...EditProps,
@@ -28,13 +30,15 @@ const Props = {
 
 function formItemSetup(props: ExtractPropTypes<typeof Props>) {
 
-    const refs = useRefs({
-        label: ElRef,
-    })
+    useCollectChild({provideString: FORM_COLLECTOR})
 
-    const {slots} = useSlots({
+    const {slots, $slots} = useSlots({
         label: SlotFunc,
         suffix: SlotFunc,
+    })
+
+    const refs = useRefs({
+        label: ElRef,
     })
 
     const propsState = useProps(props, {
@@ -43,15 +47,68 @@ function formItemSetup(props: ExtractPropTypes<typeof Props>) {
         column: FormatPropsType.number,
     })
 
-    const ctx = useCollectChild({provideString: FORM_PROVIDER})
+    const form = inject(FORM_PROVIDER) as FormContextType
+
+    /*---------------------------------------computer-------------------------------------------*/
+
+    const labelStyles = computed(() => {
+        if (form.targetLabelWidth.value != null) {
+            return {width: `${form.targetLabelWidth.value}px`}
+        } else if (!!propsState.labelWidth) {
+            return {width: `${propsState.labelWidth}px`}
+        }
+        return null
+    })
+
+    const bodyStyles = computed(() => {
+        let width;
+        if (props.block) {
+            if (!form.targetItemWidth.value) {
+                width = null
+            } else {
+                width = form.propsState.column * (form.targetItemWidth.value) - form.targetLabelWidth.value!
+            }
+        } else {
+            const column = propsState.column || 1
+
+            if (!form.targetItemWidth.value) {
+                width = null
+            } else {
+                width = column * (form.targetItemWidth.value) - form.targetLabelWidth.value!
+            }
+        }
+
+        if (!width) {
+            return null
+        } else {
+            return {
+                width: `${width}px`
+            }
+        }
+    })
+
+    const hasLabel = computed(() => {
+        if (!!propsState.label || !!$slots.label) return true
+        if (!$slots.default && !$slots.suffix) return true
+        return false
+    })
 
     const refer = {
         refs,
-        slots,
         propsState,
+        form,
+        labelStyles,
+        bodyStyles,
+        hasLabel,
     }
 
-    return refer
+    useRefer(refer)
+
+    return {
+        ...refer,
+        slots,
+        $slots,
+    }
 }
 
 const FormItemSetupValue = getReturnType(formItemSetup)
@@ -64,25 +121,37 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {propsState, slots} = formItemSetup(props)
+        const {
+            refs,
+            propsState,
+            slots,
+            $slots,
+            form,
+            labelStyles,
+            bodyStyles,
+            hasLabel,
+        } = formItemSetup(props)
 
         const classes = computed(() => ([
             'pl-form-item',
-
         ]))
 
         return () => (
             <div class={classes.value}>
-                <div class="pl-form-item-label" ref="label">
-                    <span>{slots.label(propsState.label)}</span>
-                </div>
-                <div class="pl-from-item-body">
+                {!!hasLabel.value && (
+                    <div class="pl-form-item-label" ref="label" style={labelStyles.value}>
+                        <span>{slots.label(propsState.label)}</span>
+                    </div>
+                )}
+                <div class="pl-form-item-body" style={bodyStyles.value}>
                     <div class="pl-form-item-content">
                         {slots.default()}
                     </div>
-                    <div class="pl-form-item-suffix">
-                        {slots.suffix()}
-                    </div>
+                    {!!$slots.suffix && (
+                        <div class="pl-form-item-suffix">
+                            {slots.suffix()}
+                        </div>
+                    )}
                 </div>
             </div>
         )

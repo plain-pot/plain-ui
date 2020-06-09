@@ -1,1 +1,2 @@
+export const FORM_COLLECTOR = '@@FORM_COLLECTOR'
 export const FORM_PROVIDER = '@@FORM_PROVIDER'
