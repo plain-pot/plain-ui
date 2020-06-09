@@ -116,10 +116,26 @@ export default defineComponent({
 
         const {slots} = useSlots()
 
-        const {} = formSetup(props)
+        const {
+            items,
+            propsState,
+            state,
+
+            targetLabelWidth,
+            targetContentWidth,
+            targetItemWidth,
+
+            bodyStyles,
+        } = formSetup(props)
+
+        const classes = computed(() => [
+            'pl-form',
+            `pl-form-label-align-${props.labelAlign}`,
+            `pl-form-column-${propsState.column || 1}`,
+        ])
 
         return () => (
-            <div class="pl-form">
+            <div class={classes.value}>
                 <div class="pl-form-body">
                     {slots.default()}
                 </div>

@@ -41,122 +41,53 @@
             </pl-form>
         </demo-row>
         <demo-row title="文本对其方式">
-            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="left" centerWhenSingleColumn>
-                <pl-form-item label="客户名称" field="name">
-                    <pl-input v-model="formData.name"/>
-                </pl-form-item>
-                <pl-form-item label="客户员工数量" field="type">
-                    <pl-number v-model="formData.type"/>
-                    <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
-                </pl-form-item>
-                <pl-form-item label="客户加入时间" field="joinTime">
-                    <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
-                    <pl-input v-model="formData.name"/>
-                </pl-form-item>
-                <pl-form-item label="是否老客户" field="oldFlag">
-                    <pl-radio-group v-model="formData.oldFlag" itemWidth="50%">
-                        <pl-radio label="老客户" val="Y"/>
-                        <pl-radio label="非老客户" val="N"/>
-                    </pl-radio-group>
-                </pl-form-item>
-                <pl-form-item label="客户性质" field="properties">
-                    <pl-checkbox-group v-model="formData.properties" itemWidth="50%">
-                        <pl-checkbox label="大客户" val="large"/>
-                        <pl-checkbox label="潜在客户" val="potential"/>
-                        <pl-checkbox label="长久客户" val="long"/>
-                        <pl-checkbox label="赢单客户" val="order"/>
-                    </pl-checkbox-group>
-                </pl-form-item>
-                <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
-                </pl-form-item>
-                <pl-form-item label="备注" field="comments">
-                    <pl-input textarea v-model="formData.comments"/>
-                </pl-form-item>
-                <pl-form-item label=" ">
-                    <pl-button mode="stroke" label="取消"/>
-                    <pl-button label="保存"/>
-                </pl-form-item>
-            </pl-form>
+            <demo-line title="左对齐">
+                <pl-form size="normal" labelAlign="left" centerWhenSingleColumn>
+                    <pl-form-item label="客户名称" field="name">
+                        <pl-input v-model="formData.name"/>
+                    </pl-form-item>
+                    <pl-form-item label="客户员工数量" field="type">
+                        <pl-number v-model="formData.type"/>
+                        <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
+                    </pl-form-item>
+                    <pl-form-item label=" ">
+                        <pl-button mode="stroke" label="取消"/>
+                        <pl-button label="保存"/>
+                    </pl-form-item>
+                </pl-form>
+            </demo-line>
 
-            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="center" centerWhenSingleColumn>
-                <pl-form-item label="客户名称" field="name">
-                    <pl-input v-model="formData.name"/>
-                </pl-form-item>
-                <pl-form-item label="客户员工数量" field="type">
-                    <pl-number v-model="formData.type"/>
-                    <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
-                </pl-form-item>
-                <pl-form-item label="客户加入时间" field="joinTime">
-                    <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
-                    <pl-input v-model="formData.name"/>
-                </pl-form-item>
-                <pl-form-item label="是否老客户" field="oldFlag">
-                    <pl-radio-group v-model="formData.oldFlag" itemWidth="50%">
-                        <pl-radio label="老客户" val="Y"/>
-                        <pl-radio label="非老客户" val="N"/>
-                    </pl-radio-group>
-                </pl-form-item>
-                <pl-form-item label="客户性质" field="properties">
-                    <pl-checkbox-group v-model="formData.properties" itemWidth="50%">
-                        <pl-checkbox label="大客户" val="large"/>
-                        <pl-checkbox label="潜在客户" val="potential"/>
-                        <pl-checkbox label="长久客户" val="long"/>
-                        <pl-checkbox label="赢单客户" val="order"/>
-                    </pl-checkbox-group>
-                </pl-form-item>
-                <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
-                </pl-form-item>
-                <pl-form-item label="备注" field="comments">
-                    <pl-input textarea v-model="formData.comments"/>
-                </pl-form-item>
-                <pl-form-item label=" ">
-                    <pl-button mode="stroke" label="取消"/>
-                    <pl-button label="保存"/>
-                </pl-form-item>
-            </pl-form>
+            <demo-line title="居中对其">
+                <pl-form size="normal" labelAlign="center" centerWhenSingleColumn>
+                    <pl-form-item label="客户名称" field="name">
+                        <pl-input v-model="formData.name"/>
+                    </pl-form-item>
+                    <pl-form-item label="客户员工数量" field="type">
+                        <pl-number v-model="formData.type"/>
+                        <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
+                    </pl-form-item>
+                    <pl-form-item label=" ">
+                        <pl-button mode="stroke" label="取消"/>
+                        <pl-button label="保存"/>
+                    </pl-form-item>
+                </pl-form>
+            </demo-line>
 
-            <pl-form width="30%" size="normal" contentWidth="200px" labelAlign="right" centerWhenSingleColumn>
-                <pl-form-item label="客户名称" field="name">
-                    <pl-input v-model="formData.name"/>
-                </pl-form-item>
-                <pl-form-item label="客户员工数量" field="type">
-                    <pl-number v-model="formData.type"/>
-                    <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
-                </pl-form-item>
-                <pl-form-item label="客户加入时间" field="joinTime">
-                    <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
-                    <pl-input v-model="formData.name"/>
-                </pl-form-item>
-                <pl-form-item label="是否老客户" field="oldFlag">
-                    <pl-radio-group v-model="formData.oldFlag" itemWidth="50%">
-                        <pl-radio label="老客户" val="Y"/>
-                        <pl-radio label="非老客户" val="N"/>
-                    </pl-radio-group>
-                </pl-form-item>
-                <pl-form-item label="客户性质" field="properties">
-                    <pl-checkbox-group v-model="formData.properties" itemWidth="50%">
-                        <pl-checkbox label="大客户" val="large"/>
-                        <pl-checkbox label="潜在客户" val="potential"/>
-                        <pl-checkbox label="长久客户" val="long"/>
-                        <pl-checkbox label="赢单客户" val="order"/>
-                    </pl-checkbox-group>
-                </pl-form-item>
-                <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
-                </pl-form-item>
-                <pl-form-item label="备注" field="comments">
-                    <pl-input textarea v-model="formData.comments"/>
-                </pl-form-item>
-                <pl-form-item label=" ">
-                    <pl-button mode="stroke" label="取消"/>
-                    <pl-button label="保存"/>
-                </pl-form-item>
-            </pl-form>
+            <demo-line title="右对齐">
+                <pl-form size="normal" labelAlign="right" centerWhenSingleColumn>
+                    <pl-form-item label="客户名称" field="name">
+                        <pl-input v-model="formData.name"/>
+                    </pl-form-item>
+                    <pl-form-item label="客户员工数量" field="type">
+                        <pl-number v-model="formData.type"/>
+                        <span slot="suffix"><pl-icon icon="el-icon-question" v-tooltip="'整数'"/></span>
+                    </pl-form-item>
+                    <pl-form-item label=" ">
+                        <pl-button mode="stroke" label="取消"/>
+                        <pl-button label="保存"/>
+                    </pl-form-item>
+                </pl-form>
+            </demo-line>
         </demo-row>
     </div>
 </template>
@@ -189,8 +120,6 @@
 </script>
 
 <style lang="scss">
-    .demo-form{
-        width: 100%;
-        margin-left: -130px;
+    .demo-form {
     }
 </style>
