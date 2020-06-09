@@ -1,10 +1,7 @@
-import './table.scss'
-import table from './table'
 import plc from './plc'
+import group from './plc-group'
 import {installPlugin} from "@/util/install";
 
 export default installPlugin([
-    table,
-], [
-    plc,
+    plc, group,
 ])

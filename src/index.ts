@@ -44,12 +44,13 @@ import dateTimeInput from './packages/date-time-input'
 import date from './packages/date'
 import select from './packages/select'
 import form from './packages/form'
+import table from './packages/table'
 
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
     icon,
-    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade, time, dateTimeInput, date, select, form,
+    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade, time, dateTimeInput, date, select, form, table,
     collapse, list, grid, scroll, portal,
     message, notice, dialog, popper, popover, tooltip, dropdown, step,
     card, carousel, virtualList, progress, pagination, tab, tree, virtualTree,
