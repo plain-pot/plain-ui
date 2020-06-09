@@ -1,3 +1,6 @@
+import {PlcType} from "@/packages/table/plc/plc";
+import {PlcGroupType} from "@/packages/table/plc/plc-group";
+
 export const PlcGroupProps = {
     title: {type: String, watch: true},                                     // 列标题
     align: {type: String, default: 'left', watch: true},                    // 非编辑状态下文本对其方式
@@ -57,4 +60,25 @@ export const enum PlcAlign {
     left = 'left',
     center = 'center',
     right = 'right'
+}
+
+/**
+ * 遍历plc数组
+ * @author  韦胜健
+ * @date    2020/6/9 20:58
+ */
+function iteratePlc(list: (PlcType | PlcGroupType)[], fn: (plc: PlcType) => void): void {
+    (list || []).forEach(item => {
+        switch (item.type) {
+            case PlcComponentType.PLC:
+                fn(item as PlcType)
+                break
+            case PlcComponentType.GROUP:
+                iteratePlc((item as PlcGroupType).items.value, fn)
+                break
+            default:
+                console.warn(item)
+                throw new Error(`can't recognise plc type:${item.type}`)
+        }
+    })
 }
