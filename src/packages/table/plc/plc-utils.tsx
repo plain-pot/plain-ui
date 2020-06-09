@@ -42,7 +42,7 @@ export const PlcProps = {
 
 export const PLC_COLLECTOR = '@@PLC_COLLECTOR'
 
-export const enum PlcType {
+export const enum PlcComponentType {
     PLC = 'PLC',
     GROUP = 'GROUP',
 }

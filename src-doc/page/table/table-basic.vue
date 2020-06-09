@@ -72,14 +72,30 @@
             </div>
         </demo-row>-->
 
-        <pl-table>
-            <plc field="id" title="编号"/>
-            <plc field="size" title="大小"/>
-            <plc field="date" title="日期"/>
-            <plc field="color" title="颜色"/>
-            <plc field="name" title="名称"/>
-            <plc field="star" title="评分"/>
-        </pl-table>
+        <demo-row title="不分组">
+            <pl-table>
+                <plc field="id" title="编号"/>
+                <plc field="size" title="大小"/>
+                <plc field="date" title="日期"/>
+                <plc field="color" title="颜色"/>
+                <plc field="name" title="名称"/>
+                <plc field="star" title="评分"/>
+            </pl-table>
+        </demo-row>
+        <demo-row title="分组">
+            <pl-table>
+                <plc field="id" title="编号"/>
+                <plc-group title="第一组">
+                    <plc field="size" title="大小"/>
+                    <plc field="date" title="日期"/>
+                </plc-group>
+                <plc field="color" title="颜色"/>
+                <plc-group title="第二组">
+                    <plc field="name" title="名称"/>
+                    <plc field="star" title="评分"/>
+                </plc-group>
+            </pl-table>
+        </demo-row>
     </div>
 </template>
 
