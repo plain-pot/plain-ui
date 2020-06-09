@@ -9,7 +9,7 @@ import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {FormItemContextType, FormItemProps} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
-import {FormTrigger, getAllRequired, getAllRules, validateAsync, validateField} from "@/packages/form/validate";
+import {FormTrigger, getAllFieldLabels, getAllRequired, getAllRules, validateAsync, validateField} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useRefer} from "@/use/useRefer";
@@ -76,7 +76,9 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         loadingTimer: null as null | number,                                    // loading延时器
     })
 
-    const validateResult = useModel(() => props.validateResult || {}, emit.updateValidateResult)
+    const validateResultModel = useModel(() => {
+        return props.validateResult || {}
+    }, emit.updateValidateResult)
 
     /*---------------------------------------computer-------------------------------------------*/
 
@@ -118,7 +120,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     })
 
     const allFieldLabels = computed(() => {
-        return allFieldLabels(items.value.map(({label, field}) => {
+        return getAllFieldLabels(items.value.map(({label, field}) => {
             return {label, field}
         }))
     })
@@ -126,7 +128,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     const validate = {
         valid: (field: string | string[], trigger: FormTrigger) => {
             field = Array.isArray(field) ? field : [field]
-            field.forEach(item => validateField(validateResult.value, allRules.value, props.value, item, trigger))
+            field.forEach(item => validateField(validateResultModel.value, allRules.value, props.value, item, trigger))
         },
         onChange: $plain.utils.throttle((field: string) => {
             validate.valid(field, FormTrigger.CHANGE)
@@ -176,7 +178,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
                 dfd.resolve = (...args) => callback(...args)
             }
 
-            const result = await validateAsync(validateResult.value, allRules.value, props.value, callback,
+            const result = await validateAsync(validateResultModel.value, allRules.value, props.value, callback,
                 () => {
                     if (loadingMask) {
                         this.setLoading(true)
@@ -214,7 +216,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
          * @date    2020/3/18 17:53
          */
         clearValidate() {
-            validateResult.value = {}
+            validateResultModel.value = {}
         },
     }
 
@@ -230,7 +232,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         targetItemWidth,
         bodyStyles,
 
-        validateResult,
+        validateResultModel,
         allRules,
         allFieldRequired,
         allFieldLabels,
@@ -283,7 +285,7 @@ export default defineComponent({
         }))
 
         return () => (
-            <div class={classes.value} style={styles.value}>
+            <div class={classes.value} style={styles.value} v-loading={state.loadingMask || props.loadingMask}>
                 <div class="pl-form-body" style={bodyStyles.value}>
                     {slots.default()}
                 </div>

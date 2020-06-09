@@ -86,7 +86,7 @@ export function getAllRequired(rules) {
  * @author  韦胜健
  * @date    2020/3/27 11:12
  */
-export function allFieldLabels(formItems) {
+export function getAllFieldLabels(formItems) {
     return (formItems || []).reduce((ret, item) => {
         let {field, label} = item
         if (!!field && !!label) {

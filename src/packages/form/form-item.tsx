@@ -161,7 +161,7 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
         let fields = Array.isArray(props.field) ? props.field : [props.field]
         for (let i = 0; i < fields.length; i++) {
             const field = fields[i];
-            let message = form.validateResult.value[field as string]
+            let message = form.validateResultModel.value[field as string]
             if (!!message) return message
         }
         return null
