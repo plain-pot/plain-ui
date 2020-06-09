@@ -44,6 +44,12 @@ export const useEdit = useWrapper('edit', () => {
         }
     })
 
+    ctx.$on('blur', (...args) => {
+        if (!!parent && !!parent.value.onBlur) {
+            parent.value.onBlur(...args)
+        }
+    })
+
     provide(EditProvider, editComputed)
 
     return {

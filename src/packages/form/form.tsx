@@ -1,4 +1,4 @@
-import {computed, defineComponent, provide, reactive, Ref} from "@vue/composition-api";
+import {computed, defineComponent, provide, reactive, Ref, watch} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {EditProps, useEdit} from "@/use/useEdit";
@@ -10,6 +10,9 @@ import {FormItemContextType, FormItemProps} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
 import {FormTrigger, getAllRequired, getAllRules, validateAsync, validateField} from "@/packages/form/validate";
+import {useModel} from "@/use/useModel";
+import {EmitFunc, useEvent} from "@/use/useEvent";
+import {useRefer} from "@/use/useRefer";
 
 
 const Props = {
@@ -36,6 +39,11 @@ const Props = {
 }
 
 function formSetup(props: ExtractPropTypes<typeof Props>) {
+
+    const {emit} = useEvent({
+        updateValidateResult: EmitFunc,
+        fieldValueChange: (field: string, newVal: any, oldVal: any) => undefined,
+    })
 
     const items = useCollectParent({
         sort: false,
@@ -64,10 +72,11 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     const state = reactive({
         maxLabelWidth: null as null | number,                                   // form item 最大文本宽度
         formData: $plain.utils.deepcopy(props.value || {}) as object,           // 绑定的表单数据对象
-        validateResult: props.validateResult || {},                             // 校验结果信息
         loadingMask: false,                                                     // 内部loading标志
         loadingTimer: null as null | number,                                    // loading延时器
     })
+
+    const validateResult = useModel(() => props.validateResult || {}, emit.updateValidateResult)
 
     /*---------------------------------------computer-------------------------------------------*/
 
@@ -117,7 +126,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     const validate = {
         valid: (field: string | string[], trigger: FormTrigger) => {
             field = Array.isArray(field) ? field : [field]
-            field.forEach(item => validateField(state.validateResult, allRules.value, props.value, item, trigger))
+            field.forEach(item => validateField(validateResult.value, allRules.value, props.value, item, trigger))
         },
         onChange: $plain.utils.throttle((field: string) => {
             validate.valid(field, FormTrigger.CHANGE)
@@ -126,6 +135,21 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
             validate.valid(field, FormTrigger.BLUR)
         }, 300)
     }
+
+    watch(() => props.value, (newFormData: any) => {
+        let oldFormData = state.formData
+        const fields = Array.from(new Set([...Object.keys(newFormData || {}), ...(Object.keys(oldFormData))]))
+        fields.forEach(field => {
+            let newVal = newFormData[field]
+            let oldVal = oldFormData[field]
+            if (!$plain.utils.deepEqual(newVal, oldVal)) {
+                emit.fieldValueChange(field, newVal, oldVal)
+                validate.onChange(field)
+            }
+        })
+        state.formData = $plain.utils.deepcopy(newFormData || {})
+    }, {deep: true, lazy: true})
+
 
     /*---------------------------------------methods-------------------------------------------*/
 
@@ -152,7 +176,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
                 dfd.resolve = (...args) => callback(...args)
             }
 
-            const result = await validateAsync(state.validateResult, allRules.value, props.value, callback,
+            const result = await validateAsync(validateResult.value, allRules.value, props.value, callback,
                 () => {
                     if (loadingMask) {
                         this.setLoading(true)
@@ -190,7 +214,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
          * @date    2020/3/18 17:53
          */
         clearValidate() {
-            state.validateResult = {}
+            validateResult.value = {}
         },
     }
 
@@ -204,9 +228,9 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         targetLabelWidth,
         targetContentWidth,
         targetItemWidth,
-
         bodyStyles,
 
+        validateResult,
         allRules,
         allFieldRequired,
         allFieldLabels,
@@ -214,6 +238,8 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         validate,
         methods,
     }
+
+    useRefer(refer)
 
     provide(FORM_PROVIDER, refer)
 

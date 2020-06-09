@@ -38,13 +38,19 @@
                 </pl-form-item>
 
                 <pl-form-item label="选项校验：确定值" field="field6" :rules="{required:true,message:'只能选择二级', options:'2'}">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field6"/>
+                    <pl-select v-model="form1.formData.field6">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="选项校验：数组" field="field7" :rules="{required:true,message:'只能选择二级，三级', options:['2','3']}">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field7"/>
+                    <pl-select v-model="form1.formData.field7">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="父属性">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="form1.formData.field8"/>
+                    <pl-select v-model="form1.formData.field8">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="自定义(异步2s)校验" field="field9" :rules="{validator:customValidator}">
                     <pl-radio-group v-model="form1.formData.field9" itemWidth="33%">
@@ -59,7 +65,7 @@
 
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
-                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
+                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.methods.clearValidate()"/>
                 </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验，不开启遮罩，自动loading按钮" @click="asyncSaveValidate" autoLoading/>
@@ -104,17 +110,17 @@
         },
         methods: {
             async saveValidate() {
-                const err = await this.$refs.form.validate()
+                const err = await this.$refs.form.methods.validate()
                 if (!!err) {
                     console.log(err)
-                    this.$refs.form.showError(err)
+                    this.$refs.form.methods.showError(err)
                 } else {
                     this.$message.success('校验通过')
                 }
             },
             async asyncSaveValidate() {
                 try {
-                    await this.$refs.form.validateWithoutMask()
+                    await this.$refs.form.methods.validateWithoutMask()
                     this.$message.success('校验通过')
                 } catch (e) {
                     this.$message.error('请检查填写是否正确')
