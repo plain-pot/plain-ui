@@ -1,14 +1,15 @@
-import {computed, defineComponent, provide, reactive} from "@vue/composition-api";
+import {computed, defineComponent, provide, reactive, Ref} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
-import {EditProps} from "@/use/useEdit";
+import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
 import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
-import {FormItemContextType} from "@/packages/form/form-item";
+import {FormItemContextType, FormItemProps} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
+import {FormTrigger, getAllRequired, getAllRules, validateAsync, validateField} from "@/packages/form/validate";
 
 
 const Props = {
@@ -47,7 +48,8 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
                 }
             }
         }
-    })
+    }) as Ref<ExtractPropTypes<typeof FormItemProps>[]>
+
     const {styleComputed} = useStyle()
 
     /*---------------------------------------state-------------------------------------------*/
@@ -60,7 +62,11 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     })
 
     const state = reactive({
-        maxLabelWidth: null as null | number,
+        maxLabelWidth: null as null | number,                                   // form item 最大文本宽度
+        formData: $plain.utils.deepcopy(props.value || {}) as object,           // 绑定的表单数据对象
+        validateResult: props.validateResult || {},                             // 校验结果信息
+        loadingMask: false,                                                     // 内部loading标志
+        loadingTimer: null as null | number,                                    // loading延时器
     })
 
     /*---------------------------------------computer-------------------------------------------*/
@@ -88,6 +94,106 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         }
     })
 
+    /*---------------------------------------validate-------------------------------------------*/
+
+    const {editComputed} = useEdit()
+
+    const allRules = computed(() => {
+        return getAllRules(props.rules, items.value.map(({label, rules, field, required}) => {
+            return {label, rules, field, required}
+        }))
+    })
+
+    const allFieldRequired = computed(() => {
+        return getAllRequired(allRules.value)
+    })
+
+    const allFieldLabels = computed(() => {
+        return allFieldLabels(items.value.map(({label, field}) => {
+            return {label, field}
+        }))
+    })
+
+    const validate = {
+        valid: (field: string | string[], trigger: FormTrigger) => {
+            field = Array.isArray(field) ? field : [field]
+            field.forEach(item => validateField(state.validateResult, allRules.value, props.value, item, trigger))
+        },
+        onChange: $plain.utils.throttle((field: string) => {
+            validate.valid(field, FormTrigger.CHANGE)
+        }, 300),
+        onBlur: $plain.utils.throttle((field: string) => {
+            validate.valid(field, FormTrigger.BLUR)
+        }, 300)
+    }
+
+    /*---------------------------------------methods-------------------------------------------*/
+
+    const methods = {
+        setLoading(flag = true) {
+            if (!!state.loadingTimer) {
+                clearTimeout(state.loadingTimer)
+            }
+            state.loadingTimer = setTimeout(() => {
+                state.loadingMask = flag
+            }, 300)
+        },
+        async validate(callback: Function, loadingMask: boolean = true) {
+
+            const dfd = {
+                promise: null as any,
+                resolve: null as any,
+            }
+            dfd.promise = new Promise((resolve) => {
+                dfd.resolve = resolve
+            })
+
+            if (!!callback) {
+                dfd.resolve = (...args) => callback(...args)
+            }
+
+            const result = await validateAsync(state.validateResult, allRules.value, props.value, callback,
+                () => {
+                    if (loadingMask) {
+                        this.setLoading(true)
+                    }
+                },
+                () => {
+                    if (loadingMask) {
+                        this.setLoading(false)
+                    }
+                }
+            )
+
+            if (!!result) {
+                if (!!result.field) {
+                    let label = allFieldLabels.value[result.field]
+                    // @ts-ignore
+                    result.label = label
+                }
+                dfd.resolve(result)
+            } else {
+                dfd.resolve(null)
+            }
+
+            return dfd.promise
+        },
+        async validateWithoutMask(callback) {
+            return methods.validate(callback, false)
+        },
+        showError(err) {
+            $plain.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
+        },
+        /**
+         * 清除校验信息
+         * @author  韦胜健
+         * @date    2020/3/18 17:53
+         */
+        clearValidate() {
+            state.validateResult = {}
+        },
+    }
+
     const refer = {
         items,
         propsState,
@@ -100,6 +206,13 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         targetItemWidth,
 
         bodyStyles,
+
+        allRules,
+        allFieldRequired,
+        allFieldLabels,
+        editComputed,
+        validate,
+        methods,
     }
 
     provide(FORM_PROVIDER, refer)

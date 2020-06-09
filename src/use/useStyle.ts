@@ -6,7 +6,7 @@ import {useWrapper} from "@/use/useWrapper";
  * @author  韦胜健
  * @date    2020/5/13 14:54
  */
-const StyleProvider = '@@PLAIN_STYLE_PROVIDER'
+export const StyleProvider = '@@PLAIN_STYLE_PROVIDER'
 
 export const StyleProps = {
     shape: {type: String},                      // fillet,round,square

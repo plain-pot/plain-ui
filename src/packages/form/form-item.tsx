@@ -1,8 +1,8 @@
-import {computed, defineComponent, inject} from "@vue/composition-api";
+import {computed, defineComponent, inject, provide, Ref} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
-import {EditProps} from "@/use/useEdit";
-import {StyleProps} from "@/use/useStyle";
+import {EditProps, EditProvider} from "@/use/useEdit";
+import {StyleProps, StyleProvider} from "@/use/useStyle";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useCollectChild} from "@/use/useCollect";
@@ -10,6 +10,56 @@ import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {ElRef, useRefs} from "@/use/useRefs";
 import {FormContextType} from "@/packages/form/form";
 import {useRefer} from "@/use/useRefer";
+
+export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null) {
+    const parent = inject(EditProvider, null) as any
+    const editComputed = computed(() => {
+        const {disabled, readonly, loading} = props
+        const p = {disabled, readonly, loading}
+        if (p.disabled == null) {
+            if (!!props.field && !!form && !!form.props.disabledFields && !!form.props.disabledFields[props.field as string]) return true
+            if (!!parent) return parent.value.disabled
+            return false
+        }
+
+        if (p.readonly == null) {
+            if (!!props.field && !!form && !!form.props.readonlyFields && !!form.props.readonlyFields[props.field as string]) return true
+            if (!!parent) return parent.value.readonly
+            return false
+        }
+
+        if (p.loading == null) {
+            return !!parent ? parent.value.loading : false
+        }
+
+        return {
+            ...p,
+            editable: !p.disabled && !p.readonly && !p.loading
+        }
+    })
+    provide(EditProvider, editComputed)
+    return {editComputed}
+}
+
+export function useFormItemStyle(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null, validateMessage: Ref<any>) {
+    const parent = inject(StyleProvider, null)
+
+    const style = computed(() => {
+        const {shape, size, status} = props
+        const parentStyler = !!parent ? (parent as any).value : {}
+        return {
+            shape: shape || parentStyler.shape || 'fillet',
+            size: size || parentStyler.size || 'normal',
+            status: status != null ? status : (validateMessage.value != null ? 'error' : (parentStyler.status || null))
+        }
+    })
+
+    provide(StyleProvider, style)
+
+    return {
+        styleComputed: style
+    }
+}
 
 export const FormItemProps = {
     ...EditProps,
@@ -93,6 +143,25 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
         return false
     })
 
+    /*---------------------------------------validate-------------------------------------------*/
+
+    const isRequired = computed(() => {
+        if (!form || !props.field) return false
+        return form.allFieldRequired.value[props.field as string]
+    })
+    const validateMessage = computed(() => {
+        if (!form) return null
+        let fields = Array.isArray(props.field) ? props.field : [props.field]
+        for (let i = 0; i < fields.length; i++) {
+            const field = fields[i];
+            let message = form.state.validateResult[field as string]
+            if (!!message) return message
+        }
+        return null
+    })
+    const {editComputed} = useFormItemEdit(props, form)
+    const {styleComputed} = useFormItemStyle(props, form, validateMessage)
+
     const refer = {
         refs,
         propsState,
@@ -100,6 +169,10 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
         labelStyles,
         bodyStyles,
         hasLabel,
+        isRequired,
+        validateMessage,
+        editComputed,
+        styleComputed,
     }
 
     useRefer(refer)
@@ -122,18 +195,22 @@ export default defineComponent({
     setup(props) {
 
         const {
-            refs,
             propsState,
             slots,
             $slots,
-            form,
             labelStyles,
             bodyStyles,
             hasLabel,
+            isRequired,
+            validateMessage,
         } = formItemSetup(props)
 
         const classes = computed(() => ([
             'pl-form-item',
+            {
+                'pl-form-item-required': isRequired.value,
+                'pl-form-item-invalidate': !!validateMessage.value,
+            }
         ]))
 
         return () => (
@@ -146,6 +223,9 @@ export default defineComponent({
                 <div class="pl-form-item-body" style={bodyStyles.value}>
                     <div class="pl-form-item-content">
                         {slots.default()}
+                        <div class="pl-form-item-message">
+                            <span>{validateMessage.value}</span>
+                        </div>
                     </div>
                     {!!$slots.suffix && (
                         <div class="pl-form-item-suffix">

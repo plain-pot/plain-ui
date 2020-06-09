@@ -23,7 +23,7 @@ export function getAllRules(formRules, formItems) {
 
     // 因为form-item也可以设置校验规则，这里统计form-item的校验规则，全部合并到一起
     (formItems || []).forEach(formItem => {
-        let {props: {rules, field, required, label}} = formItem
+        let {rules, field, required, label} = formItem
 
         rules = rules || []
         // form-item 的校验规则可能是一个对象，也可能是一个数组
