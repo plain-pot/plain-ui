@@ -16,20 +16,25 @@ export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, f
     const editComputed = computed(() => {
         const {disabled, readonly, loading} = props
         const p = {disabled, readonly, loading}
+
         if (p.disabled == null) {
-            if (!!props.field && !!form && !!form.props.disabledFields && !!form.props.disabledFields[props.field as string]) return true
-            if (!!parent) return parent.value.disabled
-            return false
+            if (!!props.field && !!form && !!form.props.disabledFields && !!form.props.disabledFields[props.field as string]) {
+                p.disabled = true
+            } else {
+                p.disabled = !!parent ? parent.value.disabled : false
+            }
         }
 
         if (p.readonly == null) {
-            if (!!props.field && !!form && !!form.props.readonlyFields && !!form.props.readonlyFields[props.field as string]) return true
-            if (!!parent) return parent.value.readonly
-            return false
+            if (!!props.field && !!form && !!form.props.readonlyFields && !!form.props.readonlyFields[props.field as string]) {
+                p.readonly = true
+            } else {
+                p.readonly = !!parent ? parent.value.readonly : false
+            }
         }
 
         if (p.loading == null) {
-            return !!parent ? parent.value.loading : false
+            p.loading = !!parent ? parent.value.loading : false
         }
 
         return {
@@ -37,6 +42,7 @@ export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, f
             editable: !p.disabled && !p.readonly && !p.loading
         }
     })
+
     provide(EditProvider, editComputed)
     return {editComputed}
 }
