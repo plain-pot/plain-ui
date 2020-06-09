@@ -2,7 +2,7 @@ import {computed, defineComponent, provide, reactive} from "@vue/composition-api
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
 import {EditProps} from "@/use/useEdit";
-import {StyleProps} from "@/use/useStyle";
+import {StyleProps, useStyle} from "@/use/useStyle";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
 import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
@@ -48,6 +48,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
             }
         }
     })
+    const {styleComputed} = useStyle()
 
     /*---------------------------------------state-------------------------------------------*/
 
@@ -92,6 +93,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         propsState,
         state,
         props,
+        styleComputed,
 
         targetLabelWidth,
         targetContentWidth,
@@ -121,6 +123,7 @@ export default defineComponent({
             items,
             propsState,
             state,
+            styleComputed,
 
             targetLabelWidth,
             targetContentWidth,
@@ -133,6 +136,7 @@ export default defineComponent({
             'pl-form',
             `pl-form-label-align-${props.labelAlign}`,
             `pl-form-column-${propsState.column || 1}`,
+            `pl-form-size-${styleComputed.value.size}`
         ])
 
         const styles = computed(() => ({

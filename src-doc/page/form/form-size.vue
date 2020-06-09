@@ -29,7 +29,9 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments">
                     <pl-input textarea v-model="formData.comments"/>
@@ -69,7 +71,9 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments">
                     <pl-input textarea v-model="formData.comments"/>
@@ -109,7 +113,9 @@
                     </pl-checkbox-group>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
-                    <pl-select :data="levelData" labelKey="levelName" valueKey="code" v-model="formData.level"/>
+                    <pl-select v-model="formData.level">
+                        <pl-select-option v-for="item in levelData" :label="item.levelName" :val="item.code" :key="item.code"/>
+                    </pl-select>
                 </pl-form-item>
                 <pl-form-item label="备注" field="comments">
                     <pl-input textarea v-model="formData.comments"/>
