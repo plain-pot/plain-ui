@@ -1,4 +1,4 @@
-import {defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
+import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {EmitFunc, useEvent} from "@/use/useEvent";
@@ -22,6 +22,7 @@ export default defineComponent({
         hoverCloseDelay: {type: [Number, String], default: 200},        // hover触发条件下，关闭延迟时间
 
         closeOnClickItem: {type: Boolean, default: true},               // 点击选项的时候是否自动关闭
+        popperProps: {type: Object},                                    // popper 属性参数
     },
     setup(props) {
 
@@ -65,10 +66,17 @@ export default defineComponent({
             trigger: null as PopperTrigger | null,
         })
 
+        const popperProps = computed(() => {
+            return Object.assign({
+                width: props.width === undefined ? 120 : props.width,
+                height: props.height,
+                placement: 'bottom-start',
+            }, props.popperProps || {})
+        })
+
         const agentState = usePopperAgentEditor(() => ($plain as any).$dropdown(() => {
             return ({
                 props: {
-                    width: props.width,
                     height: props.height,
                     closeOnClickItem: props.closeOnClickItem && props.trigger !== PopperTriggerType.manual,
                     content: (h) => {
@@ -78,6 +86,7 @@ export default defineComponent({
                 popperProps: {
                     trigger: PopperTriggerType.manual,
                     reference: refs.$el,
+                    ...(popperProps.value),
                 },
                 listener: {
                     'click-item': handler.clickItem,

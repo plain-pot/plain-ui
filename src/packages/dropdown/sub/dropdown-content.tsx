@@ -7,7 +7,6 @@ export const DROPDOWN_CONTENT_PROVIDER = '@@DROPDOWN_CONTENT_PROVIDER'
 export default defineComponent({
     name: 'pl-dropdown-content',
     props: {
-        width: {type: [String, Number], default: 120},                                  // popper 宽度
         height: {type: [String, Number]},                                               // popper高度
         content: {type: Function},                                                      // 内容渲染函数
     },
@@ -23,7 +22,6 @@ export default defineComponent({
 
         const styles = computed(() => {
             return {
-                width: $plain.utils.suffixPx(props.width),
                 height: $plain.utils.suffixPx(props.height),
             }
         })
