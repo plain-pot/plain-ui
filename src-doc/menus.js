@@ -34,13 +34,13 @@ export default [
     },
     {
         name: '表单示例', children: [
-            {name: 'Form', title: '表单基础', icon: 'pl-form', page: '/form/form', complete: false},
-            {name: 'Form', title: '表单多列', icon: 'pl-form', page: '/form/form-multi-column', complete: false},
-            {name: 'Form', title: '表单尺寸', icon: 'pl-form', page: '/form/form-size', complete: false},
+            {name: 'Form', title: '表单基础', icon: 'pl-form', page: '/form/form', complete: true},
+            {name: 'Form', title: '表单多列', icon: 'pl-form', page: '/form/form-multi-column', complete: true},
+            {name: 'Form', title: '表单尺寸', icon: 'pl-form', page: '/form/form-size', complete: true},
             {name: 'Form', title: '表单控制', icon: 'pl-form', page: '/form/form-edit-control', complete: false},
             {name: 'Form', title: '表单校验', icon: 'pl-form', page: '/form/form-validate', complete: false},
             {name: 'Form', title: '表单blur', icon: 'pl-form', page: '/form/form-blur', complete: false},
-            {name: 'Form', title: '表单组件', icon: 'pl-form', page: '/form/form-elements', complete: false},
+            {name: 'Form', title: '表单组件', icon: 'pl-form', page: '/form/form-elements', complete: true},
         ]
     },
     {
