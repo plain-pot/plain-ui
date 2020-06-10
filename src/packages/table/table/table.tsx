@@ -4,12 +4,18 @@ import {useSlots} from "@/use/useSlots";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
-import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
+import {TABLE_PROVIDER, TableHoverPart, TableProps} from "@/packages/table/table-utils";
 import {printPlcData} from "@/packages/table/plc/debug";
-import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
+import {handlePlcConfigAndState, PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {FormatPropsType, useProps} from "@/use/useProps";
+import {useEvent} from "@/use/useEvent";
 
 
 function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
+
+    const {emit, on, off} = useEvent({
+        scrollLeft: (e: Event, part: TableHoverPart) => {},
+    })
 
     const {slots} = useSlots()
 
@@ -19,6 +25,15 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
 
     const state = reactive({
         tableWidth: null as null | number,
+        hoverState: {
+            part: TableHoverPart.body,
+            fixed: PlcFixedType.center,
+        },
+    })
+
+    const propsState = useProps(props, {
+        headRowHeight: FormatPropsType.number,
+        bodyRowHeight: FormatPropsType.number,
     })
 
     const plcData = computed(() => {
@@ -35,7 +50,10 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         refs,
         plcData,
         state,
-
+        propsState,
+        emit,
+        on,
+        off,
     }
 
     provide(TABLE_PROVIDER, refer)

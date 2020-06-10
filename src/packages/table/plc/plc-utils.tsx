@@ -68,6 +68,16 @@ const enum HandlePlcType {
     nothing = 'nothing'
 }
 
+export const PlcComponentPublicData = {
+    level: 0,
+    rowspan: 1,
+    colspan: 1,
+} as {
+    level?: number,
+    rowspan?: number,
+    colspan?: number
+}
+
 function getPlcOrder(item: PlcType | PlcGroupType): number {
     let order = item.props.order || 0
     if (item.props.fixed === PlcFixedType.left) {

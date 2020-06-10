@@ -41,3 +41,8 @@ export const TableProps = {
 }
 
 export const TABLE_PROVIDER = '@@TABLE_PROVIDER'
+
+export const enum TableHoverPart {
+    body = 'body',
+    head = 'head'
+}

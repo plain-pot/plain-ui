@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive} from "@vue/composition-api";
-import {PLC_COLLECTOR, PlcComponentType, PlcProps} from "@/packages/table/plc/plc-utils";
+import {PLC_COLLECTOR, PlcComponentPublicData, PlcComponentType, PlcProps} from "@/packages/table/plc/plc-utils";
 import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {FormatPropsType, useProps} from "@/use/useProps";
@@ -27,9 +27,11 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
     const state = reactive(Object.keys(PlcProps).reduce((ret, key) => {
         ret[key] = null
         return ret
-    }, {}) as PlainExtractPropTypes<typeof PlcProps>)
+    }, {}) as PlainExtractPropTypes<typeof PlcProps> & { level: number })
 
     const refer = {
+        ...PlcComponentPublicData,
+
         type: PlcComponentType.PLC,
         /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
         // @ts-ignore
