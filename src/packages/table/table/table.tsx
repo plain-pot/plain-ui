@@ -1,4 +1,4 @@
-import {computed, defineComponent, onMounted, provide, Ref} from "@vue/composition-api";
+import {computed, defineComponent, provide} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {useSlots} from "@/use/useSlots";
 import {CompRef, useRefs} from "@/use/useRefs";
@@ -7,6 +7,7 @@ import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
 import {getReturnType} from "@/util/util";
 import {useMounted} from "@/use/useMounted";
+import {printPlcData} from "@/packages/table/plc/debug";
 
 
 function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
@@ -25,9 +26,10 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
     });
 
     const refer = {
+        props,
+
         slots,
         refs,
-        props,
         plcData,
     }
 
@@ -58,15 +60,15 @@ export default defineComponent({
             'pl-table',
         ])
 
-        return () => (
-            <div class={classes.value}>
-                <plc-collector ref="collector">{slots.default()}</plc-collector>
-                {
-                    plcData.value.map(item => (
-                        <div>{item.props.title}-{(item as PlcType).props.field}-{(item as PlcType).props.width}</div>
-                    ))
-                }
-            </div>
-        )
+        return () => {
+            const debugPlc = (!!props.debugPlc ? printPlcData(plcData.value) : false)
+
+            return (
+                <div class={classes.value}>
+                    <plc-collector ref="collector">{slots.default()}</plc-collector>
+                    {debugPlc}
+                </div>
+            )
+        }
     },
 })

@@ -35,6 +35,9 @@ export const TableProps = {
 
     // plc
     configColumn: {type: Function},                         // 配置列信息函数
+
+    debugPlc: {type: Boolean},                              // 调试plc数据
+
 }
 
 export const TABLE_PROVIDER = '@@TABLE_PROVIDER'
