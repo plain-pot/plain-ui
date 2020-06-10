@@ -126,15 +126,19 @@ function iteratePlc({list, handlePlc, handleGroup}: {
     }
 }
 
+function processPlcWidth(list: PlcType[], tableWidth: number) {
+
+}
+
 /**
  * 合并 props，config以及state，优先级依次增大
  * @author  韦胜健
  * @date    2020/6/10 14:32
  */
-export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], config?: Function) {
+export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], config: Function | undefined, tableWidth: number) {
 
-    const configData = !!config ? config(items) : {}
-
+    const configData = !!config ? config(items) : {}            // 通过 table.props.config 得到的列配置信息对象
+    const flatPlcList: PlcType[] = []                           // 平级的plc对象数组，不包含group，顺序严格按照 plc在代码中的位置-plc的props.order-plc.props.fixed顺序确定
     const autoFixedLeftPlcList: PlcType[] = []                  // 需要自动做固定的plc
     const autoFixedLeftPlcRight: PlcType[] = []                 // 需要自动右固定的plc
     let hasFixedLeft = false                                    // 是否存在左固定列
@@ -198,12 +202,17 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     // 根据 order、fixed排序
     iteratePlc({
         list: [{type: PlcComponentType.GROUP, items: {value: items}, props: {} as any}],
-        handlePlc: () => HandlePlcType.nothing,
+        handlePlc: (plc) => {
+            flatPlcList.push(plc)
+            return HandlePlcType.nothing
+        },
         handleGroup: (group) => {
             $plain.utils.insertSort(group.items.value, (a, b) => getPlcOrder(a) > getPlcOrder(b))
             return HandlePlcType.nothing
         }
     })
+
+    processPlcWidth(flatPlcList, tableWidth)
 
     return items
 }

@@ -27,10 +27,7 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
-        items = handlePlcConfigAndState(items, props.config)
-
-        // console.log(refs.$el.offsetWidth)
-        // console.log(items)
+        handlePlcConfigAndState(items, props.config, state.tableWidth)
 
         return items
     });
