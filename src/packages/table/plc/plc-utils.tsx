@@ -126,10 +126,6 @@ function iteratePlc({list, handlePlc, handleGroup}: {
     }
 }
 
-function processPlcWidth(list: PlcType[], tableWidth: number) {
-
-}
-
 /**
  * 合并 props，config以及state，优先级依次增大
  * @author  韦胜健
@@ -138,7 +134,6 @@ function processPlcWidth(list: PlcType[], tableWidth: number) {
 export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], config: Function | undefined, tableWidth: number) {
 
     const configData = !!config ? config(items) : {}            // 通过 table.props.config 得到的列配置信息对象
-    const flatPlcList: PlcType[] = []                           // 平级的plc对象数组，不包含group，顺序严格按照 plc在代码中的位置-plc的props.order-plc.props.fixed顺序确定
     const autoFixedLeftPlcList: PlcType[] = []                  // 需要自动做固定的plc
     const autoFixedLeftPlcRight: PlcType[] = []                 // 需要自动右固定的plc
     let hasFixedLeft = false                                    // 是否存在左固定列
@@ -147,6 +142,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     iteratePlc({
         list: items,
         handlePlc: (plc) => {
+
             // config
             const configPlc = configData[`${plc.props.field || ''}_${plc.props.title}`]
             if (!!configPlc) {
@@ -199,11 +195,24 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     if (!!hasFixedLeft) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.left)
     if (!!hasFixedRight) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.right)
 
+    const flatPlcList: PlcType[] = []                           // 平级的plc对象数组，不包含group，顺序严格按照 plc在代码中的位置-plc的props.order-plc.props.fixed顺序确定
+    const fitPlcList: PlcType[] = []                            // 需要自适应宽度的 plc对象数组
+    let totalFits: number = 0                                   // 填充宽度分配总份数
+    let externalWidth = tableWidth                              // 剩余的列宽
+
     // 根据 order、fixed排序
     iteratePlc({
         list: [{type: PlcComponentType.GROUP, items: {value: items}, props: {} as any}],
         handlePlc: (plc) => {
             flatPlcList.push(plc)
+
+            if (!!plc.props.fit) {
+                totalFits += plc.props.fit
+                fitPlcList.push(plc)
+            } else {
+                externalWidth -= plc.props.width as number
+            }
+
             return HandlePlcType.nothing
         },
         handleGroup: (group) => {
@@ -212,7 +221,29 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         }
     })
 
-    processPlcWidth(flatPlcList, tableWidth)
+    // 剩余宽度还大于0
+    if (externalWidth > 0) {
+        // 如果没有自适应宽度的列，则默认最后一列自适应宽度
+        if (totalFits === 0) {
+            totalFits = 1
+            const lastPlc = flatPlcList[flatPlcList.length - 1]
+            fitPlcList.push(lastPlc)
+            externalWidth += lastPlc.props.width as number
+        }
+        const fitBlockWidth = Math.floor(externalWidth / totalFits)
+        fitPlcList.forEach((plc, index) => {
+            if (index === fitPlcList.length - 1) {
+                // 如果是最后一个，用完剩下的宽度
+                plc.props.width = externalWidth - 1
+                externalWidth = 0
+            } else {
+                // 根据fit分配宽度
+                const newWidth = plc.props.fit * fitBlockWidth
+                plc.props.width = newWidth
+                externalWidth -= newWidth
+            }
+        })
+    }
 
     return items
 }

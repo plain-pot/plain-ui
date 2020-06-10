@@ -17,14 +17,14 @@ function formatItems(items: Ref<(PlcType | PlcGroupType)[]>): (PlcType | PlcGrou
                 refer = (item as any).refer
                 ret.push({
                     ...refer,
-                    props: refer.props.value,
+                    props: {...refer.props.value},
                 })
                 break
             case PlcComponentType.GROUP:
                 refer = (item as any).refer
                 const newRefer = {
                     ...refer,
-                    props: refer.props.value,
+                    props: {...refer.props.value},
                     items: {value: formatItems(refer.items) as PlcGroupType[]}
                 }
                 ret.push(newRefer)

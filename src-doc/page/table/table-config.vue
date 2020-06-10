@@ -70,7 +70,7 @@
             config(items) {
                 return {
                     'size_大小': {
-                        width: '500',
+                        width: '1',
                     }
                 }
             },
@@ -79,5 +79,8 @@
 </script>
 
 <style lang="scss">
-
+    .demo-table-config {
+        width: 1000px;
+        margin-left: -130px;
+    }
 </style>
