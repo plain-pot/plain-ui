@@ -23,6 +23,8 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         collector: CompRef,
     })
 
+    /*---------------------------------------state-------------------------------------------*/
+
     const state = reactive({
         tableWidth: null as null | number,
         hoverState: {
@@ -36,6 +38,8 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         bodyRowHeight: FormatPropsType.number,
     })
 
+    /*---------------------------------------computer-------------------------------------------*/
+
     const plcData = computed(() => {
         if (!state.tableWidth) return null
         // plc: props = props + propsState
@@ -44,16 +48,44 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         return handlePlcConfigAndState(items, props.config, state.tableWidth)
     });
 
+    const bodyPlcList = computed(() => {
+        if (!state.tableWidth) return null
+        return plcData.value!.flatPlcList
+    })
+
+    const totalContentWidth = computed(() => {
+        if (!bodyPlcList.value) return
+        return bodyPlcList.value.reduce((ret, plc) => {
+            return ret + (plc.props.width as number)
+        }, 0)
+    })
+
+    /*---------------------------------------handler-------------------------------------------*/
+
+    const handler = {
+        hoverPart: (part: TableHoverPart, fixed: PlcFixedType) => {
+            state.hoverState.part = part
+            state.hoverState.fixed = fixed
+        }
+    }
+
     const refer = {
         props,
         slots,
         refs,
+
         plcData,
+        bodyPlcList,
+        totalContentWidth,
+
         state,
         propsState,
+
         emit,
         on,
         off,
+
+        handler,
     }
 
     provide(TABLE_PROVIDER, refer)
@@ -80,7 +112,10 @@ export default defineComponent({
         } = tableSetup(props)
 
         const classes = computed(() => [
-            'pl-table',
+            'pl-table', {
+                'pl-table-border': props.border,
+                'pl-table-disabled-high-current': props.disabledHighCurrentRow,
+            }
         ])
 
         return () => {

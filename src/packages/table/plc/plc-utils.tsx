@@ -263,3 +263,12 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         hasFixedRight,
     }
 }
+
+export function getCellClass(plc: PlcType, rowData?) {
+    return [
+        `plt-cell-align-${plc.props.align || PlcAlign.left}`,
+        {
+            'pl-cell-group': plc.type === PlcComponentType.GROUP,
+        }
+    ]
+}

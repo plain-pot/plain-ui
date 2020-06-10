@@ -1,4 +1,4 @@
-import {computed, defineComponent, inject, onBeforeUnmount} from "@vue/composition-api";
+import {computed, defineComponent, inject, onBeforeUnmount, provide} from "@vue/composition-api";
 import {TABLE_PROVIDER, TableHoverPart} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {useRefs} from "@/use/useRefs";
@@ -6,6 +6,8 @@ import {PlainScroll} from "@/packages/scroll/scroll";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {PlcComponentType} from "@/packages/table/plc/plc-utils";
+
+export const PLT_HEAD_PROVIDER = '@@PLT_HEAD_PROVIDER'
 
 function headSetup() {
 
@@ -111,6 +113,16 @@ function headSetup() {
         }
     }
 
+    const refer = {
+        refs,
+        headPlcList,
+        has,
+        handler,
+        methods,
+    }
+
+    provide(PLT_HEAD_PROVIDER, refer)
+
     table.on.scrollLeft(handler.scrollLeft)
 
     onBeforeUnmount(() => table.off.scrollLeft(handler.scrollLeft))
@@ -125,6 +137,8 @@ function headSetup() {
         has,
     }
 }
+
+export type PltHeadType = ReturnType<typeof headSetup>
 
 export default defineComponent({
     name: 'plt-head',
