@@ -8,7 +8,8 @@ import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {useRefer} from "@/use/useRefer";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {$plain} from "@/packages/base";
-import {CompRef, useRefs} from "@/use/useRefs";
+import {useRefs} from "@/use/useRefs";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 const Props = {
     value: {type: [String, Array]},                                 // 当前双向绑定值
@@ -36,7 +37,7 @@ export function selectPanelSetup(props: ExtractPropTypes<typeof Props>) {
 
     const {slots} = useSlots()
     const refs = useRefs({
-        scroll: CompRef,
+        scroll: {} as PlainScroll,
     })
 
     const highlightOption = ref(null as null | SelectOptionCtxType)

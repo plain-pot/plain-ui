@@ -1,8 +1,8 @@
 import {computed, defineComponent, getCurrentInstance, onUpdated, reactive, watch} from "@vue/composition-api";
-import {useMounted} from "@/use/useMounted";
-import {CompRef, ElRef, useRefs} from "@/use/useRefs";
+import {ElRef, useRefs} from "@/use/useRefs";
 import {$plain} from "@/packages/base";
 import {useScopedSlots} from "@/use/useScopedSlots";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 interface DataInfo {
     top: number
@@ -28,7 +28,7 @@ export default defineComponent({
         const {$scopedSlots} = useScopedSlots()
 
         const refs = useRefs({
-            scroll: CompRef,
+            scroll: {} as PlainScroll,
             content: ElRef,
         })
 
@@ -158,7 +158,7 @@ export default defineComponent({
                 height: props.size,
                 bottom: props.size * (index + 1),
             }));
-            !!refs.scroll && refs.scroll.methods.scrollTo({y: 0})
+            !!refs.scroll && refs.scroll.methods.scrollTop(0, 0)
         })
 
         onUpdated(async () => {

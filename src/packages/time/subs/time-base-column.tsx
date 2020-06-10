@@ -1,9 +1,10 @@
 import {computed, defineComponent, onMounted, Ref, watch} from "@vue/composition-api";
 import {EditProps, useEdit} from "@/use/useEdit";
-import {CompRef, useRefs} from "@/use/useRefs";
+import {useRefs} from "@/use/useRefs";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {$plain} from "@/packages/base";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 export default defineComponent({
     name: 'pl-time-base-column',
@@ -22,7 +23,7 @@ export default defineComponent({
         const {editComputed} = useEdit()
 
         const refs = useRefs({
-            scroll: CompRef,
+            scroll: {} as PlainScroll,
         })
 
         const {emit} = useEvent({

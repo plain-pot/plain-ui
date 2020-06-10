@@ -1,7 +1,8 @@
 import {computed, defineComponent, provide} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
-import {CompRef, useRefs} from "@/use/useRefs";
+import {useRefs} from "@/use/useRefs";
 import {$plain} from "@/packages/base";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 export const enum TabHeaderType {
     text = 'text',
@@ -29,7 +30,7 @@ export default defineComponent({
     setup(props) {
 
         const refs = useRefs({
-            scroll: CompRef,
+            scroll: {} as PlainScroll,
         })
 
         const {slots} = useSlots()
