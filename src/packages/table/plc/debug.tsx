@@ -6,7 +6,7 @@ import {PlcGroupType} from "@/packages/table/plc/plc-group";
 function renderPlc(h, plc: PlcType) {
     return (
         <div key={plc.props.title}>
-            PLC：{plc.props.title}:{plc.props.width}_{plc.props.field}
+            PLC：{plc.props.title}:{plc.props.width}_{plc.props.field}_{plc.props.fixed}
         </div>
     )
 }

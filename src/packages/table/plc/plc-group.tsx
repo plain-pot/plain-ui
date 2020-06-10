@@ -5,6 +5,7 @@ import {useCollectChild, useCollectParent} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {FormatPropsType, useProps} from "@/use/useProps";
+import {PlainExtractPropTypes} from "@/type";
 
 function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
     useCollectChild({provideString: PLC_COLLECTOR})
@@ -23,7 +24,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
         type: PlcComponentType.GROUP,
         /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
         // @ts-ignore
-        props: targetProps as ExtractPropTypes<typeof PlcGroupProps>,
+        props: targetProps as PlainExtractPropTypes<typeof PlcGroupProps>,
         items,
     }
 

@@ -33,7 +33,7 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
         type: PlcComponentType.PLC,
         /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
         // @ts-ignore
-        props: targetProps as ExtractPropTypes<typeof PlcProps>,
+        props: targetProps as PlainExtractPropTypes<typeof PlcProps>,
         state,
     }
 

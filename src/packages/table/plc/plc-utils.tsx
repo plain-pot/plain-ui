@@ -72,7 +72,11 @@ const enum HandlePlcType {
  * @author  韦胜健
  * @date    2020/6/9 20:58
  */
-function iteratePlc(list: (PlcType | PlcGroupType)[] | null, fn: ((plc: PlcType) => HandlePlcType)): void {
+function iteratePlc({list, handlePlc, handleGroup}: {
+    list: (PlcType | PlcGroupType)[] | null,
+    handlePlc: (plc: PlcType) => HandlePlcType,
+    handleGroup: (group: PlcGroupType) => HandlePlcType,
+}): void {
 
     list = list || [];
 
@@ -82,20 +86,26 @@ function iteratePlc(list: (PlcType | PlcGroupType)[] | null, fn: ((plc: PlcType)
         switch (item.type) {
             case PlcComponentType.PLC:
                 item = item as PlcType
-                const handlePlcType = fn(item)
-                if (handlePlcType === HandlePlcType.remove) {
+                const handlePlcResult = handlePlc(item)
+                if (handlePlcResult === HandlePlcType.remove) {
                     list.splice(i, 1)
                     i--
                 }
                 break
             case PlcComponentType.GROUP:
                 item = item as PlcGroupType
-                iteratePlc(item.items.value, fn)
-
-                // 当这个分组没有列的时候（可能都隐藏了），自动删除这个分组
-                if (item.items.value.length === 0) {
+                const handlePlcGroupResult = handleGroup(item)
+                if (handlePlcGroupResult === HandlePlcType.remove) {
                     list.splice(i, 1)
                     i--
+                } else {
+                    iteratePlc({list: item.items.value, handlePlc, handleGroup})
+
+                    // 当这个分组没有列的时候（可能都隐藏了），自动删除这个分组
+                    if (item.items.value.length === 0) {
+                        list.splice(i, 1)
+                        i--
+                    }
                 }
                 break
             default:
@@ -114,23 +124,61 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
 
     const configData = !!config ? config(items) : {}
 
-    iteratePlc(items, (item) => {
-        // config
-        const id = `${item.props.field || ''}_${item.props.title}`
-        if (!!configData[id]) {
-            Object.assign(item.props, configData[id])
-        }
-        // state
-        Object.keys(item.state).forEach(key => {
-            if (item.state[key] != null) item.props[key] = item.state[key]
-        })
+    const autoFixedLeftPlcList: PlcType[] = []                  // 需要自动做固定的plc
+    const autoFixedLeftPlcRight: PlcType[] = []                 // 需要自动右固定的plc
+    let hasFixedLeft = false                                    // 是否存在左固定列
+    let hasFixedRight = false                                   // 是否存在右固定列
 
-        // 如果是隐藏的列，则删除这一列
-        if (item.props.hide) {
-            return HandlePlcType.remove
-        }
+    iteratePlc({
+        list: items,
+        handlePlc: (plc) => {
+            // config
+            const configPlc = configData[`${plc.props.field || ''}_${plc.props.title}`]
+            if (!!configPlc) {
+                Object.keys(configPlc).forEach(key => {
+                    if (configPlc[key] != null) plc.props[key] = configPlc[key]
+                })
+            }
+            // state
+            Object.keys(plc.state).forEach(key => {
+                if (plc.state[key] != null) plc.props[key] = plc.state[key]
+            })
 
-        return HandlePlcType.nothing
+            // 如果是隐藏的列，则删除这一列
+            if (plc.props.hide) {
+                return HandlePlcType.remove
+            }
+
+            if (plc.props.autoFixedLeft) autoFixedLeftPlcList.push(plc)
+            if (plc.props.autoFixedRight) autoFixedLeftPlcRight.push(plc)
+            if (plc.props.fixed === PlcFixedType.left) hasFixedLeft = true
+            if (plc.props.fixed === PlcFixedType.right) hasFixedRight = true
+
+            return HandlePlcType.nothing
+        },
+        handleGroup: (group) => {
+
+            if (group.props.hide) {
+                return HandlePlcType.remove
+            }
+
+            // 表头分组，子节点的固定方式，以及左固定、右固定随父节点控制
+            group.items.value.forEach(item => {
+                if (item.type === PlcComponentType.PLC) {
+                    const plc = item as PlcType
+                    plc.props.fixed = group.props.fixed
+                    plc.props.autoFixedLeft = group.props.autoFixedLeft
+                    plc.props.autoFixedRight = group.props.autoFixedRight
+                } else {
+                    const plcGroup = item as PlcGroupType
+                    plcGroup.props.fixed = group.props.fixed
+                    plcGroup.props.autoFixedLeft = group.props.autoFixedLeft
+                    plcGroup.props.autoFixedRight = group.props.autoFixedRight
+                }
+            })
+
+            return HandlePlcType.nothing
+        },
     })
 
     return items
