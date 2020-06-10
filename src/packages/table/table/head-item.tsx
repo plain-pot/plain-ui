@@ -15,7 +15,7 @@ export default defineComponent({
         const table = inject(TABLE_PROVIDER) as PlainTable
 
         const classes = computed(() => ([
-            'pl-table-item',
+            'plt-head-item',
             `pl-table-item-fixed-${props.fixed}`,
         ]))
 
