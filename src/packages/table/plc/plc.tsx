@@ -4,6 +4,7 @@ import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+import {PlainExtractPropTypes} from "@/type";
 
 function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
@@ -26,9 +27,7 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
     const state = reactive(Object.keys(PlcProps).reduce((ret, key) => {
         ret[key] = null
         return ret
-    }, {}) as ExtractPropTypes<typeof PlcProps>)
-
-    // state.width = 900
+    }, {}) as PlainExtractPropTypes<typeof PlcProps>)
 
     const refer = {
         type: PlcComponentType.PLC,
