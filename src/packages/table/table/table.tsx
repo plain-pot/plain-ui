@@ -5,7 +5,6 @@ import {CompRef, useRefs} from "@/use/useRefs";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
-import {getReturnType} from "@/util/util";
 import {useMounted} from "@/use/useMounted";
 import {printPlcData} from "@/packages/table/plc/debug";
 import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
@@ -47,8 +46,7 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
     return refer
 }
 
-const TableSetupValue = getReturnType(tableSetup)
-export type PlainTable = typeof TableSetupValue
+export type PlainTable = ReturnType<typeof tableSetup>
 
 export default defineComponent({
     name: 'pl-table',

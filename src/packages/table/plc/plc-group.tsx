@@ -4,7 +4,6 @@ import {useSlots} from "@/use/useSlots";
 import {useCollectChild, useCollectParent} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
-import {getReturnType} from "@/util/util";
 import {FormatPropsType, useProps} from "@/use/useProps";
 
 function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
@@ -34,8 +33,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
     return refer
 }
 
-const PlcGroupSetupValue = getReturnType(plcGroupSetup)
-export type PlcGroupType = typeof PlcGroupSetupValue
+export type PlcGroupType = ReturnType<typeof plcGroupSetup>
 
 export default defineComponent({
     name: 'plc-group',

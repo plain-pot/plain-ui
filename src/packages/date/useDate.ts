@@ -3,7 +3,6 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {computed, inject, provide, reactive, Ref} from "@vue/composition-api";
 import {PlainDate} from "@/util/PlainDate";
 import {useModel} from "@/use/useModel";
-import {getReturnType} from "@/util/util";
 import {DATE_PANEL_PROVIDER, DatePublicProps, DateView, PanelItemParam, PanelItemParamType, SlideTransitionDirection} from "@/packages/date/date-utils";
 
 export function getFormatString(formatString: string | undefined, datetime: boolean | undefined) {
@@ -181,6 +180,4 @@ export function useDate(
     return ret
 }
 
-const useDateValue = getReturnType(useDate)
-
-export type UseDateType = typeof useDateValue
+export type UseDateType = ReturnType<typeof useDate>

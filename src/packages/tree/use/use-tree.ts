@@ -8,7 +8,6 @@ import {TreeDropType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
 import {$plain} from "@/packages/base";
 import {useRefer} from "@/use/useRefer";
 import {useScopedSlots} from "@/use/useScopedSlots";
-import {getReturnType} from "@/util/util";
 import {useTreeDragger} from "@/packages/tree/use/use-tree-dragger";
 
 export const TreeProps = {
@@ -563,6 +562,4 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     return refer
 }
 
-const useTreeValue = getReturnType(useTree)
-
-export type UseTreeReturnType = typeof useTreeValue
+export type UseTreeReturnType = ReturnType<typeof useTree>

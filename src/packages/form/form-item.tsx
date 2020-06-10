@@ -1,6 +1,5 @@
 import {computed, defineComponent, inject, provide, Ref} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
-import {getReturnType} from "@/util/util";
 import {EditProps, EditProvider} from "@/use/useEdit";
 import {StyleProps, StyleProvider} from "@/use/useStyle";
 import {SlotFunc, useSlots} from "@/use/useSlots";
@@ -191,8 +190,7 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
     }
 }
 
-const FormItemSetupValue = getReturnType(formItemSetup)
-export type FormItemContextType = typeof FormItemSetupValue
+export type FormItemContextType = ReturnType<typeof formItemSetup>
 
 export default defineComponent({
     name: 'pl-form-item',

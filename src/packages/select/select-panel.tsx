@@ -7,7 +7,6 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {useRefer} from "@/use/useRefer";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
-import {getReturnType} from "@/util/util";
 import {$plain} from "@/packages/base";
 import {CompRef, useRefs} from "@/use/useRefs";
 
@@ -29,7 +28,7 @@ const Props = {
 
 export const SELECT_PANEL_PROVIDER = '@@SELECT_PANEL_PROVIDER'
 
-export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
+export function selectPanelSetup(props: ExtractPropTypes<typeof Props>) {
     const {emit} = useEvent({
         input: EmitFunc,
         click: EmitFunc,
@@ -227,8 +226,7 @@ export function SelectPanelSetup(props: ExtractPropTypes<typeof Props>) {
     return refer
 }
 
-const SelectPanelSetupValue = getReturnType(SelectPanelSetup)
-export type SelectPanelContextType = typeof SelectPanelSetupValue
+export type SelectPanelContextType = ReturnType<typeof selectPanelSetup>
 
 export default defineComponent({
     name: 'pl-select-panel',
@@ -237,7 +235,7 @@ export default defineComponent({
     },
     setup(props) {
 
-        const {formatData, slots, classes, items, showItems} = SelectPanelSetup(props)
+        const {formatData, slots, classes, items, showItems} = selectPanelSetup(props)
         const ctx = getCurrentInstance()!
 
         const styles = computed(() => !!props.height ? {height: $plain.utils.suffixPx(props.height)} : null)

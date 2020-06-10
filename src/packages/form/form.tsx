@@ -1,6 +1,5 @@
 import {computed, defineComponent, provide, reactive, Ref, watch} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
-import {getReturnType} from "@/util/util";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {useSlots} from "@/use/useSlots";
@@ -248,8 +247,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     return refer
 }
 
-const FormSetupValue = getReturnType(formSetup)
-export type FormContextType = typeof FormSetupValue
+export type FormContextType = ReturnType<typeof formSetup>
 
 export default defineComponent({
     name: 'pl-form',

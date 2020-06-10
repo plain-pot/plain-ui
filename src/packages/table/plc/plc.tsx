@@ -4,7 +4,6 @@ import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
-import {getReturnType} from "@/util/util";
 
 function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
@@ -45,8 +44,7 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
     return refer
 }
 
-const PlcSetupValue = getReturnType(plcSetup)
-export type PlcType = typeof PlcSetupValue
+export type PlcType = ReturnType<typeof plcSetup>
 
 export default defineComponent({
     name: 'plc',
