@@ -2,12 +2,12 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 
 export const PlcGroupProps = {
-    title: {type: String, watch: true},                                     // 列标题
-    align: {type: String, default: 'left', watch: true},                    // 非编辑状态下文本对其方式
+    title: {type: String},                                                  // 列标题
+    align: {type: String, default: 'left'},                                 // 非编辑状态下文本对其方式
 
-    hide: {type: Boolean, watch: true},                                     // 是否隐藏
-    order: {type: Number, watch: true},                                     // 列排序
-    fixed: {type: String, default: 'center', watch: true},                  // 冻结列位置：left、right、undefined
+    hide: {type: Boolean},                                                  // 是否隐藏
+    order: {type: Number},                                                  // 列排序
+    fixed: {type: String, default: 'center'},                               // 冻结列位置：left、right、undefined
     autoFixedLeft: {type: Boolean},                                         // 当出现左固定列的时候，是否自动设置为左固定列
     autoFixedRight: {type: Boolean},                                        // 当出现右固定列的时候，是否自动设置为右固定列
 }
@@ -62,25 +62,47 @@ export const enum PlcAlign {
     right = 'right'
 }
 
+const enum HandlePlcType {
+    remove = 'remove',
+    nothing = 'nothing'
+}
+
 /**
  * 遍历plc数组
  * @author  韦胜健
  * @date    2020/6/9 20:58
  */
-function iteratePlc(list: (PlcType | PlcGroupType)[], fn: (plc: PlcType) => void): void {
-    (list || []).forEach(item => {
+function iteratePlc(list: (PlcType | PlcGroupType)[] | null, fn: ((plc: PlcType) => HandlePlcType)): void {
+
+    list = list || [];
+
+    for (let i = 0; i < list.length; i++) {
+        let item = list[i];
+
         switch (item.type) {
             case PlcComponentType.PLC:
-                fn(item as PlcType)
+                item = item as PlcType
+                const handlePlcType = fn(item)
+                if (handlePlcType === HandlePlcType.remove) {
+                    list.splice(i, 1)
+                    i--
+                }
                 break
             case PlcComponentType.GROUP:
-                iteratePlc((item as PlcGroupType).items.value, fn)
+                item = item as PlcGroupType
+                iteratePlc(item.items.value, fn)
+
+                // 当这个分组没有列的时候（可能都隐藏了），自动删除这个分组
+                if (item.items.value.length === 0) {
+                    list.splice(i, 1)
+                    i--
+                }
                 break
             default:
                 console.warn(item)
                 throw new Error(`can't recognise plc type:${item.type}`)
         }
-    })
+    }
 }
 
 /**
@@ -102,6 +124,13 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         Object.keys(item.state).forEach(key => {
             if (item.state[key] != null) item.props[key] = item.state[key]
         })
+
+        // 如果是隐藏的列，则删除这一列
+        if (item.props.hide) {
+            return HandlePlcType.remove
+        }
+
+        return HandlePlcType.nothing
     })
 
     return items

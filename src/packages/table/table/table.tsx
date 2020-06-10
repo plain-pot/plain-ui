@@ -1,4 +1,4 @@
-import {computed, defineComponent, provide} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, provide, reactive} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {useSlots} from "@/use/useSlots";
 import {CompRef, useRefs} from "@/use/useRefs";
@@ -13,20 +13,24 @@ import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
 function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
 
     const {slots} = useSlots()
-    const isMounted = useMounted()
 
     const refs = useRefs({
         collector: CompRef,
     })
 
+    const state = reactive({
+        tableWidth: null as null | number,
+    })
+
     const plcData = computed(() => {
-        if (!isMounted.value) return []
+        if (!state.tableWidth) return []
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
         items = handlePlcConfigAndState(items, props.config)
 
-        console.log(items)
+        // console.log(refs.$el.offsetWidth)
+        // console.log(items)
 
         return items
     });
@@ -41,7 +45,9 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
 
     provide(TABLE_PROVIDER, refer)
 
-    // onMounted(() => console.log(plcData.value))
+    onMounted(() => {
+        state.tableWidth = refs.$el.offsetWidth
+    })
 
     return refer
 }
