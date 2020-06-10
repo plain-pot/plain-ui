@@ -100,7 +100,7 @@ export default defineComponent({
         })
 
         const model = useModel(() => props.value, emit.input, false, false)
-        const open = useModel(() => props.open, emit.updateOpen, false, false)
+        const openModel = useModel(() => props.open, emit.updateOpen, false, false)
 
         const state = reactive({
             trigger: null as PopperTrigger | null,
@@ -153,7 +153,7 @@ export default defineComponent({
                     emit.input(model.value)
                 }
                 state.onTransitionend = () => {
-                    open.value = true
+                    openModel.value = true
                     state.onTransitionend = null
                 }
             },
@@ -165,7 +165,7 @@ export default defineComponent({
                     emit.input(model.value)
                 }
                 state.onTransitionend = () => {
-                    open.value = false
+                    openModel.value = false
                     state.onTransitionend = null
                 }
             },
@@ -214,7 +214,7 @@ export default defineComponent({
 
                 state.trigger = getPopperTrigger(props.trigger as PopperTriggerType, {
                     model,
-                    open,
+                    openModel: openModel,
                     show: methods.show,
                     hide: methods.hide,
 
@@ -291,10 +291,10 @@ export default defineComponent({
                 methods.refersh()
             },
             afterEnter: () => {
-                open.value = true
+                openModel.value = true
             },
             afterLeave: () => {
-                open.value = false
+                openModel.value = false
             },
         }
 
@@ -320,7 +320,7 @@ export default defineComponent({
             }
         }, {lazy: true})
 
-        watch(() => open.value, (val) => {
+        watch(() => openModel.value, (val) => {
             if (!!val) {
                 emit.updateOpen(true)
                 emit.open()
@@ -370,7 +370,7 @@ export default defineComponent({
             direction,
             state,
             model,
-            open,
+            openModel,
             propsState,
             emit, on, off,
             refs,

@@ -49,7 +49,7 @@ export function getDropdownTrigger(triggerName: PopperTriggerType, {
 }) {
     return getBaseTrigger(triggerName, {
         model,
-        open,
+        openModel: open,
         show,
         hide,
         hoverOpenDelay,

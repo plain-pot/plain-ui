@@ -20,7 +20,7 @@ export enum PopperTriggerType {
 
 export function getPopperTrigger(triggerName: PopperTriggerType, {
     model,
-    open,
+    openModel,
 
     show,
     hide,
@@ -35,7 +35,7 @@ export function getPopperTrigger(triggerName: PopperTriggerType, {
     emit,
 }: {
     model: { value: boolean | undefined },
-    open: { value: boolean | undefined },
+    openModel: { value: boolean | undefined },
 
     show: Function,
     hide: Function,
@@ -65,7 +65,7 @@ export function getPopperTrigger(triggerName: PopperTriggerType, {
 }) {
     return getBaseTrigger(triggerName, {
         model,
-        open,
+        openModel,
         show,
         hide,
 

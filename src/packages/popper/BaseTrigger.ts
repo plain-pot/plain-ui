@@ -4,7 +4,7 @@ export function getBaseTrigger(
     triggerName: PopperTriggerType,
     {
         model,
-        open,
+        openModel,
 
         show,
         hide,
@@ -18,7 +18,7 @@ export function getBaseTrigger(
         emit,
     }: {
         model: { value: boolean | undefined },
-        open: { value: boolean | undefined },
+        openModel: { value: boolean | undefined },
 
         show: Function,
         hide: Function,
@@ -84,7 +84,7 @@ export function getBaseTrigger(
                 model,
                 show,
                 hide,
-                open,
+                openModel,
                 on,
                 off,
             })
@@ -233,14 +233,14 @@ function getClickTrigger({
                              model,
                              show,
                              hide,
-                             open,
+                             openModel,
                              on,
                              off,
                          }: {
     model: { value: boolean | undefined },
     show: Function,
     hide: Function,
-    open: { value: boolean | undefined },
+    openModel: { value: boolean | undefined },
 
     on: {
         clickReference: Function,
@@ -262,7 +262,7 @@ function getClickTrigger({
             }
         },
         clickBody: () => {
-            if (open.value) {
+            if (openModel.value) {
                 hide()
             }
         },
