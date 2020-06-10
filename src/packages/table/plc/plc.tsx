@@ -1,4 +1,4 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, reactive} from "@vue/composition-api";
 import {PLC_COLLECTOR, PlcComponentType, PlcProps} from "@/packages/table/plc/plc-utils";
 import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
@@ -10,22 +10,33 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
     useCollectChild({provideString: PLC_COLLECTOR})
 
+    // 转化后的 props
     const propsState = useProps(props, {
         width: FormatPropsType.number,
         fit: FormatPropsType.number,
         order: FormatPropsType.number,
     })
 
+    // props = props + propsState
     const targetProps = computed(() => ({
         ...props,
         ...propsState,
     }))
+
+    // plc state：存储列动态变化的变量，优先级大于 props以及config
+    const state = reactive(Object.keys(PlcProps).reduce((ret, key) => {
+        ret[key] = null
+        return ret
+    }, {}) as ExtractPropTypes<typeof PlcProps>)
+
+    // state.width = 900
 
     const refer = {
         type: PlcComponentType.PLC,
         /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
         // @ts-ignore
         props: targetProps as ExtractPropTypes<typeof PlcProps>,
+        state,
     }
 
     useRefer(refer)

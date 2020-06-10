@@ -8,7 +8,7 @@ import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
 import {getReturnType} from "@/util/util";
 import {useMounted} from "@/use/useMounted";
 import {printPlcData} from "@/packages/table/plc/debug";
-import {configPlc} from "@/packages/table/plc/plc-utils";
+import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
 
 
 function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
@@ -22,8 +22,12 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
 
     const plcData = computed(() => {
         if (!isMounted.value) return []
+        // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
-        items = configPlc(items, props.config)
+        // table: config plc, and  combine: props + config + state
+        items = handlePlcConfigAndState(items, props.config)
+
+        console.log(items)
 
         return items
     });
