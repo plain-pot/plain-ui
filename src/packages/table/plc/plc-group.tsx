@@ -1,4 +1,4 @@
-import {defineComponent} from "@vue/composition-api";
+import {computed, defineComponent} from "@vue/composition-api";
 import {PLC_COLLECTOR, PlcComponentType, PlcGroupProps} from "@/packages/table/plc/plc-utils";
 import {useSlots} from "@/use/useSlots";
 import {useCollectChild, useCollectParent} from "@/use/useCollect";
@@ -15,14 +15,21 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
         order: FormatPropsType.number,
     })
 
+    const targetProps = computed(() => ({
+        ...props,
+        ...propsState
+    }))
+
     const refer = {
         type: PlcComponentType.GROUP,
-        propsState,
-        props,
+        /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
+        // @ts-ignore
+        props: targetProps as ExtractPropTypes<typeof PlcGroupProps>,
         items,
     }
 
     useRefer(refer)
+    useRefer({refer})
 
     return refer
 }

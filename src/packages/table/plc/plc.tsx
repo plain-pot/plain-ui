@@ -1,12 +1,10 @@
-import {computed, defineComponent, inject} from "@vue/composition-api";
+import {computed, defineComponent} from "@vue/composition-api";
 import {PLC_COLLECTOR, PlcComponentType, PlcProps} from "@/packages/table/plc/plc-utils";
 import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {getReturnType} from "@/util/util";
-import {TABLE_PROVIDER} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
 
 function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
@@ -25,11 +23,13 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
     const refer = {
         type: PlcComponentType.PLC,
-        propsState,
-        props: targetProps,
+        /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
+        // @ts-ignore
+        props: targetProps as ExtractPropTypes<typeof PlcProps>,
     }
 
     useRefer(refer)
+    useRefer({refer})
 
     return refer
 }
@@ -46,8 +46,6 @@ export default defineComponent({
 
         plcSetup(props)
 
-        return () => (
-            <div class="plc">{props.field}-{props.title}</div>
-        )
+        return () => (<div class="plc" field={props.field} title={props.title}/>)
     },
 })

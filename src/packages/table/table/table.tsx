@@ -6,18 +6,22 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
 import {getReturnType} from "@/util/util";
+import {useMounted} from "@/use/useMounted";
 
 
 function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
 
     const {slots} = useSlots()
+    const isMounted = useMounted()
+
     const refs = useRefs({
         collector: CompRef,
     })
 
     const plcData = computed(() => {
+        if (!isMounted.value) return []
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
-        console.log(items)
+        return items
     });
 
     const refer = {
@@ -29,9 +33,7 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
 
     provide(TABLE_PROVIDER, refer)
 
-    onMounted(() => {
-        console.log(plcData.value)
-    })
+    // onMounted(() => console.log(plcData.value))
 
     return refer
 }
@@ -49,6 +51,7 @@ export default defineComponent({
         const {
             slots,
             refs,
+            plcData,
         } = tableSetup(props)
 
         const classes = computed(() => [
@@ -58,7 +61,11 @@ export default defineComponent({
         return () => (
             <div class={classes.value}>
                 <plc-collector ref="collector">{slots.default()}</plc-collector>
-
+                {
+                    plcData.value.map(item => (
+                        <div>{item.props.title}-{(item as PlcType).props.field}-{(item as PlcType).props.width}</div>
+                    ))
+                }
             </div>
         )
     },

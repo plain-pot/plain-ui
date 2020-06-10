@@ -73,9 +73,12 @@
         </demo-row>-->
 
         <demo-row title="不分组">
+            <demo-line>
+                <pl-input v-model="plc.width"/>
+            </demo-line>
             <pl-table>
-                <plc field="id" title="编号"/>
-                <plc field="size" title="大小"/>
+                <plc field="id" title="编号" width="200px"/>
+                <plc field="size" title="大小" :width="plc.width"/>
                 <plc field="date" title="日期"/>
                 <plc field="color" title="颜色"/>
                 <plc field="name" title="名称"/>
