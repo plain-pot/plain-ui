@@ -70,7 +70,7 @@
             config(items) {
                 return {
                     'size_大小': {
-                        width: '1',
+                        width: 60,
                     }
                 }
             },
