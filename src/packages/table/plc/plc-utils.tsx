@@ -83,6 +83,11 @@ function iteratePlc(list: (PlcType | PlcGroupType)[], fn: (plc: PlcType) => void
     })
 }
 
+/**
+ * 合并 props，config以及state，优先级依次增大
+ * @author  韦胜健
+ * @date    2020/6/10 14:32
+ */
 export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], config?: Function) {
 
     const configData = !!config ? config(items) : {}
