@@ -43,7 +43,7 @@ function headSetup() {
                 group.items.value.forEach(calculateSpan)
                 group.rowspan = 1
                 group.colspan = 0
-                group.items.value.forEach(i => i.colspan! += item.colspan!)
+                group.items.value.forEach(i => group.colspan! += i.colspan!)
             } else {
                 const plc = item as PlcType
                 plc.rowspan = maxLevel - plc.level!
