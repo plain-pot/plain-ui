@@ -10,6 +10,10 @@
                     <pl-checkbox label="隐藏名称" v-model="hide.name" width="50%"/>
                     <pl-checkbox label="隐藏评分" v-model="hide.star" width="50%"/>
                 </pl-form-item>
+                <pl-form-item label="固定">
+                    <pl-checkbox label="颜色左固定" v-model="fixed.colorFixedLeft" width="50%"/>
+                    <pl-checkbox label="名称左固定" v-model="fixed.nameFixedLeft" width="50%"/>
+                </pl-form-item>
             </pl-form>
         </demo-row>
         <demo-row title="不分组">
@@ -18,8 +22,8 @@
                 <!--这里虽然通过props设置了宽度，但是因为 在config 中也配置了这一列的宽度，所以这里配置的不生效-->
                 <plc field="size" title="大小" :width="plc.width"/>
                 <plc field="date" title="日期"/>
-                <plc field="color" title="颜色"/>
-                <plc field="name" title="名称" :hide="hide.name"/>
+                <plc field="color" title="颜色" :fixed="fixed.colorFixedLeft?'left':'center'"/>
+                <plc field="name" title="名称" :hide="hide.name" :fixed="fixed.nameFixedLeft?'left':'center'"/>
                 <plc field="star" title="评分" :hide="hide.star"/>
             </pl-table>
         </demo-row>
@@ -56,6 +60,10 @@
                     name: false,
                     star: false,
                 },
+                fixed: {
+                    colorFixedLeft: false,
+                    nameFixedLeft: false,
+                }
             }
         },
         methods: {

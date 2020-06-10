@@ -1,5 +1,6 @@
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
+import {$plain} from "@/packages/base";
 
 export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题
@@ -65,6 +66,16 @@ export const enum PlcAlign {
 const enum HandlePlcType {
     remove = 'remove',
     nothing = 'nothing'
+}
+
+function getPlcOrder(item: PlcType | PlcGroupType): number {
+    let order = item.props.order || 0
+    if (item.props.fixed === PlcFixedType.left) {
+        order -= 9999
+    } else if (item.props.fixed === PlcFixedType.right) {
+        order += 9999
+    }
+    return order
 }
 
 /**
@@ -179,6 +190,19 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
 
             return HandlePlcType.nothing
         },
+    })
+
+    if (!!hasFixedLeft) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.left)
+    if (!!hasFixedRight) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.right)
+
+    // 根据 order、fixed排序
+    iteratePlc({
+        list: [{type: PlcComponentType.GROUP, items: {value: items}, props: {} as any}],
+        handlePlc: () => HandlePlcType.nothing,
+        handleGroup: (group) => {
+            $plain.utils.insertSort(group.items.value, (a, b) => getPlcOrder(a) > getPlcOrder(b))
+            return HandlePlcType.nothing
+        }
     })
 
     return items
