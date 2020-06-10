@@ -135,7 +135,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
 
     const configData = !!config ? config(items) : {}            // 通过 table.props.config 得到的列配置信息对象
     const autoFixedLeftPlcList: PlcType[] = []                  // 需要自动做固定的plc
-    const autoFixedLeftPlcRight: PlcType[] = []                 // 需要自动右固定的plc
+    const autoFixedRightPlcList: PlcType[] = []                 // 需要自动右固定的plc
     let hasFixedLeft = false                                    // 是否存在左固定列
     let hasFixedRight = false                                   // 是否存在右固定列
 
@@ -161,7 +161,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
             }
 
             if (plc.props.autoFixedLeft) autoFixedLeftPlcList.push(plc)
-            if (plc.props.autoFixedRight) autoFixedLeftPlcRight.push(plc)
+            if (plc.props.autoFixedRight) autoFixedRightPlcList.push(plc)
             if (plc.props.fixed === PlcFixedType.left) hasFixedLeft = true
             if (plc.props.fixed === PlcFixedType.right) hasFixedRight = true
 
@@ -192,8 +192,9 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         },
     })
 
-    if (!!hasFixedLeft) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.left)
-    if (!!hasFixedRight) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.right)
+    // hasFixedLeft 以及 hasFixedLeft仅支持 plc，group不支持
+    if (hasFixedLeft) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.left)
+    if (hasFixedRight) autoFixedRightPlcList.forEach(plc => plc.props.fixed = PlcFixedType.right)
 
     const flatPlcList: PlcType[] = []                           // 平级的plc对象数组，不包含group，顺序严格按照 plc在代码中的位置-plc的props.order-plc.props.fixed顺序确定
     const fitPlcList: PlcType[] = []                            // 需要自适应宽度的 plc对象数组
@@ -245,5 +246,10 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         })
     }
 
-    return items
+    return {
+        plcList: items,
+        flatPlcList,
+        hasFixedLeft,
+        hasFixedRight,
+    }
 }

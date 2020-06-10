@@ -5,7 +5,6 @@ import {CompRef, useRefs} from "@/use/useRefs";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
-import {useMounted} from "@/use/useMounted";
 import {printPlcData} from "@/packages/table/plc/debug";
 import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
 
@@ -23,28 +22,25 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
     })
 
     const plcData = computed(() => {
-        if (!state.tableWidth) return []
+        if (!state.tableWidth) return null
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
-        handlePlcConfigAndState(items, props.config, state.tableWidth)
-
-        return items
+        return handlePlcConfigAndState(items, props.config, state.tableWidth)
     });
 
     const refer = {
         props,
-
         slots,
         refs,
         plcData,
+        state,
+
     }
 
     provide(TABLE_PROVIDER, refer)
 
-    onMounted(() => {
-        state.tableWidth = refs.$el.offsetWidth
-    })
+    onMounted(() => state.tableWidth = refs.$el.offsetWidth)
 
     return refer
 }
@@ -62,6 +58,7 @@ export default defineComponent({
             slots,
             refs,
             plcData,
+            state,
         } = tableSetup(props)
 
         const classes = computed(() => [
@@ -74,7 +71,7 @@ export default defineComponent({
                 <div class={classes.value}>
                     <plc-collector ref="collector">{slots.default()}</plc-collector>
 
-                    {!!props.debugPlc && printPlcData(plcData.value)}
+                    {!!props.debugPlc && state.tableWidth && printPlcData(plcData.value!.plcList)}
                 </div>
             )
         }
