@@ -31,13 +31,13 @@ export const TableProps = {
 
     // 合计行
     summaryData: {type: Array},                             // 表尾合计行数据
-    summaryText: {type: String, default: '合计'},            // 表尾合计行第一列的文本
+    summaryText: {type: String, default: '合计'},           // 表尾合计行第一列的文本
 
     // plc
-    configColumn: {type: Function},                         // 配置列信息函数
+    config: {type: Function},                               // 配置列信息函数
 
+    // other
     debugPlc: {type: Boolean},                              // 调试plc数据
-
 }
 
 export const TABLE_PROVIDER = '@@TABLE_PROVIDER'

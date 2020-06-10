@@ -82,3 +82,20 @@ function iteratePlc(list: (PlcType | PlcGroupType)[], fn: (plc: PlcType) => void
         }
     })
 }
+
+export function configPlc(items: (PlcType | PlcGroupType)[], config?: Function) {
+    if (!config) {
+        return items
+    } else {
+        const configData = config(items)
+        if (!!configData) {
+            iteratePlc(items, (item) => {
+                const id = `${item.props.field || ''}_${item.props.title}`
+                if (!!configData[id]) {
+                    Object.assign(item.props, configData[id])
+                }
+            })
+        }
+        return items
+    }
+}

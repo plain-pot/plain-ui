@@ -8,6 +8,7 @@ import {TABLE_PROVIDER, TableProps} from "@/packages/table/table-utils";
 import {getReturnType} from "@/util/util";
 import {useMounted} from "@/use/useMounted";
 import {printPlcData} from "@/packages/table/plc/debug";
+import {configPlc} from "@/packages/table/plc/plc-utils";
 
 
 function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
@@ -22,6 +23,8 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
     const plcData = computed(() => {
         if (!isMounted.value) return []
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
+        items = configPlc(items, props.config)
+
         return items
     });
 
@@ -61,12 +64,12 @@ export default defineComponent({
         ])
 
         return () => {
-            const debugPlc = (!!props.debugPlc ? printPlcData(plcData.value) : false)
 
             return (
                 <div class={classes.value}>
                     <plc-collector ref="collector">{slots.default()}</plc-collector>
-                    {debugPlc}
+
+                    {!!props.debugPlc && printPlcData(plcData.value)}
                 </div>
             )
         }
