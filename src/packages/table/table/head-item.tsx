@@ -45,9 +45,7 @@ export default defineComponent({
                     {
                         head.headPlcList.value.map((row, rowIndex) => (
                             <tr key={rowIndex}>
-                                {row.map((cell, cellIndex) => (
-                                    <plt-head-cell key={cellIndex} plc={cell}/>
-                                ))}
+                                {row.map((cell, cellIndex) => <plt-head-cell key={cellIndex} plc={cell} fixed={props.fixed}/>)}
                             </tr>
                         ))
                     }
