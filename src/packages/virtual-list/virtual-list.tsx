@@ -242,7 +242,7 @@ export default defineComponent({
                         <Content class="pl-virtual-list-content" style={contentStyles.value} ref="content" {...{props: props.contentProps || {}}}>
                             {!!props.renderContent ?
                                 props.renderContent(ctx.$createElement, targetData.value) :
-                                (!!$scopedSlots.default ? targetData.value.map(({item, index}) => $scopedSlots.default!({item, index})) : null)}
+                                (!!$scopedSlots.default ? targetData.value.map(({item, index},virtualIndex) => $scopedSlots.default!({item, index,virtualIndex})) : null)}
                         </Content>
                     </div>
                 </pl-scroll>

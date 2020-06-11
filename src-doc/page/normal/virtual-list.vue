@@ -3,7 +3,7 @@
         <demo-row title="基本用法">
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="40">
-                    <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                    <div slot-scope="{item,index,virtualIndex}" :key="virtualIndex" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                         <div class="seq">
                             {{index}}
                         </div>
