@@ -4,6 +4,7 @@ import {$plain} from "@/packages/base";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+import {EmitFunc, useEvent} from "@/use/useEvent";
 
 interface DataInfo {
     top: number
@@ -26,6 +27,9 @@ export const VirtualListProps = {
 export function virtualListSetup(props: ExtractPropTypes<typeof VirtualListProps>) {
 
     const {$scopedSlots} = useScopedSlots()
+    const {emit} = useEvent({
+        scroll: EmitFunc,
+    })
 
     const refs = useRefs({
         scroll: {} as PlainScroll,
@@ -131,6 +135,8 @@ export function virtualListSetup(props: ExtractPropTypes<typeof VirtualListProps
 
                 state.end = state.start + state.remain
             }
+
+            emit.scroll(e)
         },
     }
 
