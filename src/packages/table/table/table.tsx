@@ -60,6 +60,24 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         }, 0)
     })
 
+    const tableData = computed(() => {
+        return (props.data || []).map((row, rowIndex) => ({
+            row,
+            rowIndex,
+        }))
+    })
+
+    const tableSummaryData = computed(() => {
+        return (props.summaryData || []).map((row, rowIndex) => ({
+            row,
+            rowIndex,
+        }))
+    })
+
+    const isDisabledVirtualScroll = computed(() => {
+        return props.virtual
+    })
+
     /*---------------------------------------handler-------------------------------------------*/
 
     const handler = {
@@ -77,6 +95,9 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
         plcData,
         bodyPlcList,
         totalContentWidth,
+        tableData,
+        tableSummaryData,
+        isDisabledVirtualScroll,
 
         state,
         propsState,
@@ -125,6 +146,7 @@ export default defineComponent({
                     <plc-collector ref="collector">{slots.default()}</plc-collector>
                     {!!state.tableWidth && [
                         <plt-head ref="head"/>,
+                        <plt-body ref="body"/>,
                     ]}
                     {!!props.debugPlc && state.tableWidth && printPlcData(plcData.value!.plcList)}
                 </div>

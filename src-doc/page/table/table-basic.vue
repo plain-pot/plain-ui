@@ -80,7 +80,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="不分组">
-            <pl-table debugPlc>
+            <pl-table debugPlc :data="tableData">
                 <plc field="id" title="编号" width="200px"/>
                 <plc field="size" title="大小" :width="plc.width"/>
                 <plc field="date" title="日期"/>
@@ -90,7 +90,7 @@
             </pl-table>
         </demo-row>
         <demo-row title="分组">
-            <pl-table debugPlc>
+            <pl-table debugPlc :data="tableData">
                 <plc field="id" title="编号"/>
                 <plc-group title="第一组">
                     <plc field="size" title="大小" :width="plc.width"/>
