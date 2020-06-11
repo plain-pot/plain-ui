@@ -32,10 +32,7 @@ export default defineComponent({
         const binding = computed(() => {
             return {
                 class: "plt-row",
-                props: {
-                    tag: 'tr',
-                },
-                nativeOn: {
+                on: {
                     mouseenter: handler.mouseenter,
                     click: handler.click,
                 }
@@ -43,11 +40,11 @@ export default defineComponent({
         })
 
         return () => (
-            <pl-item {...binding.value}>
+            <tr {...binding.value}>
                 {
                     table.bodyPlcList.value!.map((plc, plcIndex) => (<plt-body-cell key={plcIndex} plc={plc} rowData={props.rowData} fixed={props.fixed}/>))
                 }
-            </pl-item>
+            </tr>
         )
     },
 })
