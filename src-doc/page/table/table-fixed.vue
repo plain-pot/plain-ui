@@ -44,7 +44,8 @@
         <demo-row title="固定列">
             <pl-table :data="tableData"
                       :summaryData="other.hasSummaryData?summaryData:null"
-                      v-bind="props">
+                      v-bind="props"
+                      :key="other.groupHead?1:2">
 
                 <template v-if="other.groupHead">
                     <plc field="id" title="编号" fixed="left" :width="plc.width"/>
@@ -55,15 +56,29 @@
                     </plc-group>
                     <plc field="name" title="名称" fixed="right"/>
                     <plc field="star" title="评分"/>
+
+                    <plc field="addr" title="地址"/>
+                    <plc field="url" title="链接"/>
+                    <plc field="domain" title="域名"/>
+                    <plc field="protocol" title="协议"/>
+                    <plc field="email" title="邮箱"/>
+                    <plc field="ip" title="ip"/>
                 </template>
 
                 <template v-else>
-                    <plc field="id" title="编号" fixed="left"/>
+                    <!--<plc field="id" title="编号" fixed="left"/>
                     <plc field="size" title="大小"/>
                     <plc field="date" title="日期"/>
                     <plc field="color" title="颜色" v-if="plc.init"/>
                     <plc field="name" title="名称" fixed="right"/>
-                    <plc field="star" title="评分"/>
+                    <plc field="star" title="评分"/>-->
+
+                    <plc field="addr" title="地址"/>
+                    <plc field="url" title="链接"/>
+                    <plc field="domain" title="域名"/>
+                    <plc field="protocol" title="协议"/>
+                    <plc field="email" title="邮箱"/>
+                    <plc field="ip" title="ip"/>
                 </template>
             </pl-table>
         </demo-row>
@@ -83,21 +98,33 @@
 
                 summaryData: [
                     {
-                        "id": 0,
-                        "color": "#79f285",
-                        "name": "Lisa",
-                        "date": "2002-04-28",
-                        "star": "★★★★★★★",
-                        "size": 49
+                        "id": 1998,
+                        "color": "#f27994",
+                        "name": "Sandra",
+                        "date": "1994-02-12",
+                        "star": "★★★★★★",
+                        "size": 77,
+                        "addr": "台湾 高雄市 甲仙区",
+                        "url": "gopher://gcycumnnsl.py/nqazhyfq",
+                        "domain": "xqcvo.gi",
+                        "protocol": "gopher",
+                        "email": "l.vpxx@oeyxdmmw.bw",
+                        "ip": "31.182.173.18"
                     },
                     {
-                        "id": 1,
-                        "color": "#f27990",
-                        "name": "George",
-                        "date": "2019-01-06",
-                        "star": "★★★★★★★★",
-                        "size": 74
-                    },
+                        "id": 1999,
+                        "color": "#79b7f2",
+                        "name": "Sarah",
+                        "date": "1985-09-17",
+                        "star": "★★★★★",
+                        "size": 75,
+                        "addr": "安徽省 淮北市 濉溪县",
+                        "url": "gopher://nfqgcghj.al/ycn",
+                        "domain": "bxegkwtg.th",
+                        "protocol": "ftp",
+                        "email": "h.xfjyebb@xdvsaj.cq",
+                        "ip": "94.157.166.104"
+                    }
                 ],
 
                 other: {
@@ -111,7 +138,7 @@
                     virtual: false,
                 },
                 plc: {
-                    width: 300,
+                    width: 120,
                     align: 'left',
                     init: true,
                     order: 5,
