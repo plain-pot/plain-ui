@@ -91,6 +91,14 @@ export default defineComponent({
             }
         })
 
+        const key = computed(() => {
+            const plc = props.plc as PlcType
+            return Object.keys(plc.props).reduce((ret, key) => {
+                ret += `_${key}=${plc.props[key]}`
+                return ret
+            }, '')
+        })
+
         const {
             handler
         } = useResize(table.refs.$el, plc)
@@ -101,6 +109,7 @@ export default defineComponent({
             const {colspan, rowspan, props: {title}} = plc.value
 
             const binding = {
+                key: key.value,
                 class: classes.value,
                 style: styles.value,
                 attrs: {

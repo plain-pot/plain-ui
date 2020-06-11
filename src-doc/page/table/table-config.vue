@@ -4,7 +4,7 @@
         <demo-row title="属性控制">
             <pl-form>
                 <pl-form-item label="列宽（大小）">
-                    <pl-input v-model="plc.width"/>
+                    <pl-number v-model="plc.width" :step="30"/>
                 </pl-form-item>
                 <pl-form-item label="隐藏列">
                     <pl-checkbox label="隐藏名称" v-model="hide.name" width="50%"/>
@@ -82,5 +82,9 @@
     .demo-table-config {
         width: 1000px;
         margin-left: -130px;
+
+        .pl-table {
+            margin-right: 0;
+        }
     }
 </style>

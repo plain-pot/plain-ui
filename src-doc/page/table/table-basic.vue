@@ -159,5 +159,9 @@
 </script>
 
 <style lang="scss">
-
+    .demo-table-basic {
+        .pl-table {
+            margin-right: 0;
+        }
+    }
 </style>
