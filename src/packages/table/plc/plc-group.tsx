@@ -22,7 +22,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
     }))
 
     function setDurWidth(durWidth: number) {
-        const itemDurWidth = durWidth / (items.value.length + 1)
+        const itemDurWidth = Math.floor(durWidth / (items.value.length))
         items.value.forEach(item => item.setDurWidth(itemDurWidth))
     }
 
