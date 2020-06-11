@@ -4,6 +4,7 @@ import {useRefs} from "@/use/useRefs";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {$plain} from "@/packages/base";
 import {VirtualListProps, virtualListSetup} from "@/packages/virtual-list/virtual-list";
+import {useRefer} from "@/use/useRefer";
 
 const Props = {
     ...VirtualListProps,
@@ -73,7 +74,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
         }
     }
 
-    return {
+    const refer = {
         refs,
         state,
         virtualList,
@@ -83,7 +84,13 @@ function setup(props: ExtractPropTypes<typeof Props>) {
         contentStyles,
         handler,
     }
+
+    useRefer(refer)
+
+    return refer
 }
+
+export type PlainVirtualTable = ReturnType<typeof virtualListSetup>
 
 export default defineComponent({
     name: 'pl-virtual-table',
