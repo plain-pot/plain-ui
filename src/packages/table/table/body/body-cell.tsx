@@ -30,12 +30,16 @@ export default defineComponent({
             }
         })
 
+        const text = computed(() => {
+            return props.rowData.row[props.plc.props.field!]
+        })
+
         return () => {
             const plc = props.plc as PlcType
             if (props.fixed !== PlcFixedType.center && plc.props.fixed !== props.fixed) return null
             return (
-                <td class={classes.value} colspan={1} rowspan={1} style={styles.value}>
-                    {props.fixed === plc.props.fixed ? props.rowData.row[plc.props.field!] : null}
+                <td class={classes.value} colspan={1} rowspan={1} style={styles.value} title={text.value}>
+                    {props.fixed === plc.props.fixed ? text.value : null}
                 </td>
             )
         }

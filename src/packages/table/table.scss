@@ -17,6 +17,8 @@
 
     table {
       border-collapse: collapse;
+      table-layout: fixed !important;
+      display: table !important;
     }
 
     .pl-vertical-scrollbar {
@@ -51,6 +53,12 @@
       overflow: hidden;
       border-bottom: $tableHeadBorder;
       border-width: 0.5px;
+
+      & > .pl-scroll {
+        .pl-scroll-content {
+          overflow-x: hidden;
+        }
+      }
 
       .plt-head-item {
         background-color: $tableHeadBackground;
@@ -128,6 +136,10 @@
     .plt-cell {
       padding: 0 12px;
       box-sizing: border-box;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &.plt-cell-align-left {
         text-align: left;
