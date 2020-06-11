@@ -69,7 +69,7 @@
           .plt-head-cell-indicator {
             position: absolute;
             top: 0;
-            bottom: 0;
+            height: inherit;
             width: 6px;
             right: 0;
             content: '';
