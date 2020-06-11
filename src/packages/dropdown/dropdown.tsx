@@ -68,9 +68,10 @@ export default defineComponent({
 
         const popperProps = computed(() => {
             return Object.assign({
-                width: props.width === undefined ? 120 : props.width,
+                width: props.width === undefined ? null : props.width,
                 height: props.height,
                 placement: 'bottom-start',
+                sizeEqual: false,
             }, props.popperProps || {})
         })
 
