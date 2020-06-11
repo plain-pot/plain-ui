@@ -228,7 +228,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
 
     // 根据 order、fixed排序
     iteratePlc({
-        list: [{type: PlcComponentType.GROUP, items: {value: items}, props: {} as any}],
+        list: [{type: PlcComponentType.GROUP, items: {value: items}} as any],
         handlePlc: (plc) => {
             flatPlcList.push(plc)
 

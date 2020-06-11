@@ -51,10 +51,8 @@ function useResize(table: HTMLElement, plc: Ref<PlcType>) {
             $plain.enableSelect()
             document.body.removeChild(state.indicatorEl!)
             state.endX = e.clientX
-
-            let durX = state.endX - state.startX!
-
-            plc.value.state.width = (plc.value.state.width || plc.value.props.width) as number + durX
+            let durWidth = state.endX - state.startX!
+            plc.value.setDurWidth(durWidth)
         }
     }
 

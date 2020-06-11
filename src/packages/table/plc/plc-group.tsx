@@ -21,6 +21,11 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
         ...propsState
     }))
 
+    function setDurWidth(durWidth: number) {
+        const itemDurWidth = durWidth / (items.value.length + 1)
+        items.value.forEach(item => item.setDurWidth(itemDurWidth))
+    }
+
     const refer = {
         ...PlcComponentPublicData,
 
@@ -29,6 +34,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
         // @ts-ignore
         props: targetProps as PlainExtractPropTypes<typeof PlcGroupProps>,
         items,
+        setDurWidth,
     }
 
     useRefer(refer)

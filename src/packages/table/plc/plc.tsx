@@ -29,6 +29,10 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
         return ret
     }, {}) as PlainExtractPropTypes<typeof PlcProps> & { level: number })
 
+    function setDurWidth(durWidth: number) {
+        state.width = Number((state.width || targetProps.value.width)) as number + durWidth
+    }
+
     const refer = {
         ...PlcComponentPublicData,
 
@@ -37,6 +41,7 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
         // @ts-ignore
         props: targetProps as PlainExtractPropTypes<typeof PlcProps>,
         state,
+        setDurWidth,
     }
 
     useRefer(refer)
