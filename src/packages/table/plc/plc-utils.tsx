@@ -78,6 +78,19 @@ export const PlcComponentPublicData = {
     colspan?: number
 }
 
+function copyPlcList(items: (PlcType | PlcGroupType)[]) {
+    const newItems: (PlcType | PlcGroupType)[] = []
+    items.forEach((item) => {
+        const newItem = {...item}
+        if (item.type === PlcComponentType.GROUP) {
+            (newItem as PlcGroupType).items.value = copyPlcList((newItem as PlcGroupType).items.value)
+        }
+        newItems.push(newItem)
+    })
+
+    return newItems
+}
+
 function getPlcOrder(item: PlcType | PlcGroupType): number {
     let order = item.props.order || 0
     if (item.props.fixed === PlcFixedType.left) {
@@ -142,6 +155,8 @@ function iteratePlc({list, handlePlc, handleGroup}: {
  * @date    2020/6/10 14:32
  */
 export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], config: Function | undefined, tableWidth: number) {
+
+    items = copyPlcList(items)
 
     const configData = !!config ? config(items) : {}            // 通过 table.props.config 得到的列配置信息对象
     const autoFixedLeftPlcList: PlcType[] = []                  // 需要自动做固定的plc
