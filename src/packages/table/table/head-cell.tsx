@@ -91,10 +91,15 @@ export default defineComponent({
             }
         })
 
+        /**
+         * 给 head-cell 加一个key，当 plc的props变化之后，head-cell节点会更新为新的节点，触发 scroll 的 ObjectServer事件，从而刷新滚动条宽度
+         * @author  韦胜健
+         * @date    2020/6/11 11:03
+         */
         const key = computed(() => {
             const plc = props.plc as PlcType
             return Object.keys(plc.props).reduce((ret, key) => {
-                ret += `_${key}=${plc.props[key]}`
+                ret += `_${key}=${plc.props[key] || ''}`
                 return ret
             }, '')
         })
