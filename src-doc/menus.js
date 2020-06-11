@@ -111,7 +111,7 @@ export default [
     },
     {name: '指令'},
     {
-        name: '其他', children: [
+        name: '测试', children: [
             {name: 'Test', title: '测试手动渲染实例', icon: 'pl-table-solid', page: '/normal/test', complete: true},
             {name: 'Drag', title: '测试拖拽节点', icon: 'pl-table-solid', page: '/test/test-drag', complete: true},
             {name: 'Svg', title: '测试svg', icon: 'pl-table-solid', page: '/test/test-svg', complete: true},

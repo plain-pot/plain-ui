@@ -31,13 +31,15 @@ function setup(props: ExtractPropTypes<typeof Props>) {
     /*---------------------------------------handler-------------------------------------------*/
 
     const handler = {
-        mousewheel: props.fixed === PlcFixedType.center ? (e: MouseWheelEvent) => {
-            if (e.altKey) {
-                e.preventDefault()
-                e.stopPropagation()
-                refs.virtualTable.refs.scroll.methods.scrollLeft(refs.virtualTable.refs.scroll.state.wrapperScrollLeft + (e.deltaX || e.deltaY))
-            }
-        } : null,
+        on: props.fixed === PlcFixedType.center ? {
+            mousewheel: (e: MouseWheelEvent) => {
+                if (e.altKey) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    refs.virtualTable.refs.scroll.methods.scrollLeft(refs.virtualTable.refs.scroll.state.wrapperScrollLeft + (e.deltaX || e.deltaY))
+                }
+            },
+        } : {},
         scroll: (e) => emit.scroll(e, props.fixed as PlcFixedType),
         mouseenter: () => table.handler.hoverPart(TableHoverPart.body, props.fixed as PlcFixedType)
     }
@@ -115,7 +117,7 @@ export default defineComponent({
         return () => {
 
             return (
-                <div class={classes.value} style={styles.value} onMouseenter={handler.mouseenter} {...{on: {mousewheel: handler.mousewheel}}}>
+                <div class={classes.value} style={styles.value} onMouseenter={handler.mouseenter} {...{on: handler.on}}>
                     <pl-virtual-table
                         ref="virtualTable"
                         width={width.value}

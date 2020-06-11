@@ -17,7 +17,7 @@
             </pl-form>
         </demo-row>
         <demo-row title="不分组">
-            <pl-table debugPlc :config="config">
+            <pl-table debugPlc :config="config" :data="data">
                 <plc field="id" title="编号" width="200px"/>
                 <!--这里虽然通过props设置了宽度，但是因为 在config 中也配置了这一列的宽度，所以这里配置的不生效-->
                 <plc field="size" title="大小" :width="plc.width"/>
@@ -28,7 +28,7 @@
             </pl-table>
         </demo-row>
         <demo-row title="分组">
-            <pl-table debugPlc>
+            <pl-table debugPlc :data="data">
                 <plc field="id" title="编号"/>
                 <plc-group title="第一组">
                     <plc field="size" title="大小" :width="plc.width"/>
@@ -46,10 +46,14 @@
 </template>
 
 <script>
+
+    import data from '../data/data-1'
+
     export default {
         name: "table-config",
         data() {
             return {
+                data,
                 plc: {
                     width: 200,
                     align: 'left',
