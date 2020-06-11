@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {useRefs} from "@/use/useRefs";
 import {PlainScroll} from "@/packages/scroll/scroll";
@@ -73,6 +73,8 @@ function setup(props: ExtractPropTypes<typeof Props>) {
             virtualList.handler.scroll(e)
         }
     }
+
+    watch(() => props.width, () => $plain.nextTick(() => refs.scroll.methods.refresh()))
 
     const refer = {
         refs,
