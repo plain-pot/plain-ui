@@ -32,7 +32,7 @@
     .pl-table-item-fixed-right, .pl-table-item-fixed-left {
       position: absolute;
       top: 0;
-      box-shadow: $boxshadow;
+      box-shadow: 0 2px 8px #dedede;
       z-index: 2;
 
       &.pl-table-item-fixed-left {
