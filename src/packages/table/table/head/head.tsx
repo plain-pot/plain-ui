@@ -153,7 +153,7 @@ export default defineComponent({
 
         return () => (
             <div style={styles.value} class={classes.value} onMousewheel={handler.mousewheel}>
-                <pl-scroll scrollX scrollY={false} ref="scroll" onScroll={handler.scroll}>
+                <pl-scroll scrollX scrollY={false} ref="scroll" onScroll={handler.scroll} hideScrollbar>
                     <plt-head-item/>
                 </pl-scroll>
                 {has.value.fixedLeft && <plt-head-item fixed="left"/>}

@@ -1,13 +1,13 @@
 @include theme {
   $tableHeadColor: rgba(0, 0, 0, 0.85);
-  $tableHeadBackground: #f1f3f9;
+  $tableHeadBackground: #f5f7fa;
   $tableHeadHoverBackground: #e4e7ef;
   $tableHeadBorder: solid 1px #e6e6e6;
 
   $tableBodyBorder: solid 1px #f0f0f0;
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
-  $tableRowHoverBackground: #f5f7fa;
+  $tableRowHoverBackground: #f0f3f6;
   $tableRowCurrentBackground: rgba($colorPrimary, 0.1);
 
   .pl-table {
