@@ -10,6 +10,7 @@ import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
 import {useMounted} from "@/use/useMounted";
 import {useSlots} from "@/use/useSlots";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+import {useScopedSlots} from "@/use/useScopedSlots";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -35,6 +36,10 @@ const Props = {
 function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContext) {
 
     const {slots} = useSlots()
+    const {scopedSlots} = useScopedSlots({
+        'horizontal-scrollbar': {style: Object, onMousedown: Function},
+        'vertical-scrollbar': {style: Object, onMousedown: Function},
+    })
 
     const {emit} = useEvent({
         scroll: EmitFunc,
@@ -363,6 +368,8 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
 
     const refer = {
         slots,
+        scopedSlots,
+
         classes,
         handler,
         hostStyles,
@@ -411,6 +418,7 @@ export default defineComponent({
 
         const {
             slots,
+            scopedSlots,
             classes,
             handler,
             hostStyles,
@@ -442,12 +450,15 @@ export default defineComponent({
                     !props.hideScrollbar && props.scrollY && (
                         <div class="pl-vertical-scrollbar-wrapper">
                             {
-                                !!context.slots['vertical-scrollbar'] ? context.slots['vertical-scrollbar']({style: verticalScrollbarStyles.value, onMousedown: handler.vertical.dragstart}) : (
-                                    <div class="pl-vertical-scrollbar"
-                                         style={verticalScrollbarStyles.value}
-                                         onMousedown={handler.vertical.dragstart}>
-                                    </div>
-                                )
+                                scopedSlots["vertical-scrollbar"]({
+                                    param: {style: verticalScrollbarStyles.value, onMousedown: handler.vertical.dragstart},
+                                    content: (
+                                        <div class="pl-vertical-scrollbar"
+                                             style={verticalScrollbarStyles.value}
+                                             onMousedown={handler.vertical.dragstart}>
+                                        </div>
+                                    )
+                                })
                             }
                         </div>
                     )
@@ -456,12 +467,15 @@ export default defineComponent({
                     !props.hideScrollbar && props.scrollX && (
                         <div class="pl-horizontal-scrollbar-wrapper">
                             {
-                                !!context.slots['horizontal-scrollbar'] ? context.slots['horizontal-scrollbar']({style: horizontalScrollbarStyles.value, onMousedown: handler.horizontal.dragstart}) : (
-                                    <div class="pl-horizontal-scrollbar"
-                                         style={horizontalScrollbarStyles.value}
-                                         onMousedown={handler.horizontal.dragstart}>
-                                    </div>
-                                )
+                                scopedSlots["horizontal-scrollbar"]({
+                                    param: {style: horizontalScrollbarStyles.value, onMousedown: handler.horizontal.dragstart},
+                                    content: (
+                                        <div class="pl-horizontal-scrollbar"
+                                             style={horizontalScrollbarStyles.value}
+                                             onMousedown={handler.horizontal.dragstart}>
+                                        </div>
+                                    )
+                                })
                             }
                         </div>
                     )
