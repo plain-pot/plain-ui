@@ -119,6 +119,7 @@ export default defineComponent({
             return (
                 <div class={classes.value} style={styles.value} onMouseenter={handler.mouseenter} {...{on: handler.on}}>
                     <pl-virtual-table
+                        key={table.props.virtual ? 'enable' : 'disabled'}
                         ref="virtualTable"
                         width={width.value}
                         data={table.tableData.value}

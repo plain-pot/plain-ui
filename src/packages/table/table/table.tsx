@@ -75,7 +75,7 @@ function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
     })
 
     const isDisabledVirtualScroll = computed(() => {
-        return props.virtual
+        return !props.virtual
     })
 
     /*---------------------------------------handler-------------------------------------------*/
