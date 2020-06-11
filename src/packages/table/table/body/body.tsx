@@ -57,10 +57,11 @@ function setup() {
                 table.emit.scrollLeft(e, TableHoverPart.body)
             }
 
-            Object.values(state.bodyItems).filter(Boolean).forEach((bodyItem: any) => {
-                if (bodyItem.fixed === fixed) return
+            Object.values(state.bodyItems).filter(Boolean).forEach((bodyItem) => {
+                if (bodyItem!.props.fixed === fixed) return
                 /*console.log({bodyItem: bodyItem.fixed,fixed})*/
-                bodyItem.virtualTable.scroll.scroll({y: (e.target as HTMLElement).scrollTop})
+
+                bodyItem!.refs.virtualTable.refs.scroll.methods.scrollTop((e.target as HTMLElement).scrollTop)
             })
         },
     }

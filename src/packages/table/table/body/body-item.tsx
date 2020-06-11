@@ -78,6 +78,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
     }))
 
     const refer = {
+        props,
         refs,
         handler,
         classes,
@@ -88,7 +89,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
     }
 
     useRefer(refer)
-    body.state.bodyItems[props.fixed] = {refs}
+    body.state.bodyItems[props.fixed] = {refs, props}
     onBeforeUnmount(() => body.state.bodyItems[props.fixed] = null)
 
     return refer

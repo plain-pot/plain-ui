@@ -75,7 +75,7 @@
         <demo-row title="属性控制">
             <pl-form>
                 <pl-form-item label="列宽（大小）">
-                    <pl-input v-model="plc.width"/>
+                    <pl-number v-model="plc.width" :step="30"/>
                 </pl-form-item>
             </pl-form>
         </demo-row>
