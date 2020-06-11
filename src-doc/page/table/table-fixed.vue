@@ -1,6 +1,6 @@
 <template>
     <div class="table-fixed">
-        <pl-form column="3">
+        <pl-form column="1">
             <pl-form-item label="列宽度响应测试">
                 <pl-number v-model="plc.width" :step="100"/>
             </pl-form-item>
@@ -42,64 +42,28 @@
             </template>
         </pl-form>
         <demo-row title="固定列">
-            <pl-table  :data="tableData"
-                       :summaryData="other.hasSummaryData?summaryData:null"
-                       v-bind="props">
+            <pl-table :data="tableData"
+                      :summaryData="other.hasSummaryData?summaryData:null"
+                      v-bind="props">
 
                 <template v-if="other.groupHead">
-                    <plc field="id" title="编号" fixed="left"/>
-                    <plc-group title="GROUP1" autoFixedLeft>
-                        <plc field="id" title="编号"/>
-                        <plc field="size" title="大小"/>
-                        <plc-group title="地址">
-                            <plc field="date" title="日期"/>
-                            <plc field="color" title="颜色"/>
-                        </plc-group>
-                        <plc field="name" title="名称"/>
-                        <plc field="star" title="评分"/>
-                    </plc-group>
-                    <plc field="star" title="评分" fixed="right"/>
-                    <plc-group title="GROUP2">
-                        <plc field="size" title="大小"/>
+                    <plc field="id" title="编号" fixed="left" :width="plc.width"/>
+                    <plc field="size" title="大小"/>
+                    <plc-group title="地址" fixed="left">
                         <plc field="date" title="日期"/>
-                        <plc field="color" title="颜色"/>
-                        <plc field="name" title="名称"/>
+                        <plc field="color" title="颜色" v-if="plc.init"/>
                     </plc-group>
-                    <plc-group title="GROUP3">
-                        <plc field="size" title="大小"/>
-                        <plc field="date" title="日期"/>
-                        <plc field="color" title="颜色"/>
-                        <plc field="name" title="名称"/>
-                    </plc-group>
-                    <plc-group title="GROUP4">
-                        <plc field="size" title="大小"/>
-                        <plc field="date" title="日期"/>
-                        <plc field="color" title="颜色"/>
-                        <plc field="name" title="名称"/>
-                    </plc-group>
+                    <plc field="name" title="名称" fixed="right"/>
+                    <plc field="star" title="评分"/>
                 </template>
 
                 <template v-else>
                     <plc field="id" title="编号" fixed="left"/>
-                    <plc field="id" title="编号"/>
                     <plc field="size" title="大小"/>
                     <plc field="date" title="日期"/>
-                    <plc field="color" title="颜色"/>
-                    <plc field="name" title="名称"/>
+                    <plc field="color" title="颜色" v-if="plc.init"/>
+                    <plc field="name" title="名称" fixed="right"/>
                     <plc field="star" title="评分"/>
-                    <plc field="star" title="评分" fixed="right"/>
-                    <plc field="size" title="大小"/>
-                    <plc field="date" title="日期"/>
-                    <plc field="color" title="颜色"/>
-                    <plc field="name" title="名称"/>
-                    <plc field="size" title="大小"/>
-                    <plc field="date" title="日期"/>
-                    <plc field="color" title="颜色"/>
-                    <plc field="name" title="名称"/>
-                    <plc field="size" title="大小"/>
-                    <plc field="date" title="日期"/>
-                    <plc field="color" title="颜色"/>
-                    <plc field="name" title="名称"/>
                 </template>
             </pl-table>
         </demo-row>
@@ -147,7 +111,7 @@
                     virtual: false,
                 },
                 plc: {
-                    width: 200,
+                    width: 300,
                     align: 'left',
                     init: true,
                     order: 5,
@@ -158,5 +122,8 @@
 </script>
 
 <style lang="scss">
-
+    .table-fixed {
+        width: 1000px;
+        margin-left: -130px;
+    }
 </style>
