@@ -11,7 +11,7 @@ interface DataInfo {
     height: number
 }
 
-const Props = {
+export const VirtualListProps = {
     data: {type: Array, require: true, default: []},            // 要渲染的长数据
     size: {type: Number, require: true, default: 40},           // 每一行高度
     remain: {type: Number, require: true},                      // 一屏渲染的行数，总共渲染三屏，一屏渲染个数越多，滚动效果越好，但是浏览器卡顿的效果可能更明显；如果不传remain，则根据size以及 pl-virtual-list 跟节点的高度自动计算行数
@@ -23,7 +23,7 @@ const Props = {
     contentProps: {},
 }
 
-export function virtualListSetup(props: ExtractPropTypes<typeof Props>) {
+export function virtualListSetup(props: ExtractPropTypes<typeof VirtualListProps>) {
 
     const {$scopedSlots} = useScopedSlots()
 
@@ -213,7 +213,7 @@ export function virtualListSetup(props: ExtractPropTypes<typeof Props>) {
 export default defineComponent({
     name: 'pl-virtual-list',
     props: {
-        ...Props,
+        ...VirtualListProps,
     },
     setup(props) {
 
