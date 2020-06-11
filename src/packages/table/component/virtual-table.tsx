@@ -103,7 +103,7 @@ export default defineComponent({
         } = setup(props)
 
         return () => {
-            const horizontalScrollbar = ({data: {style, onMousedown}}) => {
+            const horizontalScrollbar = ({style, onMousedown}) => {
                 return (
                     <div
                         {...{directives: [{name: 'tooltip', value: '在【表头】使用【鼠标滚轮】或者在【表体】中使用【ALT + 鼠标滚动】以横向滚动'}]}}
