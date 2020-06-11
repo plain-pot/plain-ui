@@ -198,12 +198,12 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
                 height: Math.ceil(height2),
             })
         },
-        scroll(point: { x?: number, y?: number }, time: number | null = null) {
+        scroll(point: { x?: number, y?: number }, time?: number) {
             if (!refs.wrapper) return
 
             // if (point.x != null) this.wrapper!.scrollLeft = point.x
             // if (point.y != null) this.wrapper!.scrollTop = point.y
-            if (time == null) {
+            if (!time) {
                 if (point.x != null) refs.wrapper!.scrollLeft = point.x
                 if (point.y != null) refs.wrapper!.scrollTop = point.y
             } else {
@@ -249,10 +249,10 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
                 run()
             }
         },
-        scrollTop(scrollTop, time) {
+        scrollTop(scrollTop: number, time?: number) {
             methods.scroll({y: scrollTop}, time)
         },
-        scrollLeft(scrollLeft, time) {
+        scrollLeft(scrollLeft: number, time?: number) {
             methods.scroll({x: scrollLeft}, time)
         },
         scrollEnd(point: { x: boolean, y?: boolean } = {x: true, y: true}) {

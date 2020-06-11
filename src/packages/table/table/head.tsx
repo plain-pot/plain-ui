@@ -103,7 +103,7 @@ function headSetup() {
         mousewheel: (e: WheelEvent) => {
             e.preventDefault()
             e.stopPropagation()
-            refs.scroll.methods.scrollLeft(refs.scroll.state.wrapperScrollLeft + (e.deltaX || e.deltaY), 0)
+            refs.scroll.methods.scrollLeft(refs.scroll.state.wrapperScrollLeft + (e.deltaX || e.deltaY))
         }
     }
 
