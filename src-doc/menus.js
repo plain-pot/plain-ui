@@ -94,7 +94,7 @@ export default [
     },
     {
         name: '表格', children: [
-            // {name: 'pl-virtual-table', title: '基础虚拟表格', icon: 'pl-table-solid', page: '/table/virtual-table', complete: false},
+            {name: 'pl-virtual-table', title: '基础虚拟表格', icon: 'pl-table-solid', page: '/table/virtual-table', complete: false},
             {name: 'Basic', title: '基础', icon: 'pl-table-solid', page: '/table/table-basic', complete: true},
             {name: 'Config', title: '自定义配置', icon: 'pl-table-solid', page: '/table/table-config', complete: true},
             // {name: 'Table Fixed Column', title: '固定列', icon: 'pl-table-solid', page: '/table/table-fixed', complete: false},
