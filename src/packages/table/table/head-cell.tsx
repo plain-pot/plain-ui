@@ -83,7 +83,7 @@ export default defineComponent({
         ])
 
         const styles = computed(() => {
-            const height = `${table.props.headRowHeight}px`
+            const height = `${table.props.headRowHeight as number * plc.value.rowspan!}px`
             const width = `${(props.plc as PlcType).props.width}px`
             return {
                 height,
