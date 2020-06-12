@@ -1,5 +1,5 @@
 import {computed, defineComponent, inject, reactive, Ref} from "@vue/composition-api";
-import {getCellClass, PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {getCellClass, PlcComponentType, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
@@ -84,7 +84,7 @@ export default defineComponent({
 
         const styles = computed(() => {
             const height = `${table.props.headRowHeight as number * plc.value.rowspan!}px`
-            const width = `${(props.plc as PlcType).props.width}px`
+            const width = plc.value.type === PlcComponentType.GROUP ? '100%' : `${plc.value.props.width}px`
             return {
                 height,
                 width,
@@ -117,20 +117,14 @@ export default defineComponent({
                 key: key.value,
                 class: classes.value,
                 style: styles.value,
-                attrs: {
-                    colspan,
-                    rowspan,
-                },
             }
 
             return (
-                <th {...binding}>
-                    {props.fixed === plc.value.props.fixed ? (
-                        [
-                            title,
-                            <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>,
-                        ]
-                    ) : null}
+                <th colspan={colspan} rowspan={rowspan}>
+                    <div {...binding}>
+                        {(props.fixed === plc.value.props.fixed) && title}
+                        <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
+                    </div>
                 </th>
             )
         }

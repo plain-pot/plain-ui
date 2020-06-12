@@ -13,11 +13,10 @@
   .pl-table {
 
     font-size: 12px;
-    box-sizing: border-box;
 
     table {
       border-collapse: collapse;
-      table-layout: fixed !important;
+      table-layout: auto;
       display: table !important;
     }
 
@@ -51,8 +50,6 @@
       color: $tableHeadColor;
       position: relative;
       overflow: hidden;
-      border-bottom: $tableHeadBorder;
-      border-width: 0.5px;
 
       & > .pl-scroll {
         .pl-scroll-content {
@@ -71,7 +68,6 @@
         .plt-head-cell {
           transition: background-color 500ms $transition;
           font-weight: 400;
-          border-bottom: $tableBodyBorder;
           position: relative;
 
           .plt-head-cell-indicator {
@@ -100,9 +96,7 @@
       }
 
       &.plt-head-border {
-        .plt-cell {
-          border: $tableHeadBorder;
-        }
+
       }
     }
 
@@ -136,44 +130,30 @@
     .plt-cell {
       padding: 0 12px;
       box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: nowrap;
 
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
       &.plt-cell-align-left {
-        text-align: left;
+        justify-content: flex-start;
       }
 
       &.plt-cell-align-center {
-        text-align: center;
+        justify-content: center;
       }
 
       &.plt-cell-align-right {
-        text-align: right;
+        justify-content: flex-end;
       }
     }
 
     &.pl-table-border {
 
-      .plt-body {
-        border-bottom: $tableBodyBorder;
-        border-width: 0.5px;
 
-        .plt-body-item {
-          .plt-cell {
-            border: $tableBodyBorder;
-          }
-
-          .plt-row {
-            &:last-child {
-              .plt-cell {
-                border-bottom: none;
-              }
-            }
-          }
-        }
-      }
     }
 
     &:not(.pl-table-disabled-high-current) {
