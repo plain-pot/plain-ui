@@ -167,7 +167,7 @@ export default defineComponent({
                     <plc-collector ref="collector">{slots.default()}</plc-collector>
                     {!!state.tableWidth && [
                         <plt-head ref="head"/>,
-                        // <plt-body ref="body"/>,
+                        <plt-body ref="body"/>,
                     ]}
                     {!!props.debugPlc && state.tableWidth && printPlcData(plcData.value!.plcList)}
                 </div>
