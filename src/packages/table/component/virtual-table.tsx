@@ -130,15 +130,12 @@ export default defineComponent({
                     }}>
                         <div class="pl-virtual-list-strut" style={{...strutStyles.value, width: `${props.width}px`}}>
                             <div class="pl-virtual-list-content" style={contentStyles.value}>
-                                <pl-list tag="table"
-                                         direction={'left'}
-                                         disabled={!virtualList.isDisabled.value && state.scrollFlag}
-                                         cellspacing={0}
-                                         cellpadding={0}
-                                         border={0}
-                                         style={tableStyles.value}>
+                                <table cellspacing={0}
+                                       cellpadding={0}
+                                       border={0}
+                                       style={tableStyles.value}>
                                     {virtualList.targetData.value.map(({item, index}) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index}))}
-                                </pl-list>
+                                </table>
                             </div>
                         </div>
                     </pl-scroll>
