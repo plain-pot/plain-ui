@@ -3,12 +3,13 @@ import {getCellClass, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
+import {TableNode} from "@/packages/table/table/TableNode";
 
 export default defineComponent({
     name: 'plt-body-cell',
     props: {
         plc: {type: Object, required: true},
-        rowData: {type: Object, required: true},
+        rowData: {type: TableNode, required: true},
         fixed: {type: String, required: true},
     },
     setup(props) {
@@ -31,7 +32,7 @@ export default defineComponent({
         })
 
         const text = computed(() => {
-            return props.rowData.row[props.plc.props.field!]
+            return props.rowData.data[props.plc.props.field!]
         })
 
         return () => {

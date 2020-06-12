@@ -6,6 +6,12 @@ import {$plain} from "@/packages/base";
 
 const data2Key = new WeakMap()
 
+export const enum TableNodeEditStatus {
+    normal = 'normal',
+    create = 'create',
+    update = 'update',
+}
+
 export const enum TableMarkAttr {
     expand = 'expand',
     check = 'check',

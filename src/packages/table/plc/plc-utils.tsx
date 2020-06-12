@@ -1,6 +1,7 @@
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {$plain} from "@/packages/base";
+import {TableNode} from "@/packages/table/table/TableNode";
 
 export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题
@@ -279,7 +280,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     }
 }
 
-export function getCellClass(plc: PlcType, rowData?) {
+export function getCellClass(plc: PlcType, rowData?:TableNode) {
     return [
         `plt-cell-align-${plc.props.align || PlcAlign.left}`,
         {

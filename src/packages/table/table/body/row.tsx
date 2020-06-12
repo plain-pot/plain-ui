@@ -1,11 +1,12 @@
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
+import {TableNode} from "@/packages/table/table/TableNode";
 
 export default defineComponent({
     name: 'plt-row',
     props: {
-        rowData: {type: Object, required: true},
+        rowData: {type: TableNode, required: true},
         fixed: {type: String, required: true},
     },
     setup(props) {

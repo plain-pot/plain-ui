@@ -1,4 +1,4 @@
-import {computed, defineComponent, onMounted, provide, reactive} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, provide, reactive, watch} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {PlcType} from "@/packages/table/plc/plc";
@@ -7,13 +7,18 @@ import {TABLE_PROVIDER, TableHoverPart, TableProps, TablePropsType} from "@/pack
 import {printPlcData} from "@/packages/table/plc/debug";
 import {handlePlcConfigAndState, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {FormatPropsType, useProps} from "@/use/useProps";
-import {useEvent} from "@/use/useEvent";
+import {EmitFunc, useEvent} from "@/use/useEvent";
+import {useModel} from "@/use/useModel";
+import {TableNode} from "@/packages/table/table/TableNode";
+import {TableMark} from "@/packages/table/table/TableMark";
+import {$plain} from "@/packages/base";
 
 
 function tableSetup(props: TablePropsType) {
 
     const {emit, on, off} = useEvent({
         scrollLeft: (e: Event, part: TableHoverPart) => {},
+        updateData: EmitFunc,
     })
 
     const {slots} = useSlots()
@@ -23,6 +28,13 @@ function tableSetup(props: TablePropsType) {
     })
 
     /*---------------------------------------state-------------------------------------------*/
+    const mark = new TableMark(props)
+
+    const dataModel = useModel(() => props.data, emit.updateData, true, true, (val) => state.rootNode.setChildren(val as object[] || []))
+    const rootNode = new TableNode(`root-node-${$plain.utils.uuid()}`, {[props.childrenField]: dataModel.value || []}, props, 0, null, mark)
+
+    const summaryRootNode = new TableNode(`summary-root-node-${$plain.utils.uuid()}`, {[props.childrenField]: props.summaryData || []}, props, 0, null, mark)
+    watch(() => props.summaryData, (val) => state.summaryRootNode.setChildren(val as object[] || []), {lazy: true})
 
     const state = reactive({
         tableWidth: null as null | number,
@@ -30,6 +42,9 @@ function tableSetup(props: TablePropsType) {
             part: TableHoverPart.body,
             fixed: PlcFixedType.center,
         },
+        mark,
+        rootNode,
+        summaryRootNode,
     })
 
     const propsState = useProps(props, {
@@ -59,19 +74,9 @@ function tableSetup(props: TablePropsType) {
         }, 0)
     })
 
-    const tableData = computed(() => {
-        return (props.data || []).map((row, rowIndex) => ({
-            row,
-            rowIndex,
-        }))
-    })
+    const tableData = computed(() => state.rootNode.children as TableNode[])
 
-    const tableSummaryData = computed(() => {
-        return (props.summaryData || []).map((row, rowIndex) => ({
-            row,
-            rowIndex,
-        }))
-    })
+    const tableSummaryData = computed(() => state.summaryRootNode.children as TableNode[])
 
     const isDisabledVirtualScroll = computed(() => {
         return !props.virtual
