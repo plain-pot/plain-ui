@@ -79,14 +79,16 @@ function headSetup() {
         }
     })
 
+    const hasBorder = computed(() => !!table.props.border || (!!headPlcList.value && headPlcList.value.length > 1))
+
     const styles = computed(() => ({
-        height: `${table.propsState.headRowHeight * headPlcList.value.length}px`
+        height: `${table.propsState.headRowHeight * headPlcList.value.length + (hasBorder.value ? 1 : 0)}px`
     }))
 
     const classes = computed(() => ([
         'plt-head',
         {
-            'plt-head-border': !!table.props.border || (!!headPlcList.value && headPlcList.value.length > 1)
+            'plt-head-border': hasBorder.value
         }
     ]))
 

@@ -2,7 +2,7 @@
   $tableHeadColor: rgba(0, 0, 0, 0.85);
   $tableHeadBackground: #f5f7fa;
   $tableHeadHoverBackground: #e4e7ef;
-  $tableHeadBorder: solid 1px #e6e6e6;
+  $tableHeadBorder: solid 1px #f0f0f0;
 
   $tableBodyBorder: solid 1px #f0f0f0;
   $tableBodyColor: rgba(0, 0, 0, 0.65);
@@ -69,6 +69,8 @@
           transition: background-color 500ms $transition;
           font-weight: 400;
           position: relative;
+          border-bottom: $tableHeadBorder;
+          box-sizing: border-box;
 
           .plt-head-cell-indicator {
             position: absolute;
@@ -96,7 +98,13 @@
       }
 
       &.plt-head-border {
+        box-sizing: border-box;
+        border-top: $tableHeadBorder;
+        border-left: $tableHeadBorder;
 
+        .plt-head-cell {
+          border-right: $tableHeadBorder;
+        }
       }
     }
 
@@ -152,8 +160,14 @@
     }
 
     &.pl-table-border {
+      .plt-body {
+        border-left: $tableBodyBorder;
+        border-bottom: $tableBodyBorder;
 
-
+        .plt-cell {
+          border-right: $tableBodyBorder
+        }
+      }
     }
 
     &:not(.pl-table-disabled-high-current) {
@@ -171,7 +185,6 @@
     position: relative;
 
     table {
-      border-collapse: collapse;
 
       &:after {
         content: '';
