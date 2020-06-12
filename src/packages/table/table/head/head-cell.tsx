@@ -122,7 +122,7 @@ export default defineComponent({
             return (
                 <th colspan={colspan} rowspan={rowspan}>
                     <div {...binding}>
-                        {(props.fixed === plc.value.props.fixed) && title}
+                        {(props.fixed === plc.value.props.fixed) ? title : '\u00A0'}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>
                 </th>

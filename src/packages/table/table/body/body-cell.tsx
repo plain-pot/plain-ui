@@ -41,7 +41,7 @@ export default defineComponent({
             return (
                 <td colspan={1} rowspan={1}>
                     <div class={classes.value} style={styles.value} title={text.value}>
-                        {props.fixed === plc.props.fixed ? text.value : null}
+                        {props.fixed === plc.props.fixed ? text.value : '\u00A0'}
                     </div>
                 </td>
             )
