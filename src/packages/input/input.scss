@@ -484,6 +484,12 @@
           color: inherit;
         }
       }
+
+      &.pl-input-disabled {
+        .pl-input-custom-inner-input {
+          cursor: not-allowed;
+        }
+      }
     }
   }
 
@@ -523,6 +529,12 @@
             width: 0;
             border: none;
           }
+        }
+      }
+
+      &.pl-input-disabled {
+        .pl-input-inner-tag-item {
+          cursor: not-allowed;
         }
       }
     }
