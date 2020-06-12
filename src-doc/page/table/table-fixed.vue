@@ -66,12 +66,12 @@
                 </template>
 
                 <template v-else>
-                    <!--<plc field="id" title="编号" fixed="left"/>
+                    <plc field="id" title="编号" fixed="left"/>
                     <plc field="size" title="大小"/>
                     <plc field="date" title="日期"/>
                     <plc field="color" title="颜色" v-if="plc.init"/>
                     <plc field="name" title="名称" fixed="right"/>
-                    <plc field="star" title="评分"/>-->
+                    <plc field="star" title="评分"/>
 
                     <plc field="addr" title="地址"/>
                     <plc field="url" title="链接"/>
