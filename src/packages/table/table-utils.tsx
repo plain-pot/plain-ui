@@ -46,6 +46,9 @@ export const TableProps = {
     childrenField: {type: String},                              // 树节点对应子节点数据对应字段
     isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
     isLeaf: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
+    filterNodeMethod: {type: Function},                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
+    checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
+    intent: {type: Number, default: 14},                        // 相邻级节点水平缩进距离，默认16，单位px
 
 }
 
@@ -56,4 +59,10 @@ export type TablePropsType = ExtractPropTypes<typeof TableProps>
 export const enum TableHoverPart {
     body = 'body',
     head = 'head'
+}
+
+export const enum TableCheckStatus{
+    check = 'check',
+    uncheck = 'uncheck',
+    minus = 'minus',
 }
