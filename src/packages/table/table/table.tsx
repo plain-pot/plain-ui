@@ -1,17 +1,16 @@
 import {computed, defineComponent, onMounted, provide, reactive} from "@vue/composition-api";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {useSlots} from "@/use/useSlots";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
-import {TABLE_PROVIDER, TableHoverPart, TableProps} from "@/packages/table/table-utils";
+import {TABLE_PROVIDER, TableHoverPart, TableProps, TablePropsType} from "@/packages/table/table-utils";
 import {printPlcData} from "@/packages/table/plc/debug";
 import {handlePlcConfigAndState, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useEvent} from "@/use/useEvent";
 
 
-function tableSetup(props: ExtractPropTypes<typeof TableProps>) {
+function tableSetup(props: TablePropsType) {
 
     const {emit, on, off} = useEvent({
         scrollLeft: (e: Event, part: TableHoverPart) => {},
