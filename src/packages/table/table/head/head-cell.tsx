@@ -110,9 +110,7 @@ export default defineComponent({
 
         return () => {
             if (props.fixed !== PlcFixedType.center && plc.value.props.fixed !== props.fixed) return null
-
             const {colspan, rowspan, props: {title}} = plc.value
-
             const binding = {
                 key: key.value,
                 class: classes.value,
