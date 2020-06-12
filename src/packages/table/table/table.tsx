@@ -102,7 +102,8 @@ function tableSetup(props: TablePropsType) {
             state.hoverState.fixed = fixed
         },
         hoverRow: (node: TableNode) => {utils.setHover(node)},
-        clickRow: (node: TableNode) => {utils.setCurrent(node)}
+        clickRow: (node: TableNode) => {utils.setCurrent(node)},
+        leaveTable: () => {utils.setHover(null)},
     }
 
     const refer = {
@@ -149,6 +150,7 @@ export default defineComponent({
             refs,
             plcData,
             state,
+            handler,
         } = tableSetup(props)
 
         const classes = computed(() => [
@@ -161,11 +163,11 @@ export default defineComponent({
         return () => {
 
             return (
-                <div class={classes.value}>
+                <div class={classes.value} onMouseleave={handler.leaveTable}>
                     <plc-collector ref="collector">{slots.default()}</plc-collector>
                     {!!state.tableWidth && [
                         <plt-head ref="head"/>,
-                        <plt-body ref="body"/>,
+                        // <plt-body ref="body"/>,
                     ]}
                     {!!props.debugPlc && state.tableWidth && printPlcData(plcData.value!.plcList)}
                 </div>
