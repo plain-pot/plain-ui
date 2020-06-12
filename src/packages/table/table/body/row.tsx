@@ -13,26 +13,26 @@ export default defineComponent({
 
         const table = inject(TABLE_PROVIDER) as PlainTable
 
-        const isHover = computed(() => {
+        const isHover = computed(() => table.utils.isHover(props.rowData))
 
-        })
+        const isCurrent = computed(() => table.utils.isCurrent(props.rowData))
 
-        const isCurrent = computed(() => {
-
-        })
-
-        const classes = computed(() => {
-
-        })
+        const classes = computed(() => ([
+            'plt-row',
+            {
+                'plt-row-hover': isHover.value,
+                'plt-row-current': isCurrent.value,
+            }
+        ]))
 
         const handler = {
-            mouseenter: () => {},
-            click: () => {},
+            mouseenter: () => {table.handler.hoverRow(props.rowData)},
+            click: () => {table.handler.clickRow(props.rowData)},
         }
 
         const binding = computed(() => {
             return {
-                class: "plt-row",
+                class: classes.value,
                 on: {
                     mouseenter: handler.mouseenter,
                     click: handler.click,

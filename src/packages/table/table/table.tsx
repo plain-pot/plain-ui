@@ -41,10 +41,12 @@ function tableSetup(props: TablePropsType) {
         hoverState: {
             part: TableHoverPart.body,
             fixed: PlcFixedType.center,
+            node: null as null | TableNode,
         },
         mark,
         rootNode,
         summaryRootNode,
+        currentNode: null as null | TableNode,
     })
 
     const propsState = useProps(props, {
@@ -82,13 +84,25 @@ function tableSetup(props: TablePropsType) {
         return !props.virtual
     })
 
+    /*---------------------------------------utils-------------------------------------------*/
+
+    const utils = {
+        setHover: (node: TableNode | null) => {state.hoverState.node = node},
+        isHover: (node: TableNode) => {return !!state.hoverState.node && state.hoverState.node.key === node.key},
+
+        setCurrent: (node: TableNode | null) => {state.currentNode = node},
+        isCurrent: (node: TableNode) => {return !!state.currentNode && state.currentNode.key === node.key},
+    }
+
     /*---------------------------------------handler-------------------------------------------*/
 
     const handler = {
         hoverPart: (part: TableHoverPart, fixed: PlcFixedType) => {
             state.hoverState.part = part
             state.hoverState.fixed = fixed
-        }
+        },
+        hoverRow: (node: TableNode) => {utils.setHover(node)},
+        clickRow: (node: TableNode) => {utils.setCurrent(node)}
     }
 
     const refer = {
@@ -110,6 +124,7 @@ function tableSetup(props: TablePropsType) {
         on,
         off,
 
+        utils,
         handler,
     }
 
