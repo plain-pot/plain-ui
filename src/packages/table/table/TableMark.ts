@@ -2,8 +2,11 @@ import {TablePropsType} from "@/packages/table/table-utils";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
 import {set} from "@vue/composition-api";
+import {$plain} from "@/packages/base";
 
-const enum TableMarkAttr {
+const data2Key = new WeakMap()
+
+export const enum TableMarkAttr {
     expand = 'expand',
     check = 'check',
     loading = 'loading',
@@ -55,10 +58,17 @@ export class TableMark {
     }
 
     getNode(data: object, props: TablePropsType, level: number, parent: TableNode) {
-        const key = data[props.keyField!]
+        let key: string | undefined = !!props.keyField ? data[props.keyField] : undefined
+        if (!key) {
+            key = data2Key.get(data)
+            if (!key) {
+                key = `p_${$plain.utils.uuid()}`
+                data2Key.set(data, key)
+            }
+        }
         let node = this.nodeMap[key]
         if (!node) {
-            node = new TableNode(data, props, level, parent, this)
+            node = new TableNode(key, data, props, level, parent, this)
             this.setMark(key, TableMarkAttr.node, node)
         } else {
             node.data = data

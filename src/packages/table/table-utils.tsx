@@ -43,8 +43,10 @@ export const TableProps = {
 
     // tree
     keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形
-    labelField: {type: String},                                 // 树节点展示文本对应字段
     childrenField: {type: String},                              // 树节点对应子节点数据对应字段
+    isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
+    isLeaf: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
+
 }
 
 export const TABLE_PROVIDER = '@@TABLE_PROVIDER'
