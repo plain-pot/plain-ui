@@ -1,29 +1,5 @@
-# vue-composition-api-tsx-example
+# plain-ui
 
-## Project setup
-```
-yarn install
-```
+Vue ui component library base on composition-api, typescript and vue2.0
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+online: [http://plain-pot.gitee.io/plain-ui/#/form/form-elements](http://plain-pot.gitee.io/plain-ui/#/form/form-elements)
