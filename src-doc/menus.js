@@ -99,6 +99,7 @@ export default [
             {name: 'Test', title: '基础测试', icon: 'pl-table-solid', page: '/table/table-base-test', complete: true},
             {name: 'Config', title: '自定义配置', icon: 'pl-table-solid', page: '/table/table-config', complete: true},
             {name: 'Fixed', title: '固定列', icon: 'pl-table-solid', page: '/table/table-fixed', complete: true},
+            {name: 'ScopedSlot', title: '列作用域插槽', icon: 'pl-table-solid', page: '/table/table-plc-scoped-slot', complete: true},
             // {name: 'Table Fill', title: '宽高填满父元素', icon: 'pl-table-solid', page: '/table/base-table-fit-parent', complete: false},
             // {name: 'Table Basic Props', title: '基本属性', icon: 'pl-table-solid', page: '/table/base-table-props', complete: false},
             // {name: 'Table Edit', title: '基本编辑', icon: 'pl-table-solid', page: '/table/base-table-edit', complete: false},
