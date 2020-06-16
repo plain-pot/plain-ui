@@ -63,7 +63,7 @@ export class TableMark {
         return keys
     }
 
-    getNode(data: object, props: TablePropsType, level: number, parent: TableNode) {
+    getNode(data: object, props: TablePropsType, level: number, parent: TableNode, isSummaryData: boolean) {
         let key: string | undefined = !!props.keyField ? data[props.keyField] : undefined
         if (!key) {
             key = data2Key.get(data)
@@ -74,7 +74,7 @@ export class TableMark {
         }
         let node = this.nodeMap[key]
         if (!node) {
-            node = new TableNode(key, data, props, level, parent, this)
+            node = new TableNode(key, data, props, level, parent, this, isSummaryData)
             this.setMark(key, TableMarkAttr.node, node)
         } else {
             node.data = data

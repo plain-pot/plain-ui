@@ -11,11 +11,12 @@ export class TableNode {
         public level,
         public parent: TableNode | null,
         public mark: TableMark,
+        public isSummaryData: boolean,
     ) {}
 
     get childrenData() {return !!this.props.childrenField && !!this.data ? this.data[this.props.childrenField] : undefined}
 
-    get children() {return !this.childrenData ? undefined : this.childrenData.map(child => this.mark.getNode(child, this.props, this.level + 1, this))}
+    get children() {return !this.childrenData ? undefined : this.childrenData.map(child => this.mark.getNode(child, this.props, this.level + 1, this, this.isSummaryData))}
 
     /*---------------------------------------mark attrs-------------------------------------------*/
 
