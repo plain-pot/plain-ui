@@ -4,6 +4,11 @@ import {set} from "@vue/composition-api";
 
 export class TableNode {
 
+    /**
+     * 构造函数中标记的成员变量都是初始化之后就不可变的，而 TableMark中标记的变量是动态可变的
+     * @author  韦胜健
+     * @date    2020/6/16 16:07
+     */
     constructor(
         public key: string,
         public data: object,
