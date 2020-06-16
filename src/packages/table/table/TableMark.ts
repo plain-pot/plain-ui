@@ -22,11 +22,11 @@ export const enum TableMarkAttr {
 
 export class TableMark {
 
-    expandMap: { [key: string]: boolean } = {}
-    checkMap: { [key: string]: boolean } = {}
-    loadingMap: { [key: string]: boolean } = {}
-    loadedMap: { [key: string]: boolean } = {}
-    nodeMap: { [key: string]: TableNode } = {}
+    expandMap: { [key: string]: boolean } = {}              // 是否已经展开（针对于树形表格来说的，不适用于展开列）
+    checkMap: { [key: string]: boolean } = {}               // 是否已经选中（针对于树形表格来说的，不适用于多选列）
+    loadingMap: { [key: string]: boolean } = {}             // 是否处于加载状态（针对于树形表格来说的，标明行是否处于懒加载子节点数据的状态）
+    loadedMap: { [key: string]: boolean } = {}              // 是否已经加载完毕子节点数据（适用于树形表格）
+    nodeMap: { [key: string]: TableNode } = {}              // key映射TableNode
 
     constructor(public props: TablePropsType) {}
 
