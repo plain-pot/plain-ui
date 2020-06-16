@@ -19,6 +19,8 @@ export class TableNode {
         public isSummaryData: boolean,
     ) {}
 
+    index!: number
+
     get childrenData() {return !!this.props.childrenField && !!this.data ? this.data[this.props.childrenField] : undefined}
 
     get children() {return !this.childrenData ? undefined : this.childrenData.map(child => this.mark.getNode(child, this.props, this.level + 1, this, this.isSummaryData))}

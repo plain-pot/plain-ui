@@ -13,6 +13,25 @@ import {TableNode} from "@/packages/table/table/TableNode";
 import {TableMark} from "@/packages/table/table/TableMark";
 import {$plain} from "@/packages/base";
 
+/**
+ * 递归遍历树形结构的表格数据
+ * @author  韦胜健
+ * @date    2020/6/16 16:20
+ */
+function iterateTableNode(
+    tableNodes: TableNode[] | Readonly<TableNode[]> | null,
+    fn: (node: TableNode) => void,
+    iterateChildren?: (node: TableNode) => boolean
+) {
+    if (!tableNodes) return
+    tableNodes.forEach(node => {
+        fn(node)
+        if (!!node.children && (!iterateChildren || iterateChildren(node))) {
+            iterateTableNode(node.children, fn, iterateChildren)
+        }
+    })
+}
+
 
 function tableSetup(props: TablePropsType) {
 
@@ -93,6 +112,28 @@ function tableSetup(props: TablePropsType) {
         return !props.virtual
     })
 
+    const formatFlatTableData = computed(() => {
+        const formatData = tableData.value
+        let index = 0
+        const formatDataFlat: TableNode[] = []
+
+        iterateTableNode(
+            formatData,
+            (node) => {
+
+                // 这个index应该是一个非响应式属性，避免出现计算属性死循环的情况
+                node.index = index++
+                formatDataFlat.push(node)
+            },
+            (node) => {
+                return !props.childrenField || node.isExpand
+            },
+        )
+
+        return formatDataFlat
+    })
+
+
     /*---------------------------------------utils-------------------------------------------*/
 
     const utils = {
@@ -125,6 +166,7 @@ function tableSetup(props: TablePropsType) {
         totalContentWidth,
         tableData,
         tableSummaryData,
+        formatFlatTableData,
         isDisabledVirtualScroll,
 
         state,

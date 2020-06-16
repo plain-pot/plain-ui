@@ -122,7 +122,7 @@ export default defineComponent({
                         key={table.props.virtual ? 'enable' : 'disabled'}
                         ref="virtualTable"
                         width={width.value}
-                        data={table.tableData.value}
+                        data={table.formatFlatTableData.value}
                         summaryData={table.tableSummaryData.value}
                         size={table.props.bodyRowHeight}
                         disabled={table.isDisabledVirtualScroll.value}
