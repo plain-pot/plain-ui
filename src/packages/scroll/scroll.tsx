@@ -37,8 +37,8 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
 
     const {slots} = useSlots()
     const {scopedSlots} = useScopedSlots({
-        'horizontal-scrollbar': {style: Object, onMousedown: Function},
-        'vertical-scrollbar': {style: Object, onMousedown: Function},
+        'horizontal-scrollbar': {style: {} as StyleType, onMousedown: (e: MouseEvent) => {}},
+        'vertical-scrollbar': {style: {} as StyleType, onMousedown: (e: MouseEvent) => {}},
     })
 
     const {emit} = useEvent({
@@ -323,7 +323,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             }
         },
         vertical: {
-            dragstart: (e: DragEvent) => {
+            dragstart: (e: MouseEvent) => {
                 state.draging = true
                 state.dragTop = verticalScrollbarTop.value
                 state.dragY = e.clientY

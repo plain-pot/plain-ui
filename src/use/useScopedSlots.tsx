@@ -8,7 +8,7 @@ type ScopedSlotFuncType = object
 type JSXElement = JSX.Element
 
 export function useScopedSlots<T extends { [key: string]: ScopedSlotFuncType }>(option?: T): {
-    scopedSlots: { [key in keyof T]: (data: { param: object, content: JSXElement | (JSXElement | null)[] | null }) => JSXElement | (JSXElement | null)[] | null }
+    scopedSlots: { [key in keyof T]: (data: { param: T[key], content: JSXElement | (JSXElement | null)[] | null }) => JSXElement | (JSXElement | null)[] | null }
         &
         { default: (data: { param: object, content: JSXElement | (JSXElement | null)[] | null }) => JSXElement | (JSXElement | null)[] | null },
     $scopedSlots: { [key in keyof T]?: (...args: any[]) => JSXElement | (JSXElement | null)[][] | null }
