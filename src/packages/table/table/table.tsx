@@ -30,9 +30,11 @@ function tableSetup(props: TablePropsType) {
     /*---------------------------------------state-------------------------------------------*/
     const mark = new TableMark(props)
 
+    // data
     const dataModel = useModel(() => props.data, emit.updateData, true, true, (val) => state.rootNode.setChildren(val as object[] || []))
     const rootNode = new TableNode(`root-node-${$plain.utils.uuid()}`, {[props.childrenField]: dataModel.value || []}, props, 0, null, mark)
 
+    // summary data
     const summaryRootNode = new TableNode(`summary-root-node-${$plain.utils.uuid()}`, {[props.childrenField]: props.summaryData || []}, props, 0, null, mark)
     watch(() => props.summaryData, (val) => state.summaryRootNode.setChildren(val as object[] || []), {lazy: true})
 
@@ -63,7 +65,7 @@ function tableSetup(props: TablePropsType) {
         // table: config plc, and  combine: props + config + state
         const ret = handlePlcConfigAndState(items, props.config, state.tableWidth)
 
-        const has = computed(()=>({
+        const has = computed(() => ({
             hasFixedLeft: ret.hasFixedLeft,
             hasFixedRight: ret.hasFixedRight,
         }))
