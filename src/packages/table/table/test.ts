@@ -1,3 +1,5 @@
+import {PlcType} from "@/packages/table/plc/plc";
+
 type TableNode = {
     name: string
     age: number
@@ -28,18 +30,22 @@ test({
     }
 })*/
 
-class Test<T> {
-    constructor(option: {
-        param: T,
-        beforeLoad: (option: { url: string, param: T & { page: number } }) => void
-    }) {}
+interface PlcTypeConstructor {
+    new(): PlcType;
 }
 
-const t = new Test({
-    param: {
-        haha: true,
-    },
-    beforeLoad: ({param}) => {
-        console.log(param.haha)
-    }
-})
+/*class PlcClazz implements PlcTypeConstructor {
+    constructor() {}
+}*/
+
+// const c = new PlcClazz()
+
+function log(fn: PlcTypeConstructor) {
+    const a = new fn()
+    console.log(a.scopedSlots)
+}
+
+
+
+
+
