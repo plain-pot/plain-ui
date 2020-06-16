@@ -72,13 +72,6 @@ function headSetup() {
         return headCols
     })
 
-    const has = computed(() => {
-        return {
-            fixedLeft: table.plcData.value!.hasFixedLeft,
-            fixedRight: table.plcData.value!.hasFixedLeft,
-        }
-    })
-
     const hasBorder = computed(() => !!table.props.border || (!!headPlcList.value && headPlcList.value.length > 1))
 
     const styles = computed(() => ({
@@ -118,7 +111,7 @@ function headSetup() {
     const refer = {
         refs,
         headPlcList,
-        has,
+        has: table.plcData.value!.has,
         handler,
         methods,
     }
@@ -136,7 +129,7 @@ function headSetup() {
         classes,
         handler,
         methods,
-        has,
+        has: table.plcData.value!.has,
     }
 }
 
@@ -158,8 +151,8 @@ export default defineComponent({
                 <pl-scroll scrollX scrollY={false} ref="scroll" onScroll={handler.scroll} hideScrollbar>
                     <plt-head-item/>
                 </pl-scroll>
-                {has.value.fixedLeft && <plt-head-item fixed="left"/>}
-                {has.value.fixedRight && <plt-head-item fixed="right"/>}
+                {has.value.hasFixedLeft && <plt-head-item fixed="left"/>}
+                {has.value.hasFixedRight && <plt-head-item fixed="right"/>}
             </div>
         )
     },

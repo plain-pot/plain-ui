@@ -61,7 +61,14 @@ function tableSetup(props: TablePropsType) {
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
-        return handlePlcConfigAndState(items, props.config, state.tableWidth)
+        const ret = handlePlcConfigAndState(items, props.config, state.tableWidth)
+
+        const has = computed(()=>({
+            hasFixedLeft: ret.hasFixedLeft,
+            hasFixedRight: ret.hasFixedRight,
+        }))
+
+        return {...ret, has}
     });
 
     const bodyPlcList = computed(() => {

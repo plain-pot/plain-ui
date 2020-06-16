@@ -26,13 +26,6 @@ function setup() {
         height: `${table.props.bodyRowHeight as number * table.props.showRows + 12}px`
     }))
 
-    const has = computed(() => {
-        return {
-            fixedLeft: table.plcData.value!.hasFixedLeft,
-            fixedRight: table.plcData.value!.hasFixedLeft,
-        }
-    })
-
     const handler = {
         scrollLeft: (e: Event, part: TableHoverPart) => {
             if (part === TableHoverPart.head && table.state.hoverState.part === TableHoverPart.head) {
@@ -74,7 +67,7 @@ function setup() {
         state,
         styles,
         handler,
-        has,
+        has: table.plcData.value!.has,
     }
 
     provide(PLAIN_TABLE_BODY_PROVIDER, refer)
@@ -93,17 +86,16 @@ export default defineComponent({
             handler,
             has,
         } = setup()
-
         return () => (
             <div class="plt-body" style={styles.value}>
 
                 <plt-body-item onScroll={handler.scroll}/>
 
-                {has.value.fixedLeft && (
+                {has.value.hasFixedLeft && (
                     <plt-body-item fixed={PlcFixedType.left} onScroll={handler.scroll}/>
                 )}
 
-                {has.value.fixedRight && (
+                {has.value.hasFixedRight && (
                     <plt-body-item fixed={PlcFixedType.right} onScroll={handler.scroll}/>
                 )}
 
