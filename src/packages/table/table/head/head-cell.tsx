@@ -68,23 +68,19 @@ export default defineComponent({
         fixed: {type: String, required: true},
         plc: {type: Object},
     },
-    setup(props) {
+    setup(props: { fixed: PlcFixedType, plc: PlcType }) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
-
-        const plc = computed(() => {
-            return props.plc as PlcType
-        })
 
         const classes = computed(() => [
             'plt-head-cell',
             'plt-cell',
-            ...getCellClass(props.plc as PlcType),
+            ...getCellClass(props.plc),
         ])
 
         const styles = computed(() => {
-            const height = `${table.props.headRowHeight as number * plc.value.rowspan!}px`
-            const width = plc.value.type === PlcComponentType.GROUP ? '100%' : `${plc.value.props.width}px`
+            const height = `${table.props.headRowHeight as number * props.plc.rowspan!}px`
+            const width = props.plc.type === PlcComponentType.GROUP ? '100%' : `${props.plc.props.width}px`
             return {
                 height,
                 width,
@@ -106,11 +102,11 @@ export default defineComponent({
 
         const {
             handler
-        } = useResize(table.refs.$el, plc)
+        } = useResize(table.refs.$el, props.plc)
 
         return () => {
-            if (props.fixed !== PlcFixedType.center && plc.value.props.fixed !== props.fixed) return null
-            const {colspan, rowspan, props: {title}} = plc.value
+            if (props.fixed !== PlcFixedType.center && props.plc.props.fixed !== props.fixed) return null
+            const {colspan, rowspan, props: {title}} = props.plc
             const binding = {
                 key: key.value,
                 class: classes.value,
@@ -120,7 +116,7 @@ export default defineComponent({
             return (
                 <th colspan={colspan} rowspan={rowspan}>
                     <div {...binding}>
-                        {(props.fixed === plc.value.props.fixed) ? title : '\u00A0'}
+                        {(props.fixed === props.plc.props.fixed) ? title : '\u00A0'}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>
                 </th>

@@ -12,19 +12,19 @@ export default defineComponent({
         rowData: {type: TableNode, required: true},
         fixed: {type: String, required: true},
     },
-    setup(props) {
+    setup(props: { plc: PlcType, rowData: TableNode, fixed: PlcFixedType }) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
 
         const classes = computed(() => [
             'plt-body-cell',
             'plt-cell',
-            ...getCellClass(props.plc as PlcType, props.rowData),
+            ...getCellClass(props.plc, props.rowData),
         ])
 
         const styles = computed(() => {
             const height = `${table.props.bodyRowHeight}px`
-            const width = `${(props.plc as PlcType).props.width}px`
+            const width = `${(props.plc).props.width}px`
             return {
                 height,
                 width,
@@ -32,16 +32,15 @@ export default defineComponent({
         })
 
         const text = computed(() => {
-            return props.rowData.data[props.plc.props.field!]
+            return props.rowData.data[props.plc.props.field]
         })
 
         return () => {
-            const plc = props.plc as PlcType
-            if (props.fixed !== PlcFixedType.center && plc.props.fixed !== props.fixed) return null
+            if (props.fixed !== PlcFixedType.center && props.plc.props.fixed !== props.fixed) return null
             return (
                 <td colspan={1} rowspan={1}>
                     <div class={classes.value} style={styles.value} title={text.value}>
-                        {props.fixed === plc.props.fixed ? text.value : '\u00A0'}
+                        {props.fixed === props.plc.props.fixed ? text.value : '\u00A0'}
                     </div>
                 </td>
             )
