@@ -11,8 +11,9 @@ export default defineComponent({
         plc: {type: Object, required: true},
         rowData: {type: TableNode, required: true},
         fixed: {type: String, required: true},
+        isSummary: {type: Boolean},
     },
-    setup(props: { plc: PlcType, rowData: TableNode, fixed: PlcFixedType }) {
+    setup(props: { plc: PlcType, rowData: TableNode, fixed: PlcFixedType, isSummary: boolean }) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
 
@@ -37,10 +38,24 @@ export default defineComponent({
 
         return () => {
             if (props.fixed !== PlcFixedType.center && props.plc.props.fixed !== props.fixed) return null
+
+            let content;
+            if (props.isSummary) {
+                content = props.plc.scopedSlots.summary({
+                    param: props,
+                    content: text.value
+                })
+            } else {
+                content = props.plc.scopedSlots.default({
+                    param: props,
+                    content: text.value
+                })
+            }
+
             return (
                 <td colspan={1} rowspan={1}>
                     <div class={classes.value} style={styles.value} title={text.value}>
-                        {props.fixed === props.plc.props.fixed ? text.value : '\u00A0'}
+                        {props.fixed === props.plc.props.fixed ? content : '\u00A0'}
                     </div>
                 </td>
             )

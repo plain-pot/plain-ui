@@ -48,10 +48,14 @@
                           v-bind="props">
                     <template v-if="other.groupHead">
                         <plc-list>
+                            <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
                             <plc field="id" title="编号" :width="plc.width" :align="plc.align">
                                 <template slot-scope="{}" slot="head">
                                     <span>自定义表头</span>
                                     <pl-icon icon="el-icon-warning"/>
+                                </template>
+                                <template slot-scope="{rowData}">
+                                    [{{rowData.data.star}}]
                                 </template>
                             </plc>
                             <plc field="size" title="大小" :align="plc.align"/>
@@ -84,7 +88,7 @@
 
     export default {
         name: "table-basic",
-        data() {
+        data(){
             return {
                 tableData: data,
                 summaryData: [

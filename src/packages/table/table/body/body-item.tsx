@@ -131,8 +131,8 @@ export default defineComponent({
                         {
                             ...{
                                 scopedSlots: {
-                                    default: ({item, index}) => (
-                                        <plt-row key={index} vid={index} rowData={item} fixed={props.fixed}/>
+                                    default: ({item, index, isSummary}) => (
+                                        <plt-row key={index} vid={index} rowData={item} fixed={props.fixed} isSummary={isSummary}/>
                                     )
                                 }
                             }

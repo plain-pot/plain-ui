@@ -8,6 +8,7 @@ export default defineComponent({
     props: {
         rowData: {type: TableNode, required: true},
         fixed: {type: String, required: true},
+        isSummary: {type: Boolean},
     },
     setup(props) {
 
@@ -43,7 +44,7 @@ export default defineComponent({
         return () => (
             <tr {...binding.value}>
                 {
-                    table.bodyPlcList.value!.map((plc, plcIndex) => (<plt-body-cell key={plcIndex} plc={plc} rowData={props.rowData} fixed={props.fixed}/>))
+                    table.bodyPlcList.value!.map((plc, plcIndex) => (<plt-body-cell key={plcIndex} plc={plc} rowData={props.rowData} fixed={props.fixed} isSummary={props.isSummary}/>))
                 }
             </tr>
         )

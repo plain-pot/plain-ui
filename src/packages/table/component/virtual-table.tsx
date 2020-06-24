@@ -134,7 +134,7 @@ export default defineComponent({
                                        cellpadding={0}
                                        border={0}
                                        style={tableStyles.value}>
-                                    {virtualList.targetData.value.map(({item, index}) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index}))}
+                                    {virtualList.targetData.value.map(({item, index}) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index, isSummary: false}))}
                                 </table>
                             </div>
                         </div>
@@ -146,7 +146,7 @@ export default defineComponent({
                                cellpadding={0}
                                border={0}
                         >
-                            {props.summaryData.map((item, index) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index}))}
+                            {props.summaryData.map((item, index) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index, isSummary: true}))}
                         </table>
                     )}
                 </div>
