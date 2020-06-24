@@ -7,9 +7,9 @@ import {PlainUtils} from "@/util/util";
  * @date    2020/5/13 14:54
  */
 
-// emitInput        -> input
-// emitItemClick    -> item-click
-// emitUpdateSTart  -> update:start
+// input        -> input
+// itemClick    -> item-click
+// updateSTart  -> update:start
 export function emitName2ListenName(emitName) {
     return PlainUtils.kebabCase(emitName).replace('update-', 'update:')
 }
