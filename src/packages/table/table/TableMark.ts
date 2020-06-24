@@ -30,7 +30,7 @@ export class TableMark {
 
     constructor(public props: TablePropsType) {}
 
-    getMark<T = string>(key: string, attr: TableMarkAttr): T {
+    getMark<T = boolean>(key: string, attr: TableMarkAttr): T {
         const attrName = `${attr}Map`
         if (!attrName) {
             console.error(`pl-table: no attr:${attr}`)
