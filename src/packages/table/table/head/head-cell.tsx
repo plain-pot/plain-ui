@@ -116,7 +116,10 @@ export default defineComponent({
             return (
                 <th colspan={colspan} rowspan={rowspan}>
                     <div {...binding}>
-                        {(props.fixed === props.plc.props.fixed) ? title : '\u00A0'}
+                        {(props.fixed === props.plc.props.fixed) ? props.plc.scopedSlots.head({
+                            param: props.plc,
+                            content: title
+                        }) : '\u00A0'}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>
                 </th>
