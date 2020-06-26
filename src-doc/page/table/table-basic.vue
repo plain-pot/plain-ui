@@ -49,10 +49,10 @@
                     <template v-if="other.groupHead">
                         <plc-list>
                             <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
-                            <plc field="id" title="编号" :width="plc.width" :align="plc.align">
+                            <plc field="id" title="编号" :align="plc.align">
                                 <template slot-scope="{}" slot="head">
                                     <span>自定义表头</span>
-                                    <pl-icon icon="el-icon-warning"/>
+                                    <pl-icon icon="el-icon-warning" v-tooltip="'tips'"/>
                                 </template>
                                 <template slot-scope="{rowData}">
                                     [{{rowData.data.star}}]
@@ -88,7 +88,7 @@
 
     export default {
         name: "table-basic",
-        data(){
+        data() {
             return {
                 tableData: data,
                 summaryData: [
