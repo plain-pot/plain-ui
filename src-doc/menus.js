@@ -120,6 +120,7 @@ export default [
             {name: 'Canvas', title: '测试canvas', icon: 'pl-table-solid', page: '/test/test-canvas', complete: true},
             {name: 'High', title: '测试高阶组件', icon: 'pl-table-solid', page: '/test/test-high', complete: true},
             {name: 'Listener', title: '测试事件', icon: 'pl-table-solid', page: '/test/test-listener', complete: true},
+            {name: 'Filter', title: '异步过滤器', icon: 'pl-table-solid', page: '/test/test-filter', complete: true},
         ]
     },
 ]

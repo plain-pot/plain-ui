@@ -1,11 +1,10 @@
 <template>
-    <div v-if="!!agent">
+    <div>
+        test
     </div>
 </template>
 
 <script>
-
-    import {usePopperAgent} from "../../../src/packages/popper/service/PopperAgent";
 
     export default {
         name: "test",
