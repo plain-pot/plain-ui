@@ -20,6 +20,12 @@ export const PlcProps = {
     width: {type: [String, Number], default: '120'},                        // 列宽度
     fit: {type: Number, default: 0},                                        // 当列不满表格宽度时，该列所占剩下宽度的权重
 
+    // 渲染函数
+    head: {type: Function},
+    default: {type: Function},
+    summary: {type: Function},
+    edit: {type: Function},
+
     // search: {type: Boolean, default: true},                              // 可查询
     // searchType: {type: String, default: 'input'},                        // 查询类型
     // searchField: {type: String},                                         // 查询字段
@@ -280,7 +286,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     }
 }
 
-export function getCellClass(plc: PlcType, rowData?:TableNode) {
+export function getCellClass(plc: PlcType, rowData?: TableNode) {
     return [
         `plt-cell-align-${plc.props.align || PlcAlign.left}`,
         {
