@@ -55,6 +55,8 @@
                         <plc field="date" title="日期"/>
                         <plc field="color" title="颜色" v-if="plc.init"/>
                     </plc-group>
+
+                    <plc field="id" title="编号"/>
                     <plc field="name" title="名称" fixed="right"/>
                     <plc field="star" title="评分"/>
 

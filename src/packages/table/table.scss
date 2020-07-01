@@ -146,6 +146,10 @@
       overflow: hidden;
       text-overflow: ellipsis;
 
+      &:after {
+        content: '';
+      }
+
       &.plt-cell-align-left {
         justify-content: flex-start;
       }

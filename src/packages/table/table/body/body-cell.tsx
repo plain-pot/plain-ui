@@ -55,7 +55,7 @@ export default defineComponent({
             return (
                 <td colspan={1} rowspan={1}>
                     <div class={classes.value} style={styles.value} title={text.value}>
-                        {props.fixed === props.plc.props.fixed ? content : '\u00A0'}
+                        {props.fixed === props.plc.props.fixed ? content : null}
                     </div>
                 </td>
             )

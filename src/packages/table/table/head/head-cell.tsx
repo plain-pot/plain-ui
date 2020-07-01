@@ -119,7 +119,7 @@ export default defineComponent({
                         {(props.fixed === props.plc.props.fixed) ? props.plc.scopedSlots.head({
                             param: props.plc,
                             content: title
-                        }) : '\u00A0'}
+                        }) : null}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>
                 </th>
