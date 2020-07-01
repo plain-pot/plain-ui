@@ -1,9 +1,10 @@
-import {computed, defineComponent, inject, reactive, Ref} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, inject, reactive, Ref} from "@vue/composition-api";
 import {getCellClass, PlcComponentType, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {$plain} from "@/packages/base";
+import {PlcRender} from "@/packages/table/table/PlcRender";
 
 function useResize(table: HTMLElement, plc: Ref<PlcType>) {
     const state = reactive({
@@ -71,6 +72,7 @@ export default defineComponent({
     setup(props: { fixed: PlcFixedType, plc: PlcType }) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
+        const {$createElement} = getCurrentInstance()!
 
         const classes = computed(() => [
             'plt-head-cell',
@@ -106,7 +108,7 @@ export default defineComponent({
 
         return () => {
             if (props.fixed !== PlcFixedType.center && props.plc.props.fixed !== props.fixed) return null
-            const {colspan, rowspan, props: {title}} = props.plc
+            const {colspan, rowspan} = props.plc
             const binding = {
                 key: key.value,
                 class: classes.value,
@@ -116,10 +118,11 @@ export default defineComponent({
             return (
                 <th colspan={colspan} rowspan={rowspan}>
                     <div {...binding}>
-                        {(props.fixed === props.plc.props.fixed) ? props.plc.scopedSlots.head({
-                            param: props.plc,
-                            content: title
-                        }) : null}
+                        {PlcRender.head({
+                            plc: props.plc,
+                            fixed: props.fixed,
+                            h: $createElement,
+                        })}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>
                 </th>

@@ -11,7 +11,7 @@ import {useScopedSlots} from "@/use/useScopedSlots";
 
 function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
 
-    const {scopedSlots} = useScopedSlots({
+    const {scopedSlots, $scopedSlots} = useScopedSlots({
         head: {} as typeof refer,
     })
 
@@ -35,6 +35,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
     const refer = {
         ...PlcComponentPublicData,
         scopedSlots,
+        _$scopedSlots: $scopedSlots,
         type: PlcComponentType.GROUP,
         /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
         // @ts-ignore

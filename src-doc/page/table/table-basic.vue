@@ -58,7 +58,7 @@
                                     [{{rowData.data.star}}]
                                 </template>
                                 <template slot-scope="{rowData}" slot="summary">
-                                    [{{rowData.data.star}}]
+                                    -[{{rowData.data.star}}]-
                                 </template>
                             </plc>
                             <plc field="size" title="大小" :align="plc.align"/>

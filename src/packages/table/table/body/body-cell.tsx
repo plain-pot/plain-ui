@@ -1,9 +1,10 @@
-import {computed, defineComponent, inject} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, inject} from "@vue/composition-api";
 import {getCellClass, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {TableNode} from "@/packages/table/table/TableNode";
+import {PlcRender} from "@/packages/table/table/PlcRender";
 
 export default defineComponent({
     name: 'plt-body-cell',
@@ -16,6 +17,7 @@ export default defineComponent({
     setup(props: { plc: PlcType, rowData: TableNode, fixed: PlcFixedType, isSummary: boolean }) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
+        const {$createElement} = getCurrentInstance()!
 
         const classes = computed(() => [
             'plt-body-cell',
@@ -39,23 +41,13 @@ export default defineComponent({
         return () => {
             if (props.fixed !== PlcFixedType.center && props.plc.props.fixed !== props.fixed) return null
 
-            let content;
-            if (props.isSummary) {
-                content = props.plc.scopedSlots.summary({
-                    param: props,
-                    content: text.value
-                })
-            } else {
-                content = props.plc.scopedSlots.default({
-                    param: props,
-                    content: text.value
-                })
-            }
-
             return (
                 <td colspan={1} rowspan={1}>
                     <div class={classes.value} style={styles.value} title={text.value}>
-                        {props.fixed === props.plc.props.fixed ? content : null}
+                        {PlcRender.body({
+                            ...props,
+                            h: $createElement,
+                        })}
                     </div>
                 </td>
             )
