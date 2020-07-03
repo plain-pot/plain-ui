@@ -35,6 +35,8 @@ export class TableNode {
 
     get isLoaded(): boolean {return this.mark.getMark(this.key, TableMarkAttr.loaded)}
 
+    get isEdit(): boolean {return this.mark.getMark(this.key, TableMarkAttr.edit)}
+
     /*---------------------------------------judge props-------------------------------------------*/
 
     get isCheckable(): boolean {return !this.props.isCheckable || this.props.isCheckable(this)}

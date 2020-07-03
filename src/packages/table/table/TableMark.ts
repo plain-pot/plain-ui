@@ -1,6 +1,5 @@
 import {TablePropsType} from "@/packages/table/table-utils";
 import {TableNode} from "@/packages/table/table/TableNode";
-import {TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
 import {set} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 
@@ -18,10 +17,12 @@ export const enum TableMarkAttr {
     loading = 'loading',
     loaded = 'loaded',
     node = 'node',
+    edit = 'edit',
 }
 
 export class TableMark {
 
+    editMap: { [key: string]: boolean } = {}                // 是否正在编辑
     expandMap: { [key: string]: boolean } = {}              // 是否已经展开（针对于树形表格来说的，不适用于展开列）
     checkMap: { [key: string]: boolean } = {}               // 是否已经选中（针对于树形表格来说的，不适用于多选列）
     loadingMap: { [key: string]: boolean } = {}             // 是否处于加载状态（针对于树形表格来说的，标明行是否处于懒加载子节点数据的状态）
@@ -82,9 +83,10 @@ export class TableMark {
         return node
     }
 
-    static expand = TreeMarkAttr.expand
-    static check = TreeMarkAttr.check
-    static loading = TreeMarkAttr.loading
-    static loaded = TreeMarkAttr.loaded
-    static node = TreeMarkAttr.node
+    static expand = TableMarkAttr.expand
+    static check = TableMarkAttr.check
+    static loading = TableMarkAttr.loading
+    static loaded = TableMarkAttr.loaded
+    static node = TableMarkAttr.node
+    static edit = TableMarkAttr.edit
 }
