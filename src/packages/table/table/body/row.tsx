@@ -29,6 +29,7 @@ export default defineComponent({
         const handler = {
             mouseenter: () => {table.handler.hoverRow(props.rowData)},
             click: () => {table.handler.clickRow(props.rowData)},
+            dblclick: () => {table.handler.dblclickRow(props.rowData)},
         }
 
         const binding = computed(() => {
@@ -37,6 +38,7 @@ export default defineComponent({
                 on: {
                     mouseenter: handler.mouseenter,
                     click: handler.click,
+                    dblclick: handler.dblclick,
                 }
             }
         })

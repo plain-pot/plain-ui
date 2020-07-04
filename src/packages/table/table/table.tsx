@@ -38,6 +38,9 @@ function tableSetup(props: TablePropsType) {
     const {emit, on, off} = useEvent({
         scrollLeft: (e: Event, part: TableHoverPart) => {},
         updateData: EmitFunc,
+
+        clickRow: EmitFunc,
+        dblclickRow: EmitFunc,
     })
 
     const {slots} = useSlots()
@@ -152,7 +155,14 @@ function tableSetup(props: TablePropsType) {
             state.hoverState.fixed = fixed
         },
         hoverRow: (node: TableNode) => {utils.setHover(node)},
-        clickRow: (node: TableNode) => {utils.setCurrent(node)},
+        clickRow: (node: TableNode) => {
+            utils.setCurrent(node)
+            emit.clickRow(node)
+        },
+        dblclickRow: (node) => {
+            emit.dblclickRow(node)
+        },
+
         leaveTable: () => {utils.setHover(null)},
     }
 

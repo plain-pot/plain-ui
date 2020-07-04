@@ -45,6 +45,7 @@
             <div style="margin-right: 0">
                 <pl-table :data="tableData"
                           :summaryData="other.hasSummaryData?summaryData:null"
+                          @dblclick-row="onDblclickRow"
                           v-bind="props">
                     <template v-if="other.groupHead">
                         <plc-toggle title="开关">
@@ -134,6 +135,9 @@
                     align: 'left',
                     init: true,
                     order: 5,
+                },
+                onDblclickRow(node) {
+                    node.enableEdit()
                 },
             }
         },

@@ -20,7 +20,7 @@ export default defineComponent({
         edit: {
             default: () => function (h, {rowData, plc}) {
                 return (
-                    <plc-toggle/>
+                    <pl-toggle/>
                 )
             }
         },

@@ -153,4 +153,9 @@ export class TableNode {
         treeNode.level = this.level + 1
         childrenData.unshift(treeNode.data)
     }
+
+    /*---------------------------------------table edit-------------------------------------------*/
+    enableEdit() {
+        this.mark.setMark(this.key, TableMarkAttr.edit, true)
+    }
 }
