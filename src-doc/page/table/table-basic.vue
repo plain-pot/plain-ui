@@ -47,6 +47,14 @@
                           :summaryData="other.hasSummaryData?summaryData:null"
                           v-bind="props">
                     <template v-if="other.groupHead">
+                        <plc-toggle title="开关">
+                            <template slot-scope="{}" slot="head">
+                                [head]
+                            </template>
+                            <template slot-scope="{}" slot="summary">
+                                summary
+                            </template>
+                        </plc-toggle>
                         <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
                         <plc field="id" title="编号" :align="plc.align">
                             <template slot-scope="{}" slot="head">
