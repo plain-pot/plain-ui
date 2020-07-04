@@ -6,7 +6,7 @@ import {PlainTable} from "@/packages/table/table/table";
 import {$plain} from "@/packages/base";
 import {PlcRender} from "@/packages/table/table/PlcRender";
 
-function useResize(table: HTMLElement, plc: Ref<PlcType>) {
+function useResize(table: HTMLElement, plc: PlcType) {
     const state = reactive({
         indicatorEl: null as null | HTMLElement,
         startX: null as null | number,
@@ -53,7 +53,7 @@ function useResize(table: HTMLElement, plc: Ref<PlcType>) {
             document.body.removeChild(state.indicatorEl!)
             state.endX = e.clientX
             let durWidth = state.endX - state.startX!
-            plc.value.setDurWidth(durWidth)
+            plc.setDurWidth(durWidth)
         }
     }
 

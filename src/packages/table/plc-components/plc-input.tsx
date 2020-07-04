@@ -10,7 +10,7 @@ export default defineComponent({
         edit: {
             default: () => function (h, {rowData, plc}) {
                 return (
-                    <pl-input value={rowData.data[plc.props.field]}/>
+                    <pl-input value={rowData.data[plc.props.field]} block/>
                 )
             }
         },
