@@ -215,7 +215,10 @@ export default defineComponent({
 
             return (
                 <div class={classes.value} onMouseleave={handler.leaveTable}>
-                    <plc-collector ref="collector">{slots.default()}</plc-collector>
+                    <plc-collector ref="collector">
+                        <plc-index/>
+                        {slots.default()}
+                    </plc-collector>
                     {!!state.tableWidth && [
                         <plt-head ref="head"/>,
                         <plt-body ref="body"/>,

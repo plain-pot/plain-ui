@@ -47,29 +47,27 @@
                           :summaryData="other.hasSummaryData?summaryData:null"
                           v-bind="props">
                     <template v-if="other.groupHead">
-                        <plc-list>
-                            <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
-                            <plc field="id" title="编号" :align="plc.align">
-                                <template slot-scope="{}" slot="head">
-                                    <span>自定义表头</span>
-                                    <pl-icon icon="el-icon-warning" v-tooltip="'tips'"/>
-                                </template>
-                                <template slot-scope="{rowData}">
-                                    [{{rowData.data.star}}]
-                                </template>
-                                <template slot-scope="{rowData}" slot="summary">
-                                    -[{{rowData.data.star}}]-
-                                </template>
-                            </plc>
-                            <plc field="size" title="大小" :align="plc.align"/>
-                            <plc-group title="地址" :align="plc.align">
-                                <plc field="date" title="日期" :align="plc.align"/>
-                                <plc-list>
-                                    <plc field="color" title="颜色" :align="plc.align"/>
-                                    <plc field="name" title="名称" v-if="plc.init" :align="plc.align"/>
-                                </plc-list>
-                            </plc-group>
-                        </plc-list>
+                        <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
+                        <plc field="id" title="编号" :align="plc.align">
+                            <template slot-scope="{}" slot="head">
+                                <span>自定义表头</span>
+                                <pl-icon icon="el-icon-warning" v-tooltip="'tips'"/>
+                            </template>
+                            <template slot-scope="{rowData}">
+                                [{{rowData.data.star}}]
+                            </template>
+                            <template slot-scope="{rowData}" slot="summary">
+                                -[{{rowData.data.star}}]-
+                            </template>
+                        </plc>
+                        <plc field="size" title="大小" :align="plc.align"/>
+                        <plc-group title="地址" :align="plc.align">
+                            <plc field="date" title="日期" :align="plc.align"/>
+                            <plc-list>
+                                <plc field="color" title="颜色" :align="plc.align"/>
+                                <plc field="name" title="名称" v-if="plc.init" :align="plc.align"/>
+                            </plc-list>
+                        </plc-group>
                         <plc field="star" title="评分" :align="plc.align"/>
                     </template>
                     <template v-else>

@@ -59,6 +59,12 @@ export const PlcRender = {
             if (!!plc.props.summary) {
                 return plc.props.summary(h, renderData)
             }
+            if (!!plc._$scopedSlots.default) {
+                return plc._$scopedSlots.default(renderData)
+            }
+            if (!!plc.props.default) {
+                return plc.props.default(h, renderData)
+            }
             return !!plc.props.field ? renderData.rowData.data[plc.props.field] : null
         } else {
             // 表体

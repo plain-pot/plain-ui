@@ -1,4 +1,5 @@
 import 'src/style/index.scss'
+import PLC from "@/packages/table/plc-components";
 
 import button from './packages/button'
 import input from './packages/input'
@@ -49,6 +50,7 @@ import table from './packages/table'
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
+    PLC,
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade, time, dateTimeInput, date, select, form, table,
     collapse, list, grid, scroll, portal,
@@ -63,6 +65,7 @@ const install: PluginType['install'] = Vue => {
 }
 
 export {
+    PLC,
     icon,
     button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
     collapse, list, grid, scroll, portal,
