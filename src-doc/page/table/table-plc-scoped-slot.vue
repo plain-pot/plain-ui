@@ -52,10 +52,10 @@
                         <template slot-scope="{}" slot="head">
                             id标题
                         </template>
-                        <template slot-scope="{data}">
+                        <template slot-scope="{rowData:{data}}">
                             id:{{data.id}}
                         </template>
-                        <template slot-scope="{data}" slot="summary">
+                        <template slot-scope="{rowData:{data}}" slot="summary">
                             smy:{{data.id}}
                         </template>
                     </plc>
