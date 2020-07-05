@@ -2,7 +2,7 @@ import {defineComponent} from "@vue/composition-api";
 import {PlcProps} from "@/packages/table/plc/plc-utils";
 import {plcSetup} from "@/packages/table/plc/plc";
 
-export function registerPlc<T>(
+export function definePlc<T>(
     {
         name,
         standardProps,
