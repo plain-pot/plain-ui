@@ -17,7 +17,7 @@ function usePlcSetup(props: ExtractPropTypes<typeof PlcProps>) {
         edit: {} as TableNode,
     })
 
-    useCollectChild({provideString: PLC_COLLECTOR})
+    const ctx = useCollectChild({provideString: PLC_COLLECTOR})
 
     // 转化后的 props
     const propsState = useProps(props, {
@@ -44,6 +44,7 @@ function usePlcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
     const refer = {
         ...PlcComponentPublicData,
+        ctx,
         scopedSlots,
         _$scopedSlots: $scopedSlots,
         type: PlcComponentType.PLC,
