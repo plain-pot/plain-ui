@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {computed, defineComponent, reactive, SetupContext} from "@vue/composition-api";
 import {PLC_COLLECTOR, PlcComponentPublicData, PlcComponentType, PlcProps} from "@/packages/table/plc/plc-utils";
 import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
@@ -8,7 +8,7 @@ import {PlainExtractPropTypes} from "@/type";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {TableNode} from "@/packages/table/table/TableNode";
 
-function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
+function usePlcSetup(props: ExtractPropTypes<typeof PlcProps>) {
 
     const {scopedSlots, $scopedSlots} = useScopedSlots({
         head: {} as typeof refer,
@@ -60,17 +60,17 @@ function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
     return refer
 }
 
-export type PlcType = ReturnType<typeof plcSetup>
+export type PlcType = ReturnType<typeof usePlcSetup>
+
+export function plcSetup(props: ExtractPropTypes<typeof PlcProps>) {
+    usePlcSetup(props)
+    return () => (<div class="plc" field={props.field} title={props.title}/>)
+}
 
 export default defineComponent({
     name: 'plc',
     props: {
         ...PlcProps,
     },
-    setup(props) {
-
-        plcSetup(props)
-
-        return () => (<div class="plc" field={props.field} title={props.title}/>)
-    },
+    setup: plcSetup,
 })

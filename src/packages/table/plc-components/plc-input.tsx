@@ -1,12 +1,11 @@
-import Plc from '../plc/plc'
+import {plcSetup} from '../plc/plc'
 import {defineComponent} from "@vue/composition-api";
+import {PlcProps} from "@/packages/table/plc/plc-utils";
 
 export default defineComponent({
-    ...Plc,
     name: 'plc-input',
     props: {
-        ...Plc.props,
-
+        ...PlcProps,
         edit: {
             default: () => function (h, {rowData, plc}) {
                 return (
@@ -15,4 +14,5 @@ export default defineComponent({
             }
         },
     },
+    setup: plcSetup as any,
 })
