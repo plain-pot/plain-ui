@@ -1,35 +1,41 @@
-import Plc from '../plc/plc'
-import {defineComponent} from "@vue/composition-api";
+import {definePlc} from "@/packages/table/plc-components/register";
 
-export default defineComponent({
-    ...Plc,
-    name: 'plc-index',
-    props: {
-        ...Plc.props,
-
-        // custom props
+export default definePlc({
+    name: 'index',
+    customProps: {
         summaryText: {type: String, default: '合计'},
-
-        // standard props
+    },
+    standardProps: {
         autoFixedLeft: {default: true},
         order: {default: -9999},
-
         summary: {
-            default: () => function (h, {plc}) {
+            default: function (h, {plc}) {
                 return plc.props.summaryText
             }
         },
         default: {
-            default: () => function (h, {rowData, plc}) {
+            default: function (h, {rowData, plc}) {
                 return (
-                    <div>{rowData.index + 1}</div>
+                    <div>
+                        <pl-button onClick={() => console.log(this)}>
+                            {rowData.index + 1}
+                        </pl-button>
+                    </div>
                 )
             }
         },
         head: {
-            default: () => function () {
+            default: function () {
                 return '#'
             }
         },
     },
+    mixin: {
+        data() {
+            return {
+                items: {},
+                selected: [],
+            }
+        },
+    }
 })

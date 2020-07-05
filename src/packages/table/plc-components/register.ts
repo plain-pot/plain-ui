@@ -7,10 +7,12 @@ export function definePlc<T>(
         name,
         standardProps,
         customProps,
+        mixin,
     }: {
         name: string,
         standardProps?: Partial<{ [k in keyof typeof PlcProps]: any }>,
         customProps?: T,
+        mixin?: any,
     }
 ) {
 
@@ -28,6 +30,9 @@ export function definePlc<T>(
     return defineComponent({
         name: `plc-${name}`,
         props,
+        mixins: [
+            ...(!!mixin ? [mixin] : [])
+        ],
         setup: (plcSetup as any)
     })
 }

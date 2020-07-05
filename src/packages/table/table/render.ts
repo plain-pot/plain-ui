@@ -81,7 +81,9 @@ export const PlcRender = {
                 return plc._$scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
-                return plc.props.default(h, renderData)
+                // todo
+                // 在调用渲染函数渲染的时候，调用的上下文应该是plc组件对象本身
+                return plc.props.default.apply(plc.ctx, [h, renderData])
             }
             if (!plc.props.field) {
                 return null
