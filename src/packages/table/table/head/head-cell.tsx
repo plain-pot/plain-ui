@@ -4,7 +4,7 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {$plain} from "@/packages/base";
-import {PlcRender} from "@/packages/table/table/PlcRender";
+import {PlcRender} from "@/packages/table/table/render";
 
 function useResize(table: HTMLElement, plc: PlcType) {
     const state = reactive({

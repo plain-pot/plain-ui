@@ -4,7 +4,7 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {TableNode} from "@/packages/table/table/TableNode";
-import {PlcRender} from "@/packages/table/table/PlcRender";
+import {PlcRender} from "@/packages/table/table/render";
 
 export default defineComponent({
     name: 'plt-body-cell',
