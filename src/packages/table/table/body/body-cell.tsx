@@ -35,7 +35,7 @@ export default defineComponent({
         })
 
         const text = computed(() => {
-            return props.rowData.data[props.plc.props.field]
+            return !!props.plc.props.field ? props.rowData.data[props.plc.props.field] : null
         })
 
         return () => {
