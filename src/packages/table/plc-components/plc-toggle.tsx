@@ -1,24 +1,23 @@
-import Plc from '../plc/plc'
-import {defineComponent} from "@vue/composition-api";
+import {definePlc} from "@/packages/table/plc-components/register";
 
-export default defineComponent({
-    ...Plc,
+export default definePlc({
     name: 'plc-toggle',
     props: {
-        ...Plc.props,
-
+        type: Function,
         summary: {
-            default: () => () => null
+            default: null
         },
         default: {
-            default: () => function (h, {rowData, plc}) {
+            type: Function,
+            default: function (h, {rowData, plc}) {
                 return (
                     <pl-toggle disabled/>
                 )
             }
         },
         edit: {
-            default: () => function (h, {rowData, plc}) {
+            type: Function,
+            default: function (h, {rowData, plc}) {
                 return (
                     <pl-toggle/>
                 )

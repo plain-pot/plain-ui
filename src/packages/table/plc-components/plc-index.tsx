@@ -1,23 +1,26 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 
 export default definePlc({
-    name: 'index',
-    customProps: {
+    name: 'plc-index',
+    props: {
+        // custom
         summaryText: {type: String, default: '合计'},
-    },
-    standardProps: {
+
+        //standard
         autoFixedLeft: {default: true},
         order: {default: -9999},
         summary: {
+            type: Function,
             default: function (h, {plc}) {
                 return plc.props.summaryText
             }
         },
         default: {
+            type: Function,
             default: function (h, {rowData, plc}) {
                 return (
                     <div>
-                        <pl-button onClick={() => console.log(this)}>
+                        <pl-button onClick={() => (this as any).onClick(rowData)}>
                             {rowData.index + 1}
                         </pl-button>
                     </div>
@@ -25,17 +28,23 @@ export default definePlc({
             }
         },
         head: {
+            type: Function,
             default: function () {
                 return '#'
             }
         },
     },
-    mixin: {
-        data() {
-            return {
-                items: {},
-                selected: [],
-            }
-        },
-    }
+    data() {
+        return {
+            items: {},
+            selected: [],
+
+            onClick: (rowData) => {
+                // @ts-ignore
+                this.selected.push(rowData.key)
+                // @ts-ignore
+                console.log(this.selected)
+            },
+        }
+    },
 })

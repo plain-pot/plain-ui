@@ -1,7 +1,6 @@
 import {TablePropsType} from "@/packages/table/table-utils";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {set} from "@vue/composition-api";
-import {$plain} from "@/packages/base";
 
 const data2Key = new WeakMap()
 
@@ -19,6 +18,8 @@ export const enum TableMarkAttr {
     node = 'node',
     edit = 'edit',
 }
+
+let count = 1;
 
 export class TableMark {
 
@@ -69,7 +70,7 @@ export class TableMark {
         if (!key) {
             key = data2Key.get(data)
             if (!key) {
-                key = `p_${$plain.utils.uuid()}`
+                key = `p_${count++}`
                 data2Key.set(data, key)
             }
         }
