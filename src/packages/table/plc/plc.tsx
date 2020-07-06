@@ -11,13 +11,13 @@ import {VNode} from "vue/types/umd";
 import {Vue} from "vue/types/vue";
 
 interface PlcRenderType {
-    head: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
-    default: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
-    edit: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
-    summary: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
+    head?: (h: Vue["$createElement"], plc: any) => VNode | number | string | null | undefined,
+    default?: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
+    edit?: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
+    summary?: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
 }
 
-function usePlcSetup(props: (ExtractPropTypes<typeof PlcProps> & PlcRenderType)) {
+function usePlcSetup(props: (ExtractPropTypes<typeof PlcProps>)) {
 
     const {$scopedSlots} = useScopedSlots({
         head: {},
@@ -28,9 +28,9 @@ function usePlcSetup(props: (ExtractPropTypes<typeof PlcProps> & PlcRenderType))
 
     const scopedSlots = $scopedSlots as {
         head: (plc: typeof refer) => VNode | number | string | null | undefined,
-        default: (arg: { rowData: TableNode, plc: typeof refer }) => VNode | number | string | null | undefined,
-        edit: (arg: { rowData: TableNode, plc: typeof refer }) => VNode | number | string | null | undefined,
-        summary: (arg: { rowData: TableNode, plc: typeof refer }) => VNode | number | string | null | undefined,
+        default: (renderData: { rowData: TableNode, plc: typeof refer }) => VNode | number | string | null | undefined,
+        edit: (renderData: { rowData: TableNode, plc: typeof refer }) => VNode | number | string | null | undefined,
+        summary: (renderData: { rowData: TableNode, plc: typeof refer }) => VNode | number | string | null | undefined,
     }
 
     const ctx = useCollectChild({provideString: PLC_COLLECTOR})
@@ -65,7 +65,7 @@ function usePlcSetup(props: (ExtractPropTypes<typeof PlcProps> & PlcRenderType))
         type: PlcComponentType.PLC,
         /*这里之所以强制做类型变化，是因为经过了collector的计算属性转化，在使用的时候是没有Ref这一层的*/
         // @ts-ignore
-        props: targetProps as PlainExtractPropTypes<typeof PlcProps>,
+        props: targetProps as (PlainExtractPropTypes<typeof PlcProps>) & PlcRenderType,
         state,
         setDurWidth,
     }
