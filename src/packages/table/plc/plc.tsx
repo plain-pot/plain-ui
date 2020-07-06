@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive, SetupContext} from "@vue/composition-api";
+import {computed, defineComponent, reactive} from "@vue/composition-api";
 import {PLC_COLLECTOR, PlcComponentPublicData, PlcComponentType, PlcProps} from "@/packages/table/plc/plc-utils";
 import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
