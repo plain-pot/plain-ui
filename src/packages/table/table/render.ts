@@ -20,8 +20,8 @@ export const PlcRender = {
             return null
         }
         // 如果存在 head作用域插槽，渲染head作用域插槽
-        if (!!plc._$scopedSlots.head) {
-            return plc._$scopedSlots.head(plc)
+        if (!!plc.scopedSlots.head) {
+            return plc.scopedSlots.head(plc)
         }
         // 如果存在 props.head 渲染函数，则渲染 props.head
         if (!!plc.props.head) {
@@ -53,14 +53,14 @@ export const PlcRender = {
 
         if (isSummary) {
             // 合计行
-            if (!!plc._$scopedSlots.summary) {
-                return plc._$scopedSlots.summary(renderData)
+            if (!!plc.scopedSlots.summary) {
+                return plc.scopedSlots.summary(renderData)
             }
             if (!!plc.props.summary) {
                 return plc.props.summary(h, renderData)
             }
-            if (!!plc._$scopedSlots.default) {
-                return plc._$scopedSlots.default(renderData)
+            if (!!plc.scopedSlots.default) {
+                return plc.scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
                 return plc.props.default(h, renderData)
@@ -69,16 +69,16 @@ export const PlcRender = {
         } else {
             // 表体
             if (rowData.isEdit) {
-                if (!!plc._$scopedSlots.edit) {
-                    return plc._$scopedSlots.edit(renderData)
+                if (!!plc.scopedSlots.edit) {
+                    return plc.scopedSlots.edit(renderData)
                 }
                 if (!!plc.props.edit) {
                     return plc.props.edit(h, renderData)
                 }
             }
 
-            if (!!plc._$scopedSlots.default) {
-                return plc._$scopedSlots.default(renderData)
+            if (!!plc.scopedSlots.default) {
+                return plc.scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
                 // todo
