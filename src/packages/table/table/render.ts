@@ -1,5 +1,5 @@
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
-import {PlcType} from "@/packages/table/plc/plc";
+import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {Vue} from "vue/types/vue";
 import {TableNode} from "@/packages/table/table/TableNode";
 
@@ -49,9 +49,12 @@ export const PlcRender = {
             return null
         }
 
-        const renderData = {rowData, plc}
+        let renderData: TableRenderData
 
         if (isSummary) {
+            // 合计行中的row一直是原始的row对象
+            renderData = {rowData, plc, row: rowData.data}
+
             // 合计行
             if (!!plc.scopedSlots.summary) {
                 return plc.scopedSlots.summary(renderData)
@@ -65,16 +68,20 @@ export const PlcRender = {
             if (!!plc.props.default) {
                 return plc.props.default(h, renderData)
             }
-            return !!plc.props.field ? renderData.rowData.data[plc.props.field] : null
+            return !!plc.props.field ? renderData.row[plc.props.field] : null
         } else {
             // 表体
             if (rowData.isEdit) {
+                renderData = {rowData, plc, row: rowData.editRow}
+
                 if (!!plc.scopedSlots.edit) {
                     return plc.scopedSlots.edit(renderData)
                 }
                 if (!!plc.props.edit) {
                     return plc.props.edit(h, renderData)
                 }
+            } else {
+                renderData = {rowData, plc, row: rowData.data}
             }
 
             if (!!plc.scopedSlots.default) {
@@ -88,7 +95,7 @@ export const PlcRender = {
             if (!plc.props.field) {
                 return null
             }
-            return renderData.rowData.data[plc.props.field]
+            return renderData.row[plc.props.field]
         }
 
     }
