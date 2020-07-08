@@ -1,13 +1,14 @@
 import {definePlc} from "@/packages/table/plc-components/register";
+import {set} from "@vue/composition-api";
 
 export default definePlc({
     name: 'plc-input',
     props: {
         edit: {
             type: Function,
-            default: function (h, {rowData, plc}) {
+            default: function (h, {plc, row}) {
                 return (
-                    <pl-input block value={rowData.data[plc.props.field]}/>
+                    <pl-input block value={row[plc.props.field]} onInput={val => set(row, plc.props.field, val)}/>
                 )
             }
         },
