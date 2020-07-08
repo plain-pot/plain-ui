@@ -1,6 +1,7 @@
 import {TableCheckStatus, TablePropsType} from "@/packages/table/table-utils";
 import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
 import {set} from "@vue/composition-api";
+import {$plain} from "@/packages/base";
 
 export class TableNode {
 
@@ -36,6 +37,10 @@ export class TableNode {
     get isLoaded(): boolean {return this.mark.getMark(this.key, TableMarkAttr.loaded)}
 
     get isEdit(): boolean {return this.mark.getMark(this.key, TableMarkAttr.edit)}
+
+    get editRow(): object {return this.mark.getEditRow(this.key)}
+
+    set editRow(val: object) {this.mark.setEditRow(this.key, val)}
 
     /*---------------------------------------judge props-------------------------------------------*/
 
@@ -155,7 +160,29 @@ export class TableNode {
     }
 
     /*---------------------------------------table edit-------------------------------------------*/
+    openEdit() {this.mark.setMark(this.key, TableMarkAttr.edit, true)}
+
+    closeEdit() {this.mark.setMark(this.key, TableMarkAttr.edit, false)}
+
     enableEdit() {
-        this.mark.setMark(this.key, TableMarkAttr.edit, true)
+        if (this.isEdit) {return}
+        this.editRow = $plain.utils.deepcopy(this.data)
+        this.openEdit()
+    }
+
+    cancelEdit() {
+        if (!this.isEdit) {
+            return
+        }
+        // this.editRow = $plain.utils.deepcopy(this.data)
+        this.closeEdit()
+    }
+
+    saveEdit() {
+        if (!this.isEdit) {
+            return
+        }
+        const {data, editRow} = this
+        Object.keys({...data, ...editRow}).forEach(key => set(this.data, key, editRow[key] || null))
     }
 }

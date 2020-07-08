@@ -29,6 +29,7 @@ export class TableMark {
     loadingMap: { [key: string]: boolean } = {}             // 是否处于加载状态（针对于树形表格来说的，标明行是否处于懒加载子节点数据的状态）
     loadedMap: { [key: string]: boolean } = {}              // 是否已经加载完毕子节点数据（适用于树形表格）
     nodeMap: { [key: string]: TableNode } = {}              // key映射TableNode
+    editRowMap: { [key: string]: any } = {}                 // 编辑行对象信息
 
     constructor(public props: TablePropsType) {}
 
@@ -83,6 +84,10 @@ export class TableMark {
         }
         return node
     }
+
+    getEditRow(key: string) {return this.editRowMap[key]}
+
+    setEditRow(key: string, editRow: any) {set(this.editRowMap, key, editRow)}
 
     static expand = TableMarkAttr.expand
     static check = TableMarkAttr.check
