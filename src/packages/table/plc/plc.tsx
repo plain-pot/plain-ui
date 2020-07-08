@@ -10,11 +10,18 @@ import {TableNode} from "@/packages/table/table/TableNode";
 import {VNode} from "vue/types/umd";
 import {Vue} from "vue/types/vue";
 
+export interface TableRenderData {
+    plc: PlcType,
+    rowData: TableNode,
+    row: any,
+}
+
+
 interface PlcRenderType {
     head?: (h: Vue["$createElement"], plc: any) => VNode | number | string | null | undefined,
-    default?: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
-    edit?: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
-    summary?: (h: Vue["$createElement"], renderData: { plc: any, rowData: TableNode }) => VNode | number | string | null | undefined,
+    default?: (h: Vue["$createElement"], renderData: TableRenderData) => VNode | number | string | null | undefined,
+    edit?: (h: Vue["$createElement"], renderData: TableRenderData) => VNode | number | string | null | undefined,
+    summary?: (h: Vue["$createElement"], renderData: TableRenderData) => VNode | number | string | null | undefined,
 }
 
 function usePlcSetup(props: (ExtractPropTypes<typeof PlcProps>)) {
