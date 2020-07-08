@@ -49,6 +49,7 @@
                           v-bind="props">
                     <template v-if="other.groupHead">
                         <plc-input title="输入框列" field="id"/>
+                        <plc-input title="输入框列" field="id"/>
 
                         <plc-toggle title="开关">
                             <template slot-scope="{}" slot="head">
@@ -138,8 +139,22 @@
                     init: true,
                     order: 5,
                 },
-                onDblclickRow(node) {
+                editNode: null,
+                onDblclickRow: (node) => {
+
+                    if (!!this.editNode) {
+                        if (node === this.editNode) {
+                            node.saveEdit()
+                            node.closeEdit()
+                            this.editNode = null
+                            return
+                        } else {
+                            this.editNode.cancelEdit()
+                        }
+                    }
+
                     node.enableEdit()
+                    this.editNode = node
                 },
             }
         },
