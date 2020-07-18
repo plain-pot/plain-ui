@@ -33,6 +33,7 @@ interface Rule {
     field?: string                                                                          // 绑定的字段
     label?: string                                                                          // form item 的文本
     regexp?: RegExp                                                                         // 校验的正则表达式
+    options?: any | any[]                                                                   // 选项值校验
 }
 
 interface FormItemType {
@@ -53,6 +54,7 @@ export interface TargetRule {
     min: number | null,
     label: string | null,
     regexp: RegExp | null,
+    options: any | any[] | null,
 }
 
 function getTargetRule(rule: Rule): TargetRule | null {
@@ -70,6 +72,7 @@ function getTargetRule(rule: Rule): TargetRule | null {
         validator: rule.validator || null,
         label: rule.label || null,
         regexp: rule.regexp || null,
+        options: rule.options || null,
     }
 }
 
@@ -174,7 +177,7 @@ export async function validateFieldByRules(targetRules: TargetRule[], formData: 
 
     for (let i = 0; i < targetRules.length; i++) {
         const rule = targetRules[i];
-        let {required, min, max, regexp, message, validator, type} = rule
+        let {required, min, max, regexp, message, validator, type, options} = rule
 
         const reject = (defaultMessage: string) => ({message: message || defaultMessage, rule})
 
@@ -239,6 +242,19 @@ export async function validateFieldByRules(targetRules: TargetRule[], formData: 
         if (validator) {
             const validateResult = await validator(rule as any, value)
             if (!!validateResult) return await reject(validateResult)
+        }
+
+        /*---------------------------------------options-------------------------------------------*/
+        if (!!options) {
+            if (Array.isArray(options)) {
+                if (options.indexOf(value) === -1) {
+                    return reject('校验不通过！')
+                }
+            } else {
+                if (options != value) {
+                    return reject('校验不通过！')
+                }
+            }
         }
     }
     // 所有校验规则通过
