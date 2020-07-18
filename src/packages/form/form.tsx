@@ -13,6 +13,10 @@ import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useRefer} from "@/use/useRefer";
 
+const enum ValidateMode {
+    form = 'form',
+    table = 'table',
+}
 
 const Props = {
     ...EditProps,
@@ -21,6 +25,7 @@ const Props = {
     value: {type: Object},                                              // model绑定表单对象
     rules: {type: Object},                                              // 表单验证规则
     validateResult: {type: Object},                                     // 校验结果信息
+    validateMode: {type: String, default: ValidateMode.form},           // 校验模式
 
     hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
     hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
@@ -133,28 +138,44 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
             field = Array.isArray(field) ? field : [field]
             field.forEach(item => validateField(validateResultModel.value, allRules.value, props.value || {}, item, trigger))
         },
-        onChange: $plain.utils.throttle((field: string) => {
+        onChange: $plain.utils.throttle((field: string | string[]) => {
             validate.valid(field, FormTrigger.CHANGE)
         }, 300),
-        onBlur: $plain.utils.throttle((field: string) => {
+        onBlur: $plain.utils.throttle((field: string | string[]) => {
             validate.valid(field, FormTrigger.BLUR)
         }, 300)
     }
 
-    watch(() => props.value, (newFormData: any) => {
-        let oldFormData = state.formData
-        const fields = Array.from(new Set([...Object.keys(newFormData || {}), ...(Object.keys(oldFormData))]))
-        fields.forEach(field => {
-            let newVal = newFormData[field]
-            let oldVal = oldFormData[field]
-            if (!$plain.utils.deepEqual(newVal, oldVal)) {
-                emit.fieldValueChange(field, newVal, oldVal)
-                validate.onChange(field)
-            }
-        })
-        state.formData = $plain.utils.deepcopy(newFormData || {})
-    }, {deep: true, lazy: true})
+    const handler = {
+        /**
+         * 如果校验模式为 ValidateMode.table，则通过监听form-item中的edit组件的change事件来触发校验change校验规则，否则通过 深度watch formData对象并且通过
+         * 对比来实现触发change校验。后者的优点是可以兼容任何双向绑定组件，缺点是要深度监听formData的值变化。前者的缺点是
+         * 不兼容非edit组件（使用useEdit来控制编辑的组件），优点是不需要监听formData数据的变化，这个适用于表格中校验数据。
+         * @author  韦胜健
+         * @date    2020/7/18 17:25
+         */
+        onEditChange: (field: string | string[]) => {
+            if (props.validateMode !== ValidateMode.table) return
+            else validate.onChange(field)
+        },
+        onEditBlur: (field: string | string[]) => validate.onBlur(field)
+    }
 
+    if (props.validateMode === ValidateMode.form) {
+        watch(() => props.value, (newFormData: any) => {
+            let oldFormData = state.formData
+            const fields = Array.from(new Set([...Object.keys(newFormData || {}), ...(Object.keys(oldFormData))]))
+            fields.forEach(field => {
+                let newVal = newFormData[field]
+                let oldVal = oldFormData[field]
+                if (!$plain.utils.deepEqual(newVal, oldVal)) {
+                    emit.fieldValueChange(field, newVal, oldVal)
+                    validate.onChange(field)
+                }
+            })
+            state.formData = $plain.utils.deepcopy(newFormData || {})
+        }, {deep: true, lazy: true})
+    }
 
     /*---------------------------------------methods-------------------------------------------*/
 
@@ -237,6 +258,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         editComputed,
         validate,
         methods,
+        handler,
     }
 
     useRefer(refer)

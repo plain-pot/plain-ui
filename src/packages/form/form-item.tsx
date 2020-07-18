@@ -11,7 +11,7 @@ import {FormContextType} from "@/packages/form/form";
 import {useRefer} from "@/use/useRefer";
 import {ValidateResult} from "@/packages/form/validate";
 
-export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null, onBlur: Function) {
+export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null, handler: { onBlur: Function, onChange: Function }) {
     const parent = inject(EditProvider, null) as any
     const editComputed = computed(() => {
         const {disabled, readonly, loading} = props
@@ -40,7 +40,8 @@ export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, f
         return {
             ...p,
             editable: !p.disabled && !p.readonly && !p.loading,
-            onBlur,
+            onBlur: handler.onBlur,
+            onChange: handler.onChange
         }
     })
 
@@ -166,7 +167,10 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
         }
         return null
     })
-    const {editComputed} = useFormItemEdit(props, form, () => !!form && form.validate.onBlur(props.field))
+    const {editComputed} = useFormItemEdit(props, form, {
+        onBlur: () => !!props.field && !!form && form.handler.onEditBlur(props.field as string),
+        onChange: () => !!props.field && !!form && form.handler.onEditChange(props.field as string),
+    })
     const {styleComputed} = useFormItemStyle(props, form, validateMessage)
 
     const refer = {

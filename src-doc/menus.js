@@ -41,6 +41,7 @@ export default [
             {name: 'Form', title: '表单校验', icon: 'pl-form', page: '/form/form-validate', complete: true},
             {name: 'Form', title: '表单blur', icon: 'pl-form', page: '/form/form-blur', complete: true},
             {name: 'Form', title: '表单组件', icon: 'pl-form', page: '/form/form-elements', complete: true},
+            {name: 'Form', title: '表单校验的两种模式', icon: 'pl-form', page: '/form/form-validate-mode', complete: true},
         ]
     },
     {

@@ -48,7 +48,12 @@ export const useEdit = useWrapper('edit', () => {
         if (!!parent && !!parent.value.onBlur) {
             parent.value.onBlur(...args)
         }
-    })
+    });
+    ctx.$on('change', (...args) => {
+        if (!!parent && !!parent.value.onChange) {
+            parent.value.onChange(...args)
+        }
+    });
 
     provide(EditProvider, editComputed)
 
