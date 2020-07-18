@@ -28,7 +28,7 @@
                     <pl-input v-model="form1.formData.field4"/>
                 </pl-form-item>
 
-                <pl-form-item label="数组，1-2个选项" field="field5" :rules="{min:1,max:2}" required>
+                <pl-form-item label="数组，1-2个选项" field="field5" :rules="{type:'array', min:1,max:2}" required>
                     <pl-checkbox-group v-model="form1.formData.field5" itemWidth="50%">
                         <pl-checkbox label="大客户" val="large"/>
                         <pl-checkbox label="潜在客户" val="potential"/>

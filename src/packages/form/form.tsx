@@ -8,7 +8,7 @@ import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {FormItemContextType, FormItemProps} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
-import {FormTrigger, getAllFieldLabels, getAllRequired, getAllRules, validateAsync, validateField} from "@/packages/form/validate";
+import {FormTrigger, getAllFieldLabels, getAllRequired, getAllRules, TargetRule, validateAsync, validateField, ValidateResultMap} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useRefer} from "@/use/useRefer";
@@ -76,7 +76,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
     })
 
     const validateResultModel = useModel(() => {
-        return props.validateResult || {}
+        return (props.validateResult || {}) as ValidateResultMap
     }, emit.updateValidateResult)
 
     /*---------------------------------------computer-------------------------------------------*/
@@ -110,9 +110,9 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
 
     const allRules = computed(() => {
         return getAllRules(props.rules, items.value.map(({label, rules, field, required}) => {
-            return {label, rules, field, required}
+            return {label, rules, field, required} as any
         }))
-    })
+    }) as { value: TargetRule[] }
 
     const allFieldRequired = computed(() => {
         return getAllRequired(allRules.value)
@@ -120,14 +120,14 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
 
     const allFieldLabels = computed(() => {
         return getAllFieldLabels(items.value.map(({label, field}) => {
-            return {label, field}
+            return {label, field} as any
         }))
     })
 
     const validate = {
         valid: (field: string | string[], trigger: FormTrigger) => {
             field = Array.isArray(field) ? field : [field]
-            field.forEach(item => validateField(validateResultModel.value, allRules.value, props.value, item, trigger))
+            field.forEach(item => validateField(validateResultModel.value, allRules.value, props.value || {}, item, trigger))
         },
         onChange: $plain.utils.throttle((field: string) => {
             validate.valid(field, FormTrigger.CHANGE)
@@ -163,7 +163,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
                 state.loadingMask = flag
             }, 300)
         },
-        async validate(callback: Function, loadingMask: boolean = true) {
+        async validate(callback: Function, loadingMask: boolean = true): Promise<null | { validateResult: ValidateResultMap | null, message: string }> {
 
             const dfd = {
                 promise: null as any,
@@ -177,37 +177,32 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
                 dfd.resolve = (...args) => callback(...args)
             }
 
-            const result = await validateAsync(validateResultModel.value, allRules.value, props.value, callback,
-                () => {
+            const result = await validateAsync({
+                validateResult: validateResultModel.value,
+                rules: allRules.value,
+                formData: props.value || {},
+                onStart: () => {
                     if (loadingMask) {
                         this.setLoading(true)
                     }
                 },
-                () => {
+                onEnd: () => {
                     if (loadingMask) {
                         this.setLoading(false)
                     }
                 }
-            )
+            })
 
-            if (!!result) {
-                if (!!result.field) {
-                    let label = allFieldLabels.value[result.field]
-                    // @ts-ignore
-                    result.label = label
-                }
-                dfd.resolve(result)
-            } else {
-                dfd.resolve(null)
-            }
-
+            dfd.resolve(result)
             return dfd.promise
         },
         async validateWithoutMask(callback) {
             return methods.validate(callback, false)
         },
-        showError(err) {
-            $plain.$message.error(`校验不通过：${err.label || ''} ${err.message}`)
+        showError(err: null | { validateResult: ValidateResultMap | null, message: string }) {
+            if (!!err) {
+                $plain.$message.error(err.message)
+            }
         },
         /**
          * 清除校验信息

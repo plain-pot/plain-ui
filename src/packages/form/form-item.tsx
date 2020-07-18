@@ -9,6 +9,7 @@ import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {ElRef, useRefs} from "@/use/useRefs";
 import {FormContextType} from "@/packages/form/form";
 import {useRefer} from "@/use/useRefer";
+import {ValidateResult} from "@/packages/form/validate";
 
 export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null, onBlur: Function) {
     const parent = inject(EditProvider, null) as any
@@ -47,7 +48,7 @@ export function useFormItemEdit(props: ExtractPropTypes<typeof FormItemProps>, f
     return {editComputed}
 }
 
-export function useFormItemStyle(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null, validateMessage: Ref<any>) {
+export function useFormItemStyle(props: ExtractPropTypes<typeof FormItemProps>, form: FormContextType | null, validateMessage: Ref<string | null>) {
     const parent = inject(StyleProvider, null)
 
     const style = computed(() => {
@@ -160,8 +161,8 @@ function formItemSetup(props: ExtractPropTypes<typeof FormItemProps>) {
         let fields = Array.isArray(props.field) ? props.field : [props.field]
         for (let i = 0; i < fields.length; i++) {
             const field = fields[i];
-            let message = form.validateResultModel.value[field as string]
-            if (!!message) return message
+            let validateResult = form.validateResultModel.value[field as string] as ValidateResult
+            if (!!validateResult) return validateResult.message
         }
         return null
     })

@@ -1,72 +1,141 @@
 import {set} from "@vue/composition-api";
+import {toArray} from "@/util/util";
 
-export const enum FormTrigger {
+export enum FormTrigger {
     CHANGE = 'change',
     BLUR = 'blur',
     ALL = 'all',
 }
+
+export enum FormValueType {
+    string = 'string',
+    number = 'number',
+    array = 'array',
+}
+
+export interface ValidateResult {
+    message: string,
+    rule: TargetRule
+}
+
+export interface ValidateResultMap {
+    [k: string]: ValidateResult
+}
+
+interface Rule {
+    validator?: (rule: Rule, value: any) => void | string | Promise<void | string>,         // 校验器
+    required?: boolean,                                                                     // 是否必填
+    trigger?: FormTrigger,                                                                  // 触发器
+    message?: string,                                                                       // 检验事变提示信息
+    type?: FormValueType,                                                                   // 数据的类型
+    max?: number,                                                                           // 最大长度（字符串），最大值（数字），最大长度（数组）
+    min?: number,                                                                           // 最小长度（字符串），最小值（数字），最小长度（数组）
+    field?: string                                                                          // 绑定的字段
+    label?: string                                                                          // form item 的文本
+    regexp?: RegExp                                                                         // 校验的正则表达式
+}
+
+interface FormItemType {
+    label?: string,
+    field?: string | string[]
+    required?: boolean,
+    rules?: Rule | Rule[]
+}
+
+export interface TargetRule {
+    field: string,
+    trigger: FormTrigger,
+    validator: Rule["validator"] | null,
+    required: boolean,                          // 是否有必填检验属性
+    message: string | null,
+    type: FormValueType,
+    max: number | null,
+    min: number | null,
+    label: string | null,
+    regexp: RegExp | null,
+}
+
+function getTargetRule(rule: Rule): TargetRule | null {
+    if (!rule.field) {
+        return null
+    }
+    return {
+        field: rule.field,
+        trigger: rule.trigger || FormTrigger.CHANGE,
+        required: rule.required != null ? rule.required : false,
+        message: rule.message || null,
+        type: rule.type || FormValueType.string,
+        max: rule.max || null,
+        min: rule.min || null,
+        validator: rule.validator || null,
+        label: rule.label || null,
+        regexp: rule.regexp || null,
+    }
+}
+
 
 /**
  * 根据表单校验规则以及所有的form-item对象获取所有的校验规则
  * @author  韦胜健
  * @date    2020/3/27 10:45
  */
-export function getAllRules(formRules, formItems) {
-    // 格式化所有的表单校验规则，表单校验规则是一个对象，每个key代表formData的字段，值可以是一个对象，也可以是一个数组；
-    // 这里全部格式化为数组
-    let allRules = !formRules ? {} : Object.keys(formRules).reduce((ret, field) => {
-        let rule = formRules[field]
-        rule = Array.isArray(rule) ? [...rule] : [rule]
-        ret[field] = rule
-        return ret
-    }, {});
+export function getAllRules(
+    formRules: { [k: string]: Rule | Rule[] } | undefined,
+    formItems: FormItemType[]
+): TargetRule[] {
 
-    // 因为form-item也可以设置校验规则，这里统计form-item的校验规则，全部合并到一起
-    (formItems || []).forEach(formItem => {
-        let {rules, field, required, label} = formItem
+    const targetRules: TargetRule[] = []
 
-        rules = rules || []
-        // form-item 的校验规则可能是一个对象，也可能是一个数组
-        rules = Array.isArray(rules) ? rules : [rules]
-
-        // form-item的校验规则可以不指定 field，当form-item的 field为一个单独的字符串时，自动填上field；否则要求开发者指定 field
-        rules.forEach(item => {
-            if (!item.field) {
-                if (!field || Array.isArray(field)) {
-                    console.error(`规则 ${label} : ${JSON.stringify(item)} 需要指定field`)
-                } else {
-                    item.field = field
-                }
-            }
-        })
-
-        rules = [...rules]
-
-        // form-item必填
-        if (required) {
-            if (!field) {
-                console.error(`规则 ${label} : 必填需要指定field`)
-            } else {
-                // 如果field是一个数组，则每个field都加一个必填校验规则
-                if (Array.isArray(field)) {
-                    field.forEach(itemField => {
-                        rules.push({required: true, field: itemField})
-                    })
-                } else {
-                    // field为单独一个字符串，只增加一个校验规则
-                    rules.push({required: true, field})
-                }
-            }
-        }
-
-        // 合并所有的校验规则
-        rules.forEach(rule => {
-            allRules[rule.field] = allRules[rule.field] || []
-            allRules[rule.field].push(rule)
-        })
+    formRules = formRules || {}
+    Object.keys(formRules).forEach(field => {
+        const rules = toArray(formRules![field])
+        targetRules.push(...rules.map(rule => getTargetRule({...rule, field,})).filter(Boolean) as TargetRule[])
     })
 
-    return allRules
+    formItems = formItems || []
+    formItems.forEach(formItem => {
+        if (!formItem.field) {
+            return
+        }
+        let {field, label, rules, required} = formItem
+
+        const fields = toArray(field)
+        let formItemRules: Rule[] = []
+
+        if (required) {
+            fields.forEach(field => {
+                formItemRules.push({
+                    field,
+                    label,
+                    required: true,
+                })
+            })
+        }
+
+        if (!!rules) {
+            const ruleList = toArray(rules)
+            ruleList.forEach(rule => {
+                if (!rule.field) {
+                    fields.forEach(field => {
+                        formItemRules.push({
+                            field,
+                            label,
+                            ...rule,
+                        })
+                    })
+                } else {
+                    formItemRules.push({
+                        field: rule.field,
+                        label,
+                        ...rule,
+                    })
+                }
+            })
+        }
+        targetRules.push(...formItemRules.map(rule => getTargetRule(rule)).filter(Boolean) as TargetRule[])
+    })
+
+    return targetRules
 }
 
 /**
@@ -74,9 +143,9 @@ export function getAllRules(formRules, formItems) {
  * @author  韦胜健
  * @date    2020/3/27 10:45
  */
-export function getAllRequired(rules) {
-    return Object.keys(rules).reduce((ret, field) => {
-        ret[field] = rules[field].some((rule) => !!rule.required)
+export function getAllRequired(targetRules: TargetRule[]): { [k: string]: boolean } {
+    return targetRules.reduce((ret: { [k: string]: boolean }, item: TargetRule) => {
+        if (!!item.required) ret[item.field] = true
         return ret
     }, {})
 }
@@ -86,15 +155,10 @@ export function getAllRequired(rules) {
  * @author  韦胜健
  * @date    2020/3/27 11:12
  */
-export function getAllFieldLabels(formItems) {
-    return (formItems || []).reduce((ret, item) => {
-        let {field, label} = item
-        if (!!field && !!label) {
-            field = Array.isArray(field) ? field : [field]
-            field.forEach(item => {
-                ret[item] = label
-            })
-        }
+export function getAllFieldLabels(formItems: FormItemType[]): { [k: string]: string | null } {
+    return formItems.reduce((ret: { [k: string]: string | null }, item: FormItemType) => {
+        const fields = toArray(item.field).filter(Boolean) as string[]
+        fields.forEach(field => ret[field] = item.label || null)
         return ret
     }, {})
 }
@@ -104,89 +168,81 @@ export function getAllFieldLabels(formItems) {
  * @author  韦胜健
  * @date    2020/3/27 10:45
  */
-export async function validateFieldByRules(rules, formData, field, trigger) {
-
-    if (trigger === FormTrigger.ALL) {
-        rules = rules[field]
-    } else {
-        /*筛选符合当前校验规则的 trigger*/
-        rules = (rules[field] || []).filter(item => {
-            let itemTrigger = item.trigger || FormTrigger.CHANGE
-            if (itemTrigger !== FormTrigger.BLUR && itemTrigger !== FormTrigger.CHANGE) {
-                console.error(`无法识别 trigger :${itemTrigger}`)
-            }
-            return itemTrigger === trigger
-        })
-    }
-
-    if (rules.length === 0) {
-        /* 没有符合 trigger 的规则，跳过*/
-        return null
-    }
+export async function validateFieldByRules(targetRules: TargetRule[], formData: object, field: string, trigger: FormTrigger): Promise<null | ValidateResult> {
 
     const value = formData[field]
 
-    for (let i = 0; i < rules.length; i++) {
-        const rule = rules[i];
-        let {required, min, max, regexp, message, options, validator} = rule
+    for (let i = 0; i < targetRules.length; i++) {
+        const rule = targetRules[i];
+        let {required, min, max, regexp, message, validator, type} = rule
 
-        const getValidateMessage = async () => typeof message === 'function' ? await message(value, rule) : message
-        const reject = async (defaultMessage) => {
-            return {
-                message: await getValidateMessage() || defaultMessage,
-                rule,
-                field,
-                trigger,
+        const reject = (defaultMessage: string) => ({message: message || defaultMessage, rule})
+
+        /*---------------------------------------required-------------------------------------------*/
+        if (required) {
+            switch (type) {
+                case FormValueType.array:
+                    if (!value) {
+                        return reject('必填！')
+                    } else if (value.length) {
+                        return reject('至少选择一个选项！')
+                    }
+                    break
+                case FormValueType.number:
+                    if (!value && value != 0) {
+                        return reject('必填！')
+                    }
+                    break
+                case FormValueType.string:
+                    if (!value) {
+                        return reject('必填！')
+                    }
+                    break
             }
         }
 
-        /*required*/
-        if (required && (value !== 0 && !value)) return await reject('不能为空！')
-
         if (value != null) {
-            /*min*/
-            if (min != null) {
-                /*array*/
-                if (Array.isArray(value) && value.length < min) return await reject(`不能少于 ${min} 个`)
-                /*string*/
-                if (typeof value === 'string' && value.length < min) return await reject(`字符长度不能小于 ${min}`)
-                /*number*/
-                if (typeof value === 'number' && value < min) return await reject(`不能小于 ${min}`)
-            }
-            /*max*/
             if (max != null) {
-                /*array*/
-                if (Array.isArray(value) && value.length > max) return await reject(`不能多于 ${max} 个`)
-                /*string*/
-                if (typeof value === 'string' && value.length > max) return await reject(`字符长度不能大于 ${max}`)
-                /*number*/
-                if (typeof value === 'number' && value > max) return await reject(`不能大于 ${max} 个`)
+                switch (type) {
+                    case FormValueType.string:
+                        if (value.length > max) return reject(`长度不能大于 ${max} 个字符！`)
+                        break
+                    case FormValueType.number:
+                        if (value > max) return reject(`最大值 ${max}！`)
+                        break
+                    case FormValueType.array:
+                        if (value.length > max) return reject(`最多选择 ${max} 个选项！`)
+                        break
+                }
             }
-            /*regexp*/
+            if (min != null) {
+                switch (type) {
+                    case FormValueType.string:
+                        if (value.length < min) return reject(`长度不能小于 ${min} 个字符！`)
+                        break
+                    case FormValueType.number:
+                        if (value < min) return reject(`最小值 ${min}！`)
+                        break
+                    case FormValueType.array:
+                        if (value.length < min) return reject(`最少选择 ${min} 个选项！`)
+                        break
+                }
+            }
             if (regexp != null) {
-                if (!(regexp).test(String(value))) return await reject(null)
-            }
-
-            /*options*/
-            if (!!options) {
-                if (Array.isArray(options)) {
-                    if (options.indexOf(value) === -1) return await reject('校验不通过')
-                } else {
-                    if (options !== value) {
-                        return await reject('校验不通过')
-                    }
+                if (!regexp.test(value)) {
+                    return reject('校验不通过！')
                 }
             }
         }
 
-        /*validator*/
+        /*---------------------------------------validator-------------------------------------------*/
         if (validator) {
-            const validateResult = await validator()
+            const validateResult = await validator(rule as any, value)
             if (!!validateResult) return await reject(validateResult)
         }
     }
     // 所有校验规则通过
-    return true
+    return null
 }
 
 /**
@@ -194,37 +250,62 @@ export async function validateFieldByRules(rules, formData, field, trigger) {
  * @author  韦胜健
  * @date    2020/3/27 10:46
  */
-export async function validateField(validateResult, rules, formData, field, trigger) {
-    // console.log(field, trigger)
-    const result = await validateFieldByRules(rules, formData, field, trigger)
-    // console.log(field, trigger, result)
-    if (result === true) {
-        set(validateResult, field, null)
-    } else if (result != null) {
-        set(validateResult, field, result.message)
+export async function validateField(validateResult: ValidateResultMap, rules: TargetRule[], formData: object, field: string, trigger: FormTrigger): Promise<ValidateResult | null> {
+
+    rules = rules.filter(rule => rule.field === field)
+    rules = ((trigger === FormTrigger.ALL ? rules : rules.filter((rule) => rule.trigger === trigger)) as TargetRule[])
+
+    if (rules.length === 0) {
+        /* 没有符合 trigger 的规则，跳过*/
+        return null
     }
+
+    const result = await validateFieldByRules(rules, formData, field, trigger)
+    set(validateResult, field, result)
     return result
 }
 
-export async function validateAsync(validateResult, rules, formData, callback, onStart, onEnd) {
-    const validateFields = Object.keys(rules)
-    const validateTasks = validateFields.map(field => validateField(validateResult, rules, formData, field, FormTrigger.ALL))
-    if (!!onStart) onStart()
+/**
+ * 校验所有信息
+ * @author  韦胜健
+ * @date    2020/7/18 11:14
+ */
+export async function validateAsync(config: { validateResult: ValidateResultMap, rules: TargetRule[], formData: object, onStart: Function, onEnd: Function })
+    : Promise<null | { validateResult: ValidateResultMap | null, message: string }> {
+
+    const {
+        validateResult,
+        rules,
+        formData,
+        onStart,
+        onEnd,
+    } = config
+
+    !!onStart && onStart();
     try {
-        await Promise.all(validateTasks)
-        for (let i = 0; i < validateFields.length; i++) {
-            const field = validateFields[i];
-            if (!!validateResult[field]) {
-                const message = validateResult[field]
-                if (!!message) return {message, field}
-            }
+        const validateResultList = (await Promise.all(rules.map(rule => validateField(validateResult, rules, formData, rule.field, FormTrigger.ALL)))).filter(Boolean) as ValidateResult[]
+
+        const newValidateResultMap = validateResultList.length == 0 ? null : validateResultList.reduce((ret: ValidateResultMap, item: ValidateResult) => {
+            ret[item.rule.field] = item
+            return ret
+        }, {})
+
+        if (!newValidateResultMap) {
+            return null
         }
-        return null
+
+        const firstValidateResult = validateResultList[0]!
+
+        return {
+            validateResult: newValidateResultMap,
+            message: `${firstValidateResult.rule.label} 校验不通过，${firstValidateResult.message}`,
+        }
     } catch (e) {
-        return {message: String(e)}
-    } finally {
-        if (!!onEnd) {
-            onEnd()
+        return {
+            validateResult: null,
+            message: String(e),
         }
+    } finally {
+        !!onEnd && onEnd();
     }
 }
