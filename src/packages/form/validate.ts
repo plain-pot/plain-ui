@@ -208,10 +208,10 @@ export function getAllRequired(targetRules: TargetRule[]): { [k: string]: boolea
  * @author  韦胜健
  * @date    2020/3/27 11:12
  */
-export function getAllFieldLabels(formItems: FormItemType[]): { [k: string]: string | null } {
-    return formItems.reduce((ret: { [k: string]: string | null }, item: FormItemType) => {
+export function getAllFieldLabels(formItems: FormItemType[]): { [k: string]: string | undefined } {
+    return formItems.reduce((ret: { [k: string]: string | undefined }, item: FormItemType) => {
         const fields = toArray(item.field).filter(Boolean) as string[]
-        fields.forEach(field => ret[field] = item.label || null)
+        fields.forEach(field => ret[field] = item.label || undefined)
         return ret
     }, {})
 }
