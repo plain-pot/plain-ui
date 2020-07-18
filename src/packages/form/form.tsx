@@ -108,20 +108,24 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
 
     const {editComputed} = useEdit()
 
-    const allRules = computed(() => {
-        return getAllRules(props.rules, items.value.map(({label, rules, field, required}) => {
-            return {label, rules, field, required} as any
-        }))
-    }) as { value: TargetRule[] }
-
-    const allFieldRequired = computed(() => {
-        return getAllRequired(allRules.value)
-    })
-
     const allFieldLabels = computed(() => {
         return getAllFieldLabels(items.value.map(({label, field}) => {
             return {label, field} as any
         }))
+    })
+
+    const allRules = computed(() => {
+        return getAllRules(
+            props.rules,
+            items.value.map(({label, rules, field, required}) => {
+                return {label, rules, field, required} as any
+            }),
+            allFieldLabels.value,
+        )
+    }) as { value: TargetRule[] }
+
+    const allFieldRequired = computed(() => {
+        return getAllRequired(allRules.value)
     })
 
     const validate = {

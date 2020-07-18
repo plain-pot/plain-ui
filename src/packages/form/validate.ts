@@ -84,7 +84,8 @@ function getTargetRule(rule: Rule): TargetRule | null {
  */
 export function getAllRules(
     formRules: { [k: string]: Rule | Rule[] } | undefined,
-    formItems: FormItemType[]
+    formItems: FormItemType[],
+    allFieldLabels: Readonly<{ [k: string]: string | undefined }>,
 ): TargetRule[] {
 
     const targetRules: TargetRule[] = []
@@ -92,7 +93,11 @@ export function getAllRules(
     formRules = formRules || {}
     Object.keys(formRules).forEach(field => {
         const rules = toArray(formRules![field])
-        targetRules.push(...rules.map(rule => getTargetRule({...rule, field,})).filter(Boolean) as TargetRule[])
+        targetRules.push(...rules.map(rule => getTargetRule({
+            ...rule,
+            label: rule.label || allFieldLabels[field],
+            field,
+        })).filter(Boolean) as TargetRule[])
     })
 
     formItems = formItems || []
@@ -109,7 +114,7 @@ export function getAllRules(
             fields.forEach(field => {
                 formItemRules.push({
                     field,
-                    label,
+                    label: label || allFieldLabels[field],
                     required: true,
                 })
             })
@@ -122,14 +127,14 @@ export function getAllRules(
                     fields.forEach(field => {
                         formItemRules.push({
                             field,
-                            label,
+                            label: label || allFieldLabels[field],
                             ...rule,
                         })
                     })
                 } else {
                     formItemRules.push({
                         field: rule.field,
-                        label,
+                        label: label || allFieldLabels[rule.field],
                         ...rule,
                     })
                 }

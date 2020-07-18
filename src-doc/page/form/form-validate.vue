@@ -109,7 +109,6 @@
             async saveValidate() {
                 const err = await this.$refs.form.methods.validate()
                 if (!!err) {
-                    console.log(err)
                     this.$refs.form.methods.showError(err)
                 } else {
                     this.$message.success('校验通过')
@@ -124,7 +123,7 @@
                 }
             },
             async customValidator() {
-                await this.$plain.utils.delay(2000)
+                await this.$plain.utils.delay(Math.random() * 500 + 500)
                 if (!this.form1.formData.field8) {
                     return '请先选择[父属性]'
                 }
