@@ -16,7 +16,6 @@ export default defineComponent({
 
         const {slots, $slots} = useSlots({
             title: SlotFunc,
-            message: SlotFunc,
         })
 
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
@@ -41,14 +40,14 @@ export default defineComponent({
         return () => (
             <div class={classes.value}>
                 {(!!props.title || $slots.title) && (
-                    <span class={'pl-alert-title'}>
+                    <div class={'pl-alert-title'}>
                         {slots.title(props.title)}
-                    </span>
+                    </div>
                 )}
-                {(!!props.message || $slots.message) && (
-                    <span class={'pl-alert-message'}>
-                        {slots.message(props.message)}
-                    </span>
+                {(!!props.message || $slots.default) && (
+                    <div class={'pl-alert-message'}>
+                        {slots.default(props.message)}
+                    </div>
                 )}
                 <div class="pl-alert-icon">
                     <pl-icon icon={icon.value}/>
