@@ -1,27 +1,52 @@
 import {set} from "@vue/composition-api";
 import {toArray} from "@/util/util";
 
+/**
+ * 触发器类型
+ * @author  韦胜健
+ * @date    2020/7/18 12:38
+ */
 export enum FormTrigger {
     CHANGE = 'change',
     BLUR = 'blur',
     ALL = 'all',
 }
 
+/**
+ * 校验的时候，值的类型
+ * @author  韦胜健
+ * @date    2020/7/18 12:38
+ */
 export enum FormValueType {
     string = 'string',
     number = 'number',
     array = 'array',
 }
 
+/**
+ * 校验字段的结果
+ * @author  韦胜健
+ * @date    2020/7/18 12:39
+ */
 export interface ValidateResult {
     message: string,
     rule: TargetRule
 }
 
+/**
+ * 校验信息对象
+ * @author  韦胜健
+ * @date    2020/7/18 12:39
+ */
 export interface ValidateResultMap {
     [k: string]: ValidateResult
 }
 
+/**
+ * form以及formItem的rules属性类型
+ * @author  韦胜健
+ * @date    2020/7/18 12:39
+ */
 interface Rule {
     validator?: (rule: Rule, value: any) => void | string | Promise<void | string>,         // 校验器
     required?: boolean,                                                                     // 是否必填
@@ -36,6 +61,11 @@ interface Rule {
     options?: any | any[]                                                                   // 选项值校验
 }
 
+/**
+ * FormItem对象需要的类型
+ * @author  韦胜健
+ * @date    2020/7/18 12:41
+ */
 interface FormItemType {
     label?: string,
     field?: string | string[]
@@ -43,6 +73,11 @@ interface FormItemType {
     rules?: Rule | Rule[]
 }
 
+/**
+ * 目标校验规则对象类型
+ * @author  韦胜健
+ * @date    2020/7/18 12:41
+ */
 export interface TargetRule {
     field: string,
     trigger: FormTrigger,
@@ -57,6 +92,11 @@ export interface TargetRule {
     options: any | any[] | null,
 }
 
+/**
+ * 将rule转化为targetRule
+ * @author  韦胜健
+ * @date    2020/7/18 12:41
+ */
 function getTargetRule(rule: Rule): TargetRule | null {
     if (!rule.field) {
         return null
@@ -83,13 +123,14 @@ function getTargetRule(rule: Rule): TargetRule | null {
  * @date    2020/3/27 10:45
  */
 export function getAllRules(
-    formRules: { [k: string]: Rule | Rule[] } | undefined,
-    formItems: FormItemType[],
-    allFieldLabels: Readonly<{ [k: string]: string | undefined }>,
+    formRules: { [k: string]: Rule | Rule[] } | undefined,                      // form 接收得到的rules属性
+    formItems: FormItemType[],                                                  // form 收集得到的 form item 对象类型
+    allFieldLabels: Readonly<{ [k: string]: string | undefined }>,              // 根据 form item收集得到的field对应label的映射
 ): TargetRule[] {
 
     const targetRules: TargetRule[] = []
 
+    // 将formRules转化为targetRule，其中如果没有配置label，则从allFieldLabels中查找；
     formRules = formRules || {}
     Object.keys(formRules).forEach(field => {
         const rules = toArray(formRules![field])
@@ -100,6 +141,7 @@ export function getAllRules(
         })).filter(Boolean) as TargetRule[])
     })
 
+    // 将 formItem中的信息转化为TargetRule
     formItems = formItems || []
     formItems.forEach(formItem => {
         if (!formItem.field) {
@@ -110,6 +152,7 @@ export function getAllRules(
         const fields = toArray(field)
         let formItemRules: Rule[] = []
 
+        // 如果设置了 required必填，则给每一个field添加一个必填的rule
         if (required) {
             fields.forEach(field => {
                 formItemRules.push({
@@ -123,6 +166,7 @@ export function getAllRules(
         if (!!rules) {
             const ruleList = toArray(rules)
             ruleList.forEach(rule => {
+                // 如果rule没有指定field，则给form item的每一个field添加一条这个rule的校验规则
                 if (!rule.field) {
                     fields.forEach(field => {
                         formItemRules.push({
@@ -132,6 +176,7 @@ export function getAllRules(
                         })
                     })
                 } else {
+                    // 否则仅天骄这条rule校验规则
                     formItemRules.push({
                         field: rule.field,
                         label: label || allFieldLabels[rule.field],
@@ -281,6 +326,7 @@ export async function validateField(validateResult: ValidateResultMap, rules: Ta
         return null
     }
 
+    // 有targetRules校验，并且将校验结果存放在 validateResultMap中
     const result = await validateFieldByRules(rules, formData, field, trigger)
     set(validateResult, field, result)
     return result
@@ -304,8 +350,10 @@ export async function validateAsync(config: { validateResult: ValidateResultMap,
 
     !!onStart && onStart();
     try {
+        // 对所有字段的校验结果
         const validateResultList = (await Promise.all(rules.map(rule => validateField(validateResult, rules, formData, rule.field, FormTrigger.ALL)))).filter(Boolean) as ValidateResult[]
 
+        // 将所有字段的校验结果转化为对象，key为字段名，value为校验结果
         const newValidateResultMap = validateResultList.length == 0 ? null : validateResultList.reduce((ret: ValidateResultMap, item: ValidateResult) => {
             ret[item.rule.field] = item
             return ret
@@ -315,6 +363,7 @@ export async function validateAsync(config: { validateResult: ValidateResultMap,
             return null
         }
 
+        // 默认提示信息为校验结果中的第一条校验结果提示
         const firstValidateResult = validateResultList[0]!
 
         return {
