@@ -34,7 +34,7 @@
                 <pl-form-item label="时间选择" field="field15" :rules="{required:true,trigger:'blur'}">
                     <pl-time v-model="form1.formData.field15" @blur="$plain.log('blur')"/>
                 </pl-form-item>
-                <pl-form-item label="时间范围选择" :field="['field17','field18']" required>
+                <pl-form-item label="时间范围选择" :field="['field17','field18']" :rules="{required:true,trigger:'blur'}">
                     <pl-time :start.sync="form1.formData.field17" :end.sync="form1.formData.field18" range/>
                 </pl-form-item>
 
