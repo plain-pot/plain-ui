@@ -4,15 +4,24 @@
             <plain-logo/>
         </div>
         <ul class="app-header-right">
+            <li>
+                <a :href="codeUrl" target="_blank">
+                    <pl-button mode="text">
+                        {{codeUrl}}
+                    </pl-button>
+                </a>
+            </li>
             <li>文档</li>
             <li>示例</li>
             <li>PLAIN</li>
             <li>
-                <pl-icon icon="plc-gitee"/>
+                <a href="https://gitee.com/plain-pot/plain-ui/blob/master" target="_blank">
+                    <pl-icon icon="plc-gitee" status="primary"/>
+                </a>
             </li>
-            <li>
+            <!--<li>
                 <pl-icon icon="plc-git"/>
-            </li>
+            </li>-->
         </ul>
     </header>
 </template>
@@ -26,6 +35,9 @@
             appHome: {}
         },
         computed: {
+            codeUrl() {
+                return `https://gitee.com/plain-pot/plain-ui/tree/master/src-doc/page${this.appHome.currentPath}.vue`
+            },
             leftStyle() {
                 return {
                     width: PlainUtils.suffixPx(this.appHome.menuWidth)

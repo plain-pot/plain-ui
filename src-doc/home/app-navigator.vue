@@ -34,7 +34,7 @@
                 const PageComponent = await this.getPageComponent(path)
                 if (!PageComponent) return
                 window.location.hash = decodeURI(path)
-                this.$emit('open', 'path')
+                this.$emit('open', path)
                 this.PageComponent = PageComponent
             },
             async getPageComponent(path) {

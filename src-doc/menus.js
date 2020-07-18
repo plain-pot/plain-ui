@@ -39,7 +39,7 @@ export default [
             {name: 'Form', title: '表单尺寸', icon: 'pl-form', page: '/form/form-size', complete: true},
             {name: 'Form', title: '表单控制', icon: 'pl-form', page: '/form/form-edit-control', complete: true},
             {name: 'Form', title: '表单校验', icon: 'pl-form', page: '/form/form-validate', complete: true},
-            {name: 'Form', title: '表单blur', icon: 'pl-form', page: '/form/form-blur', complete: true},
+            {name: 'Form', title: '校验blur', icon: 'pl-form', page: '/form/form-blur', complete: true},
             {name: 'Form', title: '表单组件', icon: 'pl-form', page: '/form/form-elements', complete: true},
             {name: 'Form', title: '校验模式', icon: 'pl-form', page: '/form/form-validate-mode', complete: true},
         ]
@@ -101,18 +101,19 @@ export default [
             {name: 'Config', title: '自定义配置', icon: 'pl-table-solid', page: '/table/table-config', complete: true},
             {name: 'Fixed', title: '固定列', icon: 'pl-table-solid', page: '/table/table-fixed', complete: true},
             {name: 'ScopedSlot', title: '列作用域插槽', icon: 'pl-table-solid', page: '/table/table-plc-scoped-slot', complete: true},
-            // {name: 'Table Fill', title: '宽高填满父元素', icon: 'pl-table-solid', page: '/table/base-table-fit-parent', complete: false},
-            // {name: 'Table Basic Props', title: '基本属性', icon: 'pl-table-solid', page: '/table/base-table-props', complete: false},
-            // {name: 'Table Edit', title: '基本编辑', icon: 'pl-table-solid', page: '/table/base-table-edit', complete: false},
-            // {name: 'Table Column Props', title: '列属性', icon: 'pl-table-solid', page: '/table/base-table-column-prop', complete: false},
-            // {name: 'Table Dynamic Control', title: '列动态控制', icon: 'pl-table-solid', page: '/table/base-table-dynamic', complete: false},
-            // {name: 'Table Column Slots', title: '列插槽', icon: 'pl-table-solid', page: '/table/base-table-slot', complete: false},
-            // {name: 'Table Tooltip', title: '列显示', icon: 'pl-table-solid', page: '/table/base-table-tooltip', complete: false},
-            // {name: 'Table Columns', title: '列组件', icon: 'pl-table-solid', page: '/table/base-table-column', complete: false},
-            // {name: 'Table Methods', title: '方法', icon: 'pl-table-solid', page: '/table/base-table-methods', complete: false},
+
+            {name: 'Table Fill', title: '宽高填满父元素', icon: 'pl-table-solid', page: '/table/base-table-fit-parent', complete: false},
+            {name: 'Table Basic Props', title: '基本属性', icon: 'pl-table-solid', page: '/table/base-table-props', complete: false},
+            {name: 'Table Edit', title: '基本编辑', icon: 'pl-table-solid', page: '/table/base-table-edit', complete: false},
+            {name: 'Table Column Props', title: '列属性', icon: 'pl-table-solid', page: '/table/base-table-column-prop', complete: false},
+            {name: 'Table Dynamic Control', title: '列动态控制', icon: 'pl-table-solid', page: '/table/base-table-dynamic', complete: false},
+            {name: 'Table Column Slots', title: '列插槽', icon: 'pl-table-solid', page: '/table/base-table-slot', complete: false},
+            {name: 'Table Tooltip', title: '列显示', icon: 'pl-table-solid', page: '/table/base-table-tooltip', complete: false},
+            {name: 'Table Columns', title: '列组件', icon: 'pl-table-solid', page: '/table/base-table-column', complete: false},
+            {name: 'Table Methods', title: '方法', icon: 'pl-table-solid', page: '/table/base-table-methods', complete: false},
         ]
     },
-    {name: '指令'},
+    /*{name: '指令'},
     {
         name: '测试', children: [
             {name: 'Test', title: '测试手动渲染实例', icon: 'pl-table-solid', page: '/normal/test', complete: true},
@@ -123,5 +124,5 @@ export default [
             {name: 'Listener', title: '测试事件', icon: 'pl-table-solid', page: '/test/test-listener', complete: true},
             {name: 'Filter', title: '异步过滤器', icon: 'pl-table-solid', page: '/test/test-filter', complete: true},
         ]
-    },
+    },*/
 ]
