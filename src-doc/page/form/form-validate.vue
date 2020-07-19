@@ -86,9 +86,7 @@
         data() {
             return {
                 form1: {
-                    formData: {
-                        field12: ['唐人街'],
-                    },
+                    formData: {},
 
                     // 每一个field的规则可以是一个规则对象，也可以是规则对象数组
                     formRules: {
@@ -122,12 +120,15 @@
                     this.$message.error('请检查填写是否正确')
                 }
             },
-            async customValidator() {
+            async customValidator(rule, value, row) {
+                console.log({
+                    rule, value, row
+                })
                 await this.$plain.utils.delay(Math.random() * 500 + 500)
-                if (!this.form1.formData.field8) {
+                if (!row.field8) {
                     return '请先选择[父属性]'
                 }
-                if (this.form1.formData.field8 === '1' && this.form1.formData.field9 !== 'N') {
+                if (row.field8 === '1' && row.field9 !== 'N') {
                     return '[父属性]为一级的时候只能选择否'
                 }
                 return null

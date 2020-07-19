@@ -48,7 +48,7 @@ export interface ValidateResultMap {
  * @date    2020/7/18 12:39
  */
 interface Rule {
-    validator?: (rule: Rule, value: any) => void | string | Promise<void | string>,         // 校验器
+    validator?: (rule: Rule, value: any, formData: object) => void | string | Promise<void | string>,         // 自定义校验器
     required?: boolean,                                                                     // 是否必填
     trigger?: FormTrigger,                                                                  // 触发器
     message?: string,                                                                       // 检验事变提示信息
@@ -311,7 +311,7 @@ export async function validateFieldByRules(targetRules: TargetRule[], formData: 
 
         /*---------------------------------------validator-------------------------------------------*/
         if (validator) {
-            const validateResult = await validator(rule as any, value)
+            const validateResult = await validator(rule as any, value, formData)
             if (!!validateResult) return await reject(validateResult)
         }
 
