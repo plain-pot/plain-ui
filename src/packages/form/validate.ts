@@ -122,7 +122,7 @@ function getTargetRule(rule: Rule): TargetRule | null {
  * @author  韦胜健
  * @date    2020/3/27 10:45
  */
-export function getAllRules(
+function getAllRules(
     formRules: { [k: string]: Rule | Rule[] } | undefined,                      // form 接收得到的rules属性
     formItems: FormItemType[],                                                  // form 收集得到的 form item 对象类型
     allFieldLabels: Readonly<{ [k: string]: string | undefined }>,              // 根据 form item收集得到的field对应label的映射
@@ -196,7 +196,7 @@ export function getAllRules(
  * @author  韦胜健
  * @date    2020/3/27 10:45
  */
-export function getAllRequired(targetRules: TargetRule[]): { [k: string]: boolean } {
+function getAllRequired(targetRules: TargetRule[]): { [k: string]: boolean } {
     return targetRules.reduce((ret: { [k: string]: boolean }, item: TargetRule) => {
         if (!!item.required) ret[item.field] = true
         return ret
@@ -208,7 +208,7 @@ export function getAllRequired(targetRules: TargetRule[]): { [k: string]: boolea
  * @author  韦胜健
  * @date    2020/3/27 11:12
  */
-export function getAllFieldLabels(formItems: FormItemType[]): { [k: string]: string | undefined } {
+function getAllFieldLabels(formItems: FormItemType[]): { [k: string]: string | undefined } {
     return formItems.reduce((ret: { [k: string]: string | undefined }, item: FormItemType) => {
         const fields = toArray(item.field).filter(Boolean) as string[]
         fields.forEach(field => ret[field] = item.label || undefined)
