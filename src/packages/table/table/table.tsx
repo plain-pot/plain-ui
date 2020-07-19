@@ -12,6 +12,7 @@ import {useModel} from "@/use/useModel";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {TableMark} from "@/packages/table/table/TableMark";
 import {$plain} from "@/packages/base";
+import {getValidateConfigData} from "@/packages/form/validate";
 
 /**
  * 递归遍历树形结构的表格数据
@@ -100,6 +101,11 @@ function tableSetup(props: TablePropsType) {
         return plcData.value!.flatPlcList
     })
 
+    const validateConfigData = computed(() => getValidateConfigData(
+        (bodyPlcList.value || []).map(({props: {title, field, required, rules}}) => ({label: title, field, required, rules})),
+        props.rules,
+    ))
+
     const totalContentWidth = computed(() => {
         if (!bodyPlcList.value) return
         return bodyPlcList.value.reduce((ret, plc) => {
@@ -186,6 +192,7 @@ function tableSetup(props: TablePropsType) {
         on,
         off,
 
+        validateConfigData,
         utils,
         handler,
     }

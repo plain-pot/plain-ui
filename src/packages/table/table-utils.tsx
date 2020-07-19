@@ -4,6 +4,9 @@ export const TableProps = {
     data: {type: Array},                                        // 显示的数据
     virtual: {type: Boolean, default: true},                    // 虚拟滚动
 
+    // validate
+    rules: {type: Object},                                      // 校验规则
+
     // theme
     size: {type: String, default: 'normal'},                    // 表格尺寸
     border: {type: Boolean},                                    // 是否带纵向边框

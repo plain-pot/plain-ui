@@ -1,10 +1,46 @@
-import {computed, defineComponent, getCurrentInstance, inject} from "@vue/composition-api";
+import {computed, defineComponent, getCurrentInstance, inject, provide} from "@vue/composition-api";
 import {getCellClass, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {PlcRender} from "@/packages/table/table/render";
+import {EditProvider} from "@/use/useEdit";
+import {FormTrigger, validateField} from "@/packages/form/validate";
+
+interface BodyCellPropsType {
+    plc: PlcType,
+    rowData: TableNode,
+    fixed: PlcFixedType,
+    isSummary: boolean
+}
+
+function useFormItemEdit(props: BodyCellPropsType, table: PlainTable): void {
+    const editComputed = computed(() => {
+        return {
+            disabled: null,
+            readonly: null,
+            loading: null,
+            editable: true,
+            onBlur: () => {
+                // console.log('blur', props.plc.props.field)
+            },
+            onChange: () => {
+                // console.log('change', props.plc.props.field)
+                const {rowData, plc: {props: {field}}} = props
+                if (!!field) {
+                    const {data, editRow, isEdit} = rowData
+                    const validateResult = {}
+                    validateField(validateResult, table.validateConfigData.value.allRules, isEdit ? editRow : data, field!, FormTrigger.CHANGE).then(ret => {
+                        // 监听 change事件触发校验
+                        console.log(ret)
+                    })
+                }
+            }
+        }
+    })
+    provide(EditProvider, editComputed)
+}
 
 export default defineComponent({
     name: 'plt-body-cell',
@@ -14,10 +50,11 @@ export default defineComponent({
         fixed: {type: String, required: true},
         isSummary: {type: Boolean},
     },
-    setup(props: { plc: PlcType, rowData: TableNode, fixed: PlcFixedType, isSummary: boolean }) {
+    setup(props: BodyCellPropsType) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
         const {$createElement} = getCurrentInstance()!
+        useFormItemEdit(props, table)
 
         const classes = computed(() => [
             'plt-body-cell',

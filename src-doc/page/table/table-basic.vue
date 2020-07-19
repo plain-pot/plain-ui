@@ -48,10 +48,10 @@
                           @dblclick-row="onDblclickRow"
                           v-bind="props">
                     <template v-if="other.groupHead">
-                        <plc-input title="输入框列" field="id"/>
+                        <plc-input title="输入框列" field="id" required/>
                         <plc-input title="输入框列" field="id"/>
 
-                        <plc-toggle title="开关">
+                        <plc-toggle title="开关" field="toggleFlag">
                             <template slot-scope="{}" slot="head">
                                 [head]
                             </template>

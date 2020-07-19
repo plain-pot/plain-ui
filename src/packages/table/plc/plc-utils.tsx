@@ -26,6 +26,9 @@ export const PlcProps = {
     summary: {type: Function},
     edit: {type: Function},
 
+    required: {type: Boolean},                                              // 是否必填
+    rules: {type: [Object, Array]},                                         // 校验规则
+
     // search: {type: Boolean, default: true},                              // 可查询
     // searchType: {type: String, default: 'input'},                        // 查询类型
     // searchField: {type: String},                                         // 查询字段
