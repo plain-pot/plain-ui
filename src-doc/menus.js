@@ -109,7 +109,7 @@ export default [
             {name: 'Table Dynamic Control', title: '列动态控制', icon: 'pl-table-solid', page: '/table/base-table-dynamic', complete: false},
             {name: 'Table Column Slots', title: '列插槽', icon: 'pl-table-solid', page: '/table/base-table-slot', complete: false},
             {name: 'Table Tooltip', title: '列显示', icon: 'pl-table-solid', page: '/table/base-table-tooltip', complete: false},
-            {name: 'Table Columns', title: '列组件', icon: 'pl-table-solid', page: '/table/base-table-column', complete: false},
+            {name: 'Table Columns', title: '列组件', icon: 'pl-table-solid', page: '/table/table-columns', complete: true},
             {name: 'Table Methods', title: '方法', icon: 'pl-table-solid', page: '/table/base-table-methods', complete: false},
         ]
     },
