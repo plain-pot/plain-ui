@@ -217,6 +217,27 @@ export function getAllFieldLabels(formItems: FormItemType[]): { [k: string]: str
 }
 
 /**
+ * 根据formItems以及formRule计算得到所有需要的校验信息
+ * @author  韦胜健
+ * @date    2020/7/19 11:47
+ */
+export function getValidateConfigData(
+    formItems: { label?: string, field?: string | unknown[], required?: boolean, rules?: object | undefined[] }[],
+    formRule: any
+) {
+    const allFieldLabels = getAllFieldLabels(formItems as any)
+    const allRules = getAllRules(formRule, formItems as any, allFieldLabels)
+    const allRequired = getAllRequired(allRules)
+
+    return {
+        allFieldLabels,
+        allRules,
+        allRequired,
+    }
+}
+
+
+/**
  * 校验
  * @author  韦胜健
  * @date    2020/3/27 10:45

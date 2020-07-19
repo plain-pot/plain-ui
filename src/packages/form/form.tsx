@@ -8,7 +8,7 @@ import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {FormItemContextType, FormItemProps} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
-import {FormTrigger, getAllFieldLabels, getAllRequired, getAllRules, TargetRule, validateAsync, validateField, ValidateResultMap} from "@/packages/form/validate";
+import {FormTrigger, getAllFieldLabels, getAllRequired, getAllRules, getValidateConfigData, TargetRule, validateAsync, validateField, ValidateResultMap} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useRefer} from "@/use/useRefer";
@@ -113,25 +113,14 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
 
     const {editComputed} = useEdit()
 
-    const allFieldLabels = computed(() => {
-        return getAllFieldLabels(items.value.map(({label, field}) => {
-            return {label, field} as any
-        }))
-    })
+    const validateConfigData = computed(() => getValidateConfigData(
+        items.value.map(({label, field, required, rules}) => ({label, field, required, rules})),
+        props.rules,
+    ))
 
-    const allRules = computed(() => {
-        return getAllRules(
-            props.rules,
-            items.value.map(({label, rules, field, required}) => {
-                return {label, rules, field, required} as any
-            }),
-            allFieldLabels.value,
-        )
-    }) as { value: TargetRule[] }
-
-    const allFieldRequired = computed(() => {
-        return getAllRequired(allRules.value)
-    })
+    const allFieldLabels = computed(() => validateConfigData.value.allFieldLabels)
+    const allRules = computed(() => validateConfigData.value.allRules) as { value: TargetRule[] }
+    const allFieldRequired = computed(() => validateConfigData.value.allRequired)
 
     const validate = {
         valid: (field: string | string[], trigger: FormTrigger) => {
