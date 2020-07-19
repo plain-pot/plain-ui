@@ -18,13 +18,7 @@ export default definePlc({
         default: {
             type: Function,
             default: function (h, {rowData, plc}) {
-                return (
-                    <div>
-                        <pl-button onClick={() => (this as any).onClick(rowData)}>
-                            {rowData.index + 1}
-                        </pl-button>
-                    </div>
-                )
+                return rowData.index + 1
             }
         },
         head: {
