@@ -136,7 +136,7 @@
     }
 
     .plt-cell {
-      padding: 0 12px;
+      padding: 0 8px;
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
@@ -168,6 +168,10 @@
 
       &.plt-cell-align-right {
         justify-content: flex-end;
+      }
+
+      &.plt-cell-editing {
+        padding-left: 0;
       }
     }
 

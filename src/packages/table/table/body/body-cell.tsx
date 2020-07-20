@@ -60,6 +60,9 @@ export default defineComponent({
             'plt-body-cell',
             'plt-cell',
             ...getCellClass(props.plc, props.rowData),
+            {
+                'plt-cell-editing': props.rowData.isEdit
+            }
         ])
 
         const styles = computed(() => {

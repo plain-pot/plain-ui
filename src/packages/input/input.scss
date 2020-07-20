@@ -18,6 +18,11 @@
       transition: all 150ms linear;
       color: inherit;
       font-family: inherit;
+
+      input, textarea, button {
+        color: inherit;
+        font-family: inherit;
+      }
     }
 
     input {
