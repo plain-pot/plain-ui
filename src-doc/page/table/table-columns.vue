@@ -50,11 +50,13 @@
                     tableNode.saveEdit()
                     tableNode.closeEdit()
                 })
+                this.editNodes = []
             },
             cancelEdit() {
                 this.editNodes.forEach(tableNode => {
                     tableNode.cancelEdit()
                 })
+                this.editNodes = []
             },
         }
     }
