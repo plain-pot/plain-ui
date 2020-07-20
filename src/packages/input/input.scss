@@ -510,8 +510,7 @@
           font-size: 12px;
           border: solid 1px $ibl;
           background-color: #fafafa;
-          line-height: 1.2em;
-          padding: 3px 6px;
+          padding: 0 6px;
           border-radius: 2px;
           margin: 3px;
           color: inherit;
@@ -523,11 +522,23 @@
 
           &.pl-input-inner-tag-item-takeover {
             display: inline-block;
-            padding: 4px 0;
+            padding: 0 0;
             margin-left: 0;
             margin-right: 0;
             width: 0;
-            border: none;
+            opacity: 0;
+          }
+        }
+      }
+
+      @include sizeMixin(input) {
+        .pl-input-inner {
+          min-height: $value;
+
+          .pl-input-inner-tags {
+            .pl-input-inner-tag-item {
+              line-height: $value - 10;
+            }
           }
         }
       }
