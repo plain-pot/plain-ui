@@ -9,6 +9,8 @@ export default definePlc({
         //standard
         autoFixedLeft: {default: true},
         order: {default: -9999},
+        width: {default: 60},
+        align: {default: 'center'},
         summary: {
             type: Function,
             default: function (h, {plc}) {
