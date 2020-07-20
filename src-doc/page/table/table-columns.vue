@@ -18,7 +18,7 @@
             <plc-input field="name" title="文本框"/>
             <plc-number field="size" title="数字框"/>
             <plc-date field="date" title="日期"/>
-            <plc field="color" title="颜色"/>
+            <plc-color-picker field="color" title="颜色"/>
 
             <plc field="star" title="评分"/>
         </pl-table>
