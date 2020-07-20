@@ -106,7 +106,7 @@ export default [
             {name: 'Table Basic Props', title: '基本属性', icon: 'pl-table-solid', page: '/table/base-table-props', complete: false},
             {name: 'Table Edit', title: '基本编辑', icon: 'pl-table-solid', page: '/table/base-table-edit', complete: false},
             {name: 'Table Column Props', title: '列属性', icon: 'pl-table-solid', page: '/table/base-table-column-prop', complete: false},
-            {name: 'Table Dynamic Control', title: '列动态控制', icon: 'pl-table-solid', page: '/table/base-table-dynamic', complete: false},
+            {name: 'Table Dynamic Control', title: '列动态控制', icon: 'pl-table-solid', page: '/table/table-plc-editable', complete: true},
             {name: 'Table Column Slots', title: '列插槽', icon: 'pl-table-solid', page: '/table/base-table-slot', complete: false},
             {name: 'Table Tooltip', title: '列显示', icon: 'pl-table-solid', page: '/table/base-table-tooltip', complete: false},
             {name: 'Table Columns', title: '列组件', icon: 'pl-table-solid', page: '/table/table-columns', complete: true},

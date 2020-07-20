@@ -29,6 +29,8 @@ export const PlcProps = {
     required: {type: Boolean},                                              // 是否必填
     rules: {type: [Object, Array]},                                         // 校验规则
 
+    editable: {type: [Boolean, Function], default: true},                   // 是否可编辑
+
     // search: {type: Boolean, default: true},                              // 可查询
     // searchType: {type: String, default: 'input'},                        // 查询类型
     // searchField: {type: String},                                         // 查询字段
@@ -36,7 +38,6 @@ export const PlcProps = {
     // sort: {type: Boolean, default: true},                                // 可排序
     // sortField: {type: String},                                           // 排序字段
     //
-    // editable: {type: Boolean, default: true},                            // 是否可编辑
     // editableFunc: {type: Function},                                      // 是否可编辑判断函数
     //
     // formatter: {type: Function},                                         // 文本格式化函数，支持异步格式化

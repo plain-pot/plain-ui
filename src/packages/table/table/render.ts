@@ -55,7 +55,8 @@ export const PlcRender = {
             // 合计行中的row一直是原始的row对象
             renderData = {rowData, plc, row: rowData.data}
 
-            // 合计行
+            // 合计行，使用作用域插槽 summary渲染，没有则使用渲染函数summary渲染，么有则使用 default作用域插槽渲染，没有
+            // 则使用渲染函数default渲染，没有则直接渲染field对应的值
             if (!!plc.scopedSlots.summary) {
                 return plc.scopedSlots.summary(renderData)
             }
@@ -71,8 +72,21 @@ export const PlcRender = {
             return !!plc.props.field ? renderData.row[plc.props.field] : null
         } else {
             // 表体
-            if (rowData.isEdit) {
-                renderData = {rowData, plc, row: rowData.editRow}
+            let editable;                   // 当前单元格是否可编辑
+            let row;                        // 当前单元格应该显示的数据的行对象
+
+            if (!rowData.isEdit) {
+                editable = false
+                row = rowData.data
+            } else {
+                editable = typeof plc.props.editable === "function" ? plc.props.editable(rowData) : (plc.props.editable !== false)
+                row = rowData.editRow
+            }
+
+            if (editable) {
+                // 如果当前行处于编辑状态，并且当前单元格可编辑，则使用 作用域插槽edit渲染，没有则使用渲染函数edit渲染，没有则
+                // 使用作用域插槽default渲染，没有则使用渲染函数default渲染，没有则直接显示field对应的值
+                renderData = {rowData, plc, row}
 
                 if (!!plc.scopedSlots.edit) {
                     return plc.scopedSlots.edit(renderData)
@@ -81,7 +95,9 @@ export const PlcRender = {
                     return plc.props.edit(h, renderData)
                 }
             } else {
-                renderData = {rowData, plc, row: rowData.data}
+                // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
+                // 使用作用域插槽default渲染，没有则使用渲染函数default渲染，没有则直接显示field对应的值
+                renderData = {rowData, plc, row}
             }
 
             if (!!plc.scopedSlots.default) {
