@@ -2,13 +2,14 @@ import {definePlc} from "@/packages/table/plc-components/register";
 import {set} from "@vue/composition-api";
 
 export default definePlc({
-    name: 'plc-input',
+    name: 'plc-number',
     props: {
+        width: {default: 150},
         edit: {
             type: Function,
             default: function (h, {plc, row}) {
                 return (
-                    <pl-input value={row[plc.props.field]} onInput={val => set(row, plc.props.field, val)}/>
+                    <pl-number value={row[plc.props.field]} onInput={val => set(row, plc.props.field, val)}/>
                 )
             }
         },

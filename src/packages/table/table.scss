@@ -146,6 +146,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
 
+      & > .pl-input {
+        width: 100%;
+
+        .pl-input-inner {
+          width: inherit;
+        }
+      }
+
       &:after {
         content: '';
       }
