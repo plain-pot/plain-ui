@@ -149,8 +149,8 @@
       & > .pl-input {
         width: 100%;
 
-        .pl-input-inner {
-          width: inherit;
+        & > .pl-input-inner {
+          width: inherit !important;
         }
       }
 
