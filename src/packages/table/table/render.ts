@@ -3,6 +3,15 @@ import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {Vue} from "vue/types/vue";
 import {TableNode} from "@/packages/table/table/TableNode";
 
+/**
+ * 在调用渲染函数渲染的时候，调用的上下文应该是plc组件对象本身
+ * @author  韦胜健
+ * @date    2020/7/20 22:29
+ */
+function callRender(renderFunc: Function, context: any, h: Vue["$createElement"], renderData: { rowData: TableNode, plc: PlcType, row: any }) {
+    return renderFunc.apply(context, [h, renderData])
+}
+
 export const PlcRender = {
     head: (
         {
@@ -61,13 +70,13 @@ export const PlcRender = {
                 return plc.scopedSlots.summary(renderData)
             }
             if (!!plc.props.summary) {
-                return plc.props.summary(h, renderData)
+                return callRender(plc.props.summary, plc.ctx, h, renderData)
             }
             if (!!plc.scopedSlots.default) {
                 return plc.scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
-                return plc.props.default(h, renderData)
+                return callRender(plc.props.default, plc.ctx, h, renderData)
             }
             return !!plc.props.field ? renderData.row[plc.props.field] : null
         } else {
@@ -92,7 +101,7 @@ export const PlcRender = {
                     return plc.scopedSlots.edit(renderData)
                 }
                 if (!!plc.props.edit) {
-                    return plc.props.edit(h, renderData)
+                    return callRender(plc.props.edit, plc.ctx, h, renderData)
                 }
             } else {
                 // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
@@ -104,9 +113,7 @@ export const PlcRender = {
                 return plc.scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
-                // todo
-                // 在调用渲染函数渲染的时候，调用的上下文应该是plc组件对象本身
-                return plc.props.default.apply(plc.ctx, [h, renderData])
+                return callRender(plc.props.default, plc.ctx, h, renderData)
             }
             if (!plc.props.field) {
                 return null
