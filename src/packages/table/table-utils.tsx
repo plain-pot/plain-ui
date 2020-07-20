@@ -1,6 +1,11 @@
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+import {StyleProps} from "@/use/useStyle";
 
 export const TableProps = {
+    ...StyleProps,
+    size: {default: 'mini'},
+    shape: {default: 'none'},
+
     data: {type: Array},                                        // 显示的数据
     virtual: {type: Boolean, default: true},                    // 虚拟滚动
 
@@ -8,7 +13,6 @@ export const TableProps = {
     rules: {type: Object},                                      // 校验规则
 
     // theme
-    size: {type: String, default: 'normal'},                    // 表格尺寸
     border: {type: Boolean},                                    // 是否带纵向边框
     stripe: {type: Boolean},                                    // 是否为斑马纹table
     headRowHeight: {type: [String, Number], default: 40},       // 表头行高

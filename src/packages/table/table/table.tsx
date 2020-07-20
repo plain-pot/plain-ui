@@ -13,6 +13,7 @@ import {TableNode} from "@/packages/table/table/TableNode";
 import {TableMark} from "@/packages/table/table/TableMark";
 import {$plain} from "@/packages/base";
 import {getValidateConfigData} from "@/packages/form/validate";
+import {useStyle} from "@/use/useStyle";
 
 /**
  * 递归遍历树形结构的表格数据
@@ -43,7 +44,7 @@ function tableSetup(props: TablePropsType) {
         clickRow: EmitFunc,
         dblclickRow: EmitFunc,
     })
-
+    useStyle()
     const {slots} = useSlots()
 
     const refs = useRefs({
