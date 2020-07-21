@@ -17,6 +17,7 @@
             <plc field="id" title="普通文本列"/>
             <plc-input field="name" title="文本框"/>
             <plc-input field="name" title="禁用编辑" :editable="false"/>
+            <plc-input field="name" title="文本框值大于6可以编辑" :editable="({editRow})=>!!editRow.name && editRow.name.length>5" width="200"/>
 
             <plc-number field="size" title="数字框"/>
             <plc-date field="date" title="日期"/>
