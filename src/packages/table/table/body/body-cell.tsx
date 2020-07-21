@@ -33,7 +33,7 @@ function useFormItemEdit(props: BodyCellPropsType, table: PlainTable): void {
                     const validateResult = {}
                     validateField(validateResult, table.validateConfigData.value.allRules, isEdit ? editRow : data, field!, FormTrigger.CHANGE).then(ret => {
                         // 监听 change事件触发校验
-                        console.log(ret)
+                        // console.log(ret)
                     })
                 }
             }
