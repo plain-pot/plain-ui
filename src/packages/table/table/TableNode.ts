@@ -2,6 +2,7 @@ import {TableCheckStatus, TablePropsType} from "@/packages/table/table-utils";
 import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
 import {set} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
+import {ValidateResultMap} from "@/packages/form/validate";
 
 export class TableNode {
 
@@ -41,6 +42,10 @@ export class TableNode {
     get editRow(): object {return this.mark.getEditRow(this.key)}
 
     set editRow(val: object) {this.mark.setEditRow(this.key, val)}
+
+    get validateResult() {return this.mark.getValidateResult(this.key)}
+
+    set validateResult(val: ValidateResultMap) {this.mark.setValidateResult(this.key, val)}
 
     /*---------------------------------------judge props-------------------------------------------*/
 
