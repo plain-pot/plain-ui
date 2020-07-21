@@ -56,14 +56,21 @@ export default defineComponent({
         const {$createElement} = getCurrentInstance()!
         useFormItemEdit(props, table)
 
-        const classes = computed(() => [
-            'plt-body-cell',
-            'plt-cell',
-            ...getCellClass(props.plc, props.rowData),
-            {
-                'plt-cell-editing': props.rowData.isEdit
-            }
-        ])
+        const renderData = computed(() => PlcRender.body({
+            ...props,
+            h: $createElement,
+        }))
+
+        const classes = computed(() => {
+            return [
+                'plt-body-cell',
+                'plt-cell',
+                ...getCellClass(props.plc, props.rowData),
+                {
+                    'plt-cell-editing': renderData.value.editable
+                }
+            ]
+        })
 
         const styles = computed(() => {
             const height = `${table.props.bodyRowHeight}px`
@@ -84,10 +91,7 @@ export default defineComponent({
             return (
                 <td colspan={1} rowspan={1}>
                     <div class={classes.value} style={styles.value} title={text.value}>
-                        {PlcRender.body({
-                            ...props,
-                            h: $createElement,
-                        })}
+                        {renderData.value.body}
                     </div>
                 </td>
             )

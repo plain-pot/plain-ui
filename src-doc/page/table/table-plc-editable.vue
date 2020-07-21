@@ -14,10 +14,17 @@
         <pl-table :data="data"
                   :virtual="virtualFlag"
                   @dblclick-row="onDblClickRow">
-            <plc field="id" title="普通文本列"/>
+            <plc field="id" title="编号" width="50"/>
+            <plc field="name" title="普通文本列"/>
+            <plc field="name" title="普通文本列，编辑作用域插槽" width="200" :editable="({editRow})=>!!editRow.name && editRow.name.length>5">
+                <template slot-scope="{row}" slot="edit">
+                    <input type="text" v-model="row.name" style="padding-left: 8px">
+                </template>
+            </plc>
+
             <plc-input field="name" title="文本框"/>
             <plc-input field="name" title="禁用编辑" :editable="false"/>
-            <plc-input field="name" title="文本框值大于6可以编辑" :editable="({editRow})=>!!editRow.name && editRow.name.length>5" width="200"/>
+            <plc-input field="name" title="文本框值大于6可以编辑" width="200" :editable="({editRow})=>!!editRow.name && editRow.name.length>5"/>
 
             <plc-number field="size" title="数字框"/>
             <plc-date field="date" title="日期"/>
