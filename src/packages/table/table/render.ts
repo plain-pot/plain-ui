@@ -23,7 +23,7 @@ function callRender(renderFunc: Function, context: any, h: Vue["$createElement"]
  * @author  韦胜健
  * @date    2020/7/21 21:16
  */
-function getEditable(plc: PlcType, rowData: TableNode) {
+export function getEditable(plc: PlcType, rowData: TableNode) {
     // 行非编辑状态下，定性为不可编辑
     if (!rowData.isEdit) {
         return false
