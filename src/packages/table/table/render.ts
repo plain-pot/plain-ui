@@ -23,9 +23,9 @@ function callRender(renderFunc: Function, context: any, h: Vue["$createElement"]
  * @author  韦胜健
  * @date    2020/7/21 21:16
  */
-function getEditable(plc: PlcType, isEdit: boolean, rowData: TableNode) {
+function getEditable(plc: PlcType, rowData: TableNode) {
     // 行非编辑状态下，定性为不可编辑
-    if (!isEdit) {
+    if (!rowData.isEdit) {
         return false
     }
     // 如果没有edit渲染函数以及作用域插槽，那么直接定性为不可编辑
@@ -48,7 +48,6 @@ function getBody(
         isSummary,
         h,
         editable,
-        isEdit,
     }: {
         fixed: PlcFixedType,
         rowData: TableNode,
@@ -56,7 +55,6 @@ function getBody(
         isSummary: boolean,
         h: Vue["$createElement"],
         editable: boolean,
-        isEdit?: boolean,
     }) {
 // 如果不是对应的fixed，不渲染任何内容
     if (plc.props.fixed != fixed) {
@@ -86,7 +84,7 @@ function getBody(
         return !!plc.props.field ? renderData.row[plc.props.field] : null
     } else {
         // 如果当前行处于可编辑状态，则渲染的行数据对象为 rowData.editRow，否则为 rowData.data
-        let row = isEdit ? rowData.editRow : rowData.data
+        let row = rowData.isEdit ? rowData.editRow : rowData.data
         renderData = {rowData, plc, row}
 
         if (editable) {
@@ -156,12 +154,10 @@ export const PlcRender = {
             h: Vue["$createElement"]
         }
     ) => {
-        const isEdit = rowData.isEdit
-        const editable = getEditable(plc, isEdit, rowData)
-        const body = getBody({fixed, rowData, plc, isSummary, isEdit, h, editable})
+        const editable = getEditable(plc, rowData)
+        const body = getBody({fixed, rowData, plc, isSummary, h, editable})
 
         return {
-            isEdit,
             editable,
             body
         }
