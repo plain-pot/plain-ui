@@ -11,7 +11,7 @@ import {PlainUtils} from "@/util/util";
 // itemClick    -> item-click
 // updateSTart  -> update:start
 export function emitName2ListenName(emitName) {
-    return PlainUtils.kebabCase(emitName).replace('update-', 'update:')
+    return PlainUtils.kebabCase(emitName)!.replace('update-', 'update:')
 }
 
 export const EmitFunc: ((data?) => void) = (() => null)

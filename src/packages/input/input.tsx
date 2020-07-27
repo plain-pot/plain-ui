@@ -263,7 +263,7 @@ export default defineComponent({
             if (val === true) {
                 val = 1000
             }
-            state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val, {trailing: true})
+            state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val as number, {trailing: true})
         })
 
         useRefer({

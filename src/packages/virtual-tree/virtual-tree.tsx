@@ -19,8 +19,8 @@ export default defineComponent({
 
         const styles = computed(() => {
             const styles = {} as StyleType
-            if (!!props.width) styles.width = $plain.utils.suffixPx(props.width)
-            if (!!props.height) styles.height = $plain.utils.suffixPx(props.height)
+            if (!!props.width) styles.width = $plain.utils.suffixPx(props.width)!
+            if (!!props.height) styles.height = $plain.utils.suffixPx(props.height)!
             return styles
         })
 

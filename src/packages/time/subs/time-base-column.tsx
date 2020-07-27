@@ -49,7 +49,7 @@ export default defineComponent({
             resetPosition: () => {
                 let value = model.value || 0
                 let start = 0
-                let find = $plain.utils.findOne(options.value, item => item == value, true)
+                let find = $plain.utils.findOne(options.value as any[], item => item == value, true)
                 if (!!find) {
                     start = find.index
                 }

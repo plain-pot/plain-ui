@@ -66,7 +66,7 @@ export default defineComponent({
         const handler = {
             onClickItem(ipd: PlainDate) {
                 const {value} = formatData.value
-                const ret = $plain.utils.findOne(value, item => item.YMD === ipd.YMD, true)
+                const ret = $plain.utils.findOne(value, item => item.YMD === ipd.YMD, true) as { item: PlainDate, index: number }
                 if (!!ret) {
                     value.splice(ret.index, 1)
                 } else {

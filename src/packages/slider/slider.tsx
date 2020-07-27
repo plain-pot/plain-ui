@@ -156,8 +156,8 @@ export default defineComponent({
 
         const stepItemStyles = computed(() => {
             return {
-                ['height']: $plain.utils.unit($plain.utils.removePx(props.size) / 2),
-                ['width']: $plain.utils.unit($plain.utils.removePx(props.size) / 2),
+                ['height']: $plain.utils.unit($plain.utils.removePx(props.size) as any / 2),
+                ['width']: $plain.utils.unit($plain.utils.removePx(props.size) as any / 2),
             }
         })
 

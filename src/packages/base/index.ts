@@ -3,7 +3,7 @@ import {PlainUtils} from "@/util/util";
 export const DEFAULT_STATUS = 'primary'
 
 export let $plain: {
-    utils: PlainUtils,
+    utils: typeof PlainUtils,
     $root: any,
     nextTick: (callback?: () => void) => Promise<any>,
     newInstance: (component: any, option?: { el?: HTMLElement, parent?: any, parentNode?: HTMLElement }) => any,
