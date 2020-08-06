@@ -7,7 +7,7 @@ export default definePlc({
         width: {default: 150},
         edit: {
             type: Function,
-            default: function (h, {plc, row}) {
+            default: function ({plc, row}) {
                 return (
                     <pl-number value={row[plc.props.field]} onInput={val => set(row, plc.props.field, val)}/>
                 )

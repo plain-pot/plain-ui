@@ -9,7 +9,7 @@ export default definePlc({
         },
         default: {
             type: Function,
-            default: function (h, {rowData, plc}) {
+            default: function ({rowData, plc}) {
                 return (
                     <pl-toggle disabled/>
                 )
@@ -17,7 +17,7 @@ export default definePlc({
         },
         edit: {
             type: Function,
-            default: function (h, {rowData, plc}) {
+            default: function ({rowData, plc}) {
                 return (
                     <pl-toggle/>
                 )

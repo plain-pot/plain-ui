@@ -8,8 +8,8 @@ import {TableNode} from "@/packages/table/table/TableNode";
  * @author  韦胜健
  * @date    2020/7/20 22:29
  */
-function callRender(renderFunc: Function, context: any, h: Vue["$createElement"], renderData: { rowData: TableNode, plc: PlcType, row: any }) {
-    return renderFunc.apply(context, [h, renderData])
+function callRender(renderFunc: Function, context: any, renderData: { rowData: TableNode, plc: PlcType, row: any }) {
+    return renderFunc.apply(context, [renderData])
 }
 
 /**
@@ -46,7 +46,6 @@ function getBody(
         rowData,
         plc,
         isSummary,
-        h,
         editable,
         ctx,
     }: {
@@ -54,7 +53,6 @@ function getBody(
         rowData: TableNode,
         plc: PlcType,
         isSummary: boolean,
-        h: Vue["$createElement"],
         editable: boolean,
         ctx: Vue,
     }) {
@@ -75,13 +73,13 @@ function getBody(
             return plc.scopedSlots.summary(renderData)
         }
         if (!!plc.props.summary) {
-            return callRender(plc.props.summary, ctx, h, renderData)
+            return callRender(plc.props.summary, ctx, renderData)
         }
         if (!!plc.scopedSlots.default) {
             return plc.scopedSlots.default(renderData)
         }
         if (!!plc.props.default) {
-            return callRender(plc.props.default, ctx, h, renderData)
+            return callRender(plc.props.default, ctx, renderData)
         }
         return !!plc.props.field ? renderData.row[plc.props.field] : null
     } else {
@@ -95,7 +93,7 @@ function getBody(
                 return plc.scopedSlots.edit(renderData)
             }
             if (!!plc.props.edit) {
-                return callRender(plc.props.edit, ctx, h, renderData)
+                return callRender(plc.props.edit, ctx, renderData)
             }
         } else {
             // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
@@ -104,7 +102,7 @@ function getBody(
                 return plc.scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
-                return callRender(plc.props.default, ctx, h, renderData)
+                return callRender(plc.props.default, ctx, renderData)
             }
             if (!plc.props.field) {
                 return null
@@ -147,19 +145,17 @@ export const PlcRender = {
             rowData,
             plc,
             isSummary,
-            h,
             ctx,
         }: {
             fixed: PlcFixedType,
             rowData: TableNode,
             plc: PlcType,
             isSummary: boolean,
-            h: Vue["$createElement"],
             ctx: Vue,
         }
     ) => {
         const editable = getEditable(plc, rowData)
-        const body = getBody({fixed, rowData, plc, isSummary, h, editable, ctx})
+        const body = getBody({fixed, rowData, plc, isSummary, editable, ctx})
 
         return {
             editable,
