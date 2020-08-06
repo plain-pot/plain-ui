@@ -30,10 +30,9 @@ function useFormItemEdit(props: BodyCellPropsType, table: PlainTable): void {
                 const {rowData, plc: {props: {field}}} = props
                 if (!!field) {
                     const {data, editRow, isEdit} = rowData
-                    const validateResult = {}
+                    const validateResult = rowData.validateResult || {}
                     validateField(validateResult, table.validateConfigData.value.allRules, isEdit ? editRow : data, field!, FormTrigger.CHANGE).then(ret => {
-                        // 监听 change事件触发校验
-                        // console.log(ret)
+                        rowData.validateResult = validateResult
                     })
                 }
             }
