@@ -3,6 +3,8 @@ import {StyleProps} from "@/use/useStyle";
 
 export const TableProps = {
     ...StyleProps,
+    size: {default: 'mini'},
+    shape: {default: 'none'},
 
     data: {type: Array},                                        // 显示的数据
     virtual: {type: Boolean, default: true},                    // 虚拟滚动

@@ -44,9 +44,7 @@ function tableSetup(props: TablePropsType) {
         clickRow: EmitFunc,
         dblclickRow: EmitFunc,
     })
-
-    useStyle({shape: null, size: null, status: null})
-
+    useStyle()
     const {slots} = useSlots()
 
     const refs = useRefs({

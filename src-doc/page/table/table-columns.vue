@@ -11,10 +11,9 @@
                 </pl-button-group>
             </pl-form-item>
         </pl-form>
-        <pl-table
-                :data="data"
-                :virtual="virtualFlag"
-                @dblclick-row="onDblClickRow">
+        <pl-table :data="data"
+                  :virtual="virtualFlag"
+                  @dblclick-row="onDblClickRow">
             <plc field="id" title="普通文本列"/>
             <plc-input field="name" title="文本框"/>
             <plc-number field="size" title="数字框"/>

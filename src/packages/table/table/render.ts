@@ -48,7 +48,6 @@ function getBody(
         isSummary,
         h,
         editable,
-        ctx,
     }: {
         fixed: PlcFixedType,
         rowData: TableNode,
@@ -56,7 +55,6 @@ function getBody(
         isSummary: boolean,
         h: Vue["$createElement"],
         editable: boolean,
-        ctx: Vue,
     }) {
 // 如果不是对应的fixed，不渲染任何内容
     if (plc.props.fixed != fixed) {
@@ -75,13 +73,13 @@ function getBody(
             return plc.scopedSlots.summary(renderData)
         }
         if (!!plc.props.summary) {
-            return callRender(plc.props.summary, ctx, h, renderData)
+            return callRender(plc.props.summary, plc.ctx, h, renderData)
         }
         if (!!plc.scopedSlots.default) {
             return plc.scopedSlots.default(renderData)
         }
         if (!!plc.props.default) {
-            return callRender(plc.props.default, ctx, h, renderData)
+            return callRender(plc.props.default, plc.ctx, h, renderData)
         }
         return !!plc.props.field ? renderData.row[plc.props.field] : null
     } else {
@@ -95,7 +93,7 @@ function getBody(
                 return plc.scopedSlots.edit(renderData)
             }
             if (!!plc.props.edit) {
-                return callRender(plc.props.edit, ctx, h, renderData)
+                return callRender(plc.props.edit, plc.ctx, h, renderData)
             }
         } else {
             // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
@@ -104,7 +102,7 @@ function getBody(
                 return plc.scopedSlots.default(renderData)
             }
             if (!!plc.props.default) {
-                return callRender(plc.props.default, ctx, h, renderData)
+                return callRender(plc.props.default, plc.ctx, h, renderData)
             }
             if (!plc.props.field) {
                 return null
@@ -148,18 +146,16 @@ export const PlcRender = {
             plc,
             isSummary,
             h,
-            ctx,
         }: {
             fixed: PlcFixedType,
             rowData: TableNode,
             plc: PlcType,
             isSummary: boolean,
-            h: Vue["$createElement"],
-            ctx: Vue,
+            h: Vue["$createElement"]
         }
     ) => {
         const editable = getEditable(plc, rowData)
-        const body = getBody({fixed, rowData, plc, isSummary, h, editable, ctx})
+        const body = getBody({fixed, rowData, plc, isSummary, h, editable})
 
         return {
             editable,
