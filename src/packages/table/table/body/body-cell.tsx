@@ -56,7 +56,17 @@ export default defineComponent({
         const ctx = getCurrentInstance()!
         useFormItemEdit(props, table)
 
-        useStyle({shape: 'none', size: 'mini'})
+        useStyle({
+            shape: 'none',
+            size: 'mini',
+            adjust: (result) => {
+                const {validateResult} = props.rowData
+                const {status} = result
+                result.status = status != null ? status : (!!props.plc.props.field && !!validateResult && validateResult[props.plc.props.field] != null ? 'error' : (status || null))
+
+                return result
+            }
+        })
 
         const renderData = computed(() => PlcRender.body({
             ...props,
