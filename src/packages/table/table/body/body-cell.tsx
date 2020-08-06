@@ -7,6 +7,7 @@ import {TableNode} from "@/packages/table/table/TableNode";
 import {PlcRender} from "@/packages/table/table/render";
 import {EditProvider} from "@/use/useEdit";
 import {FormTrigger, validateField} from "@/packages/form/validate";
+import {useStyle} from "@/use/useStyle";
 
 interface BodyCellPropsType {
     plc: PlcType,
@@ -52,12 +53,15 @@ export default defineComponent({
     setup(props: BodyCellPropsType) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
-        const {$createElement} = getCurrentInstance()!
+        const ctx = getCurrentInstance()!
         useFormItemEdit(props, table)
+
+        const {styleComputed} = useStyle({shape: 'none', size: 'mini'})
 
         const renderData = computed(() => PlcRender.body({
             ...props,
-            h: $createElement,
+            h: ctx.$createElement,
+            ctx,
         }))
 
         const classes = computed(() => {
