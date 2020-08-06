@@ -13,13 +13,13 @@ export default definePlc({
         align: {default: 'center'},
         summary: {
             type: Function,
-            default: function (h, {plc}) {
+            default: function ({plc}) {
                 return plc.props.summaryText
             }
         },
         default: {
             type: Function,
-            default: function (h, {rowData, plc}) {
+            default: function ({rowData, plc}) {
                 return rowData.index + 1
             }
         },
