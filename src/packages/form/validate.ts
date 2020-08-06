@@ -358,7 +358,13 @@ export async function validateField(validateResult: ValidateResultMap, rules: Ta
  * @author  韦胜健
  * @date    2020/7/18 11:14
  */
-export async function validateAsync(config: { validateResult: ValidateResultMap, rules: TargetRule[], formData: object, onStart: Function, onEnd: Function })
+export async function validateAsync(config: {
+    validateResult: ValidateResultMap,
+    rules: TargetRule[],
+    formData: object,
+    onStart?: Function,
+    onEnd?: Function
+})
     : Promise<null | { validateResult: ValidateResultMap | null, message: string }> {
 
     const {

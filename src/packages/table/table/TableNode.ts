@@ -2,7 +2,7 @@ import {TableCheckStatus, TablePropsType} from "@/packages/table/table-utils";
 import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
 import {set} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
-import {ValidateResultMap} from "@/packages/form/validate";
+import {validateAsync, ValidateResultMap} from "@/packages/form/validate";
 
 export class TableNode {
 
@@ -229,11 +229,19 @@ export class TableNode {
      * @author  韦胜健
      * @date    2020/8/6 20:58
      */
-    saveEdit() {
+    async saveEdit() {
         if (!this.isEdit) {
             return
         }
-        const {data, editRow} = this
+        const {data, editRow, validateResult} = this
+
+        /*问题来了，我怎么在TableNode中得到table，然后得到里面的rules*/
+        /*const result = await validateAsync({
+            validateResult,
+            rules: table.validateConfigData.value.allRules,
+            formData: editRow,
+        })*/
+
         Object.keys({...data, ...editRow}).forEach(key => set(this.data, key, editRow[key] || null))
     }
 }
