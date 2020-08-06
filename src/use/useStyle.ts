@@ -14,7 +14,12 @@ export const StyleProps = {
     status: {type: String},                     // primary,success,error,warn,info
 }
 
-export const useStyle = useWrapper('style', (defaultValue?: { shape?: string | null, size?: string | null, status?: string | null }) => {
+export const useStyle = useWrapper('style', (defaultValue?: {
+    shape?: string | null,
+    size?: string | null,
+    status?: string | null,
+    adjust?: (result: { shape?: string | null, size?: string | null, status?: string | null }) => { shape?: string | null, size?: string | null, status?: string | null }
+}) => {
     const ctx = getCurrentInstance()!
 
     const parent = inject(StyleProvider, null)
@@ -26,11 +31,18 @@ export const useStyle = useWrapper('style', (defaultValue?: { shape?: string | n
         // @ts-ignore
         const parentStyler = !!parent ? parent.value : <any>{}
 
-        return {
+        let result = {
             shape: shape || parentStyler.shape || defaultValue!.shape,
             size: size || parentStyler.size || defaultValue!.size,
             status: status || parentStyler.status || defaultValue!.status,
         }
+
+        if (!!defaultValue && !!defaultValue.adjust) {
+            // @ts-ignore
+            result = defaultValue.adjust(result) || result
+        }
+
+        return result
     })
 
     provide(StyleProvider, style)
