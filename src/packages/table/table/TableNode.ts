@@ -23,36 +23,27 @@ export class TableNode {
 
     index!: number
 
+    // 树形表格：子节点数据
     get childrenData() {return !!this.props.childrenField && !!this.data ? this.data[this.props.childrenField] : undefined}
 
+    // 树形表格：子节点对象
     get children() {return !this.childrenData ? undefined : this.childrenData.map(child => this.mark.getNode(child, this.props, this.level + 1, this, this.isSummaryData))}
 
     /*---------------------------------------mark attrs-------------------------------------------*/
-
+    /*@formatter:off*/
+    // 树形表格：当前是否已经展开
     get isExpand(): boolean {return this.mark.getMark(this.key, TableMarkAttr.expand)}
-
+    // 树形表格：当前是否选中
     get isCheck(): boolean {return this.mark.getMark(this.key, TableMarkAttr.check)}
-
+    // 树形表格：当前是否正在加载子节点数据
     get isLoading(): boolean {return this.mark.getMark(this.key, TableMarkAttr.loading)}
-
+    // 树形表格：当前子节点数据是否已经加载完毕
     get isLoaded(): boolean {return this.mark.getMark(this.key, TableMarkAttr.loaded)}
-
-    get isEdit(): boolean {return this.mark.getMark(this.key, TableMarkAttr.edit)}
-
-    get editRow(): object {return this.mark.getEditRow(this.key)}
-
-    set editRow(val: object) {this.mark.setEditRow(this.key, val)}
-
-    get validateResult() {return this.mark.getValidateResult(this.key)}
-
-    set validateResult(val: ValidateResultMap) {this.mark.setValidateResult(this.key, val)}
-
-    /*---------------------------------------judge props-------------------------------------------*/
-
+    // 树形表格：当前行是否可选中
     get isCheckable(): boolean {return !this.props.isCheckable || this.props.isCheckable(this)}
-
+    // 树形表格：当前行是否为叶子节点
     get isLeaf(): boolean {return !!this.props.isLeaf ? this.props.isLeaf(this) : (!!this.children && this.children.length > 0)}
-
+    // 树形表格：当前行是否可见
     get isVisible(): boolean {
         const {filterNodeMethod} = this.props
         if (!filterNodeMethod) {
@@ -65,8 +56,7 @@ export class TableNode {
             return (this.children || []).some(child => child.isVisible)
         }
     }
-
-    /*当前选中状态：选中、未选中、半选中*/
+    // 树形表格：当前选中状态：选中、未选中、半选中
     get checkStatus(): TableCheckStatus {
 
         if (this.isLeaf || this.props.checkStrictly) {
@@ -84,12 +74,7 @@ export class TableNode {
             }
         }
     }
-
-    /**
-     * 拖拽指示器的左偏移距离
-     * @author  韦胜健
-     * @date    2020/4/3 0:09
-     */
+    // 树形表格：拖拽指示器的左偏移距离
     get indicatorLeft() {
         let left = this.props.intent * (this.level - 1)
         if (this.isLeaf && !this.isLoading) {
@@ -97,6 +82,16 @@ export class TableNode {
         }
         return left
     }
+
+    // 当前是否处于行编辑状态
+    get isEdit(): boolean {return this.mark.getMark(this.key, TableMarkAttr.edit)}
+    // 当前行编辑数据对象
+    get editRow(): object {return this.mark.getEditRow(this.key)}
+    set editRow(val: object) {this.mark.setEditRow(this.key, val)}
+    // 当前行的校验结果
+    get validateResult() {return this.mark.getValidateResult(this.key)}
+    set validateResult(val: ValidateResultMap) {this.mark.setValidateResult(this.key, val)}
+    /*@formatter:on*/
 
     /*---------------------------------------methods-------------------------------------------*/
 
@@ -129,6 +124,11 @@ export class TableNode {
         set(this.data, this.props.childrenField, children)
     }
 
+    /**
+     * 获取子节点数据
+     * @author  韦胜健
+     * @date    2020/8/6 20:54
+     */
     getReactiveChildrenData(): object[] {
         let childrenData = this.childrenData
         if (!childrenData) {
@@ -138,11 +138,21 @@ export class TableNode {
         return childrenData
     }
 
+    /**
+     * 在当前节点的父节点子数据中，移除当前节点数据
+     * @author  韦胜健
+     * @date    2020/8/6 20:55
+     */
     removeSelf() {
         const parentChildrenData = this.parent!.childrenData
         parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
     }
 
+    /**
+     * 将节点移动至当前节点的前置节点
+     * @author  韦胜健
+     * @date    2020/8/6 20:55
+     */
     previousSibling(treeNode: TableNode) {
         let parentChildrenData = this.parent!.getReactiveChildrenData()
         treeNode.parent = this.parent
@@ -150,6 +160,11 @@ export class TableNode {
         parentChildrenData.splice(parentChildrenData.indexOf(this.data), 0, treeNode.data)
     }
 
+    /**
+     * 移动节点至当前节点的后置节点
+     * @author  韦胜健
+     * @date    2020/8/6 20:56
+     */
     nextSibling(treeNode: TableNode) {
         let parentChildrenData = this.parent!.getReactiveChildrenData()
         treeNode.parent = this.parent
@@ -157,6 +172,11 @@ export class TableNode {
         parentChildrenData.splice(parentChildrenData.indexOf(this.data) + 1, 0, treeNode.data)
     }
 
+    /**
+     * 添加节点为当前节点的子节点中
+     * @author  韦胜健
+     * @date    2020/8/6 20:56
+     */
     unshiftChild(treeNode: TableNode) {
         let childrenData = this.getReactiveChildrenData()
         treeNode.parent = this
@@ -165,16 +185,37 @@ export class TableNode {
     }
 
     /*---------------------------------------table edit-------------------------------------------*/
+
+    /**
+     * 开启编辑状态
+     * @author  韦胜健
+     * @date    2020/8/6 20:56
+     */
     openEdit() {this.mark.setMark(this.key, TableMarkAttr.edit, true)}
 
+    /**
+     * 关闭编辑状态
+     * @author  韦胜健
+     * @date    2020/8/6 20:56
+     */
     closeEdit() {this.mark.setMark(this.key, TableMarkAttr.edit, false)}
 
+    /**
+     * 开启编辑，当前行的editRow对象将被重置为行数据的一份拷贝
+     * @author  韦胜健
+     * @date    2020/8/6 20:57
+     */
     enableEdit() {
         if (this.isEdit) {return}
         this.editRow = $plain.utils.deepcopy(this.data)
         this.openEdit()
     }
 
+    /**
+     * 取消编辑
+     * @author  韦胜健
+     * @date    2020/8/6 20:57
+     */
     cancelEdit() {
         if (!this.isEdit) {
             return
@@ -183,6 +224,11 @@ export class TableNode {
         this.closeEdit()
     }
 
+    /**
+     * 保存编辑，当前行的row数据对象将被重置为editRow的一份拷贝
+     * @author  韦胜健
+     * @date    2020/8/6 20:58
+     */
     saveEdit() {
         if (!this.isEdit) {
             return
