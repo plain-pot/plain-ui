@@ -7,7 +7,7 @@ export default definePlc({
         width: {default: 150},
         edit: {
             type: Function,
-            default: function ({plc, row}) {
+            default: function (h, {plc, row}) {
                 return (
                     <pl-color-picker value={row[plc.props.field]} onInput={val => set(row, plc.props.field, val)}/>
                 )

@@ -56,10 +56,11 @@ export default defineComponent({
         const ctx = getCurrentInstance()!
         useFormItemEdit(props, table)
 
-        useStyle({shape: 'none', size: 'mini'})
+        const {styleComputed} = useStyle({shape: 'none', size: 'mini'})
 
         const renderData = computed(() => PlcRender.body({
             ...props,
+            h: ctx.$createElement,
             ctx,
         }))
 
