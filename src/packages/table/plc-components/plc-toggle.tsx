@@ -4,15 +4,15 @@ import {TableRenderData} from "@/packages/table/plc/plc";
 export default definePlc({
     name: 'plc-toggle',
     props: {
-        type: Function,
         summary: {
+            type: Function,
             default: null
         },
         default: {
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 return (
-                    <pl-toggle disabled {...getBinding(row, plc.props.field!)}/>
+                    <pl-toggle disabled {...getBinding(row, plc.props.field!)} trueValue={'Y'} falseValue={'N'}/>
                 )
             }
         },
@@ -20,7 +20,7 @@ export default definePlc({
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 return (
-                    <pl-toggle {...getBinding(row, plc.props.field!)}/>
+                    <pl-toggle {...getBinding(row, plc.props.field!)} trueValue={'Y'} falseValue={'N'}/>
                 )
             }
         },
