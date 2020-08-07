@@ -79,7 +79,8 @@ export default defineComponent({
                 'plt-cell',
                 ...getCellClass(props.plc, props.rowData),
                 {
-                    'plt-cell-editing': renderData.value.editable
+                    'plt-cell-add-edit-padding': props.plc.props.addEditPadding,
+                    'plt-cell-editing': renderData.value.editable,
                 }
             ]
         })

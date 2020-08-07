@@ -4,6 +4,7 @@ import {TableRenderData} from "@/packages/table/plc/plc";
 export default definePlc({
     name: 'plc-toggle',
     props: {
+        addEditPadding: {default: true},
         summary: {
             type: Function,
             default: null

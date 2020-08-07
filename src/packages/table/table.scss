@@ -171,7 +171,9 @@
       }
 
       &.plt-cell-editing {
-        padding-left: 0;
+        &:not(.plt-cell-add-edit-padding) {
+          padding-left: 0;
+        }
       }
     }
 
