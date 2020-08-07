@@ -1,5 +1,4 @@
 import {definePlc, getBinding} from "@/packages/table/plc-components/register";
-import {set} from "@vue/composition-api";
 import {TableRenderData} from "@/packages/table/plc/plc";
 
 export default definePlc({

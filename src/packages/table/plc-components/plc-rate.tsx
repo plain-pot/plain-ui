@@ -4,8 +4,8 @@ import {TableRenderData} from "@/packages/table/plc/plc";
 export default definePlc({
     name: 'plc-rate',
     props: {
-        type: Function,
         summary: {
+            type: Function,
             default: null
         },
         default: {
