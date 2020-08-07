@@ -1,7 +1,7 @@
 import {TablePropsType} from "@/packages/table/table-utils";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {set} from "@vue/composition-api";
-import {ValidateResultMap} from "@/packages/form/validate";
+import {getValidateConfigData, ValidateResultMap} from "@/packages/form/validate";
 
 const data2Key = new WeakMap()
 
@@ -34,7 +34,7 @@ export class TableMark {
     editRowMap: { [key: string]: any } = {}                         // 编辑行对象信息
     validateResultMap: { [key: string]: ValidateResultMap } = {}    // 校验结果对象
 
-    constructor(public props: TablePropsType) {}
+    constructor(public props: TablePropsType, public getRules: () => ReturnType<typeof getValidateConfigData>) {}
 
     getMark<T = boolean>(key: string, attr: TableMarkAttr): T {
         const attrName = `${attr}Map`

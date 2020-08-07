@@ -54,7 +54,7 @@ function tableSetup(props: TablePropsType) {
     })
 
     /*---------------------------------------state-------------------------------------------*/
-    const mark = new TableMark(props)
+    const mark = new TableMark(props, () => validateConfigData.value)
 
     // data
     const dataModel = useModel(() => props.data, emit.updateData, true, true, (val) => state.rootNode.setChildren(val as object[] || []))

@@ -225,6 +225,28 @@ export class TableNode {
     }
 
     /**
+     * 校验当前编辑行数据
+     * @author  韦胜健
+     * @date    2020/8/7 22:05
+     */
+    async validate() {
+        if (!this.validateResult) {
+            this.validateResult = {}
+        }
+        let {editRow, validateResult, mark: {getRules}} = this
+        const {allRules} = getRules()
+        const validate = await validateAsync({
+            validateResult,
+            rules: allRules,
+            formData: editRow,
+        })
+        return !!validate ? {
+            ...validate,
+            rowData: this
+        } : null
+    }
+
+    /**
      * 保存编辑，当前行的row数据对象将被重置为editRow的一份拷贝
      * @author  韦胜健
      * @date    2020/8/6 20:58
@@ -233,15 +255,7 @@ export class TableNode {
         if (!this.isEdit) {
             return
         }
-        const {data, editRow, validateResult} = this
-
-        /*问题来了，我怎么在TableNode中得到table，然后得到里面的rules*/
-        /*const result = await validateAsync({
-            validateResult,
-            rules: table.validateConfigData.value.allRules,
-            formData: editRow,
-        })*/
-
+        const {data, editRow} = this
         Object.keys({...data, ...editRow}).forEach(key => set(this.data, key, editRow[key] || null))
     }
 }

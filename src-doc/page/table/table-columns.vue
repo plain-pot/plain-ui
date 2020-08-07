@@ -36,7 +36,7 @@
             return {
                 data,
                 editNodes: [],
-                virtualFlag: false,
+                virtualFlag: true,
             }
         },
         methods: {
@@ -46,11 +46,16 @@
                     this.editNodes.push(tableNode)
                 }
             },
-            saveEdit() {
-                this.editNodes.forEach(tableNode => {
-                    tableNode.saveEdit()
-                    tableNode.closeEdit()
-                })
+            async saveEdit() {
+                const validates = (await Promise.all(this.editNodes.map(node => node.validate()))).filter(Boolean)
+                if (validates.length > 0) {
+                    const {message, rowData} = validates[0]
+                    this.$message.error(`第${rowData.index + 1}条记录校验不通过，${message}`)
+                    return
+                }
+                // todo 网络保存逻辑
+                this.editNodes.forEach(tableNode => tableNode.saveEdit())
+                this.editNodes.forEach(tableNode => tableNode.closeEdit())
                 this.editNodes = []
             },
             cancelEdit() {
