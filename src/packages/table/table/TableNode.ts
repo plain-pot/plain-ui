@@ -202,6 +202,7 @@ export class TableNode {
 
     /**
      * 开启编辑，当前行的editRow对象将被重置为行数据的一份拷贝
+     * 并且重新校验
      * @author  韦胜健
      * @date    2020/8/6 20:57
      */
@@ -209,6 +210,7 @@ export class TableNode {
         if (this.isEdit) {return}
         this.editRow = $plain.utils.deepcopy(this.data)
         this.openEdit()
+        this.validate()
     }
 
     /**
