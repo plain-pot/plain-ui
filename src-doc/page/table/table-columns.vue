@@ -20,8 +20,8 @@
             <plc-number field="size" title="数字框"/>
             <plc-date field="date" title="日期" required/>
             <plc-color-picker field="color" title="颜色"/>
-
-            <plc field="star" title="评分"/>
+            <plc-rate field="star" title="评分"/>
+            <plc-toggle field="flag" title="开关"/>
         </pl-table>
     </div>
 </template>
