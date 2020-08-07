@@ -1,4 +1,4 @@
-import {defineComponent} from "@vue/composition-api";
+import {defineComponent, set} from "@vue/composition-api";
 import {PlcProps} from "@/packages/table/plc/plc-utils";
 import {plcSetup} from "@/packages/table/plc/plc";
 
@@ -19,4 +19,21 @@ export function definePlc<T extends ParamMixin>(
         mixins: [mixin],
         setup: plcSetup
     })
+}
+
+export function getBinding(row: any, field: string) {
+    return {
+        props: {
+            value: row[field]
+        },
+        on: {
+            input: val => {
+                if (row.hasOwnProperty(field)) {
+                    row[field] = val
+                } else {
+                    set(row, field, val)
+                }
+            }
+        },
+    }
 }

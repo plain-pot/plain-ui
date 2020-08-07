@@ -1,5 +1,4 @@
-import {definePlc} from "@/packages/table/plc-components/register";
-import {set} from "@vue/composition-api";
+import {definePlc, getBinding} from "@/packages/table/plc-components/register";
 
 export default definePlc({
     name: 'plc-color-picker',
@@ -9,7 +8,7 @@ export default definePlc({
             type: Function,
             default: function ({plc, row}) {
                 return (
-                    <pl-color-picker value={row[plc.props.field]} onInput={val => set(row, plc.props.field, val)}/>
+                    <pl-color-picker {...getBinding(row, plc.props.field!)}/>
                 )
             }
         },

@@ -2,7 +2,7 @@ import {definePlc, getBinding} from "@/packages/table/plc-components/register";
 import {TableRenderData} from "@/packages/table/plc/plc";
 
 export default definePlc({
-    name: 'plc-toggle',
+    name: 'plc-rate',
     props: {
         type: Function,
         summary: {
@@ -12,7 +12,7 @@ export default definePlc({
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 return (
-                    <pl-toggle disabled {...getBinding(row, plc.props.field!)}/>
+                    <pl-rate disabled {...getBinding(row, plc.props.field!)}/>
                 )
             }
         },
@@ -20,7 +20,7 @@ export default definePlc({
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 return (
-                    <pl-toggle {...getBinding(row, plc.props.field!)}/>
+                    <pl-rate {...getBinding(row, plc.props.field!)}/>
                 )
             }
         },

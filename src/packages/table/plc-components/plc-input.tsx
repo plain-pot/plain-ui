@@ -1,4 +1,4 @@
-import {definePlc} from "@/packages/table/plc-components/register";
+import {definePlc, getBinding} from "@/packages/table/plc-components/register";
 import {set} from "@vue/composition-api";
 import {TableRenderData} from "@/packages/table/plc/plc";
 
@@ -23,7 +23,7 @@ export default definePlc({
                 )*/
 
                 return (
-                    <pl-input value={row[plc.props.field!]} onInput={val => set(row, plc.props.field, val)}/>
+                    <pl-input {...getBinding(row, plc.props.field!)}/>
                 )
             }
         },
