@@ -13,7 +13,7 @@ export default definePlc({
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 return (
-                    <pl-rate disabled {...getBinding(row, plc.props.field!)}/>
+                    <pl-rate disabled {...getBinding(row, plc.props.field!)} total={10}/>
                 )
             }
         },
@@ -21,7 +21,7 @@ export default definePlc({
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 return (
-                    <pl-rate {...getBinding(row, plc.props.field!)}/>
+                    <pl-rate {...getBinding(row, plc.props.field!)} total={10}/>
                 )
             }
         },
