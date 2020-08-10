@@ -3,6 +3,7 @@ import {TableRenderData} from "@/packages/table/plc/plc";
 
 export default definePlc({
     name: 'plc-check',
+
     props: {
         // custom
         keyField: {type: String, default: 'id'},                // 行对象中唯一标识的字段
@@ -19,7 +20,7 @@ export default definePlc({
         head: {
             type: Function,
             default: function () {
-                return '#'
+                return <pl-checkbox-indeterminate/>
             }
         },
         default: {
@@ -43,6 +44,11 @@ export default definePlc({
         },
     },
     methods: {
+        checkboxStatus() {
+            // @ts-ignore
+            if (this.selected.length === 0) return 'uncheck'
+
+        },
         isChecked(row: any): boolean {
             // @ts-ignore
             return this.selectedKeys.indexOf(row[this.keyField]) > -1
