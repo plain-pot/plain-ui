@@ -14,7 +14,7 @@ export default definePlc({
 
         //standard
         autoFixedLeft: {default: true},
-        order: {default: -9999},
+        order: {default: -10000},
         width: {default: 60},
         align: {default: 'center'},
         summary: {
@@ -25,7 +25,9 @@ export default definePlc({
             type: Function,
             default: function (plc: PlcType) {
                 const plcInstance = plc.ctx as any
-                return <pl-checkbox-indeterminate status={plcInstance.checkPlc.status.value}/>
+                return <pl-checkbox-indeterminate
+                    status={plcInstance.checkPlc.status.value}
+                    onClick={plcInstance.checkPlc.handler.onClickHeadCheckbox}/>
             }
         },
         default: {
@@ -79,6 +81,9 @@ export default definePlc({
                         state.selected.push(row)
                     }
                 },
+                onClickHeadCheckbox: () => {
+                    state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value.map((item: TableNode) => item.data)
+                }
             }
         }
 
