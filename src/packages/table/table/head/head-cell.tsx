@@ -121,7 +121,6 @@ export default defineComponent({
                         {PlcRender.head({
                             plc: props.plc,
                             fixed: props.fixed,
-                            h: $createElement,
                         })}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>

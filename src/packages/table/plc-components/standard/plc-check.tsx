@@ -1,5 +1,9 @@
 import {definePlc} from "@/packages/table/plc-components/register";
-import {TableRenderData} from "@/packages/table/plc/plc";
+import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
+import {computed, inject, reactive} from "@vue/composition-api";
+import {TABLE_PROVIDER} from "@/packages/table/table-utils";
+import {PlainTable} from "@/packages/table/table/table";
+import {TableNode} from "@/packages/table/table/TableNode";
 
 export default definePlc({
     name: 'plc-check',
@@ -19,54 +23,74 @@ export default definePlc({
         },
         head: {
             type: Function,
-            default: function () {
-                return <pl-checkbox-indeterminate/>
+            default: function (plc: PlcType) {
+                const plcInstance = plc.ctx as any
+                return <pl-checkbox-indeterminate status={plcInstance.checkPlc.status.value}/>
             }
         },
         default: {
             type: Function,
             default: function ({row, plc}: TableRenderData) {
                 const plcInstance = plc.ctx as any
-                // @ts-ignore
-                return <pl-checkbox readonly value={plcInstance.isChecked(row)} size={'normal'} onClick={() => plcInstance.onClickCheckbox(row)}/>
+                return (
+                    <pl-checkbox
+                        readonly
+                        value={plcInstance.checkPlc.utils.isChecked(row)}
+                        size={'normal'}
+                        onClick={() => plcInstance.checkPlc.handler.onClickCheckbox(row)}/>
+                )
             }
         },
     },
-    data() {
+    setup(props) {
+
+        const table = inject(TABLE_PROVIDER) as PlainTable
+
+        // @ts-ignore
+        const keyField = props.keyField as string
+
+        const state = reactive({
+            selected: [] as any[],
+        })
+        const selectedKeys = computed(() => {
+            return state.selected.map(item => item[keyField])
+        })
+        const status = computed(() => {
+            if (state.selected.length === 0) return 'uncheck'
+            if (table.formatFlatTableData.value.every((item: TableNode) => selectedKeys.value.indexOf(item.data[keyField]) > -1)) {
+                return 'check'
+            } else {
+                return 'minus'
+            }
+        })
+        const checkPlc = {
+            state,
+            selectedKeys,
+            status,
+            utils: {
+                isChecked: (row: any) => selectedKeys.value.indexOf(row[keyField]) > -1
+            },
+            handler: {
+                onClickCheckbox: (row) => {
+                    const index = selectedKeys.value.indexOf(row[keyField])
+                    if (index > -1) {
+                        state.selected.splice(index, 1)
+                    } else {
+                        state.selected.push(row)
+                    }
+                },
+            }
+        }
+
+        const methods = {
+            getSelected: () => {
+                return state.selected
+            },
+        }
+
         return {
-            selected: [],
+            ...methods,
+            checkPlc,
         }
     },
-    computed: {
-        selectedKeys() {
-            // @ts-ignore
-            return this.selected.map(item => item[this.keyField])
-        },
-    },
-    methods: {
-        checkboxStatus() {
-            // @ts-ignore
-            if (this.selected.length === 0) return 'uncheck'
-
-        },
-        isChecked(row: any): boolean {
-            // @ts-ignore
-            return this.selectedKeys.indexOf(row[this.keyField]) > -1
-        },
-        onClickCheckbox(row) {
-            // @ts-ignore
-            const index = this.selectedKeys.indexOf(row[this.keyField])
-            if (index > -1) {
-                // @ts-ignore
-                this.selected.splice(index, 1)
-            } else {
-                // @ts-ignore
-                this.selected.push(row)
-            }
-        },
-        getSelected() {
-            // @ts-ignore
-            return this.selected || []
-        },
-    }
 })

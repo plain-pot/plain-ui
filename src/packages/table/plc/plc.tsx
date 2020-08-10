@@ -18,10 +18,10 @@ export interface TableRenderData {
 
 
 interface PlcRenderType {
-    head?: (h: Vue["$createElement"], plc: any) => VNode | number | string | null | undefined,
-    default?: (h: Vue["$createElement"], renderData: TableRenderData) => VNode | number | string | null | undefined,
-    edit?: (h: Vue["$createElement"], renderData: TableRenderData) => VNode | number | string | null | undefined,
-    summary?: (h: Vue["$createElement"], renderData: TableRenderData) => VNode | number | string | null | undefined,
+    head?: (plc: any) => VNode | number | string | null | undefined,
+    default?: (renderData: TableRenderData) => VNode | number | string | null | undefined,
+    edit?: (renderData: TableRenderData) => VNode | number | string | null | undefined,
+    summary?: (renderData: TableRenderData) => VNode | number | string | null | undefined,
 }
 
 function usePlcSetup(props: (ExtractPropTypes<typeof PlcProps>)) {

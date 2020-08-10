@@ -117,11 +117,9 @@ export const PlcRender = {
         {
             fixed,
             plc,
-            h,
         }: {
             fixed: PlcFixedType,
             plc: PlcType,
-            h: Vue["$createElement"]
         }) => {
 
         // 如果不是对应的fixed，不渲染任何内容
@@ -134,7 +132,7 @@ export const PlcRender = {
         }
         // 如果存在 props.head 渲染函数，则渲染 props.head
         if (!!plc.props.head) {
-            return plc.props.head(h, plc)
+            return plc.props.head(plc)
         }
         return plc.props.title
 
