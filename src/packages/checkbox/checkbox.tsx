@@ -33,7 +33,10 @@ export default defineComponent({
             default: {checked: Boolean},
         })
 
-        const {emit} = useEvent({input: EmitFunc,})
+        const {emit} = useEvent({
+            input: EmitFunc,
+            click: EmitFunc,
+        })
         const model = useModel(() => props.value, emit.input)
         const propsState = useProps(props, {
             label: FormatPropsType.promise,
@@ -76,7 +79,8 @@ export default defineComponent({
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
-            click: () => {
+            click: (e) => {
+                emit.click(e)
                 if (!editComputed.value.editable) return
                 if (!!checkboxGroupProvider && !props.ignore) {
                     checkboxGroupProvider.handler.onClickCheckbox(props.val)
@@ -88,7 +92,7 @@ export default defineComponent({
                 space: (e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    handler.click()
+                    handler.click(e)
                 },
             })
         }
