@@ -1,6 +1,9 @@
 <template>
     <div class="table-columns">
         <pl-form>
+            <pl-form-item label="获取选中行">
+                <pl-button @click="logSelected">$refs.check.getSelected()</pl-button>
+            </pl-form-item>
             <pl-form-item label="是否开启虚拟滚动">
                 <pl-toggle v-model="virtualFlag"/>
             </pl-form-item>
@@ -15,6 +18,7 @@
                 :data="data"
                 :virtual="virtualFlag"
                 @dblclick-row="onDblClickRow">
+            <plc-check ref="check"/>
             <plc field="id" title="普通文本列"/>
             <plc-input field="name" title="文本框" required/>
             <plc-number field="size" title="数字框"/>
@@ -63,6 +67,11 @@
                     tableNode.cancelEdit()
                 })
                 this.editNodes = []
+            },
+
+            async logSelected() {
+                const selected = this.$refs.check.getSelected()
+                this.$message(selected.map(item => item.name).join(','))
             },
         }
     }
