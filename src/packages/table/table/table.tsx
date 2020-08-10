@@ -163,12 +163,14 @@ function tableSetup(props: TablePropsType) {
             state.hoverState.part = part
             state.hoverState.fixed = fixed
         },
-        hoverRow: (node: TableNode) => {utils.setHover(node)},
-        clickRow: (node: TableNode) => {
+        hoverRow: (e: MouseEvent, node: TableNode) => {
+            utils.setHover(node)
+        },
+        clickRow: (e: MouseEvent, node: TableNode) => {
             utils.setCurrent(node)
             emit.clickRow(node)
         },
-        dblclickRow: (node) => {
+        dblclickRow: (e: MouseEvent, node) => {
             emit.dblclickRow(node)
         },
 

@@ -27,9 +27,9 @@ export default defineComponent({
         ]))
 
         const handler = {
-            mouseenter: () => {table.handler.hoverRow(props.rowData)},
-            click: () => {table.handler.clickRow(props.rowData)},
-            dblclick: () => {table.handler.dblclickRow(props.rowData)},
+            mouseenter: (e: MouseEvent) => {table.handler.hoverRow(e, props.rowData)},
+            click: (e: MouseEvent) => {table.handler.clickRow(e, props.rowData)},
+            dblclick: (e: MouseEvent) => {table.handler.dblclickRow(e, props.rowData)},
         }
 
         const binding = computed(() => {
