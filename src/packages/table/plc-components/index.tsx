@@ -1,5 +1,6 @@
 import index from './standard/plc-index'
 import check from './standard/plc-check'
+import expand from './standard/plc-expand'
 
 import toggle from './external/plc-toggle'
 import input from './external/plc-input'
@@ -14,6 +15,7 @@ import {installPlugin} from "@/util/install";
 export default installPlugin([
     index,
     check,
+    expand,
 
     toggle,
     input,

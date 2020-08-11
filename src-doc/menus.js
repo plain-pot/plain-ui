@@ -111,6 +111,7 @@ export default [
             {name: 'Table Tooltip', title: '列显示', icon: 'pl-table-solid', page: '/table/base-table-tooltip', complete: false},
             {name: 'Table Columns', title: '列组件', icon: 'pl-table-solid', page: '/table/table-columns', complete: true},
             {name: 'Table Methods', title: '方法', icon: 'pl-table-solid', page: '/table/base-table-methods', complete: false},
+            {name: 'Table Expand', title: '展开列', icon: 'pl-table-solid', page: '/table/table-expand', complete: true},
         ]
     },
     /*{name: '指令'},
