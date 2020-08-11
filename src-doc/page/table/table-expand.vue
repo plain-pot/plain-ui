@@ -5,9 +5,9 @@
 <!--            <plc-expand toggleOnClickRow/>-->
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required/>
-            <plc-number field="size" title="数字框"/>
-            <plc-date field="date" title="日期" required/>
-            <plc-color-picker field="color" title="颜色"/>
+            <plc-number field="size" title="数字框" :order="10"/>
+            <plc-date field="date" title="日期" required />
+            <plc-color-picker field="color" title="颜色" :order="11"/>
             <plc-rate field="star" title="评分"/>
             <plc-toggle field="flag" title="开关"/>
         </pl-table>
