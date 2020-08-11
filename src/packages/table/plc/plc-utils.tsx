@@ -110,7 +110,7 @@ function getPlcOrder(item: PlcType | PlcGroupType): number {
     } else if (item.props.fixed === PlcFixedType.right) {
         order += 9999
     }
-    return order
+    return Number(order)
 }
 
 /**
