@@ -41,8 +41,8 @@ function tableSetup(props: TablePropsType) {
         scrollLeft: (e: Event, part: TableHoverPart) => {},
         updateData: EmitFunc,
 
-        clickRow: EmitFunc,
-        dblclickRow: EmitFunc,
+        clickRow: (node: TableNode, e: MouseEvent) => {},
+        dblclickRow: (node: TableNode, e: MouseEvent) => {},
     })
 
     useStyle({shape: null, size: null, status: null})
@@ -168,10 +168,10 @@ function tableSetup(props: TablePropsType) {
         },
         clickRow: (e: MouseEvent, node: TableNode) => {
             utils.setCurrent(node)
-            emit.clickRow(node)
+            emit.clickRow(node, e)
         },
         dblclickRow: (e: MouseEvent, node) => {
-            emit.dblclickRow(node)
+            emit.dblclickRow(node, e)
         },
 
         leaveTable: () => {utils.setHover(null)},
