@@ -1,9 +1,10 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
-import {computed, inject, reactive} from "@vue/composition-api";
+import {computed, inject, onUnmounted, reactive} from "@vue/composition-api";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
 import {PlainTable} from "@/packages/table/table/table";
 import {TableNode} from "@/packages/table/table/TableNode";
+import {$plain} from "@/packages/base";
 
 export default definePlc({
     name: 'plc-check',
@@ -11,6 +12,7 @@ export default definePlc({
     props: {
         // custom
         keyField: {type: String, default: 'id'},                // 行对象中唯一标识的字段
+        toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
 
         //standard
         autoFixedLeft: {default: true},
@@ -49,7 +51,7 @@ export default definePlc({
         const table = inject(TABLE_PROVIDER) as PlainTable
 
         // @ts-ignore
-        const keyField = props.keyField as string
+        const {keyField, toggleOnClickRow} = props as { keyField: string, toggleOnClickRow: boolean }
 
         const state = reactive({
             selected: [] as any[],
@@ -65,25 +67,28 @@ export default definePlc({
                 return 'minus'
             }
         })
-        const checkPlc = {
-            state,
-            selectedKeys,
-            status,
-            utils: {
-                isChecked: (row: any) => selectedKeys.value.indexOf(row[keyField]) > -1
-            },
-            handler: {
-                onClickCheckbox: (row) => {
-                    const index = selectedKeys.value.indexOf(row[keyField])
-                    if (index > -1) {
-                        state.selected.splice(index, 1)
-                    } else {
-                        state.selected.push(row)
-                    }
-                },
-                onClickHeadCheckbox: () => {
-                    state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value.map((item: TableNode) => item.data)
+
+        const utils = {
+            isChecked: (row: any) => selectedKeys.value.indexOf(row[keyField]) > -1
+        }
+
+        const handler = {
+            onClickCheckbox: (row) => {
+                const index = selectedKeys.value.indexOf(row[keyField])
+                if (index > -1) {
+                    state.selected.splice(index, 1)
+                } else {
+                    state.selected.push(row)
                 }
+            },
+            onClickHeadCheckbox: () => {
+                state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value.map((item: TableNode) => item.data)
+            },
+            onClickRow: (node: TableNode, e: MouseEvent) => {
+                if (!$plain.utils.hasClass(e.target as HTMLElement, 'plt-body-cell')) {
+                    return
+                }
+                handler.onClickCheckbox(node.data)
             }
         }
 
@@ -91,6 +96,19 @@ export default definePlc({
             getSelected: () => {
                 return state.selected
             },
+        }
+
+        const checkPlc = {
+            state,
+            selectedKeys,
+            status,
+            utils,
+            handler,
+        }
+
+        if (!!toggleOnClickRow) {
+            table.on.clickRow(handler.onClickRow)
+            onUnmounted(() => table.off.clickRow(handler.onClickRow))
         }
 
         return {
