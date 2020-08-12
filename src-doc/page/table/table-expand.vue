@@ -1,8 +1,10 @@
 <template>
     <div class="table-expand">
-        <pl-table :data="data" virtual>
+        <pl-table :data="data"
+                  :summaryData="summaryData"
+                  virtual>
             <plc-check ref="check" toggleOnClickRow/>
-<!--            <plc-expand toggleOnClickRow/>-->
+            <plc-expand toggleOnClickRow/>
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required fixed="left"/>
             <plc-number field="size" title="数字框" :order="10"/>
@@ -23,6 +25,7 @@
         data() {
             return {
                 data,
+                summaryData: data.slice(data.length - 2, data.length)
             }
         },
     }
