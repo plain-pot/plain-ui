@@ -131,9 +131,18 @@ export default defineComponent({
                         {
                             ...{
                                 scopedSlots: {
-                                    default: ({item, index, isSummary}) => (
-                                        <plt-row key={index} vid={index} rowData={item} fixed={props.fixed} isSummary={isSummary}/>
-                                    )
+                                    default: ({item, index, isSummary}) => [
+                                        <plt-row key={index} vid={index} rowData={item} fixed={props.fixed} isSummary={isSummary}/>,
+                                        table.plcData.value!.plcListHasRenderAfterRow.length === 0
+                                            ? null :
+                                            [...table.plcData.value!.plcListHasRenderAfterRow.map(plc => plc.props.renderAfterRow!({
+                                                plc,
+                                                index,
+                                                rowData: item,
+                                                fixed: props.fixed,
+                                                isSummary,
+                                            }))]
+                                    ].filter(Boolean)
                                 }
                             }
                         }

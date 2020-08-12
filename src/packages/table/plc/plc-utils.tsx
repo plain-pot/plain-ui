@@ -28,6 +28,7 @@ export const PlcProps = {
     default: {type: Function},                                              // 列内容默认渲染函数
     summary: {type: Function},                                              // 列内容在合计行上的渲染函数
     edit: {type: Function},                                                 // 列内容在编辑状态下的渲染函数
+    renderAfterRow: {type: Function},                                       // 行之后需要额外渲染的内容
 
     // 编辑相关
     required: {type: Boolean},                                              // 是否必填
@@ -292,6 +293,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         plcList: items,
         flatPlcList,
         flatPlcLength: flatPlcList.length,
+        plcListHasRenderAfterRow: flatPlcList.filter(item => !!item.props.renderAfterRow),
         hasFixedLeft,
         hasFixedRight,
     }

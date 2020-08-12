@@ -1,9 +1,16 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
-import {$plain} from "@/packages/base";
-import {inject} from "@vue/composition-api";
-import {TABLE_PROVIDER} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
+import {reactive, set} from "@vue/composition-api";
+import {TableNode} from "@/packages/table/table/TableNode";
+import {PlcFixedType} from "@/packages/table/plc/plc-utils";
+
+interface ExpandDataType {
+    plc: PlcType,
+    index: number,
+    rowData: TableNode,
+    fixed: PlcFixedType,
+    isSummary: boolean
+}
 
 export default definePlc({
     name: 'plc-expand',
@@ -37,52 +44,63 @@ export default definePlc({
                 )
             }
         },
+        renderAfterRow: {
+            type: Function,
+            default: function ({plc, index, rowData, fixed, isSummary}: ExpandDataType) {
+
+                const ctx = plc.ctx as any
+
+                if (!ctx.expandPlc.isExpand(rowData.key)) {
+                    return null
+                }
+
+                if (!ctx.$scopedSlots.extend) {
+                    console.log('缺少expand作用域插槽')
+                    return null
+                }
+
+                return ctx.$scopedSlots.expand({
+                    plc,
+                    rowData: {
+                        ...rowData,
+                        isSummaryData: isSummary,
+                    },
+                    row: rowData.isEdit ? rowData.editRow : rowData.data
+                } as TableRenderData)
+            }
+        },
     },
     setup() {
 
-        const table = inject(TABLE_PROVIDER) as PlainTable
+        const state = reactive({
+            expandKeys: {} as { [key: string]: boolean },
+        })
 
         const expandPlc = {
-            toggle: (renderData: TableRenderData, e: MouseEvent) => {
-                expandPlc.expand(renderData, e)
+            state,
+            isExpand: (key: string) => {
+                return state.expandKeys[key]
             },
-            expand: (renderData: TableRenderData, e: MouseEvent) => {
-                let target = e.target as HTMLElement
-                while (!$plain.utils.hasClass(target, 'plt-row')) {
-                    target = target.parentNode as HTMLElement
+            toggle: (renderData: TableRenderData, e: MouseEvent) => {
+                if (expandPlc.isExpand(renderData.rowData.key)) {
+                    expandPlc.close(renderData.rowData.key)
+                } else {
+                    expandPlc.expand(renderData.rowData.key)
                 }
-                /*const vid = target.getAttribute('vid')
-                const bodyCenterEl = table.refs.$el.querySelector('.plt-body-item.pl-table-item-fixed-center')
-                if (!bodyCenterEl) {
-                    console.error('内部错误，无法找到center table body！');
-                    return
+            },
+            expand: (key: string) => {
+                if (state.expandKeys.hasOwnProperty(key)) {
+                    state.expandKeys[key] = true
+                } else {
+                    set(state.expandKeys, key, true)
                 }
-                const rowCenterEl = bodyCenterEl.querySelector(`[vid="${vid}"]`)*/
-                const rowCenterEl = target
-                if (!rowCenterEl) {
-                    console.error('内部错误，无法找到center row center！');
-                    return;
+            },
+            close: (key: string) => {
+                if (state.expandKeys.hasOwnProperty(key)) {
+                    state.expandKeys[key] = false
+                } else {
+                    set(state.expandKeys, key, false)
                 }
-
-                const trEl = document.createElement('tr')
-
-                $plain.utils.insertAfter(trEl, rowCenterEl as HTMLElement)
-
-                const ins = $plain.newInstance({
-                    render() {
-                        return (
-                            <tr class="plt-row plt-row-expand" style={{zIndex: 10, position: 'relative'}}>
-                                <td rowspan={1} colspan={table.plcData.value!.flatPlcLength}>
-                                    <div>
-                                        this is td content
-                                    </div>
-                                </td>
-                            </tr>
-                        )
-                    }
-                }, {el: trEl})
-
-                console.log(ins)
             }
         }
 
