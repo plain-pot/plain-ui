@@ -51,19 +51,38 @@ export default definePlc({
                 while (!$plain.utils.hasClass(target, 'plt-row')) {
                     target = target.parentNode as HTMLElement
                 }
-                const vid = target.getAttribute('vid')
+                /*const vid = target.getAttribute('vid')
                 const bodyCenterEl = table.refs.$el.querySelector('.plt-body-item.pl-table-item-fixed-center')
                 if (!bodyCenterEl) {
                     console.error('内部错误，无法找到center table body！');
                     return
                 }
-                const rowCenterEl = bodyCenterEl.querySelector(`[vid="${vid}"]`)
+                const rowCenterEl = bodyCenterEl.querySelector(`[vid="${vid}"]`)*/
+                const rowCenterEl = target
                 if (!rowCenterEl) {
                     console.error('内部错误，无法找到center row center！');
                     return;
                 }
 
-                console.log(rowCenterEl)
+                const trEl = document.createElement('tr')
+
+                $plain.utils.insertAfter(trEl, rowCenterEl as HTMLElement)
+
+                const ins = $plain.newInstance({
+                    render() {
+                        return (
+                            <tr class="plt-row plt-row-expand" style={{zIndex: 10, position: 'relative'}}>
+                                <td rowspan={1} colspan={table.plcData.value!.flatPlcLength}>
+                                    <div>
+                                        this is td content
+                                    </div>
+                                </td>
+                            </tr>
+                        )
+                    }
+                }, {el: trEl})
+
+                console.log(ins)
             }
         }
 

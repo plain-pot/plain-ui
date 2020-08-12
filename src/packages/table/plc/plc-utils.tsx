@@ -291,6 +291,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         notFitVirtualPlcList,
         plcList: items,
         flatPlcList,
+        flatPlcLength: flatPlcList.length,
         hasFixedLeft,
         hasFixedRight,
     }
