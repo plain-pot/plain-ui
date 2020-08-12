@@ -54,19 +54,28 @@ export default definePlc({
                     return null
                 }
 
-                if (!ctx.$scopedSlots.extend) {
+                if (!ctx.$scopedSlots.expand) {
                     console.log('缺少expand作用域插槽')
                     return null
                 }
 
-                return ctx.$scopedSlots.expand({
-                    plc,
-                    rowData: {
-                        ...rowData,
-                        isSummaryData: isSummary,
-                    },
-                    row: rowData.isEdit ? rowData.editRow : rowData.data
-                } as TableRenderData)
+                return (
+                    <tr>
+                        <td>
+                            <div>
+                                自定义内容
+                                {ctx.$scopedSlots.expand({
+                                    plc,
+                                    rowData: {
+                                        ...rowData,
+                                        isSummaryData: isSummary,
+                                    },
+                                    row: rowData.isEdit ? rowData.editRow : rowData.data
+                                } as TableRenderData)}
+                            </div>
+                        </td>
+                    </tr>
+                )
             }
         },
     },

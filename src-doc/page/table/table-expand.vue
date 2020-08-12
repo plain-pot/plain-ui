@@ -4,7 +4,16 @@
                   :summaryData="summaryData"
                   virtual>
             <plc-check ref="check" toggleOnClickRow/>
-            <plc-expand toggleOnClickRow/>
+            <plc-expand toggleOnClickRow>
+                <template slot-scope="{row}" slot="expand">
+                    <pl-form disabled>
+                        <pl-form-item label="普通文本">{{row.name}}</pl-form-item>
+                        <pl-form-item label="输入框列">
+                            <pl-input v-model="row.name"/>
+                        </pl-form-item>
+                    </pl-form>
+                </template>
+            </plc-expand>
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required fixed="left"/>
             <plc-number field="size" title="数字框" :order="10"/>
