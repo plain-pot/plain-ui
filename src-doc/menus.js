@@ -1,5 +1,5 @@
 export default [
-    /*{name: '简介'},
+    {name: '简介'},
     {name: '快速上手'},
     {
         name: '基础', children: [
@@ -92,7 +92,7 @@ export default [
             {name: '$notice', title: '通知', icon: 'pad-bell', page: '/service/notice-service', complete: true},
             {name: '$file', title: '文件服务', icon: 'pad-bell', page: '/service/file', complete: false},
         ]
-    },*/
+    },
     {
         name: '表格', children: [
             {name: 'pl-virtual-table', title: '基础虚拟表格', icon: 'pl-table-solid', page: '/table/virtual-table', complete: true},
