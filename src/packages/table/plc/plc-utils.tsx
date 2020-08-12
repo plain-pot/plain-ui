@@ -15,20 +15,23 @@ export const PlcGroupProps = {
 }
 
 export const PlcProps = {
+
+    // 基础属性
     ...PlcGroupProps,
     field: {type: String},                                                  // 列绑定字段
     width: {type: [String, Number], default: '120'},                        // 列宽度
     fit: {type: Number, default: 0},                                        // 当列不满表格宽度时，该列所占剩下宽度的权重
+    notFitVirtual: {type: Boolean},                                         // 是否不兼容表格的虚拟滚动功能
 
     // 渲染函数
-    head: {type: Function},
-    default: {type: Function},
-    summary: {type: Function},
-    edit: {type: Function},
+    head: {type: Function},                                                 // 列标题渲染函数
+    default: {type: Function},                                              // 列内容默认渲染函数
+    summary: {type: Function},                                              // 列内容在合计行上的渲染函数
+    edit: {type: Function},                                                 // 列内容在编辑状态下的渲染函数
 
+    // 编辑相关
     required: {type: Boolean},                                              // 是否必填
     rules: {type: [Object, Array]},                                         // 校验规则
-
     editable: {type: [Boolean, Function], default: true},                   // 是否可编辑
     addEditPadding: {type: Boolean},                                        // 处于编辑状态的时候，是否添加内编辑，只有当行状态为编辑状态，并且列有edit渲染函数或者作用域插槽时，才符合“处于编辑状态”的条件
 
