@@ -1,8 +1,8 @@
 <template>
     <div class="table-expand">
-        <pl-table :data="data">
+        <pl-table :data="data" virtual>
             <plc-check ref="check" toggleOnClickRow/>
-            <plc-expand toggleOnClickRow/>
+<!--            <plc-expand toggleOnClickRow/>-->
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required fixed="left"/>
             <plc-number field="size" title="数字框" :order="10"/>

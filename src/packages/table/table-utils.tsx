@@ -5,7 +5,7 @@ export const TableProps = {
     ...StyleProps,
 
     data: {type: Array},                                        // 显示的数据
-    virtual: {type: Boolean, default: true},                    // 虚拟滚动
+    virtual: {type: Boolean, default: false},                    // 虚拟滚动
 
     // validate
     rules: {type: Object},                                      // 校验规则

@@ -121,6 +121,12 @@ function tableSetup(props: TablePropsType) {
     const tableSummaryData = computed(() => state.summaryRootNode.children as TableNode[])
 
     const isDisabledVirtualScroll = computed(() => {
+        if (!plcData.value) {
+            return true
+        }
+        if (plcData.value.notFitVirtualPlcList.length > 0) {
+            return true
+        }
         return !props.virtual
     })
 
@@ -204,7 +210,13 @@ function tableSetup(props: TablePropsType) {
 
     provide(TABLE_PROVIDER, refer)
 
-    onMounted(() => state.tableWidth = refs.$el.offsetWidth)
+    onMounted(() => {
+        state.tableWidth = refs.$el.offsetWidth
+
+        if (plcData.value!.notFitVirtualPlcList.length > 0 && props.virtual) {
+            console.error('存在列不支持虚拟滚动的列，已经禁用了表格的虚拟滚动功能！')
+        }
+    })
 
     return refer
 }

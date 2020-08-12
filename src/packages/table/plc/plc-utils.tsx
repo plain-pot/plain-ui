@@ -160,11 +160,20 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     items = copyPlcList(items)
 
     const configData = !!config ? config(items) : {}            // 通过 table.props.config 得到的列配置信息对象
+    let notFitVirtualPlcList: PlcType[] = []                    // 是否不兼容虚拟滚动的列
     const autoFixedLeftPlcList: PlcType[] = []                  // 需要自动做固定的plc
     const autoFixedRightPlcList: PlcType[] = []                 // 需要自动右固定的plc
     let hasFixedLeft = false                                    // 是否存在左固定列
     let hasFixedRight = false                                   // 是否存在右固定列
 
+    /**
+     * - 根基plc的config，计算plc的属性。
+     * - 计算出需要自动左固定的plc，自动右固定的plc，左固定的plc，右固定的plc；以及计算出不兼容虚拟滚动的plc；
+     * - 如果group设置了自动左右固定或者左右固定，那么他的子组件plc或者group也要改成和父group一致的值；
+     * - 将隐藏的plc从group的子节点数据中移除
+     * @author  韦胜健
+     * @date    2020/8/12 10:24
+     */
     iteratePlc({
         list: items,
         handlePlc: (plc) => {
@@ -186,6 +195,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
                 return HandlePlcType.remove
             }
 
+            if (plc.props.notFitVirtual) notFitVirtualPlcList.push(plc)
             if (plc.props.autoFixedLeft) autoFixedLeftPlcList.push(plc)
             if (plc.props.autoFixedRight) autoFixedRightPlcList.push(plc)
             if (plc.props.fixed === PlcFixedType.left) hasFixedLeft = true
@@ -227,7 +237,12 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     let totalFits: number = 0                                   // 填充宽度分配总份数
     let externalWidth = tableWidth                              // 剩余的列宽
 
-    // 根据 order、fixed排序
+    /**
+     * - 根据 order、fixed排序
+     * - 算出总的fit、剩余的externalWidth宽度
+     * @author  韦胜健
+     * @date    2020/8/12 10:26
+     */
     iteratePlc({
         list: [{type: PlcComponentType.GROUP, items: {value: items}} as any],
         handlePlc: (plc) => {
@@ -273,6 +288,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     }
 
     return {
+        notFitVirtualPlcList,
         plcList: items,
         flatPlcList,
         hasFixedLeft,

@@ -12,6 +12,7 @@ export default definePlc({
         order: {default: -9997},
         width: {default: 60},
         align: {default: 'center'},
+        notFitVirtual: {type: Boolean, default: true},
 
         summary: {
             type: Function,
