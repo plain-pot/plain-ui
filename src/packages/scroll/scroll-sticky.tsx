@@ -8,29 +8,26 @@ import {$plain} from "@/packages/base";
 export default defineComponent({
     name: 'pl-scroll-sticky',
     props: {
-        top: {type: Number},
-        left: {type: Number},
-        bottom: {type: Number},
-        right: {type: Number},
-        zIndex: {type: Number, default: 1},
+        top: {type: Number},                                    // 粘粘距离顶部距离
+        left: {type: Number},                                   // 粘粘距离左侧距离
+        bottom: {type: Number},                                 // 粘粘距离底部距离
+        right: {type: Number},                                  // 粘粘距离右侧距离
+        zIndex: {type: Number, default: 1},                     // zIndex值
     },
     setup(props) {
 
         const {slots} = useSlots()
 
-
-        let offset = {
-            top: 0,
-            left: 0,
-            height: 0,
-            width: 0,
-        }
+        // 当前dom元素的一些基本信息
+        let offset = {top: 0, left: 0, height: 0, width: 0,}
+        // 滚动容器的一些基本信息
         let content = {
             width: 0,
             height: 0,
         }
 
         const ie = $plain.utils.ie()
+        // const ie = true
 
         const classes = computed(() => {
             return [
@@ -68,7 +65,7 @@ export default defineComponent({
                 }
 
                 if (props.bottom != null) {
-                    refs.$el.style.bottom = Math.max(0, offset.top + offset.height - content.height - scrollTop) + 'px'
+                    refs.$el.style.bottom = Math.max(0, offset.top + offset.height - content.height - scrollTop + props.bottom) + 'px'
                 }
 
                 if (props.left != null) {
@@ -76,7 +73,7 @@ export default defineComponent({
                 }
 
                 if (props.right != null) {
-                    refs.$el.style.right = Math.max(0, offset.left + offset.width - content.width - scrollLeft) + 'px'
+                    refs.$el.style.right = Math.max(0, offset.left + offset.width - content.width - scrollLeft + props.right) + 'px'
                 }
             }
 
