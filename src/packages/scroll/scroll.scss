@@ -101,3 +101,9 @@
     }
   }
 }
+
+.pl-scroll-sticky {
+  &.pl-scroll-sticky-compatible {
+    position: relative;
+  }
+}

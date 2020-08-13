@@ -118,6 +118,7 @@ export default [
         name: 'Sticky Table',
         children: [
             {name: 'Sticky Table', title: '另一种形式的表格', page: '/sticky-table/demo-sticky-table', complete: true},
+            {name: 'Sticky', title: '粘粘组件', page: '/sticky-table/demo-sticky', complete: true},
         ]
     },
     /*{name: '指令'},
