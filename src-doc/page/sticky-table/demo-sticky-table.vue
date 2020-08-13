@@ -6,7 +6,7 @@
                            fitContentHeight
                            ref="headScroll"
                            @scroll="e=>onScroll(e,'head')">
-                    <table class="link-table-head">
+                    <table>
                         <thead>
                         <tr>
                             <component
@@ -60,19 +60,33 @@
 
     import list from '../data/data-1.json'
 
+
     export default {
         name: "demo-sticky-table",
         data() {
+
+            const width = '100px'
+
             return {
                 list,
                 columns: [
-                    {field: 'name', title: 'name', width: '200px', fixed: 'left'},
-                    {field: 'id', title: 'id', width: '200px'},
-                    {field: 'size', title: 'size', width: '200px'},
-                    {field: 'id', title: 'id', width: '200px'},
-                    {field: 'date', title: 'date', width: '200px'},
-                    {field: 'color', title: 'color', width: '200px'},
-                    {field: 'star', title: 'star', width: '200px', fixed: 'right'},
+                    {field: 'name', title: 'name', width: width, fixed: 'left'},
+                    {field: 'size', title: 'size', width: width},
+                    {field: 'id', title: 'id', width: width},
+                    {field: 'date', title: 'date', width: width},
+                    {field: 'color', title: 'color', width: width},
+
+                    /*{field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},*/
+
+                    {field: 'star', title: 'star', width: width, fixed: 'right'},
                 ],
                 hoverPart: null,
             }
@@ -91,6 +105,10 @@
 <style lang="scss">
     .link-table {
         width: 100%;
+
+        .link-table-head {
+            width: 100%;
+        }
 
         .link-table-body {
             height: 300px;
@@ -127,6 +145,10 @@
                     transform: scaleY(0.5);
                 }
             }
+        }
+
+        .pl-scroll-content {
+            min-width: 100%;
         }
 
         .pl-vertical-scrollbar-wrapper {
