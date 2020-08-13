@@ -134,13 +134,13 @@
             }
 
             &.horizontal {
-                align-items: stretch;
                 height: 100%;
-                flex-wrap: nowrap;
-                display: inline-flex;
+                display: inline-block;
+                white-space: nowrap;
 
                 .item {
-                    display: flex;
+                    display: inline-flex;
+                    height: 100%;
                     align-items: center;
                     justify-content: center;
                     width: 80px;
