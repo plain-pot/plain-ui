@@ -1,7 +1,7 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {reactive, set} from "@vue/composition-api";
-import {TableNode} from "@/packages/table/table/TableNode";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
 
 interface ExpandDataType {

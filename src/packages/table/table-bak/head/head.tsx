@@ -1,6 +1,6 @@
 import {computed, defineComponent, inject, onBeforeUnmount, provide} from "@vue/composition-api";
 import {TABLE_PROVIDER, TableHoverPart} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
+import {PlainTable} from "@/packages/table/table-bak/table";
 import {useRefs} from "@/use/useRefs";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {PlcType} from "@/packages/table/plc/plc";

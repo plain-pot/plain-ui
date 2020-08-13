@@ -1,5 +1,5 @@
 import {TablePropsType} from "@/packages/table/table-utils";
-import {TableNode} from "@/packages/table/table/TableNode";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {set} from "@vue/composition-api";
 import {getValidateConfigData, ValidateResultMap} from "@/packages/form/validate";
 

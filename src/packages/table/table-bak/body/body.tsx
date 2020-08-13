@@ -1,8 +1,8 @@
 import {computed, defineComponent, inject, onBeforeUnmount, provide, reactive} from "@vue/composition-api";
 import {TABLE_PROVIDER, TableHoverPart} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
+import {PlainTable} from "@/packages/table/table-bak/table";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
-import {PlainTableBodyItem} from "@/packages/table/table/body/body-item";
+import {PlainTableBodyItem} from "@/packages/table/table-bak/body/body-item";
 import {useRefer} from "@/use/useRefer";
 
 export const PLAIN_TABLE_BODY_PROVIDER = '@@PlainTableBodyProvider'

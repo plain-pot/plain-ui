@@ -1,7 +1,7 @@
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {$plain} from "@/packages/base";
-import {TableNode} from "@/packages/table/table/TableNode";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
 
 export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题

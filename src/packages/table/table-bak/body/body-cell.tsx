@@ -2,9 +2,9 @@ import {computed, defineComponent, getCurrentInstance, inject, provide} from "@v
 import {getCellClass, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
-import {TableNode} from "@/packages/table/table/TableNode";
-import {PlcRender} from "@/packages/table/table/render";
+import {PlainTable} from "@/packages/table/table-bak/table";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {PlcRender} from "@/packages/table/table-bak/render";
 import {EditProvider} from "@/use/useEdit";
 import {FormTrigger, validateField} from "@/packages/form/validate";
 import {useStyle} from "@/use/useStyle";

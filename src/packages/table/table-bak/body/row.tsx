@@ -1,7 +1,7 @@
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
-import {TableNode} from "@/packages/table/table/TableNode";
+import {PlainTable} from "@/packages/table/table-bak/table";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
 
 export default defineComponent({
     name: 'plt-row',

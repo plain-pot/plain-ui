@@ -4,9 +4,9 @@ import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentPro
 import {useRefs} from "@/use/useRefs";
 import {PlainVirtualTable} from "@/packages/table/component/virtual-table";
 import {useRefer} from "@/use/useRefer";
-import {PLAIN_TABLE_BODY_PROVIDER, PlainTableBody} from "@/packages/table/table/body/body";
+import {PLAIN_TABLE_BODY_PROVIDER, PlainTableBody} from "@/packages/table/table-bak/body/body";
 import {TABLE_PROVIDER, TableHoverPart} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
+import {PlainTable} from "@/packages/table/table-bak/table";
 import {useEvent} from "@/use/useEvent";
 
 const Props = {

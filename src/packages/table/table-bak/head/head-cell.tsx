@@ -2,9 +2,9 @@ import {computed, defineComponent, getCurrentInstance, inject, reactive, Ref} fr
 import {getCellClass, PlcComponentType, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TABLE_PROVIDER} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
+import {PlainTable} from "@/packages/table/table-bak/table";
 import {$plain} from "@/packages/base";
-import {PlcRender} from "@/packages/table/table/render";
+import {PlcRender} from "@/packages/table/table-bak/render";
 
 function useResize(table: HTMLElement, plc: PlcType) {
     const state = reactive({

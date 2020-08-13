@@ -9,8 +9,8 @@ import {handlePlcConfigAndState, PlcFixedType} from "@/packages/table/plc/plc-ut
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {TableNode} from "@/packages/table/table/TableNode";
-import {TableMark} from "@/packages/table/table/TableMark";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {TableMark} from "@/packages/table/table-bak/TableMark";
 import {$plain} from "@/packages/base";
 import {getValidateConfigData} from "@/packages/form/validate";
 import {useStyle} from "@/use/useStyle";

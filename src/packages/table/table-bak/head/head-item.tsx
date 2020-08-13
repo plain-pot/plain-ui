@@ -1,8 +1,8 @@
 import {computed, defineComponent, inject} from "@vue/composition-api";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
-import {PLT_HEAD_PROVIDER, PltHeadType} from "@/packages/table/table/head/head";
+import {PLT_HEAD_PROVIDER, PltHeadType} from "@/packages/table/table-bak/head/head";
 import {TABLE_PROVIDER, TableHoverPart} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table/table";
+import {PlainTable} from "@/packages/table/table-bak/table";
 
 export default defineComponent({
     name: 'plt-head-item',

@@ -6,7 +6,7 @@ import {FormatPropsType, useProps} from "@/use/useProps";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {PlainExtractPropTypes} from "@/type";
 import {useScopedSlots} from "@/use/useScopedSlots";
-import {TableNode} from "@/packages/table/table/TableNode";
+import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {VNode} from "vue/types/umd";
 import {Vue} from "vue/types/vue";
 
