@@ -1,4 +1,4 @@
-import {computed, defineComponent, inject, onBeforeUnmount, onMounted, reactive, SetupContext} from "@vue/composition-api";
+import {computed, defineComponent, inject, onBeforeUnmount, onMounted, provide, reactive, SetupContext} from "@vue/composition-api";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {ElRef, useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
@@ -41,7 +41,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
         'vertical-scrollbar': {style: {} as StyleType, onMousedown: (e: MouseEvent) => {}},
     })
 
-    const {emit} = useEvent({
+    const {emit, on, off} = useEvent({
         scroll: EmitFunc,
         verticalScrollTop: EmitFunc,
         verticalScrollBottom: EmitFunc,
@@ -367,6 +367,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
     }
 
     const refer = {
+        on, off,
         slots,
         scopedSlots,
 
@@ -383,6 +384,8 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
     }
 
     useRefer(refer)
+
+    provide(SCROLL_PROVIDER, refer)
 
     /*---------------------------------------lifecycle-------------------------------------------*/
 
@@ -406,7 +409,17 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
 }
 
 type ScrollType = ReturnType<typeof scrollSetup>
-export type PlainScroll = { methods: ScrollType["methods"], state: ScrollType["state"] }
+
+export type PlainScroll = {
+    methods: ScrollType["methods"],
+    state: ScrollType["state"],
+    on: ScrollType["on"],
+    off: ScrollType["off"],
+}
+
+const SCROLL_PROVIDER = '@@SCROLL_PROVIDER'
+
+export const injectScroll = () => inject(SCROLL_PROVIDER) as PlainScroll
 
 export default defineComponent({
     name: 'pl-scroll',
