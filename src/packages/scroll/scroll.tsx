@@ -143,7 +143,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             styles.width = `${state.contentWidth}px`
         }
         if (props.fitContentHeight) {
-            styles.width = `${state.contentHeight}px`
+            styles.height = `${state.contentHeight}px`
         }
 
         return styles
