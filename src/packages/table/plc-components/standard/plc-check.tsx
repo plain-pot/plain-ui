@@ -1,10 +1,9 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
-import {computed, inject, onUnmounted, reactive} from "@vue/composition-api";
-import {TABLE_PROVIDER} from "@/packages/table/table-utils";
-import {PlainTable} from "@/packages/table/table-bak/table";
+import {computed, onUnmounted, reactive} from "@vue/composition-api";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {$plain} from "@/packages/base";
+import {injectTable} from "@/packages/table/table/table";
 
 export default definePlc({
     name: 'plc-check',
@@ -48,7 +47,7 @@ export default definePlc({
     },
     setup(props) {
 
-        const table = inject(TABLE_PROVIDER) as PlainTable
+        const table = injectTable()
 
         // @ts-ignore
         const {keyField, toggleOnClickRow} = props as { keyField: string, toggleOnClickRow: boolean }

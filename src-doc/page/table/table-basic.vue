@@ -1,7 +1,7 @@
 <template>
     <div class="table-basic">
         <demo-row title="基础用法">
-            <!--<pl-form column="1">
+            <pl-form column="1">
                 <pl-form-item label="列宽度响应测试">
                     <pl-number v-model="plc.width" :step="100"/>
                 </pl-form-item>
@@ -41,7 +41,7 @@
                         <pl-toggle v-model="plc.hide"/>
                     </pl-form-item>
                 </template>
-            </pl-form>-->
+            </pl-form>
             <div style="margin-right: 0">
                 <pl-table :data="tableData"
                           :summaryData="other.hasSummaryData?summaryData:null"
@@ -125,13 +125,13 @@
 
                 other: {
                     hasSummaryData: true,
-                    groupHead: false,
+                    groupHead: true,
                 },
                 props: {
                     headRowHeight: 40,
                     bodyRowHeight: 36,
                     border: false,
-                    virtual: true,
+                    virtual: false,
                 },
                 plc: {
                     width: 200,

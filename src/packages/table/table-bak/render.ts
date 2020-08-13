@@ -42,24 +42,18 @@ export function getEditable(plc: PlcType, rowData: TableNode) {
  */
 function getBody(
     {
-        fixed,
         rowData,
         plc,
         isSummary,
         editable,
         ctx,
     }: {
-        fixed: PlcFixedType,
         rowData: TableNode,
         plc: PlcType,
         isSummary: boolean,
         editable: boolean,
         ctx: Vue,
     }) {
-// 如果不是对应的fixed，不渲染任何内容
-    if (plc.props.fixed != fixed) {
-        return null
-    }
 
     let renderData: TableRenderData
 
@@ -113,19 +107,8 @@ function getBody(
 }
 
 export const PlcRender = {
-    head: (
-        {
-            fixed,
-            plc,
-        }: {
-            fixed: PlcFixedType,
-            plc: PlcType,
-        }) => {
+    head: (plc: PlcType) => {
 
-        // 如果不是对应的fixed，不渲染任何内容
-        if (plc.props.fixed != fixed) {
-            return null
-        }
         // 如果存在 head作用域插槽，渲染head作用域插槽
         if (!!plc.scopedSlots.head) {
             return plc.scopedSlots.head(plc)
@@ -139,13 +122,11 @@ export const PlcRender = {
     },
     body: (
         {
-            fixed,
             rowData,
             plc,
             isSummary,
             ctx,
         }: {
-            fixed: PlcFixedType,
             rowData: TableNode,
             plc: PlcType,
             isSummary: boolean,
@@ -153,7 +134,7 @@ export const PlcRender = {
         }
     ) => {
         const editable = getEditable(plc, rowData)
-        const body = getBody({fixed, rowData, plc, isSummary, editable, ctx})
+        const body = getBody({rowData, plc, isSummary, editable, ctx})
 
         return {
             editable,

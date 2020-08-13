@@ -57,9 +57,9 @@ export const TableProps = {
 
 }
 
-export const TABLE_PROVIDER = '@@TABLE_PROVIDER'
-
 export type TablePropsType = ExtractPropTypes<typeof TableProps>
+
+export const TABLE_PROVIDER = '@@TABLE_PROVIDER'
 
 export const enum TableHoverPart {
     body = 'body',

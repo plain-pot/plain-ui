@@ -8,7 +8,6 @@ interface ExpandDataType {
     plc: PlcType,
     index: number,
     rowData: TableNode,
-    fixed: PlcFixedType,
     isSummary: boolean
 }
 
@@ -46,7 +45,7 @@ export default definePlc({
         },
         renderAfterRow: {
             type: Function,
-            default: function ({plc, index, rowData, fixed, isSummary}: ExpandDataType) {
+            default: function ({plc, index, rowData, isSummary}: ExpandDataType) {
 
                 const ctx = plc.ctx as any
 

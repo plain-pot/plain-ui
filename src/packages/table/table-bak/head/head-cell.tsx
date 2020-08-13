@@ -72,7 +72,6 @@ export default defineComponent({
     setup(props: { fixed: PlcFixedType, plc: PlcType }) {
 
         const table = inject(TABLE_PROVIDER) as PlainTable
-        const {$createElement} = getCurrentInstance()!
 
         const classes = computed(() => [
             'plt-head-cell',
@@ -118,10 +117,7 @@ export default defineComponent({
             return (
                 <th colspan={colspan} rowspan={rowspan}>
                     <div {...binding}>
-                        {PlcRender.head({
-                            plc: props.plc,
-                            fixed: props.fixed,
-                        })}
+                        {PlcRender.head(props.plc)}
                         <span class="plt-head-cell-indicator" onMousedown={handler.mousedown}/>
                     </div>
                 </th>

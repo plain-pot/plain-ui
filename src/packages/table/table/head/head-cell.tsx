@@ -27,7 +27,7 @@ export default defineComponent({
         })
 
         const styles = computed(() => {
-            const height = `${table.props.headRowHeight as number * props.plc.rowspan!}px`
+            const height = `${table.propsState.headRowHeight as number * props.plc.rowspan!}px`
             const width = props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`
             return {
                 height,
@@ -42,10 +42,7 @@ export default defineComponent({
                     key={key.value}
                     style={styles.value}
                 >
-                    {PlcRender.head({
-                        plc: props.plc,
-                        fixed: props.plc.props.fixed! as any,
-                    })}
+                    {PlcRender.head(props.plc)}
                 </td>
             )
         }

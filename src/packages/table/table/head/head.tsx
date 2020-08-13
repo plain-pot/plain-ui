@@ -3,6 +3,7 @@ import {injectTable} from "@/packages/table/table/table";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {PlcComponentType} from "@/packages/table/plc/plc-utils";
+import {$plain} from "@/packages/base";
 
 export default defineComponent({
     name: 'plt-head',
@@ -66,20 +67,22 @@ export default defineComponent({
             return headCols
         })
 
-        const classes = computed(() => [
-            'plt-head'
-        ])
+        const styles = computed(() => {
+            return {
+                width: $plain.utils.suffixPx(table.totalContentWidth.value)
+            }
+        })
 
         return () => {
             return (
-                <div class={classes.value}>
+                <div class="plt-head">
                     <pl-scroll
                         ref="scroll"
                         scrollY={false}
                         scrollX
                         fitContentHeight
                     >
-                        <table class="plt-table plt-head-table">
+                        <table class="plt-table plt-head-table" style={styles.value}>
                             <thead>
                             {headPlcList.value.map((row, rowIndex) => (
                                 <tr row={rowIndex}>
