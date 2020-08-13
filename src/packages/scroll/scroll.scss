@@ -107,7 +107,7 @@
 }
 
 .pl-scroll-sticky {
-  z-index: 2;
+  position: sticky;
 
   &.pl-scroll-sticky-compatible {
     position: relative;
