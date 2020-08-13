@@ -63,6 +63,27 @@
             </div>
         </demo-row>
 
+        <demo-row title="固定在左侧">
+            <div class="demo-sticky-container">
+                <pl-scroll scrollX fitHostWidth fitHostHeight>
+                    <div class="list horizontal">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
+                            {{index}}、{{item}}
+                        </div>
+                        <pl-scroll-sticky class="item light" :left="0" :zIndex="2">
+                            距离左侧0px
+                        </pl-scroll-sticky>
+                        <div class="item" v-for="(item,index) in 15" :key="item">
+                            {{index}}、{{item}}
+                        </div>
+                        <pl-scroll-sticky class="item deep" :left="30">
+                            距离左侧30px
+                        </pl-scroll-sticky>
+                    </div>
+                </pl-scroll>
+            </div>
+        </demo-row>
+
     </div>
 </template>
 
@@ -78,15 +99,36 @@
         height: 200px;
 
         .list {
-            .item {
-                font-size: 12px;
-                padding: 0 16px;
-                margin-bottom: 1px;
-                background-color: #f2f2f2;
-                height: 30px;
-                display: flex;
-                align-items: center;
 
+            &:not(.horizontal) {
+                .item {
+                    font-size: 12px;
+                    padding: 0 16px;
+                    margin-bottom: 1px;
+                    background-color: #f2f2f2;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            &.horizontal {
+                align-items: stretch;
+                height: 100%;
+                flex-wrap: nowrap;
+                display: inline-flex;
+
+                .item {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 80px;
+                    background-color: #f2f2f2;
+                    margin-right: 1px;
+                }
+            }
+
+            .item {
                 &.deep {
                     background-color: #12b4a5;
                     color: white;
