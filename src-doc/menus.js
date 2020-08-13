@@ -114,6 +114,12 @@ export default [
             {name: 'Table Expand', title: '展开列', icon: 'pl-table-solid', page: '/table/table-expand', complete: true},
         ]
     },
+    {
+        name: 'Sticky Table',
+        children: [
+            {name: 'Sticky Table', title: '另一种形式的表格', page: '/sticky-table/demo-sticky-table', complete: true},
+        ]
+    },
     /*{name: '指令'},
     {
         name: '测试', children: [
