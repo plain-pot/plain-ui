@@ -67,17 +67,38 @@
             <div class="demo-sticky-container">
                 <pl-scroll scrollX fitHostWidth fitHostHeight>
                     <div class="list horizontal">
-                        <div class="item" v-for="(item,index) in 15" :key="item">
-                            {{index}}、{{item}}
-                        </div>
-                        <pl-scroll-sticky class="item light" :left="0" :zIndex="2">
+                        <pl-scroll-sticky class="item light" :left="0">
                             距离左侧0px
                         </pl-scroll-sticky>
                         <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
-                        <pl-scroll-sticky class="item deep" :left="30">
-                            距离左侧30px
+                        <pl-scroll-sticky class="item deep" :left="80" :zIndex="2">
+                            距离左侧80px
+                        </pl-scroll-sticky>
+                        <div class="item" v-for="(item,index) in 15" :key="item">
+                            {{index}}、{{item}}
+                        </div>
+                    </div>
+                </pl-scroll>
+            </div>
+        </demo-row>
+
+        <demo-row title="固定在右侧">
+            <div class="demo-sticky-container">
+                <pl-scroll scrollX fitHostWidth fitHostHeight>
+                    <div class="list horizontal">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
+                            {{index}}、{{item}}
+                        </div>
+                        <pl-scroll-sticky class="item deep" :right="80" :zIndex="2">
+                            距离右侧80px
+                        </pl-scroll-sticky>
+                        <div class="item" v-for="(item,index) in 15" :key="item">
+                            {{index}}、{{item}}
+                        </div>
+                        <pl-scroll-sticky class="item light" :right="0">
+                            距离右侧0px
                         </pl-scroll-sticky>
                     </div>
                 </pl-scroll>

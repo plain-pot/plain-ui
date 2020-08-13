@@ -42,7 +42,9 @@ export default defineComponent({
             }
         })
 
-        function fresh(scrollTop: number) {
+        function fresh(data: { scrollTop: number, scrollLeft: number }) {
+            const {scrollTop, scrollLeft} = data
+
             if (props.top != null) {
                 refs.$el.style.top = (Math.max(0, scrollTop - (offset.top - props.top))) + 'px'
             }
@@ -50,10 +52,21 @@ export default defineComponent({
             if (props.bottom != null) {
                 refs.$el.style.bottom = Math.max(0, offset.top + offset.height - content.height - scrollTop) + 'px'
             }
+
+            if (props.left != null) {
+                refs.$el.style.left = (Math.max(0, scrollLeft - (offset.left - props.left))) + 'px'
+            }
+
+            if (props.right != null) {
+                refs.$el.style.right = Math.max(0, offset.left + offset.width - content.width - scrollLeft) + 'px'
+            }
         }
 
         function onScroll(e) {
-            fresh(e.target.scrollTop)
+            fresh({
+                scrollTop: e.target.scrollTop,
+                scrollLeft: e.target.scrollLeft,
+            })
         }
 
         scroll.on.scroll(onScroll)
@@ -70,7 +83,7 @@ export default defineComponent({
                 content.width = scroll.state.hostWidth
                 content.height = scroll.state.hostHeight
 
-                fresh(0)
+                fresh({scrollLeft: 0, scrollTop: 0})
             }, 0)
         })
 
