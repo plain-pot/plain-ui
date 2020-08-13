@@ -1,0 +1,24 @@
+.pl-table {
+  .plt-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+    list-style: none;
+
+    td {
+      position: relative;
+      box-sizing: border-box;
+      padding: 0;
+    }
+  }
+
+  .pl-scroll-content {
+    min-width: 100%;
+  }
+
+  .pl-vertical-scrollbar-wrapper {
+    z-index: 10;
+  }
+}

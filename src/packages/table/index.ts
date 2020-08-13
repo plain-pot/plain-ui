@@ -1,4 +1,3 @@
-import './table.scss'
 import table from './table'
 import plc from './plc'
 import component from './component'
