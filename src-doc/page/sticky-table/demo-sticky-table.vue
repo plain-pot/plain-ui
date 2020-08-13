@@ -1,7 +1,10 @@
 <template>
     <div class="demo-sticky-table">
         <div class="link-table">
-            <div class="link-table-head" @mouseenter="()=>hoverPart = 'head'">
+            <div class="link-table-head"
+                 @mouseenter="()=>hoverPart = 'head'"
+                 @mousewheel="onHeadMousewheel"
+            >
                 <pl-scroll scrollX
                            fitContentHeight
                            ref="headScroll"
@@ -76,7 +79,6 @@
                     {field: 'date', title: 'date', width: width},
                     {field: 'color', title: 'color', width: width},
 
-                    /*{field: 'color', title: 'color', width: width},
                     {field: 'color', title: 'color', width: width},
                     {field: 'color', title: 'color', width: width},
                     {field: 'color', title: 'color', width: width},
@@ -84,7 +86,8 @@
                     {field: 'color', title: 'color', width: width},
                     {field: 'color', title: 'color', width: width},
                     {field: 'color', title: 'color', width: width},
-                    {field: 'color', title: 'color', width: width},*/
+                    {field: 'color', title: 'color', width: width},
+                    {field: 'color', title: 'color', width: width},
 
                     {field: 'star', title: 'star', width: width, fixed: 'right'},
                 ],
@@ -97,6 +100,10 @@
                     return
                 }
                 this.$refs[`${tag === 'head' ? 'body' : 'head'}Scroll`].methods.scrollLeft(e.target.scrollLeft)
+            },
+            onHeadMousewheel(e) {
+                e.preventDefault()
+                this.$refs.headScroll.methods.scrollLeft(this.$refs.headScroll.state.wrapperScrollLeft + (e.deltaX || e.deltaY))
             },
         }
     }
