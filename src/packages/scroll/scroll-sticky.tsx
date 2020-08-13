@@ -28,7 +28,9 @@ export default defineComponent({
         })
 
         function onScroll(e) {
-            refs.$el.style.top = (Math.max(0, e.target.scrollTop - offsetTop)) + 'px'
+            if (props.top != null) {
+                refs.$el.style.top = (Math.max(0, e.target.scrollTop - (offsetTop - props.top))) + 'px'
+            }
         }
 
         scroll.on.scroll(onScroll)
