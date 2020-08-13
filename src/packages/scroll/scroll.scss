@@ -47,6 +47,10 @@
       }
     }
 
+    .pl-vertical-scrollbar-wrapper, .pl-horizontal-scrollbar-wrapper {
+      z-index: 3;
+    }
+
     .pl-vertical-scrollbar-wrapper {
       position: absolute;
       right: 0;
