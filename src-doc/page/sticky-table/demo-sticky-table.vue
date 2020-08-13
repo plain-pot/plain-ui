@@ -1,44 +1,57 @@
 <template>
     <div class="demo-sticky-table">
         <div class="link-table">
-            <pl-scroll scrollX>
-                <pl-scroll-sticky top="0" tag="table" class="link-table-head" :zIndex="2">
-                    <thead>
-                    <tr>
-                        <component
-                                v-for="col in columns"
-                                :key="col.field"
-                                :is="col.fixed?'pl-scroll-sticky':'td'"
+            <div class="link-table-head" @mouseenter="()=>hoverPart = 'head'">
+                <pl-scroll scrollX
+                           fitContentHeight
+                           ref="headScroll"
+                           @scroll="e=>onScroll(e,'head')">
+                    <table class="link-table-head">
+                        <thead>
+                        <tr>
+                            <component
+                                    v-for="col in columns"
+                                    :key="col.field"
+                                    :is="col.fixed?'pl-scroll-sticky':'td'"
 
-                                v-bind="col.fixed?{
+                                    v-bind="col.fixed?{
                                     tag:'td',
                                     [col.fixed]:0,
                                 }:{}"
-                                :style="{width:col.width,backgroundColor:col.fixed?'#f2f2f2':'white'}">
-                            {{col.title}}
-                        </component>
-                    </tr>
-                    </thead>
-                </pl-scroll-sticky>
-                <table>
-                    <tbody>
-                    <tr v-for="(data,index) in list" :key="index">
-                        <component
-                                v-for="col in columns"
-                                :key="col.field"
-                                :is="col.fixed?'pl-scroll-sticky':'td'"
+                                    :style="{width:col.width,backgroundColor:col.fixed?'#f2f2f2':'white'}">
+                                {{col.title}}
+                            </component>
+                        </tr>
+                        </thead>
+                    </table>
+                </pl-scroll>
+            </div>
+            <div class="link-table-body" @mouseenter="()=>hoverPart = 'body'">
+                <pl-scroll
+                        scrollX
+                        ref="bodyScroll"
+                        @scroll="e=>onScroll(e,'body')"
+                >
+                    <table>
+                        <tbody>
+                        <tr v-for="(data,index) in list" :key="index">
+                            <component
+                                    v-for="col in columns"
+                                    :key="col.field"
+                                    :is="col.fixed?'pl-scroll-sticky':'td'"
 
-                                v-bind="col.fixed?{
+                                    v-bind="col.fixed?{
                                     tag:'td',
                                     [col.fixed]:0,
                                 }:{}"
-                                :style="{width:col.width,backgroundColor:col.fixed?'#f2f2f2':'white'}">
-                            {{data[col.field]}}
-                        </component>
-                    </tr>
-                    </tbody>
-                </table>
-            </pl-scroll>
+                                    :style="{width:col.width,backgroundColor:col.fixed?'#f2f2f2':'white'}">
+                                {{data[col.field]}}
+                            </component>
+                        </tr>
+                        </tbody>
+                    </table>
+                </pl-scroll>
+            </div>
         </div>
     </div>
 </template>
@@ -61,16 +74,28 @@
                     {field: 'color', title: 'color', width: '200px'},
                     {field: 'star', title: 'star', width: '200px', fixed: 'right'},
                 ],
+                hoverPart: null,
             }
         },
+        methods: {
+            onScroll(e, tag) {
+                if (tag !== this.hoverPart) {
+                    return
+                }
+                this.$refs[`${tag === 'head' ? 'body' : 'head'}Scroll`].methods.scrollLeft(e.target.scrollLeft)
+            },
+        }
     }
 </script>
 
 <style lang="scss">
     .link-table {
-        height: 300px;
         width: 100%;
-        overflow: hidden;
+
+        .link-table-body {
+            height: 300px;
+            overflow: hidden;
+        }
 
         table {
             width: 100%;
