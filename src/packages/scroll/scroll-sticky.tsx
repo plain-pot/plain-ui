@@ -10,6 +10,7 @@ export default defineComponent({
         left: {type: Number},
         bottom: {type: Number},
         right: {type: Number},
+        zIndex: {type: Number, default: 1},
     },
     setup(props) {
 
@@ -17,8 +18,16 @@ export default defineComponent({
         const refs = useRefs()
         const scroll = injectScroll()
 
-        let offsetTop = 0
-        let offSetLeft = 0
+        let offset = {
+            top: 0,
+            left: 0,
+            height: 0,
+            width: 0,
+        }
+        let content = {
+            width: 0,
+            height: 0,
+        }
 
         const classes = computed(() => {
             return [
@@ -27,10 +36,24 @@ export default defineComponent({
             ]
         })
 
-        function onScroll(e) {
-            if (props.top != null) {
-                refs.$el.style.top = (Math.max(0, e.target.scrollTop - (offsetTop - props.top))) + 'px'
+        const styles = computed(() => {
+            return {
+                zIndex: props.zIndex
             }
+        })
+
+        function fresh(scrollTop: number) {
+            if (props.top != null) {
+                refs.$el.style.top = (Math.max(0, scrollTop - (offset.top - props.top))) + 'px'
+            }
+
+            if (props.bottom != null) {
+                refs.$el.style.bottom = Math.max(0, offset.top + offset.height - content.height - scrollTop) + 'px'
+            }
+        }
+
+        function onScroll(e) {
+            fresh(e.target.scrollTop)
         }
 
         scroll.on.scroll(onScroll)
@@ -38,13 +61,22 @@ export default defineComponent({
         onBeforeUnmount(() => scroll.off.scroll(onScroll));
 
         onMounted(() => {
-            offsetTop = refs.$el.offsetTop
-            offSetLeft = refs.$el.offsetLeft
+            setTimeout(() => {
+                offset.top = refs.$el.offsetTop
+                offset.left = refs.$el.offsetLeft
+                offset.width = refs.$el.offsetWidth
+                offset.height = refs.$el.offsetHeight
+
+                content.width = scroll.state.hostWidth
+                content.height = scroll.state.hostHeight
+
+                fresh(0)
+            }, 0)
         })
 
         return () => {
             return (
-                <div class={classes.value}>
+                <div class={classes.value} style={styles.value}>
                     {slots.default()}
                 </div>
             )

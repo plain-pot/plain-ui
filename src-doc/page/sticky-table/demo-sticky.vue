@@ -4,13 +4,16 @@
             <div class="demo-sticky-container">
                 <pl-scroll scrollX fitHostWidth>
                     <div class="list">
-                        <div class="item" v-for="(item,index) in 3" :key="item">
+                        <pl-scroll-sticky class="item light" top="0">
+                            顶部内容，固定在顶部
+                        </pl-scroll-sticky>
+                        <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
-                        <pl-scroll-sticky class="item" top="0">
-                            固定在顶部
+                        <pl-scroll-sticky class="item deep" top="0">
+                            中间内容，固定在顶部
                         </pl-scroll-sticky>
-                        <div class="item" v-for="(item,index) in 30" :key="item">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
                     </div>
@@ -22,16 +25,16 @@
             <div class="demo-sticky-container">
                 <pl-scroll scrollX fitHostWidth>
                     <div class="list">
-                        <pl-scroll-sticky class="item" :top="0">
+                        <pl-scroll-sticky class="item light" :top="0">
                             距离顶部0px
                         </pl-scroll-sticky>
-                        <div class="item" v-for="(item,index) in 3" :key="item">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
-                        <pl-scroll-sticky class="item" :top="30">
+                        <pl-scroll-sticky class="item deep" :top="30">
                             距离顶部30px
                         </pl-scroll-sticky>
-                        <div class="item" v-for="(item,index) in 30" :key="item">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
                     </div>
@@ -43,16 +46,16 @@
             <div class="demo-sticky-container">
                 <pl-scroll scrollX fitHostWidth>
                     <div class="list">
-                        <div class="item" v-for="(item,index) in 3" :key="item">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
-                        <pl-scroll-sticky class="item" :bottom="30">
+                        <pl-scroll-sticky class="item light" :bottom="30" :zIndex="2">
                             距离底部30px
                         </pl-scroll-sticky>
-                        <div class="item" v-for="(item,index) in 30" :key="item">
+                        <div class="item" v-for="(item,index) in 15" :key="item">
                             {{index}}、{{item}}
                         </div>
-                        <pl-scroll-sticky class="item" :bottom="0">
+                        <pl-scroll-sticky class="item deep" :bottom="0">
                             距离底部0px
                         </pl-scroll-sticky>
                     </div>
@@ -83,6 +86,16 @@
                 height: 30px;
                 display: flex;
                 align-items: center;
+
+                &.deep {
+                    background-color: #12b4a5;
+                    color: white;
+                }
+
+                &.light {
+                    background-color: #99a9bf;
+                    color: white;
+                }
             }
         }
     }
