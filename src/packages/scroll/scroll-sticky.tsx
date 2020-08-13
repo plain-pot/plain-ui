@@ -13,6 +13,7 @@ export default defineComponent({
         bottom: {type: Number},                                 // 粘粘距离底部距离
         right: {type: Number},                                  // 粘粘距离右侧距离
         zIndex: {type: Number, default: 1},                     // zIndex值
+        tag: {type: String, default: 'div'},                    // 跟节点标签
     },
     setup(props) {
 
@@ -26,7 +27,10 @@ export default defineComponent({
             height: 0,
         }
 
-        const ie = $plain.utils.ie()
+        const Tag = props.tag
+
+        let ie = $plain.utils.ie();
+        ie === 'edge' && (ie = false);
         // const ie = true
 
         const classes = computed(() => {
@@ -105,9 +109,9 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class={classes.value} style={styles.value}>
+                <Tag class={classes.value} style={styles.value}>
                     {slots.default()}
-                </div>
+                </Tag>
             )
         }
     }
