@@ -11,18 +11,21 @@
   $tableRowCurrentBackground: rgba($colorPrimary, 0.075);
 
   .pl-table {
-    .plt-table {
-      width: 100%;
-      table-layout: fixed;
-      border-collapse: collapse;
-      border-spacing: 0;
-      box-sizing: border-box;
-      list-style: none;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+    list-style: none;
 
-      td {
-        position: relative;
-        box-sizing: border-box;
-        padding: 0;
+    td {
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+      padding: 0 8px;
+
+      & > .link-input {
+        width: 100% !important;
       }
     }
 
