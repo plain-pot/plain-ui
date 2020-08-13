@@ -1,42 +1,42 @@
 <template>
     <div class="demo-sticky-table">
         <div class="link-table">
-
-            <table class="link-table-head">
-                <thead>
-                <tr>
-                    <td v-for="col in columns" :key="col.field" :style="{
+            <pl-scroll scrollX>
+                <table class="link-table-head">
+                    <thead>
+                    <tr>
+                        <td v-for="col in columns" :key="col.field" :style="{
                             width:col.width,
                             position:col.fixed === 'left'?'sticky':null,
                             left:col.left||'0',
                             zIndex:!!col.fixed?1:0,
                             backgroundColor:col.fixed?'#f2f2f2':'white'
                         }">
-                        <div>
-                            {{col.title}}
-                        </div>
-                    </td>
-                </tr>
-                </thead>
-            </table>
-
-            <table>
-                <tbody>
-                <tr v-for="(data,index) in list" :key="index">
-                    <td v-for="col in columns" :key="col.field" :style="{
+                            <div>
+                                {{col.title}}
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                <table>
+                    <tbody>
+                    <tr v-for="(data,index) in list" :key="index">
+                        <td v-for="col in columns" :key="col.field" :style="{
                            width:col.width,
                             position:col.fixed === 'left'?'sticky':null,
                             left:col.left||'0',
                             zIndex:!!col.fixed?1:0,
                             backgroundColor:col.fixed?'#f6f6f6':'white'
                         }">
-                        <div>
-                            {{data[col.field]}}
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                            <div>
+                                {{data[col.field]}}
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </pl-scroll>
         </div>
     </div>
 </template>
@@ -53,6 +53,7 @@
                 columns: [
                     {field: 'name', title: 'name', width: '200px', fixed: 'left'},
                     {field: 'size', title: 'size', width: '200px', fixed: 'left', left: '200px'},
+                    {field: 'id', title: 'id', width: '200px'},
                     {field: 'date', title: 'date', width: '200px'},
                     {field: 'color', title: 'color', width: '200px'},
                     {field: 'star', title: 'star', width: '200px'},
@@ -65,15 +66,18 @@
 <style lang="scss">
     .link-table {
         height: 300px;
-        overflow: auto;
+        width: 100%;
+        overflow: hidden;
 
-        & > table {
+        table {
             width: 100%;
             table-layout: fixed;
             border-collapse: collapse;
             border-spacing: 0;
             box-sizing: border-box;
             list-style: none;
+            z-index: 0;
+            position: relative;
 
             td {
                 background-color: white;
@@ -99,6 +103,10 @@
             position: sticky;
             top: 0;
             z-index: 2;
+        }
+
+        .pl-vertical-scrollbar-wrapper {
+            z-index: 10;
         }
     }
 </style>
