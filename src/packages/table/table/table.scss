@@ -2,11 +2,10 @@
   $tableHeadColor: rgba(0, 0, 0, 0.85);
   $tableHeadBackground: #f5f7fa;
   $tableHeadHoverBackground: #e4e7ef;
-  $tableHeadBorder: solid 1px #f0f0f0;
+  $tableHeadBorderColor: #dbdee6;
 
-  $tableBorderColor: #f0f0f0;
-  $tableBodyBorder: solid 1px $tableBorderColor;
   $tableBodyColor: rgba(0, 0, 0, 0.65);
+  $tableBorderColor: $tableHeadBorderColor;
 
   $tableRowHoverBackground: #f5f7fa;
   $tableRowCurrentBackground: rgba($colorPrimary, 0.075);
@@ -50,12 +49,6 @@
       box-sizing: border-box;
 
       tr {
-        &:hover {
-          td {
-            background-color: $tableRowHoverBackground;
-          }
-        }
-
         td {
           padding: 0;
           position: relative;
@@ -68,9 +61,9 @@
             left: 0;
             right: 0;
             height: 1px;
-            background-color: $tableBorderColor;
             content: '';
             transform: scaleY(0.5);
+            background-color: $tableHeadBorderColor;
           }
 
           & > div {
@@ -111,6 +104,7 @@
     /*---------------------------------------head-------------------------------------------*/
 
     .plt-head {
+      position: relative;
 
       td {
         background-color: $tableHeadBackground;
@@ -120,6 +114,17 @@
           background-color: $tableHeadHoverBackground;
         }
       }
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        content: '';
+        height: 1px;
+        background-color: $tableHeadBorderColor;
+        transform: scaleY(0.5);
+      }
     }
 
     /*---------------------------------------body-------------------------------------------*/
@@ -127,9 +132,25 @@
     .plt-body {
       overflow: hidden;
 
-      td {
-        color: $tableBodyColor;
-        background-color: white;
+      tr {
+        td {
+          color: $tableBodyColor;
+          background-color: white;
+        }
+
+        &:hover {
+          td {
+            background-color: $tableRowHoverBackground;
+          }
+        }
+
+        &:first-child {
+          td {
+            &:after {
+              display: none;
+            }
+          }
+        }
       }
 
       .plt-row-summary {
