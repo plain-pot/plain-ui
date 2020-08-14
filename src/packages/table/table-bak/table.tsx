@@ -5,7 +5,7 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {TABLE_PROVIDER, TableHoverPart, TableProps, TablePropsType} from "@/packages/table/table-utils";
 import {printPlcData} from "@/packages/table/plc/debug";
-import {handlePlcConfigAndState, PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {handlePlcConfigAndState} from "@/packages/table/plc/handlePlcConfigAndState";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
@@ -14,6 +14,7 @@ import {TableMark} from "@/packages/table/table-bak/TableMark";
 import {$plain} from "@/packages/base";
 import {getValidateConfigData} from "@/packages/form/validate";
 import {useStyle} from "@/use/useStyle";
+import {PlcFixedType} from "@/packages/table/plc/plc-utils";
 
 /**
  * 递归遍历树形结构的表格数据

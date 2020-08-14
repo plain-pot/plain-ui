@@ -4,7 +4,7 @@ import {useSlots} from "@/use/useSlots";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
-import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
+import {handlePlcConfigAndState} from "@/packages/table/plc/handlePlcConfigAndState";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {printPlcData} from "@/packages/table/plc/debug";
 import './table.scss'

@@ -4,11 +4,18 @@ import {StyleType} from "@/types/utils";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {computed} from "@vue/composition-api";
 
+/**
+ * 获取单元格td的固定样式
+ * @author  韦胜健
+ * @date    2020/8/14 17:06
+ */
 export function getCellStyles(plc: PlcType | PlcGroupType) {
+
+    if (plc.props.fixed === PlcFixedType.center) {
+        return {value: null}
+    }
+
     return computed(() => {
-        if (plc.props.fixed === PlcFixedType.center) {
-            return null
-        }
         const ret = {} as StyleType
         ret.position = 'sticky'
         ret.zIndex = '1'
@@ -32,4 +39,45 @@ export function getCellStyles(plc: PlcType | PlcGroupType) {
         }
         return ret
     })
+}
+
+/**
+ * 给plc的固定列计算sticky的偏移距离
+ * @author  韦胜健
+ * @date    2020/8/14 17:06
+ */
+export const writeFixedPosition = (flatPlcList: PlcType[]) => {
+
+    const collector = flatPlcList.reduce((ret, item) => {
+        switch (item.props.fixed) {
+            case PlcFixedType.left:
+                ret.left.push(item)
+                break
+            case PlcFixedType.right:
+                ret.right.push(item)
+                break
+        }
+        return ret
+    }, {
+        left: [] as PlcType[],
+        right: [] as PlcType[],
+    });
+
+    Object.keys(collector).forEach(key => {
+        let list = collector[key]!
+        if (key === 'right') {
+            list = list.reverse()
+        }
+
+        for (let i = 0; i < list.length; i++) {
+            const element = list[i];
+            if (i === 0) {
+                element.fixedPosition[key] = 0
+            } else {
+                const {props: {width: prevWidth}, fixedPosition: {[key]: prevValue}} = list[i - 1]!
+                element.fixedPosition[key] = Number(prevWidth) + prevValue
+            }
+        }
+    })
+
 }
