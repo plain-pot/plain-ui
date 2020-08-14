@@ -4,7 +4,8 @@
   $tableHeadHoverBackground: #e4e7ef;
   $tableHeadBorder: solid 1px #f0f0f0;
 
-  $tableBodyBorder: solid 1px #f0f0f0;
+  $tableBorderColor: #ddd;
+  $tableBodyBorder: solid 1px $tableBorderColor;
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
   $tableRowHoverBackground: #f5f7fa;
@@ -18,14 +19,41 @@
     box-sizing: border-box;
     list-style: none;
 
-    td {
-      position: relative;
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
       box-sizing: border-box;
-      overflow: hidden;
-      padding: 0 8px;
 
-      & > .link-input {
-        width: 100% !important;
+      tr {
+        @include transition;
+        transition-property: background-color;
+        &:hover {
+          background-color: $tableRowHoverBackground;
+        }
+
+        td {
+          padding: 0;
+          position: relative;
+
+          &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: $tableBorderColor;
+            content: '';
+            transform: scaleY(0.5);
+          }
+
+          & > div {
+            padding: 0 8px;
+            box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+          }
+        }
       }
     }
 
@@ -39,8 +67,26 @@
       }
     }
 
+    .plt-head {
+      background-color: $tableHeadBackground;
+
+      td {
+        color: $tableHeadColor;
+        @include transition;
+        transition-property: background-color;
+
+        &:hover {
+          background-color: $tableHeadHoverBackground;
+        }
+      }
+    }
+
     .plt-body {
       overflow: hidden;
+
+      td {
+        color: $tableBodyColor;
+      }
     }
 
     &.pl-table-size-large {

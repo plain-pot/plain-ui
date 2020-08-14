@@ -31,8 +31,8 @@ export default defineComponent({
 
         const classes = computed(() => {
             return [
-                'plt-body-cell',
                 'plt-cell',
+                'plt-body-cell',
                 ...getCellClass(props.plc, props.rowData),
                 {
                     'plt-cell-add-edit-padding': props.plc.props.addEditPadding,
@@ -58,11 +58,13 @@ export default defineComponent({
             return (
                 <td colspan={1}
                     rowspan={1}
-                    class={classes.value}
-                    style={styles.value}
                     title={text.value}
+                    class={classes.value}
                 >
-                    {renderData.value.body}
+                    <div style={styles.value}
+                         class={classes.value}>
+                        {renderData.value.body}
+                    </div>
                 </td>
             )
         }

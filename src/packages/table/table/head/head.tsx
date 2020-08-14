@@ -96,6 +96,7 @@ export default defineComponent({
                         scrollX
                         fitContentHeight
                         onScroll={handler.scroll}
+                        hideScrollbar
                     >
                         <table class="plt-table plt-head-table" style={styles.value}>
                             <thead>

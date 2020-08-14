@@ -40,9 +40,11 @@ export default defineComponent({
                 <td rowspan={props.plc.rowspan}
                     colspan={props.plc.colspan}
                     key={key.value}
-                    style={styles.value}
+                    class="plt-cell plt-head-cell"
                 >
-                    {PlcRender.head(props.plc)}
+                    <div style={styles.value}>
+                        {PlcRender.head(props.plc)}
+                    </div>
                 </td>
             )
         }
