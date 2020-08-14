@@ -88,15 +88,12 @@ function tableSetup(props: TablePropsType) {
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
+
         const ret = handlePlcConfigAndState(items, props.config, state.tableWidth)
 
-        const has = computed(() => ({
-            hasFixedLeft: ret.hasFixedLeft,
-            hasFixedRight: ret.hasFixedRight,
-        }))
-
-        return {...ret, has}
+        return ret
     });
+
     /**
      * 表体渲染所需要的的列信息
      * @author  韦胜健
@@ -270,14 +267,18 @@ export default defineComponent({
 
         return () => (
             <div class={classes.value}>
-                <plc-collector ref="collector">
-                    {slots.default()}
-                </plc-collector>
-                {!!state.tableWidth && [
-                    <plt-head ref="head"/>,
-                    <plt-body ref="body"/>,
-                ]}
+
+                <plc-collector ref="collector">{slots.default()}</plc-collector>
+
+                {!!state.tableWidth && [<plt-head ref="head"/>, <plt-body ref="body"/>,]}
+
                 {!!props.debugPlc && state.tableWidth && printPlcData(plcData.value!.plcList)}
+
+                {plcData.value != null && [
+                    !!plcData.value.width.left && <div class="plt-fixed-shadow plt-fixed-shadow-left" style={{left: $plain.utils.suffixPx(plcData.value.width.left)}}/>,
+                    !!plcData.value.width.right && <div class="plt-fixed-shadow plt-fixed-shadow-right" style={{right: $plain.utils.suffixPx(plcData.value.width.right)}}/>
+                ].filter(Boolean)}
+
             </div>
         )
     },

@@ -1,6 +1,6 @@
 @import "./theme/default";
 
-$dt: map_get($theme-default,'');
+$dt: map_get($theme-default, '');
 
 @function plv($key) {
   @if (map_has_key($globalTheme, $key)) {
@@ -38,6 +38,7 @@ $dt: map_get($theme-default,'');
   $shapeFillet: plv(shapeFillet) !global;
   $popperRadius: plv(popperRadius) !global;
   $boxshadow: plv(boxshadow) !global;
+  $boxshadowColor: plv(boxshadowColor) !global;
 
   @if (str_length($name)>0) {
     .theme-#{$name} {

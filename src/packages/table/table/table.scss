@@ -18,6 +18,7 @@
     border-spacing: 0;
     box-sizing: border-box;
     list-style: none;
+    position: relative;
 
     /*---------------------------------------scroll 滚动条-------------------------------------------*/
 
@@ -111,6 +112,26 @@
         td {
           background-color: $tableHeadBackground;
         }
+      }
+    }
+
+    /*---------------------------------------shadow-------------------------------------------*/
+
+    .plt-fixed-shadow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30px;
+      pointer-events: none;
+      content: '';
+      z-index: 4;
+
+      &.plt-fixed-shadow-left {
+        box-shadow: inset 10px 0 10px -10px mix(black, $boxshadowColor, 10%);
+      }
+
+      &.plt-fixed-shadow-right {
+        box-shadow: inset -10px 0 10px -10px mix(black, $boxshadowColor, 10%);
       }
     }
 

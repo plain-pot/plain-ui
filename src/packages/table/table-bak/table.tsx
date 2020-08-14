@@ -92,8 +92,11 @@ function tableSetup(props: TablePropsType) {
         // table: config plc, and  combine: props + config + state
         const ret = handlePlcConfigAndState(items, props.config, state.tableWidth)
 
+
         const has = computed(() => ({
+            // @ts-ignore
             hasFixedLeft: ret.hasFixedLeft,
+            // @ts-ignore
             hasFixedRight: ret.hasFixedRight,
         }))
 

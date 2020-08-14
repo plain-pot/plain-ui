@@ -63,6 +63,11 @@ export const writeFixedPosition = (flatPlcList: PlcType[]) => {
         right: [] as PlcType[],
     });
 
+    const width = {
+        left: 0,
+        right: 0,
+    }
+
     Object.keys(collector).forEach(key => {
         let list = collector[key]!
         if (key === 'right') {
@@ -71,6 +76,7 @@ export const writeFixedPosition = (flatPlcList: PlcType[]) => {
 
         for (let i = 0; i < list.length; i++) {
             const element = list[i] as PlcType;
+            width[key] += element.props.width
             if (i === 0) {
                 element.fixedPosition[key] = 0
             } else {
@@ -80,4 +86,7 @@ export const writeFixedPosition = (flatPlcList: PlcType[]) => {
         }
     })
 
+    return {
+        width
+    }
 }

@@ -229,9 +229,9 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         })
     }
 
-    /*---------------------------------------计算固定列的定位值-------------------------------------------*/
+    /*---------------------------------------计算固定列的定位值，顺便计算左右固定列的总宽度-------------------------------------------*/
 
-    writeFixedPosition(flatPlcList)
+    const {width} = writeFixedPosition(flatPlcList)
 
     /*---------------------------------------return-------------------------------------------*/
 
@@ -240,8 +240,7 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         plcList: items,                                                                                     // 列数组数据，树形结构的数据
         flatPlcList,                                                                                        // 展开之后最底层的列数组
         flatPlcLength: flatPlcList.length,                                                                  // 展开之后最底层的列数组长度
-        plcListHasRenderAfterRow: flatPlcList.filter(item => !!item.props.renderAfterRow),                  // 列需要在行之后多渲染的数据
-        hasFixedLeft,                                                                                       // 是否存在左固定列
-        hasFixedRight,                                                                                      // 是否存在右固定列
+        plcListHasRenderAfterRow: flatPlcList.filter(item => !!item.props.renderAfterRow),        // 列需要在行之后多渲染的数据
+        width,                                                                                              // 左右固定列的宽度
     }
 }
