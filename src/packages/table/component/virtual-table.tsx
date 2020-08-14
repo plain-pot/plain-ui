@@ -50,7 +50,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
         const dataHeight = (props.data || []).length * props.size
         const summaryHeight = (!!props.summaryData && props.summaryData.length > 0) ? (props.summaryData.length * props.size) : 0
         return {
-            height: `${dataHeight + summaryHeight + 12}px`
+            height: `${dataHeight + summaryHeight + 6}px`
         }
     })
 

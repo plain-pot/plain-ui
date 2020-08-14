@@ -19,7 +19,12 @@ export default defineComponent({
 
         const binding = computed(() => {
             return {
-                class: 'plt-row',
+                class: [
+                    'plt-row',
+                    {
+                        'plt-row-summary': props.isSummary
+                    }
+                ],
                 on: {
                     click: handler.click,
                     dblclick: handler.dblclick,

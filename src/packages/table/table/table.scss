@@ -4,7 +4,7 @@
   $tableHeadHoverBackground: #e4e7ef;
   $tableHeadBorder: solid 1px #f0f0f0;
 
-  $tableBorderColor: #ddd;
+  $tableBorderColor: #f0f0f0;
   $tableBodyBorder: solid 1px $tableBorderColor;
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
@@ -19,26 +19,37 @@
     box-sizing: border-box;
     list-style: none;
 
+    .pl-scroll {
+      .pl-scroll-content {
+        min-width: 100%;
+      }
+
+      .pl-vertical-scrollbar-wrapper, .pl-horizontal-scrollbar-wrapper {
+        z-index: 10;
+      }
+    }
+
     table {
       border-collapse: collapse;
       border-spacing: 0;
       box-sizing: border-box;
 
       tr {
-        @include transition;
-        transition-property: background-color;
-
         &:hover {
-          background-color: $tableRowHoverBackground;
+          td {
+            background-color: $tableRowHoverBackground;
+          }
         }
 
         td {
           padding: 0;
           position: relative;
+          @include transition;
+          transition-property: background-color;
 
           &:after {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
             height: 1px;
@@ -58,23 +69,11 @@
       }
     }
 
-    .pl-scroll {
-      .pl-scroll-content {
-        min-width: 100%;
-      }
-
-      .pl-vertical-scrollbar-wrapper {
-        z-index: 10;
-      }
-    }
-
     .plt-head {
 
       td {
         background-color: $tableHeadBackground;
         color: $tableHeadColor;
-        @include transition;
-        transition-property: background-color;
 
         &:hover {
           background-color: $tableHeadHoverBackground;
@@ -88,6 +87,12 @@
       td {
         color: $tableBodyColor;
         background-color: white;
+      }
+
+      .plt-row-summary {
+        td {
+          background-color: $tableHeadBackground;
+        }
       }
     }
 
@@ -120,9 +125,9 @@
 
       &:after {
         content: '';
-        display: inline-block;
-        height: 12px;
-        width: 100%;
+        display: block;
+        height: 6px;
+        width: 1px;
       }
     }
 
