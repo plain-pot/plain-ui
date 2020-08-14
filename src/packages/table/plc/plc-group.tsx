@@ -8,6 +8,7 @@ import {FormatPropsType, useProps} from "@/use/useProps";
 import {PlainExtractPropTypes} from "@/type";
 import {PlcType} from "@/packages/table/plc/plc";
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
+import {$plain} from "@/packages/base";
 
 function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
 
@@ -33,7 +34,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
     }
 
     const refer = {
-        ...PlcComponentPublicData,
+        ...$plain.utils.deepcopy(PlcComponentPublicData),
         scopedSlots: $scopedSlots,
         _$scopedSlots: $scopedSlots,
         type: PlcComponentType.GROUP,

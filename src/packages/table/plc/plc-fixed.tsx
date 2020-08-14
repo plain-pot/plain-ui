@@ -70,7 +70,7 @@ export const writeFixedPosition = (flatPlcList: PlcType[]) => {
         }
 
         for (let i = 0; i < list.length; i++) {
-            const element = list[i];
+            const element = list[i] as PlcType;
             if (i === 0) {
                 element.fixedPosition[key] = 0
             } else {

@@ -107,10 +107,18 @@ export const PlcComponentPublicData = {
     level: 0,
     rowspan: 1,
     colspan: 1,
+    fixedPosition: {
+        left: 0,
+        right: 0,
+    },
 } as {
     level?: number,
     rowspan?: number,
-    colspan?: number
+    colspan?: number,
+    fixedPosition: {
+        left: number,
+        right: number,
+    },
 }
 
 export function getCellClass(plc: PlcType, rowData?: TableNode) {
