@@ -1,9 +1,16 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {injectTable} from "@/packages/table/table/table";
+import {PlainScroll} from "@/packages/scroll/scroll";
+import {useRefs} from "@/use/useRefs";
+import {TableHoverPart} from "@/packages/table/table-utils";
 
 export default defineComponent({
     name: 'plt-body',
     setup() {
+
+        const refs = useRefs({
+            virtualTable: {} as { $refs: { scroll: PlainScroll } }
+        })
 
         const table = injectTable()
 
@@ -11,8 +18,16 @@ export default defineComponent({
             height: `${table.propsState.bodyRowHeight as number * table.props.showRows + 12}px`
         }))
 
+        const {handler} = table.utils.bindScroll(
+            TableHoverPart.body,
+            (scrollLeft, part) => {
+                part === TableHoverPart.head && refs.virtualTable.$refs.scroll.methods.scrollLeft(scrollLeft)
+            }
+        )
+
         return () => (
-            <div class="plt-body" style={styles.value}>
+            <div class="plt-body" style={styles.value}
+                 onMouseenter={handler.mouseenter}>
                 <pl-virtual-table
                     key={table.props.virtual ? 'enable' : 'disabled'}
                     ref="virtualTable"
@@ -22,6 +37,7 @@ export default defineComponent({
                     size={table.props.bodyRowHeight}
                     disabled={table.isDisabledVirtualScroll.value}
                     scrollProps={{scrollbarSize: 6}}
+                    onScroll={handler.scroll}
                     {
                         ...{
                             scopedSlots: {

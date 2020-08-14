@@ -4,10 +4,17 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {PlcComponentType} from "@/packages/table/plc/plc-utils";
 import {$plain} from "@/packages/base";
+import {TableHoverPart} from "@/packages/table/table-utils";
+import {useRefs} from "@/use/useRefs";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 export default defineComponent({
     name: 'plt-head',
     setup() {
+
+        const refs = useRefs({
+            scroll: {} as PlainScroll
+        })
 
         const table = injectTable()
 
@@ -73,14 +80,22 @@ export default defineComponent({
             }
         })
 
+        const {handler} = table.utils.bindScroll(
+            TableHoverPart.head,
+            (scrollLeft, part) => {
+                part === TableHoverPart.body && refs.scroll.methods.scrollLeft(scrollLeft)
+            }
+        )
+
         return () => {
             return (
-                <div class="plt-head">
+                <div class="plt-head" onMouseenter={handler.mouseenter}>
                     <pl-scroll
                         ref="scroll"
                         scrollY={false}
                         scrollX
                         fitContentHeight
+                        onScroll={handler.scroll}
                     >
                         <table class="plt-table plt-head-table" style={styles.value}>
                             <thead>

@@ -4,10 +4,9 @@ import {useSlots} from "@/use/useSlots";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
-import {handlePlcConfigAndState, PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {handlePlcConfigAndState} from "@/packages/table/plc/plc-utils";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {printPlcData} from "@/packages/table/plc/debug";
-import {PlainTable} from "@/packages/table/table-bak/table";
 import './table.scss'
 import {TableMark} from "@/packages/table/table-bak/TableMark";
 import {getValidateConfigData} from "@/packages/form/validate";
@@ -75,6 +74,7 @@ function tableSetup(props: TablePropsType) {
         rootNode,                                           // 模拟出来的根数据节点
         summaryRootNode,                                    // 合计行数据模拟出来的数据节点
         currentNode: null as null | TableNode,              // 当前选中的节点
+        hoverPart: null as null | TableHoverPart,           // 当前鼠标所在的区域
     })
     /*---------------------------------------computed-------------------------------------------*/
     /**
@@ -176,13 +176,25 @@ function tableSetup(props: TablePropsType) {
     const utils = {
         setCurrent: (node: TableNode | null) => {state.currentNode = node},
         isCurrent: (node: TableNode) => {return !!state.currentNode && state.currentNode.key === node.key},
+        bindScroll: (part: TableHoverPart, setLeft: (scrollLeft: number, part: TableHoverPart) => void) => {
+
+            on.scrollLeft((e: any, part) => setLeft(e.target.scrollLeft, part))
+
+            return {
+                handler: {
+                    mouseenter: () => state.hoverPart = part,
+                    scroll: (e: Event) => {
+                        if (state.hoverPart !== part) {
+                            return
+                        }
+                        emit.scrollLeft(e, part)
+                    },
+                }
+            }
+        }
     }
     /*---------------------------------------handler-------------------------------------------*/
     const handler = {
-        hoverPart: (part: TableHoverPart, fixed: PlcFixedType) => {
-            state.hoverState.part = part
-            state.hoverState.fixed = fixed
-        },
         clickRow: (e: MouseEvent, node: TableNode) => {
             utils.setCurrent(node)
             emit.clickRow(node, e)
@@ -230,6 +242,8 @@ function tableSetup(props: TablePropsType) {
 
     return refer
 }
+
+type PlainTable = ReturnType<typeof tableSetup>
 
 export default defineComponent({
     name: 'pl-table',
