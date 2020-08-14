@@ -134,14 +134,14 @@
                 ],
 
                 other: {
-                    hasSummaryData: true,
-                    groupHead: true,
+                    hasSummaryData: true,                       // 是否由合计行数据
+                    groupHead: true,                            // 表头分组
                 },
                 props: {
                     headRowHeight: 40,
                     bodyRowHeight: 36,
                     border: false,
-                    virtual: false,
+                    virtual: true,                             // 是否开启虚拟滚动
                 },
                 plc: {
                     width: 120,
