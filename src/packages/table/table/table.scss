@@ -27,6 +27,7 @@
       tr {
         @include transition;
         transition-property: background-color;
+
         &:hover {
           background-color: $tableRowHoverBackground;
         }
@@ -68,9 +69,9 @@
     }
 
     .plt-head {
-      background-color: $tableHeadBackground;
 
       td {
+        background-color: $tableHeadBackground;
         color: $tableHeadColor;
         @include transition;
         transition-property: background-color;
@@ -86,6 +87,7 @@
 
       td {
         color: $tableBodyColor;
+        background-color: white;
       }
     }
 

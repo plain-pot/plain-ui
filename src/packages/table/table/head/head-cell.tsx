@@ -1,8 +1,9 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {PlcType} from "@/packages/table/plc/plc";
-import {PlcComponentType} from "@/packages/table/plc/plc-utils";
+import {PlcComponentType, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {injectTable} from "@/packages/table/table/table";
 import {PlcRender} from "@/packages/table/table-bak/render";
+import {StyleType} from "@/types/utils";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -35,12 +36,23 @@ export default defineComponent({
             }
         })
 
+        const cellStyles = computed(() => {
+            const ret = {} as StyleType
+            if (props.plc.props.fixed !== PlcFixedType.center) {
+                ret.position = 'sticky'
+                ret.left = '0'
+                ret.zIndex = '3'
+            }
+            return ret
+        })
+
         return () => {
             return (
                 <td rowspan={props.plc.rowspan}
                     colspan={props.plc.colspan}
                     key={key.value}
                     class="plt-cell plt-head-cell"
+                    style={cellStyles.value}
                 >
                     <div style={styles.value}>
                         {PlcRender.head(props.plc)}

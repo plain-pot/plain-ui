@@ -90,9 +90,9 @@ export default defineComponent({
         return () => {
             return (
                 <div class="plt-head" onMouseenter={handler.mouseenter}>
+                    {/*这里不能加 scrollY={false}，会导致sticky固定失效*/}
                     <pl-scroll
                         ref="scroll"
-                        scrollY={false}
                         scrollX
                         fitContentHeight
                         onScroll={handler.scroll}
