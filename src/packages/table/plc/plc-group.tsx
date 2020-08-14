@@ -52,6 +52,15 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
 
 export type PlcGroupType = ReturnType<typeof plcGroupSetup>
 
+/**
+ * 判断是否为plc分组
+ * @author  韦胜健
+ * @date    2020/8/14 15:39
+ */
+export function isPlcGroup(plc: PlcType | PlcGroupType): plc is PlcGroupType {
+    return plc.type === PlcComponentType.GROUP
+}
+
 export default defineComponent({
     name: 'plc-group',
     props: {

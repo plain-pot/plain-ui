@@ -158,6 +158,11 @@ function iteratePlc({list, handlePlc, handleGroup}: {
  */
 export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], config: Function | undefined, tableWidth: number) {
 
+    /**
+     * 这里复制了一份这个items，所以如果这里对items进行修改，是不会导致引起响应式刷新的
+     * @author  韦胜健
+     * @date    2020/8/14 15:10
+     */
     items = copyPlcList(items)
 
     const configData = !!config ? config(items) : {}            // 通过 table.props.config 得到的列配置信息对象
@@ -233,10 +238,10 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
     if (hasFixedLeft) autoFixedLeftPlcList.forEach(plc => plc.props.fixed = PlcFixedType.left)
     if (hasFixedRight) autoFixedRightPlcList.forEach(plc => plc.props.fixed = PlcFixedType.right)
 
-    const flatPlcList: PlcType[] = []                           // 平级的plc对象数组，不包含group，顺序严格按照 plc在代码中的位置-plc的props.order-plc.props.fixed顺序确定
-    const fitPlcList: PlcType[] = []                            // 需要自适应宽度的 plc对象数组
-    let totalFits: number = 0                                   // 填充宽度分配总份数
-    let externalWidth = tableWidth                              // 剩余的列宽
+    let flatPlcList: PlcType[] = []                           // 平级的plc对象数组，不包含group，顺序严格按照 plc在代码中的位置-plc的props.order-plc.props.fixed顺序确定
+    let fitPlcList: PlcType[] = []                            // 需要自适应宽度的 plc对象数组
+    let totalFits: number = 0                                 // 填充宽度分配总份数
+    let externalWidth = tableWidth                            // 剩余的列宽
 
     /**
      * - 根据 order、fixed排序
@@ -264,6 +269,8 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
         }
     })
 
+    /*---------------------------------------自动计算列宽-------------------------------------------*/
+
     // 剩余宽度还大于0
     if (externalWidth > 0) {
         // 如果没有自适应宽度的列，则默认最后一列自适应宽度
@@ -287,6 +294,48 @@ export function handlePlcConfigAndState(items: (PlcType | PlcGroupType)[], confi
             }
         })
     }
+
+    /*---------------------------------------计算固定列的定位值-------------------------------------------*/
+
+    let {left, right} = flatPlcList.reduce((ret, item) => {
+        switch (item.props.fixed) {
+            case PlcFixedType.left:
+                ret.left.push(item)
+                break
+            case PlcFixedType.right:
+                ret.right.push(item)
+                break
+        }
+
+        return ret
+    }, {
+        left: [] as PlcType[],
+        right: [] as PlcType[],
+    })
+
+    for (let i = 0; i < left.length; i++) {
+        const leftElement = left[i];
+        if (i === 0) {
+            leftElement.fixedPosition.left = 0
+        } else {
+            const {props: {width: prevWidth}, fixedPosition: {left: prevLeft}} = left[i - 1]!
+            leftElement.fixedPosition.left = Number(prevWidth) + prevLeft
+        }
+    }
+
+    right = right.reverse()
+
+    for (let i = 0; i < right.length; i++) {
+        const rightElement = right[i];
+        if (i === 0) {
+            rightElement.fixedPosition.right = 0
+        } else {
+            const {props: {width: prevWidth}, fixedPosition: {right: prevRight}} = right[i - 1]!
+            rightElement.fixedPosition.right = Number(prevWidth) + prevRight
+        }
+    }
+
+    /*---------------------------------------return-------------------------------------------*/
 
     return {
         notFitVirtualPlcList,                                                                               // 不兼容虚拟列表的列数组

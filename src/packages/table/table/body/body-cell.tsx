@@ -1,10 +1,10 @@
 import {computed, defineComponent, getCurrentInstance} from "@vue/composition-api";
-import {getCellClass, PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {getCellClass} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {PlcRender} from "@/packages/table/table-bak/render";
 import {injectTable} from "@/packages/table/table/table";
-import {StyleType} from "@/types/utils";
+import {getCellStyles} from "@/packages/table/plc/plc-fixed";
 
 interface BodyCellPropsType {
     plc: PlcType,
@@ -51,15 +51,7 @@ export default defineComponent({
             }
         })
 
-        const cellStyles = computed(() => {
-            const ret = {} as StyleType
-            if (props.plc.props.fixed !== PlcFixedType.center) {
-                ret.position = 'sticky'
-                ret.left = '0'
-                ret.zIndex = '3'
-            }
-            return ret
-        })
+        const cellStyles = getCellStyles(props.plc)
 
         const text = computed(() => {
             return !!props.plc.props.field ? props.rowData.data[props.plc.props.field] : null

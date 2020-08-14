@@ -49,7 +49,7 @@
 
                 <template v-if="other.groupHead">
                     <plc field="id" title="编号" fixed="left" :width="plc.width"/>
-                    <plc field="id" title="编号" fixed="right"/>
+                    <plc field="id" title="编号"/>
                     <plc field="size" title="大小"/>
                     <plc-group title="地址" fixed="left">
                         <plc field="date" title="日期"/>
@@ -57,12 +57,15 @@
                     </plc-group>
 
                     <plc field="id" title="编号"/>
-                    <plc field="name" title="名称" fixed="right"/>
                     <plc field="star" title="评分"/>
-
                     <plc field="addr" title="地址"/>
-                    <plc field="url" title="链接"/>
-                    <plc field="domain" title="域名"/>
+
+                    <plc field="name" title="名称" fixed="right"/>
+                    <plc-group title="站点" fixed="right">
+                        <plc field="url" title="链接"/>
+                        <plc field="domain" title="域名"/>
+                    </plc-group>
+
                     <plc field="protocol" title="协议"/>
                     <plc field="email" title="邮箱"/>
                     <plc field="ip" title="ip"/>
