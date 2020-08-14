@@ -1,4 +1,4 @@
-import {computed, defineComponent} from "@vue/composition-api";
+import {computed, defineComponent, watch} from "@vue/composition-api";
 import {injectTable} from "@/packages/table/table/table";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
@@ -74,9 +74,9 @@ export default defineComponent({
             return headCols
         })
 
-        const styles = computed(() => {
+        const tableStyles = computed(() => {
             return {
-                width: $plain.utils.suffixPx(table.totalContentWidth.value)
+                width: $plain.utils.suffixPx(table.totalContentWidth.value),
             }
         })
 
@@ -87,18 +87,26 @@ export default defineComponent({
             }
         )
 
+        const styles = computed(() => ({
+            height: `${table.propsState.headRowHeight * headPlcList.value.length}px`,
+        }))
+
+        watch(() => styles.value, () => !!refs.scroll && $plain.nextTick(refs.scroll.methods.refresh))
+
         return () => {
             return (
-                <div class="plt-head" onMouseenter={handler.mouseenter}>
+                <div class="plt-head"
+                     onMouseenter={handler.mouseenter}
+                     style={styles.value}>
                     {/*这里不能加 scrollY={false}，会导致sticky固定失效*/}
                     <pl-scroll
                         ref="scroll"
                         scrollX
                         fitContentHeight
-                        onScroll={handler.scroll}
                         hideScrollbar
+                        onScroll={handler.scroll}
                     >
-                        <table class="plt-table plt-head-table" style={styles.value}>
+                        <table class="plt-table plt-head-table" style={tableStyles.value}>
                             <thead>
                             {headPlcList.value.map((row, rowIndex) => (
                                 <tr row={rowIndex}>
