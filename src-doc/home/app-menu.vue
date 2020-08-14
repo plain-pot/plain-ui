@@ -61,8 +61,6 @@
             position: fixed;
             left: 0;
             bottom: 16px;
-            overflow-y: auto;
-            border-right: solid 1px #f0f0f0;
 
             ul {
                 list-style: none;
@@ -112,6 +110,16 @@
                     font-weight: 600;
                     color: $ihc;
                 }
+            }
+
+            &:after {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: -30px;
+                width: 30px;
+                content: '';
+                box-shadow: inset 10px 0 8px -8px #f0f1f2;
             }
         }
     }
