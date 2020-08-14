@@ -29,16 +29,36 @@
       }
     }
 
-    .pl-scroll-content {
-      min-width: 100%;
-    }
+    .pl-scroll {
+      .pl-scroll-content {
+        min-width: 100%;
+      }
 
-    .pl-vertical-scrollbar-wrapper {
-      z-index: 10;
+      .pl-vertical-scrollbar-wrapper {
+        z-index: 10;
+      }
     }
 
     .plt-body {
       overflow: hidden;
+    }
+
+    &.pl-table-size-large {
+      td {
+        font-size: 16px;
+      }
+    }
+
+    &.pl-table-size-normal {
+      td {
+        font-size: 14px;
+      }
+    }
+
+    &.pl-table-size-mini {
+      td {
+        font-size: 12px;
+      }
     }
   }
 

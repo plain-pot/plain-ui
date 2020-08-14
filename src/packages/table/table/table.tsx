@@ -14,6 +14,7 @@ import {useModel} from "@/use/useModel";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {$plain} from "@/packages/base";
 import {EmitFunc, useEvent} from "@/use/useEvent";
+import {StyleShape, StyleSize, useStyle} from "@/use/useStyle";
 
 const PLAIN_TABLE_PROVIDER = '@@PLAIN_TABLE_PROVIDER'
 export const injectTable = () => inject(PLAIN_TABLE_PROVIDER) as PlainTable
@@ -172,6 +173,13 @@ function tableSetup(props: TablePropsType) {
         return !props.virtual
     })
 
+    const {styleComputed} = useStyle({shape: StyleShape.square, size: StyleSize.mini, status: null})
+    const classes = computed(() => [
+        'pl-table',
+        `pl-table-size-${styleComputed.value.size}`,
+        `pl-table-shape-${styleComputed.value.shape}`,
+    ])
+
     /*---------------------------------------utils-------------------------------------------*/
     const utils = {
         setCurrent: (node: TableNode | null) => {state.currentNode = node},
@@ -221,6 +229,7 @@ function tableSetup(props: TablePropsType) {
         tableSummaryData,
         formatFlatTableData,
         isDisabledVirtualScroll,
+        classes,
 
         emit,
         on,
@@ -256,10 +265,11 @@ export default defineComponent({
             slots,
             state,
             plcData,
+            classes,
         } = tableSetup(props)
 
         return () => (
-            <div class="pl-table">
+            <div class={classes.value}>
                 <plc-collector ref="collector">
                     {slots.default()}
                 </plc-collector>
