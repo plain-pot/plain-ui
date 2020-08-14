@@ -86,6 +86,28 @@
       }
     }
 
+    /*---------------------------------------cell-------------------------------------------*/
+
+    .plt-cell {
+      &.plt-cell-align-left {
+        & > div {
+          justify-content: flex-start;
+        }
+      }
+
+      &.plt-cell-align-center {
+        & > div {
+          justify-content: center;
+        }
+      }
+
+      &.plt-cell-align-right {
+        & > div {
+          justify-content: flex-end;
+        }
+      }
+    }
+
     /*---------------------------------------head-------------------------------------------*/
 
     .plt-head {
