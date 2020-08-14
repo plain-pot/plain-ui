@@ -5,7 +5,6 @@
   $tableHeadBorderColor: #dbdee6;
 
   $tableBodyColor: rgba(0, 0, 0, 0.65);
-  $tableBorderColor: $tableHeadBorderColor;
 
   $tableRowHoverBackground: #f5f7fa;
   $tableRowCurrentBackground: rgba($colorPrimary, 0.075);
@@ -18,6 +17,18 @@
     box-sizing: border-box;
     list-style: none;
     position: relative;
+
+    &:after {
+      position: absolute;
+      background-color: $tableHeadBorderColor;
+      content: '';
+      z-index: 3;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      transform: scaleY(0.5);
+    }
 
     /*---------------------------------------scroll 滚动条-------------------------------------------*/
 
@@ -55,6 +66,7 @@
           @include transition;
           transition-property: background-color;
 
+          /*统一顶部边线*/
           &:after {
             position: absolute;
             top: 0;
@@ -69,9 +81,9 @@
           & > div {
             padding: 0 8px;
             box-sizing: border-box;
-            overflow: hidden;
             display: flex;
             align-items: center;
+            overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
           }
@@ -79,8 +91,28 @@
       }
     }
 
+    &.pl-table-border {
+      tr {
+        td {
+          /*统一右边线*/
+          &:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: $tableHeadBorderColor;
+            transform: scaleX(0.5);
+            z-index: 2;
+          }
+        }
+      }
+    }
+
     /*---------------------------------------cell-------------------------------------------*/
 
+    /*对齐方式*/
     .plt-cell {
       &.plt-cell-align-left {
         & > div {
@@ -115,15 +147,31 @@
         }
       }
 
-      &:after {
+      &:after, &:before {
         position: absolute;
+        content: '';
+      }
+
+      /*head底边线*/
+      &:after {
         bottom: 0;
         left: 0;
         right: 0;
-        content: '';
         height: 1px;
-        background-color: $tableHeadBorderColor;
         transform: scaleY(0.5);
+        background-color: $tableHeadBorderColor;
+      }
+
+      /*head右边线，同背景色，目的是盖住border最后td的右边线，使得看起来没有右边线*/
+      &:before {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 1px;
+
+        z-index: 3;
+        background-color: $tableHeadBackground;
+
       }
     }
 
@@ -136,6 +184,13 @@
         td {
           color: $tableBodyColor;
           background-color: white;
+
+          /*最后一个td没有右边线*/
+          &:last-child {
+            &:before {
+              display: none;
+            }
+          }
         }
 
         &:hover {
@@ -143,11 +198,16 @@
             background-color: $tableRowHoverBackground;
           }
         }
+      }
 
-        &:first-child {
-          td {
-            &:after {
-              display: none;
+      table:not(.pl-virtual-table-summary-table) {
+        tr {
+          /*第一行没有顶边线*/
+          &:first-child {
+            td {
+              &:after {
+                display: none;
+              }
             }
           }
         }
@@ -162,6 +222,7 @@
 
     /*---------------------------------------shadow-------------------------------------------*/
 
+    /*左右固定列阴影*/
     .plt-fixed-shadow {
       position: absolute;
       top: 0;
@@ -182,6 +243,7 @@
 
     /*---------------------------------------size-------------------------------------------*/
 
+    /*表格大小，只是改变了文字大小，以及组件大小*/
     &.pl-table-size-large {
       td {
         font-size: 16px;

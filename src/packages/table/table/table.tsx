@@ -175,6 +175,9 @@ function tableSetup(props: TablePropsType) {
         'pl-table',
         `pl-table-size-${styleComputed.value.size}`,
         `pl-table-shape-${styleComputed.value.shape}`,
+        {
+            'pl-table-border': props.border,
+        },
     ])
 
     /*---------------------------------------utils-------------------------------------------*/
