@@ -80,6 +80,10 @@ export default defineComponent({
                 {
                     'plt-cell-add-edit-padding': props.plc.props.addEditPadding,
                     'plt-cell-editing': renderData.value.editable,
+                },
+                {
+                    'plt-cell-last-fixed-left': props.plc.isLastFixedLeft,
+                    'plt-cell-first-fixed-right': props.plc.isFirstFixedRight,
                 }
             ]
         })

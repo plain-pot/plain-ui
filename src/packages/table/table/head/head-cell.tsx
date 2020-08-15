@@ -30,7 +30,11 @@ export default defineComponent({
         const cellClasses = computed(() => [
             'plt-cell',
             'plt-head-cell',
-            ...getCellClass(props.plc)
+            ...getCellClass(props.plc),
+            {
+                'plt-cell-last-fixed-left': props.plc.isLastFixedLeft,
+                'plt-cell-first-fixed-right': props.plc.isFirstFixedRight,
+            }
         ])
 
         const cellStyles = computed(() => getCellStyles(props.plc, styles => {

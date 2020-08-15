@@ -205,7 +205,7 @@
           background-color: white;
 
           /*最后一个td没有右边线*/
-          &:last-child {
+          &:last-child:not(.plt-cell-first-fixed-right) {
             &:before {
               display: none;
             }
@@ -242,21 +242,38 @@
     /*---------------------------------------shadow-------------------------------------------*/
 
     /*左右固定列阴影*/
-    .plt-fixed-shadow {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 30px;
-      pointer-events: none;
-      content: '';
-      z-index: 4;
 
-      &.plt-fixed-shadow-left {
-        box-shadow: inset 10px 0 10px -10px mix(black, $boxshadowColor, 10%);
-      }
+    &, &.pl-table-border {
+      .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
 
-      &.plt-fixed-shadow-right {
-        box-shadow: inset -10px 0 10px -10px mix(black, $boxshadowColor, 10%);
+        &:before {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 30px;
+          pointer-events: none;
+          content: '';
+          z-index: 4;
+          background-color: transparent;
+
+          left: initial;
+          right: initial;
+          transform: none;
+        }
+
+        &.plt-cell-last-fixed-left {
+          &:before {
+            right: -30px;
+            box-shadow: inset 10px 0 10px -10px mix(black, $boxshadowColor, 10%);
+          }
+        }
+
+        &.plt-cell-first-fixed-right {
+          &:before {
+            left: -30px;
+            box-shadow: inset -10px 0 10px -10px mix(black, $boxshadowColor, 10%);
+          }
+        }
       }
     }
 
