@@ -84,8 +84,4 @@ export const writeFixedPosition = (flatPlcList: PlcType[]) => {
             }
         }
     })
-
-    return {
-        width
-    }
 }
