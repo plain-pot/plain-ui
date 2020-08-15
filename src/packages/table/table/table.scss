@@ -61,7 +61,6 @@
 
       tr {
         td {
-          padding: 0;
           position: relative;
           @include transition;
           transition-property: background-color;
@@ -79,11 +78,25 @@
           }
 
           & > div {
-            padding: 0 8px;
+            padding: 1px 8px;
             box-sizing: border-box;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+
+            & > .pl-input {
+              width: 100%;
+
+              & > .pl-input-inner {
+                width: inherit !important;
+
+                & > .pl-input-custom-inner {
+                  & > input {
+                    width: 100% !important;
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -119,7 +132,7 @@
       }
 
       &.plt-cell-align-center {
-        & > div  {
+        & > div {
           text-align: center;
         }
       }
