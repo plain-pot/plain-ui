@@ -89,16 +89,6 @@ export const enum PlcAlign {
 }
 
 /**
- * 在遍历plc的时候，操作类型，remove意思是遍历完这一次之删除这个plc或者plc组
- * @author  韦胜健
- * @date    2020/8/14 17:26
- */
-export const enum HandlePlcType {
-    remove = 'remove',
-    nothing = 'nothing'
-}
-
-/**
  * plc组件的一些公共数据
  * @author  韦胜健
  * @date    2020/8/14 17:26

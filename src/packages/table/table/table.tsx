@@ -4,7 +4,6 @@ import {useSlots} from "@/use/useSlots";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
-import {handlePlcConfigAndState} from "@/packages/table/plc/handlePlcConfigAndState";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {printPlcData} from "@/packages/table/plc/debug";
 import './table.scss'
@@ -16,6 +15,7 @@ import {$plain} from "@/packages/base";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {StyleShape, StyleSize, useStyle} from "@/use/useStyle";
 import {PlainScroll} from "@/packages/scroll/scroll";
+import {formatPlc} from "@/packages/table/plc/format/formatPlc";
 
 const PLAIN_TABLE_PROVIDER = '@@PLAIN_TABLE_PROVIDER'
 export const injectTable = () => inject(PLAIN_TABLE_PROVIDER) as PlainTable
@@ -85,14 +85,18 @@ function tableSetup(props: TablePropsType) {
      * @date    2020/8/13 22:29
      */
     const plcData = computed(() => {
+        // todo  plc的width属性变化之后，这里执行了两次，很奇怪
+
         if (!state.tableWidth) return null
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
-
-        const ret = handlePlcConfigAndState(items, props.config, state.tableWidth)
-
-        return ret
+        const result = formatPlc({
+            items,
+            config: props.config,
+            tableWidth: state.tableWidth
+        })
+        return result
     });
 
     /**

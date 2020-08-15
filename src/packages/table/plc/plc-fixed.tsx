@@ -23,7 +23,7 @@ export function getCellStyles(plc: PlcType | PlcGroupType, adjust: (styles: Styl
     return computed(() => {
         const ret = {} as StyleType
         ret.position = 'sticky'
-        ret.zIndex = '1'
+        ret.zIndex = '3'
 
         if (!isPlcGroup(plc)) {
             ret[plc.props.fixed] = plc.fixedPosition[plc.props.fixed] + 'px'
