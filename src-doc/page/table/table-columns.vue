@@ -45,9 +45,9 @@
         },
         methods: {
             onDblClickRow(tableNode, e) {
-                if (!this.$plain.utils.hasClass(e.target, 'plt-body-cell')) {
+                /*if (!this.$plain.utils.hasClass(e.target, 'plt-body-cell')) {
                     return
-                }
+                }*/
 
                 if (!tableNode.isEdit) {
                     tableNode.enableEdit()

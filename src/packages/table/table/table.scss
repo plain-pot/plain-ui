@@ -99,9 +99,11 @@
                 }
               }
             }
+          }
 
-            &.plt-cell-editing {
-              &:not(.plt-cell-add-edit-padding) {
+          &.plt-cell-editing {
+            &:not(.plt-cell-add-edit-padding) {
+              & > div {
                 padding-left: 0;
               }
             }
