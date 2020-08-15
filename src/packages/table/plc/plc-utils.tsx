@@ -1,5 +1,6 @@
 import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {StyleType} from "@/types/utils";
 
 /**
  * plc组属性
@@ -101,6 +102,14 @@ export const PlcComponentPublicData = {
         left: 0,
         right: 0,
     },
+    styles: {
+        cellStyle: {},
+        innerCellStyle: {},
+    },
+    classes: {
+        cellClasses: {},
+        innerCellClass: {}
+    },
 } as {
     level?: number,
     rowspan?: number,
@@ -108,6 +117,14 @@ export const PlcComponentPublicData = {
     fixedPosition: {
         left: number,
         right: number,
+    },
+    styles: {
+        cellStyle: StyleType,
+        innerCellStyle: StyleType,
+    },
+    classes: {
+        cellClasses: any,
+        innerCellClass: any
     },
 }
 
