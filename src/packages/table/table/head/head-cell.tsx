@@ -51,6 +51,7 @@ export default defineComponent({
                     style={cellStyles.value}
                 >
                     <div style={innerCellStyles.value}>
+                        {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {PlcRender.head(props.plc)}
                     </div>
                 </td>

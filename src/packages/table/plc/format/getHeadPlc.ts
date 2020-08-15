@@ -1,6 +1,43 @@
 import {PlcType} from "@/packages/table/plc/plc";
-import {PlcGroupType} from "@/packages/table/plc/plc-group";
-import {PlcComponentType} from "@/packages/table/plc/plc-utils";
+import {isPlcGroup, PlcGroupType} from "@/packages/table/plc/plc-group";
+import {PlcComponentType, PlcFixedType} from "@/packages/table/plc/plc-utils";
+
+/**
+ * 对plc设置标记，是否为最后一个左固定列，是否为第一个右固定列
+ * @author  韦胜健
+ * @date    2020/8/15 23:06
+ */
+function setFixedFlag(plcList: (PlcType | PlcGroupType)[]) {
+    let lastFixedLeft: PlcType | PlcGroupType | undefined;
+    let firstFixedRight: PlcType | PlcGroupType | undefined;
+
+    plcList.forEach(plc => {
+        if (plc.props.fixed === PlcFixedType.left) {
+            lastFixedLeft = plc
+        }
+        if (!firstFixedRight && plc.props.fixed === PlcFixedType.right) {
+            firstFixedRight = plc
+        }
+    })
+
+    function setLastFixedLeft(plc: PlcType | PlcGroupType) {
+        plc.isLastFixedLeft = true
+        if (isPlcGroup(plc)) {
+            setLastFixedLeft(plc.items.value[plc.items.value.length - 1])
+        }
+    }
+
+    !!lastFixedLeft && setLastFixedLeft(lastFixedLeft);
+
+    function setFirstFixedRight(plc: PlcType | PlcGroupType) {
+        plc.isFirstFixedRight = true
+        if (isPlcGroup(plc)) {
+            setFirstFixedRight(plc.items.value[0])
+        }
+    }
+
+    !!firstFixedRight && setFirstFixedRight(firstFixedRight)
+}
 
 /**
  * 计算渲染表头所需要的的plc二维数组
@@ -57,6 +94,8 @@ export function getHeadPlc(plcList: (PlcType | PlcGroupType)[]) {
         }
     }
     calculateHeadColumns(plcList)
+
+    setFixedFlag(headCols[0])
 
     return headCols
 }

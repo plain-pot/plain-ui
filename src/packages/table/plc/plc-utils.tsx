@@ -110,6 +110,8 @@ export const PlcComponentPublicData = {
         cellClasses: {},
         innerCellClass: {}
     },
+    isLastFixedLeft: false,
+    isFirstFixedRight: false,
 } as {
     level?: number,
     rowspan?: number,
@@ -126,6 +128,8 @@ export const PlcComponentPublicData = {
         cellClasses: any,
         innerCellClass: any
     },
+    isLastFixedLeft: boolean,
+    isFirstFixedRight: boolean,
 }
 
 export function getCellClass(plc: PlcType, rowData?: TableNode) {
