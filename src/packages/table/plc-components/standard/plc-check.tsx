@@ -27,6 +27,7 @@ export default definePlc({
             default: function (plc: PlcType) {
                 const plcInstance = plc.ctx as any
                 return <pl-checkbox-indeterminate
+                    size={'normal'}
                     status={plcInstance.checkPlc.status.value}
                     onClick={plcInstance.checkPlc.handler.onClickHeadCheckbox}/>
             }

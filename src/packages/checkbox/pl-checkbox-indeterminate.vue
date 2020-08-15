@@ -1,5 +1,6 @@
 <template>
     <pl-checkbox class="pl-checkbox-indeterminate"
+                 :size="size"
                  :disabled="disabled"
                  v-bind="checkboxProps"
                  @click.native="e=>$emit('click',e)">
@@ -15,6 +16,7 @@
     export default {
         name: "pl-checkbox-indeterminate",
         props: {
+            size: {type: String},
             status: {type: String},                         // check,uncheck,minus
             disabled: {type: Boolean, default: null},
             checkboxProps: {type: Object},
