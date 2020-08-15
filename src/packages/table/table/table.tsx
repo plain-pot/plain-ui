@@ -288,12 +288,6 @@ export default defineComponent({
                 {!!state.tableWidth && [<plt-head ref="head"/>, <plt-body ref="body"/>,]}
 
                 {!!props.debugPlc && state.tableWidth && printPlcData(plcData.value!.plcList)}
-
-                {plcData.value != null && [
-                    !!plcData.value.width.left && <div class="plt-fixed-shadow plt-fixed-shadow-left" style={{left: $plain.utils.suffixPx(plcData.value.width.left)}}/>,
-                    !!plcData.value.width.right && <div class="plt-fixed-shadow plt-fixed-shadow-right" style={{right: $plain.utils.suffixPx(plcData.value.width.right)}}/>
-                ].filter(Boolean)}
-
             </div>
         )
     },
