@@ -1,6 +1,6 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {PlcType} from "@/packages/table/plc/plc";
-import {getCellClass, PlcComponentType} from "@/packages/table/plc/plc-utils";
+import {getCellClass, PlcComponentType, stickyFlag} from "@/packages/table/plc/plc-utils";
 import {injectTable} from "@/packages/table/table/table";
 import {PlcRender} from "@/packages/table/table-bak/render";
 import {getCellStyles} from "@/packages/table/plc/plc-fixed";
@@ -32,8 +32,8 @@ export default defineComponent({
             'plt-head-cell',
             ...getCellClass(props.plc),
             {
-                'plt-cell-last-fixed-left': props.plc.isLastFixedLeft,
-                'plt-cell-first-fixed-right': props.plc.isFirstFixedRight,
+                'plt-cell-last-fixed-left': stickyFlag && props.plc.isLastFixedLeft,
+                'plt-cell-first-fixed-right': stickyFlag && props.plc.isFirstFixedRight,
             }
         ])
 

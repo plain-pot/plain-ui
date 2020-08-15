@@ -1,6 +1,7 @@
 import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {StyleType} from "@/types/utils";
+import {PlainUtils} from "@/util/util";
 
 /**
  * plc组属性
@@ -140,3 +141,10 @@ export function getCellClass(plc: PlcType, rowData?: TableNode) {
         }
     ]
 }
+
+/**
+ * 是否可以使用sticky定位
+ * @author  韦胜健
+ * @date    2020/8/15 23:58
+ */
+export const stickyFlag = !PlainUtils.ie || PlainUtils.ie === 'edge'

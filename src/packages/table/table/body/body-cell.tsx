@@ -1,5 +1,5 @@
 import {computed, defineComponent, getCurrentInstance, provide} from "@vue/composition-api";
-import {getCellClass} from "@/packages/table/plc/plc-utils";
+import {getCellClass, stickyFlag} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {PlcRender} from "@/packages/table/table-bak/render";
@@ -82,8 +82,8 @@ export default defineComponent({
                     'plt-cell-editing': renderData.value.editable,
                 },
                 {
-                    'plt-cell-last-fixed-left': props.plc.isLastFixedLeft,
-                    'plt-cell-first-fixed-right': props.plc.isFirstFixedRight,
+                    'plt-cell-last-fixed-left': stickyFlag && props.plc.isLastFixedLeft,
+                    'plt-cell-first-fixed-right': stickyFlag && props.plc.isFirstFixedRight,
                 }
             ]
         })

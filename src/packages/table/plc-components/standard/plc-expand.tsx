@@ -4,6 +4,8 @@ import {computed, reactive, set} from "@vue/composition-api";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {injectTable} from "@/packages/table/table/table";
+import {StyleType} from "@/types/utils";
+import {$plain} from "@/packages/base";
 
 interface ExpandDataType {
     plc: PlcType,
@@ -69,7 +71,7 @@ export default definePlc({
                 return (
                     <tr class='plt-row plt-expand-row'>
                         <td class='plt-cell' rowspan={1} colspan={ctx.expandPlc.colspan.value}>
-                            <div>
+                            <div style={ctx.expandPlc.styles.value}>
                                 {ctx.$scopedSlots.expand({
                                     plc,
                                     rowData: {
@@ -97,6 +99,11 @@ export default definePlc({
         const expandPlc = {
             state,
             colspan,
+            styles: computed(() => ({
+                position: 'sticky',
+                left: '0',
+                width: $plain.utils.suffixPx(table.state.tableWidth),
+            } as StyleType)),
             isExpand: (key: string) => {
                 return state.expandKeys[key]
             },

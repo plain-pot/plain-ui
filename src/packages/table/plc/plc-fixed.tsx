@@ -1,9 +1,7 @@
 import {PlcType} from "@/packages/table/plc/plc";
 import {isPlcGroup, PlcGroupType} from "@/packages/table/plc/plc-group";
 import {StyleType} from "@/types/utils";
-import {PlcFixedType} from "@/packages/table/plc/plc-utils";
-import {computed} from "@vue/composition-api";
-import {$plain} from "@/packages/base";
+import {PlcFixedType, stickyFlag} from "@/packages/table/plc/plc-utils";
 
 /**
  * 获取单元格td的固定样式
@@ -12,7 +10,7 @@ import {$plain} from "@/packages/base";
  */
 export function getCellStyles(plc: PlcType | PlcGroupType, adjust: (styles: StyleType) => StyleType) {
 
-    if (plc.props.fixed === PlcFixedType.center || $plain.utils.ie) {
+    if (plc.props.fixed === PlcFixedType.center || !stickyFlag) {
         return adjust({})
     }
 
