@@ -15,6 +15,7 @@ import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {$plain} from "@/packages/base";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {StyleShape, StyleSize, useStyle} from "@/use/useStyle";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 const PLAIN_TABLE_PROVIDER = '@@PLAIN_TABLE_PROVIDER'
 export const injectTable = () => inject(PLAIN_TABLE_PROVIDER) as PlainTable
@@ -203,6 +204,13 @@ function tableSetup(props: TablePropsType) {
     }
     /*---------------------------------------handler-------------------------------------------*/
     const handler = {
+        headMousewheel: (e: MouseEvent, scroll: PlainScroll) => {
+            e.preventDefault();
+
+            const {deltaX, deltaY} = e as any
+            // @ts-ignore
+            emit.scrollLeft({target: {scrollLeft: scroll.state.wrapperScrollLeft + (deltaX || deltaY)}}, null)
+        },
         clickRow: (e: MouseEvent, node: TableNode) => {
             utils.setCurrent(node)
             emit.clickRow(node, e)

@@ -83,7 +83,7 @@ export default defineComponent({
         const {handler} = table.utils.bindScroll(
             TableHoverPart.head,
             (scrollLeft, part) => {
-                part === TableHoverPart.body && refs.scroll.methods.scrollLeft(scrollLeft)
+                part !== TableHoverPart.head && refs.scroll.methods.scrollLeft(scrollLeft)
             }
         )
 
@@ -97,6 +97,7 @@ export default defineComponent({
             return (
                 <div class="plt-head"
                      onMouseenter={handler.mouseenter}
+                     onMousewheel={e => table.handler.headMousewheel(e, refs.scroll)}
                      style={styles.value}>
                     {/*这里不能加 scrollY={false}，会导致sticky固定失效*/}
                     <pl-scroll

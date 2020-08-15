@@ -21,7 +21,7 @@ export default defineComponent({
         const {handler} = table.utils.bindScroll(
             TableHoverPart.body,
             (scrollLeft, part) => {
-                part === TableHoverPart.head && refs.virtualTable.$refs.scroll.methods.scrollLeft(scrollLeft)
+                part !== TableHoverPart.body && refs.virtualTable.$refs.scroll.methods.scrollLeft(scrollLeft)
             }
         )
 
