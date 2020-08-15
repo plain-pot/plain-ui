@@ -95,7 +95,7 @@ export function formatPlc(
 
     /*---------------------------------------计算固定列的定位值，顺便计算左右固定列的总宽度-------------------------------------------*/
 
-    const {width} = writeFixedPosition(flatPlcList)
+    writeFixedPosition(flatPlcList)
 
     /*---------------------------------------return-------------------------------------------*/
 
@@ -105,7 +105,6 @@ export function formatPlc(
         flatPlcList,                                                                                        // 展开之后最底层的列数组
         flatPlcLength: flatPlcList.length,                                                                  // 展开之后最底层的列数组长度
         plcListHasRenderAfterRow: flatPlcList.filter(item => !!item.props.renderAfterRow),        // 列需要在行之后多渲染的数据
-        width,                                                                                              // 左右固定列的宽度
         headCols,
     }
 }
