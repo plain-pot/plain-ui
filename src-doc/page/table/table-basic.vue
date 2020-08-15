@@ -51,7 +51,7 @@
                         <plc-input title="输入框列" field="id" required/>
                         <plc-input title="输入框列" field="id"/>
 
-                        <plc-toggle title="开关" field="toggleFlag">
+                        <plc-toggle title="开关" field="toggleFlag" :align="plc.align">
                             <template slot-scope="{}" slot="head">
                                 [head]
                             </template>

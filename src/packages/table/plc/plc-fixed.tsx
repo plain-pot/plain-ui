@@ -9,10 +9,14 @@ import {computed} from "@vue/composition-api";
  * @author  韦胜健
  * @date    2020/8/14 17:06
  */
-export function getCellStyles(plc: PlcType | PlcGroupType) {
+export function getCellStyles(plc: PlcType | PlcGroupType, adjust: (styles: StyleType) => StyleType) {
 
     if (plc.props.fixed === PlcFixedType.center) {
-        return {value: null}
+        return {
+            get value() {
+                return adjust({})
+            }
+        }
     }
 
     return computed(() => {
@@ -37,7 +41,7 @@ export function getCellStyles(plc: PlcType | PlcGroupType) {
                 ret[plc.props.fixed] = plc.fixedPosition[plc.props.fixed] + 'px'
             }
         }
-        return ret
+        return adjust(ret)
     })
 }
 

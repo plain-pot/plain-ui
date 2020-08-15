@@ -27,16 +27,14 @@ export default defineComponent({
             }, '')
         })
 
-        const styles = computed(() => {
-            const height = `${table.propsState.headRowHeight as number * props.plc.rowspan!}px`
-            const width = props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`
-            return {
-                height,
-                width,
-            }
-        })
+        const styles = computed(() => ({
+            width: props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`,
+        }))
 
-        const cellStyles = getCellStyles(props.plc)
+        const cellStyles = getCellStyles(props.plc, styles => {
+            styles.height = `${table.propsState.headRowHeight as number * props.plc.rowspan!}px`
+            return styles
+        })
 
         const classes = computed(() => [
             'plt-cell',

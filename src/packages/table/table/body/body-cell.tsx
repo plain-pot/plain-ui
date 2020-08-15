@@ -42,16 +42,14 @@ export default defineComponent({
             ]
         })
 
-        const styles = computed(() => {
-            const height = `${table.propsState.bodyRowHeight}px`
-            const width = `${(props.plc).props.width}px`
-            return {
-                height,
-                width,
-            }
-        })
+        const styles = computed(() => ({
+            width: `${(props.plc).props.width}px`,
+        }))
 
-        const cellStyles = getCellStyles(props.plc)
+        const cellStyles = getCellStyles(props.plc, styles => {
+            styles.height = `${table.propsState.bodyRowHeight}px`
+            return styles
+        })
 
         const text = computed(() => {
             return !!props.plc.props.field ? props.rowData.data[props.plc.props.field] : null
