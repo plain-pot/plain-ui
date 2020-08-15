@@ -85,9 +85,9 @@ export default definePlc({
                 state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value.map((item: TableNode) => item.data)
             },
             onClickRow: (node: TableNode, e: MouseEvent) => {
-                if (!$plain.utils.hasClass(e.target as HTMLElement, 'plt-body-cell')) {
+/*                if (!$plain.utils.hasClass(e.target as HTMLElement, 'plt-body-cell')) {
                     return
-                }
+                }*/
                 handler.onClickCheckbox(node.data)
             }
         }
