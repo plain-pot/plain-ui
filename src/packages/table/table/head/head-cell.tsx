@@ -27,30 +27,30 @@ export default defineComponent({
             }, '')
         })
 
-        const styles = computed(() => ({
-            width: props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`,
-        }))
+        const cellClasses = computed(() => [
+            'plt-cell',
+            'plt-head-cell',
+            ...getCellClass(props.plc)
+        ])
 
         const cellStyles = getCellStyles(props.plc, styles => {
             styles.height = `${table.propsState.headRowHeight as number * props.plc.rowspan!}px`
             return styles
         })
 
-        const classes = computed(() => [
-            'plt-cell',
-            'plt-head-cell',
-            ...getCellClass(props.plc)
-        ])
+        const innerCellStyles = computed(() => ({
+            width: props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`,
+        }))
 
         return () => {
             return (
                 <td rowspan={props.plc.rowspan}
                     colspan={props.plc.colspan}
                     key={key.value}
-                    class={classes.value}
+                    class={cellClasses.value}
                     style={cellStyles.value}
                 >
-                    <div style={styles.value}>
+                    <div style={innerCellStyles.value}>
                         {PlcRender.head(props.plc)}
                     </div>
                 </td>

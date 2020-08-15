@@ -72,7 +72,7 @@ export default defineComponent({
             ctx,
         }))
 
-        const classes = computed(() => {
+        const cellClass = computed(() => {
             return [
                 'plt-cell',
                 'plt-body-cell',
@@ -84,29 +84,23 @@ export default defineComponent({
             ]
         })
 
-        const styles = computed(() => ({
-            width: `${(props.plc).props.width}px`,
-        }))
-
         const cellStyles = getCellStyles(props.plc, styles => {
             styles.height = `${table.propsState.bodyRowHeight}px`
             return styles
         })
 
-        const text = computed(() => {
-            return !!props.plc.props.field ? props.rowData.data[props.plc.props.field] : null
-        })
+        const innerCellStyles = computed(() => ({
+            width: `${(props.plc).props.width}px`,
+        }))
 
         return () => {
             return (
                 <td colspan={1}
                     rowspan={1}
-                    title={text.value}
-                    class={classes.value}
+                    class={cellClass.value}
                     style={cellStyles.value}
                 >
-                    <div style={styles.value}
-                         class={classes.value}>
+                    <div style={innerCellStyles.value}>
                         {renderData.value.body}
                     </div>
                 </td>

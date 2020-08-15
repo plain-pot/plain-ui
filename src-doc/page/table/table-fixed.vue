@@ -1,46 +1,48 @@
 <template>
     <div class="table-fixed">
-        <pl-form column="1">
-            <pl-form-item label="列宽度响应测试">
-                <pl-number v-model="plc.width" :step="100"/>
-            </pl-form-item>
-            <pl-form-item label="表头行高">
-                <pl-number v-model="props.headRowHeight" :step="5"/>
-            </pl-form-item>
-            <pl-form-item label="表体行高">
-                <pl-number v-model="props.bodyRowHeight" :step="5"/>
-            </pl-form-item>
-            <pl-form-item label="列销毁测试">
-                <pl-toggle v-model="plc.init"/>
-            </pl-form-item>
-            <pl-form-item label="文本对齐方式">
-                <pl-radio-group v-model="plc.align">
-                    <pl-radio label="left" val="left"/>
-                    <pl-radio label="center" val="center"/>
-                    <pl-radio label="right" val="right"/>
-                </pl-radio-group>
-            </pl-form-item>
-            <pl-form-item label="带边框">
-                <pl-checkbox v-model="props.border"/>
-            </pl-form-item>
-            <pl-form-item label="合计行">
-                <pl-toggle v-model="other.hasSummaryData"/>
-            </pl-form-item>
-            <pl-form-item label="表头分组">
-                <pl-toggle v-model="other.groupHead"/>
-            </pl-form-item>
-            <pl-form-item label="启用虚拟滚动">
-                <pl-toggle v-model="props.virtual"/>
-            </pl-form-item>
-            <template v-if="!other.groupHead">
-                <pl-form-item label="order">
-                    <pl-number v-model="plc.order"/>
+        <demo-row title="属性控制">
+            <pl-form column="1">
+                <pl-form-item label="列宽度响应测试">
+                    <pl-number v-model="plc.width" :step="100"/>
                 </pl-form-item>
-                <pl-form-item label="hide">
-                    <pl-toggle v-model="plc.hide"/>
+                <pl-form-item label="表头行高">
+                    <pl-number v-model="props.headRowHeight" :step="5"/>
                 </pl-form-item>
-            </template>
-        </pl-form>
+                <pl-form-item label="表体行高">
+                    <pl-number v-model="props.bodyRowHeight" :step="5"/>
+                </pl-form-item>
+                <pl-form-item label="列销毁测试">
+                    <pl-toggle v-model="plc.init"/>
+                </pl-form-item>
+                <pl-form-item label="文本对齐方式">
+                    <pl-radio-group v-model="plc.align">
+                        <pl-radio label="left" val="left"/>
+                        <pl-radio label="center" val="center"/>
+                        <pl-radio label="right" val="right"/>
+                    </pl-radio-group>
+                </pl-form-item>
+                <pl-form-item label="带边框">
+                    <pl-checkbox v-model="props.border"/>
+                </pl-form-item>
+                <pl-form-item label="合计行">
+                    <pl-toggle v-model="other.hasSummaryData"/>
+                </pl-form-item>
+                <pl-form-item label="表头分组">
+                    <pl-toggle v-model="other.groupHead"/>
+                </pl-form-item>
+                <pl-form-item label="启用虚拟滚动">
+                    <pl-toggle v-model="props.virtual"/>
+                </pl-form-item>
+                <template v-if="!other.groupHead">
+                    <pl-form-item label="order">
+                        <pl-number v-model="plc.order"/>
+                    </pl-form-item>
+                    <pl-form-item label="hide">
+                        <pl-toggle v-model="plc.hide"/>
+                    </pl-form-item>
+                </template>
+            </pl-form>
+        </demo-row>
         <demo-row title="固定列">
             <pl-table :data="tableData"
                       :summaryData="other.hasSummaryData?summaryData:null"
