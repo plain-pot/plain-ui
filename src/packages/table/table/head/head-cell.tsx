@@ -33,10 +33,10 @@ export default defineComponent({
             ...getCellClass(props.plc)
         ])
 
-        const cellStyles = getCellStyles(props.plc, styles => {
+        const cellStyles = computed(() => getCellStyles(props.plc, styles => {
             styles.height = `${table.propsState.headRowHeight as number * props.plc.rowspan!}px`
             return styles
-        })
+        }))
 
         const innerCellStyles = computed(() => ({
             width: props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`,

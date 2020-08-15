@@ -84,10 +84,10 @@ export default defineComponent({
             ]
         })
 
-        const cellStyles = getCellStyles(props.plc, styles => {
+        const cellStyles = computed(() => getCellStyles(props.plc, styles => {
             styles.height = `${table.propsState.bodyRowHeight}px`
             return styles
-        })
+        }))
 
         const innerCellStyles = computed(() => ({
             width: `${(props.plc).props.width}px`,

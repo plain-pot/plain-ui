@@ -13,37 +13,31 @@ import {$plain} from "@/packages/base";
 export function getCellStyles(plc: PlcType | PlcGroupType, adjust: (styles: StyleType) => StyleType) {
 
     if (plc.props.fixed === PlcFixedType.center || $plain.utils.ie) {
-        return {
-            get value() {
-                return adjust({})
-            }
-        }
+        return adjust({})
     }
 
-    return computed(() => {
-        const ret = {} as StyleType
-        ret.position = 'sticky'
-        ret.zIndex = '3'
+    const ret = {} as StyleType
+    ret.position = 'sticky'
+    ret.zIndex = '3'
 
-        if (!isPlcGroup(plc)) {
-            ret[plc.props.fixed] = plc.fixedPosition[plc.props.fixed] + 'px'
-        } else {
-            let count = 10
-            const fixedLeft = plc.props.fixed === PlcFixedType.left
-            while (!!plc && isPlcGroup(plc) && count > 0) {
-                plc = plc.items.value[fixedLeft ? 0 : plc.items.value.length - 1]
-                count--
-            }
-            if (count === 0 && !!plc) {
-                throw new Error('解析异常')
-            }
-            if (!!plc) {
-                // @ts-ignore
-                ret[plc.props.fixed] = plc.fixedPosition[plc.props.fixed] + 'px'
-            }
+    if (!isPlcGroup(plc)) {
+        ret[plc.props.fixed] = plc.fixedPosition[plc.props.fixed] + 'px'
+    } else {
+        let count = 10
+        const fixedLeft = plc.props.fixed === PlcFixedType.left
+        while (!!plc && isPlcGroup(plc) && count > 0) {
+            plc = plc.items.value[fixedLeft ? 0 : plc.items.value.length - 1]
+            count--
         }
-        return adjust(ret)
-    })
+        if (count === 0 && !!plc) {
+            throw new Error('解析异常')
+        }
+        if (!!plc) {
+            // @ts-ignore
+            ret[plc.props.fixed] = plc.fixedPosition[plc.props.fixed] + 'px'
+        }
+    }
+    return adjust(ret)
 }
 
 /**
