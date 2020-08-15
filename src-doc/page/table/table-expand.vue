@@ -6,10 +6,19 @@
             <plc-check ref="check" toggleOnClickRow/>
             <plc-expand toggleOnClickRow>
                 <template slot-scope="{row}" slot="expand">
-                    <pl-form disabled>
+                    <pl-form column="1" disabled>
                         <pl-form-item label="普通文本">{{row.name}}</pl-form-item>
                         <pl-form-item label="输入框列">
                             <pl-input v-model="row.name"/>
+                        </pl-form-item>
+                        <pl-form-item label="数字框">
+                            <pl-number v-model="row.size"/>
+                        </pl-form-item>
+                        <pl-form-item label="日期">
+                            <pl-date v-model="row.date"/>
+                        </pl-form-item>
+                        <pl-form-item label="颜色">
+                            <pl-color-picker v-model="row.color"/>
                         </pl-form-item>
                     </pl-form>
                 </template>

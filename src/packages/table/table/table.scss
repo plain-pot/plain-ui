@@ -282,6 +282,39 @@
     }
   }
 
+  /*---------------------------------------expand-------------------------------------------*/
+
+  .plt-body {
+    tr.plt-expand-row {
+
+      & td {
+        z-index: 5;
+
+        & > div {
+          padding: 16px;
+          white-space: normal;
+        }
+      }
+
+      & td, &:hover td {
+        background-color: white;
+      }
+    }
+
+    .plc-expand-icon {
+      .pl-icon {
+        @include transition;
+        transition-property: transform;
+      }
+
+      &.plc-expand-icon-active {
+        .pl-icon {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+
   /*---------------------------------------虚拟表格-------------------------------------------*/
 
   .pl-virtual-table {

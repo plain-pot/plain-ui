@@ -1,8 +1,9 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
-import {reactive, set} from "@vue/composition-api";
+import {computed, reactive, set} from "@vue/composition-api";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {injectTable} from "@/packages/table/table/table";
 
 interface ExpandDataType {
     plc: PlcType,
@@ -39,7 +40,14 @@ export default definePlc({
             default: function (tableRenderData: TableRenderData) {
                 const plcInstance = tableRenderData.plc.ctx as any
                 return (
-                    <pl-button icon="el-icon-arrow-down" mode="text" onClick={e => plcInstance.expandPlc.toggle(tableRenderData, e)}/>
+                    <pl-button
+                        class={[
+                            'plc-expand-icon',
+                            {'plc-expand-icon-active': plcInstance.expandPlc.isExpand(tableRenderData.rowData.key)},
+                        ]}
+                        icon="el-icon-arrow-down"
+                        mode="text"
+                        onClick={e => plcInstance.expandPlc.toggle(tableRenderData, e)}/>
                 )
             }
         },
@@ -59,10 +67,9 @@ export default definePlc({
                 }
 
                 return (
-                    <tr>
-                        <td>
+                    <tr class='plt-row plt-expand-row'>
+                        <td class='plt-cell' rowspan={1} colspan={ctx.expandPlc.colspan.value}>
                             <div>
-                                自定义内容
                                 {ctx.$scopedSlots.expand({
                                     plc,
                                     rowData: {
@@ -80,12 +87,16 @@ export default definePlc({
     },
     setup() {
 
+        const table = injectTable()
+
         const state = reactive({
             expandKeys: {} as { [key: string]: boolean },
         })
+        const colspan = computed(() => table.plcData.value!.flatPlcLength)
 
         const expandPlc = {
             state,
+            colspan,
             isExpand: (key: string) => {
                 return state.expandKeys[key]
             },
