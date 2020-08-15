@@ -29,7 +29,7 @@ export default defineComponent({
 
         const Tag = props.tag
 
-        let ie = $plain.utils.ie();
+        let ie = $plain.utils.ie;
         ie === 'edge' && (ie = false);
         // const ie = true
 

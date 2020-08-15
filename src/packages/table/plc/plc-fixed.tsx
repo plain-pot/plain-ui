@@ -3,6 +3,7 @@ import {isPlcGroup, PlcGroupType} from "@/packages/table/plc/plc-group";
 import {StyleType} from "@/types/utils";
 import {PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {computed} from "@vue/composition-api";
+import {$plain} from "@/packages/base";
 
 /**
  * 获取单元格td的固定样式
@@ -11,7 +12,7 @@ import {computed} from "@vue/composition-api";
  */
 export function getCellStyles(plc: PlcType | PlcGroupType, adjust: (styles: StyleType) => StyleType) {
 
-    if (plc.props.fixed === PlcFixedType.center) {
+    if (plc.props.fixed === PlcFixedType.center || $plain.utils.ie) {
         return {
             get value() {
                 return adjust({})
