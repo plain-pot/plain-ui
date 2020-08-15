@@ -5,7 +5,6 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {TABLE_PROVIDER, TableHoverPart, TableProps, TablePropsType} from "@/packages/table/table-utils";
 import {printPlcData} from "@/packages/table/plc/debug";
-import {handlePlcConfigAndState} from "@/packages/table/plc/handlePlcConfigAndState";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
@@ -90,6 +89,7 @@ function tableSetup(props: TablePropsType) {
         // plc: props = props + propsState
         let items = refs.collector.items.value as (PlcType | PlcGroupType)[]
         // table: config plc, and  combine: props + config + state
+        // @ts-ignore
         const ret = handlePlcConfigAndState(items, props.config, state.tableWidth)
 
 
