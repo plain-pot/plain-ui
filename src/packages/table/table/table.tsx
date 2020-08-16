@@ -33,7 +33,7 @@ function iterateTableNode(
     if (!tableNodes) return
     tableNodes.forEach(node => {
         fn(node)
-        if (!!node.children && (!iterateChildren || iterateChildren(node))) {
+        if (!!node.children && (!!iterateChildren && iterateChildren(node))) {
             iterateTableNode(node.children, fn, iterateChildren)
         }
     })
@@ -140,6 +140,8 @@ function tableSetup(props: TablePropsType) {
      * @date    2020/8/13 22:35
      */
     const tableSummaryData = computed(() => state.summaryRootNode.children as TableNode[])
+
+
     const formatFlatTableData = computed(() => {
         const formatData = tableData.value
         let index = 0
@@ -154,10 +156,9 @@ function tableSetup(props: TablePropsType) {
                 formatDataFlat.push(node)
             },
             (node) => {
-                return !props.childrenField || node.isExpand
+                return !!props.childrenField && node.isExpand
             },
         )
-
         return formatDataFlat
     })
     /**
