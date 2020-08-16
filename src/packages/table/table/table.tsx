@@ -144,15 +144,18 @@ function tableSetup(props: TablePropsType) {
     const tableSummaryData = computed(() => state.summaryRootNode.children as TableNode[])
 
 
-    const formatFlatTableData = computed(() => {
-        const formatData = tableData.value
-        let index = 0
-        const formatDataFlat: TableNode[] = []
+    const tableDataFlatter = computed(() => {
+        const formatData = tableData.value          // 格式化之后的数据
+        let index = 0                               // 索引
+        const formatDataFlat: TableNode[] = []      // 格式化之后的展开的数据
+        let maxShowLevel = 1                        // 树格式数据中，显示的最大层级数
 
         iterateTableNode(
             formatData,
             (node) => {
-
+                if (node.level > maxShowLevel) {
+                    maxShowLevel = node.level
+                }
                 // 这个index应该是一个非响应式属性，避免出现计算属性死循环的情况
                 node.index = index++
                 formatDataFlat.push(node)
@@ -161,8 +164,15 @@ function tableSetup(props: TablePropsType) {
                 return !!props.childrenField && node.isExpand
             },
         )
-        return formatDataFlat
+        return {
+            formatDataFlat,
+            maxShowLevel,
+        }
     })
+
+    const formatFlatTableData = computed(() => tableDataFlatter.value.formatDataFlat)
+    const maxShowLevel = computed(() => tableDataFlatter.value.maxShowLevel)
+
     /**
      * 是否可以开启表格的虚拟滚动功能
      * @author  韦胜健
@@ -243,6 +253,7 @@ function tableSetup(props: TablePropsType) {
         tableData,
         tableSummaryData,
         formatFlatTableData,
+        maxShowLevel,
         isDisabledVirtualScroll,
         classes,
 

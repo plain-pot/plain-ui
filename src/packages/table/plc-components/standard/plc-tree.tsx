@@ -1,6 +1,8 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {injectTable} from "@/packages/table/table/table";
+import {getCurrentInstance} from "@vue/composition-api";
 
 export default definePlc({
     name: 'plc-tree',
@@ -10,7 +12,6 @@ export default definePlc({
         autoFixedLeft: {default: true},
         order: {default: -9996},
         width: {default: 60},
-        align: {default: 'center'},
         summary: {
             type: Function,
             default: function () {return null}
@@ -35,9 +36,13 @@ export default definePlc({
     },
     setup() {
 
+        const table = injectTable()
+        const ctx = getCurrentInstance() as any
+
         const utils = {
             toggle: (rowData: TableNode) => {
                 rowData.expand(!rowData.isExpand)
+                ctx.state.width = table.maxShowLevel.value * 60
             }
         }
 
