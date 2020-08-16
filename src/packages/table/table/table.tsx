@@ -94,7 +94,9 @@ function tableSetup(props: TablePropsType) {
         const result = formatPlc({
             items,
             config: props.config,
-            tableWidth: state.tableWidth
+            tableWidth: state.tableWidth,
+            headRowHeight: propsState.headRowHeight,
+            bodyRowHeight: propsState.bodyRowHeight,
         })
         return result
     });

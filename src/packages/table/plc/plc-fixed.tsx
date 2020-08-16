@@ -4,6 +4,7 @@ import {StyleType} from "@/types/utils";
 import {PlcFixedType, stickyFlag} from "@/packages/table/plc/plc-utils";
 
 /**
+ * 根据plc.props.fixed
  * 获取单元格td的固定样式
  * @author  韦胜健
  * @date    2020/8/14 17:06

@@ -1,10 +1,9 @@
 import {computed, defineComponent, getCurrentInstance, provide} from "@vue/composition-api";
-import {getCellClass, stickyFlag} from "@/packages/table/plc/plc-utils";
+import {getCellClass} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {PlcRender} from "@/packages/table/table-bak/render";
 import {injectTable} from "@/packages/table/table/table";
-import {getCellStyles} from "@/packages/table/plc/plc-fixed";
 import {FormTrigger, validateField} from "@/packages/form/validate";
 import {EditProvider} from "@/use/useEdit";
 import {useStyle} from "@/use/useStyle";
@@ -72,30 +71,15 @@ export default defineComponent({
             ctx,
         }))
 
-        const cellClass = computed(() => {
-            return [
-                'plt-cell',
-                'plt-body-cell',
-                ...getCellClass(props.plc, props.rowData),
-                {
-                    'plt-cell-add-edit-padding': props.plc.props.addEditPadding,
-                    'plt-cell-editing': renderData.value.editable,
-                },
-                {
-                    'plt-cell-last-fixed-left': stickyFlag && props.plc.isLastFixedLeft,
-                    'plt-cell-first-fixed-right': stickyFlag && props.plc.isFirstFixedRight,
-                }
-            ]
-        })
-
-        const cellStyles = computed(() => getCellStyles(props.plc, styles => {
-            styles.height = `${table.propsState.bodyRowHeight}px`
-            return styles
-        }))
-
-        const innerCellStyles = computed(() => ({
-            width: `${(props.plc).props.width}px`,
-        }))
+        const cellStyles = computed(() => props.plc.styles.body.cell)
+        const innerCellStyles = computed(() => props.plc.styles.body.innerCell)
+        const cellClass = computed(() => [
+            ...props.plc.classes.body.cell,
+            ...getCellClass(props.plc, props.rowData),
+            {
+                'plt-cell-editing': renderData.value.editable,
+            },
+        ])
 
         return () => {
             return (

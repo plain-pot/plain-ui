@@ -5,6 +5,7 @@ import {configAndStatePlc} from "@/packages/table/plc/format/configAndStatePlc";
 import {sortPlc} from "@/packages/table/plc/format/sortPlc";
 import {getHeadPlc} from "@/packages/table/plc/format/getHeadPlc";
 import {PlcComponentType} from "@/packages/table/plc/plc-utils";
+import {writeStylesAndClasses} from "@/packages/table/plc/format/classAndStyle";
 
 /**
  * 复制列信息数组
@@ -29,10 +30,14 @@ export function formatPlc(
         items,
         config,
         tableWidth,
+        headRowHeight,
+        bodyRowHeight,
     }: {
         items: (PlcType | PlcGroupType)[],                              // plc列原始数据
         config: Function | undefined,                                   // 配置plc的函数
         tableWidth: number                                              // 表格宽度
+        headRowHeight: number,                                          // 表头行高
+        bodyRowHeight: number,                                          // 表体行高
     }) {
 
     /*---------------------------------------复制一份plc，并且处理config以及state-------------------------------------------*/
@@ -96,6 +101,14 @@ export function formatPlc(
     /*---------------------------------------计算固定列的定位值，顺便计算左右固定列的总宽度-------------------------------------------*/
 
     writeFixedPosition(flatPlcList)
+
+    /*---------------------------------------写入公共的style以及class-------------------------------------------*/
+
+    writeStylesAndClasses({
+        headCols,
+        headRowHeight,
+        bodyRowHeight,
+    })
 
     /*---------------------------------------return-------------------------------------------*/
 

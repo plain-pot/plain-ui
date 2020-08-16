@@ -1,9 +1,7 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {PlcType} from "@/packages/table/plc/plc";
-import {getCellClass, PlcComponentType, stickyFlag} from "@/packages/table/plc/plc-utils";
 import {injectTable} from "@/packages/table/table/table";
 import {PlcRender} from "@/packages/table/table-bak/render";
-import {getCellStyles} from "@/packages/table/plc/plc-fixed";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -27,24 +25,10 @@ export default defineComponent({
             }, '')
         })
 
-        const cellClasses = computed(() => [
-            'plt-cell',
-            'plt-head-cell',
-            ...getCellClass(props.plc),
-            {
-                'plt-cell-last-fixed-left': stickyFlag && props.plc.isLastFixedLeft,
-                'plt-cell-first-fixed-right': stickyFlag && props.plc.isFirstFixedRight,
-            }
-        ])
 
-        const cellStyles = computed(() => getCellStyles(props.plc, styles => {
-            styles.height = `${table.propsState.headRowHeight as number * props.plc.rowspan!}px`
-            return styles
-        }))
-
-        const innerCellStyles = computed(() => ({
-            width: props.plc.type === PlcComponentType.GROUP ? null : `${props.plc.props.width}px`,
-        }))
+        const cellStyles = computed(() => props.plc.styles.head.cell)
+        const innerCellStyles = computed(() => props.plc.styles.head.innerCell)
+        const cellClasses = computed(() => props.plc.classes.head.cell)
 
         return () => {
             return (

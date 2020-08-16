@@ -2,6 +2,7 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
+import {PlcGroupType} from "@/packages/table/plc/plc-group";
 
 /**
  * plc组属性
@@ -103,37 +104,64 @@ export const PlcComponentPublicData = {
         left: 0,
         right: 0,
     },
-    styles: {
-        cellStyle: {},
-        innerCellStyle: {},
-    },
-    classes: {
-        cellClasses: {},
-        innerCellClass: {}
-    },
     isLastFixedLeft: false,
     isFirstFixedRight: false,
+    styles: {
+        head: {
+            cell: {},
+            innerCell: {},
+        },
+        body: {
+            cell: {},
+            innerCell: {},
+        },
+    },
+    classes: {
+        head: {
+            cell: {},
+            innerCell: {},
+        },
+        body: {
+            cell: {},
+            innerCell: {},
+        },
+    },
 } as {
-    level?: number,
-    rowspan?: number,
-    colspan?: number,
-    fixedPosition: {
+    level?: number,                     // 分组表头层级
+    rowspan?: number,                   // 表头td的rowspan
+    colspan?: number,                   // 表头td的colspan
+    fixedPosition: {                    // 固定列的sticky位置
         left: number,
         right: number,
     },
+    isLastFixedLeft: boolean,           // 是否为最后一个左固定列
+    isFirstFixedRight: boolean,         // 是否为第一个右固定列
+
+    // 列style公共内联样式
     styles: {
-        cellStyle: StyleType,
-        innerCellStyle: StyleType,
+        head: {
+            cell: StyleType,
+            innerCell: StyleType,
+        },
+        body: {
+            cell: StyleType,
+            innerCell: StyleType,
+        },
     },
+    // 列公共class样式
     classes: {
-        cellClasses: any,
-        innerCellClass: any
+        head: {
+            cell: any,
+            innerCell: any,
+        },
+        body: {
+            cell: any,
+            innerCell: any,
+        },
     },
-    isLastFixedLeft: boolean,
-    isFirstFixedRight: boolean,
 }
 
-export function getCellClass(plc: PlcType, rowData?: TableNode) {
+export function getCellClass(plc: PlcType | PlcGroupType, rowData?: TableNode) {
     return [
         `plt-cell-align-${plc.props.align || PlcAlign.left}`,
         {

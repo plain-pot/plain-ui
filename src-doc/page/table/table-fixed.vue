@@ -14,13 +14,13 @@
                 <pl-form-item label="列销毁测试">
                     <pl-toggle v-model="plc.init"/>
                 </pl-form-item>
-                <pl-form-item label="文本对齐方式">
-                    <pl-radio-group v-model="plc.align">
-                        <pl-radio label="left" val="left"/>
-                        <pl-radio label="center" val="center"/>
-                        <pl-radio label="right" val="right"/>
-                    </pl-radio-group>
-                </pl-form-item>
+                <!-- <pl-form-item label="文本对齐方式">
+                     <pl-radio-group v-model="plc.align">
+                         <pl-radio label="left" val="left"/>
+                         <pl-radio label="center" val="center"/>
+                         <pl-radio label="right" val="right"/>
+                     </pl-radio-group>
+                 </pl-form-item>-->
                 <pl-form-item label="带边框">
                     <pl-checkbox v-model="props.border"/>
                 </pl-form-item>
