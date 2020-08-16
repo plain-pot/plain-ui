@@ -92,7 +92,7 @@
                         &:nth-child(2) {
                             font-size: 12px;
                             margin-left: 0.5em;
-                            color: $itl;
+                            color: #ccc;
                         }
                     }
 
