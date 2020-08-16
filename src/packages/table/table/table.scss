@@ -181,6 +181,7 @@
         height: 1px;
         transform: scaleY(0.5);
         background-color: $tableHeadBorderColor;
+        z-index: 3;
       }
 
       /*head右边线，同背景色，目的是盖住border最后td的右边线，使得看起来没有右边线*/
