@@ -7,7 +7,7 @@
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
   $tableRowHoverBackground: #f5f7fa;
-  $tableRowCurrentBackground: rgba($colorPrimary, 0.075);
+  $tableRowCurrentBackground: mix($colorPrimary, white, 7.5%);
 
   .pl-table {
     width: 100%;
@@ -238,6 +238,12 @@
       .plt-row-summary {
         td {
           background-color: $tableHeadBackground;
+        }
+      }
+
+      .plt-row-current {
+        td {
+          background-color: $tableRowCurrentBackground;
         }
       }
     }

@@ -22,7 +22,8 @@ export default defineComponent({
                 class: [
                     'plt-row',
                     {
-                        'plt-row-summary': props.isSummary
+                        'plt-row-summary': props.isSummary,
+                        'plt-row-current': !!table.state.currentNode && table.state.currentNode.key === props.rowData.key,
                     }
                 ],
                 on: {
