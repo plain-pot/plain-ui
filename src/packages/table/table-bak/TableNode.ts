@@ -19,7 +19,10 @@ export class TableNode {
         public parent: TableNode | null,
         public mark: TableMark,
         public isSummaryData: boolean,
-    ) {}
+    ) {
+        // 触发 this.mark.getNode 获取子节点，使得所有的node都记录在mark中；
+        this.children;
+    }
 
     index!: number
 

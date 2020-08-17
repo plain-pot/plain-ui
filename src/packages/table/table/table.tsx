@@ -150,6 +150,7 @@ function tableSetup(props: TablePropsType) {
      * @date    2020/8/13 22:33
      */
     const tableData = computed(() => state.rootNode.children as TableNode[])
+
     /**
      * 表格合计行数据，TableNode格式的数据
      * @author  韦胜健
