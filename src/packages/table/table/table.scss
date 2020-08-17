@@ -367,4 +367,23 @@
     }
   }
 
+  /*---------------------------------------plc-tree-------------------------------------------*/
+  .plc-tree-node {
+
+    .pl-tree-node-expander {
+      width: 1em;
+      display: inline-block;
+    }
+
+    .pl-icon {
+      @include transition;
+    }
+
+    &.plc-tree-node-expanded {
+      .pl-icon {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
 }

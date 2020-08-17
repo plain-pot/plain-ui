@@ -42,7 +42,7 @@ export class TableNode {
     // 树形表格：当前行是否可选中
     get isCheckable(): boolean {return !this.props.isCheckable || this.props.isCheckable(this)}
     // 树形表格：当前行是否为叶子节点
-    get isLeaf(): boolean {return !!this.props.isLeaf ? this.props.isLeaf(this) : (!this.children && this.children.length === 0)}
+    get isLeaf(): boolean {return !!this.props.isLeaf ? this.props.isLeaf(this) : (!this.children || this.children.length === 0)}
     // 树形表格：当前行是否可见
     get isVisible(): boolean {
         const {filterNodeMethod} = this.props
