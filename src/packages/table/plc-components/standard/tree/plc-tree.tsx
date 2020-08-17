@@ -58,6 +58,7 @@ export default definePlc({
                         {!!ctx.showCheckbox && (
                             <div class="plc-tree-node-check">
                                 <pl-checkbox-indeterminate
+                                    size={'normal'}
                                     checkboxProps={{value: rowData.checkStatus === 'check'}}
                                     status={rowData.checkStatus}
                                     disabled={!rowData.isCheckable}
