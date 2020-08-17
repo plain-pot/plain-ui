@@ -32,8 +32,8 @@ export default definePlc({
                             icon="el-icon-menu"
                         />
                         <pl-dropdown-menu slot="dropdown">
-                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll}/>
-                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll}/>
+                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-arrow-up'}/>
+                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-arrow-right'}/>
                         </pl-dropdown-menu>
                     </pl-dropdown>
                 )
