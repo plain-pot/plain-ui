@@ -23,7 +23,7 @@ export default defineComponent({
                     'plt-row',
                     {
                         'plt-row-summary': props.isSummary,
-                        'plt-row-current': !!table.state.currentNode && table.state.currentNode.key === props.rowData.key,
+                        'plt-row-current': !!table.state.current && table.state.current.key === props.rowData.key,
                     }
                 ],
                 on: {

@@ -8,7 +8,6 @@ export const TableProps = {
     data: {type: Array},                                        // 显示的数据
     virtual: {type: Boolean, default: false},                   // 虚拟滚动
     summaryData: {type: Array},                                 // 表尾合计行数据
-    // currentRowKey: {type: String},                              // 当前行的key
     config: {type: Function},                                   // 配置列信息函数
     debugPlc: {type: Boolean},                                  // 调试plc数据
     rules: {type: Object},                                      // 校验规则

@@ -6,7 +6,7 @@ import {computed, Ref} from "@vue/composition-api";
 export function usePlcTree(
     {
         mark,
-        loading,
+        isLoading,
         getChildren,
         lazy,
         rootTableNode,
@@ -16,7 +16,7 @@ export function usePlcTree(
         tableData,
     }: {
         mark: TableMark,
-        loading: Ref<boolean | null>,
+        isLoading: Ref<boolean | null>,
         getChildren?: Function,
         lazy: boolean | undefined,
         rootTableNode: TableNode,
@@ -79,14 +79,14 @@ export function usePlcTree(
         getChildrenAsync: (node: TableNode): Promise<TableNode[]> => {
             return new Promise((resolve) => {
                 if (node.key.indexOf('root-node') === 0) {
-                    loading.value = true
+                    isLoading.value = true
                 } else {
                     mark.setMark(node.key, TableMarkAttr.loading, true)
                 }
                 getChildren!(node, (...results) => {
 
                     if (node.key.indexOf('root-node') === 0) {
-                        loading.value = false
+                        isLoading.value = false
                     } else {
                         mark.setMark(node.key, TableMarkAttr.loading, false)
                         mark.setMark(node.key, TableMarkAttr.loaded, true)

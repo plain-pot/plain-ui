@@ -14,6 +14,7 @@
             <pl-table :data="data"
                       keyField="id"
                       childrenField="subs"
+                      ref="table1"
             >
                 <plc-index/>
                 <plc-tree ref="tree1"/>
@@ -45,7 +46,7 @@
             },
             expandAndSelect() {
                 this.$refs.tree1.treePlc.methods.expand('2-2-2')
-                // this.$refs.tree1.methods.setCurrent('2-2-2')
+                this.$refs.table1.methods.setCurrent('2-2-2')
             },
         }
     }

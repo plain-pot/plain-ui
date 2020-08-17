@@ -7,7 +7,7 @@ import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {printPlcData} from "@/packages/table/plc/debug";
 import './table.scss'
-import {TableMark} from "@/packages/table/table-bak/TableMark";
+import {TableMark, TableMarkAttr} from "@/packages/table/table-bak/TableMark";
 import {getValidateConfigData} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
@@ -16,6 +16,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {StyleShape, StyleSize, useStyle} from "@/use/useStyle";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {formatPlc} from "@/packages/table/plc/format/formatPlc";
+import {useRefer} from "@/use/useRefer";
 
 const PLAIN_TABLE_PROVIDER = '@@PLAIN_TABLE_PROVIDER'
 export const injectTable = () => inject(PLAIN_TABLE_PROVIDER) as PlainTable
@@ -79,12 +80,12 @@ function tableSetup(props: TablePropsType) {
         mark,                                               // TableMark
         rootNode,                                           // 模拟出来的根数据节点
         summaryRootNode,                                    // 合计行数据模拟出来的数据节点
-        currentNode: null as null | TableNode,              // 当前选中的节点
+        current: null as null | TableNode,              // 当前选中的节点
         hoverPart: null as null | TableHoverPart,           // 当前鼠标所在的区域
         loading: null,                                      // 表格内部自定义的加载行为
     })
 
-    const loading = computed({
+    const isLoading = computed({
         get() {
             return props.loading != null ? props.loading : state.loading
         },
@@ -215,8 +216,6 @@ function tableSetup(props: TablePropsType) {
 
     /*---------------------------------------utils-------------------------------------------*/
     const utils = {
-        setCurrent: (node: TableNode | null) => {state.currentNode = node},
-        isCurrent: (node: TableNode) => {return !!state.currentNode && state.currentNode.key === node.key},
         bindScroll: (part: TableHoverPart, setLeft: (scrollLeft: number, part: TableHoverPart) => void) => {
 
             on.scrollLeft((e: any, part) => setLeft(e.target.scrollLeft, part))
@@ -244,12 +243,26 @@ function tableSetup(props: TablePropsType) {
             emit.scrollLeft({target: {scrollLeft: scroll.state.wrapperScrollLeft + (deltaX || deltaY)}}, null)
         },
         clickRow: (e: MouseEvent, node: TableNode) => {
-            utils.setCurrent(node)
+            methods.setCurrent(node)
             emit.clickRow(node, e)
         },
         dblclickRow: (e: MouseEvent, node) => {
             emit.dblclickRow(node, e)
         },
+    }
+
+    const methods = {
+        setCurrent: (keyOrNode: string | TableNode | null) => {
+            if (typeof keyOrNode === "string") {
+                const node = mark.getMark(keyOrNode, TableMarkAttr.node)
+                state.current = node
+            } else {
+                state.current = keyOrNode
+            }
+        },
+        getCurrent: () => {
+            return state.current
+        }
     }
 
 
@@ -259,7 +272,7 @@ function tableSetup(props: TablePropsType) {
         mark,
         slots,
         state,
-        loading,
+        isLoading,
         propsState,
         plcData,
         bodyPlcList,
@@ -281,7 +294,10 @@ function tableSetup(props: TablePropsType) {
         validateConfigData,
         utils,
         handler,
+        methods,
     }
+
+    useRefer(refer)
 
     /*---------------------------------------provider-------------------------------------------*/
     provide(PLAIN_TABLE_PROVIDER, refer)

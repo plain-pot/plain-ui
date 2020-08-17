@@ -68,7 +68,7 @@ export default definePlc({
             emitCheckKeys,
         } = usePlcTree({
             mark: table.mark,
-            loading: table.loading,
+            isLoading: table.isLoading,
             getChildren: table.props.getChildren,
             lazy: table.props.lazy,
             rootTableNode: table.state.rootNode,
