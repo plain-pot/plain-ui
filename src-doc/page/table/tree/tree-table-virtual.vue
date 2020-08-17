@@ -1,5 +1,6 @@
 <template>
     <div class="tree-table-virtual">
+
         <demo-line>
             <pl-button-group>
                 <pl-button label="全部展开" @click="$refs.tree.treePlc.methods.expandAll()"/>
@@ -7,9 +8,10 @@
                 <pl-button label="获取选中数据" @click="$message($refs.tree.treePlc.methods.getCheckedData().map(item=>item.name).join(','))"/>
             </pl-button-group>
         </demo-line>
-        <pl-table :data="data"
-                  keyField="id"
-                  childrenField="subs">
+        <pl-table :data="tableData"
+                  keyField="code"
+                  childrenField="children"
+                  virtual>
             <plc-index/>
             <plc-tree ref="tree" showCheckbox>
                 <template slot-scope="{row}" slot="content">
@@ -31,22 +33,8 @@
             }
         },
         async mounted() {
-
-            const req = new Request('http://193.112.75.134/server/address/queryPage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: {
-                        page: 1,
-                        pageSize: 4000,
-                    }
-                })
-            });
-            const data = await fetch(req)
-            console.log(await data.json())
-
+            const data = (await import('../../data/address')).default
+            this.tableData = [...data]
         }
     }
 </script>
