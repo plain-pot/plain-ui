@@ -47,8 +47,11 @@ function tableSetup(props: TablePropsType) {
         scrollLeft: (e: Event, part: TableHoverPart) => {},
         updateData: EmitFunc,
 
-        clickRow: (node: TableNode, e: MouseEvent) => {},
-        dblclickRow: (node: TableNode, e: MouseEvent) => {},
+        clickRow: (node: TableNode, e: MouseEvent) => {},                                       // 点击行事件
+        dblclickRow: (node: TableNode, e: MouseEvent) => {},                                    // 双击行事件
+
+        clickCell: (node: TableNode, e: MouseEvent) => {},                                      // 点击单元格事件（如果点击的内容节点不是 plt-inner-cell ，则不会触发该事件）
+        dblclickCell: (node: TableNode, e: MouseEvent) => {},                                   // 双击单元格事件（如果点击的内容节点不是 plt-inner-cell ，则不会触发该事件）
     })
     /*---------------------------------------slots-------------------------------------------*/
     const {slots} = useSlots()
@@ -241,9 +244,17 @@ function tableSetup(props: TablePropsType) {
         clickRow: (e: MouseEvent, node: TableNode) => {
             methods.setCurrent(node)
             emit.clickRow(node, e)
+
+            if ($plain.utils.hasClass(e.target as HTMLElement, ['plt-inner-cell', 'plt-cell'])) {
+                emit.clickCell(node, e)
+            }
         },
         dblclickRow: (e: MouseEvent, node) => {
             emit.dblclickRow(node, e)
+
+            if ($plain.utils.hasClass(e.target as HTMLElement, ['plt-inner-cell', 'plt-cell'])) {
+                emit.dblclickCell(node, e)
+            }
         },
     }
 
