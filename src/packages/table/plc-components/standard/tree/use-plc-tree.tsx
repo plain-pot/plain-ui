@@ -2,6 +2,7 @@ import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {TableMark, TableMarkAttr} from "@/packages/table/table-bak/TableMark";
 import {$plain} from "@/packages/base";
 import {computed, Ref} from "@vue/composition-api";
+import {TreeNode} from "@/packages/tree/utils/TreeNode";
 
 export function usePlcTree(
     {
@@ -14,6 +15,7 @@ export function usePlcTree(
         autoExpandParent,
         emit,
         tableData,
+        checkStrictly,
     }: {
         mark: TableMark,
         isLoading: Ref<boolean | null>,
@@ -26,8 +28,13 @@ export function usePlcTree(
             expand: (node: TableNode) => void,
             collapse: (node: TableNode) => void,
             expandChange: (expandKeys: string[]) => void,
+
+            check: (node: TableNode) => void,
+            uncheck: (node: TableNode) => void,
+            checkChange: (checkKeys: string[]) => void,
         },
         tableData: Ref<TableNode[]>,
+        checkStrictly: boolean | undefined,
     }) {
 
     const emitExpandKeys = computed(() => mark.getActiveKeys(TableMarkAttr.expand))
@@ -110,6 +117,9 @@ export function usePlcTree(
     }
 
     const methods = {
+
+        /*---------------------------------------expand-------------------------------------------*/
+
         /**
          * 展开节点
          * @author  韦胜健
@@ -197,12 +207,131 @@ export function usePlcTree(
             mark.expandMap = {}
         },
 
+        /*---------------------------------------check-------------------------------------------*/
+
+        /**
+         * 根据keys选中节点
+         * @author  韦胜健
+         * @date    2020/8/17 15:20
+         */
+        async check(keys: string | string[]) {
+            await utils.handleKeys(keys, async key => {
+                const node = utils.findNodeByKey(key)
+                if (!node) return
+                if (!node.isCheck) {
+                    node.check(true)
+
+                    if (!checkStrictly) {
+                        // 选中所有子节点
+                        utils.iterateAll(node.children || [], (child) => child.check(true))
+
+                        // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                        let parent = node.parent
+                        while (!!parent && !!parent.key) {
+                            if ((parent.children || []).every(child => child.isCheck)) {
+                                parent.check(true)
+                                parent = parent.parent
+                            } else {
+                                break
+                            }
+                        }
+                    }
+
+                    await $plain.nextTick()
+                    emit.check(node)
+                    emit.checkChange(emitCheckKeys.value as string[])
+                }
+            })
+        },
+
+        /**
+         * 根据keys取消选中节点
+         * @author  韦胜健
+         * @date    2020/8/17 15:33
+         */
+        async uncheck(keys: string | string[]) {
+            await utils.handleKeys(keys, async key => {
+                const node = utils.findNodeByKey(key)
+                if (!node) return
+                if (node.isCheck) {
+                    node.check(false)
+                    if (!checkStrictly) {
+                        // 取消选中所有子节点
+                        utils.iterateAll(node.children || [], (child) => child.check(false))
+                        // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                        let parent = node.parent
+                        while (!!parent && !!parent.key) {
+                            if (parent.isCheck) {
+                                parent.check(false)
+                                parent = parent.parent
+                            } else {
+                                break
+                            }
+                        }
+                    }
+
+                    await $plain.nextTick()
+                    emit.check(node)
+                    emit.checkChange(emitCheckKeys.value as string[])
+                }
+            })
+        },
+
+        /**
+         * 根据key选中或者取消选中树节点
+         * @author  韦胜健
+         * @date    2020/8/17 15:39
+         */
+        async toggleCheck(key) {
+            const node = utils.findNodeByKey(key)
+            if (!node) return
+            if (!node.isCheckable) return
+            if (node.isCheck) {
+                await methods.uncheck(key)
+            } else {
+                await methods.check(key)
+            }
+        },
+        /**
+         * 选中所有节点
+         * @author  韦胜健
+         * @date    2020/8/17 15:40
+         */
+        checkAll() {
+            utils.iterateAll(tableData.value, (node: TableNode) => node.check(true))
+        },
+        /**
+         * 取消选中所有节点
+         * @author  韦胜健
+         * @date    2020/8/17 15:40
+         */
+        uncheckAll() {
+            mark.checkMap = {}
+        },
+        /**
+         * 获取选中的数据
+         * @author  韦胜健
+         * @date    2020/8/17 15:41
+         */
+        getCheckedData() {
+            let ret: object[] = []
+            utils.iterateAll(tableData.value, (node: TableNode) => {
+                if (node.isCheck) {
+                    ret.push(node.data)
+                }
+            })
+            return ret
+        },
     }
 
     const handler = {
         clickExpandIcon: async (e: MouseEvent, node: TableNode) => {
             e.stopPropagation()
             await methods.toggleExpand(node.key)
+        },
+        clickCheckbox: async (e: MouseEvent, node: TableNode) => {
+            e.stopPropagation()
+            await methods.toggleCheck(node.key)
         }
     }
 

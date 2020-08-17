@@ -30,6 +30,7 @@
                 <pl-button-group>
                     <pl-button label="全部展开" @click="$refs.tree2.treePlc.methods.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.tree2.treePlc.methods.collapseAll()"/>
+                    <pl-button label="获取选中数据" @click="$message($refs.tree2.treePlc.methods.getCheckedData().map(item=>item.name).join(','))"/>
                 </pl-button-group>
             </demo-line>
             <pl-table :data="data"

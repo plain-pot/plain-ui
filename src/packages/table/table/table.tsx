@@ -49,10 +49,6 @@ function tableSetup(props: TablePropsType) {
 
         clickRow: (node: TableNode, e: MouseEvent) => {},
         dblclickRow: (node: TableNode, e: MouseEvent) => {},
-
-        expand: (node: TableNode) => {},
-        collapse: (node: TableNode) => {},
-        expandChange: (expandKeys: string[]) => {},
     })
     /*---------------------------------------slots-------------------------------------------*/
     const {slots} = useSlots()

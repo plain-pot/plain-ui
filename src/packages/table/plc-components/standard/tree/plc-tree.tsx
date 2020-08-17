@@ -6,6 +6,7 @@ import {computed, getCurrentInstance, onMounted, Ref, watch} from "@vue/composit
 import {$plain} from "@/packages/base";
 import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-tree";
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
+import {useEvent} from "@/use/useEvent";
 
 const size = 30
 
@@ -60,6 +61,7 @@ export default definePlc({
                                     checkboxProps={{value: rowData.checkStatus === 'check'}}
                                     status={rowData.checkStatus}
                                     disabled={!rowData.isCheckable}
+                                    {...{nativeOn: {click: e => ctx.treePlc.handler.clickCheckbox(e, rowData)}}}
                                 />
                             </div>
                         )}
@@ -83,6 +85,16 @@ export default definePlc({
             content: ScopedSlotFunc,
         })
 
+        const {emit} = useEvent({
+            expand: (node: TableNode) => {},
+            collapse: (node: TableNode) => {},
+            expandChange: (expandKeys: string[]) => {},
+
+            check: (node: TableNode) => {},
+            uncheck: (node: TableNode) => {},
+            checkChange: (checkKeys: string[]) => {},
+        })
+
         const {
             utils,
             methods,
@@ -97,8 +109,9 @@ export default definePlc({
             rootTableNode: table.state.rootNode,
             according: table.props.according,
             autoExpandParent: table.props.autoExpandParent,
-            emit: table.emit,
+            emit,
             tableData: table.tableData as Ref<TableNode[]>,
+            checkStrictly: table.props.checkStrictly,
         })
 
         const styleUtils = {
