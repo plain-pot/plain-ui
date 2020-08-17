@@ -32,8 +32,8 @@ export default definePlc({
                             icon="el-icon-menu"
                         />
                         <pl-dropdown-menu slot="dropdown">
-                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-arrow-up'}/>
-                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-arrow-right'}/>
+                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-circle-plus'}/>
+                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-remove-outline'}/>
                         </pl-dropdown-menu>
                     </pl-dropdown>
                 )
@@ -49,7 +49,7 @@ export default definePlc({
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
                                 <pl-button mode="text"
                                            disabled={rowData.isLeaf}
-                                           icon="el-icon-arrow-right"
+                                           icon={rowData.isExpand ? 'el-icon-remove-outline' : 'el-icon-circle-plus'}
                                            onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </div>

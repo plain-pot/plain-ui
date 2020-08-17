@@ -15,6 +15,7 @@
                       keyField="id"
                       childrenField="subs"
             >
+                <plc-index/>
                 <plc-tree ref="tree1"/>
                 <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
