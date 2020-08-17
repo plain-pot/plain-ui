@@ -26,11 +26,7 @@ export default definePlc({
             default: function (plc: PlcType) {
                 return (
                     <pl-dropdown>
-                        <pl-button
-                            {...{directives: [{name: 'tooltip', value: '全部收起'}]}}
-                            mode="text"
-                            icon="el-icon-menu"
-                        />
+                        <pl-button mode="text" icon="el-icon-menu" size={'normal'}/>
                         <pl-dropdown-menu slot="dropdown">
                             <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-circle-plus'}/>
                             <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-remove-outline'}/>
@@ -48,6 +44,7 @@ export default definePlc({
                         <div class="pl-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
                                 <pl-button mode="text"
+                                           size={'normal'}
                                            disabled={rowData.isLeaf}
                                            icon={rowData.isExpand ? 'el-icon-remove-outline' : 'el-icon-circle-plus'}
                                            onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
