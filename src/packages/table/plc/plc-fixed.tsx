@@ -2,6 +2,8 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {isPlcGroup, PlcGroupType} from "@/packages/table/plc/plc-group";
 import {StyleType} from "@/types/utils";
 import {PlcFixedType, stickyFlag} from "@/packages/table/plc/plc-utils";
+import {computed, reactive, watch} from "@vue/composition-api";
+import {PlainScroll} from "@/packages/scroll/scroll";
 
 /**
  * 根据plc.props.fixed
@@ -83,4 +85,44 @@ export const writeFixedPosition = (flatPlcList: PlcType[]) => {
             }
         }
     })
+}
+
+/**
+ * 获取table的fixed class，当滚动做左侧的时候，不显示左阴影。同理右侧也是；
+ * @author  韦胜健
+ * @date    2020/8/17 20:58
+ */
+export function useFixedShadow(bodyScrollRef: () => PlainScroll) {
+    const state = reactive({
+        showFixedLeft: false,
+        showFixedRight: false,
+    })
+
+    watch(() => {
+        if (!bodyScrollRef()) {
+            return null
+        }
+        const {wrapperScrollLeft, hostWidth} = bodyScrollRef().state
+        return `${wrapperScrollLeft}_${hostWidth}`
+    }, (val: string | null) => {
+        if (!val) {
+            state.showFixedLeft = false
+            state.showFixedRight = false
+        } else {
+            const {hostWidth, contentWidth, wrapperScrollLeft} = bodyScrollRef().state
+            state.showFixedLeft = contentWidth > hostWidth && wrapperScrollLeft > 0
+            state.showFixedRight = contentWidth > hostWidth && Math.abs(wrapperScrollLeft + hostWidth - contentWidth) > 5
+        }
+    })
+
+    const classes = computed(() => [
+        {
+            'plt-table-hide-fixed-left': !state.showFixedLeft,
+            'plt-table-hide-fixed-right': !state.showFixedRight,
+        }
+    ])
+
+    return {
+        fixedShadowClass: classes,
+    }
 }

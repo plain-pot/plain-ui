@@ -17,6 +17,7 @@ import {StyleShape, StyleSize, useStyle} from "@/use/useStyle";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {formatPlc} from "@/packages/table/plc/format/formatPlc";
 import {useRefer} from "@/use/useRefer";
+import {useFixedShadow} from "@/packages/table/plc/plc-fixed";
 
 const PLAIN_TABLE_PROVIDER = '@@PLAIN_TABLE_PROVIDER'
 export const injectTable = () => inject(PLAIN_TABLE_PROVIDER) as PlainTable
@@ -56,7 +57,10 @@ function tableSetup(props: TablePropsType) {
     /*---------------------------------------slots-------------------------------------------*/
     const {slots} = useSlots()
     /*---------------------------------------refs-------------------------------------------*/
-    const refs = useRefs({collector: CompRef,})
+    const refs = useRefs({
+        collector: CompRef,
+        body: CompRef,
+    })
 
     /*---------------------------------------state-------------------------------------------*/
     const propsState = useProps(props, {
@@ -79,9 +83,10 @@ function tableSetup(props: TablePropsType) {
         mark,                                               // TableMark
         rootNode,                                           // 模拟出来的根数据节点
         summaryRootNode,                                    // 合计行数据模拟出来的数据节点
-        current: null as null | TableNode,              // 当前选中的节点
+        current: null as null | TableNode,                  // 当前选中的节点
         hoverPart: null as null | TableHoverPart,           // 当前鼠标所在的区域
         loading: null,                                      // 表格内部自定义的加载行为
+        bodyScrollGetter: null as null | (() => PlainScroll),// 获取body的函数，当body组件初始化之后，body会自动设置这个变量
     })
 
     const isLoading = computed({
@@ -204,6 +209,9 @@ function tableSetup(props: TablePropsType) {
     })
 
     const {styleComputed} = useStyle({shape: StyleShape.square, size: StyleSize.mini, status: null})
+
+    const {fixedShadowClass} = useFixedShadow(() => !!state.bodyScrollGetter ? state.bodyScrollGetter() : null)
+
     const classes = computed(() => [
         'pl-table',
         `pl-table-size-${styleComputed.value.size}`,
@@ -211,6 +219,7 @@ function tableSetup(props: TablePropsType) {
         {
             'pl-table-border': props.border,
         },
+        ...fixedShadowClass.value,
     ])
 
     /*---------------------------------------utils-------------------------------------------*/

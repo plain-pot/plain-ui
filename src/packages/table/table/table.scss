@@ -294,7 +294,7 @@
       }
     }
 
-    .plt-body-hide-fixed-left {
+    &.plt-table-hide-fixed-left {
       .plt-cell-last-fixed-left {
         &:before {
           content: none;
@@ -302,7 +302,7 @@
       }
     }
 
-    .plt-body-hide-fixed-right {
+    &.plt-table-hide-fixed-right {
       .plt-cell-first-fixed-right {
         &:before {
           content: none;

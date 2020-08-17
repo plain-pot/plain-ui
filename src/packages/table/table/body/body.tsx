@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
+import {computed, defineComponent, onMounted, reactive, watch} from "@vue/composition-api";
 import {injectTable} from "@/packages/table/table/table";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {useRefs} from "@/use/useRefs";
@@ -26,40 +26,10 @@ export default defineComponent({
             }
         )
 
-        const isMounted = useMounted()
-
-        const state = reactive({
-            showFixedLeft: false,
-            showFixedRight: false,
-        })
-
-        watch(() => {
-            if (!isMounted.value) {
-                return null
-            }
-            const {wrapperScrollLeft, hostWidth} = refs.virtualTable.$refs.scroll.state
-            return `${wrapperScrollLeft}_${hostWidth}`
-        }, (val: string | null) => {
-            if (!val) {
-                state.showFixedLeft = false
-                state.showFixedRight = false
-            } else {
-                const {hostWidth, contentWidth, wrapperScrollLeft} = refs.virtualTable.$refs.scroll.state
-                state.showFixedLeft = contentWidth > hostWidth && wrapperScrollLeft > 0
-                state.showFixedRight = contentWidth > hostWidth && Math.abs(wrapperScrollLeft + hostWidth - contentWidth) > 5
-            }
-        })
-
-        const classes = computed(() => [
-            'plt-body',
-            {
-                'plt-body-hide-fixed-left': !state.showFixedLeft,
-                'plt-body-hide-fixed-right': !state.showFixedRight,
-            }
-        ])
+        onMounted(() => table.state.bodyScrollGetter = () => refs.virtualTable.$refs.scroll)
 
         return () => (
-            <div class={classes.value} style={styles.value}
+            <div class="plt-body" style={styles.value}
                  onMouseenter={handler.mouseenter}>
                 <pl-virtual-table
                     key={table.props.virtual ? 'enable' : 'disabled'}
