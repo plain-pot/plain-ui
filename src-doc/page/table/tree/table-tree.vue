@@ -1,5 +1,5 @@
 <template>
-    <div class="table0-tree">
+    <div class="table-tree">
         <demo-row title="基本用法">
             <demo-line>
                 <pl-button-group>
@@ -46,15 +46,21 @@
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
+
+        <demo-row title="树形虚拟表格">
+            <tree-table-virtual/>
+        </demo-row>
     </div>
 </template>
 
 <script>
 
     import data from '../../data/tree.data'
+    import TreeTableVirtual from "./tree-table-virtual";
 
     export default {
-        name: "table0-tree",
+        name: "table-tree",
+        components: {TreeTableVirtual},
         data() {
             return {
                 data,
