@@ -42,7 +42,11 @@ export default defineComponent({
                         ...{
                             scopedSlots: {
                                 default: ({item, index, isSummary}) => [
-                                    <plt-row key={index} vid={index} rowData={item} isSummary={isSummary}/>,
+                                    /*
+                                    - 这里用 item.key 作为key，感觉虚拟滚动的性能要更好一点
+                                    - 树列里面，如果不用这个key的话，复选框会有短暂的切换动画，在展开收起的时候
+                                    */
+                                    <plt-row key={item.key} vid={index} rowData={item} isSummary={isSummary}/>,
                                     table.plcData.value!.plcListHasRenderAfterRow.length === 0
                                         ? null :
                                         [...table.plcData.value!.plcListHasRenderAfterRow.map(plc => plc.props.renderAfterRow!({
