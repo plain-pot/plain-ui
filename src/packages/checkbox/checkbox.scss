@@ -109,12 +109,10 @@
 
     &.pl-checkbox-inner-status-minus {
       border-color: currentColor;
-      background-color: currentColor;
+      background-color: transparent;
 
       .pl-checkbox-inner-minus-polyline {
         fill: currentColor;
-        stroke: white;
-        stroke-width: 10
       }
     }
 
