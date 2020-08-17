@@ -13,7 +13,7 @@
         </pl-form>
         <pl-table :data="data"
                   :virtual="virtualFlag"
-                  @dblclick-row="onDblClickRow">
+                  @dblclick-cell="onDblClickRow">
             <plc field="id" title="编号" width="50"/>
             <plc field="name" title="普通文本列"/>
             <plc field="name" title="普通文本列，编辑作用域插槽" width="200" :editable="({editRow})=>!!editRow.name && editRow.name.length>5">
