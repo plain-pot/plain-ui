@@ -47,12 +47,6 @@ export default defineComponent({
                 const {hostWidth, contentWidth, wrapperScrollLeft} = refs.virtualTable.$refs.scroll.state
                 state.showFixedLeft = contentWidth > hostWidth && wrapperScrollLeft > 0
                 state.showFixedRight = contentWidth > hostWidth && Math.abs(wrapperScrollLeft + hostWidth - contentWidth) > 5
-
-                console.log(val, {
-                    wrapperScrollLeft,
-                    hostWidth,
-                    contentWidth,
-                })
             }
         })
 
