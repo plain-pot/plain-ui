@@ -2,7 +2,6 @@ import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {TableMark, TableMarkAttr} from "@/packages/table/table-bak/TableMark";
 import {$plain} from "@/packages/base";
 import {computed, Ref} from "@vue/composition-api";
-import {TreeNode} from "@/packages/tree/utils/TreeNode";
 
 export function usePlcTree(
     {
@@ -70,6 +69,7 @@ export function usePlcTree(
          * @date    2020/8/17 9:59
          */
         findNodeByKey: (key: string): TableNode | null => {
+
             const node = mark.getMark(key, TableMark.node)
             if (!node) {
                 console.warn(`无法找到treeNode：${key}`, mark.nodeMap)
