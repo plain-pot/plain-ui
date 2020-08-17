@@ -154,6 +154,12 @@
       }
     }
 
+    .plt-inner-cell {
+      &.plt-inner-cell-no-padding {
+        padding: 0;
+      }
+    }
+
     /*---------------------------------------head-------------------------------------------*/
 
     .plt-head {
@@ -373,7 +379,6 @@
   .plc-tree-node {
 
     .pl-tree-node-expander {
-      width: 1em;
       display: inline-block;
     }
 

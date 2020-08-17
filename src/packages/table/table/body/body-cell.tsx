@@ -80,6 +80,7 @@ export default defineComponent({
                 'plt-cell-editing': renderData.value.editable,
             },
         ])
+        const innerCellClass = computed(() => props.plc.classes.body.innerCell)
 
         return () => {
             return (
@@ -88,7 +89,7 @@ export default defineComponent({
                     class={cellClass.value}
                     style={cellStyles.value}
                 >
-                    <div style={innerCellStyles.value}>
+                    <div style={innerCellStyles.value} class={innerCellClass.value}>
                         {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {renderData.value.body}
                     </div>

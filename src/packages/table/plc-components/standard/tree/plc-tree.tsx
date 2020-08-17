@@ -6,14 +6,17 @@ import {getCurrentInstance, Ref, watch} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-tree";
 
+const size = 30
+
 export default definePlc({
     name: 'plc-tree',
     props: {
 
         //standard
         autoFixedLeft: {default: true},
+        noPadding: {default: true},
         order: {default: -9996},
-        width: {default: 60},
+        width: {default: size},
         summary: {
             type: Function,
             default: function () {return null}
@@ -21,7 +24,14 @@ export default definePlc({
         head: {
             type: Function,
             default: function (plc: PlcType) {
-                return '收起'
+                return (
+                    <pl-button
+                        {...{directives: [{name: 'tooltip', value: '全部收起'}]}}
+                        mode="text"
+                        icon="el-icon-arrow-right"
+                        onClick={(plc.ctx as any).treePlc.methods.collapseAll}
+                    />
+                )
             }
         },
         default: {
@@ -30,11 +40,14 @@ export default definePlc({
                 const ctx = plc.ctx as any
                 return (
                     <div style={ctx.treePlc.styleUtils.getStyles(rowData)} class={ctx.treePlc.styleUtils.getClasses(rowData)}>
-                        <span class="pl-tree-node-expander">
+                        <div class="pl-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
-                                !rowData.isLeaf && <pl-button mode="text" icon="el-icon-caret-right" onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
+                                <pl-button mode="text"
+                                           disabled={rowData.isLeaf}
+                                           icon="el-icon-arrow-right"
+                                           onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
-                        </span>
+                        </div>
                     </div>
                 )
             }
@@ -66,7 +79,7 @@ export default definePlc({
         const styleUtils = {
             getStyles(rowData: TableNode) {
                 return {
-                    paddingLeft: $plain.utils.suffixPx((rowData.level - 1) * 60)
+                    paddingLeft: $plain.utils.suffixPx((rowData.level - 1) * size)
                 }
             },
             getClasses(rowData: TableNode) {
@@ -77,7 +90,7 @@ export default definePlc({
             },
         }
 
-        watch(() => table.maxShowLevel.value, val => ctx.state.width = val * 60, {lazy: true})
+        watch(() => table.maxShowLevel.value, val => ctx.state.width = val * size, {lazy: true})
 
         return {
             treePlc: {

@@ -185,7 +185,7 @@ export function usePlcTree(
          */
         async expandAll() {
             if (!!tableData.value && tableData.value.length > 0) {
-                await Promise.all(tableData.value.map((node) => methods.expand(node.key)))
+                utils.iterateAll(tableData.value, node => methods.expand(node.key))
             }
         },
         /**

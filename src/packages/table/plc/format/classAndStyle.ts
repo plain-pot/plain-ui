@@ -40,7 +40,12 @@ export function writeStylesAndClasses(
                     'plt-cell-first-fixed-right': stickyFlag && plc.isFirstFixedRight,
                 }
             ]
-
+            plc.classes.head.innerCell = [
+                'plt-inner-cell',
+                {
+                    'plt-inner-cell-no-padding': plc.props.noPadding
+                }
+            ]
             /*---------------------------------------body-------------------------------------------*/
 
             if (!isPlcGroup(plc)) {
@@ -60,6 +65,12 @@ export function writeStylesAndClasses(
                         'plt-cell-last-fixed-left': stickyFlag && plc.isLastFixedLeft,
                         'plt-cell-first-fixed-right': stickyFlag && plc.isFirstFixedRight,
                     },
+                ]
+                plc.classes.body.innerCell = [
+                    'plt-inner-cell',
+                    {
+                        'plt-inner-cell-no-padding': plc.props.noPadding
+                    }
                 ]
             }
 

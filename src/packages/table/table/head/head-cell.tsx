@@ -29,6 +29,7 @@ export default defineComponent({
         const cellStyles = computed(() => props.plc.styles.head.cell)
         const innerCellStyles = computed(() => props.plc.styles.head.innerCell)
         const cellClasses = computed(() => props.plc.classes.head.cell)
+        const innerCellClass = computed(() => props.plc.classes.head.innerCell)
 
         return () => {
             return (
@@ -38,7 +39,7 @@ export default defineComponent({
                     class={cellClasses.value}
                     style={cellStyles.value}
                 >
-                    <div style={innerCellStyles.value}>
+                    <div style={innerCellStyles.value} class={innerCellClass.value}>
                         {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {PlcRender.head(props.plc)}
                     </div>
