@@ -477,7 +477,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                     }
 
                     await $plain.nextTick()
-                    emit.check(treeNode)
+                    emit.uncheck(treeNode)
                     emit.checkChange(emitCheckKeys.value)
                 }
             })
