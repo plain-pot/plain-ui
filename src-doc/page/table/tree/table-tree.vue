@@ -1,5 +1,5 @@
 <template>
-    <div class="table-tree-data">
+    <div class="table0-tree">
         <demo-row title="基本用法">
             <demo-line>
                 <pl-button-group>
@@ -51,10 +51,10 @@
 
 <script>
 
-    import data from '../data/tree.data'
+    import data from '../../data/tree.data'
 
     export default {
-        name: "table-tree-data",
+        name: "table0-tree",
         data() {
             return {
                 data,
