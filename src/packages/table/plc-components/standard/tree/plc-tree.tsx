@@ -25,12 +25,17 @@ export default definePlc({
             type: Function,
             default: function (plc: PlcType) {
                 return (
-                    <pl-button
-                        {...{directives: [{name: 'tooltip', value: '全部收起'}]}}
-                        mode="text"
-                        icon="el-icon-arrow-right"
-                        onClick={(plc.ctx as any).treePlc.methods.collapseAll}
-                    />
+                    <pl-dropdown>
+                        <pl-button
+                            {...{directives: [{name: 'tooltip', value: '全部收起'}]}}
+                            mode="text"
+                            icon="el-icon-menu"
+                        />
+                        <pl-dropdown-menu slot="dropdown">
+                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll}/>
+                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll}/>
+                        </pl-dropdown-menu>
+                    </pl-dropdown>
                 )
             }
         },
