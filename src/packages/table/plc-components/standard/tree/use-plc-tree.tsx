@@ -70,6 +70,10 @@ export function usePlcTree(
          */
         findNodeByKey: (key: string): TableNode | null => {
 
+            if (!key || key.indexOf('root-node') === 0) {
+                return null
+            }
+
             const node = mark.getMark(key, TableMark.node)
             if (!node) {
                 console.warn(`无法找到treeNode：${key}`, mark.nodeMap)

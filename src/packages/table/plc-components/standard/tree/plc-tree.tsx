@@ -35,6 +35,12 @@ export default definePlc({
                         <pl-dropdown-menu slot="dropdown">
                             <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-caret-right'}/>
                             <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-caret-bottom'}/>
+                            {
+                                (plc as any).ctx.showCheckbox && [
+                                    <pl-dropdown-item label={'全选'} onClick={(plc.ctx as any).treePlc.methods.checkAll} icon={'el-icon-check'}/>,
+                                    <pl-dropdown-item label={'反选'} onClick={(plc.ctx as any).treePlc.methods.uncheckAll} icon={'el-icon-close'}/>,
+                                ]
+                            }
                         </pl-dropdown-menu>
                     </pl-dropdown>
                 )
