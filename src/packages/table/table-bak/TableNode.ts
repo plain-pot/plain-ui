@@ -79,7 +79,7 @@ export class TableNode {
     }
     // 树形表格：拖拽指示器的左偏移距离
     get indicatorLeft() {
-        let left = this.props.intent * (this.level - 1)
+        let left = 60 * (this.level - 1)
         if (this.isLeaf && !this.isLoading) {
             left += 18
         }

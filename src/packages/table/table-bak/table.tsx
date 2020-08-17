@@ -245,6 +245,7 @@ export default defineComponent({
         const classes = computed(() => [
             'pl-table', {
                 'pl-table-border': props.border,
+                // @ts-ignore
                 'pl-table-disabled-high-current': props.disabledHighCurrentRow,
             }
         ])
