@@ -2,15 +2,19 @@ import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {injectTable} from "@/packages/table/table/table";
-import {getCurrentInstance, Ref, watch} from "@vue/composition-api";
+import {computed, getCurrentInstance, onMounted, Ref, watch} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-tree";
+import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
 
 const size = 30
 
 export default definePlc({
     name: 'plc-tree',
     props: {
+        // custom
+        contentWidth: {type: Number, default: 100},                       // 显示的内容宽度
+        showCheckbox: {type: Boolean},                                    // 是否显示复选框
 
         //standard
         autoFixedLeft: {default: true},
@@ -28,8 +32,8 @@ export default definePlc({
                     <pl-dropdown>
                         <pl-button mode="text" icon="el-icon-menu" size={'normal'}/>
                         <pl-dropdown-menu slot="dropdown">
-                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-circle-plus'}/>
-                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-remove-outline'}/>
+                            <pl-dropdown-item label={'全部展开'} onClick={(plc.ctx as any).treePlc.methods.expandAll} icon={'el-icon-plus'}/>
+                            <pl-dropdown-item label={'全部收起'} onClick={(plc.ctx as any).treePlc.methods.collapseAll} icon={'el-icon-minus'}/>
                         </pl-dropdown-menu>
                     </pl-dropdown>
                 )
@@ -37,28 +41,38 @@ export default definePlc({
         },
         default: {
             type: Function,
-            default: function ({rowData, plc}: TableRenderData) {
+            default: function (renderData: TableRenderData) {
+                const {rowData, plc} = renderData
                 const ctx = plc.ctx as any
                 return (
                     <div style={ctx.treePlc.styleUtils.getStyles(rowData)} class={ctx.treePlc.styleUtils.getClasses(rowData)}>
-                        <div class="pl-tree-node-expander">
+                        <div class="plc-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
-                                <pl-button mode="text"
-                                           size={'normal'}
-                                           disabled={rowData.isLeaf}
-                                           icon={rowData.isExpand ? 'el-icon-remove-outline' : 'el-icon-circle-plus'}
-                                           onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
+                                !rowData.isLeaf && <pl-button mode="text"
+                                                              size={'normal'}
+                                                              icon={rowData.isExpand ? 'el-icon-minus' : 'el-icon-plus'}
+                                                              onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </div>
+                        {
+                            !!ctx.$scopedSlots.content && (
+                                <div class="plc-tree-node-content">
+                                    {ctx.$scopedSlots.content(renderData)}
+                                </div>
+                            )
+                        }
                     </div>
                 )
             }
         },
     },
-    setup() {
+    setup(props) {
 
         const table = injectTable()
         const ctx = getCurrentInstance() as any
+        const {$scopedSlots} = useScopedSlots({
+            content: ScopedSlotFunc,
+        })
 
         const {
             utils,
@@ -92,7 +106,21 @@ export default definePlc({
             },
         }
 
-        watch(() => table.maxShowLevel.value, val => ctx.state.width = val * size, {lazy: true})
+        const width = computed(() => {
+            let expand = size
+            let content = !!$scopedSlots.content ? (props as any).contentWidth as number : 0
+            let check = !!(props as any).showCheckbox ? size : 0
+
+            const level = table.maxShowLevel.value
+
+            return (expand + check) * level + content
+        })
+
+        onMounted(() => {
+            watch(() => table.maxShowLevel.value, () => {
+                ctx.state.width = width.value
+            })
+        })
 
         return {
             treePlc: {

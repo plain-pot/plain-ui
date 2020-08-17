@@ -378,8 +378,18 @@
   /*---------------------------------------plc-tree-------------------------------------------*/
   .plc-tree-node {
 
-    .pl-tree-node-expander {
-      display: inline-block;
+    display: flex;
+    align-items: center;
+
+    .plc-tree-node-expander {
+      width: 30px;
+    }
+
+    .plc-tree-node-content {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     /*.pl-icon {
