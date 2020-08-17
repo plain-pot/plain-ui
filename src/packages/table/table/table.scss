@@ -294,6 +294,22 @@
       }
     }
 
+    .plt-body-hide-fixed-left {
+      .plt-cell-last-fixed-left {
+        &:before {
+          content: none;
+        }
+      }
+    }
+
+    .plt-body-hide-fixed-right {
+      .plt-cell-first-fixed-right {
+        &:before {
+          content: none;
+        }
+      }
+    }
+
     /*---------------------------------------size-------------------------------------------*/
 
     /*表格大小，只是改变了文字大小，以及组件大小*/
