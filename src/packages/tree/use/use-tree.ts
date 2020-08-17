@@ -190,6 +190,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         getChildrenAsync: (treeNode: TreeNode): Promise<TreeNode[]> => {
             return new Promise((resolve) => {
                 if (!treeNode.key) {
+                    // 跟节点是没有key的；
                     state.loading = true
                 } else {
                     state.treeMark.setMark(treeNode.key, TreeMarkAttr.loading, true)
