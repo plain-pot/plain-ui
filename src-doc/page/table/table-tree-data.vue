@@ -25,8 +25,25 @@
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
-        <demo-row title="">
-
+        <demo-row title="可选树形表格">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.tree2.treePlc.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.tree2.treePlc.methods.collapseAll()"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-table :data="data"
+                      keyField="id"
+                      childrenField="subs">
+                <plc-index/>
+                <plc-tree ref="tree2" showCheckbox>
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
         </demo-row>
     </div>
 </template>

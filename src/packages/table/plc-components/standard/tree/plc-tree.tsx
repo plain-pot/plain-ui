@@ -54,6 +54,15 @@ export default definePlc({
                                                               onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </div>
+                        {!!ctx.showCheckbox && (
+                            <div class="plc-tree-node-check">
+                                <pl-checkbox-indeterminate
+                                    checkboxProps={{value: rowData.checkStatus === 'check'}}
+                                    status={rowData.checkStatus}
+                                    disabled={!rowData.isCheckable}
+                                />
+                            </div>
+                        )}
                         {
                             !!ctx.$scopedSlots.content && (
                                 <div class="plc-tree-node-content">
