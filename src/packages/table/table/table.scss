@@ -242,8 +242,10 @@
       }
 
       .plt-row-current {
-        td {
-          background-color: $tableRowCurrentBackground;
+        &, &:hover {
+          td {
+            background-color: $tableRowCurrentBackground;
+          }
         }
       }
     }

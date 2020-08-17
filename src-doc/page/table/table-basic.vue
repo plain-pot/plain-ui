@@ -142,6 +142,8 @@
                 editNode: null,
                 onDblclickRow: (node) => {
 
+                    console.log('node',node)
+
                     if (!!this.editNode) {
                         if (node === this.editNode) {
                             node.saveEdit()
