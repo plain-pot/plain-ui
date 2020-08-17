@@ -2,8 +2,9 @@ import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table-bak/TableNode";
 import {injectTable} from "@/packages/table/table/table";
-import {getCurrentInstance} from "@vue/composition-api";
+import {getCurrentInstance, Ref, watch} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
+import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-tree";
 
 export default definePlc({
     name: 'plc-tree',
@@ -28,10 +29,10 @@ export default definePlc({
             default: function ({rowData, plc}: TableRenderData) {
                 const ctx = plc.ctx as any
                 return (
-                    <div style={ctx.treePlc.utils.getStyles(rowData)} class={ctx.treePlc.utils.getClasses(rowData)}>
+                    <div style={ctx.treePlc.styleUtils.getStyles(rowData)} class={ctx.treePlc.styleUtils.getClasses(rowData)}>
                         <span class="pl-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
-                                !rowData.isLeaf && <pl-button mode="text" icon="el-icon-caret-right" onClick={() => ctx.treePlc.utils.toggle(rowData)}/>
+                                !rowData.isLeaf && <pl-button mode="text" icon="el-icon-caret-right" onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </span>
                     </div>
@@ -44,11 +45,25 @@ export default definePlc({
         const table = injectTable()
         const ctx = getCurrentInstance() as any
 
-        const utils = {
-            toggle: (rowData: TableNode) => {
-                rowData.expand(!rowData.isExpand)
-                ctx.state.width = table.maxShowLevel.value * 60
-            },
+        const {
+            utils,
+            methods,
+            handler,
+            emitExpandKeys,
+            emitCheckKeys,
+        } = usePlcTree({
+            mark: table.mark,
+            loading: table.loading,
+            getChildren: table.props.getChildren,
+            lazy: table.props.lazy,
+            rootTableNode: table.state.rootNode,
+            according: table.props.according,
+            autoExpandParent: table.props.autoExpandParent,
+            emit: table.emit,
+            tableData: table.tableData as Ref<TableNode[]>,
+        })
+
+        const styleUtils = {
             getStyles(rowData: TableNode) {
                 return {
                     paddingLeft: $plain.utils.suffixPx((rowData.level - 1) * 60)
@@ -62,9 +77,17 @@ export default definePlc({
             },
         }
 
+        watch(() => table.maxShowLevel.value, val => ctx.state.width = val * 60, {lazy: true})
+
         return {
             treePlc: {
+                styleUtils,
+
                 utils,
+                methods,
+                handler,
+                emitExpandKeys,
+                emitCheckKeys,
             }
         }
     },

@@ -48,6 +48,10 @@ function tableSetup(props: TablePropsType) {
 
         clickRow: (node: TableNode, e: MouseEvent) => {},
         dblclickRow: (node: TableNode, e: MouseEvent) => {},
+
+        expand: (node: TableNode) => {},
+        collapse: (node: TableNode) => {},
+        expandChange: (expandKeys: string[]) => {},
     })
     /*---------------------------------------slots-------------------------------------------*/
     const {slots} = useSlots()
@@ -77,6 +81,16 @@ function tableSetup(props: TablePropsType) {
         summaryRootNode,                                    // 合计行数据模拟出来的数据节点
         currentNode: null as null | TableNode,              // 当前选中的节点
         hoverPart: null as null | TableHoverPart,           // 当前鼠标所在的区域
+        loading: null,                                      // 表格内部自定义的加载行为
+    })
+
+    const loading = computed({
+        get() {
+            return props.loading != null ? props.loading : state.loading
+        },
+        set(val: boolean | null) {
+            state.loading = val
+        },
     })
     /*---------------------------------------computed-------------------------------------------*/
     /**
@@ -241,8 +255,10 @@ function tableSetup(props: TablePropsType) {
     /*---------------------------------------refer-------------------------------------------*/
     const refer = {
         props,
+        mark,
         slots,
         state,
+        loading,
         propsState,
         plcData,
         bodyPlcList,
