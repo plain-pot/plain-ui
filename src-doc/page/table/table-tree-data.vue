@@ -1,16 +1,6 @@
 <template>
     <div class="table-tree-data">
         <demo-row title="基本用法">
-            <pl-table :data="data"
-                      keyField="id"
-                      childrenField="subs">
-                <plc-index/>
-                <plc-tree/>
-                <plc title="编号" field="id"/>
-                <plc title="名称" field="name"/>
-            </pl-table>
-        </demo-row>
-        <demo-row title="自定义渲染树列的显示文本">
             <demo-line>
                 <pl-button-group>
                     <pl-button label="全部展开" @click="$refs.tree1.treePlc.methods.expandAll()"/>
