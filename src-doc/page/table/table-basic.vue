@@ -45,7 +45,7 @@
             <div style="margin-right: 0">
                 <pl-table :data="tableData"
                           :summaryData="other.hasSummaryData?summaryData:null"
-                          @dblclick-row="onDblclickRow"
+                          @dblclick-cell="onDblclickCell"
                           v-bind="props">
                     <template v-if="other.groupHead">
                         <plc-input title="输入框列" field="id" required/>
@@ -140,7 +140,7 @@
                     order: 5,
                 },
                 editNode: null,
-                onDblclickRow: (node) => {
+                onDblclickCell: (node) => {
 
                     console.log('node',node)
 
