@@ -75,7 +75,8 @@
 
             async logSelected() {
                 const selected = this.$refs.check.getSelected()
-                this.$message(selected.map(item => item.name).join(','))
+                console.log(selected)
+                this.$message(selected.map(item => item.data.name).join(','))
             },
         }
     }
