@@ -1,7 +1,6 @@
-import {PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {Vue} from "vue/types/vue";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {TableNode} from "@/packages/table/table/TableNode";
 
 /**
  * 在调用渲染函数渲染的时候，调用的上下文应该是plc组件对象本身

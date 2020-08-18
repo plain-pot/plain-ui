@@ -1,5 +1,5 @@
 import {PlcType} from "@/packages/table/plc/plc";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {TableNode} from "@/packages/table/table/TableNode";
 import {StyleType} from "@/types/utils";
 import {PlainUtils} from "@/util/util";
 import {PlcGroupType} from "@/packages/table/plc/plc-group";

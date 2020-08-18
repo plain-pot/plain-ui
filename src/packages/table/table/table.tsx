@@ -7,10 +7,10 @@ import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {printPlcData} from "@/packages/table/plc/debug";
 import './table.scss'
-import {TableMark, TableMarkAttr} from "@/packages/table/table-bak/TableMark";
+import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
 import {getValidateConfigData} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {TableNode} from "@/packages/table/table/TableNode";
 import {$plain} from "@/packages/base";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {StyleShape, StyleSize, useStyle} from "@/use/useStyle";

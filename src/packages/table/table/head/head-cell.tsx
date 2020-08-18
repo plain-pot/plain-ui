@@ -1,7 +1,7 @@
 import {computed, defineComponent} from "@vue/composition-api";
 import {PlcType} from "@/packages/table/plc/plc";
 import {injectTable} from "@/packages/table/table/table";
-import {PlcRender} from "@/packages/table/table-bak/render";
+import {PlcRender} from "@/packages/table/table/render";
 import {useHeadCellResize} from "@/packages/table/table/head/useHeadCellResize";
 
 export default defineComponent({

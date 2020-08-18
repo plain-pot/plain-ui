@@ -1,8 +1,8 @@
 import {computed, defineComponent, getCurrentInstance, provide} from "@vue/composition-api";
 import {getCellClass} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
-import {PlcRender} from "@/packages/table/table-bak/render";
+import {TableNode} from "@/packages/table/table/TableNode";
+import {PlcRender} from "@/packages/table/table/render";
 import {injectTable} from "@/packages/table/table/table";
 import {FormTrigger, validateField} from "@/packages/form/validate";
 import {EditProvider} from "@/use/useEdit";

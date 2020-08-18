@@ -1,6 +1,6 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {TableNode} from "@/packages/table/table/TableNode";
 import {injectTable} from "@/packages/table/table/table";
 import {computed, getCurrentInstance, onMounted, Ref, watch} from "@vue/composition-api";
 import {$plain} from "@/packages/base";

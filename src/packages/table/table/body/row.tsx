@@ -1,5 +1,5 @@
 import {computed, defineComponent} from "@vue/composition-api";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
+import {TableNode} from "@/packages/table/table/TableNode";
 import {injectTable} from "@/packages/table/table/table";
 
 export default defineComponent({

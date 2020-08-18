@@ -1,5 +1,5 @@
 import {TableCheckStatus, TablePropsType} from "@/packages/table/table-utils";
-import {TableMark, TableMarkAttr} from "@/packages/table/table-bak/TableMark";
+import {TableMarkAttr, TableMark} from "@/packages/table/table/TableMark";
 import {set} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 import {validateAsync, ValidateResultMap} from "@/packages/form/validate";

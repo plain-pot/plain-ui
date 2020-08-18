@@ -1,5 +1,5 @@
-import {TableNode} from "@/packages/table/table-bak/TableNode";
-import {TableMark, TableMarkAttr} from "@/packages/table/table-bak/TableMark";
+import {TableNode} from "@/packages/table/table/TableNode";
+import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
 import {$plain} from "@/packages/base";
 import {computed, Ref} from "@vue/composition-api";
 

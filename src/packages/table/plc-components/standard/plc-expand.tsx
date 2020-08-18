@@ -1,8 +1,7 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {computed, reactive, set} from "@vue/composition-api";
-import {TableNode} from "@/packages/table/table-bak/TableNode";
-import {PlcFixedType} from "@/packages/table/plc/plc-utils";
+import {TableNode} from "@/packages/table/table/TableNode";
 import {injectTable} from "@/packages/table/table/table";
 import {StyleType} from "@/types/utils";
 import {$plain} from "@/packages/base";
