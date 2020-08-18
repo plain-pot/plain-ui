@@ -2,6 +2,7 @@ import {computed, defineComponent} from "@vue/composition-api";
 import {PlcType} from "@/packages/table/plc/plc";
 import {injectTable} from "@/packages/table/table/table";
 import {PlcRender} from "@/packages/table/table-bak/render";
+import {useHeadCellResize} from "@/packages/table/table/head/useHeadCellResize";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -11,6 +12,8 @@ export default defineComponent({
     setup(props: { plc: PlcType }) {
 
         const table = injectTable()
+
+        const {resizeHandler} = useHeadCellResize(table, props.plc)
 
         /**
          * 给 head-cell 加一个key，当 plc的props变化之后，head-cell节点会更新为新的节点，触发 scroll 的 ObjectServer事件，从而刷新滚动条宽度
@@ -43,6 +46,7 @@ export default defineComponent({
                         {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {PlcRender.head(props.plc)}
                     </div>
+                    <span class="plt-head-cell-indicator" onMousedown={resizeHandler.mousedown}/>
                 </td>
             )
         }

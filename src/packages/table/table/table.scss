@@ -201,6 +201,20 @@
         background-color: $tableHeadBackground;
 
       }
+
+      .plt-head-cell-indicator {
+        position: absolute;
+        top: 0;
+        height: inherit;
+        width: 6px;
+        right: 0;
+        content: '';
+        background-color: rgba(black, 0.1);
+        cursor: ew-resize;
+        opacity: 0;
+        transition: opacity 500ms $transition;
+        z-index: 1;
+      }
     }
 
     /*---------------------------------------body-------------------------------------------*/
