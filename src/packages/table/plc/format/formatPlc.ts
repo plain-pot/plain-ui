@@ -16,6 +16,7 @@ function copyPlcList(items: (PlcType | PlcGroupType)[]) {
     const newItems: (PlcType | PlcGroupType)[] = []
     items.forEach((item) => {
         const newItem = {...item}
+        newItem.props = {...item.props}
         if (item.type === PlcComponentType.GROUP) {
             (newItem as PlcGroupType).items.value = copyPlcList((newItem as PlcGroupType).items.value)
         }
