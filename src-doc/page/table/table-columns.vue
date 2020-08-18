@@ -18,7 +18,9 @@
                 :data="data"
                 :virtual="virtualFlag"
                 @dblclick-cell="onDblClickRow">
+            <plc-index/>
             <plc-check ref="check" toggleOnClickRow/>
+            <plc-draggier/>
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required/>
             <plc-number field="size" title="数字框"/>

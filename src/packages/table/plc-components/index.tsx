@@ -2,6 +2,7 @@ import index from './standard/plc-index'
 import check from './standard/plc-check'
 import expand from './standard/plc-expand'
 import tree from './standard/tree/plc-tree'
+import draggier from './standard/plc-draggier'
 
 import toggle from './external/plc-toggle'
 import input from './external/plc-input'
@@ -18,6 +19,7 @@ export default installPlugin([
     check,
     expand,
     tree,
+    draggier,
 
     toggle,
     input,

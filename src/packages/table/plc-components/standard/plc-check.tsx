@@ -14,7 +14,7 @@ export default definePlc({
         //standard
         autoFixedLeft: {default: true},
         order: {default: -9998},
-        width: {default: 60},
+        width: {default: 40},
         align: {default: 'center'},
         summary: {
             type: Function,
