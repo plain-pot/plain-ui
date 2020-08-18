@@ -113,6 +113,8 @@ export default [
             // {name: 'Table Methods', title: '方法', icon: 'pl-table-solid', page: '/table/base-table-methods', complete: false},
             {name: 'Expand', title: '展开列', icon: 'pl-table-solid', page: '/table/table-expand', complete: true},
             {name: 'Tree', title: '树形表格', icon: 'pl-table-solid', page: '/table/tree/table-tree', complete: true},
+            {name: 'Col Draggable', title: '列拖拽排序', icon: 'pl-table-solid', page: '/table/table-col-draggable', complete: true},
+            {name: 'Row Draggable', title: '行拖拽排序', icon: 'pl-table-solid', page: '/table/table-row-draggable', complete: true},
         ]
     },
     {
