@@ -124,7 +124,7 @@ export default [
             {name: 'Sticky', title: '粘粘组件', page: '/sticky-table/demo-sticky', complete: true},
         ]
     },
-    /*{name: '指令'},
+    {name: '指令'},
     {
         name: '测试', children: [
             {name: 'Test', title: '测试手动渲染实例', icon: 'pl-table-solid', page: '/normal/test', complete: true},
@@ -134,6 +134,7 @@ export default [
             {name: 'High', title: '测试高阶组件', icon: 'pl-table-solid', page: '/test/test-high', complete: true},
             {name: 'Listener', title: '测试事件', icon: 'pl-table-solid', page: '/test/test-listener', complete: true},
             {name: 'Filter', title: '异步过滤器', icon: 'pl-table-solid', page: '/test/test-filter', complete: true},
+            {name: 'List Draggier', title: '列表拖拽排序', icon: 'pl-table-solid', page: '/test/test-list-draggier', complete: true},
         ]
-    },*/
+    },
 ]
