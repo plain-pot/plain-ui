@@ -284,6 +284,7 @@ function tableSetup(props: TablePropsType) {
 
     /*---------------------------------------refer-------------------------------------------*/
     const refer = {
+        dataModel,
         props,
         mark,
         slots,

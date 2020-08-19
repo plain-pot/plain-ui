@@ -42,7 +42,7 @@
             return {
                 data,
                 editNodes: [],
-                virtualFlag: true,
+                virtualFlag: false,
             }
         },
         methods: {
