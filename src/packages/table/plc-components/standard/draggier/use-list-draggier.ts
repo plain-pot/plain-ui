@@ -27,6 +27,14 @@ export function useListDraggier(
     }
 
     const utils = {
+        /**
+         * 根据startIndex以及endIndex，设置这个index范围内的row的dom对象进行上下平移；
+         * 如果startIndex大于endIndex，则范围内的row对象，除了startIndex，其他的应该向上平移；
+         * 反之，如果startIndex小于endIndex，则范围内的row对象，除了startIndex，其他的应该向下平移；
+         *
+         * @author  韦胜健
+         * @date    2020/8/19 21:09
+         */
         refresh() {
             const {dragHeight, startIndex, endIndex} = state
             // 是否为向下移动
@@ -63,11 +71,11 @@ export function useListDraggier(
 
             state.startY = e.clientY
 
-            state.dragEl = rowEl
-            state.dragHeight = rowEl.offsetHeight
-            state.dragEl.style.pointerEvents = 'none'
-            state.rowList = Array.from(rowEl.parentNode!.querySelectorAll(`.${rowClass}`)) as HTMLElement[]
-            state.startIndex = state.rowList.indexOf(rowEl)
+            state.dragEl = rowEl                                                                                    // 当前拖拽dom对象
+            state.dragHeight = rowEl.offsetHeight                                                                   // 当前拖拽dom对象的高度，其他row的dom对象的偏移距离按照这个来
+            state.dragEl.style.pointerEvents = 'none'                                                               // 拖拽的dom对象不应该接收事件，以免阻碍其他row接收mouseenter事件；
+            state.rowList = Array.from(rowEl.parentNode!.querySelectorAll(`.${rowClass}`)) as HTMLElement[]         // 拖拽的dom对象的兄弟dom对象数组，包括这个拖拽的dom对象
+            state.startIndex = state.rowList.indexOf(rowEl)                                                         // 拖拽的dom对象在兄弟dom对象数组中的索引位置，就是拖拽的节点一开始的时候的位置
 
             document.addEventListener('mousemove', handler.mousemove)
             document.addEventListener('mouseup', handler.mouseup)
@@ -79,21 +87,31 @@ export function useListDraggier(
                     return
                 }
 
+                // 兄弟节点自动进行上下平移
                 rowEl.style.transition = `transform 300ms cubic-bezier(0.23, 1, 0.32, 1)`
+
                 const mouseenter = (e: MouseEvent) => {
                     // e.movementY > 0 表示从上往下进入rowEl
                     if (state.startIndex > index) {
-                        // 向上方滑动
+                        /*
+                        *  在startIndex上方拖拽移动的时候，如果是从上方进入row，那么应该是index+1，如果是从下方进入row，那么目标index就是进入的这个row的index；
+                        *  跟refresh中的写法有关；
+                        */
                         state.endIndex = e.movementY > 0 ? index + 1 : index
                     } else {
-                        // 向下方滑动
+                        /*
+                        *  在startIndex下方拖拽移动的时候，如果是从上方进入row，那么就是index，否则从下面进入row的时候，就是index-1
+                        *  跟refresh中的写法有关
+                        */
                         state.endIndex = e.movementY > 0 ? index : index - 1
                     }
                     utils.refresh()
                 }
+
                 rowEl.__draggier = {
                     mouseenter,
                 }
+
                 rowEl.addEventListener('mouseenter', rowEl.__draggier.mouseenter)
             })
         },
