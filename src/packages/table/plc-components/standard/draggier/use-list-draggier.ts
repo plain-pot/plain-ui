@@ -1,7 +1,40 @@
 import {$plain} from "@/packages/base";
 
-function isItem(rowEl: HTMLElement, rowClass: string): boolean {
-    return $plain.utils.hasClass(rowEl, rowClass)
+/**
+ * 获取拖拽的rowEl对象
+ * @author  韦胜健
+ * @date    2020/8/19 23:55
+ */
+function getRowEl(e: MouseEvent, rowClass: string): HTMLElement {
+    let rowEl = e.target as HTMLElement
+    while (!!rowEl && !$plain.utils.hasClass(rowEl, rowClass)) {
+        rowEl = rowEl.parentNode as HTMLElement
+    }
+    if (!rowEl) {
+        throw new Error(`can't find item element!`)
+    }
+    return rowEl
+}
+
+/**
+ * 获取可以滚动的父组件
+ * @author  韦胜健
+ * @date    2020/8/19 23:50
+ */
+function getScrollParent(el: HTMLElement): HTMLElement | null {
+    while (!!el && el.scrollHeight <= el.offsetHeight) {
+        el = el.parentNode as HTMLElement
+    }
+    return el
+}
+
+/**
+ * 获取行el对象的所有兄弟节点
+ * @author  韦胜健
+ * @date    2020/8/19 23:57
+ */
+function getRowElList(el: HTMLElement, rowClass: string): HTMLElement[] {
+    return Array.from(el.parentNode!.querySelectorAll(`.${rowClass}`))
 }
 
 export function useListDraggier(
@@ -19,22 +52,28 @@ export function useListDraggier(
         startIndex: 0,                              // 拖拽的dragEl在数组中的索引
         endIndex: 0,                                // 拖拽结束的时候，dragEl应该所在的索引位置
 
-        startY: 0,                                  // 拖拽dragEl起始的时候，e.clientY，与mousemove的时候的e.clientY做差值，以便得到dragEl的偏移距离
+        startClientY: 0,                            // 拖拽dragEl起始的时候，e.clientY，与mousemove的时候的e.clientY做差值，以便得到dragEl的偏移距离
+        moveClientY: 0,                             // 拖拽move的时候，e.clientY
+
         dragEl: null as null | HTMLElement,         // 拖拽的时候的dragEl的dom对象
         dragHeight: 0,                              // 拖拽的时候的dragEl高度，当在下方移动时，下方需要移动的rowEl都应该往上偏移 dragHeight距离，在上方移动时，上方需要移动的rowEl需要往下偏移 dragHeight距离
+
+        scrollParent: null as null | HTMLElement,   // 可以滚动的父元素
+        dragStartScrollTop: 0,                      // 拖拽开始的时候，scrollParent 的scrollTop位置
+        dragScrollTop: 0,                           // scrollParent 的 scroll偏移距离
 
         rowList: [] as HTMLElement[],               // dragEl的兄弟节点，包含dragEl
     }
 
-    const utils = {
-        /**
+    /*const utils = {
+        /!**
          * 根据startIndex以及endIndex，设置这个index范围内的row的dom对象进行上下平移；
          * 如果startIndex大于endIndex，则范围内的row对象，除了startIndex，其他的应该向上平移；
          * 反之，如果startIndex小于endIndex，则范围内的row对象，除了startIndex，其他的应该向下平移；
          *
          * @author  韦胜健
          * @date    2020/8/19 21:09
-         */
+         *!/
         refresh() {
             const {dragHeight, startIndex, endIndex} = state
             // 是否为向下移动
@@ -52,6 +91,12 @@ export function useListDraggier(
                 el.style.transform = `translateY(${movedown ? '-' : ''}${dragHeight}px)`
             })
         },
+    }*/
+
+    const utils = {
+        refreshDragElPosition() {
+            state.dragEl!.style.transform = `translateY(${state.moveClientY - state.startClientY + state.dragScrollTop}px)`
+        },
     }
 
     const handler = {
@@ -59,23 +104,18 @@ export function useListDraggier(
 
             $plain.disableSelect()
 
-            /*---------------------------------------找到rowEl-------------------------------------------*/
 
-            let rowEl = e.target as HTMLElement
-            while (!!rowEl && !isItem(rowEl, rowClass)) {
-                rowEl = rowEl.parentNode as HTMLElement
-            }
-            if (!rowEl) {
-                throw new Error(`can't find item element!`)
-            }
-
-            state.startY = e.clientY
-
-            state.dragEl = rowEl                                                                                    // 当前拖拽dom对象
-            state.dragHeight = rowEl.offsetHeight                                                                   // 当前拖拽dom对象的高度，其他row的dom对象的偏移距离按照这个来
-            state.dragEl.style.pointerEvents = 'none'                                                               // 拖拽的dom对象不应该接收事件，以免阻碍其他row接收mouseenter事件；
-            state.rowList = Array.from(rowEl.parentNode!.querySelectorAll(`.${rowClass}`)) as HTMLElement[]         // 拖拽的dom对象的兄弟dom对象数组，包括这个拖拽的dom对象
-            state.startIndex = state.rowList.indexOf(rowEl)                                                         // 拖拽的dom对象在兄弟dom对象数组中的索引位置，就是拖拽的节点一开始的时候的位置
+            state.startClientY = e.clientY
+            state.dragEl = getRowEl(e, rowClass)
+            state.dragHeight = state.dragEl.offsetHeight
+            state.rowList = getRowElList(state.dragEl!, rowClass)
+            state.startIndex = state.rowList.indexOf(state.dragEl)
+            state.scrollParent = getScrollParent(state.dragEl)
+            state.dragStartScrollTop = state.scrollParent!.scrollTop
+            state.scrollParent!.addEventListener('scroll', e => {
+                state.dragScrollTop = state.scrollParent!.scrollTop - state.dragStartScrollTop
+                utils.refreshDragElPosition()
+            })
 
             document.addEventListener('mousemove', handler.mousemove)
             document.addEventListener('mouseup', handler.mouseup)
@@ -105,7 +145,7 @@ export function useListDraggier(
                         */
                         state.endIndex = e.movementY > 0 ? index : index - 1
                     }
-                    utils.refresh()
+                    // utils.refresh()
                 }
 
                 rowEl.__draggier = {
@@ -116,8 +156,8 @@ export function useListDraggier(
             })
         },
         mousemove: (e: MouseEvent) => {
-            const durY = e.clientY - state.startY
-            state.dragEl!.style.transform = `translateY(${durY}px)`
+            state.moveClientY = e.clientY
+            utils.refreshDragElPosition()
         },
         mouseup: async () => {
 
