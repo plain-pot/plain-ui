@@ -22,7 +22,6 @@ export function useListDraggier(
         startY: 0,                                  // 拖拽dragEl起始的时候，e.clientY，与mousemove的时候的e.clientY做差值，以便得到dragEl的偏移距离
         dragEl: null as null | HTMLElement,         // 拖拽的时候的dragEl的dom对象
         dragHeight: 0,                              // 拖拽的时候的dragEl高度，当在下方移动时，下方需要移动的rowEl都应该往上偏移 dragHeight距离，在上方移动时，上方需要移动的rowEl需要往下偏移 dragHeight距离
-        dragElBakStyle: {} as any,                  // 拖拽的时候，dragEl的style对象备份
 
         rowList: [] as HTMLElement[],               // dragEl的兄弟节点，包含dragEl
     }
@@ -64,7 +63,6 @@ export function useListDraggier(
 
             state.startY = e.clientY
 
-            state.dragElBakStyle = {...rowEl.style}
             state.dragEl = rowEl
             state.dragHeight = rowEl.offsetHeight
             state.dragEl.style.pointerEvents = 'none'
@@ -81,7 +79,6 @@ export function useListDraggier(
                     return
                 }
 
-                const bakStyles = {...rowEl.style}
                 rowEl.style.transition = `transform 300ms cubic-bezier(0.23, 1, 0.32, 1)`
                 const mouseenter = (e: MouseEvent) => {
                     // e.movementY > 0 表示从上往下进入rowEl
@@ -95,7 +92,6 @@ export function useListDraggier(
                     utils.refresh()
                 }
                 rowEl.__draggier = {
-                    bakStyles,
                     mouseenter,
                 }
                 rowEl.addEventListener('mouseenter', rowEl.__draggier.mouseenter)
@@ -109,9 +105,10 @@ export function useListDraggier(
 
             await onChange(state.startIndex, state.endIndex)
             await $plain.nextTick()
-
             $plain.enableSelect()
-            Object.assign(state.dragEl!.style, state.dragElBakStyle)
+
+            state.dragEl!.style.pointerEvents = ''
+            state.dragEl!.style.transform = ''
 
             document.removeEventListener('mousemove', handler.mousemove)
             document.removeEventListener('mouseup', handler.mouseup)
@@ -123,7 +120,9 @@ export function useListDraggier(
                 }
 
                 rowEl.removeEventListener('mouseenter', rowEl.__draggier.mouseenter)
-                rowEl.style = rowEl.__draggier.bakStyles
+
+                rowEl.style.transition = ``
+                rowEl.style.transform = ``
             })
         }
     }
