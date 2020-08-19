@@ -8,6 +8,7 @@
                         mode="text"
                         class="plc-draggier-handler"
                 />
+                {{item.id}}、
                 {{item.name}}
             </div>
         </div>
@@ -17,9 +18,10 @@
 <script>
     import {useListDraggier} from "../../../src/packages/table/plc-components/standard/draggier/use-list-draggier";
     import data from '../data/data-1'
-    import {reactive} from "@vue/composition-api";
+    import {defineComponent, reactive} from "@vue/composition-api";
+    import {$plain} from "../../../src/packages/base";
 
-    export default {
+    export default defineComponent({
         name: "test-list-draggier",
         setup() {
 
@@ -28,7 +30,13 @@
             })
 
             const {handler} = useListDraggier({
-                rowClass: 'item'
+                rowClass: 'item',
+                onChange: async (start, end) => {
+                    console.log({
+                        start, end
+                    })
+                    state.data.splice(end > start ? end - 1 : end, 0, state.data.splice(start, 1)[0])
+                }
             })
 
             return {
@@ -36,7 +44,7 @@
                 handler,
             }
         },
-    }
+    })
 </script>
 
 <style lang="scss">
