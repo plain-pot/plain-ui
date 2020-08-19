@@ -1,17 +1,19 @@
 <template>
     <div class="test-list-draggier">
         <div class="list">
-            <div class="item" v-for="item in state.data" :key="item.id">
-                <pl-button
-                        @mousedown.native="handler.mousedown"
-                        icon="el-icon-rank"
-                        size="normal"
-                        mode="text"
-                        class="plc-draggier-handler"
-                />
-                {{item.id}}、
-                {{item.name}}
-            </div>
+            <pl-scroll>
+                <div class="item" v-for="item in state.data" :key="item.id">
+                    <pl-button
+                            @mousedown.native="handler.mousedown"
+                            icon="el-icon-rank"
+                            size="normal"
+                            mode="text"
+                            class="plc-draggier-handler"
+                    />
+                    {{item.id}}、
+                    {{item.name}}
+                </div>
+            </pl-scroll>
         </div>
     </div>
 </template>
