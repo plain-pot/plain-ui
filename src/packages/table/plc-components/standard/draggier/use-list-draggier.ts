@@ -9,22 +9,22 @@ export function useListDraggier(
         rowClass,
         onChange,
     }: {
-        rowClass: string,
-        onChange: (start: number, end: number) => void | Promise<void>
+        rowClass: string,                                                           // 行的class，要确保只有行所在的dom对象有这个class，其子节点是没有这个class的
+        onChange: (start: number, end: number) => void | Promise<void>,             // 拖拽导致排序变化动作
     }
 ) {
 
     const state = {
 
-        startIndex: 0,
-        endIndex: 0,
+        startIndex: 0,                              // 拖拽的dragEl在数组中的索引
+        endIndex: 0,                                // 拖拽结束的时候，dragEl应该所在的索引位置
 
-        startY: 0,
-        dragEl: null as null | HTMLElement,
-        dragHeight: 0,
-        dragElBakStyle: {} as any,
+        startY: 0,                                  // 拖拽dragEl起始的时候，e.clientY，与mousemove的时候的e.clientY做差值，以便得到dragEl的偏移距离
+        dragEl: null as null | HTMLElement,         // 拖拽的时候的dragEl的dom对象
+        dragHeight: 0,                              // 拖拽的时候的dragEl高度，当在下方移动时，下方需要移动的rowEl都应该往上偏移 dragHeight距离，在上方移动时，上方需要移动的rowEl需要往下偏移 dragHeight距离
+        dragElBakStyle: {} as any,                  // 拖拽的时候，dragEl的style对象备份
 
-        rowList: [] as HTMLElement[]
+        rowList: [] as HTMLElement[],               // dragEl的兄弟节点，包含dragEl
     }
 
     const utils = {
