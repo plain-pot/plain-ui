@@ -15,19 +15,42 @@ export function useListDraggier(
 ) {
 
     const state = {
-        startY: 0,                                          // 在mousedown draggier的时候，鼠标的clientY初始值；
-        rowEl: null as null | HTMLElement,                  // mousedown 的row的dom对象
-        rowElList: [] as HTMLElement[],                     // row dom对象数组
-        startIndex: null as null | number,                  // 拖拽开始时的位置索引
-        endIndex: null as null | number,                   // 拖拽结束时的位置索引
+
+        startIndex: 0,
+        endIndex: 0,
+
+        startY: 0,
+        dragEl: null as null | HTMLElement,
+        dragHeight: 0,
+        dragElBakStyle: {} as any,
+
+        rowList: [] as HTMLElement[]
+    }
+
+    const utils = {
+        refresh() {
+            const {dragHeight, startIndex, endIndex} = state
+            // 是否为向下移动
+            const movedown = startIndex < endIndex
+            const [start, end] = movedown ? [startIndex, endIndex] : [endIndex, startIndex]
+
+            state.rowList.forEach((el, index) => {
+                if (index < start || index > end) {
+                    el.style.transform = ``
+                    return;
+                }
+                if (el === state.dragEl) {
+                    return
+                }
+                el.style.transform = `translateY(${movedown ? '-' : ''}${dragHeight}px)`
+            })
+        },
     }
 
     const handler = {
-        onMousedownDraggier: (e: MouseEvent) => {
+        mousedown: (e: MouseEvent) => {
 
             $plain.disableSelect()
-
-            state.startY = e.clientY
 
             /*---------------------------------------找到rowEl-------------------------------------------*/
 
@@ -38,76 +61,69 @@ export function useListDraggier(
             if (!rowEl) {
                 throw new Error(`can't find item element!`)
             }
-            state.rowEl = rowEl
-            rowEl.style.zIndex = `99`
-            rowEl.style.position = `relative`
-            rowEl.style.zIndex = '3'
-            rowEl.style.backgroundColor = '#f2f2f2'
 
-            /*---------------------------------------找到rowElList-------------------------------------------*/
-            // @ts-ignore
-            state.rowElList = Array.from(rowEl.parentNode.querySelectorAll(`.${rowClass}`) as HTMLElement[])
+            state.startY = e.clientY
 
-            state.startIndex = state.rowElList.indexOf(state.rowEl)
+            state.dragElBakStyle = {...rowEl.style}
+            state.dragEl = rowEl
+            state.dragHeight = rowEl.offsetHeight
+            state.dragEl.style.pointerEvents = 'none'
+            state.rowList = Array.from(rowEl.parentNode!.querySelectorAll(`.${rowClass}`)) as HTMLElement[]
+            state.startIndex = state.rowList.indexOf(rowEl)
 
-            /*---------------------------------------初始化事件-------------------------------------------*/
+            document.addEventListener('mousemove', handler.mousemove)
+            document.addEventListener('mouseup', handler.mouseup)
 
-            document.addEventListener('mouseup', handler.onMouseupDocument)
+            state.rowList.forEach((rowEl: any, index) => {
 
-            state.rowElList.forEach((el: any) => {
-
-                const mouseenter = () => {
-
-                    if (el === state.rowEl) {
-                        return
-                    }
-
-                    const curRowEl = state.rowEl as any
-
-                    const {top, translateY} = curRowEl.__draggier
-
-                    curRowEl.__draggier.top = el.__draggier.top
-                    curRowEl.__draggier.translateY = el.__draggier.translateY
-
-                    el.__draggier.top = top
-                    el.__draggier.translateY = translateY
-
-                    el.style.transform = `translateY(${(el.__draggier.top + el.__draggier.translateY) - el.__draggier.offsetTop}px)`
-                    curRowEl.style.transform = `translateY(${(curRowEl.__draggier.top + curRowEl.__draggier.translateY) - curRowEl.__draggier.offsetTop}px)`
-
-                    const elIndex = state.endIndex = state.rowElList.indexOf(el)
-                    state.endIndex = el.__draggier.top < curRowEl.__draggier.top ? elIndex + 1 : elIndex
+                // 如果是当前拖拽的el，则不监听事件，不做任何处理
+                if (rowEl === state.dragEl) {
+                    return
                 }
-                el.__draggier = {
-                    // offsetTop = top+translateY
-                    offsetTop: el.offsetTop,            // 实际距离顶部滚动距离
-                    top: el.offsetTop,                  // 当前虚拟的距离顶部距离
-                    translateY: 0,                      // 当前Y轴平移距离
-                    // 监听鼠标进入事件
+
+                const bakStyles = {...rowEl.style}
+                rowEl.style.transition = `transform 300ms cubic-bezier(0.23, 1, 0.32, 1)`
+                const mouseenter = (e: MouseEvent) => {
+                    // e.movementY > 0 表示从上往下进入rowEl
+                    if (state.startIndex > index) {
+                        // 向上方滑动
+                        state.endIndex = e.movementY > 0 ? index + 1 : index
+                    } else {
+                        // 向下方滑动
+                        state.endIndex = e.movementY > 0 ? index : index - 1
+                    }
+                    utils.refresh()
+                }
+                rowEl.__draggier = {
+                    bakStyles,
                     mouseenter,
                 }
-                el.addEventListener('mouseenter', el.__draggier.mouseenter)
+                rowEl.addEventListener('mouseenter', rowEl.__draggier.mouseenter)
             })
         },
-        onMouseupDocument: async () => {
+        mousemove: (e: MouseEvent) => {
+            const durY = e.clientY - state.startY
+            state.dragEl!.style.transform = `translateY(${durY}px)`
+        },
+        mouseup: async () => {
+
+            await onChange(state.startIndex, state.endIndex)
+            await $plain.nextTick()
 
             $plain.enableSelect()
+            Object.assign(state.dragEl!.style, state.dragElBakStyle)
 
-            if (state.startIndex != null && state.endIndex != null) {
-                await onChange(state.startIndex, state.endIndex)
-                await $plain.nextTick()
-            }
+            document.removeEventListener('mousemove', handler.mousemove)
+            document.removeEventListener('mouseup', handler.mouseup)
 
-            document.removeEventListener('mouseup', handler.onMouseupDocument);
-            (state.rowEl as any).style.zIndex = '';
-            (state.rowEl as any).style.position = '';
-            (state.rowEl as any).style.zIndex = '';
-            (state.rowEl as any).style.backgroundColor = '';
+            state.rowList.forEach((rowEl: any, index) => {
 
-            state.rowElList.forEach((el: any) => {
-                el.removeEventListener('mouseenter', el.__draggier.mouseenter)
-                el.style.transform = ''
-                delete el.__draggier
+                if (rowEl === state.dragEl) {
+                    return
+                }
+
+                rowEl.removeEventListener('mouseenter', rowEl.__draggier.mouseenter)
+                rowEl.style = rowEl.__draggier.bakStyles
             })
         }
     }

@@ -1,8 +1,9 @@
 <template>
     <div class="test-list-draggier">
         <div class="list">
-            <div class="item" v-for="item in state.data" :key="item.id" @mousedown="handler.onMousedownDraggier">
+            <div class="item" v-for="item in state.data" :key="item.id">
                 <pl-button
+                        @mousedown.native="handler.mousedown"
                         icon="el-icon-rank"
                         size="normal"
                         mode="text"
@@ -32,13 +33,12 @@
             const {handler} = useListDraggier({
                 rowClass: 'item',
                 onChange: async (start, end) => {
-                    console.log({
+                    /*console.log({
                         start, end
-                    })
-                    state.data.splice(end > start ? end - 1 : end, 0, state.data.splice(start, 1)[0])
+                    })*/
+                    state.data.splice(end, 0, state.data.splice(start, 1)[0])
                 }
             })
-
             return {
                 state,
                 handler,
