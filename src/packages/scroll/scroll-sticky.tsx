@@ -65,19 +65,19 @@ export default defineComponent({
                 const {scrollTop, scrollLeft} = data
 
                 if (props.top != null) {
-                    refs.$el.style.top = (Math.max(0, scrollTop - (offset.top - props.top))) + 'px'
+                    refs.$el.style.transform = `translateY(${(Math.max(0, scrollTop - (offset.top - props.top))) + 'px'})`
                 }
 
                 if (props.bottom != null) {
-                    refs.$el.style.bottom = Math.max(0, offset.top + offset.height - content.height - scrollTop + props.bottom) + 'px'
+                    refs.$el.style.transform = `translateY(-${Math.max(0, offset.top + offset.height - content.height - scrollTop + props.bottom) + 'px'})`
                 }
 
                 if (props.left != null) {
-                    refs.$el.style.left = (Math.max(0, scrollLeft - (offset.left - props.left))) + 'px'
+                    refs.$el.style.transform = `translateX(${(Math.max(0, scrollLeft - (offset.left - props.left))) + 'px'})`
                 }
 
                 if (props.right != null) {
-                    refs.$el.style.right = Math.max(0, offset.left + offset.width - content.width - scrollLeft + props.right) + 'px'
+                    refs.$el.style.transform = `translateX(-${Math.max(0, offset.left + offset.width - content.width - scrollLeft + props.right) + 'px'})`
                 }
             }
 
