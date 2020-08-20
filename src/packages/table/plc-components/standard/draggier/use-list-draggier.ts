@@ -45,26 +45,21 @@ export function useListDraggier(
     }: {
         rowClass: string,                                                           // 行的class，要确保只有行所在的dom对象有这个class，其子节点是没有这个class的
         onChange: (start: number, end: number) => void | Promise<void>,             // 拖拽导致排序变化动作
-        dragClass?: string,
+        dragClass?: string,                                                         // 拖拽的时候，给dragEl添加的class
     }
 ) {
 
     const state = {
-
         startIndex: 0,                              // 拖拽的dragEl在数组中的索引
         endIndex: 0,                                // 拖拽结束的时候，dragEl应该所在的索引位置
-
         startClientY: 0,                            // 拖拽dragEl起始的时候，e.clientY，与mousemove的时候的e.clientY做差值，以便得到dragEl的偏移距离
         moveClientY: 0,                             // 拖拽move的时候，e.clientY
-
         dragEl: null as null | HTMLElement,         // 拖拽的时候的dragEl的dom对象
         dragHeight: 0,                              // 拖拽的时候的dragEl高度，当在下方移动时，下方需要移动的rowEl都应该往上偏移 dragHeight距离，在上方移动时，上方需要移动的rowEl需要往下偏移 dragHeight距离
-        dragOffsetTop: 0,
-
+        dragOffsetTop: 0,                           // dragEl拖拽开始的时候，距离滚动顶部距离
         scrollParent: null as null | HTMLElement,   // 可以滚动的父元素
         dragStartScrollTop: 0,                      // 拖拽开始的时候，scrollParent 的scrollTop位置
         dragScrollTop: 0,                           // scrollParent 的 scroll偏移距离
-
         rowList: [] as HTMLElement[],               // dragEl的兄弟节点，包含dragEl
     }
 
@@ -95,6 +90,11 @@ export function useListDraggier(
                 el.style.transform = `translateY(${movedown ? '-' : ''}${dragHeight}px)`
             })
         },
+        /**
+         * 刷新dragEl的位置，同时刷新兄弟节点的位置
+         * @author  韦胜健
+         * @date    2020/8/20 23:29
+         */
         refreshDragElPosition() {
             state.dragEl!.style.transform = `translateY(${state.moveClientY - state.startClientY + state.dragScrollTop}px)`
             const top = (state.moveClientY - state.startClientY) + state.dragScrollTop + state.dragOffsetTop
@@ -178,5 +178,4 @@ export function useListDraggier(
     return {
         handler,
     }
-
 }
