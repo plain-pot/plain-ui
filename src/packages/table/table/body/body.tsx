@@ -1,9 +1,9 @@
-import {computed, defineComponent, onMounted, reactive, watch} from "@vue/composition-api";
+import {computed, defineComponent, onMounted} from "@vue/composition-api";
 import {injectTable} from "@/packages/table/table/table";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {useRefs} from "@/use/useRefs";
 import {TableHoverPart} from "@/packages/table/table-utils";
-import {useMounted} from "@/use/useMounted";
+import {TableNode} from "@/packages/table/table/TableNode";
 
 export default defineComponent({
     name: 'plt-body',
@@ -44,17 +44,16 @@ export default defineComponent({
                     {
                         ...{
                             scopedSlots: {
-                                default: ({item, index, isSummary}) => [
+                                default: ({item, isSummary}: { item: TableNode, isSummary: boolean }) => [
                                     /*
                                     - 这里用 item.key 作为key，感觉虚拟滚动的性能要更好一点
                                     - 树列里面，如果不用这个key的话，复选框会有短暂的切换动画，在展开收起的时候
                                     */
-                                    <plt-row key={item.key} vid={index} rowData={item} isSummary={isSummary}/>,
+                                    <plt-row key={`${item.key}_${item.index}`} vid={item.index} rowData={item} isSummary={isSummary}/>,
                                     table.plcData.value!.plcListHasRenderAfterRow.length === 0
                                         ? null :
                                         [...table.plcData.value!.plcListHasRenderAfterRow.map(plc => plc.props.renderAfterRow!({
                                             plc,
-                                            index,
                                             rowData: item,
                                             isSummary,
                                         }))]

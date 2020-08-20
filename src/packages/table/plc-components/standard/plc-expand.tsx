@@ -8,7 +8,6 @@ import {$plain} from "@/packages/base";
 
 interface ExpandDataType {
     plc: PlcType,
-    index: number,
     rowData: TableNode,
     isSummary: boolean
 }
@@ -54,7 +53,7 @@ export default definePlc({
         },
         renderAfterRow: {
             type: Function,
-            default: function ({plc, index, rowData, isSummary}: ExpandDataType) {
+            default: function ({plc, rowData, isSummary}: ExpandDataType) {
 
                 const ctx = plc.ctx as any
 
