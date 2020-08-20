@@ -30,17 +30,4 @@ export default definePlc({
             }
         },
     },
-    data() {
-        return {
-            items: {},
-            selected: [],
-
-            onClick: (rowData) => {
-                // @ts-ignore
-                this.selected.push(rowData.key)
-                // @ts-ignore
-                console.log(this.selected)
-            },
-        }
-    },
 })

@@ -21,6 +21,7 @@
             <plc-index/>
             <plc-check ref="check" toggleOnClickRow/>
             <plc-draggier/>
+            <plc field="id" title="编号"/>
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required/>
             <plc-number field="size" title="数字框"/>
@@ -47,7 +48,7 @@
         },
         methods: {
             onDblClickRow(tableNode, e) {
-                console.log('tableNode',tableNode)
+                console.log('tableNode', tableNode)
                 /*if (!this.$plain.utils.hasClass(e.target, 'plt-body-cell')) {
                     return
                 }*/
