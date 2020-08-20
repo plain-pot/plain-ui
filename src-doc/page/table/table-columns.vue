@@ -47,6 +47,7 @@
         },
         methods: {
             onDblClickRow(tableNode, e) {
+                console.log('tableNode',tableNode)
                 /*if (!this.$plain.utils.hasClass(e.target, 'plt-body-cell')) {
                     return
                 }*/
