@@ -1,6 +1,22 @@
 import {$plain} from "@/packages/base";
 
 /**
+ * 拖拽排序实现函数的类型
+ * @author  韦胜健
+ * @date    2020/8/21 10:07
+ */
+export interface UseListDraggierType {
+    (option: {
+        rowClass: string,                                                               // 行的class，要确保只有行所在的dom对象有这个class，其子节点是没有这个class的
+        onChange: (start: number, end: number) => void | Promise<void>,                 // 拖拽导致排序变化动作
+    }): {
+        handler: {
+            mousedown: (e: MouseEvent) => void,
+        }
+    }
+}
+
+/**
  * 获取拖拽的rowEl对象
  * @author  韦胜健
  * @date    2020/8/19 23:55
@@ -37,17 +53,12 @@ function getRowElList(el: HTMLElement, rowClass: string): HTMLElement[] {
     return Array.from(el.parentNode!.querySelectorAll(`.${rowClass}`))
 }
 
-export function useListDraggier(
-    {
-        rowClass,
-        onChange,
-        dragClass,
-    }: {
-        rowClass: string,                                                           // 行的class，要确保只有行所在的dom对象有这个class，其子节点是没有这个class的
-        onChange: (start: number, end: number) => void | Promise<void>,             // 拖拽导致排序变化动作
-        dragClass?: string,                                                         // 拖拽的时候，给dragEl添加的class
-    }
-) {
+/**
+ * 拖拽排序实现（非虚拟滚动）
+ * @author  韦胜健
+ * @date    2020/8/21 10:07
+ */
+export const useListDraggier: UseListDraggierType = ({rowClass, onChange}) => {
 
     const state = {
         startIndex: 0,                              // 拖拽的dragEl在数组中的索引
@@ -62,8 +73,6 @@ export function useListDraggier(
         dragScrollTop: 0,                           // scrollParent 的 scroll偏移距离
         rowList: [] as HTMLElement[],               // dragEl的兄弟节点，包含dragEl
     }
-
-
     const utils = {
         /**
          * 根据startIndex以及endIndex，设置这个index范围内的row的dom对象进行上下平移；
@@ -103,7 +112,6 @@ export function useListDraggier(
             utils.refresh()
         },
     }
-
     const handler = {
         mousedown: (e: MouseEvent) => {
 
@@ -121,8 +129,6 @@ export function useListDraggier(
             state.scrollParent!.addEventListener('scroll', handler.parentScroll)
             document.addEventListener('mousemove', handler.mousemove)
             document.addEventListener('mouseup', handler.mouseup)
-
-            !!dragClass && $plain.utils.addClass(state.dragEl!, dragClass);
 
             state.rowList.forEach((rowEl: any) => {
                 // 如果是当前拖拽的el，则不监听事件，不做任何处理
@@ -143,7 +149,6 @@ export function useListDraggier(
             $plain.enableSelect()
 
             state.dragEl!.style.transform = ''
-            !!dragClass && $plain.utils.removeClass(state.dragEl!, dragClass);
             document.removeEventListener('mousemove', handler.mousemove)
             document.removeEventListener('mouseup', handler.mouseup)
             state.scrollParent!.removeEventListener('scroll', handler.parentScroll)
