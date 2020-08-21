@@ -12,6 +12,8 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
         onChange,
     }) => {
 
+    const dragElHeight = 3
+
     const state = {
         startIndex: 0,
         endIndex: 0,
@@ -22,14 +24,22 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
         moveClientY: 0,
         scrollParent: null as null | HTMLElement,
         dragStartScrollTop: 0,
-        dragScrollTop: 0,
+        scrollParentScrollTop: 0,
+        scrollParentBoundingRect: {
+            top: 0,
+            left: 0,
+            width: 0,
+            height: 0,
+        },
+
+        dragEl: null as null | HTMLElement,
     }
 
     const utils = {
         refresh() {
-            const top = state.startOffsetTop + (state.moveClientY - state.startClientY) + state.dragScrollTop
+            const top = state.startOffsetTop + (state.moveClientY - state.startClientY) + (state.scrollParentScrollTop - state.dragStartScrollTop)
             const endIndex = Math.ceil(Math.max(0, top / state.dragHeight - 0.5))
-            console.log(endIndex)
+            state.dragEl!.style.transform = `translateY(${(endIndex + 1) * state.dragHeight - dragElHeight - state.scrollParentScrollTop + state.scrollParentBoundingRect.top}px)`
         },
     }
 
@@ -49,23 +59,42 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             const scrollParent = getScrollParent(dragEl)
             state.scrollParent = scrollParent
             state.dragStartScrollTop = scrollParent!.scrollTop
+            const {top, left, height, width} = state.scrollParent!.parentElement!.getBoundingClientRect()
+            state.scrollParentBoundingRect = {top, left, height, width}
 
             scrollParent!.addEventListener('scroll', handler.scroll)
             document.addEventListener('mousemove', handler.mousemove)
             document.addEventListener('mouseup', handler.mouseup)
 
+            state.dragEl = document.createElement('div')
+            document.body.appendChild(state.dragEl)
+            state.dragEl.style.position = 'fixed'
+            state.dragEl.style.left = `${state.scrollParentBoundingRect.left}px`
+            state.dragEl.style.height = `${dragElHeight}px`
+            state.dragEl.style.width = `${state.scrollParentBoundingRect.width}px`
+            state.dragEl.style.top = '0'
+            state.dragEl.style.backgroundColor = 'rgba(0,0,0,0.15)'
+
             utils.refresh()
         },
         scroll: () => {
-            state.dragScrollTop = state.scrollParent!.scrollTop - state.dragStartScrollTop
+            state.scrollParentScrollTop = state.scrollParent!.scrollTop
             utils.refresh()
         },
         mousemove: (e: MouseEvent) => {
+            if (e.clientY < state.scrollParentBoundingRect.top) {
+                return
+            }
+            if (e.clientY > state.scrollParentBoundingRect.top + state.scrollParentBoundingRect.height - 10) {
+                return
+            }
             state.moveClientY = e.clientY
             utils.refresh()
         },
         mouseup: (e: MouseEvent) => {
-
+            document.removeEventListener('mousemove', handler.mousemove)
+            document.removeEventListener('mouseup', handler.mouseup)
+            state.scrollParent!.removeEventListener('scroll', handler.scroll)
         }
     }
 
