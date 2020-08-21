@@ -71,11 +71,15 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             state.dragEl.style.position = 'fixed'
             state.dragEl.style.left = `${state.scrollParentBoundingRect.left}px`
             state.dragEl.style.height = `${dragElHeight}px`
-            state.dragEl.style.width = `${state.scrollParentBoundingRect.width}px`
+            state.dragEl.style.width = `0`
             state.dragEl.style.top = '0'
             state.dragEl.style.backgroundColor = 'rgba(0,0,0,0.15)'
-
+            state.dragEl.style.transition = 'width 1000ms cubic-bezier(0.23, 1, 0.32, 1), transform 500ms cubic-bezier(0.23, 1, 0.32, 1)'
             utils.refresh()
+
+            setTimeout(() => {
+                state.dragEl!.style.width = `${state.scrollParentBoundingRect.width}px`
+            }, 23)
         },
         scroll: () => {
             state.scrollParentScrollTop = state.scrollParent!.scrollTop
