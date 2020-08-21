@@ -33,7 +33,7 @@
 
             const {handler} = useListDraggier({
                 rowClass: 'item',
-                // virtual: true,
+                virtual: true,
                 onChange: async (start, end) => {
                     /*console.log({
                         start, end
