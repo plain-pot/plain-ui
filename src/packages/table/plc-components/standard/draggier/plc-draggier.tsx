@@ -1,5 +1,5 @@
 import {definePlc} from "@/packages/table/plc-components/register";
-import {useListDraggier} from "@/packages/table/plc-components/standard/draggier/use-list-draggier";
+import {useListDraggier} from "@/packages/table/plc-components/standard/draggier/composition";
 import {injectTable} from "@/packages/table/table/table";
 
 export default definePlc({

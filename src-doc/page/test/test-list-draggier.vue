@@ -2,7 +2,7 @@
     <div class="test-list-draggier">
         <div class="list">
             <pl-scroll>
-                <div class="item" v-for="item in state.data" :key="item.id">
+                <div class="item" v-for="(item,index) in state.data" :key="item.id" :vid="index">
                     <pl-button
                             @mousedown.native="handler.mousedown"
                             icon="el-icon-rank"
@@ -19,10 +19,9 @@
 </template>
 
 <script>
-    import {useListDraggier} from "../../../src/packages/table/plc-components/standard/draggier/use-list-draggier";
+    import {useListDraggier} from "../../../src/packages/table/plc-components/standard/draggier/composition";
     import data from '../data/data-1'
     import {defineComponent, reactive} from "@vue/composition-api";
-    import {$plain} from "../../../src/packages/base";
 
     export default defineComponent({
         name: "test-list-draggier",
@@ -34,6 +33,7 @@
 
             const {handler} = useListDraggier({
                 rowClass: 'item',
+                // virtual: true,
                 onChange: async (start, end) => {
                     /*console.log({
                         start, end
