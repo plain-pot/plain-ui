@@ -45,6 +45,7 @@ export default definePlc({
         const {dataModel} = injectTable()
 
         const {handler} = useListDraggier({
+            virtual: true,
             rowClass: 'plt-row',
             onChange: async (start, end) => {
                 dataModel.value.splice(end, 0, dataModel.value.splice(start, 1)[0])

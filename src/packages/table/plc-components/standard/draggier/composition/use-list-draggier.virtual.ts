@@ -15,57 +15,83 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
     const dragElHeight = 3
 
     const state = {
-        startIndex: 0,
-        endIndex: 0,
+        startDragIndex: 0,                                              // 开始拖拽的时候，的行索引
+        endDragIndex: 0,                                                // 拖拽结束的时候，应该移动到的索引位置
 
-        startOffsetTop: 0,
-        dragHeight: 0,
-        startClientY: 0,
-        moveClientY: 0,
-        scrollParent: null as null | HTMLElement,
-        dragStartScrollTop: 0,
-        scrollParentScrollTop: 0,
+        startDragOffsetTop: 0,                                          // 开始拖拽的时候，dragEl距离top值（距离可以滚动的父组件的顶部距离）
+        startDragHeight: 0,                                             // 拖拽开始的时候，dragEl的高度，虚拟滚动情况下，认为所有row的高度都是一致的，所以这个相当于行高
+
+        startClientY: 0,                                                // 拖拽开始的时候鼠标位置
+        moveClientY: 0,                                                 // 拖拽移动的时候鼠标的位置
+
+        scrollParent: null as null | HTMLElement,                       // 可以滚动的父元素
+        startScrollTopOfScrollParent: 0,                                // 拖拽开始的时候，滚动父元素的滚动距离 
+        durationScrollTopOfScrolParent: 0,                              // 拖拽开始的时候，滚动父元素的滚动差值
         scrollParentBoundingRect: {
-            top: 0,
-            left: 0,
-            width: 0,
-            height: 0,
+            top: 0,                                                     // 滚动父元素在页面上的top值
+            left: 0,                                                    // 滚动父元素在页面上的left值
+            width: 0,                                                   // 滚动父元素在页面上的显示宽度
+            height: 0,                                                  // 滚动父元素在页面上的显示高度
         },
 
-        dragEl: null as null | HTMLElement,
+        dragEl: null as null | HTMLElement,                             // 拖拽的时候，显示的标志元素
     }
 
     const utils = {
         refresh() {
-            const top = state.startOffsetTop + (state.moveClientY - state.startClientY) + (state.scrollParentScrollTop - state.dragStartScrollTop)
-            const endIndex = Math.ceil(Math.max(0, top / state.dragHeight - 0.5))
-            state.dragEl!.style.transform = `translateY(${(endIndex + 1) * state.dragHeight - dragElHeight - state.scrollParentScrollTop + state.scrollParentBoundingRect.top}px)`
+            /*拖拽元素在scrollParent中的top值*/
+            const top = state.startDragOffsetTop + (state.moveClientY - state.startClientY) + (state.durationScrollTopOfScrolParent - state.startScrollTopOfScrollParent) + state.startDragHeight / 2
+
+            /*如果top处于目标index的上方，则index为目标index，在下方则为index+1*/
+            let endDragIndex = top / state.startDragHeight
+            const external = endDragIndex % 1
+            if (external > 0.5) {
+                endDragIndex = Math.ceil(endDragIndex)
+            } else {
+                endDragIndex = Math.floor(endDragIndex)
+            }
+
+            /*刷新指示器的位置*/
+            state.dragEl!.style.transform = `translateY(${(endDragIndex) * state.startDragHeight - dragElHeight - state.durationScrollTopOfScrolParent + state.scrollParentBoundingRect.top}px)`
+
+            if (endDragIndex === state.startDragIndex || endDragIndex === state.startDragIndex + 1) {
+                state.endDragIndex = state.startDragIndex
+            } else if (endDragIndex > state.startDragIndex) {
+                state.endDragIndex = endDragIndex - 1
+            } else {
+                state.endDragIndex = endDragIndex
+            }
         },
     }
 
     const handler = {
         mousedown: (e: MouseEvent) => {
             const dragEl = getRowEl(e, rowClass)
+            // 每一行dom对象应该加上一个vid属性，表示这一行为第几个行，否则虚拟滚动情况下，无法知道是哪一行
             const vid = Number(dragEl.getAttribute('vid'))
 
+            // 虚拟滚动下，每一行的行高一致
             const {offsetHeight} = dragEl
 
-            state.startIndex = vid
-            state.dragHeight = offsetHeight
-            state.startOffsetTop = state.startIndex * offsetHeight
+            state.startDragIndex = vid
+            state.startDragHeight = offsetHeight
+            state.startDragOffsetTop = state.startDragIndex * offsetHeight
             state.startClientY = e.clientY
             state.moveClientY = e.clientY
 
+            // 初始化scrollParent
             const scrollParent = getScrollParent(dragEl)
             state.scrollParent = scrollParent
-            state.dragStartScrollTop = scrollParent!.scrollTop
+            state.startScrollTopOfScrollParent = scrollParent!.scrollTop
             const {top, left, height, width} = state.scrollParent!.parentElement!.getBoundingClientRect()
             state.scrollParentBoundingRect = {top, left, height, width}
 
+            // 初始化监听事件
             scrollParent!.addEventListener('scroll', handler.scroll)
             document.addEventListener('mousemove', handler.mousemove)
             document.addEventListener('mouseup', handler.mouseup)
 
+            //
             state.dragEl = document.createElement('div')
             document.body.appendChild(state.dragEl)
             state.dragEl.style.position = 'fixed'
@@ -82,7 +108,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             }, 23)
         },
         scroll: () => {
-            state.scrollParentScrollTop = state.scrollParent!.scrollTop
+            state.durationScrollTopOfScrolParent = state.scrollParent!.scrollTop
             utils.refresh()
         },
         mousemove: (e: MouseEvent) => {
@@ -99,6 +125,28 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             document.removeEventListener('mousemove', handler.mousemove)
             document.removeEventListener('mouseup', handler.mouseup)
             state.scrollParent!.removeEventListener('scroll', handler.scroll)
+
+            const {startDragIndex, endDragIndex} = state
+
+            onChange(startDragIndex, endDragIndex)
+
+            state.startDragIndex = 0
+            state.endDragIndex = 0
+            state.startDragOffsetTop = 0
+            state.startDragHeight = 0
+            state.startClientY = 0
+            state.moveClientY = 0
+            state.scrollParent = null
+            state.startScrollTopOfScrollParent = 0
+            state.durationScrollTopOfScrolParent = 0
+            state.scrollParentBoundingRect = {
+                top: 0,
+                left: 0,
+                width: 0,
+                height: 0,
+            }
+            state.dragEl!.parentNode!.removeChild(state.dragEl!)
+            state.dragEl = null
         }
     }
 
