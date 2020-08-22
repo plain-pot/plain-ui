@@ -26,7 +26,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
 
         scrollParent: null as null | HTMLElement,                       // 可以滚动的父元素
         startScrollTopOfScrollParent: 0,                                // 拖拽开始的时候，滚动父元素的滚动距离 
-        durationScrollTopOfScrolParent: 0,                              // 拖拽开始的时候，滚动父元素的滚动差值
+        scrollTopOfScrollParent: 0,                              // 拖拽开始的时候，滚动父元素的滚动差值
         scrollParentBoundingRect: {
             top: 0,                                                     // 滚动父元素在页面上的top值
             left: 0,                                                    // 滚动父元素在页面上的left值
@@ -40,7 +40,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
     const utils = {
         refresh() {
             /*拖拽元素在scrollParent中的top值*/
-            const top = state.startDragOffsetTop + (state.moveClientY - state.startClientY) + (state.durationScrollTopOfScrolParent - state.startScrollTopOfScrollParent) + state.startDragHeight / 2
+            const top = state.startDragOffsetTop + (state.moveClientY - state.startClientY) + (state.scrollTopOfScrollParent - state.startScrollTopOfScrollParent) + state.startDragHeight / 2
 
             /*如果top处于目标index的上方，则index为目标index，在下方则为index+1*/
             let endDragIndex = top / state.startDragHeight
@@ -52,7 +52,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             }
 
             /*刷新指示器的位置*/
-            state.dragEl!.style.transform = `translateY(${(endDragIndex) * state.startDragHeight - dragElHeight - state.durationScrollTopOfScrolParent + state.scrollParentBoundingRect.top}px)`
+            state.dragEl!.style.transform = `translateY(${(endDragIndex) * state.startDragHeight - dragElHeight - state.scrollTopOfScrollParent + state.scrollParentBoundingRect.top}px)`
 
             if (endDragIndex === state.startDragIndex || endDragIndex === state.startDragIndex + 1) {
                 state.endDragIndex = state.startDragIndex
@@ -83,6 +83,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             const scrollParent = getScrollParent(dragEl)
             state.scrollParent = scrollParent
             state.startScrollTopOfScrollParent = scrollParent!.scrollTop
+            state.scrollTopOfScrollParent = scrollParent!.scrollTop
             const {top, left, height, width} = state.scrollParent!.parentElement!.getBoundingClientRect()
             state.scrollParentBoundingRect = {top, left, height, width}
 
@@ -108,7 +109,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             }, 23)
         },
         scroll: () => {
-            state.durationScrollTopOfScrolParent = state.scrollParent!.scrollTop
+            state.scrollTopOfScrollParent = state.scrollParent!.scrollTop
             utils.refresh()
         },
         mousemove: (e: MouseEvent) => {
@@ -138,7 +139,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             state.moveClientY = 0
             state.scrollParent = null
             state.startScrollTopOfScrollParent = 0
-            state.durationScrollTopOfScrolParent = 0
+            state.scrollTopOfScrollParent = 0
             state.scrollParentBoundingRect = {
                 top: 0,
                 left: 0,
