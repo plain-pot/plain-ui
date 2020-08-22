@@ -128,8 +128,8 @@
                     groupHead: true,
                 },
                 props: {
-                    headRowHeight: 40,
-                    bodyRowHeight: 36,
+                    headRowHeight: 45,
+                    bodyRowHeight: 40,
                     border: false,
                     virtual: false,
                 },
@@ -142,7 +142,7 @@
                 editNode: null,
                 onDblclickCell: (node) => {
 
-                    console.log('node',node)
+                    console.log('node', node)
 
                     if (!!this.editNode) {
                         if (node === this.editNode) {
