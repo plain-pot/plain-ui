@@ -19,8 +19,7 @@
                 :virtual="virtualFlag"
                 @dblclick-cell="onDblClickRow">
             <plc-index/>
-            <plc-check ref="check" toggleOnClickRow/>
-            <plc-draggier/>
+            <plc-check ref="check"/>
             <plc field="id" title="编号"/>
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required/>
@@ -35,7 +34,6 @@
 
 <script>
     import data from "../data/data-1.json";
-
 
     export default {
         name: "table-columns",
