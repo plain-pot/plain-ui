@@ -101,5 +101,6 @@
 </script>
 
 <style lang="scss">
-
+    .table-tree {
+    }
 </style>

@@ -7,6 +7,7 @@ import {$plain} from "@/packages/base";
 import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-tree";
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
 import {useEvent} from "@/use/useEvent";
+import {usePlcTreeRowDraggable} from "@/packages/table/plc-components/standard/tree/use-plc-tree-row-draggable";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
@@ -64,7 +65,7 @@ export default definePlc({
                             )}
                         </div>
                         {!!ctx.rowDraggable && (
-                            <pl-button icon="el-icon-rank" mode="text"/>
+                            <pl-button icon="el-icon-rank" mode="text" {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}/>
                         )}
                         {!!ctx.showCheckbox && (
                             <div class="plc-tree-node-check">
@@ -168,6 +169,11 @@ export default definePlc({
             })
         })
 
+        const treeDraggablePlc = usePlcTreeRowDraggable({
+            rowDraggable: (props as any).rowDraggable,
+            rowClass: 'plt-row',
+        })
+
         return {
             treePlc: {
                 styleUtils,
@@ -177,7 +183,8 @@ export default definePlc({
                 handler,
                 emitExpandKeys,
                 emitCheckKeys,
-            }
+            },
+            treeDraggablePlc,
         }
     },
 })

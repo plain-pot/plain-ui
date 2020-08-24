@@ -21,7 +21,7 @@ export function getRowEl(e: MouseEvent, rowClass: string): HTMLElement {
  * @author  韦胜健
  * @date    2020/8/19 23:50
  */
-export function getScrollParent(el: HTMLElement): HTMLElement | null {
+export function getScrollParent(el: HTMLElement): HTMLElement {
     while (!!el && el.scrollHeight <= el.offsetHeight) {
         el = el.parentNode as HTMLElement
     }
