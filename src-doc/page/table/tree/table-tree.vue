@@ -50,11 +50,19 @@
             <tree-table-virtual/>
         </demo-row>
         <demo-row title="可拖拽树形表格">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.draggableTree.treePlc.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.draggableTree.treePlc.methods.collapseAll()"/>
+                </pl-button-group>
+            </demo-line>
+
             <pl-table :data="data"
                       keyField="id"
                       childrenField="subs">
                 <plc-index/>
-                <plc-tree draggable>
+                <plc-tree rowDraggable ref="draggableTree">
                     <template slot-scope="{row}" slot="content">
                         {{row.name}}
                     </template>

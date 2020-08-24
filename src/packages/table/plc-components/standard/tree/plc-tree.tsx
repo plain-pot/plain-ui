@@ -63,6 +63,9 @@ export default definePlc({
                                                               onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </div>
+                        {!!ctx.rowDraggable && (
+                            <pl-button icon="el-icon-rank" mode="text"/>
+                        )}
                         {!!ctx.showCheckbox && (
                             <div class="plc-tree-node-check">
                                 <pl-checkbox-indeterminate
@@ -147,14 +150,16 @@ export default definePlc({
             let expand = size
             // 内容宽度，如果有content插槽，则加上props.contentWidth
             let content = !!$scopedSlots.content ? (props as any).contentWidth as number : 0
-            // 如果显示复选框，则宽度再加上30
+            // 如果显示复选框，则宽度再加上size
             let check = !!(props as any).showCheckbox ? size : 0
+            // 如果显示拖拽排序按钮，则宽度再加上size
+            let draggable = !!(props as any).rowDraggable ? size : 0
 
             // 每一层都增加一个左边距 (expand + check) * level，所以每一层都加上这个宽度
             const level = table.maxShowLevel.value
 
             // 最后最大层的宽度
-            return (expand + check) * level + content
+            return (expand + check + draggable) * level + content
         })
 
         onMounted(() => {
