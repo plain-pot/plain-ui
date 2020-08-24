@@ -47,6 +47,7 @@ export default definePlc({
 
         const {handler} = useListDraggier({
             virtual: !isDisabledVirtualScroll.value && !$plain.utils.ie,
+            // virtual: true,
             rowClass: 'plt-row',
             onChange: async (start, end) => {
                 dataModel.value.splice(end, 0, dataModel.value.splice(start, 1)[0])
