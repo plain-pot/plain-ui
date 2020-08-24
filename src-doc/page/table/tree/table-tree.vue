@@ -46,9 +46,22 @@
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
-
         <demo-row title="树形虚拟表格">
             <tree-table-virtual/>
+        </demo-row>
+        <demo-row title="可拖拽树形表格">
+            <pl-table :data="data"
+                      keyField="id"
+                      childrenField="subs">
+                <plc-index/>
+                <plc-tree draggable>
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
         </demo-row>
     </div>
 </template>

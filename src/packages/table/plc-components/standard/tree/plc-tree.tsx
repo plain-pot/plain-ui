@@ -8,6 +8,7 @@ import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
 import {useEvent} from "@/use/useEvent";
 
+/*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
 
 export default definePlc({
@@ -89,7 +90,7 @@ export default definePlc({
         const table = injectTable()
         const ctx = getCurrentInstance() as any
         const {$scopedSlots} = useScopedSlots({
-            content: ScopedSlotFunc,
+            content: ScopedSlotFunc,    // 自定义显示的内容的作用域插槽
         })
 
         const {emit} = useEvent({
@@ -135,13 +136,23 @@ export default definePlc({
             },
         }
 
+        /**
+         * 动态列宽，当展开收起的时候，自动更新列宽
+         * @author  韦胜健
+         * @date    2020/8/24 9:35
+         */
         const width = computed(() => {
+            // 展开按钮的基本宽度
             let expand = size
+            // 内容宽度，如果有content插槽，则加上props.contentWidth
             let content = !!$scopedSlots.content ? (props as any).contentWidth as number : 0
+            // 如果显示复选框，则宽度再加上30
             let check = !!(props as any).showCheckbox ? size : 0
 
+            // 每一层都增加一个左边距 (expand + check) * level，所以每一层都加上这个宽度
             const level = table.maxShowLevel.value
 
+            // 最后最大层的宽度
             return (expand + check) * level + content
         })
 
