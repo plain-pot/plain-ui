@@ -20,7 +20,7 @@
                 @dblclick-cell="onDblClickRow">
             <plc-index/>
             <plc-check ref="check" toggleOnClickRow/>
-            <plc-draggier/>
+            <plc-draggier :key="virtualFlag?1:2"/>
             <plc field="id" title="编号"/>
             <plc field="name" title="普通文本列"/>
             <plc-input field="name" title="文本框" required/>

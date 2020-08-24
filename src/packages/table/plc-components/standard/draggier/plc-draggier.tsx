@@ -1,6 +1,7 @@
 import {definePlc} from "@/packages/table/plc-components/register";
 import {useListDraggier} from "@/packages/table/plc-components/standard/draggier/composition";
 import {injectTable} from "@/packages/table/table/table";
+import {$plain} from "@/packages/base";
 
 export default definePlc({
     name: 'plc-draggier',
@@ -42,10 +43,10 @@ export default definePlc({
     },
     setup(props) {
 
-        const {dataModel} = injectTable()
+        const {dataModel, isDisabledVirtualScroll} = injectTable()
 
         const {handler} = useListDraggier({
-            virtual: true,
+            virtual: !isDisabledVirtualScroll.value && !$plain.utils.ie,
             rowClass: 'plt-row',
             onChange: async (start, end) => {
                 dataModel.value.splice(end, 0, dataModel.value.splice(start, 1)[0])
