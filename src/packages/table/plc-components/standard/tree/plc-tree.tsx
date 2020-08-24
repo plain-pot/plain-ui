@@ -17,6 +17,7 @@ export default definePlc({
         // custom
         contentWidth: {type: Number, default: 100},                       // 显示的内容宽度
         showCheckbox: {type: Boolean},                                    // 是否显示复选框
+        rowDraggable: {type: Boolean},                                    // 行是否可以拖拽排序
 
         //standard
         autoFixedLeft: {default: true},
