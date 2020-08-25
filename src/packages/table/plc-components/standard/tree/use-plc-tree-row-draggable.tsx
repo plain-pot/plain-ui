@@ -3,16 +3,25 @@
  * @author  韦胜健
  * @date    2020/8/24 9:38
  */
-import {reactive} from "@vue/composition-api";
+import {reactive, Ref} from "@vue/composition-api";
 import {getRowEl, getScrollParent} from "@/packages/table/plc-components/standard/draggier/composition/utils";
+import {TableNode} from "@/packages/table/table/TableNode";
+
+enum HoverPart {
+    prev = 'prev',
+    inner = 'inner',
+    next = 'next'
+}
 
 export function usePlcTreeRowDraggable(
     {
         rowDraggable,
         rowClass,
+        flatDataList,
     }: {
         rowDraggable: boolean | undefined,
         rowClass: string,
+        flatDataList: Readonly<Ref<readonly TableNode[]>>,
     }) {
 
     /**
@@ -21,6 +30,8 @@ export function usePlcTreeRowDraggable(
      * @date    2020/8/24 22:26
      */
     const normalState = {
+        rowHeight: 0,
+        dragStartTableNode: null as null | TableNode,
         dragStartClientY: 0,
         dragMoveClientY: 0,
 
@@ -49,7 +60,15 @@ export function usePlcTreeRowDraggable(
         refresh: () => {
             const {dragStartClientY, dragMoveClientY, dragStartScrollTop, dragMoveScrollTop, scrollParentRect: {top, left}} = normalState
             const mouseTop = dragMoveClientY - top + (dragMoveScrollTop - dragStartScrollTop)
-            console.log('mouseTop', mouseTop)
+
+            let hoverIndex = Math.floor(mouseTop / normalState.rowHeight)
+            hoverIndex = Math.min(Math.max(0, hoverIndex), flatDataList.value.length - 1)
+
+            const external = mouseTop % normalState.rowHeight
+            let part: HoverPart = external < normalState.rowHeight * (1 / 3) ? HoverPart.prev :
+                external > normalState.rowHeight * (2 / 3) ? HoverPart.next : HoverPart.inner
+
+            
         }
     }
 
@@ -58,6 +77,9 @@ export function usePlcTreeRowDraggable(
 
             normalState.dragStartClientY = normalState.dragMoveClientY = e.clientY
             normalState.dragEl = getRowEl(e, rowClass)
+            normalState.rowHeight = normalState.dragEl.offsetHeight
+            const vid = Number(normalState.dragEl.getAttribute('vid'))
+            normalState.dragStartTableNode = flatDataList.value[vid]!
             normalState.scrollParent = getScrollParent(normalState.dragEl)
             normalState.dragStartScrollTop = normalState.scrollParent.scrollTop
             normalState.dragMoveScrollTop = normalState.scrollParent.scrollTop

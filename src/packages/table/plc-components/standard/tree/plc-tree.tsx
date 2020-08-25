@@ -170,6 +170,7 @@ export default definePlc({
         })
 
         const treeDraggablePlc = usePlcTreeRowDraggable({
+            flatDataList: table.formatFlatTableData,
             rowDraggable: (props as any).rowDraggable,
             rowClass: 'plt-row',
         })
