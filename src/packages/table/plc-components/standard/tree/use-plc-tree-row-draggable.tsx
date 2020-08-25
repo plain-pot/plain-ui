@@ -25,9 +25,9 @@ enum HoverPart {
  * @date    2020/8/25 16:29
  */
 enum DragCursor {
-    default = 'plain-drag-default',                    // 默认状态，当前处于非拖拽的状态
-    move = 'plain-drag-move',                          // 当前处于拖拽状态，并且当前可以将拖拽节点放置在目标节点中
-    notAllowed = 'plain-drag-not-allowed'              // 当前处于拖拽状态，但是当前不可以将拖拽节点放置在目标节点中
+    none = 'none',                          // 默认状态，当前处于非拖拽的状态
+    move = 'plain-drag-move',               // 当前处于拖拽状态，并且当前可以将拖拽节点放置在目标节点中
+    notAllowed = 'plain-drag-not-allowed'   // 当前处于拖拽状态，但是当前不可以将拖拽节点放置在目标节点中
 }
 
 /**
@@ -40,6 +40,7 @@ function getParents(node: TableNode) {
     const parents = [] as TableNode[]
     while (!!parent && parent.level > 0) {
         parents.push(parent)
+        parent = parent.parent
     }
     return parents
 }
@@ -55,106 +56,26 @@ export function usePlcTreeRowDraggable(
         flatDataList: Readonly<Ref<readonly TableNode[]>>,
     }) {
 
-    /**
-     * 非响应式属性（状态）
-     * @author  韦胜健
-     * @date    2020/8/24 22:26
-     */
-    const normalState = {
-        rowHeight: 0,
-        dragStartClientY: 0,
-        dragMoveClientY: 0,
-
-        dragStartScrollTop: 0,
-        dragMoveScrollTop: 0,
-
-        dragEl: null as null | HTMLElement,
-        scrollParent: null as null | HTMLElement,
-
-        scrollParentRect: {
-            top: 0,
-            left: 0,
-            width: 0,
-            height: 0,
-        }
-    }
-
-    /**
-     * 响应式属性（状态）
-     * @author  韦胜健
-     * @date    2020/8/24 22:26
-     */
-    const reactiveState = reactive({
-        dragStartIndex: null as null | number,
-        dragMoveIndex: null as null | number,
-        dragMovePart: null as null | HoverPart,
-    })
-
-    const utils = {
-        refresh: () => {
-            console.log('refresh')
-            const {dragStartClientY, dragMoveClientY, dragStartScrollTop, dragMoveScrollTop, scrollParentRect: {top, left}} = normalState
-            const mouseTop = dragMoveClientY - top + (dragMoveScrollTop - dragStartScrollTop)
-
-            let hoverIndex = Math.floor(mouseTop / normalState.rowHeight)
-            hoverIndex = Math.min(Math.max(0, hoverIndex), flatDataList.value.length - 1)
-
-            const external = mouseTop % normalState.rowHeight
-            let part: HoverPart = external < normalState.rowHeight * (1 / 3) ? HoverPart.prev :
-                external > normalState.rowHeight * (2 / 3) ? HoverPart.next : HoverPart.inner
-
-            reactiveState.dragMoveIndex = hoverIndex
-            reactiveState.dragMovePart = part
-        }
-    }
-
     const handler = {
-        mousedown: (e: MouseEvent) => {
+        dragstart: (e: DragEvent) => {
+            e.stopPropagation()
+            e.dataTransfer!.effectAllowed = 'move'
 
-            normalState.dragStartClientY = normalState.dragMoveClientY = e.clientY
-            normalState.dragEl = getRowEl(e, rowClass)
-            normalState.rowHeight = normalState.dragEl.offsetHeight
-            const vid = Number(normalState.dragEl.getAttribute('vid'))
-            reactiveState.dragStartIndex = vid
-            normalState.scrollParent = getScrollParent(normalState.dragEl)
-            normalState.dragStartScrollTop = normalState.scrollParent.scrollTop
-            normalState.dragMoveScrollTop = normalState.scrollParent.scrollTop
-            const {height, width, left, top} = normalState.scrollParent.getBoundingClientRect()!
-            normalState.scrollParentRect = {height, width, left, top}
-
-            normalState.scrollParent.parentNode!.addEventListener('mousemove', handler.mousemove as any)
-            normalState.scrollParent.addEventListener('scroll', handler.scroll)
-            document.addEventListener('mouseup', handler.mouseup)
-
-            utils.refresh()
+            const rowEl = getRowEl(e, rowClass)
+            document.addEventListener('dragover', handler.dragover)
+            document.addEventListener('dragend', () => {
+                console.log('dragend')
+            })
         },
-        scroll: () => {
-            normalState.dragMoveScrollTop = normalState.scrollParent!.scrollTop
-            utils.refresh()
+        dragover: (e) => {
+            console.log('drag', e.dataTransfer!.dropEffect)
+            e.stopPropagation()
+            e.preventDefault()
+            e.dataTransfer!.dropEffect = 'move'
         },
-        mousemove: (e: MouseEvent) => {
-            normalState.dragMoveClientY = e.clientY
-            utils.refresh()
-        },
-        mouseup: () => {
-
-            normalState.scrollParent!.parentNode!.removeEventListener('mousemove', handler.mousemove as any)
-            normalState.scrollParent!.removeEventListener('scroll', handler.scroll)
-            document.removeEventListener('mouseup', handler.mouseup)
-
-        }
     }
-
-    const dragState = computed(() => {
-
-        console.log('dragState')
-
-
-
-    })
 
     return {
-        utils,
         handler,
     }
 }

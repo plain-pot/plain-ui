@@ -441,6 +441,9 @@
 
   /*---------------------------------------plc-tree draggier-------------------------------------------*/
 
+  .plc-tree-drag-btn {
+    cursor: default !important;
+  }
   body.plain-drag-move {
     cursor: move !important;
   }

@@ -65,7 +65,12 @@ export default definePlc({
                             )}
                         </div>
                         {!!ctx.rowDraggable && (
-                            <pl-button icon="el-icon-rank" mode="text" {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}/>
+                            <pl-button icon="el-icon-rank"
+                                       mode="text"
+                                       draggable={true}
+                                       {...{nativeOn: {dragstart: ctx.treeDraggablePlc.handler.dragstart,}}}
+                                       class="plc-tree-drag-btn"
+                            />
                         )}
                         {!!ctx.showCheckbox && (
                             <div class="plc-tree-node-check">
