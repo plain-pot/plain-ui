@@ -67,6 +67,11 @@ export function usePlcTreeRowDraggable(
                 console.log('dragend')
             })
         },
+        /**
+         * 在dragover中判断clientX以及clientY，如果这两个值没有变化，就不往下执行，节省性能
+         * @author  韦胜健
+         * @date    2020/8/25 22:22
+         */
         dragover: (e) => {
             console.log('drag', e.dataTransfer!.dropEffect)
             e.stopPropagation()
