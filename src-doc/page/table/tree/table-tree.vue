@@ -96,6 +96,9 @@
                 this.$refs.tree1.treePlc.methods.expand('2-2-2')
                 this.$refs.table1.methods.setCurrent('2-2-2')
             },
+        },
+        mounted() {
+            this.$refs.draggableTree.treePlc.methods.expandAll()
         }
     }
 </script>
