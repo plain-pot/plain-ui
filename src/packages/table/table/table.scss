@@ -439,4 +439,13 @@
     cursor: move;
   }
 
+  /*---------------------------------------plc-tree draggier-------------------------------------------*/
+
+  body.plain-drag-move {
+    cursor: move !important;
+  }
+  body.plain-drag-not-allowed {
+    cursor: not-allowed !important;
+  }
+
 }
