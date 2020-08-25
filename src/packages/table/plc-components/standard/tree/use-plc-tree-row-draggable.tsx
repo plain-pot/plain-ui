@@ -149,52 +149,8 @@ export function usePlcTreeRowDraggable(
 
         console.log('dragState')
 
-        const result = {
-            cursor: DragCursor.default,                                 // 当前鼠标应该显示的状态
-            droppable: false,                                           // 当前是否可放置
-        }
 
-        if (!reactiveState.dragStartIndex) {
-            // 没有dragStartIndex表示当前不处于拖拽状态
-            result.cursor = DragCursor.default
-            result.droppable = false
-            return result
-        }
-        const dragStartTableNode = flatDataList.value[reactiveState.dragStartIndex]
-        const dragMoveTableNode = flatDataList.value[reactiveState.dragMoveIndex!]
 
-        // 不可以将某一个节点放置在他的子节点中
-        const moveNodeParents = getParents(dragMoveTableNode)
-        if (moveNodeParents.indexOf(dragStartTableNode) > -1) {
-            result.cursor = DragCursor.notAllowed
-            result.droppable = false
-        }
-
-        return result
-
-    })
-
-    watch(() => dragState.value.cursor, (val: DragCursor, oldVal: DragCursor) => {
-        console.log('watch')
-        switch (val) {
-            case DragCursor.default:
-                if (oldVal !== DragCursor.default) {
-                    $plain.utils.removeClass(document.body, oldVal)
-                }
-                break
-            case DragCursor.move:
-                if (oldVal === DragCursor.notAllowed) {
-                    $plain.utils.removeClass(document.body, oldVal)
-                }
-                $plain.utils.addClass(document.body, val)
-                break
-            case DragCursor.notAllowed:
-                if (oldVal === DragCursor.move) {
-                    $plain.utils.removeClass(document.body, oldVal)
-                }
-                $plain.utils.addClass(document.body, val)
-                break
-        }
     })
 
     return {
