@@ -67,8 +67,7 @@ export default definePlc({
                         {!!ctx.rowDraggable && (
                             <pl-button icon="el-icon-rank"
                                        mode="text"
-                                       draggable={true}
-                                       {...{nativeOn: {dragstart: ctx.treeDraggablePlc.handler.dragstart,}}}
+                                       {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}
                                        class="plc-tree-drag-btn"
                             />
                         )}

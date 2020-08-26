@@ -20,16 +20,6 @@ enum DropType {
     next = 'next'                           // 将拖拽节点作为目标节点的弟节点，放置在目标节点后面
 }
 
-/**
- *  拖拽鼠标显示类型
- * @author  韦胜健
- * @date    2020/8/25 23:42
- */
-enum DropEffect {
-    move = 'move',
-    none = 'none'
-}
-
 const indicatorSize = 3;
 
 /**
@@ -77,27 +67,15 @@ export function usePlcTreeRowDraggable(
             width: 0,
             height: 0,
         },
-        dropEffect: DropEffect.move,
-
         indicator: null as null | HTMLElement,
     }
 
     const utils = {
-        disabledDrop(e?: DragEvent) {
-
-            state.dropEffect = DropEffect.none
-            if (!!e) {
-                e.dataTransfer!.dropEffect = 'none'
-            }
+        disabledDrop() {
             state.indicator!.style.opacity = '0'
-
         },
-        enableDrop: (e: DragEvent | undefined, targetIndex: number, dropType: DropType) => {
+        enableDrop: (targetIndex: number, dropType: DropType) => {
 
-            state.dropEffect = DropEffect.move
-            if (!!e) {
-                e.dataTransfer!.dropEffect = 'move'
-            }
             let top = targetIndex * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop - state.startScrollTop)
 
             switch (dropType) {
@@ -109,7 +87,7 @@ export function usePlcTreeRowDraggable(
                 case DropType.inner:
                     state.indicator!.style.top = `${top}px`
                     state.indicator!.style.height = `${state.rowHeight}px`
-                    state.indicator!.style.opacity = '0.5'
+                    state.indicator!.style.opacity = '0.15'
                     break
                 case DropType.next:
                     state.indicator!.style.top = `${top + state.rowHeight - indicatorSize}px`
@@ -118,7 +96,7 @@ export function usePlcTreeRowDraggable(
                     break
             }
         },
-        refresh(e?: DragEvent) {
+        refresh() {
             const top = state.startClientY - state.scrollParentRect.top + (state.moveScrollTop - state.startScrollTop) + (state.moveClientY - state.startClientY)
             let targetIndex = top / state.rowHeight
             const external = targetIndex % 1
@@ -130,15 +108,15 @@ export function usePlcTreeRowDraggable(
             const parents = getParents(state.moveNode)
 
             if (parents.indexOf(state.startNode!) > -1) {
-                return utils.disabledDrop(e)
+                return utils.disabledDrop()
             }
 
-            return utils.enableDrop(e, targetIndex, dropType)
+            return utils.enableDrop(targetIndex, dropType)
         },
     }
 
     const handler = {
-        dragstart: (e: DragEvent) => {
+        mousedown: (e: DragEvent) => {
             state.startClientY = state.moveClientY = e.clientY
 
             state.rowEl = getRowEl(e, rowClass)
@@ -153,21 +131,18 @@ export function usePlcTreeRowDraggable(
 
             state.indicator = document.createElement('div')
             state.indicator.style.position = 'fixed'
+            state.indicator.style.pointerEvents = 'none'
             state.indicator.style.height = `${indicatorSize}px`
             state.indicator.style.width = `${state.scrollParentRect.width}px`
             state.indicator.style.left = `${state.scrollParentRect.left}px`
-            state.indicator.style.backgroundColor = '#ddd'
+            state.indicator.style.backgroundColor = '#12b4a5'
             document.body.appendChild(state.indicator)
 
             state.scrollParent.addEventListener('scroll', handler.scroll)
-            document.addEventListener('dragover', handler.dragover)
-            document.addEventListener('dragend', handler.dragend)
-
-            e.stopPropagation()
-            e.dataTransfer!.effectAllowed = 'move'
+            document.addEventListener('mousemove', handler.mousemove)
+            document.addEventListener('mouseup', handler.mouseup)
         },
-        scroll(e: Event) {
-            // 会触发滚动事件
+        scroll() {
             state.moveScrollTop = state.scrollParent!.scrollTop
             utils.refresh()
         },
@@ -176,24 +151,16 @@ export function usePlcTreeRowDraggable(
          * @author  韦胜健
          * @date    2020/8/25 22:22
          */
-        dragover: (e: DragEvent) => {
-
-            if (e.clientY === state.moveClientY) {
-                e.stopPropagation()
-                e.preventDefault()
-                e.dataTransfer!.dropEffect = state.dropEffect
-                return
-            }
+        mousemove: (e: MouseEvent) => {
             const {top, height} = state.scrollParentRect
             if (e.clientY < top || e.clientY > top + height) {
                 return;
             }
-
             state.moveClientY = e.clientY
-            utils.refresh(e)
+            utils.refresh()
         },
-        dragend: (e: DragEvent) => {
-            console.log('dragend', e)
+        mouseup: (e: MouseEvent) => {
+            console.log('mouseup', e)
         }
     }
 
