@@ -57,6 +57,13 @@ export default definePlc({
                 return (
                     <div style={ctx.treePlc.styleUtils.getStyles(rowData)}
                          class={ctx.treePlc.styleUtils.getClasses(rowData)}>
+                        {!!ctx.rowDraggable && (
+                            <pl-button icon="el-icon-rank"
+                                       mode="text"
+                                       {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}
+                                       class="plc-tree-drag-btn"
+                            />
+                        )}
                         <div class="plc-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
                                 !rowData.isLeaf && <pl-button mode="text"
@@ -65,13 +72,6 @@ export default definePlc({
                                                               onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </div>
-                        {!!ctx.rowDraggable && (
-                            <pl-button icon="el-icon-rank"
-                                       mode="text"
-                                       {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}
-                                       class="plc-tree-drag-btn"
-                            />
-                        )}
                         {!!ctx.showCheckbox && (
                             <div class="plc-tree-node-check">
                                 <pl-checkbox-indeterminate

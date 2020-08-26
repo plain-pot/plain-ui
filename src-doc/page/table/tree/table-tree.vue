@@ -71,6 +71,11 @@
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
+
+        <demo-row title="可拖拽的树形虚拟表格">
+            <tree-table-virtual-draggable/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -78,10 +83,11 @@
 
     import data from '../../data/tree.data'
     import TreeTableVirtual from "./tree-table-virtual";
+    import TreeTableVirtualDraggable from "./tree-table-virtual-draggable";
 
     export default {
         name: "table-tree",
-        components: {TreeTableVirtual},
+        components: {TreeTableVirtualDraggable, TreeTableVirtual},
         data() {
             return {
                 data,
@@ -98,7 +104,9 @@
             },
         },
         mounted() {
-            this.$refs.draggableTree.treePlc.methods.expandAll()
+            if (!!this.$refs.draggableTree) {
+                this.$refs.draggableTree.treePlc.methods.expandAll()
+            }
         }
     }
 </script>

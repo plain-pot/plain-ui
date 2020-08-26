@@ -200,17 +200,16 @@ export function usePlcTreeRowDraggable(
                 return
             }
 
+            startNode!.removeSelf()
+
             switch (dropType) {
                 case DropType.prev:
-                    console.log('previousSibling')
                     moveNode!.previousSibling(startNode!)
                     break
                 case DropType.inner:
-                    console.log('unshiftChild')
                     moveNode!.unshiftChild(startNode!)
                     break
                 case DropType.next:
-                    console.log('nextSibling')
                     moveNode!.nextSibling(startNode!)
                     break
             }
