@@ -3,11 +3,9 @@
  * @author  韦胜健
  * @date    2020/8/24 9:38
  */
-import {computed, reactive, Ref, watch} from "@vue/composition-api";
+import {Ref} from "@vue/composition-api";
 import {getRowEl, getScrollParent} from "@/packages/table/plc-components/standard/draggier/composition/utils";
 import {TableNode} from "@/packages/table/table/TableNode";
-import {$plain} from "@/packages/base";
-import {TreeDropType} from "@/packages/tree/utils/tree-constant";
 import {StyleType} from "@/types/utils";
 
 /**
@@ -44,12 +42,16 @@ export function usePlcTreeRowDraggable(
         nodeClass,
         levelPadding,
         flatDataList,
+        showCheckbox,
+        checkStrictly,
     }: {
         rowDraggable: boolean | undefined,
         rowClass: string,
         nodeClass: string,
         levelPadding: number,
         flatDataList: Readonly<Ref<readonly TableNode[]>>,
+        showCheckbox: boolean | undefined,
+        checkStrictly: boolean | undefined,
     }) {
 
     const state = {
@@ -125,6 +127,41 @@ export function usePlcTreeRowDraggable(
 
             Object.assign(state.indicator!.style, utils.getIndicatorStyles(moveNode, droppable, dropType))
         },
+        refreshCheckStatus() {
+            if (!showCheckbox) return
+            if (checkStrictly) return;
+
+            const next = (node: TableNode) => {
+                let hasCheck = false
+                let hasUncheck = false
+
+                if (!!node.children) {
+                    node.children.forEach(child => {
+                        next(child)
+                        if (child.isCheck) {
+                            hasCheck = true
+                        } else {
+                            hasUncheck = true
+                        }
+                    })
+                }
+                if (hasCheck && !hasUncheck) {
+                    // 所有子节点选中
+                    if (!node.isCheck) {
+                        node.check(true)
+                    }
+                } else if (hasUncheck) {
+                    // 有子节点未选中
+                    if (node.isCheck) {
+                        node.check(false)
+                    }
+                }
+            }
+
+            if (!!flatDataList.value) {
+                flatDataList.value.forEach(next)
+            }
+        }
     }
 
     const handler = {
@@ -211,6 +248,8 @@ export function usePlcTreeRowDraggable(
                     moveNode!.nextSibling(startNode!)
                     break
             }
+
+            utils.refreshCheckStatus()
         }
     }
 

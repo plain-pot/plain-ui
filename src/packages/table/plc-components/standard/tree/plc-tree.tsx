@@ -8,17 +8,24 @@ import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
 import {useEvent} from "@/use/useEvent";
 import {usePlcTreeRowDraggable} from "@/packages/table/plc-components/standard/tree/use-plc-tree-row-draggable";
+import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+import {PlcProps} from "@/packages/table/plc/plc-utils";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
+
+const CustomProps = {
+    contentWidth: {type: Number, default: 100},                       // 显示的内容宽度
+    showCheckbox: {type: Boolean},                                    // 是否显示复选框
+    checkStrictly: {type: Boolean},                                   // 是否严格按照父子关联进行选择
+    rowDraggable: {type: Boolean},                                    // 行是否可以拖拽排序
+}
 
 export default definePlc({
     name: 'plc-tree',
     props: {
         // custom
-        contentWidth: {type: Number, default: 100},                       // 显示的内容宽度
-        showCheckbox: {type: Boolean},                                    // 是否显示复选框
-        rowDraggable: {type: Boolean},                                    // 行是否可以拖拽排序
+        ...CustomProps,
 
         //standard
         autoFixedLeft: {default: true},
@@ -57,13 +64,6 @@ export default definePlc({
                 return (
                     <div style={ctx.treePlc.styleUtils.getStyles(rowData)}
                          class={ctx.treePlc.styleUtils.getClasses(rowData)}>
-                        {!!ctx.rowDraggable && (
-                            <pl-button icon="el-icon-rank"
-                                       mode="text"
-                                       {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}
-                                       class="plc-tree-drag-btn"
-                            />
-                        )}
                         <div class="plc-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
                                 !rowData.isLeaf && <pl-button mode="text"
@@ -72,6 +72,13 @@ export default definePlc({
                                                               onClick={(e) => ctx.treePlc.handler.clickExpandIcon(e, rowData)}/>
                             )}
                         </div>
+                        {!!ctx.rowDraggable && (
+                            <pl-button icon="el-icon-rank"
+                                       mode="text"
+                                       {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}
+                                       class="plc-tree-drag-btn"
+                            />
+                        )}
                         {!!ctx.showCheckbox && (
                             <div class="plc-tree-node-check">
                                 <pl-checkbox-indeterminate
@@ -95,7 +102,8 @@ export default definePlc({
             }
         },
     },
-    setup(props) {
+    // @ts-ignore
+    setup(props: ExtractPropTypes<typeof PlcProps> & ExtractPropTypes<typeof CustomProps>) {
 
         const table = injectTable()
         const ctx = getCurrentInstance() as any
@@ -129,7 +137,7 @@ export default definePlc({
             autoExpandParent: table.props.autoExpandParent,
             emit,
             tableData: table.tableData as Ref<TableNode[]>,
-            checkStrictly: table.props.checkStrictly,
+            checkStrictly: props.checkStrictly,
         })
 
         const styleUtils = {
@@ -176,10 +184,12 @@ export default definePlc({
 
         const treeDraggablePlc = usePlcTreeRowDraggable({
             flatDataList: table.formatFlatTableData,
-            rowDraggable: (props as any).rowDraggable,
+            rowDraggable: props.rowDraggable,
             rowClass: 'plt-row',
             nodeClass: 'plc-tree-node',
             levelPadding: size,
+            showCheckbox: props.showCheckbox,
+            checkStrictly: props.checkStrictly,
         })
 
         return {
