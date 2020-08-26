@@ -40,10 +40,12 @@ export function usePlcTreeRowDraggable(
     {
         rowDraggable,
         rowClass,
+        nodeClass,
         flatDataList,
     }: {
         rowDraggable: boolean | undefined,
         rowClass: string,
+        nodeClass: string,
         flatDataList: Readonly<Ref<readonly TableNode[]>>,
     }) {
 
@@ -68,6 +70,7 @@ export function usePlcTreeRowDraggable(
             height: 0,
         },
         indicator: null as null | HTMLElement,
+        dragNodeBaseLeft: 0,
     }
 
     const utils = {
@@ -123,6 +126,9 @@ export function usePlcTreeRowDraggable(
             state.rowHeight = state.rowEl.offsetHeight
             const vid = Number(state.rowEl.getAttribute('vid'))
             state.moveNode = state.startNode = flatDataList.value[vid]
+
+            const dragNode = state.rowEl.querySelector(`.${nodeClass}`)!
+            state.dragNodeBaseLeft = Math.ceil(dragNode.getBoundingClientRect()!.left)
 
             state.scrollParent = getScrollParent(state.rowEl)
             state.startScrollTop = state.moveScrollTop = state.scrollParent.scrollTop

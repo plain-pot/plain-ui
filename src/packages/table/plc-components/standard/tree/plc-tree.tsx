@@ -55,7 +55,8 @@ export default definePlc({
                 const {rowData, plc} = renderData
                 const ctx = plc.ctx as any
                 return (
-                    <div style={ctx.treePlc.styleUtils.getStyles(rowData)} class={ctx.treePlc.styleUtils.getClasses(rowData)}>
+                    <div style={ctx.treePlc.styleUtils.getStyles(rowData)}
+                         class={ctx.treePlc.styleUtils.getClasses(rowData)}>
                         <div class="plc-tree-node-expander">
                             {rowData.isLoading ? <pl-loading type="beta"/> : (
                                 !rowData.isLeaf && <pl-button mode="text"
@@ -177,6 +178,7 @@ export default definePlc({
             flatDataList: table.formatFlatTableData,
             rowDraggable: (props as any).rowDraggable,
             rowClass: 'plt-row',
+            nodeClass: 'plc-tree-node',
         })
 
         return {
