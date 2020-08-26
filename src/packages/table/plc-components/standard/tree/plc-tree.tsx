@@ -165,7 +165,7 @@ export default definePlc({
             const level = table.maxShowLevel.value
 
             // 最后最大层的宽度
-            return (expand + check + draggable) * level + content
+            return expand * (level - 1) + (content + expand + check + draggable)
         })
 
         onMounted(() => {
@@ -179,6 +179,7 @@ export default definePlc({
             rowDraggable: (props as any).rowDraggable,
             rowClass: 'plt-row',
             nodeClass: 'plc-tree-node',
+            levelPadding: size,
         })
 
         return {

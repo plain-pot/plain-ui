@@ -41,11 +41,13 @@ export function usePlcTreeRowDraggable(
         rowDraggable,
         rowClass,
         nodeClass,
+        levelPadding,
         flatDataList,
     }: {
         rowDraggable: boolean | undefined,
         rowClass: string,
         nodeClass: string,
+        levelPadding: number,
         flatDataList: Readonly<Ref<readonly TableNode[]>>,
     }) {
 
@@ -80,6 +82,12 @@ export function usePlcTreeRowDraggable(
         enableDrop: (targetIndex: number, dropType: DropType) => {
 
             let top = targetIndex * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop - state.startScrollTop)
+            let paddingLeft = (state.moveNode!.level - 1) * levelPadding
+            if (state.moveNode!.isLeaf) {
+                paddingLeft += levelPadding
+            }
+            state.indicator!.style.left = `${state.dragNodeBaseLeft + paddingLeft}px`
+            state.indicator!.style.width = `${state.scrollParentRect.width - (state.dragNodeBaseLeft - state.scrollParentRect.left) - paddingLeft}px`
 
             switch (dropType) {
                 case DropType.prev:
@@ -104,12 +112,15 @@ export function usePlcTreeRowDraggable(
             let targetIndex = top / state.rowHeight
             const external = targetIndex % 1
             targetIndex = Math.floor(targetIndex)
-            const dropType: DropType = external < 0.3 ? DropType.prev :
-                external > 0.7 ? DropType.next : DropType.inner
+            const dropType: DropType = external < 0.3 ? DropType.prev : external > 0.7 ? DropType.next : DropType.inner
 
-            state.moveNode = flatDataList.value[targetIndex]
+            const moveNode = flatDataList.value[targetIndex]
+            if (!moveNode) {
+                return
+            }
+
+            state.moveNode = moveNode
             const parents = getParents(state.moveNode)
-
             if (parents.indexOf(state.startNode!) > -1) {
                 return utils.disabledDrop()
             }
@@ -129,6 +140,7 @@ export function usePlcTreeRowDraggable(
 
             const dragNode = state.rowEl.querySelector(`.${nodeClass}`)!
             state.dragNodeBaseLeft = Math.ceil(dragNode.getBoundingClientRect()!.left)
+            console.log(state.dragNodeBaseLeft, e.clientX)
 
             state.scrollParent = getScrollParent(state.rowEl)
             state.startScrollTop = state.moveScrollTop = state.scrollParent.scrollTop
