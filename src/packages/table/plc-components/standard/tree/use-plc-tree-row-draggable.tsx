@@ -8,6 +8,7 @@ import {getRowEl, getScrollParent} from "@/packages/table/plc-components/standar
 import {TableNode} from "@/packages/table/table/TableNode";
 import {$plain} from "@/packages/base";
 import {TreeDropType} from "@/packages/tree/utils/tree-constant";
+import {StyleType} from "@/types/utils";
 
 /**
  * 拖拽的过程中，在目标行移动时，应该放置的行为
@@ -76,56 +77,48 @@ export function usePlcTreeRowDraggable(
     }
 
     const utils = {
-        disabledDrop() {
-            state.indicator!.style.opacity = '0'
-        },
-        enableDrop: (targetIndex: number, dropType: DropType) => {
+        getIndicatorStyles(moveNode: TableNode, droppable: boolean, dropType: DropType) {
 
-            let top = targetIndex * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop - state.startScrollTop)
-            let paddingLeft = (state.moveNode!.level - 1) * levelPadding
-            if (state.moveNode!.isLeaf) {
-                paddingLeft += levelPadding
-            }
-            state.indicator!.style.left = `${state.dragNodeBaseLeft + paddingLeft}px`
-            state.indicator!.style.width = `${state.scrollParentRect.width - (state.dragNodeBaseLeft - state.scrollParentRect.left) - paddingLeft}px`
+            const styles: StyleType = {}
 
-            switch (dropType) {
-                case DropType.prev:
-                    state.indicator!.style.top = `${top}px`
-                    state.indicator!.style.height = `${indicatorSize}px`
-                    state.indicator!.style.opacity = '1'
-                    break
-                case DropType.inner:
-                    state.indicator!.style.top = `${top}px`
-                    state.indicator!.style.height = `${state.rowHeight}px`
-                    state.indicator!.style.opacity = '0.15'
-                    break
-                case DropType.next:
-                    state.indicator!.style.top = `${top + state.rowHeight - indicatorSize}px`
-                    state.indicator!.style.height = `${indicatorSize}px`
-                    state.indicator!.style.opacity = '1'
-                    break
-            }
+            let top = moveNode.index * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop - state.startScrollTop)
+            let paddingLeft = (moveNode.level - 1) * levelPadding
+            if (moveNode.isLeaf) paddingLeft += levelPadding
+
+            styles.top = `${dropType === DropType.next ? top + state.rowHeight - indicatorSize : top}px`
+            styles.left = `${state.dragNodeBaseLeft + paddingLeft}px`
+            styles.width = `${state.scrollParentRect.width - (state.dragNodeBaseLeft - state.scrollParentRect.left) - paddingLeft}px`
+            styles.height = `${dropType === DropType.inner ? state.rowHeight : indicatorSize}px`
+            styles.backgroundColor = droppable ? '#12b4a5' : '#F38585'
+            styles.opacity = dropType === DropType.inner ? '0.15' : ''
+
+            return styles
         },
         refresh() {
             const top = state.startClientY - state.scrollParentRect.top + (state.moveScrollTop - state.startScrollTop) + (state.moveClientY - state.startClientY)
             let targetIndex = top / state.rowHeight
             const external = targetIndex % 1
             targetIndex = Math.floor(targetIndex)
-            const dropType: DropType = external < 0.3 ? DropType.prev : external > 0.7 ? DropType.next : DropType.inner
+            let dropType: DropType = external < 0.3 ? DropType.prev : external > 0.7 ? DropType.next : DropType.inner
 
             const moveNode = flatDataList.value[targetIndex]
             if (!moveNode) {
                 return
             }
 
+            let droppable = true
+
             state.moveNode = moveNode
             const parents = getParents(state.moveNode)
             if (parents.indexOf(state.startNode!) > -1) {
-                return utils.disabledDrop()
+                droppable = false
             }
 
-            return utils.enableDrop(targetIndex, dropType)
+            if (!droppable) {
+                dropType = DropType.inner
+            }
+
+            Object.assign(state.indicator!.style, utils.getIndicatorStyles(moveNode, droppable, dropType))
         },
     }
 
@@ -159,6 +152,8 @@ export function usePlcTreeRowDraggable(
             state.scrollParent.addEventListener('scroll', handler.scroll)
             document.addEventListener('mousemove', handler.mousemove)
             document.addEventListener('mouseup', handler.mouseup)
+
+            utils.refresh()
         },
         scroll() {
             state.moveScrollTop = state.scrollParent!.scrollTop
