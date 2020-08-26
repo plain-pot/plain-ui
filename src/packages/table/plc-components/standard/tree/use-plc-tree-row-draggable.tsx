@@ -84,7 +84,7 @@ export function usePlcTreeRowDraggable(
 
             const styles: StyleType = {}
 
-            let top = moveNode.index * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop - state.startScrollTop)
+            let top = moveNode.index * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop)
             let paddingLeft = (moveNode.level - 1) * levelPadding
             if (moveNode.isLeaf) paddingLeft += levelPadding
 
@@ -98,12 +98,11 @@ export function usePlcTreeRowDraggable(
             return styles
         },
         refresh() {
-            const top = state.startClientY - state.scrollParentRect.top + (state.moveScrollTop - state.startScrollTop) + (state.moveClientY - state.startClientY)
+            const top = state.startClientY - state.scrollParentRect.top + (state.moveScrollTop) + (state.moveClientY - state.startClientY)
             let targetIndex = top / state.rowHeight
             const external = targetIndex % 1
             targetIndex = Math.floor(targetIndex)
             let dropType: DropType = external < 0.3 ? DropType.prev : external > 0.7 ? DropType.next : DropType.inner
-
             const moveNode = flatDataList.value[targetIndex]
             if (!moveNode) {
                 return
@@ -139,7 +138,6 @@ export function usePlcTreeRowDraggable(
 
             const dragNode = state.rowEl.querySelector(`.${nodeClass}`)!
             state.dragNodeBaseLeft = Math.ceil(dragNode.getBoundingClientRect()!.left)
-            console.log(state.dragNodeBaseLeft, e.clientX)
 
             state.scrollParent = getScrollParent(state.rowEl)
             state.startScrollTop = state.moveScrollTop = state.scrollParent.scrollTop
