@@ -30,6 +30,8 @@ enum DropEffect {
     none = 'none'
 }
 
+const indicatorSize = 3;
+
 /**
  * 获取目标节点所有父节点
  * @author  韦胜健
@@ -76,6 +78,8 @@ export function usePlcTreeRowDraggable(
             height: 0,
         },
         dropEffect: DropEffect.move,
+
+        indicator: null as null | HTMLElement,
     }
 
     const utils = {
@@ -85,14 +89,17 @@ export function usePlcTreeRowDraggable(
             if (!!e) {
                 e.dataTransfer!.dropEffect = 'none'
             }
+            state.indicator!.style.opacity = '0'
 
         },
-        enableDrop: (e: DragEvent | undefined) => {
+        enableDrop: (e: DragEvent | undefined, targetIndex: number) => {
 
             state.dropEffect = DropEffect.move
             if (!!e) {
                 e.dataTransfer!.dropEffect = 'move'
             }
+            state.indicator!.style.opacity = '1'
+            state.indicator!.style.top = `${targetIndex * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop - state.startScrollTop)}px`
 
         },
         refresh(e?: DragEvent) {
@@ -110,8 +117,7 @@ export function usePlcTreeRowDraggable(
                 return utils.disabledDrop(e)
             }
 
-
-            return utils.enableDrop(e)
+            return utils.enableDrop(e, targetIndex)
         },
     }
 
@@ -128,6 +134,14 @@ export function usePlcTreeRowDraggable(
             state.startScrollTop = state.moveScrollTop = state.scrollParent.scrollTop
             const {top, left, height, width} = (state.scrollParent.parentNode as HTMLElement).getBoundingClientRect()
             state.scrollParentRect = {top, left, height, width}
+
+            state.indicator = document.createElement('div')
+            state.indicator.style.position = 'fixed'
+            state.indicator.style.height = `${indicatorSize}px`
+            state.indicator.style.width = `${state.scrollParentRect.width}px`
+            state.indicator.style.left = `${state.scrollParentRect.left}px`
+            state.indicator.style.backgroundColor = 'green'
+            document.body.appendChild(state.indicator)
 
             state.scrollParent.addEventListener('scroll', handler.scroll)
             document.addEventListener('dragover', handler.dragover)
@@ -153,6 +167,10 @@ export function usePlcTreeRowDraggable(
                 e.preventDefault()
                 e.dataTransfer!.dropEffect = state.dropEffect
                 return
+            }
+            const {top, height} = state.scrollParentRect
+            if (e.clientY < top || e.clientY > top + height) {
+                return;
             }
 
             state.moveClientY = e.clientY
