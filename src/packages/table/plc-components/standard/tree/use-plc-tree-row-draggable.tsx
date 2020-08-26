@@ -74,6 +74,9 @@ export function usePlcTreeRowDraggable(
         },
         indicator: null as null | HTMLElement,
         dragNodeBaseLeft: 0,
+
+        dropType: DropType.inner,
+        droppable: false,
     }
 
     const utils = {
@@ -117,6 +120,9 @@ export function usePlcTreeRowDraggable(
             if (!droppable) {
                 dropType = DropType.inner
             }
+
+            state.dropType = dropType
+            state.droppable = droppable
 
             Object.assign(state.indicator!.style, utils.getIndicatorStyles(moveNode, droppable, dropType))
         },
@@ -172,8 +178,42 @@ export function usePlcTreeRowDraggable(
             state.moveClientY = e.clientY
             utils.refresh()
         },
-        mouseup: (e: MouseEvent) => {
-            console.log('mouseup', e)
+        mouseup: () => {
+
+            const {startNode, moveNode, dropType, droppable} = state
+
+            state.scrollParent!.removeEventListener('scroll', handler.scroll)
+            document.removeEventListener('mousemove', handler.mousemove)
+            document.removeEventListener('mouseup', handler.mouseup)
+
+            state.indicator!.parentNode!.removeChild(state.indicator!)
+            state.startClientY = state.moveClientY = 0
+            state.rowEl = null
+            state.rowHeight = 0
+            state.moveNode = null
+            state.dragNodeBaseLeft = 0
+            state.scrollParent = null
+            state.startScrollTop = 0
+            state.scrollParentRect = {top: 0, left: 0, height: 0, width: 0}
+
+            if (!droppable) {
+                return
+            }
+
+            switch (dropType) {
+                case DropType.prev:
+                    console.log('previousSibling')
+                    moveNode!.previousSibling(startNode!)
+                    break
+                case DropType.inner:
+                    console.log('unshiftChild')
+                    moveNode!.unshiftChild(startNode!)
+                    break
+                case DropType.next:
+                    console.log('nextSibling')
+                    moveNode!.nextSibling(startNode!)
+                    break
+            }
         }
     }
 
