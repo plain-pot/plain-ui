@@ -142,6 +142,21 @@
             </pl-table>
         </demo-row>
 
+        <demo-row title="手风琴模式，打开节点的时候关闭兄弟节点">
+            <pl-table :data="data"
+                      keyField="id"
+                      childrenField="subs"
+                      according>
+                <plc-index/>
+                <plc-tree>
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
+        </demo-row>
     </div>
 </template>
 
