@@ -131,10 +131,6 @@ export function usePlcTreeRowDraggable(
                 droppable = false
             }
 
-            if (!droppable) {
-                dropType = DropType.inner
-            }
-
             state.dropType = dropType
             state.droppable = droppable
 
