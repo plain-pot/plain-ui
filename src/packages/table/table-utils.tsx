@@ -11,6 +11,7 @@ export const TableProps = {
     config: {type: Function},                                   // 配置列信息函数
     debugPlc: {type: Boolean},                                  // 调试plc数据
     rules: {type: Object},                                      // 校验规则
+    colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
 
     /*---------------------------------------theme-------------------------------------------*/
     border: {type: Boolean},                                    // 是否带纵向边框
