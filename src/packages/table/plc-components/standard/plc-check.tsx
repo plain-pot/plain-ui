@@ -10,6 +10,7 @@ export default definePlc({
     props: {
         // custom
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
+        isCheckable: {type: Function},                          // 是否可选
 
         //standard
         autoFixedLeft: {default: true},
@@ -39,7 +40,9 @@ export default definePlc({
                         readonly
                         value={plcInstance.checkPlc.utils.isChecked(rowData)}
                         size={'normal'}
-                        onClick={() => plcInstance.checkPlc.handler.onClickCheckbox(rowData)}/>
+                        onClick={() => plcInstance.checkPlc.handler.onClickCheckbox(rowData)}
+                        disabled={!plcInstance.checkPlc.utils.isCheckable(rowData)}
+                    />
                 )
             }
         },
@@ -49,7 +52,7 @@ export default definePlc({
         const table = injectTable()
 
         // @ts-ignore
-        const {toggleOnClickRow} = props as { keyField: string, toggleOnClickRow: boolean }
+        const {toggleOnClickRow, isCheckable} = props as { toggleOnClickRow: boolean, isCheckable?: Function }
 
         const state = reactive({
             selected: [] as TableNode[],
@@ -67,6 +70,13 @@ export default definePlc({
         })
 
         const utils = {
+            isCheckable: (node: TableNode) => {
+                if (!!isCheckable) {
+                    const flag = isCheckable(node)
+                    return flag !== false
+                }
+                return true
+            },
             isChecked: (node: TableNode) => selectedKeys.value.indexOf(node.key) > -1,
             toggle: (node: TableNode) => {
                 const index = selectedKeys.value.indexOf(node.key)
@@ -75,7 +85,7 @@ export default definePlc({
                 } else {
                     state.selected.push(node)
                 }
-            }
+            },
         }
 
         const handler = {
@@ -84,13 +94,18 @@ export default definePlc({
                 /*if (toggleOnClickRow) {
                     return
                 }*/
+                if (!utils.isCheckable(node)) {
+                    return
+                }
                 utils.toggle(node)
             },
             onClickHeadCheckbox: () => {
-                state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value.map((item: TableNode) => item)
+                state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value
+                    .filter(utils.isCheckable)
+                    .map((item: TableNode) => item)
             },
             onClickCell: (node: TableNode, e: MouseEvent) => {
-                utils.toggle(node)
+                handler.onClickCheckbox(node)
             }
         }
 
