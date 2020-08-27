@@ -90,7 +90,7 @@ export class TableMark {
         } else {
             node.data = data
         }
-        node.level = level + 1
+        node.level = level
         return node
     }
 
