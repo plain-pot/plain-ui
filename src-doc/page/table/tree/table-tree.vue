@@ -158,9 +158,15 @@
             </pl-table>
         </demo-row>
 
-        <demo-row title="自定义过滤函数，实现数据筛选的功能（当子节点显示的时候，父节点也会显示，不管父节点是否能通过自定义过滤函数的校验）">
+        <demo-row title="自定义过滤函数，实现数据筛选的功能">
+            <demo-line>
+                <pl-alert size="mini">
+                    当子节点显示的时候，父节点也会显示，不管父节点是否能通过自定义过滤函数的校验
+                </pl-alert>
+            </demo-line>
             <demo-line>
                 <pl-input suffixIcon="el-icon-search" v-model="filterBindingText" @enter="()=>filterText = filterBindingText"/>
+                <pl-icon icon="el-icon-info" v-tooltip="'回车确定筛选'"/>
             </demo-line>
             <pl-table :data="data"
                       keyField="id"
