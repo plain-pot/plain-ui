@@ -157,6 +157,26 @@
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
+
+        <demo-row title="自定义过滤函数，实现数据筛选的功能（当子节点显示的时候，父节点也会显示，不管父节点是否能通过自定义过滤函数的校验）">
+            <demo-line>
+                <pl-input suffixIcon="el-icon-search" v-model="filterBindingText" @enter="()=>filterText = filterBindingText"/>
+            </demo-line>
+            <pl-table :data="data"
+                      keyField="id"
+                      childrenField="subs"
+                      :filterNodeMethod="customFilterNodeMethod">
+                <plc-index/>
+                <plc-tree>
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
+        </demo-row>
+
     </div>
 </template>
 
@@ -220,6 +240,8 @@
                         })
                     },
                 },
+                filterText: null,
+                filterBindingText: null,
             }
         },
         methods: {
@@ -234,6 +256,13 @@
             customIsCheckable(node) {
                 // 名称带字符【2】的记录不能选中
                 return node.data.name.indexOf('2') === -1
+            },
+            customFilterNodeMethod(node) {
+                if (!this.filterText) {
+                    return true
+                } else {
+                    return node.data.name.indexOf(this.filterText) > -1
+                }
             },
         },
         mounted() {

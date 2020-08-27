@@ -185,7 +185,7 @@ function tableSetup(props: TablePropsType) {
             },
         )
         return {
-            formatDataFlat,
+            formatDataFlat: formatDataFlat.filter(node => node.isVisible),
             maxShowLevel,
         }
     })
