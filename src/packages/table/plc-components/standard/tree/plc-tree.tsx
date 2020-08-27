@@ -15,10 +15,10 @@ import {PlcProps} from "@/packages/table/plc/plc-utils";
 const size = 30
 
 const CustomProps = {
-    contentWidth: {type: Number, default: 100},                       // 显示的内容宽度
-    showCheckbox: {type: Boolean},                                    // 是否显示复选框
-    checkStrictly: {type: Boolean},                                   // 是否严格按照父子关联进行选择
-    rowDraggable: {type: Boolean},                                    // 行是否可以拖拽排序
+    contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
+    showCheckbox: {type: Boolean},                                      // 是否显示复选框
+    checkStrictly: {type: Boolean},                                     // 是否严格按照父子关联进行选择
+    rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
 }
 
 export default definePlc({
@@ -65,7 +65,12 @@ export default definePlc({
                     <div style={ctx.treePlc.styleUtils.getStyles(rowData)}
                          class={ctx.treePlc.styleUtils.getClasses(rowData)}>
                         <div class="plc-tree-node-expander">
-                            {rowData.isLoading ? <pl-loading type="beta"/> : (
+                            {rowData.isLoading ? (
+                                <pl-button loading
+                                           mode="text"
+                                           icon=" "
+                                           size={'normal'}/>
+                            ) : (
                                 !rowData.isLeaf && <pl-button mode="text"
                                                               size={'normal'}
                                                               icon={rowData.isExpand ? 'el-icon-caret-bottom' : 'el-icon-caret-right'}

@@ -339,6 +339,8 @@ export function usePlcTree(
         }
     }
 
+    utils.initLazy()
+
     return {
         utils,
         handler,

@@ -342,10 +342,11 @@ export default defineComponent({
             state,
             plcData,
             classes,
+            isLoading,
         } = tableSetup(props)
 
         return () => (
-            <div class={classes.value}>
+            <div class={classes.value} {...{directives: [{name: 'loading', value: isLoading.value}]}}>
 
                 <plc-collector ref="collector">{slots.default()}</plc-collector>
 
