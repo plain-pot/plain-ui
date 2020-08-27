@@ -44,6 +44,8 @@ export function usePlcTreeRowDraggable(
         flatDataList,
         showCheckbox,
         checkStrictly,
+        allowRowDraggable,
+        allowRowDroppable,
     }: {
         rowDraggable: boolean | undefined,
         rowClass: string,
@@ -52,6 +54,8 @@ export function usePlcTreeRowDraggable(
         flatDataList: Readonly<Ref<readonly TableNode[]>>,
         showCheckbox: boolean | undefined,
         checkStrictly: boolean | undefined,
+        allowRowDraggable: Function | undefined,
+        allowRowDroppable: Function | undefined,
     }) {
 
     const state = {
@@ -82,6 +86,12 @@ export function usePlcTreeRowDraggable(
     }
 
     const utils = {
+        allowRowDraggable: (node: TableNode) => {
+            return !allowRowDraggable || allowRowDraggable(node) !== false
+        },
+        allowRowDroppable: (startNode: TableNode, moveNode: TableNode, dropType: DropType) => {
+            return !allowRowDroppable || allowRowDroppable(startNode, moveNode, dropType) !== false
+        },
         getIndicatorStyles(moveNode: TableNode, droppable: boolean, dropType: DropType) {
 
             const styles: StyleType = {}
@@ -115,6 +125,9 @@ export function usePlcTreeRowDraggable(
             state.moveNode = moveNode
             const parents = getParents(state.moveNode)
             if (parents.indexOf(state.startNode!) > -1) {
+                droppable = false
+            }
+            if (!utils.allowRowDroppable(state.startNode!, moveNode, dropType)) {
                 droppable = false
             }
 
@@ -172,6 +185,10 @@ export function usePlcTreeRowDraggable(
             state.rowHeight = state.rowEl.offsetHeight
             const vid = Number(state.rowEl.getAttribute('vid'))
             state.moveNode = state.startNode = flatDataList.value[vid]
+
+            if (!utils.allowRowDraggable(state.startNode)) {
+                return
+            }
 
             const dragNode = state.rowEl.querySelector(`.${nodeClass}`)!
             state.dragNodeBaseLeft = Math.ceil(dragNode.getBoundingClientRect()!.left)
@@ -255,5 +272,6 @@ export function usePlcTreeRowDraggable(
 
     return {
         handler,
+        utils,
     }
 }

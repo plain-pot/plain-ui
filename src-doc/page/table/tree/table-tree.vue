@@ -46,35 +46,6 @@
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
-        <demo-row title="树形虚拟表格">
-            <tree-table-virtual/>
-        </demo-row>
-        <demo-row title="可拖拽树形表格">
-
-            <demo-line>
-                <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.draggableTree.treePlc.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.draggableTree.treePlc.methods.collapseAll()"/>
-                </pl-button-group>
-            </demo-line>
-
-            <pl-table :data="data"
-                      keyField="id"
-                      childrenField="subs">
-                <plc-index/>
-                <plc-tree rowDraggable ref="draggableTree">
-                    <template slot-scope="{row}" slot="content">
-                        {{row.name}}
-                    </template>
-                </plc-tree>
-                <plc title="名称" field="id"/>
-                <plc title="名称" field="name"/>
-            </pl-table>
-        </demo-row>
-
-        <demo-row title="可拖拽的树形虚拟表格">
-            <tree-table-virtual-draggable/>
-        </demo-row>
 
         <demo-row title="懒加载子节点">
             <pl-table v-model="lazyDemo.data"
@@ -183,6 +154,60 @@
             </pl-table>
         </demo-row>
 
+        <demo-row title="树形虚拟表格">
+            <tree-table-virtual/>
+        </demo-row>
+        <demo-row title="可拖拽树形表格">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.draggableTree.treePlc.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.draggableTree.treePlc.methods.collapseAll()"/>
+                </pl-button-group>
+            </demo-line>
+
+            <pl-table :data="data"
+                      keyField="id"
+                      childrenField="subs">
+                <plc-index/>
+                <plc-tree rowDraggable ref="draggableTree">
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
+        </demo-row>
+        <demo-row title="可拖拽的树形虚拟表格">
+            <tree-table-virtual-draggable/>
+        </demo-row>
+        <demo-row title="可拖拽，可放置控制">
+            <demo-line>
+                <pl-alert>
+                    默认情况下，一个节点不能放置在他的子节点中
+                </pl-alert>
+            </demo-line>
+            <demo-line>
+                这里示例，第一层节点不能被拖拽，不能放置在第一层节点前后，只能放置在其子节点中（相当于控制第一层节点数量不变）
+            </demo-line>
+            <pl-table :data="data"
+                      keyField="id"
+                      childrenField="subs">
+                <plc-index/>
+                <plc-tree rowDraggable
+                          ref="draggableTree"
+                          :allowRowDraggable="allow.rowDraggable"
+                          :allowRowDroppable="allow.rowDroppable"
+                >
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
+        </demo-row>
     </div>
 </template>
 
@@ -248,6 +273,25 @@
                 },
                 filterText: null,
                 filterBindingText: null,
+                allow: {
+                    rowDraggable: (node) => {
+                        return node.level !== 1
+                    },
+                    rowDroppable: (startNode, moveNode, dropType) => {
+                        if (moveNode.level !== 1) {
+                            return true
+                        }
+                        // 这里展示了dropType的几种类型
+                        switch (dropType) {
+                            case 'prev':
+                                return false
+                            case 'next':
+                                return false
+                            case 'inner':
+                                return true
+                        }
+                    }
+                }
             }
         },
         methods: {

@@ -18,6 +18,8 @@ const CustomProps = {
     contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
     showCheckbox: {type: Boolean},                                      // 是否显示复选框
     rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
+    allowRowDraggable: {type: Function},                                // 行是否可以被拖拽放置到其他位置
+    allowRowDroppable: {type: Function},                                // 行是否可以被放置（放到子节点中，放到前面，放到后面）
 }
 
 export default definePlc({
@@ -79,6 +81,7 @@ export default definePlc({
                         {!!ctx.rowDraggable && (
                             <pl-button icon="el-icon-rank"
                                        mode="text"
+                                       disabled={!ctx.treeDraggablePlc.utils.allowRowDraggable(rowData)}
                                        {...{nativeOn: {mousedown: ctx.treeDraggablePlc.handler.mousedown}}}
                                        class="plc-tree-drag-btn"
                             />
@@ -194,6 +197,8 @@ export default definePlc({
             levelPadding: size,
             showCheckbox: props.showCheckbox,
             checkStrictly: table.props.checkStrictly,
+            allowRowDraggable: props.allowRowDraggable,
+            allowRowDroppable: props.allowRowDroppable,
         })
 
         return {
