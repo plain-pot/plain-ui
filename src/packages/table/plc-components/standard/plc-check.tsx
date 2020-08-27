@@ -100,9 +100,18 @@ export default definePlc({
                 utils.toggle(node)
             },
             onClickHeadCheckbox: () => {
-                state.selected = status.value === 'check' ? [] : table.formatFlatTableData.value
-                    .filter(utils.isCheckable)
-                    .map((item: TableNode) => item)
+                if (status.value === 'check') {
+                    state.selected = []
+                } else {
+                    const availableSelectItems = table.formatFlatTableData.value
+                        .filter(utils.isCheckable)
+                        .map((item: TableNode) => item)
+                    if (state.selected.length === availableSelectItems.length) {
+                        state.selected = []
+                    } else {
+                        state.selected = availableSelectItems
+                    }
+                }
             },
             onClickCell: (node: TableNode, e: MouseEvent) => {
                 handler.onClickCheckbox(node)
