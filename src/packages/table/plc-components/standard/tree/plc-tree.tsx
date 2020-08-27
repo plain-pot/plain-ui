@@ -17,7 +17,6 @@ const size = 30
 const CustomProps = {
     contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
     showCheckbox: {type: Boolean},                                      // 是否显示复选框
-    checkStrictly: {type: Boolean},                                     // 是否严格按照父子关联进行选择
     rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
 }
 
@@ -142,7 +141,7 @@ export default definePlc({
             autoExpandParent: table.props.autoExpandParent,
             emit,
             tableData: table.tableData as Ref<TableNode[]>,
-            checkStrictly: props.checkStrictly,
+            checkStrictly: table.props.checkStrictly,
         })
 
         const styleUtils = {
@@ -194,7 +193,7 @@ export default definePlc({
             nodeClass: 'plc-tree-node',
             levelPadding: size,
             showCheckbox: props.showCheckbox,
-            checkStrictly: props.checkStrictly,
+            checkStrictly: table.props.checkStrictly,
         })
 
         return {

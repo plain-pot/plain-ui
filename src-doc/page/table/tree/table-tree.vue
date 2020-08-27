@@ -94,6 +94,30 @@
             </pl-table>
         </demo-row>
 
+        <demo-row title="多选，父子互不关联">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button @click="$message($refs.strictCheck.getSelected().map(node=>node.data.name).join(','))">获取多选列的选中数据</pl-button>
+                    <pl-button @click="$message($refs.strictTree.treePlc.methods.getCheckedData().map(item=>item.name).join(','))">获取树列的选中数据</pl-button>
+                </pl-button-group>
+            </demo-line>
+            <pl-table :data="data"
+
+                      keyField="id"
+                      childrenField="subs"
+                      checkStrictly>
+                <plc-index/>
+                <plc-check ref="strictCheck"/>
+                <plc-tree ref="strictTree" showCheckbox>
+                    <template slot-scope="{row}" slot="content">
+                        {{row.name}}
+                    </template>
+                </plc-tree>
+                <plc title="名称" field="id"/>
+                <plc title="名称" field="name"/>
+            </pl-table>
+        </demo-row>
+
     </div>
 </template>
 
