@@ -58,7 +58,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
         const summaryHeight = (props.summaryData || []).length * props.size
         const offset = virtualList.isDisabled.value ? 0 : virtualList.state.offset
         return {
-            transform: `translate3d(0,${offset}px,0)`,
+            top: `${offset}px`,
             paddingBottom: `${summaryHeight}px`,
         }
     })

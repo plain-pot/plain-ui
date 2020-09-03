@@ -83,7 +83,7 @@ export function virtualListSetup(props: ExtractPropTypes<typeof VirtualListProps
     const contentStyles = computed(() => {
         if (isDisabled.value) return
         return {
-            transform: `translate3d(0,${state.offset}px,0)`
+            top: `${state.offset}px`
         }
     })
 
