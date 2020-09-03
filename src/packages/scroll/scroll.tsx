@@ -264,6 +264,64 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             if (!!point.x) refs.wrapper!.scrollLeft = refs.wrapper!.scrollWidth
             if (!!point.y) refs.wrapper!.scrollTop = refs.wrapper!.scrollHeight
         },
+        autoScrollTop() {
+            const {wrapperScrollTop, hostHeight, contentHeight} = state
+            const scrollHeight = contentHeight - hostHeight
+            if (scrollHeight <= 0) {
+                return
+            }
+            const height = wrapperScrollTop
+            if (height <= 0) {
+                return
+            }
+            const duration = (height / 200) * 1000
+            methods.scrollTop(0, duration)
+        },
+        autoScrollBottom() {
+            const {wrapperScrollTop, hostHeight, contentHeight} = state
+            const scrollHeight = contentHeight - hostHeight
+            if (scrollHeight <= 0) {
+                return
+            }
+            const height = scrollHeight - wrapperScrollTop
+            if (height <= 0) {
+                return
+            }
+            const duration = (height / 200) * 1000
+            methods.scrollTop(scrollHeight, duration)
+        },
+        autoScrollLeft() {
+            const {wrapperScrollLeft, hostWidth, contentWidth} = state
+            const scrollWidth = contentWidth - hostWidth
+            if (scrollWidth <= 0) {
+                return
+            }
+            const width = wrapperScrollLeft
+            if (width <= 0) {
+                return
+            }
+            const duration = (width / 200) * 1000
+            methods.scrollLeft(0, duration)
+        },
+        autoScrollRight() {
+            const {wrapperScrollLeft, hostWidth, contentWidth} = state
+            const scrollWidth = contentWidth - hostWidth
+            if (scrollWidth <= 0) {
+                return
+            }
+            const width = scrollWidth - wrapperScrollLeft
+            if (width <= 0) {
+                return
+            }
+            const duration = (width / 200) * 1000
+            methods.scrollLeft(scrollWidth, duration)
+        },
+        stopAutoScroll() {
+            if (!!state.cancelAnimate) {
+                cancelAnimationFrame(state.cancelAnimate)
+                state.cancelAnimate = null
+            }
+        },
     }
 
 

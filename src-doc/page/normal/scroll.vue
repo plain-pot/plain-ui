@@ -8,9 +8,9 @@
                     </div>
                 </pl-scroll>
             </div>
-            <pl-button-group>
-                <pl-button icon="el-icon-circle-plus-outline" @click="list.push(list.length+1)"/>
-                <pl-button icon="el-icon-remove-outline" @click="list.shift()"/>
+            <pl-button-group vertical>
+                <pl-button icon="el-icon-circle-plus-outline" @click="list.push(list.length+1)" label="添加元素"/>
+                <pl-button icon="el-icon-remove-outline" @click="list.shift()" label="删除元素"/>
             </pl-button-group>
         </demo-row>
         <demo-row title="基本用法2">
@@ -111,6 +111,42 @@
                 </pl-scroll>
             </div>
         </demo-row>
+
+        <demo-row title="自动滚动(纵向)">
+            <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
+                <pl-scroll ref="autoScroll1">
+                    <div>
+                        <div class="demo-scroll-label" v-for="(item) in 100" :key="item">{{item}}</div>
+                    </div>
+                </pl-scroll>
+            </div>
+            <div style="display: inline-block;">
+                <pl-button-group vertical>
+                    <pl-button @click="$refs.autoScroll1.methods.autoScrollBottom()">向下滚动</pl-button>
+                    <pl-button @click="$refs.autoScroll1.methods.autoScrollTop()">向上滚动</pl-button>
+                    <pl-button @click="$refs.autoScroll1.methods.stopAutoScroll()">停止滚动</pl-button>
+                </pl-button-group>
+            </div>
+        </demo-row>
+        <demo-row title="自动滚动（横向）">
+            <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
+                <pl-scroll ref="autoScroll2" scrollX>
+                    <div style="display: inline-block;white-space: nowrap;">
+                        <div class="demo-scroll-label" v-for="(item) in 12" :key="item" style="width: 30px;display: inline-block;margin-right: 10px">
+                            {{item}}
+                        </div>
+                    </div>
+                </pl-scroll>
+            </div>
+            <div style="display: inline-block;">
+                <pl-button-group vertical>
+                    <pl-button @click="$refs.autoScroll2.methods.autoScrollLeft()">向左滚动</pl-button>
+                    <pl-button @click="$refs.autoScroll2.methods.autoScrollRight()">向右滚动</pl-button>
+                    <pl-button @click="$refs.autoScroll2.methods.stopAutoScroll()">停止滚动</pl-button>
+                </pl-button-group>
+            </div>
+        </demo-row>
+
     </div>
 </template>
 
