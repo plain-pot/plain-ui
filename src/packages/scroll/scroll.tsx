@@ -425,6 +425,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
     }
 
     const refer = {
+        refs,
         on, off,
         slots,
         scopedSlots,
@@ -473,6 +474,7 @@ export type PlainScroll = {
     state: ScrollType["state"],
     on: ScrollType["on"],
     off: ScrollType["off"],
+    refs: ScrollType["refs"],
 }
 
 const SCROLL_PROVIDER = '@@SCROLL_PROVIDER'

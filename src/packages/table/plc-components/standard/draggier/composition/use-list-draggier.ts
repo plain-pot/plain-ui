@@ -1,6 +1,7 @@
 import {$plain} from "@/packages/base";
 import {getRowEl, getRowElList, getScrollParent} from "@/packages/table/plc-components/standard/draggier/composition/utils";
 import {UseListDraggierType} from "@/packages/table/plc-components/standard/draggier/composition/index";
+import {useDraggierAutoScroller} from "@/packages/table/plc-components/standard/draggier/composition/use-draggier-auto-scroller";
 
 
 /**
@@ -9,6 +10,8 @@ import {UseListDraggierType} from "@/packages/table/plc-components/standard/drag
  * @date    2020/8/21 10:07
  */
 export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChange}) => {
+
+    const autoScroll = useDraggierAutoScroller()
 
     const state = {
         startIndex: 0,                              // 拖拽的dragEl在数组中的索引
@@ -88,6 +91,8 @@ export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChan
                 // 兄弟节点自动进行上下平移
                 rowEl.style.transition = `transform 300ms cubic-bezier(0.23, 1, 0.32, 1)`
             })
+
+            autoScroll.methods.showHover()
         },
         mousemove: (e: MouseEvent) => {
             state.moveClientY = e.clientY
@@ -123,6 +128,8 @@ export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChan
             await onChange(state.startIndex, state.endIndex)
             state.startIndex = 0
             state.endIndex = 0
+
+            autoScroll.methods.hideHover()
         },
         parentScroll: () => {
             state.dragScrollTop = state.scrollParent!.scrollTop - state.dragStartScrollTop

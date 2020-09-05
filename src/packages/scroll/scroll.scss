@@ -113,3 +113,11 @@
     position: relative;
   }
 }
+
+.pl-auto-scroll-indicator-top {
+  background: linear-gradient(to top, transparent, #ddd);
+}
+
+.pl-auto-scroll-indicator-bottom {
+  background: linear-gradient(to bottom, transparent, #ddd);
+}
