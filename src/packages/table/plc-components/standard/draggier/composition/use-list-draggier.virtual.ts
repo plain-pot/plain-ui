@@ -1,5 +1,6 @@
 import {UseListDraggierType} from "@/packages/table/plc-components/standard/draggier/composition/index";
 import {getRowEl, getScrollParent} from "@/packages/table/plc-components/standard/draggier/composition/utils";
+import {useDraggierAutoScroller} from "@/packages/table/plc-components/standard/draggier/composition/use-draggier-auto-scroller";
 
 /**
  * 拖拽排序组合函数，适用于虚拟滚动版本的
@@ -36,6 +37,8 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
 
         dragEl: null as null | HTMLElement,                             // 拖拽的时候，显示的标志元素
     }
+
+    const autoScroll = useDraggierAutoScroller()
 
     const utils = {
         refresh() {
@@ -105,6 +108,7 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
 
             setTimeout(() => {
                 state.dragEl!.style.width = `${state.scrollParentBoundingRect.width}px`
+                autoScroll.methods.showHover()
             }, 23)
         },
         scroll: () => {
@@ -147,6 +151,8 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             }
             state.dragEl!.parentNode!.removeChild(state.dragEl!)
             state.dragEl = null
+
+            autoScroll.methods.hideHover()
         }
     }
 
