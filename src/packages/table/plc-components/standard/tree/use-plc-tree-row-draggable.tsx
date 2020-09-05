@@ -7,6 +7,7 @@ import {Ref} from "@vue/composition-api";
 import {getRowEl, getScrollParent} from "@/packages/table/plc-components/standard/draggier/composition/utils";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {StyleType} from "@/types/utils";
+import {useDraggierAutoScroller} from "@/packages/table/plc-components/standard/draggier/composition/use-draggier-auto-scroller";
 
 /**
  * 拖拽的过程中，在目标行移动时，应该放置的行为
@@ -84,6 +85,8 @@ export function usePlcTreeRowDraggable(
         dropType: DropType.inner,
         droppable: false,
     }
+
+    const autoScroll = useDraggierAutoScroller()
 
     const utils = {
         allowRowDraggable: (node: TableNode) => {
@@ -208,6 +211,7 @@ export function usePlcTreeRowDraggable(
             document.addEventListener('mouseup', handler.mouseup)
 
             utils.refresh()
+            autoScroll.methods.showHover()
         },
         scroll() {
             state.moveScrollTop = state.scrollParent!.scrollTop
@@ -227,6 +231,8 @@ export function usePlcTreeRowDraggable(
             utils.refresh()
         },
         mouseup: () => {
+
+            autoScroll.methods.hideHover()
 
             const {startNode, moveNode, dropType, droppable} = state
 

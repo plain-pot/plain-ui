@@ -100,6 +100,8 @@ export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChan
         },
         mouseup: async () => {
 
+            autoScroll.methods.hideHover()
+
             await $plain.nextTick()
             $plain.enableSelect()
 
@@ -128,8 +130,6 @@ export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChan
             await onChange(state.startIndex, state.endIndex)
             state.startIndex = 0
             state.endIndex = 0
-
-            autoScroll.methods.hideHover()
         },
         parentScroll: () => {
             state.dragScrollTop = state.scrollParent!.scrollTop - state.dragStartScrollTop

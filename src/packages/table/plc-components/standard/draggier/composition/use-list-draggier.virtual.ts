@@ -126,6 +126,9 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             utils.refresh()
         },
         mouseup: (e: MouseEvent) => {
+
+            autoScroll.methods.hideHover()
+
             document.removeEventListener('mousemove', handler.mousemove)
             document.removeEventListener('mouseup', handler.mouseup)
             state.scrollParent!.removeEventListener('scroll', handler.scroll)
@@ -152,7 +155,6 @@ export const useListDraggierWithVirtual: UseListDraggierType = (
             state.dragEl!.parentNode!.removeChild(state.dragEl!)
             state.dragEl = null
 
-            autoScroll.methods.hideHover()
         }
     }
 
