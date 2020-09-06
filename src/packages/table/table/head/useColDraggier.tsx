@@ -224,8 +224,9 @@ export function useColDraggier(option: {
 
             Object.assign(state.indicator!.style, {
                 left: `${indicatorLeft}px`,
-                opacity: dragData.droppable ? '1' : '0',
             } as StyleType)
+
+            state.indicator!.setAttribute('droppable', dragData.droppable ? 'true' : 'false')
         },
     }
 
@@ -245,12 +246,12 @@ export function useColDraggier(option: {
             state.startScrollLeft = state.moveScrollLeft = state.scrollParent.scrollLeft
 
             state.indicator = document.createElement('div')
+            $plain.utils.addClass(state.indicator, 'plt-col-draggier-indicator')
             Object.assign(state.indicator.style, {
                 top: `${state.currentRect.top}px`,
                 left: `${state.currentRect.left}px`,
                 height: `${indicatorHeight}px`,
                 width: `${indicatorSize}px`,
-                backgroundColor: '#12b4a5',
                 position: 'fixed',
                 zIndex: `${$plain.nextIndex()}`,
             } as StyleType)

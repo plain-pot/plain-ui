@@ -451,4 +451,16 @@
     cursor: not-allowed !important;
   }
 
+  /*---------------------------------------col draggier-------------------------------------------*/
+
+  .plt-col-draggier-indicator {
+    &[droppable="true"] {
+      background-color: $colorPrimary;
+    }
+
+    &[droppable="false"] {
+      background-color: $colorError;
+    }
+  }
+
 }
