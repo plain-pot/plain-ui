@@ -43,7 +43,7 @@ export default defineComponent({
 
         const {tdBinding} = useColDraggier({
             colDraggable: colDraggable.value,
-            plc: props.plc,
+            plc: () => props.plc,
             table: table,
         })
 
