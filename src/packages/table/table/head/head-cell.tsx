@@ -43,6 +43,8 @@ export default defineComponent({
 
         const {tdBinding} = useColDraggier({
             colDraggable: colDraggable.value,
+            plc: props.plc,
+            table: table,
         })
 
         return () => {
@@ -52,8 +54,9 @@ export default defineComponent({
                     key={key.value}
                     class={cellClasses.value}
                     style={cellStyles.value}
+                    {...tdBinding}
                 >
-                    <div style={innerCellStyles.value} class={innerCellClass.value} {...tdBinding}>
+                    <div style={innerCellStyles.value} class={innerCellClass.value}>
                         {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {PlcRender.head(props.plc)}
                     </div>

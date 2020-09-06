@@ -8,11 +8,13 @@
                     <plc field="date" title="日期"/>
                 </plc-group>
                 <plc field="color" title="颜色"/>
-                <plc-group title="分组二">
-                    <plc field="name" title="名称"/>
-                    <plc field="star" title="评分"/>
+                <plc-group title="三级分组">
+                    <plc-group title="分组二">
+                        <plc field="name" title="名称"/>
+                        <plc field="star" title="评分"/>
+                    </plc-group>
+                    <plc field="id" title="编号"/>
                 </plc-group>
-                <plc field="id" title="编号"/>
                 <plc field="size" title="大小"/>
                 <plc field="date" title="日期"/>
                 <plc field="color" title="颜色"/>
