@@ -1,7 +1,7 @@
 <template>
     <div class="table-col-draggable">
         <demo-row title="基本用法">
-            <pl-table :data="data">
+            <pl-table :data="data" colDraggable>
                 <plc field="id" title="编号"/>
                 <plc-group title="分组一">
                     <plc field="size" title="大小"/>

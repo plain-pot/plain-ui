@@ -3,6 +3,7 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {injectTable} from "@/packages/table/table/table";
 import {PlcRender} from "@/packages/table/table/render";
 import {useHeadCellResize} from "@/packages/table/table/head/useHeadCellResize";
+import {useColDraggier} from "@/packages/table/table/head/useColDraggier";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -34,6 +35,16 @@ export default defineComponent({
         const cellClasses = computed(() => props.plc.classes.head.cell)
         const innerCellClass = computed(() => props.plc.classes.head.innerCell)
 
+        /*---------------------------------------col diaggable-------------------------------------------*/
+
+        const colDraggable = computed(() => {
+            return !!table.props.colDraggable && props.plc.props.colDraggable !== false
+        })
+
+        const {tdBinding} = useColDraggier({
+            colDraggable: colDraggable.value,
+        })
+
         return () => {
             return (
                 <td rowspan={props.plc.rowspan}
@@ -42,7 +53,7 @@ export default defineComponent({
                     class={cellClasses.value}
                     style={cellStyles.value}
                 >
-                    <div style={innerCellStyles.value} class={innerCellClass.value}>
+                    <div style={innerCellStyles.value} class={innerCellClass.value} {...tdBinding}>
                         {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {PlcRender.head(props.plc)}
                     </div>

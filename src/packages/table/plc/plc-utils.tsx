@@ -13,7 +13,7 @@ export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题
     align: {type: String, default: 'left'},                                 // 非编辑状态下文本对其方式
     noPadding: {type: Boolean},                                             // 是否不兼容表格的虚拟滚动功能
-    colDraggable: {type: Boolean},                                          // 列是否可以拖拽排序
+    colDraggable: {type: Boolean, default: null},                           // 列是否可以拖拽排序
 
     hide: {type: Boolean},                                                  // 是否隐藏
     order: {type: Number},                                                  // 列排序
