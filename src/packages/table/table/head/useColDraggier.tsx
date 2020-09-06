@@ -4,6 +4,18 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {PlainTable} from "@/packages/table/table/table";
 import {isPlcGroup, PlcGroupType} from "@/packages/table/plc/plc-group";
 
+interface DragData {
+    left: number
+    width: number
+    plc: PlcType | PlcGroupType
+    droppable: boolean
+}
+
+enum HoverPart {
+    left = 'left',
+    right = 'right',
+}
+
 /**
  * 获取可以滚动的父组件
  * @author  韦胜健
@@ -42,10 +54,9 @@ function iteratePlc(plcList: (PlcType | PlcGroupType)[], handler: (plc: PlcType 
  * @author  韦胜健
  * @date    2020/9/6 11:24
  */
-function getBroPlcList(table: PlainTable, plc: PlcType | PlcGroupType): null | (PlcType | PlcGroupType)[] {
+function getBroPlcList(plcList: (PlcType | PlcGroupType)[], plc: PlcType | PlcGroupType): (PlcType | PlcGroupType)[] {
 
-    const plcList = table.plcData.value!.plcList
-    let broPlcList: null | (PlcType | PlcGroupType)[] = null
+    let broPlcList: (PlcType | PlcGroupType)[] = []
 
     if (plcList.indexOf(plc) > -1) {
         broPlcList = plcList
@@ -58,6 +69,11 @@ function getBroPlcList(table: PlainTable, plc: PlcType | PlcGroupType): null | (
                 }
             }
         })
+    }
+
+    if (broPlcList.length === 0) {
+        /*内部错误，找不到兄弟节点*/
+        throw new Error('Internal error! sibling node not found.')
     }
 
     return broPlcList
@@ -96,33 +112,56 @@ function getIndicatorHeight(
 
 }
 
-interface DragData {
-    left: number
-    width: number
-    plc: PlcType | PlcGroupType
+/**
+ * 获取plcList中最底层的plc
+ * @author  韦胜健
+ * @date    2020/9/6 20:27
+ */
+function getLowestPlcList(plcList: (PlcType | PlcGroupType)[]): PlcType[] {
+
+    return plcList.reduce((ret: PlcType[], plc: PlcType | PlcGroupType) => {
+        if (isPlcGroup(plc)) {
+            ret.push(...getLowestPlcList(plc.items.value as (PlcType | PlcGroupType)[]))
+        } else {
+            ret.push(plc)
+        }
+        return ret
+    }, [] as PlcType[])
+
 }
 
-function getDragData(table: PlainTable, plc: PlcType | PlcGroupType) {
+/**
+ * 获取拖拽所需要的数据
+ * @author  韦胜健
+ * @date    2020/9/6 20:41
+ */
+function getDragData(table: PlainTable, plc: PlcType | PlcGroupType): DragData[] {
 
-    const broPlcList = getBroPlcList(table, plc)
-    if (!broPlcList) {
-        /*内部错误，找不到兄弟节点*/
-        throw new Error('Internal error! sibling node not found.')
-    }
+    const plcList = table.plcData.value!.plcList
+    const broList = getBroPlcList(plcList, plc)
 
-    const ret: DragData[] = []
+    const broLowestList = getLowestPlcList(broList)
+    const allLowestList = getLowestPlcList(plcList) as (PlcType | PlcGroupType)[]
+
+    allLowestList.splice(allLowestList.indexOf(broLowestList[0]), broLowestList.length, ...broList)
+
+    const broData: DragData[] = []
     let left = 0
 
-    broPlcList.forEach(plc => {
+    allLowestList.forEach(plc => {
         const item = {
             left,
             width: getPlcWidth(plc),
             plc,
+            droppable: broList.indexOf(plc) > -1
         }
         left += item.width
-        ret.push(item)
+        broData.push(item)
     })
-    return ret
+
+    // broData.forEach(bro => console.log(bro.plc.props.title, bro.left, bro.droppable))
+
+    return broData
 
 }
 
@@ -163,9 +202,30 @@ export function useColDraggier(option: {
     }
 
     const utils = {
+        getDragData: (left: number): { index: number, dragData: DragData, hover: HoverPart } => {
+            for (let i = 0; i < state.dragData!.length; i++) {
+                const dd = state.dragData![i];
+                if (left >= dd.left && left <= dd.left + dd.width) {
+                    return {
+                        index: i,
+                        dragData: dd,
+                        hover: left - dd.left > dd.width / 2 ? HoverPart.right : HoverPart.left
+                    }
+                }
+            }
+            throw new Error(`Can not get dragData by left:${left}`)
+        },
         refresh() {
             const left = state.moveClientX - state.scrollRect.left + (state.moveScrollLeft - state.startScrollLeft)
-            console.log('left', left)
+            const {index, dragData, hover} = utils.getDragData(left)
+
+            let indicatorLeft = (hover === HoverPart.left ? dragData.left : dragData.left + dragData.width - indicatorSize) + state.scrollRect.left - state.moveScrollLeft
+            // indicatorLeft = Math.min(Math.max(state.scrollRect.left, indicatorLeft), state.scrollRect.left + state.scrollRect.width - indicatorSize)
+
+            Object.assign(state.indicator!.style, {
+                left: `${indicatorLeft}px`,
+                opacity: dragData.droppable ? '1' : '0',
+            } as StyleType)
         },
     }
 
@@ -214,6 +274,8 @@ export function useColDraggier(option: {
         mouseup: () => {
             $plain.enableSelect()
             document.removeEventListener('mouseup', handler.mouseup)
+            state.scrollParent!.removeEventListener('mousemove', handler.mousemove)
+            state.scrollParent!.removeEventListener('scroll', handler.scroll)
             if (!!state.indicator) {
                 state.indicator.parentNode!.removeChild(state.indicator)
                 state.indicator = null
