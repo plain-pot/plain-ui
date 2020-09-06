@@ -328,7 +328,7 @@ function tableSetup(props: TablePropsType) {
     return refer
 }
 
-type PlainTable = ReturnType<typeof tableSetup>
+export type PlainTable = ReturnType<typeof tableSetup>
 
 export default defineComponent({
     name: 'pl-table',
