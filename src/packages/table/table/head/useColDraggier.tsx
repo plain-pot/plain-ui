@@ -216,7 +216,7 @@ export function useColDraggier(option: {
             throw new Error(`Can not get dragData by left:${left}`)
         },
         refresh() {
-            const left = state.moveClientX - state.scrollRect.left + (state.moveScrollLeft - state.startScrollLeft)
+            const left = (state.moveClientX - state.scrollRect.left) + (state.moveScrollLeft)
             const {index, dragData, hover} = utils.getDragData(left)
 
             let indicatorLeft = (hover === HoverPart.left ? dragData.left : dragData.left + dragData.width - indicatorSize) + state.scrollRect.left - state.moveScrollLeft
