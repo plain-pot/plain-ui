@@ -69,7 +69,7 @@ export function formatPlc(
 
     /*---------------------------------------计算表头需要的plc二维数组-------------------------------------------*/
 
-    const headCols = getHeadPlc(items)
+    const {headCols, maxLevel} = getHeadPlc(items)
 
     /*---------------------------------------自动计算列宽-------------------------------------------*/
 
@@ -120,5 +120,6 @@ export function formatPlc(
         flatPlcLength: flatPlcList.length,                                                                  // 展开之后最底层的列数组长度
         plcListHasRenderAfterRow: flatPlcList.filter(item => !!item.props.renderAfterRow),        // 列需要在行之后多渲染的数据
         headCols,
+        maxLevel,
     }
 }

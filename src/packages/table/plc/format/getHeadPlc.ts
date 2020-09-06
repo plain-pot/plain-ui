@@ -97,5 +97,8 @@ export function getHeadPlc(plcList: (PlcType | PlcGroupType)[]) {
 
     setFixedFlag(headCols[0])
 
-    return headCols
+    return {
+        headCols,
+        maxLevel,
+    }
 }
