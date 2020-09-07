@@ -2,7 +2,7 @@
     <div class="table-col-draggable">
         <demo-row title="基本用法">
             <pl-table :data="data" colDraggable>
-                <plc field="id" title="1"/>
+                <plc field="id" title="1" fixed="left"/>
                 <plc-group title="2">
                     <plc field="size" title="2-1"/>
                     <plc field="date" title="2-2"/>

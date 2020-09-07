@@ -316,6 +316,10 @@ export function useColDraggier(option: {
                     return;
                 }
 
+                if (startPlc.props.fixed != endPlc.props.fixed) {
+                    startPlc.state.fixed = endPlc.props.fixed
+                }
+
                 broList.splice(startIndex, 1)
                 let endIndex = broList.indexOf(endPlc)
                 endIndex = hover === HoverPart.right ? endIndex + 1 : endIndex
