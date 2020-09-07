@@ -2,24 +2,24 @@
     <div class="table-col-draggable">
         <demo-row title="基本用法">
             <pl-table :data="data" colDraggable>
-                <plc field="id" title="编号"/>
-                <plc-group title="分组一">
-                    <plc field="size" title="大小"/>
-                    <plc field="date" title="日期"/>
+                <plc field="id" title="1"/>
+                <plc-group title="2">
+                    <plc field="size" title="2-1"/>
+                    <plc field="date" title="2-2"/>
                 </plc-group>
-                <plc field="color" title="颜色"/>
-                <plc-group title="三级分组">
-                    <plc-group title="分组二">
-                        <plc field="name" title="名称"/>
-                        <plc field="star" title="评分"/>
+                <plc field="color" title="3"/>
+                <plc-group title="4">
+                    <plc-group title="4-1">
+                        <plc field="name" title="4-1-1"/>
+                        <plc field="star" title="4-1-2"/>
                     </plc-group>
-                    <plc field="id" title="编号"/>
+                    <plc field="id" title="4-2"/>
                 </plc-group>
-                <plc field="size" title="大小"/>
-                <plc field="date" title="日期"/>
-                <plc field="color" title="颜色"/>
-                <plc field="name" title="名称"/>
-                <plc field="star" title="评分"/>
+                <plc field="size" title="5"/>
+                <plc field="date" title="6"/>
+                <plc field="color" title="7"/>
+                <plc field="name" title="8"/>
+                <plc field="star" title="9"/>
             </pl-table>
         </demo-row>
     </div>

@@ -135,7 +135,10 @@ function getLowestPlcList(plcList: (PlcType | PlcGroupType)[]): PlcType[] {
  * @author  韦胜健
  * @date    2020/9/6 20:41
  */
-function getDragData(table: PlainTable, plc: PlcType | PlcGroupType): DragData[] {
+function getDragData(table: PlainTable, plc: PlcType | PlcGroupType): {
+    broData: DragData[],
+    broList: (PlcType | PlcGroupType)[]
+} {
 
     const plcList = table.plcData.value!.plcList
     const broList = getBroPlcList(plcList, plc)
@@ -161,7 +164,10 @@ function getDragData(table: PlainTable, plc: PlcType | PlcGroupType): DragData[]
 
     // broData.forEach(bro => console.log(bro.plc.props.title, bro.left, bro.droppable))
 
-    return broData
+    return {
+        broList,
+        broData,
+    }
 
 }
 
@@ -199,6 +205,12 @@ export function useColDraggier(option: {
         },
         indicator: null as null | HTMLElement,
         dragData: null as null | DragData[],
+        broList: null as null | (PlcType | PlcGroupType)[],
+        refreshData: null as null | {
+            index: number,
+            dragData: DragData,
+            hover: HoverPart,
+        }
     }
 
     const utils = {
@@ -217,7 +229,8 @@ export function useColDraggier(option: {
         },
         refresh() {
             const left = (state.moveClientX - state.scrollRect.left) + (state.moveScrollLeft)
-            const {index, dragData, hover} = utils.getDragData(left)
+            state.refreshData = utils.getDragData(left)
+            const {dragData, hover} = state.refreshData
 
             let indicatorLeft = (hover === HoverPart.left ? dragData.left : dragData.left + dragData.width - indicatorSize) + state.scrollRect.left - state.moveScrollLeft
             indicatorLeft = Math.min(Math.max(state.scrollRect.left, indicatorLeft), state.scrollRect.left + state.scrollRect.width - indicatorSize)
@@ -234,7 +247,9 @@ export function useColDraggier(option: {
         mousedown: (e: MouseEvent) => {
 
             const plc = option.plc()
-            state.dragData = getDragData(option.table, plc)
+            const {broList, broData} = getDragData(option.table, plc)
+            state.dragData = broData
+            state.broList = broList
 
             const currentTarget = e.currentTarget as HTMLElement
             state.currentRect = currentTarget.getBoundingClientRect()!
@@ -273,6 +288,24 @@ export function useColDraggier(option: {
             utils.refresh()
         },
         mouseup: () => {
+
+            if (!!state.refreshData) {
+                const {dragData, hover} = state.refreshData
+                if (!!dragData.droppable) {
+                    const startPlc = option.plc()
+                    const endPlc = dragData.plc
+                    const broList = state.broList!
+
+                    const startIndex = broList.indexOf(startPlc)
+                    broList.splice(startIndex, 1)
+                    let endIndex = broList.indexOf(endPlc)
+                    endIndex = hover === HoverPart.right ? endIndex + 1 : endIndex
+                    broList.splice(endIndex, 0, startPlc)
+
+                    broList.forEach((plc, index) => plc.state.order = index)
+                }
+            }
+
             $plain.enableSelect()
             document.removeEventListener('mouseup', handler.mouseup)
             state.scrollParent!.removeEventListener('mousemove', handler.mousemove)
