@@ -274,7 +274,8 @@ export function useColDraggier(option: {
                 height: `${indicatorHeight}px`,
                 width: `${indicatorSize}px`,
                 position: 'fixed',
-                zIndex: `${$plain.nextIndex()}`,
+                zIndex: `${$plain.nextIndex() + 100}`,  // 加100是为了不被 autoScroller 遮住；
+                pointerEvents: 'none',                  // indicator只是一个指示的作用，这里设置none为了不挡住autoScroller的鼠标事件
             } as StyleType)
             document.body.appendChild(state.indicator)
 
