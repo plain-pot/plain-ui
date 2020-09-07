@@ -220,7 +220,7 @@ export function useColDraggier(option: {
             const {index, dragData, hover} = utils.getDragData(left)
 
             let indicatorLeft = (hover === HoverPart.left ? dragData.left : dragData.left + dragData.width - indicatorSize) + state.scrollRect.left - state.moveScrollLeft
-            // indicatorLeft = Math.min(Math.max(state.scrollRect.left, indicatorLeft), state.scrollRect.left + state.scrollRect.width - indicatorSize)
+            indicatorLeft = Math.min(Math.max(state.scrollRect.left, indicatorLeft), state.scrollRect.left + state.scrollRect.width - indicatorSize)
 
             Object.assign(state.indicator!.style, {
                 left: `${indicatorLeft}px`,
