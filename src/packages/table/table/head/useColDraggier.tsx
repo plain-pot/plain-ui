@@ -312,7 +312,8 @@ export function useColDraggier(option: {
                 const broList = state.broList!
 
                 const startIndex = broList.indexOf(startPlc)
-                if (startIndex === index) {
+                let endIndex = broList.indexOf(endPlc)
+                if (startIndex === endIndex) {
                     return;
                 }
 
@@ -321,7 +322,7 @@ export function useColDraggier(option: {
                 }
 
                 broList.splice(startIndex, 1)
-                let endIndex = broList.indexOf(endPlc)
+                endIndex = broList.indexOf(endPlc)
                 endIndex = hover === HoverPart.right ? endIndex + 1 : endIndex
                 broList.splice(endIndex, 0, startPlc)
 
