@@ -289,22 +289,32 @@ export function useColDraggier(option: {
         },
         mouseup: () => {
 
-            if (!!state.refreshData) {
-                const {dragData, hover} = state.refreshData
-                if (!!dragData.droppable) {
-                    const startPlc = option.plc()
-                    const endPlc = dragData.plc
-                    const broList = state.broList!
-
-                    const startIndex = broList.indexOf(startPlc)
-                    broList.splice(startIndex, 1)
-                    let endIndex = broList.indexOf(endPlc)
-                    endIndex = hover === HoverPart.right ? endIndex + 1 : endIndex
-                    broList.splice(endIndex, 0, startPlc)
-
-                    broList.forEach((plc, index) => plc.state.order = index)
+            (() => {
+                if (!state.refreshData) {
+                    return
                 }
-            }
+                const {index, dragData, hover} = state.refreshData
+
+                if (!dragData.droppable) {
+                    return;
+                }
+
+                const startPlc = option.plc()
+                const endPlc = dragData.plc
+                const broList = state.broList!
+
+                const startIndex = broList.indexOf(startPlc)
+                if (startIndex === index) {
+                    return;
+                }
+
+                broList.splice(startIndex, 1)
+                let endIndex = broList.indexOf(endPlc)
+                endIndex = hover === HoverPart.right ? endIndex + 1 : endIndex
+                broList.splice(endIndex, 0, startPlc)
+
+                broList.forEach((plc, index) => plc.state.order = index)
+            })();
 
             $plain.enableSelect()
             document.removeEventListener('mouseup', handler.mouseup)
