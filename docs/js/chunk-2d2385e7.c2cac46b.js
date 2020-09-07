@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2385e7"],{fea3:function(t,e,n){"use strict";n.r(e);var l=function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"pl-sticky-table"},[t._v("\n    pl-sticky-table\n")])},a=[],s={name:"pl-sticky-table"},c=s,i=n("2877"),u=Object(i["a"])(c,l,a,!1,null,null,null);e["default"]=u.exports}}]);
-//# sourceMappingURL=chunk-2d2385e7.c2cac46b.js.map
