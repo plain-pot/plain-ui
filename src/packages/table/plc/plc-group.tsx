@@ -1,5 +1,5 @@
-import {computed, defineComponent} from "@vue/composition-api";
-import {PLC_COLLECTOR, PlcComponentPublicData, PlcComponentType, PlcGroupProps} from "@/packages/table/plc/plc-utils";
+import {computed, defineComponent, reactive} from "@vue/composition-api";
+import {PLC_COLLECTOR, PlcComponentPublicData, PlcComponentType, PlcGroupProps, PlcProps} from "@/packages/table/plc/plc-utils";
 import {useSlots} from "@/use/useSlots";
 import {useCollectChild, useCollectParent} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
@@ -28,6 +28,12 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
         ...propsState
     }))
 
+    // plc state：存储列动态变化的变量，优先级大于 props以及config
+    const state = reactive(Object.keys(PlcProps).reduce((ret, key) => {
+        ret[key] = null
+        return ret
+    }, {}) as PlainExtractPropTypes<typeof PlcProps> & { level: number })
+
     function setDurWidth(durWidth: number) {
         const itemDurWidth = Math.floor(durWidth / (items.value.length))
         items.value.forEach(item => item.setDurWidth(itemDurWidth))
@@ -42,6 +48,7 @@ function plcGroupSetup(props: ExtractPropTypes<typeof PlcGroupProps>) {
         // @ts-ignore
         props: targetProps as PlainExtractPropTypes<typeof PlcGroupProps>,
         items,
+        state,
         setDurWidth,
     }
 

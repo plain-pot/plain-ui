@@ -3,6 +3,22 @@ import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {PlcComponentType, PlcFixedType} from "@/packages/table/plc/plc-utils";
 import {HandlePlcType, iteratePlc} from "@/packages/table/plc/format/utils";
 
+function handlerPublic(plc: PlcType | PlcGroupType, configData: { [k: string]: any }) {
+
+    // 如果有config，将config中的属性覆盖props
+    const configPlc = configData[`${(plc.props as any).field || ''}_${plc.props.title}`]
+    if (!!configPlc) {
+        Object.keys(configPlc).forEach(key => {
+            if (configPlc[key] != null) plc.props[key] = configPlc[key]
+        })
+    }
+    // 如果有state，将state中的属性覆盖props
+    Object.keys(plc.state).forEach(key => {
+        if (plc.state[key] != null) plc.props[key] = plc.state[key]
+    })
+
+}
+
 /**
  * 复制一份plc，并且处理config以及state
  * @author  韦胜健
@@ -39,17 +55,7 @@ export function configAndStatePlc(
         list: items,
         handlePlc: (plc) => {
 
-            // 如果有config，将config中的属性覆盖props
-            const configPlc = configData[`${plc.props.field || ''}_${plc.props.title}`]
-            if (!!configPlc) {
-                Object.keys(configPlc).forEach(key => {
-                    if (configPlc[key] != null) plc.props[key] = configPlc[key]
-                })
-            }
-            // 如果有state，将state中的属性覆盖props
-            Object.keys(plc.state).forEach(key => {
-                if (plc.state[key] != null) plc.props[key] = plc.state[key]
-            })
+            handlerPublic(plc, configData)
 
             // 如果是隐藏的列，则删除这一列
             if (plc.props.hide) {
@@ -65,6 +71,8 @@ export function configAndStatePlc(
             return HandlePlcType.nothing
         },
         handleGroup: (group) => {
+
+            handlerPublic(group, configData)
 
             if (group.props.hide) {
                 return HandlePlcType.remove

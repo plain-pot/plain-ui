@@ -57,6 +57,16 @@ export function sortPlc(items: (PlcType | PlcGroupType)[]) {
         }
     })
 
+    $plain.utils.insertSort(items, (a, b) => {
+        const ao = getPlcOrder(a)
+        const bo = getPlcOrder(b)
+        return ao > bo
+    })
+
+    /*items.forEach(item => {
+        console.log(item.props.title, item.props.order)
+    })*/
+
     return {
         flatPlcList,
         totalFits,
