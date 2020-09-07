@@ -60,6 +60,7 @@ function tableSetup(props: TablePropsType) {
     const refs = useRefs({
         collector: CompRef,
         body: CompRef,
+        head: CompRef,
     })
 
     /*---------------------------------------state-------------------------------------------*/

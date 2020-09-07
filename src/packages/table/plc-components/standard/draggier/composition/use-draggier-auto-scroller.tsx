@@ -1,84 +1,101 @@
-import {injectTable} from "@/packages/table/table/table";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {StyleType} from "@/types/utils";
 import {$plain} from "@/packages/base";
+import {injectTable} from "@/packages/table/table/table";
 
-function createIndicator(hostEl: HTMLElement) {
+function createIndicator(hostEl: HTMLElement, vertical: boolean) {
 
-    const indicatorHeight = 15
+    const indicatorSize = 15
 
     const {top, height, left, width} = hostEl.getBoundingClientRect()
 
     const indicator = {
-        top: document.createElement('div'),
-        bottom: document.createElement('div'),
+        start: document.createElement('div'),
+        end: document.createElement('div'),
     }
 
-    $plain.utils.addClass(indicator.top, 'pl-auto-scroll-indicator-top')
-    $plain.utils.addClass(indicator.bottom, 'pl-auto-scroll-indicator-bottom')
+    $plain.utils.addClass(indicator.start, `pl-auto-scroll-indicator-start pl-auto-scroll-indicator-${vertical ? 'vertical' : 'horizontal'}`)
+    $plain.utils.addClass(indicator.end, `pl-auto-scroll-indicator-end pl-auto-scroll-indicator-${vertical ? 'vertical' : 'horizontal'}`)
 
     const publicStyles = {
         position: 'fixed',
         left: `${left}px`,
-        width: `${width}px`,
-        height: `${indicatorHeight}px`,
+        top: `${top}px`,
+
+        width: `${vertical ? width : indicatorSize}px`,
+        height: `${vertical ? indicatorSize : height}px`,
         zIndex: `${$plain.nextIndex()}`,
     } as StyleType
 
-    Object.assign(indicator.top.style, {
-        ...publicStyles,
-        top: `${top}px`,
-    } as StyleType)
+    Object.assign(indicator.start.style, publicStyles)
 
-    let bottomIndicatorTop = top + height - indicatorHeight
-    bottomIndicatorTop = Math.min(bottomIndicatorTop, document.body.offsetHeight - indicatorHeight)
+    if (vertical) {
+        let bottomIndicatorTop = top + height - indicatorSize
+        bottomIndicatorTop = Math.min(bottomIndicatorTop, document.body.offsetHeight - indicatorSize)
 
+        Object.assign(indicator.end.style, {
+            ...publicStyles,
+            top: `${bottomIndicatorTop}px`,
+        } as StyleType)
+    } else {
+        let rightIndicatorLeft = left + width - indicatorSize
+        rightIndicatorLeft = Math.min(rightIndicatorLeft, document.body.offsetWidth - indicatorSize)
+        Object.assign(indicator.end.style, {
+            ...publicStyles,
+            left: `${rightIndicatorLeft}px`,
+        } as StyleType)
+    }
 
-    Object.assign(indicator.bottom.style, {
-        ...publicStyles,
-        top: `${bottomIndicatorTop}px`,
-    } as StyleType)
-
-    document.body.appendChild(indicator.top)
-    document.body.appendChild(indicator.bottom)
+    document.body.appendChild(indicator.start)
+    document.body.appendChild(indicator.end)
 
     return indicator
 }
 
-export function useDraggierAutoScroller() {
+export function useDraggierAutoScroller(config?: {
+    vertical: boolean,
+    getScroll: () => PlainScroll,
+}) {
 
     const table = injectTable()
+
+    const {vertical, getScroll} = config || {
+        vertical: true,
+        getScroll: () => table.refs.body.$refs.virtualTable.$refs.scroll
+    }
+
     const state = {
         indicator: null as null | ReturnType<typeof createIndicator>
     }
 
     const methods = {
         showHover() {
-            const scroll = table.refs.body.$refs.virtualTable.$refs.scroll as PlainScroll
-            state.indicator = createIndicator(scroll.refs.host)
+
+            const scroll = getScroll()
+            state.indicator = createIndicator(scroll.refs.host, vertical)
 
             const handler = {
-                enterTop: () => {
-                    scroll.methods.autoScrollTop()
+                enterStart: () => {
+                    vertical ? scroll.methods.autoScrollTop() : scroll.methods.autoScrollLeft()
                 },
-                enterBottom: () => {
-                    scroll.methods.autoScrollBottom()
+                enterEnd: () => {
+                    vertical ? scroll.methods.autoScrollBottom() : scroll.methods.autoScrollRight()
                 },
                 leave: () => {
                     scroll.methods.stopAutoScroll()
                 }
             }
 
-            state.indicator.top.addEventListener('mouseenter', handler.enterTop)
-            state.indicator.bottom.addEventListener('mouseenter', handler.enterBottom)
+            state.indicator.start.addEventListener('mouseenter', handler.enterStart)
+            state.indicator.end.addEventListener('mouseenter', handler.enterEnd)
 
-            state.indicator.top.addEventListener('mouseleave', handler.leave)
-            state.indicator.bottom.addEventListener('mouseleave', handler.leave)
+            state.indicator.start.addEventListener('mouseleave', handler.leave)
+            state.indicator.end.addEventListener('mouseleave', handler.leave)
         },
         hideHover() {
             if (!!state.indicator) {
-                state.indicator.top.parentNode!.removeChild(state.indicator.top)
-                state.indicator.bottom.parentNode!.removeChild(state.indicator.bottom)
+                state.indicator.start.parentNode!.removeChild(state.indicator.start)
+                state.indicator.end.parentNode!.removeChild(state.indicator.end)
             }
         },
     }

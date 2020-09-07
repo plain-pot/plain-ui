@@ -3,6 +3,7 @@ import {StyleType} from "@/types/utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {PlainTable} from "@/packages/table/table/table";
 import {isPlcGroup, PlcGroupType} from "@/packages/table/plc/plc-group";
+import {useDraggierAutoScroller} from "@/packages/table/plc-components/standard/draggier/composition/use-draggier-auto-scroller";
 
 interface DragData {
     left: number
@@ -181,6 +182,11 @@ export function useColDraggier(option: {
         return {}
     }
 
+    const autoScroller = useDraggierAutoScroller({
+        vertical: false,
+        getScroll: () => option.table.refs.head.$refs.scroll
+    })
+
     const indicatorSize = 3
 
     const state = {
@@ -278,6 +284,7 @@ export function useColDraggier(option: {
             state.scrollParent!.addEventListener('scroll', handler.scroll)
 
             utils.refresh()
+            autoScroller.methods.showHover()
         },
         mousemove: (e: MouseEvent) => {
             state.moveClientX = e.clientX
@@ -324,6 +331,7 @@ export function useColDraggier(option: {
                 state.indicator.parentNode!.removeChild(state.indicator)
                 state.indicator = null
             }
+            autoScroller.methods.hideHover()
         }
     }
 

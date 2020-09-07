@@ -114,10 +114,22 @@
   }
 }
 
-.pl-auto-scroll-indicator-top {
-  background: linear-gradient(to top, transparent, #ddd);
+.pl-auto-scroll-indicator-vertical {
+  &.pl-auto-scroll-indicator-start {
+    background: linear-gradient(to top, transparent, #ddd);
+  }
+
+  &.pl-auto-scroll-indicator-end {
+    background: linear-gradient(to bottom, transparent, #ddd);
+  }
 }
 
-.pl-auto-scroll-indicator-bottom {
-  background: linear-gradient(to bottom, transparent, #ddd);
+.pl-auto-scroll-indicator-horizontal {
+  &.pl-auto-scroll-indicator-start {
+    background: linear-gradient(to left, transparent, #ddd);
+  }
+
+  &.pl-auto-scroll-indicator-end {
+    background: linear-gradient(to right, transparent, #ddd);
+  }
 }
