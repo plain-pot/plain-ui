@@ -253,6 +253,13 @@ export async function validateFieldByRules(targetRules: TargetRule[], formData: 
         const reject = (defaultMessage: string) => ({message: message || defaultMessage, rule})
 
         /*---------------------------------------required-------------------------------------------*/
+        if (typeof value === "number") {
+            type = FormValueType.number
+        }
+        if (Array.isArray(value)) {
+            type = FormValueType.array
+        }
+
         if (required) {
             switch (type) {
                 case FormValueType.array:
