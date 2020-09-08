@@ -71,8 +71,24 @@ export default defineComponent({
             ctx,
         }))
 
+        const span = !!table.props.spanMethod ? table.props.spanMethod({tableNode: props.rowData, plc: props.plc}) : {
+            rowspan: 1,
+            colspan: 1,
+        }
+
         const cellStyles = computed(() => props.plc.styles.body.cell)
-        const innerCellStyles = computed(() => props.plc.styles.body.innerCell)
+        const innerCellStyles = computed(() => {
+            const styles = {...props.plc.styles.body.innerCell}
+            if (span.colspan > 1) {
+                const plcList = table.plcData.value!.flatPlcList
+                const startIndex = plcList.indexOf(props.plc)
+                styles.width = `${plcList.slice(startIndex, startIndex + span.colspan).reduce((ret: number, plc: PlcType) => {
+                    ret += Number(plc.props.width)
+                    return ret
+                }, 0)}px`
+            }
+            return styles
+        })
         const cellClass = computed(() => [
             ...props.plc.classes.body.cell,
             ...getCellClass(props.plc, props.rowData),
@@ -82,13 +98,8 @@ export default defineComponent({
         ])
         const innerCellClass = computed(() => props.plc.classes.body.innerCell)
 
-        const span = !!table.props.spanMethod ? table.props.spanMethod({tableNode: props.rowData, plc: props.plc}) : {
-            rowspan: 1,
-            colspan: 1,
-        }
-
         return () => {
-            if (span.rowspan === 0) {
+            if (span.rowspan === 0 || span.colspan === 0) {
                 /*rowspan为0时，不会正确合并单元格，如果要合并单元格得不渲染这个td*/
                 return null
             }
