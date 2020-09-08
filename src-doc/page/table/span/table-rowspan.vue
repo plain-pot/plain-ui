@@ -1,20 +1,18 @@
 <template>
-    <div class="table-span">
-        <demo-row title="合并行">
-            <pl-table :data="data" :spanMethod="spanMethod" border>
-                <plc-index/>
-                <plc title="一级标题" field="first"/>
-                <plc title="二级标题" field="second"/>
-                <plc title="三级标题" field="third"/>
-            </pl-table>
-        </demo-row>
+    <div class="table-rowspan">
+        <pl-table :data="data" :spanMethod="spanMethod" border>
+            <plc-index/>
+            <plc title="一级标题" field="first"/>
+            <plc title="二级标题" field="second"/>
+            <plc title="三级标题" field="third"/>
+        </pl-table>
     </div>
 </template>
 
 <script>
 
     export default {
-        name: "table-span.vue",
+        name: "table-rowspan",
         data() {
 
             const data = [

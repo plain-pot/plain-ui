@@ -112,7 +112,7 @@ export default [
             {name: 'Plc', title: '列组件', icon: 'pl-table-solid', page: '/table/table-columns', complete: true},
             // {name: 'Table Methods', title: '方法', icon: 'pl-table-solid', page: '/table/base-table-methods', complete: false},
             {name: 'Expand', title: '展开列', icon: 'pl-table-solid', page: '/table/table-expand', complete: true},
-            {name: 'Span', title: '合并单元格', icon: 'pl-table-solid', page: '/table/table-span', complete: true},
+            {name: 'Span', title: '合并单元格', icon: 'pl-table-solid', page: '/table/span/table-span', complete: true},
             {name: 'Tree', title: '树形表格', icon: 'pl-table-solid', page: '/table/tree/table-tree', complete: true},
             {name: 'Row Draggable', title: '行拖拽排序', icon: 'pl-table-solid', page: '/table/table-row-draggable', complete: true},
             {name: 'Col Draggable', title: '列拖拽排序', icon: 'pl-table-solid', page: '/table/table-col-draggable', complete: true},
