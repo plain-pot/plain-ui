@@ -82,13 +82,21 @@ export default defineComponent({
         ])
         const innerCellClass = computed(() => props.plc.classes.body.innerCell)
 
+        const span = !!table.props.spanMethod ? table.props.spanMethod({tableNode: props.rowData, plc: props.plc}) : {
+            rowspan: 1,
+            colspan: 1,
+        }
+
         return () => {
+            if (span.rowspan === 0) {
+                /*rowspan为0时，不会正确合并单元格，如果要合并单元格得不渲染这个td*/
+                return null
+            }
             return (
-                <td colspan={1}
-                    rowspan={1}
+                <td colspan={span.colspan}
+                    rowspan={span.rowspan}
                     class={cellClass.value}
-                    style={cellStyles.value}
-                >
+                    style={cellStyles.value}>
                     <div style={innerCellStyles.value} class={innerCellClass.value}>
                         {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
                         {renderData.value.body}

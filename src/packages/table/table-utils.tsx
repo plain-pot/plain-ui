@@ -1,5 +1,11 @@
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {StyleProps} from "@/use/useStyle";
+import {PlcType} from "@/packages/table/plc/plc";
+import {TableNode} from "@/packages/table/table/TableNode";
+
+interface SpanMethodType {
+    new(): ((data: { tableNode: TableNode, plc: PlcType }) => { rowspan: number, colspan: number })
+}
 
 export const TableProps = {
     ...StyleProps,
@@ -23,7 +29,6 @@ export const TableProps = {
     emptyText: {type: String},                                  // 空数据时显示的文本
 
     /*---------------------------------------style and class-------------------------------------------*/
-    // class style
     // rowClassFunc: {type: Function},                             // 行 className 的计算函数
     // rowStyleFunc: {type: Function},                             // 行 style内联样式的计算函数
     // cellClassFunc: {type: Function},                            // 单元格 className 的计算函数
@@ -32,8 +37,7 @@ export const TableProps = {
     // headRowStyleFunc: {type: Function},                         // 表头行 style 内联样式计算函数
     // headCellClassFunc: {type: Function},                        // 表头单元格的 className 的计算函数
     // headCellStyleFunc: {type: Function},                        // 表头单元格 style 内联样式计算函数
-    // rowspanFunc: {type: Function},                              // 合并行的方法
-    // colspanFunc: {type: Function},                              // 合并列的方法
+    spanMethod: {type: (Function as unknown) as SpanMethodType},                                  // 合并表体单元格的方法
 
     /*---------------------------------------tree-------------------------------------------*/
     lazy: {type: Boolean},                                      // 是否懒加载数据
