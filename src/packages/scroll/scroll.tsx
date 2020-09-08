@@ -8,7 +8,7 @@ import {PLAIN_POPPER_PROVIDER} from "@/packages/popper/popper";
 import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
 import {useMounted} from "@/use/useMounted";
-import {useSlots} from "@/use/useSlots";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {useScopedSlots} from "@/use/useScopedSlots";
 
@@ -35,7 +35,9 @@ const Props = {
 
 function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContext) {
 
-    const {slots} = useSlots()
+    const {slots} = useSlots({
+        content: SlotFunc,
+    })
     const {scopedSlots} = useScopedSlots({
         'horizontal-scrollbar': {style: {} as StyleType, onMousedown: (e: MouseEvent) => {}},
         'vertical-scrollbar': {style: {} as StyleType, onMousedown: (e: MouseEvent) => {}},
@@ -517,6 +519,7 @@ export default defineComponent({
                     >
                         {slots.default()}
                     </div>
+                    {slots.content()}
                 </div>
 
                 {

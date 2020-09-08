@@ -145,18 +145,22 @@ export default defineComponent({
                                 </table>
                             </div>
                         </div>
+
+                        {(!!props.summaryData && props.summaryData.length > 0) && (
+                            <div slot="content"
+                                 class="pl-virtual-table-summary-table-wrapper">
+                                <table class="pl-virtual-table-summary-table"
+                                       style={summaryTableStyles.value}
+                                       cellspacing={0}
+                                       cellpadding={0}
+                                       border={0}>
+                                    {slots.$slots.colgroup}
+                                    {props.summaryData.map((item, index) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index, isSummary: true}))}
+                                </table>
+                            </div>
+                        )}
+
                     </pl-scroll>
-                    {(!!props.summaryData && props.summaryData.length > 0) && (
-                        <table class="pl-virtual-table-summary-table"
-                               style={summaryTableStyles.value}
-                               cellspacing={0}
-                               cellpadding={0}
-                               border={0}
-                        >
-                            {slots.$slots.colgroup}
-                            {props.summaryData.map((item, index) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index, isSummary: true}))}
-                        </table>
-                    )}
                 </div>
             )
         }

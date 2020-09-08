@@ -324,7 +324,6 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
-    position: relative;
 
     table {
       /*（未开启虚拟功能的时候，开启的时候是通过给struct设置额外的高度实现的）占位符，给滚动条让出来一些位置*/
@@ -336,11 +335,22 @@
       }
     }
 
-    .pl-virtual-table-summary-table {
+    .pl-virtual-table-summary-table-wrapper {
+      pointer-events: none;
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
-      background-color: $tableHeadBackground;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+
+      .pl-virtual-table-summary-table {
+        pointer-events: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: $tableHeadBackground;
+      }
     }
   }
 
