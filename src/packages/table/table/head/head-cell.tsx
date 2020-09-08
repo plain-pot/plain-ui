@@ -4,6 +4,8 @@ import {injectTable} from "@/packages/table/table/table";
 import {PlcRender} from "@/packages/table/table/render";
 import {useHeadCellResize} from "@/packages/table/table/head/useHeadCellResize";
 import {useColDraggier} from "@/packages/table/table/head/useColDraggier";
+import {stickyFlag} from "@/packages/table/plc/plc-utils";
+import {$plain} from "@/packages/base";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -48,21 +50,52 @@ export default defineComponent({
         })
 
         return () => {
-            return (
-                <td rowspan={props.plc.rowspan}
-                    colspan={props.plc.colspan}
-                    key={key.value}
-                    class={cellClasses.value}
-                    style={cellStyles.value}
-                    {...tdBinding}
-                >
-                    <div style={innerCellStyles.value} class={innerCellClass.value}>
-                        {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
-                        {PlcRender.head(props.plc)}
-                    </div>
-                    <span class="plt-head-cell-indicator" onMousedown={resizeHandler.mousedown}/>
-                </td>
-            )
+
+            const content = [
+                <div style={innerCellStyles.value} class={innerCellClass.value}>
+                    {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
+                    {PlcRender.head(props.plc)}
+                </div>,
+                <span class="plt-head-cell-indicator" onMousedown={resizeHandler.mousedown}/>
+            ]
+
+            if (cellStyles.value.position === 'sticky') {
+                const styles = {...cellStyles.value}
+                delete styles.position
+                delete styles[props.plc.props.fixed]
+
+                return (
+                    <pl-scroll-sticky
+                        {...{
+                            props: {
+                                tag: 'td',
+                                [props.plc.props.fixed]: Number($plain.utils.removePx(cellStyles.value[props.plc.props.fixed])),
+                                zIndex: cellStyles.value.zIndex,
+                            },
+                            ...tdBinding,
+                        }}
+                        rowspan={props.plc.rowspan}
+                        colspan={props.plc.colspan}
+                        key={key.value}
+                        class={cellClasses.value}
+                        style={styles}
+                    >
+                        {content}
+                    </pl-scroll-sticky>
+                )
+            } else {
+                return (
+                    <td rowspan={props.plc.rowspan}
+                        colspan={props.plc.colspan}
+                        key={key.value}
+                        class={cellClasses.value}
+                        style={cellStyles.value}
+                        {...tdBinding}
+                    >
+                        {content}
+                    </td>
+                )
+            }
         }
     },
 })

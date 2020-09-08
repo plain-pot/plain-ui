@@ -13,7 +13,8 @@ import {PlainScroll} from "@/packages/scroll/scroll";
  */
 export function getCellStyles(plc: PlcType | PlcGroupType, adjust: (styles: StyleType) => StyleType) {
 
-    if (plc.props.fixed === PlcFixedType.center || !stickyFlag) {
+    // if (plc.props.fixed === PlcFixedType.center || !stickyFlag) {
+    if (plc.props.fixed === PlcFixedType.center) {
         return adjust({})
     }
 

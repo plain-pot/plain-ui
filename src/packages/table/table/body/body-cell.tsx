@@ -7,6 +7,7 @@ import {injectTable} from "@/packages/table/table/table";
 import {FormTrigger, validateField} from "@/packages/form/validate";
 import {EditProvider} from "@/use/useEdit";
 import {useStyle} from "@/use/useStyle";
+import {$plain} from "@/packages/base";
 
 interface BodyCellPropsType {
     plc: PlcType,
@@ -83,18 +84,46 @@ export default defineComponent({
         const innerCellClass = computed(() => props.plc.classes.body.innerCell)
 
         return () => {
-            return (
-                <td colspan={1}
-                    rowspan={1}
-                    class={cellClass.value}
-                    style={cellStyles.value}
-                >
-                    <div style={innerCellStyles.value} class={innerCellClass.value}>
-                        {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
-                        {renderData.value.body}
-                    </div>
-                </td>
-            )
+
+            const content = [
+                <div style={innerCellStyles.value} class={innerCellClass.value}>
+                    {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
+                    {renderData.value.body}
+                </div>
+            ]
+
+            if (cellStyles.value.position === 'sticky') {
+                const styles = {...cellStyles.value}
+                delete styles.position
+                delete styles[props.plc.props.fixed]
+
+                return (
+                    <pl-scroll-sticky
+                        {...{
+                            props: {
+                                tag: 'td',
+                                [props.plc.props.fixed]: Number($plain.utils.removePx(cellStyles.value[props.plc.props.fixed])),
+                                zIndex: cellStyles.value.zIndex,
+                            },
+                        }}
+                        colspan={1}
+                        rowspan={1}
+                        class={cellClass.value}
+                        style={styles}
+                    >
+                        {content}
+                    </pl-scroll-sticky>
+                )
+            } else {
+                return (
+                    <td colspan={1}
+                        rowspan={1}
+                        class={cellClass.value}
+                        style={cellStyles.value}>
+                        {content}
+                    </td>
+                )
+            }
         }
     },
 })
