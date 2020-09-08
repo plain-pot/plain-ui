@@ -2,7 +2,7 @@
   $tableHeadColor: rgba(0, 0, 0, 0.85);
   $tableHeadBackground: #f5f7fa;
   $tableHeadHoverBackground: #e4e7ef;
-  $tableHeadBorderColor: #dbdee6;
+  $tableHeadBorderColor: #eceff7;
 
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
@@ -19,17 +19,7 @@
     position: relative;
     @include public-style;
 
-    &:after {
-      position: absolute;
-      background-color: $tableHeadBorderColor;
-      content: '';
-      z-index: 3;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 1px;
-      transform: scaleY(0.5);
-    }
+    border-bottom: solid 1px $tableHeadBorderColor;
 
     /*---------------------------------------scroll 滚动条-------------------------------------------*/
 
@@ -68,24 +58,15 @@
           @include transition;
           transition-property: background-color;
 
-          /*统一顶部边线*/
-          &:after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            content: '';
-            transform: scaleY(0.5);
-            background-color: $tableHeadBorderColor;
-          }
-
           & > div {
-            padding: 1px 8px;
+            display: flex;
+            align-items: center;
+            padding: 1px 9px;
             box-sizing: border-box;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            border-bottom: solid 1px $tableHeadBorderColor;
 
             & > .pl-input {
               width: 100%;
@@ -114,19 +95,15 @@
     }
 
     &.pl-table-border {
+
+      .plt-head {
+        border-left: solid 1px $tableHeadBorderColor;
+      }
+
       tr {
         td {
-          /*统一右边线*/
-          &:before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background-color: $tableHeadBorderColor;
-            transform: scaleX(0.5);
-            z-index: 2;
+          & > div {
+            border-right: solid 1px $tableHeadBorderColor;
           }
         }
       }
@@ -138,19 +115,19 @@
     .plt-cell {
       &.plt-cell-align-left {
         & > div {
-          text-align: left;
+          justify-content: flex-start;
         }
       }
 
       &.plt-cell-align-center {
         & > div {
-          text-align: center;
+          justify-content: center;
         }
       }
 
       &.plt-cell-align-right {
         & > div {
-          text-align: right;
+          justify-content: flex-end;
         }
       }
     }
@@ -165,6 +142,7 @@
 
     .plt-head {
       position: relative;
+      border-top: solid 1px $tableHeadBorderColor;
 
       td {
         background-color: $tableHeadBackground;
@@ -173,34 +151,6 @@
         &:hover {
           background-color: $tableHeadHoverBackground;
         }
-      }
-
-      &:after, &:before {
-        position: absolute;
-        content: '';
-      }
-
-      /*head底边线*/
-      /*&:after {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        transform: scaleY(0.5);
-        background-color: $tableHeadBorderColor;
-        z-index: 3;
-      }*/
-
-      /*head右边线，同背景色，目的是盖住border最后td的右边线，使得看起来没有右边线*/
-      &:before {
-        top: 0;
-        bottom: 0;
-        right: 0;
-        width: 3px;
-
-        z-index: 3;
-        background-color: $tableHeadBackground;
-
       }
 
       .plt-head-cell-indicator {
@@ -230,8 +180,8 @@
 
           /*最后一个td没有右边线*/
           &:last-child:not(.plt-cell-first-fixed-right) {
-            &:before {
-              display: none;
+            & > div {
+              border-right: none;
             }
           }
         }
@@ -239,19 +189,6 @@
         &:hover {
           td {
             background-color: $tableRowHoverBackground;
-          }
-        }
-      }
-
-      table:not(.pl-virtual-table-summary-table) {
-        tr {
-          /*第一行没有顶边线*/
-          &:first-child {
-            td {
-              &:after {
-                display: none;
-              }
-            }
           }
         }
       }
@@ -276,6 +213,7 @@
     /*左右固定列阴影*/
 
     &, &.pl-table-border {
+
       .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
 
         &:before {

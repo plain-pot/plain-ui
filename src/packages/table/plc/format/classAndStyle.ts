@@ -25,11 +25,13 @@ export function writeStylesAndClasses(
             /*---------------------------------------head-------------------------------------------*/
 
             plc.styles.head.cell = getCellStyles(plc, (styles) => {
-                styles.height = `${headRowHeight * plc.rowspan!}px`
+                // styles.height = `${headRowHeight * plc.rowspan!}px`
                 return styles
             })
             plc.styles.head.innerCell = {
                 // width: isPlcGroup(plc) ? undefined : `${plc.props.width}px`,
+                // lineHeight: `${headRowHeight * plc.rowspan!}px`,
+                height: `${headRowHeight * plc.rowspan!}px`,
             }
             plc.classes.head.cell = [
                 'plt-cell',
@@ -51,11 +53,13 @@ export function writeStylesAndClasses(
             if (!isPlcGroup(plc)) {
 
                 plc.styles.body.cell = getCellStyles(plc, (styles) => {
-                    styles.height = `${bodyRowHeight}px`
+                    // styles.height = `${bodyRowHeight}px`
                     return styles
                 })
                 plc.styles.body.innerCell = {
                     // width: `${plc.props.width}px`,
+                    // lineHeight: `${bodyRowHeight}px`,
+                    height: `${bodyRowHeight}px`,
                 }
                 plc.classes.body.cell = [
                     'plt-cell',

@@ -79,13 +79,8 @@ export default defineComponent({
         const cellStyles = computed(() => props.plc.styles.body.cell)
         const innerCellStyles = computed(() => {
             const styles = {...props.plc.styles.body.innerCell}
-            if (span.colspan > 1) {
-                const plcList = table.plcData.value!.flatPlcList
-                const startIndex = plcList.indexOf(props.plc)
-                styles.width = `${plcList.slice(startIndex, startIndex + span.colspan).reduce((ret: number, plc: PlcType) => {
-                    ret += Number(plc.props.width)
-                    return ret
-                }, 0)}px`
+            if (span.rowspan > 1) {
+                styles.height = `${table.propsState.bodyRowHeight * span.rowspan}px`
             }
             return styles
         })
