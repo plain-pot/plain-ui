@@ -4,6 +4,7 @@ import {PlainScroll} from "@/packages/scroll/scroll";
 import {useRefs} from "@/use/useRefs";
 import {TableHoverPart} from "@/packages/table/table-utils";
 import {TableNode} from "@/packages/table/table/TableNode";
+import {renderColgroup} from "@/packages/table/plc/renderColgroup";
 
 export default defineComponent({
     name: 'plt-body',
@@ -14,6 +15,7 @@ export default defineComponent({
         })
 
         const table = injectTable()
+        const colgroupRender = renderColgroup(table)
 
         const styles = computed(() => ({
             height: `${table.propsState.bodyRowHeight as number * table.props.showRows + 12}px`
@@ -61,7 +63,12 @@ export default defineComponent({
                             }
                         }
                     }
-                />
+
+                >
+                    <template slot="colgroup">
+                        {colgroupRender()}
+                    </template>
+                </pl-virtual-table>
             </div>
         )
     },

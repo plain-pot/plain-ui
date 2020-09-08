@@ -5,6 +5,7 @@ import {PlainScroll} from "@/packages/scroll/scroll";
 import {$plain} from "@/packages/base";
 import {VirtualListProps, virtualListSetup} from "@/packages/virtual-list/virtual-list";
 import {useRefer} from "@/use/useRefer";
+import {SlotFunc, useSlots} from "@/use/useSlots";
 
 const Props = {
     ...VirtualListProps,
@@ -23,6 +24,10 @@ function setup(props: ExtractPropTypes<typeof Props>) {
     const state = reactive({
         scrollFlag: false,
         scrollLeft: 0,
+    })
+
+    const slots = useSlots({
+        colgroup: SlotFunc,
     })
 
     const virtualList = virtualListSetup(props)
@@ -77,6 +82,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
     watch(() => props.width, () => $plain.nextTick(() => refs.scroll.methods.refresh()))
 
     const refer = {
+        slots,
         refs,
         state,
         virtualList,
@@ -102,7 +108,7 @@ export default defineComponent({
     setup(props) {
 
         const {
-            state,
+            slots,
             virtualList,
             tableStyles,
             summaryTableStyles,
@@ -134,6 +140,7 @@ export default defineComponent({
                                        cellpadding={0}
                                        border={0}
                                        style={tableStyles.value}>
+                                    {slots.$slots.colgroup}
                                     {virtualList.targetData.value.map(({item, index}) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index, isSummary: false}))}
                                 </table>
                             </div>
@@ -146,6 +153,7 @@ export default defineComponent({
                                cellpadding={0}
                                border={0}
                         >
+                            {slots.$slots.colgroup}
                             {props.summaryData.map((item, index) => !virtualList.$scopedSlots.default ? null : virtualList.$scopedSlots.default({item, index, isSummary: true}))}
                         </table>
                     )}

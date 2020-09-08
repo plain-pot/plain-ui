@@ -7,6 +7,7 @@ import {$plain} from "@/packages/base";
 import {TableHoverPart} from "@/packages/table/table-utils";
 import {useRefs} from "@/use/useRefs";
 import {PlainScroll} from "@/packages/scroll/scroll";
+import {renderColgroup} from "@/packages/table/plc/renderColgroup";
 
 export default defineComponent({
     name: 'plt-head',
@@ -17,6 +18,8 @@ export default defineComponent({
         })
 
         const table = injectTable()
+
+        const colgroupRender = renderColgroup(table)
 
         const headPlcList = computed(() => table.plcData.value!.headCols)
 
@@ -54,6 +57,7 @@ export default defineComponent({
                         onScroll={handler.scroll}
                     >
                         <table class="plt-table plt-head-table" style={tableStyles.value}>
+                            {colgroupRender()}
                             <thead>
                             {headPlcList.value.map((row, rowIndex) => (
                                 <tr row={rowIndex}>

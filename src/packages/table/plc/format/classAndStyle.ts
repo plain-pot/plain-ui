@@ -29,7 +29,7 @@ export function writeStylesAndClasses(
                 return styles
             })
             plc.styles.head.innerCell = {
-                width: isPlcGroup(plc) ? undefined : `${plc.props.width}px`,
+                // width: isPlcGroup(plc) ? undefined : `${plc.props.width}px`,
             }
             plc.classes.head.cell = [
                 'plt-cell',
@@ -55,7 +55,7 @@ export function writeStylesAndClasses(
                     return styles
                 })
                 plc.styles.body.innerCell = {
-                    width: `${plc.props.width}px`,
+                    // width: `${plc.props.width}px`,
                 }
                 plc.classes.body.cell = [
                     'plt-cell',

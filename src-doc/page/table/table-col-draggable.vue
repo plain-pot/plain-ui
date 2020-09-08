@@ -1,7 +1,7 @@
 <template>
     <div class="table-col-draggable">
         <demo-row title="基本用法">
-            <pl-table :data="data" colDraggable>
+            <pl-table :data="data" colDraggable border>
                 <plc field="id" title="1" fixed="left"/>
                 <plc-group title="2">
                     <plc field="size" title="2-1"/>
