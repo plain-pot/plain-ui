@@ -71,7 +71,7 @@
           /*统一顶部边线*/
           &:after {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
             height: 1px;
@@ -181,7 +181,7 @@
       }
 
       /*head底边线*/
-      &:after {
+      /*&:after {
         bottom: 0;
         left: 0;
         right: 0;
@@ -189,14 +189,14 @@
         transform: scaleY(0.5);
         background-color: $tableHeadBorderColor;
         z-index: 3;
-      }
+      }*/
 
       /*head右边线，同背景色，目的是盖住border最后td的右边线，使得看起来没有右边线*/
       &:before {
         top: 0;
         bottom: 0;
         right: 0;
-        width: 1px;
+        width: 3px;
 
         z-index: 3;
         background-color: $tableHeadBackground;
