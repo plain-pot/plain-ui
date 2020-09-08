@@ -1,5 +1,11 @@
 <template>
     <div class="table-rowspan">
+        <demo-line title="字段值相同则合并行"/>
+        <ul>
+            <li v-for="item in data">
+                {{item}}
+            </li>
+        </ul>
         <pl-table :data="data" :spanMethod="spanMethod" border>
             <plc-index/>
             <plc title="一级标题" field="first"/>

@@ -1,5 +1,11 @@
 <template>
     <div class="table-colspan">
+        <demo-line title="字段值相同则合并列"/>
+        <ul>
+            <li v-for="item in data">
+                {{item}}
+            </li>
+        </ul>
         <pl-table :data="data" :spanMethod="spanMethod" border>
             <plc-index/>
             <plc title="产品线" field="name"/>
@@ -19,8 +25,9 @@
             const data = [
                 {name: '产品线A', first: '盈利', second: '盈利', third: '亏损', fourth: '亏损',},
                 {name: '产品线B', first: '盈利', second: '亏损', third: '亏损', fourth: '亏损',},
-                {name: '产品线C', first: '亏损', second: '亏损', third: '亏损', fourth: '亏损',},
-                {name: '产品线D', first: '盈利', second: '盈利', third: '盈利', fourth: '盈利',},
+                {name: '产品线C', first: '盈利', second: '盈利', third: '盈利', fourth: '亏损',},
+                {name: '产品线D', first: '亏损', second: '亏损', third: '亏损', fourth: '亏损',},
+                {name: '产品线E', first: '盈利', second: '盈利', third: '盈利', fourth: '盈利',},
             ]
 
             const spanMap = []
