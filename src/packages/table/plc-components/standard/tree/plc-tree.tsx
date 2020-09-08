@@ -99,7 +99,7 @@ export default definePlc({
                         )}
                         {
                             !!ctx.$scopedSlots.content && (
-                                <div class="plc-tree-node-content">
+                                <div class="plc-tree-node-content" style={ctx.treePlc.contentStyles}>
                                     {ctx.$scopedSlots.content(renderData)}
                                 </div>
                             )
@@ -210,6 +210,9 @@ export default definePlc({
                 handler,
                 emitExpandKeys,
                 emitCheckKeys,
+                contentStyles: {
+                    width: `${props.contentWidth}px`
+                }
             },
             treeDraggablePlc,
         }
