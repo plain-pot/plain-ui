@@ -35,21 +35,22 @@
             }
 
             const spanMap = []
+            const collapseField = ['first', 'second']
+            const initMap = collapseField.reduce((ret, item) => {
+                ret[item] = 1
+                return ret
+            }, {})
 
             data.forEach((item, index) => {
 
-                const map = {
-                    first: 1,
-                    second: 1,
-                    third: 1
-                }
+                const map = {...initMap}
 
                 if (index === 0) {
                     spanMap.push(map)
                     return
                 }
 
-                ['first', 'second', 'third'].forEach(key => {
+                collapseField.forEach(key => {
                     if (item[key] === data[prevIndex[key]][key]) {
                         spanMap[prevIndex[key]][key]++
                         map[key] = 0
@@ -61,7 +62,7 @@
                 spanMap.push(map)
             })
 
-            console.log(JSON.parse(JSON.stringify(spanMap)))
+            // console.log(JSON.parse(JSON.stringify(spanMap)))
 
             return {
                 data,
@@ -72,7 +73,7 @@
             spanMethod({tableNode, plc}) {
                 return {
                     colspan: 1,
-                    rowspan: this.spanMap[tableNode.index][plc.props.field],
+                    rowspan: this.spanMap[tableNode.index][plc.props.field] != null ? this.spanMap[tableNode.index][plc.props.field] : 1,
                 }
             },
         }
