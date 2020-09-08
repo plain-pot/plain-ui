@@ -38,8 +38,8 @@ export function writeStylesAndClasses(
                 'plt-head-cell',
                 ...getCellClass(plc),
                 {
-                    'plt-cell-last-fixed-left': stickyFlag && plc.isLastFixedLeft,
-                    'plt-cell-first-fixed-right': stickyFlag && plc.isFirstFixedRight,
+                    'plt-cell-last-fixed-left': plc.isLastFixedLeft,
+                    'plt-cell-first-fixed-right': plc.isFirstFixedRight,
                 }
             ]
             plc.classes.head.innerCell = [
@@ -66,8 +66,8 @@ export function writeStylesAndClasses(
                     'plt-body-cell',
                     {
                         'plt-cell-add-edit-padding': plc.props.addEditPadding,
-                        'plt-cell-last-fixed-left': stickyFlag && plc.isLastFixedLeft,
-                        'plt-cell-first-fixed-right': stickyFlag && plc.isFirstFixedRight,
+                        'plt-cell-last-fixed-left': plc.isLastFixedLeft,
+                        'plt-cell-first-fixed-right': plc.isFirstFixedRight,
                     },
                 ]
                 plc.classes.body.innerCell = [

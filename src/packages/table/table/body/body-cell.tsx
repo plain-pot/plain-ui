@@ -1,5 +1,5 @@
 import {computed, defineComponent, getCurrentInstance, provide} from "@vue/composition-api";
-import {getCellClass} from "@/packages/table/plc/plc-utils";
+import {getCellClass, stickyFlag} from "@/packages/table/plc/plc-utils";
 import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {PlcRender} from "@/packages/table/table/render";
@@ -7,6 +7,7 @@ import {injectTable} from "@/packages/table/table/table";
 import {FormTrigger, validateField} from "@/packages/form/validate";
 import {EditProvider} from "@/use/useEdit";
 import {useStyle} from "@/use/useStyle";
+import {$plain} from "@/packages/base";
 
 interface BodyCellPropsType {
     plc: PlcType,
@@ -94,21 +95,51 @@ export default defineComponent({
         const innerCellClass = computed(() => props.plc.classes.body.innerCell)
 
         return () => {
+
             if (span.rowspan === 0 || span.colspan === 0) {
                 /*rowspan为0时，不会正确合并单元格，如果要合并单元格得不渲染这个td*/
                 return null
             }
-            return (
-                <td colspan={span.colspan}
-                    rowspan={span.rowspan}
-                    class={cellClass.value}
-                    style={cellStyles.value}>
-                    <div style={innerCellStyles.value} class={innerCellClass.value}>
-                        {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
-                        {renderData.value.body}
-                    </div>
-                </td>
+
+            const content = (
+                <div style={innerCellStyles.value} class={innerCellClass.value}>
+                    {/*{props.plc.isLastFixedLeft && 'isLastFixedLeft'}-{props.plc.isFirstFixedRight && 'isFirstFixedRight'}*/}
+                    {renderData.value.body}
+                </div>
             )
+
+            if (cellStyles.value.position === 'sticky' && !stickyFlag && !table.props.disabledStickyCompatible) {
+                const styles = {...cellStyles.value}
+                delete styles.position
+                delete styles[props.plc.props.fixed]
+
+                return (
+                    <pl-scroll-sticky
+                        colspan={span.colspan}
+                        rowspan={span.rowspan}
+                        class={cellClass.value}
+                        style={styles}
+                        {...{
+                            props: {
+                                tag: 'td',
+                                [props.plc.props.fixed]: Number($plain.utils.removePx(cellStyles.value[props.plc.props.fixed])),
+                                zIndex: cellStyles.value.zIndex,
+                            },
+                        }}
+                    >
+                        {content}
+                    </pl-scroll-sticky>
+                )
+            } else {
+                return (
+                    <td colspan={span.colspan}
+                        rowspan={span.rowspan}
+                        class={cellClass.value}
+                        style={cellStyles.value}>
+                        {content}
+                    </td>
+                )
+            }
         }
     },
 })

@@ -27,6 +27,7 @@ export const TableProps = {
     // hideHeader: {type: Boolean},                                // 是否隐藏表头
     showRows: {type: Number, default: 10},                      // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
     emptyText: {type: String},                                  // 空数据时显示的文本
+    disabledStickyCompatible: {type: Boolean},                  // 是否禁用在ie下的sticky兼容
 
     /*---------------------------------------style and class-------------------------------------------*/
     // rowClassFunc: {type: Function},                             // 行 className 的计算函数

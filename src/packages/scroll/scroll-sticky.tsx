@@ -61,24 +61,53 @@ export default defineComponent({
             const refs = useRefs()
             const scroll = injectScroll()
 
+            const state = {
+                prev: {
+                    scrollTop: null as null | number,
+                    scrollLeft: null as null | number,
+                }
+            }
+
             function fresh(data: { scrollTop: number, scrollLeft: number }) {
                 const {scrollTop, scrollLeft} = data
 
-                if (props.top != null) {
-                    refs.$el.style.transform = `translateY(${(Math.max(0, scrollTop - (offset.top - props.top))) + 'px'})`
+                if (scrollTop !== state.prev.scrollTop) {
+                    state.prev.scrollTop = scrollTop
+                    if (props.top != null) {
+                        refs.$el.style.transform = `translateY(${(Math.max(0, scrollTop - (offset.top - props.top))) + 'px'})`
+                    }
+
+                    if (props.bottom != null) {
+                        refs.$el.style.transform = `translateY(-${Math.max(0, offset.top + offset.height - content.height - scrollTop + props.bottom) + 'px'})`
+                    }
+                }
+
+                if (scrollLeft !== state.prev.scrollLeft) {
+                    state.prev.scrollLeft = scrollLeft
+                    if (props.left != null) {
+                        refs.$el.style.transform = `translateX(${(Math.max(0, scrollLeft - (offset.left - props.left))) + 'px'})`
+                    }
+
+                    if (props.right != null) {
+                        refs.$el.style.transform = `translateX(-${Math.max(0, offset.left + offset.width - content.width - scrollLeft + props.right) + 'px'})`
+                    }
+                }
+
+                /*if (props.top != null) {
+                    refs.$el.style.top = (Math.max(0, scrollTop - (offset.top - props.top))) + 'px'
                 }
 
                 if (props.bottom != null) {
-                    refs.$el.style.transform = `translateY(-${Math.max(0, offset.top + offset.height - content.height - scrollTop + props.bottom) + 'px'})`
+                    refs.$el.style.bottom = Math.max(0, offset.top + offset.height - content.height - scrollTop + props.bottom) + 'px'
                 }
 
                 if (props.left != null) {
-                    refs.$el.style.transform = `translateX(${(Math.max(0, scrollLeft - (offset.left - props.left))) + 'px'})`
+                    refs.$el.style.left = (Math.max(0, scrollLeft - (offset.left - props.left))) + 'px'
                 }
 
                 if (props.right != null) {
-                    refs.$el.style.transform = `translateX(-${Math.max(0, offset.left + offset.width - content.width - scrollLeft + props.right) + 'px'})`
-                }
+                    refs.$el.style.right = Math.max(0, offset.left + offset.width - content.width - scrollLeft + props.right) + 'px'
+                }*/
             }
 
             function onScroll(e) {
