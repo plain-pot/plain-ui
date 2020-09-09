@@ -27,7 +27,7 @@ export const TableProps = {
 
     /*---------------------------------------style and class-------------------------------------------*/
     rowClassFunc: {type: (Function as any) as Table.RowClassFunc},// 行 className 的计算函数
-    headRowClassFunc: {type: Function as any as Table.HeadRowClassFunc},// 表头行 className 计算函数
+    // headRowClassFunc: {type: Function as any as Table.HeadRowClassFunc},// 表头行 className 计算函数
 
     cellClassFunc: {type: Function as any as Table.CellClassFunc},// 单元格 className 的计算函数
     cellStyleFunc: {type: Function as any as Table.CellStyleFunc},// 单元格 style 内联样式的计算函数

@@ -8,6 +8,8 @@ import {FormTrigger, validateField} from "@/packages/form/validate";
 import {EditProvider} from "@/use/useEdit";
 import {useStyle} from "@/use/useStyle";
 import {$plain} from "@/packages/base";
+import {toArray} from "@/util/util";
+import {Table} from "@/packages/table/table";
 
 interface BodyCellPropsType {
     plc: PlcType,
@@ -85,13 +87,24 @@ export default defineComponent({
             }
             return styles
         })
-        const cellClass = computed(() => [
-            ...props.plc.classes.body.cell,
-            ...getCellClass(props.plc, props.rowData),
-            {
-                'plt-cell-editing': renderData.value.editable,
-            },
-        ])
+        const cellClass = computed(() => {
+            const classes = [
+                ...props.plc.classes.body.cell,
+                ...getCellClass(props.plc, props.rowData),
+                {
+                    'plt-cell-editing': renderData.value.editable,
+                },
+            ] as Table.Classes[]
+
+            if (!!table.props.cellClassFunc) {
+                const cellClasses = table.props.cellClassFunc(props.rowData, props.plc)
+                if (!!cellClasses) {
+                    classes.push(...toArray(cellClasses))
+                }
+            }
+
+            return classes
+        })
         const innerCellClass = computed(() => props.plc.classes.body.innerCell)
 
         return () => {

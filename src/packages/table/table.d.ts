@@ -13,12 +13,12 @@ export namespace Table {
         new(): ((tableNode: TableNode) => Classes)
     }
 
-    interface HeadRowClassFunc {
+    /*interface HeadRowClassFunc {
         new(): ((tableNode: TableNode) => Classes)
-    }
+    }*/
 
     interface CellClassFunc {
-        new(): ((tableNode: TableNode) => Classes)
+        new(): ((tableNode: TableNode, plc: PlcType) => Classes)
     }
 
     interface CellStyleFunc {
