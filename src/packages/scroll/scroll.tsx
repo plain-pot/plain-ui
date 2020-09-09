@@ -31,6 +31,7 @@ const Props = {
     fitHostHeight: {type: Boolean},                                                                 // 适配容器高度
     topThreshold: {type: Number, default: 20},                                                      // 距离顶部多少距离派发滚动到顶部事件
     bottomThreshold: {type: Number, default: 20},                                                   // 距离底部多少距离派发滚动到底部事件
+    autoScrollSpeed: {type: Number, default: 400},                                                  // 自动滚动的时候的速度，每秒钟滚动的距离
 }
 
 function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContext) {
@@ -276,7 +277,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             if (height <= 0) {
                 return
             }
-            const duration = (height / 200) * 1000
+            const duration = (height / props.autoScrollSpeed) * 1000
             methods.scrollTop(0, duration)
         },
         autoScrollBottom() {
@@ -289,7 +290,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             if (height <= 0) {
                 return
             }
-            const duration = (height / 200) * 1000
+            const duration = (height / props.autoScrollSpeed) * 1000
             methods.scrollTop(scrollHeight, duration)
         },
         autoScrollLeft() {
@@ -302,7 +303,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             if (width <= 0) {
                 return
             }
-            const duration = (width / 200) * 1000
+            const duration = (width / props.autoScrollSpeed) * 1000
             methods.scrollLeft(0, duration)
         },
         autoScrollRight() {
@@ -315,7 +316,7 @@ function scrollSetup(props: ExtractPropTypes<typeof Props>, context: SetupContex
             if (width <= 0) {
                 return
             }
-            const duration = (width / 200) * 1000
+            const duration = (width / props.autoScrollSpeed) * 1000
             methods.scrollLeft(scrollWidth, duration)
         },
         stopAutoScroll() {
