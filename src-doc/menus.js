@@ -116,6 +116,7 @@ export default [
             {name: 'Tree', title: '树形表格', icon: 'pl-table-solid', page: '/table/tree/table-tree', complete: true},
             {name: 'Row Draggable', title: '行拖拽排序', icon: 'pl-table-solid', page: '/table/table-row-draggable', complete: true},
             {name: 'Col Draggable', title: '列拖拽排序', icon: 'pl-table-solid', page: '/table/table-col-draggable', complete: true},
+            {name: 'Table class-style', title: '行列样式', icon: 'pl-table-solid', page: '/table/table-class-style', complete: true},
         ]
     },
     {

@@ -1,11 +1,6 @@
 import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
 import {StyleProps} from "@/use/useStyle";
-import {PlcType} from "@/packages/table/plc/plc";
-import {TableNode} from "@/packages/table/table/TableNode";
-
-interface SpanMethodType {
-    new(): ((data: { tableNode: TableNode, plc: PlcType }) => { rowspan: number, colspan: number })
-}
+import {Table} from "@/packages/table/table";
 
 export const TableProps = {
     ...StyleProps,
@@ -18,27 +13,26 @@ export const TableProps = {
     debugPlc: {type: Boolean},                                  // 调试plc数据
     rules: {type: Object},                                      // 校验规则
     colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
+    spanMethod: {type: (Function as any) as Table.SpanMethod},// 合并表体单元格的方法
 
     /*---------------------------------------theme-------------------------------------------*/
     border: {type: Boolean},                                    // 是否带纵向边框
-    // stripe: {type: Boolean},                                    // 是否为斑马纹table
+    // stripe: {type: Boolean},                                 // 是否为斑马纹table
     headRowHeight: {type: [String, Number], default: 45},       // 表头行高
     bodyRowHeight: {type: [String, Number], default: 40},       // 表体行高
-    // hideHeader: {type: Boolean},                                // 是否隐藏表头
+    // hideHeader: {type: Boolean},                             // 是否隐藏表头
     showRows: {type: Number, default: 10},                      // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
     emptyText: {type: String},                                  // 空数据时显示的文本
     disabledStickyCompatible: {type: Boolean},                  // 是否禁用在ie下的sticky兼容
 
     /*---------------------------------------style and class-------------------------------------------*/
-    // rowClassFunc: {type: Function},                             // 行 className 的计算函数
-    // rowStyleFunc: {type: Function},                             // 行 style内联样式的计算函数
-    // cellClassFunc: {type: Function},                            // 单元格 className 的计算函数
-    // cellStyleFunc: {type: Function},                            // 单元格 style 内联样式的计算函数
-    // headRowClassFunc: {type: Function},                         // 表头行 className 计算函数
-    // headRowStyleFunc: {type: Function},                         // 表头行 style 内联样式计算函数
-    // headCellClassFunc: {type: Function},                        // 表头单元格的 className 的计算函数
-    // headCellStyleFunc: {type: Function},                        // 表头单元格 style 内联样式计算函数
-    spanMethod: {type: (Function as unknown) as SpanMethodType},                                  // 合并表体单元格的方法
+    rowClassFunc: {type: (Function as any) as Table.RowClassFunc},// 行 className 的计算函数
+    headRowClassFunc: {type: Function as any as Table.HeadRowClassFunc},// 表头行 className 计算函数
+
+    cellClassFunc: {type: Function as any as Table.CellClassFunc},// 单元格 className 的计算函数
+    cellStyleFunc: {type: Function as any as Table.CellStyleFunc},// 单元格 style 内联样式的计算函数
+    headCellClassFunc: {type: Function as any as Table.HeadCellClassFunc},// 表头单元格的 className 的计算函数
+    headCellStyleFunc: {type: Function as any as Table.HeadCellStyleFunc},// 表头单元格 style 内联样式计算函数
 
     /*---------------------------------------tree-------------------------------------------*/
     lazy: {type: Boolean},                                      // 是否懒加载数据
