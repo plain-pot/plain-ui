@@ -47,6 +47,7 @@ export function usePlcTreeRowDraggable(
         checkStrictly,
         allowRowDraggable,
         allowRowDroppable,
+        expand,
     }: {
         rowDraggable: boolean | undefined,
         rowClass: string,
@@ -57,6 +58,7 @@ export function usePlcTreeRowDraggable(
         checkStrictly: boolean | undefined,
         allowRowDraggable: Function | undefined,
         allowRowDroppable: Function | undefined,
+        expand: (key: string | string[]) => void,
     }) {
 
     const state = {
@@ -262,6 +264,7 @@ export function usePlcTreeRowDraggable(
                     break
                 case DropType.inner:
                     moveNode!.unshiftChild(startNode!)
+                    expand(moveNode!.key)
                     break
                 case DropType.next:
                     moveNode!.nextSibling(startNode!)

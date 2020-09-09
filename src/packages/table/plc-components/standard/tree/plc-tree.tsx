@@ -199,6 +199,7 @@ export default definePlc({
             checkStrictly: table.props.checkStrictly,
             allowRowDraggable: props.allowRowDraggable,
             allowRowDroppable: props.allowRowDroppable,
+            expand: methods.expand,
         })
 
         return {
