@@ -8,6 +8,7 @@ import {$plain} from "@/packages/base";
 import {stickyFlag} from "@/packages/table/plc/plc-utils";
 import {toArray} from "@/util/util";
 import {Table} from "@/packages/table/table";
+import {StyleType} from "@/types/utils";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -35,7 +36,21 @@ export default defineComponent({
 
 
         const cellStyles = computed(() => props.plc.styles.head.cell)
-        const innerCellStyles = computed(() => props.plc.styles.head.innerCell)
+        const innerCellStyles = computed(() => {
+            let styles = (props.plc.styles.head.innerCell || {}) as StyleType
+
+            if (!!table.props.headCellStyleFunc) {
+                const headCellStyles = table.props.headCellStyleFunc(props.plc)
+                if (!!headCellStyles) {
+                    styles = {
+                        ...styles,
+                        ...headCellStyles,
+                    }
+                }
+            }
+
+            return styles
+        })
         const cellClasses = computed(() => {
             const classes = toArray(props.plc.classes.head.cell || {}) as Table.Classes[]
 
