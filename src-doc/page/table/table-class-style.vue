@@ -1,6 +1,7 @@
 <template>
     <div class="table-class-style">
         <demo-row title="rowClassFunc">
+            <demo-line title="评分大于5的显示背景蓝色"/>
             <pl-table :data="data" :rowClassFunc="rowClassFunc">
                 <plc field="id" title="编号"/>
                 <plc field="size" title="大小"/>
