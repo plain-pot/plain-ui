@@ -344,6 +344,17 @@
       bottom: 0;
       overflow: hidden;
 
+      &:after {
+        position: absolute;
+        bottom: 0;
+        height: 6px;
+        left: 0;
+        right: 0;
+        content: '';
+        background-color: $tableHeadBackground;
+        z-index: 3;
+      }
+
       .pl-virtual-table-summary-table {
         pointer-events: auto;
         position: absolute;
