@@ -34,6 +34,17 @@
                 <plc field="star" title="评分"/>
             </pl-table>
         </demo-row>
+        <demo-row title="headCellClassFunc">
+
+            <pl-table :data="data" :headCellClassFunc="headCellClassFunc">
+                <plc field="id" title="编号"/>
+                <plc field="size" title="大小"/>
+                <plc field="date" title="日期"/>
+                <plc field="color" title="颜色"/>
+                <plc field="name" title="名称"/>
+                <plc field="star" title="评分"/>
+            </pl-table>
+        </demo-row>
     </div>
 </template>
 
@@ -74,6 +85,11 @@
                     }
                 }
             },
+            headCellClassFunc({props: {field}}) {
+                if (field === 'star') {
+                    return 'custom-head-cell-clz'
+                }
+            },
         }
     }
 </script>
@@ -91,5 +107,10 @@
         &.custom-cell-status-active {
             background-color: rgba(#3E97EC, 0.1) !important;
         }
+    }
+
+    .custom-head-cell-clz {
+        background-color: #3E97EC !important;
+        color: white !important;
     }
 </style>

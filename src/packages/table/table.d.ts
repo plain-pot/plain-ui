@@ -27,10 +27,10 @@ export namespace Table {
     }
 
     interface HeadCellClassFunc {
-        new(): ((tableNode: TableNode) => Classes)
+        new(): ((plc: PlcType) => Classes)
     }
 
     interface HeadCellStyleFunc {
-        new(): ((tableNode: TableNode) => Classes)
+        new(): ((plc: PlcType) => StyleType)
     }
 }

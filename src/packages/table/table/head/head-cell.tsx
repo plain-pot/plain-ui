@@ -6,6 +6,8 @@ import {useHeadCellResize} from "@/packages/table/table/head/useHeadCellResize";
 import {useColDraggier} from "@/packages/table/table/head/useColDraggier";
 import {$plain} from "@/packages/base";
 import {stickyFlag} from "@/packages/table/plc/plc-utils";
+import {toArray} from "@/util/util";
+import {Table} from "@/packages/table/table";
 
 export default defineComponent({
     name: 'plt-head-cell',
@@ -34,7 +36,18 @@ export default defineComponent({
 
         const cellStyles = computed(() => props.plc.styles.head.cell)
         const innerCellStyles = computed(() => props.plc.styles.head.innerCell)
-        const cellClasses = computed(() => props.plc.classes.head.cell)
+        const cellClasses = computed(() => {
+            const classes = toArray(props.plc.classes.head.cell || {}) as Table.Classes[]
+
+            if (!!table.props.headCellClassFunc) {
+                const headCellClasses = table.props.headCellClassFunc(props.plc)
+                if (!!headCellClasses) {
+                    classes.push(...toArray(headCellClasses))
+                }
+            }
+
+            return classes
+        })
         const innerCellClass = computed(() => props.plc.classes.head.innerCell)
 
         /*---------------------------------------col diaggable-------------------------------------------*/
