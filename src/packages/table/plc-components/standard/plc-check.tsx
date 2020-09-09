@@ -17,6 +17,8 @@ export default definePlc({
         order: {default: -9998},
         width: {default: 40},
         align: {default: 'center'},
+        noPadding: {type: Boolean, default: true},
+
         summary: {
             type: Function,
             default: function () {return null}

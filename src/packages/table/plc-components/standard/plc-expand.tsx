@@ -24,6 +24,7 @@ export default definePlc({
         width: {default: 60},
         align: {default: 'center'},
         notFitVirtual: {type: Boolean, default: true},
+        noPadding: {type: Boolean, default: true},
 
         summary: {
             type: Function,
