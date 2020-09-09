@@ -81,9 +81,16 @@ export default defineComponent({
 
         const cellStyles = computed(() => props.plc.styles.body.cell)
         const innerCellStyles = computed(() => {
-            const styles = {...props.plc.styles.body.innerCell}
+            let styles = {...props.plc.styles.body.innerCell}
             if (span.rowspan > 1) {
                 styles.height = `${table.propsState.bodyRowHeight * span.rowspan}px`
+            }
+            if (!!table.props.cellStyleFunc) {
+                const cellStyles = table.props.cellStyleFunc(props.rowData, props.plc) || {}
+                styles = {
+                    ...styles,
+                    ...cellStyles
+                }
             }
             return styles
         })

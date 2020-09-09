@@ -1,5 +1,6 @@
 import {TableNode} from "@/packages/table/table/TableNode";
 import {PlcType} from "@/packages/table/plc/plc";
+import {StyleType} from "@/types/utils";
 
 export namespace Table {
 
@@ -22,7 +23,7 @@ export namespace Table {
     }
 
     interface CellStyleFunc {
-        new(): ((tableNode: TableNode) => Classes)
+        new(): ((tableNode: TableNode, plc: PlcType) => StyleType)
     }
 
     interface HeadCellClassFunc {
