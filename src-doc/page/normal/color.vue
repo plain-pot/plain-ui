@@ -6,7 +6,7 @@
             </div>
         </demo-row>
         <demo-row title="主题在线切换">
-            <div class="pl-block" v-for="item in ['default','blue','violet']" :class="`pl-block-${item}`">
+            <div class="pl-block" v-for="item in ['default','blue','violet']" :class="`pl-block-${item}`" @click="()=>$plain.changeTheme(item)">
                 {{item}}
             </div>
         </demo-row>

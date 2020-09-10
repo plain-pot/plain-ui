@@ -20,7 +20,8 @@ export let $plain: {
         error: { icon: string, status: string },
         info: { icon: string, status: string },
     },
-    $message: ((message: string | object, option: object) => void) | any
+    $message: ((message: string | object, option: object) => void) | any,
+    changeTheme: (themeName: string) => void,
 } = {} as any
 
 export default {
@@ -106,6 +107,17 @@ export default {
         }
         Object.keys($plain.STATUS).forEach(status => $message[status] = (message, option = {}) => $message(message, {status, ...option}))
         $plain.$message = $message
+
+        $plain.changeTheme = (() => {
+            let curTheme: string;
+            return (themeName: string) => {
+                if (!!curTheme) {
+                    $plain.utils.removeClass(document.body, curTheme)
+                }
+                curTheme = `theme-${themeName}`
+                $plain.utils.addClass(document.body, curTheme)
+            }
+        })()
 
         // console.log('install plain')
         Vue.prototype.$plain = $plain
