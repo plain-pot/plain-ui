@@ -3,7 +3,7 @@ export default [
     {name: '快速上手'},
     {
         name: '基础', children: [
-            // {name: 'Color', title: '颜色', icon: 'pl-color', page: '/normal/color', complete: false},
+            {name: 'Color', title: '颜色', icon: 'pl-color', page: '/normal/color', complete: true},
             {name: 'Icon', title: '图标', icon: 'pad-font-colors', page: '/normal/icon', complete: true},
             {name: 'Button', title: '按钮', icon: 'pad-play-circle', page: '/normal/button', complete: true},
             {name: 'Grid', title: '栅格', icon: 'pad-play-circle', page: '/normal/grid', complete: true},

@@ -1,6 +1,13 @@
-$theme-dark: (
-        'dark':(
-                colorPrimary: #3E97EC,
+$theme-blue: (
+        'blue':(
+                colorPrimary: #409EFF,
+                colorSuccess: #67C23A,
+                colorWarn: #E6A23C,
+                colorError: #F56C6C,
+                colorInfo:#909399,
+        ),
+        'violet':(
+                colorPrimary: #8A2BE2,
                 colorSuccess: #42E67F,
                 colorWarn: #E9D03F,
                 colorError: #FF6235,

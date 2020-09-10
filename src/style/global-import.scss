@@ -1,7 +1,7 @@
 @import "./theme/blue";
 @import "./main";
 
-$themes: map_merge($theme-default, $theme-dark);
+$themes: map_merge($theme-default, $theme-blue);
 
 @mixin theme {
   @each $curThemeName, $curTheme in $themes {
