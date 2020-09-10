@@ -265,7 +265,7 @@ export async function validateFieldByRules(targetRules: TargetRule[], formData: 
                 case FormValueType.array:
                     if (!value) {
                         return reject('必填！')
-                    } else if (value.length) {
+                    } else if (value.length < 1) {
                         return reject('至少选择一个选项！')
                     }
                     break
