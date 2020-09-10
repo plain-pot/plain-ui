@@ -24,7 +24,16 @@
 
             <plc-input field="name" title="文本框"/>
             <plc-input field="name" title="禁用编辑" :editable="false"/>
-            <plc-input field="name" title="文本框值大于6可以编辑" width="200" :editable="({editRow})=>!!editRow.name && editRow.name.length>5"/>
+            <plc-input field="size"
+                       title="文本框值大于6可以编辑"
+                       width="200"
+                       :editable="({editRow})=>!!editRow.name && editRow.name.length>5"
+                       :rules="{
+                           validator:(rule,value,row)=>!!row.name && row.name.length>5?
+                           (!row.size && row.size!==0)?'name 长度大于5情况下必填':null
+                           :null
+                       }"
+            />
 
             <plc-number field="size" title="数字框"/>
             <plc-date field="date" title="日期"/>
@@ -55,11 +64,16 @@
                     this.editNodes.push(tableNode)
                 }
             },
-            saveEdit() {
-                this.editNodes.forEach(tableNode => {
-                    tableNode.saveEdit()
-                    tableNode.closeEdit()
-                })
+            async saveEdit() {
+                const validates = (await Promise.all(this.editNodes.map(node => node.validate()))).filter(Boolean)
+                if (validates.length > 0) {
+                    const {message, rowData} = validates[0]
+                    this.$message.error(`第${rowData.index + 1}条记录校验不通过，${message}`)
+                    return
+                }
+                // todo 网络保存逻辑
+                this.editNodes.forEach(tableNode => tableNode.saveEdit())
+                this.editNodes.forEach(tableNode => tableNode.closeEdit())
                 this.editNodes = []
             },
             cancelEdit() {
