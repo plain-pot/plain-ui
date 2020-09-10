@@ -8,7 +8,7 @@ import {FORM_COLLECTOR, FORM_PROVIDER} from "@/packages/form/form-utils";
 import {FormItemContextType, FormItemProps} from "@/packages/form/form-item";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
-import {FormTrigger, getValidateConfigData, TargetRule, validateAsync, validateField, ValidateResultMap} from "@/packages/form/validate";
+import {FormTrigger, getValidateConfigData, TargetRule, validateAssociateFields, validateAsync, validateField, ValidateResultMap} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useRefer} from "@/use/useRefer";
@@ -26,6 +26,7 @@ const Props = {
     rules: {type: Object},                                              // 表单验证规则
     validateResult: {type: Object},                                     // 校验结果信息
     validateMode: {type: String, default: ValidateMode.form},           // 校验模式
+    associateFields: {type: Object},                                    // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
 
     hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
     hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
@@ -129,6 +130,11 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
         },
         onChange: $plain.utils.throttle((field: string | string[]) => {
             validate.valid(field, FormTrigger.CHANGE)
+            validateAssociateFields({
+                changeFields: field,
+                associateFields: props.associateFields,
+                next: f => validate.valid(f, FormTrigger.ALL)
+            })
         }, 300),
         onBlur: $plain.utils.throttle((field: string | string[]) => {
             validate.valid(field, FormTrigger.BLUR)

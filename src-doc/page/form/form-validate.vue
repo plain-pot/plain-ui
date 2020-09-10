@@ -1,7 +1,15 @@
 <template>
     <div class="form-validate">
         <demo-row title="基本用法">
-            <pl-form ref="form" :rules="form1.formRules" v-model="form1.formData" contentWidth="400px" :disabled="disabled">
+            <pl-form ref="form"
+                     v-model="form1.formData"
+                     labelWidth="150px"
+                     contentWidth="400px"
+
+                     :rules="form1.formRules"
+                     :associateFields="form1.associateFields"
+                     :disabled="disabled"
+            >
                 <pl-form-item label="必填校验" field="field1" required>
                     <pl-input v-model="form1.formData.field1"/>
                 </pl-form-item>
@@ -35,6 +43,10 @@
                         <pl-checkbox label="长久客户" val="long"/>
                         <pl-checkbox label="赢单客户" val="order"/>
                     </pl-checkbox-group>
+                </pl-form-item>
+
+                <pl-form-item label="当复选框选项少于2个必填" field="field5_1" :rules="{validator:dynamicRequired}">
+                    <pl-input v-model="form1.formData.field5_1"/>
                 </pl-form-item>
 
                 <pl-form-item label="选项校验：确定值" field="field6" :rules="{required:true,message:'只能选择二级', options:'2'}">
@@ -93,6 +105,11 @@
                         field2: {required: true, trigger: 'blur'},
                         field3: {required: true, min: 3, max: 5, trigger: 'change'},
                     },
+                    associateFields: {
+                        field5: ['field5_1'],
+                        field20: 'field21',
+                        field21: 'field20',
+                    }
                 },
 
                 levelData: [
@@ -132,6 +149,14 @@
                     return '[父属性]为一级的时候只能选择否'
                 }
                 return null
+            },
+
+            dynamicRequired() {
+                if (!this.form1.formData.field5 || this.form1.formData.field5.length < 2) {
+                    if (!this.form1.formData.field5_1) {
+                        return '当复选框选项少于5个时，field5_1必填'
+                    }
+                }
             },
         },
     }

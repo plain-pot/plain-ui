@@ -413,3 +413,27 @@ export async function validateAsync(config: {
         !!onEnd && onEnd();
     }
 }
+
+interface AssociateFieldsType {
+    [k: string]: string | string[]
+}
+
+export function validateAssociateFields(
+    {
+        changeFields,
+        associateFields,
+        next,
+    }: {
+        changeFields: string | string[],
+        associateFields: AssociateFieldsType | undefined,
+        next: (field: string) => void
+    }) {
+
+    if (!associateFields) {
+        return
+    }
+    toArray(changeFields).filter(Boolean).forEach(changeField => {
+        toArray(associateFields[changeField]).filter(Boolean).forEach(next)
+    })
+
+}
