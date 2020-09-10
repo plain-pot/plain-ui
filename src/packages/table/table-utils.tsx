@@ -12,6 +12,7 @@ export const TableProps = {
     config: {type: Function},                                   // 配置列信息函数
     debugPlc: {type: Boolean},                                  // 调试plc数据
     rules: {type: Object},                                      // 校验规则
+    associateFields: {type: Object},                            // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
     colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
     spanMethod: {type: (Function as any) as Table.SpanMethod},// 合并表体单元格的方法
 

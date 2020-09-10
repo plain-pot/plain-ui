@@ -4,7 +4,7 @@ import {PlcType} from "@/packages/table/plc/plc";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {PlcRender} from "@/packages/table/table/render";
 import {injectTable} from "@/packages/table/table/table";
-import {FormTrigger, validateField} from "@/packages/form/validate";
+import {AssociateFieldsType, FormTrigger, TargetRule, validateAssociateFields, validateField} from "@/packages/form/validate";
 import {EditProvider} from "@/use/useEdit";
 import {useStyle} from "@/use/useStyle";
 import {$plain} from "@/packages/base";
@@ -15,6 +15,31 @@ interface BodyCellPropsType {
     plc: PlcType,
     rowData: TableNode,
     isSummary: boolean
+}
+
+function validateFieldForCell(
+    {
+        rowData,
+        changeField,
+        allRules,
+        associateFields,
+    }: {
+        rowData: TableNode,
+        changeField: string,
+        allRules: TargetRule[],
+        associateFields: AssociateFieldsType | undefined,
+    }
+) {
+    const {data, editRow, isEdit} = rowData
+    const validateResult = rowData.validateResult || {}
+    validateField(validateResult, allRules, isEdit ? editRow : data, changeField, FormTrigger.CHANGE).then(() => rowData.validateResult = validateResult)
+    if (!!associateFields) {
+        validateAssociateFields({
+            changeFields: changeField,
+            associateFields,
+            next: field => validateField(validateResult, allRules, isEdit ? editRow : data, field, FormTrigger.ALL).then(() => rowData.validateResult = validateResult)
+        })
+    }
 }
 
 function useFormItemEdit(props: BodyCellPropsType, table: ReturnType<typeof injectTable>): void {
@@ -30,11 +55,13 @@ function useFormItemEdit(props: BodyCellPropsType, table: ReturnType<typeof inje
             onChange: () => {
                 // console.log('change', props.plc.props.field)
                 const {rowData, plc: {props: {field}}} = props
-                if (!!field) {
-                    const {data, editRow, isEdit} = rowData
-                    const validateResult = rowData.validateResult || {}
-                    validateField(validateResult, table.validateConfigData.value.allRules, isEdit ? editRow : data, field!, FormTrigger.CHANGE).then(ret => {
-                        rowData.validateResult = validateResult
+                const {allRules} = table.validateConfigData.value
+                if (!!field && !!allRules && allRules.length > 0) {
+                    validateFieldForCell({
+                        rowData,
+                        changeField: field,
+                        allRules,
+                        associateFields: table.props.associateFields,
                     })
                 }
             }

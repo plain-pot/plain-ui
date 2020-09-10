@@ -13,6 +13,7 @@
         </pl-form>
         <pl-table :data="data"
                   :virtual="virtualFlag"
+                  :associateFields="associateFields"
                   @dblclick-cell="onDblClickRow">
             <plc field="id" title="编号" width="50"/>
             <plc field="name" title="普通文本列"/>
@@ -22,8 +23,8 @@
                 </template>
             </plc>
 
-            <plc-input field="name" title="文本框"/>
             <plc-input field="name" title="禁用编辑" :editable="false"/>
+            <plc-input field="name" title="文本框" required/>
             <plc-input field="size"
                        title="文本框值大于6可以编辑"
                        width="200"
@@ -55,6 +56,9 @@
                 data,
                 editNodes: [],
                 virtualFlag: false,
+                associateFields: {
+                    name: 'size',
+                },
             }
         },
         methods: {

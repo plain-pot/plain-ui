@@ -414,7 +414,7 @@ export async function validateAsync(config: {
     }
 }
 
-interface AssociateFieldsType {
+export interface AssociateFieldsType {
     [k: string]: string | string[]
 }
 
