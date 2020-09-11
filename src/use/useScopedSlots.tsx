@@ -1,17 +1,19 @@
 import {getCurrentInstance} from "@vue/composition-api";
+import {VNode} from "vue/types/umd";
 
 export class ScopedSlotFunc<T> {
 
 }
 
 type ScopedSlotFuncType = object
-type JSXElement = JSX.Element
+
+type ScopedSlotsContentType = VNode | (VNode | null)[] | null | undefined | string | number
 
 export function useScopedSlots<T extends { [key: string]: ScopedSlotFuncType }>(option?: T): {
-    scopedSlots: { [key in keyof T]: (data: { param: T[key], content: JSXElement | (JSXElement | null)[] | null }) => JSXElement | (JSXElement | null)[] | null }
+    scopedSlots: { [key in keyof T]: (data: { param: T[key], content: ScopedSlotsContentType }) => ScopedSlotsContentType }
         &
-        { default: (data: { param: object, content: JSXElement | (JSXElement | null)[] | null }) => JSXElement | (JSXElement | null)[] | null },
-    $scopedSlots: { [key in keyof T]?: (...args: any[]) => JSXElement | (JSXElement | null)[][] | null }
+        { default: (data: { param: object, content: ScopedSlotsContentType }) => ScopedSlotsContentType },
+    $scopedSlots: { [key in keyof T]?: (...args: any[]) => ScopedSlotsContentType }
 } {
 
     const ctx = getCurrentInstance()!

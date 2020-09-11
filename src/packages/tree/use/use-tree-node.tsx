@@ -1,7 +1,7 @@
 import {computed, getCurrentInstance, inject, reactive} from "@vue/composition-api";
 import {TREE_PROVIDER, UseTreeReturnType} from "@/packages/tree/use/use-tree";
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {$plain} from "@/packages/base";
 
 export const TreeNodeProps = {

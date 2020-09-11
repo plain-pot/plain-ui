@@ -1,4 +1,4 @@
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {StyleProps} from "@/use/useStyle";
 import {Table} from "@/packages/table/table";
 

@@ -167,14 +167,14 @@ export default defineComponent({
             } else {
                 methods.hide()
             }
-        })
+        },{immediate: true})
 
         watch(() => model.value, async (val) => {
             await $plain.nextTick()
             if (!!state.el) {
                 state.el.setAttribute('pl-dropdown', val ? 'open' : 'close')
             }
-        })
+        },{immediate: true})
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 

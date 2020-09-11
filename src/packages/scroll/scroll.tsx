@@ -9,7 +9,7 @@ import {$plain} from "@/packages/base";
 import {ResizeDetectFuncParam, StyleType} from "@/types/utils";
 import {useMounted} from "@/use/useMounted";
 import {SlotFunc, useSlots} from "@/use/useSlots";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {useScopedSlots} from "@/use/useScopedSlots";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {

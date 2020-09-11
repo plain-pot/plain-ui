@@ -77,7 +77,7 @@ function tableSetup(props: TablePropsType) {
     const rootNode = new TableNode(`root-node-${$plain.utils.uuid()}`, {[props.childrenField]: dataModel.value || []}, props, 0, null, mark, false)
     // 合计行数据模拟出来父节点
     const summaryRootNode = new TableNode(`summary-root-node-${$plain.utils.uuid()}`, {[props.childrenField]: props.summaryData || []}, props, 0, null, mark, true)
-    watch(() => props.summaryData, (val) => state.summaryRootNode.setChildren(val as object[] || []), {lazy: true})
+    watch(() => props.summaryData, (val) => state.summaryRootNode.setChildren(val as object[] || []))
 
     const state = reactive({
         tableWidth: null as null | number,                  // mounted的时候表格的宽度

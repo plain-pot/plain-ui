@@ -6,7 +6,7 @@ import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {useRefer} from "@/use/useRefer";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {$plain} from "@/packages/base";
 import {useRefs} from "@/use/useRefs";
 import {PlainScroll} from "@/packages/scroll/scroll";

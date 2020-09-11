@@ -40,7 +40,7 @@ export default defineComponent({
             height: `${table.propsState.headRowHeight * headPlcList.value.length}px`,
         }))
 
-        watch(() => styles.value, () => !!refs.scroll && $plain.nextTick(refs.scroll.methods.refresh))
+        watch(() => styles.value, () => !!refs.scroll && $plain.nextTick(refs.scroll.methods.refresh),{immediate: true})
 
         return () => {
             return (

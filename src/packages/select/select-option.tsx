@@ -2,7 +2,7 @@ import {computed, defineComponent, inject} from "@vue/composition-api";
 import {useCollectChild} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR} from "@/packages/select/select-utils";
 import {useSlots} from "@/use/useSlots";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {SELECT_PANEL_PROVIDER, SelectPanelContextType} from "@/packages/select/select-panel";
 
 const SelectOptionProps = {

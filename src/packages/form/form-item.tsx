@@ -1,5 +1,5 @@
 import {computed, defineComponent, inject, provide, Ref} from "@vue/composition-api";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {EditProps, EditProvider} from "@/use/useEdit";
 import {StyleProps, StyleProvider} from "@/use/useStyle";
 import {SlotFunc, useSlots} from "@/use/useSlots";

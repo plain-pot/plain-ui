@@ -1,5 +1,5 @@
 import {computed, defineComponent, provide, reactive, Ref, watch} from "@vue/composition-api";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {EditProps, useEdit} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {useSlots} from "@/use/useSlots";
@@ -169,7 +169,7 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
                 }
             })
             state.formData = $plain.utils.deepcopy(newFormData || {})
-        }, {deep: true, lazy: true})
+        }, {deep: true})
     }
 
     /*---------------------------------------methods-------------------------------------------*/

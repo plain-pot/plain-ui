@@ -19,9 +19,6 @@ export function useModel<T>(getter: () => T, emitter: (...args: any[]) => void, 
                     !!onChange && onChange(val);
                     state.value = val
                 }
-            },
-            {
-                lazy: true,
             }
         )
     }

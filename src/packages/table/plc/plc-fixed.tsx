@@ -113,7 +113,7 @@ export function useFixedShadow(bodyScrollRef: () => PlainScroll) {
             state.showFixedLeft = contentWidth > hostWidth && wrapperScrollLeft > 0
             state.showFixedRight = contentWidth > hostWidth && Math.abs(wrapperScrollLeft + hostWidth - contentWidth) > 5
         }
-    })
+    },{immediate: true})
 
     const classes = computed(() => [
         {

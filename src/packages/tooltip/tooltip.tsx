@@ -132,11 +132,11 @@ export default defineComponent({
                     } else {
                         !!state.unwatch && state.unwatch()
                     }
-                })
+                },{immediate: true})
             } else {
                 watch(() => props[propsName], () => {
                     utils.reset()
-                }, {lazy: true})
+                },{immediate: true})
             }
         })
 

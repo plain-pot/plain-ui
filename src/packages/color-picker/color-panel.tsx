@@ -113,17 +113,17 @@ export default defineComponent({
         watch(() => props.value, (val) => {
             state.color.setValue(val || defaultColor())
             state.val = state.color.color
-        }, {lazy: true})
+        })
 
         watch(() => props.enableAlpha, (val) => {
             state.color.enableAlpha = val as boolean
             state.color.updateByAlpha()
-        }, {lazy: true})
+        })
 
         watch(() => props.format, (val) => {
             state.color.format = val as ColorFormat || ColorFormat.hex
             state.color.format === ColorFormat.hex ? state.color.updateByHex() : state.color.updateByRgb()
-        }, {lazy: true})
+        })
 
         return () => (
             <div class="pl-color-panel">

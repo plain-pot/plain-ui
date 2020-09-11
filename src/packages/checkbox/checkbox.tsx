@@ -26,8 +26,11 @@ export default defineComponent({
         falseValue: {default: false},                               // 非选中值
 
         ignore: {type: Boolean},                                    // 忽略 plCheckboxGroup
+        isYes:{type:Function},
     },
     setup(props, context) {
+
+        const isYes = props.isYes!
 
         const {scopedSlots} = useScopedSlots({
             default: {checked: Boolean},

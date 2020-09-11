@@ -1,5 +1,5 @@
 import {computed, defineComponent, reactive, watch} from "@vue/composition-api";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {useRefs} from "@/use/useRefs";
 import {PlainScroll} from "@/packages/scroll/scroll";
 import {$plain} from "@/packages/base";
@@ -79,7 +79,7 @@ function setup(props: ExtractPropTypes<typeof Props>) {
         }
     }
 
-    watch(() => props.width, () => $plain.nextTick(() => refs.scroll.methods.refresh()))
+    watch(() => props.width, () => $plain.nextTick(() => refs.scroll.methods.refresh()),{immediate: true})
 
     const refer = {
         slots,

@@ -3,7 +3,7 @@ import {PLC_COLLECTOR, PlcComponentPublicData, PlcComponentType, PlcGroupProps, 
 import {useSlots} from "@/use/useSlots";
 import {useCollectChild, useCollectParent} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {PlainExtractPropTypes} from "@/type";
 import {PlcType} from "@/packages/table/plc/plc";

@@ -255,7 +255,7 @@ export default defineComponent({
 
         watch(() => model.value, () => {
             methods.resetTextAreaHeight()
-        }, {lazy: true})
+        })
         watch(() => props.throttleEnter, (val) => {
             if (!val) {
                 state.handlerEnter = state.handleEnterInner
@@ -264,7 +264,7 @@ export default defineComponent({
                 val = 1000
             }
             state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val as number, {trailing: true})
-        })
+        },{immediate: true})
 
         useRefer({
             methods,

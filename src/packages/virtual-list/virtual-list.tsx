@@ -3,7 +3,7 @@ import {ElRef, useRefs} from "@/use/useRefs";
 import {$plain} from "@/packages/base";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {PlainScroll} from "@/packages/scroll/scroll";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {EmitFunc, useEvent} from "@/use/useEvent";
 
 interface DataInfo {
@@ -153,7 +153,7 @@ export function virtualListSetup(props: ExtractPropTypes<typeof VirtualListProps
                 state.end = state.remain
             })
         }
-    })
+    },{immediate: true})
     watch(() => props.data, (val) => {
         if (isDisabled.value) return
 
@@ -165,7 +165,7 @@ export function virtualListSetup(props: ExtractPropTypes<typeof VirtualListProps
             bottom: props.size * (index + 1),
         }));
         !!refs.scroll && refs.scroll.methods.scrollTop(0, 0)
-    })
+    },{immediate: true})
 
     onUpdated(async () => {
         if (isDisabled.value) return

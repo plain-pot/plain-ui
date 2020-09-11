@@ -81,7 +81,7 @@ export default defineComponent({
             }
         }
 
-        watch(() => props.value, methods.resetPosition, {lazy: true})
+        watch(() => props.value, methods.resetPosition)
 
         onMounted(methods.resetPosition)
 

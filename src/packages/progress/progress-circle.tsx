@@ -99,7 +99,7 @@ export default defineComponent({
 
         watch(() => props.value, () => {
             methods.reload()
-        }, {lazy: true})
+        })
 
         onMounted(() => {
             // @ts-ignore

@@ -213,7 +213,7 @@ export default defineComponent({
 
         watch(() => props.data, (val) => {
             rootNode.setChildren(val as any[])
-        }, {lazy: true})
+        })
 
         return () => {
             const empty = (

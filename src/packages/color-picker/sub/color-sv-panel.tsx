@@ -101,14 +101,14 @@ export default defineComponent({
                 return
             }
             if (state.val !== 100 - val) state.val = 100 - val
-        }, {lazy: true})
+        })
         watch(() => props.saturation, (val) => {
             if (val == null) {
                 state.saturation = undefined
                 return
             }
             if (state.saturation !== val) state.saturation = val
-        }, {lazy: true})
+        })
 
 
         return () => (

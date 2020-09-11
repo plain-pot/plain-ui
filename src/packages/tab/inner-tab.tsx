@@ -46,7 +46,7 @@ export default defineComponent({
             } else {
                 methods.hide()
             }
-        })
+        },{immediate: true})
 
         return () => {
             return (

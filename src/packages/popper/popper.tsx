@@ -308,7 +308,7 @@ export default defineComponent({
             } else {
                 methods.hide(false)
             }
-        }, {lazy: true})
+        })
 
         watch(() => model.value, (val) => {
             if (!!val) {
@@ -318,7 +318,7 @@ export default defineComponent({
                     })
                 }
             }
-        }, {lazy: true})
+        })
 
         watch(() => openModel.value, (val) => {
             if (!!val) {
@@ -328,32 +328,32 @@ export default defineComponent({
                 emit.updateOpen(false)
                 emit.close()
             }
-        }, {lazy: true})
+        })
 
         watch(() => props.placement, (val) => {
             if (!!state.popper) {
                 state.popper.setPlacement(val as PlainPlacementType)
             }
-        }, {lazy: true})
+        })
 
         watch(() => props.reference, () => {
             utils.dstry()
             utils.init()
-        }, {lazy: true})
+        })
 
         watch(() => props.arrow, () => {
             $plain.nextTick(() => {
                 utils.dstry()
                 utils.init()
             })
-        }, {lazy: true})
+        })
 
         watch(() => props.trigger, () => {
             $plain.nextTick(() => {
                 utils.dstry()
                 utils.init()
             })
-        })
+        },{immediate: true})
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 

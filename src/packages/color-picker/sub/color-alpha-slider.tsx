@@ -89,7 +89,7 @@ export default defineComponent({
 
         watch(() => props.value, (val) => {
             $plain.nextTick(() => methods.setTop(val / 100 * height.value))
-        })
+        },{immediate: true})
 
         return () => (
             <div class="pl-color-alpha-slider" style={styles.value} onMousedown={handler.mousedown} ref={"el"}>

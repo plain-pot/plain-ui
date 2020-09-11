@@ -76,7 +76,7 @@ export default defineComponent({
 
         watch(() => props.value, (val) => {
             $plain.nextTick(() => methods.setLeft(val / 360 * width.value))
-        })
+        },{immediate: true})
 
         return () => (
             <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value}>

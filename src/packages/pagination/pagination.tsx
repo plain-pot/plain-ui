@@ -45,7 +45,7 @@ export default defineComponent({
         })
 
         const jumperValue = ref(null as number | null)
-        watch(() => props.currentPage, (val) => jumperValue.value = val == null ? 1 : Number(val))
+        watch(() => props.currentPage, (val) => jumperValue.value = val == null ? 1 : Number(val),{immediate: true})
 
         const classes = computed(() => [
             'pl-pagination',

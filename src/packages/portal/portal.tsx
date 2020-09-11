@@ -90,13 +90,11 @@ export default defineComponent({
 
         watch(() => props.value, (val) => {
             $plain.nextTick(() => methods.update(val))
-        })
+        },{immediate: true})
 
         watch(() => props.container, () => {
             methods.update(false)
             methods.update(true)
-        }, {
-            lazy: true,
         })
 
         onBeforeUnmount(() => {

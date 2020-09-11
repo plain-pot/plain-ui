@@ -6,7 +6,7 @@ import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {CompRef, useRefs} from "@/use/useRefs";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {CascadeNode} from "@/packages/cascade/CascadeNode";
@@ -182,7 +182,7 @@ export default defineComponent({
 
         watch(() => props.value, () => {
             state.inputValue = null
-        }, {lazy: true})
+        })
 
         return () => (
             <pl-input

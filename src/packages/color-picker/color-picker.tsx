@@ -118,7 +118,7 @@ export default defineComponent({
         watch(() => props.value, (val) => {
             state.val = val
             state.inputValue = val
-        },)
+        },{immediate: true})
 
         return () => (
             <pl-input ref="input"

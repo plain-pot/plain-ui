@@ -1,7 +1,7 @@
 import {defineComponent, set} from "@vue/composition-api";
 import {PlcProps} from "@/packages/table/plc/plc-utils";
 import {plcSetup} from "@/packages/table/plc/plc";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {useRefer} from "@/use/useRefer";
 
 interface ParamMixin {

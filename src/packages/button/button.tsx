@@ -85,7 +85,8 @@ export default defineComponent({
                     val = 1000
                 }
                 state.handleClick = PlainUtils.throttle(state.handleClickInner, val, {trailing: false})
-            }
+            },
+            {immediate: true}
         )
 
         /*---------------------------------------emitter-------------------------------------------*/

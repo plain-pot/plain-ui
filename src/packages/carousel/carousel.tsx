@@ -182,7 +182,7 @@ export default defineComponent({
             if (val > -1 && val < props.data.length) {
                 state.x = -val * state.containerWidth!
             }
-        }, {lazy: true})
+        })
 
         return () => (
             <div class="pl-carousel">

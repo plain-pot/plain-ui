@@ -8,7 +8,7 @@ import {usePlcTree} from "@/packages/table/plc-components/standard/tree/use-plc-
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
 import {useEvent} from "@/use/useEvent";
 import {usePlcTreeRowDraggable} from "@/packages/table/plc-components/standard/tree/use-plc-tree-row-draggable";
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {PlcProps} from "@/packages/table/plc/plc-utils";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
@@ -186,7 +186,7 @@ export default definePlc({
         onMounted(() => {
             watch(() => table.maxShowLevel.value, () => {
                 ctx.state.width = width.value
-            })
+            },{immediate: true})
         })
 
         const treeDraggablePlc = usePlcTreeRowDraggable({

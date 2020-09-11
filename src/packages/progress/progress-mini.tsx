@@ -106,10 +106,10 @@ export default defineComponent({
             },
         }
 
-        watch(() => props.value, methods.reload, {lazy: true})
+        watch(() => props.value, methods.reload)
         watch(() => props.status, () => {
             $plain.nextTick(() => utils.draw())
-        }, {lazy: true})
+        })
 
         onMounted(() => {
             // @ts-ignore

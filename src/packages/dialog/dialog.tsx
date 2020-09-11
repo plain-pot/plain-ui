@@ -252,7 +252,7 @@ export default defineComponent({
             } else {
                 methods.hide()
             }
-        }, {lazy: true})
+        })
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 

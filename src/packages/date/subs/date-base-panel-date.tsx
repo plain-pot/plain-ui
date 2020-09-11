@@ -380,7 +380,7 @@ export default defineComponent({
 
         watch(() => props.selectDate, (val) => {
             state.selectDate = val || state.today
-        }, {lazy: true})
+        })
 
         return () => (
             <div class="pl-date-base-panel-date-wrapper pl-date-base-panel" onMousedown={emit.mousedownPanel}>

@@ -1,4 +1,4 @@
-import {ExtractPropTypes} from "@vue/composition-api/dist/component/componentProps";
+
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {computed, inject, provide, reactive, Ref} from "@vue/composition-api";
 import {PlainDate} from "@/util/PlainDate";
