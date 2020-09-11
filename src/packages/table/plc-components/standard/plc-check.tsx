@@ -10,7 +10,7 @@ export default definePlc({
     props: {
         // custom
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
-        isCheckable: {type: Function},                          // 是否可选
+        isCheckable: Function,                          // 是否可选
 
         //standard
         autoFixedLeft: {default: true},

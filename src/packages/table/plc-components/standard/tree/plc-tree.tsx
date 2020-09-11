@@ -18,8 +18,8 @@ const CustomProps = {
     contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
     showCheckbox: {type: Boolean},                                      // 是否显示复选框
     rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
-    allowRowDraggable: {type: Function},                                // 行是否可以被拖拽放置到其他位置
-    allowRowDroppable: {type: Function},                                // 行是否可以被放置（放到子节点中，放到前面，放到后面）
+    allowRowDraggable: Function,                                // 行是否可以被拖拽放置到其他位置
+    allowRowDroppable: Function,                                // 行是否可以被放置（放到子节点中，放到前面，放到后面）
 }
 
 export default definePlc({

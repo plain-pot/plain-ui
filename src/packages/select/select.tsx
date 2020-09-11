@@ -28,7 +28,7 @@ const Props = {
 
     noMatchText: {type: Boolean, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
     noDataText: {type: Boolean, default: '暂无数据'},                // 无数据时显示的文本
-    filterMethod: {type: Function},                                 // 筛选过滤函数
+    filterMethod: Function,                                         // 筛选过滤函数
 }
 
 export default defineComponent({

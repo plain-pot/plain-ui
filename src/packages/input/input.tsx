@@ -29,7 +29,7 @@ export default defineComponent({
         suffixIcon: {type: [String, Function]},                 // 右侧图标
         prefixIcon: {type: String},                             // 左侧图标
         clearIcon: {type: Boolean},                             // 清除图标
-        clearHandler: {type: Function},                         // 点击清除图标处理逻辑
+        clearHandler: Function,                         // 点击清除图标处理逻辑
 
         autoHeight: {type: Boolean},                            // 自适应高度
         isFocus: {type: Boolean},                               // 当前是否处于激活状态
@@ -264,7 +264,7 @@ export default defineComponent({
                 val = 1000
             }
             state.handlerEnter = PlainUtils.throttle(state.handleEnterInner, val as number, {trailing: true})
-        },{immediate: true})
+        }, {immediate: true})
 
         useRefer({
             methods,
@@ -302,7 +302,7 @@ export default defineComponent({
                             <input class="pl-input-inner" {...publicProps.value}/>}
 
                         {!!props.suffixIcon && <span class="pl-input-suffix-icon">
-                            {typeof props.suffixIcon === 'function' ? props.suffixIcon() : <pl-icon nativeOn={{mousedown: handler.clickSuffixIcon}} icon={props.suffixIcon}/>}
+                            {typeof props.suffixIcon === 'function' ? (props.suffixIcon as any)() : <pl-icon nativeOn={{mousedown: handler.clickSuffixIcon}} icon={props.suffixIcon}/>}
                         </span>}
                         {!!props.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon nativeOn={{mousedown: handler.clickClearIcon}} icon="el-icon-error"/></span>)}
                         {!!editComputed.value.loading && <pl-loading class="pl-input-suffix-icon"/>}

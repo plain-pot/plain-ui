@@ -17,7 +17,7 @@ export const VirtualListProps = {
     size: {type: Number, require: true, default: 40},           // 每一行高度
     remain: {type: Number, require: true},                      // 一屏渲染的行数，总共渲染三屏，一屏渲染个数越多，滚动效果越好，但是浏览器卡顿的效果可能更明显；如果不传remain，则根据size以及 pl-virtual-list 跟节点的高度自动计算行数
     dynamicSize: {type: Boolean},                               // 标识列表中的每一行高度不是固定的，但是还是需要提供 size 属性，而且size属性不能与每一行的高度差距太多；
-    renderContent: {type: Function},                            // 渲染content节点的渲染函数
+    renderContent: Function,                            // 渲染content节点的渲染函数
     disabled: {type: Boolean},
 
     contentIs: {},

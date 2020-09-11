@@ -9,7 +9,7 @@ export const TableProps = {
     data: {type: Array},                                        // 显示的数据
     virtual: {type: Boolean, default: false},                   // 虚拟滚动
     summaryData: {type: Array},                                 // 表尾合计行数据
-    config: {type: Function},                                   // 配置列信息函数
+    config: Function,                                   // 配置列信息函数
     debugPlc: {type: Boolean},                                  // 调试plc数据
     rules: {type: Object},                                      // 校验规则
     associateFields: {type: Object},                            // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
@@ -42,10 +42,10 @@ export const TableProps = {
 
     keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形
     childrenField: {type: String, default: 'children'},         // 树节点对应子节点数据对应字段
-    getChildren: {type: Function},                              // 加载子节点数据的函数，仅当 lazy 为true时有效
-    isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
-    isLeaf: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
-    filterNodeMethod: {type: Function},                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
+    getChildren: Function,                              // 加载子节点数据的函数，仅当 lazy 为true时有效
+    isCheckable: Function,                              // 当即将选中树节点时，判断是否可以选中该树节点
+    isLeaf: Function,                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
+    filterNodeMethod: Function,                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
     checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
     autoExpandParent: {type: Boolean, default: true},           // 是否展开节点的时候，自动展开父节点
 }

@@ -15,8 +15,8 @@ export default defineComponent({
         value: {type: Number},                  // 当前值
         max: {type: Number},                    // 最大值
         min: {type: Number},                    // 最小值
-        custom: {type: Function},               // 自定义选项函数
-        checkDisabled: {type: Function},        // 用来判断选项是否禁用的函数
+        custom: Function,               // 自定义选项函数
+        checkDisabled: Function,        // 用来判断选项是否禁用的函数
     },
     setup(props) {
 

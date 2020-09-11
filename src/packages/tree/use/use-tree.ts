@@ -13,7 +13,7 @@ import {useTreeDragger} from "@/packages/tree/use/use-tree-dragger";
 export const TreeProps = {
     data: {type: Array},                                        // 树形结构数据
     loading: {type: Boolean},                                   // 当前是否处于loading状态
-    nodeIcon: {type: Function},                                 // 节点图标
+    nodeIcon: Function,                                 // 节点图标
 
     // 部分key
     keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形
@@ -21,8 +21,8 @@ export const TreeProps = {
     childrenField: {type: String},                              // 树节点对应子节点数据对应字段
 
     // 普通属性
-    renderContent: {type: Function},                            // 树节点内容渲染函数
-    filterNodeMethod: {type: Function},                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
+    renderContent: Function,                            // 树节点内容渲染函数
+    filterNodeMethod: Function,                         // 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
     highlightCurrent: {type: Boolean, default: true},           // 是否高亮当前选中节点
     currentKey: {type: String},                                 // 当前选中节点的key
 
@@ -33,8 +33,8 @@ export const TreeProps = {
     expandIcon: {type: String},                                 // 树展开图标
     intent: {type: Number, default: 14},                        // 相邻级节点水平缩进距离，默认16，单位px
     lazy: {type: Boolean},                                      // 是否懒加载子节点数据
-    isLeaf: {type: Function},                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
-    getChildren: {type: Function},                              // 加载子节点数据的函数，仅当 lazy 为true时有效
+    isLeaf: Function,                                   // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
+    getChildren: Function,                              // 加载子节点数据的函数，仅当 lazy 为true时有效
 
     renderAfterExpand: {type: Boolean, default: true},          // 是否在第一次展开节点之后才渲染内容
     expandOnClickNode: {type: Boolean, default: null},          // 是否点击树节点的时候展开子节点
@@ -44,12 +44,12 @@ export const TreeProps = {
     showCheckbox: {type: Boolean},                              // 是否展示勾选框
     checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
     checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
-    isCheckable: {type: Function},                              // 当即将选中树节点时，判断是否可以选中该树节点
+    isCheckable: Function,                              // 当即将选中树节点时，判断是否可以选中该树节点
 
     // 拖拽属性
     draggable: {type: Boolean},                                 // 是否可拖拽
-    allowDrag: {type: Function},                                // 判断节点是否可以拖拽
-    allowDrop: {type: Function},                                // 判断目标节点能够被放置
+    allowDrag: Function,                                // 判断节点是否可以拖拽
+    allowDrop: Function,                                // 判断目标节点能够被放置
 }
 
 export const TREE_PROVIDER = '@@TREE_PROVIDER'

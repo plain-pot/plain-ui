@@ -38,7 +38,7 @@ export default defineComponent({
         serviceClass: {type: String},                                           // 对话框服务内容自定义类名
         cancelOnClickMask: {type: Boolean, default: true},                       // 是否在点击遮罩的时候关闭对话框
         showClose: {type: Boolean, default: true},                              // 是否展示关闭按钮
-        beforeClose: {type: Function},                                           // 关闭之前的回调
+        beforeClose: Function,                                                  // 关闭之前的回调
         center: {type: Boolean},                                                // 是否纵向居中对其
         destroyOnClose: {type: Boolean, default: true},                         // 关闭的时候是否销毁内容
 
@@ -231,7 +231,7 @@ export default defineComponent({
                 try {
                     if (!!props.beforeClose) {
                         loading.value = true
-                        let flag = await props.beforeClose()
+                        let flag = await props.beforeClose!()
                         if (flag === false) return
                     }
                     model.value = false

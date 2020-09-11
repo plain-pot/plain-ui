@@ -35,7 +35,7 @@ declare type InferPropType<T> = T extends null ? any : T extends {
     [key: string]: any;
 } : T extends BooleanConstructor | {
     type: BooleanConstructor;
-} ? boolean : T extends FunctionConstructor ? Function : T extends Prop<infer V> ? ExtractCorrectPropType<V> : T;
+} ? boolean : T extends FunctionConstructor | { type: FunctionConstructor } ? Function : T extends Prop<infer V> ? ExtractCorrectPropType<V> : T;
 declare type ExtractPropTypes<O, MakeDefaultRequired extends boolean = true> = O extends object ? {
     [K in RequiredKeys<O, MakeDefaultRequired>]: InferPropType<O[K]>;
 } & {

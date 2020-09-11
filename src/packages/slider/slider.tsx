@@ -29,7 +29,7 @@ export default defineComponent({
 
         showSteps: {type: Boolean, default: true},                  //是否显示步骤点
         tooltip: {type: Boolean, default: true},                    //是否tooltip显示值
-        tooltipFormatter: {type: Function},                         //tooltip显示格式化函数
+        tooltipFormatter: Function,                                 //tooltip显示格式化函数
         range: {type: Boolean},                                     //是否为范围选择
     },
     setup(props, context) {

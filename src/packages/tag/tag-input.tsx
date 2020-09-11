@@ -16,10 +16,10 @@ export default defineComponent({
 
         value: {type: Array},                                                           // 数组，双向绑定值
         close: {type: Boolean, default: true},                                          // 是否可删除
-        beforeAdd: {type: Function},                                                    // 添加前校验
-        beforeRemove: {type: Function},                                                 // 删除前校验
-        formatValue: {type: Function},                                                  // 格式化输入值，返回一个值，或者对象
-        noInput: {type: Function},                                                      // 是否显示输入框
+        beforeAdd: Function,                                                    // 添加前校验
+        beforeRemove: Function,                                                 // 删除前校验
+        formatValue: Function,                                                  // 格式化输入值，返回一个值，或者对象
+        noInput: Function,                                                      // 是否显示输入框
     },
     setup(props, context) {
 

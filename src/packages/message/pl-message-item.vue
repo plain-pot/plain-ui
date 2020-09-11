@@ -18,8 +18,8 @@
             status: {type: String},
             icon: {type: String},
             time: {type: Number},
-            done: {type: Function},
-            click: {type: Function},
+            done: Function,
+            click: Function,
         },
         created() {
             if (this.time !== null) this.timer = setTimeout(() => {

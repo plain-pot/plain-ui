@@ -7,7 +7,7 @@ export const CascadePanelProps = {
     trigger: {type: Array, default: 'click'},                           // 展开触发类型：click，hover
     hoverDebounce: {type: Number, default: 300},                        // 触发器为hover的时候，防抖时间间隔
     emptyText: {type: Boolean, default: '暂无数据'},                     // 没有子节点时展示的文本
-    nodeDisabled: {type: Function},                                     // 是否禁用判断函数
+    nodeDisabled: Function,                                     // 是否禁用判断函数
     renderContent: {                                                    // 渲染内容的渲染函数
         type: Function as any as new() => ((h: any, data: { node: CascadeNode, index: number }) => VNode | VNode[] | null | undefined | string | number)
     },
@@ -26,7 +26,7 @@ export const CascadePanelProps = {
     childrenField: {type: String},                                      // 记录的子节点数据的字段名
 
     filterText: {type: String},                                         // 筛选文本
-    filterMethod: {type: Function},                                      // 自定义筛选函数
+    filterMethod: Function,                                      // 自定义筛选函数
 }
 
 export const CascadeProps = {

@@ -4,6 +4,6 @@ export const TimePublicProps = {
     max: {type: String},
     min: {type: String},
     layout: {type: Array, default: () => (['h', 'm', 's'])},
-    custom: {type: Function},
-    checkDisabled: {type: Function},
+    custom: Function,
+    checkDisabled: Function,
 }

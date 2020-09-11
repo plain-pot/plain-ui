@@ -37,11 +37,11 @@ export const PlcProps = {
     notFitVirtual: {type: Boolean},                                         // 是否不兼容表格的虚拟滚动功能
 
     // 渲染函数
-    head: {type: Function},                                                 // 列标题渲染函数
-    default: {type: Function},                                              // 列内容默认渲染函数
-    summary: {type: Function},                                              // 列内容在合计行上的渲染函数
-    edit: {type: Function},                                                 // 列内容在编辑状态下的渲染函数
-    renderAfterRow: {type: Function},                                       // 行之后需要额外渲染的内容
+    head: Function,                                                 // 列标题渲染函数
+    default: Function,                                              // 列内容默认渲染函数
+    summary: Function,                                              // 列内容在合计行上的渲染函数
+    edit: Function,                                                 // 列内容在编辑状态下的渲染函数
+    renderAfterRow: Function,                                       // 行之后需要额外渲染的内容
 
     // 编辑相关
     required: {type: Boolean},                                              // 是否必填
@@ -55,7 +55,7 @@ export const PlcProps = {
     // sort: {type: Boolean, default: true},                                // 可排序
     // sortField: {type: String},                                           // 排序字段
 
-    // formatter: {type: Function},                                         // 文本格式化函数，支持异步格式化
+    // formatter: Function,                                         // 文本格式化函数，支持异步格式化
     // linkText: {type: Boolean},                                           // 是否以超链接的形式展示文本，并且点击的时候回派发事件
 }
 

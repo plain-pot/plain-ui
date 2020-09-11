@@ -8,7 +8,7 @@ export default defineComponent({
     name: 'pl-dropdown-content',
     props: {
         height: {type: [String, Number]},                                               // popper高度
-        content: {type: Function},                                                      // 内容渲染函数
+        content: Function,                                                      // 内容渲染函数
     },
     setup(props) {
 
