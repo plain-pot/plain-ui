@@ -78,7 +78,7 @@ export default defineComponent({
 
         const loading = useEditOuterLoading()
 
-        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
+        const {styleComputed} = useStyle({status: null})
 
         const propsState = useProps(props, {
             height: FormatPropsType.number,

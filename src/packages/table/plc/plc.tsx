@@ -4,7 +4,6 @@ import {useCollectChild} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 import {FormatPropsType, useProps} from "@/use/useProps";
 
-import {PlainExtractPropTypes} from "@/type";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {VNode} from "vue/types/umd";

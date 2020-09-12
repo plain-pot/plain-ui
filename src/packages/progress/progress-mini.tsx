@@ -6,7 +6,6 @@ import {ElRef, useRefs} from "@/use/useRefs";
 export default defineComponent({
     name: 'pl-progress-mini',
     props: {
-        value: {type: Number, default: 100},
         size: {default: 16},
         ...PROGRESS_DEFAULT_PROPS,
         innerColor: {type: String, default: 'rgba(0,0,0,0.6)'},

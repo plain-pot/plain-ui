@@ -55,6 +55,7 @@ export function useProps<T extends object, O extends { [key in keyof T]?: Format
             (val) => {
                 formatValue(state, key, val, option[key])
             },
+            {immediate: true}
         )
     })
 

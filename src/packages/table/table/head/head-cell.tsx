@@ -102,7 +102,7 @@ export default defineComponent({
                         {...{
                             props: {
                                 tag: 'td',
-                                [props.plc.props.fixed]: Number($plain.utils.removePx(cellStyles.value[props.plc.props.fixed])),
+                                [props.plc.props.fixed]: Number($plain.utils.removePx(cellStyles.value[props.plc.props.fixed]!)),
                                 zIndex: cellStyles.value.zIndex,
                             },
                             ...tdBinding,

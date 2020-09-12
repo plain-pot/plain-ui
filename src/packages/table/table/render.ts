@@ -31,7 +31,7 @@ export function getEditable(plc: PlcType, rowData: TableNode) {
     if (!plc.props.edit && !plc.scopedSlots.edit) {
         return false
     }
-    return typeof plc.props.editable === "function" ? plc.props.editable(rowData) : (plc.props.editable !== false)
+    return typeof plc.props.editable === "function" ? (plc.props.editable as any)(rowData) : (plc.props.editable !== false)
 }
 
 /**

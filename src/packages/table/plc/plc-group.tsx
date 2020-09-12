@@ -5,7 +5,6 @@ import {useCollectChild, useCollectParent} from "@/use/useCollect";
 import {useRefer} from "@/use/useRefer";
 
 import {FormatPropsType, useProps} from "@/use/useProps";
-import {PlainExtractPropTypes} from "@/type";
 import {PlcType} from "@/packages/table/plc/plc";
 import {ScopedSlotFunc, useScopedSlots} from "@/use/useScopedSlots";
 import {$plain} from "@/packages/base";

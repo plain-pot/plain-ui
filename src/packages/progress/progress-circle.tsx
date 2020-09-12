@@ -7,7 +7,6 @@ import {useScopedSlots} from "@/use/useScopedSlots";
 export default defineComponent({
     name: 'pl-progress-circle',
     props: {
-        value: {type: Number, default: 100},                                                    // 进度百分比，双向绑定值
         size: {type: Number, default: 100},                                                     // 大小尺寸
         lineSize: {type: Number, default: 6},                                                   // 线条尺寸
         startAngle: {type: Number, default: -0.5 * Math.PI},                                    // 起始角度
