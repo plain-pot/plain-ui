@@ -380,7 +380,7 @@
                     renderContent: (h, data) => {
                         return (
                             <div style="width:100%;display: flex;justify-content: space-between">
-                                <span>{data.data.name}}</span>
+                                <span>{data.data.name}</span>
                                 <pl-button-group mode="text">
                                     <pl-button label="Add" onClick={e => {
                                         e.stopPropagation();

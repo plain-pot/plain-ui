@@ -23,11 +23,25 @@
         template: `
             <div>
                 <h1>hello world</h1>
-                <pl-button></pl-button>
+                <pl-button>一个按钮</pl-button>
                 <pl-input></pl-input>
                 <pl-icon icon="el-icon-search"/>
+                <pl-tag>hello</pl-tag>
+                <pl-loading/>
+                <pl-table :data="data">
+                    <plc title="编号" field="code"/>
+                    <plc title="姓名" field="name"/>
+                </pl-table>
             </div>
-        `
+        `,
+        data() {
+            return {
+                data: [
+                    {code: '001', name: '张三'},
+                    {code: '002', name: '李四'},
+                ],
+            }
+        },
     }).$mount()
 </script>
 
