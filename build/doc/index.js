@@ -18,6 +18,9 @@ module.exports = {
             chunks: ['chunk-vendors', 'chunk-common', 'index'],
         },
     },
+    transpileDependencies: [
+        // '@vue/composition-api'
+    ],
     configureWebpack: $utils.WebpackMerge(WebpackPublic, {
         plugins: [
             new AddAssetHtmlWebpackPlugin([
