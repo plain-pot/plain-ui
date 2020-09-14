@@ -18,10 +18,6 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
 
     /*---------------------------------------computer-------------------------------------------*/
 
-    const level = computed(() => {
-        return props.treeNode.level - 1
-    })
-
     const isExpand = computed(() => {
         let isExpand = props.treeNode.isExpand
         if (!state.init && !!isExpand) {
@@ -40,29 +36,41 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
         },
     ])
 
-    const contentPaddingLeft = computed(() => {
-        let paddingLeft = tree.props.intent * level.value + 6
-        paddingLeft += 18
-        if (tree.props.showCheckbox) {
-            paddingLeft += 24
-        }
-        return paddingLeft
-    })
+    function getStyles() {
+        const level = props.treeNode.level - 1
 
-    const contentStyles = computed(() => ({
-        paddingLeft: `${contentPaddingLeft.value}px`
-    }))
+        const contentPaddingLeft = (() => {
+            let paddingLeft = tree.props.intent * level + 6
+            paddingLeft += 18
+            if (tree.props.showCheckbox) {
+                paddingLeft += 24
+            }
+            return paddingLeft
+        })();
 
-    const expanderStyles = computed(() => {
-        let paddingLeft = tree.props.intent * level.value + 6
+        const contentStyles = (() => ({
+            paddingLeft: `${contentPaddingLeft}px`
+        }))();
+
+        const expanderStyles = (() => {
+            let paddingLeft = tree.props.intent * level + 6
+            return {
+                paddingLeft: `${paddingLeft}px`
+            }
+        })();
+
         return {
-            paddingLeft: `${paddingLeft}px`
+            expanderStyles,
+            contentStyles,
         }
-    })
+    }
 
-    const emptyTextStyles = computed(() => ({
-        paddingLeft: `${tree.props.intent * level.value + 6 + 6 + 14}px`
-    }))
+    function getEmptyTextStyle() {
+        const level = props.treeNode.level - 1
+        return {
+            paddingLeft: `${tree.props.intent * level + 6 + 6 + 14}px`
+        }
+    }
 
     /*---------------------------------------methods-------------------------------------------*/
 
@@ -71,9 +79,12 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
 
     const methods = {
         getTreeNodeWrapper: () => {
+
+            const {expanderStyles, contentStyles} = getStyles()
+
             return (
                 <div class="pl-tree-node-wrapper">
-                    <div class="pl-tree-node-operator" style={expanderStyles.value}>
+                    <div class="pl-tree-node-operator" style={expanderStyles}>
                             <span class="pl-tree-node-expander">
                                 {
                                     props.treeNode.isLoading ?
@@ -89,7 +100,7 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
                             {...{nativeOn: {click: e => tree.handler.clickCheckbox(e, props.treeNode)}}}
                         />}
                     </div>
-                    <div class="pl-tree-node-content" onClick={() => tree.handler.clickNodeContent(props.treeNode)} style={contentStyles.value}>
+                    <div class="pl-tree-node-content" onClick={() => tree.handler.clickNodeContent(props.treeNode)} style={contentStyles}>
                         {
                             tree.scopedSlots.default({
                                 param: props.treeNode,
@@ -112,15 +123,11 @@ export function useTreeNode(props: ExtractPropTypes<typeof TreeNodeProps>) {
         tree,
         state,
 
-        level,
         isExpand,
         classes,
-        contentPaddingLeft,
-        contentStyles,
-        expanderStyles,
-        emptyTextStyles,
         ctx,
         h,
         methods,
+        getEmptyTextStyle,
     }
 }

@@ -38,7 +38,7 @@ export default defineComponent({
                             {!!props.treeNode.children && props.treeNode.children.length > 0 ?
                                 props.treeNode.children.map((item, index) => <pl-tree-node key={index} tree-node={item}/>)
                                 :
-                                <div class="pl-tree-node-empty-text" style={data.emptyTextStyles.value}>
+                                <div class="pl-tree-node-empty-text" style={data.getEmptyTextStyle()}>
                                     <pl-icon icon="el-icon-reading"/>
                                     <span>{data.tree.props.emptyText}</span>
                                 </div>
