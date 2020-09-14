@@ -19,7 +19,7 @@ module.exports = {
         },
     },
     transpileDependencies: [
-        // '@vue/composition-api'
+        '@vue/composition-api'
     ],
     configureWebpack: $utils.WebpackMerge(WebpackPublic, {
         plugins: [
