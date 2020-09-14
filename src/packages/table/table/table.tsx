@@ -72,22 +72,19 @@ function tableSetup(props: TablePropsType) {
     // TableMark
     const mark = new TableMark(props, () => validateConfigData.value)
     // 绑定的数据
-    const dataModel = useModel(() => props.data, emit.updateData, true, true, (val) => state.rootNode.setChildren(val as object[] || []))
+    const dataModel = useModel(() => props.data, emit.updateData, true, true, (val) => rootNode.setChildren(val as object[] || []))
     // 数据模拟出来的父节点
     const rootNode = new TableNode(`root-node-${$plain.utils.uuid()}`, {[props.childrenField]: dataModel.value || []}, props, 0, null, mark, false)
     // 合计行数据模拟出来父节点
     const summaryRootNode = new TableNode(`summary-root-node-${$plain.utils.uuid()}`, {[props.childrenField]: props.summaryData || []}, props, 0, null, mark, true)
-    watch(() => props.summaryData, (val) => state.summaryRootNode.setChildren(val as object[] || []))
+    watch(() => props.summaryData, (val) => summaryRootNode.setChildren(val as object[] || []))
 
     const state = reactive({
         tableWidth: null as null | number,                  // mounted的时候表格的宽度
-        mark,                                               // TableMark
-        rootNode,                                           // 模拟出来的根数据节点
-        summaryRootNode,                                    // 合计行数据模拟出来的数据节点
         current: null as null | TableNode,                  // 当前选中的节点
         hoverPart: null as null | TableHoverPart,           // 当前鼠标所在的区域
-        loading: null,                                      // 表格内部自定义的加载行为
-        bodyScrollGetter: null as null | (() => PlainScroll),// 获取body的函数，当body组件初始化之后，body会自动设置这个变量
+        loading: null as null | boolean,                    // 表格内部自定义的加载行为
+        bodyScrollGetter: null as (null | (() => PlainScroll)),// 获取body的函数，当body组件初始化之后，body会自动设置这个变量
     })
 
     const isLoading = computed({
@@ -155,14 +152,14 @@ function tableSetup(props: TablePropsType) {
      * @author  韦胜健
      * @date    2020/8/13 22:33
      */
-    const tableData = computed(() => state.rootNode.children as TableNode[])
+    const tableData = computed(() => rootNode.children as TableNode[])
 
     /**
      * 表格合计行数据，TableNode格式的数据
      * @author  韦胜健
      * @date    2020/8/13 22:35
      */
-    const tableSummaryData = computed(() => state.summaryRootNode.children as TableNode[])
+    const tableSummaryData = computed(() => summaryRootNode.children as TableNode[])
 
 
     const tableDataFlatter = computed(() => {
@@ -211,7 +208,8 @@ function tableSetup(props: TablePropsType) {
 
     const {styleComputed} = useStyle({shape: StyleShape.square, size: StyleSize.mini, status: null})
 
-    const {fixedShadowClass} = useFixedShadow(() => !!state.bodyScrollGetter ? state.bodyScrollGetter() : null)
+    // @ts-ignore
+    const {fixedShadowClass} = useFixedShadow(() => !!state.bodyScrollGetter ? state.bodyScrollGetter!() : null)
 
     const classes = computed(() => [
         'pl-table',
@@ -272,7 +270,8 @@ function tableSetup(props: TablePropsType) {
         setCurrent: (keyOrNode: string | TableNode | null) => {
             if (typeof keyOrNode === "string") {
                 const node = mark.getMark(keyOrNode, TableMarkAttr.node)
-                state.current = node
+                // @ts-ignore
+                state.current = node as TableNode
             } else {
                 state.current = keyOrNode
             }
@@ -285,6 +284,9 @@ function tableSetup(props: TablePropsType) {
 
     /*---------------------------------------refer-------------------------------------------*/
     const refer = {
+        rootNode,
+        summaryRootNode,
+
         dataModel,
         props,
         mark,

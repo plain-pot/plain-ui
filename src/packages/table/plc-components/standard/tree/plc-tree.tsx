@@ -139,7 +139,7 @@ export default definePlc({
             isLoading: table.isLoading,
             getChildren: table.props.getChildren,
             lazy: table.props.lazy,
-            rootTableNode: table.state.rootNode,
+            rootTableNode: table.rootNode,
             according: table.props.according,
             autoExpandParent: table.props.autoExpandParent,
             emit,
