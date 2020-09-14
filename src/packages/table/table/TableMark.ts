@@ -52,10 +52,10 @@ export class TableMark {
             return
         }
         let map = this[attrName]
-        if (map.hasOwnProperty(key)) {
+        if (attr === TableMarkAttr.node || map.hasOwnProperty(key)) {
             map[key] = value
         } else {
-            set(this[attrName], key, value)
+            set(map, key, value)
         }
     }
 
