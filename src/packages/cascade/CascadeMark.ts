@@ -25,7 +25,13 @@ export class CascadeMark {
             console.error(`pl-tree: no attr:${attr}`)
             return
         }
-        set(this[attrName], key, value)
+
+        let map = this[attrName]
+        if (attr === CascadeMarkAttr.node || map.hasOwnProperty(key)) {
+            map[key] = value
+        } else {
+            set(map, key, value)
+        }
     }
 
     getNode(data: object, ctx: CascadeContextType, level: number, parent: CascadeNode) {
