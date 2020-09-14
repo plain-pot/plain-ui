@@ -27,7 +27,12 @@ export class TreeMark {
             console.error(`pl-tree: no attr:${attr}`)
             return
         }
-        set(this[attrName], key, value)
+        let map = this[attrName]
+        if (attr === TreeMarkAttr.node || map.hasOwnProperty(key)) {
+            map[key] = value
+        } else {
+            set(map, key, value)
+        }
     }
 
     getActiveKeys(attr: TreeMarkAttr): string[] {

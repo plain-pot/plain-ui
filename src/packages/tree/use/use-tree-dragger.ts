@@ -10,13 +10,16 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
 
     const state = reactive({
         show: false,                                                 // 当前拖拽指示器是否展示
+        reflow: false,                                               // 当前是否正在重新渲染，重新渲染的时候不要展开动画
         indicatorStyles: {} as StyleType,                            // 当前指示器样式
         dropInnerKey: null as null | string,                         // 当前拖拽，即将放入内部的节点的key
+    })
+
+    const freezeState = {
         dropType: TreeDropType.null as TreeDropType,                 // 当前拖拽在目标节点的位置
         dropTreeNode: null as null | TreeNode,                       // 当前放置目标节点的treeNode对象
         dragTreeNode: null as null | TreeNode,                       // 当前拖拽目标节点的treeNode对象
-        reflow: false,                                               // 当前是否正在重新渲染，重新渲染的时候不要展开动画
-    })
+    }
 
     const handler = {
         dragstart: (e) => {
@@ -24,13 +27,11 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
             e.dataTransfer.effectAllowed = 'move'
 
             const dragTreeNode = utils.getTreeNodeFromEl(e.currentTarget)
-
             if (!!dragTreeNode && !utils.isAllowDrag(dragTreeNode, e)) {
                 e.preventDefault()
                 return
             }
-
-            state.dragTreeNode = dragTreeNode
+            freezeState.dragTreeNode = dragTreeNode
         },
         dragend: (e) => {
             e.stopPropagation()
@@ -39,7 +40,7 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
             state.dropInnerKey = null
             state.indicatorStyles = {}
 
-            let {dropTreeNode, dragTreeNode, dropType} = state
+            let {dropTreeNode, dragTreeNode, dropType} = freezeState
 
             if (!!dropTreeNode) {
                 dragTreeNode!.removeSelf()
@@ -79,17 +80,17 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
                 state.show = false
                 state.dropInnerKey = null
                 state.indicatorStyles = {}
-                state.dropType = TreeDropType.null
-                state.dropTreeNode = null
+                freezeState.dropType = TreeDropType.null
+                freezeState.dropTreeNode = null
             }
 
             // 如果当前 over 的节点为拖拽节点的子节点，则什么事也不干，清空标记信息并且什么也不做
-            if (treeNode === state.dragTreeNode) {
+            if (treeNode === freezeState.dragTreeNode) {
                 nothing()
                 return;
             } else {
                 let containsFlag = false
-                utils.iterateAll(state.dragTreeNode!.children, (child) => {
+                utils.iterateAll(freezeState.dragTreeNode!.children, (child) => {
                     if (child === treeNode) {
                         containsFlag = true
                     }
@@ -104,11 +105,11 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
             let rect = content.getBoundingClientRect()
 
             if (!!rect) {
-                state.dropTreeNode = treeNode
+                freezeState.dropTreeNode = treeNode
 
                 let {height, width, left, top} = rect
-                width -= state.dropTreeNode!.indicatorLeft
-                left += state.dropTreeNode!.indicatorLeft
+                width -= freezeState.dropTreeNode!.indicatorLeft
+                left += freezeState.dropTreeNode!.indicatorLeft
 
                 let deltaY = e.clientY - top
                 let allowDrop;
@@ -116,26 +117,26 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
 
                 if (deltaY < height / 4) {
                     // 上
-                    allowDrop = utils.isAllowDrop(state.dragTreeNode!, state.dropTreeNode!, TreeDropType.prev, e)
+                    allowDrop = utils.isAllowDrop(freezeState.dragTreeNode!, freezeState.dropTreeNode!, TreeDropType.prev, e)
                     if (!allowDrop) return nothing()
 
-                    state.dropType = TreeDropType.prev
+                    freezeState.dropType = TreeDropType.prev
                     state.show = true
                     state.dropInnerKey = null
                     state.indicatorStyles = {top, width, left}
                 } else if (deltaY < height * (3 / 4)) {
                     // 中
-                    allowDrop = utils.isAllowDrop(state.dragTreeNode!, state.dropTreeNode!, TreeDropType.inner, e)
+                    allowDrop = utils.isAllowDrop(freezeState.dragTreeNode!, freezeState.dropTreeNode!, TreeDropType.inner, e)
                     if (!allowDrop) return nothing()
 
-                    state.dropType = TreeDropType.inner
+                    freezeState.dropType = TreeDropType.inner
                     state.show = false
                     state.indicatorStyles = {}
                     state.dropInnerKey = treeNode!.key
 
                 } else {
                     // 下
-                    allowDrop = utils.isAllowDrop(state.dragTreeNode!, state.dropTreeNode!, TreeDropType.next, e)
+                    allowDrop = utils.isAllowDrop(freezeState.dragTreeNode!, freezeState.dropTreeNode!, TreeDropType.next, e)
                     if (!allowDrop) return nothing()
 
                     if (treeNode!.isExpand && !!treeNode!.children && treeNode!.children.length > 0) {
@@ -154,16 +155,16 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
                         content = (firstChildTreeNodeDom! as HTMLElement).querySelector('.pl-tree-node-content')
                         rect = content.getBoundingClientRect()
                         if (!!rect) {
-                            state.dropTreeNode = utils.getTreeNodeFromEl(firstChildTreeNodeDom)
+                            freezeState.dropTreeNode = utils.getTreeNodeFromEl(firstChildTreeNodeDom)
 
                             width = rect.width
                             left = rect.left
                             top = rect.top
 
-                            width -= state.dropTreeNode!.indicatorLeft
-                            left += state.dropTreeNode!.indicatorLeft
+                            width -= freezeState.dropTreeNode!.indicatorLeft
+                            left += freezeState.dropTreeNode!.indicatorLeft
 
-                            state.dropType = TreeDropType.prev
+                            freezeState.dropType = TreeDropType.prev
                             state.show = true
                             state.dropInnerKey = null
                             state.indicatorStyles = {top, width, left}
@@ -171,7 +172,7 @@ export function useTreeDragger(utils: UseTreeReturnType['utils'], methods: UseTr
 
                     } else {
                         // 否则这时候应该将节点插入到目标节点之后
-                        state.dropType = TreeDropType.next
+                        freezeState.dropType = TreeDropType.next
                         state.show = true
                         state.dropInnerKey = null
                         state.indicatorStyles = {top: top + height, width, left,}
