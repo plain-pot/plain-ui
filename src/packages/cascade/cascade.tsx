@@ -112,9 +112,6 @@ export default defineComponent({
                 for (let j = 0; j < list.length; j++) {
                     const target = list[j];
                     if (sourceKey === target.key) {
-                        if (props.showLast) {
-                            return target.label
-                        }
                         result.push(target.label)
                         list = target.children || []
                         flag = true
@@ -125,6 +122,9 @@ export default defineComponent({
                     result = [...result, ...(model.value.slice(i)) as string[]]
                     break
                 }
+            }
+            if (props.showLast && result.length > 0) {
+                return result[result.length - 1]
             }
             return result.join(' / ')
         })
