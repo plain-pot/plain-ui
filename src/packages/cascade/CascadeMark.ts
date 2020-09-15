@@ -19,7 +19,7 @@ export interface CascadeConfig {
 
 export class CascadeMark {
 
-    constructor(public config: CascadeConfig, public ctxState: () => {
+    constructor(public config: () => CascadeConfig, public ctxState: () => {
         expandKeys: string[],
         filterText: string | undefined,
     }) {}
@@ -35,10 +35,12 @@ export class CascadeMark {
             level: number,
             parentRef: () => (CascadeNode | null),
         ): CascadeNode => {
-            const key = generator.get(data, this.config.keyField)
+            const key = generator.get(data, this.config().keyField)
             let node: CascadeNode = this.node.state.map[key]
             if (!!node) {
                 node.data = data
+                node.level = level
+                node.parentRef = parentRef
             } else {
                 node = new CascadeNode(
                     key,

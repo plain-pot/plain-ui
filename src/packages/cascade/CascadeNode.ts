@@ -7,7 +7,7 @@ export class CascadeNode {
         public key: string,
         public data: object,
         public level: number,
-        public config: CascadeConfig,
+        public config: () => CascadeConfig,
         public parentRef: () => (CascadeNode | null),
         public markRef: () => CascadeMark,
         public ctxState: () => {
@@ -21,11 +21,11 @@ export class CascadeNode {
     /*---------------------------------------prop-------------------------------------------*/
 
     /*节点显示文本*/
-    get label(): string {return this.data[this.config.labelField]}
+    get label(): string {return this.data[this.config().labelField]}
 
     /*节点子数据*/
     get childrenData(): object[] | undefined {
-        const data = this.data[this.config.childrenField]
+        const data = this.data[this.config().childrenField]
         return typeof data === "function" ? data() : data
     }
 
@@ -41,7 +41,7 @@ export class CascadeNode {
 
     /*是否为叶子节点（无子节点）*/
     get isLeaf(): boolean {
-        const {isLeaf} = this.config
+        const {isLeaf} = this.config()
         if (!!isLeaf) {
             return isLeaf(this)
         } else {
@@ -78,7 +78,7 @@ export class CascadeNode {
 
     /*当前节点是否禁用*/
     get nodeDisabled(): boolean {
-        const nodeDisabled = this.config.nodeDisabled
+        const nodeDisabled = this.config().nodeDisabled
         return !!nodeDisabled && nodeDisabled(this)
     }
 
@@ -98,7 +98,7 @@ export class CascadeNode {
         const {filterText} = this.ctxState()
         if (!filterText) return false
 
-        const {filterMethod} = this.config
+        const {filterMethod} = this.config()
         let filterData = this.filterData
         if (!!filterMethod) {
             return filterMethod(filterData, filterText)
@@ -110,7 +110,7 @@ export class CascadeNode {
 
     /*设置子节点数据*/
     setChildren(children: object[]) {
-        set(this.data, this.config.childrenField, children)
+        set(this.data, this.config().childrenField, children)
     }
 
     loading(val: boolean) {

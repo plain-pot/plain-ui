@@ -47,7 +47,7 @@ export default defineComponent({
         const data = useModel(() => props.data, emit.updateData)
 
         const cascadeMark = computed(() => new CascadeMark(
-            {
+            () => ({
                 nodeDisabled: props.nodeDisabled as any,
                 isLeaf: props.isLeaf as any,
                 lazy: props.lazy as any,
@@ -57,7 +57,7 @@ export default defineComponent({
                 labelField: props.labelField as any,
                 keyField: props.keyField as any,
                 childrenField: props.childrenField as any,
-            },
+            }),
             () => ({
                 expandKeys: state.expandKeys,
                 filterText: '',

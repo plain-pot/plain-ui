@@ -3,12 +3,14 @@
         <demo-row title="cascade-panel">
             <demo-row title="基本用法">
                 <demo-line>
+<!--                    <pl-checkbox v-model="label"/>-->
+<!--                    -{{label}}- -->
                     {{val[0]}}
                 </demo-line>
                 <pl-cascade-panel
                         v-model="val[0]"
                         :data="treeData"
-                        labelField="name"
+                        :labelField="label?'id':'name'"
                         keyField="id"
                         childrenField="subs"
                 />
@@ -450,6 +452,7 @@
             })
 
             return {
+                label: false,
                 treeData,
                 lazyDemo,
                 val: {
