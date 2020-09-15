@@ -12,7 +12,7 @@ export class CascadeNode {
         public markRef: () => CascadeMark,
         public ctxState: () => {
             expandKeys: string[],
-            filterText: string,
+            filterText: string | undefined,
         }
     ) {}
 

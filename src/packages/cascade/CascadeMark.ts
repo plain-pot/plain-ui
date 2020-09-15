@@ -21,7 +21,7 @@ export class CascadeMark {
 
     constructor(public config: CascadeConfig, public ctxState: () => {
         expandKeys: string[],
-        filterText: string,
+        filterText: string | undefined,
     }) {}
 
     selfGetter = () => this;

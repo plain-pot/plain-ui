@@ -51,7 +51,7 @@ export default defineComponent({
                 },
                 () => ({
                     expandKeys: state.expandKeys,
-                    filterText: '',
+                    filterText: props.filterText,
                 })
             )
         })
