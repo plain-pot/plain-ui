@@ -291,7 +291,7 @@ export default defineComponent({
                                         })}
                                         {!node.isLeaf && (
                                             <div class="pl-cascade-arrow">
-                                                {node.isLoading ? <pl-loading type="gamma"/> : <pl-icon icon="el-icon-arrow-right"/>}
+                                                {node.isLoading ? <pl-loading type="gamma" status="primary"/> : <pl-icon icon="el-icon-arrow-right"/>}
                                             </div>
                                         )}
                                     </div>
