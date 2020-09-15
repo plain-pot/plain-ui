@@ -27,18 +27,18 @@ export class TestMark {
     }
 
     check = {
-        map: reactive({}) as { [k: string]: boolean },
+        state: reactive({
+            map: {} as { [k: string]: boolean },
+        }),
         set: (key: string, val: boolean) => {
-            if (this.check.map.hasOwnProperty(key)) {
-                console.log('hasOwnProperty')
-                this.check.map[key] = val
+            if (this.check.state.map.hasOwnProperty(key)) {
+                this.check.state.map[key] = val
             } else {
-                console.log('not hasOwnProperty')
-                set(this.check.map, key, val)
+                set(this.check.state.map, key, val)
             }
         },
         get: (key: string): boolean => {
-            return this.check.map[key]
+            return this.check.state.map[key]
         }
     }
 

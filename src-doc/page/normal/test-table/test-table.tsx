@@ -11,22 +11,18 @@ export default defineComponent({
         const mark = new TestMark()
         const formatData = computed(() => mark.node.getList(props.data))
 
-        const map = reactive({})
-
         return () => {
-            console.log('render')
             return (
                 <div class="test-table">
-                    {JSON.stringify(map)}
+                    {JSON.stringify(mark.check.state.map)}
                     <ul>
                         {formatData.value.map(item => (
                             <li>
-                                <pl-checkbox v-model={map[item.key]}/>
+                                <pl-checkbox value={item.isChecked()} readonly onClick={() => item.check(!item.isChecked())}/>
                                 <span>{item.key}-{item.data.name}</span>
                             </li>
                         ))}
                     </ul>
-                    <button onClick={() => console.log(map)}>LOG</button>
                 </div>
             )
         }
