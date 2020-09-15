@@ -156,6 +156,7 @@
       .plt-head-cell-indicator {
         position: absolute;
         top: 0;
+        bottom: 0;
         height: inherit;
         width: 6px;
         right: 0;
@@ -343,6 +344,7 @@
       right: 0;
       bottom: 0;
       overflow: hidden;
+      z-index: 5;
 
       &:after {
         position: absolute;

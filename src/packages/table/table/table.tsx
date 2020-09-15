@@ -7,7 +7,7 @@ import {PlcGroupType} from "@/packages/table/plc/plc-group";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {printPlcData} from "@/packages/table/plc/debug";
 import './table.scss'
-import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
+import {TableMark} from "@/packages/table/table/TableMark";
 import {getValidateConfigData} from "@/packages/form/validate";
 import {useModel} from "@/use/useModel";
 import {TableNode} from "@/packages/table/table/TableNode";
@@ -70,14 +70,23 @@ function tableSetup(props: TablePropsType) {
     })
 
     // TableMark
-    const mark = new TableMark(props, () => validateConfigData.value)
+    const mark = new TableMark(() => ({
+        lazy: props.lazy as any,
+        according: props.according as any,
+        keyField: props.keyField as any,
+        childrenField: props.childrenField as any,
+        getChildren: props.getChildren as any,
+        isCheckable: props.isCheckable as any,
+        isLeaf: props.isLeaf as any,
+        filterNodeMethod: props.filterNodeMethod as any,
+        checkStrictly: props.checkStrictly as any,
+        autoExpandParent: props.autoExpandParent as any,
+    }), () => validateConfigData.value)
+
     // 绑定的数据
     const dataModel = useModel(() => props.data, emit.updateData, true, true, (val) => rootNode.setChildren(val as object[] || []))
     // 数据模拟出来的父节点
-    const rootNode = new TableNode(`root-node-${$plain.utils.uuid()}`, {[props.childrenField]: dataModel.value || []}, props, 0, null, mark, false)
-    // 合计行数据模拟出来父节点
-    const summaryRootNode = new TableNode(`summary-root-node-${$plain.utils.uuid()}`, {[props.childrenField]: props.summaryData || []}, props, 0, null, mark, true)
-    watch(() => props.summaryData, (val) => summaryRootNode.setChildren(val as object[] || []))
+    const rootNode = mark.node.get({[props.childrenField]: dataModel.value}, 0, () => null as any, false)
 
     const state = reactive({
         tableWidth: null as null | number,                  // mounted的时候表格的宽度
@@ -85,6 +94,8 @@ function tableSetup(props: TablePropsType) {
         hoverPart: null as null | TableHoverPart,           // 当前鼠标所在的区域
         loading: null as null | boolean,                    // 表格内部自定义的加载行为
         bodyScrollGetter: null as (null | (() => PlainScroll)),// 获取body的函数，当body组件初始化之后，body会自动设置这个变量
+        mark,
+        rootNode,
     })
 
     const isLoading = computed({
@@ -152,14 +163,14 @@ function tableSetup(props: TablePropsType) {
      * @author  韦胜健
      * @date    2020/8/13 22:33
      */
-    const tableData = computed(() => rootNode.children as TableNode[])
+    const tableData = computed(() => mark.node.getList(dataModel.value, 1, () => state.rootNode as TableNode, false))
 
     /**
      * 表格合计行数据，TableNode格式的数据
      * @author  韦胜健
      * @date    2020/8/13 22:35
      */
-    const tableSummaryData = computed(() => summaryRootNode.children as TableNode[])
+    const tableSummaryData = computed(() => mark.node.getList(props.summaryData, 1, () => null as any, true))
 
 
     const tableDataFlatter = computed(() => {
@@ -269,8 +280,7 @@ function tableSetup(props: TablePropsType) {
     const methods = {
         setCurrent: (keyOrNode: string | TableNode | null) => {
             if (typeof keyOrNode === "string") {
-                const node = mark.getMark(keyOrNode, TableMarkAttr.node)
-                // @ts-ignore
+                const node = mark.node.getByKey(keyOrNode)
                 state.current = node as TableNode
             } else {
                 state.current = keyOrNode
@@ -285,7 +295,6 @@ function tableSetup(props: TablePropsType) {
     /*---------------------------------------refer-------------------------------------------*/
     const refer = {
         rootNode,
-        summaryRootNode,
 
         dataModel,
         props,

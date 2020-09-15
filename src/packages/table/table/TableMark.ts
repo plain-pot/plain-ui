@@ -1,124 +1,89 @@
-import {TablePropsType} from "@/packages/table/table-utils";
 import {TableNode} from "@/packages/table/table/TableNode";
-import {set} from "@vue/composition-api";
+import {reactive} from "@vue/composition-api";
 import {getValidateConfigData, ValidateResultMap} from "@/packages/form/validate";
+import {KeyGenerator} from "../../../../src-doc/page/normal/test-table/KeyGenerator";
+import {createFlagManager} from "@/util/NodeWrapper";
 
-const data2Key = new WeakMap()
+const generator = new KeyGenerator('table_node')
 
-export const enum TableNodeEditStatus {
-    normal = 'normal',
-    create = 'create',
-    update = 'update',
+export interface TableConfig {
+    lazy?: boolean,
+    according?: boolean,
+    keyField?: string,
+    childrenField?: string,
+    getChildren?: (node: TableNode, cb: (...args: any[]) => void) => void,
+    isCheckable?: (node: TableNode) => boolean,
+    isLeaf?: (node: TableNode) => boolean,
+    filterNodeMethod?: (node: TableNode) => boolean,
+    checkStrictly?: boolean,
+    autoExpandParent?: boolean,
 }
-
-export const enum TableMarkAttr {
-    expand = 'expand',
-    check = 'check',
-    loading = 'loading',
-    loaded = 'loaded',
-    node = 'node',
-    edit = 'edit',
-    validateResult = 'validateResult'
-}
-
-let count = 1;
 
 export class TableMark {
 
-    editMap: { [key: string]: boolean } = {}                        // 是否正在编辑
-    expandMap: { [key: string]: boolean } = {}                      // 是否已经展开（针对于树形表格来说的，不适用于展开列）
-    checkMap: { [key: string]: boolean } = {}                       // 是否已经选中（针对于树形表格来说的，不适用于多选列）
-    loadingMap: { [key: string]: boolean } = {}                     // 是否处于加载状态（针对于树形表格来说的，标明行是否处于懒加载子节点数据的状态）
-    loadedMap: { [key: string]: boolean } = {}                      // 是否已经加载完毕子节点数据（适用于树形表格）
-    nodeMap: { [key: string]: TableNode } = {}                      // key映射TableNode
-    editRowMap: { [key: string]: any } = {}                         // 编辑行对象信息
-    validateResultMap: { [key: string]: ValidateResultMap } = {}    // 校验结果对象
+    constructor(
+        public config: () => TableConfig,
+        public getRules: () => ReturnType<typeof getValidateConfigData>,
+    ) {}
 
-    constructor(public props: TablePropsType, public getRules: () => ReturnType<typeof getValidateConfigData>) {}
+    selfGetter = () => this;
 
-    getMark<T = boolean>(key: string, attr: TableMarkAttr): T {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-table: no attr:${attr}`)
-            return false as any
-        }
-        return this[attrName][key]
-    }
-
-    setMark(key: string, attr: TableMarkAttr, value: boolean | TableNode) {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-table: no attr:${attr}`)
-            return
-        }
-        let map = this[attrName]
-        if (attr === TableMarkAttr.node || map.hasOwnProperty(key)) {
-            map[key] = value
-        } else {
-            set(map, key, value)
-        }
-    }
-
-    getActiveKeys(attr: TableMarkAttr): string[] {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-table: no attr:${attr}`)
-            return []
-        }
-        const keys: string[] = []
-        for (let key in this[attrName]) {
-            if (this[attrName].hasOwnProperty(key) && !!this[attrName][key]) {
-                keys.push(key)
+    node = {
+        state: reactive({
+            map: {} as { [k: string]: TableNode }
+        }),
+        get: (
+            data: any,
+            level: number,
+            parentRef: () => (TableNode),
+            isSummaryData: boolean,
+        ): TableNode => {
+            const key = generator.get(data, this.config().keyField)
+            let node: TableNode = this.node.state.map[key] as TableNode
+            if (!!node) {
+                node.data = data
+                node.level = level
+                node.parentRef = parentRef
+            } else {
+                node = new TableNode(
+                    key,
+                    data,
+                    level,
+                    isSummaryData,
+                    this.config,
+                    parentRef,
+                    this.selfGetter,
+                    this.getRules,
+                )
+                this.node.state.map[key] = node
             }
-        }
-        return keys
+            return node
+        },
+        getList: (
+            list: any[] | undefined,
+            level,
+            parentRef: () => (TableNode),
+            isSummaryData: boolean,
+        ): TableNode[] => {
+            if (!list) return []
+            return list.map(item => this.node.get(
+                item,
+                level,
+                parentRef,
+                isSummaryData,
+            ))
+        },
+        getByKey(key: string) {
+            return this.state.map[key]
+        },
     }
 
-    getNode(data: object, props: TablePropsType, level: number, parent: TableNode, isSummaryData: boolean) {
-        let key: string | undefined = !!props.keyField ? data[props.keyField] : undefined
-        if (!key) {
-            key = data2Key.get(data)
-            if (!key) {
-                key = `p_${count++}`
-                data2Key.set(data, key)
-            }
-        }
-        let node = this.nodeMap[key]
-        if (!node) {
-            node = new TableNode(key, data, props, level, parent, this, isSummaryData)
-            this.setMark(key, TableMarkAttr.node, node)
-        } else {
-            node.data = data
-        }
-        node.level = level
-        return node
-    }
+    editRow = createFlagManager<any>()
+    validateResult = createFlagManager<ValidateResultMap>()
+    edit = createFlagManager()
+    expand = createFlagManager()
+    check = createFlagManager()
+    loading = createFlagManager()
+    loaded = createFlagManager()
 
-    getEditRow(key: string) {return this.editRowMap[key]}
-
-    setEditRow(key: string, editRow: any) {
-        if (this.editRowMap.hasOwnProperty(key)) {
-            this.editRowMap[key] = editRow
-        } else {
-            set(this.editRowMap, key, editRow)
-        }
-    }
-
-    getValidateResult(key: string) {return this.validateResultMap[key]}
-
-    setValidateResult(key: string, validateResult: ValidateResultMap) {
-        if (this.validateResultMap.hasOwnProperty(key)) {
-            this.validateResultMap[key] = validateResult
-        } else {
-            set(this.validateResultMap, key, validateResult)
-        }
-    }
-
-    static expand = TableMarkAttr.expand
-    static check = TableMarkAttr.check
-    static loading = TableMarkAttr.loading
-    static loaded = TableMarkAttr.loaded
-    static node = TableMarkAttr.node
-    static edit = TableMarkAttr.edit
-    static validateResult = TableMarkAttr.validateResult
 }

@@ -139,7 +139,8 @@ export default definePlc({
             isLoading: table.isLoading,
             getChildren: table.props.getChildren,
             lazy: table.props.lazy,
-            rootTableNode: table.rootNode,
+            dataModel: table.dataModel,
+            rootNode: table.rootNode,
             according: table.props.according,
             autoExpandParent: table.props.autoExpandParent,
             emit,
@@ -186,7 +187,7 @@ export default definePlc({
         onMounted(() => {
             watch(() => table.maxShowLevel.value, () => {
                 ctx.state.width = width.value
-            },{immediate: true})
+            }, {immediate: true})
         })
 
         const treeDraggablePlc = usePlcTreeRowDraggable({

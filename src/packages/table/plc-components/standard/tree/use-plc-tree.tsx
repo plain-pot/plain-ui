@@ -1,7 +1,7 @@
 import {TableNode} from "@/packages/table/table/TableNode";
-import {TableMark, TableMarkAttr} from "@/packages/table/table/TableMark";
+import {TableMark} from "@/packages/table/table/TableMark";
 import {$plain} from "@/packages/base";
-import {computed, Ref} from "@vue/composition-api";
+import {computed, reactive, Ref} from "@vue/composition-api";
 
 export function usePlcTree(
     {
@@ -9,9 +9,10 @@ export function usePlcTree(
         isLoading,
         getChildren,
         lazy,
-        rootTableNode,
         according,
         autoExpandParent,
+        dataModel,
+        rootNode,
         emit,
         tableData,
         checkStrictly,
@@ -20,9 +21,10 @@ export function usePlcTree(
         isLoading: Ref<boolean | null>,
         getChildren?: Function,
         lazy: boolean | undefined,
-        rootTableNode: TableNode,
         according?: boolean,
         autoExpandParent?: boolean,
+        dataModel: { value: any },
+        rootNode: TableNode,
         emit: {
             expand: (node: TableNode) => void,
             collapse: (node: TableNode) => void,
@@ -36,8 +38,8 @@ export function usePlcTree(
         checkStrictly: boolean | undefined,
     }) {
 
-    const emitExpandKeys = computed(() => mark.getActiveKeys(TableMarkAttr.expand))
-    const emitCheckKeys = computed(() => mark.getActiveKeys(TableMarkAttr.check))
+    const emitExpandKeys = computed(() => mark.expand.getActiveKeys())
+    const emitCheckKeys = computed(() => mark.check.getActiveKeys())
 
     const utils = {
         /**
@@ -69,14 +71,9 @@ export function usePlcTree(
          * @date    2020/8/17 9:59
          */
         findNodeByKey: (key: string): TableNode | null => {
-
-            if (!key || key.indexOf('root-node') === 0) {
-                return null
-            }
-
-            const node = mark.getMark(key, TableMark.node)
+            const node = mark.node.getByKey(key)
             if (!node) {
-                console.warn(`无法找到treeNode：${key}`, mark.nodeMap)
+                console.warn(`无法找到treeNode：${key}`, mark.node.state.map)
                 return null
             }
             // @ts-ignore
@@ -89,18 +86,18 @@ export function usePlcTree(
          */
         getChildrenAsync: (node: TableNode): Promise<TableNode[]> => {
             return new Promise((resolve) => {
-                if (node.key.indexOf('root-node') === 0) {
+                if (!node.key) {
                     isLoading.value = true
                 } else {
-                    mark.setMark(node.key, TableMarkAttr.loading, true)
+                    node.loading(true)
                 }
                 getChildren!(node, (...results) => {
 
-                    if (node.key.indexOf('root-node') === 0) {
+                    if (!node.key) {
                         isLoading.value = false
                     } else {
-                        mark.setMark(node.key, TableMarkAttr.loading, false)
-                        mark.setMark(node.key, TableMarkAttr.loaded, true)
+                        node.loading(false)
+                        node.loaded(true)
                     }
 
                     resolve(...results)
@@ -116,7 +113,7 @@ export function usePlcTree(
             if (!lazy) {
                 return
             }
-            rootTableNode.setChildren(await utils.getChildrenAsync(rootTableNode))
+            dataModel.value = await utils.getChildrenAsync(rootNode)
         },
     }
 
@@ -144,9 +141,11 @@ export function usePlcTree(
                         await $plain.nextTick()
                     }
 
+                    const parent = node.parentRef()
+
                     if (according) {
-                        if (!!node.parent && !!node.parent.children) {
-                            node.parent.children.forEach(child => child.key !== node.key && methods.collapse(child.key))
+                        if (!!parent && !!parent.children) {
+                            parent.children.forEach(child => child.key !== node.key && methods.collapse(child.key))
                         }
                     }
 
@@ -155,8 +154,8 @@ export function usePlcTree(
                     emit.expand(node)
                     emit.expandChange(emitExpandKeys.value as string[])
 
-                    if (autoExpandParent && !!node.parent) {
-                        await methods.expand(node.parent.key)
+                    if (autoExpandParent && !!parent && !!parent.key) {
+                        await methods.expand(parent.key)
                     }
                 }
             })
@@ -208,7 +207,7 @@ export function usePlcTree(
          * @date    2020/8/17 10:33
          */
         async collapseAll() {
-            mark.expandMap = {}
+            mark.expand.state.map = reactive({})
         },
 
         /*---------------------------------------check-------------------------------------------*/
@@ -230,11 +229,11 @@ export function usePlcTree(
                         utils.iterateAll(node.children || [], (child) => child.check(true))
 
                         // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
-                        let parent = node.parent
+                        let parent = node.parentRef()
                         while (!!parent && !!parent.key) {
                             if ((parent.children || []).every(child => child.isCheck)) {
                                 parent.check(true)
-                                parent = parent.parent
+                                parent = parent.parentRef()
                             } else {
                                 break
                             }
@@ -263,11 +262,11 @@ export function usePlcTree(
                         // 取消选中所有子节点
                         utils.iterateAll(node.children || [], (child) => child.check(false))
                         // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
-                        let parent = node.parent
+                        let parent = node.parentRef()
                         while (!!parent && !!parent.key) {
                             if (parent.isCheck) {
                                 parent.check(false)
-                                parent = parent.parent
+                                parent = parent.parentRef()
                             } else {
                                 break
                             }
@@ -310,7 +309,7 @@ export function usePlcTree(
          * @date    2020/8/17 15:40
          */
         uncheckAll() {
-            mark.checkMap = {}
+            mark.check.state.map = reactive({})
         },
         /**
          * 获取选中的数据

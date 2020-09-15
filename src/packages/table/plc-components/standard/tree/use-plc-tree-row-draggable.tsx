@@ -31,7 +31,7 @@ function getParents(node: TableNode | null) {
     const parents = [] as TableNode[]
     while (!!node && node.level > 0) {
         parents.push(node)
-        node = node.parent
+        node = node.parentRef()
     }
     return parents
 }
