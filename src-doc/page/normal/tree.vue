@@ -410,8 +410,10 @@
                     },
                     deleteItem: (e, treeNode) => {
                         e.stopPropagation()
-                        let {data, parent} = treeNode
-                        const subs = !!parent ? parent.data.subs : this.treeData
+                        let {data, parentRef} = treeNode
+                        const parent = parentRef()
+
+                        const subs = !!parent ? parent.data.subs : this.scopedSlotDemo.treeData
                         subs.splice(subs.indexOf(data), 1)
                     },
                 },
@@ -444,8 +446,9 @@
                     },
                     deleteItem: (e, treeNode) => {
                         e.stopPropagation()
-                        let {data, parent} = treeNode
-                        const subs = !!parent ? parent.data.subs : this.treeData
+                        let {data, parentRef} = treeNode
+                        const parent = parentRef()
+                        const subs = !!parent ? parent.data.subs : this.renderDemo.treeData
                         subs.splice(subs.indexOf(data), 1)
                     },
                 },

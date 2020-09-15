@@ -1,72 +1,68 @@
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
-import {TreeContextType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
-import {set} from "@vue/composition-api";
+import {reactive} from "@vue/composition-api";
+import {KeyGenerator} from "../../../../src-doc/page/normal/test-table/KeyGenerator";
+import {createFlagManager} from "@/util/NodeWrapper";
+
+const generator = new KeyGenerator('tree_node')
+
+export interface TreeConfig {
+    keyField: string,
+    labelField: string,
+    childrenField: string,
+    isCheckable: Function,
+    isLeaf: Function,
+    checkStrictly: boolean,
+    filterNodeMethod: Function,
+    intent: number,
+}
 
 export class TreeMark {
 
-    expandMap: { [key: string]: boolean } = {}
-    checkMap: { [key: string]: boolean } = {}
-    loadingMap: { [key: string]: boolean } = {}
-    loadedMap: { [key: string]: boolean } = {}
-    nodeMap: { [key: string]: TreeNode } = {}
+    constructor(
+        public config: () => TreeConfig,
+    ) {}
 
-    constructor(public ctx: TreeContextType) {}
+    selfGetter = () => this;
 
-    getMark(key: string, attr: TreeMarkAttr): boolean {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-tree: no attr:${attr}`)
-            return false
-        }
-        return this[attrName][key]
-    }
-
-    setMark(key: string, attr: TreeMarkAttr, value: boolean) {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-tree: no attr:${attr}`)
-            return
-        }
-        let map = this[attrName]
-        if (attr === TreeMarkAttr.node || map.hasOwnProperty(key)) {
-            map[key] = value
-        } else {
-            set(map, key, value)
-        }
-    }
-
-    getActiveKeys(attr: TreeMarkAttr): string[] {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-tree: no attr:${attr}`)
-            return []
-        }
-        const keys: string[] = []
-        for (let key in this[attrName]) {
-            if (this[attrName].hasOwnProperty(key) && !!this[attrName][key]) {
-                keys.push(key)
+    node = {
+        state: reactive({
+            map: {} as { [k: string]: TreeNode }
+        }),
+        get: (
+            data: any,
+            level: number,
+            parentRef: () => (TreeNode),
+        ): TreeNode => {
+            const key = generator.get(data, this.config().keyField)
+            let node: TreeNode = this.node.state.map[key]
+            if (!!node) {
+                node.data = data
+                node.level = level
+                node.parentRef = parentRef
+            } else {
+                node = new TreeNode(
+                    key,
+                    data,
+                    level,
+                    this.config,
+                    parentRef,
+                    this.selfGetter,
+                )
+                this.node.state.map[key] = node
             }
-        }
-        return keys
+            return node
+        },
+        getList: (list: any[] | undefined, level, parentRef: () => (TreeNode)): TreeNode[] => {
+            if (!list) return []
+            return list.map(item => this.node.get(item, level, parentRef))
+        },
+        getByKey(key: string) {
+            return this.state.map[key]
+        },
     }
 
-    getTreeNode(data, context, level, parent) {
-        const key = data[this.ctx.keyField]
-        let node = this.nodeMap[key]
-        if (!node) {
-            node = new TreeNode(data, context, level, parent, this)
-            // @ts-ignore
-            this.setMark(key, TreeMarkAttr.node, node)
-        } else {
-            node.data = data
-        }
-        node.level = level
-        return node
-    }
-
-    static expand = TreeMarkAttr.expand
-    static check = TreeMarkAttr.check
-    static loading = TreeMarkAttr.loading
-    static loaded = TreeMarkAttr.loaded
-    static node = TreeMarkAttr.node
+    expand = createFlagManager()
+    check = createFlagManager()
+    loading = createFlagManager()
+    loaded = createFlagManager()
 }

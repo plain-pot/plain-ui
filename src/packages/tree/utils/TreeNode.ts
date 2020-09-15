@@ -1,46 +1,47 @@
-import {TreeContextType, TreeMarkAttr, TreeNodeCheckStatus} from "@/packages/tree/utils/tree-constant";
-import {TreeMark} from "@/packages/tree/utils/TreeMark";
+import {TreeNodeCheckStatus} from "@/packages/tree/utils/tree-constant";
+import {TreeConfig, TreeMark} from "@/packages/tree/utils/TreeMark";
 import {set} from "@vue/composition-api";
 
 export class TreeNode {
 
     constructor(
+        public key: string,
         public data: object,
-        public context: TreeContextType,
         public level: number,
-        public parent: TreeNode,
-        public treeMark: TreeMark,
+        public config: () => TreeConfig,
+        public parentRef: () => (TreeNode),
+        public markRef: () => TreeMark,
     ) {}
+
+    selfGetter = () => this;
 
     /*---------------------------------------format prop-------------------------------------------*/
 
-    get key(): string {return (!!this.context.keyField && !!this.data) ? this.data[this.context.keyField] : undefined}
+    get label(): string {return (!!this.config().labelField && !!this.data) ? this.data[this.config().labelField] : undefined}
 
-    get label(): string {return (!!this.context.labelField && !!this.data) ? this.data[this.context.labelField] : undefined}
-
-    get childrenData(): object[] {return (!!this.context.childrenField && !!this.data) ? this.data[this.context.childrenField] : undefined}
+    get childrenData(): object[] {return (!!this.config().childrenField && !!this.data) ? this.data[this.config().childrenField] : undefined}
 
     get children(): TreeNode[] | null {
         if (!this.childrenData) {return null}
-        return this.childrenData.map(child => this.treeMark.getTreeNode(child, this.context, this.level + 1, this))
+        return this.childrenData.map(child => this.markRef().node.get(child, this.level + 1, this.selfGetter))
     }
 
     /*---------------------------------------mark props-------------------------------------------*/
 
-    get isExpand(): boolean {return this.treeMark.getMark(this.key, TreeMarkAttr.expand)}
+    get isExpand(): boolean {return this.markRef().expand.get(this.key)}
 
-    get isCheck(): boolean {return this.treeMark.getMark(this.key, TreeMarkAttr.check)}
+    get isCheck(): boolean {return this.markRef().check.get(this.key)}
 
-    get isLoading(): boolean {return this.treeMark.getMark(this.key, TreeMarkAttr.loading)}
+    get isLoading(): boolean {return this.markRef().loading.get(this.key)}
 
-    get isLoaded(): boolean {return this.treeMark.getMark(this.key, TreeMarkAttr.loaded)}
+    get isLoaded(): boolean {return this.markRef().loaded.get(this.key)}
 
     /*---------------------------------------judge props-------------------------------------------*/
 
-    get isCheckable(): boolean {return !this.context.isCheckable || this.context.isCheckable(this)}
+    get isCheckable(): boolean {return !this.config().isCheckable || this.config().isCheckable(this)}
 
     get isLeaf(): boolean {
-        const {isLeaf} = this.context
+        const {isLeaf} = this.config()
         if (!!isLeaf) {
             return isLeaf(this)
         } else {
@@ -49,7 +50,7 @@ export class TreeNode {
     }
 
     get isVisible(): boolean {
-        const {filterNodeMethod} = this.context
+        const {filterNodeMethod} = this.config()
         if (!filterNodeMethod) {
             return true
         }
@@ -66,7 +67,7 @@ export class TreeNode {
     /*当前选中状态：选中、未选中、半选中*/
     get checkStatus(): TreeNodeCheckStatus {
 
-        if (this.isLeaf || this.context.checkStrictly) {
+        if (this.isLeaf || this.config().checkStrictly) {
             // 叶子节点或者父子互不关联情况下，节点只有选中以及非选中的状态，不会处于半选中状态
             return this.isCheck ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
         } else {
@@ -88,7 +89,7 @@ export class TreeNode {
      * @date    2020/4/3 0:09
      */
     get indicatorLeft() {
-        let left = this.context.intent * (this.level - 1)
+        let left = this.config().intent * (this.level - 1)
         if (this.isLeaf && !this.isLoading) {
             left += 18
         }
@@ -97,6 +98,14 @@ export class TreeNode {
 
     /*---------------------------------------methods-------------------------------------------*/
 
+    loading(val: boolean) {
+        this.markRef().loading.set(this.key, val)
+    }
+
+    loaded(val: boolean) {
+        this.markRef().loaded.set(this.key, val)
+    }
+
     /**
      * 选中/取消选中 当前节点
      * @author  韦胜健
@@ -104,7 +113,7 @@ export class TreeNode {
      */
     check(val: boolean) {
         if (!this.isCheckable) return
-        this.treeMark.setMark(this.key, TreeMarkAttr.check, val)
+        this.markRef().check.set(this.key, val)
     }
 
     /**
@@ -114,7 +123,7 @@ export class TreeNode {
      */
     expand(val: boolean) {
         if (this.isLeaf) return
-        this.treeMark.setMark(this.key, TreeMarkAttr.expand, val)
+        this.markRef().expand.set(this.key, val)
     }
 
     /**
@@ -123,7 +132,7 @@ export class TreeNode {
      * @date    2020/4/3 0:09
      */
     setChildren(children: object[]) {
-        set(this.data, this.context.childrenField, children)
+        set(this.data, this.config().childrenField, children)
     }
 
     getReactiveChildrenData(): object[] {
@@ -136,27 +145,27 @@ export class TreeNode {
     }
 
     removeSelf() {
-        const parentChildrenData = this.parent.childrenData
+        const parentChildrenData = this.parentRef().childrenData
         parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
     }
 
     previousSibling(treeNode: TreeNode) {
-        let parentChildrenData = this.parent.getReactiveChildrenData()
-        treeNode.parent = this.parent
+        let parentChildrenData = this.parentRef().getReactiveChildrenData()
+        treeNode.parentRef = this.parentRef
         treeNode.level = this.level
         parentChildrenData.splice(parentChildrenData.indexOf(this.data), 0, treeNode.data)
     }
 
     nextSibling(treeNode: TreeNode) {
-        let parentChildrenData = this.parent.getReactiveChildrenData()
-        treeNode.parent = this.parent
+        let parentChildrenData = this.parentRef().getReactiveChildrenData()
+        treeNode.parentRef = this.parentRef
         treeNode.level = this.level
         parentChildrenData.splice(parentChildrenData.indexOf(this.data) + 1, 0, treeNode.data)
     }
 
     unshiftChild(treeNode: TreeNode) {
         let childrenData = this.getReactiveChildrenData()
-        treeNode.parent = this
+        treeNode.parentRef = () => this
         treeNode.level = this.level + 1
         childrenData.unshift(treeNode.data)
     }

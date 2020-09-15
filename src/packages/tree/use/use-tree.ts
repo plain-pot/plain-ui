@@ -1,10 +1,9 @@
-
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {computed, provide, reactive} from "@vue/composition-api";
 import {useModel} from "@/use/useModel";
 import {TreeMark} from "@/packages/tree/utils/TreeMark";
 import {TreeNode} from "@/packages/tree/utils/TreeNode";
-import {TreeDropType, TreeMarkAttr} from "@/packages/tree/utils/tree-constant";
+import {TreeDropType} from "@/packages/tree/utils/tree-constant";
 import {$plain} from "@/packages/base";
 import {useRefer} from "@/use/useRefer";
 import {useScopedSlots} from "@/use/useScopedSlots";
@@ -60,6 +59,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         clickNode: EmitFunc,
         updateCurrent: EmitFunc,
         currentChange: EmitFunc,
+        updateData: EmitFunc,
 
         expandChange: EmitFunc,
         expand: EmitFunc,
@@ -82,11 +82,25 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     })
 
     /*---------------------------------------state-------------------------------------------*/
-
+    const data = useModel(() => props.data, emit.updateData)
     const current = useModel(() => props.currentKey, emit.updateCurrent)
 
-    const treeMark = new TreeMark(props as any)
-    const rootTreeNode = new TreeNode({[props.childrenField!]: props.data}, props as any, 0, null!, treeMark)
+    const treeMark = new TreeMark(() => ({
+        keyField: props.keyField as any,
+        labelField: props.labelField as any,
+        childrenField: props.childrenField as any,
+        isCheckable: props.isCheckable as any,
+        isLeaf: props.isLeaf as any,
+        checkStrictly: props.checkStrictly as any,
+        filterNodeMethod: props.filterNodeMethod as any,
+        intent: props.intent as any,
+    }))
+
+    const rootTreeNode = treeMark.node.get(
+        {[props.childrenField!]: data.value},
+        0,
+        () => ({}) as any
+    )
 
     const state = reactive({
         loading: false,
@@ -98,7 +112,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
     /*---------------------------------------computer-------------------------------------------*/
 
     const isLoading = computed(() => state.loading || props.loading)
-    const formatData = computed(() => rootTreeNode.children)
+    const formatData = computed(() => state.treeMark.node.getList(data.value, 1, () => state.rootTreeNode))
     const classes = computed(() => [
         'pl-tree',
         'pl-tree-node-list',
@@ -123,8 +137,8 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
         return styles
     })
 
-    const emitExpandKeys = computed(() => state.treeMark.getActiveKeys(TreeMarkAttr.expand))
-    const emitCheckKeys = computed(() => state.treeMark.getActiveKeys(TreeMarkAttr.check))
+    const emitExpandKeys = computed(() => state.treeMark.expand.getActiveKeys())
+    const emitCheckKeys = computed(() => state.treeMark.check.getActiveKeys())
 
     /*---------------------------------------utils-------------------------------------------*/
 
@@ -174,12 +188,11 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
          * @date    2020/3/30 20:52
          */
         findTreeNodeByKey: (key: string): TreeNode | null => {
-            const treeNode = state.treeMark.getMark(key, TreeMarkAttr.node)
+            const treeNode = state.treeMark.node.getByKey(key)
             if (!treeNode) {
-                console.warn(`无法找到treeNode：${key}`, state.treeMark.nodeMap)
+                console.warn(`无法找到treeNode：${key}`, state.treeMark.node.state.map)
                 return null
             }
-            // @ts-ignore
             return treeNode
         },
         /**
@@ -189,18 +202,17 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
          */
         getChildrenAsync: (treeNode: TreeNode): Promise<TreeNode[]> => {
             return new Promise((resolve) => {
-                if (!treeNode.key) {
-                    // 跟节点是没有key的；
+                if (treeNode.level === 0) {
                     state.loading = true
                 } else {
-                    state.treeMark.setMark(treeNode.key, TreeMarkAttr.loading, true)
+                    treeNode.loading(true)
                 }
                 props.getChildren!(treeNode, (...results) => {
                     if (!treeNode.key) {
                         state.loading = false
                     } else {
-                        state.treeMark.setMark(treeNode.key, TreeMarkAttr.loading, false)
-                        state.treeMark.setMark(treeNode.key, TreeMarkAttr.loaded, true)
+                        treeNode.loading(false)
+                        treeNode.loaded(true)
                     }
                     resolve(...results)
                 })
@@ -272,7 +284,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
             if (!props.lazy) {
                 return
             }
-            state.rootTreeNode.setChildren(await this.getChildrenAsync(state.rootTreeNode))
+            data.value = await this.getChildrenAsync(state.rootTreeNode)
         },
     }
 
@@ -344,6 +356,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
             await utils.handleKeys(keys, async (key: string) => {
                 const treeNode = utils.findTreeNodeByKey(key)
                 if (!treeNode) return
+                const parent = treeNode.parentRef()
                 if (!treeNode.isExpand) {
 
                     if (
@@ -358,8 +371,8 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
 
                     if (props.according) {
                         // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
-                        if (!!treeNode.parent && !!treeNode.parent.children) {
-                            treeNode.parent.children.forEach((child: TreeNode) => child.key !== treeNode.key && methods.collapse(child.key))
+                        if (!!parent && !!parent.children) {
+                            parent.children.forEach((child: TreeNode) => child.key !== treeNode.key && methods.collapse(child.key))
                         }
                     }
 
@@ -369,8 +382,8 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                     emit.expand(treeNode)
                     emit.expandChange(emitExpandKeys.value)
                 }
-                if (!!props.autoExpandParent && !!treeNode.parent && treeNode.parent.key) {
-                    await this.expand(treeNode.parent.key)
+                if (!!props.autoExpandParent && !!parent && parent.level !== 0) {
+                    await this.expand(parent.key)
                 }
             })
         },
@@ -411,7 +424,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
             }
         },
         collapseAll() {
-            state.treeMark.expandMap = {}
+            state.treeMark.expand.state.map = reactive({})
         },
 
         /**
@@ -431,11 +444,11 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                         // 选中所有子节点
                         utils.iterateAll(treeNode.children || [], (child) => child.check(true))
                         // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
-                        let parent = treeNode.parent
+                        let parent = treeNode.parentRef()
                         while (!!parent && !!parent.key) {
                             if ((parent.children || []).every(child => child.isCheck)) {
                                 parent.check(true)
-                                parent = parent.parent
+                                parent = parent.parentRef()
                             } else {
                                 break
                             }
@@ -465,11 +478,11 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
                         // 取消选中所有子节点
                         utils.iterateAll(treeNode.children || [], (child) => child.check(false))
                         // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
-                        let parent = treeNode.parent
+                        let parent = treeNode.parentRef()
                         while (!!parent && !!parent.key) {
                             if (parent.isCheck) {
                                 parent.check(false)
-                                parent = parent.parent
+                                parent = parent.parentRef()
                             } else {
                                 break
                             }
@@ -511,7 +524,7 @@ export function useTree(props: ExtractPropTypes<typeof TreeProps>) {
          * @date    2020/3/31 17:33
          */
         uncheckAll() {
-            state.treeMark.checkMap = {}
+            state.treeMark.check.state.map = reactive({})
         },
 
         /**

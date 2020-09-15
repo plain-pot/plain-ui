@@ -10,27 +10,8 @@ export enum TreeDropType {
     null = 'null',
 }
 
-export const enum TreeMarkAttr {
-    expand = 'expand',
-    check = 'check',
-    loading = 'loading',
-    loaded = 'loaded',
-    node = 'node',
-}
-
 export const enum TreeNodeCheckStatus {
     check = 'check',
     uncheck = 'uncheck',
     minus = 'minus',
-}
-
-export interface TreeContextType {
-    keyField: string,
-    labelField: string,
-    childrenField: string,
-    isCheckable: Function,
-    isLeaf: Function,
-    checkStrictly: boolean,
-    filterNodeMethod: Function,
-    intent: number,
 }
