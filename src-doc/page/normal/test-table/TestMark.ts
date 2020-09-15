@@ -1,23 +1,27 @@
 import {TestNode} from "./TestNode";
 import {reactive, set} from "@vue/composition-api";
 import {KeyGenerator} from "./KeyGenerator";
+import {createFlagManager} from "@/util/NodeWrapper";
 
 const generator = new KeyGenerator('test_node')
 
 export class TestMark {
 
+    selfGetter = () => this;
+
     node = {
-        map: {} as { [k: string]: TestNode },
+        state: reactive({
+            map: {} as { [k: string]: TestNode }
+        }),
         get: (data: any): TestNode => {
             const key = generator.get(data)
-            let node = this.node.map[key]
+            let node = this.node.state.map[key]
             if (!!node) {
                 node.data = data
             } else {
-                node = new TestNode(key, data, this)
-                set(this.node.map, key, node)
+                node = new TestNode(key, data, this.selfGetter)
+                set(this.node.state.map, key, node)
             }
-
             return node
         },
         getList: (list: any[] | undefined): TestNode[] => {
@@ -26,20 +30,6 @@ export class TestMark {
         }
     }
 
-    check = {
-        state: reactive({
-            map: {} as { [k: string]: boolean },
-        }),
-        set: (key: string, val: boolean) => {
-            if (this.check.state.map.hasOwnProperty(key)) {
-                this.check.state.map[key] = val
-            } else {
-                set(this.check.state.map, key, val)
-            }
-        },
-        get: (key: string): boolean => {
-            return this.check.state.map[key]
-        }
-    }
+    check = createFlagManager()
 
 }

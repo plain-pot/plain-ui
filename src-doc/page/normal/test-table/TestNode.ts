@@ -4,10 +4,10 @@ export class TestNode {
     constructor(
         public key: string,
         public data: any,
-        public map: TestMark,
+        public markGetter: () => TestMark,
     ) {}
 
-    isChecked() {return this.map.check.get(this.key)}
+    isChecked() {return this.markGetter().check.get(this.key)}
 
-    check(val: boolean) {this.map.check.set(this.key, val)}
+    check(val: boolean) {this.markGetter().check.set(this.key, val)}
 }
