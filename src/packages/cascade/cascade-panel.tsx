@@ -37,29 +37,28 @@ export default defineComponent({
         const state = reactive({
             loading: false,
             expandKeys: [] as string[],
+            cascadeMark: new CascadeMark(
+                {
+                    nodeDisabled: props.nodeDisabled as any,
+                    isLeaf: props.isLeaf as any,
+                    lazy: props.lazy as any,
+                    getChildren: props.getChildren as any,
+                    filterMethod: props.filterMethod as any,
+
+                    labelField: props.labelField as any,
+                    keyField: props.keyField as any,
+                    childrenField: props.childrenField as any,
+                },
+                () => ({
+                    expandKeys: state.expandKeys,
+                    filterText: '',
+                })
+            )
         })
 
         /*---------------------------------------computer-------------------------------------------*/
 
-        const cascadeMark = computed(() => new CascadeMark(
-            {
-                nodeDisabled: props.nodeDisabled as any,
-                isLeaf: props.isLeaf as any,
-                lazy: props.lazy as any,
-                getChildren: props.getChildren as any,
-                filterMethod: props.filterMethod as any,
-
-                labelField: props.labelField as any,
-                keyField: props.keyField as any,
-                childrenField: props.childrenField as any,
-            },
-            () => ({
-                expandKeys: state.expandKeys,
-                filterText: '',
-            })
-        ))
-
-        const formatData = computed(() => cascadeMark.value.node.getList(data.value, 1, () => null))
+        const formatData = computed(() => state.cascadeMark.node.getList(data.value, 1, () => null))
 
         const cascadeData = computed(() => {
             const data = formatData.value || []
@@ -262,7 +261,7 @@ export default defineComponent({
             )
 
             const cascadeList = cascadeData.value.map((list, listIndex) => (
-                <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && cascadeMark.value.loading.get(state.expandKeys[listIndex - 1])}>
+                <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && state.cascadeMark.loading.get(state.expandKeys[listIndex - 1])}>
                     <pl-scroll>
                         <pl-list>
                             {list.map((node, nodeIndex) => (
