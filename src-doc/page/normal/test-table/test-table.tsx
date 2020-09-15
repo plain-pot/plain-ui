@@ -9,36 +9,24 @@ export default defineComponent({
     setup(props) {
 
         const mark = new TestMark()
+        const formatData = computed(() => mark.node.getList(props.data))
 
-        const formatData = computed(() => mark.formatList(props.data))
-
-        const parent: any = {
-            name: 'i am parent',
-            children: [
-                {name: 'child 1'},
-                {name: 'child 2'},
-                {name: 'child 3'},
-            ]
-        }
-
-        parent.children.forEach(child => child.parent = parent)
-
-        const state = reactive({
-            parent,
-        })
-
-        console.log(state.parent)
+        const map = reactive({})
 
         return () => {
+            console.log('render')
             return (
                 <div class="test-table">
+                    {JSON.stringify(map)}
                     <ul>
                         {formatData.value.map(item => (
                             <li>
-                                {item.key}-{item.data.name}
+                                <pl-checkbox v-model={map[item.key]}/>
+                                <span>{item.key}-{item.data.name}</span>
                             </li>
                         ))}
                     </ul>
+                    <button onClick={() => console.log(map)}>LOG</button>
                 </div>
             )
         }
