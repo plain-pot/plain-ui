@@ -1,7 +1,7 @@
 <template>
     <div class="demo-cascade">
         <demo-row title="cascade-panel">
-            <demo-row title="cascade-panel">
+            <demo-row title="基本用法">
                 <demo-line>
                     {{val[0]}}
                 </demo-line>
@@ -360,11 +360,12 @@
                     return node.level >= 3
                 },
                 getChildren: (node, resolve) => {
+                    if (!node) {
+                        // 加载一级数据
+                        this.lazyDemo.getCitiesByParentId(null).then(resolve)
+                        return
+                    }
                     switch (node.level) {
-                        case 0:
-                            // 加载一级数据
-                            this.lazyDemo.getCitiesByParentId(null).then(resolve)
-                            break
                         case 1:
                             // 加载二级数据
                             this.lazyDemo.getCitiesByParentId(node.data.id).then(resolve)
@@ -496,7 +497,7 @@
             },
 
             onCascadeChange(value, nodes) {
-                console.log('onCascadeChange',value, nodes)
+                console.log('onCascadeChange', value, nodes)
                 if (!value) {
                     this.formData.level1Name = null
                     this.formData.level1Key = null

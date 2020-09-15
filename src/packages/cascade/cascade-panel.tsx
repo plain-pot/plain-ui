@@ -1,5 +1,5 @@
 import {computed, defineComponent, getCurrentInstance, reactive, watch} from "@vue/composition-api";
-import {CascadeContextType, CascadeMarkAttr, CascadePanelProps} from "@/packages/cascade/cascade-constant";
+import {CascadePanelProps} from "@/packages/cascade/cascade-constant";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
 import {CascadeNode} from "@/packages/cascade/CascadeNode";
@@ -33,22 +33,33 @@ export default defineComponent({
 
         const model = useModel(() => props.value, emit.input, false)
         const data = useModel(() => props.data, emit.updateData)
-        const mark = new CascadeMark(props as CascadeContextType)
-        const rootNode = new CascadeNode({[props.childrenField!]: data.value}, props as CascadeContextType, 0, null, mark)
 
         const state = reactive({
             loading: false,
             expandKeys: [] as string[],
-            rootNode,
-            mark,
         })
-
-        // @ts-ignore
-        props.expandKeys = state.expandKeys
 
         /*---------------------------------------computer-------------------------------------------*/
 
-        const formatData = computed(() => rootNode.children)
+        const cascadeMark = computed(() => new CascadeMark(
+            {
+                nodeDisabled: props.nodeDisabled as any,
+                isLeaf: props.isLeaf as any,
+                lazy: props.lazy as any,
+                getChildren: props.getChildren as any,
+                filterMethod: props.filterMethod as any,
+
+                labelField: props.labelField as any,
+                keyField: props.keyField as any,
+                childrenField: props.childrenField as any,
+            },
+            () => ({
+                expandKeys: state.expandKeys,
+                filterText: '',
+            })
+        ))
+
+        const formatData = computed(() => cascadeMark.value.node.getList(data.value, 1, () => null))
 
         const cascadeData = computed(() => {
             const data = formatData.value || []
@@ -78,6 +89,62 @@ export default defineComponent({
 
             return cascadeData
         })
+
+        /*---------------------------------------utils-------------------------------------------*/
+
+        const utils = {
+            /**
+             * 检查props是否合法
+             * @author  韦胜健
+             * @date    2020/3/30 18:48
+             */
+            checkProps() {
+                if (!props.data) return true
+                if (!props.keyField) {
+                    console.error('pl-cascade 的 keyField属性不能为空，每一条记录必须要有一个key标识')
+                    return false
+                }
+                if (!props.childrenField) {
+                    console.error('pl-cascade 的 childrenKey不能为空')
+                    return false
+                }
+                return true
+            },
+            iterateAll: (nodes: CascadeNode[], fn: Function, iterateChildren?: Function) => {
+                if (!nodes) return
+                nodes.forEach(node => {
+                    fn(node)
+                    if (!!node.children && (!iterateChildren || iterateChildren(node))) {
+                        utils.iterateAll(node.children, fn, iterateChildren)
+                    }
+                })
+            },
+            getChildrenAsync(node: CascadeNode | null): Promise<CascadeNode[]> {
+                return new Promise((resolve) => {
+                    if (!node) {
+                        state.loading = true
+                    } else {
+                        node.loading(true)
+                    }
+                    props.getChildren!(node, (...results) => {
+                        if (!node) {
+                            state.loading = false
+                        } else {
+                            node.loading(false)
+                            node.loaded(true)
+                        }
+                        emit.getChildren(...results)
+                        resolve(...results)
+                    })
+                })
+            },
+            async initLazy() {
+                if (!props.lazy) {
+                    return
+                }
+                data.value = await utils.getChildrenAsync(null)
+            },
+        }
 
         const filterData = computed(() => {
             let filterData: CascadeNode[][] = []
@@ -110,63 +177,6 @@ export default defineComponent({
             return result
         })
 
-        /*---------------------------------------utils-------------------------------------------*/
-
-        const utils = {
-            /**
-             * 检查props是否合法
-             * @author  韦胜健
-             * @date    2020/3/30 18:48
-             */
-            checkProps() {
-                if (!props.data) return true
-                if (!props.keyField) {
-                    console.error('pl-cascade 的 keyField属性不能为空，每一条记录必须要有一个key标识')
-                    return false
-                }
-                if (!props.childrenField) {
-                    console.error('pl-cascade 的 childrenKey不能为空')
-                    return false
-                }
-                return true
-            },
-            iterateAll: (nodes: CascadeNode[], fn: Function, iterateChildren?: Function) => {
-                if (!nodes) return
-                nodes.forEach(node => {
-                    fn(node)
-                    if (!!node.children && (!iterateChildren || iterateChildren(node))) {
-                        utils.iterateAll(node.children, fn, iterateChildren)
-                    }
-                })
-            },
-            getChildrenAsync(node: CascadeNode): Promise<CascadeNode[]> {
-                return new Promise((resolve) => {
-                    if (!node.key) {
-                        state.loading = true
-                    } else {
-                        mark.setMark(node.key, CascadeMark.loading, true)
-                    }
-                    props.getChildren!(node, (...results) => {
-                        if (!node.key) {
-                            state.loading = false
-                        } else {
-                            mark.setMark(node.key, CascadeMark.loading, false)
-                            mark.setMark(node.key, CascadeMark.loaded, true)
-                        }
-                        emit.getChildren(...results)
-                        resolve(...results)
-                    })
-                })
-            },
-            async initLazy() {
-                if (!props.lazy) {
-                    return
-                }
-                data.value = await utils.getChildrenAsync(rootNode)
-                rootNode.setChildren(data.value as any[])
-            },
-        }
-
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
@@ -197,9 +207,9 @@ export default defineComponent({
                     state.expandKeys = node.expandKeys
 
                     if (
-                        props.lazy &&                                            // 懒加载模式
-                        !mark.getMark(node.key, CascadeMarkAttr.loaded) &&       // 未曾加载过子节点数据
-                        !node.isLeaf                                             // 节点不是叶子节点
+                        props.lazy &&                                               // 懒加载模式
+                        !node.isLoaded &&                                             // 未曾加载过子节点数据
+                        !node.isLeaf                                                // 节点不是叶子节点
                     ) {
                         const children = await utils.getChildrenAsync(node)
                         node.setChildren(children || [])
@@ -210,10 +220,6 @@ export default defineComponent({
         }
 
         utils.initLazy()
-
-        watch(() => props.data, (val) => {
-            rootNode.setChildren(val as any[])
-        })
 
         return () => {
             const empty = (
@@ -256,7 +262,7 @@ export default defineComponent({
             )
 
             const cascadeList = cascadeData.value.map((list, listIndex) => (
-                <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && mark.getMark(state.expandKeys[listIndex - 1], CascadeMark.loading)}>
+                <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && cascadeMark.value.loading.get(state.expandKeys[listIndex - 1])}>
                     <pl-scroll>
                         <pl-list>
                             {list.map((node, nodeIndex) => (

@@ -38,18 +38,36 @@ export default defineComponent({
             focus: EmitFunc,
             clickItem: EmitFunc,
             getChildren: EmitFunc,
+            updateData: EmitFunc,
         })
 
         /*---------------------------------------state-------------------------------------------*/
 
         const model = useModel(() => props.value, emit.input, false)
+        const data = useModel(() => props.data, emit.updateData)
 
-        const mark = new CascadeMark(props as any)
-        const rootNode = new CascadeNode({[props.childrenField!]: props.data}, props as any, 0, null, mark)
+        const cascadeMark = computed(() => new CascadeMark(
+            {
+                nodeDisabled: props.nodeDisabled as any,
+                isLeaf: props.isLeaf as any,
+                lazy: props.lazy as any,
+                getChildren: props.getChildren as any,
+                filterMethod: props.filterMethod as any,
+
+                labelField: props.labelField as any,
+                keyField: props.keyField as any,
+                childrenField: props.childrenField as any,
+            },
+            () => ({
+                expandKeys: state.expandKeys,
+                filterText: '',
+            })
+        ))
 
         const state = reactive({
             inputValue: null as null | string,
             cacheData: {} as { [key: string]: object[] },
+            expandKeys: [] as string[],
         })
 
         const agentState = usePopperAgentEditor(() => ($plain as any).$cascade(() => ({
@@ -98,7 +116,7 @@ export default defineComponent({
             }
         ]))
 
-        const formatData = computed(() => rootNode.children)
+        const formatData = computed(() => cascadeMark.value.node.getList(data.value, 1, () => null))
 
         const showValue = computed(() => {
             if (!model.value) return null
@@ -131,12 +149,15 @@ export default defineComponent({
 
 
         const utils = {
-            getChildren: (node: CascadeNode, resolve: Function) => {
-                if (state.cacheData[node.key]) {
-                    resolve(state.cacheData[node.key])
+            getChildren: (node: CascadeNode | null, resolve: Function) => {
+
+                let key = !!node ? node.key : 'root'
+
+                if (state.cacheData[key]) {
+                    resolve(state.cacheData[key])
                 } else {
                     props.getChildren!(node, (data) => {
-                        state.cacheData[node.key] = data
+                        state.cacheData[key] = data
                         resolve(data)
                     })
                 }

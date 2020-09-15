@@ -5,7 +5,10 @@ export class KeyGenerator {
 
     constructor(public prefixKeyString: string) {}
 
-    get(data: any) {
+    get(data: any, keyField?: string): string {
+        if (!!keyField) {
+            return data[keyField]
+        }
         const key = this.map.get(data)
         if (!!key) {
             return key

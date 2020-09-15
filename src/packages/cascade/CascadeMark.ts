@@ -1,53 +1,65 @@
 import {CascadeNode} from "@/packages/cascade/CascadeNode";
-import {CascadeContextType, CascadeMarkAttr} from "@/packages/cascade/cascade-constant";
-import {set} from "@vue/composition-api";
+import {reactive, set} from "@vue/composition-api";
+import {KeyGenerator} from "../../../src-doc/page/normal/test-table/KeyGenerator";
+import {createFlagManager} from "@/util/NodeWrapper";
+
+const generator = new KeyGenerator('cascade_node')
+
+export interface CascadeConfig {
+    nodeDisabled?: (node: CascadeNode) => boolean,
+    isLeaf?: (node: CascadeNode) => boolean,
+    lazy?: boolean,
+    getChildren?: (node: CascadeNode, cb: (...args: any[]) => void) => void,
+    filterMethod?: (filterData: CascadeNode[], filterText: string) => boolean
+
+    labelField: string,
+    keyField: string,
+    childrenField: string,
+}
 
 export class CascadeMark {
 
-    loadingMap: { [key: string]: boolean } = {}
-    loadedMap: { [key: string]: boolean } = {}
-    nodeMap: { [key: string]: CascadeNode } = {}
+    constructor(public config: CascadeConfig, public ctxState: () => {
+        expandKeys: string[],
+        filterText: string,
+    }) {}
 
-    constructor(public ctx: CascadeContextType) {}
+    selfGetter = () => this;
 
-    getMark(key: string, attr: CascadeMarkAttr): boolean | CascadeNode {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-cascade: no attr:${attr}`)
-            return false
+    node = {
+        state: reactive({
+            map: {} as { [k: string]: CascadeNode }
+        }),
+        get: (
+            data: any,
+            level: number,
+            parentRef: () => (CascadeNode | null),
+        ): CascadeNode => {
+            const key = generator.get(data, this.config.keyField)
+            let node: CascadeNode = this.node.state.map[key]
+            if (!!node) {
+                node.data = data
+            } else {
+                node = new CascadeNode(
+                    key,
+                    data,
+                    level,
+                    this.config,
+                    parentRef,
+                    this.selfGetter,
+                    this.ctxState,
+                )
+                this.node.state.map[key] = node
+            }
+            return node
+        },
+        getList: (list: any[] | undefined, level, parentRef: () => (CascadeNode | null)): CascadeNode[] => {
+            if (!list) return []
+            return list.map(item => this.node.get(item, level, parentRef))
         }
-        return this[attrName][key]
     }
 
-    setMark(key: string, attr: CascadeMarkAttr, value: boolean | CascadeNode): void {
-        const attrName = `${attr}Map`
-        if (!attrName) {
-            console.error(`pl-tree: no attr:${attr}`)
-            return
-        }
-
-        let map = this[attrName]
-        if (attr === CascadeMarkAttr.node || map.hasOwnProperty(key)) {
-            map[key] = value
-        } else {
-            set(map, key, value)
-        }
-    }
-
-    getNode(data: object, ctx: CascadeContextType, level: number, parent: CascadeNode) {
-        const key = data[ctx.keyField!]
-        let node = this.nodeMap[key]
-        if (!node) {
-            node = new CascadeNode(data, ctx, level, parent, this)
-            this.setMark(key, CascadeMarkAttr.node, node)
-        } else {
-            node.data = data
-        }
-        return node
-    }
-
-    static loading = CascadeMarkAttr.loading
-    static loaded = CascadeMarkAttr.loaded
-    static node = CascadeMarkAttr.node
+    loading = createFlagManager()
+    loaded = createFlagManager()
 
 }

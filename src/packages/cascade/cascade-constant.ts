@@ -18,7 +18,7 @@ export const CascadePanelProps = {
     },
     lazy: {type: Boolean},                                              // 数据是否为懒加载
     getChildren: {                                                      // 懒加载数据函数
-        type: Function as any as new() => ((node: CascadeNode, cb: (...args: any[]) => void) => any)
+        type: Function as any as new() => ((node: CascadeNode | null, cb: (...args: any[]) => void) => any)
     },
 
     labelField: {type: String},                                         // 记录显示文本的字段名
@@ -43,9 +43,3 @@ export const CascadeProps = {
 }
 
 export type CascadeContextType = ExtractPropTypes<typeof CascadePanelProps> & { expandKeys: string[] }
-
-export const enum CascadeMarkAttr {
-    loading = 'loading',
-    loaded = 'loaded',
-    node = 'node',
-}
