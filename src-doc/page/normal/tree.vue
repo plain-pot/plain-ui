@@ -377,23 +377,6 @@
                 },
                 scopedSlotDemo: {
                     treeData: this.$plain.utils.deepcopy(treeData),
-                    renderContent: (h, data) => {
-                        return (
-                            <div style="width:100%;display: flex;justify-content: space-between">
-                                <span>{data.data.name}</span>
-                                <pl-button-group mode="text">
-                                    <pl-button label="Add" onClick={e => {
-                                        e.stopPropagation();
-                                        this.scopedSlotDemo.addItem(data)
-                                    }} size="mini"/>
-                                    <pl-button label="Del" onClick={e => {
-                                        e.stopPropagation();
-                                        this.scopedSlotDemo.deleteItem(data)
-                                    }} size="mini" status="error"/>
-                                </pl-button-group>
-                            </div>
-                        )
-                    },
                     addItem: (e, treeNode) => {
                         e.stopPropagation()
                         const {data} = treeNode
