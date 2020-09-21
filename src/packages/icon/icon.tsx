@@ -1,11 +1,18 @@
 import {computed, defineComponent} from "@vue/composition-api";
 
+const iconfont = {} as { [k: string]: string }
+
+function registry(prefix: string, fontFamily: string) {
+    iconfont[prefix] = fontFamily
+}
+
 export default defineComponent({
     name: 'pl-icon',
+    // @ts-ignore
+    registry,
     props: {
         icon: {type: String, require: true},
         status: {type: String},
-        fontName: {type: String},
     },
     setup(props, context) {
 
@@ -13,12 +20,26 @@ export default defineComponent({
             context.emit('click', e)
         }
 
+        const prefix = computed(() => {
+            if (!props.icon) {
+                return null
+            }
+            return props.icon.slice(0, props.icon.indexOf('-'))
+        })
+
+        const isSvg = computed(() => {
+            if (!prefix.value) {
+                return false
+            }
+            return !iconfont[prefix.value];
+        })
+
         const classes = computed(() => ([
             'pl-icon',
             props.icon,
             {
                 [`pl-icon-status-${props.status}`]: !!props.status,
-                [props.fontName!]: !!props.fontName,
+                [iconfont[prefix.value!]]: !isSvg.value && prefix.value !== 'el',
             }
         ]))
 
@@ -34,14 +55,14 @@ export default defineComponent({
                 // console.warn('pl-icon: icon is require!')
                 return null
             }
-            if (props.icon!.indexOf('el-') === 0 || !!props.fontName) {
-                return <i {...binding.value}/>
+            if (isSvg.value) {
+                return (
+                    <svg aria-hidden="true" {...binding.value}>
+                        <use {...{attrs: {'xlink:href': `#${props.icon}`}}}/>
+                    </svg>
+                )
             }
-            return (
-                <svg aria-hidden="true" {...binding.value}>
-                    <use {...{attrs: {'xlink:href': `#${props.icon}`}}}/>
-                </svg>
-            )
+            return <i {...binding.value}/>
         }
     },
 })

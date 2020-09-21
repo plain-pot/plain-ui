@@ -2,8 +2,9 @@ import Vue from 'vue';
 import VueCompositionApi from '@vue/composition-api';
 import App from './App';
 import Components from './component'
-import './lib/iconfont/iconfont.css'
-import './lib/iconfont/iconfont.js'
+
+import './lib/iconfont_css/iconfont.css'
+import './lib/iconfont_js/iconfont.js'
 
 import PLAIN from '../src'
 

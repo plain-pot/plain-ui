@@ -1,8 +1,8 @@
 {
   "id": "1816939",
   "name": "plain",
-  "font_family": "plc-iconfont",
-  "css_prefix_text": "plc-",
+  "font_family": "pli-icon",
+  "css_prefix_text": "pli-",
   "description": "",
   "glyphs": [
     {

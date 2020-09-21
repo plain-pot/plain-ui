@@ -1,10 +1,10 @@
 <template>
     <div class="demo-icon">
-        <demo-row>
-            <pl-icon icon="plc-diamond"/>
+        <demo-row title="iconfont svg">
+            <pl-icon icon="plicon-gitee"/>
         </demo-row>
-        <demo-row>
-            <pl-icon fontName="plc-iconfont" icon="plc-diamond"/>
+        <demo-row title="iconfotn font class">
+            <pl-icon icon="pli-git"/>
         </demo-row>
         <demo-row title="使用 ElementUI 标准图标">
             <div style="text-align: center">

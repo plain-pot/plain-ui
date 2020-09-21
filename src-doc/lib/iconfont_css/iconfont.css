@@ -1,0 +1,29 @@
+@font-face {font-family: "pli-icon";
+  src: url('iconfont.eot?t=1600670823939'); /* IE9 */
+  src: url('iconfont.eot?t=1600670823939#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAPMAAsAAAAACAQAAAN+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqDSIMeATYCJAMQCwoABCAFhG0HPxsHBxHVm9/IfibEG5cxV1acmagJXxJrggBz6klWWs8uEQ8Jf0vHiIEB4TsFELA454GNijBDOXvy6Aspj7KcAuB/jpkuSifwFwCWnTSy6YC214HRd8J3IAfktxzOvAqPruMQgEGUDKJWnUat0FGQcQIQg/r37Y6eUqJqMgU6AreSpQoxDwu6nC5vAXP93xdfyauDxKJBpjbrU7sX1T7IDw00q8tKJxcBazw9IK4CDcgACkS/UmMPtDCYQcPQ+yuKgI6OhLE61IcGLhdm70WoUyF9//EkCDdIugcABRDS4IO0mbFIgRwBogaQhgR4IWI9TFkAXIOIA/ytBQLpUc8jr6fD0cbpbGu3t7bZtHInEGbac7A+ajVjyRJBfaK8itPp3KzFwTZbbNsCrsyotWSHI8HW+h5We+ttEbYajnqLNh8PjFy8/fjlYliE7zojyPGku+NDG+fHtvb3rW3vunrMWATWxaY5c3Egy04lGEuWBImVZ5M9Zy4dOX+J4THDds+GrOV7roGey1njU9bdeqxRM0pzaaG0VOrB2H7NTk+bdrrZPUbzaFGfflsvGMvy9dHuaoytKu8Y4T98Que246uG1dlfPejvtbVz59Z9S92w8+F1A6sNbdt5aPnIgGfLWgX4VekY2ieqZI694Uy5rGYvixbXwr3Z0oIzOq7xj1VMjHpM5TExDjeOT8mPN34Y1ezd9pvPDU+vk69+rXtu/PLe8Uuaz82qqKBHUq3w1uG1ktLDR9elWzfqLjBe0A0yUm6TX8A1Xwlt3C/9G4aHZc3v6l3pv24qAJ7OGdzXl7us7UxW+C+s1qwfWKUAl0uVOESllMa1maZZUa93ngQMDGQJxOrnxRjiwNbpINAJjEHiTiRo6CQgFTYDLJgUgBs6VcEgXd3VJv5GoCFUBSDNZAQCH3tB4sVZ0PBxG6mwz8FCkO/ghk8NDNoI/y1NkvY3asqEglGD/INXfWdYAh+G5DMt84b2nQRJHN/3Qpo8eKDKy2zkih3SGDOmj62ZDRjqW7gMdhqm1MNAfUDFuWMemqIwZbwcntHODhwJBaMG+Qev+s64k/jAkHxW+vM3tO8kqKZhmvqFNDGge6jysgXyKuxaNVzLOdPH1swGDPUtXFZHxBTsYSgfFFBx7nr4h6ag7UxbYT6vuH2ADLEFsqsSUmhCCQvbXl60faeX1vPadiDOZgAA') format('woff2'),
+  url('iconfont.woff?t=1600670823939') format('woff'),
+  url('iconfont.ttf?t=1600670823939') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1600670823939#pli-icon') format('svg'); /* iOS 4.1- */
+}
+
+.pli-icon {
+  font-family: "pli-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pli-diamond:before {
+  content: "\e604";
+}
+
+.pli-git:before {
+  content: "\e64a";
+}
+
+.pli-gitee:before {
+  content: "\e602";
+}
+
