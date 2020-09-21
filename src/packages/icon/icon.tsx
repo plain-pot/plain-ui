@@ -5,7 +5,7 @@ export default defineComponent({
     props: {
         icon: {type: String, require: true},
         status: {type: String},
-        svg: {type: Boolean, default: true},
+        fontName: {type: String},
     },
     setup(props, context) {
 
@@ -17,7 +17,8 @@ export default defineComponent({
             'pl-icon',
             props.icon,
             {
-                [`pl-icon-status-${props.status}`]: !!props.status
+                [`pl-icon-status-${props.status}`]: !!props.status,
+                [props.fontName!]: !!props.fontName,
             }
         ]))
 
@@ -30,19 +31,17 @@ export default defineComponent({
 
         return () => {
             if (!props.icon) {
-                console.warn('pl-icon: icon is require!')
+                // console.warn('pl-icon: icon is require!')
                 return null
             }
-            if (props.icon!.indexOf('el-') === 0 || !props.svg) {
+            if (props.icon!.indexOf('el-') === 0 || !!props.fontName) {
                 return <i {...binding.value}/>
             }
-            if (props.svg) {
-                return (
-                    <svg aria-hidden="true" {...binding.value}>
-                        <use {...{attrs: {'xlink:href': `#${props.icon}`}}}/>
-                    </svg>
-                )
-            }
+            return (
+                <svg aria-hidden="true" {...binding.value}>
+                    <use {...{attrs: {'xlink:href': `#${props.icon}`}}}/>
+                </svg>
+            )
         }
     },
 })

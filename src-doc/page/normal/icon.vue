@@ -1,5 +1,11 @@
 <template>
     <div class="demo-icon">
+        <demo-row>
+            <pl-icon icon="plc-diamond"/>
+        </demo-row>
+        <demo-row>
+            <pl-icon fontName="plc-iconfont" icon="plc-diamond"/>
+        </demo-row>
         <demo-row title="使用 ElementUI 标准图标">
             <div style="text-align: center">
                 <pl-input suffixIcon="el-icon-search" size="large" shape="round" :width="500" @keydown.enter="onEnter" v-model="searchValue" @click-suffix-icon="onEnter"/>
