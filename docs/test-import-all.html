@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <link type="text/css" rel="stylesheet" href="../dist/plain-ui.css">
+    <link type="text/css" rel="stylesheet" href="./dist/plain-ui.css">
 </head>
 <body>
 
 <div id="app"></div>
 
-<script src="../src-doc/lib/vue.min.js"></script>
-<script src="../src-doc/lib/vue-composition-api.umd.js"></script>
-<script src="../dist/plain-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.0.0-beta.14"></script>
+
+<script src="./dist/plain-ui.js"></script>
 
 <script>
-
-    Vue.use(vueCompositionApi.default)
 
     new Vue({
         el: '#app',
