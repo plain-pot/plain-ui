@@ -7,6 +7,8 @@ import './lib/iconfont_css/iconfont.css'
 import './lib/iconfont_js/iconfont.js'
 
 import PLAIN from '../src'
+import {Icon} from '../src'
+Icon.registry('pli','pli-icon')
 
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);

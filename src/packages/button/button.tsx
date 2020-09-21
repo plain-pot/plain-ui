@@ -1,7 +1,6 @@
 import {computed, defineComponent, inject, reactive, watch} from "@vue/composition-api";
 
 import PlainUtils from '../../../submodules/plain-utils'
-import {button} from "@/index";
 import ClickWave from "@/directives/click-wave";
 import {BUTTON_GROUP_PROVIDER} from "@/packages/button/button-group";
 import {EmitFunc, useEvent} from "@/use/useEvent";

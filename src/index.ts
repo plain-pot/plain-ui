@@ -1,63 +1,63 @@
 import 'src/style/index.scss'
 import PLC from "@/packages/table/plc-components";
 
-import button from './packages/button'
-import input from './packages/input'
-import icon from './packages/icon'
-import collapse from './packages/collapse'
-import loading from './packages/loading'
-import list from './packages/list'
-import message from './packages/message'
-import notice from './packages/notice'
-import grid from './packages/grid'
-import radio from './packages/radio'
-import checkbox from './packages/checkbox'
-import number from './packages/number'
-import toggle from './packages/toggle'
-import slider from './packages/slider'
-import tag from './packages/tag'
-import rate from './packages/rate'
-import scroll from './packages/scroll'
-import portal from './packages/portal'
-import dialog from './packages/dialog'
-import popper from './packages/popper'
-import popover from './packages/popover'
-import colorPicker from './packages/color-picker'
-import tooltip from './packages/tooltip'
-import dropdown from './packages/dropdown'
-import card from './packages/card'
-import alert from './packages/alert'
-import carousel from './packages/carousel'
-import virtualList from './packages/virtual-list'
-import progress from './packages/progress'
-import pagination from "@/packages/pagination";
-import badge from './packages/badge'
-import step from './packages/step'
-import triangle from './packages/triangle'
-import tab from './packages/tab'
-import tabHeader from './packages/tab-header'
-import filletCorner from './packages/fillet-corner'
-import tree from './packages/tree'
-import virtualTree from './packages/virtual-tree'
-import cascade from './packages/cascade'
-import time from './packages/time'
-import dateTimeInput from './packages/date-time-input'
-import date from './packages/date'
-import select from './packages/select'
-import form from './packages/form'
-import table from './packages/table'
+import Button from './packages/button'
+import Input from './packages/input'
+import Icon from './packages/icon'
+import Collapse from './packages/collapse'
+import Loading from './packages/loading'
+import List from './packages/list'
+import Message from './packages/message'
+import Notice from './packages/notice'
+import Grid from './packages/grid'
+import Radio from './packages/radio'
+import Checkbox from './packages/checkbox'
+import Number from './packages/number'
+import Toggle from './packages/toggle'
+import Slider from './packages/slider'
+import Tag from './packages/tag'
+import Rate from './packages/rate'
+import Scroll from './packages/scroll'
+import Portal from './packages/portal'
+import Dialog from './packages/dialog'
+import Popper from './packages/popper'
+import Popover from './packages/popover'
+import ColorPicker from './packages/color-picker'
+import Tooltip from './packages/tooltip'
+import Dropdown from './packages/dropdown'
+import Card from './packages/card'
+import Alert from './packages/alert'
+import Carousel from './packages/carousel'
+import VirtualList from './packages/virtual-list'
+import Progress from './packages/progress'
+import Pagination from "@/packages/pagination";
+import Badge from './packages/badge'
+import Step from './packages/step'
+import Triangle from './packages/triangle'
+import Tab from './packages/tab'
+import TabHeader from './packages/tab-header'
+import FilletCorner from './packages/fillet-corner'
+import Tree from './packages/tree'
+import VirtualTree from './packages/virtual-tree'
+import Cascade from './packages/cascade'
+import Time from './packages/time'
+import DateTimeInput from './packages/date-time-input'
+import Date from './packages/date'
+import Select from './packages/select'
+import Form from './packages/form'
+import Table from './packages/table'
 
 import {installPlugin, PluginType} from "@/util/install";
 
 const plugins = [
     PLC,
-    icon,
-    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker, cascade, time, dateTimeInput, date, select, form, table,
-    collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper, popover, tooltip, dropdown, step,
-    card, carousel, virtualList, progress, pagination, tab, tree, virtualTree,
-    alert, badge, triangle,
-    tabHeader, filletCorner,
+    Icon,
+    Button, Input, Loading, Radio, Checkbox, Number, Toggle, Slider, Tag, Rate, ColorPicker, Cascade, Time, DateTimeInput, Date, Select, Form, Table,
+    Collapse, List, Grid, Scroll, Portal,
+    Message, Notice, Dialog, Popper, Popover, Tooltip, Dropdown, Step,
+    Card, Carousel, VirtualList, Progress, Pagination, Tab, Tree, VirtualTree,
+    Alert, Badge, Triangle,
+    TabHeader, FilletCorner,
 ]
 
 const install: PluginType['install'] = Vue => {
@@ -66,11 +66,13 @@ const install: PluginType['install'] = Vue => {
 
 export {
     PLC,
-    icon,
-    button, input, loading, radio, checkbox, number, toggle, slider, tag, rate, colorPicker,
-    collapse, list, grid, scroll, portal,
-    message, notice, dialog, popper, popover, tooltip, dropdown, step,
-    card, alert, carousel, virtualList, progress, pagination, badge, triangle, tab,
+    Icon,
+    Button, Input, Loading, Radio, Checkbox, Number, Toggle, Slider, Tag, Rate, ColorPicker, Cascade, Time, DateTimeInput, Date, Select, Form, Table,
+    Collapse, List, Grid, Scroll, Portal,
+    Message, Notice, Dialog, Popper, Popover, Tooltip, Dropdown, Step,
+    Card, Carousel, VirtualList, Progress, Pagination, Tab, Tree, VirtualTree,
+    Alert, Badge, Triangle,
+    TabHeader, FilletCorner,
 
     install,
 }
