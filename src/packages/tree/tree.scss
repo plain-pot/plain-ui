@@ -14,10 +14,11 @@
         position: relative;
         width: 100%;
         transition: all $transition 300ms;
+        padding: 4px 0;
 
         .pl-tree-node-operator {
           position: absolute;
-          top: 0;
+          top: 4px;
           left: 0;
           user-select: none;
 
