@@ -79,6 +79,7 @@
 
         .pl-input-inner, .pl-textarea-inner, input {
           font-size: 16px;
+          line-height: 16px;
         }
 
         .pl-input-inner, .pl-textarea-inner {
@@ -97,6 +98,7 @@
 
         .pl-input-inner, .pl-textarea-inner, input {
           font-size: 14px;
+          line-height: 14px;
         }
 
         .pl-input-inner, .pl-textarea-inner {
@@ -115,6 +117,7 @@
 
         .pl-input-inner, .pl-textarea-inner, input {
           font-size: 12px;
+          line-height: 12px;
         }
 
         .pl-input-inner, .pl-textarea-inner {
@@ -174,6 +177,8 @@
       @include sizeMixin(input) {
         .pl-input-inner {
           height: $value;
+        }
+        div.pl-input-inner {
           line-height: $value;
         }
       }
