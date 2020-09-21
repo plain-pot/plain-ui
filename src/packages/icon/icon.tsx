@@ -31,6 +31,9 @@ export default defineComponent({
             if (!prefix.value) {
                 return false
             }
+            if (prefix.value === 'el') {
+                return false
+            }
             return !iconfont[prefix.value];
         })
 

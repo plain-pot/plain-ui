@@ -1,5 +1,9 @@
 <template>
     <div class="demo-icon">
+        <demo-row title="基本用法">
+            <pl-icon icon="el-icon-delete-solid"/>
+            <pl-icon icon="el-icon-delete-solid" status="error"/>
+        </demo-row>
         <demo-row title="iconfont svg">
             <pl-icon icon="plicon-gitee"/>
         </demo-row>
