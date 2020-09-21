@@ -22,7 +22,7 @@ module.exports = {
         externals: {
             vue: 'Vue',
             '@vue/composition-api': {
-                root: 'vueCompositionApi',
+                root: 'VueCompositionAPI',
                 commonjs: '@vue/composition-api',
                 commonjs2: '@vue/composition-api',
             }
