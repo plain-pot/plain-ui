@@ -28,11 +28,24 @@
             </pl-popper>
         </demo-row>
 
+        <demo-row>
+            <pl-button ref="btn">BUTTON</pl-button>
+            <div class="plain-popper" ref="popper">
+                <div class="plain-popper-content">
+                    <i class="plain-popper-arrow"/>
+                    <div>
+                        this is plain-popper
+                    </div>
+                </div>
+            </div>
+        </demo-row>
+
     </div>
 </template>
 
 <script>
     import DemoMixins from "../../component/DemoMixins";
+    import {PlainPopper} from "../plain-popper/PlainPopper";
 
     export default {
         name: "demo-popper",
@@ -64,6 +77,12 @@
         },
         mounted() {
             this.reference = this.$refs.button
+
+            new PlainPopper({
+                reference: this.$refs.btn.$el,
+                popper: this.$refs.popper,
+                padding: 10,
+            })
         },
         methods: {
             onClickBody() {
