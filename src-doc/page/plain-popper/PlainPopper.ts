@@ -145,7 +145,7 @@ export class PlainPopper {
 
             this.paddingProp = isVertical(direction) ?
                 (direction === Direction.top ? 'Bottom' : 'Top') :
-                (direction === Direction.left ? 'Left' : 'Right');
+                (direction === Direction.left ? 'Right' : 'Left');
 
             this.config.popper.style[`padding${this.paddingProp}`] = `${offset}px`
 
