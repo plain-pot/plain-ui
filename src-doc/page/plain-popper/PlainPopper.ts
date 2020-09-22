@@ -2,12 +2,17 @@ import {StyleType} from "@/types/utils";
 import {adjustPlacement, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
 
 export class PlainPopper {
+
+    content: HTMLElement
+
     constructor(public config: PlainPopperConfig) {
 
         (config.padding == null && (config.padding = 0));
         (config.offset == null && (config.offset = 0));
         (config.placement == null && (config.placement = 'bottom-start'));
         (config.arrowSize == null && (config.arrowSize = 10));
+
+        this.content = config.popper.querySelector('.plain-popper-content') as HTMLElement
 
         this.init()
     }
@@ -99,7 +104,7 @@ export class PlainPopper {
 
         setPos(this.config.popper, {left, top}, !!gpuAcceleration)
 
-        reference.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType)
+        this.content.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType)
         popper.setAttribute('direction', direction)
         popper.setAttribute('align', align)
     }

@@ -147,10 +147,10 @@ export function adjustPlacement(placement: PlacementType, referencePos: Pos, pop
                 top = referencePos.top - padding
                 break
             case Align.center:
-                left = referencePos.top - (popperPos.height - referencePos.height) / 2
+                top = referencePos.top - (popperPos.height - referencePos.height) / 2
                 break
             case Align.end:
-                left = referencePos.top - (popperPos.height - referencePos.height) + padding
+                top = referencePos.top - (popperPos.height - referencePos.height) + padding
                 break
         }
     }
