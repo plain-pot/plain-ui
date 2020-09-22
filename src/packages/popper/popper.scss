@@ -9,6 +9,8 @@
   .pl-popper {
     display: inline-block;
     vertical-align: middle;
+    font-size: 14px;
+    @include public-style;
 
     .plain-popper-content {
       border-radius: 2px;

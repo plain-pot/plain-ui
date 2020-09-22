@@ -82,10 +82,6 @@ export default defineComponent({
             leavePopper: EmitFunc,                                  // trigger为hover下，离开popper事件
             referenceFocus: EmitFunc,                               // trigger为focus下，reference 获取焦点事件
             referenceBlur: EmitFunc,                                // trigger为focus下，reference失去焦点事件
-
-            beforeEnter: EmitFunc,                                  // 展开动画开始之前事件
-            afterEnter: EmitFunc,                                   // 展开动画结束之后事件
-            afterLeave: EmitFunc,                                   // 收起动画结束之后事件
         })
 
         /*---------------------------------------state-------------------------------------------*/
@@ -399,6 +395,7 @@ export default defineComponent({
                                      on: {
                                          ...popperListener,
                                          transitionend: handler.popperTransitionEnd,
+                                         mousedown: emit.mousedownPopper,
                                      }
                                  }}
                             >
