@@ -30,16 +30,33 @@ export class PlainPopper {
 
         /*---------------------------------------init PlainPopper styles-------------------------------------------*/
 
-        const plainPopperStyles = {
+        /*popper styles*/
+        Object.assign(this.config.popper.style, {
             padding: `${this.config.padding}px`,
-        } as StyleType
 
-        Object.assign(this.config.popper.style, plainPopperStyles)
+            overflow: 'hidden',
+            position: 'fixed',
+            pointerEvents: 'none',
+        } as StyleType)
 
+        /*content styles*/
+        Object.assign(this.content.style, {
+            backgroundColor: 'white',
+            pointerEvents: 'auto',
+            position: 'relative',
+            boxSizing: 'border-box',
+        } as StyleType)
+
+        /*arrow styles*/
         if (this.arrowSize > 0) {
             Object.assign(this.arrow!.style, {
                 height: `${this.arrowSize}px`,
                 width: `${this.arrowSize}px`,
+
+                position: 'absolute',
+                pointerEvents: 'none',
+                backgroundColor: 'inherit',
+                boxShadow: '-2px -2px 5px rgba(0, 0, 0, .1)',
             } as StyleType)
         }
 
