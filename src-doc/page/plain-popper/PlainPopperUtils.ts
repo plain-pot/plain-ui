@@ -64,7 +64,7 @@ function getEl(el: any): HTMLElement | null {
  * @author  韦胜健
  * @date    2020/9/22 9:40
  */
-function isVertical(direction: Direction) {
+export function isVertical(direction: Direction) {
     return [Direction.top, Direction.bottom].indexOf(direction) > -1
 }
 

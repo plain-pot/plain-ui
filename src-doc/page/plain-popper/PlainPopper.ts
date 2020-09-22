@@ -1,5 +1,5 @@
 import {StyleType} from "@/types/utils";
-import {adjustPlacement, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
+import {adjustPlacement, Align, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, isVertical, PlacementType, PlainPopperConfig, Pos, setPos} from "./PlainPopperUtils";
 
 export class PlainPopper {
 
@@ -7,12 +7,16 @@ export class PlainPopper {
     arrow: HTMLElement | null
     arrowSize: number
 
+    get offset(): number {
+        return this.config.offset! + this.arrowSize
+    }
+
     constructor(public config: PlainPopperConfig) {
 
         (config.padding == null && (config.padding = 0));
         (config.offset == null && (config.offset = 0));
         (config.placement == null && (config.placement = 'bottom-start'));
-        (config.arrowSize == null && (config.arrowSize = 12));
+        (config.arrowSize == null && (config.arrowSize = 16));
 
         this.content = config.popper.querySelector('.plain-popper-content') as HTMLElement
         this.arrowSize = !config.arrowSize ? 0 : Math.sqrt(Math.pow(config.arrowSize, 2) / 2)
@@ -45,8 +49,9 @@ export class PlainPopper {
 
     refresh() {
         let left: number, top: number;
+        const {offset} = this
         const {popper, reference, boundary, placement, gpuAcceleration} = this.config
-        const {offset, padding} = this.config as { offset: number, padding: number }
+        const {padding} = this.config as { offset: number, padding: number }
 
         const popperPos = getPos(popper)
         const referencePos = getPos(reference)
@@ -118,6 +123,66 @@ export class PlainPopper {
         this.content.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType)
         popper.setAttribute('direction', direction)
         popper.setAttribute('align', align)
+
+        this.refreshArrow(direction, align)
+    }
+
+    refreshArrow(direction: Direction, align: Align) {
+
+        if (!this.arrow) {
+            return
+        }
+
+        const contentPos = getPos(this.content)
+
+        const {arrowSize} = this
+        let top: number, left: number;
+
+        switch (direction) {
+            case Direction.top:
+                top = contentPos.height - arrowSize / 2
+                break
+            case Direction.bottom:
+                top = -arrowSize / 2
+                break
+            case Direction.left:
+                left = contentPos.width - arrowSize / 2
+                break
+            case Direction.right:
+                left = -arrowSize / 2
+                break
+        }
+
+        const paddingSize = arrowSize*2
+
+        if (isVertical(direction)) {
+            switch (align) {
+                case Align.start:
+                    left = paddingSize
+                    break
+                case Align.center:
+                    left = (contentPos.width - arrowSize) / 2
+                    break
+                case Align.end:
+                    left = (contentPos.width - arrowSize) - paddingSize
+                    break
+            }
+        } else {
+            switch (align) {
+                case Align.start:
+                    top = paddingSize
+                    break
+                case Align.center:
+                    top = (contentPos.height - arrowSize) / 2
+                    break
+                case Align.end:
+                    top = (contentPos.height - arrowSize) - paddingSize
+                    break
+            }
+        }
+
+        setPos(this.arrow!, {top: top!, left: left!}, !!this.config.gpuAcceleration)
+
     }
 
 }

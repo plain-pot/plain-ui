@@ -83,6 +83,7 @@
                 reference: this.$refs.btn.$el,
                 popper: this.$refs.popper,
                 padding: 50,
+                // placement: 'top-start',
             })
         },
         methods: {
@@ -124,8 +125,9 @@
 
         .plain-popper-arrow {
             position: absolute;
-            background-color: gray;
+            background-color: white;
             transform: rotate(45deg);
+            pointer-events: none;
         }
     }
 
