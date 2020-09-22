@@ -107,6 +107,8 @@ export default defineComponent({
 
             popper: null as PlainPopper | null,
             zIndex: $plain.nextIndex(),
+            init: false,
+            ready: false,
         })
 
         /*---------------------------------------computer-------------------------------------------*/
@@ -116,6 +118,7 @@ export default defineComponent({
             props.transition,
             {
                 'pl-popper-show': model.value,
+                'pl-popper-ready': state.ready,
             }
         ])
 
@@ -144,6 +147,14 @@ export default defineComponent({
 
         const methods = {
             show: async () => {
+                if (!state.init) {
+                    state.init = true
+                    await $plain.nextTick()
+                    await utils.initPopper()
+                    await $plain.utils.delay(23)
+                    state.ready = true
+                }
+
                 state.zIndex = $plain.nextIndex()
                 await $plain.nextTick()
                 model.value = true
@@ -162,25 +173,24 @@ export default defineComponent({
 
         const utils = {
             async init() {
-
                 state.referenceEl = utils.getReferenceEl()
-
                 if (!state.referenceEl) {
                     return
                 }
-
                 state.referenceEl.addEventListener('click', handler.clickReference)
-
+            },
+            async initPopper() {
                 state.popper = new PlainPopper({
                     popper: refs.popper,
-                    reference: state.referenceEl,
+                    reference: state.referenceEl!,
                     padding: 50,
                     placement: props.placement as any,
                 })
-
             },
             destroy: () => {
-                state.popper!.destroy()
+                if (!!state.popper) {
+                    state.popper!.destroy()
+                }
             },
             bindEvents: () => {
             },
@@ -241,8 +251,8 @@ export default defineComponent({
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 
-        onMounted(() => {
-            utils.init()
+        onMounted(async () => {
+            await utils.init()
         })
 
         onBeforeUnmount(() => {
@@ -253,18 +263,20 @@ export default defineComponent({
             <div class={classes.value}
             >
                 {slots.default()}
-                <div ref="popper"
-                     class={popperClasses.value}
-                     style={popperStyles.value}
-                >
-                    <div class="plain-popper-content"
-                         ref="content"
-                         style={contentStyles.value}
+                {!!state.init && (
+                    <div ref="popper"
+                         class={popperClasses.value}
+                         style={popperStyles.value}
                     >
-                        <div class="plain-popper-arrow"/>
-                        {slots.popper()}
+                        <div class="plain-popper-content"
+                             ref="content"
+                             style={contentStyles.value}
+                        >
+                            <div class="plain-popper-arrow"/>
+                            {slots.popper()}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         )
     },
