@@ -11,13 +11,40 @@
     vertical-align: middle;
 
     .plain-popper-content {
-      background-color: white;
       border-radius: 2px;
-      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
       padding: 8px 0;
       pointer-events: none !important;
+      background-color: white;
+      //background-color: black;
+      //color: white;
 
       height: 120px;
+    }
+
+    .plain-popper {
+      &[direction=top] {
+        .plain-popper-content {
+          box-shadow: 0 -1px 10px 2px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &[direction=bottom] {
+        .plain-popper-content {
+          box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &[direction=left] {
+        .plain-popper-content {
+          box-shadow: -1px 0 10px 2px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &[direction=right] {
+        .plain-popper-content {
+          box-shadow: 1px 0 10px 2px rgba(0, 0, 0, 0.15);
+        }
+      }
     }
 
     &.pl-popper-show {
@@ -98,13 +125,13 @@
 
       .plain-popper[direction=top] {
         .plain-popper-content {
-          transform: translate3d(0, 100%, 0);
+          transform: translate3d(0, 150%, 0);
         }
       }
 
       .plain-popper[direction=bottom] {
         .plain-popper-content {
-          transform: translate3d(0, -100%, 0);
+          transform: translate3d(0, -150%, 0);
         }
       }
 

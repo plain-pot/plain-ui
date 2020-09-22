@@ -1,6 +1,102 @@
 <template>
     <div class="demo-popper">
 
+        <demo-row title="基本用法">
+            <pl-popper :width="null" :height="null">
+                <pl-button label="hover激活"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="位置" class="demo-popper-placement">
+
+            <demo-line v-for="direction in directions" :key="direction">
+
+                <pl-popper :placement="direction" :key="`${direction}-1`">
+                    <pl-button :label="direction"/>
+                    <div slot="popper" class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </pl-popper>
+
+                <pl-popper :placement="`${direction}-${align}`" :key="align" v-for="align in aligns">
+                    <pl-button :label="`${direction}-${align}`"/>
+                    <div slot="popper" class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </pl-popper>
+            </demo-line>
+        </demo-row>
+
+        <demo-row title="触发动作">
+            <pl-popper trigger="hover">
+                <pl-button label="hover激活"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+            <pl-popper trigger="click">
+                <pl-button label="click激活"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+            <pl-popper trigger="manual" v-model="val[1]">
+                <pl-button label="manual激活" @click="$set(val,1,!val[1])"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容{{val[1]}}
+                </div>
+            </pl-popper>
+            <pl-popper trigger="focus">
+                <pl-button label="focus激活"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+            <pl-popper trigger="focus">
+                <span>focus激活</span>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="测试组件销毁之后，监听的事件是否已经销毁">
+            <pl-checkbox v-model="init" label="init"/>
+            <pl-popper trigger="click" v-if="init" @click-body="onClickBody">
+                <pl-button label="click激活"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="自定义reference" @change="$nextTick(()=>reference = $refs.button)">
+            <pl-button label="click激活" ref="button"/>
+            <pl-popper trigger="click" :reference="reference">
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="自动设置popper大小，在方向上与reference大小对其">
+            <pl-popper placement="top" sizeEqual>
+                <pl-button label="纵向" style="width:100px;height: 100px"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+            <pl-popper placement="left" sizeEqual>
+                <pl-button label="横向" style="width:100px;height: 100px"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
+
         <demo-row title="动画">
             <pl-popper transition="pl-transition-fade" trigger="click">
                 <pl-button label="fade"/>
@@ -28,25 +124,75 @@
             </pl-popper>
         </demo-row>
 
-        <demo-row>
-            <pl-button ref="btn">BUTTON</pl-button>
-            <h1>中间内容</h1>
-            <div class="plain-popper" ref="popper">
-                <div class="plain-popper-content">
-                    <div class="plain-popper-arrow"/>
-                    <div>
-                        this is plain-popper
-                    </div>
+        <demo-row title="测试show以及open的区别">
+            <div>flag:{{flag}}</div>
+            <div>open:{{open}}</div>
+            <pl-checkbox label="open" v-model="flag"/>
+
+            <pl-popper transition="pl-transition-scale-y"
+                       trigger="click"
+                       v-model="flag"
+                       @input="val=>$plain.log('111',val)"
+                       :open.sync="open"
+                       @open="$plain.log('open')"
+                       @close="$plain.log('close')"
+            >
+                <pl-button label="scale-y"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
                 </div>
-            </div>
+            </pl-popper>
         </demo-row>
 
+        <demo-row title="综合测试">
+            <demo-line title="测试目标" style="height: 100px">
+                <pl-popper :transition="test.animation" trigger="manual" :arrow="test.arrow" :placement="`${test.direction}-${test.align}`" :value="test.show">
+                    <pl-button label="popper-drop" @click="test.show = !test.show"/>
+                    <div slot="popper" class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </pl-popper>
+            </demo-line>
+            <demo-line title="direction">
+                <pl-button-group>
+                    <pl-button v-for="item in directions" :key="item" :label="item" :active="item === test.direction" @click="test.direction = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="align">
+                <pl-button-group>
+                    <pl-button v-for="item in aligns" :key="item" :label="item" :active="item === test.align" @click="test.align = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="animation">
+                <pl-button-group>
+                    <pl-button v-for="item in animations" :key="item" :label="item" :active="item === test.animation" @click="test.animation = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="arrow">
+                <pl-checkbox v-model="test.arrow"/>
+            </demo-line>
+
+        </demo-row>
+
+        <demo-row title="宽高">
+            <pl-popper :width="150" :height="200" trigger="click">
+                <pl-button label="150:number,200:number"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+            <pl-popper width="150px" height="200" trigger="click">
+                <pl-button label="150px:string,200:string"/>
+                <div slot="popper" class="demo-popper-content">
+                    这里是popper的内容
+                </div>
+            </pl-popper>
+        </demo-row>
     </div>
 </template>
 
 <script>
     import DemoMixins from "../../component/DemoMixins";
-    import {PlainPopper} from "../plain-popper/PlainPopper";
 
     export default {
         name: "demo-popper",
@@ -78,13 +224,6 @@
         },
         mounted() {
             this.reference = this.$refs.button
-
-            const popper = new PlainPopper({
-                reference: this.$refs.btn.$el,
-                popper: this.$refs.popper,
-                padding: 50,
-                placement: 'bottom-end',
-            })
         },
         methods: {
             onClickBody() {
@@ -105,40 +244,5 @@
             height: 80px !important;
             width: 80px;
         }
-    }
-
-    /*---------------------------------------standard-------------------------------------------*/
-
-    .plain-popper {
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 999;
-        pointer-events: none;
-
-        .plain-popper-content {
-            background-color: white;
-            pointer-events: auto;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        .plain-popper-arrow {
-            position: absolute;
-            pointer-events: none;
-            background-color: inherit;
-            box-shadow: -2px -2px 5px rgba(0, 0, 0, .1);
-        }
-    }
-
-    /*---------------------------------------custom-------------------------------------------*/
-    .plain-popper-content {
-        width: 200px;
-        height: 150px;
-        /*border: 1px solid #e4e7ed;*/
-        border-radius: 2px;
-        box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
-        transition: all 300ms linear;
     }
 </style>

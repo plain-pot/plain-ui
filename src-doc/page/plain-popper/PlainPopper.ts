@@ -39,7 +39,6 @@ export class PlainPopper {
 
         /*content styles*/
         Object.assign(this.content.style, {
-            backgroundColor: 'white',
             pointerEvents: 'auto',
             position: 'relative',
             boxSizing: 'border-box',
