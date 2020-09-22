@@ -109,7 +109,7 @@
 
     .plain-popper {
         overflow: hidden;
-        background-color: blueviolet;
+        background-color: rgba(black, 0.05);
         position: fixed;
         top: 0;
         left: 0;
