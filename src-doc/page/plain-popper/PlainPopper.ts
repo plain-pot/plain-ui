@@ -1,5 +1,5 @@
 import {StyleType} from "@/types/utils";
-import {adjustPlacement, Align, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, isVertical, PlacementType, PlainPopperConfig, Pos, setPos} from "./PlainPopperUtils";
+import {adjustPlacement, Align, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, isVertical, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
 
 export class PlainPopper {
 
@@ -137,23 +137,27 @@ export class PlainPopper {
 
         const {arrowSize} = this
         let top: number, left: number;
-
+        let rotate = 0
         switch (direction) {
             case Direction.top:
                 top = contentPos.height - arrowSize / 2
+                rotate = 225
                 break
             case Direction.bottom:
                 top = -arrowSize / 2
+                rotate = 45
                 break
             case Direction.left:
                 left = contentPos.width - arrowSize / 2
+                rotate = 135
                 break
             case Direction.right:
                 left = -arrowSize / 2
+                rotate = -45
                 break
         }
 
-        const paddingSize = arrowSize*2
+        const paddingSize = arrowSize * 2
 
         if (isVertical(direction)) {
             switch (align) {
@@ -182,6 +186,10 @@ export class PlainPopper {
         }
 
         setPos(this.arrow!, {top: top!, left: left!}, !!this.config.gpuAcceleration)
+
+        Object.assign(this.arrow.style, {
+            transform: `rotate(${rotate}deg)`
+        } as StyleType)
 
     }
 
