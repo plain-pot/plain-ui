@@ -307,6 +307,11 @@ export default defineComponent({
                 }
                 emit.clickBody(e)
             },
+            popperTransitionEnd: (e) => {
+                if (!!state.onTransitionend) {
+                    state.onTransitionend(e)
+                }
+            }
         }
 
         /*---------------------------------------watch-------------------------------------------*/
@@ -315,6 +320,13 @@ export default defineComponent({
         watch(() => model.value, (val) => {
         })
         watch(() => openModel.value, (val) => {
+            if (!!val) {
+                emit.updateOpen(true)
+                emit.open()
+            } else {
+                emit.updateOpen(false)
+                emit.close()
+            }
         })
         watch(() => props.placement, (val) => {
             if (!!state.popper) {
@@ -361,7 +373,12 @@ export default defineComponent({
                                  ref="content"
                                  style={contentStyles.value}
                                  onClick={handler.clickPopper}
-                                 {...{on: popperListener}}
+                                 {...{
+                                     on: {
+                                         ...popperListener,
+                                         transitionend: handler.popperTransitionEnd,
+                                     }
+                                 }}
                             >
                                 <div class="plain-popper-arrow"/>
                                 {slots.popper()}
