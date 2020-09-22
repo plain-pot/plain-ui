@@ -2,14 +2,14 @@ import {computed, defineComponent, getCurrentInstance, onBeforeUnmount, onMounte
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
-import {PlainPopper} from "../../../src-doc/page/plain-popper/PlainPopper";
+import PlainPopper from "../../../submodules/plain-popper";
 import {$plain} from "@/packages/base";
 import {ElRef, useRefs} from "@/use/useRefs";
+import {PlainPlacementType} from "../../../submodules/plain-popper/types";
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
-import {PlacementType} from "../../../src-doc/page/plain-popper/PlainPopperUtils";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
 
@@ -201,13 +201,13 @@ export default defineComponent({
                 state.contentEl = refs.content
 
                 state.popper = new PlainPopper({
-                    popper: state.popperEl,
-                    reference: state.referenceEl as HTMLElement,
-                    arrowSize: !!props.arrow ? 16 : 0,
-                    placement: props.placement as PlacementType,
+                    popperEl: state.popperEl,
+                    targetEl: state.referenceEl as HTMLElement,
+                    arrow: props.arrow,
+                    placement: props.placement as PlainPlacementType,
                     offset: propsState.offset,
                     boundary: props.boundary,
-                    padding: 20,
+                    boxShadow: undefined,
                 })
 
                 utils.bindEvents()
@@ -332,7 +332,7 @@ export default defineComponent({
 
         watch(() => props.placement, (val) => {
             if (!!state.popper) {
-                state.popper.setPlacement(val as PlacementType)
+                state.popper.setPlacement(val as PlainPlacementType)
             }
         })
 
@@ -353,7 +353,7 @@ export default defineComponent({
                 utils.dstry()
                 utils.init()
             })
-        }, {immediate: true})
+        },{immediate: true})
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 
@@ -379,25 +379,12 @@ export default defineComponent({
         provide(PLAIN_POPPER_PROVIDER, getCurrentInstance())
 
         return () => (
-            <div class={"pl-popper"}
-                 onClick={emit.clickPopper}
-                 onMousedown={emit.mousedownPopper}
-                 {...{props: props.rootProps}}
-                 show={model.value}
-                 ref={"el"}>
+            <span class={"pl-popper"} onClick={emit.clickPopper} onMousedown={emit.mousedownPopper} {...{props: props.rootProps}} show={model.value} ref={"el"}>
                 {slots.default()}
                 <div ref={"popper"}
-                     class={[
-                         'plain-popper',
-                         'pl-popper-el',
-                         `pl-popper-el-animate-${props.transition}`,
-                         props.transition,
-                         {[props.popperClass as string]: !!props.popperClass}]}
+                     class={['pl-popper-el', props.transition, {[props.popperClass as string]: !!props.popperClass}, `pl-popper-el-animate-${props.transition}`]}
                      style={popperStyles.value}>
-                    <transition name={props.transition}
-                                onAfterLeave={handler.afterLeave}
-                                onAfterEnter={handler.afterEnter}
-                                onBeforeEnter={handler.beforeEnter}>
+                     <transition name={props.transition} onAfterLeave={handler.afterLeave} onAfterEnter={handler.afterEnter} onBeforeEnter={handler.beforeEnter}>
                         <div {...{directives: [{name: 'show', value: model.value}]}}
                              ref="content"
                              class={['plain-popper-content', {'plain-popper-content-no-padding': props.noContentPadding}]}>
@@ -406,7 +393,7 @@ export default defineComponent({
                         </div>
                     </transition>
                 </div>
-            </div>
+            </span>
         )
     },
 })

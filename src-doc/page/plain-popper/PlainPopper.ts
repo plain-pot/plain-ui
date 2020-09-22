@@ -1,5 +1,6 @@
 import {StyleType} from "@/types/utils";
 import {adjustPlacement, Align, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, isVertical, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
+import {PlainPlacementType} from "../../../submodules/plain-popper/types";
 
 export class PlainPopper {
 
@@ -236,4 +237,13 @@ export class PlainPopper {
         this.unbindEvent()
     }
 
+    /**
+     * 修改绑定位置
+     * @author  韦胜健
+     * @date    2019/11/30 18:33
+     */
+    public setPlacement(placement: PlainPlacementType) {
+        this.config.placement = placement
+        this.refresh()
+    }
 }
