@@ -66,6 +66,12 @@
       }
     }
 
+    &:not(.pl-popper-show-arrow) {
+      .plain-popper-arrow {
+        display: none;
+      }
+    }
+
     /*---------------------------------------transition-------------------------------------------*/
 
     /*fade*/

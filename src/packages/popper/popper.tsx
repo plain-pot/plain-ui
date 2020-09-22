@@ -103,7 +103,6 @@ export default defineComponent({
         const state = reactive({
             trigger: null as PopperTrigger | null,
             referenceEl: null as HTMLElement | null,
-            popperEl: null as HTMLElement | null,
 
             popper: null as PlainPopper | null,
             zIndex: $plain.nextIndex(),
@@ -126,6 +125,7 @@ export default defineComponent({
             {
                 'pl-popper-show': model.value,
                 'pl-popper-ready': state.ready,
+                'pl-popper-show-arrow': props.arrow,
             }
         ])
 
@@ -254,7 +254,7 @@ export default defineComponent({
                     reference: state.referenceEl!,
                     padding: 50,
                     placement: props.placement as any,
-                    offset: Number(props.offset || 0),
+                    offset: Number(props.offset || (!!props.arrow ? 0 : 2)),
                     boundary: props.boundary,
                     arrowSize: !props.arrow ? 0 : undefined
                 })
@@ -336,20 +336,17 @@ export default defineComponent({
                 state.popper.setPlacement(val as PlainPlacementType)
             }
         })
-        watch(() => props.reference, async () => {
+
+        const popperConfigChangeHandler = async () => {
             await utils.destroy()
             await utils.init()
-        })
-        watch(() => props.arrow, async () => {
-            await $plain.nextTick()
-            await utils.destroy()
-            await utils.init()
-        })
-        watch(() => props.trigger, async () => {
-            await $plain.nextTick()
-            await utils.destroy()
-            await utils.init()
-        })
+            if (!!state.popper) {
+                await utils.initPopper()
+            }
+        }
+        watch(() => props.reference, popperConfigChangeHandler)
+        watch(() => props.arrow, popperConfigChangeHandler)
+        watch(() => props.trigger, popperConfigChangeHandler)
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 
