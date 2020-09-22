@@ -6,7 +6,6 @@
     display: inline-block;
     height: 7*$item_height;
     width: 60px;
-    border: solid $ibc 1px;
     border-radius: 2px;
 
     .pl-time-base-column-list {
@@ -54,8 +53,6 @@
   }
 
   .pl-time-base-panel {
-    border: solid $ibc 1px;
-    border-radius: $popperRadius;
     display: inline-block;
     position: relative;
     color: $itc;
@@ -94,12 +91,9 @@
   }
 
   .pl-time-range-panel {
-    border: solid $ibc 1px;
-    border-radius: $popperRadius;
     display: inline-block;
 
     .pl-time-base-panel {
-      border: none;
 
       &:first-child {
         border-right: solid 1px $ibc;
@@ -111,10 +105,6 @@
   .pl-time-service-popper {
     .plain-popper-content {
       padding: 0 !important;
-
-      & > .pl-time-base-panel, & > .pl-time-range-panel {
-        border: none;
-      }
     }
   }
 
