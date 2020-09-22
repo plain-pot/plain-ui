@@ -110,13 +110,13 @@
 
       .plain-popper[direction=left] {
         .plain-popper-content {
-          transform: translate3d(100%, 0, 0);
+          transform: translate3d(150%, 0, 0);
         }
       }
 
       .plain-popper[direction=right] {
         .plain-popper-content {
-          transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-150%, 0, 0);
         }
       }
 
