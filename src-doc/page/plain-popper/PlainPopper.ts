@@ -66,20 +66,20 @@ export class PlainPopper {
 
     public refresh() {
         let left: number, top: number;
-        const {offset} = this
+        const {offset, content} = this
         const {popper, reference, boundary, placement, gpuAcceleration} = this.config
         const {padding} = this.config as { offset: number, padding: number }
 
-        const popperPos = getPos(popper)
+        const contentPos = getPos(content)
         const referencePos = getPos(reference)
 
-        const {maxTop, minTop, maxLeft, minLeft} = getBoundaryPos(boundary, popperPos)
-        let {pos, direction, align} = adjustPlacement(placement!, referencePos, popperPos, offset, padding)
+        const {maxTop, minTop, maxLeft, minLeft} = getBoundaryPos(boundary, contentPos)
+        let {pos, direction, align} = adjustPlacement(placement!, referencePos, contentPos, offset, padding)
 
         switch (direction) {
             case Direction.top:
                 if (pos.top < minTop) {
-                    const {pos: bottomPos} = adjustPlacement(`bottom-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    const {pos: bottomPos} = adjustPlacement(`bottom-${align}` as Direction, referencePos, contentPos, offset, padding)
                     if (bottomPos.top > maxTop) {
                         top = pos.top
                     } else {
@@ -93,7 +93,7 @@ export class PlainPopper {
                 break
             case Direction.bottom:
                 if (pos.top > maxTop) {
-                    const {pos: topPos} = adjustPlacement(`top-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    const {pos: topPos} = adjustPlacement(`top-${align}` as Direction, referencePos, contentPos, offset, padding)
                     if (topPos.top < minTop) {
                         top = pos.top
                     } else {
@@ -107,7 +107,7 @@ export class PlainPopper {
                 break
             case Direction.left:
                 if (pos.left < minLeft) {
-                    const {pos: rightPos} = adjustPlacement(`right-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    const {pos: rightPos} = adjustPlacement(`right-${align}` as Direction, referencePos, contentPos, offset, padding)
                     if (rightPos.left > maxLeft) {
                         left = pos.left
                     } else {
@@ -121,7 +121,7 @@ export class PlainPopper {
                 break
             case Direction.right:
                 if (pos.left > maxLeft) {
-                    const {pos: leftPos} = adjustPlacement(`left-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    const {pos: leftPos} = adjustPlacement(`left-${align}` as Direction, referencePos, contentPos, offset, padding)
                     if (leftPos.left < minLeft) {
                         left = pos.left
                     } else {

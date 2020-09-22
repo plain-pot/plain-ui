@@ -89,7 +89,7 @@ export function getPos(el: HTMLElement): Pos {
  * @author  韦胜健
  * @date    2020/9/22 9:19
  */
-export const getBoundaryPos = (boundary: Boundary | undefined | null, popperRect: { width: number, height: number }): {
+export const getBoundaryPos = (boundary: Boundary | undefined | null, contentRect: { width: number, height: number }): {
     maxTop: number,
     minTop: number,
     maxLeft: number,
@@ -107,9 +107,9 @@ export const getBoundaryPos = (boundary: Boundary | undefined | null, popperRect
         const {top, left, height, width} = getPos(boundaryEl)
 
         return {
-            maxTop: top + height - popperRect.height,
+            maxTop: top + height - contentRect.height,
             minTop: top,
-            maxLeft: left + width - popperRect.width,
+            maxLeft: left + width - contentRect.width,
             minLeft: left,
         }
     }
@@ -120,7 +120,7 @@ export const getBoundaryPos = (boundary: Boundary | undefined | null, popperRect
  * @author  韦胜健
  * @date    2020/9/22 9:53
  */
-export function adjustPlacement(placement: PlacementType, referencePos: Pos, popperPos: Pos, offset: number, padding: number): {
+export function adjustPlacement(placement: PlacementType, referencePos: Pos, contentPos: Pos, offset: number, padding: number): {
     pos: { top: number, left: number },
     direction: Direction,
     align: Align,
@@ -132,33 +132,33 @@ export function adjustPlacement(placement: PlacementType, referencePos: Pos, pop
 
     if (isVertical(direction)) {
         top = direction === Direction.top ?
-            (referencePos.top - popperPos.height - padding)
+            (referencePos.top - contentPos.height - padding)
             : (referencePos.top + (referencePos.height - padding));
         switch (align) {
             case Align.start:
                 left = referencePos.left
                 break
             case Align.center:
-                left = referencePos.left - (popperPos.width - referencePos.width) / 2
+                left = referencePos.left - (contentPos.width - referencePos.width) / 2
                 break
             case Align.end:
-                left = referencePos.left + referencePos.width - popperPos.width
+                left = referencePos.left + referencePos.width - contentPos.width
                 break
         }
         left -= padding
     } else {
         left = direction === Direction.left ?
-            (referencePos.left - popperPos.width - padding)
+            (referencePos.left - contentPos.width - padding)
             : (referencePos.left + (referencePos.width - padding));
         switch (align) {
             case Align.start:
                 top = referencePos.top
                 break
             case Align.center:
-                top = referencePos.top - (popperPos.height - referencePos.height) / 2
+                top = referencePos.top - (contentPos.height - referencePos.height) / 2
                 break
             case Align.end:
-                top = referencePos.top + referencePos.height - popperPos.height
+                top = referencePos.top + referencePos.height - contentPos.height
                 break
         }
         top -= padding
