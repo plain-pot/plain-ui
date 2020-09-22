@@ -110,9 +110,16 @@ export default defineComponent({
             zIndex: $plain.nextIndex(),
             init: false,
             ready: false,
+
+            onTransitionend: null as Function | null,
         })
 
         /*---------------------------------------computer-------------------------------------------*/
+
+        const direction = computed(() => {
+            const [direction] = props.placement.split('-')
+            return direction
+        })
 
         const classes = computed(() => [
             'pl-popper',
@@ -140,6 +147,15 @@ export default defineComponent({
             const styles = {} as StyleType
             propsState.height != null && (styles.height = `${propsState.height}px`);
             propsState.width != null && (styles.width = `${propsState.width}px`);
+
+            if (!!props.sizeEqual && !!state.referenceEl) {
+                if (['top', 'bottom'].indexOf(direction.value) > -1) {
+                    styles.width = (state.referenceEl as HTMLElement).offsetWidth + 'px'
+                } else if (['left', 'right'].indexOf(direction.value) > -1) {
+                    styles.height = (state.referenceEl as HTMLElement).offsetHeight + 'px'
+                }
+            }
+
             return styles
         })
 
@@ -147,7 +163,12 @@ export default defineComponent({
         /*---------------------------------------methods-------------------------------------------*/
 
         const methods = {
-            show: async () => {
+            show: async (emitInput: boolean = true) => {
+
+                if (model.value) {
+                    return
+                }
+
                 if (!state.init) {
                     state.init = true
                     await $plain.nextTick()
@@ -159,14 +180,36 @@ export default defineComponent({
                 state.zIndex = $plain.nextIndex()
                 await $plain.nextTick()
                 model.value = true
+                emit.show()
+                if (emitInput) {
+                    emit.input(model.value)
+                }
+                state.onTransitionend = () => {
+                    openModel.value = true
+                    state.onTransitionend = null
+                }
             },
-            hide: () => {
+            hide: (emitInput: boolean = true) => {
+
+                if (!model.value) {
+                    return
+                }
                 model.value = false
+                emit.hide()
+                if (emitInput) {
+                    emit.input(model.value)
+                }
+                state.onTransitionend = () => {
+                    openModel.value = false
+                    state.onTransitionend = null
+                }
             },
             toggle: async () => {
                 model.value ? await methods.hide() : await methods.show()
             },
             refresh: () => {
+                if (!state.referenceEl) return
+                state.popper!.refresh()
             },
         }
 
