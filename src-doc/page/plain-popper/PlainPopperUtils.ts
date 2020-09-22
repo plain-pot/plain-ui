@@ -89,7 +89,7 @@ export function getPos(el: HTMLElement): Pos {
  * @author  韦胜健
  * @date    2020/9/22 9:19
  */
-export const getBoundaryPos = (boundary: Boundary | undefined | null, contentRect: { width: number, height: number }): {
+export const getBoundaryPos = (boundary: Boundary | undefined | null, contentRect: { width: number, height: number }, padding: number): {
     maxTop: number,
     minTop: number,
     maxLeft: number,
@@ -107,9 +107,9 @@ export const getBoundaryPos = (boundary: Boundary | undefined | null, contentRec
         const {top, left, height, width} = getPos(boundaryEl)
 
         return {
-            maxTop: top + height - contentRect.height,
+            maxTop: top + height - contentRect.height - padding,
             minTop: top,
-            maxLeft: left + width - contentRect.width,
+            maxLeft: left + width - contentRect.width - padding,
             minLeft: left,
         }
     }

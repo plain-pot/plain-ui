@@ -72,7 +72,7 @@ export class PlainPopper {
         const contentPos = getPos(content)
         const referencePos = getPos(reference)
 
-        const {maxTop, minTop, maxLeft, minLeft} = getBoundaryPos(boundary, contentPos)
+        const {maxTop, minTop, maxLeft, minLeft} = getBoundaryPos(boundary, contentPos, padding)
         let {pos, direction, align} = adjustPlacement(placement!, referencePos, contentPos, offset, padding)
 
         switch (direction) {
