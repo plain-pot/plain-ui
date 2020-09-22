@@ -341,26 +341,35 @@ export default defineComponent({
             utils.destroy()
         })
 
-        return () => (
-            <div class={classes.value}
-            >
-                {slots.default()}
-                {!!state.init && (
-                    <div ref="popper"
-                         class={popperClasses.value}
-                         style={popperStyles.value}
-                    >
-                        <div class="plain-popper-content"
-                             ref="content"
-                             style={contentStyles.value}
-                             onClick={handler.clickPopper}
+        return () => {
+
+            const popperListener = props.trigger === 'hover' ? {
+                mouseenter: emit.enterPopper,
+                mouseleave: emit.leavePopper,
+            } : {}
+
+            return (
+                <div class={classes.value}
+                >
+                    {slots.default()}
+                    {!!state.init && (
+                        <div ref="popper"
+                             class={popperClasses.value}
+                             style={popperStyles.value}
                         >
-                            <div class="plain-popper-arrow"/>
-                            {slots.popper()}
+                            <div class="plain-popper-content"
+                                 ref="content"
+                                 style={contentStyles.value}
+                                 onClick={handler.clickPopper}
+                                 {...{on: popperListener}}
+                            >
+                                <div class="plain-popper-arrow"/>
+                                {slots.popper()}
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
-        )
+                    )}
+                </div>
+            )
+        }
     },
 })
