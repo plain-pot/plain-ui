@@ -136,30 +136,32 @@ export function adjustPlacement(placement: PlacementType, referencePos: Pos, pop
             : (referencePos.top + (referencePos.height - padding))
         switch (align) {
             case Align.start:
-                left = referencePos.left - padding
+                left = referencePos.left
                 break
             case Align.center:
                 left = referencePos.left - (popperPos.width - referencePos.width) / 2
                 break
             case Align.end:
-                left = referencePos.left - (popperPos.width - referencePos.width) + padding
+                left = referencePos.left + referencePos.width - popperPos.width
                 break
         }
+        left -= padding
     } else {
         left = direction === Direction.left ?
             (referencePos.left - (popperPos.width - padding))
             : (referencePos.left + (referencePos.width - padding))
         switch (align) {
             case Align.start:
-                top = referencePos.top - padding
+                top = referencePos.top
                 break
             case Align.center:
                 top = referencePos.top - (popperPos.height - referencePos.height) / 2
                 break
             case Align.end:
-                top = referencePos.top - (popperPos.height - referencePos.height) + padding
+                top = referencePos.top + referencePos.height - popperPos.height
                 break
         }
+        top -= padding
     }
 
     switch (direction) {
