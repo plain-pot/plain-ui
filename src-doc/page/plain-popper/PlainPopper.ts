@@ -3,15 +3,15 @@ import {adjustPlacement, Align, Direction, getBoundaryPos, getPos, getTransformO
 
 export class PlainPopper {
 
-    content: HTMLElement
-    arrow: HTMLElement | null
-    arrowSize: number
+    private readonly content: HTMLElement
+    private readonly arrow: HTMLElement | null
+    private readonly arrowSize: number
 
-    get offset(): number {
+    private get offset(): number {
         return this.config.offset! + this.arrowSize
     }
 
-    constructor(public config: PlainPopperConfig) {
+    constructor(private config: PlainPopperConfig) {
 
         (config.padding == null && (config.padding = 0));
         (config.offset == null && (config.offset = 0));
@@ -25,7 +25,7 @@ export class PlainPopper {
         this.init()
     }
 
-    init() {
+    private init() {
 
         /*---------------------------------------init PlainPopper styles-------------------------------------------*/
 
@@ -45,9 +45,10 @@ export class PlainPopper {
         /*---------------------------------------init done-------------------------------------------*/
 
         this.refresh()
+        this.bindEvent()
     }
 
-    refresh() {
+    public refresh() {
         let left: number, top: number;
         const {offset} = this
         const {popper, reference, boundary, placement, gpuAcceleration} = this.config
@@ -127,7 +128,7 @@ export class PlainPopper {
         this.refreshArrow(direction, align)
     }
 
-    refreshArrow(direction: Direction, align: Align) {
+    private refreshArrow(direction: Direction, align: Align) {
 
         if (!this.arrow) {
             return
@@ -191,6 +192,48 @@ export class PlainPopper {
             transform: `rotate(${rotate}deg)`
         } as StyleType)
 
+    }
+
+    private scrollEventListener: { el: HTMLElement, listener: Function }[] = []         //鉴定父元素滚动事件
+
+
+    /**
+     * 浏览器窗口变化，重新计算定位
+     * @author  韦胜健
+     * @date    2019/11/29 22:03
+     */
+    private onWindowResize = () => {
+        this.refresh()
+    }
+
+    private bindEvent() {
+        let parentEl = this.config.reference.parentNode as HTMLElement
+        while (!!parentEl) {
+            let listener = (e) => this.refresh()
+            parentEl.addEventListener('scroll', listener)
+            this.scrollEventListener.push({el: parentEl, listener})
+            parentEl = parentEl.parentNode as HTMLElement
+        }
+
+        window.addEventListener('resize', this.onWindowResize)
+    }
+
+    /**
+     * 解除绑定事件
+     * @author  韦胜健
+     * @date    2019/11/29 22:03
+     */
+    private unbindEvent(): void {
+        let scrollEventListener = this.scrollEventListener
+        while (scrollEventListener.length > 0) {
+            let {el, listener} = scrollEventListener.pop()!
+            el.removeEventListener('scroll', listener as any)
+        }
+        window.removeEventListener('resize', this.onWindowResize)
+    }
+
+    public destroy() {
+        this.unbindEvent()
     }
 
 }

@@ -79,7 +79,7 @@
         mounted() {
             this.reference = this.$refs.button
 
-            new PlainPopper({
+            const popper = new PlainPopper({
                 reference: this.$refs.btn.$el,
                 popper: this.$refs.popper,
                 padding: 50,
@@ -128,7 +128,7 @@
             position: absolute;
             pointer-events: none;
             background-color: inherit;
-            box-shadow: -2px -2px 5px rgba(0,0,0,.1);
+            box-shadow: -2px -2px 5px rgba(0, 0, 0, .1);
         }
     }
 
