@@ -4,7 +4,7 @@ import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 import {PlainPopper} from "../../../src-doc/page/plain-popper/PlainPopper";
 import {ElRef, useRefs} from "@/use/useRefs";
-import {PopperTrigger} from "@/packages/popper/PopperTrigger";
+import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {$plain} from "@/packages/base";
@@ -72,7 +72,6 @@ export default defineComponent({
 
             clickReference: EmitFunc,                               // 点击reference事件
             clickPopper: EmitFunc,                                  // 点击popper的事件
-            clickPopperContent: EmitFunc,                           // 点击popper的内容的事件
             clickBody: EmitFunc,                                         // 点击除了reference 以及popper派发的事件
             mousedownPopper: EmitFunc,                              // 鼠标摁住popperEl派发的事件
 
@@ -217,11 +216,44 @@ export default defineComponent({
 
         const utils = {
             async init() {
-                state.referenceEl = utils.getReferenceEl()
-                if (!state.referenceEl) {
+                const children = Array.from(refs.$el.children)
+
+                if (children[0] !== refs.popper) {
+                    state.referenceEl = children[0] as HTMLElement
+                } else if (!!props.reference) {
+                    if (typeof props.reference === 'function') {
+                        // @ts-ignore
+                        const reference = props.reference()
+                        state.referenceEl = reference.$el || reference
+                    } else {
+                        // @ts-ignore
+                        state.referenceEl = props.reference.$el || props.reference
+                    }
+                } else {
+                    /*没有reference，等待reference初始化在初始化popper*/
                     return
                 }
-                state.referenceEl.addEventListener('click', handler.clickReference)
+
+                utils.bindEvents()
+
+                state.trigger = getPopperTrigger(props.trigger as PopperTriggerType, {
+                    model,
+                    openModel: openModel,
+                    show: methods.show,
+                    hide: methods.hide,
+
+                    hoverOpenDelay: propsState.hoverOpenDelay,
+                    hoverCloseDelay: propsState.hoverCloseDelay,
+
+                    reference: state.referenceEl as HTMLElement,
+
+                    on,
+                    off,
+                    emit,
+                })
+
+                state.trigger.init()
+                emit.init()
             },
             async initPopper() {
                 state.popper = new PlainPopper({
@@ -232,30 +264,26 @@ export default defineComponent({
                 })
             },
             destroy: () => {
-                if (!!state.popper) {
-                    state.popper!.destroy()
+                utils.unbindEvents()
+                if (!!state.trigger) {
+                    state.trigger.destroy()
                 }
+                if (!!state.popper) {
+                    state.popper.destroy()
+                }
+                emit.dstry()
             },
             bindEvents: () => {
+                if (!!state.referenceEl) {
+                    state.referenceEl.addEventListener('click', handler.clickReference)
+                }
+                document.body.addEventListener('click', handler.clickBody)
             },
             unbindEvents: () => {
-            },
-            getReferenceEl: (): HTMLElement | null => {
-                const children = Array.from(refs.$el.children)
-                if (children[0] !== refs.popper) {
-                    return children[0] as HTMLElement
-                } else if (!!props.reference) {
-                    if (typeof props.reference === 'function') {
-                        // @ts-ignore
-                        const reference = props.reference()
-                        return (reference.$el || reference) as HTMLElement
-                    } else {
-                        return ((props.reference as any).$el || props.reference) as HTMLElement
-                    }
-                } else {
-                    /*没有reference，等待reference初始化在初始化popper*/
-                    return null
+                if (!!state.referenceEl) {
+                    state.referenceEl.removeEventListener('click', handler.clickReference)
                 }
+                document.body.removeEventListener('click', handler.clickBody)
             },
         }
 
@@ -263,17 +291,21 @@ export default defineComponent({
 
         const handler = {
             clickReference: (e: Event) => {
-                methods.toggle()
+                emit.clickReference(e)
             },
-            clickPopperContent: (e: Event) => {
+            clickPopper: (e: Event) => {
+                emit.clickPopper(e)
             },
             clickBody: (e: Event) => {
-            },
-            beforeEnter: () => {
-            },
-            afterEnter: () => {
-            },
-            afterLeave: () => {
+                if (state.referenceEl!.contains(e.target as Node)) {
+                    /*点击了reference*/
+                    return
+                }
+                if (!!refs.content && refs.content!.contains(e.target as Node)) {
+                    /*点击了content*/
+                    return
+                }
+                emit.clickBody(e)
             },
         }
 
@@ -301,7 +333,7 @@ export default defineComponent({
         onMounted(async () => {
             await utils.init()
             if (model.value) {
-                methods.show()
+                await methods.show(false)
             }
         })
 
@@ -321,6 +353,7 @@ export default defineComponent({
                         <div class="plain-popper-content"
                              ref="content"
                              style={contentStyles.value}
+                             onClick={handler.clickPopper}
                         >
                             <div class="plain-popper-arrow"/>
                             {slots.popper()}

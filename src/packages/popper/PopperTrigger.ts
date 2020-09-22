@@ -29,7 +29,6 @@ export function getPopperTrigger(triggerName: PopperTriggerType, {
     hoverCloseDelay,
     reference,
 
-    popper,
     on,
     off,
     emit,
@@ -43,15 +42,20 @@ export function getPopperTrigger(triggerName: PopperTriggerType, {
     hoverOpenDelay: number,
     hoverCloseDelay: number,
     reference: HTMLElement,
-    popper: HTMLElement,
 
     on: {
         clickReference: Function,
         clickBody: Function,
+        clickPopper: Function,
+        enterPopper: Function,
+        leavePopper: Function,
     },
     off: {
         clickReference: Function,
         clickBody: Function,
+        clickPopper: Function,
+        enterPopper: Function,
+        leavePopper: Function,
     },
     emit: {
         referenceFocus: Function,
@@ -76,24 +80,26 @@ export function getPopperTrigger(triggerName: PopperTriggerType, {
         on: {
             enterReference: (cb) => reference.addEventListener('mouseenter', cb),
             leaveReference: (cb) => reference.addEventListener('mouseleave', cb),
-            enterPopper: (cb) => popper.addEventListener('mouseenter', cb),
-            leavePopper: (cb) => popper.addEventListener('mouseleave', cb),
             referenceFocus: (cb) => reference.addEventListener('focus', cb),
             referenceBlur: (cb) => reference.addEventListener('blur', cb),
+
+            enterPopper: on.enterPopper,
+            leavePopper: on.leavePopper,
             clickReference: on.clickReference,
             clickBody: on.clickBody,
-            clickPopper: (cb) => popper.addEventListener('click', cb),
+            clickPopper: on.clickPopper,
         },
         off: {
             enterReference: (cb) => reference.removeEventListener('mouseenter', cb),
             leaveReference: (cb) => reference.removeEventListener('mouseleave', cb),
-            enterPopper: (cb) => popper.removeEventListener('mouseenter', cb),
-            leavePopper: (cb) => popper.removeEventListener('mouseleave', cb),
             referenceFocus: (cb) => reference.removeEventListener('focus', cb),
             referenceBlur: (cb) => reference.removeEventListener('blur', cb),
+
+            enterPopper: off.enterPopper,
+            leavePopper: off.leavePopper,
             clickReference: off.clickReference,
             clickBody: off.clickBody,
-            clickPopper: (cb) => popper.removeEventListener('click', cb),
+            clickPopper: off.clickPopper,
         },
         emit: emit,
     })
