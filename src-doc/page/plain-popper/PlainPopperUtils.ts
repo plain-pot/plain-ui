@@ -74,7 +74,14 @@ export function isVertical(direction: Direction) {
  * @date    2020/9/22 9:18
  */
 export function getPos(el: HTMLElement): Pos {
-    return el.getBoundingClientRect()!
+    const rect = el.getBoundingClientRect()!
+    const {offsetWidth, offsetHeight} = el
+    return {
+        left: rect.left,
+        top: rect.top,
+        width: offsetWidth,
+        height: offsetHeight,
+    }
 }
 
 /**
