@@ -316,9 +316,16 @@ export default defineComponent({
 
         /*---------------------------------------watch-------------------------------------------*/
         watch(() => props.value, (val) => {
+            if (val === model.value) {
+                return
+            }
+            if (val) {
+                methods.show(false)
+            } else {
+                methods.hide(false)
+            }
         })
-        watch(() => model.value, (val) => {
-        })
+        // watch(() => model.value, (val) => {})
         watch(() => openModel.value, (val) => {
             if (!!val) {
                 emit.updateOpen(true)
@@ -333,11 +340,19 @@ export default defineComponent({
                 state.popper.setPlacement(val as PlainPlacementType)
             }
         })
-        watch(() => props.reference, () => {
+        watch(() => props.reference, async () => {
+            await utils.destroy()
+            await utils.init()
         })
-        watch(() => props.arrow, () => {
+        watch(() => props.arrow, async () => {
+            await $plain.nextTick()
+            await utils.destroy()
+            await utils.init()
         })
-        watch(() => props.trigger, () => {
+        watch(() => props.trigger, async () => {
+            await $plain.nextTick()
+            await utils.destroy()
+            await utils.init()
         })
 
         /*---------------------------------------lifecycle-------------------------------------------*/

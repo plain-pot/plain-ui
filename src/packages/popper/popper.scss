@@ -72,7 +72,7 @@
 
     &.pl-transition-fade {
       .plain-popper-content {
-        transition: all 300ms linear;
+        transition: opacity 150ms linear;
         opacity: 0;
       }
 
@@ -105,6 +105,7 @@
     &.pl-transition-scale-y {
       .plain-popper-content {
         transition: all 300ms $transition;
+
         transform: scaleY(0);
       }
 
