@@ -82,8 +82,8 @@
             new PlainPopper({
                 reference: this.$refs.btn.$el,
                 popper: this.$refs.popper,
-                padding: 6,
-                offset: 6,
+                padding: 10,
+                offset: 10,
             })
         },
         methods: {
@@ -118,5 +118,10 @@
         .plain-popper-content {
             background-color: white;
         }
+    }
+
+    .plain-popper-content {
+        width: 200px;
+        height: 150px;
     }
 </style>
