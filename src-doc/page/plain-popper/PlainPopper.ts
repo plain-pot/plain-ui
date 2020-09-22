@@ -1,21 +1,5 @@
 import {StyleType} from "@/types/utils";
-
-type PlainPlacementType = 'top-start' | 'top-center' | 'top-end' | 'top' |
-    'bottom-start' | 'bottom-center' | 'bottom-end' | 'bottom' |
-    'left-start' | 'left-center' | 'left-end' | 'left' |
-    'right-start' | 'right-center' | 'right-end' | 'right'
-
-interface PlainPopperConfig {
-    popper: HTMLElement,                                    // 浮层元素
-    reference: HTMLElement,                                 // 目标元素
-    padding?: number,                                       // PlainPopper节点 外边距
-    offset?: number,                                        // popper 与 reference 在方向上的距离
-    boundary?: HTMLElement | string | null | undefined      // 边界元素,
-    placement?: PlainPlacementType | undefined,             // 位置
-    arrowSize?: number,                                     // 箭头大小，设置为0则不初始化箭头
-}
-
-const getRect = (el: HTMLElement) => el.getBoundingClientRect()!
+import {adjustPlacement, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
 
 export class PlainPopper {
     constructor(public config: PlainPopperConfig) {
@@ -44,12 +28,80 @@ export class PlainPopper {
     }
 
     refresh() {
+        let left: number, top: number;
+        const {popper, reference, boundary, placement, gpuAcceleration} = this.config
+        const {offset, padding} = this.config as { offset: number, padding: number }
 
-        const popperPos = getRect(this.config.popper)
-        const referencePos = getRect(this.config.reference)
+        const popperPos = getPos(popper)
+        const referencePos = getPos(reference)
 
-        console.log(popperPos, referencePos)
+        const {maxTop, minTop, maxLeft, minLeft} = getBoundaryPos(boundary, popperPos)
+        let {pos, direction, align} = adjustPlacement(placement!, referencePos, popperPos, offset, padding)
 
+        switch (direction) {
+            case Direction.top:
+                if (pos.top < minTop) {
+                    const {pos: bottomPos} = adjustPlacement(`bottom-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    if (bottomPos.top > maxTop) {
+                        top = pos.top
+                    } else {
+                        top = Math.max(minTop, bottomPos.top)
+                        direction = Direction.bottom
+                    }
+                } else {
+                    top = Math.min(maxTop, pos.top)
+                }
+                left = Math.min(maxLeft, Math.max(minLeft, pos.left))
+                break
+            case Direction.bottom:
+                if (pos.top > maxTop) {
+                    const {pos: topPos} = adjustPlacement(`top-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    if (topPos.top < minTop) {
+                        top = pos.top
+                    } else {
+                        top = Math.min(maxTop, topPos.top)
+                        direction = Direction.top
+                    }
+                } else {
+                    top = Math.max(minTop, pos.top)
+                }
+                left = Math.min(maxLeft, Math.max(minLeft, pos.left))
+                break
+            case Direction.left:
+                if (pos.left < minLeft) {
+                    const {pos: rightPos} = adjustPlacement(`right-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    if (rightPos.left > maxLeft) {
+                        left = pos.left
+                    } else {
+                        left = Math.max(minLeft, rightPos.left)
+                        direction = Direction.right
+                    }
+                } else {
+                    left = Math.min(maxLeft, pos.left)
+                }
+                top = Math.min(maxTop, Math.max(minTop, pos.top))
+                break
+            case Direction.right:
+                if (pos.left > maxLeft) {
+                    const {pos: leftPos} = adjustPlacement(`left-${align}` as Direction, referencePos, popperPos, offset, padding)
+                    if (leftPos.left < minLeft) {
+                        left = pos.left
+                    } else {
+                        left = Math.min(maxLeft, leftPos.left)
+                        direction = Direction.left
+                    }
+                } else {
+                    left = Math.max(minLeft, pos.left)
+                }
+                top = Math.min(maxTop, Math.max(minTop, pos.top))
+                break
+        }
+
+        setPos(this.config.popper, {left, top}, !!gpuAcceleration)
+
+        reference.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType)
+        popper.setAttribute('direction', direction)
+        popper.setAttribute('align', align)
     }
 
 }

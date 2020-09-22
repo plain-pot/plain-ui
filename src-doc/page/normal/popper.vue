@@ -30,6 +30,7 @@
 
         <demo-row>
             <pl-button ref="btn">BUTTON</pl-button>
+            <h1>中间内容</h1>
             <div class="plain-popper" ref="popper">
                 <div class="plain-popper-content">
                     <i class="plain-popper-arrow"/>
@@ -81,7 +82,8 @@
             new PlainPopper({
                 reference: this.$refs.btn.$el,
                 popper: this.$refs.popper,
-                padding: 10,
+                padding: 6,
+                offset: 6,
             })
         },
         methods: {
@@ -102,6 +104,19 @@
             margin-bottom: 12px;
             height: 80px !important;
             width: 80px;
+        }
+    }
+
+    .plain-popper {
+        overflow: hidden;
+        background-color: blueviolet;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+
+        .plain-popper-content {
+            background-color: white;
         }
     }
 </style>
