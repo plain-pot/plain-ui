@@ -33,7 +33,7 @@
             <h1>中间内容</h1>
             <div class="plain-popper" ref="popper">
                 <div class="plain-popper-content">
-                    <i class="plain-popper-arrow"/>
+                    <div class="plain-popper-arrow"/>
                     <div>
                         this is plain-popper
                     </div>
@@ -82,8 +82,7 @@
             new PlainPopper({
                 reference: this.$refs.btn.$el,
                 popper: this.$refs.popper,
-                padding: 10,
-                offset: 10,
+                padding: 50,
             })
         },
         methods: {
@@ -107,24 +106,36 @@
         }
     }
 
+    /*---------------------------------------standard-------------------------------------------*/
+
     .plain-popper {
         overflow: hidden;
         position: fixed;
         top: 0;
         left: 0;
         z-index: 999;
+        pointer-events: none;
 
         .plain-popper-content {
             background-color: white;
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .plain-popper-arrow {
+            position: absolute;
+            background-color: gray;
+            transform: rotate(45deg);
         }
     }
 
+    /*---------------------------------------custom-------------------------------------------*/
     .plain-popper-content {
         width: 200px;
         height: 150px;
-        border: 1px solid #e4e7ed;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        /*border: 1px solid #e4e7ed;*/
+        border-radius: 2px;
+        box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
         transition: all 300ms linear;
-        border-radius: 4px;
     }
 </style>

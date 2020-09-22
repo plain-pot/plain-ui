@@ -4,15 +4,19 @@ import {adjustPlacement, Direction, getBoundaryPos, getPos, getTransformOriginBy
 export class PlainPopper {
 
     content: HTMLElement
+    arrow: HTMLElement | null
+    arrowSize: number
 
     constructor(public config: PlainPopperConfig) {
 
         (config.padding == null && (config.padding = 0));
         (config.offset == null && (config.offset = 0));
         (config.placement == null && (config.placement = 'bottom-start'));
-        (config.arrowSize == null && (config.arrowSize = 10));
+        (config.arrowSize == null && (config.arrowSize = 12));
 
         this.content = config.popper.querySelector('.plain-popper-content') as HTMLElement
+        this.arrowSize = !config.arrowSize ? 0 : Math.sqrt(Math.pow(config.arrowSize, 2) / 2)
+        this.arrow = this.arrowSize == 0 ? null : config.popper.querySelector('.plain-popper-arrow') as HTMLElement
 
         this.init()
     }
@@ -26,6 +30,13 @@ export class PlainPopper {
         } as StyleType
 
         Object.assign(this.config.popper.style, plainPopperStyles)
+
+        if (this.arrowSize > 0) {
+            Object.assign(this.arrow!.style, {
+                height: `${this.arrowSize}px`,
+                width: `${this.arrowSize}px`,
+            } as StyleType)
+        }
 
         /*---------------------------------------init done-------------------------------------------*/
 
