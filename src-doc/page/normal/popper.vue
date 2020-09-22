@@ -227,14 +227,23 @@
         },
         methods: {
             onClickBody() {
-                console.log('onClickBody')
+                console.log('onClickBody:' + Date.now())
             },
         },
     }
 </script>
 
 <style lang="scss">
+
+    .demo-popper {
+        .demo-popper-content {
+            padding: 12px 16px;
+            height: 120px;
+        }
+    }
+
     .demo-popper-placement {
+
         .app-demo-row-content {
             width: 420px;
         }
