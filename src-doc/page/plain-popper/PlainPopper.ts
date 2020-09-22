@@ -7,7 +7,6 @@ export class PlainPopper {
     private readonly content: HTMLElement
     private readonly arrow: HTMLElement | null
     private readonly arrowSize: number
-    private paddingProp: 'Left' | 'Right' | 'Top' | 'Bottom' | null = null
 
     private get offset(): number {
         return this.config.offset! + this.arrowSize
@@ -33,8 +32,6 @@ export class PlainPopper {
 
         /*popper styles*/
         Object.assign(this.config.popper.style, {
-            padding: `${this.config.padding}px`,
-
             overflow: 'hidden',
             position: 'fixed',
             pointerEvents: 'none',
@@ -139,17 +136,20 @@ export class PlainPopper {
         }
 
         (() => {
-            if (!!this.paddingProp) {
-                this.config.popper.style[`padding${this.paddingProp}`] = ''
-            }
 
-            this.paddingProp = isVertical(direction) ?
+            const paddingProp = isVertical(direction) ?
                 (direction === Direction.top ? 'Bottom' : 'Top') :
                 (direction === Direction.left ? 'Right' : 'Left');
 
-            this.config.popper.style[`padding${this.paddingProp}`] = `${offset}px`
+            ['Top', 'Bottom', 'Left', 'Right'].forEach(item => {
+                if (item === paddingProp) {
+                    this.config.popper.style[`padding${item}`] = `${offset}px`;
+                } else {
+                    this.config.popper.style[`padding${item}`] = `${padding}px`;
+                }
+            })
 
-            switch (this.paddingProp) {
+            switch (paddingProp) {
                 case "Top":
                     top += (padding - offset)
                     break

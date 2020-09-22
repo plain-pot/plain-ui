@@ -8,6 +8,7 @@ import {PopperTrigger} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {$plain} from "@/packages/base";
+import {PlainPlacementType} from "../../../submodules/plain-popper/types";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
 
@@ -241,6 +242,9 @@ export default defineComponent({
         watch(() => openModel.value, (val) => {
         })
         watch(() => props.placement, (val) => {
+            if (!!state.popper) {
+                state.popper.setPlacement(val as PlainPlacementType)
+            }
         })
         watch(() => props.reference, () => {
         })
@@ -253,6 +257,9 @@ export default defineComponent({
 
         onMounted(async () => {
             await utils.init()
+            if (model.value) {
+                methods.show()
+            }
         })
 
         onBeforeUnmount(() => {
