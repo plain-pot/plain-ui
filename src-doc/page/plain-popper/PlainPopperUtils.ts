@@ -132,8 +132,8 @@ export function adjustPlacement(placement: PlacementType, referencePos: Pos, pop
 
     if (isVertical(direction)) {
         top = direction === Direction.top ?
-            (referencePos.top - (popperPos.height - padding))
-            : (referencePos.top + (referencePos.height - padding))
+            (referencePos.top - popperPos.height - padding)
+            : (referencePos.top + (referencePos.height - padding));
         switch (align) {
             case Align.start:
                 left = referencePos.left
@@ -148,8 +148,8 @@ export function adjustPlacement(placement: PlacementType, referencePos: Pos, pop
         left -= padding
     } else {
         left = direction === Direction.left ?
-            (referencePos.left - (popperPos.width - padding))
-            : (referencePos.left + (referencePos.width - padding))
+            (referencePos.left - popperPos.width - padding)
+            : (referencePos.left + (referencePos.width - padding));
         switch (align) {
             case Align.start:
                 top = referencePos.top
