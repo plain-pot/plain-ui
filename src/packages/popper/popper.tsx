@@ -164,10 +164,6 @@ export default defineComponent({
         const methods = {
             show: async (emitInput: boolean = true) => {
 
-                if (model.value) {
-                    return
-                }
-
                 if (!state.init) {
                     state.init = true
                     await $plain.nextTick()
@@ -190,9 +186,6 @@ export default defineComponent({
             },
             hide: (emitInput: boolean = true) => {
 
-                if (!model.value) {
-                    return
-                }
                 model.value = false
                 emit.hide()
                 if (emitInput) {
@@ -261,6 +254,9 @@ export default defineComponent({
                     reference: state.referenceEl!,
                     padding: 50,
                     placement: props.placement as any,
+                    offset: Number(props.offset || 0),
+                    boundary: props.boundary,
+                    arrowSize: !props.arrow ? 0 : undefined
                 })
             },
             destroy: () => {
