@@ -1,15 +1,13 @@
-import {computed, defineComponent, getCurrentInstance, onBeforeUnmount, onMounted, provide, reactive, watch} from "@vue/composition-api";
+import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
 import {PlainPopper} from "../../../src-doc/page/plain-popper/PlainPopper";
-import {$plain} from "@/packages/base";
 import {ElRef, useRefs} from "@/use/useRefs";
-import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
+import {PopperTrigger} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
-import {useRefer} from "@/use/useRefer";
-import {PlacementType} from "../../../src-doc/page/plain-popper/PlainPopperUtils";
+import {$plain} from "@/packages/base";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'
 
@@ -31,7 +29,7 @@ export const POPPER_PROPS = {
     noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
 
     reference: {type: [Function, Element]},                     // 目标dom元素
-    placement: {type: String, default: 'top-start'},            // 位置
+    placement: {type: String, default: 'bottom-start'},            // 位置
     arrow: {type: Boolean, default: true},                      // 是否需要箭头
     boundary: {default: 'window'},                              // 边界元素
 
@@ -104,165 +102,106 @@ export default defineComponent({
 
         const state = reactive({
             trigger: null as PopperTrigger | null,
-            popper: null as PlainPopper | null,
-            referenceEl: null as Element | null,
+            referenceEl: null as HTMLElement | null,
             popperEl: null as HTMLElement | null,
-            contentEl: null as HTMLElement | null,
-            onTransitionend: null as Function | null,
 
-            zIndex: 0,
+            popper: null as PlainPopper | null,
+            zIndex: $plain.nextIndex(),
         })
 
         /*---------------------------------------computer-------------------------------------------*/
 
-        const direction = computed(() => {
-            const [direction] = props.placement.split('-')
-            return direction
-        })
+        const classes = computed(() => [
+            'pl-popper',
+            props.transition,
+            {
+                'pl-popper-show': model.value,
+            }
+        ])
 
         const popperStyles = computed(() => {
             const styles = {} as StyleType
             styles.zIndex = String(state.zIndex)
-            if (propsState.width != null) {
-                styles.width = propsState.width + 'px'
-            }
-            if (propsState.height != null) {
-                styles.height = propsState.height + 'px'
-            }
-
-            if (!!props.sizeEqual && !!state.referenceEl) {
-                if (['top', 'bottom'].indexOf(direction.value) > -1) {
-                    styles.width = (state.referenceEl as HTMLElement).offsetWidth + 'px'
-                } else if (['left', 'right'].indexOf(direction.value) > -1) {
-                    styles.height = (state.referenceEl as HTMLElement).offsetHeight + 'px'
-                }
-            }
-
             return styles
         })
+
+        const popperClasses = computed(() => [
+            'plain-popper',
+            {
+                'plain-popper-show': model.value
+            }
+        ])
+
+        const contentStyles = computed(() => {
+            const styles = {} as StyleType
+            propsState.height != null && (styles.height = `${propsState.height}px`);
+            propsState.width != null && (styles.width = `${propsState.width}px`);
+            return styles
+        })
+
 
         /*---------------------------------------methods-------------------------------------------*/
 
         const methods = {
-            show: (emitInput: boolean = true) => {
-                if (model.value) return
+            show: async () => {
                 state.zIndex = $plain.nextIndex()
+                await $plain.nextTick()
                 model.value = true
-                emit.show()
-                if (emitInput) {
-                    emit.input(model.value)
-                }
-                state.onTransitionend = () => {
-                    openModel.value = true
-                    state.onTransitionend = null
-                }
             },
-            hide: (emitInput: boolean = true) => {
-                if (!model.value) return
+            hide: () => {
                 model.value = false
-                emit.hide()
-                if (emitInput) {
-                    emit.input(model.value)
-                }
-                state.onTransitionend = () => {
-                    openModel.value = false
-                    state.onTransitionend = null
-                }
             },
-            refersh: () => {
-                if (!state.referenceEl) return
-                state.popper!.refresh()
+            toggle: async () => {
+                model.value ? await methods.hide() : await methods.show()
+            },
+            refresh: () => {
             },
         }
 
         /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {
-            init() {
-                const children = Array.from(refs.$el.children)
+            async init() {
 
+                state.referenceEl = utils.getReferenceEl()
+
+                if (!state.referenceEl) {
+                    return
+                }
+
+                state.referenceEl.addEventListener('click', handler.clickReference)
+
+                state.popper = new PlainPopper({
+                    popper: refs.popper,
+                    reference: state.referenceEl,
+                    padding: 50,
+                    placement: props.placement as any,
+                })
+
+            },
+            destroy: () => {
+                state.popper!.destroy()
+            },
+            bindEvents: () => {
+            },
+            unbindEvents: () => {
+            },
+            getReferenceEl: (): HTMLElement | null => {
+                const children = Array.from(refs.$el.children)
                 if (children[0] !== refs.popper) {
-                    state.referenceEl = children[0]
+                    return children[0] as HTMLElement
                 } else if (!!props.reference) {
                     if (typeof props.reference === 'function') {
                         // @ts-ignore
                         const reference = props.reference()
-                        state.referenceEl = reference.$el || reference
+                        return (reference.$el || reference) as HTMLElement
                     } else {
-                        // @ts-ignore
-                        state.referenceEl = props.reference.$el || props.reference
+                        return ((props.reference as any).$el || props.reference) as HTMLElement
                     }
                 } else {
                     /*没有reference，等待reference初始化在初始化popper*/
-                    return
+                    return null
                 }
-
-                state.popperEl = refs.popper
-                state.contentEl = refs.content
-
-                state.popper = new PlainPopper({
-                    popper: state.popperEl,
-                    reference: state.referenceEl as HTMLElement,
-                    arrowSize: !!props.arrow ? 16 : 0,
-                    placement: props.placement as PlacementType,
-                    offset: propsState.offset,
-                    boundary: props.boundary,
-                    padding: 20,
-                })
-
-                utils.bindEvents()
-
-                state.trigger = getPopperTrigger(props.trigger as PopperTriggerType, {
-                    model,
-                    openModel: openModel,
-                    show: methods.show,
-                    hide: methods.hide,
-
-                    hoverOpenDelay: propsState.hoverOpenDelay,
-                    hoverCloseDelay: propsState.hoverCloseDelay,
-
-                    reference: state.referenceEl as HTMLElement,
-                    popper: state.popperEl,
-
-                    on,
-                    off,
-                    emit,
-                })
-
-                state.trigger.init()
-                emit.init()
-
-                if (!!model.value) {
-                    $plain.nextTick(() => methods.show(false))
-                }
-            },
-            dstry: () => {
-                utils.unbindEvents()
-                if (!!state.trigger) {
-                    state.trigger.destroy()
-                }
-                if (!!state.popper) {
-                    state.popper.destroy()
-                }
-                emit.dstry()
-            },
-            bindEvents: () => {
-                if (!!state.referenceEl) {
-                    state.referenceEl.addEventListener('click', handler.clickReference)
-                }
-                if (!!state.contentEl) {
-                    state.contentEl.addEventListener('click', handler.clickPopperContent)
-                }
-                document.body.addEventListener('click', handler.clickBody)
-            },
-            unbindEvents: () => {
-                if (!!state.referenceEl) {
-                    state.referenceEl.removeEventListener('click', handler.clickReference)
-                }
-                if (!!state.contentEl) {
-                    state.contentEl.removeEventListener('click', handler.clickPopperContent)
-                }
-                document.body.removeEventListener('click', handler.clickBody)
             },
         }
 
@@ -270,90 +209,35 @@ export default defineComponent({
 
         const handler = {
             clickReference: (e: Event) => {
-                emit.clickReference(e)
+                methods.toggle()
             },
             clickPopperContent: (e: Event) => {
-                emit.clickPopperContent(e)
             },
             clickBody: (e: Event) => {
-                if (state.referenceEl!.contains(e.target as Node)) {
-                    /*点击了reference*/
-                    return
-                }
-                if (state.contentEl!.contains(e.target as Node)) {
-                    /*点击了content*/
-                    return
-                }
-                emit.clickBody(e)
             },
-
             beforeEnter: () => {
-                methods.refersh()
             },
             afterEnter: () => {
-                openModel.value = true
             },
             afterLeave: () => {
-                openModel.value = false
             },
         }
 
         /*---------------------------------------watch-------------------------------------------*/
         watch(() => props.value, (val) => {
-            if (val === model.value) {
-                return
-            }
-            if (val) {
-                methods.show(false)
-            } else {
-                methods.hide(false)
-            }
         })
-
         watch(() => model.value, (val) => {
-            if (!!val) {
-                if (!!state.popper) {
-                    $plain.nextTick(() => {
-                        methods.refersh()
-                    })
-                }
-            }
         })
-
         watch(() => openModel.value, (val) => {
-            if (!!val) {
-                emit.updateOpen(true)
-                emit.open()
-            } else {
-                emit.updateOpen(false)
-                emit.close()
-            }
         })
-
         watch(() => props.placement, (val) => {
-            if (!!state.popper) {
-                state.popper.setPlacement(val as PlacementType)
-            }
         })
-
         watch(() => props.reference, () => {
-            utils.dstry()
-            utils.init()
         })
-
         watch(() => props.arrow, () => {
-            $plain.nextTick(() => {
-                utils.dstry()
-                utils.init()
-            })
         })
-
         watch(() => props.trigger, () => {
-            $plain.nextTick(() => {
-                utils.dstry()
-                utils.init()
-            })
-        }, {immediate: true})
+        })
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 
@@ -362,49 +246,24 @@ export default defineComponent({
         })
 
         onBeforeUnmount(() => {
-            utils.dstry()
+            utils.destroy()
         })
-
-        useRefer({
-            methods,
-            direction,
-            state,
-            model,
-            openModel,
-            propsState,
-            emit, on, off,
-            refs,
-        })
-
-        provide(PLAIN_POPPER_PROVIDER, getCurrentInstance())
 
         return () => (
-            <div class={"pl-popper"}
-                 onClick={emit.clickPopper}
-                 onMousedown={emit.mousedownPopper}
-                 {...{props: props.rootProps}}
-                 show={model.value}
-                 ref={"el"}>
+            <div class={classes.value}
+            >
                 {slots.default()}
-                <div ref={"popper"}
-                     class={[
-                         'plain-popper',
-                         'pl-popper-el',
-                         `pl-popper-el-animate-${props.transition}`,
-                         props.transition,
-                         {[props.popperClass as string]: !!props.popperClass}]}
-                     style={popperStyles.value}>
-                    <transition name={props.transition}
-                                onAfterLeave={handler.afterLeave}
-                                onAfterEnter={handler.afterEnter}
-                                onBeforeEnter={handler.beforeEnter}>
-                        <div {...{directives: [{name: 'show', value: model.value}]}}
-                             ref="content"
-                             class={['plain-popper-content', {'plain-popper-content-no-padding': props.noContentPadding}]}>
-                            {!!props.arrow && <div class="plain-popper-arrow"/>}
-                            {slots.popper()}
-                        </div>
-                    </transition>
+                <div ref="popper"
+                     class={popperClasses.value}
+                     style={popperStyles.value}
+                >
+                    <div class="plain-popper-content"
+                         ref="content"
+                         style={contentStyles.value}
+                    >
+                        <div class="plain-popper-arrow"/>
+                        {slots.popper()}
+                    </div>
                 </div>
             </div>
         )

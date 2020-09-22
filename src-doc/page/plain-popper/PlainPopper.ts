@@ -7,6 +7,7 @@ export class PlainPopper {
     private readonly content: HTMLElement
     private readonly arrow: HTMLElement | null
     private readonly arrowSize: number
+    private paddingProp: 'Left' | 'Right' | 'Top' | 'Bottom' | null = null
 
     private get offset(): number {
         return this.config.offset! + this.arrowSize
@@ -137,9 +138,35 @@ export class PlainPopper {
                 break
         }
 
+        (() => {
+            if (!!this.paddingProp) {
+                this.config.popper.style[`padding${this.paddingProp}`] = ''
+            }
+
+            this.paddingProp = isVertical(direction) ?
+                (direction === Direction.top ? 'Bottom' : 'Top') :
+                (direction === Direction.left ? 'Left' : 'Right');
+
+            this.config.popper.style[`padding${this.paddingProp}`] = `${offset}px`
+
+            switch (this.paddingProp) {
+                case "Top":
+                    top += (padding - offset)
+                    break
+                case "Bottom":
+                    break
+                case "Left":
+                    left += (padding - offset)
+                    break
+                case "Right":
+                    break
+            }
+        })();
+
         setPos(this.config.popper, {left, top}, !!gpuAcceleration)
 
-        this.content.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType)
+        this.content.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType);
+
         popper.setAttribute('direction', direction)
         popper.setAttribute('align', align)
 
