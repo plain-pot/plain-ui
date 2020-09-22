@@ -109,7 +109,6 @@
 
     .plain-popper {
         overflow: hidden;
-        background-color: rgba(black, 0.05);
         position: fixed;
         top: 0;
         left: 0;
@@ -123,5 +122,9 @@
     .plain-popper-content {
         width: 200px;
         height: 150px;
+        border: 1px solid #e4e7ed;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        transition: all 300ms linear;
+        border-radius: 4px;
     }
 </style>
