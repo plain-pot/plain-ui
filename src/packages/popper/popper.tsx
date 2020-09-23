@@ -165,7 +165,7 @@ export default defineComponent({
                     state.init = true
                     await $plain.nextTick()
                     await utils.initPopper()
-                    await $plain.utils.delay(23)
+                    await $plain.utils.delay(50)
                     state.ready = true
                 }
 
