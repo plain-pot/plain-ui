@@ -11,14 +11,12 @@ export class PlainTooltip {
         popperEl: null as null | HTMLElement,               // popper节点
         popper: null as null | PlainPopper,                 // new PlainPopper()得到的对象实例
         animate: null as null | PlainTooltipAnimateType,    // 动画
-        trigger: null as null | PlainTooltipTriggerType,    // 触发器
+        trigger: null as null | ReturnType<PlainTooltipTriggerType>,    // 触发器
 
         onContentTransitionEnd: null as null | Function,    // 监听动画结束后的动作
     }
 
-    triggerHandler = null as any
-
-    constructor(private config: PlainTooltipConfig) {
+    constructor(public config: PlainTooltipConfig) {
         (config.removeOnHide == null && (config.removeOnHide = true));
         (config.theme == null && (config.theme = PlainTooltipTheme.dark));
         (config.animate == null && (config.animate = PlainTooltipAnimate.fade));
@@ -68,7 +66,7 @@ export class PlainTooltip {
         if (!PlainTooltipTriggers[config.trigger!]) {
             throw new Error(`PlainTooltip: Can not recognise trigger:${config.trigger}`)
         }
-        this.state.trigger = PlainTooltipTriggers[config.trigger!]
+        this.state.trigger = PlainTooltipTriggers[config.trigger!](this)
 
         /*popper*/
         this.state.popper = new PlainPopper({
@@ -84,7 +82,7 @@ export class PlainTooltip {
         })
 
         content.addEventListener('transitionend', this.handler.onContentTransitionEnd)
-        this.state.trigger.init(this, reference)
+        this.state.trigger.init()
     }
 
     handler = {
@@ -114,6 +112,10 @@ export class PlainTooltip {
             }
             this.state.onContentTransitionEnd = null
         }
+    }
+
+    toogle = () => {
+        this.state.isShow ? this.hide() : this.show()
     }
 
 }

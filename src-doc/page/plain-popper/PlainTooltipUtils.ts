@@ -85,57 +85,133 @@ export const PlainTooltipAnimates: { [k: string]: PlainTooltipAnimateType } = {
 }
 
 export interface PlainTooltipTriggerType {
-    init: (ctx: PlainTooltip, reference: HTMLElement) => any,
-    destroy: (ctx: PlainTooltip, reference: HTMLElement) => any,
+    (ins: PlainTooltip): {
+        init: () => any,
+        destroy: () => any,
+    }
 }
 
 export const PlainTooltipTriggers: { [k: string]: PlainTooltipTriggerType } = {
     /*手动控制*/
-    manual: {init: () => null, destroy: () => null},
+    manual: () => ({init: () => null, destroy: () => null}),
     /*总是显示*/
-    always: {
-        init: (instance) => instance.show(),
+    always: (ins) => ({
+        init: () => ins.show(),
         destroy: () => null
-    },
+    }),
     /*target获取焦点的时候显示*/
-    focus: {
-        init(instance, target: HTMLElement) {
-            instance.triggerHandler = {focus: () => instance.show(), blur: () => instance.hide(),}
-            target.addEventListener('focus', instance.triggerHandler.focus)
-            target.addEventListener('blur', instance.triggerHandler.blur)
-        },
-        destroy(instance, target: HTMLElement) {
-            target.removeEventListener('focus', instance.triggerHandler.focus)
-            target.removeEventListener('blur', instance.triggerHandler.blur)
-        },
+    focus: ins => {
+        const {reference} = ins.config
+        const handler = {focus: () => ins.show(), blur: () => ins.hide()}
+        return ({
+            init() {
+                reference.addEventListener('focus', handler.focus)
+                reference.addEventListener('blur', handler.blur)
+            },
+            destroy() {
+                reference.removeEventListener('focus', handler.focus)
+                reference.removeEventListener('blur', handler.blur)
+            },
+        })
     },
     /*target被点击的时候切换显示*/
-    click: {
-        init(instance, target: HTMLElement) {
-            instance.triggerHandler = () => {
-                if (instance.state.isShow) instance.hide()
-                else instance.show()
+    click: ins => {
+        const {config: {reference}, state: {contentEl}} = ins
+        const handler = {
+            clickReference: ins.toogle,
+            clickBody: (e: MouseEvent) => {
+                if (reference.contains(e.target as Node)) {
+                    /*点击了reference*/
+                    return
+                }
+                if (contentEl!.contains(e.target as Node)) {
+                    /*点击了content*/
+                    return
+                }
+                ins.hide()
             }
-            target.addEventListener('click', instance.triggerHandler)
-        },
-        destroy(instance, target: HTMLElement) {
-            target.removeEventListener('click', instance.triggerHandler)
-        },
+        }
+        return ({
+            init() {
+                reference.addEventListener('click', handler.clickReference)
+                window.addEventListener('click', handler.clickBody)
+            },
+            destroy() {
+                reference.removeEventListener('click', handler.clickReference)
+                window.removeEventListener('click', handler.clickBody)
+            },
+        })
     },
     /*鼠标选择在target上时显示*/
-    hover: {
-        init(instance, target: HTMLElement) {
-            instance.triggerHandler = {
-                mouseenter: () => instance.show(),
-                mouseleave: () => instance.hide(),
-            }
-            target.addEventListener('mouseenter', instance.triggerHandler.mouseenter)
-            target.addEventListener('mouseleave', instance.triggerHandler.mouseleave)
-        },
-        destroy(instance, target: HTMLElement) {
-            target.removeEventListener('mouseenter', instance.triggerHandler.mouseenter)
-            target.removeEventListener('mouseleave', instance.triggerHandler.mouseleave)
-        },
+    hover: ins => {
+
+        const {config: {reference, hoverDelay}, state: {contentEl}, show, hide} = ins
+
+        let closeTimer: number | undefined;
+        let openTimer: number | undefined;
+
+
+        const handler = {
+            reference: {
+                enter: () => {
+                    if (!!closeTimer) {
+                        clearTimeout(closeTimer)
+                        closeTimer = undefined
+                    }
+                    openTimer = setTimeout(() => {
+                        show()
+                        openTimer = undefined
+                    }, hoverDelay)
+                },
+                leave: () => {
+                    if (!!openTimer) {
+                        clearTimeout(openTimer)
+                        openTimer = undefined
+                    }
+                    closeTimer = setTimeout(() => {
+                        hide()
+                        closeTimer = undefined
+                    }, hoverDelay)
+                },
+            },
+            popper: {
+                enter: () => {
+                    if (!!closeTimer) {
+                        clearTimeout(closeTimer)
+                        closeTimer = undefined
+                    }
+                    openTimer = setTimeout(() => {
+                        show()
+                        openTimer = undefined
+                    }, hoverDelay)
+                },
+                leave: () => {
+                    if (!!openTimer) {
+                        clearTimeout(openTimer)
+                        openTimer = undefined
+                    }
+                    closeTimer = setTimeout(() => {
+                        hide()
+                        closeTimer = undefined
+                    }, hoverDelay)
+                },
+            },
+        }
+
+        return {
+            init() {
+                reference.addEventListener('mouseenter', handler.reference.enter)
+                reference.addEventListener('mouseleave', handler.reference.leave)
+                contentEl!.addEventListener('mouseenter', handler.popper.enter)
+                contentEl!.addEventListener('mouseleave', handler.popper.leave)
+            },
+            destroy() {
+                reference.removeEventListener('mouseenter', handler.reference.enter)
+                reference.removeEventListener('mouseleave', handler.reference.leave)
+                contentEl!.removeEventListener('mouseenter', handler.popper.enter)
+                contentEl!.removeEventListener('mouseleave', handler.popper.leave)
+            },
+        }
     },
 }
 
