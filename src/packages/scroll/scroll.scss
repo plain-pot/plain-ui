@@ -116,20 +116,20 @@
 
 .pl-auto-scroll-indicator-vertical {
   &.pl-auto-scroll-indicator-start {
-    background: linear-gradient(to top, transparent, #ddd);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), #ddd);
   }
 
   &.pl-auto-scroll-indicator-end {
-    background: linear-gradient(to bottom, transparent, #ddd);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ddd);
   }
 }
 
 .pl-auto-scroll-indicator-horizontal {
   &.pl-auto-scroll-indicator-start {
-    background: linear-gradient(to left, transparent, #ddd);
+    background: linear-gradient(to left, rgba(255, 255, 255, 0), #ddd);
   }
 
   &.pl-auto-scroll-indicator-end {
-    background: linear-gradient(to right, transparent, #ddd);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), #ddd);
   }
 }
