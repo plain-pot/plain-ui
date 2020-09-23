@@ -1,4 +1,4 @@
-import {createPlainTooltipPopper, PlainTooltipAnimate, PlainTooltipAnimates, PlainTooltipAnimateType, PlainTooltipConfig, PlainTooltipTheme, PlainTooltipThemes, PlainTooltipThemeTtype, PlainTooltipTrigger, PlainTooltipTriggers, PlainTooltipTriggerType} from "./PlainTooltipUtils";
+import {createPlainTooltipPopper, PlainTooltipAnimate, PlainTooltipAnimates, PlainTooltipAnimateType, PlainTooltipConfig, PlainTooltipTheme, PlainTooltipThemes, PlainTooltipTrigger, PlainTooltipTriggers, PlainTooltipTriggerType} from "./PlainTooltipUtils";
 import {PlainPopper} from "./PlainPopper";
 
 export class PlainTooltip {
@@ -19,8 +19,9 @@ export class PlainTooltip {
     constructor(public config: PlainTooltipConfig) {
         (config.removeOnHide == null && (config.removeOnHide = true));
         (config.theme == null && (config.theme = PlainTooltipTheme.dark));
-        (config.animate == null && (config.animate = PlainTooltipAnimate.fade));
-        (config.trigger == null && (config.trigger = PlainTooltipTrigger.click));
+        (config.animate == null && (config.animate = PlainTooltipAnimate.scale));
+        (config.trigger == null && (config.trigger = PlainTooltipTrigger.hover));
+        (config.placement == null && (config.placement = 'top'));
         (config.hoverDelay == null && (config.hoverDelay = 100));
 
         const {

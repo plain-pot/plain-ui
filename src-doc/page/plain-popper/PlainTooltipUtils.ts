@@ -12,6 +12,7 @@ export enum PlainTooltipTheme {
 export enum PlainTooltipAnimate {
     scale = 'scale',
     fade = 'fade',
+    drop = 'drop',
 }
 
 export enum PlainTooltipTrigger {
@@ -260,9 +261,11 @@ export const createPlainTooltipPopper = (() => {
                 transition: `all 300ms cubic-bezier(0.23, 1, 0.32, 1)`,
                 padding: '8px 12px',
                 boxSizing: 'border-box',
+                boxShadow: '0 0 10px 2px rgba(0, 0, 0, 0.15)',
                 fontSize: '12px',
                 maxWidth: '500px',
-            })
+                zIndex: '999',
+            } as StyleType)
 
             let arrowEl = document.createElement('div') as HTMLElement;
             addClass(arrowEl, 'plain-popper-arrow');

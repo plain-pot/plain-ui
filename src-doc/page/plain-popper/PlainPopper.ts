@@ -13,7 +13,7 @@ export class PlainPopper {
 
     constructor(private config: PlainPopperConfig) {
 
-        (config.padding == null && (config.padding = 0));
+        (config.padding == null && (config.padding = 10));
         (config.offset == null && (config.offset = 0));
         (config.placement == null && (config.placement = 'bottom-start'));
         (config.arrowSize == null && (config.arrowSize = 12));
