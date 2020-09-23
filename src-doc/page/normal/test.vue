@@ -1,12 +1,14 @@
 <template>
-    <div>
-        <test-table :data="data"/>
+    <div style="padding: 20px 0;">
+        <pl-button>FIRST BUTTON</pl-button>
+        <pl-button ref="btn">BUTTON</pl-button>
     </div>
 </template>
 
 <script>
 
     import TestTable from './test-table/test-table'
+    import {PlainTooltip} from "../plain-popper/PlainTooltip";
 
     export default {
         name: "test",
@@ -14,21 +16,17 @@
             TestTable,
         },
         data() {
-            return {
-                agent: null,
-                data: [
-                    {name: '山东省'},
-                    {name: '山西省'},
-                    {name: '湖南省'},
-                    {name: '湖北省'},
-                    {name: '四川省'},
-                    {name: '广东省'},
-                    {name: '广西省'},
-                ],
-            }
+            return {}
         },
         mounted() {
-
+            const tooltip = new PlainTooltip({
+                reference: this.$refs.btn.$el,
+                content: '一段提示文本',
+                // trigger: 'hover',
+                // theme: 'light',
+                // animate: 'drop',
+                // placement:'bottom',
+            })
         }
     }
 </script>
