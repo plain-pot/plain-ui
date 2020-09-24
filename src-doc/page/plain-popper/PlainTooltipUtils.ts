@@ -119,7 +119,7 @@ export const PlainTooltipTriggers: { [k: string]: PlainTooltipTriggerType } = {
     click: ins => {
         const {config: {reference}, state: {contentEl}} = ins
         const handler = {
-            clickReference: ins.toogle,
+            clickReference: ins.toggle,
             clickBody: (e: MouseEvent) => {
                 if (reference.contains(e.target as Node)) {
                     /*点击了reference*/

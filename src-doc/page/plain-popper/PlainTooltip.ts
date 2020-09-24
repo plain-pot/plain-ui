@@ -115,8 +115,16 @@ export class PlainTooltip {
         }
     }
 
-    toogle = () => {
+    toggle = () => {
         this.state.isShow ? this.hide() : this.show()
+    }
+
+
+    destroy = () => {
+        this.state.trigger!.destroy()
+        this.state.contentEl!.removeEventListener('transitionend', this.handler.onContentTransitionEnd)
+        if (this.state.isMounted) document.body.removeChild(this.state.popperEl!)
+        this.state.popper!.destroy()
     }
 
 }

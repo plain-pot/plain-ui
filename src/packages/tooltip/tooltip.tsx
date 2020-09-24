@@ -1,12 +1,11 @@
 import {computed, defineComponent, onBeforeUnmount, onMounted, reactive, watch} from "@vue/composition-api";
-import PlainPopper from "../../../submodules/plain-popper";
 import {useRefs} from "@/use/useRefs";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
-
-const PlainTooltip = PlainPopper.PlainTooltip
+import {PlainTooltip} from "../../../src-doc/page/plain-popper/PlainTooltip";
+import {PlacementType} from "../../../src-doc/page/plain-popper/PlainPopperUtils";
 
 const props = {
     text: {type: [String, Object]},                             // tooltip 文本
@@ -29,7 +28,7 @@ export default defineComponent({
     props: {
         ...props,
     },
-    setup(props, context) {
+    setup(props) {
 
         const refs = useRefs()
         const {slots} = useSlots()
@@ -40,13 +39,13 @@ export default defineComponent({
         })
 
         const state = reactive({
-            tooltip: null as any,
+            tooltip: null as null | PlainTooltip,
             unwatch: null as Function | null,
         })
 
         const isShow = computed(() => {
             if (!state.tooltip) return false
-            return state.tooltip.isShow
+            return state.tooltip.state.isShow
         })
 
         const classes = computed(() => [
@@ -60,16 +59,16 @@ export default defineComponent({
             initTooltip: () => {
                 // @ts-ignore
                 state.tooltip = new PlainTooltip({
-                    targetEl: refs.$el,
                     content: props.text,
 
+                    reference: refs.$el,
                     offset: propsState.offset,
-                    placement: props.placement,
-                    arrow: props.arrow,
+                    placement: props.placement as PlacementType,
+                    arrowSize: props.arrow ? undefined : 0,
                     boundary: props.boundary,
-                    theme: props.theme,
-                    animate: props.animate,
-                    trigger: props.trigger,
+                    theme: props.theme as any,
+                    animate: props.animate as any,
+                    trigger: props.trigger as any,
                 })
             },
             destroyTooltip: () => {
@@ -92,7 +91,7 @@ export default defineComponent({
                 if (!state.tooltip) {
                     utils.initTooltip()
                 }
-                state.tooltip.show()
+                state.tooltip!.show()
             },
             hide: () => {
                 if (!!state.tooltip) {
@@ -132,11 +131,11 @@ export default defineComponent({
                     } else {
                         !!state.unwatch && state.unwatch()
                     }
-                },{immediate: true})
+                }, {immediate: true})
             } else {
                 watch(() => props[propsName], () => {
                     utils.reset()
-                },{immediate: true})
+                }, {immediate: true})
             }
         })
 

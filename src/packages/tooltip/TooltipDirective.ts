@@ -1,19 +1,17 @@
-import PlainPopper from "../../../submodules/plain-popper";
 import {$plain} from "@/packages/base";
-
-const PlainTooltip = PlainPopper.PlainTooltip
+import {PlainTooltip} from "../../../src-doc/page/plain-popper/PlainTooltip";
+import {PlainTooltipConfig} from "../../../src-doc/page/plain-popper/PlainTooltipUtils";
 
 class Tooltip {
 
     static DEFAULT_OPTION = {
         placement: 'top',
-        arrow: true,
         theme: 'dark',
         animate: 'fade',
         trigger: 'hover',
     }
 
-    tooltip: any
+    tooltip: PlainTooltip | null = null
 
     constructor(el: HTMLElement, option: object | string) {
         this.updateOption(el, option)
@@ -29,7 +27,7 @@ class Tooltip {
             if (typeof option === "string") {
                 option = {content: option}
             }
-            option = Object.assign({targetEl: el}, Tooltip.DEFAULT_OPTION, option)
+            option = Object.assign({reference: el} as Partial<PlainTooltipConfig>, Tooltip.DEFAULT_OPTION, option)
             // @ts-ignore
             this.tooltip = new PlainTooltip(option)
         }
