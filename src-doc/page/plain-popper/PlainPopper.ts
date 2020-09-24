@@ -1,5 +1,5 @@
 import {StyleType} from "@/types/utils";
-import {adjustPlacement, Align, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, isVertical, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
+import {adjustPlacement, Align, debounce, Direction, getBoundaryPos, getPos, getTransformOriginByPlacement, isVertical, PlacementType, PlainPopperConfig, setPos} from "./PlainPopperUtils";
 
 export class PlainPopper {
 
@@ -62,7 +62,7 @@ export class PlainPopper {
         this.bindEvent()
     }
 
-    public refresh() {
+    public refresh(forceTransform = false) {
         let left: number, top: number;
         const {offset, content} = this
         const {popper, reference, boundary, placement, gpuAcceleration} = this.config
@@ -161,17 +161,17 @@ export class PlainPopper {
             }
         })();
 
-        setPos(this.config.popper, {left, top}, !!gpuAcceleration)
+        setPos(this.config.popper, {left, top}, forceTransform ? true : !!gpuAcceleration)
 
         this.content.style.transformOrigin = getTransformOriginByPlacement(`${direction}-${align}` as PlacementType);
 
         popper.setAttribute('direction', direction)
         popper.setAttribute('align', align)
 
-        this.refreshArrow(direction, align)
+        this.refreshArrow(direction, align, forceTransform)
     }
 
-    private refreshArrow(direction: Direction, align: Align) {
+    private refreshArrow(direction: Direction, align: Align, forceTransform) {
 
         if (!this.arrow) {
             return
@@ -229,10 +229,16 @@ export class PlainPopper {
             }
         }
 
-        setPos(this.arrow!, {top: top!, left: left!}, !!this.config.gpuAcceleration)
+        const gpuAcceleration = forceTransform ? true : !!this.config.gpuAcceleration
+
+        setPos(this.arrow!, {top: top!, left: left!}, gpuAcceleration)
+
+        /*rotate arrow*/
+
+        const transformRotate = `rotate(${rotate}deg)`
 
         Object.assign(this.arrow.style, {
-            transform: `rotate(${rotate}deg)`
+            transform: gpuAcceleration ? `${this.arrow.style.transform} ${transformRotate}` : transformRotate
         } as StyleType)
 
     }
@@ -249,12 +255,24 @@ export class PlainPopper {
         this.refresh()
     }
 
+    resetPositioningMode = debounce(() => {
+        this.refresh()
+    }, 150)
+
+    private onParentScroll = () => {
+        /*
+        *  滚动的时候，自动切换为 transform 定位，提高页面渲染性能
+        */
+        this.refresh(true)
+        this.resetPositioningMode()
+        // this.refresh()
+    }
+
     private bindEvent() {
         let parentEl = this.config.reference.parentNode as HTMLElement
         while (!!parentEl) {
-            let listener = (e) => this.refresh()
-            parentEl.addEventListener('scroll', listener)
-            this.scrollEventListener.push({el: parentEl, listener})
+            parentEl.addEventListener('scroll', this.onParentScroll)
+            this.scrollEventListener.push({el: parentEl, listener: this.onParentScroll})
             parentEl = parentEl.parentNode as HTMLElement
         }
 

@@ -197,16 +197,23 @@ export function adjustPlacement(placement: PlacementType, referencePos: Pos, con
  */
 export function setPos(el: HTMLElement, {left, top}: { top: number, left: number }, gpuAcceleration: boolean) {
     if (gpuAcceleration) {
-        left = Math.ceil(left)
+        /*left = Math.ceil(left)
         top = Math.ceil(top)
         if (left % 2 !== 0) left++
-        if (top % 2 !== 0) top++
+        if (top % 2 !== 0) top++*/
         el.style.transform = `translate3d(${left}px,${top}px,0)`
         el.style.transitionDuration = '0ms'
         el.style.willChange = 'transform'
+
+        el.style.left = '0'
+        el.style.top = '0'
     } else {
         el.style.left = `${left}px`
         el.style.top = `${top}px`
+
+        el.style.transform = ''
+        el.style.transitionDuration = ''
+        el.style.willChange = ''
     }
 }
 
@@ -234,3 +241,26 @@ export function getTransformOriginByPlacement(placement: PlacementType) {
     return origin[placement]
 }
 
+/**
+ * 防抖
+ * @author  韦胜健
+ * @date    2019/11/16 19:31
+ */
+export const debounce = <T extends Function>(func: T, wait: number, immediate?: boolean): T => {
+    let timeout: any
+
+    return function (...args: any[]) {
+        // @ts-ignore
+        const context = this
+        clearTimeout(timeout)
+        if (immediate) {
+            let callNow = !timeout
+            // @ts-ignore
+            if (callNow) func.apply(this, args)
+        }
+        timeout = setTimeout(() => {
+            func.apply(context, args)
+            timeout = null
+        }, wait)
+    } as any
+}
