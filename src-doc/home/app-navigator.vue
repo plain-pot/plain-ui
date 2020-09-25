@@ -38,16 +38,19 @@
                 this.PageComponent = PageComponent
             },
             async getPageComponent(path) {
+                const bar = await this.$loading.bar()
                 try {
-                    return (await import('src-doc/page' + path + '.vue')).default
+                    const Page = (await import('src-doc/page' + path + '.vue')).default
+                    await bar.done()
+                    return Page
                 } catch (e) {
                     console.log(`未找到页面：` + path)
+                    await bar.fail()
                     return null
                 }
             },
             async open(menu) {
-                const path = menu.page
-                this.openPage(path)
+                window.location.hash = menu.page
             },
         },
     }

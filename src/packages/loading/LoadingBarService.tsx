@@ -38,6 +38,7 @@ const Service = defineComponent({
             zIndex: 0,
             interval: null as null | number,
             autoLoadingStep: 5,
+            startDelayer: null as null | number,
         })
 
         const color = computed(() => {
@@ -74,6 +75,11 @@ const Service = defineComponent({
         })
 
         const methods = {
+            /**
+             * 开始自动播放进度
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             startAutoLoading() {
                 state.autoLoadingStep = 10
                 state.interval = setInterval(() => {
@@ -91,12 +97,22 @@ const Service = defineComponent({
                     }
                 }, 250)
             },
+            /**
+             * 停止自动播放进度
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             stopAutoLoading() {
                 if (!!state.interval) {
                     clearInterval(state.interval)
                     state.interval = null
                 }
             },
+            /**
+             * 初始化option
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             init(option: LoadingBarOption) {
                 option.color == null && (set(option, 'color', 'primary'));
                 option.doneColor == null && (set(option, 'doneColor', 'primary'));
@@ -110,55 +126,70 @@ const Service = defineComponent({
 
                 return methods
             },
+            /**
+             * 更新option
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             update: (option: LoadingBarOption) => {
                 if (!!state.option) {
                     Object.assign(state.option, option)
                 }
                 methods.stopAutoLoading()
             },
+            /**
+             * 开始loading
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             start: async () => {
+                state.startDelayer = setTimeout(async () => {
+                    if (!state.option) {
+                        return
+                    }
 
-                if (!state.option) {
-                    return
-                }
+                    const percent = state.option.percent
+                    state.isActive = true
+                    state.option.percent = 0
 
-                const percent = state.option.percent
-                state.isActive = true
-                state.option.percent = 0
+                    state.status = LoadingStatus.process
+                    state.zIndex = $plain.nextIndex()
 
-                state.status = LoadingStatus.process
-                state.zIndex = $plain.nextIndex()
+                    await $plain.utils.delay(23)
+                    state.option.percent = percent
 
-                await $plain.utils.delay(23)
-                state.option.percent = percent
-
-                if (state.option!.autoProcess) {
-                    methods.startAutoLoading()
-                }
+                    if (state.option!.autoProcess) {
+                        methods.startAutoLoading()
+                    }
+                }, 100)
             },
+            /**
+             * 加载完成
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             done: async () => {
-
-                if (!state.option) {
-                    return
-                }
-                methods.stopAutoLoading()
-
                 state.status = LoadingStatus.done
-                state.option!.percent = 100
-                await $plain.utils.delay(300)
-                state.status = LoadingStatus.wait
-                await $plain.utils.delay(300)
-                state.isActive = false
-                state.option = null
+                await methods.complete()
             },
+            /**
+             * 加载失败
+             * @author  韦胜健
+             * @date    2020/9/25 21:16
+             */
             fail: async () => {
-
+                state.status = LoadingStatus.fail
+                await methods.complete()
+            },
+            complete: async () => {
                 if (!state.option) {
                     return
                 }
+                if (state.startDelayer != null) {
+                    clearTimeout(state.startDelayer)
+                    state.startDelayer = null
+                }
                 methods.stopAutoLoading()
-
-                state.status = LoadingStatus.fail
                 state.option!.percent = 100
                 await $plain.utils.delay(300)
                 state.status = LoadingStatus.wait
