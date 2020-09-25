@@ -66,6 +66,7 @@ const Service = defineComponent({
                 height: `${state.option.height}px`,
                 width: `${state.option!.percent}%`,
                 backgroundColor: (!!color.value && status.indexOf(color.value) === -1) ? color.value : '',
+                opacity: state.status === LoadingStatus.wait ? '0' : '1',
                 zIndex: String(state.zIndex),
             } as StyleType
         })
@@ -73,7 +74,7 @@ const Service = defineComponent({
         const methods = {
             init(option: LoadingBarOption) {
                 option.color == null && (set(option, 'color', 'primary'));
-                option.doneColor == null && (set(option, 'doneColor', 'success'));
+                option.doneColor == null && (set(option, 'doneColor', 'primary'));
                 option.failColor == null && (set(option, 'failColor', 'error'));
                 option.percent == null && (set(option, 'percent', 0));
                 option.height == null && (set(option, 'height', 4));
@@ -108,11 +109,23 @@ const Service = defineComponent({
                     state.option!.percent = 50
                 }
             },
-            done: () => {
+            done: async () => {
                 state.status = LoadingStatus.done
+                state.option!.percent = 100
+                await $plain.utils.delay(300)
+                state.status = LoadingStatus.wait
+                await $plain.utils.delay(300)
+                state.isActive = false
+                state.option = null
             },
-            fail: () => {
+            fail: async () => {
                 state.status = LoadingStatus.fail
+                state.option!.percent = 100
+                await $plain.utils.delay(300)
+                state.status = LoadingStatus.wait
+                await $plain.utils.delay(300)
+                state.isActive = false
+                state.option = null
             },
         };
 
