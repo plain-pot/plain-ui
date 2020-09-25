@@ -48,6 +48,9 @@
         <demo-row title="服务式调用$loading">
             <pl-button @click="startLoading" label="open fullscreen loading"/>
         </demo-row>
+        <demo-row title="$loading.bar">
+            <pl-button @click="newLoadingBar" label="new loading bar"/>
+        </demo-row>
     </div>
 </template>
 
@@ -68,6 +71,7 @@
                     loading: true,
                     init: true,
                 },
+                bar: null,
             }
         },
         methods: {
@@ -76,6 +80,9 @@
                 setTimeout(() => {
                     this.$loading(false)
                 }, 3000)
+            },
+            newLoadingBar() {
+                this.bar = this.$loading.bar()
             },
         },
     }

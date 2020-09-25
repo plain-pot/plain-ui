@@ -1,4 +1,5 @@
 import Mask from './pl-loading-mask.vue'
+import {$loadingBar} from "@/packages/loading/LoadingBarService";
 
 const WrapMask = {
     render(h) {
@@ -50,7 +51,9 @@ class LoadingService {
             }
             mask.updateOption(option)
         }
-        Vue.prototype.$loading = $loading
+        Vue.prototype.$loading = Object.assign($loading, {
+            bar: $loadingBar
+        })
     }
 }
 

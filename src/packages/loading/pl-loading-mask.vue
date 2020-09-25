@@ -96,6 +96,24 @@
                 position: fixed;
             }
         }
+
+        .pl-loading-bar-service-controller {
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            opacity: 0.5;
+
+            .pl-loading-bar-service {
+                display: block;
+                transition: all 300ms $transition;
+                @include statusMixin(loading-bar-service) {
+                    background-color: $value;
+                }
+            }
+        }
     }
 
     .pl-transition-loading-mask-enter-active, .pl-transition-loading-mask-leave-active {
