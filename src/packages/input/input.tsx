@@ -1,4 +1,4 @@
-import {computed, defineComponent, reactive, watch} from '@vue/composition-api'
+import {computed, defineComponent, onMounted, reactive, watch} from '@vue/composition-api'
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
@@ -274,6 +274,12 @@ export default defineComponent({
             editState,
             editComputed,
             state,
+        })
+
+        onMounted(() => {
+            if (props.textarea) {
+                methods.resetTextAreaHeight()
+            }
         })
 
         /*---------------------------------------render-------------------------------------------*/
