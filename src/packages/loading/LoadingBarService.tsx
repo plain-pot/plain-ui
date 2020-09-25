@@ -36,6 +36,8 @@ const Service = defineComponent({
             isActive: false,
             option: null as null | LoadingBarOption,
             zIndex: 0,
+            interval: null as null | number,
+            autoLoadingStep: 5,
         })
 
         const color = computed(() => {
@@ -72,6 +74,29 @@ const Service = defineComponent({
         })
 
         const methods = {
+            startAutoLoading() {
+                state.autoLoadingStep = 10
+                state.interval = setInterval(() => {
+                    if (!!state.option) {
+                        if (state.option.percent == null) {
+                            state.option.percent = 0
+                        }
+                        state.option.percent += state.autoLoadingStep
+                        state.autoLoadingStep -= 0.5
+                        if (state.option.percent + 20 > 100 || state.autoLoadingStep < 0) {
+                            methods.stopAutoLoading()
+                        }
+                    } else {
+                        methods.stopAutoLoading()
+                    }
+                }, 250)
+            },
+            stopAutoLoading() {
+                if (!!state.interval) {
+                    clearInterval(state.interval)
+                    state.interval = null
+                }
+            },
             init(option: LoadingBarOption) {
                 option.color == null && (set(option, 'color', 'primary'));
                 option.doneColor == null && (set(option, 'doneColor', 'primary'));
@@ -89,12 +114,14 @@ const Service = defineComponent({
                 if (!!state.option) {
                     Object.assign(state.option, option)
                 }
+                methods.stopAutoLoading()
             },
             start: async () => {
 
                 if (!state.option) {
                     return
                 }
+
                 const percent = state.option.percent
                 state.isActive = true
                 state.option.percent = 0
@@ -106,10 +133,16 @@ const Service = defineComponent({
                 state.option.percent = percent
 
                 if (state.option!.autoProcess) {
-                    state.option!.percent = 50
+                    methods.startAutoLoading()
                 }
             },
             done: async () => {
+
+                if (!state.option) {
+                    return
+                }
+                methods.stopAutoLoading()
+
                 state.status = LoadingStatus.done
                 state.option!.percent = 100
                 await $plain.utils.delay(300)
@@ -119,6 +152,12 @@ const Service = defineComponent({
                 state.option = null
             },
             fail: async () => {
+
+                if (!state.option) {
+                    return
+                }
+                methods.stopAutoLoading()
+
                 state.status = LoadingStatus.fail
                 state.option!.percent = 100
                 await $plain.utils.delay(300)

@@ -50,8 +50,8 @@
         </demo-row>
         <demo-row title="$loading.bar">
             <pl-button @click="newLoadingBar" label="new loading bar"/>
-            <pl-button @click="bar.done()" label="done"/>
-            <pl-button @click="bar.fail()" label="fail"/>
+            <pl-button @click="bar.done();bar = null" label="done"/>
+            <pl-button @click="bar.fail();bar = null" label="fail"/>
         </demo-row>
     </div>
 </template>
@@ -84,6 +84,9 @@
                 }, 3000)
             },
             async newLoadingBar() {
+                if (!!this.bar) {
+                    this.bar.done()
+                }
                 this.bar = await this.$loading.bar()
             },
         },
