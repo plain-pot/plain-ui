@@ -9,11 +9,11 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useSlots} from "@/use/useSlots";
 import {DEFAULT_STATUS} from "@/packages/base";
+import {designComponent} from "@/use/designComponent";
 
-export default defineComponent({
-    name: 'pl-button',
-    directives: {ClickWave},
-    props: {
+export default designComponent(
+    'pl-button',
+    {
         mode: {type: String, default: 'fill'},                  // fill,stroke,text
         label: {type: String},                                  // 按钮文本
         width: {type: [String, Number]},                        // 按钮宽度
@@ -31,7 +31,7 @@ export default defineComponent({
         type: {type: String, default: 'button'},
         nativeProps: {},
     },
-    setup(props, context) {
+    function (props) {
 
         const {slots} = useSlots()
 
@@ -58,8 +58,10 @@ export default defineComponent({
                     if (props.autoLoading) {
                         editState.loading = true
                         try {
-                            if (!!context.listeners.click) {
-                                await context.listeners.click(e)
+
+                            if (!!this.$listeners.click) {
+                                // @ts-ignore
+                                await this.$listeners.click(e)
                             }
                         } catch (e) {
                         } finally {
@@ -123,7 +125,28 @@ export default defineComponent({
             width: !!propsState.width ? PlainUtils.suffixPx(propsState.width) : null,
         }))
 
-        /*---------------------------------------render-------------------------------------------*/
+        return {
+            styles,
+            classes,
+            props,
+            editComputed,
+            state,
+            propsState,
+            slots,
+
+        }
+    },
+    function (refer) {
+
+        const {
+            styles,
+            classes,
+            props,
+            editComputed,
+            state,
+            propsState,
+            slots,
+        } = refer
 
         return () => (
             <button
@@ -150,4 +173,9 @@ export default defineComponent({
             </button>
         )
     },
-})
+    {
+        mixin: {
+            directives: {ClickWave},
+        }
+    }
+)
