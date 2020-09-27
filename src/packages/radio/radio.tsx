@@ -34,6 +34,7 @@ export default defineComponent({
         /*---------------------------------------emitter-------------------------------------------*/
         const {emit} = useEvent({
             input: EmitFunc,
+            click: EmitFunc,
         })
 
         /*---------------------------------------state-------------------------------------------*/
@@ -80,7 +81,8 @@ export default defineComponent({
         })
 
         const handler = {
-            click: () => {
+            click: (e: MouseEvent) => {
+                emit.click(e)
                 if (!editComputed.value.editable) {
                     return
                 }
@@ -97,7 +99,7 @@ export default defineComponent({
                 if (getKey(e) === KEY.space) {
                     e.preventDefault()
                     e.stopPropagation()
-                    handler.click()
+                    handler.click(e as any)
                 }
             }
         }
