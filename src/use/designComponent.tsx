@@ -1,9 +1,10 @@
 import {defineComponent, getCurrentInstance, inject, provide} from "@vue/composition-api";
+import * as Vue from "vue/types/umd";
 
-function designComponent<Props,
-    Setup extends (props: ExtractPropTypes<Props, false>) => any,
-    Render extends (refer: ReturnType<Setup>) => any,
-    Config extends { provide: boolean },
+export function designComponent<Props,
+    Setup extends (this: Vue, props: ExtractPropTypes<Props, false>) => any,
+    Render extends (this: Vue, refer: ReturnType<Setup>) => any,
+    Config extends { provide?: boolean, mixin?: any },
     >(
     name: string,
     props: Props,
@@ -13,6 +14,7 @@ function designComponent<Props,
 ) {
     return {
         ...defineComponent({
+            mixins: !!config && !!config.mixin ? [config.mixin] : [],
             name,
             props: props as any,
             setup: (p) => {
