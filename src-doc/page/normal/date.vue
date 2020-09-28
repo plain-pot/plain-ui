@@ -462,7 +462,7 @@
                     panel: 'dates',
                 },
             ].map((item, index) => {
-                return Object.assign(newData(`panels.${index}`), {panel: item.panel}, {title: item.title})
+                return Object.assign(newData(`panels.${index}`, {panel: item.panel}), {title: item.title})
             })
 
             return {
