@@ -285,7 +285,7 @@
 
 <script>
 
-    import {$cascade} from "../../../src/packages/cascade/CascadeService";
+    import {$cascade} from "../../../src/packages/cascade/$cascade";
 
     const CascadeItem = {
         props: {

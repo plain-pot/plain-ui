@@ -13,7 +13,7 @@ import {CascadeNode} from "@/packages/cascade/CascadeNode";
 import {CascadeMark} from "@/packages/cascade/CascadeMark";
 import {handleKeyboard} from "@/packages/keyboard";
 import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
-import {$cascade} from "@/packages/cascade/CascadeService";
+import {$cascade} from "@/packages/cascade/$cascade";
 
 export default defineComponent({
     name: 'pl-cascade',
