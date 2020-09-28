@@ -7,7 +7,7 @@ export const $time = definePopperService(createPopperService({
         return (
             <pl-time-panel
                 slot="popper"
-                key={ctx._refer!.state.count}
+                key={ctx._refer!.option.value.agent.state.showCount}
                 {
                     ...{
                         props: ctx._refer!.option.value.props,
