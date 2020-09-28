@@ -13,7 +13,6 @@ export const $colorPicker = definePopperService(createPopperService({
         return (
             <pl-color-panel
                 slot="popper"
-                key={ctx._refer!.state.count}
                 {
                     ...{
                         props: ctx._refer!.option.value.props,

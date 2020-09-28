@@ -14,7 +14,7 @@ export function usePopperAgent(optionGetter: () => PopperAgentOption, controller
             optionGetter,                   // PopperAgentOption
         }),
         freezeState: {
-            popperService: null,            // PopperService组件实例
+            popperService: null as any,     // PopperService组件实例
             destroyed: false,               // 标记，当前是否已经销毁
         },
         async show() {
@@ -24,6 +24,7 @@ export function usePopperAgent(optionGetter: () => PopperAgentOption, controller
             if (!this.state.open) {
                 this.freezeState.popperService = await controller._refer!.getPopperService(this)
             }
+            // console.log(this.count, this.state)
             this.state.show = true
         },
         async hide() {

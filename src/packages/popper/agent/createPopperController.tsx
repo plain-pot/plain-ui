@@ -19,38 +19,42 @@ export function createPopperController(name: string, PopperService: ReturnType<t
                 items: [] as { _refer: PopperServiceComponent["value"] }[]
             })
 
+            function findServiceByAgent(agent: PopperAgent) {
+                if (!refs.items) {
+                    return null
+                }
+                return refs.items.find(item => item._refer!.option.value.agent === agent)
+            }
+
             async function getPopperService(agent: PopperAgent) {
 
-                let workingService;
-                let workableIndex;
+                // console.log(state.agents.map(({count, state: {show, open}}) => `count:${count},show:${show},open:${open}`))
 
-                if (!!refs.items && refs.items.length > 0) {
-                    refs.items.forEach((item, i) => {
-                        const {agent: itemAgent} = item._refer!.option.value
-                        const {state: {show, open, optionGetter}} = itemAgent
-
-                        if (itemAgent === agent) {
-                            workingService = item
-                            return true
-                        }
-                        if ((!show && !open && !optionGetter().isPrivate)) {
-                            workableIndex = i
-                        }
-                    })
-                    if (workingService != null) {
-                        return workingService
-                    }
-                    if (workableIndex != null) {
-                        state.agents.splice(workableIndex, 1, agent)
-                        // console.log(state.agents.map(agent => agent.count))
-                        await $plain.nextTick();
-                        return refs.items[workableIndex]
-                    }
+                let workingService = findServiceByAgent(agent);
+                if (!!workingService) {
+                    return workingService
                 }
 
-                state.agents.push(agent)
+                let replaceIndex = -1
+                const replaceAgent = state.agents.find((item, i) => {
+                    const {state: {show, open, optionGetter}} = item
+                    const flag = !show && !open && !optionGetter().isPrivate
+                    if (!!flag) {
+                        item.state.show = false
+                        item.state.open = false
+                        replaceIndex = i
+                    }
+                    return flag
+                })
+
+                if (!!replaceAgent) {
+                    state.agents.splice(replaceIndex, 1, agent)
+                } else {
+                    state.agents.push(agent)
+                }
+
                 await $plain.nextTick()
-                return getPopperService(agent)
+                return findServiceByAgent(agent)
             }
 
             return {
