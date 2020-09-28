@@ -293,6 +293,8 @@
 </template>
 
 <script>
+    import {$time} from "../../../src/packages/time/$time";
+
     export default {
         name: "demo-time",
         props: {},
@@ -302,12 +304,10 @@
                 const result = {
                     service: null,
                     option: {
+                        reference: () => this.$refs[name],
                         props: {
                             value: null,
                             ...(option || {}),
-                        },
-                        popperProps: {
-                            reference: () => this.$refs[name]
                         },
                         listener: {
                             change: (val) => {
@@ -318,7 +318,7 @@
                     },
                     toggle: async () => {
                         if (!result.service) {
-                            result.service = await this.$plain.$time(result.option)
+                            result.service = await $time(() => result.option)
                         }
                         result.service.toggle()
                     },

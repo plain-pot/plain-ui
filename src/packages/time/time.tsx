@@ -8,6 +8,8 @@ import {$plain} from "@/packages/base";
 import {useDateTime} from "@/packages/date-time-input/useDateTime";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps} from "@/use/useStyle";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
+import {$time} from "@/packages/time/$time";
 
 export default defineComponent({
     name: 'pl-time',
@@ -36,7 +38,8 @@ export default defineComponent({
             end: new PlainDate(end.value, props.displayFormat, props.valueFormat),
         }))
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$time(() => ({
+        const agentState = useEditPopperAgent(() => $time(() => ({
+            reference: () => refs.$el,
             props: {
                 ...(Object.keys(TimePanelProps).reduce((ret, key) => {
                     ret[key] = props[key]
@@ -45,9 +48,6 @@ export default defineComponent({
                 value: value.value,
                 start: start.value,
                 end: end.value,
-            },
-            popperProps: {
-                reference: refs.$el,
             },
             listener: {
                 change: (val, type) => {

@@ -1,11 +1,11 @@
 import {ModelType} from "@/use/useModel";
-import {PopperAgentStateType} from "@/packages/popper/service/PopperAgent";
 import {CompRef, useRefs} from "@/use/useRefs";
 import {computed} from "@vue/composition-api";
 import {$plain} from "@/packages/base";
 import {handleKeyboard} from "@/packages/keyboard";
 import {useEdit} from "@/use/useEdit";
 import {useStyle} from "@/use/useStyle";
+import {EditPopperAgent} from "@/packages/popper/agent/type";
 
 export function useDateTime(
     {
@@ -22,7 +22,7 @@ export function useDateTime(
         props: {
             range?: boolean,
         },
-        agentState: PopperAgentStateType,
+        agentState: EditPopperAgent,
         emit: {
             blur: Function
         },

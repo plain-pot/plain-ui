@@ -9,6 +9,8 @@ import {$plain} from "@/packages/base";
 import {TimePanelProps} from "@/packages/time/time-panel";
 import {useDateTime} from "@/packages/date-time-input/useDateTime";
 import {StyleProps} from "@/use/useStyle";
+import {$date} from "@/packages/date/$date";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
 
 export default defineComponent({
     name: 'pl-date',
@@ -34,52 +36,48 @@ export default defineComponent({
         const startModel = useModel(() => props.start, emit.updateStart)
         const endModel = useModel(() => props.end, emit.updateEnd)
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$date(() => {
-            return {
-                props: {
-                    ...(Object.keys(TimePanelProps).reduce((ret, key) => {
-                        ret[key] = props[key]
-                        return ret
-                    }, {})),
-                    panel: props.panel,
-                    value: model.value,
-                    start: startModel.value,
-                    end: endModel.value,
-                },
-                popperProps: {
-                    reference: refs.$el,
-                },
-                listener: {
-                    change: (val, type) => {
-                        if (!props.range) {
-                            model.value = val
+        const agentState = useEditPopperAgent(() => $date(() => ({
+            reference: () => refs.$el,
+            props: {
+                ...(Object.keys(TimePanelProps).reduce((ret, key) => {
+                    ret[key] = props[key]
+                    return ret
+                }, {})),
+                panel: props.panel,
+                value: model.value,
+                start: startModel.value,
+                end: endModel.value,
+            },
+            listener: {
+                change: (val, type) => {
+                    if (!props.range) {
+                        model.value = val
+                    } else {
+                        if (type === 'start') {
+                            startModel.value = val
                         } else {
-                            if (type === 'start') {
-                                startModel.value = val
-                            } else {
-                                endModel.value = val
-                            }
+                            endModel.value = val
                         }
-                    },
-                    'mousedown-panel': async (e, type) => {
-                        agentState.state.focusCounter++
-                        await $plain.utils.delay(0)
+                    }
+                },
+                'mousedown-panel': async (e, type) => {
+                    agentState.state.focusCounter++
+                    await $plain.utils.delay(0)
 
-                        if (props.panel === 'dates') {
-                            refs.plInput.methods.focus()
-                        } else if (!props.range) {
-                            refs.valueInput.methods.focus()
+                    if (props.panel === 'dates') {
+                        refs.plInput.methods.focus()
+                    } else if (!props.range) {
+                        refs.valueInput.methods.focus()
+                    } else {
+                        if (type === 'start') {
+                            refs.startInput.methods.focus()
                         } else {
-                            if (type === 'start') {
-                                refs.startInput.methods.focus()
-                            } else {
-                                refs.endInput.methods.focus()
-                            }
+                            refs.endInput.methods.focus()
                         }
-                    },
-                }
+                    }
+                },
             }
-        }))
+        })))
 
         const {
             refs,

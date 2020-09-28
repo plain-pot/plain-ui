@@ -390,6 +390,8 @@
 </template>
 
 <script>
+    import {$date} from "../../../src/packages/date/$date";
+
     export default {
         name: "date",
         props: {},
@@ -399,20 +401,18 @@
                 const ret = {
                     service: null,
                     option: {
+                        reference: () => {
+                            const [ref, index] = name.split('.')
+
+                            if (index != null) {
+                                return this.$refs[ref][index]
+                            } else {
+                                return this.$refs[ref]
+                            }
+                        },
                         props: {
                             value: null,
                             ...(option || {})
-                        },
-                        popperProps: {
-                            reference: () => {
-                                const [ref, index] = name.split('.')
-
-                                if (index != null) {
-                                    return this.$refs[ref][index]
-                                } else {
-                                    return this.$refs[ref]
-                                }
-                            }
                         },
                         listener: {
                             change: (val) => {
@@ -426,7 +426,7 @@
                     },
                     toggle: async () => {
                         if (!ret.service) {
-                            ret.service = await this.$plain.$date(ret.option)
+                            ret.service = await $date(() => ret.option)
                         }
                         ret.service.toggle()
                     },
@@ -461,7 +461,9 @@
                     title: '多个日期',
                     panel: 'dates',
                 },
-            ].map((item, index) => Object.assign(newData(`panels.${index}`, {panel: item.panel}), {title: item.title}))
+            ].map((item, index) => {
+                return Object.assign(newData(`panels.${index}`), {panel: item.panel}, {title: item.title})
+            })
 
             return {
                 val: {

@@ -5,9 +5,9 @@
  */
 import {POPPER_PROPS} from "@/packages/popper/popper";
 import * as Vue from "vue/types/umd";
-import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {createPopperService} from "@/packages/popper/agent/createPopperService";
 import {usePopperAgent} from "@/packages/popper/agent/usePopperAgent";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
 
 export interface PopperAgentOption {
     reference: Element | HTMLElement | any,
@@ -42,5 +42,5 @@ export const PopperAgentDefaultPopperProps = {
 }
 
 export type PopperAgent = ReturnType<typeof usePopperAgent>
-export type EditPopperAgent = ReturnType<typeof usePopperAgentEditor>
+export type EditPopperAgent = ReturnType<typeof useEditPopperAgent>
 export type PopperServiceComponent = ReturnType<ReturnType<typeof createPopperService>["use"]["ref"]>
