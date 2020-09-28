@@ -22,27 +22,27 @@ export function createPopperController(name: string, PopperService: ReturnType<t
 
             async function getPopperService(agent: PopperAgent) {
 
-                let index = -1;
-
-                let service = refs.items.find((item, i) => {
-                    const {agent: itemAgent} = item._refer!.option.value
-                    const {state: {show, open, optionGetter}} = itemAgent
-                    const flag = itemAgent === agent || (!show && !open && !optionGetter().isPrivate)
-                    if (!!flag) {
-                        index = i
+                if (!!refs.items && refs.items.length > 0) {
+                    let index = -1;
+                    let service = refs.items.find((item, i) => {
+                        const {agent: itemAgent} = item._refer!.option.value
+                        const {state: {show, open, optionGetter}} = itemAgent
+                        const flag = itemAgent === agent || (!show && !open && !optionGetter().isPrivate)
+                        if (!!flag) {
+                            index = i
+                        }
+                        return flag
+                    })
+                    if (!!service && index != -1) {
+                        state.agents[index] = agent
+                        await $plain.nextTick()
+                        return service
                     }
-                    return flag
-                })
-
-                if (!!service && index != -1) {
-                    state.agents[index] = agent
-                    await $plain.nextTick()
-                    return service
-                } else {
-                    state.agents.push(agent)
-                    await $plain.nextTick()
-                    return getPopperService(agent)
                 }
+
+                state.agents.push(agent)
+                await $plain.nextTick()
+                return getPopperService(agent)
             }
 
             return {
@@ -53,7 +53,7 @@ export function createPopperController(name: string, PopperService: ReturnType<t
         function (refer) {
             return () => {
                 return (
-                    <div class={`${ComponentName} pl-popper-service-controller`}>
+                    <div class={`pl-popper-service-controller ${ComponentName}`}>
                         {refer.state.agents.map((agent, index) => (
                             // @ts-ignore
                             <PopperService agent={agent} key={index} {...{ref: 'items', refInFor: true}}/>

@@ -92,9 +92,10 @@ export function createPopperService(
             })
 
             const popperBinding = computed(() => {
-                const {targetPopperProps: popperProps, popperListener} = option.value
+                const {targetPopperProps: popperProps, popperListener, reference} = option.value
                 return {
                     props: {
+                        reference,
                         value: option.value.agent.state.show,
                         open: option.value.agent.state.open,
                         popperClass: `pl-popper-service-${name}-content`,

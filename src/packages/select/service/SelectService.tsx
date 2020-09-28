@@ -1,11 +1,10 @@
 import {createPopperService} from "@/packages/popper/agent/createPopperService";
-import {PopperServiceComponent} from "@/packages/popper/service/PopperServiceComponent";
 import {createPopperController, PopperController} from "@/packages/popper/agent/createPopperController";
-import {PopperAgentOption} from "@/packages/popper/agent/type";
+import {PopperAgentOption, PopperServiceComponent} from "@/packages/popper/agent/type";
 import {$plain} from "@/packages/base";
 import {usePopperAgent} from "@/packages/popper/agent/createPopperAgent";
 
-const $select = (() => {
+export const $select = (() => {
 
     const Service = createPopperService({
         name: 'select',
@@ -17,9 +16,9 @@ const $select = (() => {
             offset: 3,
         },
         externalRenderListener: {
-            change(this: PopperServiceComponent) {
-                if (!this.options.value.props.multiple) {
-                    this.hide()
+            change(this: { _refer: PopperServiceComponent["value"] }) {
+                if (!(this._refer!.option.value.props as any).multiple) {
+                    this._refer!.option.value.agent.hide()
                 }
             },
         },
