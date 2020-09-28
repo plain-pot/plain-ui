@@ -43,6 +43,8 @@
 </template>
 
 <script>
+    import {$colorPicker} from "../../../src/packages/color-picker/$colorPicker";
+
     export default {
         name: "color-picker",
         props: {},
@@ -50,14 +52,12 @@
 
             const newData = (name, option) => {
                 let result = {
-                    service: null,
+                    agent: null,
                     option: {
+                        reference: () => this.$refs[name],
                         props: {
                             value: null,
                             ...option,
-                        },
-                        popperProps: {
-                            reference: () => this.$refs[name],
                         },
                         listener: {
                             change: (val) => {
@@ -68,10 +68,10 @@
                         ...option,
                     },
                     toggle: async () => {
-                        if (!result.service) {
-                            result.service = await this.$plain.$cs(result.option)
+                        if (!result.agent) {
+                            result.agent = await $colorPicker(() => result.option)
                         }
-                        result.service.toggle()
+                        result.agent.toggle()
                     },
                 }
                 return result

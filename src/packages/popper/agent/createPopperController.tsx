@@ -6,9 +6,8 @@ import {PopperAgent, PopperServiceComponent} from "@/packages/popper/agent/type"
 import {createPopperService} from "@/packages/popper/agent/createPopperService";
 
 export function createPopperController(name: string, PopperService: ReturnType<typeof createPopperService>) {
-    const ComponentName = `pl-popper-controller-${name}`
     return designComponent(
-        ComponentName,
+        name,
         {},
         function () {
 
@@ -62,7 +61,7 @@ export function createPopperController(name: string, PopperService: ReturnType<t
         function (refer) {
             return () => {
                 return (
-                    <div class={`pl-popper-service-controller ${ComponentName}`}>
+                    <div class={`pl-popper-service-controller ${name}`}>
                         {refer.state.agents.map((agent, index) => (
                             // @ts-ignore
                             <PopperService agent={agent} key={index} {...{ref: 'items', refInFor: true}}/>
