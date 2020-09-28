@@ -22,21 +22,30 @@ export function createPopperController(name: string, PopperService: ReturnType<t
 
             async function getPopperService(agent: PopperAgent) {
 
+                let workingService;
+                let workableIndex;
+
                 if (!!refs.items && refs.items.length > 0) {
-                    let index = -1;
-                    let service = refs.items.find((item, i) => {
+                    refs.items.forEach((item, i) => {
                         const {agent: itemAgent} = item._refer!.option.value
                         const {state: {show, open, optionGetter}} = itemAgent
-                        const flag = itemAgent === agent || (!show && !open && !optionGetter().isPrivate)
-                        if (!!flag) {
-                            index = i
+
+                        if (itemAgent === agent) {
+                            workingService = item
+                            return true
                         }
-                        return flag
+                        if ((!show && !open && !optionGetter().isPrivate)) {
+                            workableIndex = i
+                        }
                     })
-                    if (!!service && index != -1) {
-                        state.agents.splice(index, 1, agent)
+                    if (workingService != null) {
+                        return workingService
+                    }
+                    if (workableIndex != null) {
+                        state.agents.splice(workableIndex, 1, agent)
+                        console.log(state.agents.map(agent => agent.count))
                         await $plain.nextTick();
-                        return service
+                        return refs.items[workableIndex]
                     }
                 }
 
