@@ -43,7 +43,7 @@ export function createPopperController(name: string, PopperService: ReturnType<t
                     }
                     if (workableIndex != null) {
                         state.agents.splice(workableIndex, 1, agent)
-                        console.log(state.agents.map(agent => agent.count))
+                        // console.log(state.agents.map(agent => agent.count))
                         await $plain.nextTick();
                         return refs.items[workableIndex]
                     }
