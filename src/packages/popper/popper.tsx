@@ -334,13 +334,18 @@ export default defineComponent({
             }
         })
 
+        const ctx = getCurrentInstance()!
         const popperConfigChangeHandler = $plain.utils.debounce(async () => {
+            await $plain.nextTick()
+            if ((ctx as any)._isDestroyed) {
+                return
+            }
             await utils.destroy()
             await utils.init()
             if (!!state.popper) {
                 await utils.initPopper()
             }
-        }, 100, true)
+        }, 500, true)
         watch(() => props.reference, popperConfigChangeHandler)
         watch(() => props.arrow, popperConfigChangeHandler)
         watch(() => props.trigger, popperConfigChangeHandler)

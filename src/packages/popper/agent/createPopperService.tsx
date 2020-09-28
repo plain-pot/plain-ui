@@ -129,7 +129,7 @@ export function createPopperService(
         },
         function (refer) {
             return () => (
-                <pl-popper class={ComponentName} {...refer.popperBinding.value}>
+                <pl-popper class={ComponentName} {...refer.popperBinding.value} key={refer.state.count}>
                     {render(this.$createElement, this as any)}
                 </pl-popper>
             )

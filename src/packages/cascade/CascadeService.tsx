@@ -20,7 +20,6 @@ export const $cascade = definePopperService(createPopperService({
         return (
             <pl-cascade-panel
                 slot="popper"
-                key={ctx._refer!.state.count}
                 {
                     ...{
                         props: ctx._refer!.option.value.props,
