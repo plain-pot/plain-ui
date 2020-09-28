@@ -7,6 +7,8 @@ import {$plain} from "@/packages/base";
 import {CompRef, ElRef, useRefs} from "@/use/useRefs";
 import {isEffectiveColorString} from "@/packages/color-picker/color/ColorUtils";
 import {getKey, KEY} from "@/packages/keyboard";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
+import {$colorPicker} from "@/packages/color-picker/$colorPicker";
 
 const opacityBg = require('./sub/opacity.png')
 
@@ -40,15 +42,13 @@ export default defineComponent({
 
         })
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$cs(() => {
+        const agentState = useEditPopperAgent(async () => await $colorPicker(() => {
             return ({
+                reference: () => refs.input,
                 props: {
                     value: state.val,
                     enableAlpha: props.enableAlpha,
                     format: props.format,
-                },
-                popperProps: {
-                    reference: refs.input,
                 },
                 listener: {
                     change: (val) => {

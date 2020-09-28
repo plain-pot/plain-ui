@@ -10,7 +10,7 @@ import {createPopperService} from "@/packages/popper/agent/createPopperService";
 import {usePopperAgent} from "@/packages/popper/agent/usePopperAgent";
 
 export interface PopperAgentOption {
-    reference: Element | HTMLElement,
+    reference: Element | HTMLElement | any,
     beforeShow?: () => void,
     beforeHide?: () => void,
     popperProps?: Partial<ExtractPropTypes<typeof POPPER_PROPS>>,
