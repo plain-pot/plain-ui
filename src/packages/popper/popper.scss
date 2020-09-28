@@ -58,6 +58,12 @@
       .plain-popper-content {
         box-shadow: none;
       }
+
+      &:not(.pl-popper-open) {
+        .plain-popper-content {
+          transition: none !important;
+        }
+      }
     }
 
     &:not(.pl-popper-ready) {

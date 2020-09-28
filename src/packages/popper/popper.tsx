@@ -121,6 +121,7 @@ export default defineComponent({
             props.transition,
             {
                 'pl-popper-show': model.value,
+                'pl-popper-open': openModel.value,
                 'pl-popper-ready': state.ready,
                 'pl-popper-show-arrow': props.arrow,
             }
@@ -171,7 +172,7 @@ export default defineComponent({
 
                 state.popper!.refresh()
                 state.zIndex = $plain.nextIndex()
-                await $plain.nextTick()
+                await $plain.utils.delay(23)
                 model.value = true
                 emit.show()
                 if (emitInput) {
