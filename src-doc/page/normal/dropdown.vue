@@ -23,7 +23,7 @@
                 </pl-dropdown>
             </demo-row>
             <demo-row title="宽高设置">
-                <pl-dropdown ref="sizeDropdown" width="150" height="150px">
+                <pl-dropdown ref="sizeDropdown" width="100" height="150px">
                     <pl-button>宽高设置</pl-button>
                     <pl-dropdown-menu slot="dropdown">
                         <pl-dropdown-item label="新建" @click="$message('新建')"/>
@@ -189,6 +189,8 @@
 </template>
 
 <script>
+    import {$dropdown} from "../../../src/packages/dropdown/$dropdown";
+
     export default {
         name: "demo-dropdown",
         props: {},
@@ -198,6 +200,7 @@
                 let result = {
                     service: null,
                     option: {
+                        reference: () => this.$refs[name],
                         props: {
                             value: null,
                             content: (h) => {
@@ -211,9 +214,6 @@
                             },
                             ...option,
                         },
-                        popperProps: {
-                            reference: () => this.$refs[name],
-                        },
                         listener: {
                             'click-item': ({label}) => {
                                 this.$plain.$message('click:' + label)
@@ -223,7 +223,7 @@
                     },
                     toggle: async () => {
                         if (!result.service) {
-                            result.service = await this.$plain.$dropdown(result.option)
+                            result.service = await $dropdown(() => result.option)
                         }
                         result.service.toggle()
                     },

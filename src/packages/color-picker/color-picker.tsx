@@ -2,7 +2,6 @@ import {defineComponent, reactive, watch} from "@vue/composition-api";
 import {EditProps} from "@/use/useEdit";
 import {StyleProps, useStyle} from "@/use/useStyle";
 import {EmitFunc, useEvent} from "@/use/useEvent";
-import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
 import {CompRef, ElRef, useRefs} from "@/use/useRefs";
 import {isEffectiveColorString} from "@/packages/color-picker/color/ColorUtils";

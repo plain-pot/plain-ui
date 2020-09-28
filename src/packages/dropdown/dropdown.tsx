@@ -3,11 +3,12 @@ import {SlotFunc, useSlots} from "@/use/useSlots";
 import {useScopedSlots} from "@/use/useScopedSlots";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
 import {useRefs} from "@/use/useRefs";
 import {getDropdownTrigger} from "@/packages/dropdown/DropdownTrigger";
 import {PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
+import {$dropdown} from "@/packages/dropdown/$dropdown";
 
 export default defineComponent({
     name: 'pl-dropdown',
@@ -75,8 +76,9 @@ export default defineComponent({
             }, props.popperProps || {})
         })
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$dropdown(() => {
+        const agentState = useEditPopperAgent(() => $dropdown(() => {
             return ({
+                reference: () => refs.$el,
                 props: {
                     height: props.height,
                     closeOnClickItem: props.closeOnClickItem && props.trigger !== PopperTriggerType.manual,
@@ -86,8 +88,7 @@ export default defineComponent({
                 },
                 popperProps: {
                     trigger: PopperTriggerType.manual,
-                    reference: refs.$el,
-                    ...(popperProps.value),
+                    ...(popperProps.value as any),
                 },
                 listener: {
                     'click-item': handler.clickItem,
@@ -133,7 +134,7 @@ export default defineComponent({
                     /*点击了reference*/
                     return
                 }
-                if ((agentState as any).state.agent!.service.$el!.contains(e.target as Node)) {
+                if (agentState.state.agent!.freezeState.popperService.$el!.contains(e.target as Node)) {
                     /*点击了content*/
                     return
                 }
@@ -167,14 +168,14 @@ export default defineComponent({
             } else {
                 methods.hide()
             }
-        },{immediate: true})
+        }, {immediate: true})
 
         watch(() => model.value, async (val) => {
             await $plain.nextTick()
             if (!!state.el) {
                 state.el.setAttribute('pl-dropdown', val ? 'open' : 'close')
             }
-        },{immediate: true})
+        }, {immediate: true})
 
         /*---------------------------------------lifecycle-------------------------------------------*/
 

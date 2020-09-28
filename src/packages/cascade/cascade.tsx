@@ -4,7 +4,6 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {EditProps, useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {useModel} from "@/use/useModel";
-import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
 
 import {CompRef, useRefs} from "@/use/useRefs";

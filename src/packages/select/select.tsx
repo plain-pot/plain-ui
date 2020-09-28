@@ -2,7 +2,6 @@ import {computed, defineComponent, ref} from "@vue/composition-api";
 import {useSlots} from "@/use/useSlots";
 import {useCollectParent} from "@/use/useCollect";
 import {SELECT_PANEL_COLLECTOR, SelectUtils} from "@/packages/select/select-utils";
-import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {$plain} from "@/packages/base";
 import {useModel} from "@/use/useModel";
 import {EmitFunc, useEvent} from "@/use/useEvent";
