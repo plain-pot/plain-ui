@@ -169,6 +169,7 @@ export default defineComponent({
                     state.ready = true
                 }
 
+                state.popper!.refresh()
                 state.zIndex = $plain.nextIndex()
                 await $plain.nextTick()
                 model.value = true
@@ -253,7 +254,8 @@ export default defineComponent({
                     placement: props.placement as any,
                     offset: Number(props.offset || (!!props.arrow ? 0 : 2)),
                     boundary: props.boundary,
-                    arrowSize: !props.arrow ? 0 : undefined
+                    arrowSize: !props.arrow ? 0 : undefined,
+                    shouldUpdate: () => !!model.value
                 })
             },
             destroy: () => {
