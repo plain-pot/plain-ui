@@ -1,31 +1,27 @@
 import {createPopperService} from "@/packages/popper/agent/createPopperService";
-import {createPopperController, PopperController} from "@/packages/popper/agent/createPopperController";
 import {PopperAgentOption, PopperServiceComponent} from "@/packages/popper/agent/type";
+import {createPopperController, PopperController} from "@/packages/popper/agent/createPopperController";
 import {$plain} from "@/packages/base";
 import {usePopperAgent} from "@/packages/popper/agent/createPopperAgent";
 
-export const $select = (() => {
-
+export const $cascade = (() => {
     const Service = createPopperService({
-        name: 'select',
-        defaultPopperProps: {
-            noContentPadding: true,
-            sizeEqual: true,
-            transition: 'pl-transition-popper-drop',
-            arrow: false,
-            offset: 3,
-        },
+        name: 'cascade',
         externalRenderListener: {
             change(this: { _refer: PopperServiceComponent["value"] }) {
-                if (!this._refer!.option.value.props.multiple) {
+                if (!this._refer!.option.value.props.selectBranch) {
                     this._refer!.option.value.agent.hide()
                 }
             },
         },
+        defaultPopperProps: {
+            transition: 'pl-transition-popper-drop',
+            arrow: false,
+            height: '200px',
+        },
         render(h, ctx) {
             return (
-                <pl-select-panel
-                    ref="panel"
+                <pl-cascade-panel
                     slot="popper"
                     key={ctx._refer!.state.count}
                     {
@@ -39,7 +35,7 @@ export const $select = (() => {
         },
     })
 
-    const Controller = createPopperController('select', Service)
+    const Controller = createPopperController('cascade', Service)
     let controller: { _refer: PopperController["value"] }
 
     return (optionGetter: () => PopperAgentOption) => {

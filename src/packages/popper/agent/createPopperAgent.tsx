@@ -4,9 +4,12 @@ import {computed, onBeforeUnmount, reactive} from "@vue/composition-api";
 import {useEdit} from "@/use/useEdit";
 import {EmitFunc, useEvent} from "@/use/useEvent";
 
+let count = 0
+
 export function usePopperAgent(optionGetter: () => PopperAgentOption, controller: { _refer: PopperController["value"] }) {
 
     const agent = {
+        count: count++,
         state: reactive({
             show: false,                    // pl-popper绑定值，当前是否开启
             open: false,                    // pl-popper 的open绑定值
@@ -20,7 +23,7 @@ export function usePopperAgent(optionGetter: () => PopperAgentOption, controller
             if (!!this.state.show) {
                 return
             }
-            if (!this.state.open && !this.freezeState.popperService) {
+            if (!this.state.open) {
                 this.freezeState.popperService = await controller._refer!.getPopperService(this)
             }
             this.state.show = true

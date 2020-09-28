@@ -34,8 +34,8 @@ export function createPopperController(name: string, PopperService: ReturnType<t
                         return flag
                     })
                     if (!!service && index != -1) {
-                        state.agents[index] = agent
-                        await $plain.nextTick()
+                        state.agents.splice(index, 1, agent)
+                        await $plain.nextTick();
                         return service
                     }
                 }

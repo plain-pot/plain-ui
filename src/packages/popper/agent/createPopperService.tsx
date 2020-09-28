@@ -28,12 +28,12 @@ export function createPopperService(
         },
         function (serviceProps) {
 
-            const {agent} = serviceProps
             const state = reactive({
                 count: 0,
             })
 
             watch(() => serviceProps.agent, () => {
+                console.log('agent change', serviceProps.agent)
                 state.count++
             })
 
@@ -47,7 +47,7 @@ export function createPopperService(
                     props,
                     listener,
                     isPrivate,
-                } = agent!.state.optionGetter()
+                } = serviceProps.agent!.state.optionGetter()
 
                 props == null && (props = {});
                 listener == null && (listener = {});
@@ -83,11 +83,11 @@ export function createPopperService(
                     popperListener,
 
                     reference,
-                    props,
+                    props: props as any,
                     beforeShow,
                     beforeHide,
                     isPrivate,
-                    agent: agent!,
+                    agent: serviceProps.agent!,
                 }
             })
 
