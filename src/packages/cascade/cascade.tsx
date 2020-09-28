@@ -12,6 +12,8 @@ import {useScopedSlots} from "@/use/useScopedSlots";
 import {CascadeNode} from "@/packages/cascade/CascadeNode";
 import {CascadeMark} from "@/packages/cascade/CascadeMark";
 import {handleKeyboard} from "@/packages/keyboard";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
+import {$cascade} from "@/packages/cascade/CascadeService";
 
 export default defineComponent({
     name: 'pl-cascade',
@@ -70,7 +72,8 @@ export default defineComponent({
             expandKeys: [] as string[],
         })
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$cascade(() => ({
+        const agentState = useEditPopperAgent(() => $cascade(() => ({
+            reference: () => refs.$el,
             props: {
                 ...props,
                 value: model.value,
@@ -81,9 +84,6 @@ export default defineComponent({
                     if (!!props.renderContent) return props.renderContent(h, {node, index})
                 } : null,
             } as ExtractPropTypes<typeof CascadeProps>,
-            popperProps: {
-                reference: refs.$el,
-            },
             listener: {
                 emit: ({event, args}) => {
                     if (event === 'change') {

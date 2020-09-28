@@ -1,5 +1,150 @@
 <template>
     <div class="demo-cascade">
+        <demo-row title="cascade-panel">
+            <demo-row title="基本用法">
+                <demo-line>
+                    <!--                    <pl-checkbox v-model="label"/>-->
+                    <!--                    -{{label}}- -->
+                    {{val[0]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[0]"
+                        :data="treeData"
+                        :labelField="label?'id':'name'"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel: 懒加载">
+                <demo-line>
+                    {{val[1]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[1]"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :isLeaf="lazyDemo.isLeaf"
+                        :getChildren="lazyDemo.getChildren"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel: 懒加载，有默认值">
+                <demo-line>
+                    {{val[11]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[11]"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :isLeaf="lazyDemo.isLeaf"
+                        :getChildren="lazyDemo.getChildren"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel: init value">
+                <demo-line>
+                    {{val[2]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[2]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:hover 触发器">
+                <demo-line>
+                    {{val[3]}}
+                </demo-line>
+                <pl-cascade-panel
+                        trigger="hover"
+                        v-model="val[3]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:禁用部分选项">
+                <demo-line>
+                    禁用掉叶子节点，并且节点名称中含有[2]的节点
+                </demo-line>
+                <demo-line>
+                    {{val[4]}}
+                </demo-line>
+                <pl-cascade-panel
+                        :nodeDisabled="nodeDisabled"
+                        v-model="val[4]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:自定义内容-作用域插槽">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[5]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                >
+                    <template slot-scope="{node,index}">
+                        <cascade-item :node="node" :index="index"/>
+                    </template>
+                </pl-cascade-panel>
+            </demo-row>
+            <demo-row title="cascade-panel:自定义内容-渲染函数">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[5]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :renderContent="renderContent"
+                >
+                </pl-cascade-panel>
+            </demo-row>
+            <demo-row title="cascade-panel:点击分支的时候也能触发change">
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[6]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        selectBranch
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:筛选文本以及自定义筛选函数">
+                <demo-line>
+                    <pl-input v-model="filterText"/>
+                </demo-line>
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[6]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :filterText="filterText"
+                        :filterMethod="filterMethod"
+                />
+            </demo-row>
+        </demo-row>
         <demo-row title="cascade-service">
             <demo-row title="cascade service：基本用法">
                 <pl-button label="open cascade" ref="test0" @click="test0.toggle()"/>
@@ -7,6 +152,133 @@
             <demo-row title="cascade service：懒加载">
                 <pl-button label="open cascade" ref="lazyTest" @click="lazyTest.toggle()"/>
             </demo-row>
+        </demo-row>
+
+        <demo-row title="pl-cascade">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[7]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[7]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        @focus="$plain.log('focus')" @blur="$plain.log('blur')"
+                />
+
+            </demo-row>
+            <demo-row title="禁用选项">
+                <demo-line>
+                    {{val[7]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[7]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :nodeDisabled="nodeDisabled"
+                />
+            </demo-row>
+            <demo-row title="只显示最后一级文本">
+                <demo-line>
+                    {{val[8]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[8]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        showLast
+                />
+            </demo-row>
+            <demo-row title="可以选择分支（可以选择非叶子节点）">
+                <demo-line>
+                    {{val[9]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[9]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        selectBranch
+                />
+            </demo-row>
+            <demo-row title="动态加载">
+                <demo-line>
+                    {{formData}}
+                </demo-line>
+                <pl-cascade
+                        :value="[formData.level1Key,formData.level2Key,formData.level3Key]"
+                        @change="onCascadeChange"
+                        :showFormat="showFormat"
+
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :getChildren="lazyDemo.getChildren"
+                        :isLeaf="lazyDemo.isLeaf"
+                />
+                <pl-cascade
+                        :value="[formData.level1Key,formData.level2Key,formData.level3Key]"
+                        @change="onCascadeChange"
+                        :showFormat="showFormat"
+
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :getChildren="lazyDemo.getChildren"
+                        :isLeaf="lazyDemo.isLeaf"
+                />
+            </demo-row>
+
+            <demo-row title="输入筛选">
+                <demo-line>
+                    {{val[10]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[10]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        filterable
+                />
+            </demo-row>
+            <demo-row title="自定义节点内容">
+                <demo-line>
+                    {{val[12]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[12]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                >
+                    <template slot-scope="{node,index}">
+                        {{index+1}}、{{node.data.name}}
+                    </template>
+                </pl-cascade>
+            </demo-row>
+
+            <demo-row title="禁用以及只读">
+                <demo-line title="禁用">
+                    <pl-checkbox v-model="flag.disabled" label="禁用"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" :disabled="flag.disabled" v-model="val[13]"/>
+                </demo-line>
+                <demo-line title="只读">
+                    <pl-checkbox v-model="flag.readonly" label="只读"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" :readonly="flag.readonly" v-model="val[13]"/>
+                </demo-line>
+            </demo-row>
+
         </demo-row>
     </div>
 </template>
@@ -28,7 +300,7 @@
             )
         },
         mounted() {
-            // console.log('mounted', this.node.label)
+            console.log('mounted', this.node.label)
         },
     }
 
@@ -138,7 +410,7 @@
 
             const newData = (name, option) => {
                 let result = {
-                    agent: null,
+                    service: null,
                     option: {
                         reference: () => this.$refs[name],
                         props: {
@@ -158,11 +430,10 @@
                         },
                     },
                     toggle: async () => {
-                        if (!result.agent) {
-                            result.agent = await $cascade(() => result.option)
+                        if (!result.service) {
+                            result.service = $cascade(() => result.option)
                         }
-                        console.log(result.agent)
-                        result.agent.toggle()
+                        result.service.toggle()
                     },
                 }
                 return result
