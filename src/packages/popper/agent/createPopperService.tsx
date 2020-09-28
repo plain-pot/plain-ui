@@ -33,7 +33,7 @@ export function createPopperService(
             })
 
             watch(() => serviceProps.agent, () => {
-                console.log('agent change', serviceProps.agent)
+                // console.log('agent change', serviceProps.agent)
                 state.count++
             })
 
