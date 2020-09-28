@@ -5,9 +5,9 @@
  */
 import {POPPER_PROPS} from "@/packages/popper/popper";
 import * as Vue from "vue/types/umd";
-import {usePopperAgent} from "@/packages/popper/agent/createPopperAgent";
 import {usePopperAgentEditor} from "@/packages/popper/service/PopperAgent";
 import {createPopperService} from "@/packages/popper/agent/createPopperService";
+import {usePopperAgent} from "@/packages/popper/agent/usePopperAgent";
 
 export interface PopperAgentOption {
     reference: Element | HTMLElement,
@@ -27,7 +27,7 @@ export interface PopperAgentOption {
  */
 export interface PopperServiceOption {
     name: string,
-    render: (h: Vue["$createElement"], ctx: {_refer:PopperServiceComponent["value"]}) => any,
+    render: (h: Vue["$createElement"], ctx: { _refer: PopperServiceComponent["value"] }) => any,
     externalRenderListener?: { [k: string]: (...args: any[]) => any },
     externalPopperListener?: { [k: string]: (...args: any[]) => any },
     defaultPopperProps?: Partial<ExtractPropTypes<typeof POPPER_PROPS>>,

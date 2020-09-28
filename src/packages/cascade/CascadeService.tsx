@@ -2,7 +2,7 @@ import {createPopperService} from "@/packages/popper/agent/createPopperService";
 import {PopperAgentOption, PopperServiceComponent} from "@/packages/popper/agent/type";
 import {createPopperController, PopperController} from "@/packages/popper/agent/createPopperController";
 import {$plain} from "@/packages/base";
-import {usePopperAgent} from "@/packages/popper/agent/createPopperAgent";
+import {usePopperAgent} from "@/packages/popper/agent/usePopperAgent";
 
 export const $cascade = (() => {
     const Service = createPopperService({
