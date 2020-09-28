@@ -2,13 +2,13 @@ import {computed, defineComponent, getCurrentInstance, onBeforeUnmount, onMounte
 import {EmitFunc, useEvent} from "@/use/useEvent";
 import {FormatPropsType, useProps} from "@/use/useProps";
 import {useModel} from "@/use/useModel";
-import {PlainPopper} from "../../../src-doc/page/plain-popper/PlainPopper";
+import {PlainPopper} from "../../../submodules/plain-popper/PlainPopper";
 import {ElRef, useRefs} from "@/use/useRefs";
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "@/packages/popper/PopperTrigger";
 import {StyleType} from "@/types/utils";
 import {SlotFunc, useSlots} from "@/use/useSlots";
 import {$plain} from "@/packages/base";
-import {PlacementType} from "../../../src-doc/page/plain-popper/PlainPopperUtils";
+import {PlacementType} from "../../../submodules/plain-popper/PlainPopperUtils";
 import {useRefer} from "@/use/useRefer";
 
 export const PLAIN_POPPER_PROVIDER = '@@PLAIN_POPPER_PROVIDER'

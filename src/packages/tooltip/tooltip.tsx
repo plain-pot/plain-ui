@@ -4,8 +4,8 @@ import {FormatPropsType, useProps} from "@/use/useProps";
 import {$plain} from "@/packages/base";
 import {useSlots} from "@/use/useSlots";
 import {useRefer} from "@/use/useRefer";
-import {PlainTooltip} from "../../../src-doc/page/plain-popper/PlainTooltip";
-import {PlacementType} from "../../../src-doc/page/plain-popper/PlainPopperUtils";
+import {PlainTooltip} from "../../../submodules/plain-popper/PlainTooltip";
+import {PlacementType} from "../../../submodules/plain-popper/PlainPopperUtils";
 
 const props = {
     text: {type: [String, Object]},                             // tooltip 文本

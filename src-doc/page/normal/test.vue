@@ -8,7 +8,7 @@
 <script>
 
     import TestTable from './test-table/test-table'
-    import {PlainTooltip} from "../plain-popper/PlainTooltip";
+    import {PlainTooltip} from "../../../submodules/plain-popper/PlainTooltip";
 
     export default {
         name: "test",

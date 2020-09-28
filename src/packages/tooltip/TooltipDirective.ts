@@ -1,6 +1,6 @@
 import {$plain} from "@/packages/base";
-import {PlainTooltip} from "../../../src-doc/page/plain-popper/PlainTooltip";
-import {PlainTooltipConfig} from "../../../src-doc/page/plain-popper/PlainTooltipUtils";
+import {PlainTooltip} from "../../../submodules/plain-popper/PlainTooltip";
+import {PlainTooltipConfig} from "../../../submodules/plain-popper/PlainTooltipUtils";
 
 class Tooltip {
 
