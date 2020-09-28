@@ -12,6 +12,8 @@ import {StyleProps, useStyle} from "@/use/useStyle";
 import {SelectOptionCtxType} from "@/packages/select/select-option";
 import {handleKeyboard} from "@/packages/keyboard";
 import {SelectPanelContextType} from "@/packages/select/select-panel";
+import {useEditPopperAgent} from "@/packages/popper/agent/useEditPopperAgent";
+import {$select} from "@/packages/select/$select";
 
 const Props = {
     ...EditProps,
@@ -61,22 +63,21 @@ export default defineComponent({
         const model = useModel(() => props.value, emit.input)
         const filterText = ref(null as string | null)
 
-        const agentState = usePopperAgentEditor(() => ($plain as any).$select(() => {
+        const agentState = useEditPopperAgent(() => $select(() => {
             return {
+                reference: () => refs.$el,
                 props: {
                     ...(Object.keys(Props).reduce((ret, key) => {
                         ret[key] = props[key]
                         return ret
                     }, {})),
-
                     value: model.value,
                     height: popperHeight.value,
                     content: () => slots.default(),
                     filterMethod: utils.filterMethod,
                 },
                 popperProps: {
-                    reference: refs.$el,
-                    height: popperHeight.value,
+                    height: popperHeight.value as any,
                 },
                 listener: {
                     change: (val) => {
@@ -199,7 +200,7 @@ export default defineComponent({
             return formatData.value.filter(option => model.value!.indexOf(option.val!) > -1)
         })
 
-        const panel = {get value() {return ((agentState as any).state.agent.service.$refs.panel) as SelectPanelContextType}}
+        const panel = {get value() {return agentState.state.agent!.freezeState.popperService.$refs.panel as SelectPanelContextType}}
 
         const utils = {
             filterMethod: (option: SelectOptionCtxType) => {

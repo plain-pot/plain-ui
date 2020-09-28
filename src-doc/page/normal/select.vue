@@ -1,24 +1,211 @@
 <template>
     <div class="demo-select">
+        <demo-row title="select-panel">
+            <demo-row title="基本测试">
+                <pl-checkbox label="测试动态销毁/初始化选项，顺序是否正常" v-model="initFlag"/>
+                <pl-select-panel showDebug>
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+            <demo-row title="基本单选">
+                <demo-line>
+                    {{val[0]}}
+                </demo-line>
+                <pl-select-panel v-model="val[0]">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+            <demo-row title="基本多选">
+                <demo-line>
+                    {{val[1]}}
+                </demo-line>
+                <pl-select-panel v-model="val[1]" multiple multipleMaxLimit="3" multipleMinLimit="1">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+            <demo-row title="无数据">
+                <pl-select-panel/>
+            </demo-row>
+            <demo-row title="输入筛选">
+                <demo-line>
+                    <pl-input v-model="filterText"/>
+                </demo-line>
+                <pl-select-panel v-model="val[2]" :filterMethod="filterMethod">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+        </demo-row>
         <demo-row title="select-service">
             <demo-row title="基本用法">
                 <pl-button :label="basic.option.props.value || 'open select'" @click="basic.toggle" ref="basic"/>
             </demo-row>
         </demo-row>
+        <demo-row title="pl-select">
+            <demo-row title="基本用法">
+                <demo-line>
+                    <span>{{val[3]}}</span>
+                </demo-line>
+                <pl-select v-model="val[3]">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+                <pl-select v-model="val[3]">
+                    <pl-select-option v-for="item in list.slice(0, 4)" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="禁用选项">
+                <pl-select>
+                    <pl-select-option label="深圳市" val="shenzhen"/>
+                    <pl-select-option label="韶关市" val="shaoguan"/>
+                    <pl-select-option label="珠海市" val="zhuhai"/>
+                    <pl-select-option label="汕头市" val="shantou" disabled/>
+                    <pl-select-option label="佛山市" val="foshan"/>
+                    <pl-select-option label="江门市" val="jiangmen"/>
+                    <pl-select-option label="湛江市" val="zhanjiang" disabled/>
+                    <pl-select-option label="茂名市" val="maoming"/>
+                    <pl-select-option label="肇庆市" val="zhaoqing" disabled/>
+                    <pl-select-option label="惠州市" val="huizhou"/>
+                    <pl-select-option label="梅州市" val="meizhou"/>
+                </pl-select>
+            </demo-row>
+            <demo-row title="分组">
+                <pl-select>
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val"/>
+                    </pl-select-group>
+                </pl-select>
+            </demo-row>
+            <demo-row title="图标">
+                <pl-select>
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <pl-select-option v-for="item in group.children"
+                                          :key="item.val"
+                                          :label="item.name"
+                                          :val="item.val"
+                                          :icon="item.i"
+                        />
+                    </pl-select-group>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="自定义内容">
+                <pl-select>
+                    <pl-select-group v-for="(group,groupIndex) in groupData" :key="group.name" :label="group.name">
+
+                        <span slot="label" style="font-style: italic;font-size: 1.2em;margin-right: 6px;opacity: 0.5">{{groupIndex+1}}</span>
+                        <span slot="label">{{group.name}}</span>
+
+                        <pl-select-option v-for="(item,itemIndex) in group.children" :key="item.val" :label="item.name" :val="item.val">
+                            <span style="font-style: italic;font-size: 1.2em;margin-right: 6px;opacity: 0.5">{{groupIndex+1}}.{{itemIndex+1}}</span>
+                            <span>{{item.name}}</span>
+                        </pl-select-option>
+                    </pl-select-group>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="加载状态">
+                <pl-checkbox v-model="flag.loading"/>
+                <pl-select :loading="flag.loading">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="filterable:false，禁用可输入筛选">
+                <pl-select :filterable="false">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="filterMethod，自定义输入筛选逻辑，支持中文以及拼音">
+                <demo-line>
+                    {{val[4]}}
+                </demo-line>
+                <pl-select :filterMethod="customFilterMethod" v-model="val[4]">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="noMatchText，输入筛选时，没有匹配项显示的文本">
+                <pl-select :filterMethod="customFilterMethod" noMatchText="没有匹配的数据！！">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+            <demo-row title="noDataText，data为空时显示的文本">
+                <pl-select :filterMethod="customFilterMethod" noDataText="没有加载到有效数据！！">
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="派发blur事件">
+                <pl-select :filterMethod="customFilterMethod" noMatchText="没有匹配的数据！！" @blur="$plain.log('blur',Date.now())" @focus="$plain.log('focus',Date.now())">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+                <ol>
+                    <li>select关闭的时候使用tab触发blur</li>
+                    <li>select打开的时候使用tab触发blur</li>
+                    <li>select关闭的时候点击其他地方导致触发blur</li>
+                    <li>select打开的时候点击其他地方导致触发blur</li>
+                    <li>问题：怎么区分是点击select-item失去的焦点，还是点击外部区域失去的焦点 (已解决)</li>
+                </ol>
+            </demo-row>
+
+            <demo-row title="禁用以及只读">
+                <demo-line title="禁用">
+                    <pl-checkbox v-model="flag.disabled" label="禁用"/>
+                    <pl-select :disabled="flag.disabled">
+                        <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                    </pl-select>
+                </demo-line>
+                <demo-line title="只读">
+                    <pl-checkbox v-model="flag.readonly" label="只读"/>
+                    <pl-select :readonly="flag.readonly">
+                        <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                    </pl-select>
+                </demo-line>
+            </demo-row>
+
+            <demo-row title="多选">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-select v-model="val[5]" multiple>
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+                <pl-select v-model="val[5]" :collapseTags="false" multiple>
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+
+            <demo-row title="多选：最多可以选择3个元素，最少可以选择1个元素">
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-select v-model="val[6]" multiple multipleMaxLimit="3" multipleMinLimit="1">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
 <script>
-    import {$select} from "../../../src/packages/select/service/SelectService";
+    import {$select} from "../../../src/packages/select/$select";
 
     export default {
         name: "demo-select",
         data() {
 
             const newData = (name, option) => {
-
                 let result = {
-                    agent: null,
+                    service: null,
                     option: {
                         reference: () => this.$refs[name],
                         props: {
@@ -39,10 +226,10 @@
                         },
                     },
                     toggle: async () => {
-                        if (!result.agent) {
-                            result.agent = await $select(() => result.option)
+                        if (!result.service) {
+                            result.service = await $select(() => result.option)
                         }
-                        result.agent.toggle()
+                        result.service.toggle()
                     },
                 }
                 return result
