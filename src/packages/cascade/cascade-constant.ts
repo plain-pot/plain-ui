@@ -32,7 +32,7 @@ export const CascadePanelProps = {
 export const CascadeProps = {
     ...CascadePanelProps,
 
-    showLast: {type: Boolean},                                          // 格式化显示值函数
+    showLast: {type: Boolean},                                          // 只显示最后一级节点文本
     separator: {type: String, default: ' / '},                          // 显示值分隔符
     filterable: {type: Boolean, default: true},                         // 是否可筛选
     showFormat: {                                                       // 显示值格式化函数
