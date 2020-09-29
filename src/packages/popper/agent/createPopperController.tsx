@@ -40,8 +40,10 @@ export function createPopperController(name: string, PopperService: ReturnType<t
                     const {state: {show, open, optionGetter}} = item
                     const flag = !show && !open && !optionGetter().isPrivate
                     if (!!flag) {
-                        item.state.show = false
-                        item.state.open = false
+                        setTimeout(() => {
+                            item.state.show = false
+                            item.state.open = false
+                        }, 150)
                         replaceIndex = i
                     }
                     return flag
