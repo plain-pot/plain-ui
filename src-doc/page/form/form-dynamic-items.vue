@@ -1,19 +1,24 @@
 <template>
     <div class="form-dynamic-items">
-        <pl-form labelWidth="120px">
+        <pl-form labelWidth="120px" ref="form">
             <pl-form-item label="收件人姓名" field="name">
                 <pl-input v-model="formData.name"/>
             </pl-form-item>
 
-            <pl-form-item v-for="(item,index) in formData.addressList" :label="`收件人地址${index+1}`" :field="`addressList.${index}.addr`" :key="index">
+            <pl-form-item v-for="(item,index) in formData.addressList"
+                          :label="`收件人地址${index+1}`"
+                          :field="`addressList.${index}.addr`"
+                          :key="index"
+                          required
+            >
                 <pl-input v-model="item.addr"/>
-                <pl-button icon="el-icon-minus" style="margin-left: 1em" shape="round" mode="stroke" size="mini"/>
+                <pl-button icon="el-icon-minus" style="margin-left: 1em" shape="round" mode="stroke" size="mini" @click="formData.addressList.splice(index,1)"/>
             </pl-form-item>
 
             <pl-form-item>
                 <pl-button mode="stroke" label="取消"/>
-                <pl-button label="保存"/>
-                <pl-button/>
+                <pl-button label="保存" @click="save"/>
+                <pl-button label="新增收件地址" @click="formData.addressList.push({})"/>
             </pl-form-item>
         </pl-form>
     </div>
@@ -29,6 +34,16 @@
                 },
             }
         },
+        methods: {
+            async save() {
+                const validError = await this.$refs.form.methods.validate()
+                if (!!validError) {
+                    this.$refs.form.methods.showError(validError)
+                } else {
+                    this.$notice.success('校验通过')
+                }
+            },
+        }
     }
 </script>
 
