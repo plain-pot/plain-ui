@@ -1,15 +1,15 @@
 <template>
     <div class="form-dynamic-items">
-        <pl-form labelWidth="120px" ref="form">
-            <pl-form-item label="收件人姓名" field="name">
-                <pl-input v-model="formData.name"/>
+        <pl-form labelWidth="120px" ref="form" v-model="formData">
+            <pl-form-item label="收件人邮箱" field="email">
+                <pl-input v-model="formData.email"/>
             </pl-form-item>
 
             <pl-form-item v-for="(item,index) in formData.addressList"
                           :label="`收件人地址${index+1}`"
                           :field="`addressList.${index}.addr`"
                           :key="index"
-                          required
+                          :rules="{required:true,trigger:'blur'}"
             >
                 <pl-input v-model="item.addr"/>
                 <pl-button icon="el-icon-minus" style="margin-left: 1em" shape="round" mode="stroke" size="mini" @click="formData.addressList.splice(index,1)"/>

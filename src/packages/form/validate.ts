@@ -1,5 +1,6 @@
 import {set} from "@vue/composition-api";
 import {toArray} from "@/util/util";
+import {FormUtils} from "@/packages/form/form-utils";
 
 /**
  * 触发器类型
@@ -244,7 +245,7 @@ export function getValidateConfigData(
  */
 export async function validateFieldByRules(targetRules: TargetRule[], formData: object, field: string, trigger: FormTrigger): Promise<null | ValidateResult> {
 
-    const value = formData[field]
+    const value = FormUtils.getValueByField(field, formData)
 
     for (let i = 0; i < targetRules.length; i++) {
         const rule = targetRules[i];
