@@ -1,7 +1,13 @@
 <template>
     <div class="form-dynamic-items">
         <pl-form labelWidth="120px" ref="form" v-model="formData">
-            <pl-form-item label="收件人邮箱" field="email">
+            <pl-form-item label="收件人邮箱" field="email" :rules="{
+                field:'email',
+                regexp:/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+                message:'请输入正确的邮箱',
+                required:true,
+                trigger:'blur',
+            }">
                 <pl-input v-model="formData.email"/>
             </pl-form-item>
 
@@ -30,7 +36,7 @@
         data() {
             return {
                 formData: {
-                    addressList: [{addr: '湖南省长沙市天心区'}]
+                    addressList: [{addr: ''}]
                 },
             }
         },
