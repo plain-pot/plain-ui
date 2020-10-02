@@ -42,6 +42,7 @@ export default [
             {name: 'Form', title: '校验blur', icon: 'pl-form', page: '/form/form-blur', complete: true},
             {name: 'Form', title: '表单组件', icon: 'pl-form', page: '/form/form-elements', complete: true},
             {name: 'Form', title: '校验模式', icon: 'pl-form', page: '/form/form-validate-mode', complete: true},
+            {name: 'Form', title: '动态表单项', icon: 'pl-form', page: '/form/form-dynamic-items', complete: true},
         ]
     },
     {
