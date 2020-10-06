@@ -47,7 +47,7 @@ export function createPopperService(
                     props,
                     listener,
                     isPrivate,
-                } = serviceProps.agent!.state.optionGetter()
+                } = serviceProps.agent.state.optionGetter()
 
                 props == null && (props = {});
                 listener == null && (listener = {});

@@ -1,8 +1,11 @@
-import {defineComponent, getCurrentInstance, inject, provide} from "@vue/composition-api";
+import {defineComponent, getCurrentInstance, inject, provide, SetupContext} from "@vue/composition-api";
 import * as Vue from "vue/types/umd";
+import {VNode} from "vue";
 
-export function designComponent<Props,
-    Setup extends (this: Vue, props: ExtractPropTypes<Props, false>) => any,
+export type SetupFunction<Props, RawBindings = {}> = (this: void, props: Props, ctx: SetupContext) => RawBindings | (() => VNode | null) | void;
+
+export function designComponent<Props extends ComponentPropsOptions,
+    Setup extends (this: Vue, ...args: Parameters<SetupFunction<ExtractPropTypes<Props>, Data>>) => any,
     Render extends (this: Vue, refer: ReturnType<Setup>) => any,
     Config extends { provide?: boolean, mixin?: any },
     >(
@@ -17,11 +20,11 @@ export function designComponent<Props,
             mixins: !!config && !!config.mixin ? [config.mixin] : [],
             name,
             props: props as any,
-            setup: (p) => {
+            setup: (p, sctx) => {
                 const ctx = getCurrentInstance()!
                 // @ts-ignore
                 ctx.h = ctx.$createElement
-                const _refer = setup.apply(ctx, [p as any])
+                const _refer = setup.apply(ctx, [p as any, sctx])
                 if (!!config && config.provide) {
                     provide(`@@${name}`, _refer)
                 }

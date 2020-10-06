@@ -1,3 +1,11 @@
+declare type Data = {
+    [key: string]: unknown;
+};
+
+declare type ComponentPropsOptions<P = Data> = ComponentObjectPropsOptions<P> | string[];
+declare type ComponentObjectPropsOptions<P = Data> = {
+    [K in keyof P]: Prop<P[K]> | null;
+};
 declare type Prop<T> = PropOptions<T> | PropType<T>;
 declare type DefaultFactory<T> = () => T | null | undefined;
 
@@ -35,19 +43,11 @@ declare type InferPropType<T> = T extends null ? any : T extends {
     [key: string]: any;
 } : T extends BooleanConstructor | {
     type: BooleanConstructor;
-} ? boolean : T extends FunctionConstructor | { type: FunctionConstructor } ? Function : T extends Prop<infer V> ? ExtractCorrectPropType<V> : T;
-
-
-declare type ExtractPropTypes<O, MakeDefaultRequired extends boolean = true> = O extends object ? {
+} ? boolean : T extends FunctionConstructor ? Function : T extends Prop<infer V> ? ExtractCorrectPropType<V> : T;
+type ExtractPropTypes<O, MakeDefaultRequired extends boolean = true> = O extends object ? {
     [K in RequiredKeys<O, MakeDefaultRequired>]: InferPropType<O[K]>;
 } & {
     [K in OptionalKeys<O, MakeDefaultRequired>]?: InferPropType<O[K]>;
 } : {
     [K in string]: any;
-};
-
-declare type PlainExtractPropTypes<O, MakeDefaultRequired extends boolean = true> = {
-    [K in RequiredKeys<O, MakeDefaultRequired>]: InferPropType<O[K]>;
-} & {
-    [K in OptionalKeys<O, MakeDefaultRequired>]?: InferPropType<O[K]>;
 };
