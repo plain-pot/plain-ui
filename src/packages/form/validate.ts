@@ -145,12 +145,20 @@ function getAllRules(
     // 将 formItem中的信息转化为TargetRule
     formItems = formItems || []
     formItems.forEach(formItem => {
-        if (!formItem.field) {
-            return
-        }
         let {field, label, rules, required} = formItem
 
-        const fields = toArray(field)
+        if (!formItem.field) {
+
+            if (!!required) {
+                console.warn('FormItem need field when required!')
+            }
+
+            if (!rules || (Array.isArray(rules) && rules.length == 0)) {
+                return
+            }
+        }
+
+        const fields = toArray(field) as string[]
         let formItemRules: Rule[] = []
 
         // 如果设置了 required必填，则给每一个field添加一个必填的rule
@@ -158,7 +166,7 @@ function getAllRules(
             fields.forEach(field => {
                 formItemRules.push({
                     field,
-                    label: label || allFieldLabels[field],
+                    label: label || allFieldLabels[field!],
                     required: true,
                 })
             })
@@ -188,6 +196,7 @@ function getAllRules(
         }
         targetRules.push(...formItemRules.map(rule => getTargetRule(rule)).filter(Boolean) as TargetRule[])
     })
+
 
     return targetRules
 }
