@@ -104,8 +104,11 @@ function formSetup(props: ExtractPropTypes<typeof Props>) {
 
     const bodyStyles = computed(() => {
         if (!targetItemWidth.value) return null
+
+        let width = propsState.column * (targetItemWidth.value)
+
         return {
-            width: `${propsState.column * (targetItemWidth.value)}px`,
+            width: `calc(${width}px ${propsState.column > 1 ? `+ ${propsState.column - 1}em` : ''})`,
             left: `${(!props.centerWhenSingleColumn && propsState.column === 1) ? -targetLabelWidth.value! / 2 : 0}px`
         }
     })

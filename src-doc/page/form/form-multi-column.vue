@@ -11,7 +11,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime" v-if="formData.oldFlag === 'Y'">
                     <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
+                    <span style="padding: 0 1em">至</span>
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="是否老客户" field="oldFlag">
@@ -53,7 +53,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
+                    <span style="padding: 0 1em">至</span>
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="客户级别" field="level">
@@ -88,7 +88,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
+                    <span style="padding: 0 1em">至</span>
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="是否老客户" field="oldFlag">
@@ -130,7 +130,7 @@
                 </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
-                    <span>&nbsp;至&nbsp;</span>
+                    <span style="padding: 0 1em">至</span>
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="是否老客户" field="oldFlag">

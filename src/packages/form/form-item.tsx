@@ -213,10 +213,12 @@ export default defineComponent({
             hasLabel,
             isRequired,
             validateMessage,
+            styleComputed,
         } = formItemSetup(props)
 
         const classes = computed(() => ([
             'pl-form-item',
+            `pl-form-item-size-${styleComputed.value.size}`,
             {
                 'pl-form-item-required': isRequired.value,
                 'pl-form-item-invalidate': !!validateMessage.value,

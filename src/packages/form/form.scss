@@ -91,14 +91,18 @@
           }
         }
       }
-    }
 
-    &.pl-form-size-mini {
-      font-size: 12px;
-    }
+      &.pl-form-item-size-mini {
+        font-size: 12px;
+      }
 
-    &.pl-form-size-large {
-      font-size: 16px;
+      &.pl-form-item-size-normal {
+        font-size: 14px;
+      }
+
+      &.pl-form-item-size-large {
+        font-size: 16px;
+      }
     }
 
     &.pl-form-label-align-left {
