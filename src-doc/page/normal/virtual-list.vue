@@ -42,8 +42,9 @@
         </demo-row>
 
         <demo-row title="禁用虚拟滚动">
+            <pl-checkbox v-model="disabledVirtualScroll" label="禁用虚拟滚动"/>
             <div class="demo-virtual-list-container">
-                <pl-virtual-list :data="data2" :size="40" disabled>
+                <pl-virtual-list :data="data2" :size="40" :disabled="disabledVirtualScroll">
                     <div slot-scope="{item,index}" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                         <div class="seq">
                             {{index}}
@@ -78,6 +79,7 @@
             return {
                 list: data,
                 data2,
+                disabledVirtualScroll: false,
             }
         },
         methods: {
