@@ -1,12 +1,9 @@
-/*@formatter:off*/
 function paramComponent<
     Props,
     Setup extends (props: Props) => any,
     Render extends (refer: ReturnType<Setup>) => any>
 (props: Props, setup: Setup, render: Render) {}
-/*@formatter:on*/
 
-/*@formatter:off*/
 function optionComponent<
     Props,
     Setup extends (props: Props) => any,
@@ -16,7 +13,6 @@ function optionComponent<
     setup: Setup,
     render: Render
 }) {}
-/*@formatter:on*/
 
 paramComponent({
     name: 'abc',
@@ -28,7 +24,7 @@ paramComponent({
         amdYes: 123,
     }
 }, function (refer) {
-
+    // 这里的refer可以正确推断为setup函数的返回值
 })
 
 optionComponent({
@@ -44,6 +40,6 @@ optionComponent({
         }
     },
     render(refer) {
-
+        // 这里的refer推断是any
     },
 })
