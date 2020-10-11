@@ -16,11 +16,11 @@ enum MessageServiceVertical {
 }
 
 interface MessageServiceOption {
-    horizontal?: MessageServiceHorizontal,
-    vertical?: MessageServiceVertical,
-    status?: 'white' | 'black' | 'primary' | 'success' | 'warn' | 'error' | 'info',
-    time?: number,
-    icon?: string,
+    horizontal?: MessageServiceHorizontal,                                                          // 横向位置
+    vertical?: MessageServiceVertical,                                                              // 纵向位置
+    status?: 'white' | 'black' | 'primary' | 'success' | 'warn' | 'error' | 'info',                 // 状态（颜色）
+    time?: number,                                                                                  // 停留时间
+    icon?: string,                                                                                  // 显示图标
 }
 
 export default class MessageService {
