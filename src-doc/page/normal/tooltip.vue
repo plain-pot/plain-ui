@@ -1,7 +1,9 @@
 <template>
     <div class="tooltip">
         <demo-row title="基本用法">
-            <pl-tooltip text="这个是tooltip文本"/>
+            <pl-tooltip text="这个是tooltip文本">
+                <pl-button>BUTTON</pl-button>
+            </pl-tooltip>
         </demo-row>
         <demo-row title="综合测试">
             <demo-line>

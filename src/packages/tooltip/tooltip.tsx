@@ -78,12 +78,12 @@ export default defineComponent({
                     state.tooltip = null
                 }
             },
-            reset: () => {
+            reset: $plain.utils.throttle(() => {
                 if (!!state.tooltip) {
                     utils.destroyTooltip()
                 }
                 utils.initTooltip()
-            }
+            }, 300, {leading: false, trailing: true})
         }
 
         const methods = {
@@ -135,7 +135,7 @@ export default defineComponent({
             } else {
                 watch(() => props[propsName], () => {
                     utils.reset()
-                }, {immediate: true})
+                })
             }
         })
 
