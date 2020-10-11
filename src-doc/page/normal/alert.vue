@@ -19,7 +19,7 @@
                 <span slot="title">
                     自定义标题 <pl-button icon="el-icon-right" mode="text" size="mini"/>
                 </span>
-                <span slot="message">
+                <span>
                     自定义内容 <pl-button label="点击了解更多" mode="text"/>
                 </span>
             </pl-alert>
