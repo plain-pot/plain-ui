@@ -4,14 +4,14 @@ import Container from './pl-notice-container.vue'
 export interface NoticeServiceOption {
     id: string,
 
-    message: string,
-    time: number,
-    noClose: boolean,
-    render: Function,
-    status: string,
-    onClick: Function,
-    vertical: string,
-    horizontal: string,
+    message: string,                                // 通知消息
+    time: number,                                   // 停留时间
+    noClose: boolean,                               // 不显示关闭按钮
+    render: Function,                               // 自定义内容函数
+    status: string,                                 // 状态
+    onClick: Function,                              // 点击事件处理函数
+    vertical: 'start' | 'end',                      // 纵向位置
+    horizontal: 'start' | 'end',                    // 横向位置
 }
 
 const NoticeService = {
