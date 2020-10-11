@@ -3,6 +3,18 @@ import {CompRef, useRefs} from "@/use/useRefs";
 import {useRefer} from "@/use/useRefer";
 
 import {$plain} from "@/packages/base";
+import {VNode} from "vue/types/umd";
+
+interface DialogServiceOption {
+    message?: string,                                               // 提示的消息
+    editType?: 'input' | 'textarea',                                // 输入类型
+    editValue?: string,                                             // 输入初始内容
+    editReadonly?: boolean,                                         // 输入框是否只读
+    status?: 'primary' | 'success' | 'warn' | 'error' | 'info',     // 状态
+    render?: () => VNode | VNode[] | undefined | string | number | null // 自定义内容
+    onConfirm?: () => void,                                         // 确认按钮处理函数
+    onCancel?: () => void,                                          // 取消按钮处理函数
+}
 
 const optionKeys = [
     'message',
