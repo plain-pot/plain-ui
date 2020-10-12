@@ -3,6 +3,7 @@ import {PlcType, TableRenderData} from "@/packages/table/plc/plc";
 import {computed, onUnmounted, reactive} from "@vue/composition-api";
 import {TableNode} from "@/packages/table/table/TableNode";
 import {injectTable} from "@/packages/table/table/table";
+import {toArray} from "@/util/util";
 
 export default definePlc({
     name: 'plc-check',
@@ -123,6 +124,21 @@ export default definePlc({
         const methods = {
             getSelected: () => {
                 return state.selected
+            },
+            clearSelected: () => {
+                state.selected = []
+            },
+            addSelected: (key: string | string[]) => {
+                const keys = toArray(key)
+                const nodes = keys.map(k => table.mark.node.getByKey(k)).filter(Boolean)
+                state.selected = [
+                    ...state.selected,
+                    ...nodes
+                ]
+            },
+            removeSelected: (key: string | string[]) => {
+                const keys = toArray(key)
+                state.selected = state.selected.filter(node => keys.indexOf(node.key) === -1)
             },
         }
 

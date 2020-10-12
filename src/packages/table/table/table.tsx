@@ -279,11 +279,11 @@ function tableSetup(props: TablePropsType) {
 
     const methods = {
         setCurrent: (keyOrNode: string | TableNode | null) => {
-            if (typeof keyOrNode === "string") {
+            if (typeof keyOrNode === "object") {
+                state.current = keyOrNode
+            } else {
                 const node = mark.node.getByKey(keyOrNode)
                 state.current = node as TableNode
-            } else {
-                state.current = keyOrNode
             }
         },
         getCurrent: () => {
