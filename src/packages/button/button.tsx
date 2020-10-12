@@ -1,4 +1,4 @@
-import {computed, defineComponent, inject, reactive, watch} from "@vue/composition-api";
+import {computed, inject, reactive, watch} from "@vue/composition-api";
 
 import PlainUtils from '../../../submodules/plain-utils'
 import ClickWave from "@/directives/click-wave";
@@ -11,9 +11,10 @@ import {useSlots} from "@/use/useSlots";
 import {DEFAULT_STATUS} from "@/packages/base";
 import {designComponent} from "@/use/designComponent";
 
-export default designComponent(
-    'pl-button',
-    {
+const Button = designComponent({
+    name: 'pl-button',
+    directives: {ClickWave},
+    props: {
         mode: {type: String, default: 'fill'},                  // fill,stroke,text
         label: {type: String},                                  // 按钮文本
         width: {type: [String, Number]},                        // 按钮宽度
@@ -31,7 +32,7 @@ export default designComponent(
         type: {type: String, default: 'button'},
         nativeProps: {},
     },
-    function (props) {
+    setup(props) {
 
         const {slots} = useSlots()
 
@@ -126,56 +127,43 @@ export default designComponent(
         }))
 
         return {
-            styles,
-            classes,
-            props,
-            editComputed,
-            state,
-            propsState,
-            slots,
+            refer: {
+                styles,
+                classes,
+                props,
+                editComputed,
+                state,
+                propsState,
+                slots,
+            },
+            render: () => {
+                return (
+                    <button
+                        style={styles.value}
+                        class={classes.value}
+                        type={props.type}
+                        disabled={editComputed.value.disabled}
+                        readonly={editComputed.value.readonly}
 
+                        {...{
+                            attrs: props.nativeProps,
+                            directives: [{name: 'click-wave', value: 'large'}],
+                        }}
+
+                        onClick={state.handleClick}
+                    >
+                        {!!editComputed.value.loading && <pl-loading type="gamma" v-if="isLoading"/>}
+                        {slots.default(
+                            [
+                                (!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null,
+                                propsState.label ? <span>{propsState.label}</span> : null
+                            ]
+                        )}
+                    </button>
+                )
+            },
         }
     },
-    function (refer) {
+})
 
-        const {
-            styles,
-            classes,
-            props,
-            editComputed,
-            state,
-            propsState,
-            slots,
-        } = refer
-
-        return () => (
-            <button
-                style={styles.value}
-                class={classes.value}
-                type={props.type}
-                disabled={editComputed.value.disabled}
-                readonly={editComputed.value.readonly}
-
-                {...{
-                    attrs: props.nativeProps,
-                    directives: [{name: 'click-wave', value: 'large'}],
-                }}
-
-                onClick={state.handleClick}
-            >
-                {!!editComputed.value.loading && <pl-loading type="gamma" v-if="isLoading"/>}
-                {slots.default(
-                    [
-                        (!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null,
-                        propsState.label ? <span>{propsState.label}</span> : null
-                    ]
-                )}
-            </button>
-        )
-    },
-    {
-        mixin: {
-            directives: {ClickWave},
-        }
-    }
-)
+export default Button

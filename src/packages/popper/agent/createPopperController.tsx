@@ -6,10 +6,10 @@ import {PopperAgent, PopperServiceComponent} from "@/packages/popper/agent/type"
 import {createPopperService} from "@/packages/popper/agent/createPopperService";
 
 export function createPopperController(name: string, PopperService: ReturnType<typeof createPopperService>) {
-    return designComponent(
+    return designComponent({
         name,
-        {},
-        function () {
+        props: {},
+        setup() {
 
             const state = reactive({
                 agents: [] as PopperAgent[],
@@ -60,23 +60,23 @@ export function createPopperController(name: string, PopperService: ReturnType<t
             }
 
             return {
-                state,
-                getPopperService,
-            }
-        },
-        function (refer) {
-            return () => {
-                return (
-                    <div class={`pl-popper-service-controller ${name}`}>
-                        {refer.state.agents.map((agent, index) => (
-                            // @ts-ignore
-                            <PopperService agent={agent} key={index} {...{ref: 'items', refInFor: true}}/>
-                        ))}
-                    </div>
-                )
+                refer: {
+                    state,
+                    getPopperService,
+                },
+                render() {
+                    return (
+                        <div class={`pl-popper-service-controller ${name}`}>
+                            {state.agents.map((agent, index) => (
+                                // @ts-ignore
+                                <PopperService agent={agent} key={index} {...{ref: 'items', refInFor: true}}/>
+                            ))}
+                        </div>
+                    )
+                },
             }
         }
-    )
+    },)
 }
 
-export type PopperController = ReturnType<ReturnType<typeof createPopperController>["use"]["ref"]>
+export type PopperController = ReturnType<typeof createPopperController>["use"]["class"]

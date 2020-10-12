@@ -8,7 +8,7 @@ export function definePopperService(
     Service: ReturnType<typeof createPopperService>
 ) {
     const Controller = createPopperController(`${Service.name}-controller`, Service)
-    let controller: { _refer: PopperController["value"] }
+    let controller: { _refer: PopperController }
 
     return (optionGetter: () => PopperAgentOption) => {
         if (!controller) {

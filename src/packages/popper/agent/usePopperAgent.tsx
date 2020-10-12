@@ -5,7 +5,7 @@ import {$plain} from "@/packages/base";
 
 let count = 0
 
-export function usePopperAgent(optionGetter: () => PopperAgentOption, controller: { _refer: PopperController["value"] }) {
+export function usePopperAgent(optionGetter: () => PopperAgentOption, controller: { _refer: PopperController }) {
 
     const agent = {
         count: count++,

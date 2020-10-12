@@ -1,54 +1,65 @@
-import {defineComponent, getCurrentInstance, inject, provide, SetupContext} from "@vue/composition-api";
 import * as Vue from "vue/types/umd";
-import {VNode} from "vue";
+import {VNode} from "vue/types/umd";
+import {defineComponent, getCurrentInstance, inject, provide, SetupContext} from "@vue/composition-api";
 
 export type SetupFunction<Props, RawBindings = {}> = (this: void, props: Props, ctx: SetupContext) => RawBindings | (() => VNode | null) | void;
 
-export function designComponent<Props extends ComponentPropsOptions,
-    Setup extends (this: Vue, ...args: Parameters<SetupFunction<ExtractPropTypes<Props>, Data>>) => any,
-    Render extends (this: Vue, refer: ReturnType<Setup>) => any,
-    Config extends { provide?: boolean, mixin?: any },
-    >(
-    name: string,
+export function designComponent<Refer,
+    Props extends ComponentPropsOptions,
+    >
+(config: {
     props: Props,
-    setup: Setup,
-    render: Render,
-    config?: Config,
-) {
-    return {
-        ...defineComponent({
-            mixins: !!config && !!config.mixin ? [config.mixin] : [],
-            name,
-            props: props as any,
-            setup: (p, sctx) => {
-                const ctx = getCurrentInstance()!
-                // @ts-ignore
-                ctx.h = ctx.$createElement
-                const _refer = setup.apply(ctx, [p as any, sctx])
-                if (!!config && config.provide) {
-                    provide(`@@${name}`, _refer)
-                }
-                Object.assign(ctx, {_refer})
-                return render.apply(ctx, [_refer])
-            }
-        }),
+    setup: (this: Vue, ...args: Parameters<SetupFunction<ExtractPropTypes<Props>, Data>>) => {
+        render: (h: typeof Vue.prototype.$createElement) => any,
+        refer: Refer,
+    },
+    name?: string,
+    provideRefer?: boolean,
+    mixins?: any[],
+    directives?: { [k: string]: any },
+}) {
+
+    const {
+        props,
+        setup,
+        name,
+        provideRefer,
+        ...leftConfig
+    } = config
+
+    const componentSetup: any = (props: any) => {
+        const ctx = getCurrentInstance() as any
+        const {render, refer} = setup.apply(ctx, [props, ctx])
+        ctx._refer = refer
+        if (!!provideRefer) {
+            provide(`@@${name}`, refer)
+        }
+        return () => render.apply(ctx, [ctx.$createElement])
+    }
+
+    return Object.assign(defineComponent({
+        name,
+        props,
+        setup: componentSetup,
+        ...(leftConfig || {}),
+    }), {
         use: {
             inject: (defaultValue?: any) => {
-                return inject(`@@${name}`, defaultValue) as ReturnType<any>
+                return inject(`@@${name}`, defaultValue) as Refer
             },
-            ref(refName: string): { value: (ReturnType<Setup> | null) } {
+            ref(refName: string): { value: (Refer | null) } {
                 const ctx = getCurrentInstance()!
                 return {
                     get value() {
                         if (!!ctx.$refs[refName]) {
-                            return (ctx.$refs[refName] as any)._refer as ReturnType<Setup>
+                            return (ctx.$refs[refName] as any)._refer as Refer
                         } else {
                             return null
                         }
                     }
                 }
             },
-            refList(refName: string): { value: (ReturnType<Setup>[]) } {
+            refList(refName: string): { value: (Refer[]) } {
                 const ctx = getCurrentInstance()!
                 return {
                     get value() {
@@ -61,6 +72,7 @@ export function designComponent<Props extends ComponentPropsOptions,
                     }
                 }
             },
-        },
-    }
+            class: Object as any as Refer,
+        }
+    })
 }
