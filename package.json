@@ -1,6 +1,6 @@
 {
   "name": "plain-ui",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "main": "dist/plain-ui.js",
   "files": [
     "dist"

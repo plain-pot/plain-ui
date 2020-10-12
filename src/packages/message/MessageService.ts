@@ -3,6 +3,26 @@ import Container from './pl-message-container.vue'
 import {PlainUtils} from "@/util/util";
 import {$plain} from "@/packages/base";
 
+enum MessageServiceHorizontal {
+    start = 'start',
+    center = 'center',
+    end = 'end',
+}
+
+enum MessageServiceVertical {
+    start = 'start',
+    center = 'center',
+    end = 'end',
+}
+
+interface MessageServiceOption {
+    horizontal?: MessageServiceHorizontal,                                                          // 横向位置
+    vertical?: MessageServiceVertical,                                                              // 纵向位置
+    status?: 'white' | 'black' | 'primary' | 'success' | 'warn' | 'error' | 'info',                 // 状态（颜色）
+    time?: number,                                                                                  // 停留时间
+    icon?: string,                                                                                  // 显示图标
+}
+
 export default class MessageService {
 
     _el: HTMLElement | null
