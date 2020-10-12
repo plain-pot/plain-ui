@@ -128,7 +128,7 @@ export function createPopperService(
                     },
                     render: () => {
                         return (
-                            <pl-popper className={ComponentName} {...popperBinding.value} key={state.count}>
+                            <pl-popper class={ComponentName} {...popperBinding.value} key={state.count}>
                                 {render(this.$createElement, this as any)}
                             </pl-popper>
                         )
