@@ -8,8 +8,8 @@ export function designComponent<Refer,
     Props extends ComponentPropsOptions,
     >
 (config: {
-    props: Props,
-    setup: (this: Vue, ...args: Parameters<SetupFunction<ExtractPropTypes<Props>, Data>>) => {
+    props?: Props,
+    setup?: (this: Vue, ...args: Parameters<SetupFunction<ExtractPropTypes<Props>, Data>>) => {
         render: (h: typeof Vue.prototype.$createElement) => any,
         refer: Refer,
     },
@@ -29,12 +29,12 @@ export function designComponent<Refer,
 
     const componentSetup: any = (props: any) => {
         const ctx = getCurrentInstance() as any
-        const {render, refer} = setup.apply(ctx, [props, ctx])
+        const {render = null, refer = {}} = !!setup ? setup.apply(ctx, [props, ctx]) : {}
         ctx._refer = refer
         if (!!provideRefer) {
             provide(`@@${name}`, refer)
         }
-        return () => render.apply(ctx, [ctx.$createElement])
+        return () => !!render ? render.apply(ctx, [ctx.$createElement]) : null
     }
 
     return Object.assign(defineComponent({
