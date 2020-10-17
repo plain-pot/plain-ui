@@ -1,6 +1,9 @@
 <template>
     <div>
-        Hello world
+        <span>Hello world</span>
+        <pl-button>
+            Hello world
+        </pl-button>
     </div>
 </template>
 
