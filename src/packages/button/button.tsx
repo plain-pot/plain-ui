@@ -8,14 +8,14 @@ export const Button = designComponent({
         age: {type: Number, default: 10},
     },
     setup({props, event}) {
+
+        const ctx = getCurrentInstance()!
+        const text = ref('hello world')
+        const showFlag = ref(true)
+
         return {
             refer: {},
             render: () => {
-
-                const ctx = getCurrentInstance()!
-                const text = ref('hello world')
-                const showFlag = ref(true)
-
                 return (
                     <div>
                         <button>
