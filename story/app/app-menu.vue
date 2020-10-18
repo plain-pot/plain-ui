@@ -31,7 +31,7 @@
         data() {
             return {
                 menus: MENUS,
-                handleClickMenu(menu) {
+                handleClickMenu: (menu) => {
                     this.$emit('click-menu-item', menu)
                 },
             }
@@ -52,14 +52,10 @@
                 padding: 0;
 
                 .app-menu-name, .app-menu-group-name {
-                    font-size: 13px;
-                    height: 40px;
-                    line-height: 40px;
+                    font-size: 14px;
+                    padding: 10px 24px 12px 32px;
                     white-space: nowrap;
-                    margin-bottom: 8px;
-                    margin-top: 4px;
                     color: $itc;
-                    padding-left: 32px;
                     cursor: pointer;
                     transition: all 300ms linear;
 
@@ -88,11 +84,11 @@
                 }
 
                 .app-menu-group-name {
-                    padding-left: 20px;
+                    padding-left: 24px;
                     letter-spacing: 1px;
                     font-size: 12px;
                     font-weight: 600;
-                    color: $ihc;
+                    color: $colorPrimary;
                 }
             }
 
