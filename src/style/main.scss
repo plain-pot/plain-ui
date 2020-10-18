@@ -1,0 +1,100 @@
+@import "./theme/default";
+
+$dt: map_get($theme-default, '');
+
+@function plv($key) {
+  @if (map_has_key($globalTheme, $key)) {
+    @return map-get($globalTheme, $key);
+  } @else {
+    @return map-get($dt, $key);
+  }
+}
+
+@mixin generateThemeContent($name,$theme) {
+  $globalTheme: $theme !global;
+  $globalThemeName: $name !global;
+
+  $colorPrimary: plv(colorPrimary) !global;
+  $colorPrimaryLight: mix(white, $colorPrimary, 85%) !global;
+  $colorSuccess: plv(colorSuccess) !global;
+  $colorWarn: plv(colorWarn) !global;
+  $colorError: plv(colorError) !global;
+  $colorInfo: plv(colorInfo) !global;
+  $disabled: plv(disabled) !global;
+  $disabledLight: plv(disabledLight) !global;
+  $disabledDeep: plv(disabledDeep) !global;
+  $disabledText: plv(disabledText) !global;
+  $font: plv(font) !global;
+  $ibc: plv(ibc) !global;
+  $ibl: plv(ibl) !global;
+  $itc: plv(itc) !global;
+  $itl: plv(itl) !global;
+  $ihc: plv(ihc) !global;
+  $ipc: plv(ipc) !global;
+  $icc: plv(icc) !global;
+  $transitionFlexible: plv(transitionFlexible) !global;
+  $transition: plv(transition) !global;
+  $transition2: plv(transition2) !global;
+  $shapeFillet: plv(shapeFillet) !global;
+  $popperRadius: plv(popperRadius) !global;
+  $boxshadow: plv(boxshadow) !global;
+  $boxshadowColor: plv(boxshadowColor) !global;
+
+  @if (str_length($name)>0) {
+    .theme-#{$name} {
+      @content;
+    }
+  } @else {
+    html {
+      @content;
+    }
+  }
+}
+
+@mixin statusMixin($component) {
+  @each $key in (Primary, Success, Warn, Error, Info) {
+
+    $value: plv(color#{$key}) !global;
+
+    $name: to-lower-case($key) !global;
+    &.pl-#{$component}-status-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin shapeMixin($component) {
+  @each $key in (Fillet, Round, Square) {
+
+    $value: plv(shape#{$key}) !global;
+    $name: to-lower-case($key) !global;
+
+    &.pl-#{$component}-shape-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin sizeMixin($component) {
+  @each $key in (Large, Normal, Mini) {
+
+    $value: plv(size#{$key}) !global;
+    $name: to-lower-case($key) !global;
+
+    &.pl-#{$component}-size-#{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin public-style {
+  box-sizing: border-box;
+  font-weight: 400;
+  color: $itc;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin transition {
+  transition: all $transition 300ms;
+}

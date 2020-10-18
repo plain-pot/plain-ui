@@ -1,0 +1,20 @@
+$theme-blue: (
+        'blue':(
+                colorPrimary: #409EFF,
+                colorSuccess: #67C23A,
+                colorWarn: #E6A23C,
+                colorError: #F56C6C,
+                colorInfo:#909399,
+
+                shapeFillet:4px,
+        ),
+        'violet':(
+                colorPrimary: #8A2BE2,
+                colorSuccess: #4caf50,
+                colorWarn: #ff9800,
+                colorError: #e91e63,
+                colorInfo:#000042,
+
+                shapeFillet:8px,
+        )
+);

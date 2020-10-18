@@ -1,0 +1,44 @@
+//$boxshadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
+$boxshadowColor:#f0f1f2;
+$boxshadow: 0 2px 8px $boxshadowColor;
+
+$theme-default: (
+        '':(
+                colorPrimary: #12b4a5,
+                colorSuccess: #00CC00,
+                colorWarn: #FF7400,
+                colorError: #F38585,
+                colorInfo:#969696,
+
+                disabled:#f5f7fa,
+                disabledLight:#fcfcfc,
+                disabledDeep:#c6c6c6,
+                disabledText:#c0c4cc,
+
+                sizeLarge:40px,
+                sizeNormal:32px,
+                sizeMini:28px,
+
+                shapeFillet:2px,
+                shapeRound:100px,
+                shapeNone:0,
+
+                font:'Avenir,-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol',
+
+                ibc:#dcdfe6,                                                            /*input border color    边框色*/
+                ibl:#ebeef5,                                                            /*border light color    边框色：轻*/
+                itc:#314659,                                                            /*input text color      文本色*/
+                itl:#697b8c,                                                            /*input text color      文本色：轻*/
+                ihc:#000000,                                                            /*title color           标题色*/
+                ipc:rgba(0, 0, 0, 0.25),                                                /*input placeholder color 占位符颜色*/
+                icc:rgba(0, 0, 0, 0.45),                                                /*input icon color      图标色*/
+
+                transitionFlexible:cubic-bezier(.24, .22, .015, 1.2),
+                transition:cubic-bezier(0.23, 1, 0.32, 1),
+                transition2:cubic-bezier(.59,1.12,.81,.95),
+
+                boxshadow:$boxshadow,                                                   //阴影
+                boxshadowColor:$boxshadowColor,                                         //阴影
+                popperRadius:2px,
+        )
+);
