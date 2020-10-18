@@ -21,5 +21,7 @@ module.exports = {
         'no-extra-boolean-cast': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/ban-ts-ignore': 'off',
+        'prefer-const': 'off',
     }
 }

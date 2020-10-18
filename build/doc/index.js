@@ -41,6 +41,9 @@ module.exports = {
                 return args
             })
 
+        config.resolve.alias
+            .set('story', $utils.resolve('story'))
+
         const fontRule = config.module.rule('fonts')
         fontRule.uses.clear()
         fontRule

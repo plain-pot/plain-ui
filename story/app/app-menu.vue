@@ -22,17 +22,21 @@
 
 <script>
     import {MENUS} from "../menu";
+    import {AppNavigator} from "./app-navigator";
 
     export default {
         name: "app-menu",
         props: {
             currentPath: {type: String},
         },
-        data() {
+        setup() {
+
+            const navigator = AppNavigator.use.inject()
+
             return {
                 menus: MENUS,
-                handleClickMenu: (menu) => {
-                    this.$emit('click-menu-item', menu)
+                handleClickMenu(menu) {
+                    navigator.nav.go(menu.page)
                 },
             }
         },

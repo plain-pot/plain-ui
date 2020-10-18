@@ -1,18 +1,22 @@
 <template>
-    <article class="app" :style="{paddingLeft:`${config.menuSize}px`,paddingTop:`${config.headSize}px`}">
-        <section class="app-head" :style="{height:config.headSize+'px'}">
-            <span>{{title}}</span>
-        </section>
-        <app-menu :style="{width:`${config.menuSize}px`,top:`${config.headSize}px`}"/>
-        <section class="app-content">
-            this is app-content
-        </section>
-    </article>
+    <app-navigator defaultPath="normal/button">
+        <article class="app" :style="{paddingLeft:`${config.menuSize}px`,paddingTop:`${config.headSize}px`}">
+            <section class="app-head" :style="{height:config.headSize+'px'}">
+                <span>{{title}}</span>
+            </section>
+            <app-menu :style="{width:`${config.menuSize}px`,top:`${config.headSize}px`}"/>
+            <section class="app-content">
+                <AppNavigatorPage/>
+            </section>
+        </article>
+    </app-navigator>
 </template>
 
 <script>
     import {defineComponent} from 'vue';
     import AppMenu from './app/app-menu'
+    import {AppNavigator} from './app/app-navigator'
+    import {AppNavigatorPage} from "./app/app-navigator-page";
 
     const config = {
         menuSize: 300,
@@ -21,7 +25,11 @@
 
     export default defineComponent({
         name: 'App',
-        components: {AppMenu},
+        components: {
+            AppMenu,
+            AppNavigator,
+            AppNavigatorPage,
+        },
         data() {
             return {
                 config,
