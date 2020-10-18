@@ -20,5 +20,6 @@ module.exports = {
         '@typescript-eslint/member-delimiter-style': 'off',
         'no-extra-boolean-cast': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
     }
 }
