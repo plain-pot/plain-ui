@@ -64,6 +64,8 @@
             box-shadow: $boxshadow;
             padding: 20px 0;
             box-sizing: border-box;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .app-content {
