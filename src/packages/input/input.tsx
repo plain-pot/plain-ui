@@ -1,13 +1,14 @@
 import {designComponent} from "@/use/designComponent";
 import {useModel} from "@/use/useModel";
 import {useSlots} from "@/use/useSlots";
-import {computed} from 'vue';
+import {computed, getCurrentInstance} from 'vue';
 import './input.scss'
 
 export const Input = designComponent({
     name: 'pl-input',
     props: {
         modelValue: {},
+        icon: {},
     },
     emits: {
         updateModelValue: (val: any) => true
@@ -17,8 +18,8 @@ export const Input = designComponent({
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
         const {slots, $slots} = useSlots({
-            prepend: useSlots.Slots,
-            append: useSlots.Slots,
+            prepend: useSlots.Slot,
+            append: useSlots.Slot,
         })
 
         const classes = computed(() => {
@@ -33,9 +34,13 @@ export const Input = designComponent({
 
         return {
             render: () => {
+                console.log('render')
                 return (
                     <div class={classes.value}>
-                        {slots.prepend('default prepend')}
+                        {slots.prepend([
+                            'default prepend',
+                            <button>ICON</button>,
+                        ])}
                         <input type="text" v-model={model.value}/>
                         <button onClick={() => model.value = ''}>clear</button>
                         {slots.append('default append')}
