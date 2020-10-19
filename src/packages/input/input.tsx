@@ -1,7 +1,7 @@
 import {designComponent} from "@/use/designComponent";
 import {useModel} from "@/use/useModel";
 import {useSlots} from "@/use/useSlots";
-import {computed, getCurrentInstance} from 'vue';
+import {computed} from 'vue';
 import './input.scss'
 
 export const Input = designComponent({
@@ -17,13 +17,12 @@ export const Input = designComponent({
 
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
-        const {slots, $slots} = useSlots({
-            prepend: useSlots.Slot,
-            append: useSlots.Slot,
-        })
+        const {slots, $slots} = useSlots([
+            'prepend',      // 前置插槽
+            'append',       // 后置插槽
+        ])
 
         const classes = computed(() => {
-            console.log('$slots.prepend', $slots.prepend)
             return [
                 'pl-input',
                 {
