@@ -1,6 +1,6 @@
 import {VNodeChild, getCurrentInstance} from 'vue'
 
-const Slots = () => {}
+const Slots = () => ({} as any)
 
 type SlotFunctionType = (vnode?: VNodeChild | undefined | null) => any
 
@@ -22,7 +22,7 @@ function createSlots<T extends {
     [k: string]: (...args: any[]) => any
 }>(options: T): Slots<T> {
 
-    const ctx = (getCurrentInstance() as any).ctx
+    const ctx = getCurrentInstance()!
 
     let $slots: Slots<T>["$slots"] = {}
     let slots: Slots<T>["slots"] = {} as any
@@ -30,11 +30,11 @@ function createSlots<T extends {
     [...Object.keys(options), 'default'].forEach(key => {
         Object.defineProperty($slots, key, {
             get() {
-                return !!ctx.$slots.default ? ctx.$slots.default() : null
+                return !!ctx.slots[key] ? ctx.slots[key]!() : null
             },
         });
         (slots as any)[key] = (vnode: VNodeChild) => {
-            const slot = ctx.$slots[key]
+            const slot = $slots[key]
             return formatSlotResult(!!slot ? slot : vnode)
         }
     })
