@@ -1,5 +1,8 @@
 <template>
     <div class="demo-button">
+        <pl-button>
+            Hello world
+        </pl-button>
         <div v-for="item in ['primary','success','warn','error','info']" :key="item" :class="`pl-button pl-button-status-${item}`">
             {{item}}
         </div>

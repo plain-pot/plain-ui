@@ -1,4 +1,4 @@
-import {getCurrentInstance, ref} from "vue";
+import {getCurrentInstance, ref, onMounted} from "vue";
 import {designComponent} from "@/use/designComponent";
 
 export const Button = designComponent({
@@ -12,6 +12,10 @@ export const Button = designComponent({
         const ctx = getCurrentInstance()!
         const text = ref('hello world')
         const showFlag = ref(true)
+
+        onMounted(() => {
+            console.log((ctx as any).ctx)
+        })
 
         return {
             refer: {},
