@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "outDir": "dist",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
@@ -11,7 +10,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "declaration": true,
     "baseUrl": ".",
     "types": [
       "webpack-env"

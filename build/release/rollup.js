@@ -8,32 +8,33 @@ import DartSass from 'dart-sass'
 import postcss from 'postcss'
 import autoPrefixer from 'autoprefixer'
 import {DEFAULT_EXTENSIONS} from '@babel/core';
+import {terser} from "rollup-plugin-terser";
 
-export default {
-    input: 'src/index.ts',
-    output: {
-        dir: 'dist',
-        name: 'PlainUIV3',
-        format: 'umd',
-        sourcemap: true,
-        exports: 'named',
-    },
-    acornInjectPlugins: [
-        jsx()
-    ],
-    external: [
-        'vue'
-    ],
-    plugins: [
-        scss({
+const config = {
+    acornInjectPlugins: [jsx()],
+    external: ['vue'],
+
+    plugins: {
+        scss: scss({
             output: 'dist/index.css',
             prefix: `@import "src/style/global-import.scss";`,
             sass: DartSass,
             processor: css => postcss([autoPrefixer({overrideBrowserslist: "Edge 18"})]),
         }),
-        resolve(),
-        commonjs(),
-        babel({
+        resolve: resolve(),
+        commonjs: commonjs(),
+        typescript: cb => typescript(cb({
+            "target": "es5",
+            "jsx": 'preserve',
+            "strict": true,
+            "importHelpers": true,
+            "moduleResolution": "node",
+            "skipLibCheck": true,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+        })),
+        terser: terser(),
+        babel: babel({
             extensions: [
                 ...DEFAULT_EXTENSIONS,
                 '.ts',
@@ -44,18 +45,32 @@ export default {
             presets: [
                 '@vue/cli-plugin-babel/preset'
             ],
-        }),
-        typescript({
-            "target": "es5",
-            "jsx": 'preserve',
-            "strict": true,
-            "importHelpers": true,
-            "moduleResolution": "node",
-            "skipLibCheck": true,
-            "esModuleInterop": true,
-            "allowSyntheticDefaultImports": true,
-            "sourceMap": true,
-            "declaration": true,
-        }),
-    ]
+        })
+    }
 }
+
+export default [
+    {
+        input: 'src/index.umd.ts',
+        output: {
+            name: 'PlainUIV3',
+            file: 'dist/index.umd.min.js',
+            format: 'umd',
+            sourcemap: false,
+            exports: 'default',
+            globals: {vue: 'Vue',}
+        },
+        acornInjectPlugins: config.acornInjectPlugins,
+        external: config.external,
+        plugins: [
+            config.plugins.commonjs,
+            config.plugins.resolve,
+            config.plugins.scss,
+            config.plugins.typescript((tsConfig) => {
+
+            }),
+            config.plugins.terser,
+            config.plugins.babel,
+        ]
+    },
+]

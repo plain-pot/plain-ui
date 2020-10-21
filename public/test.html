@@ -5,9 +5,24 @@
     <title>Title</title>
 </head>
 <body>
-<script src="../dist/plain-ui-v3.js"></script>
+<div id="app">
+
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script src="../dist/index.umd.min.js"></script>
 <script>
-    console.log(window.PlainUIV3)
+    'use strict';
+
+    var _Vue = Vue;
+    var createApp = _Vue.createApp;
+
+
+    var app = createApp({
+        template: '\n  <div>\n  <pl-input></pl-input>\n  <pl-button></pl-button>\n  </div>\n  '
+
+    });
+    app.use(window.PlainUIV3);
+    app.mount('#app');
 </script>
 </body>
 </html>
