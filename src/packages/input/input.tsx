@@ -1,7 +1,7 @@
 import {designComponent} from "@/use/designComponent";
 import {useModel} from "@/use/useModel";
 import {useSlots} from "@/use/useSlots";
-import {computed} from 'vue';
+import {computed, ref} from 'vue';
 import './input.scss'
 
 export const Input = designComponent({
@@ -14,6 +14,8 @@ export const Input = designComponent({
         updateModelValue: (val: any) => true
     },
     setup({props, event: {emit}}) {
+
+        const inputRef = ref(null as null | HTMLInputElement)
 
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
@@ -31,7 +33,22 @@ export const Input = designComponent({
             ]
         })
 
+        const methods = {
+            focus() {
+                inputRef.value!.focus()
+            },
+            blur() {
+                inputRef.value!.focus()
+            },
+            clear() {
+                model.value = null
+            },
+        }
+
         return {
+            refer: {
+                methods,
+            },
             render: () => {
                 console.log('render')
                 return (
@@ -40,7 +57,7 @@ export const Input = designComponent({
                             'default prepend',
                             <button>ICON</button>,
                         ])}
-                        <input type="text" v-model={model.value}/>
+                        <input type="text" v-model={model.value} ref={inputRef}/>
                         <button onClick={() => model.value = ''}>clear</button>
                         {slots.append('default append')}
                     </div>
