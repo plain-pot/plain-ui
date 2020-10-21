@@ -1,40 +1,32 @@
-import {getCurrentInstance, ref} from "vue";
+import {computed} from "vue";
 import {designComponent} from "../../use/designComponent";
+import {useSlots} from "../../use/useSlots";
+import './button.scss'
+
+console.log('load button component')
 
 export const Button = designComponent({
     name: 'pl-button',
     props: {
-        name: {type: String},
-        age: {type: Number, default: 10},
+        label: String,
+        status: {type: String, default: 'primary'},
     },
     setup({props, event}) {
 
-        const ctx = getCurrentInstance()!
-        const text = ref('hello world')
-        const showFlag = ref(true)
+        const {slots} = useSlots()
+
+        const classes = computed(() => [
+            'pl-button',
+            `pl-button-status-${props.status}`
+        ])
 
         return {
-            refer: {
-                text,
-                showFlag,
-            },
+            refer: {},
             render: () => {
                 return (
-                    <div>
-                        <button>
-                            BUTTON:{text.value}
-                        </button>
-                        <div>
-                            <input id="checkbox" type="checkbox" v-model={showFlag.value}/>
-                            <label for="checkbox">showFlag:{JSON.stringify(showFlag.value)}</label>
-                        </div>
-                        {showFlag.value && <input ref="input" type="text" v-model={text.value}/>}
-                        <hr/>
-                        <div>
-                            <div>hasInput:{JSON.stringify(!!((ctx as any).ctx.$refs.input))}</div>
-                            <div>hasInput:{JSON.stringify(!!(ctx.refs.input))}</div>
-                        </div>
-                    </div>
+                    <button class={classes.value}>
+                        {slots.default(props.label)}
+                    </button>
                 )
             }
         }

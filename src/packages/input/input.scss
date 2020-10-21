@@ -1,24 +1,22 @@
 @include theme {
   .pl-input {
-    &.pl-input-has-prepend {
-      display: flex;
-      justify-content: flex-end;
-      background-color: #f2f2f2;
-      height: 40px;
+    display: inline-block;
+    border-radius: 2px;
 
-      button {
-        color: $colorPrimary;
+    input {
+      height: 28px;
+      line-height: 28px;
+      padding: 0 8px;
+      border: none;
+      outline: none;
+    }
+
+    @include statusMixin(input) {
+      border: solid 1px $value;
+
+      input:focus {
+        background-color: mix($value, white, 5%);
       }
     }
-
-    a {
-      transition: transform 1s
-    }
-
-    display: grid;
-    transition: all .5s;
-    user-select: none;
-    background: linear-gradient(to bottom, white, black);
-
   }
 }

@@ -10,10 +10,10 @@ type SlotsData<T extends string> = {
     $slots: { default?: VNodeChild } & { [k in T]?: VNodeChild }
 }
 
-export function useSlots<T extends string>(names: T[]): SlotsData<T> {
+export function useSlots<T extends string>(names?: T[]): SlotsData<T> {
 
     const ctx = getCurrentInstance()!
-    const slotNames = [...names, 'default']
+    const slotNames = [...(names || []), 'default']
 
     /**
      * 因为ctx.slots,ctx.ctx.$slots都不是响应式属性，无法触发computed以及watch中的变化，这里做一个手动更新处理
