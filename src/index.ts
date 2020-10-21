@@ -18,4 +18,5 @@ export default {
 
 export {
     Button,
+    Input,
 }
