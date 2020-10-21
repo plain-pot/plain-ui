@@ -17,6 +17,7 @@ module.exports = {
         filename: '[name].js',
         path: $utils.resolve('dest'),
         libraryTarget: 'umd',
+        // libraryExport: 'default',
         library: 'PlainUIV3',
         globalObject: 'this'
     },

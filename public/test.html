@@ -9,7 +9,8 @@
 
 </div>
 <script src="https://unpkg.com/vue@next"></script>
-<script src="../dist/index.umd.min.js"></script>
+<script src="../dist/index.js"></script>
+<!--<script src="../dest/index.js"></script>-->
 <script>
     'use strict';
 
@@ -21,7 +22,8 @@
         template: '\n  <div>\n  <pl-input></pl-input>\n  <pl-button></pl-button>\n  </div>\n  '
 
     });
-    app.use(window.PlainUIV3);
+    console.log(window.PlainUIV3)
+    app.use(window.PlainUIV3.default);
     app.mount('#app');
 </script>
 </body>

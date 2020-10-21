@@ -76,10 +76,12 @@ export default [
     {
         input: 'src/index.ts',
         output: {
+            name: 'PlainUIV3',
             dir: 'dist',
-            format: 'cjs',
+            format: 'umd',
             sourcemap: true,
             exports: 'named',
+            globals: {vue: 'Vue',}
         },
         acornInjectPlugins: config.acornInjectPlugins,
         external: config.external,
