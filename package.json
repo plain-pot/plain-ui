@@ -6,13 +6,18 @@
     "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "release": "rollup -c ./build/release/rollup.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-typescript": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -25,6 +30,6 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3"
+    "typescript": "^3.9.7"
   }
 }
