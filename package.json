@@ -11,7 +11,8 @@
     "webpack": "webpack -c ./build/release/webpack.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "main": "dist/index.js",
   "typings": "dist/src/index.d.ts",
