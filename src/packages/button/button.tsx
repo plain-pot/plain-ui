@@ -1,5 +1,5 @@
 import {getCurrentInstance, ref} from "vue";
-import {designComponent} from "@/use/designComponent";
+import {designComponent} from "../../use/designComponent";
 
 export const Button = designComponent({
     name: 'pl-button',

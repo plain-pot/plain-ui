@@ -1,5 +1,5 @@
-import {designComponent} from "@/use/designComponent";
 import {reactive, onMounted, getCurrentInstance} from 'vue';
+import {designComponent} from "../../src/use/designComponent";
 
 export type AppRoute = {
     path: string,

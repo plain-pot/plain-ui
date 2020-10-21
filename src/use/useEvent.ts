@@ -1,7 +1,7 @@
 import {getCurrentInstance} from 'vue'
-import {kebabCase} from "@/utils/kebabCase";
-import {createPlainEvent} from "@/plugins/Event";
-import {SimpleFunction} from "@/shims";
+import {kebabCase} from "../utils/kebabCase";
+import {createPlainEvent} from "../plugins/Event";
+import {SimpleFunction} from "../shims";
 
 // focus                -> focus
 // itemClick            -> item-click

@@ -1,8 +1,8 @@
-import {designComponent} from "@/use/designComponent";
-import {useModel} from "@/use/useModel";
-import {useSlots} from "@/use/useSlots";
 import {computed, ref} from 'vue';
 import './input.scss'
+import {designComponent} from "../../use/designComponent";
+import {useModel} from "../../use/useModel";
+import {useSlots} from "../../use/useSlots";
 
 export const Input = designComponent({
     name: 'pl-input',

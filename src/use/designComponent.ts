@@ -1,7 +1,7 @@
 import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPropTypes, inject, provide, SetupContext, getCurrentInstance,} from 'vue'
-import {ComponentEvent, getComponentEmit, useEvent} from "@/use/useEvent.";
-import {createError} from "@/utils/createError";
-import {renderNothing} from "@/utils/renderNothing";
+import {ComponentEvent, getComponentEmit, useEvent} from "./useEvent";
+import {createError} from "../utils/createError";
+import {renderNothing} from "../utils/renderNothing";
 
 const error = createError('designComponent')
 

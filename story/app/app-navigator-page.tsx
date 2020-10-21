@@ -1,6 +1,6 @@
-import {designComponent} from "@/use/designComponent";
 import {reactive, onMounted, onBeforeUnmount, markRaw} from 'vue';
 import {AppNavigator, AppRoute} from "./app-navigator";
+import {designComponent} from "../../src/use/designComponent";
 
 export const AppNavigatorPage = designComponent({
     name: 'app-navigator-page',

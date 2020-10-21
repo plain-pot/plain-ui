@@ -1,4 +1,4 @@
-import {SimpleFunction} from "@/shims";
+import {SimpleFunction} from "../shims";
 
 type Listener = (SimpleFunction & { fn?: any })
 type ListenName = string | symbol

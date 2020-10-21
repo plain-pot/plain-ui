@@ -5,7 +5,10 @@
       justify-content: flex-end;
       background-color: #f2f2f2;
       height: 40px;
-      color: $colorPrimary;
+
+      button {
+        color: $colorPrimary;
+      }
     }
 
     a {

@@ -1,7 +1,6 @@
-import {Button} from "@/packages/button/button";
-import {Input} from "@/packages/input/input";
-
 import {App} from "vue"
+import {Button} from "./packages/button/button";
+import {Input} from "./packages/input/input";
 
 const components = [
     Button,
