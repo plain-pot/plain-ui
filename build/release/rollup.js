@@ -66,11 +66,32 @@ export default [
             config.plugins.commonjs,
             config.plugins.resolve,
             config.plugins.scss,
-            config.plugins.typescript((tsConfig) => {
-
-            }),
+            config.plugins.typescript((tsConfig) => tsConfig),
             config.plugins.terser,
             config.plugins.babel,
         ]
     },
+    {
+        input: 'src/index.ts',
+        output: {
+            dir: 'dist',
+            format: 'cjs',
+            sourcemap: true,
+            exports: 'named',
+        },
+        acornInjectPlugins: config.acornInjectPlugins,
+        external: config.external,
+        plugins: [
+            config.plugins.commonjs,
+            config.plugins.resolve,
+            config.plugins.scss,
+            config.plugins.typescript((tsConfig) => ({
+                ...tsConfig,
+                "declaration": true,
+                "outDir": "dist",
+            })),
+            config.plugins.terser,
+            config.plugins.babel,
+        ]
+    }
 ]

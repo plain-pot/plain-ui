@@ -1,8 +1,15 @@
-.pl-input {
-  &.pl-input-has-prepend {
-    display: flex;
-    justify-content: flex-end;
-    background-color: #f2f2f2;
-    height: 40px;
+@include theme {
+  .pl-input {
+    &.pl-input-has-prepend {
+      display: flex;
+      justify-content: flex-end;
+      background-color: #f2f2f2;
+      height: 40px;
+      color: $colorPrimary;
+    }
+
+    @include statusMixin(input) {
+      background-color: $value;
+    }
   }
 }
