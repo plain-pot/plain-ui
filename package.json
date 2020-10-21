@@ -12,8 +12,8 @@
   "files": [
     "dist"
   ],
-  "main": "dist/main.js",
-  "typings": "dist/src/main.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/src/index.d.ts",
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^3.0.0"
