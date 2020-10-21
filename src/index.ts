@@ -1,16 +1,14 @@
 import {App} from "vue"
-import {Button} from "./packages/button/button";
-import {Input} from "./packages/input/input";
+import Button from "./packages/button";
+import Input from "./packages/input";
 
-const components = [
+const plugins = [
     Button,
     Input,
 ]
 
 function install(app: App) {
-    components.forEach(component => {
-        app.component(component.name, component)
-    })
+    plugins.forEach(app.use)
 }
 
 export default {

@@ -89,8 +89,8 @@ export default [
             config.plugins.postcss,
             config.plugins.typescript((tsConfig) => ({
                 ...tsConfig,
-                "declaration": true,
-                "outDir": "dist",
+                // "declaration": true,
+                // "outDir": "dist",
             })),
             config.plugins.terser,
             config.plugins.babel,

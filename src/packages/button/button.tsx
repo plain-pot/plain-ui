@@ -5,7 +5,7 @@ import './button.scss'
 
 console.log('load button component')
 
-export const Button = designComponent({
+export default designComponent({
     name: 'pl-button',
     props: {
         label: String,

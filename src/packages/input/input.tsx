@@ -5,7 +5,7 @@ import {useModel} from "../../use/useModel";
 
 console.log('load input component')
 
-export const Input = designComponent({
+export default designComponent({
     name: 'pl-input',
     props: {
         status: {type: String, default: 'primary'},
