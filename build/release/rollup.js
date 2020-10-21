@@ -2,13 +2,11 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
-import jsx from 'acorn-jsx';
 import {DEFAULT_EXTENSIONS} from '@babel/core';
 import {terser} from "rollup-plugin-terser";
 import postcss from 'rollup-plugin-postcss'
 
 const config = {
-    acornInjectPlugins: [jsx()],
     external: ['vue'],
 
     plugins: {
