@@ -6,8 +6,8 @@ import jsx from 'acorn-jsx';
 import scss from 'rollup-plugin-scss'
 import DartSass from 'dart-sass'
 import postcss from 'postcss'
-import autoprefixer from 'autoprefixer'
-import VueJsxPlugin from '@vue/babel-plugin-jsx'
+import autoPrefixer from 'autoprefixer'
+import {DEFAULT_EXTENSIONS} from '@babel/core';
 
 export default {
     input: 'src/index.ts',
@@ -29,11 +29,22 @@ export default {
             output: 'dist/index.css',
             prefix: `@import "src/style/global-import.scss";`,
             sass: DartSass,
-            processor: css => postcss([autoprefixer({overrideBrowserslist: "Edge 18"})]),
+            processor: css => postcss([autoPrefixer({overrideBrowserslist: "Edge 18"})]),
         }),
         resolve(),
         commonjs(),
-
+        babel({
+            extensions: [
+                ...DEFAULT_EXTENSIONS,
+                '.ts',
+                '.tsx'
+            ],
+            babelHelpers: 'runtime',
+            exclude: "**/node_modules/**",
+            presets: [
+                '@vue/cli-plugin-babel/preset'
+            ],
+        }),
         typescript({
             "target": "es5",
             "jsx": 'preserve',
