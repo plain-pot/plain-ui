@@ -2,6 +2,7 @@ const $utils = require("../build.utils")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+    mode: "production",
     entry: {
         index: $utils.resolve('src/index.ts')
     },
@@ -51,28 +52,18 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, {
-                    loader: 'css-loader',
-                    options: {importLoaders: 0}
-                }, {
-                    loader: 'postcss-loader',
-                    options: {
-                        postcssOptions: {plugins: [[require('autoprefixer')],],},
-                    }
-                }]
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                ]
             },
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, {
-                    loader: 'css-loader',
-                    options: {importLoaders: 0}
-                },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {plugins: [[require('autoprefixer')],],},
-                        }
-                    },
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
                     {
                         loader: 'sass-loader',
                         options: {
