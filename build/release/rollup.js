@@ -7,6 +7,7 @@ import scss from 'rollup-plugin-scss'
 import DartSass from 'dart-sass'
 import postcss from 'postcss'
 import autoprefixer from 'autoprefixer'
+import VueJsxPlugin from '@vue/babel-plugin-jsx'
 
 export default {
     input: 'src/index.ts',
@@ -20,6 +21,9 @@ export default {
     acornInjectPlugins: [
         jsx()
     ],
+    external: [
+        'vue'
+    ],
     plugins: [
         scss({
             output: 'dist/index.css',
@@ -29,11 +33,18 @@ export default {
         }),
         resolve(),
         commonjs(),
-        typescript(),
-        babel({
-            babelHelpers: 'bundled',
-            presets: ["@vue/cli-plugin-babel/preset"],
-            exclude: "**/node_modules/**"
+
+        typescript({
+            "target": "es5",
+            "jsx": 'preserve',
+            "strict": true,
+            "importHelpers": true,
+            "moduleResolution": "node",
+            "skipLibCheck": true,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+            "sourceMap": true,
+            "declaration": true,
         }),
     ]
 }
