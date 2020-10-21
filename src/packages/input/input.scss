@@ -11,5 +11,11 @@
     @include statusMixin(input) {
       background-color: $value;
     }
+
+    input::placeholder {
+      color: gray;
+    }
+
+    transform: rotate(100deg);
   }
 }
