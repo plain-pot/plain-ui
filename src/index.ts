@@ -8,15 +8,19 @@ const components = [
     Input,
 ]
 
+function install(app: App) {
+    components.forEach(component => {
+        app.component(component.name, component)
+    })
+}
+
 export default {
-    install: (app: App) => {
-        components.forEach(component => {
-            app.component(component.name, component)
-        })
-    }
+    install,
 }
 
 export {
+    install,
+
     Button,
     Input,
 }
