@@ -3,23 +3,25 @@ import commonjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
 import jsx from 'acorn-jsx';
-import scss from 'rollup-plugin-scss'
-import DartSass from 'dart-sass'
-import postcss from 'postcss'
-import autoPrefixer from 'autoprefixer'
 import {DEFAULT_EXTENSIONS} from '@babel/core';
 import {terser} from "rollup-plugin-terser";
+import postcss from 'rollup-plugin-postcss'
 
 const config = {
     acornInjectPlugins: [jsx()],
     external: ['vue'],
 
     plugins: {
-        scss: scss({
-            output: 'dist/index.css',
-            prefix: `@import "src/style/global-import.scss";`,
-            sass: DartSass,
-            processor: css => postcss([autoPrefixer({overrideBrowserslist: "Edge 18"})]),
+        postcss: postcss({
+            extract: 'index.css',
+            minimize: true,
+            extensions: ['.css', '.scss'],
+            config: true,
+            use: [
+                ['sass', {
+                    data: '@import "src/style/global-import.scss";'
+                }]
+            ]
         }),
         resolve: resolve(),
         commonjs: commonjs(),
@@ -50,7 +52,7 @@ const config = {
 }
 
 export default [
-    {
+    /*{
         input: 'src/index.umd.ts',
         output: {
             name: 'PlainUIV3',
@@ -65,12 +67,12 @@ export default [
         plugins: [
             config.plugins.commonjs,
             config.plugins.resolve,
-            config.plugins.scss,
+            config.plugins.postcss,
             config.plugins.typescript((tsConfig) => tsConfig),
             config.plugins.terser,
             config.plugins.babel,
         ]
-    },
+    },*/
     {
         input: 'src/index.ts',
         output: {
@@ -84,7 +86,7 @@ export default [
         plugins: [
             config.plugins.commonjs,
             config.plugins.resolve,
-            config.plugins.scss,
+            config.plugins.postcss,
             config.plugins.typescript((tsConfig) => ({
                 ...tsConfig,
                 "declaration": true,
