@@ -1,6 +1,6 @@
 interface Menu {
     name: string,
-    title: string,
+    title?: string,
     page: string,
     complete?: boolean,
 }
@@ -11,6 +11,11 @@ interface MenuGroup {
 }
 
 export const MENUS: MenuGroup[] = [
+    {
+        name: '组合函数', children: [
+            {name: 'useSlots', page: '/use/useSlots', complete: true}
+        ]
+    },
     {
         name: '基础', children: [
             {name: 'Color', title: '颜色', page: '/normal/color', complete: false},
