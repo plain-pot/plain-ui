@@ -1,8 +1,5 @@
-import {getCurrentInstance, reactive, onBeforeUpdate, VNode} from 'vue'
-
-type VNodeChildAtom = VNode | string | number | boolean | null | undefined | void | JSX.Element;
-type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
-type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
+import {getCurrentInstance, onBeforeUpdate, reactive} from 'vue'
+import {VNodeChild} from "../shims";
 
 type SlotFunction = ((vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean }
 
