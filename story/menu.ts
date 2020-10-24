@@ -13,7 +13,7 @@ interface MenuGroup {
 export const MENUS: MenuGroup[] = [
     {
         name: '组合函数', children: [
-            {name: 'useSlots', page: '/use/useSlots', complete: true}
+            {name: 'useSlots', page: '/use/useSlots/demo-use-slots', complete: true}
         ]
     },
     {

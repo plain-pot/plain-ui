@@ -4,7 +4,7 @@ type VNodeChildAtom = VNode | string | number | boolean | null | undefined | voi
 type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
 type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 
-type SlotFunction = (vnode?: VNodeChild) => VNodeChild & { isExist: boolean }
+type SlotFunction = ((vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean }
 
 type SlotsData<T extends string> = {
     slots: { default: SlotFunction } & { [k in T]: SlotFunction }
@@ -30,7 +30,7 @@ export function useSlots<T extends string>(names?: T[]): SlotsData<T> {
             const slot = ctxSlots[slotName]
             return !!slot ? slot() : vnode
         }, {
-            get isExist() {
+            isExist() {
                 return !!ctxSlots[slotName]
             }
         })
