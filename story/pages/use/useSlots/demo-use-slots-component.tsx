@@ -19,12 +19,12 @@ export const DemoUseSlotsComponent = designComponent({
             }
         ])
 
-        watch(() => slots.head.isExist(), () => {
+        /*watch(() => slots.head.isExist(), () => {
             console.log('head change')
         })
         watch(() => slots.foot.isExist(), () => {
             console.log('foot change')
-        })
+        })*/
 
         return {
             render() {
