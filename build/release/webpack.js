@@ -41,14 +41,7 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 use: [
                     {loader: 'babel-loader',},
-                    {
-                        loader: 'ts-loader', options: {
-                            compilerOptions: {
-                                "declaration": true,
-                                "outDir": "dest",
-                            },
-                        }
-                    }
+                    {loader: 'ts-loader',}
                 ]
             },
             {
