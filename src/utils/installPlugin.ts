@@ -1,8 +1,8 @@
 import {App} from 'vue'
 import {ComponentPlugin} from "../shims";
 
-export function installPlugin(
-    component: { name: string },
+export function installPlugin<Component extends { name: string }>(
+    component: Component,
     plugins?: ComponentPlugin[]
 ) {
     return {
