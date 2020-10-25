@@ -1,10 +1,8 @@
 import {App} from 'vue'
-
-import {designComponent} from "../use/designComponent";
 import {ComponentPlugin} from "../shims";
 
 export function installPlugin(
-    component: Partial<ReturnType<typeof designComponent>> & { name: string },
+    component: { name: string },
     plugins?: ComponentPlugin[]
 ) {
     return {
