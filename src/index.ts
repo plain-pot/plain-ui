@@ -1,12 +1,10 @@
 import {App} from "vue"
 import Button from "./packages/button";
 import Input from "./packages/input";
-import Icon from './packages/icon'
 
 const plugins = [
     Button,
     Input,
-    Icon,
 ]
 
 function install(app: App) {
@@ -22,5 +20,4 @@ export {
 
     Button,
     Input,
-    Icon,
 }
