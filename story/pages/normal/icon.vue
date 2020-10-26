@@ -1,7 +1,9 @@
 <template>
     <div class="demo-icon">
-        <span>普通的文本：</span>
-        <pl-icon icon="mianbao"/>
+        <div>
+            <span>普通的文本：</span>
+            <pl-icon icon="mianbao"/>
+        </div>
         <button @click="showFlag = true">
             加载饼干图标
             <pl-icon icon="binggan" v-if="showFlag"/>
