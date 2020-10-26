@@ -25,6 +25,9 @@ module.exports = {
         new $utils.webpack.ProgressPlugin(),
         new MiniCssExtractPlugin({
             filename: 'index.css'
+        }),
+        new $utils.webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1
         })
     ],
     resolve: {
@@ -62,6 +65,17 @@ module.exports = {
                         loader: 'sass-loader',
                         options: {
                             prependData: `@import "src/style/global-import.scss";`
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(svg)(\?.*)?$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 100000
                         }
                     }
                 ]

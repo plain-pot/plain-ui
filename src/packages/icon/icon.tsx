@@ -21,7 +21,6 @@ export default designComponent({
             reset: async (iconName: string) => {
                 const svg = (await import('./icons/' + iconName + '.svg')).default
                 icon.value = svg
-                console.log(icon.value)
             }
         }
 
