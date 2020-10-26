@@ -4,7 +4,8 @@ import babel from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
 import {DEFAULT_EXTENSIONS} from '@babel/core';
 import {terser} from "rollup-plugin-terser";
-import postcss from 'rollup-plugin-postcss'
+import postcss from 'rollup-plugin-postcss';
+import url from 'rollup-plugin-url';
 
 export default [
     {
@@ -45,7 +46,12 @@ export default [
                 presets: [
                     '@vue/cli-plugin-babel/preset'
                 ],
-            })
-        ]
+            }),
+            url({
+                limit: 100 * 1024, // inline files < 10k, copy files > 10k
+                include: ["*.svg"], // defaults to .svg, .png, .jpg and .gif files
+                emitFiles: false // defaults to true
+            }),
+        ],
     }
 ]
