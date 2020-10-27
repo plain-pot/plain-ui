@@ -5,7 +5,7 @@ import {SimpleFunction} from "../shims";
 
 // focus                -> focus
 // itemClick            -> item-click
-// updateModelValue     -> update:ModelValue
+// updateModelValue     -> update:modelValue
 // updateStart          -> update:start
 function emitName2ListenName(emitName: string): string {
     const match = emitName.match(/update([A-Z])(.*)/)
