@@ -12,8 +12,8 @@ export default [
     {
         input: 'src/index.ts',
         output: {
-            name: 'PlainUIV3',
-            dir: 'dist',
+            name: 'PlainUI',
+            dir: 'dist-rollup',
             format: 'umd',
             sourcemap: false,
             exports: 'named',

@@ -15,10 +15,10 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: $utils.resolve('dest'),
+        path: $utils.resolve('dist'),
         libraryTarget: 'umd',
         // libraryExport: 'default',
-        library: 'PlainUIV3',
+        library: 'PlainUI',
         globalObject: 'this'
     },
     plugins: [
