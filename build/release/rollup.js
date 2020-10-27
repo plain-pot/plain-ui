@@ -6,6 +6,7 @@ import {DEFAULT_EXTENSIONS} from '@babel/core';
 import {terser} from "rollup-plugin-terser";
 import postcss from 'rollup-plugin-postcss';
 import url from 'rollup-plugin-url';
+import dynamicImport from '@rollup/plugin-dynamic-import-vars'
 
 export default [
     {
@@ -52,6 +53,7 @@ export default [
                 include: ["*.svg"], // defaults to .svg, .png, .jpg and .gif files
                 emitFiles: false // defaults to true
             }),
+            dynamicImport(),
         ],
     }
 ]
