@@ -15,6 +15,7 @@ export const MENUS: MenuGroup[] = [
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/useSlots/demo-use-slots', complete: true},
             {name: 'useScopedSlots', page: '/use/useScopedSlots/demo-use-scoped-slots', complete: true},
+            {name: 'useModel', page: '/use/useModel/demo-use-model', complete: true},
         ]
     },
     {
