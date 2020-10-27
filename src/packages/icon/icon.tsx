@@ -1,6 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {ref, watch, computed} from 'vue';
 import './icon.scss'
+import {StyleProperties} from "../../shims";
 
 export default designComponent({
     name: 'pl-icon',
@@ -9,10 +10,10 @@ export default designComponent({
 
     },
     setup({props}) {
-        const icon = ref(null as any)
+        const icon = ref(null as null | string)
 
         const styles = computed(() => {
-            const ret = {} as any
+            const ret = {} as StyleProperties
             ret.backgroundImage = `url(${icon.value})`
             return ret
         })

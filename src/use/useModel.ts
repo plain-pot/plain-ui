@@ -24,7 +24,7 @@ export function useModel<T>(
                 if (config!.onChange) {
                     config!.onChange(val, state.value)
                 }
-                state.value = val as any
+                state.value = val
             }
         })
     }
