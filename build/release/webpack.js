@@ -31,11 +31,7 @@ module.exports = {
         })
     ],
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
-        alias: {
-            '@': $utils.resolve('src'),
-            'src': $utils.resolve('src'),
-        }
+        extensions: ['.ts', '.tsx', '.js'],
     },
     module: {
         rules: [
