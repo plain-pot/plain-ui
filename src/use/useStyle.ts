@@ -22,7 +22,7 @@ export enum StyleStatus {
 }
 
 export const StyleProps = {
-    shape: {type: String as any as StyleShape}, // fillet,round,square
+    shape: {type: String},                      // fillet,round,square
     size: {type: String},                       // normal,large,mini
     status: {type: String},                     // primary,success,error,warn,info
 }

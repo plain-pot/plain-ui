@@ -16,6 +16,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'useSlots', page: '/use/useSlots/demo-use-slots', complete: true},
             {name: 'useScopedSlots', page: '/use/useScopedSlots/demo-use-scoped-slots', complete: true},
             {name: 'useModel', page: '/use/useModel/demo-use-model', complete: true},
+            {name: 'useStyle', page: '/use/useStyle/demo-use-style', complete: true},
         ]
     },
     {
