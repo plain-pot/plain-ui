@@ -1,0 +1,12 @@
+@import "./theme/blue";
+@import "./main";
+
+$themes: map_merge($theme-default, $theme-blue);
+
+@mixin theme {
+  @each $curThemeName, $curTheme in $themes {
+    @include generateThemeContent($curThemeName, $curTheme) {
+      @content;
+    }
+  }
+}

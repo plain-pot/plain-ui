@@ -1,0 +1,7 @@
+@include theme {
+  font-family: $font;
+}
+
+.pl-select-none {
+  user-select: none !important;
+}

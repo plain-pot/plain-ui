@@ -1,0 +1,22 @@
+@include theme {
+  .pl-input {
+    display: inline-block;
+    border-radius: 2px;
+
+    input {
+      height: 28px;
+      line-height: 28px;
+      padding: 0 8px;
+      border: none;
+      outline: none;
+    }
+
+    @include statusMixin(input) {
+      border: solid 1px $value;
+
+      input:focus {
+        background-color: mix($value, white, 5%);
+      }
+    }
+  }
+}
