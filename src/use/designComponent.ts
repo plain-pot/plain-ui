@@ -2,8 +2,11 @@ import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPro
 import {ComponentEvent, getComponentEmit, useEvent} from "./useEvent";
 import {createError} from "../utils/createError";
 import {renderNothing} from "../utils/renderNothing";
+import * as Vue from 'vue'
 
 const error = createError('designComponent')
+
+console.log(Vue);
 
 export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>, Props extends Readonly<ExtractPropTypes<PropsOptions>>, Emits extends { [k: string]: (...args: any[]) => void }, Refer, >(
     options: {
@@ -56,14 +59,18 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
             class: Object as any as Refer,
 
             /*not reactive data*/
-            ref: (refName: string) => {
-                const ctx = (getCurrentInstance()! as any).ctx
+            ref: (refName: string): { value: Refer | null } => {
+
+                const ctx = getCurrentInstance() as any
+
                 return {
                     get value() {
-                        if (!!ctx.$refs[refName]) {
-                            return (ctx.$refs[refName] as any).$._refer as Refer
+                        if (process.env.NODE_ENV === 'production') {
+                            console.log('is production')
+                            return ctx.ctx._.refs[refName]._._refer as Refer || null
                         } else {
-                            return null
+                            console.log('not production')
+                            return ctx.refs[refName].$._refer as Refer || null
                         }
                     }
                 }

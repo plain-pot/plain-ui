@@ -34,12 +34,22 @@
                     应用图标
                     <pl-icon icon="apps-line" v-if="showFlag"/>
                 </button>
+                <pl-input ref="myInput"/>
+                <button @click="outerClear"> outer clear</button>
             </div>
         `,
-        data(){
-            return{
-                text:'',
-                showFlag:false,
+        setup() {
+            const text = Vue.ref('hello world')
+            const showFlag = Vue.ref(false)
+
+            const input = window.PlainUI.Input.use.ref('myInput')
+
+            return {
+                text,
+                showFlag,
+                outerClear: () => {
+                    input.value.methods.clear()
+                }
             }
         },
 
