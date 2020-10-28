@@ -2,7 +2,7 @@ const $utils = require('../build.utils')
 const buildConfig = require('../build.config')
 
 module.exports = {
-    publicPath: '/plain-ui-v3',
+    publicPath: './',
     devServer: {port: '3334'},
     outputDir: $utils.resolve('docs'),
     pages: {
