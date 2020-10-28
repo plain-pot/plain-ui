@@ -65,7 +65,9 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
 
                 return {
                     get value() {
-                        if (process.env.NODE_ENV === 'production') {
+                        const flag = process.env.NODE_ENV === 'production'
+                        console.log('flag',flag)
+                        if (flag) {
                             console.log('is production')
                             return ctx.ctx._.refs[refName]._._refer as Refer || null
                         } else {
