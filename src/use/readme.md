@@ -1,7 +1,7 @@
 - [ ] useCollect
-- [ ] useEdit
+- [x] useEdit
 - [ ] useProps
 - ~~useRefer~~
-- [ ] useRefs
+- [x] useRefs
 - [x] useStyle
 - [x] useWrapper

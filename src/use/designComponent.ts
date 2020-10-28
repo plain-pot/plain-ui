@@ -33,12 +33,15 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                     return renderNothing
                 }
                 const ctx = getCurrentInstance() as any
+                const event = useEvent<Emits>(emits!)
+
                 const {refer, render} = setup({
                     props,
-                    event: useEvent<Emits>(emits!),
+                    event,
                     setupContext,
                 })
                 ctx._refer = refer
+                ctx._event = event
                 if (provideRefer) {
                     if (!options.name) {
                         error('component name is necessary when provideRefer is true!')
