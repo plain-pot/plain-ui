@@ -65,11 +65,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
 
                 return {
                     get value() {
-                        if (!!ctx.ctx._) {
-                            return ctx.ctx._.refs[refName]._._refer as Refer || null
-                        } else {
-                            return ctx.refs[refName].$._refer as Refer || null
-                        }
+                        return ctx.refs[refName]._._refer as Refer | null
                     }
                 }
             }
