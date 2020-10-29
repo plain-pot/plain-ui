@@ -1,4 +1,4 @@
-import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPropTypes, inject, provide, SetupContext, getCurrentInstance,} from 'vue'
+import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPropTypes, inject, provide, SetupContext, getCurrentInstance, Ref, ref,} from 'vue'
 import {ComponentEvent, getComponentEmit, useEvent} from "./useEvent";
 import {createError} from "../utils/createError";
 import {renderNothing} from "../utils/renderNothing";
@@ -74,12 +74,16 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
             class: Object as any as Refer,
 
             /*not reactive data*/
-            ref: (refName: string): { value: Refer | null } => {
-                const ctx = getCurrentInstance() as any
-                return {
-                    get value() {
-                        return ctx.refs[refName] as Refer | null
-                    }
+            ref: (refName?: string): Ref<Refer | null> => {
+                if (!!refName) {
+                    const ctx = getCurrentInstance() as any
+                    return {
+                        get value() {
+                            return ctx.refs[refName!] as Refer | null
+                        }
+                    } as any
+                } else {
+                    return ref(null)
                 }
             }
         }

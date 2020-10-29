@@ -4,9 +4,12 @@
         <pl-input v-model="text"/>
         <hr>
         <pl-input v-for="item in ['primary','success','warn','error','info']" :key="item" :status="item" style="margin-right: 8px" v-model="text"/>
-        <h2>ref</h2>
+        <h2>ref string</h2>
         <pl-input ref="myInput"/>
         <button @click="outerClear"> outer clear</button>
+        <h2>ref value</h2>
+        <pl-input ref="input2"/>
+        <button @click="outerClear2"> outer clear2</button>
     </div>
 </template>
 
@@ -22,12 +25,19 @@
             const showPrepend = ref(true)
 
             const input = Input.use.ref('myInput')
+            const input2 = Input.use.ref()
 
             return {
                 text,
                 showPrepend,
                 outerClear: () => {
                     input.value!.methods.clear()
+                },
+
+                input2,
+                outerClear2: () => {
+                    // console.log(input2)
+                    input2.value!.methods.clear()
                 }
             }
         },
