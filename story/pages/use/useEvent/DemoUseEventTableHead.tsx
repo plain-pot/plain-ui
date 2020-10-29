@@ -25,6 +25,9 @@ export const DemoUseEventTableHead = designComponent({
                 if (table.state.part === DemoUseEventTablePart.head) {
                     table.event.emit.scroll(e, DemoUseEventTablePart.head)
                 }
+            },
+            mousewheel: (e: MouseWheelEvent) => {
+                wrapperEl.value!.scrollLeft = wrapperEl.value!.scrollLeft + e.deltaY
             }
         }
 
@@ -33,7 +36,10 @@ export const DemoUseEventTableHead = designComponent({
 
         return {
             render: () => (
-                <div class="demo-use-event-table-head" ref={wrapperEl} onScroll={handler.wrapperScroll}>
+                <div class="demo-use-event-table-head"
+                     ref={wrapperEl}
+                     onScroll={handler.wrapperScroll}
+                     {...{onMousewheel: handler.mousewheel}}>
                     <div class="demo-use-event-table-head-inner">
                         table head
                     </div>
