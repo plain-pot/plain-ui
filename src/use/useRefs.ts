@@ -11,19 +11,7 @@ export function useRefs<T extends { [k: string]: any }>(config: T): {
         refs: Object.keys(config).reduce((prev, refName) => {
             Object.defineProperty(prev, refName, {
                 get(): any {
-                    if (!!config[refName].use && config[refName].use.ref) {
-                        if (!!ctx.ctx._) {
-                            return ctx.ctx._.refs[refName]._._refer || null
-                        } else {
-                            return ctx.refs[refName].$._refer || null
-                        }
-                    } else {
-                        if (!!ctx.ctx._) {
-                            return ctx.ctx._.refs[refName]
-                        } else {
-                            return ctx.refs[refName]
-                        }
-                    }
+                    return ctx.refs[refName]
                 }
             })
             return prev

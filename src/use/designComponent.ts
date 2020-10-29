@@ -5,11 +5,10 @@ import {renderNothing} from "../utils/renderNothing";
 
 const error = createError('designComponent')
 
-export function designComponent<
-        PropsOptions extends Readonly<ComponentPropsOptions>,
-        Props extends Readonly<ExtractPropTypes<PropsOptions>>,
-        Emits extends { [k: string]: (...args: any[]) => boolean },
-        Refer,
+export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>,
+    Props extends Readonly<ExtractPropTypes<PropsOptions>>,
+    Emits extends { [k: string]: (...args: any[]) => boolean },
+    Refer,
     >(
     options: {
         provideRefer?: boolean,
@@ -37,7 +36,7 @@ export function designComponent<
                     error('setup is necessary!')
                     return renderNothing
                 }
-                const ctx = getCurrentInstance() as any
+                const ctx = getCurrentInstance()!
                 const event = useEvent<Emits>(emits!)
 
                 const {refer, render} = setup({
@@ -45,8 +44,8 @@ export function designComponent<
                     event,
                     setupContext,
                 })
-                ctx._refer = refer
-                ctx._event = event
+                Object.assign(ctx.proxy, refer);
+                (ctx as any)._event = event
                 if (provideRefer) {
                     if (!options.name) {
                         error('component name is necessary when provideRefer is true!')
@@ -65,12 +64,10 @@ export function designComponent<
 
             /*not reactive data*/
             ref: (refName: string): { value: Refer | null } => {
-
                 const ctx = getCurrentInstance() as any
-
                 return {
                     get value() {
-                        return ctx.refs[refName]._._refer as Refer | null
+                        return ctx.refs[refName] as Refer | null
                     }
                 }
             }
