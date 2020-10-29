@@ -5,7 +5,12 @@ import {renderNothing} from "../utils/renderNothing";
 
 const error = createError('designComponent')
 
-export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>, Props extends Readonly<ExtractPropTypes<PropsOptions>>, Emits extends { [k: string]: (...args: any[]) => void }, Refer, >(
+export function designComponent<
+        PropsOptions extends Readonly<ComponentPropsOptions>,
+        Props extends Readonly<ExtractPropTypes<PropsOptions>>,
+        Emits extends { [k: string]: (...args: any[]) => boolean },
+        Refer,
+    >(
     options: {
         provideRefer?: boolean,
         emits?: Emits,
