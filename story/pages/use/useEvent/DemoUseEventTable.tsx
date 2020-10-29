@@ -20,7 +20,7 @@ export const DemoUseEventTable = designComponent({
     setup({props, event}) {
 
         const state = reactive({
-            part: null as null | DemoUseEventTablePart
+            hoverPart: null as null | DemoUseEventTablePart
         })
 
         return {
@@ -29,13 +29,11 @@ export const DemoUseEventTable = designComponent({
                 event,
             },
             render: () => (
-                <div class="demo-use-event-table" onMouseleave={() => state.part = null}>
+                <div class="demo-use-event-table" onMouseleave={() => state.hoverPart = null}>
                     {/*// @ts-ignore*/}
-                    {!!props.showHeader && <DemoUseEventTableHead onMouseenter={() => state.part = DemoUseEventTablePart.head}/>}
+                    {!!props.showHeader && <DemoUseEventTableHead onMouseenter={() => state.hoverPart = DemoUseEventTablePart.head}/>}
                     {/*// @ts-ignore*/}
-                    <DemoUseEventTableBody onMouseenter={() => state.part = DemoUseEventTablePart.body}/>
-
-                    {state.part}
+                    <DemoUseEventTableBody onMouseenter={() => state.hoverPart = DemoUseEventTablePart.body}/>
                 </div>
             )
         }

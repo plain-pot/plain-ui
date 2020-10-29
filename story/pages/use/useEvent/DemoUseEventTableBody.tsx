@@ -5,7 +5,7 @@ import {onBeforeUnmount, ref} from 'vue';
 export const DemoUseEventTableBody = designComponent({
     setup() {
 
-        const wrapperEl = ref(null as null | HTMLInputElement)
+        const wrapperEl = ref(null as null | HTMLDivElement)
         const table = DemoUseEventTable.use.inject()
 
         const handler = {
@@ -15,7 +15,7 @@ export const DemoUseEventTableBody = designComponent({
                 }
             },
             wrapperScroll: (e: Event) => {
-                if (table.state.part === DemoUseEventTablePart.body) {
+                if (table.state.hoverPart === DemoUseEventTablePart.body) {
                     table.event.emit.scroll(e, DemoUseEventTablePart.body)
                 }
             },
