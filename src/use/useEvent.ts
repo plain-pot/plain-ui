@@ -26,11 +26,11 @@ export type ComponentEvent<Emit> = {
 
 export function getComponentEmit<T>(emitObject: T): T {
     return {
+        change: null,
         ...Object.keys(emitObject || {}).reduce((ret: any, key: string) => {
             ret[emitName2ListenName(key)] = (emitObject as any)[key]
             return ret
         }, {} as any),
-        change: null,
     }
 }
 
