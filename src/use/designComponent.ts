@@ -5,6 +5,14 @@ import {renderNothing} from "../utils/renderNothing";
 
 const error = createError('designComponent')
 
+interface RefValue<T> {
+
+    (): Ref<null | T>
+
+    (refName?: string): Readonly<{ value: null | T }>
+
+}
+
 export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>,
     Props extends Readonly<ExtractPropTypes<PropsOptions>>,
     Emits extends { [k: string]: (...args: any[]) => boolean },
@@ -72,20 +80,18 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                 return inject(`@@${options.name}`, defaultValue) as Refer
             },
             class: Object as any as Refer,
-
-            /*not reactive data*/
-            ref: (refName?: string): Ref<Refer | null> => {
+            ref: ((refName?: string) => {
                 if (!!refName) {
-                    const ctx = getCurrentInstance() as any
+                    const ctx = getCurrentInstance()!
                     return {
                         get value() {
-                            return ctx.refs[refName!] as Refer | null
+                            return ctx.refs[refName!]
                         }
                     } as any
                 } else {
                     return ref(null)
                 }
-            }
+            }) as RefValue<Refer>
         }
     }
 }
