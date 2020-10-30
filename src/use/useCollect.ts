@@ -3,8 +3,7 @@ import {createCounter} from "../utils/createCounter";
 
 type UseCollectComponent = { name?: string, use: { class: any } }
 
-const parentCounter = createCounter('use_parent_collector')
-const childCounter = createCounter('use_child_collector')
+const counter = createCounter('use_collector')
 
 function useCollectInParentInner() {
     const items = ref([] as any[])
@@ -30,17 +29,12 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
     child: Child,
 }) {
 
-    const bakParentName = parentCounter()
-    const bakChildName = childCounter()
+    const {parent} = config()
+    const parentName = parent.name || counter()
+    const provideString = `@@${parentName}`
 
     return {
         parent: (): (Child['use']['class'])[] => {
-
-            const {parent, child} = config()
-            const parentName = parent.name || bakParentName
-            const childName = child.name || bakChildName
-            const provideString = `${parentName}_${childName}`
-
             const ctx = getCurrentInstance()!
             const {items, utils} = useCollectInParentInner()
             const data: ReturnType<typeof useCollectInParentInner> = {
@@ -57,18 +51,12 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
             }: {
                 injectDefaultValue?: any
             } = {}): Parent['use']['class'] => {
-
-            const {parent, child} = config()
-            const parentName = parent.name || bakParentName
-            const childName = child.name || bakChildName
-            const provideString = `${parentName}_${childName}`
-
             const data = inject(provideString, injectDefaultValue) as ReturnType<typeof useCollectInParentInner>
             if (!!data) {
                 const ctx = getCurrentInstance()!
-                const childCtx = markRaw(ctx.proxy as any)
-                onMounted(() => data.utils.addItem(childCtx))
-                onBeforeUnmount(() => data.utils.removeItem(childCtx))
+                const child = markRaw(ctx.proxy as any)
+                onMounted(() => data.utils.addItem(child))
+                onBeforeUnmount(() => data.utils.removeItem(child))
                 return data.parent
             } else {
                 return null

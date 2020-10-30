@@ -3,6 +3,7 @@ import {useSlots} from "../../../../src/use/useSlots";
 import {useCollect} from "../../../../src/use/useCollect";
 import {DemoUseCollectChildComponent} from "./demo-use-collect-child";
 import {useModel} from "../../../../src/use/useModel";
+import {computed} from 'vue';
 
 export const DemoUseCollectParentComponent = designComponent({
     props: {
@@ -22,6 +23,18 @@ export const DemoUseCollectParentComponent = designComponent({
         const utils = {
             isChecked: (val: string | number) => {
                 return ((modelValue.value) || []).indexOf(val) > -1
+            },
+            toggleCheckAll: () => {
+                if (!!modelValue.value && modelValue.value.length === children.length) {
+                    modelValue.value = []
+                } else {
+                    modelValue.value = children.map(child => child.props.val!)
+                }
+            },
+            checkStatus: () => {
+                if (!modelValue.value || modelValue.value.length === 0) return 'uncheck'
+                if (modelValue.value.length === children.length) return 'check'
+                return 'minus'
             }
         }
 
@@ -37,14 +50,13 @@ export const DemoUseCollectParentComponent = designComponent({
                     modelValue.value.push(val)
                 }
             },
-            toggleCheckAll: () => {
-                if (!!modelValue.value && modelValue.value.length === children.length) {
-                    modelValue.value = []
-                } else {
-                    modelValue.value = children.map(child => child.props.val!)
-                }
-            }
         }
+
+        const minusClass = computed(() => [
+            'demo-use-collect-child',
+            'demo-use-collect-child-minus',
+            `demo-use-collect-child-minus-status-${utils.checkStatus()}`
+        ])
 
         return {
             refer: {
@@ -53,7 +65,8 @@ export const DemoUseCollectParentComponent = designComponent({
             },
             render: () => (
                 [
-                    <button class="demo-use-collect-child" onClick={handler.toggleCheckAll}>
+                    <button class={minusClass.value}
+                            onClick={utils.toggleCheckAll}>
                         全选
                     </button>,
                     slots.default(),

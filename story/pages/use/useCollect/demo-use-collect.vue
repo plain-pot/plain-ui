@@ -81,5 +81,25 @@
                 }
             }
         }
+
+        .demo-use-collect-child-minus {
+            &.demo-use-collect-child-minus-status-check {
+                background-color: $colorPrimary;
+                color: white;
+                border-color: $colorPrimary;
+
+                &:hover {
+                    background-color: mix(black, $colorPrimary, 10%);
+                }
+            }
+
+            &.demo-use-collect-child-minus-status-uncheck {
+            }
+
+            &.demo-use-collect-child-minus-status-minus {
+                border-color: $colorPrimary;
+                color: $colorPrimary;
+            }
+        }
     }
 </style>
