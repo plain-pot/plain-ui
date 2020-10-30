@@ -19,6 +19,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'useStyle', page: '/use/useStyle/demo-use-style', complete: true},
             {name: 'useRefs', page: '/use/useRefs/demo-use-refs', complete: true},
             {name: 'useEvent', page: '/use/useEvent/demo-use-event', complete: true},
+            {name: 'useProps', page: '/use/useProps/demo-use-props', complete: true},
         ]
     },
     {
