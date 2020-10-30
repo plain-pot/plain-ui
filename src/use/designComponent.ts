@@ -54,10 +54,10 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                 })
 
                 if (!!refer) {
-                    const duplicateKey = Object.keys(leftOptions.props || {})
-                        .find(i => Object.prototype.hasOwnProperty.call(refer as any, i))
+                    const duplicateKey = Object.keys(refer || {})
+                        .find(i => Object.prototype.hasOwnProperty.call(ctx.proxy as any, i))
                     if (!!duplicateKey) {
-                        console.error(`designComponent: duplicate key ${duplicateKey} in refer`)
+                        console.error(`designComponent:${leftOptions.name} key '${duplicateKey}' in refer is not allow here!`)
                     } else {
                         Object.assign(ctx.proxy, refer)
                     }
