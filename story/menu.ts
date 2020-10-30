@@ -20,6 +20,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'useRefs', page: '/use/useRefs/demo-use-refs', complete: true},
             {name: 'useEvent', page: '/use/useEvent/demo-use-event', complete: true},
             {name: 'useProps', page: '/use/useProps/demo-use-props', complete: true},
+            {name: 'useCollect', page: '/use/useCollect/demo-use-collect', complete: true},
         ]
     },
     {

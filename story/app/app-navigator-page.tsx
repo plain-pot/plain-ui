@@ -23,6 +23,7 @@ export const AppNavigatorPage = designComponent({
                 return navigator.nav.emit.pageReady()
             } catch (e) {
                 console.log(`找不到页面:${'story/pages/' + path + '.vue'}`)
+                console.error(e)
                 state.Page = null
             }
         }
