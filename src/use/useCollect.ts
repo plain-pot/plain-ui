@@ -1,15 +1,37 @@
-import {ref, getCurrentInstance, provide, inject, onMounted, onBeforeUnmount, markRaw} from 'vue';
+import {ref, getCurrentInstance, provide, inject, onMounted, onBeforeUnmount, markRaw, Ref} from 'vue';
 import {createCounter} from "../utils/createCounter";
 
 type UseCollectComponent = { name?: string, use: { class: any } }
+type UseCollectSort = (() => HTMLElement) | number
 
 const counter = createCounter('use_collector')
 
 function useCollectInParentInner() {
+
+    const indexMap = new WeakMap<any, number>()
+
     const items = ref([] as any[])
     const utils = {
-        addItem: (item: any) => {
-            items.value.push(item)
+        addItem: (item: any, sort?: UseCollectSort) => {
+            if (!!sort) {
+                if (typeof sort !== "number") {
+                    const el = sort()
+                    sort = Array
+                        .from(el!.parentNode!.childNodes)
+                        .filter((item: any) => item.nodeName !== '#comment' && (!item.style || item.style.display !== 'none'))
+                        .indexOf(el)
+                    // console.log(el, sort)
+                }
+                indexMap.set(item, sort as number)
+
+                items.value.splice(
+                    0,
+                    items.value.length,
+                    ...[...items.value, item]
+                        .sort((a, b) => indexMap.get(a)! - indexMap.get(b)!))
+            } else {
+                items.value.push(item)
+            }
         },
         removeItem: (item: any) => {
             const index = items.value.indexOf(item)
@@ -47,15 +69,17 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
         },
         child: (
             {
-                injectDefaultValue
+                injectDefaultValue,
+                sort,
             }: {
-                injectDefaultValue?: any
+                injectDefaultValue?: any,
+                sort?: UseCollectSort,
             } = {}): Parent['use']['class'] => {
             const data = inject(provideString, injectDefaultValue) as ReturnType<typeof useCollectInParentInner>
             if (!!data) {
                 const ctx = getCurrentInstance()!
                 const child = markRaw(ctx.proxy as any)
-                onMounted(() => data.utils.addItem(child))
+                onMounted(() => data.utils.addItem(child, sort))
                 onBeforeUnmount(() => data.utils.removeItem(child))
                 return data.parent
             } else {

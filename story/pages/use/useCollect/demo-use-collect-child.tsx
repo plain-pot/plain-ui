@@ -3,6 +3,7 @@ import {designComponent} from "../../../../src/use/designComponent";
 import {DemoUseCollector} from "./demo-use-collect-parent";
 import {useModel} from "../../../../src/use/useModel";
 import {useSlots} from "../../../../src/use/useSlots";
+import {useRefs} from "../../../../src/use/useRefs";
 
 export const DemoUseCollectChildComponent = designComponent({
     props: {
@@ -17,7 +18,10 @@ export const DemoUseCollectChildComponent = designComponent({
     },
     setup({props, event}) {
 
-        const parent = DemoUseCollector.child({injectDefaultValue: null})
+        const {refs} = useRefs({
+            button: HTMLButtonElement
+        })
+        const parent = DemoUseCollector.child({injectDefaultValue: null, sort: () => refs.button})
 
         const {slots} = useSlots()
 
@@ -56,7 +60,7 @@ export const DemoUseCollectChildComponent = designComponent({
                 props,
             },
             render: () => (
-                <button onClick={handler.click} class={classes.value}>
+                <button onClick={handler.click} class={classes.value} ref="button">
                     {slots.default(props.label)}
                 </button>
             )
