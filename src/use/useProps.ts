@@ -7,7 +7,12 @@ export enum FormatPropType {
     NUMBER = 'NUMBER',
 }
 
-async function usePropsFormatter(state: any, key: string, val: any, types: FormatPropType | FormatPropType[]): Promise<void> {
+/**
+ * ignorePromise:第一次获取值的时候，忽略Promise格式化，而是通过 watch immediate 来实现赋值
+ * @author  韦胜健
+ * @date    2020/10/30 15:29
+ */
+async function usePropsFormatter(state: any, key: string, val: any, types: FormatPropType | FormatPropType[], ignorePromise?: boolean): Promise<void> {
 
     if (val == null) {
         state[key] = val
@@ -16,7 +21,7 @@ async function usePropsFormatter(state: any, key: string, val: any, types: Forma
 
     const formatTypes = toArray(types)
 
-    if (formatTypes.indexOf(FormatPropType.PROMISE) > -1 && !!val.then && typeof val.then === 'function') {
+    if (formatTypes.indexOf(FormatPropType.PROMISE) > -1 && !!val.then && typeof val.then === 'function' && !ignorePromise) {
         val = await val
     }
 
@@ -48,15 +53,15 @@ function usePropsInner<Props extends { [k: string]: any },
     const state = reactive((() => configKeys.reduce((prev: any, configKey) => {
         prev[configKey] = null
         // @ts-ignore
-        usePropsFormatter(prev, configKey, props[configKey], config[configKey])
+        usePropsFormatter(prev, configKey, props[configKey], config[configKey], true)
         return prev
-    }, {}) as { [k in Exclude<keyof Props, Exclude<keyof Props, keyof Config>>]: Props[k] })() )
+    }, {}) as { [k in Exclude<keyof Props, Exclude<keyof Props, keyof Config>>]: Props[k] })())
 
     configKeys.forEach(configKey => {
         watch(() => props[configKey], val => {
             // @ts-ignore
             usePropsFormatter(state, configKey, val, config[configKey])
-        })
+        }, {immediate: toArray(config[configKey]).indexOf(FormatPropType.PROMISE) > -1})
     })
 
     return {

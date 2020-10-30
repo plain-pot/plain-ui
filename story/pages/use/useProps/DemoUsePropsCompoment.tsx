@@ -1,5 +1,6 @@
 import {designComponent} from "../../../../src/use/designComponent";
 import {useProps} from "../../../../src/use/useProps";
+import {watch} from 'vue';
 
 export const DemoUsePropsComponent = designComponent({
     props: {
@@ -16,7 +17,11 @@ export const DemoUsePropsComponent = designComponent({
             flag: useProps.FUNCTION,
         })
 
-        console.log({...propsState})
+        console.log(propsState)
+
+        watch(() => propsState.name, val => console.log('name', val), {immediate: true})
+        watch(() => propsState.age, val => console.log('age', val), {immediate: true})
+        watch(() => propsState.flag, val => console.log('flag', val), {immediate: true})
 
         return {
             render: () => (
