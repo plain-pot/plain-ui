@@ -1,4 +1,4 @@
-- [ ] useCollect
+- [x] useCollect
 - [x] useEdit
 - [x] useProps
 - ~~useRefer~~
