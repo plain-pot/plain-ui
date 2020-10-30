@@ -16,7 +16,7 @@
         <h1>选项组</h1>
         <demo-use-collect-parent-component v-model="selected">
             <demo-use-collect-child-component label="选项一" val="one"/>
-            <demo-use-collect-child-component label="选项二" val="two"/>
+            <demo-use-collect-child-component label="选项二" val="two" v-if="showFlag"/>
             <demo-use-collect-child-component label="选项三" val="three"/>
         </demo-use-collect-parent-component>
         <div>
@@ -45,7 +45,7 @@
         data() {
             return {
                 selected: [],
-                showFlag: false,
+                showFlag: true,
                 showFlag2: null,
             }
         },
