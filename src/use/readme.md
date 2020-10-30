@@ -1,6 +1,6 @@
 - [ ] useCollect
 - [x] useEdit
-- [ ] useProps
+- [x] useProps
 - ~~useRefer~~
 - [x] useRefs
 - [x] useStyle
