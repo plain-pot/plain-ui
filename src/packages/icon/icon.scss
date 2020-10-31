@@ -3,8 +3,11 @@
   height: 1em;
   width: 1em;
   vertical-align: -0.15em;
-  color: currentColor;
 
   background-repeat: no-repeat;
   background-size: cover;
+
+  path {
+    fill: currentColor;
+  }
 }
