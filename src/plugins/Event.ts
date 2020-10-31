@@ -21,8 +21,13 @@ export function createPlainEvent() {
         }
     })()
 
+    let hasListener = false
+
     const event = {
         on: (listenName: ListenName, fn: SimpleFunction) => {
+
+            hasListener = true
+
             const listenMap = getListenMap()
             const map = listenMap.get(listenName)
             if (!!map) {
@@ -33,6 +38,9 @@ export function createPlainEvent() {
             return () => event.off(listenName, fn)
         },
         once: (listenName: ListenName, fn: SimpleFunction) => {
+
+            hasListener = true
+
             const on: Listener = (...args: any[]) => {
                 event.off(listenName, fn)
                 fn(...args)
@@ -69,6 +77,11 @@ export function createPlainEvent() {
                 listeners.forEach(listener => listener(...args))
             }
         },
+        clear: () => {
+            if (hasListener) {
+                getListenMap().clear()
+            }
+        }
     }
 
     return event

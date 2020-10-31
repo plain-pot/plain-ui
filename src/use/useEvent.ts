@@ -1,4 +1,4 @@
-import {getCurrentInstance} from 'vue'
+import {getCurrentInstance, onBeforeUnmount} from 'vue'
 import {kebabCase} from "../utils/kebabCase";
 import {createPlainEvent} from "../plugins/Event";
 import {SimpleFunction} from "../shims";
@@ -61,6 +61,8 @@ export function useEvent<T>(emitObject: T): ComponentEvent<T> {
         once[key] = (fn: SimpleFunction) => event.once(kebabCaseName, fn)
         off[key] = (fn: SimpleFunction) => event.off(kebabCaseName, fn)
     })
+
+    onBeforeUnmount(event.clear)
 
     return {
         emit, on, once, off
