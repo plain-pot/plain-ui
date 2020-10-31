@@ -1,14 +1,11 @@
 <template>
     <div class="demo-use-model">
-        <demo-use-model-component
-                v-model="val"
-                v-model:start="start"
-                v-model:end="end"/>
-        <hr>
-        <demo-use-model-component
-                v-model="val"
-                v-model:start="start"
-                v-model:end="end"/>
+        <h4>单项绑定</h4>
+        <demo-use-model-component v-model="val"/>
+        <demo-use-model-component v-model="val"/>
+        <h4>多值绑定</h4>
+        <demo-use-model-component range v-model:start="start" v-model:end="end"/>
+        <demo-use-model-component range v-model:start="start" v-model:end="end"/>
     </div>
 </template>
 

@@ -6,6 +6,7 @@ export const DemoUseModelComponent = designComponent({
         modelValue: {},
         start: {},
         end: {},
+        range: {type: Boolean}
     },
     emits: {
         updateModelValue: (val: any) => true,
@@ -22,14 +23,17 @@ export const DemoUseModelComponent = designComponent({
             render: () => {
                 return (
                     <div class="demo-use-model-component">
-                        <div>
-                            <input type="text" v-model={modelValue.value}/>
-                        </div>
-                        <div>
-                            <input type="text" v-model={modelStart.value}/>
-                            ~
-                            <input type="text" v-model={modelEnd.value}/>
-                        </div>
+                        {!props.range ? (
+                            <div>
+                                <input type="text" v-model={modelValue.value}/>
+                            </div>
+                        ) : (
+                            <div>
+                                <input type="text" v-model={modelStart.value}/>
+                                ~
+                                <input type="text" v-model={modelEnd.value}/>
+                            </div>
+                        )}
                     </div>
                 )
             }
