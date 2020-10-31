@@ -1,6 +1,6 @@
 <template>
     <div class="demo-icon">
-        <div>
+        <div style="font-size: 40px;color: #4caf50">
             <span>普通的文本：</span>
             <pl-icon icon="apps-fill"/>
         </div>
