@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "rollup": "rollup -c ./build/release/rollup.js",
-    "webpack": "webpack -c ./build/release/webpack.js"
+    "webpack": "webpack -c ./build/release/webpack.js",
+    "icon": "ts-node ./iconfont/scan.ts"
   },
   "files": [
     "dist",
@@ -28,6 +29,7 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
     "@rollup/plugin-url": "^5.0.1",
+    "@types/node": "^14.14.6",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -47,6 +49,7 @@
     "rollup-plugin-url": "^3.0.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.7",
     "url-loader": "^4.1.1",
     "webpack": "^4.44.2",
