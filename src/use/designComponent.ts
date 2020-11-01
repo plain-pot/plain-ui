@@ -1,4 +1,4 @@
-import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPropTypes, inject, provide, SetupContext, getCurrentInstance, Ref, ref,} from 'vue'
+import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPropTypes, inject, provide, SetupContext, getCurrentInstance, Ref, ref, ComputedOptions, MethodOptions, ComponentOptionsMixin, EmitsOptions, DefineComponent,} from 'vue'
 import {ComponentEvent, getComponentEmit, useEvent} from "./useEvent";
 import {createError} from "../utils/createError";
 import {renderNothing} from "../utils/renderNothing";
@@ -6,22 +6,39 @@ import {renderNothing} from "../utils/renderNothing";
 const error = createError('designComponent')
 
 interface RefValue<T> {
-
     (): Ref<null | T>
 
     (refName?: string): Readonly<{ value: null | T }>
+}
 
+interface InjectValue<Refer> {
+    (): Refer,
+
+    <DefaultValue>(defaultValue?: DefaultValue): Refer | DefaultValue
+}
+
+interface UseType<Refer> {
+    ref: RefValue<Refer>,
+    inject: InjectValue<Refer>
+    class: Refer,
 }
 
 export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>,
-    Props extends Readonly<ExtractPropTypes<PropsOptions>>,
-    Emits extends { [k: string]: (...args: any[]) => boolean },
+    RawBindings,
+    D,
     Refer,
+    Props extends Readonly<ExtractPropTypes<PropsOptions>>,
+    C extends ComputedOptions = {},
+    M extends MethodOptions = {},
+    Mixin extends ComponentOptionsMixin = ComponentOptionsMixin,
+    Extends extends ComponentOptionsMixin = ComponentOptionsMixin,
+    E extends EmitsOptions = Record<string, any>,
+    EE extends string = string,
     >(
     options: {
         provideRefer?: boolean,
-        emits?: Emits,
-        setup?: (parameter: { props: Props, event: ComponentEvent<Emits>, setupContext: SetupContext<Emits> }) => {
+        emits?: E,
+        setup?: (parameter: { props: Props, event: ComponentEvent<E>, setupContext: SetupContext<E> }) => {
             refer?: Refer
             render: () => any,
         },
@@ -31,13 +48,35 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
         mixins?: any[],
         components?: Record<string, Component>;
         directives?: Record<string, Directive>;
-    }) {
+    }): DefineComponent<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE> & {
+    use: UseType<Refer>
+} {
 
     const {provideRefer, emits, setup, ...leftOptions} = options
 
-    return {
-        ...defineComponent({
+    const use: UseType<Refer> = {
+        inject: (defaultValue?: any) => {
+            return inject(`@@${options.name}`, defaultValue) as Refer
+        },
+        class: Object as any as Refer,
+        ref: (refName?: string) => {
+            if (!!refName) {
+                const ctx = getCurrentInstance()!
+                return {
+                    get value() {
+                        return ctx.refs[refName!]
+                    }
+                } as any
+            } else {
+                return ref(null)
+            }
+        }
+    }
+
+    return Object.assign(
+        defineComponent({
             ...(leftOptions as any || {}),
+            props: leftOptions.props as PropsOptions,
             emits: getComponentEmit(emits),
             setup(props: any, setupContext: any) {
                 if (!setup) {
@@ -45,7 +84,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                     return renderNothing
                 }
                 const ctx = getCurrentInstance()!
-                const event = useEvent<Emits>(emits!)
+                const event = useEvent<E>(emits!)
 
                 const {refer, render} = setup({
                     props,
@@ -74,24 +113,5 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                 }
                 return render
             },
-        }),
-        use: {
-            inject: (defaultValue?: any) => {
-                return inject(`@@${options.name}`, defaultValue) as Refer
-            },
-            class: Object as any as Refer,
-            ref: ((refName?: string) => {
-                if (!!refName) {
-                    const ctx = getCurrentInstance()!
-                    return {
-                        get value() {
-                            return ctx.refs[refName!]
-                        }
-                    } as any
-                } else {
-                    return ref(null)
-                }
-            }) as RefValue<Refer>
-        }
-    }
+        }), {use}) as any
 }
