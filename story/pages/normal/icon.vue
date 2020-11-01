@@ -12,6 +12,8 @@
         <h4>自定义图标</h4>
         <pl-icon icon="my-icon-yes"/>
 
+        <h4>图标状态</h4>
+        <pl-icon style="font-size: 40px" icon="el-icon-search" v-for="item in ['primary','success','error','warn','info']" :key="item" :status="item"/>
     </div>
 </template>
 

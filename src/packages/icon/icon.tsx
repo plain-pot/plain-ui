@@ -23,7 +23,7 @@ const registry = (() => {
 
 registry('el-icon-', async (icon) => {
     const module = await import('./icons/' + icon + '.json')
-    console.log(module)
+    // console.log(module)
     return (
         <svg
             class="el-svg-icon"
@@ -38,8 +38,8 @@ registry('el-icon-', async (icon) => {
 export default designComponent({
     name: 'pl-icon',
     props: {
-        icon: {type: String},
-        status: {type: String},
+        icon: {type: String},                       // 图标名称
+        status: {type: String},                     // 图标状态
     },
     setup({props}) {
 

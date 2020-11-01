@@ -1,15 +1,21 @@
-.pl-icon {
+@include theme {
+  .pl-icon {
 
-  display: inline-block;
-  height: 1em;
-  width: 1em;
+    display: inline-block;
+    height: 1em;
+    width: 1em;
 
-  &.el-svg-icon {
-    vertical-align: -0.15em;
+    &.el-svg-icon {
+      vertical-align: -0.15em;
 
-    path {
-      fill: currentColor;
+      path {
+        fill: currentColor;
+      }
     }
-  }
 
+    @include statusMixin(icon) {
+      color: $value;
+    }
+
+  }
 }
