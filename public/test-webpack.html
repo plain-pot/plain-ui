@@ -26,14 +26,16 @@
                 <hr>
                 <pl-input v-for="item in ['primary','success','warn','error','info']" :key="item" :status="item" style="margin-right: 8px" v-model="text"/>
 
-                <div>
-                    <span>普通的文本：</span>
-                    <pl-icon icon="apps-fill"/>
+                <div style="font-size: 40px;color: #4caf50">
+                    <span>普通的文本：NORMAL normal</span>
+                    <pl-icon icon="el-icon-alarm-clock"/>
+                    <pl-icon icon="el-icon-arrow-down"/>
                 </div>
                 <button @click="showFlag = true">
                     应用图标
-                    <pl-icon icon="apps-line" v-if="showFlag"/>
+                    <pl-icon icon="el-icon-bottom" v-if="showFlag"/>
                 </button>
+
                 <pl-input ref="myInput"/>
                 <button @click="outerClear"> outer clear</button>
             </div>
