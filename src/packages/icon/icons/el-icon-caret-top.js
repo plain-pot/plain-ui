@@ -1,0 +1,1 @@
+export default '<path d="M512 320L192 704h640z"  ></path>'

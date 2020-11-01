@@ -1,0 +1,1 @@
+export default '<path d="M384 192v640l384-320z"  ></path>'

@@ -24,7 +24,7 @@ function scan(config: {
     }
 
     icons.forEach(icon => {
-        fs.writeFileSync(path.join(config.outputDir, `${icon.id}.js`), `export default '${icons[0].path}'`)
+        fs.writeFileSync(path.join(config.outputDir, `${icon.id}.js`), `export default '${icon.path}'`)
     })
     fs.writeFileSync(path.join(config.outputDir, 'index.js'), `export default ${JSON.stringify(icons.map(i => i.id))}`)
 }

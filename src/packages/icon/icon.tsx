@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {markRaw, ref, watch} from 'vue';
+import {markRaw, ref, watch, computed} from 'vue';
 import './icon.scss'
 import {VNodeChild} from "../../shims";
 
@@ -9,13 +9,17 @@ interface IconGetter {
 
 const RegistryIcons = {
     icons: [] as { prefix: string, getter: IconGetter }[],
+    /**
+     * prefix必须为全小写，可以有横杠下划线
+     * @author  韦胜健
+     * @date    2020/11/1 12:59
+     */
     registry(prefix: string, getter: IconGetter) {
         this.icons.unshift({prefix, getter})
     }
 }
 
 RegistryIcons.registry('el-icon-', async (icon) => {
-    console.log('./icons/' + icon)
     const module = await import('./icons/' + icon)
     return (
         <svg viewBox="0 0 1024 1024"
@@ -30,11 +34,18 @@ export default designComponent({
     name: 'pl-icon',
     props: {
         icon: {type: String},
-
+        status: {type: String},
     },
     setup({props}) {
 
         const icon = ref(null as any)
+
+        const classes = computed(() => [
+            'pl-icon',
+            {
+                [`pl-icon-status-${props.status}`]: !!props.status
+            }
+        ])
 
         const utils = {
             getIconVNode: async (iconName: string) => {
@@ -48,7 +59,6 @@ export default designComponent({
             },
             reset: async (iconName: string) => {
                 const Icon = await utils.getIconVNode(iconName)
-                console.log('Icon', iconName, Icon)
                 icon.value = !!Icon ? markRaw(Icon) : null
             }
         }
@@ -58,7 +68,7 @@ export default designComponent({
         return {
             render: () => {
                 const {value: Icon} = icon
-                return !!Icon ? <Icon/> : null
+                return !!Icon ? <Icon class={classes.value}/> : null
             }
         }
     },

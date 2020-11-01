@@ -7,7 +7,7 @@
         </div>
         <button @click="showFlag = true">
             应用图标
-            <pl-icon icon="apps-line" v-if="showFlag"/>
+            <pl-icon icon="el-icon-bottom" v-if="showFlag"/>
         </button>
 
     </div>
