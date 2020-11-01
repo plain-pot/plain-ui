@@ -1,6 +1,6 @@
 {
   "name": "plain-ui",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "private": false,
   "scripts": {
     "start": "vue-cli-service serve",
