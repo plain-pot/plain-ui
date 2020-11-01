@@ -7,7 +7,7 @@ module.exports = {
     outputDir: $utils.resolve('docs'),
     pages: {
         index: {
-            entry: $utils.resolve('story/main.ts'),
+            entry: $utils.resolve('story/main.tsx'),
             template: 'public/index.html',
             filename: 'index.html',
             title: 'plain-ui-v3',

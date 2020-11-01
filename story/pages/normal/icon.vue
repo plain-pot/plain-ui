@@ -9,6 +9,8 @@
             应用图标
             <pl-icon icon="el-icon-bottom" v-if="showFlag"/>
         </button>
+        <h4>自定义图标</h4>
+        <pl-icon icon="my-icon-yes"/>
 
     </div>
 </template>

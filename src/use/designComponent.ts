@@ -27,6 +27,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
     RawBindings,
     D,
     Refer,
+    Expose extends object,
     Props extends Readonly<ExtractPropTypes<PropsOptions>>,
     C extends ComputedOptions = {},
     M extends MethodOptions = {},
@@ -48,9 +49,11 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
         mixins?: any[],
         components?: Record<string, Component>;
         directives?: Record<string, Directive>;
-    }): DefineComponent<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE> & {
+    },
+    expose?: Expose,
+): DefineComponent<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE> & {
     use: UseType<Refer>
-} {
+} & Expose {
 
     const {provideRefer, emits, setup, ...leftOptions} = options
 
@@ -113,5 +116,5 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                 }
                 return render
             },
-        }), {use}) as any
+        }), {use, ...(expose || {})}) as any
 }

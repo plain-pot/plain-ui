@@ -1,13 +1,15 @@
 .pl-icon {
+
   display: inline-block;
   height: 1em;
   width: 1em;
-  vertical-align: -0.15em;
 
-  background-repeat: no-repeat;
-  background-size: cover;
+  &.el-svg-icon {
+    vertical-align: -0.15em;
 
-  path {
-    fill: currentColor;
+    path {
+      fill: currentColor;
+    }
   }
+
 }
