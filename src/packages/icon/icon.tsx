@@ -3,6 +3,12 @@ import {ref, watch, computed} from 'vue';
 import './icon.scss'
 import {StyleProperties} from "../../shims";
 
+const RegistryIcons = {
+    registry: (prefix: string,) => {
+        return null
+    }
+}
+
 export default designComponent({
     name: 'pl-icon',
     props: {
@@ -10,18 +16,12 @@ export default designComponent({
 
     },
     setup({props}) {
-        const icon = ref(null as null | string)
 
-        const styles = computed(() => {
-            const ret = {} as StyleProperties
-            ret.backgroundImage = `url(${icon.value})`
-            return ret
-        })
+        const icon = ref(null as null | string)
 
         const utils = {
             reset: async (iconName: string) => {
-                const svg = (await import('./icons/' + iconName + '.svg')).default
-                icon.value = svg
+                return
             }
         }
 
@@ -29,10 +29,11 @@ export default designComponent({
 
         return {
             render: () => {
-                if (!icon.value) {
-                    return null
-                }
-                return <i class="pl-icon" style={styles.value}/>
+                return (
+                    <i class="pl-icon"
+                       {...{innerHTML: '<button>hello world</button>'}}
+                    />
+                )
             }
         }
     },
