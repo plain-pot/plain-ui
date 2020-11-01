@@ -1,1 +1,0 @@
-export default '<path d="M694.88 459.2h-604.8v105.6h843.84V459.2z"  ></path>'

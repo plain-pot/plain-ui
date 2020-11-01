@@ -24,9 +24,9 @@ function scan(config: {
     }
 
     icons.forEach(icon => {
-        fs.writeFileSync(path.join(config.outputDir, `${icon.id}.js`), `export default '${icon.path}'`)
+        fs.writeFileSync(path.join(config.outputDir, `${icon.id}.json`), `["${icon.path.replace(/"/g, "'")}"]`)
     })
-    fs.writeFileSync(path.join(config.outputDir, 'index.js'), `export default ${JSON.stringify(icons.map(i => i.id))}`)
+    fs.writeFileSync(path.join(config.outputDir, 'index.json'), `${JSON.stringify(icons.map(i => i.id))}`)
 }
 
 

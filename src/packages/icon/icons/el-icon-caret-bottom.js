@@ -1,1 +1,0 @@
-export default '<path d="M192 384l320 384 320-384H192z"  ></path>'
