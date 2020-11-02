@@ -49,6 +49,9 @@
                 icons,
             }
         },
+        methods:{
+          
+        },
     }
 </script>
 
@@ -66,6 +69,7 @@
                 margin: 10px;
                 vertical-align: top;
                 cursor: pointer;
+                user-select: none;
 
                 & > div:first-child {
                     height: 60px;
