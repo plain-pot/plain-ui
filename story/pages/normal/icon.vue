@@ -18,17 +18,17 @@
         <h4>所有图标</h4>
         <ul class="icon-list">
             <li v-for="item in icons" :key="item" class="icon-item">
-                <div>
+                <div @click="onClickItem(item)">
                     <pl-icon :icon="item"/>
                 </div>
                 <div>
                     {{item}}
                 </div>
                 <div>
-                    <div>
+                    <div @click="onClickItem(item)">
                         <pl-icon icon="el-icon-folder"/>
                     </div>
-                    <div>
+                    <div @click="onClickItem(item,true)">
                         <pl-icon icon="el-icon-folder-s"/>
                     </div>
                 </div>
@@ -40,6 +40,7 @@
 <script>
 
     import icons from 'src/packages/icon/icons/index.json'
+    import {copyToClipboard} from "../../../src/utils/copyToClipboard";
 
     export default {
         name: "icon.vue",
@@ -49,8 +50,10 @@
                 icons,
             }
         },
-        methods:{
-          
+        methods: {
+            onClickItem(item, isComponent) {
+                copyToClipboard(isComponent ? `<pl-icon icon="${item}"/>` : item)
+            },
         },
     }
 </script>
