@@ -26,7 +26,7 @@ registry('el-icon-', async (icon) => {
     // console.log(module)
     return (
         <svg
-            class="el-svg-icon"
+            class={`el-svg-icon ${icon}`}
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
