@@ -115,13 +115,8 @@ export default designComponent({
             style.width = !!propsState.width ? (unit(propsState.width) || undefined) : undefined
         })
 
-        watch(() => propsState.label, label => {
-            console.log('label', label);
-        })
-
         return {
             render: () => {
-                console.log('propsState.label', propsState.label, propsState)
                 return (
                     <button
                         style={styles.value}
