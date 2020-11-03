@@ -1,5 +1,6 @@
 import {App} from 'vue'
 import {ComponentPlugin} from "../shims";
+import {installPlugin} from "./installPlugin";
 
 export function createComponentPlugin<Component extends { name: string }>(
     component: Component,
@@ -9,7 +10,7 @@ export function createComponentPlugin<Component extends { name: string }>(
         ...component,
         install(app: App) {
             app.component(component.name, component);
-            !!plugins && plugins.forEach(app.use)
+            !!plugins && (installPlugin(app, plugins))
         },
     }
 }

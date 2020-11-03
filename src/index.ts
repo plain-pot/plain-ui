@@ -6,9 +6,10 @@ import Input from "./packages/input";
 import Icon from './packages/icon';
 import Loading from './packages/loading'
 import LoadingMask from './packages/loading-mask'
+import {installPlugin} from "./utils/installPlugin";
 
 function install(app: App) {
-    plugins.forEach(app.use)
+    installPlugin(app, plugins)
 }
 
 const plugins: ComponentPlugin[] = [
