@@ -1,6 +1,12 @@
 import {useFunctionWrapper} from "./useFunctionWrapper";
 import {inject, computed, provide} from 'vue';
 
+export enum StyleMode {
+    fill = 'fill',
+    stroke = 'stroke',
+    text = 'text',
+}
+
 export enum StyleShape {
     fillet = 'fillet',
     round = 'round',

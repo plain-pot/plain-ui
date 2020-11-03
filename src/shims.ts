@@ -9,3 +9,4 @@ type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
 export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 
 export type StyleProperties = CSS.Properties
+export type FuncProps<T> = new() => T
