@@ -1,0 +1,54 @@
+$waves: (
+        large:6px,
+        normal:4px,
+        mini:2,
+);
+
+@each $key, $value in $waves {
+  [plain-click-node-#{$key}] {
+    &.plain-click-node, & .plain-click-node {
+      position: relative;
+
+      &:after {
+        display: none;
+
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        right: 1px;
+        border-radius: inherit;
+        border: 0 solid #12b4a5;
+        opacity: 0.6;
+        animation: fade-effect-#{$key} 2s cubic-bezier(0.08, 0.82, 0.17, 1), wave-effect-#{$key} 500ms cubic-bezier(0.08, 0.82, 0.17, 1);
+        animation-fill-mode: forwards;
+        pointer-events: none;
+      }
+    }
+
+    &[plain-click-node-waving] {
+      &.plain-click-node, & .plain-click-node {
+        &:after {
+          display: initial;
+        }
+      }
+    }
+  }
+
+  @keyframes wave-effect-#{$key} {
+    100% {
+      top: -$value;
+      left: -$value;
+      bottom: -$value;
+      right: -$value;
+      border-width: 6px;
+    }
+  }
+
+  @keyframes fade-effect-#{$key} {
+    100% {
+      opacity: 0;
+    }
+  }
+}
