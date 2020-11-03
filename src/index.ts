@@ -7,6 +7,7 @@ import Input from "./packages/input";
 import Icon from './packages/icon';
 import Loading from './packages/loading'
 import LoadingMask from './packages/loading-mask'
+import Checkbox from './packages/checkbox'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -18,6 +19,7 @@ const plugins: ComponentPlugin[] = [
     Icon,
     Loading,
     LoadingMask,
+    Checkbox,
 ]
 
 export {
@@ -28,6 +30,7 @@ export {
     Icon,
     Loading,
     LoadingMask,
+    Checkbox,
 }
 
 export default {

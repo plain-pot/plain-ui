@@ -1,15 +1,17 @@
 import {App} from 'vue'
 import {ComponentPlugin} from "../shims";
 import {installPlugin} from "./installPlugin";
+import {toArray} from "./toArray";
 
-export function createComponentPlugin<Component extends { name: string }>(
+export function createComponentPlugin<Component extends { name: string } | { name: string }[]>(
     component: Component,
     plugins?: ComponentPlugin[]
 ) {
     return {
         ...component,
         install(app: App) {
-            app.component(component.name, component);
+            const components = toArray(component)
+            components.forEach(component => app.component(component.name, component))
             !!plugins && (installPlugin(app, plugins))
         },
     }
