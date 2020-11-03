@@ -1,5 +1,6 @@
 import {App} from 'vue'
 import {ComponentPlugin} from "../shims";
+import "../packages/public"
 import {installPlugin} from "./installPlugin";
 import {toArray} from "./toArray";
 

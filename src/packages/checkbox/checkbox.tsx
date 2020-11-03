@@ -5,11 +5,13 @@ import {useModel} from "../../use/useModel";
 import {useProps} from "../../use/useProps";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useClass} from "../../use/useClasses";
-import {computed} from 'vue';
+import {computed, Transition} from 'vue';
 import {CheckboxStatus} from "./checkbox-inner";
+import {ClickWave} from "../click-wave/click-wave-directive";
 
 export default designComponent({
     name: 'pl-checkbox',
+    directives: {ClickWave},
     props: {
         ...EditProps,
         ...StyleProps,
@@ -61,8 +63,16 @@ export default designComponent({
             render: () => scopedSlots.default({checked: false, status: ''}, (
                 <div class={classes.value}
                      onClick={handler.clickEl}
+                     v-click-wave
                 >
-                    <pl-checkbox-inner checkStatus={checkStatus.value} disabled={editComputed.value.disabled}/>
+                    <span class="plain-click-node">
+                        <Transition name="pl-transition-scale" mode="out-in">
+                            <pl-checkbox-inner
+                                checkStatus={checkStatus.value}
+                                key={checkStatus.value}
+                                disabled={editComputed.value.disabled}/>
+                        </Transition>
+                    </span>
                     {!!propsState.label && <span>{propsState.label}</span>}
                 </div>
             ))
