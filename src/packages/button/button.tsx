@@ -38,7 +38,6 @@ export default designComponent({
     },
     emits: {
         click: (e: MouseEvent) => true,
-        focus: (e: FocusEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -116,28 +115,35 @@ export default designComponent({
             style.width = !!propsState.width ? (unit(propsState.width) || undefined) : undefined
         })
 
+        watch(() => propsState.label, label => {
+            console.log('label', label);
+        })
+
         return {
-            render: () => (
-                <button
-                    style={styles.value}
-                    class={classes.value}
-                    type={props.type as any}
-                    disabled={editComputed.value.disabled!}
-                    v-click-wave={"large"}
-                    {...{
-                        ...(props.nativeProps || {}),
-                        onClick: state.handleClick!,
-                    }}
-                >
-                    {!!editComputed.value.loading && <pl-loading type="gamma"/>}
-                    {
-                        slots.default(<>
-                            {(!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null}
-                            {propsState.label ? <span>{propsState.label}</span> : null}
-                        </>)
-                    }
-                </button>
-            )
+            render: () => {
+                console.log('propsState.label', propsState.label, propsState)
+                return (
+                    <button
+                        style={styles.value}
+                        class={classes.value}
+                        type={props.type as any}
+                        disabled={editComputed.value.disabled!}
+                        v-click-wave={"large"}
+                        {...{
+                            ...(props.nativeProps || {}),
+                            onClick: state.handleClick!,
+                        }}
+                    >
+                        {!!editComputed.value.loading && <pl-loading type="gamma"/>}
+                        {
+                            slots.default(<>
+                                {(!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null}
+                                {propsState.label ? <span>{propsState.label}</span> : null}
+                            </>)
+                        }
+                    </button>
+                )
+            }
         }
     },
 })

@@ -21,8 +21,13 @@ async function usePropsFormatter(state: any, key: string, val: any, types: Forma
 
     const formatTypes = toArray(types)
 
-    if (formatTypes.indexOf(FormatPropType.PROMISE) > -1 && !!val.then && typeof val.then === 'function' && !ignorePromise) {
-        val = await val
+    if (formatTypes.indexOf(FormatPropType.PROMISE) > -1 && !!val.then && typeof val.then === 'function') {
+        if (!ignorePromise) {
+            val = null
+        } else {
+            val = await val
+        }
+        console.log('promise val', val)
     }
 
     if (formatTypes.indexOf(FormatPropType.FUNCTION) > -1 && typeof val === "function") {
@@ -50,12 +55,14 @@ function usePropsInner<Props extends { [k: string]: any },
 ) {
 
     const configKeys = Object.keys(config)
-    const state = reactive((() => configKeys.reduce((prev: any, configKey) => {
-        prev[configKey] = null
-        // @ts-ignore
-        usePropsFormatter(prev, configKey, props[configKey], config[configKey], true)
-        return prev
-    }, {}) as { [k in Exclude<keyof Props, Exclude<keyof Props, keyof Config>>]: Props[k] })())
+    const state = reactive((() =>
+        configKeys.reduce((prev: any, configKey) => {
+            prev[configKey] = null
+            // @ts-ignore
+            usePropsFormatter(prev, configKey, props[configKey], config[configKey], true)
+            return prev
+        }, {}) as { [k in Exclude<keyof Props, Exclude<keyof Props, keyof Config>>]: Props[k] })
+    ())
 
     configKeys.forEach(configKey => {
         watch(() => props[configKey], val => {
