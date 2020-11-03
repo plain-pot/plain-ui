@@ -17,7 +17,7 @@ export default designComponent({
         ...StyleProps,
 
         modelValue: {},
-        val: {},                                                    // 多选时选中值
+        val: {type: [String, Number]},                              // 多选时选中值
         label: {type: String},                                      // 显示文本
         width: {type: [String, Number]},                            // 宽度
         trueValue: {default: true},                                 // 选中实际值
@@ -63,6 +63,13 @@ export default designComponent({
         }
 
         return {
+            refer: {
+                innerState: {
+                    props,
+                    editComputed,
+                    checkStatus,
+                }
+            },
             render: () => scopedSlots.default({checked: false, status: ''}, (
                 <div class={classes.value}
                      onClick={handler.clickEl}
