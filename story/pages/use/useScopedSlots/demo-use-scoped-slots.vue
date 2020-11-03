@@ -17,7 +17,7 @@
 <script>
 
     import {DemoTreeForScopedSlots} from "./demo-use-scoped-slots-components";
-    import {delay} from "../../../../src/utils/delay";
+    import {delay} from "plain-utils/utils/delay";
 
     async function getData() {
         await delay(Math.random() * 500 + 500)
