@@ -61,8 +61,8 @@ export const DemoRow = designComponent({
             render: () => (
                 <div class={['demo-row', {'demo-row-show': state.show}]}>
                     {!!props.title && (
-                        <div class="demo-row-title">
-                            <span onClick={handler.clickTitle}>{props.title}</span>
+                        <div class="demo-row-title" onClick={handler.clickTitle}>
+                            <span>{props.title}</span>
                             <pl-icon icon="el-icon-d-arrow-right" class="demo-row-icon-expand"/>
                         </div>
                     )}
