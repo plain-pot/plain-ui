@@ -19,8 +19,8 @@
                 <pl-loading type="delta"/>
             </div>
         </demo-row>
-        <!--<demo-row title="状态（颜色)">
-            <pl-loading v-for="item in status" :key="item" type="alpha" :status="item"/>
+        <demo-row title="状态（颜色)">
+            <pl-loading v-for="item in ['primary','success','warn','error','info']" :key="item" type="beta" :status="item"/>
         </demo-row>
         <demo-row title="自定义颜色">
             <pl-loading type="alpha" style="color: blueviolet"/>
@@ -28,7 +28,7 @@
             <pl-loading type="gamma" style="color: blueviolet"/>
             <pl-loading type="ice" style="color: blueviolet"/>
             <pl-loading type="delta" style="color: blueviolet"/>
-        </demo-row>-->
+        </demo-row>
     </div>
 </template>
 
