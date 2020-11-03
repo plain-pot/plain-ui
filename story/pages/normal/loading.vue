@@ -30,7 +30,7 @@
             <pl-loading type="delta" style="color: blueviolet"/>
         </demo-row>
 
-        <demo-row title="组件调用loading-mask">
+       <!-- <demo-row title="组件调用loading-mask">
             <pl-checkbox label="init" v-model="flag1.init"/>
             <pl-checkbox label="open mask" v-model="flag1.loading"/>
             <span>如果父节点的position不为fixed、relative、absolute，pl-loading-mask会自动将父节点的样式设置为 relative</span>
@@ -38,7 +38,7 @@
                 <pl-button label="this is button"/>
                 <pl-loading-mask v-model="flag1.loading" message="loading..."/>
             </div>
-        </demo-row>
+        </demo-row>-->
     </div>
 </template>
 
