@@ -1,7 +1,7 @@
 import Loading from '../loading'
 import LoadingMask from './loading-mask'
-import {installPlugin} from "../../utils/installPlugin";
+import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default installPlugin(LoadingMask, [
+export default createComponentPlugin(LoadingMask, [
     Loading,
 ])

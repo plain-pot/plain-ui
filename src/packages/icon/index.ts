@@ -1,4 +1,4 @@
 import Icon from './icon'
-import {installPlugin} from "../../utils/installPlugin";
+import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default installPlugin(Icon)
+export default createComponentPlugin(Icon)

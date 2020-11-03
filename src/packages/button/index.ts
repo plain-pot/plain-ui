@@ -1,4 +1,4 @@
 import Button from './button'
-import {installPlugin} from "../../utils/installPlugin";
+import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default installPlugin(Button)
+export default createComponentPlugin(Button)

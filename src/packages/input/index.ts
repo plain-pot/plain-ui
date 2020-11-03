@@ -1,4 +1,4 @@
 import Input from "./input";
-import {installPlugin} from "../../utils/installPlugin";
+import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default installPlugin(Input)
+export default createComponentPlugin(Input)
