@@ -8,6 +8,7 @@ export const EditProps = {
     readonly: {type: Boolean, default: null},
     loading: {type: Boolean, default: null},
     placeholder: {type: String, default: null},
+    customReadonly: {type: Boolean, default: null},
 }
 
 interface EditProvideData {

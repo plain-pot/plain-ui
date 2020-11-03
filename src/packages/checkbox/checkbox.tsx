@@ -54,7 +54,10 @@ export default designComponent({
         ])
 
         const handler = {
-            clickEl: (e: MouseEvent) => {
+            clickEl: () => {
+                if (!editComputed.value.editable || props.customReadonly) {
+                    return
+                }
                 modelValue.value = checkStatus.value === CheckboxStatus.check ? props.falseValue : props.trueValue
             }
         }
@@ -63,7 +66,7 @@ export default designComponent({
             render: () => scopedSlots.default({checked: false, status: ''}, (
                 <div class={classes.value}
                      onClick={handler.clickEl}
-                     v-click-wave
+                     v-click-wave={{disabled: !editComputed.value.editable}}
                 >
                     <span class="plain-click-node">
                         <Transition name="pl-transition-scale" mode="out-in">
@@ -73,7 +76,7 @@ export default designComponent({
                                 disabled={editComputed.value.disabled}/>
                         </Transition>
                     </span>
-                    {!!propsState.label && <span>{propsState.label}</span>}
+                    {!!propsState.label && <span class="pl-checkbox-label">{propsState.label}</span>}
                 </div>
             ))
         }
