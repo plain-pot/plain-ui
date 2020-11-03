@@ -55,13 +55,16 @@
                 margin: 0;
                 padding: 0;
 
-                .app-menu-name, .app-menu-group-name {
+                .app-menu-name {
+
+                    display: block;
+                    margin: 8px 0;
+                    padding: 8px 0 8px 24px;
+                    color: #455a64;
                     font-size: 14px;
-                    padding: 10px 24px 12px 32px;
-                    white-space: nowrap;
-                    color: $itc;
+                    line-height: 20px;
+                    transition: color 0.2s;
                     cursor: pointer;
-                    transition: all 300ms linear;
 
                     &:hover {
                         background-color: rgba($colorPrimary, 0.1);
@@ -88,11 +91,11 @@
                 }
 
                 .app-menu-group-name {
-                    padding-left: 24px;
-                    letter-spacing: 1px;
-                    font-size: 12px;
+                    padding: 8px 0 8px 24px;
+                    color: #455a64;
                     font-weight: 600;
-                    color: $colorPrimary;
+                    font-size: 15px;
+                    line-height: 28px;
                 }
             }
 

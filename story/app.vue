@@ -5,7 +5,7 @@
                 <span>{{title}}</span>
             </section>
             <app-menu :style="{width:`${config.menuSize}px`,top:`${config.headSize}px`}"/>
-            <section class="app-content">
+            <section class="app-content" :style="{minHeight:`calc(100vh - ${config.headSize}px)`}">
                 <AppNavigatorPage/>
             </section>
         </article>
@@ -19,7 +19,7 @@
     import {AppNavigatorPage} from "./app/app-navigator-page";
 
     const config = {
-        menuSize: 300,
+        menuSize: 240,
         headSize: 60,
     }
 
@@ -79,12 +79,14 @@
         .app-content {
             box-sizing: border-box;
             padding: 20px;
+            background-color: #f7f8fa;
         }
     }
 
     @include theme {
         .app .app-head {
-            color: $colorPrimary;
+            color: white;
+            background-color: mix(black, $colorPrimary, 75%);
             font-size: 24px;
             font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
             font-style: italic;
