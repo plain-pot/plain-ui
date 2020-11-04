@@ -54,6 +54,7 @@
         </demo-row>
 
         <demo-row title="自定义渲染内容">
+            <h4>自定义内容</h4>
             <pl-checkbox-group v-model="val[3]">
                 <pl-checkbox checkboxForAll>
                     <template v-slot="{status,click}">
@@ -80,6 +81,31 @@
                         </div>
                     </template>
                 </pl-checkbox>
+            </pl-checkbox-group>
+            <br>
+            <br>
+            <h4>按钮组形式</h4>
+            <pl-checkbox-group v-model="val[3]">
+                <pl-checkbox checkboxForAll>
+                    <template v-slot="{status,click}">
+                        <pl-button @click="click" :active="status === 'check'" width="120px">
+                            {{{
+                            check:'以全选',
+                            uncheck:'未选中',
+                            minus:'半选',
+                            }[status]}}
+                        </pl-button>
+                    </template>
+                </pl-checkbox>
+                <pl-button-group>
+                    <pl-checkbox v-for="item in ['tag1','tag2','tag3']" :val="item" :key="item">
+                        <template v-slot="{checked,click}">
+                            <pl-button @click="click" :active="checked">
+                                {{item}}
+                            </pl-button>
+                        </template>
+                    </pl-checkbox>
+                </pl-button-group>
             </pl-checkbox-group>
         </demo-row>
 

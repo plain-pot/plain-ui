@@ -112,7 +112,7 @@ export default designComponent({
         ]))
 
         const styles = useStyles(style => {
-            style.width = !!propsState.width ? (unit(propsState.width) || undefined) : undefined
+            style.width = unit(propsState.width)
         })
 
         return {

@@ -34,19 +34,28 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
+        /*group父组件*/
         const checkboxGroup = CheckboxGroupCollector.child({injectDefaultValue: null})
+        /*绑定值*/
         const modelValue = useModel(() => props.modelValue, emit.updateModelValue)
+        /*格式化属性值*/
         const {propsState} = useProps(props, {
             label: useProps.PROMISE,
             width: useProps.NUMBER,
         })
+        /*插槽*/
         const {slots} = useSlots(['label'])
+        /*作用域插槽*/
         const {scopedSlots} = useScopedSlots({
             default: {checked: Boolean, status: String, click: Function},
         })
+        /*可编辑控制*/
         const {editComputed} = useEdit()
+        /*样式控制*/
         const {styleComputed} = useStyle({status: StyleStatus.primary})
+        /*当前组件内部变量引用*/
         const refer = {innerState: {props, editComputed}}
+        /*当前选中状态*/
         const checkStatus = computed((): CheckboxStatus => {
             if (!!checkboxGroup) {
                 return checkboxGroup.utils.getCheckStatus(refer)
@@ -63,6 +72,7 @@ export default designComponent({
             {'pl-checkbox-disabled': editComputed.value.disabled},
         ])
 
+        /*当前选项宽度*/
         const targetWidth = computed(() => {
             if (!!propsState.width) return propsState.width
             if (!!checkboxGroup && !!checkboxGroup.propsState.itemWidth) return checkboxGroup.propsState.itemWidth
