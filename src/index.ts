@@ -2,6 +2,7 @@ import {App} from "vue"
 import {ComponentPlugin} from "./shims";
 import {installPlugin} from "./utils/installPlugin";
 
+import Root from './packages/root'
 import Button from "./packages/button";
 import ButtonGroup from './packages/button-group'
 import Input from "./packages/input";
@@ -16,6 +17,8 @@ function install(app: App) {
 }
 
 const plugins: ComponentPlugin[] = [
+    Root,
+
     Button,
     ButtonGroup,
     Input,
@@ -29,6 +32,7 @@ const plugins: ComponentPlugin[] = [
 export {
     install,
 
+    Root,
     Button,
     ButtonGroup,
     Input,
