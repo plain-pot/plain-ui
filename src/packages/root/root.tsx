@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
-import {getCurrentInstance, DefineComponent, reactive} from 'vue';
+import {getCurrentInstance, DefineComponent, reactive,Teleport} from 'vue';
 import {RootController} from "./index";
 
 export default designComponent({
@@ -34,7 +34,12 @@ export default designComponent({
 
         return {
             refer,
-            render: () => slots.default()
+            render: () => [
+                slots.default(),
+                <div class="pl-root-service-container">
+                    pl-root-service-container
+                </div>
+            ]
         }
     },
 })
