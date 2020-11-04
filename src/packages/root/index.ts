@@ -9,31 +9,18 @@ export const RootController = (() => {
             map.set($root, root)
         },
         getRoot: (ins: ComponentPublicInstance) => {
-            return map.get(ins.$root!)
+            const root = map.get(ins.$root!)
+            if (!root) {
+                throw new Error(`pl-root is not found, you have to wrap the entire application with <pl-root/>!`)
+            }
+            return root
         }
     }
 })()
-
-
-function getMessageService(ins: ComponentPublicInstance) {
-    console.log(ins)
-    const root = RootController.getRoot(ins)
-    if (!root) {
-        throw new Error(`pl-root is not found, you have to wrap the entire application with <pl-root/>!`)
-    }
-    console.log(root)
-}
 
 export default {
     ...Root,
     install(app: App) {
         app.component(Root.name, Root)
-        app.mixin({
-            methods: {
-                $message(...args: any[]) {
-                    getMessageService(this.$root)
-                },
-            }
-        })
     },
 }

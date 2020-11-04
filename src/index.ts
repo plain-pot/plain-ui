@@ -11,6 +11,7 @@ import Loading from './packages/loading'
 import LoadingMask from './packages/loading-mask'
 import Checkbox from './packages/checkbox'
 import CheckboxGroup from './packages/checkbox-group'
+import MessageService from './packages/message'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -27,6 +28,7 @@ const plugins: ComponentPlugin[] = [
     LoadingMask,
     Checkbox,
     CheckboxGroup,
+    MessageService,
 ]
 
 export {
@@ -41,6 +43,7 @@ export {
     LoadingMask,
     Checkbox,
     CheckboxGroup,
+    MessageService,
 }
 
 export default {
