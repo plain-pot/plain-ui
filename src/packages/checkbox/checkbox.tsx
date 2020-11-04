@@ -8,6 +8,8 @@ import {useClass} from "../../use/useClasses";
 import {computed, Transition} from 'vue';
 import {CheckboxStatus} from "./checkbox-inner";
 import {ClickWave} from "../click-wave/click-wave-directive";
+import {CheckboxGroupCollector} from "./checkbox-group";
+import {useSlots} from "../../use/useSlots";
 
 export default designComponent({
     name: 'pl-checkbox',
@@ -30,19 +32,25 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
+        const checkboxGroup = CheckboxGroupCollector.child({injectDefaultValue: null})
         const modelValue = useModel(() => props.modelValue, emit.updateModelValue)
         const {propsState} = useProps(props, {
             label: useProps.PROMISE,
             width: useProps.NUMBER,
         })
+        const {slots} = useSlots(['label'])
         const {scopedSlots} = useScopedSlots({
-            default: {checked: Boolean, status: String},
+            default: {checked: Boolean, status: String, click: Function},
         })
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle({status: StyleStatus.primary})
-
-        const checkStatus = computed(() => {
-            return modelValue.value === props.trueValue ? CheckboxStatus.check : CheckboxStatus.uncheck
+        const refer = {innerState: {props, editComputed}}
+        const checkStatus = computed((): CheckboxStatus => {
+            if (!!checkboxGroup) {
+                return checkboxGroup.utils.getCheckStatus(refer)
+            } else {
+                return modelValue.value === props.trueValue ? CheckboxStatus.check : CheckboxStatus.uncheck
+            }
         })
 
         const classes = useClass(() => [
@@ -58,34 +66,36 @@ export default designComponent({
                 if (!editComputed.value.editable || props.customReadonly) {
                     return
                 }
+                if (!!checkboxGroup) {
+                    return checkboxGroup.handler.clickCheckbox(refer)
+                }
                 modelValue.value = checkStatus.value === CheckboxStatus.check ? props.falseValue : props.trueValue
             }
         }
 
         return {
-            refer: {
-                innerState: {
-                    props,
-                    editComputed,
-                    checkStatus,
-                }
-            },
-            render: () => scopedSlots.default({checked: false, status: ''}, (
-                <div class={classes.value}
-                     onClick={handler.clickEl}
-                     v-click-wave={{disabled: !editComputed.value.editable}}
-                >
-                    <span class="plain-click-node">
-                        <Transition name="pl-transition-scale" mode="out-in">
-                            <pl-checkbox-inner
-                                checkStatus={checkStatus.value}
-                                key={checkStatus.value}
-                                disabled={editComputed.value.disabled}/>
-                        </Transition>
-                    </span>
-                    {!!propsState.label && <span class="pl-checkbox-label">{propsState.label}</span>}
-                </div>
-            ))
+            refer,
+            render: () => scopedSlots.default(
+                {
+                    checked: checkStatus.value === CheckboxStatus.check,
+                    status: checkStatus.value,
+                    click: handler.clickEl,
+                },
+                (
+                    <div class={classes.value}
+                         onClick={handler.clickEl}
+                         v-click-wave={{disabled: !editComputed.value.editable}}>
+                        <span class="plain-click-node">
+                            <Transition name="pl-transition-scale" mode="out-in">
+                                <pl-checkbox-inner
+                                    checkStatus={checkStatus.value}
+                                    key={checkStatus.value}
+                                    disabled={editComputed.value.disabled}/>
+                            </Transition>
+                        </span>
+                        {slots.label(!!propsState.label ? <span class="pl-checkbox-label">{propsState.label}</span> : null)}
+                    </div>
+                ))
         }
     },
 })
