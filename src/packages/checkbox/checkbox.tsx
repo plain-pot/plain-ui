@@ -10,6 +10,8 @@ import {CheckboxStatus} from "./checkbox-inner";
 import {ClickWave} from "../click-wave/click-wave-directive";
 import {CheckboxGroupCollector} from "./checkbox-group";
 import {useSlots} from "../../use/useSlots";
+import {unit} from 'plain-utils/string/unit';
+import {useStyles} from "../../use/useStyles";
 
 export default designComponent({
     name: 'pl-checkbox',
@@ -61,6 +63,16 @@ export default designComponent({
             {'pl-checkbox-disabled': editComputed.value.disabled},
         ])
 
+        const targetWidth = computed(() => {
+            if (!!propsState.width) return propsState.width
+            if (!!checkboxGroup && !!checkboxGroup.propsState.itemWidth) return checkboxGroup.propsState.itemWidth
+            return null
+        })
+
+        const styles = useStyles(style => {
+            style.width = unit(targetWidth.value)
+        })
+
         const handler = {
             clickEl: () => {
                 if (!editComputed.value.editable || props.customReadonly) {
@@ -83,6 +95,7 @@ export default designComponent({
                 },
                 (
                     <div class={classes.value}
+                         style={styles.value}
                          onClick={handler.clickEl}
                          v-click-wave={{disabled: !editComputed.value.editable}}>
                         <span class="plain-click-node">

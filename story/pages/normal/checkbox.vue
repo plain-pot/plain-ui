@@ -122,6 +122,19 @@
             </pl-checkbox-group>
         </demo-row>
 
+        <demo-row title="设置选项宽度使其对其">
+            <div style="width: 300px">
+                <pl-checkbox-group v-model="val[4]" itemWidth="50%">
+                    <pl-checkbox label="全选" checkboxForAll/>
+                    <pl-checkbox label="标签一" val="tag1"/>
+                    <pl-checkbox label="标签二" val="tag2"/>
+                    <pl-checkbox label="标签三" val="tag3"/>
+                    <pl-checkbox label="标签四" val="tag4"/>
+                    <pl-checkbox label="标签五" val="tag5"/>
+                </pl-checkbox-group>
+            </div>
+        </demo-row>
+
     </div>
 </template>
 

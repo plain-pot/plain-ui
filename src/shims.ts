@@ -8,5 +8,5 @@ type VNodeChildAtom = VNode | string | number | boolean | null | undefined | voi
 type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
 export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 
-export type StyleProperties = CSS.Properties
+export type StyleProperties = { [k in keyof CSS.Properties]: string | number | undefined | null }
 export type FuncProps<T> = new() => T
