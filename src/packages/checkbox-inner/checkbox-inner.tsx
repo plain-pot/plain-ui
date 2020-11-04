@@ -1,5 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {useClass} from "../../use/useClasses";
+import './checkbox-inner.scss'
 
 export enum CheckboxStatus {
     uncheck = 'uncheck',

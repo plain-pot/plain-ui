@@ -3,6 +3,7 @@ import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleMode, StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {computed, provide, inject} from 'vue';
+import './button-group.scss'
 
 interface ButtonModeProviderValue {
     value: { mode: string }

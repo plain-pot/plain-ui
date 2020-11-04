@@ -6,7 +6,7 @@ import {ClickWave} from "../click-wave/click-wave-directive";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {useProps} from "../../use/useProps";
-import {ButtonModeProvider} from "./button-group";
+import {ButtonModeProvider} from "../button-group/button-group";
 import {FuncProps, SimpleFunction} from "../../shims";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'

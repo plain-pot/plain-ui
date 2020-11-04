@@ -4,7 +4,7 @@ import "../packages/public"
 import {installPlugin} from "./installPlugin";
 import {toArray} from "./toArray";
 
-export function createComponentPlugin<Component extends { name: string } | { name: string }[]>(
+export function createComponentPlugin<Component extends { name: string }>(
     component: Component,
     plugins?: ComponentPlugin[]
 ) {
