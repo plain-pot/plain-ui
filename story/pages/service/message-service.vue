@@ -11,7 +11,7 @@
         name: "message-service",
         methods: {
             showMsg() {
-                console.log(this)
+                this.$message()
             },
         },
     }

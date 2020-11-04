@@ -1,15 +1,17 @@
 <template>
-    <app-navigator defaultPath="normal/button">
-        <article class="app" :style="{paddingLeft:`${config.menuSize}px`,paddingTop:`${config.headSize}px`}">
-            <section class="app-head" :style="{height:config.headSize+'px'}">
-                <span>{{title}}</span>
-            </section>
-            <app-menu :style="{width:`${config.menuSize}px`,top:`${config.headSize}px`}"/>
-            <section class="app-content" :style="{minHeight:`calc(100vh - ${config.headSize}px)`}">
-                <AppNavigatorPage/>
-            </section>
-        </article>
-    </app-navigator>
+    <pl-root>
+        <app-navigator defaultPath="normal/button">
+            <article class="app" :style="{paddingLeft:`${config.menuSize}px`,paddingTop:`${config.headSize}px`}">
+                <section class="app-head" :style="{height:config.headSize+'px'}">
+                    <span>{{title}}</span>
+                </section>
+                <app-menu :style="{width:`${config.menuSize}px`,top:`${config.headSize}px`}"/>
+                <section class="app-content" :style="{minHeight:`calc(100vh - ${config.headSize}px)`}">
+                    <AppNavigatorPage/>
+                </section>
+            </article>
+        </app-navigator>
+    </pl-root>
 </template>
 
 <script>
