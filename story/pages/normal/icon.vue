@@ -16,8 +16,19 @@
         <pl-icon style="font-size: 40px" icon="el-icon-search" v-for="item in ['primary','success','error','warn','info']" :key="item" :status="item"/>
 
         <h4>所有图标</h4>
+        <div style="text-align: center">
+            <pl-input suffixIcon="el-icon-search"
+                      size="large"
+                      shape="round"
+                      :width="500"
+                      @keydown.enter="onEnter"
+                      v-model="searchValue"
+                      @click-suffix-icon="onEnter"
+            />
+        </div>
+
         <ul class="icon-list">
-            <li v-for="item in icons" :key="item" class="icon-item">
+            <li v-for="item in targetIcons" :key="item" class="icon-item">
                 <div @click="onClickItem(item)">
                     <pl-icon :icon="item"/>
                 </div>
@@ -48,9 +59,20 @@
             return {
                 showFlag: false,
                 icons,
+                searchValue: null,
+                targetSearchValue: null,
             }
         },
+        computed: {
+            targetIcons() {
+                if (!this.targetSearchValue) return this.icons
+                return this.icons.filter(icon => icon.indexOf(this.targetSearchValue) > -1)
+            },
+        },
         methods: {
+            onEnter() {
+                this.targetSearchValue = this.searchValue
+            },
             onClickItem(item, isComponent) {
                 copyToClipboard(isComponent ? `<pl-icon icon="${item}"/>` : item)
             },
