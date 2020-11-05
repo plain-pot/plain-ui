@@ -27,9 +27,11 @@ export default designComponent({
         props.option.close = close
 
         const handler = {
+            onClick: (e: MouseEvent) => {
+                !!props.option.onClick && props.option.onClick(e)
+            },
             onClickCloseIcon: (e: MouseEvent) => {
                 close()
-                !!props.option.onClick && props.option.onClick(e)
             },
             onMouseenter: () => {
                 if (!!closeTimer) {
@@ -49,7 +51,8 @@ export default designComponent({
                 <div class={classes.value}
                      style={styles}
                      onMouseenter={handler.onMouseenter}
-                     onMouseleave={handler.onMouseleave}>
+                     onMouseleave={handler.onMouseleave}
+                     onClick={handler.onClick}>
                     {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
                     <div class="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>
                     <pl-icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>

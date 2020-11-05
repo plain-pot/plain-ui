@@ -1,4 +1,4 @@
-import {App} from "vue";
+import {App, ComponentPublicInstance} from "vue";
 import {VNodeChild} from "../../shims";
 import {RootController} from "../root";
 import Controller from './message-controller'
@@ -17,12 +17,13 @@ export enum MessageServiceDirection {
 export type MessageServiceStatus = "lite" | "dark" | "primary" | "success" | "warn" | "error" | "info"
 
 export interface MessageServiceOption {
+    message: string,                                                                                // 消息文本
+
     horizontal?: MessageServiceDirection,                                                           // 横向位置
     vertical?: MessageServiceDirection,                                                             // 纵向位置
-    message: string,                                                                                // 消息文本
     time?: number | null,                                                                           // 显示的时间
     status?: MessageServiceStatus,                                                                  // 消息状态
-    render: () => VNodeChild,                                                                       // 自定义内容渲染函数
+    render?: () => VNodeChild,                                                                       // 自定义内容渲染函数
     icon?: string | null,                                                                           // 显示的图标
     onClick?: (e: MouseEvent) => void,                                                              // 自定义点击处理动作
     onClose?: () => void,                                                                           // 处理消息关闭之后的动作
@@ -46,7 +47,7 @@ const formatOption = (() => {
             close: () => null,
             horizontal: option.horizontal || MessageServiceDirection.center,
             vertical: option.vertical || MessageServiceDirection.start,
-            time: option.time === null ? null : 3 * 1000,
+            time: option.time === null ? null : (option.time || 3 * 1000),
             status: option.status || 'lite'
         })
     }
@@ -56,15 +57,38 @@ export default createComponentPlugin(Controller, [
     Icon, List, Item,
     {
         install: (app: App) => {
-            app.config.globalProperties.$message = async function (option: MessageServiceOption) {
-                const fo = formatOption(option)
-                const root = RootController.getRoot(this.$root)
+
+            const service = async function (this: ComponentPublicInstance, message: string | MessageServiceOption, option?: MessageServiceOption) {
+                let o = typeof message === "object" ? message : {message}
+                if (!!option) {
+                    Object.assign(o, option)
+                }
+
+                const fo = formatOption(o)
+                const root = RootController.getRoot(this.$root!)
                 /*获取一个 Controller 实例，没有就给我创建一个*/
                 const controller = (await root.getController('message', Controller)) as any as typeof Controller.use.class
                 /*获取以一个Container实例，没有就给我创建一个*/
                 const container = (await controller.getContainer(fo))
                 await container.getMessage(fo)
-            }
+            };
+
+            app.config.globalProperties.$message = Object.assign(service, [
+                'lite',
+                'dark',
+                'primary',
+                'success',
+                'warn',
+                'error',
+                'info',
+            ].reduce((prev: any, status) => {
+                prev[status] = (message: string, option: MessageServiceOption) => {
+                    // @ts-ignore
+                    console.log(this, message, option)
+                    // return service(message, Object.assign(option || {}, {status}))
+                }
+                return prev
+            }, {} as { [k in MessageServiceStatus]: (message: string, option?: Omit<MessageServiceOption, 'message'>) => void }))
         }
     }
 ])
