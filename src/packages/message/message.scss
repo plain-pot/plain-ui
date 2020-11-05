@@ -1,0 +1,90 @@
+@include theme {
+  .pl-message-controller {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  .pl-message-container {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    box-sizing: border-box;
+
+    @each $horizontal in (start, center, end) {
+      @each $vertical in (start, center, end) {
+        &.pl-message-container-#{$horizontal}-#{$vertical} {
+          @if $vertical == center {
+            align-items: center;
+          } @else {
+            align-items: flex-#{$horizontal};
+          }
+          @if $horizontal == center {
+            justify-content: center;
+          } @else {
+            justify-content: flex-#{$vertical};
+          }
+        }
+      }
+    }
+  }
+  .pl-message-list {
+    pointer-events: auto;
+    display: inline-block;
+    position: relative;
+  }
+  .pl-message {
+    padding: 12px 20px;
+    white-space: nowrap;
+    border-radius: 2px;
+    border: solid 1px;
+    pointer-events: auto;
+    min-width: 300px;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    transition: all 300ms $transition;
+
+    & + .pl-message {
+      margin-top: 8px;
+    }
+
+    @include statusMixin(message) {
+      background-color: mix(white, $value, 90%);
+      border-color: mix(white, $value, 70%);
+      color: $value;
+    }
+
+    &.pl-message-status-dark {
+      background-color: #383838;
+      border-color: #383838;
+      color: white;
+    }
+
+    &.pl-message-status-lite {
+      background-color: white;
+      border-color: #ddd;
+      color: $itc;
+    }
+
+  }
+
+
+  .pl-message-list-transition-enter {
+    opacity: 0;
+    transform: translateX(0) translateY(-30%);
+  }
+
+  .pl-message-list-transition-leave-to {
+    opacity: 0;
+  }
+
+  .pl-message-list-transition-leave-active {
+    position: absolute;
+  }
+}
