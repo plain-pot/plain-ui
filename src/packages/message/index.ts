@@ -12,6 +12,11 @@ export enum MessageServiceDirection {
     end = 'end',
 }
 
+const nextId = (() => {
+    let count = 0
+    return () => `message_${count++}`
+})()
+
 export interface MessageServiceOption {
     horizontal?: MessageServiceDirection,                                                           // 横向位置
     vertical?: MessageServiceDirection,                                                             // 纵向位置
@@ -19,10 +24,12 @@ export interface MessageServiceOption {
     time?: number,                                                                                  // 显示的时间
     status?: "lite" | "dark" | "primary" | "success" | "warn" | "error" | "info",                   // 消息状态
     render: () => VNodeChild,                                                                       // 自定义内容渲染函数
-    onClick: () => void,                                                                            // 自定义点击处理动作
     icon?: string | null,                                                                           // 显示的图标
+    onClick: (e: MouseEvent) => void,                                                               // 自定义点击处理动作
+    onClose: () => void,                                                                            // 处理消息关闭之后的动作
 
-    close?: () => boolean,                                                                          // 非配置选项，当消息显示后，这个close函数会初始化，调用这个函数将关闭该消息
+    id?: string,
+    close?: () => void,                                                                             // 非配置选项，当消息显示后，这个close函数会初始化，调用这个函数将关闭该消息
 }
 
 export default createComponentPlugin(Controller, [
@@ -30,6 +37,7 @@ export default createComponentPlugin(Controller, [
     {
         install: (app: App) => {
             app.config.globalProperties.$message = async function (option: MessageServiceOption) {
+                option.id = nextId()
                 const root = RootController.getRoot(this.$root)
                 /*获取一个 Controller 实例，没有就给我创建一个*/
                 const controller = (await root.getController('message', Controller)) as any as typeof Controller.use.class
@@ -39,7 +47,6 @@ export default createComponentPlugin(Controller, [
                     vertical: option.vertical || MessageServiceDirection.start,
                 }))
                 const message = (await container.getMessage(option))
-                console.log(message)
 
                 /*const service = await controller.getService(option)
                 if (!!service) {

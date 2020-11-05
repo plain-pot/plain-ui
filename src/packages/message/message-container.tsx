@@ -23,16 +23,23 @@ export default designComponent({
         const refs = useRefList<{ option: MessageServiceOption }>()
         const styles = {padding: props.duration}
 
+        const utils = {
+            closeMessage: (i: number) => {
+                state.options.splice(i, 1)
+            }
+        }
+
         return {
             refer: {
                 props,
                 getMessage: async (option: MessageServiceOption) => {
                     state.options.push(option)
                     await nextTick()
-                    for (let i = 0; i < refs.length; i++) {
-                        const ref = refs[i];
-                        if (ref.option === option) {
-                            return ref
+                    const messages = refs.filter(Boolean)
+                    for (let i = 0; i < messages.length; i++) {
+                        const message = messages[i];
+                        if (message.option === option) {
+                            return message
                         }
                     }
                     return null
@@ -43,12 +50,14 @@ export default designComponent({
                     <TransitionGroup {...{
                         class: "pl-message-list",
                         tag: "div",
-                        name: `pl-message-list-transition`
+                        name: `pl-message-list`
                     }}>
                         {state.options.map((option, index) =>
                             <Message option={option}
-                                     key={index}
-                                     ref={(proxy: any) => refs[index] = proxy}/>)}
+                                     key={option.id}
+                                     ref={(proxy: any) => refs[index] = proxy}
+                                     {...{onClose: () => utils.closeMessage(index)}}
+                            />)}
                     </TransitionGroup>
                 </div>
             )

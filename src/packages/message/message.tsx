@@ -8,7 +8,10 @@ export default designComponent({
     props: {
         option: {type: Object as any as new() => MessageServiceOption, required: true}
     },
-    setup({props}) {
+    emits: {
+        close: () => true
+    },
+    setup({props, event: {emit}}) {
 
         const classes = useClass(() => [
             'pl-message',
@@ -16,12 +19,28 @@ export default designComponent({
         ])
         const styles = {zIndex: nextIndex()}
 
+        const close = () => {
+            emit.close()
+            !!props.option.onClose && props.option.onClose()
+        }
+
+        props.option.close = close
+
+        const handler = {
+            onClickCloseIcon: (e: MouseEvent) => {
+                close()
+                !!props.option.onClick && props.option.onClick(e)
+            }
+        }
+
+        console.log('show', Date.now())
+
         return {
             render: () => (
                 <div class={classes.value} style={styles}>
                     {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
                     <div class="pl-message-content">{props.option.message}</div>
-                    <pl-icon icon="el-icon-close" class="pl-message-close"/>
+                    <pl-icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>
                 </div>
             )
         }
