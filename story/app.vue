@@ -88,8 +88,8 @@
 
     @include theme {
         .app .app-head {
-            color: white;
-            background-color: mix(black, $colorPrimary, 75%);
+            background-color: white;
+            color: $colorPrimary;
             font-size: 24px;
             font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
             font-style: italic;
