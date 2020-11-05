@@ -2,10 +2,15 @@
     <div class="demo-button">
 
         <demo-row title="基本用法">
-            <pl-button label="基本" @click="log(1)"/>
+            <pl-button label="基本" @click="$message('点击')"/>
         </demo-row>
         <demo-row title="状态">
-            <pl-button v-for="item in ['primary','success','warn','error','info']" :key="item" :label="item" :status="item"/>
+            <pl-button v-for="item in ['primary','success','warn','error','info']"
+                       :key="item"
+                       :label="item"
+                       :status="item"
+                       @click="$message[item](item)"
+            />
         </demo-row>
 
         <demo-row title="模式">

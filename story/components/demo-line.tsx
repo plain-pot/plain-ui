@@ -14,7 +14,7 @@ export const DemoLine = designComponent({
         return {
             render: () => (
                 <div class="demo-line">
-                    {!!props.title && <span class="demo-line-title">{props.title}</span>}
+                    {!!props.title && <div class="demo-line-title"><span>{props.title}</span></div>}
                     <div class="demo-line-content">
                         {slots.default()}
                     </div>

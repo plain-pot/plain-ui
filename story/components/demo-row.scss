@@ -43,11 +43,29 @@
   margin-bottom: 6px;
 
   .demo-line-title {
-    display: inline-block;
-    text-align: right;
-    padding-right: 9px;
+    display: block;
     font-size: 12px;
     color: #606266;
+    padding: 8px 9px 8px 0;
+    position: relative;
+
+    &:after {
+      position: absolute;
+      bottom: 50%;
+      border-top: 1px dashed #f2f2f2;
+      content: '';
+      left: 0;
+      right: 0;
+    }
+
+    span {
+      background: white;
+      position: relative;
+      z-index: 1;
+      padding: 0 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
   }
 
   .demo-line-content {
