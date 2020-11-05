@@ -1,8 +1,8 @@
 import {designComponent} from "../../use/designComponent";
 import {useClass} from "../../use/useClasses";
-import {MessageServiceOption} from "./index";
+import {MessageServiceFormatOption} from "./index";
 import {useRefList} from "../../use/useRefList";
-import {reactive, nextTick, TransitionGroup} from 'vue';
+import {nextTick, reactive} from 'vue';
 import Message from "./message";
 
 export default designComponent({
@@ -18,9 +18,9 @@ export default designComponent({
             `pl-message-container-${props.horizontal}-${props.vertical}`
         ])
         const state = reactive({
-            options: [] as MessageServiceOption[]
+            options: [] as MessageServiceFormatOption[]
         })
-        const refs = useRefList<{ option: MessageServiceOption }>()
+        const refs = useRefList<{ option: MessageServiceFormatOption }>()
         const styles = {padding: props.duration}
 
         const utils = {
@@ -32,7 +32,7 @@ export default designComponent({
         return {
             refer: {
                 props,
-                getMessage: async (option: MessageServiceOption) => {
+                getMessage: async (option: MessageServiceFormatOption) => {
                     state.options.push(option)
                     await nextTick()
                     const messages = refs.filter(Boolean)
