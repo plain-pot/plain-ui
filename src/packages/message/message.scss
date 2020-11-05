@@ -5,7 +5,7 @@
     top: 0;
     left: 0;
   }
-  .pl-message-container {
+  .pl-list.pl-message-container {
     pointer-events: none;
     position: fixed;
     top: 0;
@@ -13,35 +13,28 @@
     height: 100vh;
     width: 100vw;
     display: flex;
+    flex-direction: column;
     box-sizing: border-box;
+
+    & > .pl-item {
+      margin-bottom: 8px;
+    }
 
     @each $horizontal in (start, center, end) {
       @each $vertical in (start, center, end) {
         &.pl-message-container-#{$horizontal}-#{$vertical} {
-          @if $vertical == center {
+          @if $horizontal== center {
             align-items: center;
           } @else {
-            align-items: flex-#{$vertical};
+            align-items: flex-#{$horizontal};
           }
-          @if $horizontal == center {
+          @if $vertical  == center {
             justify-content: center;
           } @else {
-            justify-content: flex-#{$horizontal};
+            justify-content: flex-#{$vertical};
           }
         }
       }
-    }
-  }
-
-  .pl-list.pl-message-list {
-    width: initial;
-    height: initial;
-    pointer-events: auto;
-    display: inline-block;
-    position: relative;
-
-    .pl-item {
-      margin-bottom: 8px;
     }
   }
   .pl-message {

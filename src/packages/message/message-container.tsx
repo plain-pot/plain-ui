@@ -46,18 +46,16 @@ export default designComponent({
                 },
             },
             render: () => (
-                <div class={classes.value} style={styles}>
-                    <pl-list direction="top" class="pl-message-list">
-                        {state.options.map((option, index) =>
-                            <pl-item key={option.id}>
-                                <Message option={option}
-                                         ref={(proxy: any) => refs[index] = proxy}
-                                         {...{onClose: () => utils.closeMessage(index)}}
-                                />
-                            </pl-item>
-                        )}
-                    </pl-list>
-                </div>
+                <pl-list direction="top" class={classes.value} style={styles}>
+                    {state.options.map((option, index) =>
+                        <pl-item key={option.id}>
+                            <Message option={option}
+                                     ref={(proxy: any) => refs[index] = proxy}
+                                     {...{onClose: () => utils.closeMessage(index)}}
+                            />
+                        </pl-item>
+                    )}
+                </pl-list>
             )
         }
     },
