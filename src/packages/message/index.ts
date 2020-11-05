@@ -53,28 +53,30 @@ const formatOption = (() => {
     }
 })()
 
-export default createComponentPlugin(Controller, [
-    Icon, List, Item,
-    {
-        install: (app: App) => {
+const getMessageServiceByRoot = (() => {
 
+    const map = new WeakMap<ComponentPublicInstance, any>()
+
+    return ($root: ComponentPublicInstance) => {
+        const service = map.get($root)
+        if (!!service) {
+            return service
+        } else {
             const service = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
-
                 let o = typeof message === "object" ? message : {message}
                 if (!!option) {
                     Object.assign(o, option)
                 }
-
-                /*const fo = formatOption(o)
-                const root = RootController.getRoot(this.$root)
-                /!*获取一个 Controller 实例，没有就给我创建一个*!/
+                const fo = formatOption(o)
+                const root = RootController.getRoot($root)
+                /*获取一个 Controller 实例，没有就给我创建一个*/
                 const controller = (await root.getController('message', Controller)) as any as typeof Controller.use.class
-                /!*获取以一个Container实例，没有就给我创建一个*!/
+                /*获取以一个Container实例，没有就给我创建一个*/
                 const container = (await controller.getContainer(fo))
-                await container.getMessage(fo)*/
+                await container.getMessage(fo)
             };
 
-            app.config.globalProperties.$message = Object.assign(service, [
+            Object.assign(service, [
                 'lite',
                 'dark',
                 'primary',
@@ -82,13 +84,35 @@ export default createComponentPlugin(Controller, [
                 'warn',
                 'error',
                 'info',
-            ].reduce((prev: any, status) => {
-                prev[status] = async function (message: string, option: MessageServiceOption) {
-                    console.log(app._container)
-                    // return service(message, Object.assign(option || {}, {status}))
+            ].reduce((prev: any, status: any) => {
+                prev[status] = async function (message: string | MessageServiceOption, option?: MessageServiceOption) {
+                    const o = typeof message === "object" ? message : {message}
+                    if (!!option) {
+                        Object.assign(o, option)
+                    }
+                    o.status = status
+                    return service(o)
                 }
                 return prev
             }, {} as { [k in MessageServiceStatus]: (message: string, option?: Omit<MessageServiceOption, 'message'>) => void }))
+
+            map.set($root, service)
+            return service
+        }
+    }
+})()
+
+export default createComponentPlugin(Controller, [
+    Icon, List, Item,
+    {
+        install: (app: App) => {
+            app.mixin({
+                computed: {
+                    $message() {
+                        return getMessageServiceByRoot(this.$root)
+                    },
+                },
+            })
         }
     }
 ])

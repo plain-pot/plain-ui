@@ -4,8 +4,8 @@
             <pl-button @click="$message('提示信息！')" label="basically"/>
         </demo-row>
         <demo-row title="提示类型">
-            <pl-button @click="log($message)" label="lite"/>
-            <pl-button @click="$message.dark('提示信息！')" label="dark"/>
+            <pl-button @click="$message.lite('提示信息！')" label="lite" style="background-color: white;border: solid 1px #ccc;color: #333"/>
+            <pl-button @click="$message.dark('提示信息！')" label="dark" style="background-color: #333;border: none"/>
             <pl-button @click="$message.primary('提示信息！')" label="primary" status="primary"/>
             <pl-button @click="$message.success('提示信息！')" label="success" status="success"/>
             <pl-button @click="$message.warn('提示信息！')" label="warn" status="warn"/>
