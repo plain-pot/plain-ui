@@ -40,7 +40,7 @@
         </demo-row>
 
         <demo-row title="加载状态">
-            <!--            <pl-checkbox v-model="loadingFlag" label="开启loading"/>-->
+            <pl-checkbox v-model="loadingFlag" label="开启loading"/>
             <pl-button label="搜索" :loading="loadingFlag" width="90"/>
             <pl-button icon="el-icon-search" label="搜索" :loading="loadingFlag"/>
             <pl-button icon="el-icon-search" label="搜索" shape="round" :loading="loadingFlag"/>
@@ -160,6 +160,8 @@
 
 <script>
 
+    import {delay} from "plain-utils/utils/delay";
+
     export default {
         name: "demo-button",
         props: {},
@@ -170,14 +172,13 @@
             }
         },
         methods: {
-            async asyncHandler(e) {
+            async asyncHandler() {
                 this.$message('async task start')
-                await this.$plain.utils.delay(3000)
+                await delay(3000)
                 if (Math.random() > 0.5) {
                     this.$message.error('async task error')
                     throw new Error('异步任务出错')
                 } else {
-                    console.log(e)
                     this.$message.success('async task end')
                 }
             },

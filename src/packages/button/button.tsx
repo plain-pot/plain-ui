@@ -68,7 +68,7 @@ export default designComponent({
                 try {
                     await props.asyncHandler(e)
                 } catch (e) {
-                    // do nothing
+                    console.error(e)
                 } finally {
                     editState.loading = null
                 }
