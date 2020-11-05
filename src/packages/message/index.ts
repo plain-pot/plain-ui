@@ -47,7 +47,7 @@ const formatOption = (() => {
             horizontal: option.horizontal || MessageServiceDirection.center,
             vertical: option.vertical || MessageServiceDirection.start,
             time: option.time === null ? null : 3 * 1000,
-            status: option.status || 'dark'
+            status: option.status || 'lite'
         })
     }
 })()

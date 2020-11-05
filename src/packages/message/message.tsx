@@ -30,12 +30,26 @@ export default designComponent({
             onClickCloseIcon: (e: MouseEvent) => {
                 close()
                 !!props.option.onClick && props.option.onClick(e)
+            },
+            onMouseenter: () => {
+                if (!!closeTimer) {
+                    clearTimeout(closeTimer)
+                }
+            },
+            onMouseleave: () => {
+                !!props.option.time && (closeTimer = setTimeout(close, props.option.time))
             }
         }
 
+        let closeTimer: number | null = null
+        !!props.option.time && (closeTimer = setTimeout(close, props.option.time))
+
         return {
             render: () => (
-                <div class={classes.value} style={styles}>
+                <div class={classes.value}
+                     style={styles}
+                     onMouseenter={handler.onMouseenter}
+                     onMouseleave={handler.onMouseleave}>
                     {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
                     <div class="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>
                     <pl-icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>
