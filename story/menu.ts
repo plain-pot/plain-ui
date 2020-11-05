@@ -33,7 +33,7 @@ export const MENUS: MenuGroup[] = [
     },
     {
         name: '表单元素', children: [
-            {name: 'Input', title: '输入框', page: '/normal/input', complete: false},
+            {name: 'Input', title: '输入框', page: '/normal/input', complete: true},
             {name: 'Radio', title: '单选框', page: '/normal/radio', complete: false},
             {name: 'Checkbox', title: '复选框', page: '/normal/checkbox', complete: true},
             {name: 'Number', title: '数字输入', page: '/normal/number', complete: false},
