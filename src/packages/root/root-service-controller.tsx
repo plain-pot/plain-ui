@@ -1,7 +1,12 @@
 import {designComponent} from "../../use/designComponent";
 import {reactive, DefineComponent, nextTick} from 'vue';
 import {useRefs} from "../../use/useRefs";
-import {RootServiceRefer} from './root-service';
+
+export interface RootServiceRefer {
+    isShow: { value: boolean },
+    isOpen: { value: boolean },
+    show: (option: any) => void | Promise<void>,
+}
 
 export default designComponent({
     name: 'pl-root-service-controller',
