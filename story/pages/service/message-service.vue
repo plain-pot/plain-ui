@@ -10,8 +10,10 @@
     export default {
         name: "message-service",
         methods: {
-            showMsg() {
-                this.$message()
+            async showMsg() {
+                await this.$message({
+                    message: '这个是自定义的消息'
+                })
             },
         },
     }
