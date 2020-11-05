@@ -28,7 +28,7 @@
                 },
                 clearPlInput() {
                     console.log(refs.plInput)
-                    refs.plInput!.methods.clear()
+                    refs.plInput!.methods.clearValue()
                 },
             }
         },
