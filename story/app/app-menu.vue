@@ -11,6 +11,9 @@
                             <div class="app-menu-name">
                                 <span>{{menu.name}}</span>
                                 <span>{{menu.title}}</span>
+                                <div class="app-menu-is-done" v-if="!!menu.complete">
+                                    <pl-icon icon="el-icon-star-on" status="warn"/>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -65,10 +68,20 @@
                     line-height: 20px;
                     transition: color 0.2s;
                     cursor: pointer;
+                    position: relative;
 
                     &:hover {
                         background-color: rgba($colorPrimary, 0.1);
                         color: $colorPrimary;
+                    }
+
+                    .app-menu-is-done {
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        display: flex;
+                        align-items: center;
                     }
                 }
 

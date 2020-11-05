@@ -73,6 +73,7 @@
                 vertical-align: top;
                 cursor: pointer;
                 user-select: none;
+                background-color: white;
 
                 & > div:first-child {
                     height: 60px;
@@ -104,7 +105,7 @@
 
                     & > div {
                         flex: 1;
-                        color: #eee;
+                        color: #aaa;
                         display: flex;
                         align-items: center;
                         justify-content: center;

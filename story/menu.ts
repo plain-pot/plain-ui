@@ -27,7 +27,7 @@ export const MENUS: MenuGroup[] = [
         name: '基础', children: [
             {name: 'Color', title: '颜色', page: '/normal/color', complete: false},
             {name: 'Icon', title: '图标', page: '/normal/icon', complete: false},
-            {name: 'Button', title: '按钮', page: '/normal/button', complete: false},
+            {name: 'Button', title: '按钮', page: '/normal/button', complete: true},
             {name: 'Grid', title: '栅格', page: '/normal/grid', complete: false},
         ]
     },
@@ -35,7 +35,7 @@ export const MENUS: MenuGroup[] = [
         name: '表单元素', children: [
             {name: 'Input', title: '输入框', page: '/normal/input', complete: false},
             {name: 'Radio', title: '单选框', page: '/normal/radio', complete: false},
-            {name: 'Checkbox', title: '复选框', page: '/normal/checkbox', complete: false},
+            {name: 'Checkbox', title: '复选框', page: '/normal/checkbox', complete: true},
             {name: 'Number', title: '数字输入', page: '/normal/number', complete: false},
             {name: 'Loading', title: '加载', page: '/normal/loading', complete: false},
             {name: 'Select', title: '下拉选择', page: '/normal/select', complete: false},
@@ -105,7 +105,7 @@ export const MENUS: MenuGroup[] = [
     },
     {
         name: '服务', children: [
-            {name: '$message', title: '消息服务', page: '/service/message-service', complete: false},
+            {name: '$message', title: '消息服务', page: '/service/message-service', complete: true},
             {name: '$select', title: '选择服务', page: '/service/select-service', complete: false},
             {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: false},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: false},
