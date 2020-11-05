@@ -6,6 +6,9 @@ export const RootController = (() => {
     return {
         initRoot: (root: typeof Root.use.class) => {
             const $root = root.rootRef()
+            setTimeout(()=>{
+                console.log($root.$el)
+            })
             map.set($root, root)
         },
         getRoot: (ins: ComponentPublicInstance) => {

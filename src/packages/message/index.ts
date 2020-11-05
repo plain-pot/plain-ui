@@ -48,7 +48,7 @@ const formatOption = (() => {
             horizontal: option.horizontal || MessageServiceDirection.center,
             vertical: option.vertical || MessageServiceDirection.start,
             time: option.time === null ? null : (option.time || 3 * 1000),
-            status: option.status || 'lite'
+            status: option.status || 'primary'
         })
     }
 })()
@@ -58,19 +58,20 @@ export default createComponentPlugin(Controller, [
     {
         install: (app: App) => {
 
-            const service = async function (this: ComponentPublicInstance, message: string | MessageServiceOption, option?: MessageServiceOption) {
+            const service = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
+
                 let o = typeof message === "object" ? message : {message}
                 if (!!option) {
                     Object.assign(o, option)
                 }
 
-                const fo = formatOption(o)
-                const root = RootController.getRoot(this.$root!)
-                /*获取一个 Controller 实例，没有就给我创建一个*/
+                /*const fo = formatOption(o)
+                const root = RootController.getRoot(this.$root)
+                /!*获取一个 Controller 实例，没有就给我创建一个*!/
                 const controller = (await root.getController('message', Controller)) as any as typeof Controller.use.class
-                /*获取以一个Container实例，没有就给我创建一个*/
+                /!*获取以一个Container实例，没有就给我创建一个*!/
                 const container = (await controller.getContainer(fo))
-                await container.getMessage(fo)
+                await container.getMessage(fo)*/
             };
 
             app.config.globalProperties.$message = Object.assign(service, [
@@ -82,9 +83,8 @@ export default createComponentPlugin(Controller, [
                 'error',
                 'info',
             ].reduce((prev: any, status) => {
-                prev[status] = (message: string, option: MessageServiceOption) => {
-                    // @ts-ignore
-                    console.log(this, message, option)
+                prev[status] = async function (message: string, option: MessageServiceOption) {
+                    console.log(app._container)
                     // return service(message, Object.assign(option || {}, {status}))
                 }
                 return prev
