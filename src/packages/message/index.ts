@@ -17,13 +17,13 @@ export enum MessageServiceDirection {
 export type MessageServiceStatus = "lite" | "dark" | "primary" | "success" | "warn" | "error" | "info"
 
 export interface MessageServiceOption {
-    message: string,                                                                                // 消息文本
+    message?: string,                                                                               // 消息文本
 
     horizontal?: MessageServiceDirection,                                                           // 横向位置
     vertical?: MessageServiceDirection,                                                             // 纵向位置
     time?: number | null,                                                                           // 显示的时间
     status?: MessageServiceStatus,                                                                  // 消息状态
-    render?: () => VNodeChild,                                                                       // 自定义内容渲染函数
+    render?: () => VNodeChild,                                                                      // 自定义内容渲染函数
     icon?: string | null,                                                                           // 显示的图标
     onClick?: (e: MouseEvent) => void,                                                              // 自定义点击处理动作
     onClose?: () => void,                                                                           // 处理消息关闭之后的动作
@@ -52,6 +52,14 @@ const formatOption = (() => {
         })
     }
 })()
+
+interface MessageServiceFunction {
+    (message: string | MessageServiceOption, option?: MessageServiceOption): void
+}
+
+export type MessageService = MessageServiceFunction & {
+    [k in MessageServiceStatus]: MessageServiceFunction
+}
 
 const getMessageServiceByRoot = (() => {
 
