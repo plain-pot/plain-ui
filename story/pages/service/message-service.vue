@@ -23,11 +23,14 @@
             <pl-button @click="$message('提示信息！',{horizontal:'center',vertical:'end'})" label="中下"/>
             <pl-button @click="$message('提示信息！',{horizontal:'end',vertical:'end'})" label="右下"/>
         </demo-row>
-        <demo-row>
+        <demo-row title="自定义关闭">
             <pl-button @click="$message('提示信息！',{time:1000,onClose:()=>log('close')})" label="一秒后自动关闭"/>
             <pl-button @click="$message('提示信息！',{time:null})" label="不自动关闭"/>
             <pl-button @click="$message('提示信息！',{onClose:()=>log('done')})" label="监听结束事件"/>
             <pl-button @click="$message('提示信息！',{onClick:()=>log('click')})" label="监听点击事件"/>
+        </demo-row>
+        <demo-row title="自定义内容">
+            <pl-button @click="showCustom" label="show"/>
         </demo-row>
     </div>
 </template>
@@ -35,6 +38,11 @@
 <script>
     export default {
         name: "message-service",
+        data() {
+            return {
+                flag: true,
+            }
+        },
         methods: {
             async showMsg() {
                 await this.$message({
@@ -43,6 +51,15 @@
             },
             log(...args) {
                 console.log(...args)
+            },
+            showCustom() {
+                this.$message({
+                    render: () => (
+                        <div>
+                            <pl-checkbox style="margin-right:10px" v-model={this.flag} label="这里是自定义的内容"/>
+                        </div>
+                    )
+                })
             },
         },
     }
