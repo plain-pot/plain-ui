@@ -32,7 +32,7 @@
   );
 
   @each $key, $value in $directions {
-    .pl-list-move-#{$key}-enter {
+    .pl-list-move-#{$key}-enter-from {
       opacity: 0;
       transform: translateX(map_get($value, x)) translateY(map_get($value, y));
     }

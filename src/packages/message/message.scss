@@ -21,21 +21,28 @@
           @if $vertical == center {
             align-items: center;
           } @else {
-            align-items: flex-#{$horizontal};
+            align-items: flex-#{$vertical};
           }
           @if $horizontal == center {
             justify-content: center;
           } @else {
-            justify-content: flex-#{$vertical};
+            justify-content: flex-#{$horizontal};
           }
         }
       }
     }
   }
-  .pl-message-list {
+
+  .pl-list.pl-message-list {
+    width: initial;
+    height: initial;
     pointer-events: auto;
     display: inline-block;
     position: relative;
+
+    .pl-item {
+      margin-bottom: 8px;
+    }
   }
   .pl-message {
     padding: 12px 20px;
@@ -48,17 +55,15 @@
     align-items: center;
     font-size: 14px;
 
-    & + .pl-message {
-      margin-top: 8px;
-    }
-
     .pl-message-content {
       min-width: 250px;
+      display: inline-block;
     }
 
     .pl-message-close {
       margin-left: 0.5em;
       cursor: pointer;
+      user-select: none;
     }
 
     @include statusMixin(message) {

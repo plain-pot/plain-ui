@@ -5,6 +5,8 @@ import Controller from './message-controller'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './message.scss'
 import Icon from '../icon'
+import List from '../list'
+import Item from '../item'
 
 export enum MessageServiceDirection {
     start = 'start',
@@ -33,7 +35,7 @@ export interface MessageServiceOption {
 }
 
 export default createComponentPlugin(Controller, [
-    Icon,
+    Icon, List, Item,
     {
         install: (app: App) => {
             app.config.globalProperties.$message = async function (option: MessageServiceOption) {
@@ -47,11 +49,6 @@ export default createComponentPlugin(Controller, [
                     vertical: option.vertical || MessageServiceDirection.start,
                 }))
                 const message = (await container.getMessage(option))
-
-                /*const service = await controller.getService(option)
-                if (!!service) {
-                    console.log(service)
-                }*/
             }
         }
     }

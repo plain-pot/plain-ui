@@ -33,8 +33,6 @@ export default designComponent({
             }
         }
 
-        console.log('show', Date.now())
-
         return {
             render: () => (
                 <div class={classes.value} style={styles}>

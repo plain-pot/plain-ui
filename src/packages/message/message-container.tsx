@@ -47,18 +47,16 @@ export default designComponent({
             },
             render: () => (
                 <div class={classes.value} style={styles}>
-                    <TransitionGroup {...{
-                        class: "pl-message-list",
-                        tag: "div",
-                        name: `pl-message-list`
-                    }}>
+                    <pl-list direction="top" class="pl-message-list">
                         {state.options.map((option, index) =>
-                            <Message option={option}
-                                     key={option.id}
-                                     ref={(proxy: any) => refs[index] = proxy}
-                                     {...{onClose: () => utils.closeMessage(index)}}
-                            />)}
-                    </TransitionGroup>
+                            <pl-item key={option.id}>
+                                <Message option={option}
+                                         ref={(proxy: any) => refs[index] = proxy}
+                                         {...{onClose: () => utils.closeMessage(index)}}
+                                />
+                            </pl-item>
+                        )}
+                    </pl-list>
                 </div>
             )
         }
