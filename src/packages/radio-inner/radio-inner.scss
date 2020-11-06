@@ -1,0 +1,16 @@
+.pl-radio-inner {
+
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  box-sizing: border-box;
+  border-color: currentColor;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 100px;
+
+  circle {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+}
