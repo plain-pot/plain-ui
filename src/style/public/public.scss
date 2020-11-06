@@ -1,2 +1,6 @@
 @import "normalize";
 @import "./transition";
+
+@include theme {
+  font-family: $font;
+}
