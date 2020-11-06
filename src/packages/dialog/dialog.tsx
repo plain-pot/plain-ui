@@ -249,7 +249,7 @@ export default designComponent({
                 const Wrapper: any = props.destroyOnClose ? <div/> : <div v-show={model.value}/>
 
                 return (
-                    <Teleport to="body">
+                    <Teleport to=".pl-root-service-container">
                         <Transition name={props.transition}>
                             {(!props.destroyOnClose ? true : model.value) && <Wrapper onClick={handler.clickWrapper} style={wrapperStyles.value as any} class={wrapperClasses.value}>
                                 <div class={bodyClasses.value} ref="body">
@@ -266,7 +266,7 @@ export default designComponent({
                                         {!!props.cancelButton && <pl-button label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
                                         {!!props.confirmButton && <pl-button label={props.confirmButtonText} onClick={methods.confirm}/>}
                                     </div>}
-                                    <pl-loading-mask value={isLoading.value}/>
+                                    <pl-loading-mask v-model={isLoading.value}/>
                                 </div>
                             </Wrapper>}
                         </Transition>

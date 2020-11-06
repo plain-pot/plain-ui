@@ -88,12 +88,11 @@
         </demo-row>
         <demo-row title="destroyOnClose">
             <pl-button label="关闭时销毁" @click="val[14] = true"/>
-            <pl-dialog v-model="val[14]" title="111">
+            <pl-dialog v-model="val[14]" title="关闭时销毁">
                 <pl-input/>
             </pl-dialog>
             <pl-button label="关闭时不销毁" @click="val[15] = !val[15]"/>
-            <pl-dialog v-model="val[15]" :destroyOnClose="false" title="222">
-                val[15]:{{String(val[15])}}
+            <pl-dialog v-model="val[15]" :destroyOnClose="false" title="关闭时不销毁">
                 <pl-input/>
             </pl-dialog>
         </demo-row>
@@ -164,6 +163,7 @@
 
 <script>
     import data from '../data/data-1'
+    import {delay} from "plain-utils/utils/delay";
 
     const str = JSON.stringify(data, null, 2)
 
@@ -194,7 +194,7 @@
             },
             async openLoading() {
                 this.val[18] = true
-                await this.$plain.utils.delay(2000)
+                await delay(2000)
                 this.val[18] = false
             },
         },
