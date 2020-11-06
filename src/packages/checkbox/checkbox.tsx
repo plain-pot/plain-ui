@@ -6,7 +6,7 @@ import {useProps} from "../../use/useProps";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useClass} from "../../use/useClasses";
 import {computed, Transition} from 'vue';
-import {CheckboxStatus} from "../checkbox-inner/checkbox-inner";
+import {CheckboxStatus} from "../../utils/constant";
 import {ClickWave} from "../click-wave/click-wave-directive";
 import {CheckboxGroupCollector} from "../checkbox-group/checkbox-group";
 import {useSlots} from "../../use/useSlots";
@@ -32,6 +32,7 @@ export default designComponent({
     },
     emits: {
         updateModelValue: (val: any) => true,
+        click: (e?: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -88,7 +89,8 @@ export default designComponent({
         })
 
         const handler = {
-            clickEl: () => {
+            clickEl: (e?: MouseEvent) => {
+                emit.click(e)
                 if (!editComputed.value.editable || props.customReadonly) {
                     return
                 }
@@ -96,6 +98,11 @@ export default designComponent({
                     return checkboxGroup.handler.clickCheckbox(refer)
                 }
                 modelValue.value = checkStatus.value === CheckboxStatus.check ? props.falseValue : props.trueValue
+
+                if (!!e) {
+                    e.stopPropagation()
+                    e.preventDefault()
+                }
             }
         }
 

@@ -6,7 +6,7 @@ import {useProps} from "../../use/useProps";
 import {useModel} from "../../use/useModel";
 import {useCollect} from "../../use/useCollect";
 import Checkbox from '../checkbox/checkbox'
-import {CheckboxStatus} from "../checkbox-inner/checkbox-inner";
+import {CheckboxStatus} from "../../utils/constant";
 import {computed} from 'vue';
 
 const CheckboxGroup = designComponent({
