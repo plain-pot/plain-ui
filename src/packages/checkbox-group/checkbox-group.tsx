@@ -6,7 +6,7 @@ import {useProps} from "../../use/useProps";
 import {useModel} from "../../use/useModel";
 import {useCollect} from "../../use/useCollect";
 import Checkbox from '../checkbox/checkbox'
-import {CheckboxStatus} from "../../utils/constant";
+import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
 import {computed} from 'vue';
 
 const CheckboxGroup = designComponent({
@@ -31,7 +31,7 @@ const CheckboxGroup = designComponent({
         /*可编辑控制*/
         const {editComputed} = useEdit()
         /*样式控制*/
-        useStyle({status: StyleStatus.primary})
+        useStyle({status: DEFAULT_STATUS})
         /*格式化属性*/
         const {propsState} = useProps(props, {
             min: useProps.NUMBER,

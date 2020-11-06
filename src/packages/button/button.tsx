@@ -11,6 +11,7 @@ import {FuncProps, SimpleFunction} from "../../shims";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 import {useStyles} from "../../use/useStyles";
+import {DEFAULT_STATUS} from "../../utils/constant";
 
 console.log('load button component')
 
@@ -46,7 +47,7 @@ export default designComponent({
             width: useProps.NUMBER,
             label: useProps.PROMISE,
         })
-        const {styleComputed} = useStyle({status: StyleStatus.primary})
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const {editState, editComputed} = useEdit()
         const buttonGroup = ButtonModeProvider.inject()
         const otherComputed = computed(() => ({

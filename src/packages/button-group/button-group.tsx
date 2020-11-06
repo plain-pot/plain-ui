@@ -4,6 +4,7 @@ import {StyleMode, StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {computed, provide, inject} from 'vue';
 import './button-group.scss'
+import {DEFAULT_STATUS} from "../../utils/constant";
 
 interface ButtonModeProviderValue {
     value: { mode: string }
@@ -33,7 +34,7 @@ export default designComponent({
     },
     setup({props}) {
         const {slots} = useSlots()
-        const {styleComputed} = useStyle({status: StyleStatus.primary})
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const {editComputed} = useEdit()
 
         const parentGroup = ButtonModeProvider.inject()

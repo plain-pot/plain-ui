@@ -6,7 +6,7 @@ import {useProps} from "../../use/useProps";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useClass} from "../../use/useClasses";
 import {computed, Transition} from 'vue';
-import {CheckboxStatus} from "../../utils/constant";
+import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
 import {ClickWave} from "../click-wave/click-wave-directive";
 import {CheckboxGroupCollector} from "../checkbox-group/checkbox-group";
 import {useSlots} from "../../use/useSlots";
@@ -54,7 +54,7 @@ export default designComponent({
         /*可编辑控制*/
         const {editComputed} = useEdit()
         /*样式控制*/
-        const {styleComputed} = useStyle({status: StyleStatus.primary})
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         /*当前组件内部变量引用*/
         const refer = {innerState: {props, editComputed}}
         /*当前选中状态*/

@@ -2,6 +2,7 @@ import {designComponent} from "../../../../src/use/designComponent";
 import {StyleProps, StyleStatus, useStyle} from "../../../../src/use/useStyle";
 import {computed} from 'vue';
 import {useSlots} from "../../../../src/use/useSlots";
+import {DEFAULT_STATUS} from "../../../../src/utils/constant";
 
 export const DemoUseStyleParent = designComponent({
     props: {
@@ -10,7 +11,7 @@ export const DemoUseStyleParent = designComponent({
     setup() {
 
         const {slots} = useSlots()
-        const {styleComputed} = useStyle({status: StyleStatus.primary})
+        const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const classes = computed(() => [
             'pl-use-style-parent',
             `pl-use-style-parent-status-${styleComputed.value.status}`
