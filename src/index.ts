@@ -14,6 +14,7 @@ import CheckboxGroup from './packages/checkbox-group'
 import MessageService from './packages/message'
 import List from './packages/list'
 import Item from './packages/item'
+import Grid from './packages/grid'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -33,6 +34,7 @@ const plugins: ComponentPlugin[] = [
     MessageService,
     List,
     Item,
+    Grid,
 ]
 
 export {
@@ -50,6 +52,7 @@ export {
     MessageService,
     List,
     Item,
+    Grid,
 }
 
 export default {
