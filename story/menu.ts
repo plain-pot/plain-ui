@@ -28,7 +28,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Color', title: '颜色', page: '/normal/color', complete: true},
             {name: 'Icon', title: '图标', page: '/normal/icon', complete: true},
             {name: 'Button', title: '按钮', page: '/normal/button', complete: true},
-            {name: 'Grid', title: '栅格', page: '/normal/grid', complete: false},
+            {name: 'Grid', title: '栅格', page: '/normal/grid', complete: true},
         ]
     },
     {
