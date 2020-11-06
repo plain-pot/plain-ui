@@ -43,7 +43,7 @@ const CheckboxGroup = designComponent({
         /*子组件Checkbox*/
         const children = CheckboxGroupCollector.parent()
         /*可用子组件*/
-        const activeChildren = computed(() => children.filter(({innerState: {props: {checkboxForAll}}}) => !checkboxForAll))
+        const activeChildren = computed(() => children.filter(({innerState: {props: {checkboxForAll, customReadonly}}}) => !checkboxForAll && !customReadonly))
 
         /*可用子组件keys*/
         const allKeys = computed((() => activeChildren.value.map(({innerState: {props: {val}}}) => val)))

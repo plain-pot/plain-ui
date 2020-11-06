@@ -28,6 +28,7 @@ export default designComponent({
         falseValue: {default: false},                               // 非选中值
 
         checkboxForAll: {type: Boolean},                            // 是否为 checkbox 全选按钮
+        checkStatus: {type: String},                                // checkbox 自定义状态
     },
     emits: {
         updateModelValue: (val: any) => true,
@@ -57,6 +58,9 @@ export default designComponent({
         const refer = {innerState: {props, editComputed}}
         /*当前选中状态*/
         const checkStatus = computed((): CheckboxStatus => {
+            if (!!props.checkStatus) {
+                return props.checkStatus as CheckboxStatus
+            }
             if (!!checkboxGroup) {
                 return checkboxGroup.utils.getCheckStatus(refer)
             } else {

@@ -88,7 +88,8 @@
             <pl-checkbox-group v-model="val[3]">
                 <pl-checkbox checkboxForAll>
                     <template v-slot="{status,click}">
-                        <pl-button @click="click" :active="status === 'check'" width="120px">
+                        <pl-button @click="click" :active="status === 'check'" width="120px" mode="stroke">
+                            <pl-checkbox :checkStatus="status" customReadonly/>
                             {{{
                             check:'以全选',
                             uncheck:'未选中',

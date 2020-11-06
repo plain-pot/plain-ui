@@ -50,7 +50,7 @@
 
 <script>
 
-    import icons from 'src/packages/icon/icons/index.json'
+    import icons from '../../../src/packages/icon/icons/index.json'
     import {copyToClipboard} from "plain-utils/dom/copyToClipboard";
 
     export default {
