@@ -1,13 +1,13 @@
 import './loading-mask.scss'
 import {designComponent} from "../../use/designComponent";
 import {nextIndex} from "../../utils/nextIndex";
-import {computed, nextTick, reactive, watch} from 'vue';
+import {computed, nextTick, reactive, watch, Transition, onMounted} from 'vue';
 import {useModel} from "../../use/useModel";
 import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
 
 export default designComponent({
-    name: 'loading-mask',
+    name: 'pl-loading-mask',
     props: {
         modelValue: {type: Boolean},                                    // 是否打开loading遮罩
         message: {type: String},                                        // 提示信息
@@ -70,16 +70,18 @@ export default designComponent({
             await utils.resetParentPosition()
         })
 
+        onMounted(utils.resetParentPosition)
+
         return {
             render: () => (
-                <transition name="pl-transition-loading-mask">
+                <Transition name="pl-transition-loading-mask">
                     {!!modelValue.value && (
-                        <div style={styles.value} class={classes.value}>
+                        <div style={styles.value} class={classes.value} ref="el">
                             <pl-loading type={props.loadingType}/>
                             {!!props.message && <span>{props.message}</span>}
                         </div>
                     )}
-                </transition>
+                </Transition>
             )
         }
     },
