@@ -8,11 +8,12 @@
     outline: none;
     position: relative;
     text-align: center;
+    line-height: 1.575;
+
     @include public-style;
 
     @include sizeMixin(button) {
       height: $value;
-      line-height: $value;
 
       &.pl-button-size-large {
         padding: 0 32px;
@@ -100,7 +101,6 @@
 
       &:not(.pl-button-icon-only) {
         height: auto;
-        line-height: normal;
       }
 
       @include statusMixin(button) {
