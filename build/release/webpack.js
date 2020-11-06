@@ -37,10 +37,14 @@ module.exports = {
         rules: [
             {
                 test: /\.(j|t)sx?$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules(?!.*(plain-loading|plain-utils|plain-popper).*)/,
                 use: [
                     {loader: 'babel-loader',},
-                    {loader: 'ts-loader',}
+                    {
+                        loader: 'ts-loader', options: {
+                            allowTsInNodeModules: true,
+                        }
+                    }
                 ]
             },
             {

@@ -1,4 +1,4 @@
-import {StyleProperties} from 'src/shims';
+import {StyleProperties} from '../shims';
 import {computed} from 'vue';
 
 export function useStyles(

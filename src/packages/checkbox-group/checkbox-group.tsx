@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
-import {EditProps, useEdit} from 'src/use/useEdit';
-import {StyleProps, StyleStatus, useStyle} from 'src/use/useStyle';
+import {EditProps, useEdit} from '../../use/useEdit';
+import {StyleProps, StyleStatus, useStyle} from '../../use/useStyle';
 import {useSlots} from "../../use/useSlots";
 import {useProps} from "../../use/useProps";
 import {useModel} from "../../use/useModel";

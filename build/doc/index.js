@@ -43,7 +43,7 @@ module.exports = {
 
         config.resolve.alias
             .set('story', $utils.resolve('story'))
-            .set('src', $utils.resolve('src'))
+            // .set('src', $utils.resolve('src'))
 
         const fontRule = config.module.rule('fonts')
         fontRule.uses.clear()
