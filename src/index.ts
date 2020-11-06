@@ -15,6 +15,8 @@ import MessageService from './packages/message'
 import List from './packages/list'
 import Item from './packages/item'
 import Grid from './packages/grid'
+import Radio from './packages/radio'
+import RadioGroup from './packages/radio-group'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -35,6 +37,8 @@ const plugins: ComponentPlugin[] = [
     List,
     Item,
     Grid,
+    Radio,
+    RadioGroup,
 ]
 
 export {
@@ -53,6 +57,8 @@ export {
     List,
     Item,
     Grid,
+    Radio,
+    RadioGroup,
 }
 
 export default {
