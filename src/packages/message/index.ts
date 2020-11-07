@@ -1,6 +1,6 @@
-import {App, ComponentPublicInstance} from "vue";
+import {App} from "vue";
 import {VNodeChild} from "../../shims";
-import {RootController} from "../root/root-service";
+import {registryRootService} from "../root/root-service";
 import Controller from './message-controller'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './message.scss'
@@ -61,55 +61,6 @@ export type MessageService = MessageServiceFunction & {
     [k in MessageServiceStatus]: MessageServiceFunction
 }
 
-const getMessageServiceByRoot = (() => {
-
-    const map = new WeakMap<ComponentPublicInstance, any>()
-
-    return ($root: ComponentPublicInstance): MessageService => {
-        const service = map.get($root)
-        if (!!service) {
-            return service
-        } else {
-            const service = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
-                let o = typeof message === "object" ? message : {message}
-                if (!!option) {
-                    Object.assign(o, option)
-                }
-                const fo = formatOption(o)
-                const root = RootController.getRoot($root)
-                /*获取一个 Controller 实例，没有就给我创建一个*/
-                const controller = (await root.getController('message', Controller))
-                /*获取以一个Container实例，没有就给我创建一个*/
-                const container = (await controller.getContainer(fo))
-                await container.getMessage(fo)
-            };
-
-            const targetService = Object.assign(service, [
-                'lite',
-                'dark',
-                'primary',
-                'success',
-                'warn',
-                'error',
-                'info',
-            ].reduce((prev: any, status: any) => {
-                prev[status] = async function (message: string | MessageServiceOption, option?: MessageServiceOption) {
-                    const o = typeof message === "object" ? message : {message}
-                    if (!!option) {
-                        Object.assign(o, option)
-                    }
-                    o.status = status
-                    return service(o)
-                }
-                return prev
-            }, {} as { [k in MessageServiceStatus]: (message: string, option?: Omit<MessageServiceOption, 'message'>) => void }))
-
-            map.set($root, service)
-            return targetService
-        }
-    }
-})()
-
 export default createComponentPlugin(Controller, [
     Icon, List, Item,
     {
@@ -117,10 +68,48 @@ export default createComponentPlugin(Controller, [
             app.mixin({
                 computed: {
                     $message() {
-                        return getMessageServiceByRoot(this.$root)
+                        return getMessageService(this)
                     },
                 },
             })
         }
     }
 ])
+
+const getMessageService = registryRootService(
+    'message',
+    Controller,
+    (getController) => {
+        const service: MessageServiceFunction = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
+            let o = typeof message === "object" ? message : {message}
+            if (!!option) {
+                Object.assign(o, option)
+            }
+            const fo = formatOption(o)
+            const controller = await getController()
+            const container = await controller.getContainer(fo)
+            await container.getMessage(fo)
+        };
+
+        return Object.assign(service, [
+            'lite',
+            'dark',
+            'primary',
+            'success',
+            'warn',
+            'error',
+            'info',
+        ].reduce((prev: any, status: any) => {
+            prev[status] = async function (message: string | MessageServiceOption, option?: MessageServiceOption) {
+                const o = typeof message === "object" ? message : {message}
+                if (!!option) {
+                    Object.assign(o, option)
+                }
+                o.status = status
+                return service(o)
+            }
+            return prev
+        }, {})) as MessageService
+    }
+)
+
