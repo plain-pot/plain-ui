@@ -6,6 +6,7 @@ import Input from '../input'
 import Dialog from '../dialog'
 import {STATUS} from "../../utils/constant";
 import {delay} from "plain-utils/utils/delay";
+import './dialog-service.scss'
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性

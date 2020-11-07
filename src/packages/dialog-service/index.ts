@@ -6,6 +6,7 @@ import {createDefaultManager} from "../root/root-service-default-manager";
 import Service from './dialog-service'
 import {App} from 'vue';
 import {DialogService} from "../../index";
+import {installPlugin} from "../../utils/installPlugin";
 
 export enum DialogServiceEditType {
     input = 'input',
@@ -63,6 +64,7 @@ const getDialogService = registryRootService(
 
 export default {
     install(app: App) {
+        installPlugin(app, Dialog)
         app.mixin({
             computed: {
                 $dialog() {
