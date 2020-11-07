@@ -23,7 +23,7 @@ export default designComponent({
         const state = reactive({
             controllers: [] as {
                 name: string,
-                Component: { name: string },
+                Component: { use: { class: any } },
                 RenderComponent: any,
             }[],
         })
@@ -33,13 +33,16 @@ export default designComponent({
          * @author  韦胜健
          * @date    2020/11/5 10:19
          */
-        const getController = async (name: string, Component: { name: string }): Promise<ComponentPublicInstance> => {
+        async function getController<ControllerComponent extends { use: { class: any } }>(
+            name: string,
+            Component: ControllerComponent
+        ): Promise<ControllerComponent["use"]["class"]> {
             if (!!refs) {
                 for (let i = 0; i < refs.length; i++) {
                     const controller = refs[i];
                     const {name, Component} = controller.$attrs
                     if (name === name && Component === Component) {
-                        return controller
+                        return controller as any
                     }
                 }
             }
