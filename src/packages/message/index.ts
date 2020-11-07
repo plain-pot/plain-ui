@@ -1,6 +1,6 @@
 import {App, ComponentPublicInstance} from "vue";
 import {VNodeChild} from "../../shims";
-import {RootController} from "../root";
+import {RootController} from "../root/root-service";
 import Controller from './message-controller'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './message.scss'
