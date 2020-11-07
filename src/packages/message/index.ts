@@ -50,13 +50,13 @@ export interface MessageServiceOption {
  * @date    2020/11/7 18:20
  */
 export interface MessageServiceFormatOption extends MessageServiceOption {
-    horizontal: MessageServiceDirection
-    vertical: MessageServiceDirection
-    time: number | null
-    status: MessageServiceStatus,
-
     id: string,
     close: () => void,                                                                              // 非配置选项，当消息显示后，这个close函数会初始化，调用这个函数将关闭该消息
+
+    horizontal: MessageServiceDirection,
+    vertical: MessageServiceDirection,
+    time: number | null,
+    status: MessageServiceStatus,
 }
 
 /**
@@ -111,6 +111,7 @@ const getMessageService = registryRootService(
                 Object.assign(o, option)
             }
             const fo = formatOption(o)
+            fo.horizontal.charAt(0)
             const controller = await getController()
             const container = await controller.getContainer(fo)
             await container.getMessage(fo)
