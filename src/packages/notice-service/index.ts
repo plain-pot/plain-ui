@@ -34,7 +34,7 @@ export type NoticeServiceFormatOption = RequireFormat<NoticeServiceOption, 'time
 const formatOption = (() => {
     let idCount = 0
     return (option: NoticeServiceOption): NoticeServiceFormatOption => {
-        return Object.assign(option, {
+        return Object.assign(option as NoticeServiceFormatOption, {
             id: `message_${idCount++}`,
             time: option.time === null ? null : (option.time || 3 * 1000),
             status: option.status || 'dark',
@@ -61,7 +61,6 @@ const getNoticeService = registryRootService(
                 Object.assign(o, option)
             }
             const fo = formatOption(o)
-            fo.horizontal.charAt(0)
             const controller = await getController()
             const container = await controller.getContainer(fo)
             await container.getNotice(fo)

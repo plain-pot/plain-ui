@@ -1,5 +1,5 @@
 import {App} from "vue";
-import {VNodeChild} from "../../shims";
+import {RequireFormat, VNodeChild} from "../../shims";
 import {registryRootService} from "../root/root-service";
 import ManagerComponent from './message-manager'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
@@ -49,14 +49,9 @@ export interface MessageServiceOption {
  * @author  韦胜健
  * @date    2020/11/7 18:20
  */
-export interface MessageServiceFormatOption extends MessageServiceOption {
+export type MessageServiceFormatOption = RequireFormat<MessageServiceOption, 'horizontal' | 'vertical' | 'time' | 'status'> & {
     id: string,
-    close: () => void,                                                                              // 非配置选项，当消息显示后，这个close函数会初始化，调用这个函数将关闭该消息
-
-    horizontal: MessageServiceDirection,
-    vertical: MessageServiceDirection,
-    time: number | null,
-    status: MessageServiceStatus,
+    close: () => void,
 }
 
 /**
@@ -67,7 +62,7 @@ export interface MessageServiceFormatOption extends MessageServiceOption {
 const formatOption = (() => {
     let idCount = 0
     return (option: MessageServiceOption): MessageServiceFormatOption => {
-        return Object.assign(option, {
+        return Object.assign(option as MessageServiceFormatOption, {
             id: `message_${idCount++}`,
             close: () => null,
             horizontal: option.horizontal || MessageServiceDirection.center,
