@@ -39,10 +39,10 @@ export default designComponent({
         ): Promise<ManagerComponent["use"]["class"]> {
             if (!!refs) {
                 for (let i = 0; i < refs.length; i++) {
-                    const controller = refs[i];
-                    const {name, Component} = controller.$attrs
-                    if (name === name && Component === Component) {
-                        return controller as any
+                    const managerInstance = refs[i];
+                    const {name: attrName, Component: attrComponent} = managerInstance.$attrs
+                    if (name === attrName && managerComponent === attrComponent) {
+                        return managerInstance as any
                     }
                 }
             }

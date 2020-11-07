@@ -33,12 +33,13 @@ export function createDefaultManager<ServiceComponent extends {
 
             return {
                 refer: {
+                    name,
                     getService,
                 },
                 render: () => {
                     const ServiceComponent = serviceComponent as any
                     return (
-                        <div class="pl-root-service-default-manager">
+                        <div class={name}>
                             {state.services.map(i => <ServiceComponent key={i} ref={(proxy: any) => refs[i] = proxy}/>)}
                         </div>
                     )
