@@ -131,7 +131,12 @@ export default designComponent({
                     if (!!status) {
                         serviceClass += ` pl-dialog-service-status-${status}`
                     }
-                    content = <div class="pl-dialog-service-item-message">{!!status && STATUS[status] && <pl-icon icon={STATUS[status].icon}/>}{option.message}</div>
+                    content = (
+                        <div class="pl-dialog-service-item-message">
+                            {!!status && STATUS[status] && <pl-icon class="pl-dialog-service-status-icon" icon={STATUS[status].icon}/>}
+                            {option.message}
+                        </div>
+                    )
                 } else if (!!option.render) {
                     content = option.render()
                 }

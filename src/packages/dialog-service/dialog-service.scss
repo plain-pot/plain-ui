@@ -12,6 +12,11 @@
 
 @include theme {
   .pl-dialog-service {
+
+    .pl-dialog-service-status-icon {
+      vertical-align: -0.3em;
+    }
+
     @include statusMixin(dialog-service) {
       .pl-dialog-service-item-message {
         white-space: pre-wrap;
@@ -19,7 +24,6 @@
         .pl-icon {
           color: $value;
           font-size: 24px;
-          vertical-align: middle;
           margin-right: 14px;
         }
       }
