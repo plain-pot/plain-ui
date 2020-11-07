@@ -1,6 +1,6 @@
 import {StyleStatus} from "../../use/useStyle";
 import {registryRootService} from "../root/root-service";
-import {SimpleFunction} from "../../shims";
+import {RequireFormat, SimpleFunction} from "../../shims";
 import ManagerComponent from './notice-manager'
 
 export enum NoticeServiceDirection {
@@ -21,14 +21,9 @@ export interface NoticeServiceOption {
     horizontal?: NoticeServiceDirection,                // 横向位置
 }
 
-export interface NoticeServiceFormatOption extends NoticeServiceOption {
+export type NoticeServiceFormatOption = RequireFormat<NoticeServiceOption, 'time' | 'status' | 'vertical' | 'horizontal'> & {
     id: string,
     close: () => void,
-
-    time: NoticeServiceOption["time"],
-    status: NoticeServiceOption["status"],
-    vertical: Exclude<NoticeServiceOption["vertical"], undefined>,
-    horizontal: NoticeServiceOption["horizontal"],
 }
 
 /**
@@ -66,9 +61,7 @@ const getNoticeService = registryRootService(
                 Object.assign(o, option)
             }
             const fo = formatOption(o)
-            fo.horizontal.toString(11)
-            fo.vertical.toString(22)
-
+            fo.horizontal.charAt(0)
             const controller = await getController()
             const container = await controller.getContainer(fo)
             await container.getNotice(fo)
