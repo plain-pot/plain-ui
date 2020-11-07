@@ -1,10 +1,11 @@
 import {designComponent} from "../../use/designComponent";
-import {computed, nextTick, reactive, ref} from 'vue';
+import {computed, reactive, ref} from 'vue';
 import {useRefs} from "../../use/useRefs";
 import {DialogServiceOption} from "./index";
 import Input from '../input'
 import Dialog from '../dialog'
 import {STATUS} from "../../utils/constant";
+import {delay} from "plain-utils/utils/delay";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -80,9 +81,9 @@ export default designComponent({
             state.option = option
             state.key++
             isShow.value = true
-            await nextTick()
             if (!!option.editType) {
                 state.editValue = option.editValue as string
+                await delay(300)
                 refs.input!.methods.focus()
             }
             return hide

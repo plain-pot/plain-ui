@@ -3,7 +3,7 @@ import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
-import {reactive, computed, ref, watch, onBeforeUnmount, Teleport, Transition} from 'vue';
+import {computed, onBeforeUnmount, reactive, ref, Teleport, Transition, watch} from 'vue';
 import {nextIndex} from "../../utils/nextIndex";
 import {useProps} from "../../use/useProps";
 import {unit} from "plain-utils/string/unit";
@@ -236,11 +236,14 @@ export default designComponent({
         /*---------------------------------------watch-------------------------------------------*/
 
         watch(() => props.modelValue, (val) => {
-            val ? methods.show() : methods.hide()
+            val ? setTimeout(methods.show, 100) : methods.hide()
         }, {immediate: true})
 
         onBeforeUnmount(() => {
             KeyboardService.unbindListener(handler.keyboardEventOption)
+            if (model.value) {
+                methods.hide()
+            }
         })
 
         return {

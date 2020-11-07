@@ -2,7 +2,7 @@
     <div class="demo-dialog">
         <demo-row title="基本用法">
             <pl-button label="open dialog" @click="val[0] = true"/>
-            <pl-dialog v-model="val[0]">
+            <pl-dialog v-model="val[0]"  :mask="false">
                 Hello World
             </pl-dialog>
             <span>text</span>
@@ -172,7 +172,9 @@
         props: {},
         data() {
             return {
-                val: {},
+                val: {
+                    0: true
+                },
                 str,
                 title: new Promise((resolve) => {
                     setTimeout(() => resolve('异步标题'), 1000)
