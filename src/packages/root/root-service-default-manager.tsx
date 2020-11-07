@@ -28,7 +28,7 @@ export function createDefaultManager<ServiceComponent extends {
                 }
                 state.services.push(state.services.length)
                 await nextTick()
-                return getService()
+                return null as any
             }
 
             return {
@@ -39,7 +39,7 @@ export function createDefaultManager<ServiceComponent extends {
                     const ServiceComponent = serviceComponent as any
                     return (
                         <div class="pl-root-service-default-manager">
-                            {state.services.map(i => <ServiceComponent key={i} ref="services"/>)}
+                            {state.services.map(i => <ServiceComponent key={i} ref={(proxy: any) => refs[i] = proxy}/>)}
                         </div>
                     )
                 }
