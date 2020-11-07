@@ -1,54 +1,49 @@
 import {designComponent} from "../../use/designComponent";
-import {DefineComponent, nextTick, reactive} from 'vue';
-import {useRefs} from "../../use/useRefs";
+import {nextTick, reactive} from 'vue';
+import {useRefList} from "../../use/useRefList";
 
-export interface RootServiceRefer {
-    isShow: { value: boolean },
-    isOpen: { value: boolean },
-    show: (option: any) => void | Promise<void>,
-}
+export function createDefaultManager<ServiceComponent extends {
+    use: {
+        class: {
+            isShow: { value: boolean },
+            isOpen: { value: boolean },
+            show: (...args: any[]) => any,
+        }
+    }
+}>(name: string, serviceComponent: ServiceComponent) {
+    return designComponent({
+        name,
+        setup() {
 
-export default designComponent({
-    name: 'pl-root-service-controller',
-    props: {
-        id: {type: Number},
-        serviceComponent: {type: Object},
-    },
-    setup({props}) {
+            const state = reactive({services: [0],})
+            const refs = useRefList<ServiceComponent["use"]["class"]>()
 
-        const {refs} = useRefs({
-            services: Object as any as (new() => RootServiceRefer[])
-        })
+            async function getService(): Promise<ServiceComponent["use"]["class"]> {
+                for (let i = 0; i < refs.length; i++) {
+                    const service = refs[i];
+                    const {isShow, isOpen} = service
+                    if (!isShow.value && !isOpen.value) {
+                        return service
+                    }
+                }
+                state.services.push(state.services.length)
+                await nextTick()
+                return getService()
+            }
 
-        const state = reactive({
-            services: [0],
-        })
-
-        const getService = async (): Promise<RootServiceRefer> => {
-            for (let i = 0; i < refs.services.length; i++) {
-                const service = refs.services[i];
-                const {isShow, isOpen} = service
-                if (!isShow.value && !isOpen.value) {
-                    return service
+            return {
+                refer: {
+                    getService,
+                },
+                render: () => {
+                    const ServiceComponent = serviceComponent as any
+                    return (
+                        <div class="pl-root-service-default-manager">
+                            {state.services.map(i => <ServiceComponent key={i} ref="services"/>)}
+                        </div>
+                    )
                 }
             }
-            state.services.push(state.services.length)
-            await nextTick()
-            return getService()
-        }
-
-        return {
-            refer: {
-                getService,
-            },
-            render: () => {
-                const ServiceComponent = props.serviceComponent as DefineComponent
-                return (
-                    <div class="pl-root-service-controller">
-                        {state.services.map(i => <ServiceComponent key={i} ref="services"/>)}
-                    </div>
-                )
-            }
-        }
-    },
-})
+        },
+    })
+}
