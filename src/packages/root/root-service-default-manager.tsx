@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {reactive, DefineComponent, nextTick} from 'vue';
+import {DefineComponent, nextTick, reactive} from 'vue';
 import {useRefs} from "../../use/useRefs";
 
 export interface RootServiceRefer {
