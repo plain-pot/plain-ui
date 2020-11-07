@@ -11,5 +11,4 @@ export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 export type StyleProperties = { [k in keyof CSS.Properties]: string | number | undefined | null }
 export type FuncProps<T> = new() => T
 
-export type FormatOption<T> = {}
-
+export type RequireFormat<T, P extends keyof T> = Required<{ [k in P]: T[k] }>
