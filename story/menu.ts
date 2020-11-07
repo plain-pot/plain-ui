@@ -107,7 +107,7 @@ export const MENUS: MenuGroup[] = [
         name: '服务', children: [
             {name: '$message', title: '消息服务', page: '/service/message-service', complete: true},
             {name: '$select', title: '选择服务', page: '/service/select-service', complete: false},
-            {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: false},
+            {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: true},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: false},
             {name: '$file', title: '文件服务', page: '/service/file', complete: false},
         ]
