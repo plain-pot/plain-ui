@@ -48,7 +48,7 @@ const formatOption = (() => {
             horizontal: option.horizontal || MessageServiceDirection.center,
             vertical: option.vertical || MessageServiceDirection.start,
             time: option.time === null ? null : (option.time || 3 * 1000),
-            status: option.status || 'primary'
+            status: option.status || 'dark'
         })
     }
 })()
@@ -65,7 +65,7 @@ const getMessageServiceByRoot = (() => {
 
     const map = new WeakMap<ComponentPublicInstance, any>()
 
-    return ($root: ComponentPublicInstance) => {
+    return ($root: ComponentPublicInstance): MessageService => {
         const service = map.get($root)
         if (!!service) {
             return service
@@ -78,13 +78,13 @@ const getMessageServiceByRoot = (() => {
                 const fo = formatOption(o)
                 const root = RootController.getRoot($root)
                 /*获取一个 Controller 实例，没有就给我创建一个*/
-                const controller = (await root.getController('message', Controller)) as any as typeof Controller.use.class
+                const controller = (await root.getController('message', Controller))
                 /*获取以一个Container实例，没有就给我创建一个*/
                 const container = (await controller.getContainer(fo))
                 await container.getMessage(fo)
             };
 
-            Object.assign(service, [
+            const targetService = Object.assign(service, [
                 'lite',
                 'dark',
                 'primary',
@@ -105,7 +105,7 @@ const getMessageServiceByRoot = (() => {
             }, {} as { [k in MessageServiceStatus]: (message: string, option?: Omit<MessageServiceOption, 'message'>) => void }))
 
             map.set($root, service)
-            return service
+            return targetService
         }
     }
 })()
