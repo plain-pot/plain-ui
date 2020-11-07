@@ -1,19 +1,24 @@
 .demo-row {
 
   background-color: white;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   padding: 16px 0;
-  border-radius: 20px;
+  border-radius: 4px;
   box-shadow: 0 8px 12px #ebedf0;
 
   .demo-row-title {
     border-bottom: dashed 1px #f1f1f1;
-    font-size: 14px;
+    font-size: 22px;
     padding: 14px 24px;
-    color: #606266;
+    color: black;
+    font-weight: bold;
 
     span {
       cursor: pointer;
+    }
+
+    .pl-icon {
+      color: rgba(0, 0, 0, 0.45) !important;
     }
   }
 
