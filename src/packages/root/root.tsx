@@ -33,10 +33,10 @@ export default designComponent({
          * @author  韦胜健
          * @date    2020/11/5 10:19
          */
-        async function getController<ControllerComponent extends { use: { class: any } }>(
+        async function getManagerInstance<ManagerComponent extends { use: { class: any } }>(
             name: string,
-            Component: ControllerComponent
-        ): Promise<ControllerComponent["use"]["class"]> {
+            managerComponent: ManagerComponent
+        ): Promise<ManagerComponent["use"]["class"]> {
             if (!!refs) {
                 for (let i = 0; i < refs.length; i++) {
                     const controller = refs[i];
@@ -49,17 +49,17 @@ export default designComponent({
             /*当前引用中没有该实例，手动创建一个*/
             state.controllers.push({
                 name,
-                Component,
-                RenderComponent: markRaw(Component),
+                Component: managerComponent,
+                RenderComponent: markRaw(managerComponent),
             })
             await nextTick()
-            return getController(name, Component)
+            return getManagerInstance(name, managerComponent)
         }
 
         const ctx = getCurrentInstance()!
         const refer = {
             rootRef: () => ctx.proxy!.$root!,
-            getController,
+            getManagerInstance,
         }
         RootController.initRoot(refer)
 

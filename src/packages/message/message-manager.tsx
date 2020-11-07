@@ -1,11 +1,11 @@
 import {designComponent} from "../../use/designComponent";
-import {reactive, nextTick} from 'vue';
+import {nextTick, reactive} from 'vue';
 import {MessageServiceDirection} from "./index";
 import {useRefList} from "../../use/useRefList";
 import Container from './message-container'
 
 export default designComponent({
-    name: 'pl-message-controller',
+    name: 'pl-message-manager',
     setup() {
 
         const state = reactive({
@@ -34,7 +34,7 @@ export default designComponent({
                 getContainer,
             },
             render: () => (
-                <div class="pl-message-controller">
+                <div class="pl-message-manager">
                     {state.containers.map((container, index) =>
                         <Container horizontal={container.horizontal}
                                    vertical={container.vertical}

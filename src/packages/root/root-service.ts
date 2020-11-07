@@ -19,26 +19,25 @@ export const RootController = (() => {
 })()
 
 
-export function registryRootService<
-    Controller extends { use: { class: any } },
-    CreateServiceByController extends (getController: () => Promise<Controller["use"]["class"]>) => any>
+export function registryRootService<ManagerComponent extends { use: { class: any } },
+    CreateService extends (getController: () => Promise<ManagerComponent["use"]["class"]>) => any>
 (
     name: string,
-    controller: Controller,
-    createServiceByController: CreateServiceByController
+    managerComponent: ManagerComponent,
+    createService: CreateService
 ) {
-    const map = new WeakMap<ComponentPublicInstance, ReturnType<CreateServiceByController>>()
+    const map = new WeakMap<ComponentPublicInstance, ReturnType<CreateService>>()
 
-    return (ins: ComponentPublicInstance): ReturnType<CreateServiceByController> => {
+    return (ins: ComponentPublicInstance): ReturnType<CreateService> => {
         const $root = ins.$root!
         let service = map.get($root)
         if (!!service) {
             return service
         }
-        service = createServiceByController(async () => {
+        service = createService(async () => {
             const root = RootController.getRoot($root)
             /*获取一个 Controller 实例，没有就给我创建一个*/
-            return await root.getController(name, controller)
+            return await root.getManagerInstance(name, managerComponent)
         })
         map.set($root, service!)
         return service!
