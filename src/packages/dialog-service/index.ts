@@ -5,6 +5,7 @@ import {registryRootService} from "../root/root-service";
 import {createDefaultManager} from "../root/root-service-default-manager";
 import Service from './dialog-service'
 import {App} from 'vue';
+import {DialogService} from "../../index";
 
 export enum DialogServiceEditType {
     input = 'input',
@@ -27,11 +28,16 @@ export interface DialogServiceOption {
     dialogProps?: Partial<typeof Dialog.use.props>,                 // 对话框属性
 }
 
+type DialogServiceFunction = (message: string | DialogServiceOption, option?: DialogServiceOption) => void
+type DialogService = {
+    [k in StyleStatus]: DialogServiceFunction
+}
+
 const getDialogService = registryRootService(
     'dialog',
     createDefaultManager('pl-dialog-manager', Service),
     (getController) => {
-        return async (message: string | DialogServiceOption, option?: DialogServiceOption) => {
+        const service = async (message: string | DialogServiceOption, option?: DialogServiceOption) => {
             const o: DialogServiceOption = typeof message === "string" ? {message} : message
             if (!!option) {
                 Object.assign(o, option)
@@ -40,6 +46,18 @@ const getDialogService = registryRootService(
             const service = await controller.getService()
             service.show(o)
         }
+
+        return Object.assign(service, Object.keys(StyleStatus).reduce((prev: any, status: any) => {
+            prev[status] = async function (message: string | DialogServiceOption, option?: DialogServiceOption) {
+                const o = typeof message === "object" ? message : {message}
+                if (!!option) {
+                    Object.assign(o, option)
+                }
+                o.status = status
+                return service(o)
+            }
+            return prev
+        }, {})) as DialogService
     }
 )
 
