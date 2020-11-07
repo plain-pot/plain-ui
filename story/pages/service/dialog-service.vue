@@ -15,13 +15,15 @@
         <demo-row title="输入对话框">
             <pl-button label="input" @click="$dialog({
                 editType:'input',
-                onConfirm:val=>$message(String(val)),
+                editValue:inputValue,
+                onConfirm:val=>{inputValue = val;$message(String(val))},
                 confirmButton:true,
                 cancelButton:true,
             })"/>
             <pl-button label="textarea" @click="$dialog({
                 editType:'textarea',
-                onConfirm:val=>$message(String(val)),
+                editValue:inputValue,
+                onConfirm:val=>{inputValue = val;$message(String(val))},
                 confirmButton:true,
                 cancelButton:true,
             })"/>
@@ -55,7 +57,9 @@
         name: "dialog-service",
         props: {},
         data() {
-            return {}
+            return {
+                inputValue: '默认文本',
+            }
         },
         methods: {
             customOption() {
