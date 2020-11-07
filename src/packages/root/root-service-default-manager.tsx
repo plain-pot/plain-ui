@@ -28,7 +28,7 @@ export function createDefaultManager<ServiceComponent extends {
                 }
                 state.services.push(state.services.length)
                 await nextTick()
-                return null as any
+                return getService()
             }
 
             return {
