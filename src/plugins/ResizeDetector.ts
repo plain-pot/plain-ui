@@ -1,3 +1,5 @@
+import {Directive} from 'vue'
+
 export interface ResizeDetectFuncParam {
     width?: number
     height?: number
@@ -76,11 +78,11 @@ export default class ResizeDetector {
     }
 }
 
-export const ResizeDetectorDirective = {
-    inserted(el: any, binding: any, vnode: any) {
+export const ResizeDetectorDirective: Directive = {
+    mounted(el: any, binding: any, vnode: any) {
         el.__resizedetextor__ = new ResizeDetector(el, (data) => binding.value(data))
     },
-    unbind(el: any) {
+    beforeUnmount(el: any) {
         (el.__resizedetextor__ as ResizeDetector).destroy()
         delete el.__resizedetextor__
     },

@@ -6,7 +6,7 @@ import {StyleProperties} from "../../shims";
 import {useMounted} from "../../use/useMounted";
 import {reactive, computed, nextTick, onBeforeUnmount, onMounted} from 'vue';
 import {throttle} from 'plain-utils/utils/throttle';
-import {ResizeDetectFuncParam} from "../../plugins/ResizeDetector";
+import {ResizeDetectFuncParam, ResizeDetectorDirective} from "../../plugins/ResizeDetector";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import './scroll.scss'
@@ -19,6 +19,7 @@ export const enum PLAIN_SCROLL_VERTICAL_POSITION {
 
 export default designComponent({
     name: 'pl-scroll',
+    directives: {resize: ResizeDetectorDirective},
     props: {
         scrollbarSize: {type: Number},                                                                  // 滚动条大小
         scrollbarColor: {type: String, default: 'rgba(144,147,153,.3)'},                                // 滚动条颜色
@@ -455,7 +456,7 @@ export default designComponent({
             render: () => (
                 <div ref="host"
                      class={classes.value}
-                     {...{directives: [{name: 'resize', value: handler.hostResize}]}}
+                     v-resize={handler.hostResize}
                      style={hostStyles.value as any}>
                     <div ref="wrapper"
                          class="pl-scroll-wrapper"
@@ -465,8 +466,7 @@ export default designComponent({
                         <div ref="content"
                              class="pl-scroll-content"
                              style={contentStyles.value as any}
-                             {...{directives: [{name: 'resize', value: handler.contentResize}]}}
-                        >
+                             v-resize={handler.contentResize}>
                             {slots.default()}
                         </div>
                         {slots.content()}
