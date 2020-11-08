@@ -19,6 +19,7 @@ import Radio from './packages/radio'
 import RadioGroup from './packages/radio-group'
 import Dialog from './packages/dialog'
 import DialogService from './packages/dialog-service'
+import Scroll from './packages/scroll'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -43,6 +44,7 @@ const plugins: ComponentPlugin[] = [
     RadioGroup,
     Dialog,
     DialogService,
+    Scroll,
 ]
 
 export {
@@ -65,6 +67,7 @@ export {
     RadioGroup,
     Dialog,
     DialogService,
+    Scroll,
 }
 
 export default {
