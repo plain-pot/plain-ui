@@ -1,4 +1,7 @@
 @include theme {
+
+  $min-width: 88px;
+
   .pl-button {
     vertical-align: middle;
     box-sizing: border-box;
@@ -49,7 +52,7 @@
 
     &.pl-button-mode-fill {
       padding: 0 16px;
-      min-width: 64px;
+      min-width: $min-width;
 
       @include statusMixin(button) {
         background-color: $value;
@@ -72,7 +75,7 @@
 
     &.pl-button-mode-stroke {
       padding: 0 16px;
-      min-width: 64px;
+      min-width: $min-width;
 
       @include statusMixin(button) {
         border-color: $value;

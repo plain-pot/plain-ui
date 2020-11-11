@@ -1,21 +1,36 @@
-import {App, ComponentPublicInstance} from "vue";
-import {VNodeChild} from "../../shims";
-import {RootController} from "../root";
-import Controller from './message-controller'
+import {App} from "vue";
+import {RequireFormat, VNodeChild} from "../../shims";
+import {registryRootService} from "../root/root-service";
+import ManagerComponent from './message-manager'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './message.scss'
 import Icon from '../icon'
 import List from '../list'
 import Item from '../item'
 
+/**
+ * 消息位置
+ * @author  韦胜健
+ * @date    2020/11/7 18:20
+ */
 export enum MessageServiceDirection {
     start = 'start',
     center = 'center',
     end = 'end',
 }
 
+/**
+ * 消息状态
+ * @author  韦胜健
+ * @date    2020/11/7 18:20
+ */
 export type MessageServiceStatus = "lite" | "dark" | "primary" | "success" | "warn" | "error" | "info"
 
+/**
+ * 消息配置对象类型
+ * @author  韦胜健
+ * @date    2020/11/7 18:20
+ */
 export interface MessageServiceOption {
     message?: string,                                                                               // 消息文本
 
@@ -29,95 +44,107 @@ export interface MessageServiceOption {
     onClose?: () => void,                                                                           // 处理消息关闭之后的动作
 }
 
-export interface MessageServiceFormatOption extends MessageServiceOption {
-    horizontal: MessageServiceDirection
-    vertical: MessageServiceDirection
-    time: number | null
-    status: MessageServiceStatus,
-
+/**
+ * 消息配置对象类型格式化后的类型
+ * @author  韦胜健
+ * @date    2020/11/7 18:20
+ */
+export type MessageServiceFormatOption = RequireFormat<MessageServiceOption, 'horizontal' | 'vertical' | 'time' | 'status'> & {
     id: string,
-    close: () => void,                                                                              // 非配置选项，当消息显示后，这个close函数会初始化，调用这个函数将关闭该消息
+    close: () => void,
 }
 
+/**
+ * 格式化消息配置参数
+ * @author  韦胜健
+ * @date    2020/11/7 18:21
+ */
 const formatOption = (() => {
     let idCount = 0
     return (option: MessageServiceOption): MessageServiceFormatOption => {
-        return Object.assign(option, {
+        return Object.assign(option as MessageServiceFormatOption, {
             id: `message_${idCount++}`,
             close: () => null,
             horizontal: option.horizontal || MessageServiceDirection.center,
             vertical: option.vertical || MessageServiceDirection.start,
             time: option.time === null ? null : (option.time || 3 * 1000),
-            status: option.status || 'primary'
+            status: option.status || 'dark'
         })
     }
 })()
 
+/**
+ * 消息服务函数类型
+ * @author  韦胜健
+ * @date    2020/11/7 18:21
+ */
 interface MessageServiceFunction {
     (message: string | MessageServiceOption, option?: MessageServiceOption): void
 }
 
+/**
+ * 消息服务对象类型
+ * @author  韦胜健
+ * @date    2020/11/7 18:21
+ */
 export type MessageService = MessageServiceFunction & {
     [k in MessageServiceStatus]: MessageServiceFunction
 }
 
-const getMessageServiceByRoot = (() => {
+/**
+ * 通过应用实例获取消息服务对象函数
+ * @author  韦胜健
+ * @date    2020/11/7 18:22
+ */
+const getMessageService = registryRootService(
+    'message',
+    ManagerComponent,
+    (getController) => {
+        const service: MessageServiceFunction = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
+            let o = typeof message === "object" ? message : {message}
+            if (!!option) {
+                Object.assign(o, option)
+            }
+            const fo = formatOption(o)
+            fo.horizontal.charAt(0)
+            const controller = await getController()
+            const container = await controller.getContainer(fo)
+            await container.getMessage(fo)
+        };
 
-    const map = new WeakMap<ComponentPublicInstance, any>()
-
-    return ($root: ComponentPublicInstance) => {
-        const service = map.get($root)
-        if (!!service) {
-            return service
-        } else {
-            const service = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
-                let o = typeof message === "object" ? message : {message}
+        return Object.assign(service, [
+            'lite',
+            'dark',
+            'primary',
+            'success',
+            'warn',
+            'error',
+            'info',
+        ].reduce((prev: any, status: any) => {
+            prev[status] = async function (message: string | MessageServiceOption, option?: MessageServiceOption) {
+                const o = typeof message === "object" ? message : {message}
                 if (!!option) {
                     Object.assign(o, option)
                 }
-                const fo = formatOption(o)
-                const root = RootController.getRoot($root)
-                /*获取一个 Controller 实例，没有就给我创建一个*/
-                const controller = (await root.getController('message', Controller)) as any as typeof Controller.use.class
-                /*获取以一个Container实例，没有就给我创建一个*/
-                const container = (await controller.getContainer(fo))
-                await container.getMessage(fo)
-            };
-
-            Object.assign(service, [
-                'lite',
-                'dark',
-                'primary',
-                'success',
-                'warn',
-                'error',
-                'info',
-            ].reduce((prev: any, status: any) => {
-                prev[status] = async function (message: string | MessageServiceOption, option?: MessageServiceOption) {
-                    const o = typeof message === "object" ? message : {message}
-                    if (!!option) {
-                        Object.assign(o, option)
-                    }
-                    o.status = status
-                    return service(o)
-                }
-                return prev
-            }, {} as { [k in MessageServiceStatus]: (message: string, option?: Omit<MessageServiceOption, 'message'>) => void }))
-
-            map.set($root, service)
-            return service
-        }
+                o.status = status
+                return service(o)
+            }
+            return prev
+        }, {})) as MessageService
     }
-})()
+)
 
-export default createComponentPlugin(Controller, [
+export default createComponentPlugin({
+    ...ManagerComponent,
+    getMessageService,
+}, [
     Icon, List, Item,
     {
         install: (app: App) => {
             app.mixin({
                 computed: {
                     $message() {
-                        return getMessageServiceByRoot(this.$root)
+                        return getMessageService(this)
                     },
                 },
             })

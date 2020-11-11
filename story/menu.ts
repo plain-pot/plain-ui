@@ -88,7 +88,7 @@ export const MENUS: MenuGroup[] = [
     {
         name: '其他', children: [
             {name: 'Scroll', title: '滚动条', page: '/normal/scroll', complete: false},
-            {name: 'Dialog', title: '对话框', page: '/normal/dialog', complete: false},
+            {name: 'Dialog', title: '对话框', page: '/normal/dialog', complete: true},
             {name: 'Tooltip', title: '文字提示', page: '/normal/tooltip', complete: false},
             {name: 'Dropdown', title: '悬浮层', page: '/normal/dropdown', complete: false},
             {name: 'Popover', title: '弹出框', page: '/normal/popover', complete: false},
@@ -107,7 +107,7 @@ export const MENUS: MenuGroup[] = [
         name: '服务', children: [
             {name: '$message', title: '消息服务', page: '/service/message-service', complete: true},
             {name: '$select', title: '选择服务', page: '/service/select-service', complete: false},
-            {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: false},
+            {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: true},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: false},
             {name: '$file', title: '文件服务', page: '/service/file', complete: false},
         ]

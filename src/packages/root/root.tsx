@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {ComponentPublicInstance, getCurrentInstance, markRaw, nextTick, reactive, Teleport} from 'vue';
-import {RootController} from "./index";
+import {RootController} from "./root-service";
 import {useRefList} from "../../use/useRefList";
 import './root.scss'
 
@@ -23,7 +23,7 @@ export default designComponent({
         const state = reactive({
             controllers: [] as {
                 name: string,
-                Component: { name: string },
+                Component: { use: { class: any } },
                 RenderComponent: any,
             }[],
         })
@@ -33,30 +33,33 @@ export default designComponent({
          * @author  韦胜健
          * @date    2020/11/5 10:19
          */
-        const getController = async (name: string, Component: { name: string }): Promise<ComponentPublicInstance> => {
+        async function getManagerInstance<ManagerComponent extends { use: { class: any } }>(
+            name: string,
+            managerComponent: ManagerComponent
+        ): Promise<ManagerComponent["use"]["class"]> {
             if (!!refs) {
                 for (let i = 0; i < refs.length; i++) {
-                    const controller = refs[i];
-                    const {name, Component} = controller.$attrs
-                    if (name === name && Component === Component) {
-                        return controller
+                    const managerInstance = refs[i];
+                    const {name: attrName, Component: attrComponent} = managerInstance.$attrs
+                    if (name === attrName && managerComponent === attrComponent) {
+                        return managerInstance as any
                     }
                 }
             }
             /*当前引用中没有该实例，手动创建一个*/
             state.controllers.push({
                 name,
-                Component,
-                RenderComponent: markRaw(Component),
+                Component: managerComponent,
+                RenderComponent: markRaw(managerComponent),
             })
             await nextTick()
-            return getController(name, Component)
+            return getManagerInstance(name, managerComponent)
         }
 
         const ctx = getCurrentInstance()!
         const refer = {
             rootRef: () => ctx.proxy!.$root!,
-            getController,
+            getManagerInstance,
         }
         RootController.initRoot(refer)
 

@@ -17,10 +17,11 @@ interface InjectValue<Refer> {
     <DefaultValue>(defaultValue?: DefaultValue): Refer | DefaultValue
 }
 
-interface UseType<Refer> {
+interface UseType<Refer, Props> {
     ref: RefValue<Refer>,
     inject: InjectValue<Refer>
     class: Refer,
+    props: Props,
 }
 
 export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>,
@@ -52,12 +53,12 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
     },
     expose?: Expose,
 ): DefineComponent<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE> & {
-    use: UseType<Refer>
+    use: UseType<Refer, Props>
 } & Expose {
 
     const {provideRefer, emits, setup, ...leftOptions} = options
 
-    const use: UseType<Refer> = {
+    const use: UseType<Refer, Props> = {
         inject: (defaultValue?: any) => {
             return inject(`@@${options.name}`, defaultValue) as Refer
         },
@@ -73,7 +74,8 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
             } else {
                 return ref(null)
             }
-        }
+        },
+        props: Object as any as Props,
     }
 
     return Object.assign(
