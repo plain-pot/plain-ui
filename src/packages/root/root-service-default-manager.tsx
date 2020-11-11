@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {nextTick, reactive} from 'vue';
+import {nextTick, ref} from 'vue';
 import {useRefList} from "../../use/useRefList";
 
 export function createDefaultManager<ServiceComponent extends {
@@ -15,10 +15,10 @@ export function createDefaultManager<ServiceComponent extends {
         name,
         setup() {
 
-            const state = reactive({services: [0],})
+            const services = ref([] as any[])
             const refs = useRefList<ServiceComponent["use"]["class"]>()
 
-            async function getService(): Promise<ServiceComponent["use"]["class"]> {
+            async function getService(option: any): Promise<ServiceComponent["use"]["class"]> {
                 for (let i = 0; i < refs.length; i++) {
                     const service = refs[i];
                     const {isShow, isOpen} = service
@@ -26,9 +26,9 @@ export function createDefaultManager<ServiceComponent extends {
                         return service
                     }
                 }
-                state.services.push(state.services.length)
+                services.value.push(option)
                 await nextTick()
-                return getService()
+                return getService(option)
             }
 
             return {
@@ -40,7 +40,11 @@ export function createDefaultManager<ServiceComponent extends {
                     const ServiceComponent = serviceComponent as any
                     return (
                         <div class={name}>
-                            {state.services.map(i => <ServiceComponent key={i} ref={(proxy: any) => refs[i] = proxy}/>)}
+                            {services.value.map((opt, i) => <ServiceComponent
+                                key={i}
+                                option={opt}
+                                ref={(proxy: any) => refs[i] = proxy}
+                            />)}
                         </div>
                     )
                 }

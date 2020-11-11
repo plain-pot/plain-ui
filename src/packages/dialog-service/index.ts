@@ -46,7 +46,7 @@ const getDialogService = registryRootService(
                 Object.assign(o, option)
             }
             const controller = await getController()
-            const service = await controller.getService()
+            const service = await controller.getService(o)
             service.show(o)
         }
 

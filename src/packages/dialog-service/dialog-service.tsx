@@ -26,7 +26,10 @@ const OptionKeys = [
 
 export default designComponent({
     name: 'pl-dialog-service',
-    setup() {
+    props: {
+        option: {type: Object, required: true,}
+    },
+    setup({props}) {
 
         const {refs} = useRefs({
             input: Input,
@@ -36,20 +39,13 @@ export default designComponent({
 
         const state = reactive({
             key: 0,
-            option: null as null | DialogServiceOption,
+            option: props.option as DialogServiceOption,
             editValue: null as null | string,
         })
 
         const targetOption = computed(() => {
             let option = {} as DialogServiceOption
             let binding = {} as Partial<typeof Dialog.use.props>
-
-            if (!state.option) {
-                return {
-                    option,
-                    binding,
-                }
-            }
 
             Object.keys(state.option).forEach((key) => {
                 if (OptionKeys.indexOf(key) > -1) {
@@ -110,12 +106,10 @@ export default designComponent({
 
                 if (!!option.editType) {
                     binding = {...binding}
-                    if (option.editType === 'input') {
-                        // @ts-ignore
-                        binding.height = binding.height || '50px'
+                    if (option.editType !== 'input') {
+                        (binding as any).height = binding.height || '500px'
                     } else {
-                        // @ts-ignore
-                        binding.height = binding.height || '500px'
+                        (binding as any).minHeight = null
                     }
                     serviceClass += ` pl-dialog-service-edit`
 
