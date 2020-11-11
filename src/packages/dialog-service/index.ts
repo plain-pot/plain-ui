@@ -20,6 +20,8 @@ export interface DialogServiceOption {
     editReadonly?: boolean,                                         // 输入框只读
     status?: StyleStatus,                                           // 对话框状态
     render?: () => VNodeChild,                                      // 自定义对话框内容
+    renderHead?: () => VNodeChild,                                  // 自定义对话框标题内容
+    renderFoot?: () => VNodeChild,                                  // 自定义对话框底部内容
     confirmButton?: boolean,                                        // 是否显示确认按钮
     confirmButtonText?: string,                                     // 确认按钮文本
     onConfirm?: (editValue?: string) => void | Promise<void>,       // 确认按钮处理函数
