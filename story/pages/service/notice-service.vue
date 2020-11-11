@@ -25,8 +25,9 @@
             <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{title:'退出确认',time:1000})">停留1s</pl-button>
             <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{title:'退出确认',time:null})">取消自动关闭</pl-button>
         </demo-row>
-        <demo-row title="自定义底部内容">
-            <pl-button @click="customFoot">基本用法</pl-button>
+        <demo-row title="自定义内内容">
+            <pl-button @click="customFoot">自定义底部内容</pl-button>
+            <pl-button @click="customRender">自定义顶部，文本以及尾部内容</pl-button>
         </demo-row>
         <demo-row title="去除关闭按钮">
             <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{noClose:true})">基本用法</pl-button>
@@ -56,6 +57,26 @@
                     renderFoot: () => <>
                         <pl-button label="删除" mode="stroke" size="mini" status="error" onClick={handler.delete}/>
                         <pl-button label="回复" size="mini" status="primary" onClick={handler.reply}/>
+                    </>
+                })
+            },
+            customRender() {
+                this.$notice({
+                    time: null,
+                    renderHead: () => (
+                        <div>
+                            <pl-loading style="margin-right:16px" type="beta"/>
+                            <span>正在加载中...</span>
+                        </div>
+                    ),
+                    renderContent: () => (
+                        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                            <pl-icon icon="el-icon-upload" style="font-size:36px;color:#777"/>
+                            <span>当前正在导入数据，请稍后等待！</span>
+                        </div>
+                    ),
+                    renderFoot: () => <>
+                        <pl-button label="取消导入" mode="stroke" size="mini" status="error"/>
                     </>
                 })
             },

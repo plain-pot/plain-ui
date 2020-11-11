@@ -16,7 +16,6 @@ export interface NoticeServiceOption {
     time?: number | null,                               // 停留时间
     status?: StyleStatus,                               // 状态
     icon?: string,                                      // 显示图标
-
     noClose?: boolean,                                  // 不显示关闭按钮
     renderHead?: () => VNodeChild,                      // 自定义头部内容
     renderContent?: () => VNodeChild,                   // 自定义内容
