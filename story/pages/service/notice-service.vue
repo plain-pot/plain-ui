@@ -32,6 +32,9 @@
         <demo-row title="去除关闭按钮">
             <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{noClose:true})">基本用法</pl-button>
         </demo-row>
+        <demo-row title="点击事件以及关闭事件">
+            <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{onClose:()=>$message('close'),onClick:()=>$message('click')})">基本用法</pl-button>
+        </demo-row>
     </div>
 </template>
 
