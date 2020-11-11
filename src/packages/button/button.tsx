@@ -56,7 +56,6 @@ export default designComponent({
         const state = reactive({
             handleClick: null as SimpleFunction | null,
             handleClickInner: async (e: MouseEvent) => {
-                e.stopPropagation()
                 if (!editComputed.value.editable) {
                     return
                 }
