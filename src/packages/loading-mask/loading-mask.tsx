@@ -55,11 +55,12 @@ export default designComponent({
                     return
                 }
                 await nextTick()
-                const el = refs.el as HTMLElement | null
+                const el = refs.el
                 if (el) {
                     const parentNode = el.parentNode as HTMLElement
                     if (!!parentNode) {
-                        const position = parentNode.style.position
+                        const styles = window.getComputedStyle(parentNode)
+                        const position = styles.position
                         if (['absolute', 'relative', 'fixed'].indexOf(position) === -1) {
                             parentNode.style.position = 'relative'
                         }
