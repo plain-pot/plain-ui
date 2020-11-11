@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d228940"],{da7d:function(p){p.exports=JSON.parse("[\"<path d='M94.63593313 465.4849775l834.72909375 0 0 92.65494-834.72909375 0 0-92.65494Z'  ></path><path d='M465.67109095 94.44694063l92.65781812 0 0 834.72909375-92.65781812 0 0-834.72909375Z'  ></path>\"]")}}]);
+//# sourceMappingURL=chunk-2d228940.b34c76f2.js.map
