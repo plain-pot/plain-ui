@@ -1,0 +1,64 @@
+@include theme {
+  .pl-notice-manager {
+    pointer-events: none;
+
+    .pl-notice-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+
+      @each $horizontal in (start, end) {
+        @each $vertical in (start, end) {
+          &.pl-notice-container-#{$horizontal}-#{$vertical} {
+            align-items: flex-#{$horizontal};
+            justify-content: flex-#{$vertical};
+          }
+        }
+      }
+    }
+  }
+
+  .pl-notice {
+    pointer-events: auto;
+    background-color: white;
+    display: inline-block;
+    padding: 8px 24px 16px 24px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    width: 384px;
+    max-width: calc(100vw - 48px);
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    .pl-notice-head {
+      display: flex;
+      align-items: center;
+
+      .pl-notice-title {
+        flex: 1;
+        padding: 8px 0;
+        font-size: 14px;
+        color: $ihc;
+      }
+
+      .pl-notice-close {
+        font-size: 18px;
+        color: $icc;
+        position: relative;
+        right: -8px;
+      }
+    }
+
+    .pl-notice-content {
+      font-size: 12px;
+      padding-top: 8px;
+      color: $itc;
+      line-height: 1.5715;
+    }
+  }
+}

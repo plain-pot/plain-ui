@@ -2,6 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {NoticeServiceFormatOption} from "./index";
 import {useClass} from "../../use/useClasses";
 import {nextIndex} from "../../utils/nextIndex";
+import './notice-service.scss'
 
 export default designComponent({
     name: 'pl-notice',
@@ -48,9 +49,25 @@ export default designComponent({
                      onMouseenter={handler.onMouseenter}
                      onMouseleave={handler.onMouseleave}
                      onClick={handler.onClick}>
-                    {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
-                    <div class="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>
-                    <pl-icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>
+                    <div class="pl-notice-head">
+                        {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
+                        {(!!props.option.renderHead || !!props.option.title) && (
+                            <div class="pl-notice-title">
+                                {!!props.option.renderHead ? props.option.renderHead() : props.option.title}
+                            </div>
+                        )}
+                        <pl-button mode="text" icon="el-icon-close" class="pl-notice-close" onClick={handler.onClickCloseIcon}/>
+                    </div>
+                    {(!!props.option.renderContent || !!props.option.message) && (
+                        <div class="pl-notice-content">
+                            {!!props.option.renderContent ? props.option.renderContent() : props.option.message}
+                        </div>
+                    )}
+                    {!!props.option.renderFoot && (
+                        <div class="pl-notice-foot">
+                            {props.option.renderFoot()}
+                        </div>
+                    )}
                 </div>
             )
         }

@@ -1,6 +1,6 @@
 import {StyleStatus} from "../../use/useStyle";
 import {registryRootService} from "../root/root-service";
-import {RequireFormat, SimpleFunction} from "../../shims";
+import {RequireFormat, SimpleFunction, VNodeChild} from "../../shims";
 import ManagerComponent from './notice-manager'
 import {App} from 'vue';
 
@@ -10,11 +10,14 @@ export enum NoticeServiceDirection {
 }
 
 export interface NoticeServiceOption {
+    title?: string | null,                              // 标题
     message?: string,                                   // 通知消息
-    time?: number,                                      // 停留时间
+    time?: number | null,                               // 停留时间
     icon?: string,                                      // 显示图标
     noClose?: boolean,                                  // 不显示关闭按钮
-    render?: Function,                                  // 自定义内容函数
+    renderHead?: () => VNodeChild,                      // 自定义头部内容
+    renderContent?: () => VNodeChild,                   // 自定义内容
+    renderFoot?: () => VNodeChild,                      // 自定义底部内容
     status?: StyleStatus,                               // 状态
     onClick?: SimpleFunction,                           // 点击事件处理函数
     onClose?: SimpleFunction,                           // 关闭处理函数
@@ -36,6 +39,7 @@ const formatOption = (() => {
     let idCount = 0
     return (option: NoticeServiceOption): NoticeServiceFormatOption => {
         return Object.assign(option as NoticeServiceFormatOption, {
+            title: option.title === null ? null : (option.title || '消息提示'),
             id: `message_${idCount++}`,
             time: option.time === null ? null : (option.time || 3 * 1000),
             status: option.status || 'dark',
