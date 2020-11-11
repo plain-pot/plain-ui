@@ -257,8 +257,16 @@ export default designComponent({
                             {(!props.destroyOnClose ? true : model.value) && <Wrapper onClick={handler.clickWrapper} style={wrapperStyles.value as any} class={wrapperClasses.value}>
                                 <div class={bodyClasses.value} ref="body">
                                     {hasHead.value && <div class="pl-dialog-head">
-                                        {slots.head(<span>{propsState.title}</span>)}
-                                        {!!props.showClose && <pl-button icon="el-icon-close" class="pl-dialog-head-close" shape="round" mode="text" onClick={handler.clickClose}/>}
+                                        {slots.head(<span class="pl-dialog-head-title">{propsState.title}</span>)}
+                                        {!!props.showClose && (
+                                            <div class="pl-dialog-head-close">
+                                                <pl-button icon="el-icon-close"
+                                                           shape="round"
+                                                           mode="text"
+                                                           size="large"
+                                                           onClick={handler.clickClose}/>
+                                            </div>
+                                        )}
                                     </div>}
                                     <div class="pl-dialog-content" style={contentStyle.value as any}>
                                         {slots.default()}

@@ -35,21 +35,24 @@
     box-sizing: border-box;
 
     .pl-dialog-head {
-      height: 40px;
-      line-height: 40px;
-      padding: 0 16px;
-      font-size: 16px;
-      letter-spacing: 2px;
+      padding: 16px 24px;
       background-color: white;
+      position: relative;
+
+      .pl-dialog-head-title {
+        color: $ihc;
+        font-size: 14px;
+        font-weight: 500;
+      }
 
       .pl-dialog-head-close {
         position: absolute;
-        top: 5px;
+        top: 0;
         bottom: 0;
-        right: 5px;
+        right: 8px;
+        display: flex;
+        align-items: center;
         cursor: pointer;
-        height: 30px;
-        width: 30px;
       }
     }
 
@@ -136,7 +139,7 @@
         color: $ihc;
         border-bottom: solid 1px $ibl;
 
-        .pl-dialog-head-close {
+        .pl-dialog-head-close .pl-button.pl-button-mode-text.pl-button-status-primary {
           color: $icc;
 
           &:hover {
