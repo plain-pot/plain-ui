@@ -134,7 +134,7 @@ export default designComponent({
             let width = props.fullWidth ? '100vw' : propsState.width
 
             let minHeight = propsState.minHeight != null ? propsState.minHeight : height != null ? null : '15vh'
-            let minWidth = propsState.minWidth != null ? propsState.minWidth : width != null ? null : '25vw'
+            let minWidth = propsState.minWidth != null ? propsState.minWidth : width != null ? null : '30vw'
             let maxHeight = propsState.maxHeight != null ? propsState.maxHeight : height != null ? null : '80vh'
             let maxWidth = propsState.maxWidth != null ? propsState.maxWidth : width != null ? null : '60vw'
 

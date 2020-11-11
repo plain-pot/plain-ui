@@ -49,7 +49,7 @@
         position: absolute;
         top: 0;
         bottom: 0;
-        right: 8px;
+        right: 10px;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -58,20 +58,19 @@
 
     .pl-dialog-content {
       overflow: auto;
-      padding: 16px;
-      font-size: 14px;
+      padding: 16px 24px;
+      font-size: 12px;
       box-sizing: border-box;
     }
 
     .pl-dialog-foot {
-      height: 60px;
-      padding: 0 16px;
+      padding: 8px 24px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
 
       & > * + * {
-        margin-left: 16px;
+        margin-left: 8px;
       }
     }
   }
@@ -146,6 +145,10 @@
             color: $colorPrimary;
           }
         }
+      }
+
+      .pl-dialog-foot {
+        border-top: solid 1px $ibl;
       }
 
       @include shapeMixin(dialog-body) {
