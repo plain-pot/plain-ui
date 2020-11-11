@@ -2,45 +2,46 @@ import {designComponent} from "../../use/designComponent";
 import {nextTick, ref} from 'vue';
 import {useRefList} from "../../use/useRefList";
 
-export function createDefaultManager<ServiceComponent extends {
-    use: {
-        class: {
-            isShow: { value: boolean },
-            isOpen: { value: boolean },
-            show: (...args: any[]) => any,
+export function createDefaultManager<Option>(
+    name: string,
+    serviceComponent: {
+        use: {
+            class: {
+                isShow: { value: boolean },
+                isOpen: { value: boolean },
+                service: (option: Option) => any,
+            }
         }
-    }
-}>(name: string, serviceComponent: ServiceComponent) {
+    }) {
     return designComponent({
         name,
         setup() {
 
-            const services = ref([] as any[])
-            const refs = useRefList<ServiceComponent["use"]["class"]>()
+            const options = ref([] as Option[])
+            const refs = useRefList<typeof serviceComponent["use"]["class"]>()
 
-            async function getService(option: any): Promise<ServiceComponent["use"]["class"]> {
+            const service = async (option: Option): Promise<void> => {
                 for (let i = 0; i < refs.length; i++) {
-                    const service = refs[i];
-                    const {isShow, isOpen} = service
+                    const item = refs[i];
+                    const {isShow, isOpen} = item
                     if (!isShow.value && !isOpen.value) {
-                        return service
+                        return item.service(option)
                     }
                 }
-                services.value.push(option)
+                options.value.push(option as any)
                 await nextTick()
-                return getService(option)
             }
 
             return {
                 refer: {
                     name,
-                    getService,
+                    service,
                 },
                 render: () => {
                     const ServiceComponent = serviceComponent as any
                     return (
                         <div class={name}>
-                            {services.value.map((opt, i) => <ServiceComponent
+                            {options.value.map((opt, i) => <ServiceComponent
                                 key={i}
                                 option={opt}
                                 ref={(proxy: any) => refs[i] = proxy}

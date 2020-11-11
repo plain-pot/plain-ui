@@ -46,8 +46,7 @@ const getDialogService = registryRootService(
                 Object.assign(o, option)
             }
             const controller = await getController()
-            const service = await controller.getService(o)
-            service.show(o)
+            await controller.service(o)
         }
 
         return Object.assign(service, Object.keys(StyleStatus).reduce((prev: any, status: any) => {

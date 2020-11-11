@@ -74,7 +74,7 @@ export default designComponent({
             },
         }
 
-        async function show(option: DialogServiceOption) {
+        async function service(option: DialogServiceOption) {
             state.option = option
             state.key++
             isShow.value = true
@@ -90,14 +90,18 @@ export default designComponent({
             isShow.value = false
         }
 
+        /*第一次获取option的时候是通过 props.option 获取的，后续的新option是 RootServiceDefaultManager 调用service获取的*/
+        service(props.option)
+
         return {
             refer: {
-                show,
+                service,
                 hide,
                 isShow,
                 isOpen: isShow,
             },
             render: () => {
+
                 let content = null as any
                 let {option, binding} = targetOption.value
 
