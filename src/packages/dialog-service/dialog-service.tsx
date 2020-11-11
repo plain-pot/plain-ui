@@ -7,6 +7,7 @@ import Dialog from '../dialog'
 import {STATUS} from "../../utils/constant";
 import {delay} from "plain-utils/utils/delay";
 import './dialog-service.scss'
+import {VNodeChild} from "../../shims";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -101,13 +102,17 @@ export default designComponent({
                 isOpen: isShow,
             },
             render: () => {
-
-                let content = null as any
                 let {option, binding} = targetOption.value
-
-                let serviceClass = 'pl-dialog-service';
                 let status = option.status === null ? null : (option.status || 'primary')
+                let serviceClass = 'pl-dialog-service';
 
+                /*---------------------------------------head-------------------------------------------*/
+                let head = <div class="pl-dialog-service-head">
+                    {!!status && STATUS[status] && <pl-icon class="pl-dialog-service-status-icon" icon={STATUS[status].icon}/>}
+                    {!!option.render ? option.render() : option.message}
+                </div>
+                /*---------------------------------------content-------------------------------------------*/
+                let content: VNodeChild;
                 if (!!option.editType) {
                     binding = {...binding}
                     if (option.editType !== 'input') {
@@ -116,7 +121,6 @@ export default designComponent({
                         (binding as any).minHeight = null
                     }
                     serviceClass += ` pl-dialog-service-edit`
-
                     content = <pl-input ref="input"
                                         block
                                         minHeight={null}
@@ -131,13 +135,14 @@ export default designComponent({
                     }
                     content = (
                         <div class="pl-dialog-service-item-message">
-                            {!!status && STATUS[status] && <pl-icon class="pl-dialog-service-status-icon" icon={STATUS[status].icon}/>}
                             {option.message}
                         </div>
                     )
                 } else if (!!option.render) {
                     content = option.render()
                 }
+                /*---------------------------------------foot-------------------------------------------*/
+                let foot = !option.renderFoot ? null : option.renderFoot()
 
                 return (
                     <pl-dialog
@@ -148,9 +153,13 @@ export default designComponent({
                         onConfirm={handler.confirm}
                         onCancel={handler.cancel}
 
-                        {...binding}>
-                        {content}
-                    </pl-dialog>
+                        {...binding}
+                        v-slots={{
+                            default: !!content ? () => content : null,
+                            head: !!head ? () => head : null,
+                            foot: !!foot ? () => foot : null,
+                        }}
+                    />
                 )
             }
         }
