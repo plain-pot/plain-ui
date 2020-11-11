@@ -90,6 +90,9 @@ export default designComponent({
 
         const handler = {
             clickEl: (e?: MouseEvent) => {
+                if (!!e) {
+                    e.stopPropagation()
+                }
                 emit.click(e)
                 if (!editComputed.value.editable || props.customReadonly) {
                     return

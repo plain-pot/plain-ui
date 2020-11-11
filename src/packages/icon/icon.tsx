@@ -41,7 +41,10 @@ export default designComponent({
         icon: {type: String},                       // 图标名称
         status: {type: String},                     // 图标状态
     },
-    setup({props}) {
+    emits: {
+        click: (e: MouseEvent) => true,
+    },
+    setup({props, event: {emit}}) {
 
         const icon = ref(null as any)
 
@@ -70,10 +73,15 @@ export default designComponent({
 
         watch(() => props.icon, val => !!val && utils.reset(val), {immediate: true})
 
+        const onClick = (e: MouseEvent) => {
+            e.stopPropagation()
+            emit.click(e)
+        }
+
         return {
             render: () => {
                 const {value: Icon} = icon
-                return !!Icon ? <Icon class={classes.value}/> : null
+                return !!Icon ? <Icon class={classes.value} onClick={onClick}/> : null
             }
         }
     },
