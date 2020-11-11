@@ -50,7 +50,7 @@ export default designComponent({
                      onMouseleave={handler.onMouseleave}
                      onClick={handler.onClick}>
                     <div class="pl-notice-head">
-                        {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
+                        {!!props.option.icon && <pl-icon class="pl-notice-head-icon" icon={props.option.icon}/>}
                         {(!!props.option.renderHead || !!props.option.title) && (
                             <div class="pl-notice-title">
                                 {!!props.option.renderHead ? props.option.renderHead() : props.option.title}

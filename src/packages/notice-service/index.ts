@@ -3,6 +3,7 @@ import {registryRootService} from "../root/root-service";
 import {RequireFormat, SimpleFunction, VNodeChild} from "../../shims";
 import ManagerComponent from './notice-manager'
 import {App} from 'vue';
+import {STATUS} from "../../utils/constant";
 
 export enum NoticeServiceDirection {
     start = 'start',
@@ -13,12 +14,13 @@ export interface NoticeServiceOption {
     title?: string | null,                              // 标题
     message?: string,                                   // 通知消息
     time?: number | null,                               // 停留时间
+    status?: StyleStatus,                               // 状态
+
     icon?: string,                                      // 显示图标
     noClose?: boolean,                                  // 不显示关闭按钮
     renderHead?: () => VNodeChild,                      // 自定义头部内容
     renderContent?: () => VNodeChild,                   // 自定义内容
     renderFoot?: () => VNodeChild,                      // 自定义底部内容
-    status?: StyleStatus,                               // 状态
     onClick?: SimpleFunction,                           // 点击事件处理函数
     onClose?: SimpleFunction,                           // 关闭处理函数
     vertical?: NoticeServiceDirection,                  // 纵向位置
@@ -38,11 +40,15 @@ export type NoticeServiceFormatOption = RequireFormat<NoticeServiceOption, 'time
 const formatOption = (() => {
     let idCount = 0
     return (option: NoticeServiceOption): NoticeServiceFormatOption => {
+
+        const status = option.status === null ? null : (option.status || 'primary')
+
         return Object.assign(option as NoticeServiceFormatOption, {
             title: option.title === null ? null : (option.title || '消息提示'),
             id: `message_${idCount++}`,
             time: option.time === null ? null : (option.time || 3 * 1000),
-            status: option.status || 'dark',
+            status,
+            icon: option.icon || (!status ? null : STATUS[status].icon),
             horizontal: option.horizontal || NoticeServiceDirection.end,
             vertical: option.vertical || NoticeServiceDirection.start,
             close: () => undefined,

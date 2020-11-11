@@ -11,6 +11,7 @@
       z-index: 9999;
       display: flex;
       flex-direction: column;
+      box-sizing: border-box;
 
       @each $horizontal in (start, end) {
         @each $vertical in (start, end) {
@@ -38,6 +39,7 @@
     .pl-notice-head {
       display: flex;
       align-items: center;
+      position: relative;
 
       .pl-notice-title {
         flex: 1;
@@ -52,6 +54,16 @@
         position: relative;
         right: -8px;
       }
+
+      .pl-notice-head-icon {
+        position: absolute;
+        font-size: 20px;
+        left: -24px;
+        top: 0;
+        transform: translate(-55%, 25%);
+        background-color: white;
+        border-radius: 100px;
+      }
     }
 
     .pl-notice-content {
@@ -59,6 +71,13 @@
       padding-top: 8px;
       color: $itc;
       line-height: 1.5715;
+    }
+
+    @include statusMixin(notice) {
+      border-left: 3px $value solid;
+      .pl-notice-title, .pl-notice-head-icon {
+        color: $value;
+      }
     }
   }
 }

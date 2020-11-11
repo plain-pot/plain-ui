@@ -90,7 +90,6 @@ $dt: map_get($theme-default, '');
 @mixin public-style {
   box-sizing: border-box;
   font-weight: 400;
-  color: $itc;
   margin: 0;
   padding: 0;
 }
