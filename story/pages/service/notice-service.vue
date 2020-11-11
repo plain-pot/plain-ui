@@ -11,6 +11,9 @@
             <pl-button status="info" @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{status:'info'})">帮助</pl-button>
             <pl-button status="info" @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{status:null})">无状态</pl-button>
         </demo-row>
+        <demo-row title="自定义图标">
+            <pl-button status="primary" @click="$notice('打开开发者工具预览示例！',{icon:'el-icon-tools',status:'success'})">基本</pl-button>
+        </demo-row>
         <demo-row title="位置">
             <pl-button label="右上角" @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{title:'右上角',horizontal:'end',vertical:'start'})"/>
             <pl-button label="右下角" @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{title:'右下角',horizontal:'end',vertical:'end'})"/>

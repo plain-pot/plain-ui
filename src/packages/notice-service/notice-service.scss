@@ -63,6 +63,7 @@
         transform: translate(-55%, 25%);
         background-color: white;
         border-radius: 100px;
+        padding: 1px;
       }
     }
 
@@ -75,8 +76,12 @@
 
     @include statusMixin(notice) {
       border-left: 3px $value solid;
-      .pl-notice-title, .pl-notice-head-icon {
+      .pl-notice-title {
         color: $value;
+      }
+      .pl-notice-head-icon {
+        background-color: $value;
+        color: white;
       }
     }
   }
