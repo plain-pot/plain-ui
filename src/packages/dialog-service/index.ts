@@ -14,6 +14,7 @@ export enum DialogServiceEditType {
 }
 
 export interface DialogServiceOption {
+    title?: string,                                                 // 标题
     message?: string,                                               // 提示的消息
     editType?: DialogServiceEditType,                               // 输入类型
     editValue?: string | number,                                    // 输入初始内容

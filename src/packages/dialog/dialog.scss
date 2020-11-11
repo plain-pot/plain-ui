@@ -133,6 +133,7 @@
       .pl-dialog-head {
         color: $ihc;
         border-bottom: solid 1px $ibl;
+        background: #fafafa;
 
         .pl-dialog-head-close .pl-button.pl-button-mode-text.pl-button-status-primary {
           color: $icc;
@@ -145,6 +146,7 @@
 
       .pl-dialog-foot {
         border-top: solid 1px $ibl;
+        background: #fafafa;
       }
 
       @include shapeMixin(dialog-body) {

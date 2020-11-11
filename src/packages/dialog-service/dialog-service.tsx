@@ -106,10 +106,14 @@ export default designComponent({
                 let status = option.status === null ? null : (option.status || 'primary')
                 let serviceClass = 'pl-dialog-service';
 
+                if (!!status) {
+                    serviceClass += ` pl-dialog-service-status-${status}`
+                }
+
                 /*---------------------------------------head-------------------------------------------*/
                 let head = <div class="pl-dialog-service-head">
                     {!!status && STATUS[status] && <pl-icon class="pl-dialog-service-status-icon" icon={STATUS[status].icon}/>}
-                    {!!option.render ? option.render() : option.message}
+                    {!!option.renderHead ? option.renderHead() : (option.title || '提示')}
                 </div>
                 /*---------------------------------------content-------------------------------------------*/
                 let content: VNodeChild;
@@ -130,9 +134,6 @@ export default designComponent({
                                         readonly={option.editReadonly}
                                         textarea={option.editType === 'textarea'}/>
                 } else if (!!option.message) {
-                    if (!!status) {
-                        serviceClass += ` pl-dialog-service-status-${status}`
-                    }
                     content = (
                         <div class="pl-dialog-service-item-message">
                             {option.message}
