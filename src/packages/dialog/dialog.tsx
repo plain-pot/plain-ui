@@ -133,10 +133,10 @@ export default designComponent({
             let height = props.fullHeight ? `calc(100vh - ${(!!hasHead.value ? 40 : 0) + (!!hasFoot.value ? 60 : 0)}px)` : propsState.height
             let width = props.fullWidth ? '100vw' : propsState.width
 
-            let minHeight = propsState.minHeight != null ? propsState.minHeight : height != null ? null : '15vh'
-            let minWidth = propsState.minWidth != null ? propsState.minWidth : width != null ? null : '30vw'
-            let maxHeight = propsState.maxHeight != null ? propsState.maxHeight : height != null ? null : '80vh'
-            let maxWidth = propsState.maxWidth != null ? propsState.maxWidth : width != null ? null : '60vw'
+            let minHeight = propsState.minHeight !== undefined ? propsState.minHeight : height !== undefined ? null : '15vh'
+            let minWidth = propsState.minWidth !== undefined ? propsState.minWidth : width !== undefined ? null : '30vw'
+            let maxHeight = propsState.maxHeight !== undefined ? propsState.maxHeight : height !== undefined ? null : '80vh'
+            let maxWidth = propsState.maxWidth !== undefined ? propsState.maxWidth : width !== undefined ? null : '60vw'
 
             return {
                 height: unit(height),
