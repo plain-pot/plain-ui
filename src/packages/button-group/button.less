@@ -1,0 +1,37 @@
+@status-names: primary, success, warn, error, info;
+
+.theme(@content) {
+
+  @backgroundColor: #f1f1f1;
+
+  @primary: #12b4a5;
+  @success: #00CC00;
+  @warn: #FF7400;
+  @error: #F38585;
+  @info: #969696;
+
+  @content();
+
+}
+
+.statusMixin(@name,@content) {
+  .loop(@i) when (@i < length(@status-names)) {
+    @status-name: extract(@status-names,@i+1);
+    @value: @@status-name;
+    .pl-@{name}-status-@{status-name} {
+      background-color: @value;
+      @content();
+    }
+    .loop(@i+1);
+  };
+  .loop(0);
+}
+
+.theme({
+  .pl-button {
+    background: @backgroundColor;
+    .statusMixin(button, {
+      color: @value
+    })
+  }
+});
