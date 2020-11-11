@@ -66,15 +66,18 @@ const getNoticeService = registryRootService(
     'notice',
     ManagerComponent,
     (getController) => {
-        const service: NoticeServiceFunction = async (message: string | NoticeServiceOption, option?: NoticeServiceOption) => {
+        const service: NoticeServiceFunction = (message: string | NoticeServiceOption, option?: NoticeServiceOption): NoticeServiceFormatOption => {
             let o = typeof message === "object" ? message : {message}
             if (!!option) {
                 Object.assign(o, option)
             }
-            const fo = formatOption(o)
-            const controller = await getController()
-            const container = await controller.getContainer(fo)
-            await container.getNotice(fo)
+            const fo = formatOption(o);
+            (async () => {
+                const controller = await getController()
+                const container = await controller.getContainer(fo)
+                await container.getNotice(fo)
+            })()
+            return fo
         };
 
         return Object.assign(service, [

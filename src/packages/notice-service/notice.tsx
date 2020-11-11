@@ -56,7 +56,9 @@ export default designComponent({
                                 {!!props.option.renderHead ? props.option.renderHead() : props.option.title}
                             </div>
                         )}
-                        <pl-button mode="text" icon="el-icon-close" class="pl-notice-close" onClick={handler.onClickCloseIcon}/>
+                        {!props.option.noClose && (
+                            <pl-button mode="text" icon="el-icon-close" class="pl-notice-close" onClick={handler.onClickCloseIcon}/>
+                        )}
                     </div>
                     {(!!props.option.renderContent || !!props.option.message) && (
                         <div class="pl-notice-content">

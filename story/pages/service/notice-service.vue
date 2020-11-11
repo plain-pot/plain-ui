@@ -28,6 +28,9 @@
         <demo-row title="自定义底部内容">
             <pl-button @click="customFoot">基本用法</pl-button>
         </demo-row>
+        <demo-row title="去除关闭按钮">
+            <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{noClose:true})">基本用法</pl-button>
+        </demo-row>
     </div>
 </template>
 
@@ -36,13 +39,23 @@
         name: "notice-service",
         methods: {
             customFoot() {
-                this.$notice({
+                const handler = {
+                    delete: () => {
+                        this.$message.error('删除');
+                        notice.close()
+                    },
+                    reply: () => {
+                        this.$message.error('回复');
+                        notice.close()
+                    }
+                }
+                const notice = this.$notice({
                     title: '自定义底部内容',
                     message: '你有一封未读消息！',
                     time: null,
                     renderFoot: () => <>
-                        <pl-button label="删除" mode="stroke" size="mini" status="error" onClick={() => this.$message.error('删除')}/>
-                        <pl-button label="回复" size="mini" status="primary" onClick={() => this.$message.error('回复')}/>
+                        <pl-button label="删除" mode="stroke" size="mini" status="error" onClick={handler.delete}/>
+                        <pl-button label="回复" size="mini" status="primary" onClick={handler.reply}/>
                     </>
                 })
             },
