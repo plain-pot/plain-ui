@@ -20,6 +20,7 @@ import RadioGroup from './packages/radio-group'
 import Dialog from './packages/dialog'
 import DialogService from './packages/dialog-service'
 import Scroll from './packages/scroll'
+import NoticeService from './packages/notice-service'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -28,46 +29,25 @@ function install(app: App) {
 const plugins: ComponentPlugin[] = [
     Root,
 
-    Button,
-    ButtonGroup,
-    Input,
-    Icon,
-    Loading,
-    LoadingMask,
-    Checkbox,
-    CheckboxGroup,
-    MessageService,
-    List,
-    Item,
-    Grid,
-    Radio,
-    RadioGroup,
-    Dialog,
-    DialogService,
-    Scroll,
+    Button, ButtonGroup, Icon, Loading, LoadingMask,
+    List, Item, Grid, Dialog, Scroll,
+
+    Input, Checkbox, CheckboxGroup, Radio, RadioGroup,
+
+    MessageService, DialogService, NoticeService,
 ]
 
 export {
     install,
 
     Root,
-    Button,
-    ButtonGroup,
-    Input,
-    Icon,
-    Loading,
-    LoadingMask,
-    Checkbox,
-    CheckboxGroup,
-    MessageService,
-    List,
-    Item,
-    Grid,
-    Radio,
-    RadioGroup,
-    Dialog,
-    DialogService,
-    Scroll,
+
+    Button, ButtonGroup, Icon, Loading, LoadingMask,
+    List, Item, Grid, Dialog, Scroll,
+
+    Input, Checkbox, CheckboxGroup, Radio, RadioGroup,
+
+    MessageService, DialogService, NoticeService,
 }
 
 export default {

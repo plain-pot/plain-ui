@@ -2,6 +2,7 @@ import {StyleStatus} from "../../use/useStyle";
 import {registryRootService} from "../root/root-service";
 import {RequireFormat, SimpleFunction} from "../../shims";
 import ManagerComponent from './notice-manager'
+import {App} from 'vue';
 
 export enum NoticeServiceDirection {
     start = 'start',
@@ -40,7 +41,7 @@ const formatOption = (() => {
             status: option.status || 'dark',
             horizontal: option.horizontal || NoticeServiceDirection.end,
             vertical: option.vertical || NoticeServiceDirection.start,
-            close: () => {},
+            close: () => undefined,
         })
     }
 })()
@@ -87,3 +88,17 @@ const getNoticeService = registryRootService(
         }, {})) as NoticeService
     }
 )
+
+export default {
+    install(app: App) {
+        app.mixin({
+            beforeCreate(): void {
+                Object.defineProperty(this, '$notice', {
+                    get() {
+                        return getNoticeService(this)
+                    },
+                })
+            }
+        })
+    },
+}
