@@ -130,7 +130,7 @@ export default designComponent({
         })
 
         const contentStyle = computed(() => {
-            let height = props.fullHeight ? `calc(100vh - ${(!!hasHead.value ? 40 : 0) + (!!hasFoot.value ? 60 : 0)}px)` : propsState.height
+            let height = props.fullHeight ? `calc(100vh - ${(!!hasHead.value ? 40 : 0) + (hasFoot.value ? 60 : 0)}px)` : propsState.height
             let width = props.fullWidth ? '100vw' : propsState.width
 
             let minHeight = propsState.minHeight !== undefined ? propsState.minHeight : height !== undefined ? null : '15vh'
