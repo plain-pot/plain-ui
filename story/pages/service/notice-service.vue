@@ -25,12 +25,28 @@
             <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{title:'退出确认',time:1000})">停留1s</pl-button>
             <pl-button @click="$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！',{title:'退出确认',time:null})">取消自动关闭</pl-button>
         </demo-row>
+        <demo-row title="自定义底部内容">
+            <pl-button @click="customFoot">基本用法</pl-button>
+        </demo-row>
     </div>
 </template>
 
 <script>
     export default {
-        name: "notice-service"
+        name: "notice-service",
+        methods: {
+            customFoot() {
+                this.$notice({
+                    title: '自定义底部内容',
+                    message: '你有一封未读消息！',
+                    time: null,
+                    renderFoot: () => <>
+                        <pl-button label="删除" mode="stroke" size="mini" status="error" onClick={() => this.$message.error('删除')}/>
+                        <pl-button label="回复" size="mini" status="primary" onClick={() => this.$message.error('回复')}/>
+                    </>
+                })
+            },
+        }
     }
 </script>
 

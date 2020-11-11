@@ -74,6 +74,19 @@
       line-height: 1.5715;
     }
 
+    .pl-notice-foot {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-top: 16px;
+
+      & > * {
+        & + * {
+          margin-left: 8px;
+        }
+      }
+    }
+
     @include statusMixin(notice) {
       border-left: 3px $value solid;
       .pl-notice-title {
