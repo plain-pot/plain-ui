@@ -51,6 +51,9 @@ export default designComponent({
              * @date    2020/11/3 16:42
              */
             resetParentPosition: async () => {
+                if (props.fixedPosition) {
+                    return
+                }
                 await nextTick()
                 const el = refs.el as HTMLElement | null
                 if (el) {
