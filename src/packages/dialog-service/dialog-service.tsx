@@ -28,7 +28,7 @@ const OptionKeys = [
 export default designComponent({
     name: 'pl-dialog-service',
     props: {
-        option: {type: Object, required: true,}
+        option: {type: Object as any as new() => DialogServiceOption, required: true,}
     },
     setup({props}) {
 
@@ -40,7 +40,7 @@ export default designComponent({
 
         const state = reactive({
             key: 0,
-            option: props.option as DialogServiceOption,
+            option: props.option,
             editValue: null as null | string,
         })
 
