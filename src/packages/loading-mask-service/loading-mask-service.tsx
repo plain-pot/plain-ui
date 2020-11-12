@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
-import {LoadingMaskServiceFormatOption, LoadingMaskServiceOption} from "./index";
-import {ref, reactive} from 'vue';
+import {LoadingMaskServiceFormatOption} from "./index";
+import {reactive, ref} from 'vue';
 
 export default designComponent({
     name: 'loading-mask-service',
