@@ -21,6 +21,7 @@ import Dialog from './packages/dialog'
 import DialogService from './packages/dialog-service'
 import Scroll from './packages/scroll'
 import NoticeService from './packages/notice-service'
+import LoadingMaskService from './packages/loading-mask-service'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -34,7 +35,7 @@ const plugins: ComponentPlugin[] = [
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup,
 
-    MessageService, DialogService, NoticeService,
+    MessageService, DialogService, NoticeService, LoadingMaskService,
 ]
 
 export {
@@ -47,7 +48,7 @@ export {
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup,
 
-    MessageService, DialogService, NoticeService,
+    MessageService, DialogService, NoticeService, LoadingMaskService,
 }
 
 export default {

@@ -39,10 +39,16 @@
                 <pl-loading-mask v-model="flag1.loading" message="loading..."/>
             </div>
         </demo-row>
+
+        <demo-row title="$loading.mask">
+            <pl-button label="全屏加载状态" @click="loadingMask"/>
+        </demo-row>
     </div>
 </template>
 
 <script>
+    import {delay} from "plain-utils/utils/delay";
+
     export default {
         name: "loading",
         data() {
@@ -57,6 +63,14 @@
                 },
                 bar: null,
             }
+        },
+        methods: {
+            async loadingMask() {
+                const option = this.$loading.mask()
+                this.$message('三秒钟之后关闭！')
+                await delay(3000)
+                option.close()
+            },
         },
     }
 </script>
