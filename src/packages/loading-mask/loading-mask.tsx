@@ -28,7 +28,8 @@ export default designComponent({
         const modelValue = useModel(() => props.modelValue, event.emit.updateModelValue)
 
         const state = reactive({
-            zIndex: nextIndex(),
+            isMounted: false,
+            zIndex: nextIndex()+(!props.fixedPosition?-1500:0)+1,
         })
 
         const classes = computed(() => [
@@ -69,17 +70,22 @@ export default designComponent({
             }
         }
 
-        watch(() => modelValue.value, async val => {
-            !!val && (state.zIndex = nextIndex());
+        watch(() => modelValue.value && state.isMounted, async val => {
+            !!val && (state.zIndex = nextIndex()+(!props.fixedPosition?-1500:0)+1);
             await utils.resetParentPosition()
         })
 
-        onMounted(utils.resetParentPosition)
+        onMounted(() => {
+            utils.resetParentPosition()
+            setTimeout(() => {
+                state.isMounted = true
+            }, 23)
+        })
 
         return {
             render: () => (
                 <Transition name="pl-transition-loading-mask">
-                    {!!modelValue.value && (
+                    {!!modelValue.value && state.isMounted && (
                         <div style={styles.value} class={classes.value} ref="el">
                             <pl-loading type={props.loadingType}/>
                             {!!props.message && <span>{props.message}</span>}
