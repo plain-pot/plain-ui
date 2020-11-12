@@ -3,7 +3,7 @@ import {nextTick, ref} from 'vue';
 import {useRefList} from "../../use/useRefList";
 
 export function createDefaultManager<Option>(
-    name: string,
+    managerName: string,
     serviceComponent: {
         use: {
             class: {
@@ -14,7 +14,7 @@ export function createDefaultManager<Option>(
         }
     }) {
     return designComponent({
-        name,
+        name: managerName,
         setup() {
 
             const options = ref([] as Option[])
@@ -34,13 +34,13 @@ export function createDefaultManager<Option>(
 
             return {
                 refer: {
-                    name,
+                    managerName,
                     service,
                 },
                 render: () => {
                     const ServiceComponent = serviceComponent as any
                     return (
-                        <div class={name}>
+                        <div class={managerName}>
                             {options.value.map((opt, i) => <ServiceComponent
                                 key={i}
                                 option={opt}
