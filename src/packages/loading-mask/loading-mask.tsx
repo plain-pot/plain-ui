@@ -15,6 +15,7 @@ export default designComponent({
         background: {type: String, default: 'rgba(255,255,255,0.85)'},  // 遮罩背景色
         unlock: {type: Boolean},                                        // 取消阻止点击事件
         fixedPosition: {type: Boolean},                                 // 是否为根节点的加载遮罩
+        inDirective: {type: Boolean},                                   // 是否为遮罩指令服务的实例
     },
     emits: {
         updateModelValue: (val: boolean | undefined) => true,
@@ -29,7 +30,7 @@ export default designComponent({
 
         const state = reactive({
             isMounted: false,
-            zIndex: nextIndex()+(!props.fixedPosition?-1500:0)+1,
+            zIndex: nextIndex() + (!props.fixedPosition ? -1500 : 0) + 1,
         })
 
         const classes = computed(() => [
@@ -58,7 +59,10 @@ export default designComponent({
                 await nextTick()
                 const el = refs.el
                 if (el) {
-                    const parentNode = el.parentNode as HTMLElement
+                    let parentNode = el.parentNode as HTMLElement
+                    if (props.inDirective) {
+                        parentNode = parentNode.parentNode as HTMLElement
+                    }
                     if (!!parentNode) {
                         const styles = window.getComputedStyle(parentNode)
                         const position = styles.position
@@ -71,7 +75,7 @@ export default designComponent({
         }
 
         watch(() => modelValue.value && state.isMounted, async val => {
-            !!val && (state.zIndex = nextIndex()+(!props.fixedPosition?-1500:0)+1);
+            !!val && (state.zIndex = nextIndex() + (!props.fixedPosition ? -1500 : 0) + 1);
             await utils.resetParentPosition()
         })
 

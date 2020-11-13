@@ -4,7 +4,7 @@ import {createDefaultManager} from "../root/createDefaultManager";
 import {App} from 'vue';
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import LoadingMask from '../loading-mask'
-
+import {LoadingMaskDirective} from "./loading-mask-directive";
 
 export interface LoadingMaskServiceOption {
     message?: string,
@@ -41,6 +41,7 @@ export default createComponentPlugin({
     LoadingMask,
     {
         install(app: App) {
+            app.directive('loading', LoadingMaskDirective)
             app.mixin({
                 beforeCreate() {
                     Object.defineProperty(this, '$loading', {

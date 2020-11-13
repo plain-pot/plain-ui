@@ -39,7 +39,13 @@
                 <pl-loading-mask v-model="flag1.loading" message="loading..."/>
             </div>
         </demo-row>
-
+        <demo-row title="指令调用loading-directive">
+            <pl-checkbox label="init" v-model="flag2.init"/>
+            <pl-checkbox label="open mask" v-model="flag2.loading"/>
+            <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="flag2.init" v-loading="flag2.loading?{message:'加载中...'}:false">
+                <pl-button label="this is button"/>
+            </div>
+        </demo-row>
         <demo-row title="$loading.mask">
             <pl-button label="全屏加载状态" @click="loadingMask"/>
         </demo-row>
