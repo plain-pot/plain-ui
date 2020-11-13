@@ -1,4 +1,3 @@
-import {designComponent} from "../../use/designComponent";
 import {computed, reactive, ref} from 'vue';
 import {useRefs} from "../../use/useRefs";
 import {DialogServiceOption} from "./index";
@@ -8,6 +7,7 @@ import {STATUS} from "../../utils/constant";
 import {delay} from "plain-utils/utils/delay";
 import './dialog-service.scss'
 import {VNodeChild} from "../../shims";
+import {createDefaultService} from "../root/createDefaultService";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -25,13 +25,9 @@ const OptionKeys = [
     'onCancel',
 ]
 
-export default designComponent({
+export default createDefaultService({
     name: 'pl-dialog-service',
-    props: {
-        option: {type: Object as any as new() => DialogServiceOption, required: true,}
-    },
-    setup({props}) {
-
+    setup(option: DialogServiceOption) {
         const {refs} = useRefs({
             input: Input,
         })
@@ -40,7 +36,7 @@ export default designComponent({
 
         const state = reactive({
             key: 0,
-            option: props.option,
+            option,
             editValue: null as null | string,
         })
 
@@ -90,9 +86,6 @@ export default designComponent({
         function hide() {
             isShow.value = false
         }
-
-        /*第一次获取option的时候是通过 props.option 获取的，后续的新option是 RootServiceDefaultManager 调用service获取的*/
-        service(props.option)
 
         return {
             refer: {
