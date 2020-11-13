@@ -1,6 +1,6 @@
 import Service from './loading-mask-service'
 import {registryRootService} from "../root/root-service";
-import {createDefaultManager} from "../root/root-service-default-manager";
+import {createDefaultManager} from "../root/createDefaultManager";
 import {App} from 'vue';
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import LoadingMask from '../loading-mask'

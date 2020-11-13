@@ -2,7 +2,7 @@ import {StyleStatus} from "../../use/useStyle";
 import {VNodeChild} from "../../shims";
 import Dialog from '../dialog'
 import {registryRootService} from "../root/root-service";
-import {createDefaultManager} from "../root/root-service-default-manager";
+import {createDefaultManager} from "../root/createDefaultManager";
 import Service from './dialog-service'
 import {App} from 'vue';
 import {DialogService} from "../../index";
