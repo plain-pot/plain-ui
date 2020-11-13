@@ -1,18 +1,14 @@
-import {designComponent} from "../../use/designComponent";
 import {LoadingMaskServiceFormatOption} from "./index";
 import {reactive, ref} from 'vue';
+import {createDefaultService} from "../root/createDefaultService";
 
-export default designComponent({
+export default createDefaultService({
     name: 'loading-mask-service',
-    props: {
-        option: {type: Object as any as new() => LoadingMaskServiceFormatOption, required: true},
-    },
-    setup({props}) {
-
+    setup: (option: LoadingMaskServiceFormatOption) => {
         const isShow = ref(false)
 
         const state = reactive({
-            option: props.option,
+            option,
             key: 0,
         })
 
@@ -25,8 +21,6 @@ export default designComponent({
             isShow.value = true
             return hide
         }
-
-        service(props.option)
 
         return {
             refer: {
@@ -48,5 +42,5 @@ export default designComponent({
                 )
             }
         }
-    },
+    }
 })

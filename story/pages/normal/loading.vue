@@ -66,7 +66,7 @@
         },
         methods: {
             async loadingMask() {
-                const option = this.$loading.mask()
+                const option = this.$loading.mask({message: '正在加载资源文件...'})
                 this.$message('三秒钟之后关闭！')
                 await delay(3000)
                 option.close()
