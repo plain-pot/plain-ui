@@ -1,18 +1,12 @@
 const path = require('path')
 const fs = require('fs')
 
-const resolve = (filePath: string) => path.join(__dirname, '../', filePath)
+const resolve = (filePath) => path.join(__dirname, '../', filePath)
 
-function scan(config: {
-    input: string,
-    outputDir: string,
-}): void {
+function scan(config) {
 
     const content = Buffer.from(fs.readFileSync(config.input)).toString()
-    const icons = [] as {
-        id: string,
-        path: string,
-    }[]
+    const icons = []
     const reg = /<symbol id="(.*?)".*?>(.*?)<\/symbol>/g
     let match = reg.exec(content)
     while (match) {
