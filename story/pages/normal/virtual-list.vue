@@ -76,7 +76,7 @@
     import data from '../data/data.json'
     import data2 from '../data/data-2'
 
-    console.log(data2.length)
+    // console.log(data2.length)
 
     export default {
         name: "demo-virtual-list",
