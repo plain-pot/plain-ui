@@ -151,8 +151,6 @@ export default designComponent({
                     state.start = 0
                     state.remain = Math.floor(refs.scroll!.refs.host.offsetHeight / props.size)
                     state.end = state.remain
-
-                    console.log(state);
                 })
             }
         }, {immediate: true})
