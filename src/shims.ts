@@ -13,6 +13,8 @@ export type FuncProps<T> = new() => T
 
 export type RequireFormat<T, P extends keyof T> = Required<{ [k in P]: T[k] }> & { [k in Exclude<keyof T, P>]: T[k] }
 
+export interface HTMLInputEvent extends Event {target: HTMLInputElement & EventTarget;}
+
 /*
 type Test = { name?: string, age: number }
 const a: RequireFormat<Test, 'name'> = {} as any

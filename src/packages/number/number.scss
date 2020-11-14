@@ -1,0 +1,118 @@
+@include theme {
+
+  .pl-number {
+    display: inline-block;
+    width: initial;
+
+    .pl-input-inner {
+      position: relative;
+      padding-top: 1px;
+      padding-bottom: 1px;
+      display: block;
+
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        float: left;
+        color: $itc;
+        font-size: inherit;
+        box-sizing: border-box;
+
+        &::placeholder {
+          color: $ipc;
+        }
+
+        &::-ms-clear {
+          display: none;
+        }
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none !important;
+          margin: 0;
+        }
+
+        &:-webkit-autofill {
+          background-color: white !important;
+        }
+      }
+
+      .pl-number-prepend-button, .pl-number-append-button {
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        width: 30px;
+        text-align: center;
+        background-color: #f5f7fa;
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+        transition: background-color linear 150ms;
+
+        .pl-icon {
+          vertical-align: 0;
+        }
+
+        &.pl-number-prepend-button {
+          left: 1px;
+          border-right: solid 1px #dcdfe6;
+        }
+
+        &.pl-number-append-button {
+          right: 1px;
+          border-left: solid 1px #dcdfe6;
+        }
+
+        &:active {
+          background-color: #e1e1e1;
+        }
+      }
+    }
+
+    @include shapeMixin(input) {
+      .pl-number-prepend-button {
+        border-top-left-radius: $value;
+        border-bottom-left-radius: $value;
+      }
+      .pl-number-append-button {
+        border-top-right-radius: $value;
+        border-bottom-right-radius: $value;
+      }
+    }
+    @include statusMixin(input) {
+      .pl-number-prepend-button, .pl-number-append-button {
+        &:after {
+          border-color: $value;
+        }
+      }
+    }
+
+    &:not(.pl-number-hide-button) {
+      .pl-input-inner {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+
+        input {
+          text-align: center !important;
+          padding: 0 12px;
+        }
+      }
+    }
+
+    &.pl-number-disabled {
+      input {
+        background-color: $disabled;
+        cursor: not-allowed;
+        color: #c0c4cc;
+      }
+
+      .pl-number-prepend-button, .pl-number-append-button {
+        background-color: $disabled;
+        cursor: not-allowed;
+        color: $disabledText;
+      }
+    }
+  }
+}
