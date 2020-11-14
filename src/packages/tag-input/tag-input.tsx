@@ -111,9 +111,6 @@ export default designComponent({
                 model.value!.splice(index, 1)
                 model.value = [...model.value!]
             },
-            input: (val: string) => {
-                state.inputValue = val
-            },
             keydown: (e: KeyboardEvent) => {
                 if (getKey(e) === KEY.enter) {
                     handler.inputEnter()
@@ -132,19 +129,20 @@ export default designComponent({
                         ))
                     }
                     {!props.noInput && (
-                        <pl-input value={state.inputValue}
-                                  onInput={handler.input}
+                        <pl-input v-model={state.inputValue}
                                   ref="input"
                                   key={state.isEditing ? 1 : 2}
-                                  onKeydown={handler.keydown}>
-                            {!state.isEditing ? (
-                                <div class="pl-tag-input-not-edit"
-                                     onClick={handler.clickEditButton}>
-                                    <pl-icon icon="el-icon-plus"/>
-                                    <span>添加</span>
-                                </div>
-                            ) : null}
-                        </pl-input>
+                                  onKeydown={handler.keydown}
+                                  v-slots={!state.isEditing ? {
+                                      default: () => (
+                                          <div class="pl-tag-input-not-edit"
+                                               onClick={handler.clickEditButton}>
+                                              <pl-icon icon="el-icon-plus"/>
+                                              <span>添加</span>
+                                          </div>
+                                      )
+                                  } : null}
+                        />
                     )}
                 </div>
             )
