@@ -1,6 +1,6 @@
 import {LoadingMaskServiceFormatOption} from "./index";
 import {reactive, ref} from 'vue';
-import {createDefaultService} from "../root/createDefaultService";
+import {createDefaultService} from "../../root/createDefaultService";
 
 export default createDefaultService({
     name: 'loading-mask-service',

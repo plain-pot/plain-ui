@@ -1,8 +1,8 @@
 import {Directive, reactive, App} from 'vue';
-import {designComponent} from "../../use/designComponent";
-import {newInstance} from "../../utils/newInstance";
-import LoadingMaskPlugin from '../loading-mask'
-import LoadingPlugin from '../loading'
+import {designComponent} from "../../../use/designComponent";
+import {newInstance} from "../../../utils/newInstance";
+import LoadingMaskPlugin from '../../loading-mask'
+import LoadingPlugin from '../../loading'
 
 type LoadingMaskBinding = boolean | {
     modelValue?: boolean,
