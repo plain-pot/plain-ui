@@ -20,7 +20,7 @@ export const RootController = (() => {
 
 
 export function registryRootService<ManagerComponent extends { use: { class: any } },
-    CreateService extends (getController: () => Promise<ManagerComponent["use"]["class"]>) => any>
+    CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>) => any>
 (
     name: string,
     managerComponent: ManagerComponent,

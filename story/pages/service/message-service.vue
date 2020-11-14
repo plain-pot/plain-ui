@@ -53,10 +53,12 @@
                 console.log(...args)
             },
             showCustom() {
-                this.$message({
+                const option = this.$message({
+                    status: 'lite',
                     render: () => (
                         <div>
                             <pl-checkbox style="margin-right:10px" v-model={this.flag} label="这里是自定义的内容"/>
+                            <pl-button label="关闭" onClick={() => option.close()} mode="text"/>
                         </div>
                     )
                 })

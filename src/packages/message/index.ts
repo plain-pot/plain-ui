@@ -99,17 +99,16 @@ export type MessageService = MessageServiceFunction & {
 const getMessageService = registryRootService(
     'message',
     ManagerComponent,
-    (getController) => {
-        const service: MessageServiceFunction = async (message: string | MessageServiceOption, option?: MessageServiceOption) => {
+    (getManager) => {
+        const service: MessageServiceFunction = (message: string | MessageServiceOption, option?: MessageServiceOption) => {
             let o = typeof message === "object" ? message : {message}
             if (!!option) {
                 Object.assign(o, option)
             }
             const fo = formatOption(o)
             fo.horizontal.charAt(0)
-            const controller = await getController()
-            const container = await controller.getContainer(fo)
-            await container.getMessage(fo)
+            getManager().then(manager => manager.getContainer(fo).then(container => container.getMessage(fo)))
+            return fo
         };
 
         return Object.assign(service, [
@@ -121,7 +120,7 @@ const getMessageService = registryRootService(
             'error',
             'info',
         ].reduce((prev: any, status: any) => {
-            prev[status] = async function (message: string | MessageServiceOption, option?: MessageServiceOption) {
+            prev[status] = function (message: string | MessageServiceOption, option?: MessageServiceOption) {
                 const o = typeof message === "object" ? message : {message}
                 if (!!option) {
                     Object.assign(o, option)
