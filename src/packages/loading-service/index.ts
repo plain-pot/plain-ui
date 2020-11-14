@@ -4,6 +4,8 @@ import {App} from 'vue';
 import {installPlugin} from "../../utils/installPlugin";
 import {LoadingMaskDirective} from "./mask/loading-mask-directive";
 import {getLoadingMaskService} from "./mask";
+import {getLoadingBarService} from "./bar";
+import './loading-service.scss'
 
 export default {
     install(app: App) {
@@ -16,6 +18,7 @@ export default {
                     get() {
                         return {
                             mask: getLoadingMaskService(this),
+                            bar: getLoadingBarService(this),
                         }
                     },
                 })

@@ -55,6 +55,11 @@
         <demo-row title="$loading.mask">
             <pl-button label="全屏加载状态" @click="loadingMask"/>
         </demo-row>
+        <demo-row title="$loading.bar">
+            <pl-button @click="newLoadingBar" label="new loading bar"/>
+            <pl-button @click="bar.done();bar = null" label="done"/>
+            <pl-button @click="bar.fail();bar = null" label="fail"/>
+        </demo-row>
     </div>
 </template>
 
@@ -82,6 +87,18 @@
                 this.$message('三秒钟之后关闭！')
                 await delay(3000)
                 option.close()
+            },
+            startLoading() {
+                this.$loading(true)
+                setTimeout(() => {
+                    this.$loading(false)
+                }, 3000)
+            },
+            async newLoadingBar() {
+                if (!!this.bar) {
+                    this.bar.done()
+                }
+                this.bar = this.$loading.bar()
             },
         },
     }
