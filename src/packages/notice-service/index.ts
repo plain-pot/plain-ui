@@ -64,18 +64,14 @@ export type NoticeService = NoticeServiceFunction & { [k in keyof StyleStatus]: 
 const getNoticeService = registryRootService(
     'notice',
     ManagerComponent,
-    (getController) => {
+    (getManager) => {
         const service: NoticeServiceFunction = (message: string | NoticeServiceOption, option?: NoticeServiceOption): NoticeServiceFormatOption => {
             let o = typeof message === "object" ? message : {message}
             if (!!option) {
                 Object.assign(o, option)
             }
             const fo = formatOption(o);
-            (async () => {
-                const controller = await getController()
-                const container = await controller.getContainer(fo)
-                await container.getNotice(fo)
-            })()
+            getManager().then(manager => manager.getContainer(fo).then(container => container.getNotice(fo)))
             return fo
         };
 
@@ -88,7 +84,7 @@ const getNoticeService = registryRootService(
             'error',
             'info',
         ].reduce((prev: any, status: any) => {
-            prev[status] = async function (message: string | NoticeServiceOption, option?: NoticeServiceOption) {
+            prev[status] = function (message: string | NoticeServiceOption, option?: NoticeServiceOption) {
                 const o = typeof message === "object" ? message : {message}
                 if (!!option) {
                     Object.assign(o, option)

@@ -74,7 +74,7 @@
                     ),
                     renderContent: () => (
                         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                            <pl-icon icon="el-icon-upload" style="font-size:36px;color:#777"/>
+                            <pl-icon icon="el-icon-upload" style="font-size:36px;" status="primary"/>
                             <span>当前正在导入数据，请稍后等待！</span>
                         </div>
                     ),
