@@ -42,7 +42,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Toggle', title: '开关切换', page: '/normal/toggle', complete: true},
             {name: 'Slider', title: '滑块', page: '/normal/slider', complete: true},
             {name: 'Tag', title: '标签', page: '/normal/tag', complete: true},
-            {name: 'Rate', title: '评分', page: '/normal/rate', complete: false},
+            {name: 'Rate', title: '评分', page: '/normal/rate', complete: true},
             {name: 'ColorPicker', title: '颜色选择', page: '/normal/color-picker', complete: false},
 
             {name: 'Cascade', title: '级联选择', page: '/normal/cascade', complete: false},
