@@ -23,6 +23,7 @@ import Scroll from './packages/scroll'
 import NoticeService from './packages/notice-service'
 import LoadingService from './packages/loading-service'
 import Number from './packages/number'
+import Toggle from './packages/toggle'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -34,7 +35,7 @@ const plugins: ComponentPlugin[] = [
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll,
 
-    Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number,
+    Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle,
 
     MessageService, DialogService, NoticeService, LoadingService,
 ]
@@ -47,7 +48,7 @@ export {
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll,
 
-    Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number,
+    Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle,
 
     MessageService, DialogService, NoticeService, LoadingService,
 }
