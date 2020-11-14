@@ -36,7 +36,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Input', title: '输入框', page: '/normal/input', complete: true},
             {name: 'Radio', title: '单选框', page: '/normal/radio', complete: true},
             {name: 'Checkbox', title: '复选框', page: '/normal/checkbox', complete: true},
-            {name: 'Number', title: '数字输入', page: '/normal/number', complete: false},
+            {name: 'Number', title: '数字输入', page: '/normal/number', complete: true},
             {name: 'Loading', title: '加载', page: '/normal/loading', complete: true},
             {name: 'Select', title: '下拉选择', page: '/normal/select', complete: false},
             {name: 'Toggle', title: '开关切换', page: '/normal/toggle', complete: false},
