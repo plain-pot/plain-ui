@@ -27,6 +27,7 @@ import Toggle from './packages/toggle'
 import Slider from './packages/slider'
 import Tag from './packages/tag'
 import TagInput from './packages/tag-input'
+import Rate from './packages/rate'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -39,7 +40,7 @@ const plugins: ComponentPlugin[] = [
     List, Item, Grid, Dialog, Scroll,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput,
+    Tag, TagInput, Rate,
 
     MessageService, DialogService, NoticeService, LoadingService,
 ]
@@ -53,7 +54,7 @@ export {
     List, Item, Grid, Dialog, Scroll,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput,
+    Tag, TagInput, Rate,
 
     MessageService, DialogService, NoticeService, LoadingService,
 }
