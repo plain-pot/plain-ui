@@ -22,17 +22,22 @@ const registry = (() => {
 })()
 
 registry('el-icon-', async (icon) => {
-    const module = await import('./icons/' + icon + '.json')
-    // console.log(module)
-    return (
-        <svg
-            class={`el-svg-icon ${icon}`}
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            innerHTML={module.default[0]}
-        />
-    )
+    try {
+        const module = await import('./icons/' + icon + '.json')
+        // console.log(module)
+        return (
+            <svg
+                class={`el-svg-icon ${icon}`}
+                viewBox="0 0 1024 1024"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                innerHTML={module.default[0]}
+            />
+        )
+    } catch (e) {
+        console.error(e)
+        throw e
+    }
 })
 
 export default designComponent({

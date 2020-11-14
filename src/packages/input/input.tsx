@@ -260,6 +260,7 @@ export default designComponent({
 
         return {
             refer: {
+                refs,
                 state,
                 propsState,
                 methods,

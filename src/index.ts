@@ -25,6 +25,8 @@ import LoadingService from './packages/loading-service'
 import Number from './packages/number'
 import Toggle from './packages/toggle'
 import Slider from './packages/slider'
+import Tag from './packages/tag'
+import TagInput from './packages/tag-input'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -37,6 +39,7 @@ const plugins: ComponentPlugin[] = [
     List, Item, Grid, Dialog, Scroll,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
+    Tag, TagInput,
 
     MessageService, DialogService, NoticeService, LoadingService,
 ]
@@ -50,6 +53,7 @@ export {
     List, Item, Grid, Dialog, Scroll,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
+    Tag, TagInput,
 
     MessageService, DialogService, NoticeService, LoadingService,
 }
