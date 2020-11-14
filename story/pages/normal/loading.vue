@@ -42,12 +42,14 @@
         <demo-row title="指令调用loading-directive">
             <pl-checkbox label="init" v-model="flag2.init"/>
             <pl-checkbox label="open mask" v-model="flag2.loading"/>
-            <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="flag2.init" v-loading="flag2.loading">
-                <pl-button label="this is button"/>
-            </div>
-            <br>
-            <div style="height: 300px;width: 300px;background-color: #f6f6f6;" v-if="flag2.init" v-loading="{message:'加载中...',modelValue:flag2.loading}">
-                <pl-button label="this is button"/>
+            <div>
+                <div style="height: 300px;width: 300px;background-color: #f6f6f6;display: inline-block" v-if="flag2.init" v-loading="flag2.loading">
+                    <pl-button label="this is button"/>
+                </div>
+                &nbsp;
+                <div style="height: 300px;width: 300px;background-color: #f6f6f6;display: inline-block" v-if="flag2.init" v-loading="{message:'加载中...',modelValue:flag2.loading}">
+                    <pl-button label="this is button"/>
+                </div>
             </div>
         </demo-row>
         <demo-row title="$loading.mask">

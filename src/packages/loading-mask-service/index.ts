@@ -24,10 +24,7 @@ const getLoadingService = registryRootService(
         return {
             mask: (option: LoadingMaskServiceOption): LoadingMaskServiceFormatOption => {
                 option = option || {};
-                (async () => {
-                    const manager = await getManager()
-                    manager.service(option as LoadingMaskServiceFormatOption)
-                })();
+                getManager().then(manager => manager.service(option as LoadingMaskServiceFormatOption));
                 return option as LoadingMaskServiceFormatOption
             }
         }
