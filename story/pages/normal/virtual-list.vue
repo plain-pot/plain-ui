@@ -3,8 +3,8 @@
         <demo-row title="基本用法">
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="40">
-                    <template v-slot="{item,index,virtualIndex}">
-                        <div :key="virtualIndex" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                    <template v-slot="{item,index}">
+                        <div :key="index" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                             <div class="seq">
                                 {{index}}
                             </div>
@@ -25,8 +25,8 @@
         <demo-row title="动态高度">
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="60" dynamicSize ref="list">
-                    <template v-slot="{item,index,virtualIndex}">
-                        <div :style="{backgroundColor:item.color,height:`${item.size}px`}" :key="virtualIndex" class="demo-virtual-list-item" :vid="index" @click="onClick(item,index)">
+                    <template v-slot="{item,index}">
+                        <div :style="{backgroundColor:item.color,height:`${item.size}px`}" :key="index" class="demo-virtual-list-item" :vid="index" @click="onClick(item,index)">
                             <div class="seq">
                                 {{index}}
                             </div>
@@ -49,8 +49,8 @@
             <pl-checkbox v-model="disabledVirtualScroll" label="禁用虚拟滚动"/>
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="data2" :size="40" :disabled="disabledVirtualScroll">
-                    <template v-slot="{item,index,virtualIndex}">
-                        <div :style="{backgroundColor:item.color,height: '40px'}" :key="virtualIndex" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                    <template v-slot="{item,index}">
+                        <div :style="{backgroundColor:item.color,height: '40px'}" :key="index" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
                             <div class="seq">
                                 {{index}}
                             </div>
