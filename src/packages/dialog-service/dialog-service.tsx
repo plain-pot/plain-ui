@@ -1,6 +1,6 @@
 import {computed, reactive, ref} from 'vue';
 import {useRefs} from "../../use/useRefs";
-import {DialogServiceOption} from "./index";
+import {DialogServiceFormatOption} from "./index";
 import Input from '../input'
 import Dialog from '../dialog'
 import {STATUS} from "../../utils/constant";
@@ -23,11 +23,12 @@ const OptionKeys = [
     'render',
     'onConfirm',
     'onCancel',
+    'close',
 ]
 
 export default createDefaultService({
     name: 'pl-dialog-service',
-    setup(option: DialogServiceOption) {
+    setup(option: DialogServiceFormatOption) {
         const {refs} = useRefs({
             input: Input,
         })
@@ -41,7 +42,7 @@ export default createDefaultService({
         })
 
         const targetOption = computed(() => {
-            let option = {} as DialogServiceOption
+            let option = {} as DialogServiceFormatOption
             let binding = {} as Partial<typeof Dialog.use.props>
 
             Object.keys(state.option).forEach((key) => {
@@ -71,7 +72,8 @@ export default createDefaultService({
             },
         }
 
-        async function service(option: DialogServiceOption) {
+        async function service(option: DialogServiceFormatOption) {
+            option.close = hide
             state.option = option
             state.key++
             isShow.value = true
@@ -96,7 +98,7 @@ export default createDefaultService({
             },
             render: () => {
                 let {option, binding} = targetOption.value
-                let status = option.status === null ? null : (option.status || 'primary')
+                let status = option.status
                 let serviceClass = 'pl-dialog-service';
 
                 if (!!status) {

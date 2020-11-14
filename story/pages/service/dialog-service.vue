@@ -100,12 +100,13 @@
             },
             multiService() {
                 let message = Math.random()
-                this.$dialog({
+                const option = this.$dialog({
                     render: () => {
                         return (
                             <div>
                                 message:{message}
                                 <div>
+                                    <pl-button label="close" onClick={() => option.close()}/>
                                     <pl-button label="open another dialog service" onClick={() => this.multiService()}/>
                                 </div>
                             </div>

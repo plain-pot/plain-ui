@@ -1,5 +1,5 @@
 import {StyleStatus} from "../../use/useStyle";
-import {VNodeChild} from "../../shims";
+import {RequireFormat, VNodeChild} from "../../shims";
 import Dialog from '../dialog'
 import {registryRootService} from "../root/root-service";
 import {createDefaultManager} from "../root/createDefaultManager";
@@ -19,7 +19,7 @@ export interface DialogServiceOption {
     editType?: DialogServiceEditType,                               // 输入类型
     editValue?: string | number,                                    // 输入初始内容
     editReadonly?: boolean,                                         // 输入框只读
-    status?: StyleStatus,                                           // 对话框状态
+    status?: StyleStatus | null,                                    // 对话框状态
     render?: () => VNodeChild,                                      // 自定义对话框内容
     renderHead?: () => VNodeChild,                                  // 自定义对话框标题内容
     renderFoot?: () => VNodeChild,                                  // 自定义对话框底部内容
@@ -32,26 +32,37 @@ export interface DialogServiceOption {
     dialogProps?: Partial<typeof Dialog.use.props>,                 // 对话框属性
 }
 
+export type DialogServiceFormatOption = RequireFormat<DialogServiceOption, 'status'> & {
+    close: () => void
+}
+
 type DialogServiceFunction = (message: string | DialogServiceOption, option?: DialogServiceOption) => void
 type DialogService = {
     [k in StyleStatus]: DialogServiceFunction
 }
 
+function formatOption(o: DialogServiceOption): DialogServiceFormatOption {
+    return Object.assign(o, {
+        status: o.status === null ? null : (o.status || 'primary'),
+    }) as DialogServiceFormatOption
+}
+
 const getDialogService = registryRootService(
     'dialog',
     createDefaultManager('pl-dialog-manager', Service),
-    (getController) => {
-        const service = async (message: string | DialogServiceOption, option?: DialogServiceOption) => {
+    (getManager) => {
+        const service = (message: string | DialogServiceOption, option?: DialogServiceOption) => {
             const o: DialogServiceOption = typeof message === "string" ? {message} : message
             if (!!option) {
                 Object.assign(o, option)
             }
-            const controller = await getController()
-            await controller.service(o)
+            const fo = formatOption(o)
+            getManager().then(manager => manager.service(fo))
+            return fo
         }
 
         return Object.assign(service, Object.keys(StyleStatus).reduce((prev: any, status: any) => {
-            prev[status] = async function (message: string | DialogServiceOption, option?: DialogServiceOption) {
+            prev[status] = function (message: string | DialogServiceOption, option?: DialogServiceOption) {
                 const o = typeof message === "object" ? message : {message}
                 if (!!option) {
                     Object.assign(o, option)
@@ -68,10 +79,12 @@ export default {
     install(app: App) {
         installPlugin(app, Dialog)
         app.mixin({
-            computed: {
-                $dialog() {
-                    return getDialogService(this)
-                },
+            beforeCreate() {
+                Object.defineProperty(this, '$dialog', {
+                    get() {
+                        return getDialogService(this)
+                    },
+                })
             },
         })
     },
