@@ -41,7 +41,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Select', title: '下拉选择', page: '/normal/select', complete: false},
             {name: 'Toggle', title: '开关切换', page: '/normal/toggle', complete: true},
             {name: 'Slider', title: '滑块', page: '/normal/slider', complete: true},
-            {name: 'Tag', title: '标签', page: '/normal/tag', complete: false},
+            {name: 'Tag', title: '标签', page: '/normal/tag', complete: true},
             {name: 'Rate', title: '评分', page: '/normal/rate', complete: false},
             {name: 'ColorPicker', title: '颜色选择', page: '/normal/color-picker', complete: false},
 
