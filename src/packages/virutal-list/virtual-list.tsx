@@ -42,30 +42,31 @@ export default designComponent({
             pageSize: 0,
         })
 
-        const offsetData = computed(() => {
+        const offsetData = computed((): { nodes: DataNode[], startPageIndex: number } => {
 
-            if (!state.pageSize) {
-                return {
-                    nodes: [],
-                    pageIndex: 0,
+            const {pageSize, scrollTop, nodes} = state
+            if (!pageSize) {
+                return {nodes: [], startPageIndex: 0,}
+            }
+            let scrollIndex = utils.getIndex(scrollTop)
+            // console.log('offsetData:::scrollIndex', scrollIndex)
+            let pageIndex = Math.floor(scrollIndex / pageSize)
+            // console.log('offsetData:::pageIndex', pageIndex)
+            let start = pageIndex === 0 ? 0 : (pageIndex - 1) * pageSize
+            let end = start + pageSize * 3
+            const exceed = end - nodes.length
+            if (exceed > 0) {
+                end = nodes.length
+                start -= exceed
+                if (start < 0) {
+                    start = 0
                 }
             }
-
-            let scrollIndex = utils.getIndex(state.scrollTop)
-            // console.log('offsetData:::scrollIndex', scrollIndex)
-            let pageIndex = Math.floor(scrollIndex / state.pageSize)
-            // console.log('offsetData:::pageIndex', pageIndex)
-            const totalPages = state.nodes.length / state.pageSize
-            let pages = totalPages === 1 || (pageIndex === totalPages) ? [pageIndex] : [pageIndex, pageIndex + 1]
-
-            const remainNodes = pages.reduce((prev: DataNode[], pageIndex) => {
-                prev.push(...state.nodes.slice(pageIndex * state.pageSize, pageIndex * state.pageSize + state.pageSize))
-                return prev
-            }, [] as DataNode[])
-
+            pageIndex = start / pageSize
+            const keepNodes = nodes.slice(start, end)
             return {
-                nodes: remainNodes,
-                pageIndex,
+                nodes: keepNodes,
+                startPageIndex: pageIndex,
             }
         })
 
@@ -76,7 +77,8 @@ export default designComponent({
         })
 
         const contentStyles = useStyles(style => {
-            style.top = `${offsetData.value.pageIndex * state.pageSize * props.size}px`
+            // style.top = `${(offsetData.value.startPageIndex) * state.pageSize * props.size}px`
+            style.transform = `translateY(${(offsetData.value.startPageIndex) * state.pageSize * props.size}px)`
         })
 
         /*---------------------------------------utils-------------------------------------------*/

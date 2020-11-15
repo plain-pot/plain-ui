@@ -4,7 +4,7 @@
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="40">
                     <template v-slot="{item,index}">
-                        <div :key="index" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                        <div :key="index" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="log(index,{...item})">
                             <div class="seq">
                                 {{index}}
                             </div>
@@ -50,7 +50,7 @@
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="data2" :size="40" :disabled="disabledVirtualScroll">
                     <template v-slot="{item,index}">
-                        <div :style="{backgroundColor:item.color,height: '40px'}" :key="index" class="demo-virtual-list-item" :vid="index" @click="$plain.log(index,{...item})">
+                        <div :style="{backgroundColor:item.color,height: '40px'}" :key="index" class="demo-virtual-list-item" :vid="index" @click="log(index,{...item})">
                             <div class="seq">
                                 {{index}}
                             </div>
@@ -90,8 +90,11 @@
         },
         methods: {
             onClick(item, index) {
-                // this.$plain.log(index, {...item})
+                // this.log(index, {...item})
                 console.log(this.$refs.list.adjust)
+            },
+            log(...args) {
+                console.log(...args)
             },
         },
         mounted() {
