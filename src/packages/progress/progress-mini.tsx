@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {PROGRESS_DEFAULT_PROPS} from "./index";
+import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import {useRefs} from "../../use/useRefs";
 import {reactive, computed, watch, nextTick, onMounted} from 'vue';
 import {throttle} from "plain-utils/utils/throttle";
