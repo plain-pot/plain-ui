@@ -6,6 +6,7 @@
                 <pl-checkbox label="纵向" v-model="d[1].vertical"/>
                 <pl-checkbox label="迷你尺寸" v-model="d[1].mini"/>
                 <pl-checkbox label="标题放在图标下方" v-model="d[1].titleAlignBottom"/>
+                <pl-checkbox v-model="showFlag" label="显示[创建二维码]"/>
             </demo-line>
             <demo-line>
                 <pl-step-group :current="d[1].index"
@@ -13,11 +14,11 @@
                                :mini="d[1].mini"
                                :titleAlignBottom="d[1].titleAlignBottom"
                                :currentStatus="d[1].index === 5?'finish':null">
-                    <pl-step title="获取token" content="调用接口，获取token" @click="$plain.log('获取token')"/>
-                    <pl-step title="上传logo" content="使用token上传logo图片" @click="$plain.log('上传logo')"/>
-                    <pl-step title="创建卡券" content="调用接口创建卡券信息" @click="$plain.log('创建卡券')"/>
-                    <pl-step title="创建二维码" content="调用接口创建二维码" @click="$plain.log('创建二维码')"/>
-                    <pl-step title="显示二维码" content="在应用中显示二维码" @click="$plain.log('显示二维码')"/>
+                    <pl-step title="获取token" content="调用接口，获取token" @click="$message('获取token')"/>
+                    <pl-step title="上传logo" content="使用token上传logo图片" @click="$message('上传logo')"/>
+                    <pl-step title="创建卡券" content="调用接口创建卡券信息" @click="$message('创建卡券')"/>
+                    <pl-step title="创建二维码" content="调用接口创建二维码" @click="$message('创建二维码')" v-if="showFlag"/>
+                    <pl-step title="显示二维码" content="在应用中显示二维码" @click="$message('显示二维码')"/>
                 </pl-step-group>
             </demo-line>
         </demo-row>
@@ -170,11 +171,11 @@
                 <pl-number v-model="d[5].index"/>
             </demo-line>
             <pl-arrow-step-group :current="d[5].index">
-                <pl-arrow-step title="获取token" @click="$plain.log('获取token')"/>
-                <pl-arrow-step title="上传logo" @click="$plain.log('上传logo')"/>
-                <pl-arrow-step title="创建卡券" @click="$plain.log('创建卡券')"/>
-                <pl-arrow-step title="创建二维码" @click="$plain.log('创建二维码')"/>
-                <pl-arrow-step title="显示二维码" @click="$plain.log('显示二维码')"/>
+                <pl-arrow-step title="获取token" @click="$message('获取token')"/>
+                <pl-arrow-step title="上传logo" @click="$message('上传logo')"/>
+                <pl-arrow-step title="创建卡券" @click="$message('创建卡券')"/>
+                <pl-arrow-step title="创建二维码" @click="$message('创建二维码')"/>
+                <pl-arrow-step title="显示二维码" @click="$message('显示二维码')"/>
             </pl-arrow-step-group>
         </demo-row>
 
@@ -224,6 +225,7 @@
         name: "step",
         data() {
             return {
+                showFlag: true,
                 val: {
                     0: 1,
                     1: 2,
