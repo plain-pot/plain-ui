@@ -34,11 +34,52 @@ export default designComponent({
             scroll: Scroll,
         })
 
+        /*---------------------------------------state-------------------------------------------*/
+
         const state = reactive({
             nodes: [] as DataNode[],
             scrollTop: 0,
             pageSize: 0,
         })
+
+        const offsetData = computed(() => {
+
+            if (!state.pageSize) {
+                return {
+                    nodes: [],
+                    pageIndex: 0,
+                }
+            }
+
+            let scrollIndex = utils.getIndex(state.scrollTop)
+            // console.log('offsetData:::scrollIndex', scrollIndex)
+            let pageIndex = Math.floor(scrollIndex / state.pageSize)
+            // console.log('offsetData:::pageIndex', pageIndex)
+            const totalPages = state.nodes.length / state.pageSize
+            let pages = totalPages === 1 || (pageIndex === totalPages) ? [pageIndex] : [pageIndex, pageIndex + 1]
+
+            const remainNodes = pages.reduce((prev: DataNode[], pageIndex) => {
+                prev.push(...state.nodes.slice(pageIndex * state.pageSize, pageIndex * state.pageSize + state.pageSize))
+                return prev
+            }, [] as DataNode[])
+
+            return {
+                nodes: remainNodes,
+                pageIndex,
+            }
+        })
+
+        /*---------------------------------------style-------------------------------------------*/
+
+        const strutStyles = useStyles(style => {
+            style.height = `${state.nodes.length * props.size}px`
+        })
+
+        const contentStyles = useStyles(style => {
+            style.top = `${offsetData.value.pageIndex * state.pageSize * props.size}px`
+        })
+
+        /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {
             getIndex: (top: number) => {
@@ -73,37 +114,7 @@ export default designComponent({
             }
         }
 
-        const offsetData = computed(() => {
-
-            if (!state.pageSize) {
-                return {
-                    nodes: [],
-                    pageIndex: 0,
-                }
-            }
-
-            let scrollIndex = utils.getIndex(state.scrollTop)
-            // console.log('offsetData:::scrollIndex', scrollIndex)
-            let pageIndex = Math.floor(scrollIndex / state.pageSize)
-            // console.log('offsetData:::pageIndex', pageIndex)
-            const totalPages = state.nodes.length / state.pageSize
-            let pages = totalPages === 1 || (pageIndex === totalPages) ? [pageIndex] : [pageIndex, pageIndex + 1]
-
-            const remainNodes = pages.reduce((prev: DataNode[], pageIndex) => {
-                prev.push(...state.nodes.slice(pageIndex * state.pageSize, pageIndex * state.pageSize + state.pageSize))
-                return prev
-            }, [] as DataNode[])
-
-            return {
-                nodes: remainNodes,
-                pageIndex,
-            }
-        })
-
-        const strutStyles = useStyles(style => {
-            style.height = `${state.nodes.length * props.size}px`
-            style.paddingTop = `${offsetData.value.pageIndex * state.pageSize * props.size}px`
-        })
+        /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
             scroll: (e: Event) => {
@@ -124,11 +135,13 @@ export default designComponent({
             render: () => {
                 const {nodes} = offsetData.value
                 return (
-                    <pl-scroll onScroll={handler.scroll} ref="scroll">
+                    <pl-scroll onScroll={handler.scroll} ref="scroll" class="pl-virtual-list">
                         <div class="pl-virtual-list-strut" style={strutStyles.value}>
-                            {nodes.map((node, virtualIndex) =>
-                                scopedSlots.default({item: node.data, index: node.index, virtualIndex})
-                            )}
+                            <div class="pl-virtual-list-content" style={contentStyles.value}>
+                                {nodes.map((node, virtualIndex) =>
+                                    scopedSlots.default({item: node.data, index: node.index, virtualIndex})
+                                )}
+                            </div>
                         </div>
                     </pl-scroll>
                 )
