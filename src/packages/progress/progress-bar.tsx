@@ -44,8 +44,8 @@ export const ProgressBar = designComponent({
                             {props.inlineText && props.modelValue > 20 && (
                                 <div>
                                     <div class="pl-progress-bar-content">
-                                        {props.status === 'success' && <pl-icon icon="el-icon-check" class="pl-progress-bar-icon-success" style={{color: 'white'}}/>}
-                                        {props.status === 'error' && <pl-icon icon="el-icon-close" class="pl-progress-bar-icon-error" style={{color: 'white'}}/>}
+                                        {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: 'white'}}/>}
+                                        {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: 'white'}}/>}
                                         {props.status !== 'success' && props.status !== 'error' && <span>{props.modelValue}%</span>}
                                     </div>
                                 </div>
@@ -54,8 +54,8 @@ export const ProgressBar = designComponent({
                         {props.inlineText && props.modelValue < 20 && (
                             <div>
                                 <div class="pl-progress-bar-content">
-                                    {props.status === 'success' && <pl-icon icon="el-icon-check" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                                    {props.status === 'error' && <pl-icon icon="el-icon-close" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                                    {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                                    {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                                     {props.status !== 'success' && props.status !== 'error' && <span>{props.modelValue}%</span>}
                                 </div>
                             </div>

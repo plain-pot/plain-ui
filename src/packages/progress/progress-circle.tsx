@@ -113,8 +113,8 @@ export const ProgressCircle = designComponent({
                         {props.status === 'normal' && scopedSlots.default({animatePercent: state.animatePercent, value: props.modelValue}, (
                             <span>{state.animatePercent}%</span>
                         ))}
-                        {props.status === 'success' && <pl-icon icon="el-icon-check" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                        {props.status === 'error' && <pl-icon icon="el-icon-close" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                        {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                        {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                     </div>
                 </div>
             )
