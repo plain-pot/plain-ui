@@ -73,7 +73,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Tree', title: '树形组件', page: '/normal/tree', complete: false},
             {name: 'Virtual Tree', title: '虚拟树', page: '/normal/virtual-tree', complete: false},
             {name: 'Pagination', title: '分页', page: '/normal/pagination', complete: false},
-            {name: 'Badge', title: '标记', page: '/normal/badge', complete: false},
+            {name: 'Badge', title: '标记', page: '/normal/badge', complete: true},
             {name: 'Step', title: '步骤条', page: '/normal/step', complete: false},
             {name: 'Tab', title: '页签', page: '/normal/tab', complete: false},
         ]
