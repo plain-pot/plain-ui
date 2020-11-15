@@ -6,7 +6,7 @@ import {useCollect} from "../../../use/useCollect";
 import {Step} from "./step";
 import './step.scss'
 
-const StepGroup = designComponent({
+export const StepGroup = designComponent({
     name: 'pl-step-group',
     props: {
         current: {type: [String, Number]},                              // 双向绑定，指定当前步骤条的步骤，在step组件中，可以通过 status 属性覆盖状态

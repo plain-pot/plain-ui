@@ -63,7 +63,7 @@ export const Step = designComponent({
             render: () => (
                 <div class={classes.value} onClick={emit.click} ref="el">
                     <div class="pl-step-head">
-                        {!stepGroup.props.vertical && (stepGroup.isTitleAlignBottom.value || isLast.value) && <span class="pl-step-divider pl-step-divider-prev" v-if=""/>}
+                        {!stepGroup.props.vertical && (stepGroup.isTitleAlignBottom.value || isLast.value) && <span class="pl-step-divider pl-step-divider-prev"/>}
                         <span class="pl-step-icon">
                         {
                             !!icon.value ?
@@ -81,7 +81,7 @@ export const Step = designComponent({
                                                     (currentStatus.value === StepStatus.error ?
                                                             <pl-icon icon="el-icon-close"/>
                                                             :
-                                                            <span v-else>{index.value + 1}</span>
+                                                            <span>{index.value + 1}</span>
                                                     )
                                                 }
                                             </span>

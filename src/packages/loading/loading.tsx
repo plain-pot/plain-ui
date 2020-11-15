@@ -3,6 +3,7 @@ import {designComponent} from "../../use/designComponent";
 import {useRefs} from "../../use/useRefs";
 import {computed, nextTick, watch} from 'vue';
 import './loading.scss'
+import {delay} from "plain-utils/utils/delay";
 
 export default designComponent({
     name: 'pl-loading',
@@ -25,11 +26,11 @@ export default designComponent({
             if (!val) {
                 return refs.el.innerHTML = ''
             }
-            await nextTick()
+            await delay(23)
             if (!(PlainLoading as any)[val]) {
                 throw new Error(`pl-loading: un recognise type:${val}`)
             }
-            refs.el.innerHTML = (PlainLoading as any)[val]().outerHTML
+            !!refs.el && (refs.el.innerHTML = (PlainLoading as any)[val]().outerHTML)
         }, {immediate: true})
 
         return {

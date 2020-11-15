@@ -32,6 +32,7 @@ import VirtualList from './packages/virutal-list'
 import Progress from './packages/progress'
 import Pagination from './packages/pagination'
 import Badge from './packages/badge'
+import Step from './packages/step'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -42,6 +43,7 @@ const plugins: ComponentPlugin[] = [
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
+    Step,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
@@ -56,6 +58,7 @@ export {
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
+    Step,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
