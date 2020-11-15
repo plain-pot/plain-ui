@@ -5,6 +5,7 @@ import {useRefs} from "../../use/useRefs";
 import Scroll from '../scroll'
 import {reactive, computed, watch, nextTick, onUpdated, onMounted} from 'vue';
 import {useStyles} from "../../use/useStyles";
+import {useClass} from "../../use/useClasses";
 
 interface DataNode {
     top: number
@@ -20,6 +21,8 @@ export default designComponent({
     props: {
         data: {type: Array, require: true, default: []},            // 要渲染的长数据
         size: {type: Number, require: true, default: 40},           // 每一行高度
+        dynamicSize: {type: Boolean},                               // 标识列表中的每一行高度不是固定的，但是还是需要提供 size 属性，而且size属性不能与每一行的高度差距太多；
+        disabled: {type: Boolean},                                  // 禁用虚拟滚动
     },
     emits: {
         scroll: (e: Event) => true
@@ -32,6 +35,7 @@ export default designComponent({
 
         const {refs} = useRefs({
             scroll: Scroll,
+            content: HTMLDivElement,
         })
 
         /*---------------------------------------state-------------------------------------------*/
@@ -47,44 +51,96 @@ export default designComponent({
          * @author  韦胜健
          * @date    2020/11/15 9:28
          */
-        const offsetData = computed((): { nodes: DataNode[], startPageIndex: number } => {
-            const {pageSize, scrollTop, nodes} = state
+        const offsetData = computed((): { list: { item: any, index: number }[], startPageIndex: number, start: number } => {
+
+            const {pageSize, scrollTop} = state
+            const data = props.data || []
+
             if (!pageSize) {
-                return {nodes: [], startPageIndex: 0,}
+                return {list: [], startPageIndex: 0, start: 0}
             }
+            if (props.disabled) {
+                return {
+                    list: data.map((item, index) => ({item, index})),
+                    start: 0,
+                    startPageIndex: 0,
+                }
+            }
+
+            /*当前scrollTop对应的数据中数据的索引*/
             let scrollIndex = utils.getIndex(scrollTop)
-            // console.log('offsetData:::scrollIndex', scrollIndex)
             let pageIndex = Math.floor(scrollIndex / pageSize)
-            // console.log('offsetData:::pageIndex', pageIndex)
             let start = pageIndex === 0 ? 0 : (pageIndex - 1) * pageSize
             let end = start + pageSize * 3
-            const exceed = end - nodes.length
+            /*console.log({
+                scrollIndex,
+                pageIndex,
+                start,
+                end,
+            })*/
+            const exceed = end - data.length
             if (exceed > 0) {
-                end = nodes.length
+                end = data.length
                 start -= exceed
                 if (start < 0) {
                     start = 0
                 }
             }
-            pageIndex = start / pageSize
-            const keepNodes = nodes.slice(start, end)
+            pageIndex = Math.floor(start / pageSize)
             return {
-                nodes: keepNodes,
+                list: data.map((item, index) => ({item, index})).slice(start, end),
                 startPageIndex: pageIndex,
+                start,
             }
         })
 
         /*---------------------------------------style-------------------------------------------*/
 
+        const classes = useClass(() => [
+            'pl-virtual-list',
+            {
+                'pl-virtual-list-disabled': props.disabled,
+            }
+        ])
+
         const strutStyles = useStyles(style => {
-            style.height = `${state.nodes.length * props.size}px`
+            if (!state.pageSize) {
+                return
+            }
+            if (props.disabled) {
+                return;
+            }
+            if (!props.dynamicSize) {
+                style.height = `${(props.data || []).length * props.size}px`
+            } else {
+                style.height = `${state.nodes[state.nodes.length - 1].bottom}px`
+            }
         })
 
         const contentStyles = useStyles(style => {
+
+            if (!state.pageSize) {
+                return
+            }
+            if (props.disabled) {
+                return;
+            }
+
+            const {startPageIndex, start} = offsetData.value
+
+            let top = 0
+            if (!props.dynamicSize) {
+                top = (startPageIndex) * state.pageSize * props.size
+                // console.log('not dynamic》》》top', top)
+            } else {
+                top = state.nodes[start].top
+                // console.log('is dynamic===top', top)
+            }
+
             /*top定位*/
-            // style.top = `${(offsetData.value.startPageIndex) * state.pageSize * props.size}px`
+            // style.top = `${top}px`
             /*transform定位*/
-            style.transform = `translateY(${(offsetData.value.startPageIndex) * state.pageSize * props.size}px)`
+            style.transform = `translateY(${top}px)`
         })
 
         /*---------------------------------------utils-------------------------------------------*/
@@ -96,25 +152,31 @@ export default designComponent({
              * @date    2020/11/15 9:29
              */
             getIndex: (top: number) => {
-                const {nodes} = state
-                let start = 0;
-                let end = nodes.length - 1
-                let temp = 0;
-                while (start <= end) {
-                    let middle = Math.floor((start + end) / 2)
-                    let middleBottom = nodes[middle].bottom
-                    if (middleBottom === top) {
-                        return middle + 1
-                    } else if (middleBottom < top) {
-                        start = middle + 1
-                    } else if (middleBottom > top) {
-                        if (!temp || temp > middle) {
-                            temp = middle
+                if (!props.dynamicSize) {
+                    // console.log('not dynamic》》》getIndex', top / props.size)
+                    return Math.floor(top / props.size)
+                } else {
+                    const {nodes} = state
+                    let start = 0;
+                    let end = nodes.length - 1
+                    let temp = 0;
+                    while (start <= end) {
+                        let middle = Math.floor((start + end) / 2)
+                        let middleBottom = nodes[middle].bottom
+                        if (middleBottom === top) {
+                            return middle + 1
+                        } else if (middleBottom < top) {
+                            start = middle + 1
+                        } else if (middleBottom > top) {
+                            if (!temp || temp > middle) {
+                                temp = middle
+                            }
+                            end = middle - 1
                         }
-                        end = middle - 1
                     }
+                    // console.log('is dynamic》》》getIndex', temp)
+                    return temp
                 }
-                return temp
             },
             /**
              * 格式化props.data为 DataNode数组
@@ -122,6 +184,7 @@ export default designComponent({
              * @date    2020/11/15 9:29
              */
             resetData: (data: any[]) => {
+                // console.log('resetData')
                 state.nodes = data.map((item, index) => ({
                     data: item,
                     index,
@@ -137,27 +200,76 @@ export default designComponent({
         const handler = {
             scroll: (e: Event) => {
                 emit.scroll(e)
+
+                if (props.disabled) {
+                    return
+                }
+
                 state.scrollTop = (e.target as HTMLDivElement).scrollTop
             }
         }
 
-        watch(() => props.data, (data: any[]) => utils.resetData(data))
+        watch(() => props.data, (data: any[]) => {
+            if (props.disabled) {
+                return
+            }
+            if (!props.dynamicSize) {
+                return;
+            }
+            !!refs.scroll && refs.scroll.methods.scrollTop(0, 0);
+            /*如果是动态高度，则刷state.nodes*/
+            utils.resetData(data)
+        })
 
         onMounted(() => {
-            utils.resetData(props.data)
             const hostHeight = refs.scroll!.refs.host.offsetHeight
-            state.pageSize = hostHeight / props.size
+            state.pageSize = Math.ceil(hostHeight / props.size)
+            if (props.dynamicSize && !props.disabled) {
+                utils.resetData(props.data)
+            }
+        })
+
+        onUpdated(async () => {
+            if (props.disabled) {
+                return
+            }
+            if (!props.dynamicSize) {
+                return;
+            }
+            await nextTick()
+            // console.log('dynamic scan height')
+            const elNodes = (Array.from(refs.content.childNodes || []) as HTMLElement[]).filter(node => node.nodeType !== 3)
+            for (let i = 0; i < elNodes.length; i++) {
+                const el = elNodes[i];
+                const {offsetHeight: height} = el
+                let vid = el.getAttribute('vid') as null | number | string
+                if (vid == null) {
+                    throw new Error('Each item of the virtual-list must have an attribute named "vid", please set :vid="index"')
+                }
+                vid = Number(vid)
+                const prevNode = state.nodes[vid]
+                const prevHeight = prevNode.height
+                let deltaHeight = prevHeight - height
+                if (deltaHeight !== 0) {
+                    prevNode.height = height
+                    prevNode.bottom = prevNode.bottom - deltaHeight
+                    for (let j = vid + 1; j < state.nodes!.length; j++) {
+                        state.nodes![j].top = state.nodes![j - 1].bottom
+                        state.nodes![j].bottom = state.nodes![j].bottom - deltaHeight
+                    }
+                }
+            }
         })
 
         return {
             render: () => {
-                const {nodes} = offsetData.value
+                const {list} = offsetData.value
                 return (
-                    <pl-scroll onScroll={handler.scroll} ref="scroll" class="pl-virtual-list">
+                    <pl-scroll onScroll={handler.scroll} ref="scroll" class={classes.value}>
                         <div class="pl-virtual-list-strut" style={strutStyles.value}>
-                            <div class="pl-virtual-list-content" style={contentStyles.value}>
-                                {nodes.map((node, virtualIndex) =>
-                                    scopedSlots.default({item: node.data, index: node.index, virtualIndex})
+                            <div class="pl-virtual-list-content" style={contentStyles.value} ref="content">
+                                {list.map((node, virtualIndex) =>
+                                    scopedSlots.default({item: node.item, index: node.index, virtualIndex})
                                 )}
                             </div>
                         </div>

@@ -26,7 +26,7 @@
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="list" :size="60" dynamicSize ref="list">
                     <template v-slot="{item,index}">
-                        <div :style="{backgroundColor:item.color,height:`${item.size}px`}" :key="index" class="demo-virtual-list-item" :vid="index" @click="onClick(item,index)">
+                        <div :key="index" :style="{backgroundColor:item.color,height:`${item.size}px`}" class="demo-virtual-list-item" :vid="index" @click="onClick(item,index)">
                             <div class="seq">
                                 {{index}}
                             </div>
@@ -50,7 +50,7 @@
             <div class="demo-virtual-list-container">
                 <pl-virtual-list :data="data2" :size="40" :disabled="disabledVirtualScroll">
                     <template v-slot="{item,index}">
-                        <div :style="{backgroundColor:item.color,height: '40px'}" :key="index" class="demo-virtual-list-item" :vid="index" @click="log(index,{...item})">
+                        <div :key="index" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="log(index,{...item})">
                             <div class="seq">
                                 {{index}}
                             </div>
@@ -83,7 +83,7 @@
         props: {},
         data() {
             return {
-                list: data,
+                list: data2,
                 data2,
                 disabledVirtualScroll: false,
             }
