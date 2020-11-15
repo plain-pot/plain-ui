@@ -5,10 +5,11 @@ import {ArrowStep as arrowStep} from "./arrow-step/arrow-step";
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import {App} from 'vue';
 import {installPlugin} from "../../utils/installPlugin";
+import Triangle from '../triangle'
 
 const StepGroup = createComponentPlugin(stepGroup)
 const Step = createComponentPlugin(step)
-const ArrowStepGroup = createComponentPlugin(arrowStepGroup)
+const ArrowStepGroup = createComponentPlugin(arrowStepGroup, [Triangle])
 const ArrowStep = createComponentPlugin(arrowStep)
 
 export default {
