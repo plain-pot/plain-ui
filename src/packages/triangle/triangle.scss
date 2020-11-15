@@ -1,0 +1,14 @@
+@include theme {
+  .pl-triangle {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    .pl-triangle-target {
+      width: 0;
+      height: 0;
+      position: relative;
+    }
+  }
+}
