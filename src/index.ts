@@ -30,6 +30,7 @@ import TagInput from './packages/tag-input'
 import Rate from './packages/rate'
 import VirtualList from './packages/virutal-list'
 import Progress from './packages/progress'
+import Pagination from './packages/pagination'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -39,7 +40,7 @@ const plugins: ComponentPlugin[] = [
     Root,
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
-    List, Item, Grid, Dialog, Scroll, VirtualList, Progress,
+    List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
@@ -53,7 +54,7 @@ export {
     Root,
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
-    List, Item, Grid, Dialog, Scroll, VirtualList, Progress,
+    List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
