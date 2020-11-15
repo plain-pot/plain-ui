@@ -24,7 +24,7 @@
         </demo-row>
         <demo-row title="可横向滚动">
             <div class="demo-scroll-wrapper">
-                <pl-scroll scrollX>
+                <pl-scroll scrollX scrollAfterDragEnd>
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                     </div>
@@ -144,6 +144,15 @@
                     <pl-button @click="$refs.autoScroll2.methods.autoScrollRight()">向右滚动</pl-button>
                     <pl-button @click="$refs.autoScroll2.methods.stopAutoScroll()">停止滚动</pl-button>
                 </pl-button-group>
+            </div>
+        </demo-row>
+        <demo-row title="scrollAfterDragEnd: 拖拽结束后滚动">
+            <div class="demo-scroll-wrapper">
+                <pl-scroll scrollX scrollAfterDragEnd>
+                    <div style="height: 400px;width: 400px;" class="demo-scroll-content">
+                        this is content
+                    </div>
+                </pl-scroll>
             </div>
         </demo-row>
 

@@ -34,6 +34,7 @@ export default designComponent({
         topThreshold: {type: Number, default: 20},                                                      // 距离顶部多少距离派发滚动到顶部事件
         bottomThreshold: {type: Number, default: 20},                                                   // 距离底部多少距离派发滚动到底部事件
         autoScrollSpeed: {type: Number, default: 400},                                                  // 自动滚动的时候的速度，每秒钟滚动的距离
+        scrollAfterDragEnd: {type: Boolean,},                                                           // 是否拖拽结束后才刷新滚动位置
     },
     emits: {
         scroll: (e: Event) => true,
@@ -393,13 +394,25 @@ export default designComponent({
                 dragmove: (e: MouseEvent) => {
                     let deltaY = e.clientY - state.dragY
                     let top = state.dragTop + deltaY
-                    refs.wrapper.scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
+                    let scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
+                    scrollTop = Math.max(0, Math.min(scrollTop, state.contentHeight - state.hostHeight))
+                    if (!props.scrollAfterDragEnd) {
+                        refs.wrapper.scrollTop = scrollTop
+                    } else {
+                        state.wrapperScrollTop = scrollTop
+                    }
                 },
-                dragend: () => {
+                dragend: (e: MouseEvent) => {
                     state.draging = false
                     document.removeEventListener('mousemove', handler.vertical.dragmove)
                     document.removeEventListener('mouseup', handler.vertical.dragend)
                     enableUserSelect()
+
+                    if (props.scrollAfterDragEnd) {
+                        let deltaY = e.clientY - state.dragY
+                        let top = state.dragTop + deltaY
+                        refs.wrapper.scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
+                    }
                 }
             },
             horizontal: {
@@ -414,13 +427,25 @@ export default designComponent({
                 dragmove: (e: MouseEvent) => {
                     let deltaX = e.clientX - state.dragX
                     const left = state.dragLeft + deltaX
-                    refs.wrapper.scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
+                    let scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
+                    scrollLeft = Math.max(0, Math.min(scrollLeft, state.contentWidth - state.hostWidth))
+                    if (!props.scrollAfterDragEnd) {
+                        refs.wrapper.scrollLeft = scrollLeft
+                    } else {
+                        state.wrapperScrollLeft = scrollLeft
+                    }
                 },
-                dragend: () => {
+                dragend: (e: MouseEvent) => {
                     state.draging = false
                     document.removeEventListener('mousemove', handler.horizontal.dragmove)
                     document.removeEventListener('mouseup', handler.horizontal.dragend)
                     enableUserSelect()
+
+                    if (props.scrollAfterDragEnd) {
+                        let deltaX = e.clientX - state.dragX
+                        const left = state.dragLeft + deltaX
+                        refs.wrapper.scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
+                    }
                 },
             },
         }
