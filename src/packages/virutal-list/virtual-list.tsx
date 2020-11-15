@@ -37,13 +37,17 @@ export default designComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const state = reactive({
-            nodes: [] as DataNode[],
-            scrollTop: 0,
-            pageSize: 0,
+            nodes: [] as DataNode[],                    // 格式化的data数组数据
+            scrollTop: 0,                               // 当前滚动scrollTop
+            pageSize: 0,                                // 页大小
         })
 
+        /**
+         * 计算得到的在虚拟列表当前要渲染的数组数据
+         * @author  韦胜健
+         * @date    2020/11/15 9:28
+         */
         const offsetData = computed((): { nodes: DataNode[], startPageIndex: number } => {
-
             const {pageSize, scrollTop, nodes} = state
             if (!pageSize) {
                 return {nodes: [], startPageIndex: 0,}
@@ -77,13 +81,20 @@ export default designComponent({
         })
 
         const contentStyles = useStyles(style => {
+            /*top定位*/
             // style.top = `${(offsetData.value.startPageIndex) * state.pageSize * props.size}px`
+            /*transform定位*/
             style.transform = `translateY(${(offsetData.value.startPageIndex) * state.pageSize * props.size}px)`
         })
 
         /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {
+            /**
+             * 根据top值，对比DataNodes中节点的top以及bottom得到在data nodes中的位置索引
+             * @author  韦胜健
+             * @date    2020/11/15 9:29
+             */
             getIndex: (top: number) => {
                 const {nodes} = state
                 let start = 0;
@@ -105,6 +116,11 @@ export default designComponent({
                 }
                 return temp
             },
+            /**
+             * 格式化props.data为 DataNode数组
+             * @author  韦胜健
+             * @date    2020/11/15 9:29
+             */
             resetData: (data: any[]) => {
                 state.nodes = data.map((item, index) => ({
                     data: item,
@@ -120,6 +136,7 @@ export default designComponent({
 
         const handler = {
             scroll: (e: Event) => {
+                emit.scroll(e)
                 state.scrollTop = (e.target as HTMLDivElement).scrollTop
             }
         }
@@ -130,7 +147,6 @@ export default designComponent({
             utils.resetData(props.data)
             const hostHeight = refs.scroll!.refs.host.offsetHeight
             state.pageSize = hostHeight / props.size
-            // console.log('onMounted:::state.pageSize', state.pageSize)
         })
 
         return {
