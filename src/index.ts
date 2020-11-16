@@ -33,6 +33,7 @@ import Progress from './packages/progress'
 import Pagination from './packages/pagination'
 import Badge from './packages/badge'
 import Step from './packages/step'
+import Popper from './packages/popper'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -43,7 +44,7 @@ const plugins: ComponentPlugin[] = [
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step,
+    Step, Popper,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
@@ -58,7 +59,7 @@ export {
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step,
+    Step, Popper,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
