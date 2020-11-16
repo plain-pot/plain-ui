@@ -1,5 +1,5 @@
 import {StyleStatus} from "../../use/useStyle";
-import {registryRootService} from "../root/root-service";
+import {registryRootService} from "../root/registryRootService";
 import {RequireFormat, SimpleFunction, VNodeChild} from "../../shims";
 import ManagerComponent from './notice-manager'
 import {App} from 'vue';

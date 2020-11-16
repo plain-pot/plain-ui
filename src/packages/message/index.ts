@@ -1,6 +1,6 @@
 import {App} from "vue";
 import {RequireFormat, VNodeChild} from "../../shims";
-import {registryRootService} from "../root/root-service";
+import {registryRootService} from "../root/registryRootService";
 import ManagerComponent from './message-manager'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './message.scss'

@@ -1,5 +1,5 @@
 import Service from './loading-mask-service'
-import {registryRootService} from "../../root/root-service";
+import {registryRootService} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 
 export interface LoadingMaskServiceOption {

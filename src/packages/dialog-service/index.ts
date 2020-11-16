@@ -1,7 +1,7 @@
 import {StyleStatus} from "../../use/useStyle";
 import {RequireFormat, VNodeChild} from "../../shims";
 import Dialog from '../dialog'
-import {registryRootService} from "../root/root-service";
+import {registryRootService} from "../root/registryRootService";
 import {createDefaultManager} from "../root/createDefaultManager";
 import Service from './dialog-service'
 import {App} from 'vue';

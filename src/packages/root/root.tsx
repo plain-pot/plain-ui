@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {ComponentPublicInstance, getCurrentInstance, markRaw, nextTick, reactive, Teleport} from 'vue';
-import {RootController} from "./root-service";
+import {RootController} from "./registryRootService";
 import {useRefList} from "../../use/useRefList";
 import './root.scss'
 

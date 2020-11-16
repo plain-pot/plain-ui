@@ -1,6 +1,6 @@
 import Service from './loading-bar-service'
 import {createDefaultManager} from "../../root/createDefaultManager";
-import {registryRootService} from "../../root/root-service";
+import {registryRootService} from "../../root/registryRootService";
 import {RequireFormat} from "../../../shims";
 
 export interface LoadingBarOption {
