@@ -1,13 +1,23 @@
 <template>
     <div class="demo-popper">
-        <demo-row>
+        <demo-row title="普通文本">
             <pl-popper>
                 this is popper content
             </pl-popper>
         </demo-row>
-        <demo-row>
+        <demo-row title="唯一根节点组件">
             <pl-popper>
                 <pl-button label="BUTTON"/>
+            </pl-popper>
+        </demo-row>
+        <demo-row title="多根节点组件">
+            <pl-popper>
+                <pl-checkbox-group>
+                    <pl-checkbox label="全选" checkboxForAll/>
+                    <pl-checkbox label="标签一" val="tag1"/>
+                    <pl-checkbox label="标签二" val="tag2"/>
+                    <pl-checkbox label="标签三" val="tag3"/>
+                </pl-checkbox-group>
             </pl-popper>
         </demo-row>
     </div>

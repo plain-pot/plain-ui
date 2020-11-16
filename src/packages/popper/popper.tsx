@@ -3,6 +3,7 @@ import {useSlots} from "../../use/useSlots";
 import {computed, onMounted} from 'vue';
 import {createError} from "../../utils/createError";
 import {useRefs} from "../../use/useRefs";
+import {getElement} from "../../utils/getElement";
 
 const error = createError('pl-popper')
 
@@ -28,7 +29,7 @@ export default designComponent({
 
         onMounted(() => {
             console.log({
-                reference: (refs.reference as any).$el || refs.reference
+                reference: getElement(refs.reference)
             })
         })
 
