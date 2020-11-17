@@ -16,23 +16,42 @@
                 <span>{{item.label}}</span>
             </li>
         </ul>
+        <demo-parent
+                @click-body="log('click-body parent')"
+        >
+
+        </demo-parent>
+        <demo-row title="测试组件销毁之后，监听的事件是否已经销毁">
+            <pl-checkbox v-model="state.init" label="init"/>
+            <demo-parent v-if="state.init" @click-body="log('click body')">
+                <pl-button label="click激活"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </demo-parent>
+        </demo-row>
     </div>
 </template>
 
 <script>
     import {DemoUseEventTable} from "./DemoUseEventTable";
     import {reactive} from 'vue'
+    import {DemoParent} from "./DemoParent";
 
     export default {
         name: "demo-use-event",
         components: {
-            DemoUseEventTable
+            DemoUseEventTable,
+            DemoParent,
         },
         setup() {
             const state = reactive({
                 showHeader: true,
                 currentPart: null,
                 count: 0,
+                init: true,
 
                 tips: [
                     {label: '使用鼠标的滚轮进行纵向滚动', done: false},
@@ -53,7 +72,10 @@
                         state.currentPart = part
                         state.count = 0
                     }
-                }
+                },
+                log(...args) {
+                    console.log(...args)
+                },
             }
         },
     }
