@@ -376,6 +376,11 @@ export default designComponent({
         const Comment = createCommentVNode('') as any
 
         return {
+            refer: {
+                event,
+                state,
+                ...methods,
+            },
             render: () => {
                 const {value: ReferenceVNode} = referenceVNode
                 return (
