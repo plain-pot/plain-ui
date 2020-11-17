@@ -20,10 +20,10 @@
   "typings": "src/index.ts",
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^3.0.0",
     "plain-loading": "^0.1.5",
-    "plain-popper": "0.0.1",
-    "plain-utils": "^0.1.16"
+    "plain-popper": "0.0.2",
+    "plain-utils": "^0.1.16",
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

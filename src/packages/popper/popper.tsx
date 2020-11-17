@@ -6,7 +6,7 @@ import {useRefs} from "../../use/useRefs";
 import {getElement} from "../../utils/getElement";
 import {useModel} from "../../use/useModel";
 import {nextIndex} from "../../utils/nextIndex";
-import {PlainPopper} from "../../plugins/popper/PlainPopper";
+import {PlainPopper} from 'plain-popper'
 import {SimpleFunction} from "../../shims";
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "./trigger/PopperTrigger";
 import {useProps} from "../../use/useProps";
