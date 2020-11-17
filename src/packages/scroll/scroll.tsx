@@ -9,6 +9,7 @@ import {throttle} from 'plain-utils/utils/throttle';
 import {ResizeDetectFuncParam, ResizeDetectorDirective} from "../../plugins/ResizeDetector";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
+import Popper from '../popper'
 import './scroll.scss'
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
@@ -61,7 +62,7 @@ export default designComponent({
 
         const mounted = useMounted()
 
-        // const popperProvider = inject<any>(PLAIN_POPPER_PROVIDER, null)
+        const popper = Popper.use.inject(null)
 
         const state = reactive({
             verticalPosition: PLAIN_SCROLL_VERTICAL_POSITION.top,
@@ -330,9 +331,7 @@ export default designComponent({
 
         const handler = {
             windowResize: throttle(() => methods.refresh(), 500),
-            popperOpen: () => {
-                methods.refresh()
-            },
+            popperOpen: () => methods.refresh(),
             popperShow: async () => {
                 await nextTick()
                 methods.scroll({y: 0})
@@ -454,18 +453,18 @@ export default designComponent({
 
         onMounted(() => {
             window.addEventListener('resize', handler.windowResize)
-            /*if (!!popperProvider) {
-                popperProvider.on.open(handler.popperOpen)
-                popperProvider.on.show(handler.popperShow)
-            }*/
+            if (!!popper) {
+                popper.event.on.open(handler.popperOpen)
+                popper.event.on.show(handler.popperShow)
+            }
         })
 
         onBeforeUnmount(() => {
             window.removeEventListener('resize', handler.windowResize)
-            /*if (!!popperProvider) {
-                popperProvider.off.open(handler.popperOpen)
-                popperProvider.off.show(handler.popperShow)
-            }*/
+            if (!!popper) {
+                popper.event.off.open(handler.popperOpen)
+                popper.event.off.show(handler.popperShow)
+            }
         })
 
         return {
