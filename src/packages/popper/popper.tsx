@@ -25,7 +25,7 @@ export default designComponent({
 
         title: {type: String},                                      // 标题文本
         message: {type: String},                                    // 内容文本
-        disabled: {type: Boolean},                                  // 禁用
+        // disabled: {type: Boolean},                                  // 禁用
         transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
         popperClass: {type: String},                                // popper容器节点样式
         offset: {type: [Number, String]},                           // 偏移量
@@ -40,7 +40,6 @@ export default designComponent({
         arrow: {type: Boolean, default: true},                      // 是否需要箭头
 
         boundary: {default: 'window'},                              // 边界元素
-
         sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
     },
     emits: {
@@ -144,6 +143,7 @@ export default designComponent({
                 'pl-popper-open': openModel.value,
                 // 'pl-popper-ready': state.ready,
                 'pl-popper-show-arrow': props.arrow,
+                'pl-popper-no-content-padding': props.noContentPadding,
             }
         ])
 
@@ -347,7 +347,7 @@ export default designComponent({
         const ctx = getCurrentInstance()!
         const popperConfigChangeHandler = debounce(async () => {
             await nextTick()
-            if (ctx.isDeactivated) {
+            if (ctx.isUnmounted) {
                 return
             }
             await utils.destroy()

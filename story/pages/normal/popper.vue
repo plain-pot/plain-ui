@@ -98,35 +98,165 @@
             </pl-popper>
         </demo-row>
 
-        <demo-row title="唯一根节点组件">
-            <pl-popper>
-                <pl-button label="BUTTON"/>
+        <demo-row title="自定义reference" @change="reference = () => $refs.button">
+            <pl-button label="放在Popper之外的Reference" ref="button"/>
+            <pl-popper trigger="click" :reference="reference">
                 <template #popper>
-                    this is popper content 222
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
                 </template>
             </pl-popper>
         </demo-row>
-        <demo-row title="多根节点组件">
-            <pl-popper>
-                <pl-checkbox-group>
-                    <pl-checkbox label="全选" checkboxForAll/>
-                    <pl-checkbox label="标签一" val="tag1"/>
-                    <pl-checkbox label="标签二" val="tag2"/>
-                    <pl-checkbox label="标签三" val="tag3"/>
-                </pl-checkbox-group>
+
+        <demo-row title="自动设置popper大小，在方向上与reference大小对其">
+            <pl-popper placement="top" sizeEqual>
+                <pl-button label="纵向" style="width:100px;height: 100px"/>
                 <template #popper>
-                    this is popper content 333
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper placement="left" sizeEqual>
+                <pl-button label="横向" style="width:100px;height: 100px"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
                 </template>
             </pl-popper>
         </demo-row>
+
+        <demo-row title="动画">
+            <pl-popper transition="pl-transition-fade" trigger="click">
+                <pl-button label="fade"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper transition="pl-transition-scale" trigger="click">
+                <pl-button label="scale"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper transition="pl-transition-scale-y" trigger="click">
+                <pl-button label="scale-y"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper transition="pl-transition-popper-drop" trigger="click" :arrow="false" placement="bottom-start">
+                <pl-button label="popper-drop"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="测试show以及open的区别">
+            <div>flag:{{flag}}</div>
+            <div>open:{{open}}</div>
+            <pl-checkbox label="open" v-model="flag"/>
+
+            <pl-popper transition="pl-transition-scale-y"
+                       trigger="click"
+                       v-model="flag"
+                       @change="val=>log('111',val)"
+                       v-model:open="open"
+                       @open="log('open')"
+                       @close="log('close')"
+            >
+                <pl-button label="scale-y"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="综合测试">
+            <demo-line title="测试目标" style="height: 100px">
+                <pl-popper :transition="test.animation" trigger="manual" :arrow="test.arrow" :placement="`${test.direction}-${test.align}`" v-model="test.show">
+                    <pl-button label="popper-drop" @click="test.show = !test.show"/>
+                    <template #popper>
+                        <div class="demo-popper-content">
+                            这里是popper的内容
+                        </div>
+                    </template>
+                </pl-popper>
+            </demo-line>
+            <demo-line title="direction">
+                <pl-button-group>
+                    <pl-button v-for="item in directions" :key="item" :label="item" :active="item === test.direction" @click="test.direction = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="align">
+                <pl-button-group>
+                    <pl-button v-for="item in aligns" :key="item" :label="item" :active="item === test.align" @click="test.align = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="animation">
+                <pl-button-group>
+                    <pl-button v-for="item in animations" :key="item" :label="item" :active="item === test.animation" @click="test.animation = item"/>
+                </pl-button-group>
+            </demo-line>
+            <demo-line title="arrow">
+                <pl-checkbox v-model="test.arrow" label="show arrow"/>
+            </demo-line>
+
+        </demo-row>
+
+        <demo-row title="宽高">
+            <pl-popper :width="150" :height="200" trigger="click">
+                <pl-button label="150:number,200:number"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper width="150px" height="200" trigger="click">
+                <pl-button label="150px:string,200:string"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+        </demo-row>
+
     </div>
 </template>
 
 <script>
+
     export default {
         name: "popper",
         data() {
             return {
+                init: false,
+                reference: null,
+                flag: false,
+                open: false,
+
+                test: {
+                    show: true,
+                    direction: 'bottom',
+                    align: 'start',
+                    arrow: false,
+                    animation: 'pl-transition-popper-drop',
+                },
                 val: {
                     0: true,
                 },
@@ -138,14 +268,19 @@
                     'pl-transition-scale-y',
                     'pl-transition-popper-drop',
                 ],
-                init: true,
             }
         },
         methods: {
             clickHandler() {
                 console.log('onClickBody:' + Date.now())
             },
-        }
+            log(...args) {
+                console.log(...args)
+            },
+        },
+        mounted() {
+            this.reference = () => this.$refs.button
+        },
     }
 </script>
 
