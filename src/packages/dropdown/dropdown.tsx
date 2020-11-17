@@ -8,6 +8,7 @@ export default designComponent({
     name: 'pl-dropdown',
     props: {
         modelValue: {type: Boolean},
+        disabledHideOnClickOption: {type: Boolean},                     // 禁用点击 dropdown-option 之后关闭 dropdown
     },
     provideRefer: true,
     emits: {
@@ -22,9 +23,18 @@ export default designComponent({
             dropdownGroupSlot: null as null | SimpleFunction,
         })
 
+        const handler = {
+            clickOptoin: (e: MouseEvent) => {
+                if (!props.disabledHideOnClickOption) {
+                    model.value = false
+                }
+            }
+        }
+
         return {
             refer: {
                 state,
+                handler,
             },
             render: () => (
                 <pl-popper

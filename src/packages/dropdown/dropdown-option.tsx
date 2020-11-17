@@ -1,5 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
+import Menu from './dropdown-menu'
 
 export default designComponent({
     name: 'pl-dropdown-option',
@@ -15,9 +16,11 @@ export default designComponent({
     setup({props, event: {emit}}) {
 
         const {slots} = useSlots()
+        const menu = Menu.use.inject()
 
         const onClick = (e: MouseEvent) => {
             emit.click(e)
+            menu.handler.clickOption(e, props.val)
         }
 
         return {
