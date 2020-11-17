@@ -146,7 +146,7 @@
             </demo-line>
         </demo-row>
         <demo-row title="密码框">
-            <pl-input :suffixIcon="passwordVisible?'el-icon-view-not-s':'el-icon-view'" @click-suffix-icon="passwordVisible = !passwordVisible" :nativeProps="{type: passwordVisible ? 'text' : 'password'}"/>
+            <pl-input :suffixIcon="passwordVisible?'el-icon-view-not-s':'el-icon-view'" @click-suffix-icon="passwordVisible = !passwordVisible" :nativeAttrs="{type: passwordVisible ? 'text' : 'password'}"/>
         </demo-row>
         <demo-row title="禁用以及只读">
             {{flag}}

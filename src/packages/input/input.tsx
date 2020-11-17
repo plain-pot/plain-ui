@@ -45,7 +45,7 @@ export default designComponent({
         inputInnerTabindex: {type: Number, default: 0},
         type: {type: String, default: 'text'},
         placeholder: {type: String},
-        nativeProps: {type: Object, default: () => ({})},
+        nativeAttrs: {type: Object, default: () => ({})},
     },
     emits: {
         updateModelValue: (val: any) => true,
@@ -189,7 +189,7 @@ export default designComponent({
             readonly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
             value: model.value,
             placeholder: props.placeholder,
-            ...(props.nativeProps || {}),
+            ...(props.nativeAttrs || {}),
 
             // 发现一个非常奇怪的现象，div.pl-input-inner 里面的input、派发的input事件，居然也能够在 div.pl-input-inner这个div节点上监听到。神奇
             ...(!slots.default.isExist() ? {

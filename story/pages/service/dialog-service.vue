@@ -85,13 +85,13 @@
                                     <pl-input onInput={val => username = val}/>
                                 </pl-form-item>
                                 <pl-form-item label="旧密码">
-                                    <pl-input nativeProps={{type: "password"}} onInput={val => oldPwd = val}/>
+                                    <pl-input nativeAttrs={{type: "password"}} onInput={val => oldPwd = val}/>
                                 </pl-form-item>
                                 <pl-form-item label="新密码">
-                                    <pl-input nativeProps={{type: "password"}} onInput={val => newPwd = val}/>
+                                    <pl-input nativeAttrs={{type: "password"}} onInput={val => newPwd = val}/>
                                 </pl-form-item>
                                 <pl-form-item label="确认密码" required field="repeatPwd">
-                                    <pl-input nativeProps={{type: "password"}} onInput={val => repeatPwd = val}/>
+                                    <pl-input nativeAttrs={{type: "password"}} onInput={val => repeatPwd = val}/>
                                 </pl-form-item>
                             </pl-form>
                         )

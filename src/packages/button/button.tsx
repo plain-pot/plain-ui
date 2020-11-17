@@ -35,7 +35,7 @@ export default designComponent({
 
         /*native*/
         type: {type: String, default: 'button'},
-        nativeProps: {type: Object},
+        nativeAttrs: {type: Object},
     },
     emits: {
         click: (e: MouseEvent) => true,
@@ -127,7 +127,7 @@ export default designComponent({
                         disabled={editComputed.value.disabled!}
                         v-click-wave={"large"}
                         {...{
-                            ...(props.nativeProps || {}),
+                            ...(props.nativeAttrs || {}),
                             onClick: state.handleClick!,
                         }}
                     >
