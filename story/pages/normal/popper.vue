@@ -2,7 +2,10 @@
     <div class="demo-popper">
         <demo-row title="普通文本">
             <pl-popper>
-                this is popper content
+                <div>this is popper content 111</div>
+
+                <div>this is popper content 222</div>
+                <div>this is popper content 333</div>
             </pl-popper>
         </demo-row>
         <demo-row title="唯一根节点组件">
@@ -30,5 +33,6 @@
 </script>
 
 <style lang="scss">
-
+    .demo-group {
+    }
 </style>
