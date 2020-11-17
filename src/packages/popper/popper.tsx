@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
-import {computed, onMounted, createCommentVNode, Teleport, reactive, markRaw, nextTick, watch, getCurrentInstance} from 'vue';
+import {computed, onMounted, createCommentVNode, Teleport, reactive, markRaw, nextTick, watch, getCurrentInstance, onBeforeUnmount} from 'vue';
 import {createError} from "../../utils/createError";
 import {useRefs} from "../../use/useRefs";
 import {getElement} from "../../utils/getElement";
@@ -313,6 +313,9 @@ export default designComponent({
                 await methods.show(false)
             }
         })
+
+        onBeforeUnmount(() => utils.destroy())
+
 
         /*---------------------------------------watch-------------------------------------------*/
         watch(() => props.modelValue, (val) => {

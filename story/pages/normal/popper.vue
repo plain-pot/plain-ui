@@ -43,6 +43,61 @@
             </demo-line>
         </demo-row>
 
+        <demo-row title="触发动作">
+            <pl-popper trigger="hover">
+                <pl-button label="hover激活"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper trigger="click">
+                <pl-button label="click激活"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper trigger="manual" v-model="val[1]">
+                <pl-button label="manual激活" @click="val = {...val,1:!val[1]}"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容{{val[1]}}
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper trigger="focus">
+                <pl-button label="focus激活"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+            <pl-popper trigger="focus">
+                <span>focus激活</span>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+        </demo-row>
+
+        <demo-row title="测试组件销毁之后，监听的事件是否已经销毁">
+            <pl-checkbox v-model="init" label="init"/>
+            <pl-popper trigger="click" v-if="init" @click-body="clickHandler">
+                <pl-button label="click激活"/>
+                <template #popper>
+                    <div class="demo-popper-content">
+                        这里是popper的内容
+                    </div>
+                </template>
+            </pl-popper>
+        </demo-row>
+
         <demo-row title="唯一根节点组件">
             <pl-popper>
                 <pl-button label="BUTTON"/>
@@ -83,8 +138,14 @@
                     'pl-transition-scale-y',
                     'pl-transition-popper-drop',
                 ],
+                init: true,
             }
         },
+        methods: {
+            clickHandler() {
+                console.log('onClickBody:' + Date.now())
+            },
+        }
     }
 </script>
 

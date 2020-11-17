@@ -78,6 +78,10 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
         props: Object as any as Props,
     }
 
+    if (leftOptions.name === 'pl-popper') {
+        console.log(leftOptions.name, getComponentEmit(emits), emits)
+    }
+
     return Object.assign(
         defineComponent({
             ...(leftOptions as any || {}),
