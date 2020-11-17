@@ -41,6 +41,7 @@ export default designComponent({
 
         boundary: {default: 'window'},                              // 边界元素
         sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
+        scrollAttrs: {type: Object},                                // pl-scroll 属性配置
     },
     emits: {
         updateModelValue: (val: boolean) => true,
@@ -151,7 +152,7 @@ export default designComponent({
             style.zIndex = state.zIndex
         })
 
-        const contentStyles = useStyles(styles => {
+        const sizeStyles = useStyles(styles => {
             propsState.height != null && (styles.height = `${propsState.height}px`);
             propsState.width != null && (styles.width = `${propsState.width}px`);
             if (!!props.sizeEqual && !!state.referenceEl) {
@@ -162,6 +163,16 @@ export default designComponent({
                 }
             }
             return styles
+        })
+
+        const scrollAttrs = computed(() => {
+            if (!props.scrollAttrs) {
+                return null
+            } else {
+                return Object.assign({
+                    fitHostWidth: true,
+                }, props.scrollAttrs)
+            }
         })
 
         /*---------------------------------------handler-------------------------------------------*/
@@ -380,7 +391,6 @@ export default designComponent({
                                  style={popperStyles.value}
                                  ref="popper">
                                 <div class="plain-popper-content"
-                                     style={contentStyles.value}
                                      ref="content"
 
                                      onClick={emit.clickPopper}
@@ -395,8 +405,12 @@ export default designComponent({
                                     {(props.title || slots.title.isExist()) && <div class="pl-popper-title">
                                         {props.title || slots.title()}
                                     </div>}
-                                    {(props.message || slots.popper.isExist()) && <div class="pl-popper-content-inner">
-                                        {props.message || slots.popper()}
+                                    {(props.message || slots.popper.isExist()) && <div class="pl-popper-content-inner" style={sizeStyles.value}>
+                                        {!!scrollAttrs.value ? (
+                                            <pl-scroll {...scrollAttrs.value}>
+                                                {props.message || slots.popper()}
+                                            </pl-scroll>
+                                        ) : (props.message || slots.popper())}
                                     </div>}
                                 </div>
                             </div>

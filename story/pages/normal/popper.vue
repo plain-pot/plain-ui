@@ -236,6 +236,52 @@
             </pl-popper>
         </demo-row>
 
+        <demo-row title="配置内置的滚动条">
+            <pl-popper
+                    :scrollAttrs="{}"
+                    noContentPadding
+                    height="100"
+                    trigger="click">
+                <span>CLICK(无标题)</span>
+                <template #popper>
+                    <ol style="margin: 0;padding:0 16px;padding-inline-start: 28px;padding-inline-end: 0">
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                    </ol>
+                </template>
+            </pl-popper>
+            <pl-popper title="标题"
+                       :scrollAttrs="{}"
+                       noContentPadding
+                       height="100"
+                       trigger="click"
+            >
+                <span>CLICK</span>
+                <template #popper>
+                    <ol style="margin: 0;padding:0 16px;padding-inline-start: 28px;padding-inline-end: 0">
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                        <li>消息内容</li>
+                    </ol>
+                </template>
+            </pl-popper>
+        </demo-row>
+
     </div>
 </template>
 
