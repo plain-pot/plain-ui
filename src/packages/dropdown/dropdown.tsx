@@ -30,6 +30,8 @@ export default designComponent({
                 <pl-popper
                     trigger="click"
                     v-model={model.value}
+                    noContentPadding
+                    transition="pl-transition-popper-drop"
                     v-slots={{
                         popper: () => !!state.dropdownGroupSlot ? state.dropdownGroupSlot() : null
                     }}>

@@ -1,0 +1,13 @@
+@include theme {
+  .pl-dropdown-option {
+    padding: 5px 12px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+
+    &:hover {
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+  }
+}
