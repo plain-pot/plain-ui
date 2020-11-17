@@ -92,7 +92,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Tooltip', title: '文字提示', page: '/normal/tooltip', complete: false},
             {name: 'Dropdown', title: '悬浮层', page: '/normal/dropdown', complete: false},
             {name: 'Popover', title: '弹出框', page: '/normal/popover', complete: false},
-            {name: 'Popper', title: '悬浮框', page: '/normal/popper', complete: false},
+            {name: 'Popper', title: '悬浮框', page: '/normal/popper', complete: true},
             {name: 'Card', title: '卡片', page: '/normal/card', complete: false},
             {name: 'Carousel', title: '轮播', page: '/normal/carousel', complete: false},
             {name: 'Collapse', title: '折叠面板', page: '/normal/collapse', complete: false},
