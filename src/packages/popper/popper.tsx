@@ -237,13 +237,13 @@ export default designComponent({
                 if (!!state.referenceEl) {
                     state.referenceEl.addEventListener('click', handler.clickReference)
                 }
-                document.body.addEventListener('click', handler.clickBody)
+                document.body.addEventListener('click', handler.clickBody, true)
             },
             unbindEvents: () => {
                 if (!!state.referenceEl) {
                     state.referenceEl.removeEventListener('click', handler.clickReference)
                 }
-                document.body.removeEventListener('click', handler.clickBody)
+                document.body.removeEventListener('click', handler.clickBody, true)
             },
             initPopper: () => {
                 state.popper = new PlainPopper({
