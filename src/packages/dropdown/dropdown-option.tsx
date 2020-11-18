@@ -1,6 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import Menu from './dropdown-menu'
+import {useClass} from "../../use/useClasses";
 
 export default designComponent({
     name: 'pl-dropdown-option',
@@ -19,14 +20,24 @@ export default designComponent({
         const menu = Menu.use.inject()
 
         const onClick = (e: MouseEvent) => {
+            if (props.disabled) {
+                return
+            }
             emit.click(e)
             menu.handler.clickOption(e, props.val)
         }
 
+        const classes = useClass(() => [
+            'pl-dropdown-option',
+            {
+                'pl-dropdown-option-disabled': props.disabled
+            }
+        ])
+
         return {
             render: () => (
-                <div class="pl-dropdown-option" onClick={onClick}>
-                    {!!props.icon && <pl-icon icon={props.icon}/>}
+                <div class={classes.value} onClick={onClick}>
+                    {!!props.icon && <pl-icon icon={props.icon} class="pl-dropdown-option-icon"/>}
                     {slots.default(props.label)}
                 </div>
             )

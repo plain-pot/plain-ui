@@ -78,7 +78,7 @@ export default designComponent({
         return {
             render: () => {
                 const {value: Icon} = icon
-                return !!Icon ? <Icon class={classes.value}/> : null
+                return !!Icon ? <Icon class={classes.value}/> : <i class="pl-icon"/>
             }
         }
     },

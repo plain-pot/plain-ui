@@ -1,12 +1,26 @@
 import {designComponent} from "../../use/designComponent";
+import {useSlots} from "../../use/useSlots";
 
 export default designComponent({
     name: 'pl-dropdown-group',
-    setup() {
+    props: {
+        title: {type: String},
+    },
+    setup({props}) {
+
+        const {slots} = useSlots(['title'])
+
         return {
             render: () => (
-                <div>
-                    pl-dropdown-group
+                <div class="pl-dropdown-group">
+                    {slots.title.isExist() || props.title && (
+                        <div class="pl-dropdown-group-title">
+                            {slots.title(props.title)}
+                        </div>
+                    )}
+                    <div class="pl-dropdown-group-content">
+                        {slots.default()}
+                    </div>
                 </div>
             )
         }
