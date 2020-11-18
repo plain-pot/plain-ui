@@ -9,7 +9,8 @@ export default designComponent({
         label: {type: [String]},
         val: {},
         icon: {type: String},
-        disabled: {type: Boolean}
+        disabled: {type: Boolean},
+        align: {type: String, default: 'left'},
     },
     emits: {
         click: (e: MouseEvent) => true,
@@ -29,6 +30,7 @@ export default designComponent({
 
         const classes = useClass(() => [
             'pl-dropdown-option',
+            `pl-dropdown-option-align-${props.align}`,
             {
                 'pl-dropdown-option-disabled': props.disabled
             }

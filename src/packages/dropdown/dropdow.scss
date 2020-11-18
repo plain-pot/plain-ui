@@ -22,6 +22,18 @@
       color: $disabledText;
       cursor: not-allowed;
     }
+
+    &.pl-dropdown-option-align-left {
+      text-align: left
+    }
+
+    &.pl-dropdown-option-align-center {
+      text-align: center
+    }
+
+    &.pl-dropdown-option-align-right {
+      text-align: right
+    }
   }
 
   .pl-dropdown-group {

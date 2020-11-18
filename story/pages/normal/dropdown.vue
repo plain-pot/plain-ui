@@ -18,8 +18,21 @@
             </pl-dropdown>
             旁边的文本(证明Dropdown为无根组件)
         </demo-row>
+        <demo-row title="选项对其方式">
+            <pl-dropdown>
+                <pl-button>Dropdown</pl-button>
+                <template #popper>
+                    <pl-dropdown-menu>
+                        <pl-dropdown-option label="左对齐 align left" @click="$message('新建')" align="left"/>
+                        <pl-dropdown-option label="居中对其" @click="$message('编辑')" align="center"/>
+                        <pl-dropdown-option label="右对齐" @click="$message('删除')" align="right"/>
+                    </pl-dropdown-menu>
+                </template>
+            </pl-dropdown>
+            旁边的文本(证明Dropdown为无根组件)
+        </demo-row>
         <demo-row title="宽高设置">
-            <pl-dropdown height="150">
+            <pl-dropdown height="150" width="80">
                 <pl-button>Dropdown</pl-button>
                 <template #popper>
                     <pl-dropdown-menu>
