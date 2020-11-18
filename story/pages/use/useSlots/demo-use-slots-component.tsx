@@ -4,13 +4,15 @@ import {computed, watch} from 'vue';
 
 export const DemoUseSlotsComponent = designComponent({
     name: 'demo-use-slots-component',
-    props: {},
-    setup() {
+    props: {
+        text: {type: String},
+    },
+    setup({props}) {
 
         const {slots} = useSlots([
             'head',
             'foot'
-        ])
+        ], {makeReactive: true})
 
         const classes = computed(() => [
             'demo-use-slots-component',
@@ -28,12 +30,14 @@ export const DemoUseSlotsComponent = designComponent({
 
         return {
             render() {
+                console.log('render')
                 return (
                     <div class={classes.value}>
                         <div class="demo-use-slots-component-head">
                             {slots.head('default head')}
                         </div>
                         <div class="demo-use-slots-component-body">
+                            {props.text}
                             {slots.default(
                                 <h1>default body</h1>
                             )}

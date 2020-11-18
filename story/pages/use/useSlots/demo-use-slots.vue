@@ -1,11 +1,13 @@
 <template>
     <div class="demo-use-slots">
+        <pl-input v-model="text"/>
+        <br>
         <input type="checkbox" v-model="hasHead" id="hasHead">
         <label for="hasHead">hasHead</label>
         <input type="checkbox" v-model="hasFoot" id="hasFoot">
         <label for="hasFoot">hasFoot</label>
 
-        <demo-use-slots-component>
+        <demo-use-slots-component :text="text">
             <template #head v-if="hasHead">
                 <h2>自定义头部插槽内容</h2>
             </template>
@@ -28,6 +30,7 @@
             return {
                 hasHead: true,
                 hasFoot: true,
+                text: 'hello world'
             }
         },
     }
