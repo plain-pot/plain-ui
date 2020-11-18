@@ -31,6 +31,24 @@
             </pl-dropdown>
             旁边的文本(证明Dropdown为无根组件)
         </demo-row>
+        <demo-row title="选项自定义内容">
+            <pl-dropdown>
+                <pl-button>Dropdown</pl-button>
+                <template #popper>
+                    <pl-dropdown-menu>
+                        <pl-dropdown-option @click="$message('新建')">
+                            <span>1、新建 Create</span>
+                        </pl-dropdown-option>
+                        <pl-dropdown-option @click="$message('编辑')">
+                            <span>2、编辑 Edit</span>
+                        </pl-dropdown-option>
+                        <pl-dropdown-option @click="$message('删除')">
+                            <span>3、删除 Delete</span>
+                        </pl-dropdown-option>
+                    </pl-dropdown-menu>
+                </template>
+            </pl-dropdown>
+        </demo-row>
         <demo-row title="宽高设置">
             <pl-dropdown height="150" width="80">
                 <pl-button>Dropdown</pl-button>
