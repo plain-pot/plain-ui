@@ -166,7 +166,7 @@ export default designComponent({
         })
 
         const scrollAttrs = computed(() => {
-            if (!props.scrollAttrs) {
+            if (!propsState.height) {
                 return null
             } else {
                 return Object.assign({

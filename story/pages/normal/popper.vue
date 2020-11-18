@@ -237,8 +237,8 @@
         </demo-row>
 
         <demo-row title="配置内置的滚动条">
+            <i>只有设置height时才会使用Scroll容器</i>
             <pl-popper
-                    :scrollAttrs="{}"
                     noContentPadding
                     height="100"
                     trigger="click">
@@ -259,7 +259,6 @@
                 </template>
             </pl-popper>
             <pl-popper title="标题"
-                       :scrollAttrs="{}"
                        noContentPadding
                        height="100"
                        trigger="click"
