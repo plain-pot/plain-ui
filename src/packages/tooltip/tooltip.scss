@@ -1,6 +1,5 @@
 @include theme {
   .pl-tooltip {
-
     .plain-popper-content .pl-popper-content-inner {
       color: inherit;
     }
@@ -18,5 +17,13 @@
         color: $itc;
       }
     }
+  }
+
+  .pl-tooltip-reference {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
   }
 }

@@ -18,7 +18,7 @@
         </demo-row>
         <demo-row title="溢出时tooltip显示">
             <pl-input v-model="tooltipText"/>
-            <pl-tooltip tooltip="Tooltip文本" :showWidth="200">
+            <pl-tooltip tooltip="Tooltip文本" :showWidth="100">
                 {{tooltipText}}
             </pl-tooltip>
         </demo-row>

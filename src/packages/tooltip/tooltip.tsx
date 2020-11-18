@@ -4,6 +4,8 @@ import './tooltip.scss'
 import {useSlots} from "../../use/useSlots";
 import {useClass} from "../../use/useClasses";
 import {unit} from "plain-utils/string/unit";
+import {useRefs} from "../../use/useRefs";
+import {onUpdated, reactive, onMounted} from 'vue';
 
 export default designComponent({
     name: 'pl-tooltip',
@@ -21,6 +23,13 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
+        const state = reactive({
+            scrollWidth: 0,
+            offsetWidth: 0,
+        })
+        const {refs} = useRefs({
+            reference: HTMLSpanElement
+        })
         const {slots} = useSlots(['tooltip'])
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
@@ -30,15 +39,29 @@ export default designComponent({
             props.popperClass,
         ])
 
+        if (props.showWidth) {
+            onUpdated(() => {
+                const {scrollWidth, offsetWidth} = refs.reference
+                Object.assign(state, {scrollWidth, offsetWidth})
+            })
+            onMounted(() => {
+                const {scrollWidth, offsetWidth} = refs.reference
+                Object.assign(state, {scrollWidth, offsetWidth})
+            })
+        }
+
         return {
             render: () => (
                 <pl-popper
+                    disabled={!!props.showWidth ? state.offsetWidth === state.scrollWidth : false}
                     popperClass={popperClasses.value}
                     placement={props.placement}
                     v-model={model.value}
                     v-slots={{
                         default: () => !!props.showWidth ? (
-                            <span class="pl-tooltip-reference" style={{width: unit(props.showWidth)!}}>
+                            <span class="pl-tooltip-reference"
+                                  ref="reference"
+                                  style={{width: unit(props.showWidth)!}}>
                                 {slots.default(props.tooltip)}
                             </span>
                         ) : slots.default(props.tooltip),
