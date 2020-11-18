@@ -1,5 +1,6 @@
 import {VNodeChild} from "../shims";
-import {getCurrentInstance, reactive, onBeforeUpdate} from 'vue';
+import {getCurrentInstance, onBeforeUpdate, reactive} from 'vue';
+import {getSlotExist} from "../utils/getSlotExists";
 
 type ScopedSlotsOptionType = { [SlotName: string]: { [ScopeKey: string]: any } }
 
@@ -13,21 +14,29 @@ type ScopedSlotsData<T extends ScopedSlotsOptionType> = {
     [k in keyof T]: ((scope: ExtractScopedSlotsData<T[k]>, vnode: VNodeChild) => void) & { isExist: () => boolean }
 }
 
-export function useScopedSlots<T extends ScopedSlotsOptionType>(options: T): { scopedSlots: ScopedSlotsData<T> } {
+export function useScopedSlots<T extends ScopedSlotsOptionType>(options: T, config?: { makeReactive?: boolean }): { scopedSlots: ScopedSlotsData<T> } {
+
+    config = config || {}
+    const {makeReactive} = config
 
     const ctx = getCurrentInstance()!
     const slotNames = Object.keys(options)
 
-    const ctxSlots = reactive(slotNames.reduce((prev: any, slotName) => (prev[slotName] = ctx.slots[slotName] || null, prev), {}) as any)
-    onBeforeUpdate(() => slotNames.forEach(slotName => ctxSlots[slotName] = ctx.slots[slotName] || null))
+    const state = reactive({exist: getSlotExist(null, slotNames, ctx)})
+    /*如果需要响应式，则需要设置 makeReactive，会自动在updated之后更新slots的isExist值*/
+    if (makeReactive) {
+        onBeforeUpdate(() => {
+            getSlotExist(state.exist, slotNames, ctx)
+        })
+    }
 
     const scopedSlots = slotNames.reduce((prev: any, slotName: string) => {
         prev[slotName] = Object.assign((scope: any, vnode: VNodeChild) => {
-            const slot = ctxSlots[slotName]
+            const slot = ctx.slots[slotName]
             return !!slot ? slot(scope) : vnode
         }, {
             isExist() {
-                return !!ctxSlots[slotName]
+                return state.exist[slotName]
             },
         })
         return prev

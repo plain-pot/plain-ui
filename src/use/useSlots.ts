@@ -1,20 +1,11 @@
-import {getCurrentInstance, onUpdated, reactive, ComponentInternalInstance} from 'vue'
+import {getCurrentInstance, onBeforeUpdate, reactive} from 'vue'
 import {VNodeChild} from "../shims";
+import {getSlotExist} from "../utils/getSlotExists";
 
 type SlotFunction = ((vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean }
 
 type SlotsData<T extends string> = {
     slots: { default: SlotFunction } & { [k in T]: SlotFunction }
-}
-
-function getExist(prevState: { [k: string]: boolean } | null, slotNames: string[], ctx: ComponentInternalInstance) {
-    if (!prevState) {
-        prevState = {}
-    }
-    slotNames.forEach((slotName) => {
-        prevState![slotName] = !!ctx.slots[slotName]
-    })
-    return prevState
 }
 
 /**
@@ -39,15 +30,13 @@ export function useSlots<T extends string>(names?: T[], config?: { makeReactive?
      * @author  韦胜健
      * @date    2020/10/19 11:36
      */
-    const state = reactive({
-        exist: getExist(null, slotNames, ctx)
-    })
+    const state = reactive({exist: getSlotExist(null, slotNames, ctx)})
 
     /*如果需要响应式，则需要设置 makeReactive，会自动在updated之后更新slots的isExist值*/
     if (makeReactive) {
-        /*onUpdated(() => {
-            getExist(state.exist, slotNames, ctx)
-        })*/
+        onBeforeUpdate(() => {
+            getSlotExist(state.exist, slotNames, ctx)
+        })
     }
 
     /*slots.***是一个函数，参数是插槽后备内容。当插槽不存在时，渲染后备内容，否则渲染插槽内容*/
