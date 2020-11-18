@@ -13,7 +13,7 @@ export default designComponent({
         showWidth: {type: Number},                          // 设置宽度，当内容宽度超过这个宽度时，才会显示tooltip
         theme: {type: String, default: 'dark'},             // 主题，dark以及light
 
-        placement: {type: String, default: 'top'},          // 位置
+        placement: {type: String, default: 'top-start'},    // 位置
         popperClass: {type: Object},                        // 传递给 pl-popper 的popperClass 属性
     },
     emits: {
