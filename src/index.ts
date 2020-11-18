@@ -35,6 +35,7 @@ import Badge from './packages/badge'
 import Step from './packages/step'
 import Popper from './packages/popper'
 import Dropdown from './packages/dropdown'
+import Tooltip from './packages/tooltip'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -45,7 +46,7 @@ const plugins: ComponentPlugin[] = [
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown,
+    Step, Popper, Dropdown, Tooltip,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
@@ -60,7 +61,7 @@ export {
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown,
+    Step, Popper, Dropdown, Tooltip,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,

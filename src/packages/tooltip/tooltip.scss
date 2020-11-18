@@ -1,0 +1,22 @@
+@include theme {
+  .pl-tooltip {
+
+    .plain-popper-content .pl-popper-content-inner {
+      color: inherit;
+    }
+
+    &.pl-tooltip-theme-dark {
+      .plain-popper-content {
+        background-color: black;
+        color: white;
+      }
+    }
+
+    &.pl-tooltip-theme-light {
+      .plain-popper-content {
+        background-color: white;
+        color: $itc;
+      }
+    }
+  }
+}

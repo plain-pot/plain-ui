@@ -27,7 +27,7 @@ export default designComponent({
         message: {type: String},                                    // 内容文本
         // disabled: {type: Boolean},                                  // 禁用
         transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
-        popperClass: {type: String},                                // popper容器节点样式
+        popperClass: {type: [String, Array, Object]},               // popper容器节点样式
         offset: {type: [Number, String]},                           // 偏移量
         width: {type: [Number, String]},                            // 宽度
         height: {type: [Number, String]},                           // 高度
@@ -139,6 +139,7 @@ export default designComponent({
             'pl-popper',
             'plain-popper',
             props.transition,
+            props.popperClass,
             {
                 'pl-popper-show': model.value,
                 'pl-popper-open': openModel.value,
