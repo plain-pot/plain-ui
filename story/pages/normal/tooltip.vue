@@ -2,7 +2,7 @@
     <div class="demo-tooltip">
         <demo-row title="基本用法">
             <pl-tooltip tooltip="Tooltip文本">
-                <span>插槽内容</span>
+                <span>显示内容</span>
             </pl-tooltip>
         </demo-row>
         <demo-row title="主题">
@@ -12,6 +12,9 @@
             <pl-tooltip tooltip="Tooltip文本" theme="light">
                 <span>LIGHT</span>
             </pl-tooltip>
+        </demo-row>
+        <demo-row title="溢出时tooltip显示">
+
         </demo-row>
     </div>
 </template>
