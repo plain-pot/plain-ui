@@ -2,6 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {reactive} from 'vue';
+import {useScopedSlots} from "../../use/useScopedSlots";
 
 export default designComponent({
     name: 'pl-dropdown',
@@ -18,6 +19,10 @@ export default designComponent({
         const {slots} = useSlots([
             'popper'
         ])
+        const {scopedSlots} = useScopedSlots({
+            reference: {open: Boolean}
+        })
+
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
         const state = reactive({})
@@ -42,7 +47,10 @@ export default designComponent({
                     noContentPadding
                     transition="pl-transition-popper-drop"
                     v-slots={{popper: slots.popper}}>
-                    {slots.default()}
+                    {scopedSlots.reference(
+                        {open: model.value},
+                        slots.default()
+                    )}
                 </pl-popper>
             )
         }

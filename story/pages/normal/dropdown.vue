@@ -162,6 +162,90 @@
             </pl-dropdown>
         </demo-row>
 
+        <demo-row title="指示图标">
+            <pl-dropdown>
+                <template v-slot:reference="{open}">
+                    <pl-button>
+                        <span>切换图标</span>
+                        <pl-icon :icon="open?'el-icon-arrow-up':'el-icon-arrow-down'"/>
+                    </pl-button>
+                </template>
+                <template #popper>
+                    <pl-dropdown-menu>
+                        <pl-dropdown-option label="新建 Create" @click="$message('新建')"/>
+                        <pl-dropdown-option label="编辑 Edit" @click="$message('编辑')"/>
+                        <pl-dropdown-option label="删除 Delete" @click="$message('删除')"/>
+                        <pl-dropdown-option label="导入 Import" @click="$message('导入')"/>
+                        <pl-dropdown-option label="导出 Export" @click="$message('导出')"/>
+                        <pl-dropdown-option label="筛选 Filter" @click="$message('筛选')"/>
+                        <pl-dropdown-option label="排序 Sort" @click="$message('排序')"/>
+                        <pl-dropdown-option label="多选 Select" @click="$message('多选')"/>
+                    </pl-dropdown-menu>
+                </template>
+            </pl-dropdown>
+            <pl-dropdown>
+                <template v-slot:reference="{open}">
+                    <pl-button>
+                        <span>图表旋转过渡</span>
+                        <pl-icon icon="el-icon-arrow-down" :style="`transition:transform 200ms linear; transform: rotate(${open?180:0}deg)`"/>
+                    </pl-button>
+                </template>
+                <template #popper>
+                    <pl-dropdown-menu>
+                        <pl-dropdown-option label="新建 Create" @click="$message('新建')"/>
+                        <pl-dropdown-option label="编辑 Edit" @click="$message('编辑')"/>
+                        <pl-dropdown-option label="删除 Delete" @click="$message('删除')"/>
+                        <pl-dropdown-option label="导入 Import" @click="$message('导入')"/>
+                        <pl-dropdown-option label="导出 Export" @click="$message('导出')"/>
+                        <pl-dropdown-option label="筛选 Filter" @click="$message('筛选')"/>
+                        <pl-dropdown-option label="排序 Sort" @click="$message('排序')"/>
+                        <pl-dropdown-option label="多选 Select" @click="$message('多选')"/>
+                    </pl-dropdown-menu>
+                </template>
+            </pl-dropdown>
+
+            <pl-button-group>
+                <pl-button label="搭配按钮组" @click="$message('搭配按钮组')"/>
+                <pl-dropdown placement="bottom-end">
+                    <template v-slot:reference="{open}">
+                        <pl-button :icon="open?'el-icon-arrow-up':'el-icon-arrow-down'"/>
+                    </template>
+                    <template #popper>
+                        <pl-dropdown-menu>
+                            <pl-dropdown-option label="新建 Create" @click="$message('新建')"/>
+                            <pl-dropdown-option label="编辑 Edit" @click="$message('编辑')"/>
+                            <pl-dropdown-option label="删除 Delete" @click="$message('删除')"/>
+                            <pl-dropdown-option label="导入 Import" @click="$message('导入')"/>
+                            <pl-dropdown-option label="导出 Export" @click="$message('导出')"/>
+                            <pl-dropdown-option label="筛选 Filter" @click="$message('筛选')"/>
+                            <pl-dropdown-option label="排序 Sort" @click="$message('排序')"/>
+                            <pl-dropdown-option label="多选 Select" @click="$message('多选')"/>
+                        </pl-dropdown-menu>
+                    </template>
+                </pl-dropdown>
+            </pl-button-group>
+
+            <pl-dropdown>
+                <template v-slot:reference="{open}">
+                    <span>
+                        任意内容
+                        <pl-icon :icon="open?'el-icon-arrow-up':'el-icon-arrow-down'"/>
+                    </span>
+                </template>
+                <template #popper>
+                    <pl-dropdown-menu>
+                        <pl-dropdown-option label="新建 Create" @click="$message('新建')"/>
+                        <pl-dropdown-option label="编辑 Edit" @click="$message('编辑')"/>
+                        <pl-dropdown-option label="删除 Delete" @click="$message('删除')"/>
+                        <pl-dropdown-option label="导入 Import" @click="$message('导入')"/>
+                        <pl-dropdown-option label="导出 Export" @click="$message('导出')"/>
+                        <pl-dropdown-option label="筛选 Filter" @click="$message('筛选')"/>
+                        <pl-dropdown-option label="排序 Sort" @click="$message('排序')"/>
+                        <pl-dropdown-option label="多选 Select" @click="$message('多选')"/>
+                    </pl-dropdown-menu>
+                </template>
+            </pl-dropdown>
+        </demo-row>
     </div>
 </template>
 
