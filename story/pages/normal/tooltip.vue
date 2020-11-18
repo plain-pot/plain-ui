@@ -22,6 +22,11 @@
                 {{tooltipText}}
             </pl-tooltip>
         </demo-row>
+       <!-- <demo-row title="继承Popper属性">
+            <pl-tooltip tooltip="Tooltip文本" transition="pl-transition-scale" @enterReference="()=>$message('enter reference')">
+                <span>普通文本一定要用节点包裹</span>
+            </pl-tooltip>
+        </demo-row>-->
     </div>
 </template>
 
