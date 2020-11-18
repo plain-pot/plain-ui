@@ -63,7 +63,7 @@ export default designComponent({
 
         const {slots} = useSlots([
             'prepend', 'append', 'hidden'
-        ])
+        ], true)
         const {refs} = useRefs({
             input: HTMLInputElement,
             hiddenInput: HTMLTextAreaElement,

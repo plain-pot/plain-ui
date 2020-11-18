@@ -12,7 +12,7 @@ export const DemoUseSlotsComponent = designComponent({
         const {slots} = useSlots([
             'head',
             'foot'
-        ], {makeReactive: true})
+        ], true)
 
         const classes = computed(() => [
             'demo-use-slots-component',

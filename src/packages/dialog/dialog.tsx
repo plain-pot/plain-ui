@@ -65,7 +65,7 @@ export default designComponent({
         cancel: () => true,
     },
     setup({props, event: {emit}}) {
-        const {slots} = useSlots(['head', 'foot'])
+        const {slots} = useSlots(['head', 'foot'], true)
         const {refs} = useRefs({
             body: HTMLDivElement,
         })

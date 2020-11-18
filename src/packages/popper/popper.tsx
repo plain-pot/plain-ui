@@ -72,7 +72,7 @@ export default designComponent({
         const {slots} = useSlots([
             'popper',
             'title',
-        ])
+        ], true)
 
         const {refs} = useRefs({
             comment: HTMLElement,                                               // 注释节点，用来查找reference的第一个节点

@@ -39,7 +39,7 @@ export default designComponent({
     setup({props, event: {emit}}) {
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle()
-        const {slots} = useSlots()
+        const {slots} = useSlots([], true)
 
         const jumperValue = ref(null as number | null)
         watch(() => props.currentPage, (val) => jumperValue.value = val == null ? 1 : Number(val), {immediate: true})

@@ -8,7 +8,7 @@ export default designComponent({
     },
     setup({props}) {
 
-        const {slots} = useSlots(['title'])
+        const {slots} = useSlots(['title'], true)
 
         return {
             render: () => (

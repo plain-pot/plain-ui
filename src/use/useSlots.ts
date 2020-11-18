@@ -2,10 +2,17 @@ import {getCurrentInstance, onBeforeUpdate, reactive} from 'vue'
 import {VNodeChild} from "../shims";
 import {getSlotExist} from "../utils/getSlotExists";
 
-type SlotFunction = ((vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean }
+type SlotFunction = ((vnode?: VNodeChild) => VNodeChild)
+type SlotObject = { isExist: () => boolean }
 
-type SlotsData<T extends string> = {
-    slots: { default: SlotFunction } & { [k in T]: SlotFunction }
+interface UseSlots {
+    <T extends string>(names?: T[]): {
+        slots: { default: SlotFunction } & { [k in T]: SlotFunction }
+    }
+
+    <T extends string>(names?: T[], makeReactive?: boolean): {
+        slots: { default: SlotFunction & SlotObject } & { [k in T]: SlotFunction & SlotObject }
+    }
 }
 
 /**
@@ -13,13 +20,9 @@ type SlotsData<T extends string> = {
  * @author  韦胜健
  * @date    2020/11/18 17:48
  * @param   names                   插槽名称
- * @param   config
- *          config.makeReactive     是否需要 isExist具备响应式的能力，以便在computed、watch以及render中判断
+ * @param   makeReactive            是否需要 isExist具备响应式的能力，以便在computed、watch以及render中判断
  */
-export function useSlots<T extends string>(names?: T[], config?: { makeReactive?: boolean }): SlotsData<T> {
-
-    config = config || {}
-    const {makeReactive} = config
+export const useSlots: UseSlots = (names?: string[], makeReactive?: boolean) => {
 
     const ctx = getCurrentInstance()!
     const slotNames = [...(names || []), 'default']
@@ -50,7 +53,7 @@ export function useSlots<T extends string>(names?: T[], config?: { makeReactive?
             }
         })
         return prev
-    }, {} as SlotsData<T>["slots"])
+    }, {} as any)
 
     return {
         slots,

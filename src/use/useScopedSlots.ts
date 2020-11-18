@@ -10,14 +10,21 @@ type ExtractScopedSlotsData<Scope extends { [ScopeKey: string]: any }> = {
     [k in keyof Scope]: ExtractScopedSlotsDataValue<Scope[k]>
 }
 
-type ScopedSlotsData<T extends ScopedSlotsOptionType> = {
-    [k in keyof T]: ((scope: ExtractScopedSlotsData<T[k]>, vnode: VNodeChild) => void) & { isExist: () => boolean }
+interface UseScopedSlots {
+    <T extends ScopedSlotsOptionType>(options: T): {
+        scopedSlots: {
+            [k in keyof T]: ((scope: ExtractScopedSlotsData<T[k]>, vnode: VNodeChild) => void)
+        }
+    }
+
+    <T extends ScopedSlotsOptionType>(options: T, makeReactive?: boolean): {
+        scopedSlots: {
+            [k in keyof T]: ((scope: ExtractScopedSlotsData<T[k]>, vnode: VNodeChild) => void) & { isExist: () => boolean }
+        }
+    }
 }
 
-export function useScopedSlots<T extends ScopedSlotsOptionType>(options: T, config?: { makeReactive?: boolean }): { scopedSlots: ScopedSlotsData<T> } {
-
-    config = config || {}
-    const {makeReactive} = config
+export const useScopedSlots: UseScopedSlots = <T extends ScopedSlotsOptionType>(options: T, makeReactive?: boolean) => {
 
     const ctx = getCurrentInstance()!
     const slotNames = Object.keys(options)
@@ -40,7 +47,7 @@ export function useScopedSlots<T extends ScopedSlotsOptionType>(options: T, conf
             },
         })
         return prev
-    }, {} as ScopedSlotsData<T>)
+    }, {} as any)
 
     return {
         scopedSlots,

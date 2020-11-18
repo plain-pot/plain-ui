@@ -20,7 +20,7 @@ export const DemoTreeForScopedSlots = designComponent({
 
         const {scopedSlots} = useScopedSlots({
             default: {node: TreeNode, index: Number},
-        })
+        }, true)
 
         const formatData = computed(() => (props.data || []).map(item => new TreeNode(item)))
 
