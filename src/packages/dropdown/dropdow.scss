@@ -34,8 +34,13 @@
     }
 
     .pl-dropdown-group-content {
-      border-bottom: solid 1px #f2f2f2;
       padding: 4px 0;
+    }
+
+    &:not(:last-child) {
+      .pl-dropdown-group-content {
+        border-bottom: solid 1px #f2f2f2;
+      }
     }
   }
 }
