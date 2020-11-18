@@ -2,7 +2,6 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {reactive} from 'vue';
-import {SimpleFunction} from "../../shims";
 
 export default designComponent({
     name: 'pl-dropdown',
@@ -16,15 +15,15 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const {slots} = useSlots()
+        const {slots} = useSlots([
+            'popper'
+        ])
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
-        const state = reactive({
-            dropdownGroupSlot: null as null | SimpleFunction,
-        })
+        const state = reactive({})
 
         const handler = {
-            clickOptoin: (e: MouseEvent) => {
+            clickDropdownOption: (e: MouseEvent) => {
                 if (!props.disabledHideOnClickOption) {
                     model.value = false
                 }
@@ -42,9 +41,7 @@ export default designComponent({
                     v-model={model.value}
                     noContentPadding
                     transition="pl-transition-popper-drop"
-                    v-slots={{
-                        popper: () => !!state.dropdownGroupSlot ? state.dropdownGroupSlot() : null
-                    }}>
+                    v-slots={{popper: slots.popper}}>
                     {slots.default()}
                 </pl-popper>
             )

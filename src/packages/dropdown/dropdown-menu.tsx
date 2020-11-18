@@ -13,12 +13,11 @@ export default designComponent({
 
         const dropdown = Dropdown.use.inject()
         const {slots} = useSlots()
-        dropdown.state.dropdownGroupSlot = slots.default
 
         const handler = {
             clickOption: (e: MouseEvent, val: any) => {
                 emit.clickOption(e, val)
-                dropdown.handler.clickOptoin(e)
+                dropdown.handler.clickDropdownOption(e)
             }
         }
 
@@ -26,7 +25,7 @@ export default designComponent({
             refer: {
                 handler,
             },
-            render: () => null
+            render: slots.default
         }
     },
 })
