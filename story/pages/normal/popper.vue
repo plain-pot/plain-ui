@@ -44,7 +44,10 @@
         </demo-row>
 
         <demo-row title="触发动作">
-            <pl-popper trigger="hover">
+            <demo-line>
+                <pl-checkbox label="禁用" v-model="disabledPopper"/>
+            </demo-line>
+            <pl-popper trigger="hover" :disabled="disabledPopper">
                 <pl-button label="hover激活"/>
                 <template #popper>
                     <div class="demo-popper-content">
@@ -52,7 +55,7 @@
                     </div>
                 </template>
             </pl-popper>
-            <pl-popper trigger="click">
+            <pl-popper trigger="click" :disabled="disabledPopper">
                 <pl-button label="click激活"/>
                 <template #popper>
                     <div class="demo-popper-content">
@@ -60,7 +63,7 @@
                     </div>
                 </template>
             </pl-popper>
-            <pl-popper trigger="manual" v-model="val[1]">
+            <pl-popper trigger="manual" v-model="val[1]" :disabled="disabledPopper">
                 <pl-button label="manual激活" @click="val = {...val,1:!val[1]}"/>
                 <template #popper>
                     <div class="demo-popper-content">
@@ -68,7 +71,7 @@
                     </div>
                 </template>
             </pl-popper>
-            <pl-popper trigger="focus">
+            <pl-popper trigger="focus" :disabled="disabledPopper">
                 <pl-button label="focus激活"/>
                 <template #popper>
                     <div class="demo-popper-content">
@@ -76,7 +79,7 @@
                     </div>
                 </template>
             </pl-popper>
-            <pl-popper trigger="focus">
+            <pl-popper trigger="focus" :disabled="disabledPopper">
                 <span>focus激活</span>
                 <template #popper>
                     <div class="demo-popper-content">
@@ -294,7 +297,7 @@
                 reference: null,
                 flag: false,
                 open: false,
-
+                disabledPopper: false,
                 test: {
                     show: true,
                     direction: 'bottom',

@@ -25,7 +25,7 @@ export default designComponent({
 
         title: {type: String},                                      // 标题文本
         message: {type: String},                                    // 内容文本
-        // disabled: {type: Boolean},                                  // 禁用
+        disabled: {type: Boolean},                                  // 禁用
         transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
         popperClass: {type: [String, Array, Object]},               // popper容器节点样式
         offset: {type: [Number, String]},                           // 偏移量
@@ -275,6 +275,9 @@ export default designComponent({
 
         const methods = {
             show: async (shouldEmit = true) => {
+                if (props.disabled) {
+                    return
+                }
                 if (!state.init) {
                     state.init = true
                     await nextTick()
