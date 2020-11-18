@@ -148,6 +148,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Listener', title: '测试事件', page: '/test/test-listener', complete: false},
             {name: 'Filter', title: '异步过滤器', page: '/test/test-filter', complete: false},
             {name: 'List Draggier', title: '列表拖拽排序', page: '/test/test-list-draggier', complete: false},
+            {name: '传递属性给根节点组件热更新报错', title: '列表拖拽排序', page: '/test/test-pass-attrs-hot-reload/test-pass-attrs-hot-reload', complete: true},
         ]
     },
 ]
