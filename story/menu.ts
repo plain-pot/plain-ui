@@ -89,7 +89,7 @@ export const MENUS: MenuGroup[] = [
         name: '其他', children: [
             {name: 'Scroll', title: '滚动条', page: '/normal/scroll', complete: false},
             {name: 'Dialog', title: '对话框', page: '/normal/dialog', complete: true},
-            {name: 'Tooltip', title: '文字提示', page: '/normal/tooltip', complete: false},
+            {name: 'Tooltip', title: '文字提示', page: '/normal/tooltip', complete: true},
             {name: 'Dropdown', title: '下拉菜单', page: '/normal/dropdown', complete: true},
             // {name: 'Popover', title: '弹出框', page: '/normal/popover', complete: false},
             {name: 'Popper', title: '悬浮框', page: '/normal/popper', complete: true},
