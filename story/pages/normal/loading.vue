@@ -57,8 +57,8 @@
         </demo-row>
         <demo-row title="$loading.bar">
             <pl-button @click="newLoadingBar" label="new loading bar"/>
-            <pl-button @click="bar.done();bar = null" label="done"/>
-            <pl-button @click="bar.fail();bar = null" label="fail"/>
+            <pl-button @click="bar.done();bar = null" label="done" :disabled="!bar"/>
+            <pl-button @click="bar.fail();bar = null" label="fail" :disabled="!bar"/>
         </demo-row>
     </div>
 </template>
