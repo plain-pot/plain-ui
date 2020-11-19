@@ -15,5 +15,5 @@ export const STATUS = {
     success: {icon: 'el-icon-success', status: 'success'},
     warn: {icon: 'el-icon-warning', status: 'warn'},
     error: {icon: 'el-icon-error', status: 'error'},
-    info: {icon: 'el-icon-question', status: 'info'},
+    info: {icon: 'el-icon-info', status: 'info'},
 } as { [k: string]: { icon: string, status: string } }

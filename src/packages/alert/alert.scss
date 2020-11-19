@@ -1,67 +1,72 @@
 @include theme {
   .pl-alert {
     position: relative;
-    padding: 8px;
+    padding: 8px 16px;
+    border-radius: 2px;
 
-    .pl-alert-title {
-      color: $ihc;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 16px;
-
-      .pl-icon {
-        color: $icc;
-      }
+    .pl-alert-label {
+      font-size: 13px;
     }
 
-    .pl-alert-message {
-      color: $itc;
-      font-size: 14px;
-
-      .pl-icon {
-        color: $icc;
-      }
+    .pl-alert-desc {
+      font-size: 12px;
+      margin-top: 4px;
     }
 
     .pl-alert-icon {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      content: '';
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      left: 12px;
+      font-size: 1.2em;
     }
 
-    @include statusMixin(alert) {
-      background-color: rgba($value, 0.1);
-      border: solid 1px rgba($value, 0.3);
+    &.pl-alert-has-desc {
+      .pl-alert-label {
+        font-weight: 600;
+      }
+
       .pl-alert-icon {
+        font-size: 28px;
+      }
+    }
+
+    &.pl-alert-has-icon {
+      &:not(.pl-alert-has-desc) {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .pl-alert-icon {
+          margin-right: 8px;
+        }
+      }
+
+      &.pl-alert-has-desc {
+        $icon-width: 56px;
+        position: relative;
+        padding-left: $icon-width;
+
+        .pl-alert-icon {
+          position: absolute;
+          width: $icon-width;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    &.pl-alert-theme-lite {
+      @include statusMixin(alert) {
+        background-color: rgba($value, 0.1);
         color: $value;
       }
     }
 
-    @include shapeMixin(alert) {
-      border-radius: $value;
-    }
-
-    &.pl-alert-has-icon {
-      .pl-alert-title, .pl-alert-message {
-        padding-left: 24px
-      }
-    }
-
-    &.pl-alert-has-title {
-      padding: 16px;
-
-      .pl-alert-title, .pl-alert-message {
-        padding-left: 40px
-      }
-
-      .pl-alert-icon {
-        left: 16px;
-        font-size: 24px;
+    &.pl-alert-theme-deep {
+      @include statusMixin(alert) {
+        background-color: $value;
+        color: white;
       }
     }
   }
