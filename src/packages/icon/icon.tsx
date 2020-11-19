@@ -2,6 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {markRaw, ref, watch, computed} from 'vue';
 import './icon.scss'
 import {VNodeChild} from "../../shims";
+import {refreshPopperReference} from "../popper/refershPopperReference";
 
 interface IconGetter {
     (icon: string): VNodeChild | Promise<VNodeChild>
@@ -48,6 +49,8 @@ export default designComponent({
     },
     setup({props}) {
 
+        const {freshPopperReference} = refreshPopperReference.inject()
+
         const icon = ref(null as any)
 
         const classes = computed(() => [
@@ -70,6 +73,7 @@ export default designComponent({
             reset: async (iconName: string) => {
                 const Icon = await utils.getIconVNode(iconName)
                 icon.value = !!Icon ? markRaw(Icon) : null
+                freshPopperReference()
             }
         }
 

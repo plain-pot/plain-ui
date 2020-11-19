@@ -13,6 +13,7 @@ import {useProps} from "../../use/useProps";
 import {useStyles} from "../../use/useStyles";
 import {debounce} from "plain-utils/utils/debounce";
 import './popper.scss'
+import {refreshPopperReference} from "./refershPopperReference";
 
 const error = createError('pl-popper')
 
@@ -313,6 +314,17 @@ export default designComponent({
                 if (!state.referenceEl) return
                 state.popper!.refresh()
             },
+            refreshReference: async () => {
+                await nextTick()
+                const comment = getElement(refs.comment)
+                const reference = !!comment ? comment!.nextElementSibling as HTMLElement : null
+                // console.log(reference, state.el.reference)
+                if (!!reference && reference !== state.el.reference) {
+                    await utils.destroy()
+                    state.el.reference = markRaw(reference)
+                    await utils.init()
+                }
+            }
         }
 
         onMounted(async () => {
@@ -320,9 +332,7 @@ export default designComponent({
             const popper = getElement(refs.popper)
             const comment = getElement(refs.comment)
             const reference = !!comment ? comment!.nextElementSibling as HTMLElement : null
-            console.log({
-                popper, comment, reference
-            })
+            // console.log({popper, comment, reference})
 
             state.el = markRaw({popper, comment, reference})
 
@@ -333,7 +343,7 @@ export default designComponent({
         })
 
         onBeforeUnmount(() => utils.destroy())
-
+        refreshPopperReference.provide(methods.refreshReference)
 
         /*---------------------------------------watch-------------------------------------------*/
         watch(() => props.modelValue, (val) => {
@@ -432,4 +442,6 @@ export default designComponent({
             }
         }
     },
+}, {
+    refreshPopperReference,
 })
