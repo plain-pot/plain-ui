@@ -79,7 +79,8 @@
             <demo-line>
                 <pl-step-group>
                     <pl-step title="Finish" content="This step is finish" status="finish" icon="el-icon-success"/>
-                    <pl-step title="Process" content="This step is processing..." status="process" icon="el-icon-s-tools"/>
+                    <pl-step title="Process" content="This step is processing..." status="process"
+                             icon="el-icon-s-tools"/>
                     <pl-step title="error" content="This step is error!" status="error" icon="el-icon-error"/>
                     <pl-step title="Wait" content="This step is not start." status="wait" icon="el-icon-info"/>
                 </pl-step-group>
@@ -142,24 +143,24 @@
                                :titleAlignBottom="d[4].titleAlignBottom"
                                :currentStatus="d[4].index === 5?'finish':null">
                     <pl-step>
-                        <template #title><span >获取token</span></template>
+                        <template #title><span v-tooltip="'获取token'">获取token</span></template>
                         <template #content><span>1、调用接口，获取token</span></template>
                     </pl-step>
 
                     <pl-step>
-                        <template #title><span >上传logo</span></template>
+                        <template #title><span v-tooltip="'上传logo'">上传logo</span></template>
                         <template #content><span>2、使用token上传logo图片</span></template>
                     </pl-step>
                     <pl-step>
-                        <template #title><span >创建卡券</span></template>
+                        <template #title><span v-tooltip="'创建卡券'">创建卡券</span></template>
                         <template #content><span>3、调用接口创建卡券信息</span></template>
                     </pl-step>
                     <pl-step>
-                        <template #title><span >创建二维码</span></template>
+                        <template #title><span v-tooltip="'创建二维码'">创建二维码</span></template>
                         <template #content><span>4、调用接口创建二维码</span></template>
                     </pl-step>
                     <pl-step>
-                        <template #title><span >显示二维码</span></template>
+                        <template #title><span v-tooltip="'显示二维码'">显示二维码</span></template>
                         <template #content><span>5、在应用中显示二维码</span></template>
                     </pl-step>
                 </pl-step-group>
@@ -194,23 +195,23 @@
             </demo-line>
             <pl-arrow-step-group :current="d[6].index" class="custom-content-slot">
                 <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-s-promotion" />
+                    <pl-icon icon="el-icon-s-promotion" v-tooltip="'调用接口，获取token'"/>
                     <span>获取token</span>
                 </pl-arrow-step>
                 <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-upload" />
+                    <pl-icon icon="el-icon-upload" v-tooltip="'使用token上传logo图片'"/>
                     <span>上传logo</span>
                 </pl-arrow-step>
                 <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-s-ticket" />
+                    <pl-icon icon="el-icon-s-ticket" v-tooltip="'调用接口创建卡券信息'"/>
                     <span>创建卡券</span>
                 </pl-arrow-step>
                 <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-document" />
+                    <pl-icon icon="el-icon-document" v-tooltip="'调用接口创建二维码'"/>
                     <span>创建二维码</span>
                 </pl-arrow-step>
                 <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-camera-solid" />
+                    <pl-icon icon="el-icon-camera-solid" v-stooltip="'在应用中显示二维码'"/>
                     <span>显示二维码</span>
                 </pl-arrow-step>
             </pl-arrow-step-group>
