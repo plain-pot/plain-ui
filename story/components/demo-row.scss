@@ -81,3 +81,41 @@
     }
   }
 }
+
+@include theme {
+  .demo-row-collector-operator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+
+    & > div {
+      padding: 8px 16px;
+      background-color: white;
+      box-shadow: $boxshadow;
+      border: solid 1px $ibc;
+      font-size: 12px;
+      cursor: pointer;
+
+      &:first-child {
+        border-right: none;
+        border-bottom-left-radius: 2px;
+        border-top-left-radius: 2px;
+      }
+
+      &:last-child {
+        border-bottom-right-radius: 2px;
+        border-top-right-radius: 2px;
+      }
+
+      & > span {
+        margin-right: 6px;
+      }
+
+      &:active {
+        background-color: #f6f6f6;
+      }
+    }
+  }
+}

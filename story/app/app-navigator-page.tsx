@@ -1,6 +1,7 @@
 import {reactive, onMounted, onBeforeUnmount, markRaw} from 'vue';
 import {AppNavigator, AppRoute} from "./app-navigator";
 import {designComponent} from "../../src/use/designComponent";
+import {DemoRowController} from "../components/demo-row-controller";
 
 export const AppNavigatorPage = designComponent({
     name: 'app-navigator-page',
@@ -41,7 +42,11 @@ export const AppNavigatorPage = designComponent({
                 const {Page} = state
                 return (
                     <div>
-                        {!!Page && <Page/>}
+                        {!!Page && (
+                            <DemoRowController>
+                                <Page/>
+                            </DemoRowController>
+                        )}
                     </div>
                 )
             },

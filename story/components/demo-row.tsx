@@ -3,6 +3,7 @@ import {reactive} from 'vue';
 import {useSlots} from "../../src/use/useSlots";
 import './demo-row.scss'
 import {AppNavigator} from "../app/app-navigator";
+import {DemoRowCollector} from "./demo-row-controller";
 
 const DEMO_ROW_STORAGE_KEY = 'DEMO_ROW'
 
@@ -32,6 +33,8 @@ export const DemoRow = designComponent({
     },
     setup({props, event}) {
 
+        DemoRowCollector.child()
+
         const navigator = AppNavigator.use.inject()
 
         const demoRow = DemoRow.use.inject(null) as { id: string } | null
@@ -44,19 +47,25 @@ export const DemoRow = designComponent({
 
         const {slots} = useSlots()
 
-        const handler = {
-            clickTitle: () => {
-                state.show = !state.show
+        const methods = {
+            set(val: boolean) {
+                state.show = val
                 cache.set(id, state.show)
                 event.emit.change(state.show)
-            }
+            },
         }
 
+        const handler = {
+            clickTitle: () => {
+                methods.set(!state.show)
+            }
+        }
 
         return {
             refer: {
                 id,
                 state,
+                methods,
             },
             render: () => (
                 <div class={['demo-row', {'demo-row-show': state.show}]}>
