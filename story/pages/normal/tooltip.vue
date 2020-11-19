@@ -34,6 +34,7 @@
             <pl-button v-tooltip="'指令调用'">
                 普通节点
             </pl-button>
+            <pl-icon icon="el-icon-info" v-tooltip="'指令调用'"/>
         </demo-row>
     </div>
 </template>
