@@ -194,24 +194,24 @@
                 <pl-number v-model="d[6].index"/>
             </demo-line>
             <pl-arrow-step-group :current="d[6].index" class="custom-content-slot">
-                <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-s-promotion" v-tooltip="'调用接口，获取token'"/>
+                <pl-arrow-step hideIndex v-tooltip="'调用接口，获取token'">
+                    <pl-icon icon="el-icon-s-promotion"/>
                     <span>获取token</span>
                 </pl-arrow-step>
-                <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-upload" v-tooltip="'使用token上传logo图片'"/>
+                <pl-arrow-step hideIndex v-tooltip="'使用token上传logo图片'">
+                    <pl-icon icon="el-icon-upload"/>
                     <span>上传logo</span>
                 </pl-arrow-step>
-                <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-s-ticket" v-tooltip="'调用接口创建卡券信息'"/>
+                <pl-arrow-step hideIndex v-tooltip="'调用接口创建卡券信息'">
+                    <pl-icon icon="el-icon-s-ticket"/>
                     <span>创建卡券</span>
                 </pl-arrow-step>
-                <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-document" v-tooltip="'调用接口创建二维码'"/>
+                <pl-arrow-step hideIndex v-tooltip="'调用接口创建二维码'">
+                    <pl-icon icon="el-icon-document"/>
                     <span>创建二维码</span>
                 </pl-arrow-step>
-                <pl-arrow-step hideIndex>
-                    <pl-icon icon="el-icon-camera-solid" v-stooltip="'在应用中显示二维码'"/>
+                <pl-arrow-step hideIndex v-tooltip="'在应用中显示二维码'">
+                    <pl-icon icon="el-icon-camera-solid"/>
                     <span>显示二维码</span>
                 </pl-arrow-step>
             </pl-arrow-step-group>
@@ -237,25 +237,25 @@
                         index: 1,
                         vertical: false,
                         mini: true,
-                        titleAlignBottom: false,
+                        titleAlignBottom: true,
                     },
                     2: {
                         index: 1,
                         vertical: false,
                         mini: true,
-                        titleAlignBottom: false,
+                        titleAlignBottom: true,
                     },
                     3: {
                         index: 1,
                         vertical: false,
                         mini: true,
-                        titleAlignBottom: false,
+                        titleAlignBottom: true,
                     },
                     4: {
                         index: 1,
                         vertical: false,
                         mini: true,
-                        titleAlignBottom: false,
+                        titleAlignBottom: true,
                     },
                     5: {
                         index: 2,
