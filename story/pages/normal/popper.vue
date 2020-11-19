@@ -2,6 +2,9 @@
     <div class="demo-popper">
         <demo-row title="基本用法">
             <pl-popper title="标题" message="消息文本">
+                <pl-icon icon="el-icon-info"/>
+            </pl-popper>
+            <pl-popper title="标题" message="消息文本">
                 <span>默认hover显示</span>
             </pl-popper>
             <pl-popper title="标题" message="消息文本">

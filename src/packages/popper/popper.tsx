@@ -320,6 +320,9 @@ export default designComponent({
             const popper = getElement(refs.popper)
             const comment = getElement(refs.comment)
             const reference = !!comment ? comment!.nextElementSibling as HTMLElement : null
+            console.log({
+                popper, comment, reference
+            })
 
             state.el = markRaw({popper, comment, reference})
 
