@@ -17,6 +17,23 @@
       font-size: 1.2em;
     }
 
+    &.pl-alert-has-close {
+      $close-width: 44px;
+      position: relative;
+      padding-right: $close-width;
+
+      .pl-alert-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: $close-width;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
     &.pl-alert-has-desc {
       .pl-alert-label {
         font-weight: 600;

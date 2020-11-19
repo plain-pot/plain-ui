@@ -40,6 +40,7 @@ export default designComponent({
             {
                 'pl-alert-has-icon': !!icon.value,
                 'pl-alert-has-desc': !!props.desc || slots.desc.isExist(),
+                'pl-alert-has-close': !props.noClose,
             }
         ])
 
@@ -48,6 +49,9 @@ export default designComponent({
                 <div class={classes.value}>
                     {!!icon.value && <div class="pl-alert-icon">
                         <pl-icon icon={icon.value}/>
+                    </div>}
+                    {!props.noClose && <div class="pl-alert-close">
+                        {slots.close(<pl-icon icon="el-icon-close"/>)}
                     </div>}
                     {(!!props.label || slots.default.isExist()) && (
                         <div class="pl-alert-label">
