@@ -1,0 +1,68 @@
+@include theme {
+  .pl-alert {
+    position: relative;
+    padding: 8px;
+
+    .pl-alert-title {
+      color: $ihc;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+
+      .pl-icon {
+        color: $icc;
+      }
+    }
+
+    .pl-alert-message {
+      color: $itc;
+      font-size: 14px;
+
+      .pl-icon {
+        color: $icc;
+      }
+    }
+
+    .pl-alert-icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      content: '';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 12px;
+    }
+
+    @include statusMixin(alert) {
+      background-color: rgba($value, 0.1);
+      border: solid 1px rgba($value, 0.3);
+      .pl-alert-icon {
+        color: $value;
+      }
+    }
+
+    @include shapeMixin(alert) {
+      border-radius: $value;
+    }
+
+    &.pl-alert-has-icon {
+      .pl-alert-title, .pl-alert-message {
+        padding-left: 24px
+      }
+    }
+
+    &.pl-alert-has-title {
+      padding: 16px;
+
+      .pl-alert-title, .pl-alert-message {
+        padding-left: 40px
+      }
+
+      .pl-alert-icon {
+        left: 16px;
+        font-size: 24px;
+      }
+    }
+  }
+}
