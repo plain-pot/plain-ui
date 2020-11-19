@@ -3,7 +3,7 @@
     box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
     border: solid 1px;
 
     @include sizeMixin(tag) {

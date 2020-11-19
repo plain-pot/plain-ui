@@ -2,7 +2,7 @@
   .pl-badge {
     @include public-style;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
     position: relative;
 
     .pl-badge-content {

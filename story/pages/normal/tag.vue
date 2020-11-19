@@ -36,6 +36,8 @@
 
         <demo-row title="标签输入框">
             <pl-tag-input v-model="val[0]"/>
+            <pl-input modelValue="输入框内容"/>
+            <pl-button>按钮</pl-button>
             {{val[0]}}
         </demo-row>
 

@@ -3,6 +3,7 @@
 
         <demo-row title="基本用法">
             <pl-button label="基本" @click="$message('点击')"/>
+            <span>普通文本</span>
         </demo-row>
         <demo-row title="状态">
             <pl-button v-for="item in ['primary','success','warn','error','info']"

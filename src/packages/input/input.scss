@@ -4,6 +4,7 @@
     color: $itc;
     font-family: $font;
     background-color: white;
+    vertical-align: baseline;
 
     /*---------------------------------------public-------------------------------------------*/
     .pl-input-inner, .pl-textarea-inner {
@@ -78,7 +79,6 @@
 
         .pl-input-inner, .pl-textarea-inner, input {
           font-size: 16px;
-          line-height: 16px;
         }
 
         .pl-input-inner, .pl-textarea-inner {
@@ -97,7 +97,6 @@
 
         .pl-input-inner, .pl-textarea-inner, input {
           font-size: 14px;
-          line-height: 14px;
         }
 
         .pl-input-inner, .pl-textarea-inner {
@@ -116,7 +115,6 @@
 
         .pl-input-inner, .pl-textarea-inner, input {
           font-size: 12px;
-          line-height: 12px;
         }
 
         .pl-input-inner, .pl-textarea-inner {
@@ -178,7 +176,7 @@
           height: $value;
         }
         div.pl-input-inner {
-          line-height: $value;
+          line-height: $value - 2;
         }
       }
     }
@@ -381,7 +379,7 @@
     .pl-input-prepend, .pl-input-append {
       background-color: #f5f7fa;
       color: $itc;
-      vertical-align: middle;
+      vertical-align: baseline;
       display: table-cell;
       position: relative;
       border: 1px solid #dcdfe6;

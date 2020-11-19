@@ -1,7 +1,9 @@
 @include theme {
   .pl-tag-input {
+    display: inline-block;
+
     .pl-tag {
-      margin-bottom: 8px;
+      //margin-bottom: 8px;
 
       &:not(:last-child) {
         margin-right: 8px;
@@ -9,7 +11,7 @@
     }
 
     .pl-input {
-      margin-bottom: 8px;
+      //margin-bottom: 8px;
 
       .pl-input-inner {
         border-style: dashed;
