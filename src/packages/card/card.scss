@@ -1,0 +1,45 @@
+@include theme {
+  .pl-card {
+
+    $radius: 4px;
+
+    .pl-card-head, .pl-card-content {
+      border: solid 1px $ibl;
+      box-sizing: border-box;
+
+      & + * {
+        border-top: none;
+      }
+    }
+
+    .pl-card-head {
+      padding: 0 24px;
+      display: flex;
+      border-radius: $radius $radius 0 0;
+
+      .pl-card-head-content {
+        flex: 1;
+
+        .pl-card-title {
+          font-size: 16px;
+          color: $ihc;
+          padding: 12px 0;
+        }
+      }
+
+      .pl-card-head-operator {
+        padding: 12px 0 12px 24px;
+      }
+    }
+
+    .pl-card-content {
+      display: inline-block;
+      width: 100%;
+      border-radius: 0 0 $radius $radius;
+      font-size: 14px;
+      color: $itc;
+      padding: 12px 24px;
+      line-height: 1.515;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import {useSlots} from "../../use/useSlots";
 import {useStyles} from "../../use/useStyles";
 import {useProps} from "../../use/useProps";
 import {unit} from "plain-utils/string/unit";
+import './card.scss'
 
 export default designComponent({
     name: 'pl-card',
@@ -35,9 +36,19 @@ export default designComponent({
         return {
             render: () => (
                 <div class="pl-card" style={styles.value}>
-                    {(slots.title.isExist() || slots.desc.isExist() || slots.operator.isExist()) && (
-                        <div class="pl-card-title">
-
+                    {(slots.title.isExist() || slots.desc.isExist() || slots.operator.isExist() || props.title || props.desc) && (
+                        <div class="pl-card-head">
+                            <div class="pl-card-head-content">
+                                {(slots.title.isExist() || props.title) && <div class="pl-card-title">
+                                    {slots.title(props.title)}
+                                </div>}
+                                {slots.desc.isExist() || props.desc && <div class="pl-card-desc">
+                                    {slots.desc(props.desc)}
+                                </div>}
+                            </div>
+                            {slots.operator.isExist() && <div class="pl-card-head-operator">
+                                {slots.operator()}
+                            </div>}
                         </div>
                     )}
                     <div class="pl-card-content">
