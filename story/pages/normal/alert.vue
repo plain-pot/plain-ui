@@ -31,15 +31,16 @@
             <pl-alert theme="deep" desc="提示状态下的提示文本" label="提示状态" status="info"/>
         </demo-row>
         <demo-row title="自定义图标、标题以及内容">
-            <pl-alert icon="el-icon-s-opportunity">
-                <template #label>
+            <pl-alert icon="el-icon-s-opportunity" status="success">
+                <div>
                     自定义标题
                     <pl-button icon="el-icon-right" mode="text" size="mini"/>
-                </template>
+                </div>
                 <template #desc>
-                    <span>
-                    自定义内容 <pl-button label="点击了解更多" mode="text"/>
-                </span>
+                    <div>
+                        自定义内容
+                        <pl-button label="点击了解更多" mode="text"/>
+                    </div>
                 </template>
             </pl-alert>
         </demo-row>

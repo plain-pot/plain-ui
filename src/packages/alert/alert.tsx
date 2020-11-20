@@ -1,8 +1,8 @@
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
-import {DEFAULT_STATUS, STATUS} from "../../utils/constant";
-import {computed} from 'vue';
+import {STATUS} from "../../utils/constant";
+import {computed, reactive} from 'vue';
 import './alert.scss'
 
 export default designComponent({
@@ -18,6 +18,10 @@ export default designComponent({
         icon: {type: String, default: undefined},                   // 显示的图标
     },
     setup({props}) {
+
+        const state = reactive({
+            isClosed: false,
+        })
 
         const {slots} = useSlots([
             'desc',
@@ -44,13 +48,19 @@ export default designComponent({
             }
         ])
 
+        const handler = {
+            onClickClosed: () => {
+                state.isClosed = true
+            }
+        }
+
         return {
             render: () => (
-                <div class={classes.value}>
+                !state.isClosed && <div class={classes.value}>
                     {!!icon.value && <div class="pl-alert-icon">
                         <pl-icon icon={icon.value}/>
                     </div>}
-                    {!props.noClose && <div class="pl-alert-close">
+                    {!props.noClose && <div class="pl-alert-close" onClick={handler.onClickClosed}>
                         {slots.close(<pl-icon icon="el-icon-close"/>)}
                     </div>}
                     {(!!props.label || slots.default.isExist()) && (
