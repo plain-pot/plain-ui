@@ -56,24 +56,26 @@ export default designComponent({
 
         return {
             render: () => (
-                !state.isClosed && <div class={classes.value}>
-                    {!!icon.value && <div class="pl-alert-icon">
-                        <pl-icon icon={icon.value}/>
+                <pl-collapse-transition>
+                    {!state.isClosed && <div class={classes.value}>
+                        {!!icon.value && <div class="pl-alert-icon">
+                            <pl-icon icon={icon.value}/>
+                        </div>}
+                        {!props.noClose && <div class="pl-alert-close" onClick={handler.onClickClosed}>
+                            {slots.close(<pl-icon icon="el-icon-close"/>)}
+                        </div>}
+                        {(!!props.label || slots.default.isExist()) && (
+                            <div class="pl-alert-label">
+                                {slots.default(props.label)}
+                            </div>
+                        )}
+                        {(!!props.desc || slots.desc.isExist()) && (
+                            <div class="pl-alert-desc">
+                                {slots.desc(props.desc)}
+                            </div>
+                        )}
                     </div>}
-                    {!props.noClose && <div class="pl-alert-close" onClick={handler.onClickClosed}>
-                        {slots.close(<pl-icon icon="el-icon-close"/>)}
-                    </div>}
-                    {(!!props.label || slots.default.isExist()) && (
-                        <div class="pl-alert-label">
-                            {slots.default(props.label)}
-                        </div>
-                    )}
-                    {(!!props.desc || slots.desc.isExist()) && (
-                        <div class="pl-alert-desc">
-                            {slots.desc(props.desc)}
-                        </div>
-                    )}
-                </div>
+                </pl-collapse-transition>
             )
         }
 
