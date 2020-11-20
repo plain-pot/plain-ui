@@ -11,6 +11,7 @@ export default designComponent({
         title: {type: String},
         detail: {type: String},
         noArrow: {type: Boolean},
+        disabled: {type: Boolean},
     },
     emits: {
         updateModelValue: (val: boolean) => true
@@ -33,6 +34,9 @@ export default designComponent({
 
         const handler = {
             onClickTitle: () => {
+                if (props.disabled) {
+                    return
+                }
                 model.value = !model.value
             }
         }
