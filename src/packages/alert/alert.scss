@@ -15,6 +15,7 @@
 
     .pl-alert-icon {
       font-size: 1.2em;
+      display: inline-block;
     }
 
     &.pl-alert-has-close {
@@ -43,15 +44,48 @@
       .pl-alert-icon {
         font-size: 28px;
       }
+
+      &.pl-alert-align-left {
+        .pl-alert-label, .pl-alert-desc {
+          text-align: left
+        }
+      }
+
+      &.pl-alert-align-center {
+        .pl-alert-label, .pl-alert-desc {
+          text-align: center
+        }
+      }
+
+      &.pl-alert-align-right {
+        .pl-alert-label, .pl-alert-desc {
+          text-align: right
+        }
+      }
+    }
+
+    &:not(.pl-alert-has-desc) {
+      &.pl-alert-align-left {
+        text-align: left
+      }
+
+      &.pl-alert-align-center {
+        text-align: center
+      }
+
+      &.pl-alert-align-right {
+        text-align: right
+      }
     }
 
     &.pl-alert-has-icon {
       &:not(.pl-alert-has-desc) {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        .pl-alert-label {
+          display: inline-block;
+        }
 
         .pl-alert-icon {
+          display: inline-block;
           margin-right: 8px;
         }
       }
@@ -73,6 +107,8 @@
         }
       }
     }
+
+    /*---------------------------------------theme-------------------------------------------*/
 
     &.pl-alert-theme-lite {
       @include statusMixin(alert) {

@@ -41,6 +41,7 @@ export default designComponent({
             `pl-alert-status-${styleComputed.value.status}`,
             `pl-alert-shape-${styleComputed.value.shape}`,
             `pl-alert-theme-${props.theme}`,
+            `pl-alert-align-${props.align}`,
             {
                 'pl-alert-has-icon': !!icon.value,
                 'pl-alert-has-desc': !!props.desc || slots.desc.isExist(),

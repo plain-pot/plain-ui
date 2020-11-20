@@ -17,6 +17,12 @@
             <pl-alert desc="失败状态下的提示文本" label="失败状态" status="error"/>
             <pl-alert desc="提示状态下的提示文本" label="提示状态" status="info"/>
         </demo-row>
+        <demo-row title="文本对其方式">
+            <pl-alert label="居中对其" align="center"/>
+            <pl-alert desc="默认状态下的提示文本" label="左对齐" status="primary" align="left"/>
+            <pl-alert desc="成功状态下的提示文本" label="居中对其" status="success" align="center"/>
+            <pl-alert desc="警告状态下的提示文本" label="右对齐" status="warn" align="right"/>
+        </demo-row>
         <demo-row title="深色主题">
             <pl-alert v-for="item in ['primary','success','warn','error','info']"
                       theme="deep"
