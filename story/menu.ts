@@ -96,7 +96,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Card', title: '卡片', page: '/normal/card', complete: false},
             {name: 'Carousel', title: '轮播', page: '/normal/carousel', complete: false},
             {name: 'Collapse', title: '折叠面板', page: '/normal/collapse', complete: false},
-            {name: 'Alert', title: '提示信息', page: '/normal/alert', complete: false},
+            {name: 'Alert', title: '提示信息', page: '/normal/alert', complete: true},
             {name: 'Portal', title: '迁移DOM元素', page: '/normal/portal', complete: false},
             {name: 'Triangle', title: '三角形元素', page: '/normal/triangle', complete: false},
             {name: 'FilletCorner', title: '圆角', page: '/normal/fillet-corner', complete: false},
