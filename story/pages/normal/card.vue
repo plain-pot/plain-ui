@@ -107,6 +107,41 @@
                 </template>
             </pl-card>
         </demo-row>
+        <demo-row title="底部操作栏">
+            <pl-card title="圣诞之夜" shadow="normal">
+                <div>1、有奖竞猜活动</div>
+                <div>2、大转盘抽奖</div>
+                <div>3、海量红包大礼</div>
+                <template #operator>
+                    <pl-dropdown placement="right">
+                        <template v-slot:reference="{open}">
+                            <pl-button mode="text">
+                                <span>更多</span>
+                                <pl-icon :icon="open?'el-icon-arrow-up':'el-icon-arrow-down'"/>
+                            </pl-button>
+                        </template>
+                        <template #popper>
+                            <pl-dropdown-menu>
+                                <pl-dropdown-option label="分享" @click="$message('分享')" icon="el-icon-share"/>
+                                <pl-dropdown-option label="收藏" @click="$message('收藏')" icon="el-icon-star-off"/>
+                                <pl-dropdown-option label="点赞" @click="$message('点赞')" icon="el-icon-thumb"/>
+                            </pl-dropdown-menu>
+                        </template>
+                    </pl-dropdown>
+                </template>
+                <template #foot>
+                    <div class="pl-card-foot-button" v-tooltip="'分享'">
+                        <pl-icon icon="el-icon-share"/>
+                    </div>
+                    <div class="pl-card-foot-button" v-tooltip="'收藏'">
+                        <pl-icon icon="el-icon-star-off"/>
+                    </div>
+                    <div class="pl-card-foot-button" v-tooltip="'点赞'">
+                        <pl-icon icon="el-icon-thumb"/>
+                    </div>
+                </template>
+            </pl-card>
+        </demo-row>
     </div>
 </template>
 

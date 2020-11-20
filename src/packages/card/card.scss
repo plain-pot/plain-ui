@@ -6,19 +6,26 @@
     vertical-align: top;
     background-color: transparent;
 
-    .pl-card-head, .pl-card-content {
+    .pl-card-head, .pl-card-content, .pl-card-foot {
       border: solid 1px $ibl;
       box-sizing: border-box;
 
       & + * {
         border-top: none;
       }
+
+      &:first-child:not(.pl-card-poster) {
+        border-radius: $radius $radius 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $radius $radius;
+      }
     }
 
     .pl-card-head {
       padding: 0 24px;
       display: flex;
-      border-radius: $radius $radius 0 0;
 
       .pl-card-head-content {
         flex: 1;
@@ -44,7 +51,6 @@
     .pl-card-content {
       display: inline-block;
       width: 100%;
-      border-radius: 0 0 $radius $radius;
       font-size: 14px;
       color: $itc;
       padding: 12px 24px;
@@ -55,10 +61,40 @@
       img {
         display: block;
       }
+    }
 
-      & + .pl-card-head {
-        border-radius: 0;
-        border-top: none;
+    .pl-card-foot {
+      display: flex;
+
+      & > .pl-card-foot-button {
+        flex: 1;
+        text-align: center;
+        padding: 8px 0;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 300ms linear;
+
+        .pl-icon {
+          color: $icc;
+        }
+
+        &:hover {
+          background-color: $ibl;
+        }
+
+        &:not(:first-child) {
+          position: relative;
+
+          &:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            bottom: 4px;
+            width: 1px;
+            background-color: $ibl;
+          }
+        }
       }
     }
 

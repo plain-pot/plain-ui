@@ -67,6 +67,9 @@ export default designComponent({
                     {slots.default.isExist() && <div class="pl-card-content">
                         {slots.default()}
                     </div>}
+                    {slots.foot.isExist() && <div class="pl-card-foot">
+                        {slots.foot()}
+                    </div>}
                 </div>
             )
         }
