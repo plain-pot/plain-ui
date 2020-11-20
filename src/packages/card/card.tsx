@@ -4,16 +4,17 @@ import {useStyles} from "../../use/useStyles";
 import {useProps} from "../../use/useProps";
 import {unit} from "plain-utils/string/unit";
 import './card.scss'
+import {useClass} from "../../use/useClasses";
 
 export default designComponent({
     name: 'pl-card',
     props: {
-        width: {type: [String, Number], default: '300'},// 卡片宽度
-        noPadding: {type: Boolean},                 // 去掉标题以及内容的内边距
-        mini: {type: Boolean},                      // 小型卡片
-        title: {type: String},                      // 小型卡片
-        desc: {type: String},                      // 小型卡片
-
+        width: {type: [String, Number], default: '300'},        // 卡片宽度
+        noPadding: {type: Boolean},                             // 去掉标题以及内容的内边距
+        mini: {type: Boolean},                                  // 小型卡片
+        title: {type: String},                                  // 卡片标题
+        desc: {type: String},                                   // 卡片标题描述
+        shadow: {type: String},                                 // 阴影, normal,hover
     },
     setup({props, event: {emit}}) {
         const {slots} = useSlots([
@@ -25,6 +26,15 @@ export default designComponent({
             'foot',                                 // 卡片底部操作栏
         ], true)
 
+        const classes = useClass(() => [
+            'pl-card',
+            {
+                'pl-card-mini': props.mini,
+                'pl-card-no-padding': props.noPadding,
+                [`pl-card-shadow-${props.shadow}`]: !!props.shadow,
+            }
+        ])
+
         const {propsState} = useProps(props, {
             width: useProps.NUMBER,
         })
@@ -35,14 +45,17 @@ export default designComponent({
 
         return {
             render: () => (
-                <div class="pl-card" style={styles.value}>
+                <div class={classes.value} style={styles.value}>
+                    {slots.poster.isExist() && <div class="pl-card-poster">
+                        {slots.poster()}
+                    </div>}
                     {(slots.title.isExist() || slots.desc.isExist() || slots.operator.isExist() || props.title || props.desc) && (
                         <div class="pl-card-head">
                             <div class="pl-card-head-content">
                                 {(slots.title.isExist() || props.title) && <div class="pl-card-title">
                                     {slots.title(props.title)}
                                 </div>}
-                                {slots.desc.isExist() || props.desc && <div class="pl-card-desc">
+                                {(slots.desc.isExist() || props.desc) && <div class="pl-card-desc">
                                     {slots.desc(props.desc)}
                                 </div>}
                             </div>
@@ -51,9 +64,9 @@ export default designComponent({
                             </div>}
                         </div>
                     )}
-                    <div class="pl-card-content">
+                    {slots.default.isExist() && <div class="pl-card-content">
                         {slots.default()}
-                    </div>
+                    </div>}
                 </div>
             )
         }
