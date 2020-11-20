@@ -14,6 +14,20 @@
                 </div>
             </pl-collapse-transition>
         </demo-row>
+        <demo-row title="Collapse">
+            <pl-collapse title="折叠标题">
+                <div style="font-size: 12px">
+                    <ul>
+                        <li>折叠内容</li>
+                        <li>折叠内容</li>
+                        <li>折叠内容</li>
+                        <li>折叠内容</li>
+                        <li>折叠内容</li>
+                        <li>折叠内容</li>
+                    </ul>
+                </div>
+            </pl-collapse>
+        </demo-row>
     </div>
 </template>
 

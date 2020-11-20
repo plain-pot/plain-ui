@@ -1,0 +1,33 @@
+.pl-collapse {
+  &.pl-collapse-has-arrow {
+    $arrow-width: 32px;
+
+    .pl-collapse-title {
+      padding-right: $arrow-width;
+      position: relative;
+
+      .pl-collapse-arrow {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: $arrow-width;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .pl-icon {
+          transition: transform 300ms $transition;
+        }
+      }
+    }
+
+    &.pl-collapse-is-open {
+      .pl-collapse-arrow {
+        .pl-icon {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+}
