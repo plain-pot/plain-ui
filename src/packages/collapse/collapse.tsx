@@ -3,6 +3,11 @@ import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {useClass} from "../../use/useClasses";
 import './collapse.scss'
+import Group from './collapse-group'
+import {computed} from 'vue';
+import {createCounter} from "../../utils/createCounter";
+
+const valCounter = createCounter('collapse')
 
 export default designComponent({
     name: 'pl-collapse',
@@ -11,7 +16,8 @@ export default designComponent({
         title: {type: String},
         detail: {type: String},
         noArrow: {type: Boolean},
-        disabled: {type: Boolean},
+        disabled: {type: Boolean, default: null},
+        val: {type: String},
     },
     emits: {
         updateModelValue: (val: boolean) => true
@@ -19,6 +25,17 @@ export default designComponent({
     setup({props, event: {emit}}) {
 
         const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const group = Group.use.inject(null)
+
+        const selfVal = computed(() => props.val || valCounter())
+
+        const isOpen = computed(() => {
+            if (!!group) {
+                return group.utils.isOpen(selfVal.value)
+            } else {
+                return model.value
+            }
+        })
 
         const {slots} = useSlots([
             'title',
@@ -28,16 +45,30 @@ export default designComponent({
             'pl-collapse',
             {
                 'pl-collapse-has-arrow': !props.noArrow,
-                'pl-collapse-is-open': model.value,
+                'pl-collapse-is-open': isOpen.value,
             }
         ])
 
+        const isDisabled = computed(() => {
+            if (props.disabled != null) {
+                return props.disabled
+            }
+            if (!!group) {
+                return group.props.disabled
+            }
+            return false
+        })
+
         const handler = {
             onClickTitle: () => {
-                if (props.disabled) {
+                if (isDisabled.value) {
                     return
                 }
-                model.value = !model.value
+                if (!!group) {
+                    group.handler.clickCollapseTitle(selfVal.value)
+                } else {
+                    model.value = !model.value
+                }
             }
         }
 
@@ -47,12 +78,12 @@ export default designComponent({
                     {(!!props.title || slots.title.isExist()) && <div class="pl-collapse-title" onClick={handler.onClickTitle}>
                         {slots.title(props.title)}
 
-                        {!props.noArrow && <div class="pl-collapse-arrow">
+                        {!props.noArrow && !isDisabled.value && <div class="pl-collapse-arrow">
                             <pl-icon icon="el-icon-arrow-right"/>
                         </div>}
                     </div>}
                     <pl-collapse-transition>
-                        {model.value && (!!props.detail || slots.default.isExist()) && <div class="pl-collapse-detail">
+                        {isOpen.value && (!!props.detail || slots.default.isExist()) && <div class="pl-collapse-detail">
                             {slots.default(props.detail)}
                         </div>}
                     </pl-collapse-transition>

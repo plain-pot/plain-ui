@@ -31,3 +31,26 @@
     }
   }
 }
+
+@include theme {
+  .pl-collapse-group {
+    border-top: solid 1px $ibl;
+
+    .pl-collapse {
+      border-bottom: solid 1px $ibl;
+
+      .pl-collapse-title {
+        font-size: 14px;
+        padding: 12px 0;
+
+        .pl-collapse-arrow {
+          color: $icc;
+        }
+      }
+
+      .pl-collapse-detail {
+        font-size: 12px;
+      }
+    }
+  }
+}
