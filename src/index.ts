@@ -39,6 +39,7 @@ import Tooltip from './packages/tooltip'
 import Alert from './packages/alert'
 import Collapse from './packages/collapse'
 import Card from './packages/card'
+import Carousel from './packages/carousel'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -49,7 +50,7 @@ const plugins: ComponentPlugin[] = [
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card,
+    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
@@ -64,7 +65,7 @@ export {
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card,
+    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate,
