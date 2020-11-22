@@ -186,6 +186,22 @@
                 </pl-carousel-item>
             </pl-carousel>
         </demo-row>
+        <demo-row title="卡片形式切换">
+            <pl-carousel card>
+                <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
+                    panel 1
+                </pl-carousel-item>
+                <pl-carousel-item style="background-color: #409EFF;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
+                    panel 2
+                </pl-carousel-item>
+                <pl-carousel-item style="background-color: #F38585;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
+                    panel 3
+                </pl-carousel-item>
+                <pl-carousel-item style="background-color: #455a64;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
+                    panel 4
+                </pl-carousel-item>
+            </pl-carousel>
+        </demo-row>
     </div>
 </template>
 

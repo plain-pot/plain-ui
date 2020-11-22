@@ -22,6 +22,7 @@ export const Carousel = designComponent({
         disabledIndicator: {type: Boolean},                         // 禁用指示器
         indicatorTrigger: {type: String, default: 'click'},         // 指示器激活触发器：click。hover
         vertical: {type: Boolean},                                  // 轮播方向为纵向
+        card: {type: Boolean},                                      // 卡片形式的切换
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -95,7 +96,8 @@ export const Carousel = designComponent({
         const classes = useClass(() => [
             'pl-carousel',
             {
-                'pl-carousel-vertical': props.vertical
+                'pl-carousel-vertical': props.vertical,
+                'pl-carousel-card': props.card,
             }
         ])
         const styles = useStyles(style => {
