@@ -24,6 +24,7 @@ export const Carousel = designComponent({
     },
     setup({props, event: {emit}}) {
 
+        /*子元素*/
         const items = CarouselCollector.parent()
         const {slots} = useSlots([
             'cover',
@@ -35,13 +36,16 @@ export const Carousel = designComponent({
             el: HTMLDivElement
         })
         const state = reactive({
-            width: 0,
-            autoplayTimer: null as null | number,
-            prevActiveIndex: null as null | number,
+            width: 0,                                                   // 容器宽度
+            autoplayTimer: null as null | number,                       // 自动播放定时器
+            prevActiveIndex: null as null | number,                     // 上一个激活的index，当元素个数为3时，需要通过这个属性优化动画
         })
 
+        /*双向绑定值*/
         const model = useModel(() => props.modelValue, emit.updateModelValue)
+        /*子元素val数组*/
         const vals = computed(() => items.map(item => String(item.value.value)!))
+        /*当前激活的元素的val值*/
         const activeVal = computed(() => {
             if (vals.value.length === 0) {
                 return null
@@ -52,6 +56,7 @@ export const Carousel = designComponent({
                 return vals.value[0]
             }
         })
+        /*当前激活的元素的val的在 数组中的索引*/
         const activeIndex = computed(() => {
             if (!activeVal.value) {
                 return 0
@@ -59,6 +64,7 @@ export const Carousel = designComponent({
             return vals.value.indexOf(activeVal.value)
         })
 
+        /*实际渲染的，排序过的val数组*/
         const sortVals = computed(() => {
             const valArray = vals.value
             let prev = valArray.slice(0, activeIndex.value)
@@ -83,6 +89,11 @@ export const Carousel = designComponent({
         })
 
         const utils = {
+            /**
+             * 子元素的左偏移位置
+             * @author  韦胜健
+             * @date    2020/11/22 23:19
+             */
             getLeft: (val: any) => {
                 if (!state.width) {
                     return null
@@ -93,6 +104,11 @@ export const Carousel = designComponent({
                     zIndex: sortVals.value.length - Math.abs(duration),
                 }
             },
+            /**
+             * 重置自动播放定时器
+             * @author  韦胜健
+             * @date    2020/11/22 23:19
+             */
             resetAutoplayTimer: (autoplay: number | null) => {
                 /*无论怎么样都要清理掉定时器*/
                 if (!!state.autoplayTimer) {
@@ -104,6 +120,11 @@ export const Carousel = designComponent({
                     state.autoplayTimer = setInterval(methods.next, autoplay)
                 }
             },
+            /**
+             * 子元素是否需要动画（当元素为3时，只有prevActiveIndex以及activeIndex的元素需要动画，另一个需要立刻移动到对应的位置）
+             * @author  韦胜健
+             * @date    2020/11/22 23:20
+             */
             isAnimating: (val: any) => {
                 if (vals.value.length !== 3) {
                     return true
@@ -114,14 +135,29 @@ export const Carousel = designComponent({
         }
 
         const methods = {
+            /**
+             * 显示上一个元素
+             * @author  韦胜健
+             * @date    2020/11/22 23:21
+             */
             prev: () => {
                 state.prevActiveIndex = activeIndex.value
                 model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) - 1]!
             },
+            /**
+             * 显示下一个元素
+             * @author  韦胜健
+             * @date    2020/11/22 23:21
+             */
             next: () => {
                 state.prevActiveIndex = activeIndex.value
                 model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) + 1]!
             },
+            /**
+             * 显示特定元素
+             * @author  韦胜健
+             * @date    2020/11/22 23:21
+             */
             show: (val: any) => {
                 state.prevActiveIndex = activeIndex.value
                 model.value = val
@@ -146,14 +182,6 @@ export const Carousel = designComponent({
 
         onMounted(() => {
             state.width = refs.el.offsetWidth
-            /*console.log({
-                'vals': vals.value,
-                'activeVal': activeVal.value,
-                'activeIndex': activeIndex.value,
-                'sortVals': sortVals.value,
-            })*/
-
-            state.prevActiveIndex = activeIndex.value
         })
 
         watch(() => props.autoplay, utils.resetAutoplayTimer, {immediate: true})
