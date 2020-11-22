@@ -14,7 +14,7 @@ export const Carousel = designComponent({
     name: 'pl-carousel',
     props: {
         modelValue: {type: [String, Number]},
-        height: {type: [Number, String], default: 300},
+        height: {type: [Number, String], default: 180},
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -22,7 +22,9 @@ export const Carousel = designComponent({
     setup({props, event: {emit}}) {
 
         const items = CarouselCollector.parent()
-        const {slots} = useSlots()
+        const {slots} = useSlots([
+            'cover',
+        ], true)
         const {propsState} = useProps(props, {
             height: useProps.NUMBER,
         })
@@ -34,26 +36,28 @@ export const Carousel = designComponent({
         })
 
         const model = useModel(() => props.modelValue, emit.updateModelValue)
-        const vals = computed(() => items.map(item => item.value.value!))
+        const vals = computed(() => items.map(item => String(item.value.value)!))
         const activeVal = computed(() => {
             if (vals.value.length === 0) {
                 return null
             }
             if (model.value != null) {
-                return model.value
+                return String(model.value)
             } else {
                 return vals.value[0]
             }
         })
+        const activeIndex = computed(() => {
+            if (!activeVal.value) {
+                return 0
+            }
+            return vals.value.indexOf(activeVal.value)
+        })
 
         const sortVals = computed(() => {
-            if (activeVal.value == null) {
-                return []
-            }
             const valArray = vals.value
-            let activeIndex = valArray.indexOf(activeVal.value)
-            let prev = valArray.slice(0, activeIndex)
-            let next = valArray.slice(activeIndex + 1)
+            let prev = valArray.slice(0, activeIndex.value)
+            let next = valArray.slice(activeIndex.value + 1)
 
             if (Math.abs(prev.length - next.length) > 1) {
                 if (prev.length > next.length) {
@@ -86,6 +90,15 @@ export const Carousel = designComponent({
             }
         }
 
+        const methods = {
+            prev: () => {
+                model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) - 1]!
+            },
+            next: () => {
+                model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) + 1]!
+            },
+        }
+
         onMounted(() => {
             state.width = refs.el.offsetWidth
         })
@@ -97,8 +110,28 @@ export const Carousel = designComponent({
             render: () => (
                 <div class="pl-carousel" style={styles.value} ref="el">
                     {slots.default()}
-                    <div class="pl-carousel-cover">
-                        {JSON.stringify(sortVals.value)}
+                    {slots.cover.isExist() && <div class="pl-carousel-cover">
+                        {slots.cover()}
+                    </div>}
+
+                    <div class="pl-carousel-operator">
+                        <div class="pl-carousel-operator-btn pl-carousel-operator-prev" onClick={methods.prev}>
+                            <pl-icon icon="el-icon-arrow-left"/>
+                        </div>
+                        <div class="pl-carousel-operator-btn pl-carousel-operator-next" onClick={methods.next}>
+                            <pl-icon icon="el-icon-arrow-right"/>
+                        </div>
+                    </div>
+
+                    <div class="pl-carousel-indicator">
+                        {items.map((item, index) => (
+                            <div class={[
+                                'pl-carousel-indicator-item',
+                                {
+                                    'pl-carousel-indicator-item-active': item.value.value === activeVal.value
+                                }
+                            ]} key={index}/>
+                        ))}
                     </div>
                 </div>
             )

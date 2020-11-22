@@ -1,7 +1,7 @@
 <template>
     <div class="demo-carousel">
         <demo-row title="基本用法">
-            <pl-radio-group v-model="val[0]">
+            <!--<pl-radio-group v-model="val[0]">
                 <pl-radio label="1" val="1"/>
                 <pl-radio label="2" val="2"/>
                 <pl-radio label="3" val="3"/>
@@ -9,8 +9,8 @@
                 <pl-radio label="5" val="5"/>
                 <pl-radio label="6" val="6"/>
                 <pl-radio label="7" val="7"/>
-            </pl-radio-group>
-            <pl-carousel style="width: 500px" v-model="val[0]">
+            </pl-radio-group>-->
+            <pl-carousel style="width: 500px">
                 <pl-carousel-item
                         val="1"
                         style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">

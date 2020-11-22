@@ -3,20 +3,78 @@
     position: relative;
     overflow-x: hidden;
 
-    .pl-carousel-item {
+    .pl-carousel-item, .pl-carousel-cover, .pl-carousel-operator, .pl-carousel-indicator {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
+      pointer-events: none;
+
+      &.pl-carousel-cover, &.pl-carousel-operator, &.pl-carousel-indicator {
+        z-index: 99;
+      }
+    }
+
+    .pl-carousel-item {
       transition: transform $transition 1000ms;
+      pointer-events: auto;
     }
 
     .pl-carousel-cover {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 9;
+      pointer-events: auto;
+    }
+
+    .pl-carousel-operator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+
+      .pl-carousel-operator-btn {
+        transition: background-color 300ms linear;
+        cursor: pointer;
+        pointer-events: auto;
+        background-color: rgba(white, 0.3);
+        width: 36px;
+        height: 36px;
+        border-radius: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        user-select: none;
+
+        &:hover:not(:active) {
+          background-color: rgba(white, 0.6);
+        }
+      }
+    }
+
+    .pl-carousel-indicator {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 20px;
+      flex-wrap: nowrap;
+
+      .pl-carousel-indicator-item {
+        pointer-events: auto;
+        width: 20px;
+        height: 3px;
+        background-color: white;
+        opacity: 0.3;
+        transition: all 200ms linear;
+
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+
+        &.pl-carousel-indicator-item-active {
+          opacity: 1;
+          width: 30px;
+        }
+      }
     }
   }
 }
