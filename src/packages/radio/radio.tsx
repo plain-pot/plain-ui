@@ -23,7 +23,7 @@ export default designComponent({
         ...StyleProps,
 
         modelValue: {},                                             // 双向绑定值
-        val: {type: String},                                        // 在group中的唯一标识
+        val: {type: [String, Number]},                              // 在group中的唯一标识
         label: {type: String},                                      // 显示文本
         width: {type: [String, Number]},                            // 宽度
         trueValue: {default: true},                                 // 真值

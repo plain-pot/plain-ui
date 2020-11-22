@@ -1,4 +1,4 @@
-import Carousel from './carousel'
+import {Carousel} from './carousel'
 import Item from './carousel-item'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
