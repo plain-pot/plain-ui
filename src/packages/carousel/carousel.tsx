@@ -37,6 +37,7 @@ export const Carousel = designComponent({
         const state = reactive({
             width: 0,
             autoplayTimer: null as null | number,
+            prevActiveIndex: null as null | number,
         })
 
         const model = useModel(() => props.modelValue, emit.updateModelValue)
@@ -102,19 +103,30 @@ export const Carousel = designComponent({
                 if (!!autoplay) {
                     state.autoplayTimer = setInterval(methods.next, autoplay)
                 }
-            }
+            },
+            isAnimating: (val: any) => {
+                if (vals.value.length !== 3) {
+                    return true
+                }
+                let index = vals.value.indexOf(val)
+                return index === state.prevActiveIndex || index === activeIndex.value
+            },
         }
 
         const methods = {
             prev: () => {
+                state.prevActiveIndex = activeIndex.value
                 model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) - 1]!
             },
             next: () => {
+                state.prevActiveIndex = activeIndex.value
                 model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) + 1]!
             },
             show: (val: any) => {
-                utils.resetAutoplayTimer(props.autoplay)
+                state.prevActiveIndex = activeIndex.value
                 model.value = val
+
+                utils.resetAutoplayTimer(props.autoplay)
             },
         }
 
@@ -140,6 +152,8 @@ export const Carousel = designComponent({
                 'activeIndex': activeIndex.value,
                 'sortVals': sortVals.value,
             })*/
+
+            state.prevActiveIndex = activeIndex.value
         })
 
         watch(() => props.autoplay, utils.resetAutoplayTimer, {immediate: true})
@@ -172,7 +186,7 @@ export const Carousel = designComponent({
                                 class={[
                                     'pl-carousel-indicator-item',
                                     {
-                                        'pl-carousel-indicator-item-active': index === activeIndex.value
+                                        'pl-carousel-indicator-item-active': index === activeIndex.value,
                                     }
                                 ]} key={index}/>
                         ))}
