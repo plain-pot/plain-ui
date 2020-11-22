@@ -1,4 +1,4 @@
-import {computed, onMounted} from 'vue'
+import {computed, onMounted, reactive} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import './carousel.scss'
 import {useSlots} from "../../use/useSlots";
@@ -8,6 +8,7 @@ import {unit} from "plain-utils/string/unit";
 import Item from './carousel-item'
 import {useCollect} from "../../use/useCollect";
 import {useModel} from "../../use/useModel";
+import {useRefs} from "../../use/useRefs";
 
 export const Carousel = designComponent({
     name: 'pl-carousel',
@@ -21,11 +22,17 @@ export const Carousel = designComponent({
     setup({props, event: {emit}}) {
 
         const items = CarouselCollector.parent()
-
         const {slots} = useSlots()
         const {propsState} = useProps(props, {
             height: useProps.NUMBER,
         })
+        const {refs} = useRefs({
+            el: HTMLDivElement
+        })
+        const state = reactive({
+            width: 0,
+        })
+
         const model = useModel(() => props.modelValue, emit.updateModelValue)
         const vals = computed(() => items.map(item => item.value.value!))
         const activeVal = computed(() => {
@@ -66,16 +73,29 @@ export const Carousel = designComponent({
             style.height = unit(propsState.height)
         })
 
-        const utils = {}
+        const utils = {
+            getLeft: (val: any) => {
+                if (!state.width) {
+                    return null
+                }
+                let duration = sortVals.value.indexOf(val) - sortVals.value.indexOf(activeVal.value!)
+                return {
+                    left: duration * state.width,
+                    zIndex: sortVals.value.length - Math.abs(duration),
+                }
+            }
+        }
 
-        onMounted(() => null)
+        onMounted(() => {
+            state.width = refs.el.offsetWidth
+        })
 
         return {
             refer: {
                 utils,
             },
             render: () => (
-                <div class="pl-carousel" style={styles.value}>
+                <div class="pl-carousel" style={styles.value} ref="el">
                     {slots.default()}
                     <div class="pl-carousel-cover">
                         {JSON.stringify(sortVals.value)}

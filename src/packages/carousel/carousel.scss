@@ -1,18 +1,22 @@
-.pl-carousel {
-  position: relative;
+@include theme {
+  .pl-carousel {
+    position: relative;
+    overflow-x: hidden;
 
-  .pl-carousel-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+    .pl-carousel-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: transform $transition 1000ms;
+    }
 
-  .pl-carousel-cover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 9;
+    .pl-carousel-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9;
+    }
   }
 }

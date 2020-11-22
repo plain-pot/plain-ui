@@ -10,7 +10,7 @@
                 <pl-radio label="6" val="6"/>
                 <pl-radio label="7" val="7"/>
             </pl-radio-group>
-            <pl-carousel style="width: 300px" v-model="val[0]">
+            <pl-carousel style="width: 500px" v-model="val[0]">
                 <pl-carousel-item
                         val="1"
                         style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">

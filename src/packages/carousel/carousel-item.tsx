@@ -3,6 +3,7 @@ import {useSlots} from "../../use/useSlots";
 import {CarouselCollector} from "./carousel";
 import {useRefs} from "../../use/useRefs";
 import {onMounted, reactive, computed} from 'vue';
+import {useStyles} from "../../use/useStyles";
 
 export default designComponent({
     name: 'pl-carousel-item',
@@ -21,6 +22,14 @@ export default designComponent({
         })
         const value = computed(() => props.val == null ? state.index : props.val)
 
+        const style = useStyles(style => {
+            let position = carousel.utils.getLeft(value.value)
+            if (!!position) {
+                style.transform = `translateX(${position.left}px)`
+                style.zIndex = position.zIndex
+            }
+        })
+
         onMounted(() => {
             state.index = Array.from(refs.el.parentElement!.childNodes).filter(node => node.nodeType != 3).indexOf(refs.el)
         })
@@ -30,7 +39,7 @@ export default designComponent({
                 value,
             },
             render: () => (
-                <div class="pl-carousel-item" ref="el">
+                <div class="pl-carousel-item" ref="el" style={style.value}>
                     {value.value} - {slots.default()}
                 </div>
             )
