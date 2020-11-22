@@ -10,6 +10,7 @@ import {useCollect} from "../../use/useCollect";
 import {useModel} from "../../use/useModel";
 import {useRefs} from "../../use/useRefs";
 import {useScopedSlots} from "../../use/useScopedSlots";
+import {useClass} from "../../use/useClasses";
 
 export const Carousel = designComponent({
     name: 'pl-carousel',
@@ -20,6 +21,7 @@ export const Carousel = designComponent({
         disabledOperator: {type: Boolean},                          // 禁用前后按钮
         disabledIndicator: {type: Boolean},                         // 禁用指示器
         indicatorTrigger: {type: String, default: 'click'},         // 指示器激活触发器：click。hover
+        vertical: {type: Boolean},                                  // 轮播方向为纵向
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -42,6 +44,7 @@ export const Carousel = designComponent({
         })
         const state = reactive({
             width: 0,                                                   // 容器宽度
+            height: 0,                                                  // 容器高度
             autoplayTimer: null as null | number,                       // 自动播放定时器
             prevActiveIndex: null as null | number,                     // 上一个激活的index，当元素个数为3时，需要通过这个属性优化动画
         })
@@ -89,6 +92,12 @@ export const Carousel = designComponent({
             return [...prev, activeVal.value, ...next]
         })
 
+        const classes = useClass(() => [
+            'pl-carousel',
+            {
+                'pl-carousel-vertical': props.vertical
+            }
+        ])
         const styles = useStyles(style => {
             style.height = unit(propsState.height)
         })
@@ -99,13 +108,17 @@ export const Carousel = designComponent({
              * @author  韦胜健
              * @date    2020/11/22 23:19
              */
-            getLeft: (val: any) => {
+            getItemStyles: (val: any) => {
                 if (!state.width) {
                     return null
                 }
                 let duration = sortVals.value.indexOf(String(val)) - sortVals.value.indexOf(String(activeVal.value))
                 return {
-                    left: duration * state.width,
+                    ...(!props.vertical ? {
+                        transform: `translateX(${duration * state.width}px)`
+                    } : {
+                        transform: `translateY(${duration * state.height}px)`
+                    }),
                     zIndex: sortVals.value.length - Math.abs(duration),
                 }
             },
@@ -187,6 +200,7 @@ export const Carousel = designComponent({
 
         onMounted(() => {
             state.width = refs.el.offsetWidth
+            state.height = refs.el.offsetHeight
         })
 
         watch(() => props.autoplay, utils.resetAutoplayTimer, {immediate: true})
@@ -197,7 +211,7 @@ export const Carousel = designComponent({
                 methods,
             },
             render: () => (
-                <div class="pl-carousel" style={styles.value} ref="el">
+                <div class={classes.value} style={styles.value} ref="el">
                     {slots.default()}
                     {slots.cover.isExist() && <div class="pl-carousel-cover">
                         {slots.cover()}

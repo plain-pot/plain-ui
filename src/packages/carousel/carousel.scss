@@ -1,7 +1,10 @@
 @include theme {
   .pl-carousel {
     position: relative;
-    overflow-x: hidden;
+
+    &:not(.pl-carousel-vertical) {
+      overflow-x: hidden;
+    }
 
     .pl-carousel-item, .pl-carousel-cover, .pl-carousel-operator, .pl-carousel-indicator {
       position: absolute;
@@ -81,6 +84,43 @@
 
         &:hover {
           opacity: 0.8;
+        }
+      }
+    }
+
+    &.pl-carousel-vertical {
+      overflow-y: hidden;
+
+      .pl-carousel-operator {
+        flex-direction: column;
+        padding: 20px;
+        align-items: flex-end;
+
+        .pl-carousel-operator-btn:nth-child(1) {
+          transform: rotate(90deg);
+        }
+
+        .pl-carousel-operator-btn:nth-child(2) {
+          transform: rotate(90deg);
+        }
+      }
+
+      .pl-carousel-indicator {
+        flex-direction: column;
+        padding: 20px 36px;
+
+        .pl-carousel-indicator-item {
+          height: 8px;
+          width: 3px;
+          margin-right: 0;
+
+          &.pl-carousel-indicator-item-active {
+            height: 16px;
+          }
+
+          &:not(:last-child) {
+            margin-bottom: 4px;
+          }
         }
       }
     }

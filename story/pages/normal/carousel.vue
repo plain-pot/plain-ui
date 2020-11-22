@@ -170,8 +170,8 @@
             </demo-line>
         </demo-row>
 
-        <demo-row title="基本用法">
-            <pl-carousel>
+        <demo-row title="纵向切换">
+            <pl-carousel vertical>
                 <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                     panel 1
                 </pl-carousel-item>
@@ -183,15 +183,6 @@
                 </pl-carousel-item>
                 <pl-carousel-item style="background-color: #455a64;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                     panel 4
-                </pl-carousel-item>
-                <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
-                    panel 5
-                </pl-carousel-item>
-                <pl-carousel-item style="background-color: #F56C6C;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
-                    panel 6
-                </pl-carousel-item>
-                <pl-carousel-item style="background-color: #4caf50;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
-                    panel 7
                 </pl-carousel-item>
             </pl-carousel>
         </demo-row>

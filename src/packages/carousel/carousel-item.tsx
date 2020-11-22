@@ -21,14 +21,8 @@ export default designComponent({
         const carousel = CarouselCollector.child({sort: () => refs.el})
         const {slots} = useSlots()
         const itemVal = computed(() => props.val == null ? counter() : props.val)
+        const style = useStyles(() => carousel.utils.getItemStyles(itemVal.value) as any)
 
-        const style = useStyles(style => {
-            let position = carousel.utils.getLeft(itemVal.value)
-            if (!!position) {
-                style.transform = `translateX(${position.left}px)`
-                style.zIndex = position.zIndex
-            }
-        })
         return {
             refer: {
                 itemVal,
