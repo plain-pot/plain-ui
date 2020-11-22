@@ -9,6 +9,7 @@ import Item from './carousel-item'
 import {useCollect} from "../../use/useCollect";
 import {useModel} from "../../use/useModel";
 import {useRefs} from "../../use/useRefs";
+import {useScopedSlots} from "../../use/useScopedSlots";
 
 export const Carousel = designComponent({
     name: 'pl-carousel',
@@ -18,6 +19,7 @@ export const Carousel = designComponent({
         autoplay: {type: Number, default: 3000},                    // 自定播放时间，为0则取消自动播放
         disabledOperator: {type: Boolean},                          // 禁用前后按钮
         disabledIndicator: {type: Boolean},                         // 禁用指示器
+        indicatorTrigger: {type: String, default: 'click'},         // 指示器激活触发器：click。hover
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -26,6 +28,9 @@ export const Carousel = designComponent({
 
         /*子元素*/
         const items = CarouselCollector.parent()
+        const {scopedSlots} = useScopedSlots({
+            indicator: {val: String, index: Number, active: Boolean}
+        })
         const {slots} = useSlots([
             'cover',
         ], true)
@@ -209,14 +214,18 @@ export const Carousel = designComponent({
 
                     {!props.disabledIndicator && <div class="pl-carousel-indicator">
                         {items.map((item, index) => (
-                            <div
-                                onClick={() => handler.onIndicator(index)}
-                                class={[
-                                    'pl-carousel-indicator-item',
-                                    {
-                                        'pl-carousel-indicator-item-active': index === activeIndex.value,
-                                    }
-                                ]} key={index}/>
+                            scopedSlots.indicator({val: String(item.itemVal.value), index, active: index === activeIndex.value}, (
+                                <div
+                                    {...{
+                                        [props.indicatorTrigger === 'hover' ? 'onMouseenter' : 'onClick']: () => handler.onIndicator(index)
+                                    }}
+                                    class={[
+                                        'pl-carousel-indicator-item',
+                                        {
+                                            'pl-carousel-indicator-item-active': index === activeIndex.value,
+                                        }
+                                    ]} key={index}/>
+                            ))
                         ))}
                     </div>}
                 </div>
