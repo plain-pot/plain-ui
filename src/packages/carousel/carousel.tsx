@@ -13,9 +13,11 @@ import {useRefs} from "../../use/useRefs";
 export const Carousel = designComponent({
     name: 'pl-carousel',
     props: {
-        modelValue: {type: [String, Number]},
-        height: {type: [Number, String], default: 225},
-        autoplay: {type: Number, default: 3000},
+        modelValue: {type: [String, Number]},                       // 双向绑定值
+        height: {type: [Number, String], default: 225},             // 轮播高度
+        autoplay: {type: Number, default: 0},                    // 自定播放时间，为0则取消自动播放
+        disabledOperator: {type: Boolean},                          // 禁用前后按钮
+        disabledIndicator: {type: Boolean},                         // 禁用指示器
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -125,6 +127,9 @@ export const Carousel = designComponent({
                 utils.resetAutoplayTimer(props.autoplay)
                 methods.next()
             },
+            onIndicator: (index: number) => {
+                methods.show(vals.value[index])
+            },
         }
 
         onMounted(() => {
@@ -151,25 +156,27 @@ export const Carousel = designComponent({
                         {slots.cover()}
                     </div>}
 
-                    <div class="pl-carousel-operator">
+                    {!props.disabledOperator && <div class="pl-carousel-operator">
                         <div class="pl-carousel-operator-btn pl-carousel-operator-prev" onClick={handler.onPrev}>
                             <pl-icon icon="el-icon-arrow-left"/>
                         </div>
                         <div class="pl-carousel-operator-btn pl-carousel-operator-next" onClick={handler.onNext}>
                             <pl-icon icon="el-icon-arrow-right"/>
                         </div>
-                    </div>
+                    </div>}
 
-                    <div class="pl-carousel-indicator">
+                    {!props.disabledIndicator && <div class="pl-carousel-indicator">
                         {items.map((item, index) => (
-                            <div class={[
-                                'pl-carousel-indicator-item',
-                                {
-                                    'pl-carousel-indicator-item-active': index === activeIndex.value
-                                }
-                            ]} key={index}/>
+                            <div
+                                onClick={() => handler.onIndicator(index)}
+                                class={[
+                                    'pl-carousel-indicator-item',
+                                    {
+                                        'pl-carousel-indicator-item-active': index === activeIndex.value
+                                    }
+                                ]} key={index}/>
                         ))}
-                    </div>
+                    </div>}
                 </div>
             )
         }

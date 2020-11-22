@@ -65,6 +65,7 @@
         background-color: white;
         opacity: 0.3;
         transition: all 200ms linear;
+        cursor: pointer;
 
         &:not(:last-child) {
           margin-right: 8px;
@@ -73,6 +74,10 @@
         &.pl-carousel-indicator-item-active {
           opacity: 1;
           width: 30px;
+        }
+
+        &:hover {
+          opacity: 0.8;
         }
       }
     }
