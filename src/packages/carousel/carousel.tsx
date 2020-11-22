@@ -15,7 +15,7 @@ export const Carousel = designComponent({
     props: {
         modelValue: {type: [String, Number]},                       // 双向绑定值
         height: {type: [Number, String], default: 225},             // 轮播高度
-        autoplay: {type: Number, default: 0},                    // 自定播放时间，为0则取消自动播放
+        autoplay: {type: Number, default: 3000},                    // 自定播放时间，为0则取消自动播放
         disabledOperator: {type: Boolean},                          // 禁用前后按钮
         disabledIndicator: {type: Boolean},                         // 禁用指示器
     },
@@ -44,7 +44,7 @@ export const Carousel = designComponent({
         /*双向绑定值*/
         const model = useModel(() => props.modelValue, emit.updateModelValue)
         /*子元素val数组*/
-        const vals = computed(() => items.map(item => String(item.value.value)!))
+        const vals = computed(() => items.map(item => String(item.itemVal.value)!))
         /*当前激活的元素的val值*/
         const activeVal = computed(() => {
             if (vals.value.length === 0) {

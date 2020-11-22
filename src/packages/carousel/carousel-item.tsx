@@ -20,10 +20,10 @@ export default designComponent({
         })
         const carousel = CarouselCollector.child({sort: () => refs.el})
         const {slots} = useSlots()
-        const value = computed(() => props.val == null ? counter() : props.val)
+        const itemVal = computed(() => props.val == null ? counter() : props.val)
 
         const style = useStyles(style => {
-            let position = carousel.utils.getLeft(value.value)
+            let position = carousel.utils.getLeft(itemVal.value)
             if (!!position) {
                 style.transform = `translateX(${position.left}px)`
                 style.zIndex = position.zIndex
@@ -31,13 +31,13 @@ export default designComponent({
         })
         return {
             refer: {
-                value,
+                itemVal,
             },
             render: () => (
                 <div class={[
                     'pl-carousel-item',
                     {
-                        'pl-carousel-item-animating': carousel.utils.isAnimating(value.value),
+                        'pl-carousel-item-animating': carousel.utils.isAnimating(itemVal.value),
                     }
                 ]}
                      ref="el"
