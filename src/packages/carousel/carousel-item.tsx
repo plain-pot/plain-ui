@@ -40,7 +40,7 @@ export default designComponent({
             },
             render: () => (
                 <div class="pl-carousel-item" ref="el" style={style.value}>
-                    {value.value} - {slots.default()}
+                    {slots.default()}
                 </div>
             )
         }

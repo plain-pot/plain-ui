@@ -1,4 +1,4 @@
-import {computed, onMounted, reactive} from 'vue'
+import {computed, onMounted, reactive, watch} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import './carousel.scss'
 import {useSlots} from "../../use/useSlots";
@@ -14,7 +14,8 @@ export const Carousel = designComponent({
     name: 'pl-carousel',
     props: {
         modelValue: {type: [String, Number]},
-        height: {type: [Number, String], default: 180},
+        height: {type: [Number, String], default: 225},
+        autoplay: {type: Number, default: 3000},
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -33,6 +34,7 @@ export const Carousel = designComponent({
         })
         const state = reactive({
             width: 0,
+            autoplayTimer: null as null | number,
         })
 
         const model = useModel(() => props.modelValue, emit.updateModelValue)
@@ -82,10 +84,21 @@ export const Carousel = designComponent({
                 if (!state.width) {
                     return null
                 }
-                let duration = sortVals.value.indexOf(val) - sortVals.value.indexOf(activeVal.value!)
+                let duration = sortVals.value.indexOf(String(val)) - sortVals.value.indexOf(String(activeVal.value))
                 return {
                     left: duration * state.width,
                     zIndex: sortVals.value.length - Math.abs(duration),
+                }
+            },
+            resetAutoplayTimer: (autoplay: number | null) => {
+                /*无论怎么样都要清理掉定时器*/
+                if (!!state.autoplayTimer) {
+                    clearInterval(state.autoplayTimer)
+                    state.autoplayTimer = null
+                }
+                /*如果autoplay有值，重新设定一个自动播放定时器*/
+                if (!!autoplay) {
+                    state.autoplayTimer = setInterval(methods.next, autoplay)
                 }
             }
         }
@@ -97,15 +110,39 @@ export const Carousel = designComponent({
             next: () => {
                 model.value = sortVals.value[sortVals.value.indexOf(activeVal.value) + 1]!
             },
+            show: (val: any) => {
+                utils.resetAutoplayTimer(props.autoplay)
+                model.value = val
+            },
+        }
+
+        const handler = {
+            onPrev: () => {
+                utils.resetAutoplayTimer(props.autoplay)
+                methods.prev()
+            },
+            onNext: () => {
+                utils.resetAutoplayTimer(props.autoplay)
+                methods.next()
+            },
         }
 
         onMounted(() => {
             state.width = refs.el.offsetWidth
+            /*console.log({
+                'vals': vals.value,
+                'activeVal': activeVal.value,
+                'activeIndex': activeIndex.value,
+                'sortVals': sortVals.value,
+            })*/
         })
+
+        watch(() => props.autoplay, utils.resetAutoplayTimer, {immediate: true})
 
         return {
             refer: {
                 utils,
+                methods,
             },
             render: () => (
                 <div class="pl-carousel" style={styles.value} ref="el">
@@ -115,10 +152,10 @@ export const Carousel = designComponent({
                     </div>}
 
                     <div class="pl-carousel-operator">
-                        <div class="pl-carousel-operator-btn pl-carousel-operator-prev" onClick={methods.prev}>
+                        <div class="pl-carousel-operator-btn pl-carousel-operator-prev" onClick={handler.onPrev}>
                             <pl-icon icon="el-icon-arrow-left"/>
                         </div>
-                        <div class="pl-carousel-operator-btn pl-carousel-operator-next" onClick={methods.next}>
+                        <div class="pl-carousel-operator-btn pl-carousel-operator-next" onClick={handler.onNext}>
                             <pl-icon icon="el-icon-arrow-right"/>
                         </div>
                     </div>
@@ -128,7 +165,7 @@ export const Carousel = designComponent({
                             <div class={[
                                 'pl-carousel-indicator-item',
                                 {
-                                    'pl-carousel-indicator-item-active': item.value.value === activeVal.value
+                                    'pl-carousel-indicator-item-active': index === activeIndex.value
                                 }
                             ]} key={index}/>
                         ))}
