@@ -152,15 +152,14 @@ export const ColorPanel = designComponent({
                     <div class="pl-color-panel-input-group">
                         <pl-input ref="input"
                                   size="mini"
-                                  shape="round"
                                   modelValue={state.val}
                                   width={props.enableAlpha ? 204 : 186}
                                   onChange={handler.inputChange}
                                   onBlur={handler.inputBlur}
                                   onEnter={handler.inputEnter}/>
-                        <pl-button-group size="mini" shape="round">
-                            <pl-button icon="el-icon-close" onClick={methods.reset}/>
-                            <pl-button icon="el-icon-check" onClick={handler.confirm}/>
+                        <pl-button-group size="mini">
+                            <pl-button icon="el-icon-close-bold" onClick={methods.reset}/>
+                            <pl-button icon="el-icon-check-bold" onClick={handler.confirm}/>
                         </pl-button-group>
                     </div>
                 </div>

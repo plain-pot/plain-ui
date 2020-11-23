@@ -17,10 +17,20 @@
       margin-top: 8px;
 
       .pl-input {
-        margin-right: 8px;
 
         .pl-input-inner {
           text-align: center;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-right: none;
+        }
+      }
+
+      .pl-button-group {
+        & > .pl-button:first-child {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          border-left: none;
         }
       }
     }
