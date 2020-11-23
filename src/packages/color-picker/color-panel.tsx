@@ -79,6 +79,7 @@ export const ColorPanel = designComponent({
             inputChange: (val: string) => {
                 if (!val) {
                     state.color.setValue(val)
+                    state.val = state.color.color
                     return
                 }
                 let formatVal = val.replace(/\s/g, '')
@@ -89,6 +90,7 @@ export const ColorPanel = designComponent({
                     if (val !== formatVal) {
                         refs.input!.model.value = formatVal
                     }
+                    state.val = state.color.color
                 }
             },
             inputBlur: () => {
@@ -113,7 +115,6 @@ export const ColorPanel = designComponent({
         watch(() => props.modelValue, (val) => {
             state.color.setValue(val || defaultColor())
             state.val = state.color.color
-            console.log('state.val', state.val)
         })
 
         watch(() => props.enableAlpha, (val) => {
