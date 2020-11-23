@@ -165,7 +165,7 @@ export const Carousel = designComponent({
              * @date    2020/11/22 23:20
              */
             isAnimating: (val: any) => {
-                if (vals.value.length !== 3) {
+                if (vals.value.length !== 3 && !props.card) {
                     return true
                 }
                 let index = vals.value.indexOf(val)
