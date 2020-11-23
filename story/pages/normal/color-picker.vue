@@ -8,6 +8,7 @@
             <pl-color-hue-slider v-model="val[1]" size="240"/>
             {{val[1]}}
         </demo-row>
+
     </div>
 </template>
 
