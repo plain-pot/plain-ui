@@ -7,17 +7,17 @@ export enum ColorFormat {
 
 export class Color {
 
-    red: number = 0                                     // 红
-    green: number = 0                                   // 绿
-    blue: number = 0                                    // 蓝
+    red = 0                                             // 红
+    green = 0                                           // 绿
+    blue = 0                                            // 蓝
 
-    hue: number = 0                                     // 色相
-    saturation: number = 0                              // 饱和度
-    val: number = 0                                     // 明亮度
+    hue = 0                                             // 色相
+    saturation = 0                                      // 饱和度
+    val = 0                                             // 明亮度
 
-    alpha: number = 0                                   // 透明度
-    hex: string = ''                                    // 十六进制值
-    enableAlpha: boolean = false                        // 是否启用透明度
+    alpha = 0                                           // 透明度
+    hex = ''                                            // 十六进制值
+    enableAlpha = false                                 // 是否启用透明度
     format: ColorFormat = ColorFormat.hex               // 格式
 
     _value?: string;                                    // 当前值，hex或者rgb字符串
@@ -67,7 +67,7 @@ export class Color {
      * @author  韦胜健
      * @date    2020/4/4 12:10
      */
-    public updateByString(value: string, needInitializedEnableAlpha: boolean = false, enableAlpha?: boolean): void {
+    public updateByString(value: string, needInitializedEnableAlpha = false, enableAlpha?: boolean): void {
         this._value = value
         if (value == null) {
             this.hue = 0

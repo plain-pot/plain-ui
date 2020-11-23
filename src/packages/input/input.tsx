@@ -264,6 +264,7 @@ export default designComponent({
                 state,
                 propsState,
                 methods,
+                model,
             },
             render: () => {
 
