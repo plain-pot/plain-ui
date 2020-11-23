@@ -21,7 +21,7 @@ export default designComponent({
         ...EditProps,
         ...StyleProps,
 
-        modelValue: {type: String},
+        modelValue: {type: [String, Number]},
         placeValue: {type: String},
 
         width: {type: [Number, String, Object, Function], default: null,},        // 输入框默认宽度
