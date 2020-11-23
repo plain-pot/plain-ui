@@ -21,7 +21,7 @@
 
     .pl-carousel-item {
       &.pl-carousel-item-animating {
-        transition: transform $transition 1000ms;
+        transition: transform $transition 800ms;
       }
 
       pointer-events: auto;
@@ -128,8 +128,6 @@
     &.pl-carousel-card {
       .pl-carousel-item {
         right: initial;
-        width: 50%;
-        height: 50%;
       }
 
       .pl-carousel-indicator {

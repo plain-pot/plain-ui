@@ -11,6 +11,7 @@ import {useModel} from "../../use/useModel";
 import {useRefs} from "../../use/useRefs";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useClass} from "../../use/useClasses";
+import {throttle} from "plain-utils/utils/throttle";
 
 export const Carousel = designComponent({
     name: 'pl-carousel',
@@ -23,6 +24,7 @@ export const Carousel = designComponent({
         indicatorTrigger: {type: String, default: 'click'},         // 指示器激活触发器：click。hover
         vertical: {type: Boolean},                                  // 轮播方向为纵向
         card: {type: Boolean},                                      // 卡片形式的切换
+        cardScale: {type: Number, default: 0.64},                   // 卡片形式轮播的时候，缩小比例
     },
     emits: {
         updateModelValue: (val: string | number | undefined | null) => true,
@@ -131,10 +133,13 @@ export const Carousel = designComponent({
                         /*非卡片形式的轮播*/
                         style.transform = `translateX(${duration * state.width}px)`
                     } else {
+                        style.width = `${props.cardScale * 100}%`
+                        style.height = `${props.cardScale * 100}%`
+
                         /*卡片轮播*/
-                        let left = duration * state.width / 2 + state.width / 4
+                        let left = duration * state.width * (props.cardScale) + (state.width * (1 - props.cardScale) / 2)
                         left += (sortIndex > activeSortIndex ? -1 : 1) * Math.abs(sortIndex - activeSortIndex) * state.width * 0.125
-                        style.transform = `translateX(${left}px) translateY(${state.height / 4}px) scale(${sortIndex === activeSortIndex ? '1' : '0.83'})`
+                        style.transform = `translateX(${left}px) translateY(${state.height * ((1 - props.cardScale) / 2)}px) scale(${sortIndex === activeSortIndex ? '1' : '0.83'})`
                     }
                 } else {
                     /*纵向非卡片形式的轮播*/
@@ -206,14 +211,14 @@ export const Carousel = designComponent({
         }
 
         const handler = {
-            onPrev: () => {
+            onPrev: throttle(() => {
                 utils.resetAutoplayTimer(props.autoplay)
                 methods.prev()
-            },
-            onNext: () => {
+            }, 800, {trailing: true, leading: true}),
+            onNext: throttle(() => {
                 utils.resetAutoplayTimer(props.autoplay)
                 methods.next()
-            },
+            }, 800, {trailing: true, leading: true}),
             onIndicator: (index: number) => {
                 methods.show(vals.value[index])
             },
