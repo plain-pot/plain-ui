@@ -113,6 +113,7 @@ export const ColorPanel = designComponent({
         watch(() => props.modelValue, (val) => {
             state.color.setValue(val || defaultColor())
             state.val = state.color.color
+            console.log('state.val', state.val)
         })
 
         watch(() => props.enableAlpha, (val) => {
@@ -131,7 +132,7 @@ export const ColorPanel = designComponent({
                     <pl-color-sv-panel height="180"
                                        width="240"
                                        hue={state.color.hue}
-                                       value={state.color.val}
+                                       modelValue={state.color.val}
                                        saturation={state.color.saturation}
                                        onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
 
@@ -139,20 +140,20 @@ export const ColorPanel = designComponent({
                         <pl-color-alpha-slider
                             size="180"
                             color={state.color.hex}
-                            value={state.color.alpha}
+                            modelValue={state.color.alpha}
                             onChange={handler.alphaChange}/>
                     )}
 
 
                     <pl-color-hue-slider size="240"
-                                         value={state.color.hue}
+                                         modelValue={state.color.hue}
                                          onInput={(val: number) => state.color.hue = val}
                                          onChange={handler.hueChange}/>
                     <div class="pl-color-panel-input-group">
                         <pl-input ref="input"
                                   size="mini"
                                   shape="round"
-                                  value={state.val}
+                                  modelValue={state.val}
                                   width={props.enableAlpha ? 204 : 186}
                                   onChange={handler.inputChange}
                                   onBlur={handler.inputBlur}
