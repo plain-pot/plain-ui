@@ -82,7 +82,7 @@ export const ColorHueSlider = designComponent({
 
         return {
             render: () => (
-                <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value as any}>
+                <div class="pl-color-hue-slider" onMousedown={handler.mousedown} style={styles.value as any} ref="el">
                     <div class="pl-color-hue-slider-thumb" style={thumbStyles.value as any}/>
                 </div>
             )
