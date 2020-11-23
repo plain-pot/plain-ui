@@ -4,6 +4,10 @@
             <pl-color-alpha-slider v-model="val[0]" color="black" size="180"/>
             {{val[0]}}
         </demo-row>
+        <demo-row title="ColorHueSlider">
+            <pl-color-hue-slider v-model="val[1]" size="240"/>
+            {{val[1]}}
+        </demo-row>
     </div>
 </template>
 
@@ -15,6 +19,7 @@
             return {
                 val: {
                     0: 50,
+                    1: 240,
                 },
             }
         },
