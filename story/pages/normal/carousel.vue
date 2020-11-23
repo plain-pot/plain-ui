@@ -18,7 +18,7 @@
             </pl-carousel>
         </demo-row>
         <demo-row title="两个元素，三个元素">
-            <pl-carousel style="width: 200px;display: inline-flex">
+            <pl-carousel style="width: 400px;display: inline-flex">
                 <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                     panel 1
                 </pl-carousel-item>
@@ -26,7 +26,7 @@
                     panel 2
                 </pl-carousel-item>
             </pl-carousel>
-            <pl-carousel style="width: 200px;display: inline-flex">
+            <pl-carousel style="width: 400px;display: inline-flex">
                 <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                     panel 1
                 </pl-carousel-item>
@@ -58,7 +58,7 @@
 
         <demo-row title="指示器">
             <demo-line title="禁用指示器">
-                <pl-carousel disabledIndicator style="width: 300px">
+                <pl-carousel disabledIndicator style="width: 400px">
                     <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                         panel 1
                     </pl-carousel-item>
@@ -74,7 +74,7 @@
                 </pl-carousel>
             </demo-line>
             <demo-line title="鼠标悬浮激活指示器">
-                <pl-carousel style="width: 300px" indicatorTrigger="hover">
+                <pl-carousel style="width: 400px" indicatorTrigger="hover">
                     <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                         panel 1
                     </pl-carousel-item>
@@ -90,7 +90,7 @@
                 </pl-carousel>
             </demo-line>
             <demo-line title="自定义指示器">
-                <pl-carousel style="width: 300px" indicatorTrigger="hover">
+                <pl-carousel style="width: 400px" indicatorTrigger="hover">
                     <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                         panel 1
                     </pl-carousel-item>
@@ -187,7 +187,7 @@
             </pl-carousel>
         </demo-row>
         <demo-row title="卡片形式切换">
-            <pl-carousel card>
+            <pl-carousel card :autoplay="null" style="width: 500px;">
                 <pl-carousel-item style="background-color: #8A2BE2;color: white;display: flex;align-items: center;justify-content: center;font-size: 28px">
                     panel 1
                 </pl-carousel-item>

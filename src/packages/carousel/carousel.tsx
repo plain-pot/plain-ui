@@ -114,15 +114,34 @@ export const Carousel = designComponent({
                 if (!state.width) {
                     return null
                 }
-                let duration = sortVals.value.indexOf(String(val)) - sortVals.value.indexOf(String(activeVal.value))
-                return {
-                    ...(!props.vertical ? {
-                        transform: `translateX(${duration * state.width}px)`
-                    } : {
-                        transform: `translateY(${duration * state.height}px)`
-                    }),
+                /*当前val在sortVals中的索引*/
+                const sortIndex = sortVals.value.indexOf(String(val))
+                /*激活val在sortVals中的索引*/
+                const activeSortIndex = sortVals.value.indexOf(String(activeVal.value))
+
+                /*当前val与激活val在sortVal的间距*/
+                let duration = sortIndex - activeSortIndex
+
+                const style = {
                     zIndex: sortVals.value.length - Math.abs(duration),
+                } as any
+
+                if (!props.vertical) {
+                    if (!props.card) {
+                        /*非卡片形式的轮播*/
+                        style.transform = `translateX(${duration * state.width}px)`
+                    } else {
+                        /*卡片轮播*/
+                        let left = duration * state.width / 2 + state.width / 4
+                        left += (sortIndex > activeSortIndex ? -1 : 1) * Math.abs(sortIndex - activeSortIndex) * state.width * 0.125
+                        style.transform = `translateX(${left}px) translateY(${state.height / 4}px) scale(${sortIndex === activeSortIndex ? '1' : '0.83'})`
+                    }
+                } else {
+                    /*纵向非卡片形式的轮播*/
+                    style.transform = `translateY(${duration * state.height}px)`
                 }
+
+                return style
             },
             /**
              * 重置自动播放定时器

@@ -124,5 +124,13 @@
         }
       }
     }
+
+    &.pl-carousel-card {
+      .pl-carousel-item {
+        right: initial;
+        width: 50%;
+        height: 50%;
+      }
+    }
   }
 }
