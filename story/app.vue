@@ -44,6 +44,10 @@
 <style lang="scss">
 
     .app {
+        height: 100vh;
+        overflow: auto;
+        box-sizing: border-box;
+
         .app-head {
             z-index: 10;
             position: fixed;
