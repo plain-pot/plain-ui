@@ -20,8 +20,8 @@
   "typings": "src/index.ts",
   "dependencies": {
     "core-js": "^3.6.5",
-    "plain-popper": "0.0.4",
     "plain-loading": "^0.1.5",
+    "plain-popper": "0.0.5",
     "plain-utils": "^0.1.16",
     "vue": "^3.0.0"
   },
