@@ -28,7 +28,7 @@
                     </div>
                 )
             })
-            console.log('basicUsage', basicUsage)
+            console.log('create basicUsage')
 
             return {
                 basicUsage,
