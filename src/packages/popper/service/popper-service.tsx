@@ -14,6 +14,11 @@ export const PopperService = createDefaultService({
         })
 
         async function service(option: PopperServiceOption) {
+            /*clear*/
+            state.option.getService = undefined
+
+            /*init*/
+            option.getService = getRefer
             state.option = option
             await nextTick()
             show()
@@ -27,20 +32,24 @@ export const PopperService = createDefaultService({
             isShow.value = false
         }
 
+        const refer = {
+            state,
+            isShow,
+            isOpen,
+            service,
+            show,
+            hide,
+        }
+
+        const getRefer = () => refer
+
         return {
-            refer: {
-                state,
-                isShow,
-                isOpen,
-                service,
-                show,
-                hide,
-            },
+            refer,
             render: () => (
                 <pl-popper
                     v-model={isShow.value}
                     {...{
-                        trigger: 'click',
+                        trigger: 'manual',
                         reference: state.option.reference,
                         'onUpdate:open': (val: boolean) => isOpen.value = val
                     }}

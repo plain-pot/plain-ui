@@ -2,7 +2,7 @@ import {VNodeChild} from "../../../shims";
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {PopperService} from "./popper-service";
-import {App} from 'vue';
+import {App, reactive, computed} from 'vue';
 import {installPlugin} from "../../../utils/installPlugin";
 import Popper from '../../popper'
 
@@ -10,6 +10,8 @@ export interface PopperServiceOption {
     reference: () => any,
     render: () => VNodeChild,
     popperAttrs: () => any,
+
+    getService?: () => typeof PopperService.use.class
 }
 
 const getPopperService = registryRootService(
@@ -18,9 +20,48 @@ const getPopperService = registryRootService(
     (getManager) => {
 
         return (option: PopperServiceOption) => {
-            getManager().then(manager => {
-                manager.service(option)
+
+            /*---------------------------------------create popper agent-------------------------------------------*/
+            const state = reactive({
+                option,
             })
+            const service = computed(() => {
+                if (!state.option.getService) {
+                    return null
+                }
+                const refer = state.option.getService()
+                if (refer.state.option !== state.option) {
+                    return null
+                }
+                return refer
+            })
+            const isShow = computed(() => !!service.value && service.value.isShow.value)
+            const isOpen = computed(() => !!service.value && service.value.isShow.value)
+
+            const agent = reactive({
+                isShow, isOpen, service,
+                show: () => {
+                    if (!!agent.service) {
+                        agent.service.show()
+                    } else {
+                        getManager().then(manager => manager.service(option))
+                    }
+                },
+                hide: () => {
+                    if (!!agent.service) {
+                        agent.service.hide()
+                    }
+                },
+                toggle: () => {
+                    if (isShow.value) {
+                        agent.hide()
+                    } else {
+                        agent.show()
+                    }
+                },
+            })
+
+            return agent
         }
     },
 )
