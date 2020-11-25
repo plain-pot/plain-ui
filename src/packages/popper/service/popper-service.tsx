@@ -1,6 +1,6 @@
 import {createDefaultService} from "../../root/createDefaultService";
 import {PopperServiceOption} from "./index";
-import {ref, reactive, nextTick} from 'vue';
+import {ref, reactive, nextTick, onBeforeUnmount} from 'vue';
 
 export const PopperService = createDefaultService({
     name: 'pl-popper-service',
@@ -42,6 +42,12 @@ export const PopperService = createDefaultService({
         }
 
         const getRefer = () => refer
+        /**
+         * 热更新的时候，root会销毁所有manager，此时需要将当前 popper-service与option解绑
+         * @author  韦胜健
+         * @date    2020/11/25 21:01
+         */
+        onBeforeUnmount(() => state.option.getService = undefined)
 
         return {
             refer,
