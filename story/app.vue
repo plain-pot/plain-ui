@@ -1,9 +1,10 @@
 <template>
     <pl-root>
         <app-navigator defaultPath="normal/button">
-            <article class="app" :style="{paddingLeft:`${config.menuSize}px`,paddingTop:`${config.headSize}px`}">
+            <article :class="classes" :style="{paddingLeft:`${config.menuSize}px`,paddingTop:`${config.headSize}px`}">
                 <section class="app-head" :style="{height:config.headSize+'px'}">
                     <span>{{title}}</span>
+                    <pl-toggle v-model="fixHeight" v-tooltip="{content:'固定应用高度',placement:'bottom'}"/>
                 </section>
                 <app-menu :style="{width:`${config.menuSize}px`,top:`${config.headSize}px`}"/>
                 <section class="app-content" :style="{minHeight:`calc(100vh - ${config.headSize}px)`}">
@@ -32,11 +33,25 @@
             AppNavigator,
             AppNavigatorPage,
         },
+        watch: {
+            fixHeight(val) {
+                localStorage.setItem('fixHeight', JSON.stringify(val))
+            },
+        },
         data() {
             return {
                 config,
-                title: 'plain-ui'
+                title: 'plain-ui',
+                fixHeight: JSON.parse(localStorage.getItem('fixHeight') || 'false')
             }
+        },
+        computed: {
+            classes() {
+                return [
+                    'app',
+                    {'app-fix-height': this.fixHeight},
+                ]
+            },
         },
     });
 </script>
@@ -44,9 +59,12 @@
 <style lang="scss">
 
     .app {
-        height: 100vh;
-        overflow: auto;
-        box-sizing: border-box;
+
+        &.app-fix-height {
+            height: 100vh;
+            overflow: auto;
+            box-sizing: border-box;
+        }
 
         .app-head {
             z-index: 10;
@@ -57,7 +75,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 0 80px 0 40px;
             box-shadow: $boxshadow;
             box-sizing: border-box;
         }
