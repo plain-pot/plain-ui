@@ -14,6 +14,7 @@ import {useStyles} from "../../use/useStyles";
 import {debounce} from "plain-utils/utils/debounce";
 import './popper.scss'
 import {refreshPopperReference} from "./refershPopperReference";
+import {delay} from "plain-utils/utils/delay";
 
 const error = createError('pl-popper')
 
@@ -285,6 +286,10 @@ export default designComponent({
                     await utils.initPopper()
                 }
                 state.popper!.refresh()
+
+                /*这里要有一定的延迟，否则popper的属性 direction以及align更新没有结束，导致动画的方向不对*/
+                await delay(23)
+
                 state.zIndex = nextIndex()
                 model.value = true
                 emit.show()
