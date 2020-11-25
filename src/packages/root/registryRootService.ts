@@ -20,7 +20,7 @@ export const RootController = (() => {
 
 
 export function registryRootService<ManagerComponent extends { use: { class: any } },
-    CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>) => any>
+    CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>, ins: ComponentPublicInstance) => any>
 (
     name: string,
     managerComponent: ManagerComponent,
@@ -38,7 +38,7 @@ export function registryRootService<ManagerComponent extends { use: { class: any
             const root = RootController.getRoot($root)
             /*获取一个 Controller 实例，没有就给我创建一个*/
             return await root.getManagerInstance(name, managerComponent)
-        })
+        }, ins)
         map.set($root, service!)
         return service!
     }
