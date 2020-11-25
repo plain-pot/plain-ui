@@ -14,6 +14,8 @@ export interface PopperServiceOption {
     getService?: () => typeof PopperService.use.class
 }
 
+export type PopperAgent = ReturnType<typeof getPopperService>
+
 const getPopperService = registryRootService(
     'popper',
     createDefaultManager('pl-popper-manager', PopperService),

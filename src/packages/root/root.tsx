@@ -40,9 +40,11 @@ export default designComponent({
             if (!!refs) {
                 for (let i = 0; i < refs.length; i++) {
                     const managerInstance = refs[i];
-                    const {name: attrName, Component: attrComponent} = managerInstance.$attrs
-                    if (name === attrName && managerComponent === attrComponent) {
-                        return managerInstance as any
+                    if (!!managerInstance) {
+                        const {name: attrName, Component: attrComponent} = managerInstance.$attrs
+                        if (name === attrName && managerComponent === attrComponent) {
+                            return managerInstance as any
+                        }
                     }
                 }
             }

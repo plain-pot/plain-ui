@@ -26,7 +26,7 @@ export function registryRootService<ManagerComponent extends { use: { class: any
     managerComponent: ManagerComponent,
     createService: CreateService
 ) {
-    const map = new WeakMap<ComponentPublicInstance, ReturnType<CreateService>>()
+    let map = new WeakMap<ComponentPublicInstance, ReturnType<CreateService>>()
 
     return (ins: ComponentPublicInstance): ReturnType<CreateService> => {
         const $root = ins.$root!
