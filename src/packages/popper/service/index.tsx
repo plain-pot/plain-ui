@@ -3,8 +3,6 @@ import {registryRootService} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {PopperService} from "./popper-service";
 import {App, reactive, computed} from 'vue';
-import {installPlugin} from "../../../utils/installPlugin";
-import Popper from '../../popper'
 
 export interface PopperServiceOption {
     reference: () => any,
@@ -70,7 +68,6 @@ const getPopperService = registryRootService(
 
 export default {
     install(app: App) {
-        installPlugin(app, Popper)
         app.mixin({
             beforeCreate() {
                 Object.defineProperty(this, '$popper', {
