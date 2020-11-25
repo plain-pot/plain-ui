@@ -29,11 +29,7 @@ const getPopperService = registryRootService(
                 if (!state.option.getService) {
                     return null
                 }
-                const refer = state.option.getService()
-                if (refer.state.option !== state.option) {
-                    return null
-                }
-                return refer
+                return state.option.getService()
             })
             const isShow = computed(() => !!service.value && service.value.isShow.value)
             const isOpen = computed(() => !!service.value && service.value.isShow.value)
@@ -42,8 +38,10 @@ const getPopperService = registryRootService(
                 isShow, isOpen, service,
                 show: () => {
                     if (!!agent.service) {
+                        // console.log('reuse service')
                         agent.service.show()
                     } else {
+                        // console.log('request service')
                         getManager().then(manager => manager.service(option))
                     }
                 },

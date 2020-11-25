@@ -14,13 +14,14 @@ export const PopperService = createDefaultService({
         })
 
         async function service(option: PopperServiceOption) {
-            /*clear*/
-            state.option.getService = undefined
-
-            /*init*/
-            option.getService = getRefer
-            state.option = option
-            await nextTick()
+            if (!option.getService || option.getService !== getRefer) {
+                /*clear*/
+                state.option.getService = undefined
+                /*init*/
+                state.option = option
+                state.option.getService = getRefer
+                await nextTick()
+            }
             show()
         }
 

@@ -1,10 +1,8 @@
 <template>
     <div class="popper-service">
         <demo-row title="基本用法">
-            <pl-button label="basic usage" @click="basicUsage.toggle" ref="basicUsage"/>
-            <pl-button>aaaa</pl-button>
-            <pl-button>bbb</pl-button>
-            <pl-button>vvv</pl-button>
+            <pl-button label="基本用法一" @click="basicUsage.toggle" ref="basicUsage"/>
+            <pl-button label="基本用法二" @click="basicUsage2.toggle" ref="basicUsage2"/>
         </demo-row>
     </div>
 </template>
@@ -24,14 +22,23 @@
                 reference: () => this.$refs.basicUsage,
                 render: () => (
                     <div>
-                        自定义浮层内容 22222222222222222222222
+                        基本用法一：
                     </div>
                 )
             })
-            console.log('create basicUsage')
+            const basicUsage2 = this.$popper({
+                reference: () => this.$refs.basicUsage2,
+                render: () => (
+                    <div>
+                        基本用法二：
+                    </div>
+                )
+            })
+
 
             return {
                 basicUsage,
+                basicUsage2,
             }
         },
     }
