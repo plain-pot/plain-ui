@@ -1,7 +1,11 @@
 import {designComponent} from "../../use/designComponent";
 import {VNodeChild} from "../../shims";
 
-export function createDefaultService<Option extends object>
+export function createDefaultService<Option extends object, Refer extends {
+    isShow: { value: boolean },
+    isOpen: { value: boolean },
+    service: (optoin: Option) => void
+}>
 (
     {
         name,
@@ -9,11 +13,7 @@ export function createDefaultService<Option extends object>
     }: {
         name: string,
         setup: (option: Option) => {
-            refer: {
-                isShow: { value: boolean },
-                isOpen: { value: boolean },
-                service: (optoin: Option) => void
-            },
+            refer: Refer,
             render: () => VNodeChild,
         },
     }
