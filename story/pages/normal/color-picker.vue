@@ -1,6 +1,6 @@
 <template>
     <div class="color-picker">
-        <!--<demo-row title="ColorAlphaSlider">
+        <demo-row title="ColorAlphaSlider">
             <pl-color-alpha-slider v-model="val[0]" color="black" size="180"/>
             {{val[0]}}
         </demo-row>
@@ -24,9 +24,21 @@
                     <pl-color-panel v-model="color2" enableAlpha format="rgb"/>
                 </demo-line>
             </demo-line>
-        </demo-row>-->
-        <demo-row title="$colorPicker">
-            <pl-button @click="serviceBasicUsage.toggle" label="颜色选择服务基本用法" ref="serviceBasicUsage"/>
+        </demo-row>
+        <demo-row title="$colorPicker" group>
+            <demo-row title="基本用法">
+                <pl-button @click="serviceBasicUsage.toggle" label="颜色选择服务基本用法" ref="serviceBasicUsage"/>
+            </demo-row>
+            <demo-row title="不同格式的颜色值">
+                <pl-button @click="hexValue.toggle" label="hex初始值" ref="hexValue"/>
+                <pl-button @click="rgbValue.toggle" label="rgb初始值" ref="rgbValue"/>
+                <pl-button @click="rgbWithoutOpacity.toggle" label="rgba初始值（不开启透明度）" ref="rgbWithoutOpacity"/>
+                <pl-button @click="hexWithOpacity.toggle" label="hex（开启透明度）" ref="hexWithOpacity"/>
+                <pl-button @click="rgbaWithOpacity.toggle" label="rgba（开启透明度）" ref="rgbaWithOpacity"/>
+            </demo-row>
+            <demo-row title="缓存值">
+                <pl-button label="缓存值" @click="saveValue.toggle" ref="saveValue"/>
+            </demo-row>
         </demo-row>
     </div>
 </template>
@@ -39,17 +51,69 @@
 
             const serviceBasicUsage = this.$colorPicker({
                 reference: () => this.$refs['serviceBasicUsage'],
-                /*renderAttrs: {
-                    onChange(...args) {
-                        console.log('renderAttrs onChange', {context: this, args})
-                    },
+                renderAttrs: {
+                    onChange: val => this.$message(val)
                 },
-                popperAttrs: {
-                    onOpen() {
-                        console.log('popperAttrs onOpen', {context: this})
-                    },
-                },*/
             })
+
+            const hexValue = this.$colorPicker({
+                reference: () => this.$refs['hexValue'],
+                renderAttrs: {
+                    onChange: val => this.$message(val),
+                    modelValue: '#ff0000',
+                    format: 'hex',
+                },
+            })
+            const rgbValue = this.$colorPicker({
+                reference: () => this.$refs['rgbValue'],
+                renderAttrs: {
+                    onChange: val => this.$message(val),
+                    modelValue: 'rgb(134,74,212)',
+                    format: 'rgb',
+                },
+            })
+
+            const rgbWithoutOpacity = this.$colorPicker({
+                reference: () => this.$refs['rgbWithoutOpacity'],
+                renderAttrs: {
+                    onChange: val => this.$message(val),
+                    modelValue: 'rgb(134,74,212,0.5)',
+                    format: 'rgb',
+                },
+            })
+
+            const hexWithOpacity = this.$colorPicker({
+                reference: () => this.$refs['hexWithOpacity'],
+                renderAttrs: {
+                    onChange: val => this.$message(val),
+                    modelValue: '#00ff00',
+                    format: 'hex',
+                    enableAlpha: true,
+                },
+            })
+
+            const rgbaWithOpacity = this.$colorPicker({
+                reference: () => this.$refs['rgbaWithOpacity'],
+                renderAttrs: {
+                    onChange: val => this.$message(val),
+                    modelValue: 'rgb(134,74,212,0.5)',
+                    format: 'rgb',
+                    enableAlpha: true,
+                },
+            })
+
+            const saveValue = (() => {
+                const option = {
+                    reference: () => this.$refs['saveValue'],
+                    renderAttrs: {
+                        onChange: val => option.renderAttrs.modelValue = val,
+                        modelValue: 'rgb(134,74,212,0.5)',
+                        format: 'rgb',
+                        enableAlpha: true,
+                    },
+                }
+                return this.$colorPicker(option)
+            })();
 
             return {
                 val: {
@@ -58,7 +122,14 @@
                 },
                 color1: '#ee2356',
                 color2: null,
+
                 serviceBasicUsage,
+                hexValue,
+                rgbValue,
+                rgbWithoutOpacity,
+                hexWithOpacity,
+                rgbaWithOpacity,
+                saveValue,
             }
         },
         methods: {},
