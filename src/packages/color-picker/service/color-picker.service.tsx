@@ -6,7 +6,11 @@ const ColorPickerServiceGetter = createAgentGetter({
     render(attrs: any) {
         return <pl-color-panel{...attrs}/>
     },
-    defaultRenderAttrs: {
+    defaultPopperAttrs: {
+        transition: 'pl-transition-scale',
+        noContentPadding: true,
+    },
+    /*defaultRenderAttrs: {
         onChange(...args) {
             console.log('defaultRenderAttrs onChange', {context: this, args})
         },
@@ -15,7 +19,7 @@ const ColorPickerServiceGetter = createAgentGetter({
         onOpen() {
             console.log('defaultRenderAttrs onOpen', {context: this})
         },
-    },
+    },*/
 })
 
 

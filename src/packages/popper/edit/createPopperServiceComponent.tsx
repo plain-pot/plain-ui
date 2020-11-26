@@ -67,11 +67,20 @@ export function createPopperServiceComponent(name: string) {
                 return mergeAttrs({agent: refer, attrs: renderAttrs, defaultAttrs: defaultRenderAttrs,})
             })
 
+            const handler = {
+                onClickBody: () => {
+                    if (state.option.serviceOption.hideOnClickBody !== false) {
+                        refer.hide()
+                    }
+                },
+            }
+
             return {
                 refer,
                 render: () => (
                     <pl-popper
                         v-model={isShow.value}
+                        onClickBody={handler.onClickBody}
                         {...{
                             trigger: 'manual',
                             reference: state.option.serviceOption.reference,
