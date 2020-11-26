@@ -1,19 +1,11 @@
 import {createDefaultService} from "../../root/createDefaultService";
 import {nextTick, reactive, ref} from 'vue';
-import {VNodeChild} from "../../../shims";
-import {SpecificPopperServiceOption} from "./utils";
+import {PopperServiceComponentOption} from "./utils";
 
-export function createPopperServiceComponent(
-    {
-        name,
-        render,
-    }: {
-        name: string,
-        render: () => VNodeChild,
-    }) {
+export function createPopperServiceComponent(name: string) {
     return createDefaultService({
         name,
-        setup(option: SpecificPopperServiceOption) {
+        setup(option: PopperServiceComponentOption) {
             const isShow = ref(false)
             const isOpen = ref(false)
 
@@ -21,7 +13,7 @@ export function createPopperServiceComponent(
                 option,
             })
 
-            async function service(option: SpecificPopperServiceOption) {
+            async function service(option: PopperServiceComponentOption) {
                 if (!option.getService || option.getService !== getRefer) {
                     /*clear*/
                     state.option.getService = undefined
@@ -59,11 +51,12 @@ export function createPopperServiceComponent(
                         v-model={isShow.value}
                         {...{
                             trigger: 'manual',
-                            reference: state.option.reference,
+                            reference: state.option.serviceOption.reference,
                             'onUpdate:open': (val: boolean) => isOpen.value = val,
                         }}
                         v-slots={{
-                            popper: render,
+                            // todo
+                            popper: () => state.option.defaultOption.render({}),
                         }}
                     />
                 )

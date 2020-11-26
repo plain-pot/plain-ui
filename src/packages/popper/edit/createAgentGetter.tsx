@@ -1,46 +1,32 @@
-import {VNodeChild} from "../../../shims";
 import {ComponentPublicInstance, computed, reactive} from 'vue';
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
-import {PopperAgent, SpecificPopperServiceOption} from './utils';
+import {CreateAgentGetterOption, PopperAgent, PopperServiceComponentOption, SpecificPopperServiceOption} from './utils';
 
 interface ExternalOption {
     reference: any
 }
 
-export function createAgentGetter(
-    {
-        name,
-        render,
-        defaultPopperAttrs,
-        defaultRenderAttrs,
-        hideOnClickBody,
-    }: {
-        name: string,
-        render: (attrs: any) => VNodeChild,
-        defaultPopperAttrs?: object,
-        defaultRenderAttrs?: {
-            [k: string]: () => void | string | number | null | undefined | object | boolean | any[]
-        },
-        hideOnClickBody?: boolean,
-    }
-) {
+export function createAgentGetter(defaultOption: CreateAgentGetterOption) {
     return (ins: ComponentPublicInstance) => {
-
+        const name = defaultOption.name
         /*---------------------------------------Specific Popper Service-------------------------------------------*/
-
         const popperServiceGetter = registryRootService(
             name,
             createDefaultManager(
                 `pl-popper-service-${name}-manager`,
-                createPopperServiceComponent({
-                    name: `pl-popper-service-${name}`,
-                    render: () => render({}),
-                })
+                createPopperServiceComponent(`pl-popper-service-${name}`)
             ),
             (getManager) => {
-                return (option: SpecificPopperServiceOption & ExternalOption): PopperAgent => {
+                return (serviceOption: SpecificPopperServiceOption & ExternalOption): PopperAgent => {
+
+                    const option: PopperServiceComponentOption = {
+                        defaultOption,
+                        serviceOption,
+                        getService: undefined,
+                    }
+
                     /*---------------------------------------create popper agent-------------------------------------------*/
                     const state = reactive({option})
                     const service = computed(() => !state.option.getService ? null : state.option.getService())
