@@ -42,7 +42,7 @@ export const ColorPicker = designComponent({
             event,
             getAgent: () => ColorPickerServiceGetter(ctx.proxy!)({
                 reference: () => refs.input as any,
-                renderAttrs: {
+                renderAttrs: () => ({
                     modelValue: state.val,
                     enableAlpha: props.enableAlpha,
                     format: props.format,
@@ -51,15 +51,15 @@ export const ColorPicker = designComponent({
                         state.inputValue = val
                         methods.emitValue(val)
                     },
-                },
-                popperAttrs: {
+                }),
+                popperAttrs: () => ({
                     onMousedownPopper: async () => {
                         agentState.state.focusCounter++
                     },
                     onClickPopper: () => {
                         refs.input!.methods.focus()
                     },
-                },
+                }),
             })
         })
 
