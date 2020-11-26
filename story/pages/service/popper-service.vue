@@ -4,8 +4,9 @@
             <pl-button label="基本用法一" @click="basicUsage.toggle" ref="basicUsage"/>
         </demo-row>
         <demo-row title="实例服务">
-            <pl-button label="实例一" ref="example-1"/>
-            <pl-button label="实例一" ref="example-2"/>
+            <pl-button label="实例一" ref="example1" @click="example1.toggle"/>
+            <pl-button label="实例二" ref="example2" @click="example2.toggle"/>
+            <pl-input v-model="text"/>
         </demo-row>
 
     </div>
@@ -21,27 +22,48 @@
     export default {
         name: "popper-service",
         data() {
-            const basicUsage = this.$popper({
-                reference: () => this.$refs.basicUsage,
-                render: () => (
-                    <div>
-                        基本用法一：
-                    </div>
-                )
+
+            const createAgent = ({name, content}) => {
+                return this.$popper({
+                    reference: () => this.$refs[name],
+                    render: () => (
+                        <div>
+                            {typeof content === "function" ? content() : content}
+                        </div>
+                    )
+                })
+            }
+
+            const basicUsage = createAgent({
+                name: 'basicUsage',
+                content: '基本用法'
             })
-            const basicUsage2 = this.$popper({
-                reference: () => this.$refs.basicUsage2,
-                render: () => (
+
+            const example1 = createAgent({
+                name: 'example1',
+                content: () => (
                     <div>
-                        基本用法二：
+                        <p>实例一</p>
+                        <pl-input v-model={this.text}/>
                     </div>
                 )
             })
 
+            const example2 = createAgent({
+                name: 'example2',
+                content: () => (
+                    <div>
+                        <p>实例二</p>
+                        <pl-number v-model={this.text}/>
+                    </div>
+                )
+            })
 
             return {
                 basicUsage,
-                basicUsage2,
+                example1,
+                example2,
+                text: '123456'
             }
         },
     }
