@@ -13,7 +13,7 @@ export interface PopperServiceOption {
     hideOnClickBody?: boolean,                                              // 是否点击外部body的时候自动关闭
 }
 
-// export type PopperAgent = ReturnType<ReturnType<typeof getPopperService>>
+export type PopperAgent = ReturnType<ReturnType<typeof getPopperService>>
 
 const getPopperService = registryRootService(
     'popper',
@@ -34,6 +34,10 @@ const getPopperService = registryRootService(
                 show: () => !!agent.service ? agent.service.show() : getManager().then(manager => manager.service(option)),
                 hide: () => !!agent.service && agent.service.hide(),
                 toggle: () => isShow.value ? agent.hide() : agent.show(),
+                destroy: () => {
+                    agent.hide()
+                    state.option.getService = undefined
+                }
             })
 
             UnmountListener.on(ins, () => {
