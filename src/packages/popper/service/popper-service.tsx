@@ -47,7 +47,7 @@ export const PopperService = createDefaultService({
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
-            'onClick-body': (e: MouseEvent) => {
+            onClickBody: (e: MouseEvent) => {
                 console.log('onClickBody', e)
             }
         }
@@ -61,7 +61,7 @@ export const PopperService = createDefaultService({
                         trigger: 'manual',
                         reference: state.option.reference,
                         'onUpdate:open': (val: boolean) => isOpen.value = val,
-                        onOpen: () => console.log('click bbb')
+                        ...handler,
                     }}
                     v-slots={{
                         popper: state.option.render,
