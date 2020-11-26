@@ -40,6 +40,10 @@
                 <pl-button label="缓存值" @click="saveValue.toggle" ref="saveValue"/>
             </demo-row>
         </demo-row>
+        <demo-row title="ColorPicker">
+            <pl-color-picker v-model="val[3]"/>
+            {{val[3]}}
+        </demo-row>
     </div>
 </template>
 

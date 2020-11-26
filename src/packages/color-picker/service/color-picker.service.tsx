@@ -1,7 +1,7 @@
 import {createAgentGetter} from "../../popper/edit/createAgentGetter";
 import {App} from 'vue';
 
-const ColorPickerServiceGetter = createAgentGetter({
+export const ColorPickerServiceGetter = createAgentGetter({
     name: 'color-picker',
     render(attrs: any) {
         return <pl-color-panel{...attrs}/>

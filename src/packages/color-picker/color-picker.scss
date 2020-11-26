@@ -1,0 +1,23 @@
+@include theme {
+  .pl-color-picker {
+    .pl-color-picker-suffix {
+      border-radius: 2px;
+
+      .pl-color-picker-suffix-inner {
+        /*background-color: rgba(0, 0, 0, 0.5);*/
+        border-radius: 2px;
+        height: 100%;
+        width: 100%;
+
+      }
+    }
+
+    @include sizeMixin(input) {
+      .pl-color-picker-suffix {
+        height: $value/2;
+        width: $value/2;
+        background-size: $value/4, $value/4;
+      }
+    }
+  }
+}
