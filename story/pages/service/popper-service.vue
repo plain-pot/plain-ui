@@ -8,7 +8,10 @@
             <pl-button label="实例二" ref="example2" @click="example2.toggle"/>
             <pl-input v-model="text"/>
         </demo-row>
-
+        <demo-row title="popper 属性测试">
+            <pl-button label="Popper属性测试" @click="testAttrs.toggle" ref="testAttrs"/>
+            <pl-button label="Popper属性测试" @click="testAttrs2.toggle" ref="testAttrs2"/>
+        </demo-row>
     </div>
 </template>
 
@@ -23,14 +26,17 @@
         name: "popper-service",
         data() {
 
-            const createAgent = ({name, content}) => {
+            const createAgent = ({name, content, attrs}) => {
                 return this.$popper({
                     reference: () => this.$refs[name],
                     render: () => (
                         <div>
                             {typeof content === "function" ? content() : content}
                         </div>
-                    )
+                    ),
+                    popperAttrs: {
+                        ...(attrs || {}),
+                    },
                 })
             }
 
@@ -59,16 +65,51 @@
                 )
             })
 
+            const testAttrs = createAgent({
+                name: 'testAttrs',
+                content: () => (
+                    <div>
+                        <p>testAttrs1</p>
+                        高度、对其方式、动画
+                    </div>
+                ),
+                attrs: {
+                    height: '80px',
+                    width: '200px',
+                    placement: 'bottom-end',
+                    transition: 'pl-transition-popper-drop',
+                },
+            })
+            const testAttrs2 = createAgent({
+                name: 'testAttrs2',
+                content: () => (
+                    <div>
+                        <p>testAttrs2</p>
+                        高度、对其方式、动画
+                    </div>
+                ),
+                attrs: {
+                    height: '80px',
+                    width: '200px',
+                    placement: 'top-start',
+                    transition: 'pl-transition-popper-drop',
+                },
+            })
+
             return {
                 basicUsage,
                 example1,
                 example2,
-                text: '123456'
+                text: '123456',
+                testAttrs,
+                testAttrs2,
             }
         },
     }
 </script>
 
 <style lang="scss">
-
+    .popper-service {
+        padding-bottom: 500px;
+    }
 </style>

@@ -9,16 +9,6 @@ export function installPlugin(app: App, plugin: ComponentPlugin | ComponentPlugi
         /*这个app第一次注册*/
         installedPlugins = []
         installMap.set(app, installedPlugins)
-
-        app.config.warnHandler = function (msg, vm, trace) {
-            // `trace` 是组件的继承关系追踪
-            // console.log('warn handler', {msg, vm, trace})
-            // todo, 监听驼峰命名的事件会有警告，这里忽略
-            if (msg.startsWith('Extraneous non-emits event listeners')) {
-                return
-            }
-            console.warn(msg, {vm, trace})
-        }
     }
     const plugins = Array.isArray(plugin) ? plugin : [plugin]
     plugins.forEach(plugin => {

@@ -12,4 +12,13 @@ Icon.registry('my-icon-', (icon) => {
 
 installDemoComponent(app)
 
+app.config.warnHandler = function (msg, vm, trace) {
+    // `trace` 是组件的继承关系追踪
+    // todo, 监听驼峰命名的事件会有警告，这里忽略
+    if (msg.startsWith('Extraneous non-emits event listeners')) {
+        return
+    }
+    console.warn(msg, {vm, trace})
+}
+
 app.mount('#app')

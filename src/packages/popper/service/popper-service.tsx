@@ -64,6 +64,7 @@ export const PopperService = createDefaultService({
                         reference: state.option.reference,
                         'onUpdate:open': (val: boolean) => isOpen.value = val,
                         ...handler,
+                        ...(state.option.popperAttrs || {}),
                     }}
                     v-slots={{
                         popper: state.option.render,
