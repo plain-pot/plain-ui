@@ -21,7 +21,7 @@ export default designComponent({
         let refs = useRefList<ComponentPublicInstance>()
         /*当前状态*/
         const state = reactive({
-            controllers: [] as {
+            managers: [] as {
                 name: string,
                 Component: { use: { class: any } },
                 RenderComponent: any,
@@ -49,7 +49,7 @@ export default designComponent({
                 }
             }
             /*当前引用中没有该实例，手动创建一个*/
-            state.controllers.push({
+            state.managers.push({
                 name,
                 Component: managerComponent,
                 RenderComponent: markRaw(managerComponent),
@@ -71,7 +71,7 @@ export default designComponent({
                 slots.default(),
                 <Teleport to="body">
                     <div class="pl-root-service-container">
-                        {state.controllers.map(({name, Component, RenderComponent}, index) => (
+                        {state.managers.map(({name, Component, RenderComponent}, index) => (
                             <RenderComponent key={index} {...{name, Component}} ref={proxy => refs[index] = proxy as any}/>
                         ))}
                     </div>
