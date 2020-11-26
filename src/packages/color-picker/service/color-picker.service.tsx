@@ -7,8 +7,13 @@ const ColorPickerServiceGetter = createAgentGetter({
         return <pl-color-panel{...attrs}/>
     },
     defaultRenderAttrs: {
-        onChange() {
-            console.log('color panel change')
+        onChange(...args) {
+            console.log('defaultRenderAttrs onChange', {context: this, args})
+        },
+    },
+    defaultPopperAttrs: {
+        onOpen() {
+            console.log('defaultRenderAttrs onOpen', {context: this})
         },
     },
 })
@@ -20,8 +25,7 @@ export default {
             beforeCreate(): void {
                 Object.defineProperty(this, '$colorPicker', {
                     get() {
-                        const $colorPicker = ColorPickerServiceGetter(this)
-                        return $colorPicker
+                        return ColorPickerServiceGetter(this)
                     },
                 })
             }

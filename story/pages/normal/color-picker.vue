@@ -38,7 +38,17 @@
         data() {
 
             const serviceBasicUsage = this.$colorPicker({
-                reference: () => this.$refs['serviceBasicUsage']
+                reference: () => this.$refs['serviceBasicUsage'],
+                renderAttrs: {
+                    onChange(...args) {
+                        console.log('renderAttrs onChange', {context: this, args})
+                    },
+                },
+                popperAttrs: {
+                    onOpen() {
+                        console.log('popperAttrs onOpen', {context: this})
+                    },
+                },
             })
 
             return {

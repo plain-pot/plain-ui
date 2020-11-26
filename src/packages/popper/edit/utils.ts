@@ -10,20 +10,22 @@ export interface PopperAgent {
     destroy: () => void | Promise<void>,
 }
 
+interface Attrs {
+    [k: string]: (this: PopperAgent, ...args: any[]) => void | string | number | null | undefined | object | boolean | any[]
+}
+
 export interface CreateAgentGetterOption {
     name: string,
     render: (attrs: any) => VNodeChild,
-    defaultPopperAttrs?: object,
-    defaultRenderAttrs?: {
-        [k: string]: () => void | string | number | null | undefined | object | boolean | any[]
-    },
+    defaultPopperAttrs?: Attrs,
+    defaultRenderAttrs?: Attrs,
     hideOnClickBody?: boolean,
 }
 
 export interface SpecificPopperServiceOption {
     reference: ReferenceType,
-    popperAttr?: object,
-    renderAttr?: object,
+    popperAttrs?: Attrs,
+    renderAttrs?: Attrs,
 }
 
 export type PopperServiceComponentOption = {
