@@ -13,8 +13,6 @@ export interface PopperServiceOption {
     hideOnClickBody?: boolean,                                              // 是否点击外部body的时候自动关闭
 }
 
-export type PopperAgent = ReturnType<ReturnType<typeof getPopperService>>
-
 const getPopperService = registryRootService(
     'popper',
     createDefaultManager('pl-popper-manager', PopperService),
