@@ -9,8 +9,11 @@ const mergeAttrs = (() => {
     const LISTENER_MATCH_REG = /on[A-Z]/
     return (config: { attrs: any, defaultAttrs: any, agent: any }) => {
         const {agent} = config
-        const attrs = config.attrs || {}
-        const defaultAttrs = config.defaultAttrs || {}
+        let attrs = config.attrs || {}
+        let defaultAttrs = config.defaultAttrs || {}
+        if (typeof attrs === "function") {attrs = attrs()}
+        if (typeof defaultAttrs === "function") {defaultAttrs = defaultAttrs()}
+
         const result = {} as any
         Object.keys({...attrs, ...defaultAttrs}).forEach(key => {
             if (LISTENER_MATCH_REG.test(key)) {

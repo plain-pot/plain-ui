@@ -17,14 +17,14 @@ interface Attrs {
 export interface CreateAgentGetterOption {
     name: string,
     render: (attrs: any) => VNodeChild,
-    defaultPopperAttrs?: Attrs,
-    defaultRenderAttrs?: Attrs,
+    defaultPopperAttrs?: Attrs | (() => Attrs),
+    defaultRenderAttrs?: Attrs | (() => Attrs),
 }
 
 export interface SpecificPopperServiceOption {
     reference: ReferenceType,
-    popperAttrs?: Attrs,
-    renderAttrs?: Attrs,
+    popperAttrs?: Attrs | (() => Attrs),
+    renderAttrs?: Attrs | (() => Attrs),
     hideOnClickBody?: boolean,
 }
 
