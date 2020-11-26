@@ -189,6 +189,9 @@ export default designComponent({
                 emit.clickPopper(e)
             },
             clickBody: (e: MouseEvent) => {
+                if (!model.value && !openModel.value) {
+                    return;
+                }
                 if (state.referenceEl!.contains(e.target as Node)) {
                     /*点击了reference*/
                     return
@@ -379,16 +382,24 @@ export default designComponent({
 
         const ctx = getCurrentInstance()!
         const popperConfigChangeHandler = debounce(async () => {
+            // console.log('popperConfigChangeHandler')
             await nextTick()
             if (ctx.isUnmounted) {
                 return
             }
             await utils.destroy()
             await utils.init()
+            if (!state.referenceEl) {
+                if (!!state.popper) {
+                    state.popper.destroy()
+                    state.popper = null
+                }
+                return
+            }
             if (!!state.popper) {
                 await utils.initPopper()
             }
-        }, 500, true)
+        }, 50)
         watch(() => props.reference, popperConfigChangeHandler)
         watch(() => props.arrow, popperConfigChangeHandler)
         watch(() => props.trigger, popperConfigChangeHandler)
