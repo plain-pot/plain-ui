@@ -29,7 +29,7 @@ const getPopperService = registryRootService(
                 isShow,
                 isOpen,
                 service,
-                show: () => !!agent.service ? agent.service.show() : getManager().then(manager => manager.service(option)),
+                show: () => !!agent.service ? agent.service.show() : getManager().then(manager => manager.service(state.option)),
                 hide: () => !!agent.service && agent.service.hide(),
                 toggle: () => isShow.value ? agent.hide() : agent.show(),
                 destroy: () => {
