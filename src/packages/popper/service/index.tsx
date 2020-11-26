@@ -2,18 +2,17 @@ import {SimpleFunction, VNodeChild} from "../../../shims";
 import {registryRootService, RootServiceScope} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {PopperService} from "./popper-service";
-import {App, ComponentPublicInstance, computed, reactive} from 'vue';
+import {App, computed, reactive} from 'vue';
 import {createPlainEvent, PlainEvent} from "../../../plugins/Event";
 
 export interface PopperServiceOption {
-    reference: () => any,
-    render: () => VNodeChild,
-    popperAttrs: () => any,
-
-    getService?: () => typeof PopperService.use.class
+    reference: () => any,                                                   // popper reference 目标元素
+    render: () => VNodeChild,                                               // popper content 内容
+    popperAttrs: () => any,                                                 // pl-popper 属性或者监听的事件
+    getService?: () => typeof PopperService.use.class,                      // option被提供服务之后，service与option绑定关系
 }
 
-export type PopperAgent = ReturnType<typeof getPopperService>
+// export type PopperAgent = ReturnType<ReturnType<typeof getPopperService>>
 
 const getPopperService = registryRootService(
     'popper',
@@ -23,41 +22,17 @@ const getPopperService = registryRootService(
         return (option: PopperServiceOption) => {
 
             /*---------------------------------------create popper agent-------------------------------------------*/
-            const state = reactive({
-                option,
-            })
-            const service = computed(() => {
-                if (!state.option.getService) {
-                    return null
-                }
-                return state.option.getService()
-            })
+            const state = reactive({option})
+            const service = computed(() => !state.option.getService ? null : state.option.getService())
             const isShow = computed(() => !!service.value && service.value.isShow.value)
             const isOpen = computed(() => !!service.value && service.value.isShow.value)
-
             const agent = reactive({
-                isShow, isOpen, service,
-                show: () => {
-                    if (!!agent.service) {
-                        // console.log('reuse service')
-                        agent.service.show()
-                    } else {
-                        // console.log('request service')
-                        getManager().then(manager => manager.service(option))
-                    }
-                },
-                hide: () => {
-                    if (!!agent.service) {
-                        agent.service.hide()
-                    }
-                },
-                toggle: () => {
-                    if (isShow.value) {
-                        agent.hide()
-                    } else {
-                        agent.show()
-                    }
-                },
+                isShow,
+                isOpen,
+                service,
+                show: () => !!agent.service ? agent.service.show() : getManager().then(manager => manager.service(option)),
+                hide: () => !!agent.service && agent.service.hide(),
+                toggle: () => isShow.value ? agent.hide() : agent.show(),
             })
 
             UnmountListener.on(ins, () => {
