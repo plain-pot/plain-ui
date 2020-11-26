@@ -82,6 +82,8 @@ export function createPopperServiceComponent(name: string) {
                         v-model={isShow.value}
                         onClickBody={handler.onClickBody}
                         {...{
+                            transition: 'pl-transition-scale',
+                            noContentPadding: true,
                             trigger: 'manual',
                             reference: state.option.serviceOption.reference,
                             'onUpdate:open': (val: boolean) => isOpen.value = val,
