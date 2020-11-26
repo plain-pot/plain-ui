@@ -1,6 +1,6 @@
 <template>
     <div class="color-picker">
-        <demo-row title="ColorAlphaSlider">
+        <!--<demo-row title="ColorAlphaSlider">
             <pl-color-alpha-slider v-model="val[0]" color="black" size="180"/>
             {{val[0]}}
         </demo-row>
@@ -24,6 +24,9 @@
                     <pl-color-panel v-model="color2" enableAlpha format="rgb"/>
                 </demo-line>
             </demo-line>
+        </demo-row>-->
+        <demo-row title="$colorPicker">
+            <pl-button @click="serviceBasicUsage.toggle" label="颜色选择服务基本用法" ref="serviceBasicUsage"/>
         </demo-row>
     </div>
 </template>
@@ -33,6 +36,11 @@
     export default {
         name: "color-picker",
         data() {
+
+            const serviceBasicUsage = this.$colorPicker({
+                reference: () => this.$refs['serviceBasicUsage']
+            })
+
             return {
                 val: {
                     0: 50,
@@ -40,8 +48,10 @@
                 },
                 color1: '#ee2356',
                 color2: null,
+                serviceBasicUsage,
             }
         },
+        methods: {},
     }
 </script>
 
