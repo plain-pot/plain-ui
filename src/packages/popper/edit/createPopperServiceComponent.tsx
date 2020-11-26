@@ -1,6 +1,9 @@
 import {createDefaultService} from "../../root/createDefaultService";
 import {nextTick, reactive, ref, computed} from 'vue';
 import {PopperServiceComponentOption} from "./utils";
+import {createCounter} from "../../../utils/createCounter";
+
+const counter = createCounter('popper-service-component')
 
 const mergeAttrs = (() => {
     const LISTENER_MATCH_REG = /on[A-Z]/
@@ -35,7 +38,10 @@ export function createPopperServiceComponent(name: string) {
             const isShow = ref(false)
             const isOpen = ref(false)
 
-            const state = reactive({option,})
+            const state = reactive({
+                option,
+                renderKey: counter(),
+            })
 
             async function service(option: PopperServiceComponentOption) {
                 if (!option.getService || option.getService !== getRefer) {
@@ -46,10 +52,14 @@ export function createPopperServiceComponent(name: string) {
                     state.option.getService = getRefer
                     await nextTick()
                 }
-                show()
+                await show()
             }
 
-            function show() {isShow.value = true}
+            async function show() {
+                state.renderKey = counter()
+                await nextTick()
+                isShow.value = true
+            }
 
             function hide() {isShow.value = false}
 
@@ -64,7 +74,10 @@ export function createPopperServiceComponent(name: string) {
 
             const renderAttrs = computed(() => {
                 let {defaultOption: {defaultRenderAttrs}, serviceOption: {renderAttrs}} = state.option
-                return mergeAttrs({agent: refer, attrs: renderAttrs, defaultAttrs: defaultRenderAttrs,})
+                return {
+                    ...mergeAttrs({agent: refer, attrs: renderAttrs, defaultAttrs: defaultRenderAttrs,}),
+                    key: state.renderKey,
+                }
             })
 
             const handler = {
