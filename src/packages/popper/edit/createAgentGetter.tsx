@@ -1,5 +1,5 @@
 import {ComponentPublicInstance, computed, reactive} from 'vue';
-import {registryRootService} from "../../root/registryRootService";
+import {registryRootService, RootServiceScope} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
 import {CreateAgentGetterOption, PopperAgent, PopperServiceComponentOption, SpecificPopperServiceOption} from './utils';
@@ -8,8 +8,9 @@ interface ExternalOption {
     reference: any
 }
 
-export function createAgentGetter(defaultOption: CreateAgentGetterOption) {
-    return (ins: ComponentPublicInstance) => {
+export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope = RootServiceScope.ins) {
+
+    function create(ins: ComponentPublicInstance) {
         const name = defaultOption.name
         /*---------------------------------------Specific Popper Service-------------------------------------------*/
         const popperServiceGetter = registryRootService(
@@ -50,5 +51,18 @@ export function createAgentGetter(defaultOption: CreateAgentGetterOption) {
         )
 
         return popperServiceGetter(ins)
+    }
+
+    const cacheMap = new WeakMap<ComponentPublicInstance, ReturnType<typeof create>>()
+
+    return (ins: ComponentPublicInstance) => {
+        const cacheKey = scope === RootServiceScope.ins ? ins : ins.$root!
+        let service = cacheMap.get(cacheKey)
+        if (!!service) {
+            return service
+        }
+        service = create(ins)
+        cacheMap.set(cacheKey, service)
+        return service
     }
 }
