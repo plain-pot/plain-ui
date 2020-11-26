@@ -27,6 +27,7 @@ export const DemoRow = designComponent({
     name: 'demo-row',
     props: {
         title: {type: String},
+        group: {type: Boolean},
     },
     emits: {
         change: (val: boolean) => true
@@ -68,7 +69,7 @@ export const DemoRow = designComponent({
                 methods,
             },
             render: () => (
-                <div class={['demo-row', {'demo-row-show': state.show}]}>
+                <div class={['demo-row', {'demo-row-show': state.show,'demo-row-group':props.group}]}>
                     {!!props.title && (
                         <div class="demo-row-title">
                             <span onClick={handler.clickTitle}>{props.title}</span>

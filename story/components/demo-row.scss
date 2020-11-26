@@ -1,10 +1,10 @@
 .demo-row {
 
-  background-color: white;
   margin-bottom: 20px;
   padding: 16px 0;
   border-radius: 4px;
   box-shadow: 0 8px 12px #ebedf0;
+  background-color: white;
 
   .demo-row-title {
     border-bottom: dashed 1px #f1f1f1;
@@ -40,6 +40,19 @@
   &.demo-row-show {
     & > .demo-row-title > .demo-row-icon-expand {
       transform: rotate(-90deg);
+    }
+  }
+
+  &.demo-row-group {
+    background-color: transparent;
+    box-shadow: none;
+
+    & > .demo-row-title {
+      background-color: white;
+    }
+
+    & > .demo-row-content {
+      padding: 8px 12px;
     }
   }
 }
