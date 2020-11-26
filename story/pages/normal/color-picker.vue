@@ -42,7 +42,18 @@
         </demo-row>
         <demo-row title="ColorPicker">
             <pl-color-picker v-model="val[3]"/>
-            {{val[3]}}
+            <pl-color-picker v-model="val[3]" @focus="log('focus')" @blur="log('blur')"/>
+        </demo-row>
+        <demo-row title="ColorPicker；禁用透明度，使用十六进制颜色值">
+            <pl-color-picker v-model="val[4]" :enableAlpha="false"/>
+            <pl-color-picker v-model="val[4]" :enableAlpha="false"/>
+        </demo-row>
+        <demo-row title="禁用以及只读">
+            <demo-line>
+                <pl-checkbox v-model="val[5]" label="是否禁用/只读"/>
+            </demo-line>
+            <pl-color-picker :disabled="val[5]"/>
+            <pl-color-picker :readonly="val[5]"/>
         </demo-row>
     </div>
 </template>
@@ -136,7 +147,11 @@
                 saveValue,
             }
         },
-        methods: {},
+        methods: {
+            log(...args) {
+                console.log(...args)
+            },
+        },
     }
 </script>
 
