@@ -291,7 +291,8 @@ export default designComponent({
                 state.popper!.refresh()
 
                 /*这里要有一定的延迟，否则popper的属性 direction以及align更新没有结束，导致动画的方向不对*/
-                await delay(23)
+                await nextTick()
+                await delay(50)
 
                 state.zIndex = nextIndex()
                 model.value = true
