@@ -1,11 +1,7 @@
 import {createDefaultService} from "../../root/createDefaultService";
 import {nextTick, reactive, ref} from 'vue';
-import {ReferenceType, VNodeChild} from "../../../shims";
-
-export interface SpecificPopperServiceOption {
-    reference: ReferenceType,
-    getService?: () => ReturnType<typeof createPopperServiceComponent>["use"]["class"]
-}
+import {VNodeChild} from "../../../shims";
+import {SpecificPopperServiceOption} from "./utils";
 
 export function createPopperServiceComponent(
     {

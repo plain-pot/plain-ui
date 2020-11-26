@@ -2,17 +2,28 @@ import {VNodeChild} from "../../../shims";
 import {ComponentPublicInstance, computed, reactive} from 'vue';
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
-import {createPopperServiceComponent, SpecificPopperServiceOption} from "./createPopperServiceComponent";
+import {createPopperServiceComponent} from "./createPopperServiceComponent";
+import {PopperAgent, SpecificPopperServiceOption} from './utils';
 
-interface ExternalOption {}
+interface ExternalOption {
+    reference: any
+}
 
 export function createAgentGetter(
     {
         name,
         render,
+        defaultPopperAttrs,
+        defaultRenderAttrs,
+        hideOnClickBody,
     }: {
         name: string,
         render: (attrs: any) => VNodeChild,
+        defaultPopperAttrs?: object,
+        defaultRenderAttrs?: {
+            [k: string]: () => void | string | number | null | undefined | object | boolean | any[]
+        },
+        hideOnClickBody?: boolean,
     }
 ) {
     return (ins: ComponentPublicInstance) => {
@@ -29,7 +40,7 @@ export function createAgentGetter(
                 })
             ),
             (getManager) => {
-                return (option: SpecificPopperServiceOption & ExternalOption) => {
+                return (option: SpecificPopperServiceOption & ExternalOption): PopperAgent => {
                     /*---------------------------------------create popper agent-------------------------------------------*/
                     const state = reactive({option})
                     const service = computed(() => !state.option.getService ? null : state.option.getService())
@@ -39,8 +50,8 @@ export function createAgentGetter(
                         isShow,
                         isOpen,
                         service,
-                        show: () => !!agent.service ? agent.service.show() : getManager().then(manager => manager.service(option)),
-                        hide: () => !!agent.service && agent.service.hide(),
+                        show: () => {!!agent.service ? agent.service.show() : getManager().then(manager => manager.service(option))},
+                        hide: () => {!!agent.service && agent.service.hide()},
                         toggle: () => isShow.value ? agent.hide() : agent.show(),
                         destroy: () => {
                             agent.hide()
