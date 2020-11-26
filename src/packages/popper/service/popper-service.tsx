@@ -48,7 +48,9 @@ export const PopperService = createDefaultService({
 
         const handler = {
             onClickBody: (e: MouseEvent) => {
-                console.log('onClickBody', e)
+                if (state.option.hideOnClickBody !== false) {
+                    hide()
+                }
             }
         }
 
