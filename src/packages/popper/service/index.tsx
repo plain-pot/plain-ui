@@ -1,8 +1,8 @@
 import {SimpleFunction, VNodeChild} from "../../../shims";
-import {registryRootService} from "../../root/registryRootService";
+import {registryRootService, RootServiceScope} from "../../root/registryRootService";
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {PopperService} from "./popper-service";
-import {App, reactive, computed, ComponentPublicInstance} from 'vue';
+import {App, ComponentPublicInstance, computed, reactive} from 'vue';
 import {createPlainEvent, PlainEvent} from "../../../plugins/Event";
 
 export interface PopperServiceOption {
@@ -60,20 +60,20 @@ const getPopperService = registryRootService(
                 },
             })
 
-            console.warn('on', (ins as any)._.uid, ins)
             UnmountListener.on(ins, () => {
-                console.log('unmount')
                 agent.hide()
+                state.option.getService = undefined
             })
 
             return agent
         }
     },
+    RootServiceScope.ins,
 )
 
 const UnmountListener = (() => {
 
-    const map = new WeakMap<ComponentPublicInstance, PlainEvent>()
+    const map = new Map<string, PlainEvent>()
     const EVENT_NAME = 'UnmountListener'
 
     return {
@@ -82,23 +82,19 @@ const UnmountListener = (() => {
          * @author  韦胜健
          * @date    2020/11/25 21:28
          */
-        emit: (ctx: ComponentPublicInstance) => {
-            const event = map.get(ctx)
-            // @ts-ignore
-            if (!!ctx.basicUsage) {
-                console.log('emit', (ctx as any)._.uid, event, ctx)
-            }
+        emit: (ctx: any) => {
+            const event = map.get(ctx._.uid)
             if (!!event) {
                 event.emit(EVENT_NAME)
                 event.clear()
                 map.delete(ctx)
             }
         },
-        on: (ctx: ComponentPublicInstance, handler: SimpleFunction) => {
-            let event = map.get(ctx)
+        on: (ctx: any, handler: SimpleFunction) => {
+            let event = map.get(ctx._.uid)
             if (!event) {
                 event = createPlainEvent()
-                map.set(ctx, event)
+                map.set(ctx._.uid, event)
             }
             event.on(EVENT_NAME, handler)
         },
@@ -111,13 +107,11 @@ export default {
             beforeCreate() {
                 Object.defineProperty(this, '$popper', {
                     get() {
-                        console.log('beforeCreate inner', this._.uid, this.$el)
                         return getPopperService(this)
                     },
                 })
             },
             beforeUnmount() {
-                console.log('beforeUnmount', this._.uid, this.$el)
                 UnmountListener.emit(this)
             }
         })

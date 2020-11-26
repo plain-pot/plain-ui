@@ -3,6 +3,7 @@
         <demo-row title="基本用法">
             <pl-button label="基本用法一" @click="basicUsage.toggle" ref="basicUsage"/>
             <pl-button label="基本用法二" @click="basicUsage2.toggle" ref="basicUsage2"/>
+            <pl-button>test</pl-button>
         </demo-row>
 
     </div>

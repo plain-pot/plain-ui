@@ -1,5 +1,5 @@
-import {createPlainEvent} from "../../plugins/Event";
-import {SimpleFunction} from "../../shims";
+import {createPlainEvent} from "../plugins/Event";
+import {SimpleFunction} from "../shims";
 
 /**
  * 监听所有请求，如果是热更新，则通知观察者做出相应处理动作

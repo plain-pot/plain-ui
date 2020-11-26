@@ -1,11 +1,10 @@
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
-import {ComponentPublicInstance, getCurrentInstance, markRaw, nextTick, reactive, Teleport, onBeforeUnmount} from 'vue';
+import {ComponentPublicInstance, getCurrentInstance, markRaw, nextTick, reactive, Teleport} from 'vue';
 import {RootController} from "./registryRootService";
 import {useRefList} from "../../use/useRefList";
 import './root.scss'
-import {HotUpdate} from "./hot.update";
 
 export default designComponent({
     name: 'pl-root',
@@ -65,15 +64,6 @@ export default designComponent({
             getManagerInstance,
         }
         RootController.initRoot(refer)
-
-        /**
-         * 监听热更新事件，触发热更新的时候，销毁所有服务manager
-         * @author  韦胜健
-         * @date    2020/11/25 20:59
-         */
-        const onHotUpdate = () => state.controllers = []
-        HotUpdate.on(onHotUpdate)
-        onBeforeUnmount(() => HotUpdate.off(onHotUpdate))
 
         return {
             refer,
