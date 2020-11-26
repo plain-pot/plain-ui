@@ -10,6 +10,7 @@ export interface PopperServiceOption {
     render: () => VNodeChild,                                               // popper content 内容
     popperAttrs: () => any,                                                 // pl-popper 属性或者监听的事件
     getService?: () => typeof PopperService.use.class,                      // option被提供服务之后，service与option绑定关系
+    hideOnClickBody?: boolean,                                              // 是否点击外部body的时候自动关闭
 }
 
 // export type PopperAgent = ReturnType<ReturnType<typeof getPopperService>>
