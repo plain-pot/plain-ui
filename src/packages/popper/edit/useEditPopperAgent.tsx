@@ -1,16 +1,19 @@
-import {reactive, computed, onBeforeUnmount} from 'vue';
+import {reactive, computed, onBeforeUnmount, ComponentPublicInstance, getCurrentInstance} from 'vue';
 import {useEdit} from "../../../use/useEdit";
-import {PopperAgent} from "./utils";
+import {PopperAgent, SpecificPopperServiceOption} from "./utils";
 
 export function useEditPopperAgent(
     {
-        getAgent,
         event: {emit},
+        serviceGetter,
+        option,
     }: {
-        getAgent: () => PopperAgent | Promise<PopperAgent>,
         event: { emit: { blur: (e: Event) => void, focus: (e: Event) => void } },
+        serviceGetter: (ins: ComponentPublicInstance) => ((o: SpecificPopperServiceOption) => PopperAgent),
+        option: SpecificPopperServiceOption,
     }) {
 
+    const ctx = getCurrentInstance()!
     const {editComputed} = useEdit()
 
     const state = reactive({
@@ -26,7 +29,7 @@ export function useEditPopperAgent(
             if (!editComputed.value.editable) return
             if (isShow.value) return;
             if (!state.agent) {
-                state.agent = await getAgent()
+                state.agent = await serviceGetter(ctx.proxy!)(option)
             }
             await state.agent.show()
         },
@@ -64,6 +67,11 @@ export function useEditPopperAgent(
         }
     }
 
+    /**
+     * 当前组件示例销毁的时候，解除与service的绑定关系
+     * @author  韦胜健
+     * @date    2020/11/27 10:12
+     */
     onBeforeUnmount(() => {
         if (!!state.agent) {
             state.agent.destroy()
