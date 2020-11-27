@@ -42,25 +42,25 @@ export function useEditPopperAgent(
         }
     }
 
-    const handler = {
-        clickInput: async () => await methods.toggle(),
-        blur: async (e: Event) => {
+    const inputHandler = {
+        onClickInput: async () => await methods.toggle(),
+        onBlur: async (e: Event) => {
             state.focusCounter--
             if (state.focusCounter === 0) {
                 emit.blur(e)
                 await methods.hide()
             }
         },
-        focus: (e: Event) => {
+        onFocus: (e: Event) => {
             if (state.focusCounter === 0) {
                 emit.focus(e)
             }
             state.focusCounter = 1
         },
-        esc: async () => {
+        onEsc: async () => {
             await methods.hide()
         },
-        enter: async (e: KeyboardEvent) => {
+        onEnter: async (e: KeyboardEvent) => {
             e.stopPropagation()
             e.preventDefault()
             await methods.show()
@@ -80,7 +80,7 @@ export function useEditPopperAgent(
 
     return {
         methods,
-        handler,
+        inputHandler,
         state,
         isShow,
         isOpen,
