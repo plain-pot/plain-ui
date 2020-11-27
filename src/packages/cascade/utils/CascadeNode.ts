@@ -4,7 +4,7 @@ export class CascadeNode {
 
     constructor(
         public key: string,
-        public data: any,
+        public data: Record<string, any>,
         public level: number,
         public config: () => CascadeConfig,
         public parentRef: () => (CascadeNode | null),
