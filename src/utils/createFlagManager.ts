@@ -24,7 +24,7 @@ export function createFlagManager<T = boolean>() {
         getActiveKeys(): string[] {
             const keys: string[] = []
             for (let key in this.state.map) {
-                if (this.state.map.hasOwnProperty(key) && !!this.state.map[key]) {
+                if (!!this.state.map[key]) {
                     keys.push(key)
                 }
             }
