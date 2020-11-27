@@ -4,12 +4,18 @@ import {createDefaultManager} from "../../root/createDefaultManager";
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
 import {CreateAgentGetterOption, PopperAgent, PopperServiceComponentOption, SpecificPopperServiceOption} from './utils';
 
-interface ExternalOption {
-    reference: any
-}
-
+/**
+ * 创建一个获取popper agent的函数
+ * @author  韦胜健
+ * @date    2020/11/26 21:15
+ */
 export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope = RootServiceScope.ins) {
 
+    /**
+     * 创建一个生成service的函数
+     * @author  韦胜健
+     * @date    2020/11/27 9:30
+     */
     function create(ins: ComponentPublicInstance) {
         const name = defaultOption.name
         /*---------------------------------------Specific Popper Service-------------------------------------------*/
@@ -20,7 +26,7 @@ export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope 
                 createPopperServiceComponent(`pl-popper-service-${name}`)
             ),
             (getManager) => {
-                return (serviceOption: SpecificPopperServiceOption & ExternalOption): PopperAgent => {
+                return (serviceOption: SpecificPopperServiceOption): PopperAgent => {
 
                     const option: PopperServiceComponentOption = {
                         defaultOption,
@@ -53,6 +59,7 @@ export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope 
         return popperServiceGetter(ins)
     }
 
+    /*缓存 service，scope为缓存的作用域*/
     const cacheMap = new WeakMap<ComponentPublicInstance, ReturnType<typeof create>>()
 
     return (ins: ComponentPublicInstance) => {
