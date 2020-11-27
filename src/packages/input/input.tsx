@@ -52,7 +52,8 @@ export default designComponent({
         focus: (e: FocusEvent) => true,
         blur: (e: Event) => true,
         keydown: (e: KeyboardEvent) => true,
-        enter: (e: Event) => true,
+        enter: (e: KeyboardEvent) => true,
+        esc: (e: KeyboardEvent) => true,
 
         clickInput: (e: MouseEvent) => true,
         clickPrefixIcon: (e: MouseEvent) => true,
@@ -206,8 +207,11 @@ export default designComponent({
             onBlur: emit.blur,
             onKeydown: (e: KeyboardEvent) => {
                 emit.keydown(e)
-                if (getKey(e) === KEY.enter) {
-                    handler.enter(e)
+                switch (getKey(e)) {
+                    case KEY.enter:
+                        return handler.enter(e)
+                    case KEY.esc:
+                        return emit.esc(e)
                 }
             },
             ref: "input",
