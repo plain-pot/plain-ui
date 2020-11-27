@@ -3,11 +3,10 @@ import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {useRefs} from "../../use/useRefs";
 import Input from '../input'
-import {reactive, getCurrentInstance, watch} from 'vue';
+import {reactive, watch} from 'vue';
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {ColorPickerServiceGetter} from "./service/color-picker.service";
 import {isEffectiveColorString} from "./utils/ColorUtils";
-import {getKey, KEY} from "../keyboard";
 import './color-picker.scss'
 
 const opacityBg = require('./sub/opacity.png')
@@ -30,7 +29,6 @@ export const ColorPicker = designComponent({
     setup({props, event}) {
 
         useStyle()
-        const ctx = getCurrentInstance()!
         const {refs} = useRefs({input: Input,})
 
         const state = reactive({
@@ -40,7 +38,8 @@ export const ColorPicker = designComponent({
 
         const agentState = useEditPopperAgent({
             event,
-            getAgent: () => ColorPickerServiceGetter(ctx.proxy!)({
+            serviceGetter: ColorPickerServiceGetter,
+            option: {
                 reference: () => refs.input as any,
                 renderAttrs: () => ({
                     modelValue: state.val,
@@ -60,7 +59,7 @@ export const ColorPicker = designComponent({
                         refs.input!.methods.focus()
                     },
                 }),
-            })
+            },
         })
 
         const methods = {
@@ -76,36 +75,29 @@ export const ColorPicker = designComponent({
             </div>
         )
 
-        const handler = {
-            inputChange: (val: string) => {
+        const inputHandler = {
+            onChange: (val: string) => {
                 state.inputValue = val
                 if (isEffectiveColorString(val)) {
                     methods.emitValue(val)
                 }
             },
-            enter: () => {
+            /*---------------------------------------override-------------------------------------------*/
+
+            onEnter: (e: KeyboardEvent) => {
                 if (!!state.inputValue && state.inputValue !== state.val) {
                     alert('请输入有效的颜色值')
                     state.inputValue = state.val
                 }
+                agentState.inputHandler.onEnter(e)
             },
-            blur: (e: Event) => {
+            onBlur: (e: Event) => {
                 agentState.state.focusCounter--
                 if (agentState.state.focusCounter === 0) {
                     event.emit.blur(e)
                     agentState.methods.hide()
                     state.val = props.modelValue
                     state.inputValue = props.modelValue
-                }
-            },
-            keydown: (e: KeyboardEvent) => {
-                switch (getKey(e)) {
-                    case KEY.enter:
-                        agentState.handler.enter(e)
-                        break
-                    case KEY.esc:
-                        agentState.handler.esc()
-                        break
                 }
             },
         }
@@ -122,15 +114,10 @@ export const ColorPicker = designComponent({
                           modelValue={state.inputValue}
                           suffixIcon={suffixIcon}
                           isFocus={agentState.state.focusCounter > 0}
-                          {
-                              ...{
-                                  onClickInput: agentState.handler.clickInput,
-                                  onChange: handler.inputChange,
-                                  onKeydown: handler.keydown,
-                                  onBlur: agentState.handler.blur,
-                                  onFocus: agentState.handler.focus,
-                              }
-                          }
+                          {...{
+                              ...agentState.inputHandler,
+                              ...inputHandler,
+                          }}
                 />
             )
         }
