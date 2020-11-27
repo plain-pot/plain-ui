@@ -7,7 +7,7 @@ import {DemoRowCollector} from "./demo-row-controller";
 
 const DEMO_ROW_STORAGE_KEY = 'DEMO_ROW'
 
-const cache = (() => {
+export const DemoRowCache = (() => {
     let str = localStorage.getItem(DEMO_ROW_STORAGE_KEY)
     const cache: Record<string, boolean> = !!str ? JSON.parse(str) : {}
 
@@ -19,7 +19,13 @@ const cache = (() => {
         set: (id: string, flag: boolean) => {
             cache[id] = flag
             localStorage.setItem(DEMO_ROW_STORAGE_KEY, JSON.stringify(cache))
-        }
+        },
+        setAll: (flag: boolean) => {
+            for (const key in cache) {
+                cache[key] = flag
+            }
+            localStorage.setItem(DEMO_ROW_STORAGE_KEY, JSON.stringify(cache))
+        },
     }
 })()
 
@@ -32,18 +38,19 @@ export const DemoRow = designComponent({
     emits: {
         change: (val: boolean) => true
     },
+    provideRefer: true,
     setup({props, event}) {
 
         DemoRowCollector.child()
 
         const navigator = AppNavigator.use.inject()
 
-        const demoRow = DemoRow.use.inject(null) as { id: string } | null
+        const demoRow = DemoRow.use.inject(null) as { props: { title?: string } } | null
 
-        const id = navigator.nav.route.path + props.title + (!!demoRow ? demoRow.id : '')
+        const id = [navigator.nav.route.path, !!demoRow ? demoRow.props.title : '', props.title].filter(Boolean).join(' >> ')
 
         const state = reactive({
-            show: cache.get(id),
+            show: DemoRowCache.get(id),
         })
 
         const {slots} = useSlots()
@@ -51,7 +58,7 @@ export const DemoRow = designComponent({
         const methods = {
             set(val: boolean) {
                 state.show = val
-                cache.set(id, state.show)
+                DemoRowCache.set(id, state.show)
                 event.emit.change(state.show)
             },
         }
@@ -67,9 +74,10 @@ export const DemoRow = designComponent({
                 id,
                 state,
                 methods,
+                props,
             },
             render: () => (
-                <div class={['demo-row', {'demo-row-show': state.show,'demo-row-group':props.group}]}>
+                <div class={['demo-row', {'demo-row-show': state.show, 'demo-row-group': props.group}]}>
                     {!!props.title && (
                         <div class="demo-row-title">
                             <span onClick={handler.clickTitle}>{props.title}</span>

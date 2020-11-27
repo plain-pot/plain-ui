@@ -1,7 +1,7 @@
 import {designComponent} from "../../src/use/designComponent";
 import {useSlots} from "../../src/use/useSlots";
 import {useCollect} from "../../src/use/useCollect";
-import {DemoRow} from "./demo-row";
+import {DemoRow, DemoRowCache} from "./demo-row";
 
 export const DemoRowController = designComponent({
     name: 'demo-row-controller',
@@ -13,6 +13,7 @@ export const DemoRowController = designComponent({
         const methods = {
             changeAll: (flag: boolean) => {
                 children.forEach(child => child.methods.set(flag))
+                DemoRowCache.setAll(flag)
             }
         }
 
