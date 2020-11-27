@@ -151,18 +151,132 @@
         </demo-row>
 
         <demo-row title="Cascade">
-            <demo-line>
-                {{val[7]}}
-            </demo-line>
-            <pl-cascade
-                    v-model="val[7]"
-                    :data="treeData"
-                    labelField="name"
-                    keyField="id"
-                    childrenField="subs"
-                    @focus="log('focus')" @blur="log('blur')"
-            />
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[7]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[7]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        @focus="log('focus')" @blur="log('blur')"
+                />
+            </demo-row>
+            <demo-row title="禁用选项">
+                <demo-line>
+                    {{val[7]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[7]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :nodeDisabled="nodeDisabled"
+                />
+            </demo-row>
+            <demo-row title="只显示最后一级文本">
+                <demo-line>
+                    {{val[8]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[8]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        showLast
+                />
+            </demo-row>
+            <demo-row title="可以选择分支（可以选择非叶子节点）">
+                <demo-line>
+                    {{val[9]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[9]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        selectBranch
+                />
+            </demo-row>
+            <demo-row title="动态加载">
+                <demo-line>
+                    {{formData}}
+                    {{showFormat()}}
+                </demo-line>
+                <pl-cascade
+                        :modelValue="[formData.level1Key,formData.level2Key,formData.level3Key]"
+                        @change="onCascadeChange"
+                        :showFormat="showFormat"
+
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :getChildren="lazyDemo.getChildren"
+                        :isLeaf="lazyDemo.isLeaf"
+                />
+                <pl-cascade
+                        :modelValue="[formData.level1Key,formData.level2Key,formData.level3Key]"
+                        @change="onCascadeChange"
+                        :showFormat="showFormat"
+
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        lazy
+                        :getChildren="lazyDemo.getChildren"
+                        :isLeaf="lazyDemo.isLeaf"
+                />
+            </demo-row>
+
+            <demo-row title="输入筛选">
+                <demo-line>
+                    {{val[10]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[10]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        filterable
+                />
+            </demo-row>
+            <demo-row title="自定义节点内容">
+                <demo-line>
+                    {{val[12]}}
+                </demo-line>
+                <pl-cascade
+                        v-model="val[12]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                >
+                    <template v-slot="{node,index}">
+                        {{index+1}}、{{node.data.name}}
+                    </template>
+                </pl-cascade>
+            </demo-row>
+
+            <demo-row title="禁用以及只读">
+                <demo-line title="禁用">
+                    <pl-checkbox v-model="flag.disabled" label="禁用"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" :disabled="flag.disabled" v-model="val[13]"/>
+                </demo-line>
+                <demo-line title="只读">
+                    <pl-checkbox v-model="flag.readonly" label="只读"/>
+                    <pl-cascade :data="treeData" labelField="name" keyField="id" childrenField="subs" :readonly="flag.readonly" v-model="val[13]"/>
+                </demo-line>
+            </demo-row>
+
         </demo-row>
+
     </div>
 </template>
 
@@ -340,7 +454,43 @@
                         test0,
                         lazyTest,
                     }
-                })())
+                })()),
+
+
+                formData: {
+                    level1Name: '广东省',
+                    level1Key: '1',
+                    level2Name: '深圳市',
+                    level2Key: '3',
+                    level3Name: '南山区',
+                    level3Key: '5',
+                },
+                onCascadeChange: (value, nodes) => {
+                    console.log('onCascadeChange', value, nodes)
+                    if (!value) {
+                        this.formData.level1Name = null
+                        this.formData.level1Key = null
+                        this.formData.level2Name = null
+                        this.formData.level2Key = null
+                        this.formData.level3Name = null
+                        this.formData.level3Key = null
+                    } else {
+                        this.formData.level1Name = nodes[0].data.name
+                        this.formData.level1Key = value[0]
+                        this.formData.level2Name = nodes[1].data.name
+                        this.formData.level2Key = value[1]
+                        this.formData.level3Name = nodes[2].data.name
+                        this.formData.level3Key = value[2]
+                    }
+                },
+
+                flag: {
+                    disabled: true,
+                    readonly: true
+                },
+                showFormat: () => {
+                    return [this.formData.level1Name, this.formData.level2Name, this.formData.level3Name].filter(item => !!item).join(' / ')
+                },
             }
         },
         methods: {

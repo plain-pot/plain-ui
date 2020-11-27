@@ -13,7 +13,9 @@ export const CascadeServiceGetter = createAgentGetter({
     },
     defaultRenderAttrs: {
         async onChange() {
-            if (!(this.state.option.serviceOption.renderAttrs as any).selectBranch) {
+            let renderAttrs: any = this.state.option.serviceOption.renderAttrs
+            if (typeof renderAttrs === "function") renderAttrs = renderAttrs()
+            if (!renderAttrs.selectBranch) {
                 // 因为change之后，会引发 cascade panels 重新渲染没有宽度以及高度，导致过度动画失效，这里再change之后延迟再关闭
                 await delay(120)
                 this.hide()

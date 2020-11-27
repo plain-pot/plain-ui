@@ -49,7 +49,8 @@ export default designComponent({
             default: {node: CascadeNode, index: Number}
         }, true)
 
-        const model = useModel(() => props.modelValue, event.emit.updateModelValue)
+        /*之所以不自动派发事件，是因为派发事件的时候需要多传一个nodes值*/
+        const model = useModel(() => props.modelValue, event.emit.updateModelValue, {autoEmit: false})
         const data = useModel(() => props.data, event.emit.updateData)
 
         const state = reactive({
@@ -184,12 +185,14 @@ export default designComponent({
         const handler = {
             clear: () => {
                 model.value = undefined
+                event.emit.updateModelValue(model.value)
 
                 state.inputValue = null
                 refs.input!.methods.focus()
             },
-            onServiceChange: (val: any) => {
+            onServiceChange: (val: any, nodes: CascadeNode[]) => {
                 model.value = val
+                event.emit.updateModelValue(val, nodes)
             },
             onInputChange: (val: string) => {
                 state.inputValue = val
