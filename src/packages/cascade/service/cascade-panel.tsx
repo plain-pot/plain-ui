@@ -13,7 +13,7 @@ export const CascadePanelProps = {
     modelValue: {type: Array},                                          // 数组，双向绑定值
     data: {type: Array},                                                // 选择的数据
     trigger: {type: String, default: 'click'},                           // 展开触发类型：click，hover
-    hoverDebounce: {type: Number, default: 300},                        // 触发器为hover的时候，防抖时间间隔
+    hoverDebounce: {type: Number, default: 150},                        // 触发器为hover的时候，防抖时间间隔
     emptyText: {type: String, default: '暂无数据'},                      // 没有子节点时展示的文本
     nodeDisabled: {                                                     // 是否禁用判断函数
         type: Function as any as new() => ((node: CascadeNode) => boolean)

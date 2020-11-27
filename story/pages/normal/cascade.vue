@@ -44,6 +44,101 @@
                 />
             </demo-row>
 
+            <demo-row title="hover 触发器">
+                <demo-line>
+                    {{val[3]}}
+                </demo-line>
+                <pl-cascade-panel
+                        trigger="hover"
+                        v-model="val[3]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+
+            <demo-row title="禁用部分选项">
+                <demo-line>
+                    禁用掉叶子节点，并且节点名称中含有[2]的节点
+                </demo-line>
+                <demo-line>
+                    {{val[4]}}
+                </demo-line>
+                <pl-cascade-panel
+                        :nodeDisabled="nodeDisabled"
+                        v-model="val[4]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                />
+            </demo-row>
+
+            <demo-row title="cascade-panel:自定义内容-作用域插槽">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[5]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                >
+                    <template v-slot="{node,index}">
+                        <div>
+                            {{index+1}}、 {{node.label}}
+                        </div>
+                    </template>
+                </pl-cascade-panel>
+            </demo-row>
+
+            <demo-row title="cascade-panel:自定义内容-渲染函数">
+                <demo-line>
+                    {{val[5]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[5]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :renderContent="renderContent"
+                />
+            </demo-row>
+
+            <demo-row title="cascade-panel:点击分支的时候也能触发change">
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[6]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        selectBranch
+                />
+            </demo-row>
+            <demo-row title="cascade-panel:筛选文本以及自定义筛选函数">
+                <demo-line>
+                    <pl-input v-model="filterText"/>
+                </demo-line>
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-cascade-panel
+                        v-model="val[6]"
+                        :data="treeData"
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        :filterText="filterText"
+                        :filterMethod="filterMethod"
+                />
+            </demo-row>
+
         </demo-row>
 
     </div>
@@ -161,6 +256,19 @@
                 treeData,
                 labelFlag: false,
                 lazyDemo,
+                nodeDisabled(node) {
+                    return node.isLeaf && node.label.indexOf('2') > 0
+                },
+                renderContent({node, index}) {
+                    return <div>
+                        {index + 1}、{node.label}
+                    </div>
+                },
+
+                filterText: null,
+                filterMethod: (nodes, text) => {
+                    return nodes.some(node => node.label.indexOf(text) > -1)
+                },
             }
         },
         methods: {},
