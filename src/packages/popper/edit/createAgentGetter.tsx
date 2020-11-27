@@ -9,7 +9,7 @@ import {CreateAgentGetterOption, PopperAgent, PopperServiceComponentOption, Spec
  * @author  韦胜健
  * @date    2020/11/26 21:15
  */
-export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope = RootServiceScope.ins) {
+export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope = RootServiceScope.root) {
 
     /**
      * 创建一个生成service的函数
