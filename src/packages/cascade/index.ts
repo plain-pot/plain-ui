@@ -1,5 +1,5 @@
 import cascade from './cascade'
-import panel from './service/cascade-panel'
+import panel from './panel/cascade-panel'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
 const CascadePanel = createComponentPlugin(panel)
