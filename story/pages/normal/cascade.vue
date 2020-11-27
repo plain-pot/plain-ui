@@ -1,6 +1,6 @@
 <template>
     <div class="demo-cascade">
-        <demo-row title="CascadePanel">
+        <demo-row title="CascadePanel" group>
             <demo-row title="基本用法">
                 <demo-line>
                     {{val[0]}}
@@ -141,7 +141,7 @@
 
         </demo-row>
 
-        <demo-row title="cascade-service">
+        <demo-row title="cascade-service" group>
             <demo-row title="cascade service：基本用法">
                 <pl-button label="open cascade" ref="test0" @click="test0()"/>
             </demo-row>
@@ -150,6 +150,19 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="Cascade">
+            <demo-line>
+                {{val[7]}}
+            </demo-line>
+            <pl-cascade
+                    v-model="val[7]"
+                    :data="treeData"
+                    labelField="name"
+                    keyField="id"
+                    childrenField="subs"
+                    @focus="log('focus')" @blur="log('blur')"
+            />
+        </demo-row>
     </div>
 </template>
 
@@ -330,7 +343,11 @@
                 })())
             }
         },
-        methods: {},
+        methods: {
+            log(...args) {
+                console.log(...args)
+            },
+        },
     }
 </script>
 

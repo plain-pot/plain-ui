@@ -1,0 +1,14 @@
+@include theme {
+  .pl-cascade {
+    .pl-input-suffix-icon .pl-icon {
+      transform: rotate(90deg);
+      transition: transform 300ms $transition;
+    }
+
+    &.pl-cascade-open {
+      .pl-input-suffix-icon .pl-icon {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
