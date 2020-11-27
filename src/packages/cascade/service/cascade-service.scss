@@ -1,0 +1,11 @@
+@include theme {
+  [service-name=pl-popper-service-cascade] {
+    .pl-popper-content-inner {
+      padding: 0 !important;
+    }
+
+    .pl-cascade-panel {
+      border: none !important;
+    }
+  }
+}

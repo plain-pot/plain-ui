@@ -40,6 +40,7 @@ export function createAgentGetter(defaultOption: CreateAgentGetterOption, scope 
                     const isShow = computed(() => !!service.value && service.value.isShow.value)
                     const isOpen = computed(() => !!service.value && service.value.isShow.value)
                     const agent = reactive({
+                        state,
                         isShow,
                         isOpen,
                         service,

@@ -2,6 +2,7 @@ import {ReferenceType, VNodeChild} from "../../../shims";
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
 
 export interface PopperAgent {
+    state: { option: PopperServiceComponentOption, },
     isShow: boolean,
     isOpen: boolean,
     show: () => void | Promise<void>,

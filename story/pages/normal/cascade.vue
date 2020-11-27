@@ -75,7 +75,7 @@
                 />
             </demo-row>
 
-            <demo-row title="cascade-panel:自定义内容-作用域插槽">
+            <demo-row title="自定义内容-作用域插槽">
                 <demo-line>
                     {{val[5]}}
                 </demo-line>
@@ -94,7 +94,7 @@
                 </pl-cascade-panel>
             </demo-row>
 
-            <demo-row title="cascade-panel:自定义内容-渲染函数">
+            <demo-row title="自定义内容-渲染函数">
                 <demo-line>
                     {{val[5]}}
                 </demo-line>
@@ -108,7 +108,7 @@
                 />
             </demo-row>
 
-            <demo-row title="cascade-panel:点击分支的时候也能触发change">
+            <demo-row title="点击分支的时候也能触发change">
                 <demo-line>
                     {{val[6]}}
                 </demo-line>
@@ -121,7 +121,7 @@
                         selectBranch
                 />
             </demo-row>
-            <demo-row title="cascade-panel:筛选文本以及自定义筛选函数">
+            <demo-row title="筛选文本以及自定义筛选函数">
                 <demo-line>
                     <pl-input v-model="filterText"/>
                 </demo-line>
@@ -139,6 +139,15 @@
                 />
             </demo-row>
 
+        </demo-row>
+
+        <demo-row title="cascade-service">
+            <demo-row title="cascade service：基本用法">
+                <pl-button label="open cascade" ref="test0" @click="test0()"/>
+            </demo-row>
+            <demo-row title="cascade service：懒加载">
+                <pl-button label="open cascade" ref="lazyTest" @click="lazyTest()"/>
+            </demo-row>
         </demo-row>
 
     </div>
@@ -269,6 +278,56 @@
                 filterMethod: (nodes, text) => {
                     return nodes.some(node => node.label.indexOf(text) > -1)
                 },
+
+                /*---------------------------------------service-------------------------------------------*/
+                ...((() => {
+                    const newToggle = (name, option) => {
+                        let agent;
+                        return () => {
+                            if (!agent) {
+                                agent = this.$cascade((() => {
+                                    const opt = {
+                                        reference: () => this.$refs[name],
+                                        renderAttrs: {
+                                            data: treeData,
+                                            labelField: 'name',
+                                            keyField: 'id',
+                                            childrenField: 'subs',
+                                            modelValue: null,
+                                            onChange: (val) => {
+                                                this.$message(val.toString())
+                                                opt.renderAttrs.modelValue = val
+                                            },
+                                            ...(option || {})
+                                        },
+                                    }
+                                    return opt
+                                })())
+                            }
+                            agent.toggle()
+                        }
+                    }
+
+                    // 无初始值
+                    const test0 = newToggle('test0')
+
+                    const lazyTest = newToggle('lazyTest', {
+                        lazy: true,
+                        isLeaf: lazyDemo.isLeaf,
+                        getChildren: lazyDemo.getChildren,
+                        renderContent: ({node, index}) => (
+                            <div>
+                                {index + 1}、{node.label}
+                            </div>
+                        ),
+                        data: null,
+                    })
+
+                    return {
+                        test0,
+                        lazyTest,
+                    }
+                })())
             }
         },
         methods: {},
