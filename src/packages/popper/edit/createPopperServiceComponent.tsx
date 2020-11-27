@@ -149,6 +149,7 @@ export function createPopperServiceComponent(name: string) {
                     <pl-popper
                         v-model={isShow.value}
                         onClickBody={handler.onClickBody}
+                        popperAttrs={{['service-name']: name}}
                         {...{
                             transition: 'pl-transition-scale',
                             noContentPadding: true,

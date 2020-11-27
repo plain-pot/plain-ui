@@ -44,6 +44,7 @@ export default designComponent({
         boundary: {default: 'window'},                              // 边界元素
         sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
         scrollAttrs: {type: Object},                                // pl-scroll 属性配置
+        popperAttrs: {type: Object},                                // 给popper dom节点传递的属性
     },
     emits: {
         updateModelValue: (val: boolean) => true,
@@ -428,6 +429,7 @@ export default designComponent({
                         {state.init && <Teleport to=".pl-root-service-container">
                             <div class={popperClasses.value}
                                  style={popperStyles.value}
+                                 {...(props.popperAttrs || {})}
                                  ref="popper">
                                 <div class="plain-popper-content"
                                      ref="content"
