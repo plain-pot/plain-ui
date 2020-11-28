@@ -1,25 +1,36 @@
 import {TreeConfig, TreeMark} from "./TreeMark";
 import {TreeNodeCheckStatus} from "./tree-constant";
+import {reactive} from 'vue';
 
 export class TreeNode {
 
+    state: {
+        data: Record<string, any>,
+    }
+
     constructor(
         public key: string,
-        public data: Record<string, any>,
+        data: Record<string, any>,
         public level: number,
         public config: () => TreeConfig,
         public parentRef: () => (TreeNode),
         public markRef: () => TreeMark,
-    ) {}
+    ) {
+        this.state = reactive({
+            data,
+        })
+    }
 
     selfGetter = () => this;
 
     /*---------------------------------------format prop-------------------------------------------*/
 
+    /*@formatter:off*/
+    get data() {return this.state.data}
+    set data(val) {this.state.data = val}
     get label(): string {return (!!this.config().labelField && !!this.data) ? this.data[this.config().labelField!] : undefined}
-
     get childrenData(): object[] {return (!!this.config().childrenField && !!this.data) ? this.data[this.config().childrenField] : undefined}
-
+    /*@formatter:on*/
     get children(): TreeNode[] | null {
         if (this.isLeaf) {
             return null

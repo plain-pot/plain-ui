@@ -236,11 +236,7 @@
                         const parent = parentRef()
                         const subs = parent.data.subs
                         const ids = subs.map(item => item.id)
-                        console.log({
-                            subs,
-                            data
-                        })
-                        // subs.splice(ids.indexOf(data.id), 1)
+                        subs.splice(ids.indexOf(data.id), 1)
                     },
                 },
 

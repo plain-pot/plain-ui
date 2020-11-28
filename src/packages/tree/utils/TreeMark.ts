@@ -37,7 +37,9 @@ export class TreeMark {
             const key = generator(data, this.config().keyField)
             let node: TreeNode = this.node.state.map[key]
             if (!!node) {
-                node.data = data
+                if (node.data !== data) {
+                    node.data = data
+                }
                 node.level = level
                 node.parentRef = parentRef
             } else {
