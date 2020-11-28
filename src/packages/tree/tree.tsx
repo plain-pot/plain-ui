@@ -174,7 +174,12 @@ export default designComponent({
 
         /*---------------------------------------computer-------------------------------------------*/
         /*格式化得到的TableNode树形数据*/
-        const formatData = computed(() => state.treeMark.node.getList(data.value, 1, () => state.rootTreeNode))
+        const formatData = computed(() => {
+            const ret = state.treeMark.node.getList(data.value, 1, () => state.rootTreeNode)
+            /*这里需要遍历所有的节点，不然 treeMark.node.state 中没有记录节点的key，导致在findNodeByKey的时候找不到*/
+            utils.iterateAll(ret, node => node)
+            return ret
+        })
         /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
         const formatDataFlat = computed(() => {
             const format = formatData.value
@@ -183,9 +188,7 @@ export default designComponent({
                 (treeNode: TreeNode) => {
                     formatDataFlat.push(treeNode)
                 },
-                (treeNode: TreeNode) => {
-                    return treeNode.isExpand === true
-                })
+                (treeNode: TreeNode) => treeNode.isExpand === true)
             return formatDataFlat.filter((treeNode: TreeNode) => !!treeNode.isVisible)
         })
 
@@ -260,6 +263,12 @@ export default designComponent({
 
 
         return {
+            refer: {
+                state,
+                methods: {
+                    ...expandMethods,
+                },
+            },
             render: () => {
                 return (
                     <div class="pl-tree">
