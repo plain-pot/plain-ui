@@ -21,7 +21,10 @@ export class TreeNode {
     get childrenData(): object[] {return (!!this.config().childrenField && !!this.data) ? this.data[this.config().childrenField] : undefined}
 
     get children(): TreeNode[] | null {
-        if (!this.childrenData) {return null}
+        if (this.isLeaf) {
+            return null
+        }
+        if (!this.childrenData) {return []}
         return this.childrenData.map(child => this.markRef().node.get(child, this.level + 1, this.selfGetter))
     }
 
@@ -44,7 +47,8 @@ export class TreeNode {
         if (!!isLeaf) {
             return isLeaf(this)
         } else {
-            return !this.childrenData || this.childrenData.length === 0
+            /*只有有子节点数据对象就判定为不是叶子节点，即使子节点数组为空数组*/
+            return !this.childrenData
         }
     }
 
