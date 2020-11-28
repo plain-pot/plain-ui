@@ -37,6 +37,29 @@
             />
         </demo-row>
 
+        <demo-row title="多选">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkTree.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.checkTree.methods.collapseAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkTree.methods.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkTree.methods.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkTree.methods.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree
+                    ref="checkTree"
+                    height="330px"
+                    showCheckbox
+                    checkOnClickNode
+                    :expandOnClickNode="false"
+                    :data="treeData"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"/>
+        </demo-row>
+
     </div>
 </template>
 
