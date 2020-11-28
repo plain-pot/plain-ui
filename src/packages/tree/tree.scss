@@ -43,6 +43,8 @@
       }
 
       & > .pl-tree-node-operator {
+        display: flex;
+        align-items: center;
         font-size: 1.2em;
 
         .pl-tree-node-expander {

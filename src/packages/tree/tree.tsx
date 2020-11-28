@@ -176,14 +176,10 @@ export default designComponent({
                         emit.expandChange(expandKeys.value)
                     })
             },
-            async toggleExpand(keyOrNode: string | TreeNode) {
+            toggleExpand: async (keyOrNode: string | TreeNode) => {
                 const treeNode = typeof keyOrNode === "string" ? TreeUtils.findTreeNodeByKey(keyOrNode, state.treeMark) : keyOrNode
                 if (!treeNode) return
-                if (treeNode.isExpand) {
-                    await this.collapse(treeNode)
-                } else {
-                    await this.expand(treeNode)
-                }
+                treeNode.isExpand ? await expandMethods.collapse(treeNode) : await expandMethods.expand(treeNode)
             },
             expandAll() {
                 if (!!formatData.value) {
@@ -192,6 +188,85 @@ export default designComponent({
             },
             collapseAll() {
                 state.treeMark.expand.state.map = reactive({})
+            },
+        }
+
+        const checkMethods = {
+            check: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
+                await TreeUtils.handleKeyOrNode(state.treeMark, keyOrNode, async (node) => {
+                    if (!node.isCheck) {
+                        node.check(true)
+
+                        // 父子关联模式下，改变子节点以及父节点状态
+                        if (!props.checkStrictly) {
+                            // 选中所有子节点
+                            TreeUtils.iterateAll(node.children || [], (child) => child.check(true))
+                            // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                            let parent = node.parentRef()
+                            while (!!parent && !!parent.key) {
+                                if ((parent.children || []).every(child => child.isCheck)) {
+                                    parent.check(true)
+                                    parent = parent.parentRef()
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+
+                        await nextTick()
+                        emit.check(node)
+                        emit.checkChange(checkKeys.value)
+                    }
+                })
+            },
+            uncheck: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
+                await TreeUtils.handleKeyOrNode(state.treeMark, keyOrNode, async node => {
+                    if (node.isCheck) {
+                        node.check(false)
+
+                        // 父子关联模式下，改变子节点以及父节点状态
+                        if (!props.checkStrictly) {
+                            // 取消选中所有子节点
+                            TreeUtils.iterateAll(node.children || [], (child) => child.check(false))
+                            // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                            let parent = node.parentRef()
+                            while (!!parent && !!parent.key) {
+                                if (parent.isCheck) {
+                                    parent.check(false)
+                                    parent = parent.parentRef()
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+
+                        await nextTick()
+                        emit.uncheck(node)
+                        emit.checkChange(checkKeys.value)
+                    }
+                })
+            },
+            toggleCheck: async (keyOrNode: string | TreeNode) => {
+                const treeNode = typeof keyOrNode === "string" ? TreeUtils.findTreeNodeByKey(keyOrNode, state.treeMark) : keyOrNode
+                if (!treeNode) return
+                treeNode.isCheck ? await checkMethods.uncheck(treeNode) : await checkMethods.check(treeNode)
+            },
+            checkAll: () => {
+                if (!!formatData.value) {
+                    TreeUtils.iterateAll(formatData.value, treeNode => checkMethods.check(treeNode.key))
+                }
+            },
+            uncheckAll: () => {
+                state.treeMark.check.state.map = reactive({})
+            },
+            getCheckedData() {
+                let ret: object[] = []
+                TreeUtils.iterateAll(formatData.value, (treeNode: TreeNode) => {
+                    if (treeNode.isCheck) {
+                        ret.push(treeNode.data)
+                    }
+                })
+                return ret
             },
         }
 
@@ -215,9 +290,17 @@ export default designComponent({
             onClickTreeNodeContent: async (node: TreeNode) => {
                 emit.clickNode(node)
                 methods.setCurrent(node)
-                if (props.expandOnClickNode !== false) {
-                    await expandMethods.toggleExpand(node)
-                }
+                props.expandOnClickNode && (await expandMethods.toggleExpand(node));
+                props.checkOnClickNode && (await checkMethods.toggleCheck(node));
+            },
+            /**
+             * 处理点击复选框事件
+             * @author  韦胜健
+             * @date    2020/11/28 17:07
+             */
+            onClickCheckbox: async (e: MouseEvent, node: TreeNode) => {
+                e.stopPropagation()
+                await checkMethods.toggleCheck(node)
             }
         }
 
@@ -239,6 +322,11 @@ export default designComponent({
                         style={TreeUtils.getTreeNodeStyles(node.level, props.intent)}>
 
                         <div class="pl-tree-node-operator">
+                            {!!props.showCheckbox && <pl-checkbox
+                                checkStatus={node.checkStatus}
+                                disabled={!node.isCheckable}
+                                onClick={(e: MouseEvent) => handler.onClickCheckbox(e, node)}
+                            />}
                             <div class="pl-tree-node-expander">
                                 {node.isLoading ?
                                     <pl-loading type="gamma"/> :
@@ -281,6 +369,7 @@ export default designComponent({
                 methods: {
                     ...methods,
                     ...expandMethods,
+                    ...checkMethods,
                 },
             },
             render: () => {

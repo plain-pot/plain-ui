@@ -52,8 +52,7 @@
                     ref="checkTree"
                     height="330px"
                     showCheckbox
-                    checkOnClickNode
-                    :expandOnClickNode="false"
+                    expandOnClickNode
                     :data="treeData"
                     keyField="id"
                     labelField="name"

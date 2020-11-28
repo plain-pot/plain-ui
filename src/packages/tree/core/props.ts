@@ -30,7 +30,7 @@ export const TreeProps = {
     getChildren: {type: Function as any as new() => ((node: TreeNode, cb: (...args: any[]) => void) => void)},// 加载子节点数据的函数，仅当 lazy 为true时有效
 
     renderAfterExpand: {type: Boolean, default: true},          // 是否在第一次展开节点之后才渲染内容
-    expandOnClickNode: {type: Boolean, default: null},          // 是否点击树节点的时候展开子节点
+    expandOnClickNode: {type: Boolean, default: true},          // 是否点击树节点的时候展开子节点
     autoExpandParent: {type: Boolean, default: true},           // 是否展开节点的时候，自动展开父节点
 
     // 勾选相关属性
