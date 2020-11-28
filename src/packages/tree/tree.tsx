@@ -1,8 +1,7 @@
 import {designComponent} from "../../use/designComponent";
-import {TreeNode} from "./utils/TreeNode";
+import {TreeEmptyNode, TreeNode} from "./utils/TreeNode";
 import {VNodeChild} from "../../shims";
 import {useScopedSlots} from "../../use/useScopedSlots";
-import number from "../number/number";
 import {useModel} from "../../use/useModel";
 import {TreeMark} from "./utils/TreeMark";
 import {computed, nextTick, reactive, watch} from 'vue';
@@ -16,6 +15,7 @@ export default designComponent({
         loading: {type: Boolean},                                   // 当前是否处于loading状态
         nodeIcon: {type: Function as any as new() => ((node: TreeNode) => string)},// 节点图标
         nodeHeight: {type: Number, default: 40},                      // 节点高度
+        height: {type: String, default: '100%'},                    // 容器高度
 
         // 部分key
         keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
@@ -76,7 +76,7 @@ export default designComponent({
         /*---------------------------------------state-------------------------------------------*/
         /*作用域插槽*/
         const {scopedSlots} = useScopedSlots({
-            default: {node: TreeNode, index: number},
+            default: {node: TreeNode, index: Number},
         })
         /*树形数据*/
         const data = useModel(() => props.data, emit.updateData)
@@ -92,6 +92,7 @@ export default designComponent({
             checkStrictly: props.checkStrictly,
             filterNodeMethod: props.filterNodeMethod,
             intent: props.intent,
+            lazy: props.lazy,
         }))
         /*伪造的跟节点的key*/
         const rootTreeNode = treeMark.node.get({[props.childrenField!]: data.value}, 0, () => ({}) as any)
@@ -131,10 +132,10 @@ export default designComponent({
              * @author  韦胜健
              * @date    2020/11/28 9:25
              */
-            getTreeNodeStyles: (node: TreeNode) => {
+            getTreeNodeStyles: (level: number) => {
                 const basePadding = 8
                 return {
-                    paddingLeft: `${basePadding + (node.level - 1) * props.intent}px`,
+                    paddingLeft: `${basePadding + (level - 1) * props.intent}px`,
                     paddingRight: `${basePadding}px`,
                 }
             },
@@ -229,13 +230,22 @@ export default designComponent({
         /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
         const formatDataFlat = computed(() => {
             const format = formatData.value
-            const formatDataFlat: TreeNode[] = []
+            const formatDataFlat: (TreeNode | TreeEmptyNode)[] = []
             utils.iterateAll(format,
                 (treeNode: TreeNode) => {
                     formatDataFlat.push(treeNode)
+                    if (
+                        !treeNode.isLeaf &&
+                        treeNode.isLoaded &&
+                        treeNode.isExpand &&
+                        treeNode.children!.length === 0
+                    ) {
+                        formatDataFlat.push(() => treeNode)
+                    }
                 },
-                (treeNode: TreeNode) => treeNode.isExpand === true)
-            return formatDataFlat.filter((treeNode: TreeNode) => !!treeNode.isVisible)
+                (treeNode: TreeNode) => treeNode.isExpand
+            )
+            return formatDataFlat.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
         })
 
         const expandKeys = computed(() => state.treeMark.expand.getActiveKeys())
@@ -359,6 +369,54 @@ export default designComponent({
 
         watch(() => data.value, val => rootTreeNode.setChildren(val as any || []))
 
+        const render = {
+            node: (node: TreeNode | TreeEmptyNode, index: number) => {
+                if (typeof node === "function") {
+                    return render.empty(node)
+                }
+                return (
+                    <pl-item
+                        key={node.key}
+                        class={utils.getTreeNodeClasses(node)}
+                        style={utils.getTreeNodeStyles(node.level)}>
+
+                        <div class="pl-tree-node-operator">
+                            <div class="pl-tree-node-expander">
+                                {node.isLoading ?
+                                    <pl-loading type="gamma"/> :
+                                    <pl-icon icon={node.isLeaf ? props.leafIcon : node.isExpand ? props.folderExpandIcon : props.folderCollapseIcon}
+                                             onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
+                                }
+                            </div>
+                        </div>
+                        <div class="pl-tree-node-content"
+                             style={contentStyles.value}
+                             onClick={() => handler.onClickTreeNodeContent(node)}>
+                            <span>{scopedSlots.default({node, index}, node.label)}</span>
+                        </div>
+                    </pl-item>
+                )
+            },
+            empty: (emptyNode: TreeEmptyNode) => {
+                const parent = emptyNode()
+                return (
+                    <pl-item
+                        key={`${parent.key}_empty`}
+                        class="pl-tree-node pl-tree-empty-node"
+                        style={utils.getTreeNodeStyles(parent.level + 1)}>
+                        <div class="pl-tree-node-operator">
+                            <div class="pl-tree-node-expander">
+                                <pl-icon icon="el-icon-close-bold"/>
+                            </div>
+                        </div>
+                        <div class="pl-tree-node-content" style={contentStyles.value}>
+                            <span>暂无数据</span>
+                        </div>
+                    </pl-item>
+                )
+            },
+        }
+
         return {
             refer: {
                 state,
@@ -369,31 +427,19 @@ export default designComponent({
             },
             render: () => {
                 return (
-                    <div class="pl-tree" v-loading={props.loading || state.loading}>
-                        <pl-list direction="top">
-                            {formatDataFlat.value.map((node, index) => (
-                                <pl-item
-                                    key={node.key}
-                                    class={utils.getTreeNodeClasses(node)}
-                                    style={utils.getTreeNodeStyles(node)}>
-
-                                    <div class="pl-tree-node-operator">
-                                        <div class="pl-tree-node-expander">
-                                            {node.isLoading ?
-                                                <pl-loading type="gamma"/> :
-                                                <pl-icon icon={node.isLeaf ? props.leafIcon : node.isExpand ? props.folderExpandIcon : props.folderCollapseIcon}
-                                                         onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="pl-tree-node-content"
-                                         style={contentStyles.value}
-                                         onClick={() => handler.onClickTreeNodeContent(node)}>
-                                        <span>{node.label}</span>
-                                    </div>
-                                </pl-item>
-                            ))}
-                        </pl-list>
+                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || state.loading}>
+                        {formatDataFlat.value.length === 0 ? (
+                            <div class="pl-tree-placeholder" key="placeholder">
+                                <pl-icon icon="el-icon-folder-opened"/>
+                                <span>暂无数据</span>
+                            </div>
+                        ) : (
+                            <pl-scroll>
+                                <pl-list direction="top" class="pl-tree-node-list">
+                                    {formatDataFlat.value.map((node, index) => render.node(node, index))}
+                                </pl-list>
+                            </pl-scroll>
+                        )}
                     </div>
                 )
             }

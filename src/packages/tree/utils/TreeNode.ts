@@ -36,7 +36,10 @@ export class TreeNode {
 
     get isLoading(): boolean {return this.markRef().loading.get(this.key)}
 
-    get isLoaded(): boolean {return this.markRef().loaded.get(this.key)}
+    get isLoaded(): boolean {
+        const {lazy} = this.config()
+        return lazy ? this.markRef().loaded.get(this.key) : true
+    }
 
     /*---------------------------------------judge props-------------------------------------------*/
 
@@ -173,4 +176,8 @@ export class TreeNode {
         treeNode.level = this.level + 1
         childrenData.unshift(treeNode.data)
     }
+}
+
+export interface TreeEmptyNode {
+    (): TreeNode
 }

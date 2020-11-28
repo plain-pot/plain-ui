@@ -14,6 +14,7 @@ export interface TreeConfig {
     checkStrictly: boolean,
     filterNodeMethod?: (node: TreeNode) => boolean,
     intent: number,
+    lazy: boolean,
 }
 
 export class TreeMark {

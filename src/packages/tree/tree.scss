@@ -1,7 +1,29 @@
 @include theme {
   .pl-tree {
     width: 100%;
-    overflow: hidden;
+    position: relative;
+
+    .pl-tree-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: $icc;
+
+      & > .pl-icon {
+        font-size: 3em;
+        margin-bottom: 8px;
+      }
+    }
+
+    .pl-tree-node-list {
+      overflow: hidden;
+    }
 
     .pl-tree-node {
       display: flex;
@@ -47,6 +69,14 @@
       &.pl-tree-node-current {
         background-color: rgba($colorPrimary, 0.1);
         color: $colorPrimary;
+      }
+
+      &.pl-tree-empty-node {
+        color: $colorError;
+
+        & > .pl-tree-node-operator > * {
+          color: $colorError;
+        }
       }
     }
   }

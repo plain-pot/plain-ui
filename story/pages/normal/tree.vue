@@ -14,25 +14,26 @@
             </demo-line>
 
             <pl-tree
+                    height="330px"
                     ref="tree1"
                     :data="treeData"
                     keyField="id"
                     labelField="name"
                     childrenField="subs"
-                    expandOnClickNode
-            >
-
+                    expandOnClickNode>
             </pl-tree>
         </demo-row>
 
         <demo-row title="懒加载子节点">
-            <pl-tree ref="lazyTree"
-                     keyField="id"
-                     labelField="name"
-                     childrenField="subs"
-                     lazy
-                     :isLeaf="lazyDemo.isLeaf"
-                     :getChildren="lazyDemo.getChildren"
+            <pl-tree
+                    height="330px"
+                    ref="lazyTree"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    lazy
+                    :isLeaf="lazyDemo.isLeaf"
+                    :getChildren="lazyDemo.getChildren"
             />
         </demo-row>
 
