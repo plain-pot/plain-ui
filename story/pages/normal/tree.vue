@@ -158,6 +158,16 @@
                      :renderContent="renderDemo.renderContent"/>
         </demo-row>
 
+        <demo-row title="节点图标">
+            <pl-tree defaultExpandAll
+                     :data="treeData"
+                     height="330px"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :nodeIcon="nodeIcon"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -170,7 +180,7 @@
         name: "tree",
         data() {
             return {
-                // treeData,
+                treeData,
 
                 tree1: (() => ({
                     showCurrent: () => {
@@ -303,6 +313,9 @@
                     },
                 },
 
+                nodeIcon(treeNode) {
+                    return treeNode.isLeaf ? 'el-icon-male' : 'el-icon-female'
+                },
             }
         },
     }

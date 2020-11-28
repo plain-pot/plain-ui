@@ -334,11 +334,12 @@ export default designComponent({
                                              onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
                                 }
                             </div>
+                            {!!props.nodeIcon && <pl-icon icon={props.nodeIcon(node)}/>}
                         </div>
                         <div class="pl-tree-node-content"
                              style={contentStyles.value}
                              onClick={() => handler.onClickTreeNodeContent(node)}>
-                            {scopedSlots.default({node, index}, !props.renderContent ? node.label : props.renderContent({node, index}))}
+                            {scopedSlots.default({node, index}, !!props.renderContent ? props.renderContent({node, index}) : node.label)}
                         </div>
                     </pl-item>
                 )
