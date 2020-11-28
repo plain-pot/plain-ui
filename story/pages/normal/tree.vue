@@ -59,6 +59,27 @@
                     childrenField="subs"/>
         </demo-row>
 
+        <demo-row title="多选：父子互不关联">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkStrictlyTree.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.checkStrictlyTree.methods.collapseAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkStrictlyTree.methods.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkStrictlyTree.methods.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkStrictlyTree.methods.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkStrictlyTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree ref="checkStrictlyTree"
+                     height="330px"
+                     showCheckbox
+                     checkStrictly
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"/>
+        </demo-row>
+
     </div>
 </template>
 
