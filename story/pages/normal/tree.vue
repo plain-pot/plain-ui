@@ -168,6 +168,15 @@
                      :nodeIcon="nodeIcon"/>
         </demo-row>
 
+        <demo-row title="手风琴模式，展开节点的时候关闭兄弟节点">
+            <pl-tree according
+                     :data="treeData"
+                     height="330px"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"/>
+        </demo-row>
+
     </div>
 </template>
 
