@@ -1,8 +1,10 @@
 <template>
     <div class="demo-test">
-        cascadeData:{{cascadeData}}
-        <br>
-        <pl-button label="change" @click="change"/>
+        <pl-button-group>
+            <pl-button v-for="node in formatData" :key="node.index" @click="doubleAlias(node)">
+                {{node.item.name}} / {{(node.item.alias||[]).join(',')}}
+            </pl-button>
+        </pl-button-group>
     </div>
 </template>
 
@@ -11,24 +13,30 @@
         name: "test",
         data() {
             return {
-                node: {
-                    id: '112',
-                    name: 'angel',
-                    get childrenData() {
-                        return this.children ? this.children.map(item => `[${item}]`) : 'nothing'
-                    }
-                },
+                treeData: [
+                    {id: '111', name: 'aaa', alias: ['q', 'w']},
+                    {id: '222', name: 'bbb'},
+                ],
             }
         },
         computed: {
-            cascadeData() {
-                return this.node.childrenData
+            formatData() {
+                return this.treeData.map((item, index) => ({
+                    index,
+                    item,
+                }))
             },
         },
         methods: {
-            change() {
-                this.node.children = ['a', 's']
-            }
+            doubleAlias(node) {
+                let {alias, id, name} = node.item
+                if (!!alias) {
+                    alias = [...alias, ...alias]
+                } else {
+                    alias = [id, name]
+                }
+                node.item.alias = alias
+            },
         },
     }
 </script>
