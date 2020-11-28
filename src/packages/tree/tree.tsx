@@ -5,7 +5,7 @@ import {useScopedSlots} from "../../use/useScopedSlots";
 import number from "../number/number";
 import {useModel} from "../../use/useModel";
 import {TreeMark} from "./utils/TreeMark";
-import {reactive, computed, nextTick} from 'vue';
+import {reactive, computed, nextTick, watch} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 
@@ -99,6 +99,7 @@ export default designComponent({
         const state = reactive({
             treeMark,
             rootTreeNode,
+            loading: false,
         })
 
         /*---------------------------------------utils-------------------------------------------*/
@@ -183,6 +184,38 @@ export default designComponent({
                     await Promise.all(keyOrNode.map(i => utils.handleKeyOrNode(i, handler)))
                 }
             },
+            /**
+             * 获取子节点数据异步方法
+             * @author  韦胜健
+             * @date    2020/3/31 15:21
+             */
+            getChildrenAsync: (treeNode: TreeNode): Promise<TreeNode[]> => {
+                return new Promise((resolve) => {
+                    if (treeNode.level === 0) {
+                        state.loading = true
+                    } else {
+                        treeNode.loading(true)
+                    }
+                    props.getChildren!(treeNode, (...results) => {
+                        if (!treeNode.key) {
+                            state.loading = false
+                        } else {
+                            treeNode.loading(false)
+                            treeNode.loaded(true)
+                        }
+                        resolve(...results)
+                    })
+                })
+            },
+            /**
+             * 懒加载初始化逻辑
+             * @author  韦胜健
+             * @date    2020/11/28 10:45
+             */
+            async initLazy() {
+                if (!props.lazy) {return}
+                data.value = await this.getChildrenAsync(state.rootTreeNode)
+            },
         }
 
         /*---------------------------------------computer-------------------------------------------*/
@@ -241,7 +274,27 @@ export default designComponent({
                 await utils.handleKeyOrNode(keyOrNode, async (node) => {
                     const parent = node.parentRef()
                     if (!node.isExpand) {
+
+                        if (
+                            props.lazy &&                           // 懒加载模式
+                            !node.isLoaded &&                       // 未曾加载过子节点数据
+                            !node.isLeaf                            // 节点不是叶子节点
+                        ) {
+                            const children = await utils.getChildrenAsync(node)
+                            node.setChildren(children || [])
+                            await nextTick()
+                        }
+
+                        if (props.according) {
+                            // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
+                            if (!!parent && !!parent.children) {
+                                parent.children.forEach((child: TreeNode) => child.key !== node.key && expandMethods.collapse(child))
+                            }
+                        }
+
                         node.expand(true)
+                        await nextTick()
+
                         emit.expand(node)
                         emit.expandChange(expandKeys.value)
                     }
@@ -299,6 +352,12 @@ export default designComponent({
             }
         }
 
+        utils.initLazy()
+        if (props.defaultExpandAll) {
+            nextTick().then(() => expandMethods.expandAll())
+        }
+
+        watch(() => data.value, val => rootTreeNode.setChildren(val as any || []))
 
         return {
             refer: {
@@ -310,7 +369,7 @@ export default designComponent({
             },
             render: () => {
                 return (
-                    <div class="pl-tree">
+                    <div class="pl-tree" v-loading={props.loading || state.loading}>
                         <pl-list direction="top">
                             {formatDataFlat.value.map((node, index) => (
                                 <pl-item
