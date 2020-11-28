@@ -207,6 +207,19 @@
                      @current-change="treeNode=>currentKey = treeNode.key"/>
         </demo-row>
 
+        <demo-row title="展开图标">
+            <pl-tree
+                    :data="treeData"
+                    height="330px"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    folderExpandIcon="el-icon-caret-bottom"
+                    folderCollapseIcon="el-icon-caret-right"
+                    leafIcon="el-icon-paperclip"
+            />
+        </demo-row>
+
     </div>
 </template>
 
