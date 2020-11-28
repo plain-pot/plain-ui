@@ -234,10 +234,13 @@
                         e.stopPropagation()
                         let {data, parentRef} = treeNode
                         const parent = parentRef()
-
-                        const subs = !!parent ? parent.data.subs : this.scopedSlotDemo.treeData
+                        const subs = parent.data.subs
                         const ids = subs.map(item => item.id)
-                        subs.splice(ids.indexOf(data.id), 1)
+                        console.log({
+                            subs,
+                            data
+                        })
+                        // subs.splice(ids.indexOf(data.id), 1)
                     },
                 },
 
