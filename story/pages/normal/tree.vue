@@ -5,7 +5,9 @@
                     :data="treeData"
                     keyField="id"
                     labelField="name"
-                    childrenField="subs">
+                    childrenField="subs"
+                    expandOnClickNode
+            >
 
             </pl-tree>
         </demo-row>

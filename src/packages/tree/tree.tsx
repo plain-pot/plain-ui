@@ -5,7 +5,9 @@ import {useScopedSlots} from "../../use/useScopedSlots";
 import number from "../number/number";
 import {useModel} from "../../use/useModel";
 import {TreeMark} from "./utils/TreeMark";
-import {reactive, computed} from 'vue';
+import {reactive, computed, nextTick} from 'vue';
+import './tree.scss'
+import {useStyles} from "../../use/useStyles";
 
 export default designComponent({
     name: 'pl-tree',
@@ -13,6 +15,7 @@ export default designComponent({
         data: {type: Array},                                        // 树形结构数据
         loading: {type: Boolean},                                   // 当前是否处于loading状态
         nodeIcon: {type: Function as any as new() => ((node: TreeNode) => string)},// 节点图标
+        nodeHeight: {type: Number, default: 40},                      // 节点高度
 
         // 部分key
         keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
@@ -30,7 +33,7 @@ export default designComponent({
         defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
         according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
         expandIcon: {type: String},                                 // 树展开图标
-        intent: {type: Number, default: 14},                        // 相邻级节点水平缩进距离，默认16，单位px
+        intent: {type: Number, default: 20},                        // 相邻级节点水平缩进距离，默认16，单位px
         lazy: {type: Boolean},                                      // 是否懒加载子节点数据
         isLeaf: {type: Function as any as new() => ((node: TreeNode) => boolean)},// 判断树节点是否为叶子节点的函数，仅在lazy模式有效
         getChildren: {type: Function as any as new() => ((node: TreeNode, cb: (...args: any[]) => void) => void)},// 加载子节点数据的函数，仅当 lazy 为true时有效
@@ -49,6 +52,10 @@ export default designComponent({
         draggable: {type: Boolean},                                 // 是否可拖拽
         allowDrag: {type: Function as any as new() => ((node: TreeNode) => boolean)},// 判断节点是否可以拖拽
         allowDrop: {type: Function as any as new() => ((node: TreeNode) => boolean)},// 判断目标节点能够被放置
+
+        folderCollapseIcon: {type: String, default: 'el-icon-folder-s'},
+        folderExpandIcon: {type: String, default: 'el-icon-folder-opened'},
+        leafIcon: {type: String, default: 'el-icon-document'},
     },
     emits: {
         clickNode: (node: TreeNode) => true,                        // 点击节点事件
@@ -101,6 +108,9 @@ export default designComponent({
              * 遍历所有的treeNode
              * @author  韦胜健
              * @date    2020/3/30 19:30
+             * @param   treeNodes               要遍历的数据
+             * @param   fn                      处理函数
+             * @param   iterateChildren         判断是否遍历其子节点数据
              */
             iterateAll: (
                 treeNodes: TreeNode[] | Readonly<TreeNode[]> | null,
@@ -114,6 +124,51 @@ export default designComponent({
                         utils.iterateAll(treeNode.children, fn, iterateChildren)
                     }
                 })
+            },
+            /**
+             * 计算treeNode的样式
+             * @author  韦胜健
+             * @date    2020/11/28 9:25
+             */
+            getTreeNodeStyles: (node: TreeNode) => {
+                const basePadding = 8
+                return {
+                    paddingLeft: `${basePadding + (node.level - 1) * props.intent}px`,
+                    paddingRight: `${basePadding}px`,
+                }
+            },
+            /**
+             * 通过 key 寻找treeNode
+             * @author  韦胜健
+             * @date    2020/3/30 20:52
+             */
+            findTreeNodeByKey: (key: string): TreeNode | null => {
+                const treeNode = state.treeMark.node.getByKey(key)
+                if (!treeNode) {
+                    console.warn(`无法找到treeNode：${key}`, state.treeMark.node.state.map)
+                    return null
+                }
+                return treeNode
+            },
+            /**
+             * 处理keyOrNode
+             * @author  韦胜健
+             * @date    2020/11/28 9:34
+             */
+            handleKeyOrNode: async (keyOrNode: string | TreeNode | (string | TreeNode)[], handler: (node: TreeNode) => void | Promise<void>): Promise<any> => {
+                if (!keyOrNode) {
+                    return
+                }
+                if (typeof keyOrNode === "string") {
+                    const node = utils.findTreeNodeByKey(keyOrNode)
+                    if (!!node) {
+                        await handler(node)
+                    }
+                } else if (!Array.isArray(keyOrNode)) {
+                    await handler(keyOrNode)
+                } else {
+                    await Promise.all(keyOrNode.map(i => utils.handleKeyOrNode(i, handler)))
+                }
             },
         }
 
@@ -134,15 +189,96 @@ export default designComponent({
             return formatDataFlat.filter((treeNode: TreeNode) => !!treeNode.isVisible)
         })
 
+        const expandKeys = computed(() => state.treeMark.expand.getActiveKeys())
+        const checkKeys = computed(() => state.treeMark.check.getActiveKeys())
+
+        const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
+
+        /*---------------------------------------methods-------------------------------------------*/
+
+        const expandMethods = {
+            expand: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
+                await utils.handleKeyOrNode(keyOrNode, async (node) => {
+                    const parent = node.parentRef()
+                    if (!node.isExpand) {
+                        node.expand(true)
+                        emit.expand(node)
+                        emit.expandChange(expandKeys.value)
+                    }
+                    if (!!props.autoExpandParent && !!parent && parent.level !== 0) {
+                        await expandMethods.expand(parent)
+                    }
+                })
+            },
+            collapse: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
+                await utils.handleKeyOrNode(keyOrNode, async (node) => {
+                    await utils.iterateAll([
+                        node, ...(node.children || [])
+                    ], (node) => {
+                        if (node.isExpand) {
+                            node.expand(false)
+                            emit.collapse(node)
+                        }
+                    })
+                    await nextTick()
+                    emit.expandChange(expandKeys.value)
+                })
+            },
+            async toggleExpand(keyOrNode: string | TreeNode) {
+                const treeNode = typeof keyOrNode === "string" ? utils.findTreeNodeByKey(keyOrNode) : keyOrNode
+                if (!treeNode) return
+                if (treeNode.isExpand) {
+                    await this.collapse(treeNode)
+                } else {
+                    await this.expand(treeNode)
+                }
+            },
+            expandAll() {
+                if (!!formatData.value) {
+                    utils.iterateAll(formatData.value, treeNode => this.expand(treeNode.key))
+                }
+            },
+            collapseAll() {
+                state.treeMark.expand.state.map = reactive({})
+            },
+        }
+
+        /*---------------------------------------handler-------------------------------------------*/
+
+        const handler = {
+            onClickExpandIcon: async (e: MouseEvent, node: TreeNode) => {
+                e.stopPropagation()
+                await expandMethods.toggleExpand(node)
+            },
+            onClickTreeNodeContent: async (node: TreeNode) => {
+                emit.clickNode(node)
+                if (props.expandOnClickNode !== false) {
+                    await expandMethods.toggleExpand(node)
+                }
+            }
+        }
+
 
         return {
             render: () => {
                 return (
                     <div class="pl-tree">
-                        <pl-list direcction="right">
+                        <pl-list direction="top">
                             {formatDataFlat.value.map((node, index) => (
-                                <pl-item key={index}>
-                                    {node.label}
+                                <pl-item
+                                    key={node.key}
+                                    class="pl-tree-node"
+                                    style={utils.getTreeNodeStyles(node)}>
+
+                                    <div class="pl-tree-node-operator">
+                                        <pl-icon icon={node.isLeaf ? props.leafIcon : node.isExpand ? props.folderExpandIcon : props.folderCollapseIcon}
+                                                 onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
+                                    </div>
+                                    <div class="pl-tree-node-content"
+                                         style={contentStyles.value}
+                                         onClick={() => handler.onClickTreeNodeContent(node)}>
+                                        {node.label}
+                                    </div>
                                 </pl-item>
                             ))}
                         </pl-list>
