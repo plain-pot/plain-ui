@@ -45,6 +45,7 @@ export const TreeUtils = {
             'pl-tree-node',
             {
                 'pl-tree-node-current': node.key === current,
+                'pl-tree-node-not-checkable': !node.isCheckable,
             }
         ]
     },

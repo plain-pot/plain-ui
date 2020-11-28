@@ -80,6 +80,26 @@
                      childrenField="subs"/>
         </demo-row>
 
+        <demo-row title="多选：禁用部分选项，只能勾选1结尾的节点">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="展开所有节点" @click="$refs.checkableTree.methods.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkableTree.methods.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkableTree.methods.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkableTree.methods.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree ref="checkableTree"
+                     height="330px"
+                     showCheckbox
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :isCheckable="isCheckable"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -154,6 +174,10 @@
                             }, Math.random() * 1000 + 1000)
                         })
                     },
+                },
+
+                isCheckable(treeNode) {
+                    return treeNode.data.name.endsWith('1')
                 },
             }
         },
