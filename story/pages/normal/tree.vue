@@ -13,15 +13,16 @@
                 </pl-button-group>
             </demo-line>
 
-            <pl-tree
-                    height="330px"
-                    ref="tree1"
-                    :data="treeData"
-                    keyField="id"
-                    labelField="name"
-                    childrenField="subs"
-                    expandOnClickNode>
-            </pl-tree>
+            <div style="height: 500px">
+                <pl-tree
+                        ref="tree1"
+                        :data="treeData"
+                        keyField="id"
+                        labelField="name"
+                        childrenField="subs"
+                        expandOnClickNode>
+                </pl-tree>
+            </div>
         </demo-row>
 
         <demo-row title="懒加载子节点">
@@ -190,6 +191,22 @@
                      :filterNodeMethod="filterDemo.filterNodeMethod"/>
         </demo-row>
 
+        <demo-row title="绑定currentKey">
+            <demo-line>
+                <pl-button label="全部展开" @click="$refs.currentTree.methods.expandAll()"/>
+                <pl-button label="设置currentKey" @click="currentKey = '3-1-1'"/>
+                {{currentKey}}
+            </demo-line>
+            <pl-tree ref="currentTree"
+                     height="330px"
+                     :currentKey="currentKey"
+                     :data="treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     @current-change="treeNode=>currentKey = treeNode.key"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -203,6 +220,7 @@
         data() {
             return {
                 treeData,
+                currentKey: '',
 
                 tree1: (() => ({
                     showCurrent: () => {
