@@ -66,7 +66,7 @@ export default designComponent({
         /*格式化得到的TableNode树形数据*/
         const formatData = computed(() => {
             const ret = state.treeMark.node.getList(data.value, 1, () => state.rootTreeNode)
-            /*这里需要遍历所有的节点，不然 treeMark.node.state 中没有记录节点的key，导致在findNodeByKey的时候找不到*/
+            /*这里需要遍历所有的节点，不然 treeMark.node.state.map 中没有记录节点的key，导致在findNodeByKey的时候找不到*/
             TreeUtils.iterateAll(ret, node => node)
             return ret
         })
