@@ -4,10 +4,9 @@ import {VNodeChild} from "../../../shims";
 import {useScopedSlots} from "../../../use/useScopedSlots";
 import {useModel} from "../../../use/useModel";
 import {CascadeMark} from "../utils/CascadMark";
-import {reactive, ref, computed, nextTick} from 'vue';
+import {computed, reactive, ref} from 'vue';
 import {debounce} from "plain-utils/utils/debounce";
 import './cascade-panel.scss'
-import {reactiveFor} from "../../../utils/reactiveFor";
 
 export const CascadePanelProps = {
     modelValue: {type: Array},                                          // 数组，双向绑定值
@@ -59,7 +58,6 @@ export default designComponent({
         const data = useModel(() => props.data, emit.updateData)
         const expandKeys = ref([] as string[])
         const state = reactive({
-            cascadeDataKey: 0,                                          // 当CascadeNode.setChildren之后，需要cascadeData重新计算
             loading: false,
             expandKeys,
             cascadeMark: new CascadeMark(
@@ -83,7 +81,6 @@ export default designComponent({
 
         const formatData = computed(() => state.cascadeMark.node.getList(data.value, 1, () => null))
         const cascadeData = computed(() => {
-            reactiveFor(state.cascadeDataKey)
             const data = formatData.value || []
             if (data.length === 0) return []
             let expandKeys: string[] = []
@@ -233,7 +230,6 @@ export default designComponent({
                     ) {
                         const children = await utils.getChildrenAsync(node)
                         node.setChildren(children || [])
-                        state.cascadeDataKey++
                     }
                 }
             }

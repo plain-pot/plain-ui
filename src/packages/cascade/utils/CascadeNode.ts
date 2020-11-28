@@ -1,10 +1,15 @@
 import {CascadeConfig, CascadeMark} from "./CascadMark";
+import {reactive} from 'vue';
 
 export class CascadeNode {
 
+    state: {
+        data: Record<string, any>
+    }
+
     constructor(
         public key: string,
-        public data: Record<string, any>,
+        data: Record<string, any>,
         public level: number,
         public config: () => CascadeConfig,
         public parentRef: () => (CascadeNode | null),
@@ -13,11 +18,19 @@ export class CascadeNode {
             expandKeys: string[],
             filterText: string | undefined,
         }
-    ) {}
+    ) {
+        this.state = reactive({
+            data
+        })
+    }
 
     selfGetter = () => this;
 
     /*---------------------------------------prop-------------------------------------------*/
+
+    get data() {return this.state.data}
+
+    set data(val) {this.state.data = val}
 
     /*节点显示文本*/
     get label(): string {return this.data[this.config().labelField]}
