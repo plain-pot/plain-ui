@@ -136,6 +136,28 @@
             </pl-tree>
         </demo-row>
 
+        <demo-row title="自定义内容：渲染函数">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.renderDemo.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.renderDemo.methods.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.methods.getCurrent() ? $refs.renderDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+
+            <pl-tree ref="renderDemo"
+                     :data="renderDemo.treeData"
+                     height="330px"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     style="width: 500px"
+                     showCheckbox
+                     :renderContent="renderDemo.renderContent"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -242,6 +264,43 @@
 
                 log(...args) {
                     console.log(...args)
+                },
+
+                renderDemo: {
+                    treeData: deepcopy(treeData),
+                    renderContent: ({node}) => {
+                        return (
+                            <div style="width:100%;display: flex;justify-content: space-between">
+                                <span>{node.data.name}</span>
+                                <pl-button-group mode="text">
+                                    <pl-button label="Add" onClick={e => this.renderDemo.addItem(e, node)} size="mini"/>
+                                    <pl-button label="Del" onClick={e => this.renderDemo.deleteItem(e, node)} size="mini" status="error"/>
+                                </pl-button-group>
+                            </div>
+                        )
+                    },
+                    addItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        const {data} = treeNode
+                        const subs = data.subs || []
+
+                        const name = `n-${data.id}-${subs.length + 1}`
+                        const id = name + Date.now().toString()
+                        subs.push({
+                            id,
+                            name: `new item ${name}`,
+                        })
+                        data.subs = subs
+                        this.$nextTick().then(() => this.$refs.renderDemo.methods.expand(id))
+                    },
+                    deleteItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        let {data, parentRef} = treeNode
+                        const parent = parentRef()
+                        const subs = parent.data.subs
+                        const ids = subs.map(item => item.id)
+                        subs.splice(ids.indexOf(data.id), 1)
+                    },
                 },
 
             }

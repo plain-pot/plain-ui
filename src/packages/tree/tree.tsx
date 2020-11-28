@@ -338,7 +338,7 @@ export default designComponent({
                         <div class="pl-tree-node-content"
                              style={contentStyles.value}
                              onClick={() => handler.onClickTreeNodeContent(node)}>
-                            {scopedSlots.default({node, index}, node.label)}
+                            {scopedSlots.default({node, index}, !props.renderContent ? node.label : props.renderContent({node, index}))}
                         </div>
                     </pl-item>
                 )
