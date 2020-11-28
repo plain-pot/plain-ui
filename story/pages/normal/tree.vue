@@ -100,12 +100,44 @@
                      :isCheckable="isCheckable"/>
         </demo-row>
 
+        <demo-row title="自定义内容：作用域插槽">
+
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.methods.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.methods.getCurrent() ? $refs.scopedSlotDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                </pl-button-group>
+            </demo-line>
+
+            <pl-tree ref="scopedSlotDemo"
+                     height="330px"
+                     :data="scopedSlotDemo.treeData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     style="width: 500px"
+                     showCheckbox>
+                <template v-slot="{node}">
+                    <div style="width:100%;display: flex;justify-content: space-between">
+                        <span>{{node.data.name}}</span>
+                        <pl-button-group mode="text">
+                            <pl-button label="Add" @click="e=>scopedSlotDemo.addItem(e,node)" size="mini"/>
+                            <pl-button label="Del" @click="e=>scopedSlotDemo.deleteItem(e,node)" size="mini" status="error"/>
+                        </pl-button-group>
+                    </div>
+                </template>
+            </pl-tree>
+        </demo-row>
+
     </div>
 </template>
 
 <script>
 
     import treeData from '../data/tree.data'
+    import {deepcopy} from "plain-utils/object/deepcopy";
 
     export default {
         name: "tree",
@@ -179,6 +211,30 @@
                 isCheckable(treeNode) {
                     return treeNode.data.name.endsWith('1')
                 },
+
+                scopedSlotDemo: {
+                    treeData: deepcopy(treeData),
+                    addItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        const {data} = treeNode
+                        if (!data.subs) {data.subs = []}
+                        const subs = data.subs
+                        const name = `n-${data.id}-${subs.length + 1}`
+                        const id = name + Date.now().toString()
+                        subs.push({id, name: `new item ${name}`,})
+                        this.$nextTick().then(() => this.$refs.scopedSlotDemo.methods.expand(id))
+                    },
+                    deleteItem: (e, treeNode) => {
+                        e.stopPropagation()
+                        let {data, parentRef} = treeNode
+                        const parent = parentRef()
+
+                        const subs = !!parent ? parent.data.subs : this.scopedSlotDemo.treeData
+                        const ids = subs.map(item => item.id)
+                        subs.splice(ids.indexOf(data.id), 1)
+                    },
+                },
+
             }
         },
     }
