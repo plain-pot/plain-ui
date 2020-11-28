@@ -5,7 +5,7 @@ import {useScopedSlots} from "../../use/useScopedSlots";
 import number from "../number/number";
 import {useModel} from "../../use/useModel";
 import {TreeMark} from "./utils/TreeMark";
-import {reactive, computed, nextTick, watch} from 'vue';
+import {computed, nextTick, reactive, watch} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 
@@ -378,8 +378,13 @@ export default designComponent({
                                     style={utils.getTreeNodeStyles(node)}>
 
                                     <div class="pl-tree-node-operator">
-                                        <pl-icon icon={node.isLeaf ? props.leafIcon : node.isExpand ? props.folderExpandIcon : props.folderCollapseIcon}
-                                                 onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
+                                        <div class="pl-tree-node-expander">
+                                            {node.isLoading ?
+                                                <pl-loading type="gamma"/> :
+                                                <pl-icon icon={node.isLeaf ? props.leafIcon : node.isExpand ? props.folderExpandIcon : props.folderCollapseIcon}
+                                                         onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
+                                            }
+                                        </div>
                                     </div>
                                     <div class="pl-tree-node-content"
                                          style={contentStyles.value}

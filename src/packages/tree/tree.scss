@@ -23,10 +23,16 @@
       & > .pl-tree-node-operator {
         font-size: 1.2em;
 
-        & > .pl-icon {
+        .pl-tree-node-expander {
+          width: 1em;
+        }
+
+        & > * {
           margin-right: 8px;
           color: $colorPrimary;
           user-select: none;
+          width: 1em;
+          transition: all 300ms linear;
         }
       }
 
