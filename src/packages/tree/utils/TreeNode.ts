@@ -16,7 +16,7 @@ export class TreeNode {
 
     /*---------------------------------------format prop-------------------------------------------*/
 
-    get label(): string {return (!!this.config().labelField && !!this.data) ? this.data[this.config().labelField] : undefined}
+    get label(): string {return (!!this.config().labelField && !!this.data) ? this.data[this.config().labelField!] : undefined}
 
     get childrenData(): object[] {return (!!this.config().childrenField && !!this.data) ? this.data[this.config().childrenField] : undefined}
 
@@ -37,7 +37,7 @@ export class TreeNode {
 
     /*---------------------------------------judge props-------------------------------------------*/
 
-    get isCheckable(): boolean {return !this.config().isCheckable || this.config().isCheckable(this)}
+    get isCheckable(): boolean {return !this.config().isCheckable || this.config().isCheckable!(this)}
 
     get isLeaf(): boolean {
         const {isLeaf} = this.config()

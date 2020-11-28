@@ -6,13 +6,13 @@ import {createFlagManager} from "../../../utils/createFlagManager";
 const generator = createKeyHandler('tree_node')
 
 export interface TreeConfig {
-    keyField: string,
-    labelField: string,
+    keyField?: string,
+    labelField?: string,
     childrenField: string,
-    isCheckable: Function,
-    isLeaf: Function,
+    isCheckable?: (node: TreeNode) => boolean,
+    isLeaf?: (node: TreeNode) => boolean,
     checkStrictly: boolean,
-    filterNodeMethod: Function,
+    filterNodeMethod?: (node: TreeNode) => boolean,
     intent: number,
 }
 

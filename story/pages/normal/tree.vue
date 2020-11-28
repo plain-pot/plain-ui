@@ -1,7 +1,11 @@
 <template>
     <div class="demo-tree">
         <demo-row title="基本用法">
-            <pl-tree>
+            <pl-tree
+                    :data="treeData"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs">
 
             </pl-tree>
         </demo-row>
@@ -9,9 +13,16 @@
 </template>
 
 <script>
-    export default {
 
-        name: "tree"
+    import treeData from '../data/tree.data'
+
+    export default {
+        name: "tree",
+        data() {
+            return {
+                treeData,
+            }
+        },
     }
 </script>
 
