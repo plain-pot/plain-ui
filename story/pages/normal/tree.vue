@@ -25,7 +25,11 @@
         </demo-row>
 
         <demo-row title="懒加载子节点">
+            <demo-line>
+                <pl-button label="打印数据" @click="log(lazyDemo.treeData)"/>
+            </demo-line>
             <pl-tree
+                    v-model:data="lazyDemo.treeData"
                     height="330px"
                     ref="lazyTree"
                     keyField="id"
@@ -108,6 +112,7 @@
                     <pl-button label="全部收起" @click="$refs.scopedSlotDemo.methods.collapseAll()"/>
                     <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.methods.getCurrent() ? $refs.scopedSlotDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
                     <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="打印数据" @click="log(scopedSlotDemo.treeData)"/>
                 </pl-button-group>
             </demo-line>
 
@@ -143,7 +148,7 @@
         name: "tree",
         data() {
             return {
-                treeData,
+                // treeData,
 
                 tree1: (() => ({
                     showCurrent: () => {
@@ -161,6 +166,7 @@
                 }))(),
 
                 lazyDemo: {
+                    treeData: [],
                     isLeaf: (treeNode) => {
                         return treeNode.level >= 3
                     },
@@ -233,6 +239,10 @@
                         const ids = subs.map(item => item.id)
                         subs.splice(ids.indexOf(data.id), 1)
                     },
+                },
+
+                log(...args) {
+                    console.log(...args)
                 },
 
             }
