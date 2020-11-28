@@ -35,7 +35,12 @@
       }
 
       &:hover {
-        background-color: #f2f2f2;
+        background-color: #f6f6f6;
+      }
+
+      &.pl-tree-node-current {
+        background-color: rgba($colorPrimary, 0.1);
+        color: $colorPrimary;
       }
     }
   }

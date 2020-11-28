@@ -138,6 +138,19 @@ export default designComponent({
                 }
             },
             /**
+             * 计算tree node的class
+             * @author  韦胜健
+             * @date    2020/11/28 10:35
+             */
+            getTreeNodeClasses: (node: TreeNode) => {
+                return [
+                    'pl-tree-node',
+                    {
+                        'pl-tree-node-current': node.key === current.value,
+                    }
+                ]
+            },
+            /**
              * 通过 key 寻找treeNode
              * @author  韦胜健
              * @date    2020/3/30 20:52
@@ -199,6 +212,30 @@ export default designComponent({
 
         /*---------------------------------------methods-------------------------------------------*/
 
+        const methods = {
+            /**
+             * 选中某一个树节点
+             * @author  韦胜健
+             * @date    2020/3/31 9:26
+             */
+            setCurrent(keyOrNode: string | TreeNode) {
+                const node = typeof keyOrNode === "string" ? utils.findTreeNodeByKey(keyOrNode) : keyOrNode
+                if (!!node) {
+                    current.value = node.key
+                    emit.currentChange(node)
+                }
+            },
+            /**
+             * 获取当前选中节点
+             * @author  韦胜健
+             * @date    2020/3/31 9:39
+             */
+            getCurrent(): TreeNode | null {
+                if (!current.value) return null
+                return utils.findTreeNodeByKey(current.value)
+            },
+        }
+
         const expandMethods = {
             expand: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await utils.handleKeyOrNode(keyOrNode, async (node) => {
@@ -255,6 +292,7 @@ export default designComponent({
             },
             onClickTreeNodeContent: async (node: TreeNode) => {
                 emit.clickNode(node)
+                methods.setCurrent(node)
                 if (props.expandOnClickNode !== false) {
                     await expandMethods.toggleExpand(node)
                 }
@@ -266,6 +304,7 @@ export default designComponent({
             refer: {
                 state,
                 methods: {
+                    ...methods,
                     ...expandMethods,
                 },
             },
@@ -276,7 +315,7 @@ export default designComponent({
                             {formatDataFlat.value.map((node, index) => (
                                 <pl-item
                                     key={node.key}
-                                    class="pl-tree-node"
+                                    class={utils.getTreeNodeClasses(node)}
                                     style={utils.getTreeNodeStyles(node)}>
 
                                     <div class="pl-tree-node-operator">
