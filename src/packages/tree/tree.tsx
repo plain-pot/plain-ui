@@ -80,6 +80,7 @@ export default designComponent({
                     if (
                         !treeNode.isLeaf &&
                         treeNode.isLoaded &&
+                        treeNode.isVisible &&
                         treeNode.isExpand &&
                         treeNode.children!.length === 0
                     ) {

@@ -177,6 +177,19 @@
                      childrenField="subs"/>
         </demo-row>
 
+        <demo-row title="自定义过滤函数">
+            <demo-line>
+                <pl-input v-model="filterDemo.filterText" suffixIcon="el-icon-search" clearIcon/>
+            </demo-line>
+            <pl-tree defaultExpandAll
+                     :data="treeData"
+                     height="330px"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="subs"
+                     :filterNodeMethod="filterDemo.filterNodeMethod"/>
+        </demo-row>
+
     </div>
 </template>
 
@@ -324,6 +337,15 @@
 
                 nodeIcon(treeNode) {
                     return treeNode.isLeaf ? 'el-icon-male' : 'el-icon-female'
+                },
+
+                filterDemo: {
+                    filterText: '',
+                    filterNodeMethod: (treeNode) => {
+                        const data = treeNode.data
+                        if (!this.filterDemo.filterText) return true;
+                        return data.name.indexOf(this.filterDemo.filterText) !== -1;
+                    },
                 },
             }
         },
