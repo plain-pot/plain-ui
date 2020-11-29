@@ -11,16 +11,30 @@ export const TreeUtils = {
      * @param   iterateChildren         判断是否遍历其子节点数据
      */
     iterateAll: (
-        treeNodes: TreeNode[] | Readonly<TreeNode[]> | null,
-        fn: (node: TreeNode) => void,
-        iterateChildren?: (node: TreeNode) => boolean
+        {
+            nodes,
+            handler,
+            iterateChildren,
+            iterateChildrenFirst,
+        }: {
+            nodes: TreeNode[] | Readonly<TreeNode[]> | null,
+            handler: (node: TreeNode) => void,
+            iterateChildren?: (node: TreeNode) => boolean,
+            iterateChildrenFirst?: boolean,
+        },
     ): void => {
-        if (!treeNodes) return
-        treeNodes.forEach(treeNode => {
-            fn(treeNode)
+        if (!nodes) return
+        nodes.forEach(treeNode => {
+            !iterateChildrenFirst && handler(treeNode);
             if (!!treeNode.children && (!iterateChildren || iterateChildren(treeNode))) {
-                TreeUtils.iterateAll(treeNode.children, fn, iterateChildren)
+                TreeUtils.iterateAll({
+                    nodes: treeNode.children,
+                    handler,
+                    iterateChildren,
+                    iterateChildrenFirst,
+                })
             }
+            iterateChildrenFirst && handler(treeNode);
         })
     },
     /**

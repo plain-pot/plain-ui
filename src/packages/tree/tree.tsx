@@ -8,6 +8,7 @@ import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./core/props";
 import {TreeUtils} from "./core/utils";
+import {TreeNodeCheckStatus} from "./utils/tree-constant";
 
 export default designComponent({
     name: 'pl-tree',
@@ -65,29 +66,62 @@ export default designComponent({
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
         /*格式化得到的TableNode树形数据*/
         const formatData = computed(() => {
-            const ret = state.treeMark.node.getList(data.value, 1, () => state.rootTreeNode)
-            /*这里需要遍历所有的节点，不然 treeMark.node.state.map 中没有记录节点的key，导致在findNodeByKey的时候找不到*/
-            TreeUtils.iterateAll(ret, node => node)
-            return ret
+            const list = state.treeMark.node.getList(data.value, 1, () => state.rootTreeNode)
+
+            let checkStatus = {} as Record<string, TreeNodeCheckStatus>
+            /*
+            *  1、这里需要遍历所有的节点，不然 treeMark.node.state.map 中没有记录节点的key，导致在findNodeByKey的时候找不到
+            *  2、因为scroll在滚动的时候会导致node.checkStatus一直执行，页面比较卡顿，这里作为计算属性处理
+            */
+            TreeUtils.iterateAll({
+                nodes: list,
+                /*先计算子节点的选中状态*/
+                iterateChildrenFirst: true,
+                handler: node => {
+                    if (node.isLeaf && props.checkStrictly) {
+                        // 叶子节点或者父子互不关联情况下，节点只有选中以及非选中的状态，不会处于半选中状态
+                        return checkStatus[node.key] = node.isCheck ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
+                    } else {
+                        if (node.isCheck) {
+                            // 当前已经选中，则处于选中状态
+                            checkStatus[node.key] = TreeNodeCheckStatus.check
+                        } else {
+                            // 当前未选中，判断子节点是否全部都是未选中状态，是则自身为未选中状态，否则为半选中状态
+                            if ((node.children || []).every(child => checkStatus[child.key] === TreeNodeCheckStatus.uncheck)) {
+                                return checkStatus[node.key] = TreeNodeCheckStatus.uncheck
+                            } else {
+                                return checkStatus[node.key] = TreeNodeCheckStatus.minus
+                            }
+                        }
+                    }
+                }
+            })
+
+            return {
+                list,
+                checkStatus,
+            }
         })
         /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
         const formatDataFlat = computed(() => {
-            const format = formatData.value
+            const {list} = formatData.value
             const formatDataFlat: (TreeNode | TreeEmptyNode)[] = []
-            TreeUtils.iterateAll(format,
-                (treeNode: TreeNode) => {
-                    formatDataFlat.push(treeNode)
-                    if (
-                        !treeNode.isLeaf &&
-                        treeNode.isLoaded &&
-                        treeNode.isVisible &&
-                        treeNode.isExpand &&
-                        treeNode.children!.length === 0
-                    ) {
-                        formatDataFlat.push(() => treeNode)
-                    }
+            TreeUtils.iterateAll({
+                    nodes: list,
+                    iterateChildren: (treeNode: TreeNode) => treeNode.isExpand,
+                    handler: (treeNode: TreeNode) => {
+                        formatDataFlat.push(treeNode)
+                        if (
+                            !treeNode.isLeaf &&
+                            treeNode.isLoaded &&
+                            treeNode.isVisible &&
+                            treeNode.isExpand &&
+                            treeNode.children!.length === 0
+                        ) {
+                            formatDataFlat.push(() => treeNode)
+                        }
+                    },
                 },
-                (treeNode: TreeNode) => treeNode.isExpand
             )
             return formatDataFlat.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
         })
@@ -161,16 +195,15 @@ export default designComponent({
                     })
             },
             collapse: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
-                await TreeUtils.handleKeyOrNode(
-                    state.treeMark,
-                    keyOrNode,
+                await TreeUtils.handleKeyOrNode(state.treeMark, keyOrNode,
                     async (node) => {
-                        await TreeUtils.iterateAll([
-                            node, ...(node.children || [])
-                        ], (node) => {
-                            if (node.isExpand) {
-                                node.expand(false)
-                                emit.collapse(node)
+                        await TreeUtils.iterateAll({
+                            nodes: [node, ...(node.children || [])],
+                            handler: (node) => {
+                                if (node.isExpand) {
+                                    node.expand(false)
+                                    emit.collapse(node)
+                                }
                             }
                         })
                         await nextTick()
@@ -184,7 +217,10 @@ export default designComponent({
             },
             expandAll() {
                 if (!!formatData.value) {
-                    TreeUtils.iterateAll(formatData.value, treeNode => this.expand(treeNode.key))
+                    TreeUtils.iterateAll({
+                        nodes: formatData.value.list,
+                        handler: treeNode => this.expand(treeNode.key),
+                    })
                 }
             },
             collapseAll() {
@@ -201,7 +237,10 @@ export default designComponent({
                         // 父子关联模式下，改变子节点以及父节点状态
                         if (!props.checkStrictly) {
                             // 选中所有子节点
-                            TreeUtils.iterateAll(node.children || [], (child) => child.check(true))
+                            TreeUtils.iterateAll({
+                                nodes: node.children,
+                                handler: (child) => child.check(true),
+                            })
                             // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
                             let parent = node.parentRef()
                             while (!!parent && !!parent.key) {
@@ -228,7 +267,10 @@ export default designComponent({
                         // 父子关联模式下，改变子节点以及父节点状态
                         if (!props.checkStrictly) {
                             // 取消选中所有子节点
-                            TreeUtils.iterateAll(node.children || [], (child) => child.check(false))
+                            TreeUtils.iterateAll({
+                                nodes: node.children,
+                                handler: (child) => child.check(false),
+                            })
                             // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
                             let parent = node.parentRef()
                             while (!!parent && !!parent.key) {
@@ -254,7 +296,10 @@ export default designComponent({
             },
             checkAll: () => {
                 if (!!formatData.value) {
-                    TreeUtils.iterateAll(formatData.value, treeNode => checkMethods.check(treeNode.key))
+                    TreeUtils.iterateAll({
+                        nodes: formatData.value.list,
+                        handler: treeNode => checkMethods.check(treeNode.key),
+                    })
                 }
             },
             uncheckAll: () => {
@@ -262,9 +307,12 @@ export default designComponent({
             },
             getCheckedData() {
                 let ret: object[] = []
-                TreeUtils.iterateAll(formatData.value, (treeNode: TreeNode) => {
-                    if (treeNode.isCheck) {
-                        ret.push(treeNode.data)
+                TreeUtils.iterateAll({
+                    nodes: formatData.value.list,
+                    handler: (treeNode: TreeNode) => {
+                        if (treeNode.isCheck) {
+                            ret.push(treeNode.data)
+                        }
                     }
                 })
                 return ret
@@ -324,7 +372,7 @@ export default designComponent({
 
                         <div class="pl-tree-node-operator">
                             {!!props.showCheckbox && <pl-checkbox
-                                checkStatus={node.checkStatus}
+                                checkStatus={formatData.value.checkStatus[node.key]}
                                 disabled={!node.isCheckable}
                                 onClick={(e: MouseEvent) => handler.onClickCheckbox(e, node)}
                             />}

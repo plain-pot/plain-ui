@@ -81,8 +81,13 @@ export class TreeNode {
 
     /*---------------------------------------other-------------------------------------------*/
 
-    /*当前选中状态：选中、未选中、半选中*/
-    get checkStatus(): TreeNodeCheckStatus {
+    /**
+     * 滚动的时候，这个checkStatus一直在执行，不知道为什么。
+     * @author  韦胜健
+     * @date    2020/11/29 10:57
+     */
+    /*checkStatus(): TreeNodeCheckStatus {
+        console.log('checkStatus')
 
         if (this.isLeaf || this.config().checkStrictly) {
             // 叶子节点或者父子互不关联情况下，节点只有选中以及非选中的状态，不会处于半选中状态
@@ -92,13 +97,13 @@ export class TreeNode {
             if (this.isCheck) return TreeNodeCheckStatus.check
 
             // 当前未选中，判断子节点是否全部都是未选中状态，是则自身为未选中状态，否则为半选中状态
-            if ((this.children || []).every(child => child.checkStatus === 'uncheck')) {
+            if ((this.children || []).every(child => child.checkStatus() === 'uncheck')) {
                 return TreeNodeCheckStatus.uncheck
             } else {
                 return TreeNodeCheckStatus.minus
             }
         }
-    }
+    }*/
 
     /**
      * 拖拽指示器的左偏移距离
