@@ -388,6 +388,13 @@ export default designComponent({
                                     {formatDataFlat.value.map((node, index) => render.node(node, index))}
                                 </pl-list>
                             </pl-scroll>
+                            /*
+                            <div style="height:100%;overflow:scroll">
+                                <pl-list direction="top" class="pl-tree-node-list">
+                                    {formatDataFlat.value.map((node, index) => render.node(node, index))}
+                                </pl-list>
+                            </div>
+                            */
                         )}
                     </div>
                 )
