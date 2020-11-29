@@ -9,6 +9,7 @@ import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./core/props";
 import {TreeUtils} from "./core/utils";
 import {TreeNodeCheckStatus} from "./utils/tree-constant";
+import {useTree} from "./core/node";
 
 export default designComponent({
     name: 'pl-tree',
@@ -29,35 +30,25 @@ export default designComponent({
         check: (node: TreeNode) => true,                            // 选中节点事件
         uncheck: (node: TreeNode) => true,                          // 取消选中节点事件
     },
-    setup({props, event: {emit}}) {
+    setup({props, event}) {
+
+        const {emit} = event
+
+        const tree = useTree({
+            props,
+            event,
+        })
 
         /*---------------------------------------state-------------------------------------------*/
         /*作用域插槽*/
         const {scopedSlots} = useScopedSlots({
             default: {node: TreeNode, index: Number},
         })
-        /*树形数据*/
-        const data = useModel(() => props.data, emit.updateData)
         /*当前高亮节点的key*/
         const current = useModel(() => props.currentKey, emit.updateCurrent)
-        /*tree mark*/
-        const treeMark = new TreeMark(() => ({
-            keyField: props.keyField,
-            labelField: props.labelField,
-            childrenField: props.childrenField!,
-            isCheckable: props.isCheckable,
-            isLeaf: props.isLeaf,
-            checkStrictly: props.checkStrictly,
-            filterNodeMethod: props.filterNodeMethod,
-            intent: props.intent,
-            lazy: props.lazy,
-        }))
-        /*伪造的跟节点的key*/
-        const rootTreeNode = treeMark.node.get({[props.childrenField!]: data.value}, 0, () => ({}) as any)
+
 
         const state = reactive({
-            treeMark,
-            rootTreeNode,
             loading: false,
         })
 
