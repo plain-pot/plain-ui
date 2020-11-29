@@ -220,12 +220,35 @@
             />
         </demo-row>
 
+        <demo-row title="虚拟滚动">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.virtualTree.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.virtualTree.methods.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTree.methods.getCurrent() ? $refs.virtualTree.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTree.methods.getCheckedData().map(item=>item.name).join(','),{time:null})"/>
+                    <pl-button label="打印数据" @click="log(addressData)"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree ref="virtualTree"
+                     :data="addressData"
+                     keyField="id"
+                     labelField="name"
+                     childrenField="children"
+                     height="360px"
+                     width="500px"
+                     virtual
+                     showCheckbox
+                     @node-click="val=>$message(val.data.name)"/>
+        </demo-row>
+
     </div>
 </template>
 
 <script>
 
     import treeData from '../data/tree.data'
+    import addressData from '../data/address'
     import {deepcopy} from "plain-utils/object/deepcopy";
 
     export default {
@@ -233,6 +256,7 @@
         data() {
             return {
                 treeData,
+                addressData,
                 currentKey: '',
 
                 tree1: (() => ({
