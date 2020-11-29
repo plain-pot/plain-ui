@@ -4,8 +4,8 @@
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <div>
-                        <div class="demo-scroll-label" v-for="(item,index) in list" :key="item">
-                            {{index+1}}
+                        <div class="demo-scroll-label" v-for="(item) in item" :key="item">
+                            {{item}}
                         </div>
                     </div>
                 </pl-scroll>
@@ -28,12 +28,12 @@
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <pl-checkbox-group v-model="checkboxValue">
-                        <div>
-                            <div class="demo-scroll-label" v-for="(item,index) in list" :key="item">
-                                <pl-checkbox :val="String(index)"/>
-                                {{index+1}}
-                            </div>
-                        </div>
+                        <pl-list direction="top">
+                            <pl-item class="demo-scroll-label" v-for="(item) in list" :key="item">
+                                <pl-checkbox :val="String(item)"/>
+                                {{item}}
+                            </pl-item>
+                        </pl-list>
                     </pl-checkbox-group>
                 </pl-scroll>
             </div>
@@ -187,7 +187,14 @@
         data() {
             return {
                 checkboxValue: [],
-                list: new Array(40).fill(1),
+                list: (() => {
+                    let ret = []
+                    let i = 0;
+                    while (i < 40) {
+                        ret.push(i++)
+                    }
+                    return ret
+                })(),
             }
         },
     }
