@@ -4,7 +4,9 @@
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <div>
-                        <div class="demo-scroll-label" v-for="(item) in list" :key="item">{{item}}</div>
+                        <div class="demo-scroll-label" v-for="(item,index) in list" :key="item">
+                            {{index+1}}
+                        </div>
                     </div>
                 </pl-scroll>
             </div>
@@ -21,6 +23,25 @@
                     </div>
                 </pl-scroll>
             </div>
+        </demo-row>
+        <demo-row title="基本用法3">
+            <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
+                <pl-scroll>
+                    <pl-checkbox-group v-model="checkboxValue">
+                        <div>
+                            <div class="demo-scroll-label" v-for="(item,index) in list" :key="item">
+                                <pl-checkbox :val="String(index)"/>
+                                {{index+1}}
+                            </div>
+                        </div>
+                    </pl-checkbox-group>
+                </pl-scroll>
+            </div>
+            <pl-button-group vertical>
+                <pl-button icon="el-icon-circle-plus-outline" @click="list.push(list.length+1)" label="添加元素"/>
+                <pl-button icon="el-icon-remove-outline" @click="list.shift()" label="删除元素"/>
+            </pl-button-group>
+            checkboxValue：{{checkboxValue}}
         </demo-row>
         <demo-row title="可横向滚动">
             <div class="demo-scroll-wrapper">
@@ -165,7 +186,8 @@
         props: {},
         data() {
             return {
-                list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+                checkboxValue: [],
+                list: new Array(40).fill(1),
             }
         },
     }
@@ -188,6 +210,10 @@
 
         .demo-scroll-label {
             /*margin: 50px 0;*/
+            padding: 8px 16px;
+            border-bottom: solid 1px white;
+            font-size: 12px;
+            box-sizing: border-box;
         }
     }
 </style>
