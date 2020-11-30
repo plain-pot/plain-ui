@@ -1,10 +1,55 @@
-import {computed, reactive} from 'vue';
+import {computed, reactive, ref} from 'vue';
 import {useModel} from "../../../use/useModel";
 import {createCounter} from "../../../utils/createCounter";
 import {TreeNode, TreePropsType} from "./type";
+import {TreeNodeCheckStatus} from "../utils/tree-constant";
+import isCheckable = TreePropsType.isCheckable;
+import isLeaf = TreePropsType.isLeaf;
+import filterNodeMethod = TreePropsType.filterNodeMethod;
+import getChildren = TreePropsType.getChildren;
 
 const keyCounter = createCounter('tree')
 
+function useFlagManager<Node extends { key: string }, Value>() {
+    const state = reactive({
+        map: {}
+    }) as { map: Record<string, Value> }
+    return {
+        get: (keyOrNode: string | Node): Value => {
+            return state.map[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key]
+        },
+        set: (keyOrNode: string | Node, value: Value) => {
+            state.map[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key] = value
+        },
+        setAll: (value: Value) => {
+            for (let key in state.map) {
+                state.map[key] = value
+            }
+        },
+        toggle: (keyOrNode: string | Node) => {
+            const key = typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key
+            state.map[key] = !state.map[key] as any
+        },
+        getActiveKeys: () => {
+            let keys = [] as string[]
+            for (let key in state.map) {
+                if (!!state.map[key]) {
+                    keys.push(key)
+                }
+            }
+            return keys
+        },
+        clear: () => {
+            state.map = {}
+        }
+    }
+}
+
+/**
+ * 专门处理格式化数据以及操作数据的逻辑
+ * @author  韦胜健
+ * @date    2020/11/30 9:55
+ */
 export function useTree(
     {
         props,
@@ -15,10 +60,13 @@ export function useTree(
             labelField?: string,
             keyField?: string,
             childrenField?: string,
-            filterNodeMethod?: TreePropsType["filterNodeMethod"],
-            isLeaf?: TreePropsType["isLeaf"],
-            isCheckable?: TreePropsType["isCheckable"],
+            filterNodeMethod?: filterNodeMethod,
+            isLeaf?: isLeaf,
+            isCheckable?: isCheckable,
+            getChildren?: getChildren,
             lazy?: boolean,
+            showCheckbox?: boolean,
+            checkStrictly?: boolean,
         },
         event: {
             emit: { updateData: (data?: any[]) => void }
@@ -27,20 +75,27 @@ export function useTree(
 
     const dataModel = useModel(() => props.data, event.emit.updateData)
 
-    const state = reactive({
-        expand: {} as Record<string, boolean>,
-        check: {} as Record<string, boolean>,
-        loading: {} as Record<string, boolean>,
-        loaded: {} as Record<string, boolean>,
-    })
+    const expand = useFlagManager<TreeNode, boolean>()
+    const check = useFlagManager<TreeNode, boolean>()
+    const loading = useFlagManager<TreeNode, boolean>()
+    const loaded = useFlagManager<TreeNode, boolean>()
 
-    const format = (() => {
+    const rootLoading = ref(false)
+
+    const transform = (() => {
         const keyMap = new WeakMap<any, string>()
         return (
-            data: any,
-            level: number,
-            parentRef: () => TreeNode
-        ): TreeNode => {
+            {
+                data,
+                level,
+                parentRef,
+                nodeMap,
+            }: {
+                data: any,
+                level: number,
+                parentRef: () => TreeNode,
+                nodeMap: Record<string, TreeNode>
+            }): TreeNode => {
             const childrenData = data[props.childrenField!] as (any[] | undefined)
             let key = keyMap.get(data)
             if (!key) {
@@ -56,41 +111,143 @@ export function useTree(
                 children: undefined as undefined | TreeNode[],
                 level,
                 parentRef,
+                checkStatus: TreeNodeCheckStatus.uncheck,
 
-                isExpand: state.expand[key],
-                isCheck: state.check[key],
-                isLoading: state.loading[key],
-                isLoaded: state.loaded[key],
+                isExpand: expand.get(key),
+                isCheck: check.get(key),
+                isLoading: loading.get(key),
+                isLoaded: !props.lazy || loaded.get(key),
                 isCheckable: true,
                 isLeaf: false,
                 isVisible: false,
             }
 
             node.isCheckable = !props.isCheckable || props.isCheckable(node)
-            node.isLeaf = !!props.isLeaf ? props.isLeaf(node) : !!childrenData
+            node.isLeaf = !!props.isLeaf ? props.isLeaf(node) : !childrenData
             node.isVisible = !props.filterNodeMethod ? true : props.filterNodeMethod(node)
-            !!props.childrenField && !!childrenData && (node.children = childrenData.map(d => format(d, level + 1, () => node)));
+
+            if (!!props.childrenField && !!childrenData) {
+                node.children = childrenData.map(d => transform({data: d, level: level + 1, parentRef: () => node, nodeMap}))
+            }
+            if (props.showCheckbox) {
+                if (props.checkStrictly || node.isLeaf) {
+                    node.checkStatus = node.isCheck ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
+                } else {
+                    if (node.isCheck) {
+                        node.checkStatus = TreeNodeCheckStatus.check
+                    } else {
+                        if (!!node.children && node.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
+                            node.checkStatus = TreeNodeCheckStatus.uncheck
+                        } else {
+                            node.checkStatus = TreeNodeCheckStatus.minus
+                        }
+                    }
+                }
+            }
+
+            nodeMap[node.key] = node
 
             return node
         }
     })();
 
-    const formatData = computed(() => (dataModel.value || []).map((data: any) => {
-        return format(data, 1, () => ({
-            key: '@@root',
-            childrenData: data,
-            level: 0,
-        }) as any)
-    }))
+    const formatData = computed(() => {
+        /*虚拟跟节点*/
+        const rootNode = {key: '@@root', childrenData: dataModel.value || [], level: 0,} as TreeNode
+        /*node对象映射，方便通过key查找node*/
+        const nodeMap = {} as Record<string, TreeNode>
+        /*格式化后的数据*/
+        const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, nodeMap, parentRef: () => rootNode}))
+        return {
+            rootNode,
+            nodeMap,
+            nodeList,
+        }
+    })
 
     const methods = {
-        expand: (keyOrNode: string | TreeNode, flag: boolean) => state.expand[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key] = flag,
-        check: (keyOrNode: string | TreeNode, flag: boolean) => state.check[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key] = flag,
-        loading: (keyOrNode: string | TreeNode, flag: boolean) => state.loading[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key] = flag,
-        loaded: (keyOrNode: string | TreeNode, flag: boolean) => state.loaded[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key] = flag,
+        expand: expand.set,
+        check: check.set,
+        loading: loading.set,
+        loaded: loaded.set,
+
+        getNode: (keyOrNode: string | TreeNode) => typeof keyOrNode === "string" ? formatData.value.nodeMap[keyOrNode] : keyOrNode,
+
+        setChildrenData: (node: TreeNode, data: any[]) => {if (!!props.childrenField) {node.data[props.childrenField] = data}}
+    }
+
+    const utils = {
+        /**
+         * 处理keyOrNode
+         * @author  韦胜健
+         * @date    2020/11/28 9:34
+         */
+        handleKeyOrNode: async (
+            keyOrNode: string | TreeNode | (string | TreeNode)[],
+            handler: (node: TreeNode) => void | Promise<void>,
+        ): Promise<any> => {
+            if (!keyOrNode) {
+                return
+            }
+            if (typeof keyOrNode === "string") {
+                const node = methods.getNode(keyOrNode)
+                if (!!node) {
+                    await handler(node)
+                }
+            } else if (!Array.isArray(keyOrNode)) {
+                await handler(keyOrNode)
+            } else {
+                await Promise.all(keyOrNode.map(i => utils.handleKeyOrNode(i, handler)))
+            }
+        },
+        /**
+         * 获取子节点数据异步方法
+         * @author  韦胜健
+         * @date    2020/3/31 15:21
+         */
+        getChildrenAsync: (treeNode: TreeNode): Promise<TreeNode[]> => {
+            return new Promise((resolve) => {
+                if (!props.getChildren) {
+                    console.error('getChildren is required when using lazy mode!')
+                    return
+                }
+                if (treeNode.level === 0) {
+                    rootLoading.value = true
+                } else {
+                    loading.set(treeNode, true)
+                }
+                props.getChildren(treeNode, (...results) => {
+                    if (!treeNode.key) {
+                        rootLoading.value = false
+                    } else {
+                        loading.set(treeNode, false)
+                        loaded.set(treeNode, true)
+                    }
+                    resolve(...results)
+                })
+            })
+        },
+        /**
+         * 懒加载初始化逻辑
+         * @author  韦胜健
+         * @date    2020/11/28 10:45
+         */
+        initialize() {
+            if (!props.lazy) {return}
+            utils.getChildrenAsync(formatData.value.rootNode).then(val => dataModel.value = val)
+
+        },
     }
 
     return {
+        state: {
+            expand,
+            check,
+            loading,
+            loaded,
+            dataModel,
+        },
+        utils,
         formatData,
         methods,
     }

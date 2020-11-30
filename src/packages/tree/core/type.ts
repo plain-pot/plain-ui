@@ -1,4 +1,5 @@
 import {VNodeChild} from "../../../shims";
+import {TreeNodeCheckStatus} from "../utils/tree-constant";
 
 export interface TreeNode {
     data: any,
@@ -8,7 +9,8 @@ export interface TreeNode {
     key: string,
     label?: string,
     children?: TreeNode[],
-    parentRef : () => TreeNode,
+    parentRef: () => TreeNode,
+    checkStatus: TreeNodeCheckStatus,
 
     isExpand: boolean,
     isCheck: boolean,
@@ -20,14 +22,26 @@ export interface TreeNode {
     isVisible: boolean,
 }
 
+export interface TreeEmptyNode {
+    (): TreeNode
+}
 
-export interface TreePropsType {
-    renderContent?: (data: { node: TreeNode, index: number }) => VNodeChild,
-    nodeIcon?: (node: TreeNode) => string,
-    filterNodeMethod?: (node: TreeNode) => boolean,
-    isLeaf?: (node: TreeNode) => boolean,
-    isCheckable?: (node: TreeNode) => boolean,
-    getChildren?: (node: TreeNode, cb: (...args: any[]) => void) => void,
-    allDrag?: (node: TreeNode) => boolean,
-    allDrop?: (node: TreeNode) => boolean,
+export namespace TreePropsType {
+
+    export interface renderContent {(data: { node: TreeNode, index: number }): VNodeChild}
+
+    export interface nodeIcon {(node: TreeNode): string}
+
+    export interface filterNodeMethod {(node: TreeNode): boolean}
+
+    export interface isLeaf {(node: TreeNode): boolean}
+
+    export interface isCheckable {(node: TreeNode): boolean}
+
+    export interface getChildren {(node: TreeNode, cb: (...args: any[]) => void): void}
+
+    export interface allDrag {(node: TreeNode): boolean}
+
+    export interface allDrop {(node: TreeNode): boolean}
+
 }

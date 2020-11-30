@@ -1,5 +1,4 @@
-import {TreeNode} from "../utils/TreeNode";
-import {TreeMark} from "../utils/TreeMark";
+import {TreeNode} from "./type";
 
 export const TreeUtils = {
     /**
@@ -15,26 +14,22 @@ export const TreeUtils = {
             nodes,
             handler,
             iterateChildren,
-            iterateChildrenFirst,
         }: {
-            nodes: TreeNode[] | Readonly<TreeNode[]> | null,
+            nodes?: TreeNode[] | Readonly<TreeNode[]> | null,
             handler: (node: TreeNode) => void,
             iterateChildren?: (node: TreeNode) => boolean,
-            iterateChildrenFirst?: boolean,
         },
     ): void => {
         if (!nodes) return
         nodes.forEach(treeNode => {
-            !iterateChildrenFirst && handler(treeNode);
+            handler(treeNode)
             if (!!treeNode.children && (!iterateChildren || iterateChildren(treeNode))) {
                 TreeUtils.iterateAll({
                     nodes: treeNode.children,
                     handler,
                     iterateChildren,
-                    iterateChildrenFirst,
                 })
             }
-            iterateChildrenFirst && handler(treeNode);
         })
     },
     /**
@@ -62,95 +57,5 @@ export const TreeUtils = {
                 'pl-tree-node-not-checkable': !node.isCheckable,
             }
         ]
-    },
-    /**
-     * 通过 key 寻找treeNode
-     * @author  韦胜健
-     * @date    2020/3/30 20:52
-     */
-    findTreeNodeByKey: (key: string, mark: TreeMark): TreeNode | null => {
-        const treeNode = mark.node.getByKey(key)
-        if (!treeNode) {
-            console.warn(`无法找到treeNode：${key}`, mark.node.state.map)
-            return null
-        }
-        return treeNode
-    },
-    /**
-     * 处理keyOrNode
-     * @author  韦胜健
-     * @date    2020/11/28 9:34
-     */
-    handleKeyOrNode: async (
-        mark: TreeMark,
-        keyOrNode: string | TreeNode | (string | TreeNode)[],
-        handler: (node: TreeNode) => void | Promise<void>,
-    ): Promise<any> => {
-        if (!keyOrNode) {
-            return
-        }
-        if (typeof keyOrNode === "string") {
-            const node = TreeUtils.findTreeNodeByKey(keyOrNode, mark)
-            if (!!node) {
-                await handler(node)
-            }
-        } else if (!Array.isArray(keyOrNode)) {
-            await handler(keyOrNode)
-        } else {
-            await Promise.all(keyOrNode.map(i => TreeUtils.handleKeyOrNode(mark, i, handler)))
-        }
-    },
-    /**
-     * 获取子节点数据异步方法
-     * @author  韦胜健
-     * @date    2020/3/31 15:21
-     */
-    getChildrenAsync: <T extends {
-        key: string,
-        level: number,
-        loading: (val: boolean) => void,
-        loaded: (val: boolean) => void
-    }>(
-        treeNode: T,
-        state: { loading: boolean },
-        getChildren?: (node: T, cb: (...args: any[]) => void) => void,
-    ): Promise<T[]> => {
-        return new Promise((resolve) => {
-            if (!getChildren) {
-                console.error('getChildren is required when using lazy mode!')
-                return
-            }
-            if (treeNode.level === 0) {
-                state.loading = true
-            } else {
-                treeNode.loading(true)
-            }
-            getChildren(treeNode, (...results) => {
-                if (!treeNode.key) {
-                    state.loading = false
-                } else {
-                    treeNode.loading(false)
-                    treeNode.loaded(true)
-                }
-                resolve(...results)
-            })
-        })
-    },
-    /**
-     * 懒加载初始化逻辑
-     * @author  韦胜健
-     * @date    2020/11/28 10:45
-     */
-    async initialize(
-        option: {
-            rootTreeNode: TreeNode,
-            lazy: boolean,
-            data: { value: any },
-            state: { loading: boolean },
-            getChildren?: (node: TreeNode, cb: (...args: any[]) => void) => void,
-        },
-    ) {
-        if (!option.lazy) {return}
-        option.data.value = await TreeUtils.getChildrenAsync(option.rootTreeNode, option.state, option.getChildren)
     },
 }
