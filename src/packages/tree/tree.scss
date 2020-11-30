@@ -75,10 +75,10 @@
       }
 
       &.pl-tree-empty-node {
-        color: $colorError;
+        color: $colorWarn;
 
         & > .pl-tree-node-operator > * {
-          color: $colorError;
+          color: $colorWarn;
         }
       }
 

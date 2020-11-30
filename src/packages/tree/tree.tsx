@@ -162,12 +162,8 @@ export default designComponent({
             toggleExpand: async (keyOrNode: string | TreeNode) => {
                 tree.state.expand.toggle(keyOrNode)
             },
-            expandAll() {
-                tree.state.expand.setAll(true)
-            },
-            collapseAll() {
-                tree.state.expand.clear()
-            },
+            expandAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.expand(node, true)}),
+            collapseAll: () => tree.state.expand.clear(),
         }
 
         const checkMethods = {
@@ -233,15 +229,9 @@ export default designComponent({
             toggleCheck: async (keyOrNode: string | TreeNode) => {
                 tree.state.check.toggle(keyOrNode)
             },
-            checkAll: () => {
-                tree.state.check.setAll(true)
-            },
-            uncheckAll: () => {
-                tree.state.check.clear()
-            },
-            getCheckedData() {
-                return tree.state.check.getActiveKeys()
-            },
+            checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
+            uncheckAll: () => tree.state.check.clear(),
+            getCheckedData: () => tree.state.check.getActiveKeys(),
         }
 
         /*---------------------------------------handler-------------------------------------------*/

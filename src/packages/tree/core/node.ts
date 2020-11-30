@@ -25,6 +25,7 @@ function useFlagManager<Node extends { key: string }, Value>() {
             for (let key in state.map) {
                 state.map[key] = value
             }
+            console.log('set All', state)
         },
         toggle: (keyOrNode: string | Node) => {
             const key = typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key
