@@ -380,6 +380,7 @@
                             name: `new item ${name}`,
                         })
                         data.subs = subs
+                        this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode)
                         this.$nextTick().then(() => this.$refs.renderDemo.methods.expand(id))
                     },
                     deleteItem: (e, treeNode) => {
@@ -389,6 +390,7 @@
                         const subs = parent.data.subs
                         const ids = subs.map(item => item.id)
                         subs.splice(ids.indexOf(data.id), 1)
+                        this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode.parentRef())
                     },
                 },
 
