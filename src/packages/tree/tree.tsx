@@ -161,67 +161,69 @@ export default designComponent({
         const checkMethods = {
             check: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async (node) => {
-                    if (!node.isCheck) {
-                        tree.methods.check(node, true)
-                        // 父子关联模式下，改变子节点以及父节点状态
-                        if (!props.checkStrictly) {
-                            // 选中所有子节点
-                            TreeUtils.iterateAll({
-                                nodes: node.children,
-                                handler: (child) => tree.methods.check(child, true),
-                            })
-                            // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
-                            let parent = node.parentRef()
-                            while (!!parent && !!parent.key) {
-                                if ((parent.children || []).every(child => child.isCheck)) {
-                                    tree.methods.check(parent, true)
-                                    parent = parent.parentRef()
-                                } else {
-                                    break
-                                }
+                    if (node.isCheck || !node.isCheckable) {
+                        return
+                    }
+                    tree.methods.check(node, true)
+                    // 父子关联模式下，改变子节点以及父节点状态
+                    if (!props.checkStrictly) {
+                        // 选中所有子节点
+                        TreeUtils.iterateAll({
+                            nodes: node.children,
+                            handler: (child) => tree.methods.check(child, true),
+                        })
+                        // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                        let parent = node.parentRef()
+                        while (!!parent && !!parent.key) {
+                            if (!!parent.parentRef && parent.children!.every(child => tree.state.check.get(child))) {
+                                tree.methods.check(parent, true)
+                                parent = !!parent.parentRef ? parent.parentRef() : null
+                            } else {
+                                break
                             }
                         }
-
-                        await nextTick()
-                        emit.check(node)
-                        emit.checkChange(checkKeys.value)
                     }
+
+                    await nextTick()
+                    emit.check(node)
+                    emit.checkChange(checkKeys.value)
                 })
             },
             uncheck: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async node => {
-                    if (node.isCheck) {
-                        tree.methods.check(node, false)
+                    if (!node.isCheck || !node.isCheckable) {
+                        return
+                    }
+                    tree.methods.check(node, false)
 
-                        // 父子关联模式下，改变子节点以及父节点状态
-                        if (!props.checkStrictly) {
-                            // 取消选中所有子节点
-                            TreeUtils.iterateAll({
-                                nodes: node.children,
-                                handler: (child) => tree.methods.check(child, false),
-                            })
-                            // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
-                            let parent = node.parentRef()
-                            while (!!parent && !!parent.key) {
-                                if (parent.isCheck) {
-                                    tree.methods.check(parent, false)
-                                    parent = parent.parentRef()
-                                } else {
-                                    break
-                                }
+                    // 父子关联模式下，改变子节点以及父节点状态
+                    if (!props.checkStrictly) {
+                        // 取消选中所有子节点
+                        TreeUtils.iterateAll({
+                            nodes: node.children,
+                            handler: (child) => tree.methods.check(child, false),
+                        })
+                        // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                        let parent = node.parentRef()
+                        while (!!parent && !!parent.key) {
+                            if (parent.isCheck) {
+                                tree.methods.check(parent, false)
+                                parent = parent.parentRef()
+                            } else {
+                                break
                             }
                         }
-
-                        await nextTick()
-                        emit.uncheck(node)
-                        emit.checkChange(checkKeys.value)
                     }
+
+                    await nextTick()
+                    emit.uncheck(node)
+                    emit.checkChange(checkKeys.value)
                 })
             },
             toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).isCheck ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
             checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
             uncheckAll: () => tree.state.check.clear(),
-            getCheckedData: () => tree.state.check.getActiveKeys(),
+            getCheckedData: () => tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean),
         }
 
         /*---------------------------------------handler-------------------------------------------*/

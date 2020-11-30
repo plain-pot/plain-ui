@@ -9,7 +9,7 @@ export interface TreeNode {
     key: string,
     label?: string,
     children?: TreeNode[],
-    parentRef: () => TreeNode,
+    parentRef: () => TreeNode | null,
     checkStatus: TreeNodeCheckStatus,
 
     isExpand: boolean,
