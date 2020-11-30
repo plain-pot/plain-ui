@@ -45,11 +45,6 @@ export default designComponent({
         /*当前高亮节点的key*/
         const current = useModel(() => props.currentKey, emit.updateCurrent)
 
-
-        const state = reactive({
-            loading: false,
-        })
-
         /*---------------------------------------computer-------------------------------------------*/
         /*tree node content公共的样式*/
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
@@ -113,10 +108,8 @@ export default designComponent({
             expand: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await tree.utils.handleKeyOrNode(keyOrNode,
                     async (node) => {
-                        console.log('expand ', node)
                         const parent = node.parentRef()
                         if (!node.isExpand) {
-
                             if (
                                 props.lazy &&                           // 懒加载模式
                                 !node.isLoaded &&                       // 未曾加载过子节点数据
@@ -160,9 +153,7 @@ export default designComponent({
                         emit.expandChange(expandKeys.value)
                     })
             },
-            toggleExpand: async (keyOrNode: string | TreeNode) => {
-                tree.state.expand.toggle(keyOrNode)
-            },
+            toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).isExpand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
             expandAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.expand(node, true)}),
             collapseAll: () => tree.state.expand.clear(),
         }
@@ -227,9 +218,7 @@ export default designComponent({
                     }
                 })
             },
-            toggleCheck: async (keyOrNode: string | TreeNode) => {
-                tree.state.check.toggle(keyOrNode)
-            },
+            toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).isCheck ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
             checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
             uncheckAll: () => tree.state.check.clear(),
             getCheckedData: () => tree.state.check.getActiveKeys(),
@@ -329,7 +318,6 @@ export default designComponent({
 
         return {
             refer: {
-                state,
                 methods: {
                     ...methods,
                     ...expandMethods,
@@ -338,7 +326,7 @@ export default designComponent({
             },
             render: () => {
                 return (
-                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || state.loading}>
+                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || tree.state.rootLoading.value}>
                         {formatDataFlat.value.length === 0 ? (
                             <div class="pl-tree-placeholder" key="placeholder">
                                 <pl-icon icon="el-icon-folder-opened"/>

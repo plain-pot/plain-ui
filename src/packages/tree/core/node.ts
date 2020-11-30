@@ -26,10 +26,6 @@ function useFlagManager<Node extends { key: string }, Value>() {
                 state.map[key] = value
             }
         },
-        toggle: (keyOrNode: string | Node) => {
-            const key = typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key
-            state.map[key] = !state.map[key] as any
-        },
         getActiveKeys: () => {
             let keys = [] as string[]
             for (let key in state.map) {
@@ -97,7 +93,7 @@ export function useTree(
                 nodeMap: Record<string, TreeNode>
             }): TreeNode => {
             const childrenData = data[props.childrenField!] as (any[] | undefined)
-            let key = keyMap.get(data)
+            let key = !props.keyField ? keyMap.get(data) : data[props.keyField]
             if (!key) {
                 key = keyCounter()
                 keyMap.set(data, key)
@@ -217,7 +213,7 @@ export function useTree(
                     loading.set(treeNode, true)
                 }
                 props.getChildren(treeNode, (...results) => {
-                    if (!treeNode.key) {
+                    if (treeNode.level === 0) {
                         rootLoading.value = false
                     } else {
                         loading.set(treeNode, false)
@@ -241,6 +237,7 @@ export function useTree(
 
     return {
         state: {
+            rootLoading,
             expand,
             check,
             loading,
