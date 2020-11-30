@@ -113,6 +113,7 @@ export default designComponent({
             expand: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await tree.utils.handleKeyOrNode(keyOrNode,
                     async (node) => {
+                        console.log('expand ', node)
                         const parent = node.parentRef()
                         if (!node.isExpand) {
 
