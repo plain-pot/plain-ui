@@ -1,13 +1,14 @@
 import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useModel} from "../../use/useModel";
-import {computed, nextTick, reactive} from 'vue';
+import {computed, nextTick} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./core/props";
 import {TreeUtils} from "./core/utils";
 import {useTree} from "./core/node";
 import {TreeEmptyNode, TreeNode} from "./core/type";
+import {delay} from "plain-utils/utils/delay";
 
 export default designComponent({
     name: 'pl-tree',
@@ -224,6 +225,26 @@ export default designComponent({
             checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
             uncheckAll: () => tree.state.check.clear(),
             getCheckedData: () => tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean),
+            refreshCheckStatus: async (keyOrNode: string | TreeNode) => {
+                await tree.utils.handleKeyOrNode(keyOrNode, async node => {
+                    /*刷新选中状态的前提是有子节点数据*/
+                    if (props.checkStrictly || node.isLeaf || !node.children || node.children.length === 0) {
+                        return
+                    }
+                    let hasCheck = false, hasUncheck = false;
+                    node.children.forEach(chlid => chlid.isCheck ? hasCheck = true : hasUncheck = true)
+                    if (node.isCheck && hasUncheck) {
+                        // 自身选中而子节点有非选中,令所有父节点变成非选中状态
+                        let parents = tree.utils.getParents(node);
+                        [...parents, node].forEach(n => tree.methods.check(n, false))
+                    }
+                    if (!node.isCheck && hasCheck && !hasUncheck) {
+                        // 自身非选中而子节点全部选中，令所有父节点变成选中状态
+                        let parents = tree.utils.getParents(node);
+                        [...parents, node].forEach(n => tree.methods.check(n, true))
+                    }
+                })
+            },
         }
 
         /*---------------------------------------handler-------------------------------------------*/

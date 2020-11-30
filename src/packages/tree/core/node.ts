@@ -167,7 +167,8 @@ export function useTree(
         loading: loading.set,
         loaded: loaded.set,
 
-        getNode: (keyOrNode: string | TreeNode) => typeof keyOrNode === "string" ? formatData.value.nodeMap[keyOrNode] : keyOrNode,
+        /*这里一直从 nodeMap 中获取最新的，因为keyOrNode如果是treeNode的话，可能只是一个快照*/
+        getNode: (keyOrNode: string | TreeNode) => formatData.value.nodeMap[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key],
 
         setChildrenData: (node: TreeNode, data: any[]) => {if (!!props.childrenField) {node.data[props.childrenField] = data}}
     }
@@ -185,13 +186,11 @@ export function useTree(
             if (!keyOrNode) {
                 return
             }
-            if (typeof keyOrNode === "string") {
+            if (!Array.isArray(keyOrNode)) {
                 const node = methods.getNode(keyOrNode)
                 if (!!node) {
                     await handler(node)
                 }
-            } else if (!Array.isArray(keyOrNode)) {
-                await handler(keyOrNode)
             } else {
                 await Promise.all(keyOrNode.map(i => utils.handleKeyOrNode(i, handler)))
             }
@@ -232,6 +231,21 @@ export function useTree(
             if (!props.lazy) {return}
             utils.getChildrenAsync(formatData.value.rootNode).then(val => dataModel.value = val)
 
+        },
+        getParents: (keyOrNode: TreeNode | string) => {
+            let node = typeof keyOrNode === "string" ? methods.getNode(keyOrNode) : keyOrNode
+            let parents = [] as TreeNode[]
+
+            let parent = node.parentRef()
+            while (!!parent && !!parent.parentRef) {
+                if (parent.isCheck) {
+                    parents.push(parent)
+                    parent = parent.parentRef()
+                } else {
+                    break
+                }
+            }
+            return parents
         },
     }
 

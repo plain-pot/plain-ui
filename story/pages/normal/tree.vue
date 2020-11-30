@@ -337,6 +337,7 @@
                         const name = `n-${data.id}-${subs.length + 1}`
                         const id = name + Date.now().toString()
                         subs.push({id, name: `new item ${name}`,})
+                        this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode)
                         this.$nextTick().then(() => this.$refs.scopedSlotDemo.methods.expand(id))
                     },
                     deleteItem: (e, treeNode) => {
@@ -346,6 +347,7 @@
                         const subs = parent.data.subs
                         const ids = subs.map(item => item.id)
                         subs.splice(ids.indexOf(data.id), 1)
+                        this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode.parentRef())
                     },
                 },
 
