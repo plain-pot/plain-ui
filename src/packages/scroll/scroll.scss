@@ -96,7 +96,7 @@
       }
     }
 
-    &:hover, &.pl-scroll-draging {
+    &:hover, &[is-dragging] {
       & > .pl-horizontal-scrollbar-wrapper, & > .pl-vertical-scrollbar-wrapper {
         .pl-vertical-scrollbar, .pl-horizontal-scrollbar {
           opacity: 1;

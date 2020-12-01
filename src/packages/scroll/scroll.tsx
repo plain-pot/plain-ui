@@ -65,13 +65,25 @@ export default designComponent({
             cancelAnimate: null as null | number,                               // 自动滚动动画计时器
             wrapperScrollTop: 0,                                                // 容器 scrollTop
             wrapperScrollLeft: 0,                                               // 容器 scrollLeft
+
+            _isDragging: false,
+            get isDragging() {
+                return this._isDragging
+            },
+            set isDragging(val: boolean) {
+                this._isDragging = val
+                if (val) {
+                    refs.host.setAttribute('is-dragging', '')
+                } else {
+                    refs.host.removeAttribute('is-dragging')
+                }
+            },
         }
         const state = reactive({
             contentWidth: 0,                                                    // 内容宽度
             contentHeight: 0,                                                   // 内容高度
             hostWidth: 0,                                                       // 容器宽度
             hostHeight: 0,                                                      // 容器高度
-            isDragging: false,                                                  // 当前是否正在拖拽
         })
 
         /*---------------------------------------computed-------------------------------------------*/
@@ -87,7 +99,6 @@ export default designComponent({
         const classes = computed(() => [
             `pl-scroll`,
             {
-                'pl-scroll-draging': state.isDragging,
                 'pl-scroll-always-show-scroll-bar': props.alwaysShowScrollbar,
             }
         ])
@@ -365,6 +376,7 @@ export default designComponent({
                 handler,
                 methods,
                 state,
+                freezeState,
             },
             render: () => (
                 <div ref="host"
