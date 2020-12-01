@@ -30,7 +30,8 @@ export default designComponent({
     setup({props, event: {emit}}) {
 
         const {scopedSlots} = useScopedSlots({
-            default: {item: Object, index: Number, virtualIndex: Number}
+            default: {item: Object, index: Number, virtualIndex: Number},
+            content: {data: Array},
         })
 
         const {refs} = useRefs({
@@ -267,9 +268,9 @@ export default designComponent({
                     <pl-scroll onScroll={handler.scroll} ref="scroll" class={classes.value}>
                         <div class="pl-virtual-list-strut" style={strutStyles.value}>
                             <div class="pl-virtual-list-content" style={contentStyles.value} ref="content">
-                                {list.map((node, virtualIndex) =>
+                                {scopedSlots.content({data: list}, list.map((node, virtualIndex) =>
                                     scopedSlots.default({item: node.item, index: node.index, virtualIndex})
-                                )}
+                                ))}
                             </div>
                         </div>
                     </pl-scroll>
