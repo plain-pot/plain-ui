@@ -4,7 +4,7 @@
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <div>
-                        <div class="demo-scroll-label" v-for="(item) in list" :key="item">
+                        <div class="demo-scroll-label" v-for="(item) in list" :key="item" :class="getClass(item)">
                             {{item}}
                         </div>
                     </div>
@@ -196,6 +196,12 @@
                     return ret
                 })(),
             }
+        },
+        methods: {
+            getClass(item) {
+                console.log('item', item)
+                return {}
+            },
         },
     }
 </script>

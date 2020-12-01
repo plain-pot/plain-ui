@@ -1,16 +1,15 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
-import {useScopedSlots} from "../../use/useScopedSlots";
 import {useRefs} from "../../use/useRefs";
-import {StyleProperties} from "../../shims";
 import {useMounted} from "../../use/useMounted";
-import {reactive, computed, nextTick, onBeforeUnmount, onMounted} from 'vue';
+import {computed, nextTick, onBeforeUnmount, onMounted, reactive} from 'vue';
 import {throttle} from 'plain-utils/utils/throttle';
 import {ResizeDetectFuncParam, ResizeDetectorDirective} from "../../plugins/ResizeDetector";
-import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
-import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import Popper from '../popper'
 import './scroll.scss'
+import {useStyles} from "../../use/useStyles";
+import {VerticalScrollbar} from "./vertical-scrollbar";
+import {HorizontalScrollbar} from "./horizontal-scrollbar";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -43,12 +42,10 @@ export default designComponent({
         verticalScrollBottom: (e: Event) => true,
         verticalScrollCenter: (e: Event) => true,
     },
+    provideRefer: true,
     setup({props, event: {emit, on, off}}) {
+
         const {slots} = useSlots(['content'])
-        const {scopedSlots} = useScopedSlots({
-            'horizontal-scrollbar': {style: {} as StyleProperties, onMousedown: (e: MouseEvent) => {/*do nothing*/}},
-            'vertical-scrollbar': {style: {} as StyleProperties, onMousedown: (e: MouseEvent) => {/*do nothing*/}},
-        })
 
         /*---------------------------------------ref-------------------------------------------*/
 
@@ -61,27 +58,20 @@ export default designComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         const mounted = useMounted()
-
         const popper = Popper.use.inject(null)
-
+        /*非响应式状态*/
+        const freezeState = {
+            verticalPosition: PLAIN_SCROLL_VERTICAL_POSITION.top,               // 当前滚动纵向位置，top，center，right
+            cancelAnimate: null as null | number,                               // 自动滚动动画计时器
+            wrapperScrollTop: 0,                                                // 容器 scrollTop
+            wrapperScrollLeft: 0,                                               // 容器 scrollLeft
+        }
         const state = reactive({
-            verticalPosition: PLAIN_SCROLL_VERTICAL_POSITION.top,
-            wrapperScrollTop: 0,
-            wrapperScrollLeft: 0,
-
-            dragTop: 0,
-            dragY: 0,
-            dragLeft: 0,
-            dragX: 0,
-
-            contentWidth: 0,
-            contentHeight: 0,
-            hostWidth: 0,
-            hostHeight: 0,
-            hover: false,
-            draging: false,
-
-            cancelAnimate: null as null | number,
+            contentWidth: 0,                                                    // 内容宽度
+            contentHeight: 0,                                                   // 内容高度
+            hostWidth: 0,                                                       // 容器宽度
+            hostHeight: 0,                                                      // 容器高度
+            isDragging: false,                                                  // 当前是否正在拖拽
         })
 
         /*---------------------------------------computed-------------------------------------------*/
@@ -97,94 +87,54 @@ export default designComponent({
         const classes = computed(() => [
             `pl-scroll`,
             {
-                'pl-scroll-draging': state.draging,
-                // 'pl-scroll-disabled': props.disableScroll,
+                'pl-scroll-draging': state.isDragging,
                 'pl-scroll-always-show-scroll-bar': props.alwaysShowScrollbar,
             }
         ])
 
-        const hostStyles = computed(() => {
-            if (!mounted.value) return null
-            const style: StyleProperties = {}
+        const hostStyles = useStyles(style => {
+            if (!mounted.value) return style
             if (props.fitContentHeight) {
                 style.height = `${state.contentHeight}px`
             }
             return style
         })
 
-        const wrapperStyles = computed(() => {
-            if (!mounted.value) return null
-            const style: StyleProperties = {}
+        const wrapperStyles = useStyles(style => {
+            if (!mounted.value) return style
             if (props.fitContentHeight) {
                 style.height = `${state.contentHeight + 17}px`
             }
             return style
         })
 
-        const contentStyles = computed(() => {
-            if (!mounted.value) return null
-            const styles: StyleProperties = {}
-
+        const contentStyles = useStyles(style => {
+            if (!mounted.value) return style
             if (!props.scrollX) {
-                styles.width = props.fitContentWidth && state.contentWidth > 0 ? `${state.contentWidth}px` : `100%`;
-                styles.overflowX = 'hidden'
+                style.width = props.fitContentWidth && state.contentWidth > 0 ? `${state.contentWidth}px` : `100%`;
+                style.overflowX = 'hidden'
             }
 
             if (!props.scrollY) {
-                styles.height = props.fitContentHeight && state.contentHeight > 0 ? `${state.contentHeight}px` : `100%`;
-                styles.overflowY = 'hidden'
+                style.height = props.fitContentHeight && state.contentHeight > 0 ? `${state.contentHeight}px` : `100%`;
+                style.overflowY = 'hidden'
             }
 
             if (props.fitHostHeight) {
-                styles.height = '100%'
+                style.height = '100%'
             }
             if (props.fitHostWidth) {
-                styles.width = '100%'
+                style.width = '100%'
             }
             if (props.fitContentWidth) {
-                styles.width = `${state.contentWidth}px`
+                style.width = `${state.contentWidth}px`
             }
             if (props.fitContentHeight) {
-                styles.height = `${state.contentHeight}px`
+                style.height = `${state.contentHeight}px`
             }
 
-            return styles
+            return style
         })
-
-        const verticalScrollbarHeight = computed(() => {
-            return state.contentHeight > state.hostHeight ? (state.hostHeight * state.hostHeight / state.contentHeight) : 0
-        })
-
-        const verticalScrollbarTop = computed(() => {
-            return (state.hostHeight - verticalScrollbarHeight.value) * state.wrapperScrollTop / (state.contentHeight - state.hostHeight)
-        })
-
-        const horizontalScrollbarWidth = computed(() => {
-            return state.contentWidth > state.hostWidth ? (state.hostWidth * state.hostWidth) / state.contentWidth : 0
-        })
-
-        const horizontalScrollbarLeft = computed(() => {
-            return (state.hostWidth - horizontalScrollbarWidth.value) * state.wrapperScrollLeft / (state.contentWidth - state.hostWidth)
-        })
-
-        const horizontalScrollbarStyles = computed(() => {
-            return {
-                height: `${targetScrollbarSize.value}px`,
-                width: `${horizontalScrollbarWidth.value}px`,
-                left: `${horizontalScrollbarLeft.value}px`,
-                backgroundColor: props.scrollbarColor,
-            } as StyleProperties
-        })
-
-        const verticalScrollbarStyles = computed(() => {
-            return {
-                height: `${verticalScrollbarHeight.value}px`,
-                width: `${targetScrollbarSize.value}px`,
-                top: `${verticalScrollbarTop.value}px`,
-                backgroundColor: props.scrollbarColor,
-            } as StyleProperties
-        })
-
 
         /*---------------------------------------methods-------------------------------------------*/
 
@@ -215,9 +165,9 @@ export default designComponent({
                     if (point.y != null) refs.wrapper!.scrollTop = point.y
                 } else {
 
-                    if (!!state.cancelAnimate) {
-                        cancelAnimationFrame(state.cancelAnimate)
-                        state.cancelAnimate = null
+                    if (!!freezeState.cancelAnimate) {
+                        cancelAnimationFrame(freezeState.cancelAnimate)
+                        freezeState.cancelAnimate = null
                     }
 
                     let ny = refs.wrapper!.scrollTop
@@ -234,7 +184,7 @@ export default designComponent({
                         let left;
 
                         if (delta >= time) {
-                            state.cancelAnimate = null
+                            freezeState.cancelAnimate = null
                             top = time * ky + ny
                             left = time * kx + nx
 
@@ -250,7 +200,7 @@ export default designComponent({
                                 refs.wrapper.scrollTop = top
                                 refs.wrapper.scrollLeft = left
                             }
-                            state.cancelAnimate = requestAnimationFrame(run)
+                            freezeState.cancelAnimate = requestAnimationFrame(run)
                         }
                     }
                     run()
@@ -267,7 +217,8 @@ export default designComponent({
                 if (!!point.y) refs.wrapper!.scrollTop = refs.wrapper!.scrollHeight
             },
             autoScrollTop() {
-                const {wrapperScrollTop, hostHeight, contentHeight} = state
+                const {hostHeight, contentHeight} = state
+                const {wrapperScrollTop} = freezeState
                 const scrollHeight = contentHeight - hostHeight
                 if (scrollHeight <= 0) {
                     return
@@ -280,7 +231,8 @@ export default designComponent({
                 methods.scrollTop(0, duration)
             },
             autoScrollBottom() {
-                const {wrapperScrollTop, hostHeight, contentHeight} = state
+                const {hostHeight, contentHeight} = state
+                const {wrapperScrollTop} = freezeState
                 const scrollHeight = contentHeight - hostHeight
                 if (scrollHeight <= 0) {
                     return
@@ -293,7 +245,8 @@ export default designComponent({
                 methods.scrollTop(scrollHeight, duration)
             },
             autoScrollLeft() {
-                const {wrapperScrollLeft, hostWidth, contentWidth} = state
+                const {hostWidth, contentWidth} = state
+                const {wrapperScrollLeft} = freezeState
                 const scrollWidth = contentWidth - hostWidth
                 if (scrollWidth <= 0) {
                     return
@@ -306,7 +259,8 @@ export default designComponent({
                 methods.scrollLeft(0, duration)
             },
             autoScrollRight() {
-                const {wrapperScrollLeft, hostWidth, contentWidth} = state
+                const {hostWidth, contentWidth} = state
+                const {wrapperScrollLeft} = freezeState
                 const scrollWidth = contentWidth - hostWidth
                 if (scrollWidth <= 0) {
                     return
@@ -319,9 +273,9 @@ export default designComponent({
                 methods.scrollLeft(scrollWidth, duration)
             },
             stopAutoScroll() {
-                if (!!state.cancelAnimate) {
-                    cancelAnimationFrame(state.cancelAnimate)
-                    state.cancelAnimate = null
+                if (!!freezeState.cancelAnimate) {
+                    cancelAnimationFrame(freezeState.cancelAnimate)
+                    freezeState.cancelAnimate = null
                 }
             },
         }
@@ -345,107 +299,41 @@ export default designComponent({
                 if (data.height != null) state.hostHeight = data.height - 16
             },
             wrapperMousewheel: (e: WheelEvent) => {
-                if (!!state.cancelAnimate) {
-                    cancelAnimationFrame(state.cancelAnimate)
-                    state.cancelAnimate = null
+                if (!!freezeState.cancelAnimate) {
+                    cancelAnimationFrame(freezeState.cancelAnimate)
+                    freezeState.cancelAnimate = null
                 }
             },
             wrapperScroll: (e: Event) => {
                 const target = e.target as HTMLElement
-                state.wrapperScrollTop = target.scrollTop
-                state.wrapperScrollLeft = target.scrollLeft
+                freezeState.wrapperScrollTop = target.scrollTop
+                freezeState.wrapperScrollLeft = target.scrollLeft
 
                 emit.scroll(e)
 
-                if (state.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.top && state.wrapperScrollTop > props.topThreshold!) {
+                if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.top && freezeState.wrapperScrollTop > props.topThreshold!) {
                     /*进入center*/
                     emit.verticalScrollCenter(e)
-                    state.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
-                } else if (state.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.center) {
+                    freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
+                } else if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.center) {
                     // console.log(this.contentHeight - this.hostHeight - this.contentWrapperScrollTop, this.bottomScrollDuration)
-                    if (state.wrapperScrollTop < props.topThreshold!) {
+                    if (freezeState.wrapperScrollTop < props.topThreshold!) {
                         /*进入top*/
                         emit.verticalScrollTop(e)
-                        state.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.top
-                    } else if (state.contentHeight - state.hostHeight - state.wrapperScrollTop < props.bottomThreshold!) {
+                        freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.top
+                    } else if (state.contentHeight - state.hostHeight - freezeState.wrapperScrollTop < props.bottomThreshold!) {
                         /*进入bottom*/
                         emit.verticalScrollBottom(e)
-                        state.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.bottom
+                        freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.bottom
                     }
 
-                } else if (state.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.bottom) {
-                    if (state.contentHeight - state.hostHeight - state.wrapperScrollTop > props.bottomThreshold!) {
+                } else if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.bottom) {
+                    if (state.contentHeight - state.hostHeight - freezeState.wrapperScrollTop > props.bottomThreshold!) {
                         /*进入center*/
                         emit.verticalScrollCenter(e)
-                        state.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
+                        freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
                     }
                 }
-            },
-            vertical: {
-                dragstart: (e: MouseEvent) => {
-                    state.draging = true
-                    state.dragTop = verticalScrollbarTop.value
-                    state.dragY = e.clientY
-                    document.addEventListener('mousemove', handler.vertical.dragmove)
-                    document.addEventListener('mouseup', handler.vertical.dragend)
-                    disabledUserSelect()
-                },
-                dragmove: (e: MouseEvent) => {
-                    let deltaY = e.clientY - state.dragY
-                    let top = state.dragTop + deltaY
-                    let scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
-                    scrollTop = Math.max(0, Math.min(scrollTop, state.contentHeight - state.hostHeight))
-                    if (!props.scrollAfterDragEnd) {
-                        refs.wrapper.scrollTop = scrollTop
-                    } else {
-                        state.wrapperScrollTop = scrollTop
-                    }
-                },
-                dragend: (e: MouseEvent) => {
-                    state.draging = false
-                    document.removeEventListener('mousemove', handler.vertical.dragmove)
-                    document.removeEventListener('mouseup', handler.vertical.dragend)
-                    enableUserSelect()
-
-                    if (props.scrollAfterDragEnd) {
-                        let deltaY = e.clientY - state.dragY
-                        let top = state.dragTop + deltaY
-                        refs.wrapper.scrollTop = top * (state.contentHeight - state.hostHeight) / (state.hostHeight - verticalScrollbarHeight.value)
-                    }
-                }
-            },
-            horizontal: {
-                dragstart: (e: MouseEvent) => {
-                    state.draging = true
-                    state.dragLeft = horizontalScrollbarLeft.value
-                    state.dragX = e.clientX
-                    document.addEventListener('mousemove', handler.horizontal.dragmove)
-                    document.addEventListener('mouseup', handler.horizontal.dragend)
-                    disabledUserSelect()
-                },
-                dragmove: (e: MouseEvent) => {
-                    let deltaX = e.clientX - state.dragX
-                    const left = state.dragLeft + deltaX
-                    let scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
-                    scrollLeft = Math.max(0, Math.min(scrollLeft, state.contentWidth - state.hostWidth))
-                    if (!props.scrollAfterDragEnd) {
-                        refs.wrapper.scrollLeft = scrollLeft
-                    } else {
-                        state.wrapperScrollLeft = scrollLeft
-                    }
-                },
-                dragend: (e: MouseEvent) => {
-                    state.draging = false
-                    document.removeEventListener('mousemove', handler.horizontal.dragmove)
-                    document.removeEventListener('mouseup', handler.horizontal.dragend)
-                    enableUserSelect()
-
-                    if (props.scrollAfterDragEnd) {
-                        let deltaX = e.clientX - state.dragX
-                        const left = state.dragLeft + deltaX
-                        refs.wrapper.scrollLeft = left * (state.contentWidth - state.hostWidth) / (state.hostWidth - horizontalScrollbarWidth.value)
-                    }
-                },
             },
         }
 
@@ -469,10 +357,11 @@ export default designComponent({
 
         return {
             refer: {
-                refs,
+                props,
                 on, off,
+                targetScrollbarSize,
+                refs,
                 slots,
-                scopedSlots,
                 handler,
                 methods,
                 state,
@@ -499,32 +388,14 @@ export default designComponent({
                     {
                         !props.hideScrollbar && props.scrollY && (
                             <div class="pl-vertical-scrollbar-wrapper">
-                                {
-                                    scopedSlots["vertical-scrollbar"](
-                                        {style: verticalScrollbarStyles.value as any, onMousedown: handler.vertical.dragstart},
-                                        (
-                                            <div class="pl-vertical-scrollbar"
-                                                 style={verticalScrollbarStyles.value as any}
-                                                 onMousedown={handler.vertical.dragstart}>
-                                            </div>
-                                        ))
-                                }
+                                {<VerticalScrollbar/>}
                             </div>
                         )
                     }
                     {
                         !props.hideScrollbar && props.scrollX && (
                             <div class="pl-horizontal-scrollbar-wrapper">
-                                {
-                                    scopedSlots["horizontal-scrollbar"](
-                                        {style: horizontalScrollbarStyles.value as any, onMousedown: handler.horizontal.dragstart},
-                                        (
-                                            <div class="pl-horizontal-scrollbar"
-                                                 style={horizontalScrollbarStyles.value as any}
-                                                 onMousedown={handler.horizontal.dragstart}>
-                                            </div>
-                                        ))
-                                }
+                                {<HorizontalScrollbar/>}
                             </div>
                         )
                     }
