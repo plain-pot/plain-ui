@@ -48,10 +48,12 @@ export const TreeProps = {
 
     // 拖拽属性
     draggable: {type: Boolean},                                 // 是否可拖拽
-    allowDrag: {type: Function as any as new() => allDrag},// 判断节点是否可以拖拽
-    allowDrop: {type: Function as any as new() => allDrop},// 判断目标节点能够被放置
+    allowDrag: {type: Function as any as new() => allDrag},     // 判断节点是否可以拖拽
+    allowDrop: {type: Function as any as new() => allDrop},     // 判断目标节点能够被放置
 
     folderCollapseIcon: {type: String, default: 'el-icon-folder-s'},
     folderExpandIcon: {type: String, default: 'el-icon-folder-opened'},
     leafIcon: {type: String, default: 'el-icon-document'},
+
+    virtual: {type: Boolean},                                   // 是否开启虚拟滚动
 }
