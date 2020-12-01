@@ -51,7 +51,9 @@
 
     .pl-message-content {
       min-width: 250px;
+      max-width: 75vw;
       display: inline-block;
+      white-space: normal;
     }
 
     .pl-message-close {
