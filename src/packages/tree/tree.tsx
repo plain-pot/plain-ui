@@ -335,8 +335,14 @@ export default designComponent({
                             (<pl-virtual-list
                                 data={tree.formatData.value.flatList}
                                 size={props.nodeHeight}
+                                disabled={!props.virtual}
                                 v-slots={{
-                                    default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index)
+                                    // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
+                                    content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
+                                        <pl-list direction="bottom" class="pl-tree-node-list">
+                                            {data.map(({item, index}) => render.node(item, index))}
+                                        </pl-list>
+                                    )
                                 }}
                             />)
                         )}
