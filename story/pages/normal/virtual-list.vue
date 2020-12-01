@@ -83,7 +83,7 @@
         props: {},
         data() {
             return {
-                list: data2,
+                list: data2.slice(0, 188),
                 data2,
                 disabledVirtualScroll: false,
             }

@@ -3,7 +3,7 @@ import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useRefs} from "../../use/useRefs";
 import Scroll from '../scroll'
-import {reactive, computed, watch, nextTick, onUpdated, onMounted} from 'vue';
+import {computed, nextTick, onMounted, onUpdated, reactive, watch} from 'vue';
 import {useStyles} from "../../use/useStyles";
 import {useClass} from "../../use/useClasses";
 
@@ -87,6 +87,7 @@ export default designComponent({
                 }
             }
             pageIndex = Math.floor(start / pageSize)
+
             return {
                 list: data.map((item, index) => ({item, index})).slice(start, end),
                 startPageIndex: pageIndex,
@@ -126,15 +127,13 @@ export default designComponent({
                 return;
             }
 
-            const {startPageIndex, start} = offsetData.value
+            const {start} = offsetData.value
 
             let top = 0
             if (!props.dynamicSize) {
-                top = (startPageIndex) * state.pageSize * props.size
-                // console.log('not dynamic》》》top', top)
+                top = start * props.size
             } else {
                 top = state.nodes[start].top
-                // console.log('is dynamic===top', top)
             }
 
             /*top定位*/
