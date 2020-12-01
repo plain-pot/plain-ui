@@ -16,6 +16,7 @@ function useFlagManager<Node extends { key: string }, Value>() {
         map: {}
     }) as { map: Record<string, Value> }
     return {
+        state,
         get: (keyOrNode: string | Node): Value => {
             return state.map[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key]
         },
@@ -86,12 +87,12 @@ export function useTree(
                 data,
                 level,
                 parentRef,
-                nodeMap,
+                iterator,
             }: {
                 data: any,
                 level: number,
                 parentRef: () => TreeNode,
-                nodeMap: Record<string, TreeNode>
+                iterator: (node: TreeNode) => void,
             }): TreeNode => {
             let key = !props.keyField ? keyMap.get(data) : data[props.keyField]
             if (!key) {
@@ -106,18 +107,18 @@ export function useTree(
                 parentRef,
                 get label() {return !!props.labelField && !!data ? data[props.labelField] : null},
                 get childrenData() {return data[props.childrenField!]},
-                get children() {return !this.childrenData ? undefined : this.childrenData.map(d => transform({data: d, level: level + 1, parentRef: () => node, nodeMap}))},
+                get children() {return !this.childrenData ? undefined : this.childrenData.map(d => transform({data: d, level: level + 1, iterator, parentRef: () => this}))},
                 get checkStatus() {
                     if (!props.showCheckbox) {
                         return TreeNodeCheckStatus.uncheck
                     }
-                    if (props.checkStrictly || node.isLeaf) {
-                        return node.check ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
+                    if (props.checkStrictly || this.isLeaf) {
+                        return this.check ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
                     } else {
-                        if (node.check) {
+                        if (this.check) {
                             return TreeNodeCheckStatus.check
                         } else {
-                            if (!!node.children && node.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
+                            if (!!this.children && this.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
                                 return TreeNodeCheckStatus.uncheck
                             } else {
                                 return TreeNodeCheckStatus.minus
@@ -135,25 +136,27 @@ export function useTree(
                 get loaded() {return !props.lazy || loaded.get(key) === true},
                 set loaded(val) {loaded.set(key, val)},
 
-                get isCheckable() {return !props.isCheckable || props.isCheckable(node)},
-                get isLeaf() {return !!props.isLeaf ? props.isLeaf(node) : !this.childrenData},
-                get isVisible() {return !props.filterNodeMethod ? true : props.filterNodeMethod(node)},
+                get isCheckable() {return !props.isCheckable || props.isCheckable(this)},
+                get isLeaf() {return !!props.isLeaf ? props.isLeaf(this) : !this.childrenData},
+                get isVisible() {return !props.filterNodeMethod ? true : props.filterNodeMethod(this)},
             }
 
-            nodeMap[node.key] = node
+            iterator(node);
+            !!node.children && (node.children.forEach(iterator));
 
             return node
         }
     })();
 
     const formatData = computed(() => {
-        console.log('formatData')
+        // console.log('formatData')
         /*虚拟跟节点*/
         const rootNode = {key: '@@root', childrenData: dataModel.value || [], level: 0,} as TreeNode
         /*node对象映射，方便通过key查找node*/
         const nodeMap = {} as Record<string, TreeNode>
+        const iterator = (node: TreeNode) => nodeMap[node.key] = node
         /*格式化后的数据*/
-        const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, nodeMap, parentRef: () => rootNode}))
+        const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, parentRef: () => rootNode, iterator}))
         /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
         let flatList: (TreeNode | TreeEmptyNode)[] = []
         TreeUtils.iterateAll({
