@@ -2,9 +2,16 @@ import {designComponent} from "../../use/designComponent";
 import Scroll from "./scroll";
 import {reactive, computed} from 'vue';
 import {useStyles} from "../../use/useStyles";
+import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
+import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 
 export const HorizontalScrollbar = designComponent({
     setup() {
+
+        const dragState = {
+            left: 0,
+            clientX: 0,
+        }
 
         const scroll = Scroll.use.inject()
 
@@ -28,7 +35,38 @@ export const HorizontalScrollbar = designComponent({
         const handler = {
             onScroll: (e: Event) => {
                 state.scrollLeft = (e.target as HTMLElement).scrollLeft
-            }
+            },
+            onMousedown: (e: MouseEvent) => {
+                scroll.freezeState.isDragging = true
+                dragState.left = left.value
+                dragState.clientX = e.clientX
+                document.addEventListener('mousemove', handler.onMousemove)
+                document.addEventListener('mouseup', handler.onMouseup)
+                disabledUserSelect()
+            },
+            onMousemove: (e: MouseEvent) => {
+                let deltaX = e.clientX - dragState.clientX
+                const left = dragState.left + deltaX
+                let scrollLeft = left * (scroll.state.contentWidth - scroll.state.hostWidth) / (scroll.state.hostWidth - width.value)
+                scrollLeft = Math.max(0, Math.min(scrollLeft, scroll.state.contentWidth - scroll.state.hostWidth))
+                if (!scroll.props.scrollAfterDragEnd) {
+                    scroll.refs.wrapper.scrollLeft = scrollLeft
+                } else {
+                    state.scrollLeft = scrollLeft
+                }
+            },
+            onMouseup: (e: MouseEvent) => {
+                scroll.freezeState.isDragging = false
+                document.removeEventListener('mousemove', handler.onMousemove)
+                document.removeEventListener('mouseup', handler.onMouseup)
+                enableUserSelect()
+
+                if (scroll.props.scrollAfterDragEnd) {
+                    let deltaX = e.clientX - dragState.clientX
+                    const left = dragState.left + deltaX
+                    scroll.refs.wrapper.scrollLeft = left * (scroll.state.contentWidth - scroll.state.hostWidth) / (scroll.state.hostWidth - width.value)
+                }
+            },
         }
 
         scroll.on.scroll(handler.onScroll)
@@ -37,7 +75,7 @@ export const HorizontalScrollbar = designComponent({
             render: () => {
                 return (
                     <div class="pl-horizontal-scrollbar-wrapper">
-                        <div class="pl-horizontal-scrollbar" style={styles.value}/>
+                        <div class="pl-horizontal-scrollbar" style={styles.value} onMousedown={handler.onMousedown}/>
                     </div>
                 )
             }
