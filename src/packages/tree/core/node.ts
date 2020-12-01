@@ -152,6 +152,7 @@ export function useTree(
         const nodeMap = {} as Record<string, TreeNode>
         /*格式化后的数据*/
         const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, nodeMap, parentRef: () => rootNode}))
+        console.log('nodeMap',nodeMap)
         return {
             rootNode,
             nodeMap,
