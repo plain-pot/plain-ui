@@ -1,12 +1,13 @@
 import {computed, reactive, ref} from 'vue';
 import {useModel} from "../../../use/useModel";
 import {createCounter} from "../../../utils/createCounter";
-import {TreeNode, TreePropsType} from "./type";
+import {TreeEmptyNode, TreeNode, TreePropsType} from "./type";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import isCheckable = TreePropsType.isCheckable;
 import isLeaf = TreePropsType.isLeaf;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 import getChildren = TreePropsType.getChildren;
+import {TreeUtils} from "./utils";
 
 const keyCounter = createCounter('tree')
 
@@ -146,17 +147,45 @@ export function useTree(
     })();
 
     const formatData = computed(() => {
+        console.log('formatData')
         /*虚拟跟节点*/
         const rootNode = {key: '@@root', childrenData: dataModel.value || [], level: 0,} as TreeNode
         /*node对象映射，方便通过key查找node*/
         const nodeMap = {} as Record<string, TreeNode>
         /*格式化后的数据*/
         const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, nodeMap, parentRef: () => rootNode}))
-        console.log('nodeMap',nodeMap)
+        /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
+        let flatList: (TreeNode | TreeEmptyNode)[] = []
+        TreeUtils.iterateAll({
+            nodes: nodeList,
+            iterateChildren: (treeNode: TreeNode) => treeNode.expand,
+            handler: (treeNode: TreeNode) => {
+                flatList.push(treeNode)
+                /*console.log(treeNode.label, {
+                    '!treeNode.isLeaf': !treeNode.isLeaf,
+                    'treeNode.loaded': treeNode.loaded,
+                    'treeNode.isVisible': treeNode.isVisible,
+                    'treeNode.expand': treeNode.expand,
+                    'treeNode.children': treeNode.children,
+                })*/
+                if (
+                    !treeNode.isLeaf &&
+                    treeNode.loaded &&
+                    treeNode.isVisible &&
+                    treeNode.expand &&
+                    treeNode.children!.length === 0
+                ) {
+                    flatList.push(() => treeNode)
+                }
+            },
+        },)
+        flatList = flatList.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
+
         return {
             rootNode,
             nodeMap,
             nodeList,
+            flatList,
         }
     })
 

@@ -49,37 +49,6 @@ export default designComponent({
         /*tree node content公共的样式*/
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
 
-        /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
-        const formatDataFlat = computed(() => {
-            const {nodeList} = tree.formatData.value
-            const formatDataFlat: (TreeNode | TreeEmptyNode)[] = []
-            TreeUtils.iterateAll({
-                    nodes: nodeList,
-                    iterateChildren: (treeNode: TreeNode) => treeNode.expand,
-                    handler: (treeNode: TreeNode) => {
-                        formatDataFlat.push(treeNode)
-                        /*console.log(treeNode.label, {
-                            '!treeNode.isLeaf': !treeNode.isLeaf,
-                            'treeNode.loaded': treeNode.loaded,
-                            'treeNode.isVisible': treeNode.isVisible,
-                            'treeNode.expand': treeNode.expand,
-                            'treeNode.children': treeNode.children,
-                        })*/
-                        if (
-                            !treeNode.isLeaf &&
-                            treeNode.loaded &&
-                            treeNode.isVisible &&
-                            treeNode.expand &&
-                            treeNode.children!.length === 0
-                        ) {
-                            formatDataFlat.push(() => treeNode)
-                        }
-                    },
-                },
-            )
-            return formatDataFlat.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
-        })
-
         /*当前展开的keys数组*/
         const expandKeys = computed(() => tree.state.expand.getActiveKeys())
         /*当前选中的keys数组*/
@@ -356,7 +325,7 @@ export default designComponent({
             render: () => {
                 return (
                     <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || tree.state.rootLoading.value}>
-                        {formatDataFlat.value.length === 0 ? (
+                        {tree.formatData.value.flatList.length === 0 ? (
                             <div class="pl-tree-placeholder" key="placeholder">
                                 <pl-icon icon="el-icon-folder-opened"/>
                                 <span>{props.emptyText}</span>
@@ -364,7 +333,7 @@ export default designComponent({
                         ) : (
                             <pl-scroll>
                                 <pl-list direction="top" class="pl-tree-node-list">
-                                    {formatDataFlat.value.map((node, index) => render.node(node, index))}
+                                    {tree.formatData.value.flatList.map((node, index) => render.node(node, index))}
                                 </pl-list>
                             </pl-scroll>
                             /*
