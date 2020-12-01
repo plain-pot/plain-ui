@@ -269,7 +269,8 @@ export default designComponent({
                     <pl-item
                         key={node.key}
                         class={TreeUtils.getTreeNodeClasses(node, current.value)}
-                        style={TreeUtils.getTreeNodeStyles(node.level, props.intent)}>
+                        style={TreeUtils.getTreeNodeStyles(node.level, props.intent, props.nodeHeight)}
+                        vid={index}>
 
                         <div class="pl-tree-node-operator">
                             {!!props.showCheckbox && <pl-checkbox
@@ -300,7 +301,7 @@ export default designComponent({
                     <pl-item
                         key={`${parent.key}_empty`}
                         class="pl-tree-node pl-tree-empty-node"
-                        style={TreeUtils.getTreeNodeStyles(parent.level + 1, props.intent)}>
+                        style={TreeUtils.getTreeNodeStyles(parent.level + 1, props.intent, props.nodeHeight)}>
                         <div class="pl-tree-node-operator">
                             <div class="pl-tree-node-expander">
                                 <pl-icon icon="el-icon-close-bold"/>
@@ -331,18 +332,13 @@ export default designComponent({
                                 <span>{props.emptyText}</span>
                             </div>
                         ) : (
-                            <pl-scroll>
-                                <pl-list direction="top" class="pl-tree-node-list">
-                                    {tree.formatData.value.flatList.map((node, index) => render.node(node, index))}
-                                </pl-list>
-                            </pl-scroll>
-                            /*
-                            <div style="height:100%;overflow:scroll">
-                                <pl-list direction="top" class="pl-tree-node-list">
-                                    {formatDataFlat.value.map((node, index) => render.node(node, index))}
-                                </pl-list>
-                            </div>
-                            */
+                            (<pl-virtual-list
+                                data={tree.formatData.value.flatList}
+                                size={props.nodeHeight}
+                                v-slots={{
+                                    default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index)
+                                }}
+                            />)
                         )}
                     </div>
                 )

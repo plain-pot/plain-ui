@@ -37,11 +37,12 @@ export const TreeUtils = {
      * @author  韦胜健
      * @date    2020/11/28 9:25
      */
-    getTreeNodeStyles: (level: number, intent: number) => {
+    getTreeNodeStyles: (level: number, intent: number, nodeHeight: number) => {
         const basePadding = 8
         return {
             paddingLeft: `${basePadding + (level - 1) * intent}px`,
             paddingRight: `${basePadding}px`,
+            height: `${nodeHeight}px`,
         }
     },
     /**
