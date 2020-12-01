@@ -2,24 +2,24 @@ import {VNodeChild} from "../../../shims";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 
 export interface TreeNode {
-    data: any,
-    childrenData?: any[]
+    readonly data: any,
+    readonly childrenData?: any[]
 
-    level: number,
-    key: string,
-    label?: string,
-    children?: TreeNode[],
-    parentRef: () => TreeNode | null,
-    checkStatus: TreeNodeCheckStatus,
+    readonly level: number,
+    readonly key: string,
+    readonly label?: string,
+    readonly children?: TreeNode[],
+    readonly parentRef: () => TreeNode | null,
+    readonly checkStatus: TreeNodeCheckStatus,
 
-    isExpand: boolean,
-    isCheck: boolean,
-    isLoading: boolean,
-    isLoaded: boolean,
+    expand: boolean,
+    check: boolean,
+    loading: boolean,
+    loaded: boolean,
 
-    isCheckable: boolean,
-    isLeaf: boolean,
-    isVisible: boolean,
+    readonly isCheckable: boolean,
+    readonly isLeaf: boolean,
+    readonly isVisible: boolean,
 }
 
 export interface TreeEmptyNode {

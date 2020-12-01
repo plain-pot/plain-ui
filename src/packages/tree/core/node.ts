@@ -92,53 +92,51 @@ export function useTree(
                 parentRef: () => TreeNode,
                 nodeMap: Record<string, TreeNode>
             }): TreeNode => {
-            const childrenData = data[props.childrenField!] as (any[] | undefined)
             let key = !props.keyField ? keyMap.get(data) : data[props.keyField]
             if (!key) {
                 key = keyCounter()
                 keyMap.set(data, key)
             }
 
-            const node = {
+            const node: TreeNode = {
                 key,
-                label: !!props.labelField ? data[props.labelField] : null,
                 data,
-                childrenData,
-                children: undefined as undefined | TreeNode[],
                 level,
                 parentRef,
-                checkStatus: TreeNodeCheckStatus.uncheck,
-
-                isExpand: expand.get(key),
-                isCheck: check.get(key),
-                isLoading: loading.get(key),
-                isLoaded: !props.lazy || loaded.get(key),
-                isCheckable: true,
-                isLeaf: false,
-                isVisible: false,
-            }
-
-            node.isCheckable = !props.isCheckable || props.isCheckable(node)
-            node.isLeaf = !!props.isLeaf ? props.isLeaf(node) : !childrenData
-            node.isVisible = !props.filterNodeMethod ? true : props.filterNodeMethod(node)
-
-            if (!!props.childrenField && !!childrenData) {
-                node.children = childrenData.map(d => transform({data: d, level: level + 1, parentRef: () => node, nodeMap}))
-            }
-            if (props.showCheckbox) {
-                if (props.checkStrictly || node.isLeaf) {
-                    node.checkStatus = node.isCheck ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
-                } else {
-                    if (node.isCheck) {
-                        node.checkStatus = TreeNodeCheckStatus.check
+                get label() {return !!props.labelField && !!data ? data[props.labelField] : null},
+                get childrenData() {return data[props.childrenField!]},
+                get children() {return !this.childrenData ? undefined : this.childrenData.map(d => transform({data: d, level: level + 1, parentRef: () => node, nodeMap}))},
+                get checkStatus() {
+                    if (!props.showCheckbox) {
+                        return TreeNodeCheckStatus.uncheck
+                    }
+                    if (props.checkStrictly || node.isLeaf) {
+                        return node.check ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
                     } else {
-                        if (!!node.children && node.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
-                            node.checkStatus = TreeNodeCheckStatus.uncheck
+                        if (node.check) {
+                            return TreeNodeCheckStatus.check
                         } else {
-                            node.checkStatus = TreeNodeCheckStatus.minus
+                            if (!!node.children && node.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
+                                return TreeNodeCheckStatus.uncheck
+                            } else {
+                                return TreeNodeCheckStatus.minus
+                            }
                         }
                     }
-                }
+                },
+
+                get expand() {return expand.get(key)},
+                set expand(val) {expand.set(key, val)},
+                get check() {return check.get(key)},
+                set check(val) {check.set(key, val)},
+                get loading() {return loading.get(key)},
+                set loading(val) {loading.set(key, val)},
+                get loaded() {return loaded.get(key)},
+                set loaded(val) {loaded.set(key, val)},
+
+                get isCheckable() {return !props.isCheckable || props.isCheckable(node)},
+                get isLeaf() {return !!props.isLeaf ? props.isLeaf(node) : !this.childrenData},
+                get isVisible() {return !props.filterNodeMethod ? true : props.filterNodeMethod(node)},
             }
 
             nodeMap[node.key] = node
@@ -237,13 +235,10 @@ export function useTree(
             let parents = [] as TreeNode[]
 
             let parent = node.parentRef()
+            /*root 是没有 parentRef的*/
             while (!!parent && !!parent.parentRef) {
-                if (parent.isCheck) {
-                    parents.push(parent)
-                    parent = parent.parentRef()
-                } else {
-                    break
-                }
+                parents.push(parent)
+                parent = parent.parentRef()
             }
             return parents
         },

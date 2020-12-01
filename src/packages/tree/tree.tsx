@@ -8,7 +8,6 @@ import {TreeProps} from "./core/props";
 import {TreeUtils} from "./core/utils";
 import {useTree} from "./core/node";
 import {TreeEmptyNode, TreeNode} from "./core/type";
-import {delay} from "plain-utils/utils/delay";
 
 export default designComponent({
     name: 'pl-tree',
@@ -17,9 +16,9 @@ export default designComponent({
     },
     emits: {
         clickNode: (node: TreeNode) => true,                        // 点击节点事件
-        updateCurrent: (current?: string) => true,                   // 当前高亮节点key变化绑定事件
+        updateCurrent: (current?: string) => true,                  // 当前高亮节点key变化绑定事件
         currentChange: (node: TreeNode | null) => true,             // 当前高亮节点变化事件
-        updateData: (data?: any[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
+        updateData: (data?: any[]) => true,                         // 数据变化事件（拖拽排序、数据懒加载）
 
         expandChange: (expandKeys: string[]) => true,               // 展开节点变化事件
         expand: (node: TreeNode) => true,                           // 展开事件
@@ -56,14 +55,14 @@ export default designComponent({
             const formatDataFlat: (TreeNode | TreeEmptyNode)[] = []
             TreeUtils.iterateAll({
                     nodes: nodeList,
-                    iterateChildren: (treeNode: TreeNode) => treeNode.isExpand,
+                    iterateChildren: (treeNode: TreeNode) => treeNode.expand,
                     handler: (treeNode: TreeNode) => {
                         formatDataFlat.push(treeNode)
                         if (
                             !treeNode.isLeaf &&
-                            treeNode.isLoaded &&
+                            treeNode.loaded &&
                             treeNode.isVisible &&
-                            treeNode.isExpand &&
+                            treeNode.expand &&
                             treeNode.children!.length === 0
                         ) {
                             formatDataFlat.push(() => treeNode)
@@ -110,10 +109,10 @@ export default designComponent({
                 await tree.utils.handleKeyOrNode(keyOrNode,
                     async (node) => {
                         const parent = node.parentRef()
-                        if (!node.isExpand) {
+                        if (!node.expand) {
                             if (
                                 props.lazy &&                           // 懒加载模式
-                                !node.isLoaded &&                       // 未曾加载过子节点数据
+                                !node.loaded &&                       // 未曾加载过子节点数据
                                 !node.isLeaf                            // 节点不是叶子节点
                             ) {
                                 const children = await tree.utils.getChildrenAsync(node)
@@ -144,7 +143,7 @@ export default designComponent({
                         await TreeUtils.iterateAll({
                             nodes: [node, ...(node.children || [])],
                             handler: (node) => {
-                                if (node.isExpand) {
+                                if (node.expand) {
                                     tree.methods.expand(node, false)
                                     emit.collapse(node)
                                 }
@@ -154,7 +153,7 @@ export default designComponent({
                         emit.expandChange(expandKeys.value)
                     })
             },
-            toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).isExpand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
+            toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).expand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
             expandAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.expand(node, true)}),
             collapseAll: () => tree.state.expand.clear(),
         }
@@ -162,7 +161,7 @@ export default designComponent({
         const checkMethods = {
             check: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async (node) => {
-                    if (node.isCheck || !node.isCheckable) {
+                    if (node.check || !node.isCheckable) {
                         return
                     }
                     tree.methods.check(node, true)
@@ -192,7 +191,7 @@ export default designComponent({
             },
             uncheck: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async node => {
-                    if (!node.isCheck || !node.isCheckable) {
+                    if (!node.check || !node.isCheckable) {
                         return
                     }
                     tree.methods.check(node, false)
@@ -207,7 +206,7 @@ export default designComponent({
                         // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
                         let parent = node.parentRef()
                         while (!!parent && !!parent.key) {
-                            if (parent.isCheck) {
+                            if (parent.check) {
                                 tree.methods.check(parent, false)
                                 parent = parent.parentRef()
                             } else {
@@ -221,7 +220,7 @@ export default designComponent({
                     emit.checkChange(checkKeys.value)
                 })
             },
-            toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).isCheck ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
+            toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
             checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
             uncheckAll: () => tree.state.check.clear(),
             getCheckedData: () => tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean),
@@ -232,13 +231,13 @@ export default designComponent({
                         return
                     }
                     let hasCheck = false, hasUncheck = false;
-                    node.children.forEach(chlid => chlid.isCheck ? hasCheck = true : hasUncheck = true)
-                    if (node.isCheck && hasUncheck) {
+                    node.children.forEach(chlid => chlid.check ? hasCheck = true : hasUncheck = true)
+                    if (node.check && hasUncheck) {
                         // 自身选中而子节点有非选中,令所有父节点变成非选中状态
                         let parents = tree.utils.getParents(node);
                         [...parents, node].forEach(n => tree.methods.check(n, false))
                     }
-                    if (!node.isCheck && hasCheck && !hasUncheck) {
+                    if (!node.check && hasCheck && !hasUncheck) {
                         // 自身非选中而子节点全部选中，令所有父节点变成选中状态
                         let parents = tree.utils.getParents(node);
                         [...parents, node].forEach(n => tree.methods.check(n, true))
@@ -303,9 +302,9 @@ export default designComponent({
                                 onClick={(e: MouseEvent) => handler.onClickCheckbox(e, node)}
                             />}
                             <div class="pl-tree-node-expander">
-                                {node.isLoading ?
+                                {node.loading ?
                                     <pl-loading type="gamma"/> :
-                                    <pl-icon icon={node.isLeaf ? props.leafIcon : node.isExpand ? props.folderExpandIcon : props.folderCollapseIcon}
+                                    <pl-icon icon={node.isLeaf ? props.leafIcon : node.expand ? props.folderExpandIcon : props.folderCollapseIcon}
                                              onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
                                 }
                             </div>
