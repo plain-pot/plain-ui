@@ -138,7 +138,9 @@ export function useTree(
 
                 get isCheckable() {return !props.isCheckable || props.isCheckable(this)},
                 get isLeaf() {return !!props.isLeaf ? props.isLeaf(this) : !this.childrenData},
-                get isVisible() {return !props.filterNodeMethod ? true : props.filterNodeMethod(this)},
+                get isVisible() {
+                    return !props.filterNodeMethod ? true : (props.filterNodeMethod(this) || (!!this.children && this.children.some(child => child.isVisible)))
+                },
             }
 
             iterator(node);
