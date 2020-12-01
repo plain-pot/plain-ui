@@ -3,13 +3,14 @@ import {TreeNodeCheckStatus} from "../utils/tree-constant";
 
 export interface TreeNode {
     data: any,
-    readonly childrenData?: any[]
-
     level: number,
     key: string,
+    parentRef: () => TreeNode | null,
+    selfRef: () => TreeNode,
+
+    readonly childrenData?: any[]
     readonly label?: string,
     readonly children?: TreeNode[],
-    parentRef: () => TreeNode | null,
     readonly checkStatus: TreeNodeCheckStatus,
 
     expand: boolean,

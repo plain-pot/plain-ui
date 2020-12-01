@@ -71,6 +71,7 @@ export function useTree(
         },
     }) {
 
+    const rootLoading = ref(false)
     const dataModel = useModel(() => props.data, event.emit.updateData)
 
     const expand = useFlagManager<TreeNode, boolean>()
@@ -78,110 +79,112 @@ export function useTree(
     const loading = useFlagManager<TreeNode, boolean>()
     const loaded = useFlagManager<TreeNode, boolean>()
 
-    const rootLoading = ref(false)
-
-    const transform = (() => {
-        const keyMap = new WeakMap<any, string>()
-        return (
-            {
-                data,
-                level,
-                parentRef,
-                iterator,
-            }: {
-                data: any,
-                level: number,
-                parentRef: () => TreeNode,
-                iterator: (node: TreeNode) => void,
-            }): TreeNode => {
-            let key = !props.keyField ? keyMap.get(data) : data[props.keyField]
+    const getKey = (() => {
+        const map = new WeakMap<object, string>()
+        return (data: any): string => {
+            let key = map.get(data)
             if (!key) {
-                key = keyCounter()
-                keyMap.set(data, key)
+                if (!!props.keyField) {
+                    key = data[props.keyField]
+                }
+                if (!key) {
+                    key = keyCounter()
+                }
+                map.set(data, key)
             }
+            return key
+        }
+    })();
 
-            const node: TreeNode = {
-                key,
-                data,
-                level,
-                parentRef,
-                get label() {return !!props.labelField && !!data ? data[props.labelField] : null},
-                get childrenData() {return data[props.childrenField!]},
-                get children() {return !this.childrenData ? undefined : this.childrenData.map(d => transform({data: d, level: level + 1, iterator, parentRef: () => this}))},
-                get checkStatus() {
-                    if (!props.showCheckbox) {
-                        return TreeNodeCheckStatus.uncheck
-                    }
-                    if (props.checkStrictly || this.isLeaf) {
-                        return this.check ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
-                    } else {
-                        if (this.check) {
-                            return TreeNodeCheckStatus.check
+    const getNode = (() => {
+
+        const map = new WeakMap<object, TreeNode>()
+
+        const getter = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TreeNode }): TreeNode => {
+            let node: TreeNode | undefined = map.get(data)
+            if (!node) {
+                node = {
+                    key: getKey(data),
+                    data,
+                    level,
+                    parentRef,
+                    selfRef: () => node!,
+
+                    get label() {return !!props.labelField && !!data ? data[props.labelField] : null},
+                    get childrenData() {return data[props.childrenField!]},
+                    get children() {return !this.childrenData ? undefined : this.childrenData.map(d => getter({data: d, level: level + 1, parentRef: this.selfRef}))},
+                    get checkStatus() {
+                        if (!props.showCheckbox) {
+                            return TreeNodeCheckStatus.uncheck
+                        }
+                        if (props.checkStrictly || this.isLeaf) {
+                            return this.check ? TreeNodeCheckStatus.check : TreeNodeCheckStatus.uncheck
                         } else {
-                            if (!!this.children && this.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
-                                return TreeNodeCheckStatus.uncheck
+                            if (this.check) {
+                                return TreeNodeCheckStatus.check
                             } else {
-                                return TreeNodeCheckStatus.minus
+                                if (!!this.children && this.children.every(child => child.checkStatus === TreeNodeCheckStatus.uncheck)) {
+                                    return TreeNodeCheckStatus.uncheck
+                                } else {
+                                    return TreeNodeCheckStatus.minus
+                                }
                             }
                         }
-                    }
-                },
+                    },
 
-                get expand() {return expand.get(key)},
-                set expand(val) {expand.set(key, val)},
-                get check() {return check.get(key)},
-                set check(val) {check.set(key, val)},
-                get loading() {return loading.get(key)},
-                set loading(val) {loading.set(key, val)},
-                get loaded() {return !props.lazy || loaded.get(key) === true},
-                set loaded(val) {loaded.set(key, val)},
+                    get expand() {return expand.get(this.key)},
+                    set expand(val) {expand.set(this.key, val)},
+                    get check() {return check.get(this.key)},
+                    set check(val) {check.set(this.key, val)},
+                    get loading() {return loading.get(this.key)},
+                    set loading(val) {loading.set(this.key, val)},
+                    get loaded() {return !props.lazy || loaded.get(this.key) === true},
+                    set loaded(val) {loaded.set(this.key, val)},
 
-                get isCheckable() {return !props.isCheckable || props.isCheckable(this)},
-                get isLeaf() {return !!props.isLeaf ? props.isLeaf(this) : !this.childrenData},
-                get isVisible() {
-                    return !props.filterNodeMethod ? true : (props.filterNodeMethod(this) || (!!this.children && this.children.some(child => child.isVisible)))
-                },
+                    get isCheckable() {return !props.isCheckable || props.isCheckable(this)},
+                    get isLeaf() {return !!props.isLeaf ? props.isLeaf(this) : !this.childrenData},
+                    get isVisible() {
+                        return !props.filterNodeMethod ? true : (props.filterNodeMethod(this) || (!!this.children && this.children.some(child => child.isVisible)))
+                    },
+                }
+                map.set(data, node!)
+            } else {
+                Object.assign(node, {
+                    key: getKey(data),
+                    data,
+                    level,
+                    parentRef,
+                })
             }
-
-            iterator(node);
-            !!node.children && (node.children.forEach(iterator));
-
-            return node
+            return node!
         }
+
+        return {
+            map,
+            getter,
+        }
+
     })();
 
     const formatData = computed(() => {
         // console.log('formatData')
-        /*node对象映射，方便通过key查找node*/
-        const nodeMap = {} as Record<string, TreeNode>
-        const iterator = (node: TreeNode) => nodeMap[node.key] = node
         /*虚拟跟节点*/
-        const rootNode = transform({
+        const rootNode = getNode.getter({
             data: {
                 [props.keyField!]: '@@root',
-                [props.childrenField!]:
-                dataModel.value
+                [props.childrenField!]: dataModel.value
             },
             level: 0,
             parentRef: null as any,
-            iterator,
         })
-        /*格式化后的数据*/
-        const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, parentRef: () => rootNode, iterator}))
         /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
         let flatList: (TreeNode | TreeEmptyNode)[] = []
         TreeUtils.iterateAll({
-            nodes: nodeList,
+            nodes: rootNode.children,
             iterateChildren: (treeNode: TreeNode) => treeNode.expand,
             handler: (treeNode: TreeNode) => {
                 flatList.push(treeNode)
-                /*console.log(treeNode.label, {
-                    '!treeNode.isLeaf': !treeNode.isLeaf,
-                    'treeNode.loaded': treeNode.loaded,
-                    'treeNode.isVisible': treeNode.isVisible,
-                    'treeNode.expand': treeNode.expand,
-                    'treeNode.children': treeNode.children,
-                })*/
+                // console.log(treeNode.label, {'!treeNode.isLeaf': !treeNode.isLeaf, 'treeNode.loaded': treeNode.loaded, 'treeNode.isVisible': treeNode.isVisible, 'treeNode.expand': treeNode.expand, 'treeNode.children': treeNode.children,})
                 if (
                     !treeNode.isLeaf &&
                     treeNode.loaded &&
@@ -195,10 +198,17 @@ export function useTree(
         },)
         flatList = flatList.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
 
+        /*node对象映射，方便通过key查找node*/
+        const nodeMap = {} as Record<string, TreeNode>
+        TreeUtils.iterateAll({
+            nodes: rootNode.children,
+            handler: (node) => nodeMap[node.key] = node
+        })
+
         return {
             rootNode,
             nodeMap,
-            nodeList,
+            nodeList: rootNode.children,
             flatList,
         }
     })
