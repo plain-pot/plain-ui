@@ -150,11 +150,20 @@ export function useTree(
 
     const formatData = computed(() => {
         // console.log('formatData')
-        /*虚拟跟节点*/
-        const rootNode = {key: '@@root', childrenData: dataModel.value || [], level: 0,} as TreeNode
         /*node对象映射，方便通过key查找node*/
         const nodeMap = {} as Record<string, TreeNode>
         const iterator = (node: TreeNode) => nodeMap[node.key] = node
+        /*虚拟跟节点*/
+        const rootNode = transform({
+            data: {
+                [props.keyField!]: '@@root',
+                [props.childrenField!]:
+                dataModel.value
+            },
+            level: 0,
+            parentRef: null as any,
+            iterator,
+        })
         /*格式化后的数据*/
         const nodeList = rootNode.childrenData!.map((data: any) => transform({data, level: 1, parentRef: () => rootNode, iterator}))
         /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
