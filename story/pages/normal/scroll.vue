@@ -4,7 +4,7 @@
             <div class="demo-scroll-wrapper" style="display: inline-block;vertical-align: top">
                 <pl-scroll>
                     <div>
-                        <div class="demo-scroll-label" v-for="(item) in item" :key="item">
+                        <div class="demo-scroll-label" v-for="(item) in list" :key="item">
                             {{item}}
                         </div>
                     </div>
