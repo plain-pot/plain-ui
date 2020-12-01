@@ -6,6 +6,7 @@ import Scroll from '../scroll'
 import {computed, nextTick, onMounted, onUpdated, reactive, watch} from 'vue';
 import {useStyles} from "../../use/useStyles";
 import {useClass} from "../../use/useClasses";
+import {debounce} from 'plain-utils/utils/debounce';
 
 interface DataNode {
     top: number
@@ -46,6 +47,16 @@ export default designComponent({
             scrollTop: 0,                               // 当前滚动scrollTop
             pageSize: 0,                                // 页大小
         })
+
+        const isScrolling = (() => {
+            const disabledQueueAnimation = debounce(() => refs.scroll!.refs.host.removeAttribute('virtual-scrolling'), 300, true)
+            return {
+                handler: () => {
+                    refs.scroll!.refs.host.setAttribute('virtual-scrolling', '')
+                    disabledQueueAnimation();
+                }
+            }
+        })();
 
         /**
          * 计算得到的在虚拟列表当前要渲染的数组数据
@@ -200,6 +211,7 @@ export default designComponent({
         const handler = {
             scroll: (e: Event) => {
                 emit.scroll(e)
+                isScrolling.handler()
 
                 if (props.disabled) {
                     return

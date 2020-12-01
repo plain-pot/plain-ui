@@ -16,4 +16,10 @@
     }
   }
 
+  &[virtual-scrolling] {
+    .pl-item {
+      transition: none !important;
+    }
+  }
+
 }
