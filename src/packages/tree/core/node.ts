@@ -131,7 +131,7 @@ export function useTree(
                 set check(val) {check.set(key, val)},
                 get loading() {return loading.get(key)},
                 set loading(val) {loading.set(key, val)},
-                get loaded() {return loaded.get(key)},
+                get loaded() {return !props.lazy || loaded.get(key) === true},
                 set loaded(val) {loaded.set(key, val)},
 
                 get isCheckable() {return !props.isCheckable || props.isCheckable(node)},

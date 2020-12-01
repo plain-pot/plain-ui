@@ -58,6 +58,13 @@ export default designComponent({
                     iterateChildren: (treeNode: TreeNode) => treeNode.expand,
                     handler: (treeNode: TreeNode) => {
                         formatDataFlat.push(treeNode)
+                        /*console.log(treeNode.label, {
+                            '!treeNode.isLeaf': !treeNode.isLeaf,
+                            'treeNode.loaded': treeNode.loaded,
+                            'treeNode.isVisible': treeNode.isVisible,
+                            'treeNode.expand': treeNode.expand,
+                            'treeNode.children': treeNode.children,
+                        })*/
                         if (
                             !treeNode.isLeaf &&
                             treeNode.loaded &&
