@@ -274,6 +274,9 @@ export default designComponent({
         })
 
         return {
+            refer: {
+                refs,
+            },
             render: () => {
                 const {list} = offsetData.value
                 return (
