@@ -35,12 +35,8 @@ export default designComponent({
             }
         ])
 
-        const {propsState} = useProps(props, {
-            width: useProps.NUMBER,
-        })
-
         const styles = useStyles(style => {
-            !!propsState.width && (style.width = unit(propsState.width))
+            !!props.width && (style.width = unit(props.width))
         })
 
         return {
