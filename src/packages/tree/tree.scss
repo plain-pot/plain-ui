@@ -59,6 +59,10 @@
           width: 1em;
           transition: all 300ms linear;
         }
+
+        .pl-tree-node-draggier {
+          cursor: move;
+        }
       }
 
       &:first-child {

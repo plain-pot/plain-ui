@@ -285,6 +285,7 @@ export default designComponent({
                                              onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
                                 }
                             </div>
+                            {!!props.draggable && <pl-icon icon="el-icon-list" class="pl-tree-node-draggier"/>}
                             {!!props.nodeIcon && <pl-icon icon={props.nodeIcon(node)}/>}
                         </div>
                         <div class="pl-tree-node-content"

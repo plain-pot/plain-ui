@@ -31,7 +31,7 @@ export const TreeProps = {
     defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
     according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
     expandIcon: {type: String},                                 // 树展开图标
-    intent: {type: Number, default: 20},                        // 相邻级节点水平缩进距离，默认16，单位px
+    intent: {type: Number, default: 22},                        // 相邻级节点水平缩进距离，默认16，单位px
     lazy: {type: Boolean},                                      // 是否懒加载子节点数据
     isLeaf: {type: Function as any as new() => isLeaf},// 判断树节点是否为叶子节点的函数，仅在lazy模式有效
     getChildren: {type: Function as any as new() => getChildren},// 加载子节点数据的函数，仅当 lazy 为true时有效

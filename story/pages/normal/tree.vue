@@ -243,6 +243,26 @@
                      @node-click="val=>$message(val.data.name)"/>
         </demo-row>
 
+        <demo-row title="拖拽节点">
+            <demo-line>
+                <pl-button label="全部展开" @click="$refs.dragTree.methods.expandAll()"/>
+                <pl-button label="打印数据" @click="log(treeData)"/>
+            </demo-line>
+            <pl-tree
+                    ref="dragTree"
+                    :data="treeData"
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    draggable
+                    showCheckbox>
+                <template v-slot="{node:{data}}">
+                    <span :style="{color:data.id.charAt(0) === '1'?'#12b4a5':(data.id.charAt(0) === '2'?'#00CC00':'#F38585')}">{{data.name}}</span>
+                </template>
+            </pl-tree>
+        </demo-row>
+
     </div>
 </template>
 
