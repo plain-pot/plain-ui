@@ -1,5 +1,5 @@
 import {VNodeChild} from "../../../shims";
-import {TreeNodeCheckStatus} from "../utils/tree-constant";
+import {TreeDropType, TreeNodeCheckStatus} from "../utils/tree-constant";
 
 export interface TreeNode {
     data: any,
@@ -41,8 +41,8 @@ export namespace TreePropsType {
 
     export interface getChildren {(node: TreeNode, cb: (...args: any[]) => void): void}
 
-    export interface allDrag {(node: TreeNode): boolean}
+    export interface allowDrag {(node: TreeNode): boolean}
 
-    export interface allDrop {(node: TreeNode): boolean}
+    export interface allowDrop {(startNode: TreeNode, moveNode: TreeNode, dropType: TreeDropType): boolean}
 
 }

@@ -4,8 +4,8 @@ import renderContent = TreePropsType.renderContent;
 import isLeaf = TreePropsType.isLeaf;
 import getChildren = TreePropsType.getChildren;
 import isCheckable = TreePropsType.isCheckable;
-import allDrag = TreePropsType.allDrag;
-import allDrop = TreePropsType.allDrop;
+import allDrag = TreePropsType.allowDrag;
+import allDrop = TreePropsType.allowDrop;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 
 export const TreeProps = {

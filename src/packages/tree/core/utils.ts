@@ -1,6 +1,11 @@
 import {TreeNode} from "./type";
 
+const basePadding = 8
+
 export const TreeUtils = {
+    getPaddingLeft: (level: number, intent: number) => {
+        return basePadding + (level - 1) * intent
+    },
     /**
      * 遍历所有的treeNode
      * @author  韦胜健
@@ -45,7 +50,7 @@ export const TreeUtils = {
     getTreeNodeStyles: (level: number, intent: number, nodeHeight: number) => {
         const basePadding = 8
         return {
-            paddingLeft: `${basePadding + (level - 1) * intent}px`,
+            paddingLeft: `${TreeUtils.getPaddingLeft(level, intent)}px`,
             paddingRight: `${basePadding}px`,
             height: `${nodeHeight}px`,
         }
