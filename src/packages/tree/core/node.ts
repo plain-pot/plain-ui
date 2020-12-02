@@ -1,46 +1,47 @@
-import {computed, reactive, ref} from 'vue';
+import {computed, ref, watchEffect} from 'vue';
 import {useModel} from "../../../use/useModel";
 import {createCounter} from "../../../utils/createCounter";
 import {TreeEmptyNode, TreeNode, TreePropsType} from "./type";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
+import {TreeUtils} from "./utils";
+import {useFlagManager} from "../../../utils/useFlagManager";
 import isCheckable = TreePropsType.isCheckable;
 import isLeaf = TreePropsType.isLeaf;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 import getChildren = TreePropsType.getChildren;
-import {TreeUtils} from "./utils";
 
 const keyCounter = createCounter('tree')
 
-function useFlagManager<Node extends { key: string }, Value>() {
-    const state = reactive({
-        map: {}
-    }) as { map: Record<string, Value> }
-    return {
-        state,
-        get: (keyOrNode: string | Node): Value => {
-            return state.map[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key]
-        },
-        set: (keyOrNode: string | Node, value: Value) => {
-            state.map[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key] = value
-        },
-        setAll: (value: Value) => {
-            for (let key in state.map) {
-                state.map[key] = value
+function iterateData({data, childrenField}: { data?: any[], childrenField: string }) {
+    if (!!data) {
+        data.forEach(item => {
+            if (!!item[childrenField]) {
+                iterateData({data: item[childrenField], childrenField})
             }
-        },
-        getActiveKeys: () => {
-            let keys = [] as string[]
-            for (let key in state.map) {
-                if (!!state.map[key]) {
-                    keys.push(key)
+        })
+    }
+}
+
+function useFormatData(
+    {
+        dataModel,
+        childrenField,
+    }: {
+        dataModel: { value: any[] | undefined },
+        childrenField: string
+    }) {
+
+    watchEffect(() => {
+        iterateData({data: dataModel.value, childrenField})
+    }, {
+        onTrigger: (e) => {
+            if (Array.isArray(e.target)) {
+                if (e.type === 'add' || e.type === 'delete') {
+                    console.log('refresh')
                 }
             }
-            return keys
-        },
-        clear: () => {
-            state.map = {}
         }
-    }
+    })
 }
 
 /**
@@ -71,13 +72,16 @@ export function useTree(
         },
     }) {
 
+    /*根节点是否loading*/
     const rootLoading = ref(false)
+    /*data双向绑定值*/
     const dataModel = useModel(() => props.data, event.emit.updateData)
 
-    const expand = useFlagManager<TreeNode, boolean>()
-    const check = useFlagManager<TreeNode, boolean>()
-    const loading = useFlagManager<TreeNode, boolean>()
-    const loaded = useFlagManager<TreeNode, boolean>()
+    const expand = useFlagManager<TreeNode, boolean>()          // 是否展开
+    const check = useFlagManager<TreeNode, boolean>()           // 是否选中
+    const loading = useFlagManager<TreeNode, boolean>()         // 是否正在加载中
+    const loaded = useFlagManager<TreeNode, boolean>()          // 是否已经加载完毕
+
 
     const getKey = (() => {
         const map = new WeakMap<object, string>()

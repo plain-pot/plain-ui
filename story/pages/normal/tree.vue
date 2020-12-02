@@ -131,6 +131,7 @@
                         <pl-button-group mode="text">
                             <pl-button label="Add" @click="e=>scopedSlotDemo.addItem(e,node)" size="mini"/>
                             <pl-button label="Del" @click="e=>scopedSlotDemo.deleteItem(e,node)" size="mini" status="error"/>
+                            <pl-button label="Clr" @click="e=>scopedSlotDemo.clear(e,node)" size="mini" status="error"/>
                         </pl-button-group>
                     </div>
                 </template>
@@ -348,6 +349,10 @@
                         const ids = subs.map(item => item.id)
                         subs.splice(ids.indexOf(data.id), 1)
                         this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode.parentRef())
+                    },
+                    clear: (e, treeNode) => {
+                        e.stopPropagation()
+                        treeNode.data.subs = []
                     },
                 },
 

@@ -50,9 +50,9 @@ export default designComponent({
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
 
         /*当前展开的keys数组*/
-        const expandKeys = computed(() => tree.state.expand.getActiveKeys())
+        const expandKeys = computed(() => []/*tree.state.expand.getActiveKeys()*/)
         /*当前选中的keys数组*/
-        const checkKeys = computed(() => tree.state.check.getActiveKeys())
+        const checkKeys = computed(() => []/*tree.state.check.getActiveKeys()*/)
 
         /*---------------------------------------methods-------------------------------------------*/
 
@@ -199,7 +199,7 @@ export default designComponent({
             toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
             checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
             uncheckAll: () => tree.state.check.clear(),
-            getCheckedData: () => tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean),
+            getCheckedData: () => []/*tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean)*/,
             refreshCheckStatus: async (keyOrNode: string | TreeNode) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async node => {
                     /*刷新选中状态的前提是有子节点数据*/
