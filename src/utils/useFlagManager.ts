@@ -20,8 +20,10 @@ export function useFlagManager<Node extends { key: string }, Value>() {
         clear: () => {
             state.map = {}
         },
-        /*弃用，因为删除节点之后，有些key是作废无效的*/
-        /*getActiveKeys: () => {
+        removeKeys: (keys: string[]) => {
+            keys.forEach(key => delete state.map[key])
+        },
+        getActiveKeys: () => {
             let keys = [] as string[]
             for (let key in state.map) {
                 if (!!state.map[key]) {
@@ -29,6 +31,6 @@ export function useFlagManager<Node extends { key: string }, Value>() {
                 }
             }
             return keys
-        },*/
+        },
     }
 }

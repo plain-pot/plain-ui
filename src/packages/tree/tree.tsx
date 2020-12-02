@@ -50,9 +50,9 @@ export default designComponent({
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
 
         /*当前展开的keys数组*/
-        const expandKeys = computed(() => []/*tree.state.expand.getActiveKeys()*/)
+        const expandKeys = computed(() => tree.state.expand.getActiveKeys())
         /*当前选中的keys数组*/
-        const checkKeys = computed(() => []/*tree.state.check.getActiveKeys()*/)
+        const checkKeys = computed(() => tree.state.check.getActiveKeys())
 
         /*---------------------------------------methods-------------------------------------------*/
 
@@ -102,7 +102,7 @@ export default designComponent({
                                     parent.children.forEach((child: TreeNode) => child.key !== node.key && expandMethods.collapse(child))
                                 }
                             }
-                            tree.methods.expand(node, true)
+                            node.expand = true
                             await nextTick()
 
                             emit.expand(node)
@@ -120,7 +120,7 @@ export default designComponent({
                             nodes: [node, ...(node.children || [])],
                             handler: (node) => {
                                 if (node.expand) {
-                                    tree.methods.expand(node, false)
+                                    node.expand = false
                                     emit.collapse(node)
                                 }
                             }
@@ -130,7 +130,7 @@ export default designComponent({
                     })
             },
             toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).expand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
-            expandAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.expand(node, true)}),
+            expandAll: () => TreeUtils.iterateAll({nodes: tree.state.root.children, handler: node => node.expand = true}),
             collapseAll: () => tree.state.expand.clear(),
         }
 
@@ -140,19 +140,19 @@ export default designComponent({
                     if (node.check || !node.isCheckable) {
                         return
                     }
-                    tree.methods.check(node, true)
+                    node.check = true
                     // 父子关联模式下，改变子节点以及父节点状态
                     if (!props.checkStrictly) {
                         // 选中所有子节点
                         TreeUtils.iterateAll({
                             nodes: node.children,
-                            handler: (child) => tree.methods.check(child, true),
+                            handler: (child) => child.check = true,
                         })
                         // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
                         let parent = node.parentRef()
                         while (!!parent && !!parent.key) {
                             if (!!parent.parentRef && parent.children!.every(child => tree.state.check.get(child))) {
-                                tree.methods.check(parent, true)
+                                parent.check = true
                                 parent = !!parent.parentRef ? parent.parentRef() : null
                             } else {
                                 break
@@ -170,20 +170,20 @@ export default designComponent({
                     if (!node.check || !node.isCheckable) {
                         return
                     }
-                    tree.methods.check(node, false)
+                    node.check = false
 
                     // 父子关联模式下，改变子节点以及父节点状态
                     if (!props.checkStrictly) {
                         // 取消选中所有子节点
                         TreeUtils.iterateAll({
                             nodes: node.children,
-                            handler: (child) => tree.methods.check(child, false),
+                            handler: (child) => child.check = false,
                         })
                         // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
                         let parent = node.parentRef()
                         while (!!parent && !!parent.key) {
                             if (parent.check) {
-                                tree.methods.check(parent, false)
+                                parent.check = false
                                 parent = parent.parentRef()
                             } else {
                                 break
@@ -197,7 +197,7 @@ export default designComponent({
                 })
             },
             toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
-            checkAll: () => TreeUtils.iterateAll({nodes: tree.formatData.value.nodeList, handler: node => tree.methods.check(node, true)}),
+            checkAll: () => TreeUtils.iterateAll({nodes: tree.state.root.children, handler: node => node.check = true}),
             uncheckAll: () => tree.state.check.clear(),
             getCheckedData: () => []/*tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean)*/,
             refreshCheckStatus: async (keyOrNode: string | TreeNode) => {
@@ -211,12 +211,12 @@ export default designComponent({
                     if (node.check && hasUncheck) {
                         // 自身选中而子节点有非选中,令所有父节点变成非选中状态
                         let parents = tree.utils.getParents(node);
-                        [...parents, node].forEach(n => tree.methods.check(n, false))
+                        [...parents, node].forEach(n => n.check = false)
                     }
                     if (!node.check && hasCheck && !hasUncheck) {
                         // 自身非选中而子节点全部选中，令所有父节点变成选中状态
                         let parents = tree.utils.getParents(node);
-                        [...parents, node].forEach(n => tree.methods.check(n, true))
+                        [...parents, node].forEach(n => n.check = true)
                     }
                 })
             },
@@ -325,15 +325,15 @@ export default designComponent({
             },
             render: () => {
                 return (
-                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || tree.state.rootLoading.value}>
-                        {tree.formatData.value.flatList.length === 0 ? (
+                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || tree.state.root.loading}>
+                        {tree.flatList.value.length === 0 ? (
                             <div class="pl-tree-placeholder" key="placeholder">
                                 <pl-icon icon="el-icon-folder-opened"/>
                                 <span>{props.emptyText}</span>
                             </div>
                         ) : (
                             (<pl-virtual-list
-                                data={tree.formatData.value.flatList}
+                                data={tree.flatList.value}
                                 size={props.nodeHeight}
                                 disabled={!props.virtual}
                                 v-slots={{

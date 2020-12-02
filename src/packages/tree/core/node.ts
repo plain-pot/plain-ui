@@ -1,17 +1,22 @@
-import {computed, ref, watchEffect} from 'vue';
+import {computed, onBeforeUnmount, reactive, watchEffect} from 'vue';
 import {useModel} from "../../../use/useModel";
-import {createCounter} from "../../../utils/createCounter";
 import {TreeEmptyNode, TreeNode, TreePropsType} from "./type";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {TreeUtils} from "./utils";
 import {useFlagManager} from "../../../utils/useFlagManager";
+import {createKeyHandler} from "../../../utils/createKeyHandler";
 import isCheckable = TreePropsType.isCheckable;
 import isLeaf = TreePropsType.isLeaf;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 import getChildren = TreePropsType.getChildren;
 
-const keyCounter = createCounter('tree')
+const keyManager = createKeyHandler('tree')
 
+/**
+ * 根据childrenField遍历data树形数据
+ * @author  韦胜健
+ * @date    2020/12/2 12:22
+ */
 function iterateData({data, childrenField}: { data?: any[], childrenField: string }) {
     if (!!data) {
         data.forEach(item => {
@@ -20,28 +25,6 @@ function iterateData({data, childrenField}: { data?: any[], childrenField: strin
             }
         })
     }
-}
-
-function useFormatData(
-    {
-        dataModel,
-        childrenField,
-    }: {
-        dataModel: { value: any[] | undefined },
-        childrenField: string
-    }) {
-
-    watchEffect(() => {
-        iterateData({data: dataModel.value, childrenField})
-    }, {
-        onTrigger: (e) => {
-            if (Array.isArray(e.target)) {
-                if (e.type === 'add' || e.type === 'delete') {
-                    console.log('refresh')
-                }
-            }
-        }
-    })
 }
 
 /**
@@ -72,8 +55,6 @@ export function useTree(
         },
     }) {
 
-    /*根节点是否loading*/
-    const rootLoading = ref(false)
     /*data双向绑定值*/
     const dataModel = useModel(() => props.data, event.emit.updateData)
 
@@ -82,33 +63,18 @@ export function useTree(
     const loading = useFlagManager<TreeNode, boolean>()         // 是否正在加载中
     const loaded = useFlagManager<TreeNode, boolean>()          // 是否已经加载完毕
 
-
-    const getKey = (() => {
-        const map = new WeakMap<object, string>()
-        return (data: any): string => {
-            let key = map.get(data)
-            if (!key) {
-                if (!!props.keyField) {
-                    key = data[props.keyField]
-                }
-                if (!key) {
-                    key = keyCounter()
-                }
-                map.set(data, key)
-            }
-            return key
-        }
-    })();
-
+    /**
+     * 根据 data，level，parentRef获取 treeNode对象
+     * @author  韦胜健
+     * @date    2020/12/2 12:12
+     */
     const getNode = (() => {
-
         const map = new WeakMap<object, TreeNode>()
-
-        const getter = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TreeNode }): TreeNode => {
+        const get = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TreeNode }): TreeNode => {
             let node: TreeNode | undefined = map.get(data)
             if (!node) {
                 node = {
-                    key: getKey(data),
+                    key: keyManager(data, props.keyField),
                     data,
                     level,
                     parentRef,
@@ -116,7 +82,7 @@ export function useTree(
 
                     get label() {return !!props.labelField && !!data ? data[props.labelField] : null},
                     get childrenData() {return data[props.childrenField!]},
-                    get children() {return !this.childrenData ? undefined : this.childrenData.map(d => getter({data: d, level: level + 1, parentRef: this.selfRef}))},
+                    get children() {return !this.childrenData ? undefined : this.childrenData.map(d => get({data: d, level: level + 1, parentRef: this.selfRef}))},
                     get checkStatus() {
                         if (!props.showCheckbox) {
                             return TreeNodeCheckStatus.uncheck
@@ -154,7 +120,7 @@ export function useTree(
                 map.set(data, node!)
             } else {
                 Object.assign(node, {
-                    key: getKey(data),
+                    key: keyManager(data, props.keyField),
                     data,
                     level,
                     parentRef,
@@ -162,32 +128,41 @@ export function useTree(
             }
             return node!
         }
-
-        return {
-            map,
-            getter,
-        }
-
+        return get
     })();
 
-    const formatData = computed(() => {
-        // console.log('formatData')
-        /*虚拟跟节点*/
-        const rootNode = getNode.getter({
+    const state = reactive({
+        /*虚拟跟节点, 根节点treeNode对象*/
+        root: getNode({
             data: {
                 [props.keyField!]: '@@root',
                 [props.childrenField!]: dataModel.value
             },
             level: 0,
             parentRef: null as any,
-        })
-        /*拍平的树形数据（不拍平无法实现虚拟滚动）*/
-        let flatList: (TreeNode | TreeEmptyNode)[] = []
+        }),
+        /*key与treeNode的关系映射对象*/
+        nodeMap: {} as Record<string, TreeNode>,
+
+        expand,
+        check,
+        loading,
+        loaded,
+        dataModel,
+    })
+
+    /**
+     * 拍平的树形数据（不拍平无法实现虚拟滚动）
+     * @author  韦胜健
+     * @date    2020/12/2 12:16
+     */
+    const flatList = computed(() => {
+        let result: (TreeNode | TreeEmptyNode)[] = []
         TreeUtils.iterateAll({
-            nodes: rootNode.children,
+            nodes: state.root.children,
             iterateChildren: (treeNode: TreeNode) => treeNode.expand,
             handler: (treeNode: TreeNode) => {
-                flatList.push(treeNode)
+                result.push(treeNode)
                 // console.log(treeNode.label, {'!treeNode.isLeaf': !treeNode.isLeaf, 'treeNode.loaded': treeNode.loaded, 'treeNode.isVisible': treeNode.isVisible, 'treeNode.expand': treeNode.expand, 'treeNode.children': treeNode.children,})
                 if (
                     !treeNode.isLeaf &&
@@ -196,36 +171,18 @@ export function useTree(
                     treeNode.expand &&
                     treeNode.children!.length === 0
                 ) {
-                    flatList.push(() => treeNode)
+                    result.push(() => treeNode)
                 }
             },
         },)
-        flatList = flatList.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
-
-        /*node对象映射，方便通过key查找node*/
-        const nodeMap = {} as Record<string, TreeNode>
-        TreeUtils.iterateAll({
-            nodes: rootNode.children,
-            handler: (node) => nodeMap[node.key] = node
-        })
-
-        return {
-            rootNode,
-            nodeMap,
-            nodeList: rootNode.children,
-            flatList,
-        }
+        result = result.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
+        return result
     })
 
     const methods = {
-        expand: expand.set,
-        check: check.set,
-        loading: loading.set,
-        loaded: loaded.set,
-
         /*这里一直从 nodeMap 中获取最新的，因为keyOrNode如果是treeNode的话，可能只是一个快照*/
-        getNode: (keyOrNode: string | TreeNode) => formatData.value.nodeMap[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key],
-
+        getNode: (keyOrNode: string | TreeNode) => state.nodeMap[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key],
+        /*设置子节点数据*/
         setChildrenData: (node: TreeNode, data: any[]) => {if (!!props.childrenField) {node.data[props.childrenField] = data}}
     }
 
@@ -263,13 +220,13 @@ export function useTree(
                     return
                 }
                 if (treeNode.level === 0) {
-                    rootLoading.value = true
+                    state.root.loading = true
                 } else {
                     loading.set(treeNode, true)
                 }
                 props.getChildren(treeNode, (...results) => {
                     if (treeNode.level === 0) {
-                        rootLoading.value = false
+                        state.root.loading = false
                     } else {
                         loading.set(treeNode, false)
                         loaded.set(treeNode, true)
@@ -285,9 +242,13 @@ export function useTree(
          */
         initialize() {
             if (!props.lazy) {return}
-            utils.getChildrenAsync(formatData.value.rootNode).then(val => dataModel.value = val)
-
+            utils.getChildrenAsync(state.root).then(val => dataModel.value = val)
         },
+        /**
+         * 获取treeNode所有的父节点
+         * @author  韦胜健
+         * @date    2020/12/2 12:19
+         */
         getParents: (keyOrNode: TreeNode | string) => {
             let node = typeof keyOrNode === "string" ? methods.getNode(keyOrNode) : keyOrNode
             let parents = [] as TreeNode[]
@@ -302,17 +263,52 @@ export function useTree(
         },
     }
 
+    /**
+     * 刷新 state.nodeMap 以及 flagManager中的keys
+     * @author  韦胜健
+     * @date    2020/12/2 12:17
+     */
+    const refreshNodeMap = () => {
+        const map = {} as Record<string, TreeNode>
+        TreeUtils.iterateAll({
+            nodes: state.root.children,
+            handler: node => map[node.key] = node
+        })
+
+        const deleteKeys = (() => {
+            const keys = [] as string[]
+            Object.keys(state.nodeMap).forEach(key => !(key in map) && keys.push(key))
+            return keys
+        })();
+
+        expand.removeKeys(deleteKeys)
+        check.removeKeys(deleteKeys)
+        loading.removeKeys(deleteKeys)
+        loaded.removeKeys(deleteKeys)
+
+        state.nodeMap = map
+    }
+
+    const stopWatchEffect = watchEffect(
+        () => iterateData({data: dataModel.value, childrenField: props.childrenField!}),
+        {
+            onTrigger: (e) => {
+                if (!Array.isArray(e.target)) {
+                    return
+                }
+                if (!(e.type === 'add' || e.type === 'delete')) {
+                    return;
+                }
+                refreshNodeMap()
+            }
+        })
+    refreshNodeMap()
+    onBeforeUnmount(stopWatchEffect)
+
     return {
-        state: {
-            rootLoading,
-            expand,
-            check,
-            loading,
-            loaded,
-            dataModel,
-        },
+        state,
         utils,
-        formatData,
+        flatList,
         methods,
     }
 }
