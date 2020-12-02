@@ -7,7 +7,7 @@ import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./core/props";
 import {TreeUtils} from "./core/utils";
 import {useTree} from "./core/node";
-import {TreeEmptyNode, TreeNode} from "./core/type";
+import {TreeNode} from "./core/type";
 import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
 import {useTreeDraggier} from './core/drag';
@@ -325,8 +325,8 @@ export default designComponent({
         if (props.defaultExpandAll) nextTick().then(() => expandMethods.expandAll())
 
         const render = {
-            node: (node: TreeNode | TreeEmptyNode, index: number) => {
-                if (typeof node === "function") {
+            node: (node: TreeNode, index: number) => {
+                if (node.empty) {
                     return render.empty(node)
                 }
                 return (
@@ -360,8 +360,8 @@ export default designComponent({
                     </pl-item>
                 )
             },
-            empty: (emptyNode: TreeEmptyNode) => {
-                const parent = emptyNode()
+            empty: (emptyNode: TreeNode) => {
+                const parent = emptyNode.parentRef()!
                 return (
                     <pl-item
                         key={`${parent.key}_empty`}

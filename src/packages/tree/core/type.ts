@@ -9,6 +9,7 @@ export interface TreeNode {
     selfRef: () => TreeNode,
 
     index: number,
+    empty: boolean,
 
     readonly childrenData?: any[]
     readonly label?: string,
@@ -29,10 +30,6 @@ export interface TreeNode {
     nextSibling: (node: TreeNode) => void,
     unshiftChild: (node: TreeNode) => void,
     getReactiveChildrenData: () => any[],
-}
-
-export interface TreeEmptyNode {
-    (): TreeNode
 }
 
 export namespace TreePropsType {

@@ -1,6 +1,6 @@
 import {computed, onBeforeUnmount, reactive, watchEffect} from 'vue';
 import {useModel} from "../../../use/useModel";
-import {TreeEmptyNode, TreeNode, TreePropsType} from "./type";
+import {TreeNode, TreePropsType} from "./type";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {TreeUtils} from "./utils";
 import {useFlagManager} from "../../../utils/useFlagManager";
@@ -9,6 +9,7 @@ import isCheckable = TreePropsType.isCheckable;
 import isLeaf = TreePropsType.isLeaf;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 import getChildren = TreePropsType.getChildren;
+import tree from "../tree";
 
 const keyManager = createKeyHandler('tree')
 
@@ -80,6 +81,7 @@ export function useTree(
                     level,
                     parentRef,
                     selfRef: () => node!,
+                    empty: false,
 
                     get label() {return !!props.labelField && !!data ? data[props.labelField] : null},
                     get childrenData() {return data[props.childrenField!]},
@@ -192,11 +194,16 @@ export function useTree(
                     treeNode.expand &&
                     treeNode.children!.length === 0
                 ) {
-                    // result.push(() => treeNode)
+                    result.push({
+                        key: `@@empty_${treeNode.key}`,
+                        parentRef: () => treeNode,
+                        empty: true,
+                        level: treeNode.level + 1,
+                    } as TreeNode)
                 }
             },
         },)
-        result = result.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
+        result = result.filter((treeNode) => treeNode.empty ? true : !!treeNode.isVisible)
         result.forEach((node, index) => node.index = index)
         return result
     })

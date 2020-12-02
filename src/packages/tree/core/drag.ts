@@ -15,6 +15,7 @@ export function useTreeDraggier<T extends {
     parentRef: () => T | null,
     children?: T[],
     check?: boolean,
+    empty: boolean,
 
     removeSelf: () => void,
     previousSibling: (node: T) => void,
@@ -123,12 +124,16 @@ export function useTreeDraggier<T extends {
             let droppable = true
 
             state.moveNode = moveNode
-            const parents = utils.getParents(state.moveNode)
-            if (parents.map(n => n.key).indexOf(state.startNode!.key) > -1) {
+            if (state.moveNode.empty) {
                 droppable = false
-            }
-            if (!utils.allowRowDroppable(state.startNode!, moveNode, dropType)) {
-                droppable = false
+            } else {
+                const parents = utils.getParents(state.moveNode)
+                if (parents.map(n => n.key).indexOf(state.startNode!.key) > -1) {
+                    droppable = false
+                }
+                if (!utils.allowRowDroppable(state.startNode!, moveNode, dropType)) {
+                    droppable = false
+                }
             }
 
             state.dropType = dropType
