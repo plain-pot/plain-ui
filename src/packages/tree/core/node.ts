@@ -92,9 +92,8 @@ export function useTree(
                     set loading(val) {loading.set(this.key, val)},
                     get loaded() {return !props.lazy || loaded.get(this.key) === true},
                     set loaded(val) {loaded.set(this.key, val)},
-                    get checkStatus() {
-                        return checkStatus.value[this.key]
-                    },
+                    /*这里并不会立即执行，当渲染VNodeChild的时候这里才会执行，所以不存在checkStatus.value不存在的问题*/
+                    get checkStatus() {return checkStatus.value[this.key]},
 
                     get isCheckable() {return !props.isCheckable || props.isCheckable(this)},
                     get isLeaf() {return !!props.isLeaf ? props.isLeaf(this) : !this.childrenData},
@@ -164,6 +163,11 @@ export function useTree(
         return result
     })
 
+    /**
+     * 因为滚动的时候会频繁获取checkStatus，而这个属性又是计算量比较大的属性，这里作为计算属性统一计算
+     * @author  韦胜健
+     * @date    2020/12/2 14:07
+     */
     const checkStatus = computed(() => {
         const map = {} as Record<string, TreeNodeCheckStatus>
         if (!props.showCheckbox) {
