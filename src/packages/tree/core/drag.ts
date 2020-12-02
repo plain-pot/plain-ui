@@ -11,7 +11,7 @@ export function useTreeDraggier<T extends {
     index: number,
     isLeaf: boolean,
     level: number,
-    parentRef: () => T,
+    parentRef: () => T | null,
     children?: T[],
     check?: boolean,
 
@@ -22,7 +22,7 @@ export function useTreeDraggier<T extends {
 }>(
     {
         rowClass,
-        nodeClass,
+        dragClass,
         intent,
         flatList,
         allowDrag,
@@ -32,7 +32,7 @@ export function useTreeDraggier<T extends {
         refreshCheckStatus,
     }: {
         rowClass: string,                               // 行 class 标识
-        nodeClass: string,                              // 拖拽的节点class标识
+        dragClass: string,                              // 拖拽的节点class标识
         intent: number,                                 // 层级偏移距离
         flatList: { value: T[] },                       // 拍平的数据
         allowDrag?: (node: T) => boolean | undefined,   // 判断元素是否可以拖拽
@@ -64,7 +64,7 @@ export function useTreeDraggier<T extends {
             height: 0,
         },
         indicator: null as null | HTMLElement,          // 指示器dom对象
-        dragNodeBaseLeft: 0,                            // dragNode(nodeClass标识的拖拽元素)的left属性
+        dragNodeBaseLeft: 0,                            // dragNode(dragClass标识的拖拽元素)的left属性
 
         dropType: TreeDropType.inner,                   // 当前拖拽移动过程中的放置类型
         droppable: false,                               // 当前拖拽过程中，是否可放置
@@ -100,6 +100,7 @@ export function useTreeDraggier<T extends {
             let paddingLeft = (moveNode.level - 1) * intent
             if (moveNode.isLeaf) paddingLeft += intent
 
+            console.log(dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top)
             styles.top = `${dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top}px`
             styles.left = `${state.dragNodeBaseLeft + paddingLeft}px`
             styles.width = `${state.scrollParentRect.width - (state.dragNodeBaseLeft - state.scrollParentRect.left) - paddingLeft}px`
@@ -151,7 +152,7 @@ export function useTreeDraggier<T extends {
                 return
             }
 
-            const dragNode = state.rowEl.querySelector(`.${nodeClass}`)!
+            const dragNode = state.rowEl.querySelector(`.${dragClass}`)!
             state.dragNodeBaseLeft = Math.ceil(dragNode.getBoundingClientRect()!.left)
 
             state.scrollParent = getScrollParent(state.rowEl)

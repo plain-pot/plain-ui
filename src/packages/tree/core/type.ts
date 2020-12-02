@@ -2,11 +2,13 @@ import {VNodeChild} from "../../../shims";
 import {TreeDropType, TreeNodeCheckStatus} from "../utils/tree-constant";
 
 export interface TreeNode {
+    key: string,
     data: any,
     level: number,
-    key: string,
     parentRef: () => TreeNode | null,
     selfRef: () => TreeNode,
+
+    index: number,
 
     readonly childrenData?: any[]
     readonly label?: string,
@@ -21,6 +23,12 @@ export interface TreeNode {
     readonly isCheckable: boolean,
     readonly isLeaf: boolean,
     readonly isVisible: boolean,
+
+    removeSelf: () => void,
+    previousSibling: (node: TreeNode) => void,
+    nextSibling: (node: TreeNode) => void,
+    unshiftChild: (node: TreeNode) => void,
+    getReactiveChildrenData: () => any[],
 }
 
 export interface TreeEmptyNode {

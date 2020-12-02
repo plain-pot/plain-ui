@@ -10,6 +10,7 @@ import {useTree} from "./core/node";
 import {TreeEmptyNode, TreeNode} from "./core/type";
 import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
+import {useTreeDraggier} from './core/drag';
 
 export default designComponent({
     name: 'pl-tree',
@@ -271,6 +272,19 @@ export default designComponent({
             },
             getScroll: () => refs.list!.refs.scroll!,
         })*/
+        const draggier = useTreeDraggier<TreeNode>({
+            rowClass: 'pl-tree-node',
+            dragClass: 'pl-tree-node-draggier',
+            intent: props.intent,
+            flatList: tree.flatList,
+            allowDrag: props.allowDrag,
+            allowDrop: props.allowDrop,
+            expand: (node: TreeNode) => expandMethods.expand(node),
+            getScroll: () => refs.list!.refs.scroll!,
+            refreshCheckStatus: () => {
+                !!tree.state.root.children && tree.state.root.children.forEach(child => checkMethods.refreshCheckStatus(child))
+            },
+        })
 
         /*---------------------------------------init-------------------------------------------*/
 
@@ -303,7 +317,7 @@ export default designComponent({
                                              onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
                                 }
                             </div>
-                            {!!props.draggable && <pl-icon icon="el-icon-list" class="pl-tree-node-draggier"/>}
+                            {!!props.draggable && <pl-icon icon="el-icon-list" class="pl-tree-node-draggier" onMousedown={draggier.handler.mousedown}/>}
                             {!!props.nodeIcon && <pl-icon icon={props.nodeIcon(node)}/>}
                         </div>
                         <div class="pl-tree-node-content"

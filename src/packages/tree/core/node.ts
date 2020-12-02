@@ -74,6 +74,7 @@ export function useTree(
             let node: TreeNode | undefined = map.get(data)
             if (!node) {
                 node = {
+                    index: 0,
                     key: keyManager(data, props.keyField),
                     data,
                     level,
@@ -99,6 +100,42 @@ export function useTree(
                     get isLeaf() {return !!props.isLeaf ? props.isLeaf(this) : !this.childrenData},
                     get isVisible() {
                         return !props.filterNodeMethod ? true : (props.filterNodeMethod(this) || (!!this.children && this.children.some(child => child.isVisible)))
+                    },
+
+                    /**
+                     * 获取响应式的子节点数据
+                     * @author  韦胜健
+                     * @date    2020/8/6 20:54
+                     */
+                    getReactiveChildrenData(): any[] {
+                        let childrenData = this.childrenData
+                        if (!childrenData) {
+                            childrenData = []
+                            this.data[props.childrenField!] = childrenData
+                        }
+                        return childrenData
+                    },
+                    removeSelf() {
+                        const parentChildrenData = this.parentRef()!.childrenData!
+                        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 1)
+                    },
+                    previousSibling(node: TreeNode) {
+                        let parentChildrenData = this.parentRef()!.getReactiveChildrenData()
+                        node.parentRef = this.parentRef
+                        node.level = this.level
+                        parentChildrenData.splice(parentChildrenData.indexOf(this.data), 0, node.data)
+                    },
+                    nextSibling(node: TreeNode) {
+                        let parentChildrenData = this.parentRef()!.getReactiveChildrenData()
+                        node.parentRef = this.parentRef
+                        node.level = this.level
+                        parentChildrenData.splice(parentChildrenData.indexOf(this.data) + 1, 0, node.data)
+                    },
+                    unshiftChild(node: TreeNode) {
+                        let childrenData = this.getReactiveChildrenData()
+                        node.parentRef = () => this
+                        node.level = this.level + 1
+                        childrenData.unshift(node.data)
                     },
                 }
                 map.set(data, node!)
@@ -141,7 +178,7 @@ export function useTree(
      * @date    2020/12/2 12:16
      */
     const flatList = computed(() => {
-        let result: (TreeNode | TreeEmptyNode)[] = []
+        let result: (TreeNode)[] = []
         TreeUtils.iterateAll({
             nodes: state.root.children,
             iterateChildren: (treeNode: TreeNode) => treeNode.expand,
@@ -155,7 +192,7 @@ export function useTree(
                     treeNode.expand &&
                     treeNode.children!.length === 0
                 ) {
-                    result.push(() => treeNode)
+                    // result.push(() => treeNode)
                 }
             },
         },)
