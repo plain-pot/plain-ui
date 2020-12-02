@@ -282,7 +282,39 @@ export default designComponent({
             expand: (node: TreeNode) => expandMethods.expand(node),
             getScroll: () => refs.list!.refs.scroll!,
             refreshCheckStatus: () => {
-                !!tree.state.root.children && tree.state.root.children.forEach(child => checkMethods.refreshCheckStatus(child))
+                if (!props.showCheckbox) return
+                if (props.checkStrictly) return;
+
+                const next = (node: TreeNode) => {
+                    let hasCheck = false
+                    let hasUncheck = false
+
+                    if (!!node.children) {
+                        node.children.forEach(child => {
+                            next(child)
+                            if (child.check) {
+                                hasCheck = true
+                            } else {
+                                hasUncheck = true
+                            }
+                        })
+                    }
+                    if (hasCheck && !hasUncheck) {
+                        // 所有子节点选中
+                        if (!node.check) {
+                            node.check = true
+                        }
+                    } else if (hasUncheck) {
+                        // 有子节点未选中
+                        if (node.check) {
+                            node.check = false
+                        }
+                    }
+                }
+
+                if (!!tree.flatList.value) {
+                    tree.flatList.value.forEach(next)
+                }
             },
         })
 
