@@ -8,6 +8,7 @@ import {getScrollParent} from "../../../utils/getScrollParent";
 const indicatorSize = 3;
 
 export function useTreeDraggier<T extends {
+    key: string,
     index: number,
     isLeaf: boolean,
     level: number,
@@ -124,7 +125,7 @@ export function useTreeDraggier<T extends {
 
             state.moveNode = moveNode
             const parents = utils.getParents(state.moveNode)
-            if (parents.indexOf(state.startNode!) > -1) {
+            if (parents.map(n => n.key).indexOf(state.startNode!.key) > -1) {
                 droppable = false
             }
             if (!utils.allowRowDroppable(state.startNode!, moveNode, dropType)) {
