@@ -11,6 +11,7 @@ import {TreeNode} from "./core/type";
 import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
 import {useTreeDraggier} from './core/drag';
+import Scroll from '../scroll/scroll'
 
 export default designComponent({
     name: 'pl-tree',
@@ -37,6 +38,7 @@ export default designComponent({
 
         const {refs} = useRefs({
             list: VirtualList,
+            scroll: Scroll,
         })
 
         const tree = useTree({
@@ -280,7 +282,7 @@ export default designComponent({
             allowDrag: props.allowDrag,
             allowDrop: props.allowDrop,
             expand: (node: TreeNode) => expandMethods.expand(node),
-            getScroll: () => refs.list!.refs.scroll!,
+            getScroll: () => props.virtual ? refs.list!.refs.scroll! : refs.scroll!,
             refreshCheckStatus: () => {
                 if (!props.showCheckbox) return
                 if (props.checkStrictly) return;
@@ -397,20 +399,26 @@ export default designComponent({
                                 <span>{props.emptyText}</span>
                             </div>
                         ) : (
-                            (<pl-virtual-list
-                                ref="list"
-                                data={tree.flatList.value}
-                                size={props.nodeHeight}
-                                disabled={!props.virtual}
-                                v-slots={{
-                                    // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
-                                    content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
-                                        <pl-list direction="top" class="pl-tree-node-list">
-                                            {data.map(({item, index}) => render.node(item, index))}
+                            props.virtual ?
+                                (<pl-virtual-list
+                                    ref="list"
+                                    data={tree.flatList.value}
+                                    size={props.nodeHeight}
+                                    v-slots={{
+                                        // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
+                                        content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
+                                            <pl-list direction="top" class="pl-tree-node-list">
+                                                {data.map(({item, index}) => render.node(item, index))}
+                                            </pl-list>
+                                        )
+                                    }}
+                                />) : (
+                                    <pl-scroll ref="scroll">
+                                        <pl-list direction="top" className="pl-tree-node-list">
+                                            {tree.flatList.value.map((node, index) => render.node(node, index))}
                                         </pl-list>
-                                    )
-                                }}
-                            />)
+                                    </pl-scroll>
+                                )
                         )}
                     </div>
                 )
