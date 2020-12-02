@@ -339,7 +339,7 @@ export default designComponent({
                                 v-slots={{
                                     // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
                                     content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
-                                        <pl-list direction="bottom" class="pl-tree-node-list">
+                                        <pl-list direction="top" class="pl-tree-node-list">
                                             {data.map(({item, index}) => render.node(item, index))}
                                         </pl-list>
                                     )
