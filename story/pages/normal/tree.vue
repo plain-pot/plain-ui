@@ -305,6 +305,31 @@
             />
         </demo-row>
 
+        <demo-row title="可拖拽+虚拟滚动">
+            <demo-line>
+                <pl-button-group>
+                    <pl-button label="全部展开" @click="$refs.virtualTreeWithDrag.methods.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.virtualTreeWithDrag.methods.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTreeWithDrag.methods.getCurrent() ? $refs.virtualTreeWithDrag.methods.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTreeWithDrag.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="打印数据" @click="log(treeData)"/>
+                </pl-button-group>
+            </demo-line>
+            <pl-tree
+                    ref="virtualTreeWithDrag"
+                    :data="addressData"
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="children"
+                    height="360px"
+                    width="500px"
+                    virtual
+                    draggable
+                    showCheckbox
+                    @click-node="val=>log(val.data.name)"/>
+        </demo-row>
+
     </div>
 </template>
 
