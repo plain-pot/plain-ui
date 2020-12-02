@@ -256,8 +256,7 @@
                     keyField="id"
                     labelField="name"
                     childrenField="subs"
-                    draggable
-                    showCheckbox>
+                    draggable>
                 <template v-slot="{node:{data}}">
                     <span :style="{color:data.id.charAt(0) === '1'?'#12b4a5':(data.id.charAt(0) === '2'?'#00CC00':'#F38585')}">{{data.name}}</span>
                 </template>
