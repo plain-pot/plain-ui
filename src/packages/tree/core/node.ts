@@ -197,6 +197,7 @@ export function useTree(
             },
         },)
         result = result.filter((treeNode) => typeof treeNode === "function" ? true : !!treeNode.isVisible)
+        result.forEach((node, index) => node.index = index)
         return result
     })
 

@@ -100,7 +100,6 @@ export function useTreeDraggier<T extends {
             let paddingLeft = (moveNode.level - 1) * intent
             if (moveNode.isLeaf) paddingLeft += intent
 
-            console.log(dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top)
             styles.top = `${dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top}px`
             styles.left = `${state.dragNodeBaseLeft + paddingLeft}px`
             styles.width = `${state.scrollParentRect.width - (state.dragNodeBaseLeft - state.scrollParentRect.left) - paddingLeft}px`
