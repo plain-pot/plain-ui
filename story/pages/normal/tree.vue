@@ -252,6 +252,7 @@
                     ref="dragTree"
                     :data="treeData"
                     defaultExpandAll
+                    height="360px"
                     keyField="id"
                     labelField="name"
                     childrenField="subs"

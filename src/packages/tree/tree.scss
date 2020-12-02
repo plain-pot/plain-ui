@@ -34,7 +34,6 @@
       box-sizing: border-box;
       border-bottom: solid 1px $ibl;
       color: $itc;
-      cursor: pointer;
 
       & > .pl-tree-node-content {
         display: flex;
@@ -60,8 +59,12 @@
           transition: all 300ms linear;
         }
 
-        .pl-tree-node-draggier {
-          cursor: move;
+        .pl-icon {
+          cursor: pointer;
+
+          &.pl-tree-node-draggier {
+            cursor: move;
+          }
         }
       }
 

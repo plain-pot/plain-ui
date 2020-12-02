@@ -8,6 +8,8 @@ import {TreeProps} from "./core/props";
 import {TreeUtils} from "./core/utils";
 import {useTree} from "./core/node";
 import {TreeEmptyNode, TreeNode} from "./core/type";
+import VirtualList from '../virutal-list/virtual-list'
+import {useRefs} from "../../use/useRefs";
 
 export default designComponent({
     name: 'pl-tree',
@@ -31,6 +33,10 @@ export default designComponent({
     setup({props, event}) {
 
         const {emit} = event
+
+        const {refs} = useRefs({
+            list: VirtualList,
+        })
 
         const tree = useTree({
             props,
@@ -256,6 +262,18 @@ export default designComponent({
             }
         }
 
+        /*---------------------------------------draggier-------------------------------------------*/
+
+        /*const draggier = useListDraggierWithVirtual({
+            rowClass: 'pl-tree-node',
+            onChange: (start, end) => {
+                console.log({start, end})
+            },
+            getScroll: () => refs.list!.refs.scroll!,
+        })*/
+
+        /*---------------------------------------init-------------------------------------------*/
+
         tree.utils.initialize()
 
         if (props.defaultExpandAll) nextTick().then(() => expandMethods.expandAll())
@@ -334,6 +352,7 @@ export default designComponent({
                             </div>
                         ) : (
                             (<pl-virtual-list
+                                ref="list"
                                 data={tree.flatList.value}
                                 size={props.nodeHeight}
                                 disabled={!props.virtual}
