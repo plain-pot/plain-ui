@@ -199,7 +199,7 @@ export default designComponent({
             toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
             checkAll: () => TreeUtils.iterateAll({nodes: tree.state.root.children, handler: node => node.check = true}),
             uncheckAll: () => tree.state.check.clear(),
-            getCheckedData: () => []/*tree.state.check.getActiveKeys().map(tree.methods.getNode).filter(Boolean)*/,
+            getCheckedData: () => tree.state.check.getActiveKeys().map(tree.methods.getNode),
             refreshCheckStatus: async (keyOrNode: string | TreeNode) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async node => {
                     /*刷新选中状态的前提是有子节点数据*/
