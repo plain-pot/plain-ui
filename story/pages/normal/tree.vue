@@ -50,7 +50,7 @@
                     <pl-button label="全部选中" @click="$refs.checkTree.methods.checkAll()"/>
                     <pl-button label="全部取消" @click="$refs.checkTree.methods.uncheckAll()"/>
                     <pl-button label="选中部分数据" @click="$refs.checkTree.methods.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree
@@ -72,7 +72,7 @@
                     <pl-button label="全部选中" @click="$refs.checkStrictlyTree.methods.checkAll()"/>
                     <pl-button label="全部取消" @click="$refs.checkStrictlyTree.methods.uncheckAll()"/>
                     <pl-button label="选中部分数据" @click="$refs.checkStrictlyTree.methods.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkStrictlyTree.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkStrictlyTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree ref="checkStrictlyTree"
@@ -92,7 +92,7 @@
                     <pl-button label="全部选中" @click="$refs.checkableTree.methods.checkAll()"/>
                     <pl-button label="全部取消" @click="$refs.checkableTree.methods.uncheckAll()"/>
                     <pl-button label="选中部分数据" @click="$refs.checkableTree.methods.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree ref="checkableTree"
@@ -112,7 +112,7 @@
                     <pl-button label="全部展开" @click="$refs.scopedSlotDemo.methods.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.scopedSlotDemo.methods.collapseAll()"/>
                     <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.methods.getCurrent() ? $refs.scopedSlotDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                     <pl-button label="打印数据" @click="log(scopedSlotDemo.treeData)"/>
                 </pl-button-group>
             </demo-line>
@@ -145,7 +145,7 @@
                     <pl-button label="全部展开" @click="$refs.renderDemo.methods.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.renderDemo.methods.collapseAll()"/>
                     <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.methods.getCurrent() ? $refs.renderDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
 
@@ -227,7 +227,7 @@
                     <pl-button label="全部展开" @click="$refs.virtualTree.methods.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.virtualTree.methods.collapseAll()"/>
                     <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTree.methods.getCurrent() ? $refs.virtualTree.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTree.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                     <pl-button label="打印数据" @click="log(addressData)"/>
                 </pl-button-group>
             </demo-line>

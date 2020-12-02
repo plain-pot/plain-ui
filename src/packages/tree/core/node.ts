@@ -134,10 +134,10 @@ export function useTree(
     const state = reactive({
         /*虚拟跟节点, 根节点treeNode对象*/
         root: getNode({
-            data: {
+            data: reactive({
                 [props.keyField!]: '@@root',
                 [props.childrenField!]: dataModel.value
-            },
+            }),
             level: 0,
             parentRef: null as any,
         }),
@@ -241,8 +241,14 @@ export function useTree(
          * @date    2020/11/28 10:45
          */
         initialize() {
-            if (!props.lazy) {return}
-            utils.getChildrenAsync(state.root).then(val => dataModel.value = val)
+            if (props.lazy) {
+                utils.getChildrenAsync(state.root).then(val => {
+                    methods.setChildrenData(state.root, val)
+                    dataModel.value = val
+                })
+            } else {
+                refreshNodeMap()
+            }
         },
         /**
          * 获取treeNode所有的父节点
@@ -269,6 +275,7 @@ export function useTree(
      * @date    2020/12/2 12:17
      */
     const refreshNodeMap = () => {
+        // console.log('refreshNodeMap')
         const map = {} as Record<string, TreeNode>
         TreeUtils.iterateAll({
             nodes: state.root.children,
@@ -290,19 +297,9 @@ export function useTree(
     }
 
     const stopWatchEffect = watchEffect(
-        () => iterateData({data: dataModel.value, childrenField: props.childrenField!}),
-        {
-            onTrigger: (e) => {
-                if (!Array.isArray(e.target)) {
-                    return
-                }
-                if (!(e.type === 'add' || e.type === 'delete')) {
-                    return;
-                }
-                refreshNodeMap()
-            }
-        })
-    refreshNodeMap()
+        () => iterateData({data: state.root.childrenData || [], childrenField: props.childrenField!}),
+        {onTrigger: refreshNodeMap}
+    )
     onBeforeUnmount(stopWatchEffect)
 
     return {
