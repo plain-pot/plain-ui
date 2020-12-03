@@ -1,0 +1,42 @@
+@include theme {
+
+  .pl-select-panel {
+
+  }
+
+  .pl-select-option {
+
+    padding: 5px 12px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: $itc;
+    background-color: white;
+    transition: background-color linear 200ms;
+
+    &.pl-select-group {
+      font-size: 12px;
+      color: $itl;
+      background-color: #f2f2f2;
+      padding: 0 12px;
+      margin: 4px 0;
+    }
+
+    .pl-select-option-icon {
+      margin-right: 6px;
+      opacity: 0.5;
+    }
+
+    &:not(.pl-select-option-disabled):hover {
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+
+    &.pl-select-option-disabled {
+      color: $disabledText;
+      cursor: not-allowed;
+    }
+
+  }
+
+}

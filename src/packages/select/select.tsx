@@ -1,10 +1,9 @@
 import {designComponent} from "../../use/designComponent";
+import './select.scss'
 
 export default designComponent({
     name: 'pl-select',
-    props: {
-
-    },
+    props: {},
     setup() {
         return {
             render: () => {
