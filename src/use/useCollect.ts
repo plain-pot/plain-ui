@@ -53,7 +53,7 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
 
     const {parent} = config()
     const parentName = parent.name || counter()
-    const provideString = `@@${parentName}`
+    const provideString = `@@Collector_${parentName}`
 
     return {
         parent: (): (Child['use']['class'])[] => {

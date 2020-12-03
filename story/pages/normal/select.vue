@@ -17,7 +17,7 @@
 
 <script>
     export default {
-        name: "select",
+        name: "demo-select",
         data() {
             return {
                 initFlag: true,
