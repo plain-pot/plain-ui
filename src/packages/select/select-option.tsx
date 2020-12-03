@@ -23,7 +23,7 @@ const Option = designComponent({
             el: HTMLDivElement,
         })
 
-        SelectGroupCollector.child({injectDefaultValue: null})
+        const group = SelectGroupCollector.child({injectDefaultValue: null})
         const panel = SelectCollector.child({injectDefaultValue: null, sort: () => refs.el})
         const isShow = computed(() => (!panel || panel.utils.isShow(props)))
         const isSelected = computed(() => !!panel && panel.utils.isSelected(props))
@@ -40,6 +40,7 @@ const Option = designComponent({
                 'pl-select-option-show': isShow.value,
                 'pl-select-option-selected': isSelected.value,
                 'pl-select-option-highlight': !!panel && panel.current.value === refer,
+                'pl-select-option-group-child': !!group && !props.group,
             }
         ])
 

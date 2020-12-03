@@ -42,13 +42,16 @@
       transition: background-color linear 200ms;
     }
 
-    &.pl-select-group {
+    &.pl-select-option-group-child {
+      padding-left: 20px;
+    }
 
+
+    &.pl-select-group {
       font-size: 12px;
       color: $colorPrimary;
       padding: 0 12px;
       margin: 4px 0;
-
     }
 
     .pl-select-option-icon {
@@ -56,7 +59,7 @@
       opacity: 0.5;
     }
 
-    &:not(.pl-select-option-disabled):hover {
+    &:not(.pl-select-option-disabled):not(.pl-select-group):hover {
       background-color: #f2f2f2;
       cursor: pointer;
     }
@@ -65,7 +68,6 @@
       color: $disabledText;
       cursor: not-allowed;
     }
-
   }
 
 }
