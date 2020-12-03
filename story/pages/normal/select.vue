@@ -11,6 +11,49 @@
                     </pl-select-group>
                 </pl-select-panel>
             </demo-row>
+
+            <demo-row title="基本单选">
+                <demo-line>
+                    {{val[0]}}
+                </demo-line>
+                <pl-select-panel v-model="val[0]">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <template v-for="item in group.children">
+                            <pl-select-option :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                        </template>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+
+            <demo-row title="基本多选">
+                <demo-line>
+                    {{val[1]}}
+                </demo-line>
+                <pl-select-panel v-model="val[1]" multiple multipleMaxLimit="3" multipleMinLimit="1">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <template v-for="item in group.children">
+                            <pl-select-option :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                        </template>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+
+            <demo-row title="无数据">
+                <pl-select-panel/>
+            </demo-row>
+            <demo-row title="输入筛选">
+                <demo-line>
+                    <pl-input v-model="filterText"/>
+                </demo-line>
+                <pl-select-panel v-model="val[2]" :filterMethod="filterMethod">
+                    <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                        <template v-for="item in group.children">
+                            <pl-select-option :key="item.val" :label="item.name" :val="item.val" v-if="initFlag || item.name !== '岳阳市'"/>
+                        </template>
+                    </pl-select-group>
+                </pl-select-panel>
+            </demo-row>
+
         </demo-row>
     </div>
 </template>
@@ -20,6 +63,7 @@
         name: "demo-select",
         data() {
             return {
+                val: {},
                 initFlag: true,
                 groupData: [
                     {
@@ -40,6 +84,14 @@
                         ]
                     }
                 ],
+
+                filterText: null,
+                filterMethod: (option) => {
+                    if (!this.filterText || !this.filterText.trim()) {
+                        return true
+                    }
+                    return option.label.indexOf(this.filterText) > -1
+                }
             }
         },
     }

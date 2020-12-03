@@ -63,7 +63,7 @@ const Option = designComponent({
                             onClick: handler.click,
                         }}>
                         {!!panel && isShow.value && <>
-                            {!!panel.props.multiple ? <pl-checkbox customReadonly value={isSelected.value} class="pl-select-option-checkbox"/> : null}
+                            {!!panel.props.multiple && !props.group ? <pl-checkbox customReadonly modelValue={isSelected.value} class="pl-select-option-checkbox"/> : null}
                             {!!props.icon && <pl-icon icon={props.icon} class="pl-select-option-icon"/>}
                             {slots.default(props.label)}
                         </>}

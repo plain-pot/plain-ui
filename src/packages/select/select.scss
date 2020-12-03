@@ -2,17 +2,45 @@
 
   .pl-select-panel {
 
+    padding: 3px 0;
+
+    .pl-select-panel-empty-text {
+      color: $disabledText;
+      font-size: 12px;
+      padding: 12px 0;
+      text-align: center;
+
+      .pl-icon {
+        font-size: 1.4em;
+        margin-right: 8px;
+      }
+    }
+
+    &.pl-select-panel-multiple {
+      .pl-select-option {
+        .pl-select-option-checkbox {
+          margin-right: 6px;
+        }
+
+        &.pl-select-option-selected {
+          background-color: $colorPrimaryLight;
+          color: $colorPrimary;
+        }
+      }
+    }
   }
 
   .pl-select-option {
 
-    padding: 5px 12px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-    color: $itc;
-    background-color: white;
-    transition: background-color linear 200ms;
+    &.pl-select-option-show {
+      padding: 5px 12px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      color: $itc;
+      background-color: white;
+      transition: background-color linear 200ms;
+    }
 
     &.pl-select-group {
       font-size: 12px;

@@ -8,6 +8,7 @@ import Scroll from '../scroll'
 import {useModel} from "../../use/useModel";
 import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
+import {useProps} from "../../use/useProps";
 
 const Panel = designComponent({
     name: 'pl-select-panel',
@@ -15,8 +16,8 @@ const Panel = designComponent({
         modelValue: {type: [String, Array]},                            // 双向绑定值
 
         multiple: {type: Boolean},                                      // 是否多选
-        multipleMaxLimit: {type: Number},                               // 多选最多选择个数
-        multipleMinLimit: {type: Number},                               // 多选最少选择个数
+        multipleMaxLimit: {type: [Number, String]},                     // 多选最多选择个数
+        multipleMinLimit: {type: [Number, String]},                     // 多选最少选择个数
 
         noMatchText: {type: String, default: '暂无匹配数据'},             // 筛选无数据时展示的文本
         noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
@@ -32,6 +33,11 @@ const Panel = designComponent({
     },
     provideRefer: true,
     setup({props, event: {emit}}) {
+
+        const {propsState} = useProps(props, {
+            multipleMaxLimit: useProps.NUMBER,
+            multipleMinLimit: useProps.NUMBER,
+        })
 
         /*插槽*/
         const {slots} = useSlots()
@@ -94,13 +100,13 @@ const Panel = designComponent({
                     const newValue: string[] = [...((model.value as string[]) || [])]
                     const index = newValue.indexOf(option.props.val!)
                     if (index > -1) {
-                        if (!!props.multipleMinLimit && newValue.length <= props.multipleMinLimit) {
-                            return alert(`最少选择 ${props.multipleMinLimit} 个选项`)
+                        if (!!propsState.multipleMinLimit && newValue.length <= propsState.multipleMinLimit) {
+                            return alert(`最少选择 ${propsState.multipleMinLimit} 个选项`)
                         }
                         newValue.splice(index, 1)
                     } else {
-                        if (!!props.multipleMaxLimit && newValue.length >= props.multipleMaxLimit) {
-                            return alert(`最多选择 ${props.multipleMaxLimit} 个选项`)
+                        if (!!propsState.multipleMaxLimit && newValue.length >= propsState.multipleMaxLimit) {
+                            return alert(`最多选择 ${propsState.multipleMaxLimit} 个选项`)
                         }
                         newValue.push(option.props.val!)
                     }
@@ -223,6 +229,7 @@ const Panel = designComponent({
                 const inner = [
                     (options.value.length === 0 || showOptions.value.length === 0) ? (
                         <div class="pl-select-panel-empty-text">
+                            <pl-icon icon="el-icon-nodata"/>
                             {options.value.length === 0 ? props.noDataText : props.noMatchText}
                         </div>
                     ) : null,
