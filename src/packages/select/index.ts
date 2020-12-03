@@ -12,5 +12,9 @@ export default {
     SelectOption,
     SelectGroup,
     SelectPanel,
-    ...createComponentPlugin(select),
+    ...createComponentPlugin(select, [
+        SelectOption,
+        SelectGroup,
+        SelectPanel,
+    ]),
 }

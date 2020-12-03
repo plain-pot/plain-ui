@@ -8,12 +8,12 @@ export default designComponent({
         icon: {type: String},
         disabled: {type: Boolean},
     },
-    setup() {
+    setup({props}) {
         return {
             render: () => {
                 return (
                     <div>
-                        option
+                        {props.label}
                     </div>
                 )
             }
