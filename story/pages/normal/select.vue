@@ -73,6 +73,23 @@
                 <pl-select-option v-for="item in list.slice(0, 4)" :key="item.val" :label="item.name" :val="item.val"/>
             </pl-select>
         </demo-row>
+
+        <demo-row title="禁用选项">
+            <pl-select>
+                <pl-select-option label="深圳市" val="shenzhen"/>
+                <pl-select-option label="韶关市" val="shaoguan"/>
+                <pl-select-option label="珠海市" val="zhuhai"/>
+                <pl-select-option label="汕头市" val="shantou" disabled/>
+                <pl-select-option label="佛山市" val="foshan"/>
+                <pl-select-option label="江门市" val="jiangmen"/>
+                <pl-select-option label="湛江市" val="zhanjiang" disabled/>
+                <pl-select-option label="茂名市" val="maoming"/>
+                <pl-select-option label="肇庆市" val="zhaoqing" disabled/>
+                <pl-select-option label="惠州市" val="huizhou"/>
+                <pl-select-option label="梅州市" val="meizhou"/>
+            </pl-select>
+        </demo-row>
+
     </div>
 </template>
 
