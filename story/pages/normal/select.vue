@@ -90,6 +90,14 @@
             </pl-select>
         </demo-row>
 
+        <demo-row title="分组">
+            <pl-select>
+                <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                    <pl-select-option v-for="item in group.children" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select-group>
+            </pl-select>
+        </demo-row>
+
     </div>
 </template>
 

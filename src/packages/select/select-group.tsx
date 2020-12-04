@@ -14,8 +14,8 @@ const Group = designComponent({
 
         const {slots} = useSlots(['label'], true)
         const options = (SelectGroupCollector as any).parent() as SelectOption[]
-        const panel = Panel.use.inject()
-        const isShow = computed(() => options.filter((option) => !option.props.group).filter(o => panel.utils.isShow(o.props)).length > 0)
+        const panel = Panel.use.inject(null)
+        const isShow = computed(() => !panel || options.filter((option) => !option.props.group).filter(o => panel.utils.isShow(o.props)).length > 0)
 
         return {
             render: () => {
