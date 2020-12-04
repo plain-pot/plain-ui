@@ -41,7 +41,7 @@ const Option = designComponent({
                 'pl-select-option-disabled': props.disabled,
                 'pl-select-option-show': isShow.value,
                 'pl-select-option-selected': isSelected.value,
-                'pl-select-option-highlight': !!panel && panel.current.value === refer,
+                'pl-select-option-highlight': !!panel && !!panel.current.value && panel.current.value.props === props,
                 'pl-select-option-group-child': !!group && !props.group,
             }
         ])
