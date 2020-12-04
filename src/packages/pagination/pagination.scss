@@ -84,8 +84,15 @@
         line-height: $value;
 
         &.pl-pagination-pager-button {
-          padding: 0 #{$value - 21};
+          padding: 0 #{$value - 20};
           min-width: $value;
+          display: flex;
+          align-items: center;
+
+          & > * {
+            flex-grow: 0;
+            flex-shrink: 0;
+          }
         }
       }
       &.pl-pagination-size-large {

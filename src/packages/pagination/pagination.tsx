@@ -213,6 +213,11 @@ export default designComponent({
                     await nextTick()
                     jumperValue.value = val
                 }
+                if (val > pageInfo.value.totalPage) {
+                    val = pageInfo.value.totalPage
+                    await nextTick()
+                    jumperValue.value = val
+                }
                 emit.jump(val)
             },
         }
@@ -243,6 +248,7 @@ export default designComponent({
                                    hideButton
                                    loading={false}
                                    v-model={jumperValue.value}
+                                   min={0}
                                    onEnter={handler.onJump}/>
                         <span>页</span>
                     </div>
