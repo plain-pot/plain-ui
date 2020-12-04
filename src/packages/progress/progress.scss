@@ -24,7 +24,7 @@
       }
     }
 
-    @keyframes spin {
+    @keyframes path-animate {
       from {
         transform: rotate(0deg);
       }
@@ -34,8 +34,12 @@
     }
 
     &.pl-progress-circle-loading {
-      & > svg > path {
-        animation: spin 1500ms linear infinite;
+      & > svg {
+        animation: path-animate 15000ms linear infinite;
+
+        & > path {
+          animation: path-animate 1500ms linear infinite;
+        }
       }
     }
   }

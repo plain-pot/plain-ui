@@ -5,6 +5,7 @@ import {unit} from 'plain-utils/string/unit';
 import {computed, reactive, watch} from 'vue';
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
+import loading from "../loading/loading";
 
 /*
 
@@ -57,43 +58,66 @@ export const ProgressCircle = designComponent({
 
         const model = useModel(() => props.modelValue, event.emit.updateModelValue)
 
-        const state = reactive({
-            loading: (() => {
+        const animate = (() => {
+            let cancel = null as null | number
 
-                const loadingState = {
-                    loadingCls: false,
-                    increment: 1,
-                    interval: null as null | number,
-                    handleInterval: () => {
-                        if (model.value == null) {
-                            model.value = 25
+            let max = 75, min = 15;
+
+            return {
+                max, min,
+                start: (percent: number, done?: () => void) => {
+                    if (cancel != null) {
+                        cancelAnimationFrame(cancel)
+                    }
+                    let time = 1500
+                    let startTime = Date.now()
+
+                    let n = model.value
+                    if (n == null) {
+                        n = min
+                    }
+                    let k = (percent - n) / time
+
+                    const run = () => {
+                        let nowTime = Date.now()
+                        let deltaTime = nowTime - startTime
+
+                        if (deltaTime > time) {
+                            cancel = null
+                            model.value = percent
+                            !!done && done()
+                            return
                         }
-                        model.value += loadingState.increment
-                        if (model.value >= 75) {
-                            loadingState.increment = -1
-                        }
-                        if (model.value <= 25) {
-                            loadingState.increment = 1
-                        }
+
+                        model.value = Number((deltaTime * k + n).toFixed(2))
+                        cancel = requestAnimationFrame(run)
+                    }
+                    run()
+                },
+                stop: () => {
+                    if (cancel != null) {
+                        cancelAnimationFrame(cancel)
                     }
                 }
+            }
+        })();
 
-                return {
-                    loadingState,
-                    increment: 1,
-                    startLoading: () => {
-                        state.loading.loadingState.loadingCls = true
-                        loadingState.interval = setInterval(loadingState.handleInterval, 50)
-                    },
-                    stopLoading: () => {
-                        state.loading.loadingState.loadingCls = false
-                        if (!!loadingState.interval) {
-                            clearInterval(loadingState.interval)
-                        }
-                    },
-                }
-            })(),
-        })
+        const loading = (() => {
+            return reactive({
+                isLoading: false,
+                start: () => {
+                    const run = () => {
+                        animate.start(model.value <= animate.min ? animate.max : animate.min, run)
+                    }
+                    animate.start(animate.max, run)
+                    loading.isLoading = true
+                },
+                end: () => {
+                    animate.stop()
+                    loading.isLoading = false
+                },
+            })
+        })();
 
         const styles = useStyles(style => {
             style.width = unit(props.size)
@@ -142,14 +166,17 @@ export const ProgressCircle = designComponent({
             style.transform = `rotate(${props.startAngle}deg)`
         })
 
-        watch(() => props.loading, val => val ? state.loading.startLoading() : state.loading.stopLoading(), {immediate: true})
+        watch(() => props.loading, val => {
+            model.value = animate.min
+            val ? loading.start() : loading.end()
+        }, {immediate: true})
 
         return {
             refer: {
-                state,
+                animate,
             },
             render: () => (
-                <div class={`pl-progress-circle ${state.loading.loadingState.loadingCls ? 'pl-progress-circle-loading' : ''}`} style={styles.value}>
+                <div class={`pl-progress-circle ${loading.isLoading ? 'pl-progress-circle-loading' : ''}`} style={styles.value}>
                     <svg viewBox="0 0 100 100">
 
                         <circle

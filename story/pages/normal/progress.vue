@@ -68,7 +68,7 @@
             </demo-line>
             <demo-line title="加载状态">
                 <pl-progress-circle loading>
-                    <pl-icon icon="el-icon-debug-s"/>
+                    <pl-icon icon="el-icon-upload" status="primary"/>
                 </pl-progress-circle>
             </demo-line>
 
