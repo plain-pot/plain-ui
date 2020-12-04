@@ -1,9 +1,47 @@
 import {designComponent} from "../../use/designComponent";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import {useScopedSlots} from "../../use/useScopedSlots";
-import {useRefs} from "../../use/useRefs";
-import {reactive, computed, watch, onMounted} from 'vue';
-import {throttle} from "plain-utils/utils/throttle";
+import {useStyles} from "../../use/useStyles";
+import {unit} from 'plain-utils/string/unit';
+
+/*
+
+SVG path 指令
+
+M x,y 在这里x和y是绝对坐标，分别代表水平坐标和垂直坐标
+m dx,dy 在这里dx和dy是相对于当前点的距离，分别是向右和向下的距离。
+A 绘制圆弧
+
+SVG提供了一个范围广泛stroke 属性
+
+- stroke: 定义一条线，文本或元素轮廓颜色
+- stroke-width: 定义了一条线，文本或元素轮廓厚度
+- stroke-linecap: 不同类型的开放路径的终结(开头和结尾是方形还是带圆角的)
+- stroke-dasharray: 虚线
+- stroke-dashoffset: dash模式到路径开始的距离,使用了一个 <百分比> 值， 那么这个值就代表了当前viewport的一个百分比，值可以取为负值
+
+SVG Path标签 A 参数
+
+A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+
+rx：x轴半径
+ry：y轴半径
+x-axis-rotation：指椭圆的X轴与水平方向顺时针方向夹角，可以想像成一个水平的椭圆绕中心点顺时针旋转的角度
+large-arc-flag：1表示大角度弧线，0为小角度弧线。
+sweep-flag：1为顺时针方向，0为逆时针方向
+x：结束点x坐标
+y：结束点y坐标
+
+<path
+    d="
+        M cx cy
+        m 0 -r
+        a r r 0 1 0 0 2r
+        a r r 0 1 0 0 -2r"
+>
+></path>
+
+*/
 
 export const ProgressCircle = designComponent({
     name: 'pl-progress-circle',
@@ -13,109 +51,30 @@ export const ProgressCircle = designComponent({
         size: {type: Number, default: 100},                                                     // 大小尺寸
         lineSize: {type: Number, default: 6},                                                   // 线条尺寸
         startAngle: {type: Number, default: -0.5 * Math.PI},                                    // 起始角度
+        dashboard: {type: Boolean},                                                             // 仪表盘形式的进度条
     },
     setup({props}) {
+
         const {scopedSlots} = useScopedSlots({
             default: {animatePercent: Number, value: Number}
         })
 
-        const {refs} = useRefs({
-            canvas: HTMLCanvasElement,
-        })
-
-        const state = reactive({
-            ctx: null as any,
-            animatePercent: 0,
-            cancelAnimate: null as null | number,
-        })
-
-        const arcParam = computed(() => {
-            return [props.size / 2, props.size / 2, props.size / 2 - props.lineSize,]
-        })
-
-        const utils = {
-            animateDrawing: throttle((percent: number) => {
-                if (!!state.cancelAnimate) {
-                    cancelAnimationFrame(state.cancelAnimate)
-                }
-
-                let time = 300
-                let startTime = Date.now()
-
-                let n = state.animatePercent
-                let k = (percent - n) / time
-
-                const run = () => {
-                    let nowTime = Date.now()
-                    let deltaTime = nowTime - startTime
-
-                    if (deltaTime > time) {
-                        state.cancelAnimate = null
-                        state.animatePercent = percent
-                        utils.draw(state.animatePercent)
-                        return
-                    }
-
-                    state.animatePercent = Number((deltaTime * k + n).toFixed(2))
-                    utils.draw(state.animatePercent)
-
-                    state.cancelAnimate = requestAnimationFrame(run)
-                }
-
-                run()
-            }, 300, {trailing: true, leading: true}),
-            draw: (animatePercent: number) => {
-                state.ctx.clearRect(0, 0, props.size, props.size)
-                utils.drawOuterCircle()
-                utils.drawInnerCircle(animatePercent)
-            },
-            drawOuterCircle: () => {
-                state.ctx.save();                                                                        //save和restore可以保证样式属性只运用于该段canvas元素
-                state.ctx.beginPath();                                                                   //开始路径
-                state.ctx.strokeStyle = props.outerColor;                                                 //设置边线的颜色
-                state.ctx.lineWidth = props.lineSize;
-                state.ctx.arc(...arcParam.value, 0, Math.PI * 2, false);                                  //画一个圆的路径
-                state.ctx.stroke();                                                                      //绘制边线
-                state.ctx.closePath();
-            },
-            drawInnerCircle: (animatePercent: number) => {
-                state.ctx.save();
-                state.ctx.strokeStyle = props.status === 'normal' ? props.innerColor : props.status === 'success' ? props.successColor : props.errorColor
-                state.ctx.lineWidth = props.lineSize;
-                state.ctx.lineCap = 'round';
-                state.ctx.beginPath();
-                state.ctx.arc(...arcParam.value, props.startAngle, props.startAngle + animatePercent / 100 * 2 * Math.PI, false);
-                state.ctx.stroke();
-                state.ctx.restore();
-            },
-        }
-
-        const methods = {
-            reload: () => {
-                utils.animateDrawing(props.modelValue || 0)
-            },
-        }
-
-        watch(() => props.modelValue, () => {
-            methods.reload()
-        })
-
-        onMounted(() => {
-            state.ctx = refs.canvas!.getContext("2d")
-            methods.reload()
+        const styles = useStyles(style => {
+            style.width = unit(props.size)
+            style.height = unit(props.size)
         })
 
         return {
             render: () => (
-                <div class="pl-progress-circle">
-                    <canvas ref="canvas" height={props.size} width={props.size}/>
-                    <div class="pl-progress-circle-label">
-                        {props.status === 'normal' && scopedSlots.default({animatePercent: state.animatePercent, value: props.modelValue}, (
-                            <span>{state.animatePercent}%</span>
-                        ))}
-                        {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                        {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
-                    </div>
+                <div class="pl-progress-circle" style={styles.value}>
+                    <svg viewBox="0 0 100 100">
+                        <path
+                            d="M 50 50 m -40 0 a 40 40 0 1 0 80 0  a 40 40 0 1 0 -80 0"
+                            fill="none"
+                            stroke="#e5e9f2"
+                            stroke-width="5">
+                        </path>
+                    </svg>
                 </div>
             )
         }
