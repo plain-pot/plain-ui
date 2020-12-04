@@ -158,27 +158,29 @@
         opacity: 0;
       }
 
+      $duration: 60%;
+
       &.plain-popper[direction=top] {
         .plain-popper-content {
-          transform: translate3d(0, 120%, 0);
+          transform: translate3d(0, $duration, 0);
         }
       }
 
       &.plain-popper[direction=bottom] {
         .plain-popper-content {
-          transform: translate3d(0, -120%, 0);
+          transform: translate3d(0, -$duration, 0);
         }
       }
 
       &.plain-popper[direction=left] {
         .plain-popper-content {
-          transform: translate3d(120%, 0, 0);
+          transform: translate3d($duration, 0, 0);
         }
       }
 
       &.plain-popper[direction=right] {
         .plain-popper-content {
-          transform: translate3d(-120%, 0, 0);
+          transform: translate3d(-$duration, 0, 0);
         }
       }
 
