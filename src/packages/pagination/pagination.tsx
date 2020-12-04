@@ -2,13 +2,14 @@ import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
-import {ref, watch, computed, nextTick} from 'vue';
+import {computed, nextTick, ref, watch} from 'vue';
 import './pagination.scss'
+import {useNumber} from "../../use/useNumber";
 
 const SizesWidth = {
-    large: 115,
-    normal: 100,
-    mini: 85,
+    large: 120,
+    normal: 105,
+    mini: 90,
 }
 
 export default designComponent({
@@ -17,12 +18,13 @@ export default designComponent({
         ...StyleProps,
         ...EditProps,
 
-        pageSize: {type: Number},                                                               // 页大小
-        total: {type: Number},                                                                  // 总共条目数
-        totalPage: {type: Number},                                                              // 总页数，与 total/pageSize 作用类似，用来确定总页数；
-        pagerCount: {type: Number, default: 7},                                                 // 页码按钮数量，当总页数超过时会折叠
-        currentPage: {type: Number},                                                            // 当前页
-        layout: {type: String, default: 'sizes,jumper,prev,pager,next,loading,blank,total,slot'},       // 组件布局
+        pageSize: {type: [Number, String], required: true},                                     // 页大小
+        total: {type: [Number, String]},                                                        // 总共条目数
+        totalPage: {type: [Number, String]},                                                    // 总页数，与 total/pageSize 作用类似，用来确定总页数；
+        pagerCount: {type: [Number, String], default: 7},                                       // 页码按钮数量，当总页数超过时会折叠
+        currentPage: {type: [Number, String]},                                                  // 当前页
+
+        layout: {type: String, default: 'sizes,jumper,prev,pager,next,loading,blank,total,slot'},// 组件布局
         pageSizes: {type: Array, default: [10, 20, 50, 100]},                                   // 页大小下拉选项数组
         prevText: {type: String},                                                               // 上一页按钮替换文本
         nextText: {type: String},                                                               // 下一页按钮替换文本
@@ -53,6 +55,14 @@ export default designComponent({
             },
         ])
 
+        const {numberState} = useNumber(props, [
+            'pageSize',
+            'total',
+            'totalPage',
+            'pagerCount',
+            'currentPage',
+        ])
+
         const jumperNumberWidth = computed(() => {
             if (!!props.jumperNumberWidth) {
                 return props.jumperNumberWidth
@@ -66,18 +76,18 @@ export default designComponent({
         })
 
         const totalPageData = computed(() => {
-            if (props.totalPage != null) {
-                return props.totalPage
-            } else if (props.pageSize != null && props.total != null) {
-                return Math.ceil(props.total / props.pageSize)
+            if (numberState.totalPage != null) {
+                return numberState.totalPage
+            } else if (numberState.pageSize != null && numberState.total != null) {
+                return Math.ceil(numberState.total / numberState.pageSize)
             } else {
                 return 0
             }
         })
 
         const pageInfo = computed(() => {
-            let currentPage = Number(props.currentPage)
-            let pagerCount = Number(props.pagerCount)
+            let currentPage = numberState.currentPage
+            let pagerCount = numberState.pagerCount
             let totalPage = Number(totalPageData.value)
             const midPagerCount = (pagerCount - 1) / 2                      // 从0开始计算中间索引
 
@@ -85,10 +95,10 @@ export default designComponent({
             let showNextMore = false
 
             if (totalPage > pagerCount) {
-                if (currentPage > pagerCount - midPagerCount) {
+                if (currentPage! > pagerCount - midPagerCount) {
                     showPrevMore = true
                 }
-                if (currentPage < totalPage - midPagerCount) {
+                if (currentPage! < totalPage - midPagerCount) {
                     showNextMore = true
                 }
             }
@@ -125,7 +135,7 @@ export default designComponent({
                 }
             } else if (showPrevMore && showNextMore) {
                 const offset = Math.floor(pagerCount / 2) - 1;
-                for (let i = currentPage - offset; i <= currentPage + offset; i++) {
+                for (let i = currentPage! - offset; i <= currentPage! + offset; i++) {
                     array.push(i);
                 }
             } else {
@@ -173,7 +183,7 @@ export default designComponent({
                 if (pageInfo.value.currentPage === 1) {
                     return
                 }
-                utils.changeCurrent(pageInfo.value.currentPage - 1)
+                utils.changeCurrent(pageInfo.value.currentPage! - 1)
                 emit.prev()
             },
             /**
@@ -186,7 +196,7 @@ export default designComponent({
                 if (pageInfo.value.totalPage != null && pageInfo.value.currentPage == pageInfo.value.totalPage) {
                     return
                 }
-                utils.changeCurrent(pageInfo.value.currentPage + 1)
+                utils.changeCurrent(pageInfo.value.currentPage! + 1)
                 emit.next()
             },
             /**
@@ -212,7 +222,7 @@ export default designComponent({
                 const sizes = (
                     <pl-select
                         class="pl-pagination-sizes"
-                        value={props.pageSize}
+                        modelValue={numberState.pageSize}
 
                         loading={false}
                         readonly={editComputed.value.readonly || editComputed.value.loading}

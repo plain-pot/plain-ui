@@ -160,7 +160,10 @@
     .demo-pagination {
 
         width: 1060px;
-        margin-left: -130px;
+
+        .pl-pagination {
+            margin-bottom: 20px;
+        }
 
         .demo-line {
             display: flex;
