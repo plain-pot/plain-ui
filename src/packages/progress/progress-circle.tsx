@@ -2,8 +2,9 @@ import {designComponent} from "../../use/designComponent";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import {useStyles} from "../../use/useStyles";
 import {unit} from 'plain-utils/string/unit';
-import {computed} from 'vue';
+import {computed, reactive, watch} from 'vue';
 import {useSlots} from "../../use/useSlots";
+import {useModel} from "../../use/useModel";
 
 /*
 
@@ -45,21 +46,61 @@ export const ProgressCircle = designComponent({
         startAngle: {type: Number, default: 0},                                                 // 起始角度
 
         antiClockwise: {type: Boolean},                                                         // 逆时针
+        loading: {type: Boolean},                                                               // 加载动画
     },
-    setup({props}) {
+    emits: {
+        updateModelValue: (val?: number) => true,
+    },
+    setup({props, event}) {
 
         const {slots} = useSlots()
+
+        const model = useModel(() => props.modelValue, event.emit.updateModelValue)
+
+        const state = reactive({
+            loading: (() => {
+
+                const loadingState = {
+                    loadingCls: false,
+                    increment: 1,
+                    interval: null as null | number,
+                    handleInterval: () => {
+                        if (model.value == null) {
+                            model.value = 25
+                        }
+                        model.value += loadingState.increment
+                        if (model.value >= 75) {
+                            loadingState.increment = -1
+                        }
+                        if (model.value <= 25) {
+                            loadingState.increment = 1
+                        }
+                    }
+                }
+
+                return {
+                    loadingState,
+                    increment: 1,
+                    startLoading: () => {
+                        state.loading.loadingState.loadingCls = true
+                        loadingState.interval = setInterval(loadingState.handleInterval, 30)
+                    },
+                    stopLoading: () => {
+                        state.loading.loadingState.loadingCls = false
+                        if (!!loadingState.interval) {
+                            clearInterval(loadingState.interval)
+                        }
+                    },
+                }
+            })(),
+        })
 
         const styles = useStyles(style => {
             style.width = unit(props.size)
             style.height = unit(props.size)
         })
 
-        const percent = computed(() => {
-            const {modelValue} = props
-            if (modelValue == null) return 0
-            return modelValue / 100
-        })
+        const percent = computed(() => model.value == null ? 0 : model.value / 100)
 
         const radius = computed(() => 50 - props.lineSize / 2)
 
@@ -101,9 +142,14 @@ export const ProgressCircle = designComponent({
             style.transform = `rotate(${props.startAngle}deg)`
         })
 
+        watch(() => props.loading, val => val ? state.loading.startLoading() : state.loading.stopLoading(), {immediate: true})
+
         return {
+            refer: {
+                state,
+            },
             render: () => (
-                <div class="pl-progress-circle" style={styles.value}>
+                <div class={`pl-progress-circle ${state.loading.loadingState.loadingCls ? 'pl-progress-circle-loading' : ''}`} style={styles.value}>
                     <svg viewBox="0 0 100 100">
 
                         <circle
@@ -126,9 +172,11 @@ export const ProgressCircle = designComponent({
                     </svg>
 
                     <div class="pl-progress-circle-label">
-                        {props.status === 'normal' && slots.default(`${props.modelValue}%`)}
-                        {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                        {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                        {props.loading ? slots.default() : <>
+                            {props.status === 'normal' && slots.default(`${model.value}%`)}
+                            {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                            {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                        </>}
                     </div>
                 </div>
             )

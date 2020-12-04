@@ -3,6 +3,7 @@
     position: relative;
     display: inline-block;
     vertical-align: middle;
+    border-radius: 1000px;
 
     & > svg > path {
       transform-origin: center center;
@@ -20,6 +21,21 @@
 
       .pl-icon {
         font-size: 24px;
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    &.pl-progress-circle-loading {
+      & > svg > path {
+        animation: spin 1500ms linear infinite;
       }
     }
   }

@@ -66,6 +66,11 @@
                 <pl-progress-circle :modelValue="65" status="success" successColor="green"/>
                 <pl-progress-circle :modelValue="65" status="error" errorColor="red"/>
             </demo-line>
+            <demo-line title="加载状态">
+                <pl-progress-circle loading>
+                    <pl-icon icon="el-icon-debug-s"/>
+                </pl-progress-circle>
+            </demo-line>
 
         </demo-row>
 
