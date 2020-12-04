@@ -1,7 +1,7 @@
 import {createAgentGetter} from "../popper/edit/createAgentGetter";
 import {App} from 'vue';
 
-const SelectServiceGetter = createAgentGetter({
+export const SelectServiceGetter = createAgentGetter({
     name: 'select',
     render: (attrs) => {
         return <pl-select-panel {...attrs}/>
