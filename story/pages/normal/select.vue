@@ -61,6 +61,18 @@
                 {{selectValue || 'open select'}}
             </demo-row>
         </demo-row>
+
+        <demo-row title="pl-select">
+            <demo-line>
+                <span>{{val[3]}}</span>
+            </demo-line>
+            <pl-select v-model="val[3]">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+            <pl-select v-model="val[3]">
+                <pl-select-option v-for="item in list.slice(0, 4)" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
     </div>
 </template>
 
@@ -132,6 +144,21 @@
                 log(...args) {
                     console.log(...args)
                 },
+
+                list: [
+                    {name: '春节', val: 'Chun'},
+                    {name: '万圣节', val: 'WanSheng'},
+                    {name: '青年节', val: 'QinNian'},
+                    {name: '中年节', val: 'ZhongNian', isDisabled: true,},
+                    {name: '国庆节', val: 'GuoQing', isDisabled: true,},
+                    {name: '中秋节', val: 'ZhongQiu', isDisabled: true,},
+                    {name: '劳动节', val: 'LaoDong', isDisabled: true,},
+                    {name: '圣诞节', val: 'ShengDan'},
+                    {name: '儿童节', val: 'ErTong'},
+                    {name: '妇女节', val: 'FuNv'},
+                    {name: '教师节', val: 'JiaoShi'},
+                    {name: '清明节', val: 'QingMing'},
+                ],
             }
         },
     }
