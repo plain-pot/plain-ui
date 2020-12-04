@@ -198,6 +198,15 @@
             </pl-select>
         </demo-row>
 
+        <demo-row title="多选：最多可以选择3个元素，最少可以选择1个元素">
+            <demo-line>
+                {{val[6]}}
+            </demo-line>
+            <pl-select v-model="val[6]" multiple :multipleMaxLimit="3" :multipleMinLimit="1">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
+
     </div>
 </template>
 
