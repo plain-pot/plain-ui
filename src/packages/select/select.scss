@@ -60,6 +60,8 @@
     }
 
     &:hover, &.pl-select-option-highlight {
+      text-decoration: underline;
+
       &:not(.pl-select-option-disabled):not(.pl-select-group):not(.pl-select-option-selected) {
         background-color: #f2f2f2;
         cursor: pointer;
