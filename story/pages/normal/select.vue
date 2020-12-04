@@ -186,6 +186,18 @@
             </demo-line>
         </demo-row>
 
+        <demo-row title="多选">
+            <demo-line>
+                {{val[5]}}
+            </demo-line>
+            <pl-select v-model="val[5]" multiple>
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+            <pl-select v-model="val[5]" :collapseTags="false" multiple>
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
+
     </div>
 </template>
 

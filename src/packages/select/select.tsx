@@ -5,12 +5,11 @@ import {EditProps} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import Input from '../input'
-import {SelectOption} from "./select-option";
+import Option, {SelectOption} from "./select-option";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {SelectServiceGetter} from "./select-service";
-import {ref, computed} from 'vue';
+import {computed, ref} from 'vue';
 import {useCollect} from "../../use/useCollect";
-import Option from './select-option'
 import {ie} from "plain-utils/utils/ie";
 import {handleKeyboard} from "../keyboard";
 import Panel from './select-panel'
@@ -257,16 +256,12 @@ const Select = designComponent({
                         <pl-input-inner-tags
                             data={multipleTags.value}
                             collapseTags={props.collapseTags}
-                            {
-                                ...{
-                                    scopedSlots: {
-                                        default: ({item, index}: { item: SelectOption, index: number }) => [
-                                            <span>{item.props.label}</span>,
-                                            <pl-icon icon="el-icon-close" onClick={() => handler.onClickItemCloseIcon(item, index)}/>
-                                        ]
-                                    }
-                                }
-                            }
+                            v-slots={{
+                                default: ({item, index}: { item: SelectOption, index: number }) => [
+                                    <span>{item.props.label}</span>,
+                                    <pl-icon icon="el-icon-close" onClick={() => handler.onClickItemCloseIcon(item, index)}/>
+                                ]
+                            }}
                         />
                     )
                 }}/>
