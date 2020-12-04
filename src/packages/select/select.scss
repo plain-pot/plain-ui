@@ -9,10 +9,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
 
       .pl-icon {
-        font-size: 1.4em;
-        margin-right: 8px;
+        font-size: 20px;
+        margin-bottom: 8px;
       }
     }
 
