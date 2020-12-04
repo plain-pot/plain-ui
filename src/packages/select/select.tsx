@@ -153,6 +153,7 @@ const Select = designComponent({
         const placeholderValue = computed(() => (agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder) || '')
 
         const inputBinding = computed(() => {
+            const {onEnter, ...inputHandler} = agentState.inputHandler
             return {
                 ref: 'input',
                 class: [
@@ -174,7 +175,7 @@ const Select = designComponent({
                 isFocus: agentState.state.focusCounter > 0,
                 clearHandler: () => model.value = undefined,
 
-                ...agentState.inputHandler,
+                ...inputHandler,
                 onChange: (val: string | null) => {
                     filterText.value = val
                     if (!agentState.isShow.value && ie) {
