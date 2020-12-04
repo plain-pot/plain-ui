@@ -38,7 +38,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Checkbox', title: '复选框', page: '/normal/checkbox', complete: true},
             {name: 'Number', title: '数字输入', page: '/normal/number', complete: true},
             {name: 'Loading', title: '加载', page: '/normal/loading', complete: true},
-            {name: 'Select', title: '下拉选择', page: '/normal/select', complete: false},
+            {name: 'Select', title: '下拉选择', page: '/normal/select', complete: true},
             {name: 'Toggle', title: '开关切换', page: '/normal/toggle', complete: true},
             {name: 'Slider', title: '滑块', page: '/normal/slider', complete: true},
             {name: 'Tag', title: '标签', page: '/normal/tag', complete: true},
