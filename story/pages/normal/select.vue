@@ -111,6 +111,21 @@
             </pl-select>
         </demo-row>
 
+        <demo-row title="自定义内容">
+            <pl-select>
+                <pl-select-group v-for="(group,groupIndex) in groupData" :key="group.name" :label="group.name">
+                    <template #label>
+                        <span style="font-style: italic;font-size: 1.2em;margin-right: 6px;opacity: 0.5">{{groupIndex+1}}</span>
+                        <span>{{group.name}}</span>
+                    </template>
+                    <pl-select-option v-for="(item,itemIndex) in group.children" :key="item.val" :label="item.name" :val="item.val">
+                        <span style="font-style: italic;margin-right: 6px;opacity: 0.5">{{groupIndex+1}}.{{itemIndex+1}}</span>
+                        <span>{{item.name}}</span>
+                    </pl-select-option>
+                </pl-select-group>
+            </pl-select>
+        </demo-row>
+
 
     </div>
 </template>
