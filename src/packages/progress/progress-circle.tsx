@@ -1,8 +1,9 @@
 import {designComponent} from "../../use/designComponent";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
-import {useScopedSlots} from "../../use/useScopedSlots";
 import {useStyles} from "../../use/useStyles";
 import {unit} from 'plain-utils/string/unit';
+import {computed} from 'vue';
+import {useSlots} from "../../use/useSlots";
 
 /*
 
@@ -24,22 +25,13 @@ SVG Path标签 A 参数
 
 A rx ry x-axis-rotation large-arc-flag sweep-flag x y
 
-rx：x轴半径
-ry：y轴半径
-x-axis-rotation：指椭圆的X轴与水平方向顺时针方向夹角，可以想像成一个水平的椭圆绕中心点顺时针旋转的角度
-large-arc-flag：1表示大角度弧线，0为小角度弧线。
-sweep-flag：1为顺时针方向，0为逆时针方向
-x：结束点x坐标
-y：结束点y坐标
-
-<path
-    d="
-        M cx cy
-        m 0 -r
-        a r r 0 1 0 0 2r
-        a r r 0 1 0 0 -2r"
->
-></path>
+- rx：x轴半径
+- ry：y轴半径
+- x-axis-rotation：指椭圆的X轴与水平方向顺时针方向夹角，可以想像成一个水平的椭圆绕中心点顺时针旋转的角度（一般都是0，不知道有什么用，如果希望旋转一定的夹角的话，可以用transform rotate实现）
+- large-arc-flag：1表示大角度弧线，0为小角度弧线（如果数值大于50%，则这个应该是1，否则是0）。
+- sweep-flag：1为顺时针方向，0为逆时针方向。
+- x：结束点x坐标
+- y：结束点y坐标
 
 */
 
@@ -50,31 +42,94 @@ export const ProgressCircle = designComponent({
 
         size: {type: Number, default: 100},                                                     // 大小尺寸
         lineSize: {type: Number, default: 6},                                                   // 线条尺寸
-        startAngle: {type: Number, default: -0.5 * Math.PI},                                    // 起始角度
-        dashboard: {type: Boolean},                                                             // 仪表盘形式的进度条
+        startAngle: {type: Number, default: 0},                                                 // 起始角度
+
+        antiClockwise: {type: Boolean},                                                         // 逆时针
     },
     setup({props}) {
 
-        const {scopedSlots} = useScopedSlots({
-            default: {animatePercent: Number, value: Number}
-        })
+        const {slots} = useSlots()
 
         const styles = useStyles(style => {
             style.width = unit(props.size)
             style.height = unit(props.size)
         })
 
+        const percent = computed(() => {
+            const {modelValue} = props
+            if (modelValue == null) return 0
+            return modelValue / 100
+        })
+
+        const radius = computed(() => 50 - props.lineSize / 2)
+
+        const pathD = computed(() => {
+            let d = [`M 50 ${props.lineSize / 2}`] as (string | number)[]
+            const r = radius.value
+            const p = percent.value /*小于1的百分比数字*/
+
+            const degrees = Math.PI * 2 * p
+
+            d.push(`A ${r} ${r} 0`)
+            d.push(p > 0.5 ? 1 : 0)
+            d.push(props.antiClockwise ? 0 : 1)
+            d.push(`${50 + r * Math.sin(degrees) * (props.antiClockwise ? -1 : 1)} ${50 - r * Math.cos(degrees)}`)
+
+            return d.join(' ')
+        })
+
+
+        const pathStroke = computed(() => {
+            switch (props.status) {
+                case 'success':
+                    return props.successColor
+                case 'error':
+                    return props.errorColor
+                default:
+                    return props.innerColor
+            }
+        })
+
+        const circleStroke = computed(() => {
+            if (percent.value === 1) {
+                return pathStroke.value
+            }
+            return props.outerColor
+        })
+
+        const pathStyles = useStyles(style => {
+            style.transform = `rotate(${props.startAngle}deg)`
+        })
+
         return {
             render: () => (
                 <div class="pl-progress-circle" style={styles.value}>
                     <svg viewBox="0 0 100 100">
-                        <path
-                            d="M 50 50 m -40 0 a 40 40 0 1 0 80 0  a 40 40 0 1 0 -80 0"
+
+                        <circle
+                            cx="50"
+                            cy="50"
+                            r={radius.value}
+                            stroke={circleStroke.value}
+                            stroke-width={props.lineSize}
+                            fill="none"/>
+
+                        {percent.value !== 1 && <path
+                            d={pathD.value}
+                            stroke={pathStroke.value}
+                            stroke-width={props.lineSize}
                             fill="none"
-                            stroke="#e5e9f2"
-                            stroke-width="5">
-                        </path>
+                            stroke-linecap="round"
+                            style={pathStyles.value}
+                        />}
+
                     </svg>
+
+                    <div class="pl-progress-circle-label">
+                        {props.status === 'normal' && slots.default(`${props.modelValue}%`)}
+                        {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                        {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                    </div>
                 </div>
             )
         }

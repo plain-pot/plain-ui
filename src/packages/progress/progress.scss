@@ -4,6 +4,10 @@
     display: inline-block;
     vertical-align: middle;
 
+    & > svg > path {
+      transform-origin: center center;
+    }
+
     .pl-progress-circle-label {
       height: 100%;
       width: 100%;

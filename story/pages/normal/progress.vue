@@ -1,5 +1,6 @@
 <template>
     <div class="demo-progress">
+
         <demo-row title="条形进度条">
             <demo-line title="基本用法">
                 <pl-progress-bar :modelValue="65"/>
@@ -50,8 +51,8 @@
             <demo-line title="线宽">
                 <pl-progress-circle :modelValue="65" :lineSize="3"/>
             </demo-line>
-            <demo-line title="起始角度">
-                <pl-progress-circle :modelValue="65" :startAngle="0.5*Math.PI"/>
+            <demo-line title="起始角度(并且逆时针)">
+                <pl-progress-circle :modelValue="65" :startAngle="180" antiClockwise/>
             </demo-line>
 
             <demo-line title="颜色">
