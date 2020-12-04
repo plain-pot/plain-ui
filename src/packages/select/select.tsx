@@ -19,7 +19,7 @@ const Props = {
     ...EditProps,
     ...StyleProps,
 
-    modelValue: {type: [String, Array]},
+    modelValue: {type: [String, Number, Array]},
     filterable: {type: Boolean, default: true},                     // 是否可以输入筛选
     inputProps: {type: Object},                                     // input组件绑定属性对象
 
@@ -39,7 +39,7 @@ const Select = designComponent({
         ...Props,
     },
     emits: {
-        updateModelValue: (val?: string | string[]) => true,
+        updateModelValue: (val?: number | string | string[]) => true,
         click: (option: SelectOption) => true,
 
         space: (e: KeyboardEvent) => true,
@@ -62,7 +62,7 @@ const Select = designComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const model = useModel(() => props.modelValue as string | string[] | undefined, event.emit.updateModelValue)
+        const model = useModel(() => props.modelValue as number | string | string[] | undefined, event.emit.updateModelValue)
         const filterText = ref(null as string | null)
         const agentState = useEditPopperAgent({
             event,
@@ -138,8 +138,8 @@ const Select = designComponent({
                 if (!!model.value && Array.isArray(model.value)) {
                     for (let i = 0; i < formatData.value.length; i++) {
                         const item = formatData.value[i];
-                        if (model.value.indexOf(item.props.val!) > -1) {
-                            strings.push(item.props.label!)
+                        if (model.value.indexOf(item.props.val! as string) > -1) {
+                            strings.push(item.props.label! as string)
                         }
                     }
                 }
@@ -206,7 +206,7 @@ const Select = designComponent({
                 return []
             }
             if (!formatData.value || formatData.value.length === 0) return []
-            return formatData.value.filter(option => model.value!.indexOf(option.props.val!) > -1)
+            return formatData.value.filter(option => (model.value as any[]).indexOf(option.props.val!) > -1)
         })
 
         /*---------------------------------------handler-------------------------------------------*/
@@ -261,9 +261,9 @@ const Select = designComponent({
                 }
             },
             onClickItemCloseIcon: (item: SelectOption, index: number) => {
-                index = model.value!.indexOf(item.props.val!)
+                index = (model.value as any[]).indexOf(item.props.val!)
                 if (index > -1) {
-                    const value = [...model.value!]
+                    const value = [...(model.value as any[])]
                     value.splice(index, 1)
                     model.value = [...value]
                 }

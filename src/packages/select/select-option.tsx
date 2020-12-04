@@ -10,8 +10,8 @@ import {SelectCollector} from "./select";
 const Option = designComponent({
     name: 'pl-select-option',
     props: {
-        label: {type: String, required: true},
-        val: {type: String, required: true},
+        label: {type: [String, Number], required: true},
+        val: {type: [String, Number], required: true},
         icon: {type: String},
         disabled: {type: Boolean},
 

@@ -13,7 +13,7 @@ import {useProps} from "../../use/useProps";
 const Panel = designComponent({
     name: 'pl-select-panel',
     props: {
-        modelValue: {type: [String, Array]},                            // 双向绑定值
+        modelValue: {type: [String, Number, Array]},                     // 双向绑定值
 
         multiple: {type: Boolean},                                      // 是否多选
         multipleMaxLimit: {type: [Number, String]},                     // 多选最多选择个数
@@ -21,14 +21,14 @@ const Panel = designComponent({
 
         noMatchText: {type: String, default: '暂无匹配数据'},             // 筛选无数据时展示的文本
         noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
-        filterMethod: {type: Function as any as new() => ((option: { val: string, label: string, disabled?: boolean }) => boolean)},// 筛选过滤函数
+        filterMethod: {type: Function as any as new() => ((option: { val: string | number, label: string | number, disabled?: boolean }) => boolean)},// 筛选过滤函数
         content: {type: [Object, Function]},                            // 内容虚拟dom或者渲染函数
         height: {type: Number},                                         // 面板高度，超过会显示自定义滚动条
 
         showDebug: {type: Boolean},
     },
     emits: {
-        updateModelValue: (val: string | string[]) => true,
+        updateModelValue: (val: number | string | string[]) => true,
         click: (option: SelectOption) => true,
     },
     provideRefer: true,
@@ -52,7 +52,7 @@ const Panel = designComponent({
         /*当前高亮的option.props.val*/
         const current = ref(null as null | SelectOption)
         /*双向绑定值*/
-        const model = useModel(() => props.modelValue as string | string[], emit.updateModelValue)
+        const model = useModel(() => props.modelValue as number | string | string[], emit.updateModelValue)
 
         const classes = computed(() => [
             'pl-select-panel',
@@ -69,15 +69,15 @@ const Panel = designComponent({
              * @author  韦胜健
              * @date    2020/6/8 9:23
              */
-            isSelected: (optionProps: { label: string, val: string, disabled?: boolean }) => {
+            isSelected: (optionProps: { label: string | number, val: string | number, disabled?: boolean }) => {
                 if (!model.value) return false
                 if (!props.multiple) {
                     return (model.value as string) == optionProps.val
                 } else {
-                    return (model.value as string[]).indexOf(optionProps.val!) > -1
+                    return (model.value as string[]).indexOf(optionProps.val! as string) > -1
                 }
             },
-            isShow: (optionProps: { label: string, val: string, disabled?: boolean }) => {
+            isShow: (optionProps: { label: string | number, val: string | number, disabled?: boolean }) => {
                 return !props.filterMethod || props.filterMethod(optionProps)
             }
         }
@@ -97,7 +97,7 @@ const Panel = designComponent({
                 if (!props.multiple) {
                     model.value = option.props.val
                 } else {
-                    const newValue: string[] = [...((model.value as string[]) || [])]
+                    const newValue: any[] = [...((model.value as string[]) || [])]
                     const index = newValue.indexOf(option.props.val!)
                     if (index > -1) {
                         if (!!propsState.multipleMinLimit && newValue.length <= propsState.multipleMinLimit) {
