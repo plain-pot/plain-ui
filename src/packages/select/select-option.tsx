@@ -27,7 +27,7 @@ const Option = designComponent({
         SelectCollector.child({injectDefaultValue: null, sort: () => refs.el})
         const group = SelectGroupCollector.child({injectDefaultValue: null})
         const panel = SelectPanelCollector.child({injectDefaultValue: null, sort: () => refs.el})
-        const isShow = computed(() => (!panel || panel.utils.isShow(props)))
+        const isShow = computed(() => (props.group || !panel || panel.utils.isShow(props)))
         const isSelected = computed(() => !!panel && panel.utils.isSelected(props))
 
         const refer = {

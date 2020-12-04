@@ -21,11 +21,11 @@ const Group = designComponent({
             render: () => {
                 return (
                     <>
-                        {isShow.value && (slots.label.isExist() || !!props.label && (
+                        {isShow.value && (slots.label.isExist() || !!props.label) && (
                             <pl-select-option class="pl-select-group" group label="" val="">
                                 {slots.label(props.label)}
                             </pl-select-option>
-                        ))}
+                        )}
                         {slots.default()}
                     </>
                 )
