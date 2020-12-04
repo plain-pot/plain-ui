@@ -8,6 +8,7 @@ export const SelectServiceGetter = createAgentGetter({
     },
     defaultPopperAttrs: {
         transition: 'pl-transition-popper-drop',
+        sizeEqual: true,
     },
     defaultRenderAttrs: {
         async onChange() {
