@@ -55,10 +55,9 @@ const Select = designComponent({
 
         useStyle()
         const {slots} = useSlots()
-        const {refs} = useRefs({
-            input: Input,
-        })
+        const {refs} = useRefs({input: Input,})
 
+        /*对 pl-select-panel 的引用*/
         let panel = null as typeof Panel.use.class | null
 
         /*---------------------------------------state-------------------------------------------*/
@@ -78,12 +77,12 @@ const Select = designComponent({
                     }, {})),
                     modelValue: model.value,
                     height: popperHeight.value,
-                    content: () => slots.default(),
+                    content: slots.default,
                     filterMethod: utils.filterMethod,
-                    onChange: (val) => model.value = val,
-                    onClick: (option: SelectOption) => event.emit.click(option)
+                    onChange: handler.onServiceChange,
+                    onClick: event.emit.click,
                 }),
-                popperAttrs: () => ({
+                popperAttrs: ({
                     onMousedownPopper: () => agentState.state.focusCounter++,
                     onClickPopper: () => refs.input!.methods.focus(),
                     onHide: () => filterText.value = null,
@@ -148,12 +147,29 @@ const Select = designComponent({
             }
         })
 
+        /**
+         * 给input组件传递的属性
+         * @author  韦胜健
+         * @date    2020/12/4 11:21
+         */
         const inputProps = computed(() => Object.assign({}, props.inputProps || {}))
 
+        /**
+         * 当前显示的空值占位符
+         * @author  韦胜健
+         * @date    2020/12/4 11:21
+         */
         const placeholderValue = computed(() => (agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder) || '')
 
+        /**
+         * 给input组件绑定的目标对象
+         * @author  韦胜健
+         * @date    2020/12/4 11:21
+         */
         const inputBinding = computed(() => {
+            /*onEnter不要了，只要剩余的时间监听器*/
             const {onEnter, ...inputHandler} = agentState.inputHandler
+
             return {
                 ref: 'input',
                 class: [
@@ -173,16 +189,11 @@ const Select = designComponent({
                 suffixIcon: 'el-icon-arrow-down',
                 clearIcon: true,
                 isFocus: agentState.state.focusCounter > 0,
-                clearHandler: () => model.value = undefined,
+                clearHandler: handler.onInputClear,
 
                 ...inputHandler,
-                onChange: (val: string | null) => {
-                    filterText.value = val
-                    if (!agentState.isShow.value && ie) {
-                        agentState.methods.show()
-                    }
-                },
-                onKeydown: handler.keydown,
+                onChange: handler.onInputChange,
+                onKeydown: handler.onInputKeydown,
             }
         })
 
@@ -198,8 +209,10 @@ const Select = designComponent({
             return formatData.value.filter(option => model.value!.indexOf(option.props.val!) > -1)
         })
 
+        /*---------------------------------------handler-------------------------------------------*/
+
         const handler = {
-            keydown: handleKeyboard({
+            onInputKeydown: handleKeyboard({
                 space: (e) => {
                     if (props.multiple && agentState.isShow.value) {
                         e.stopPropagation()
@@ -239,6 +252,14 @@ const Select = designComponent({
                     }
                 },
             }),
+            onServiceChange: (val: any) => model.value = val,
+            onInputClear: () => model.value = undefined,
+            onInputChange: (val: string | null) => {
+                filterText.value = val
+                if (!agentState.isShow.value && ie) {
+                    agentState.methods.show()
+                }
+            },
             onClickItemCloseIcon: (item: SelectOption, index: number) => {
                 index = model.value!.indexOf(item.props.val!)
                 if (index > -1) {
