@@ -180,8 +180,6 @@ const Select = designComponent({
                     }
                 ],
 
-                ...inputProps.value,
-
                 modelValue: (props.filterable && agentState.isShow.value) ? filterText.value : displayValue.value,
                 placeValue: displayValue.value,
                 inputReadonly: !props.filterable,
@@ -194,6 +192,8 @@ const Select = designComponent({
                 ...inputHandler,
                 onChange: handler.onInputChange,
                 onKeydown: handler.onInputKeydown,
+
+                ...inputProps.value,
             }
         })
 
