@@ -95,9 +95,9 @@ const Select = designComponent({
         /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {
-            filterMethod: (option: SelectOption) => {
+            filterMethod: (option: { label?: string, val: string, disabled: boolean }) => {
                 if (!!props.filterMethod) return props.filterMethod(filterText.value, option)
-                return !!filterText.value && !!filterText.value.trim() ? (!!option.props.label && option.props.label.indexOf(filterText.value) > -1) : true
+                return !!filterText.value && !!filterText.value.trim() ? (!!option.label && option.label.indexOf(filterText.value) > -1) : true
             }
         }
 
