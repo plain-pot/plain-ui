@@ -22,7 +22,7 @@ export default designComponent({
         ...StyleProps,
 
         modelValue: {type: [String, Number]},
-        placeValue: {type: String},
+        placeValue: {type: [String, Number]},
 
         width: {type: [Number, String, Object, Function], default: null,},        // 输入框默认宽度
         minHeight: {type: [Number, String], default: 100},      // 文本域最小高度
