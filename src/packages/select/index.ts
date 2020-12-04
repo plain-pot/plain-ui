@@ -2,6 +2,7 @@ import select from './select'
 import option from './select-option'
 import group from './select-group'
 import panel from './select-panel'
+import Service from './select-service'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import Dropdown from '../dropdown'
 
@@ -18,5 +19,6 @@ export default {
         SelectGroup,
         SelectPanel,
         Dropdown,
+        Service,
     ]),
 }

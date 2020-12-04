@@ -55,6 +55,11 @@
             </demo-row>
 
         </demo-row>
+        <demo-row title="SelectService" group>
+            <demo-row title="基本用法">
+                <pl-button :label="basic.option.props.value || 'open select'" @click="basic.toggle" ref="basic"/>
+            </demo-row>
+        </demo-row>
     </div>
 </template>
 
