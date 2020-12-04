@@ -44,7 +44,7 @@ const Panel = designComponent({
         /*组件引用*/
         const {refs} = useRefs({scroll: Scroll})
         /*收集的 select-option 子组件*/
-        const items = SelectCollector.parent()
+        const items = SelectPanelCollector.parent()
         /*筛选的出有效的 select-option 子组件*/
         const options = computed(() => items.filter(i => !i.props.group))
         /*当前显示的select-option*/
@@ -260,7 +260,7 @@ const Panel = designComponent({
 
 export default Panel
 
-export const SelectCollector = useCollect(() => ({
+export const SelectPanelCollector = useCollect(() => ({
     parent: Panel,
     child: Option,
 }))

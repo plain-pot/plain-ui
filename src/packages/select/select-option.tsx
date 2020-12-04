@@ -1,10 +1,11 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useClass} from "../../use/useClasses";
-import {SelectCollector} from "./select-panel";
+import {SelectPanelCollector} from "./select-panel";
 import {useRefs} from "../../use/useRefs";
 import {computed} from 'vue';
 import {SelectGroupCollector} from "./select-group";
+import {SelectCollector} from "./select";
 
 const Option = designComponent({
     name: 'pl-select-option',
@@ -23,8 +24,9 @@ const Option = designComponent({
             el: HTMLDivElement,
         })
 
+        SelectCollector.child({injectDefaultValue: null, sort: () => refs.el})
         const group = SelectGroupCollector.child({injectDefaultValue: null})
-        const panel = SelectCollector.child({injectDefaultValue: null, sort: () => refs.el})
+        const panel = SelectPanelCollector.child({injectDefaultValue: null, sort: () => refs.el})
         const isShow = computed(() => (!panel || panel.utils.isShow(props)))
         const isSelected = computed(() => !!panel && panel.utils.isSelected(props))
 
