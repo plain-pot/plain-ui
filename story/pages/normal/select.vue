@@ -57,7 +57,8 @@
         </demo-row>
         <demo-row title="SelectService" group>
             <demo-row title="基本用法">
-                <pl-button :label="basic.option.props.value || 'open select'" @click="basic.toggle" ref="basic"/>
+                <pl-button :label="selectValue || 'open select'" @click="basic.toggle" ref="basic"/>
+                {{selectValue || 'open select'}}
             </demo-row>
         </demo-row>
     </div>
@@ -96,7 +97,41 @@
                         return true
                     }
                     return option.label.indexOf(this.filterText) > -1
-                }
+                },
+
+                /*---------------------------------------service-------------------------------------------*/
+                selectValue: null,
+                basic: (() => {
+                    let agent;
+                    const toggle = () => {
+                        if (!agent) {
+                            agent = this.$select({
+                                reference: () => this.$refs['basic'],
+                                renderAttrs: () => ({
+                                    modelValue: this.selectValue,
+                                    content: () => <>
+                                        <pl-select-option label="深圳市" val="shenzhen"/>
+                                        <pl-select-option label="广州市" val="gungzhou"/>
+                                        <pl-select-option label="佛山市" val="foshan"/>
+                                    </>,
+                                    onChange: (val) => {
+                                        this.selectValue = val
+                                        this.$message(val)
+                                    }
+                                }),
+                            })
+                        }
+                        agent.toggle()
+                    }
+                    const target = {
+                        toggle,
+                    }
+                    return target
+                })(),
+
+                log(...args) {
+                    console.log(...args)
+                },
             }
         },
     }
