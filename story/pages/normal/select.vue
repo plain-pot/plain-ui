@@ -126,6 +126,37 @@
             </pl-select>
         </demo-row>
 
+        <demo-row title="加载状态">
+            <pl-checkbox v-model="flag.loading"/>
+            <pl-select :loading="flag.loading">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
+
+        <demo-row title="filterable:false，禁用可输入筛选">
+            <pl-select :filterable="false">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
+
+        <demo-row title="filterMethod，自定义输入筛选逻辑，支持中文以及拼音">
+            <demo-line>
+                {{val[4]}}
+            </demo-line>
+            <pl-select :filterMethod="customFilterMethod" v-model="val[4]">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
+
+        <demo-row title="noMatchText，输入筛选时，没有匹配项显示的文本">
+            <pl-select :filterMethod="customFilterMethod" noMatchText="没有匹配的数据！！">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+        </demo-row>
+        <demo-row title="noDataText，data为空时显示的文本">
+            <pl-select :filterMethod="customFilterMethod" noDataText="没有加载到有效数据！！">
+            </pl-select>
+        </demo-row>
 
     </div>
 </template>
@@ -213,6 +244,18 @@
                     {name: '教师节', val: 'JiaoShi'},
                     {name: '清明节', val: 'QingMing'},
                 ],
+
+                flag: {
+                    disabled: true,
+                    readonly: true,
+                    loading: true,
+                },
+
+                customFilterMethod(input, item) {
+                    if (!input || !input.trim()) return true
+                    const {label, val} = item
+                    return (label.toLowerCase() + val.toLowerCase()).indexOf(input.toLowerCase()) > -1
+                },
             }
         },
     }

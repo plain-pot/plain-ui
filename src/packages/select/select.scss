@@ -5,8 +5,10 @@
     .pl-select-panel-empty-text {
       color: $disabledText;
       font-size: 12px;
-      padding: 12px 0;
-      text-align: center;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       .pl-icon {
         font-size: 1.4em;
