@@ -83,7 +83,7 @@ export const ProgressCircle = designComponent({
                     increment: 1,
                     startLoading: () => {
                         state.loading.loadingState.loadingCls = true
-                        loadingState.interval = setInterval(loadingState.handleInterval, 30)
+                        loadingState.interval = setInterval(loadingState.handleInterval, 50)
                     },
                     stopLoading: () => {
                         state.loading.loadingState.loadingCls = false
