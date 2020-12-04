@@ -6,6 +6,9 @@ export const ColorPickerServiceGetter = createAgentGetter({
     render(attrs: any) {
         return <pl-color-panel{...attrs}/>
     },
+    defaultPopperAttrs: {
+        transition: 'pl-transition-popper-drop',
+    },
     defaultRenderAttrs: {
         onChange() {this.hide()},
     },
