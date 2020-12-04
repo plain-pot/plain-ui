@@ -98,6 +98,20 @@
             </pl-select>
         </demo-row>
 
+        <demo-row title="图标">
+            <pl-select>
+                <pl-select-group v-for="group in groupData" :key="group.name" :label="group.name">
+                    <pl-select-option v-for="item in group.children"
+                                      :key="item.val"
+                                      :label="item.name"
+                                      :val="item.val"
+                                      :icon="item.i"
+                    />
+                </pl-select-group>
+            </pl-select>
+        </demo-row>
+
+
     </div>
 </template>
 
@@ -110,20 +124,20 @@
                 initFlag: true,
                 groupData: [
                     {
-                        name: '广东省',
+                        name: '操作类型',
                         children: [
-                            {name: '深圳市', val: 'shenzhen', i: 'el-icon-burger'},
-                            {name: '广州市', val: 'guangzhou', i: 'el-icon-tableware'},
-                            {name: '佛山市', val: 'foshan', i: 'el-icon-sugar'},
-                            {name: '梅州市', val: 'meizhou', i: 'el-icon-dessert'},
+                            {name: '添加', val: 'add', i: 'el-icon-folder-add'},
+                            {name: '删除', val: 'remove', i: 'el-icon-folder-remove'},
+                            {name: '通过', val: 'checked', i: 'el-icon-folder-checked'},
+                            {name: '不通过', val: 'delete', i: 'el-icon-folder-delete'},
                         ],
                     },
                     {
-                        name: '湖南省',
+                        name: '文件夹类型',
                         children: [
-                            {name: '长沙市', val: 'changsha', i: 'el-icon-ice-cream'},
-                            {name: '岳阳市', val: 'yueyang', i: 'el-icon-water-cup'},
-                            {name: '邵阳市', val: 'shaoyang', i: 'el-icon-watermelon'},
+                            {name: '展开', val: 'opened', i: 'el-icon-folder-opened'},
+                            {name: '收起', val: 'collapse', i: 'el-icon-folder-s'},
+                            {name: '空文件夹', val: 'empty', i: 'el-icon-folder'},
                         ]
                     }
                 ],
