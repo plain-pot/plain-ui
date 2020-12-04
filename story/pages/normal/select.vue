@@ -158,6 +158,34 @@
             </pl-select>
         </demo-row>
 
+        <demo-row title="派发blur事件">
+            <pl-select :filterMethod="customFilterMethod" noMatchText="没有匹配的数据！！" @blur="log('blur',Date.now())" @focus="log('focus',Date.now())">
+                <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+            </pl-select>
+            <pl-alert :icon="null" style="margin-top: 20px;">
+                <p>select关闭的时候使用tab触发blur</p>
+                <p>select打开的时候使用tab触发blur</p>
+                <p>select关闭的时候点击其他地方导致触发blur</p>
+                <p>select打开的时候点击其他地方导致触发blur</p>
+                <p>问题：怎么区分是点击select-item失去的焦点，还是点击外部区域失去的焦点 (已解决)</p>
+            </pl-alert>
+        </demo-row>
+
+        <demo-row title="禁用以及只读">
+            <demo-line title="禁用">
+                <pl-checkbox v-model="flag.disabled" label="禁用"/>
+                <pl-select :disabled="flag.disabled">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-line>
+            <demo-line title="只读">
+                <pl-checkbox v-model="flag.readonly" label="只读"/>
+                <pl-select :readonly="flag.readonly">
+                    <pl-select-option v-for="item in list" :key="item.val" :label="item.name" :val="item.val"/>
+                </pl-select>
+            </demo-line>
+        </demo-row>
+
     </div>
 </template>
 
