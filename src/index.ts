@@ -44,6 +44,7 @@ import ColorPicker from './packages/color-picker'
 import Cascade from './packages/cascade'
 import Tree from './packages/tree'
 import Select from './packages/select'
+import Time from './packages/time'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -57,7 +58,7 @@ const plugins: ComponentPlugin[] = [
     Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select,
+    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time,
 
     MessageService, DialogService, NoticeService, LoadingService,
 ]
@@ -72,7 +73,7 @@ export {
     Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select,
+    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time,
 
     MessageService, DialogService, NoticeService, LoadingService,
 }
