@@ -61,20 +61,17 @@ export const ProgressCircle = designComponent({
         const animate = (() => {
             let cancel = null as null | number
 
-            let max = 75, min = 15;
-
             return {
-                max, min,
                 start: (percent: number, done?: () => void) => {
                     if (cancel != null) {
                         cancelAnimationFrame(cancel)
                     }
-                    let time = props.loading ? 1500 : 300
+                    let time = props.loading ? 1500 : 900
                     let startTime = Date.now()
 
                     let n = model.value
                     if (n == null) {
-                        n = min
+                        n = props.loading ? loading.min : 0
                     }
                     let k = (percent - n) / time
 
@@ -105,11 +102,16 @@ export const ProgressCircle = designComponent({
         const loading = (() => {
             return reactive({
                 isLoading: false,
+                max: 75,
+                min: 15,
                 start: () => {
                     const run = () => {
-                        animate.start(model.value <= animate.min ? animate.max : animate.min, run)
+                        if (model.value == null) {
+                            model.value = loading.min
+                        }
+                        animate.start(model.value <= loading.min ? loading.max : loading.min, run)
                     }
-                    animate.start(animate.max, run)
+                    animate.start(loading.max, run)
                     loading.isLoading = true
                 },
                 end: () => {
@@ -166,18 +168,9 @@ export const ProgressCircle = designComponent({
             style.transform = `rotate(${props.startAngle}deg)`
         })
 
-        watch(() => props.loading, val => {
-            if (props.loading) {
-                model.value = animate.min
-            }
-            val ? loading.start() : loading.end()
-        }, {immediate: true})
+        watch(() => props.loading, val => val ? loading.start() : loading.end(), {immediate: true})
 
-        watch(() => props.modelValue, val => {
-            if (!props.loading) {
-                animate.start(val)
-            }
-        }, {immediate: true})
+        watch(() => props.modelValue, val => !props.loading && animate.start(val), {immediate: true})
 
         return {
             refer: {
