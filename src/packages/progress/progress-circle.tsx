@@ -56,7 +56,7 @@ export const ProgressCircle = designComponent({
 
         const {slots} = useSlots()
 
-        const model = useModel(() => props.modelValue, event.emit.updateModelValue)
+        const model = useModel(() => 0, event.emit.updateModelValue, {autoWatch: false})
 
         const animate = (() => {
             let cancel = null as null | number
@@ -69,7 +69,7 @@ export const ProgressCircle = designComponent({
                     if (cancel != null) {
                         cancelAnimationFrame(cancel)
                     }
-                    let time = 1500
+                    let time = props.loading ? 1500 : 300
                     let startTime = Date.now()
 
                     let n = model.value
@@ -167,8 +167,16 @@ export const ProgressCircle = designComponent({
         })
 
         watch(() => props.loading, val => {
-            model.value = animate.min
+            if (props.loading) {
+                model.value = animate.min
+            }
             val ? loading.start() : loading.end()
+        }, {immediate: true})
+
+        watch(() => props.modelValue, val => {
+            if (!props.loading) {
+                animate.start(val)
+            }
         }, {immediate: true})
 
         return {
