@@ -32,7 +32,7 @@ export default designComponent({
             scroll: Scroll,
         })
 
-        const model = useModel(() => props.modelValue as any, event.emit.updateModelValue)
+        const model = useModel(() => props.modelValue as any, event.emit.updateModelValue, {onChange: () => nextTick().then(methods.resetPosition)})
 
         const options = computed(() => {
             if (!!props.custom) {
@@ -81,11 +81,6 @@ export default designComponent({
                 event.emit.clickItem(item)
             }
         }
-
-        watch(() => props.modelValue, async () => {
-            await nextTick()
-            methods.resetPosition()
-        }, {immediate: true})
 
         return {
             render: () => (
