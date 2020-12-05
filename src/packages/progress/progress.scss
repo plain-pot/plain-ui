@@ -86,11 +86,20 @@
   }
 
   .pl-progress-mini {
-    display: inline-block;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 
     svg {
-      height: 100%;
-      width: 100%;
+      flex-shrink: 0;
+      width: 200%;
+      height: 200%;
+    }
+
+    &.pl-progress-mini-round {
+      border-radius: 1000px;
     }
   }
 }

@@ -10,7 +10,7 @@ export const ProgressMini = designComponent({
         size: {default: 28},
         ...PROGRESS_DEFAULT_PROPS,
         innerColor: {type: String, default: 'rgba(0,0,0,0.25)'},
-        reverse: {type: Boolean},
+        round: {type: Boolean},
     },
     setup({props}) {
 
@@ -23,10 +23,11 @@ export const ProgressMini = designComponent({
             'pl-progress-mini',
             {
                 [`pl-progress-mini-status-${props.status}`]: !!props.status,
+                [`pl-progress-mini-round`]: props.round,
             },
         ])
 
-        const percent = computed(() => props.modelValue == null ? 0 : props.modelValue / 100)
+        const percent = computed(() => 1 - (props.modelValue == null ? 0 : props.modelValue / 100))
 
         const radius = computed(() => 50 - 2 / 2)
 
@@ -39,8 +40,8 @@ export const ProgressMini = designComponent({
 
             d.push(`A ${r} ${r} 0`)
             d.push(p > 0.5 ? 1 : 0)
-            d.push(1)
-            d.push(`${50 + r * Math.sin(degrees)} ${50 - r * Math.cos(degrees)}`)
+            d.push(0)
+            d.push(`${50 - r * Math.sin(degrees)} ${50 - r * Math.cos(degrees)}`)
 
             d.push(`L 50 50 L 50 1`)
 
@@ -63,11 +64,15 @@ export const ProgressMini = designComponent({
             render: () => (
                 <div class={classes.value} style={styles.value}>
                     <svg viewBox="0 0 100 100">
-                        <path
-                            d={pathD.value}
-                            stroke="none"
-                            fill={pathStroke.value}
-                        />
+                        {props.modelValue == 0 ? (
+                            <circle cx="50" cy="50" r={radius.value} fill={pathStroke.value}/>
+                        ) : (
+                            <path
+                                d={pathD.value}
+                                stroke="none"
+                                fill={pathStroke.value}
+                            />
+                        )}
                     </svg>
                 </div>
             )

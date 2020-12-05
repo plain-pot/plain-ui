@@ -75,22 +75,28 @@
         </demo-row>
 
         <demo-row title="迷你进度条">
+            <demo-line>
+                <pl-slider v-model="val2"/>
+            </demo-line>
             <demo-line title="基本用法">
-                <pl-progress-mini :modelValue="65"/>
+                <pl-progress-mini v-model="val2"/>
             </demo-line>
             <demo-line title="大小">
-                <pl-progress-mini :modelValue="65" :size="80"/>
+                <pl-progress-mini v-model="val2" :size="80"/>
             </demo-line>
             <demo-line title="颜色">
-                <pl-progress-mini :modelValue="65" innerColor="blueviolet" outerColor="#ddd"/>
+                <pl-progress-mini v-model="val2" innerColor="blueviolet" outerColor="#ddd"/>
             </demo-line>
             <demo-line title="状态">
-                <pl-progress-mini :modelValue="65" status="success"/>
-                <pl-progress-mini :modelValue="65" status="error"/>
+                <pl-progress-mini v-model="val2" status="success"/>
+                <pl-progress-mini v-model="val2" status="error"/>
             </demo-line>
             <demo-line title="状态颜色">
-                <pl-progress-mini :modelValue="65" status="success" successColor="green"/>
-                <pl-progress-mini :modelValue="65" status="error" errorColor="red"/>
+                <pl-progress-mini v-model="val2" status="success" successColor="green"/>
+                <pl-progress-mini v-model="val2" status="error" errorColor="red"/>
+            </demo-line>
+            <demo-line title="圆形mini进度条">
+                <pl-progress-mini v-model="val2" round/>
             </demo-line>
         </demo-row>
 
@@ -142,6 +148,7 @@
         data() {
             return {
                 val: 73,
+                val2: 10,
             }
         },
     }
