@@ -1,8 +1,10 @@
 import {designComponent} from "../../use/designComponent";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
-import {computed} from 'vue';
+import {computed, watch} from 'vue';
 import {useStyles} from "../../use/useStyles";
 import {unit} from 'plain-utils/string/unit';
+import {createAnimate} from "../../utils/createAnimate";
+import {useModel} from "../../use/useModel";
 
 export const ProgressMini = designComponent({
     name: 'pl-progress-mini',
@@ -13,6 +15,14 @@ export const ProgressMini = designComponent({
         round: {type: Boolean},
     },
     setup({props}) {
+
+        const model = useModel(() => 0, () => undefined, {autoWatch: false})
+
+        const animate = createAnimate({
+            time: 300,
+            initValue: () => model.value || 0,
+            action: val => model.value = val,
+        })
 
         const styles = useStyles(style => {
             style.height = unit(props.size)
@@ -27,7 +37,7 @@ export const ProgressMini = designComponent({
             },
         ])
 
-        const percent = computed(() => 1 - (props.modelValue == null ? 0 : props.modelValue / 100))
+        const percent = computed(() => 1 - (model.value == null ? 0 : model.value / 100))
 
         const radius = computed(() => 50 - 2 / 2)
 
@@ -60,11 +70,13 @@ export const ProgressMini = designComponent({
             }
         })
 
+        watch(() => props.modelValue, val => animate.start(val), {immediate: true})
+
         return {
             render: () => (
                 <div class={classes.value} style={styles.value}>
                     <svg viewBox="0 0 100 100">
-                        {props.modelValue == 0 ? (
+                        {model.value == 0 ? (
                             <circle cx="50" cy="50" r={radius.value} fill={pathStroke.value}/>
                         ) : (
                             <path
