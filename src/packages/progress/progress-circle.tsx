@@ -6,6 +6,7 @@ import {computed, reactive, watch} from 'vue';
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import loading from "../loading/loading";
+import {createAnimate} from "../../utils/createAnimate";
 
 /*
 
@@ -58,46 +59,11 @@ export const ProgressCircle = designComponent({
 
         const model = useModel(() => 0, event.emit.updateModelValue, {autoWatch: false})
 
-        const animate = (() => {
-            let cancel = null as null | number
-
-            return {
-                start: (percent: number, done?: () => void) => {
-                    if (cancel != null) {
-                        cancelAnimationFrame(cancel)
-                    }
-                    let time = props.loading ? 1500 : 900
-                    let startTime = Date.now()
-
-                    let n = model.value
-                    if (n == null) {
-                        n = props.loading ? loading.min : 0
-                    }
-                    let k = (percent - n) / time
-
-                    const run = () => {
-                        let nowTime = Date.now()
-                        let deltaTime = nowTime - startTime
-
-                        if (deltaTime > time) {
-                            cancel = null
-                            model.value = percent
-                            !!done && done()
-                            return
-                        }
-
-                        model.value = Number((deltaTime * k + n).toFixed(2))
-                        cancel = requestAnimationFrame(run)
-                    }
-                    run()
-                },
-                stop: () => {
-                    if (cancel != null) {
-                        cancelAnimationFrame(cancel)
-                    }
-                }
-            }
-        })();
+        const animate = createAnimate({
+            time: props.loading ? 1500 : 900,
+            initValue: () => model.value != null ? model.value : (props.loading ? loading.min : 0),
+            action: val => model.value = val,
+        })
 
         const loading = (() => {
             return reactive({
