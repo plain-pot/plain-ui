@@ -17,6 +17,8 @@ export interface HTMLInputEvent extends Event {target: HTMLInputElement & EventT
 
 export type ReferenceType = ComponentPublicInstance | HTMLElement | (() => (ComponentPublicInstance | HTMLElement))
 
+export type ModelType = { value: any }
+
 /*
 type Test = { name?: string, age: number }
 const a: RequireFormat<Test, 'name'> = {} as any
