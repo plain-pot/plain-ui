@@ -7,10 +7,10 @@ import {computed} from 'vue';
 import {PlainDate} from "../../utils/PlainDate";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {TimeServiceGetter} from "./servce/time-service";
-import {useRefs} from "../../use/useRefs";
-import Input from '../input'
 import {TimeRangePanelType} from "./panel/time-range-panel";
 import {delay} from "plain-utils/utils/delay";
+import {useDateTime} from "../date-time-input/useDateTime";
+import './time.scss'
 
 export default designComponent({
     name: 'pl-time',
@@ -28,10 +28,6 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const {refs} = useRefs({
-            input: Input,
-        })
-
         const model = useModel(() => props.modelValue, emit.updateModelValue)
         const startModel = useModel(() => props.start, emit.updateStart)
         const endModel = useModel(() => props.end, emit.updateEnd)
@@ -42,8 +38,8 @@ export default designComponent({
             end: new PlainDate(endModel.value, props.displayFormat, props.valueFormat),
         }))
 
-        const handler = {
-            onServiceChange: (val: string | undefined, type?: TimeRangePanelType) => {
+        const serviceHandler = {
+            onChange: (val: string | undefined, type?: TimeRangePanelType) => {
                 if (!props.range) {
                     model.value = val
                 } else {
@@ -54,10 +50,20 @@ export default designComponent({
                     }
                 }
             },
-            mousedownBasePanel: () => {
+            onMousedownBasePanel: async () => {
                 agentState.state.focusCounter++
-                delay(0)
-                // refs.valueInput.methods.focus()
+                await delay(0)
+                refs.valueInput!.methods.focus()
+            },
+            onMousedownStartPanel: async () => {
+                agentState.state.focusCounter++
+                await delay(0)
+                refs.startInput!.methods.focus()
+            },
+            onMousedownEndPanel: async () => {
+                agentState.state.focusCounter++
+                await delay(0)
+                refs.endInput!.methods.focus()
             }
         }
 
@@ -65,7 +71,7 @@ export default designComponent({
             event: {emit},
             serviceGetter: TimeServiceGetter,
             option: {
-                reference: () => refs.input as any,
+                reference: () => refs.plInput as any,
                 renderAttrs: () => ({
                     ...(Object.keys(TimePanelProps).reduce((ret: any, key) => {
                         ret[key] = (props as any)[key]
@@ -74,17 +80,126 @@ export default designComponent({
                     modelValue: model.value,
                     start: startModel.value,
                     end: endModel.value,
-
-                    onChange: handler.onServiceChange,
+                    ...serviceHandler,
                 })
             },
         })
 
+        const {
+            refs,
+            handler,
+            inputValue,
+        } = useDateTime({
+            value: model,
+            start: startModel,
+            end: endModel,
+            props,
+            agentState,
+            emit,
+        })
+
+        const customHandler = {
+            change: (val: string, type: 'start' | 'end' | 'value') => {
+                const {value: valuePd, start: startPd, end: endPd} = formatData.value
+
+                switch (type) {
+                    case "value":
+                        if (!val) {
+                            valuePd.setValue(undefined)
+                            model.value = undefined
+                            return;
+                        }
+                        if (valuePd.format(valuePd.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        valuePd.setDisplayValue(val)
+                        model.value = valuePd.valueString!
+
+                        break
+                    case "start":
+                        if (!val) {
+                            return;
+                        }
+                        if (startPd.format(startPd.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        startPd.setDisplayValue(val)
+                        startModel.value = startPd.valueString as string
+
+                        if (endPd.isNull || startPd.Hms! > endPd.Hms!) {
+                            endModel.value = startModel.value
+                        }
+
+                        break
+
+                    case "end":
+                        if (!val) {
+                            return;
+                        }
+                        if (endPd.format(endPd.parseDisplayString(val)) != val) {
+                            return;
+                        }
+
+                        endPd.setDisplayValue(val)
+                        endModel.value = endPd.valueString as string
+
+                        if (startPd.isNull || endPd.Hms! < startPd.Hms!) {
+                            startModel.value = endModel.value
+                        }
+
+                        break
+                }
+            },
+        }
+
         return {
             render: () => (
-                <div>
-                    time
-                </div>
+                <pl-input
+                    ref="plInput"
+                    class="pl-time pl-input-custom"
+                    value={inputValue.value}
+                    suffixIcon="el-icon-time"
+                    clearIcon
+                    isFocus={agentState.state.focusCounter > 0}
+                    width={null}
+                    inputInnerTabindex={null}
+                    clearHandler={handler.clearHandler}
+                    onClickInput={handler.clickInput}
+                    onKeydown={handler.keydown}>
+                    <div{...{class: 'pl-input-custom-inner', range: String(props.range)}}>
+                        {!props.range ? (
+                            <pl-date-time-input
+                                ref="valueInput"
+                                modelValue={formatData.value.value.displayString}
+                                displayFormat={props.displayFormat}
+                                onChange={(val: string) => customHandler.change(val, 'value')}
+                                onFocus={handler.customInputFocus}
+                                onBlur={handler.customInputBlur}/>
+                        ) : (
+                            <>
+                                <pl-date-time-input
+                                    ref="startInput"
+                                    width="100"
+                                    modelValue={formatData.value.start.displayString}
+                                    displayFormat={props.displayFormat}
+                                    onChange={(val: string) => customHandler.change(val, 'start')}
+                                    onFocus={handler.customInputFocus}
+                                    onBlur={handler.customInputBlur}/>
+                                <span>~</span>
+                                <pl-date-time-input
+                                    ref="endInput"
+                                    width="100"
+                                    modelValue={formatData.value.end.displayString}
+                                    displayFormat={props.displayFormat}
+                                    onChange={(val: string) => customHandler.change(val, 'end')}
+                                    onFocus={handler.customInputFocus}
+                                    onBlur={handler.customInputBlur}/>
+                            </>)
+                        }
+                    </div>
+                </pl-input>
             )
         }
     },
