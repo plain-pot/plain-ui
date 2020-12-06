@@ -7,6 +7,7 @@ import {computed, watch, nextTick} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";
 import {findOne} from "plain-utils/object/findOne";
 import './time-column.scss'
+import {useRefList} from "../../../use/useRefList";
 
 export default designComponent({
     name: 'pl-time-base-column',
@@ -28,9 +29,8 @@ export default designComponent({
 
         const {editComputed} = useEdit()
 
-        const {refs} = useRefs({
-            scroll: Scroll,
-        })
+        const {refs} = useRefs({scroll: Scroll,})
+        const liList = useRefList<HTMLLIElement>()
 
         const model = useModel(() => props.modelValue as any, event.emit.updateModelValue, {onChange: () => nextTick().then(methods.resetPosition)})
 
@@ -54,7 +54,7 @@ export default designComponent({
                 if (!!find) {
                     start = find.index
                 }
-                let scrollTop = start * 24
+                let scrollTop = liList[start].offsetTop
                 refs.scroll!.methods.scroll({y: scrollTop}, 150)
             },
         }
@@ -79,6 +79,7 @@ export default designComponent({
                 }
                 model.value = item
                 event.emit.clickItem(item)
+                methods.resetPosition()
             }
         }
 
@@ -87,24 +88,30 @@ export default designComponent({
                 <div class="pl-time-base-column">
                     <pl-scroll ref="scroll">
                         <ul class="pl-time-base-column-list">
-                            {[1, 2, 3].map(item => (<li class="pl-time-base-column-item" key={-item}/>))}
+                            {[1, 2, 3].map((item, index) => (
+                                <li
+                                    ref={val => liList[index] = val as any}
+                                    class="pl-time-base-column-item"
+                                    key={-item}/>)
+                            )}
 
-                            {
-                                options.value.map(item => (
-                                    <li class={[
+                            {options.value.map((item, index) => (
+                                <li{...{
+                                    class: [
                                         'pl-time-base-column-item',
                                         'pl-time-base-column-option-item',
                                         {
                                             'pl-time-base-column-item-current': model.value != null && model.value == Number(item),
                                             'pl-time-base-column-item-disabled': utils.checkDisabled(item),
                                         }
-                                    ]}
-                                        key={item}
-                                        onClick={() => handler.clickItem(item)}>
-                                        {item}
-                                    </li>
-                                ))
-                            }
+                                    ],
+                                    key: item,
+                                    onClick: () => handler.clickItem(item),
+                                    ref: val => liList[index + 3] = val as any
+                                }}>
+                                    {item}
+                                </li>
+                            ))}
 
                             {[1, 2, 3].map(item => (<li class="pl-time-base-column-item" key={-item - 3}/>))}
                         </ul>
