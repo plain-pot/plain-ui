@@ -107,6 +107,7 @@ export default designComponent({
 
         const handler = {
             columnChange: (value: number, type: string) => {
+
                 const {value: vpd, max: maxpd, min: minpd} = formatData.value
 
                 switch (type) {
@@ -140,6 +141,7 @@ export default designComponent({
                         {props.layout.map((layout: any) => (
                             <pl-time-base-column
                                 {...{
+                                    key: layout,
                                     layout,
                                     modelValue: (formatData as any).value.value[(TimePanelLayout as any)[layout]],
                                     max: (maxmin as any).value.max[(TimePanelLayout as any)[layout]],

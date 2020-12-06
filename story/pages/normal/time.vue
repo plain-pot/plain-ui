@@ -77,20 +77,16 @@
                 </demo-row>
             </demo-row>
 
-            <!--
-
-
-
             <demo-row title="自定义选项">
                 <demo-row title="自定义选项以及值限制示例">
                     <demo-line>
                         <pl-button mode="text" label="clear" @click="val['13'] = null"/>
                         {{val[13]}}
                     </demo-line>
-                    <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>
-                    <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>
+                    <!--                    <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>-->
+                    <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom"/>
                 </demo-row>
-            </demo-row>-->
+            </demo-row>
 
         </demo-row>
 
@@ -109,6 +105,7 @@
 
                     7: '12:12:12',
                     8: '08:08:08',
+                    13: null,
                 },
                 timeBaseColumn: {
                     custom: () => {
@@ -165,7 +162,7 @@
             },
             custom(layout, value) {
 
-                let five = [0, 5, 10, 15, 20, 25, 30, 25, 40, 45, 50, 55]
+                let five = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
                 let ten = [0, 10, 20, 30, 40, 50]
 
                 if (layout === 'h') {

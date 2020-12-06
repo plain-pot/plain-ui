@@ -53,11 +53,10 @@ export default designComponent({
                 let value = model.value || 0
                 let start = 0
                 let find = findOne(options.value, item => Number(item) == value, true) as { item: string, index: number }
-                if (!!find) {
+                if (!!find.item) {
                     start = find.index
+                    refs.scroll!.refs.wrapper.scrollTop = liList[start].offsetTop
                 }
-                let scrollTop = liList[start].offsetTop
-                refs.scroll!.refs.wrapper.scrollTop = scrollTop
             },
         }
 
