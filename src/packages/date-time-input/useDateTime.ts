@@ -31,7 +31,6 @@ export function useDateTime(
     }
 ) {
 
-    const {editComputed, editState} = useEdit()
     useStyle()
 
     const {refs} = useRefs({
@@ -91,8 +90,6 @@ export function useDateTime(
         refs,
         inputValue,
         handler,
-        editComputed,
-        editState,
     }
 
 }

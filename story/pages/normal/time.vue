@@ -176,6 +176,20 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-time">
+            <demo-row title="基本用法">
+                <div>
+                    <pl-input/>
+                </div>
+                <div>
+                    <pl-time @focus="log('focus')" @blur="log('blur')"/>
+                </div>
+                <div>
+                    <pl-time range @focus="log('focus')" @blur="log('blur')"/>
+                </div>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
@@ -263,6 +277,9 @@
             }
         },
         methods: {
+            log(...args) {
+                console.log(...args)
+            },
             checkDisabled(num, layout, value) {
                 if (layout === 'm') {
                     return num > 15 || num < 8
