@@ -3,7 +3,7 @@ import {EditProps, useEdit} from "../../../use/useEdit";
 import {useRefs} from "../../../use/useRefs";
 import Scroll from '../../scroll'
 import {useModel} from "../../../use/useModel";
-import {computed, nextTick} from 'vue';
+import {computed, nextTick, onMounted} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";
 import {findOne} from "plain-utils/object/findOne";
 import './time-base-column.scss'
@@ -91,6 +91,10 @@ export default designComponent({
                 }
             }
         }
+
+        onMounted(() => {
+            methods.resetPosition()
+        })
 
         return {
             render: () => (

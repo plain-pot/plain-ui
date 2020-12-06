@@ -77,6 +77,10 @@
                 </demo-row>
             </demo-row>
 
+            <!--
+
+
+
             <demo-row title="自定义选项">
                 <demo-row title="自定义选项以及值限制示例">
                     <demo-line>
@@ -86,7 +90,7 @@
                     <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>
                     <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>
                 </demo-row>
-            </demo-row>
+            </demo-row>-->
 
         </demo-row>
 
@@ -152,10 +156,10 @@
                     mm = Number(mm)
                     ss = Number(ss)
                     if (mm > maxmm || (mm === maxmm && ss > maxss)) {
-                        this.$set(this.val, 12, `${this.$plain.utils.zeroize(maxmm)}:${this.$plain.utils.zeroize(maxss)}`)
+                        this.val["12"] = `${zeroize(maxmm)}:${zeroize(maxss)}`
                     }
                     if (mm < minmm || (mm === minmm && ss < minss)) {
-                        this.$set(this.val, 12, `${this.$plain.utils.zeroize(minmm)}:${this.$plain.utils.zeroize(minss)}`)
+                        this.val["12"] = `${zeroize(minmm)}:${zeroize(minss)}`
                     }
                 }
             },
