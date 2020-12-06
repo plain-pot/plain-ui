@@ -3,11 +3,13 @@ import {EditProps, useEdit} from "../../../use/useEdit";
 import {useRefs} from "../../../use/useRefs";
 import Scroll from '../../scroll'
 import {useModel} from "../../../use/useModel";
-import {computed, watch, nextTick} from 'vue';
+import {computed, nextTick} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";
 import {findOne} from "plain-utils/object/findOne";
 import './time-column.scss'
 import {useRefList} from "../../../use/useRefList";
+
+const size = 24;
 
 export default designComponent({
     name: 'pl-time-base-column',
@@ -55,7 +57,7 @@ export default designComponent({
                     start = find.index
                 }
                 let scrollTop = liList[start].offsetTop
-                refs.scroll!.methods.scroll({y: scrollTop}, 150)
+                refs.scroll!.refs.wrapper.scrollTop = scrollTop
             },
         }
 
@@ -79,13 +81,21 @@ export default designComponent({
                 }
                 model.value = item
                 event.emit.clickItem(item)
+                methods.resetPosition()
+            },
+            onScroll: (e: any) => {
+                let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(e.target.scrollTop / size)))
+                const val = Number(options.value[index])
+                if (val != null && !utils.checkDisabled(val)) {
+                    model.value = val
+                }
             }
         }
 
         return {
             render: () => (
                 <div class="pl-time-base-column">
-                    <pl-scroll ref="scroll">
+                    <pl-scroll ref="scroll" onScroll={handler.onScroll}>
                         <ul class="pl-time-base-column-list">
                             {[1, 2, 3].map((item, index) => (
                                 <li
