@@ -169,7 +169,7 @@
 
         <demo-row title="time service">
             <demo-row title="基本用法">
-                <pl-button label="basic" ref="basic" @click="basic.toggle()"/>
+                <pl-button :label="basic.val || 'basic usage'" ref="basic" @click="basic.toggle()"/>
             </demo-row>
             <!--<demo-row title="时间范围">
                 <pl-button label="range" ref="range" @click="range.toggle()"/>
@@ -196,10 +196,10 @@
                     toggle: () => {
                         if (!agent) {
                             agent = TimeServiceGetter(this)({
-                                reference: this.$refs["basic"],
+                                reference: () => this.$refs["basic"],
                                 renderAttrs: () => ({
-                                    // modelValue: val.value,
-                                    onChange: (val) => val.value = val
+                                    modelValue: val.value,
+                                    onChange: (v) => val.value = v
                                 })
                             })
                         }
