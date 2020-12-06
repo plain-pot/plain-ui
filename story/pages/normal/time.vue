@@ -90,6 +90,37 @@
 
         </demo-row>
 
+        <demo-row title="time-range-panel">
+            <demo-row title="基本用法">
+                <demo-line>
+                    start:{{val[14]}}
+                </demo-line>
+                <demo-line>
+                    end:{{val[15]}}
+                </demo-line>
+                <demo-line>
+                    <pl-button mode="text" label="clear" @click="()=>{val['14']=null;val['15']=null}"/>
+                </demo-line>
+                <pl-time-range-panel v-model:start="val[14]" v-model:end="val[15]" valueFormat="HHmmss"/>
+                <pl-time-range-panel v-model:start="val[14]" v-model:end="val[15]" valueFormat="HHmmss"/>
+            </demo-row>
+
+            <demo-row title="最大最小值">
+                <demo-line>max="14:14:14" min="08:08:08"</demo-line>
+                <demo-line>
+                    start:{{val[16]}}
+                </demo-line>
+                <demo-line>
+                    end:{{val[17]}}
+                </demo-line>
+                <demo-line>
+                    <pl-button mode="text" label="clear" @click="()=>{val['16']=null;val['17']=null}"/>
+                </demo-line>
+                <pl-time-range-panel v-model:start="val[16]" v-model:end="val[17]" max="14:14:14" min="08:08:08"/>
+                <pl-time-range-panel v-model:start="val[16]" v-model:end="val[17]"/>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
