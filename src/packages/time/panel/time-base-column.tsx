@@ -22,6 +22,7 @@ export default designComponent({
         min: {type: Number},                    // 最小值
         custom: {type: Function as any as new() => ((layout: string) => number[])},// 自定义选项函数
         checkDisabled: Function,                // 用来判断选项是否禁用的函数
+        disableChangeOnScroll: {type: Boolean}, // 是否禁用在滚动的时候触发更新值动作
     },
     emits: {
         updateModelValue: (val: number) => true,
@@ -83,6 +84,9 @@ export default designComponent({
                 methods.resetPosition()
             },
             onScroll: (e: any) => {
+                if (props.disableChangeOnScroll) {
+                    return
+                }
                 let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(e.target.scrollTop / size)))
                 const val = Number(options.value[index])
                 if (val != null && !utils.checkDisabled(val)) {

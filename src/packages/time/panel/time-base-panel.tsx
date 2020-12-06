@@ -14,6 +14,7 @@ export default designComponent({
     name: 'pl-time-base-panel',
     props: {
         modelValue: {type: String},
+        disableChangeOnScroll: {type: Boolean},// 是否禁用在滚动的时候触发更新值动作
         ...TimePublicProps,
     },
     emits: {
@@ -148,7 +149,8 @@ export default designComponent({
                                     min: (maxmin as any).value.min[(TimePanelLayout as any)[layout]],
                                     checkDisabled: checkDisabled.value,
                                     custom: custom.value,
-                                    onChange: (val: number) => handler.columnChange(val, layout)
+                                    onChange: (val: number) => handler.columnChange(val, layout),
+                                    disableChangeOnScroll: props.disableChangeOnScroll,
                                 }}
                             />
                         ))}

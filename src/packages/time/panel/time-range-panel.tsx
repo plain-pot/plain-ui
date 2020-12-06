@@ -11,7 +11,7 @@ export enum TimeRangePanelType {
 }
 
 export default designComponent({
-    name: 'pl-time-srange-panel',
+    name: 'pl-time-range-panel',
     props: {
         start: {type: String},
         end: {type: String},
@@ -73,6 +73,7 @@ export default designComponent({
                 ...publicProps,
                 max,
                 min,
+                disableChangeOnScroll: true,
             }
             return {
                 start: {
