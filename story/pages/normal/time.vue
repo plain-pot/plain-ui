@@ -171,9 +171,9 @@
             <demo-row title="基本用法">
                 <pl-button :label="basic.val || 'basic usage'" ref="basic" @click="basic.toggle()"/>
             </demo-row>
-            <!--<demo-row title="时间范围">
-                <pl-button label="range" ref="range" @click="range.toggle()"/>
-            </demo-row>-->
+            <demo-row title="时间范围">
+                <pl-button :label="range.start?`start:${range.start}, end:${range.end}`:'range usage'" ref="range" @click="range.toggle()"/>
+            </demo-row>
         </demo-row>
 
     </div>
@@ -208,8 +208,39 @@
                 }
             })();
 
+            const range = (() => {
+                const start = ref(null)
+                const end = ref(null)
+                let agent;
+                return {
+                    start,
+                    end,
+                    toggle: () => {
+                        if (!agent) {
+                            agent = TimeServiceGetter(this)({
+                                reference: () => this.$refs["range"],
+                                renderAttrs: () => ({
+                                    start: start.value,
+                                    end: end.value,
+                                    range: true,
+                                    onChange: (v, type) => {
+                                        if (type === 'start') {
+                                            start.value = v
+                                        } else {
+                                            end.value = v
+                                        }
+                                    }
+                                })
+                            })
+                        }
+                        agent.toggle()
+                    }
+                }
+            })();
+
             return {
                 basic,
+                range,
                 val: {
                     6: '20:15:10',
 
