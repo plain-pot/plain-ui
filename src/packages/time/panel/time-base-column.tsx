@@ -6,7 +6,7 @@ import {useModel} from "../../../use/useModel";
 import {computed, nextTick} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";
 import {findOne} from "plain-utils/object/findOne";
-import './time-column.scss'
+import './time-base-column.scss'
 import {useRefList} from "../../../use/useRefList";
 
 const size = 24;
