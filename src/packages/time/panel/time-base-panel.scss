@@ -1,14 +1,14 @@
+@import "./time.public";
+
 @include theme {
   .pl-time-base-panel {
     display: inline-block;
     position: relative;
     color: $itc;
 
-    $item_height: 24px;
-
     &:before {
       position: absolute;
-      top: $item_height*3;
+      top: $time-size*3;
       left: 0;
       right: 0;
       height: 1px;
@@ -19,7 +19,7 @@
 
     &:after {
       position: absolute;
-      bottom: $item_height*3 + 6;
+      bottom: $time-size*3 + 6;
       left: 0;
       right: 0;
       height: 1px;

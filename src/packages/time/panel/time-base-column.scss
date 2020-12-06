@@ -1,10 +1,9 @@
+@import "./time.public";
+
 @include theme {
   .pl-time-base-column {
-
-    $item_height: 24px;
-
     display: inline-block;
-    height: 7*$item_height;
+    height: 7*$time-size;
     width: 40px;
     border-radius: 2px;
 
@@ -16,8 +15,8 @@
 
       .pl-time-base-column-item {
         font-size: 12px;
-        height: $item_height;
-        line-height: $item_height;
+        height: $time-size;
+        line-height: $time-size;
         transition: all 300ms $transition;
         text-align: center;
 
