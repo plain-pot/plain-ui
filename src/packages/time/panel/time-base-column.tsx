@@ -79,7 +79,6 @@ export default designComponent({
                 }
                 model.value = item
                 event.emit.clickItem(item)
-                methods.resetPosition()
             }
         }
 
