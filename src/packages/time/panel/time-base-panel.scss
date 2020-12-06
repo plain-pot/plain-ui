@@ -1,0 +1,39 @@
+@include theme {
+  .pl-time-base-panel {
+    display: inline-block;
+    position: relative;
+    color: $itc;
+
+    $item_height: 24px;
+
+    &:before {
+      position: absolute;
+      top: $item_height*3;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: rgba($ibc, 0.5);
+      content: '';
+      pointer-events: none;
+    }
+
+    &:after {
+      position: absolute;
+      bottom: $item_height*3 + 6;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: rgba($ibc, 0.5);
+      content: '';
+      pointer-events: none;
+    }
+
+    .pl-time-base-column {
+      border: none;
+
+      & + .pl-time-base-column {
+        border-left: dashed 1px $ibc;
+      }
+    }
+  }
+}

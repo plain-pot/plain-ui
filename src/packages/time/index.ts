@@ -1,6 +1,6 @@
 import time from './time'
 import column from './panel/time-base-column'
-import panel from './panel/time-panel'
+import panel from './panel/time-base-panel'
 import range from './panel/time-range-panel'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 

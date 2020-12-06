@@ -30,6 +30,17 @@
             </demo-row>
 
         </demo-row>
+
+        <demo-row title="time-base-panel">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[6]}}
+                </demo-line>
+                <pl-time-base-panel v-model="val[6]"/>
+                <pl-time-base-panel v-model="val[6]"/>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
