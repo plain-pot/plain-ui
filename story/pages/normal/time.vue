@@ -167,17 +167,49 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="time service">
+            <demo-row title="基本用法">
+                <pl-button label="basic" ref="basic" @click="basic.toggle()"/>
+            </demo-row>
+            <!--<demo-row title="时间范围">
+                <pl-button label="range" ref="range" @click="range.toggle()"/>
+            </demo-row>-->
+        </demo-row>
 
     </div>
 </template>
 
 <script>
     import {zeroize} from "plain-utils/string/zeroize";
+    import {TimeServiceGetter} from "../../../src/packages/time/servce/time-service";
+    import {ref} from 'vue'
 
     export default {
         name: "demo-time",
         data() {
+
+            const basic = (() => {
+                const val = ref(null)
+                let agent;
+                return {
+                    val,
+                    toggle: () => {
+                        if (!agent) {
+                            agent = TimeServiceGetter(this)({
+                                reference: this.$refs["basic"],
+                                renderAttrs: () => ({
+                                    // modelValue: val.value,
+                                    onChange: (val) => val.value = val
+                                })
+                            })
+                        }
+                        agent.toggle()
+                    }
+                }
+            })();
+
             return {
+                basic,
                 val: {
                     6: '20:15:10',
 

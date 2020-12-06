@@ -4,6 +4,7 @@ import base from './panel/time-base-panel'
 import range from './panel/time-range-panel'
 import panel from './panel/time-panel'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
+import {TimeServiceGetter} from "./servce/time-service";
 
 const TimeBaseColumn = createComponentPlugin(column)
 const TimeBasePanel = createComponentPlugin(base)
@@ -15,6 +16,7 @@ export default {
     TimeBasePanel,
     TimeRangePanel,
     TimePanel,
+    TimeServiceGetter,
     ...createComponentPlugin(time, [
         TimeBaseColumn,
         TimeBasePanel,
