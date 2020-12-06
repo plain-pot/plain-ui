@@ -142,8 +142,8 @@ export default designComponent({
                                 {...{
                                     layout,
                                     modelValue: (formatData as any).value.value[(TimePanelLayout as any)[layout]],
-                                    max: (maxmin as any).value[(TimePanelLayout as any)[layout]],
-                                    min: (maxmin as any).value[(TimePanelLayout as any)[layout]],
+                                    max: (maxmin as any).value.max[(TimePanelLayout as any)[layout]],
+                                    min: (maxmin as any).value.min[(TimePanelLayout as any)[layout]],
                                     checkDisabled: checkDisabled.value,
                                     custom: custom.value,
                                     onChange: (val: number) => handler.columnChange(val, layout)
