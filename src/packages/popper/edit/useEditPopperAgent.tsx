@@ -2,6 +2,8 @@ import {reactive, computed, onBeforeUnmount, ComponentPublicInstance, getCurrent
 import {useEdit} from "../../../use/useEdit";
 import {PopperAgent, SpecificPopperServiceOption} from "./utils";
 
+export type EditPopperAgent = ReturnType<typeof useEditPopperAgent>
+
 export function useEditPopperAgent(
     {
         event: {emit},
