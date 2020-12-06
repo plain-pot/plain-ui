@@ -188,6 +188,15 @@
                     <pl-time range @focus="log('focus')" @blur="log('blur')"/>
                 </div>
             </demo-row>
+
+            <demo-row title="选择任意时间">
+                <demo-line>
+                    {{val[18]}}
+                </demo-line>
+                <pl-time v-model="val[18]"/>
+                <pl-time v-model="val[18]"/>
+            </demo-row>
+
         </demo-row>
 
     </div>
