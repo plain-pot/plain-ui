@@ -32,6 +32,12 @@ export default designComponent({
 
         const {editComputed} = useEdit()
 
+        /*
+        *  临时变量，用来判断当前scrollTop是否已经滚动到指定位置，用来判别是鼠标触发的scroll还是resetPosition触发的scroll
+        *  以解决点击item的时候，因为触发了scroll派发两次事件的问题
+        */
+        let currentScrollTop = 0;
+
         const {refs} = useRefs({scroll: Scroll,})
         const liList = useRefList<HTMLLIElement>()
 
@@ -56,7 +62,8 @@ export default designComponent({
                 let find = findOne(options.value, item => Number(item) == value, true) as { item: string, index: number }
                 if (!!find.item) {
                     start = find.index
-                    refs.scroll!.refs.wrapper.scrollTop = liList[start].offsetTop
+                    currentScrollTop = liList[start].offsetTop
+                    refs.scroll!.refs.wrapper.scrollTop = currentScrollTop
                 }
             },
         }
@@ -87,9 +94,14 @@ export default designComponent({
                 if (props.disableChangeOnScroll) {
                     return
                 }
-                let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(e.target.scrollTop / size)))
+                const scrollTop = e.target.scrollTop as number
+                if (scrollTop === currentScrollTop) {
+                    return;
+                }
+                currentScrollTop = scrollTop
+                let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(currentScrollTop / size)))
                 const val = Number(options.value[index])
-                if (val != null && !utils.checkDisabled(val)) {
+                if (val != null && val !== model.value && !utils.checkDisabled(val)) {
                     model.value = val
                 }
             }
