@@ -38,6 +38,11 @@ export default designComponent({
         */
         let currentScrollTop = 0;
 
+        /*
+        *  判断当前是否已经mounted，因为一开始mounted，resetPosition的时候，会导致触发onScroll，这里做延迟标记，使得mounted resetPosition的时候不处理onScroll
+        */
+        let isMounted = false
+
         const {refs} = useRefs({scroll: Scroll,})
         const liList = useRefList<HTMLLIElement>()
 
@@ -91,6 +96,9 @@ export default designComponent({
                 methods.resetPosition()
             },
             onScroll: (e: any) => {
+                if (!isMounted) {
+                    return;
+                }
                 if (props.disableChangeOnScroll) {
                     return
                 }
@@ -109,6 +117,7 @@ export default designComponent({
 
         onMounted(() => {
             methods.resetPosition()
+            setTimeout(() => isMounted = true, 300)
         })
 
         return {
