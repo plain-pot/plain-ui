@@ -1,5 +1,11 @@
 import {ref, watch} from 'vue';
 
+export type UseModelConfig<T = any> = {
+    autoEmit?: boolean | undefined,
+    autoWatch?: boolean | undefined,
+    onChange?: (newVal: T, oldVal: T) => void,
+}
+
 /**
  * 双向绑定组合函数
  * @author  韦胜健
@@ -8,11 +14,7 @@ import {ref, watch} from 'vue';
 export function useModel<T>(
     getter: () => T,
     emitter: (val: T) => void,
-    config?: {
-        autoEmit?: boolean | undefined,
-        autoWatch?: boolean | undefined,
-        onChange?: (newVal: T, oldVal: T) => void,
-    }
+    config?: UseModelConfig<T>
 ) {
 
     const state = ref(getter()) as { value: T }
