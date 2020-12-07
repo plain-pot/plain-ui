@@ -32,17 +32,6 @@ export default designComponent({
 
         const {editComputed} = useEdit()
 
-        /*
-        *  临时变量，用来判断当前scrollTop是否已经滚动到指定位置，用来判别是鼠标触发的scroll还是resetPosition触发的scroll
-        *  以解决点击item的时候，因为触发了scroll派发两次事件的问题
-        */
-        let currentScrollTop = 0;
-
-        /*
-        *  判断当前是否已经mounted，因为一开始mounted，resetPosition的时候，会导致触发onScroll，这里做延迟标记，使得mounted resetPosition的时候不处理onScroll
-        */
-        let isMounted = false
-
         const {refs} = useRefs({scroll: Scroll,})
         const liList = useRefList<HTMLLIElement>()
 
@@ -67,8 +56,7 @@ export default designComponent({
                 let find = findOne(options.value, item => Number(item) == value, true) as { item: string, index: number }
                 if (!!find.item) {
                     start = find.index
-                    currentScrollTop = liList[start].offsetTop
-                    refs.scroll!.refs.wrapper.scrollTop = currentScrollTop
+                    refs.scroll!.methods.scroll({y: liList[start].offsetTop}, {noEmitScroll: true})
                 }
             },
         }
@@ -96,18 +84,10 @@ export default designComponent({
                 methods.resetPosition()
             },
             onScroll: (e: any) => {
-                if (!isMounted) {
-                    return;
-                }
                 if (props.disableChangeOnScroll) {
                     return
                 }
-                const scrollTop = e.target.scrollTop as number
-                if (scrollTop === currentScrollTop) {
-                    return;
-                }
-                currentScrollTop = scrollTop
-                let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(currentScrollTop / size)))
+                let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(e.target.scrollTop / size)))
                 const val = Number(options.value[index])
                 if (val != null && val !== model.value && !utils.checkDisabled(val)) {
                     model.value = val
@@ -115,10 +95,7 @@ export default designComponent({
             }
         }
 
-        onMounted(() => {
-            methods.resetPosition()
-            setTimeout(() => isMounted = true, 300)
-        })
+        onMounted(() => methods.resetPosition())
 
         return {
             render: () => (
