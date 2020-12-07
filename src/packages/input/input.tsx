@@ -294,8 +294,8 @@ export default designComponent({
                                 <input class="pl-input-inner" {...publicProps.value}/>}
 
                             {!!props.suffixIcon && <span class="pl-input-suffix-icon">
-                            {typeof props.suffixIcon === 'function' ? (props.suffixIcon as any)() : <pl-icon onMousedown={handler.clickSuffixIcon} icon={props.suffixIcon}/>}
-                        </span>}
+                                {typeof props.suffixIcon === 'function' ? (props.suffixIcon as any)() : <pl-icon onMousedown={handler.clickSuffixIcon} icon={props.suffixIcon}/>}
+                            </span>}
                             {!!props.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon onMousedown={handler.clickClearIcon} icon="el-icon-error"/></span>)}
                             {!!editComputed.value.loading && <pl-loading class="pl-input-suffix-icon"/>}
                             {slots.hidden.isExist() && <div class="pl-input-inner-hidden">{slots.hidden()}</div>}
