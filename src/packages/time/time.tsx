@@ -129,7 +129,7 @@ export default designComponent({
                         startPd.setDisplayValue(val)
                         startModel.value = startPd.valueString as string
 
-                        if (endPd.isNull || startPd.Hms! > endPd.Hms!) {
+                        if (endPd.isNull || startPd.Hms! > endPd.Hms) {
                             endModel.value = startModel.value
                         }
 
@@ -146,7 +146,7 @@ export default designComponent({
                         endPd.setDisplayValue(val)
                         endModel.value = endPd.valueString as string
 
-                        if (startPd.isNull || endPd.Hms! < startPd.Hms!) {
+                        if (startPd.isNull || endPd.Hms! < startPd.Hms) {
                             startModel.value = endModel.value
                         }
 

@@ -124,11 +124,11 @@ export default designComponent({
                         break
                 }
 
-                if (!maxpd.isNull && vpd.Hms! > maxpd.Hms!) {
+                if (!maxpd.isNull && vpd.Hms! > maxpd.Hms) {
                     vpd.setValue(maxpd.valueString!)
                 }
 
-                if (!minpd.isNull && vpd.Hms! < minpd.Hms!) {
+                if (!minpd.isNull && vpd.Hms! < minpd.Hms) {
                     vpd.setValue(minpd.valueString!)
                 }
 

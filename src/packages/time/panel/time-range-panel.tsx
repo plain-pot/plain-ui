@@ -46,7 +46,7 @@ export default designComponent({
 
                 const {end: endPd, start: startPd} = formatData.value
 
-                if (endPd.isNull || startPd.Hms! > endPd.Hms!) {
+                if (endPd.isNull || startPd.Hms! > endPd.Hms) {
                     end.value = start.value
                     emit.updateModelValue(end.value, TimeRangePanelType.end)
                 }
@@ -56,7 +56,7 @@ export default designComponent({
                 emit.updateModelValue(value, TimeRangePanelType.end)
                 const {end: endPd, start: startPd} = formatData.value
 
-                if (startPd.isNull || endPd.Hms! < startPd.Hms!) {
+                if (startPd.isNull || endPd.Hms! < startPd.Hms) {
                     start.value = end.value
                     emit.updateModelValue(start.value, TimeRangePanelType.start)
                 }
