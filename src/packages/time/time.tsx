@@ -160,7 +160,7 @@ export default designComponent({
                 <pl-input
                     ref="plInput"
                     class="pl-time pl-input-custom"
-                    value={inputValue.value}
+                    modelValue={inputValue.value}
                     suffixIcon="el-icon-time"
                     clearIcon
                     isFocus={agentState.state.focusCounter > 0}
