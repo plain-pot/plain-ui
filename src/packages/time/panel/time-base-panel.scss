@@ -12,18 +12,18 @@
       left: 0;
       right: 0;
       height: 1px;
-      background-color: rgba($ibc, 0.5);
+      background-color: $ibl;
       content: '';
       pointer-events: none;
     }
 
     &:after {
       position: absolute;
-      bottom: $time-size*3 + 6;
+      top: $time-size*4;
       left: 0;
       right: 0;
       height: 1px;
-      background-color: rgba($ibc, 0.5);
+      background-color: $ibl;
       content: '';
       pointer-events: none;
     }
