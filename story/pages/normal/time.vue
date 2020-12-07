@@ -278,6 +278,14 @@
                 </demo-row>
             </demo-row>
 
+            <demo-row title="只读以及禁用">
+                <demo-line>
+                    <pl-checkbox v-model="val[44]" label="只读或者禁用"/>
+                </demo-line>
+                <pl-time v-model="val[45]" :disabled="val[44]"/>
+                <pl-time v-model="val[45]" :readonly="val[44]"/>
+            </demo-row>
+
         </demo-row>
 
     </div>
