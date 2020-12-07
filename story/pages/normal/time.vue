@@ -197,6 +197,87 @@
                 <pl-time v-model="val[18]"/>
             </demo-row>
 
+            <demo-row title="选择时间范围">
+                <demo-line>
+                    <div>start:{{val[19]}}</div>
+                    <div>end:{{val[20]}}</div>
+                </demo-line>
+                <pl-time v-model:start="val[19]" v-model:end="val[20]" range/>
+                <pl-time v-model:start="val[19]" v-model:end="val[20]" range/>
+            </demo-row>
+
+            <demo-row title="格式化值以及显示值">
+                <demo-row title="单值">
+                    <demo-line>
+                        {{val[33]}}
+                    </demo-line>
+                    <pl-time v-model="val[33]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        <div>start:{{val[34]}}</div>
+                        <div>end:{{val[35]}}</div>
+                    </demo-line>
+                    <pl-time range v-model:start="val[34]" v-model:end="val[35]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss"/>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="最大最小值">
+                <demo-line>
+                    max="121212" min="040404"
+                </demo-line>
+                <demo-row title="单值">
+                    <demo-line>
+                        {{val[36]}}
+                    </demo-line>
+                    <pl-time v-model="val[36]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss" max="121212" min="040404"/>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <demo-line>
+                        <div>start:{{val[37]}}</div>
+                        <div>end:{{val[38]}}</div>
+                    </demo-line>
+                    <pl-time range v-model:start="val[37]" v-model:end="val[38]" displayFormat="HH时mm分ss秒" valueFormat="HHmmss" max="121212" min="040404"/>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="四种视图">
+                <demo-row title="时">
+                    <demo-line>
+                        {{val[39]}}
+                    </demo-line>
+                    <pl-time v-model="val[39]" valueFormat="HH" displayFormat="HH时" :layout="['h']"/>
+                </demo-row>
+                <demo-row title="时分">
+                    <demo-line>
+                        {{val[40]}}
+                    </demo-line>
+                    <pl-time v-model="val[40]" valueFormat="HHmm" displayFormat="HH时mm分" :layout="['h','m']"/>
+                </demo-row>
+                <demo-row title="时分秒">
+                    <demo-line>
+                        {{val[41]}}
+                    </demo-line>
+                    <pl-time v-model="val[41]"/>
+                </demo-row>
+
+                <demo-row title="时分">
+                    <demo-line>
+                        {{val[42]}}
+                    </demo-line>
+                    <pl-time v-model="val[42]" valueFormat="mmss" displayFormat="mm分ss秒" :layout="['m','s']"/>
+                </demo-row>
+            </demo-row>
+
+            <demo-row title="自定义可选时间点">
+                <demo-row title="时分">
+                    <demo-line>
+                        {{val[40]}}
+                    </demo-line>
+                    <pl-time v-model="val[43]" valueFormat="HHmm" displayFormat="HH时mm分" :layout="['h','m']" :custom="custom"/>
+                </demo-row>
+            </demo-row>
+
         </demo-row>
 
     </div>

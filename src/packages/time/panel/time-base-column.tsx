@@ -88,14 +88,14 @@ export default designComponent({
                     return
                 }
                 let index = Math.max(0, Math.min(options.value.length - 1, Math.floor(e.target.scrollTop / size)))
-                const val = Number(options.value[index])
+                const val = options.value[index] == null ? null : Number(options.value[index])
                 if (val != null && val !== model.value && !utils.checkDisabled(val)) {
                     model.value = val
                 }
             }
         }
 
-        onMounted(() => methods.resetPosition())
+        onMounted(methods.resetPosition)
 
         return {
             render: () => (
