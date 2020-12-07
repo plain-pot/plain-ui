@@ -100,15 +100,18 @@
 
         <demo-row title="滚动：纵向">
             <div class="demo-scroll-wrapper">
-                <pl-scroll ref="scroll1">
+                <pl-scroll ref="scroll1" @scroll="log('vertical scroll')">
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="$refs.scroll1.methods.scroll({y:100},1000)"/>
+                                <pl-button size="mini" label="scroll" @click="$refs.scroll1.methods.scroll({y:100},1000)"/>
                             </p>
                             <p>
-                                <pl-button label="scrollEnd" @click="$refs.scroll1.methods.scrollEnd()"/>
+                                <pl-button size="mini" label="scroll(no emit)" @click="$refs.scroll1.methods.scroll({y:100},{time:1000,noEmitScroll:true})"/>
+                            </p>
+                            <p>
+                                <pl-button size="mini" label="scrollEnd" @click="$refs.scroll1.methods.scrollEnd()"/>
                             </p>
                         </div>
                     </div>
@@ -117,15 +120,18 @@
         </demo-row>
         <demo-row title="滚动：横向">
             <div class="demo-scroll-wrapper">
-                <pl-scroll ref="scroll2" scrollX>
+                <pl-scroll ref="scroll2" scrollX @scroll="log('vertical scroll')">
                     <div style="height: 400px;width: 400px;" class="demo-scroll-content">
                         this is content
                         <div>
                             <p>
-                                <pl-button label="scroll" @click="$refs.scroll2.methods.scroll({x:100},1000)"/>
+                                <pl-button size="mini" label="scroll" @click="$refs.scroll2.methods.scroll({x:100},1000)"/>
                             </p>
                             <p>
-                                <pl-button label="scrollEnd" @click="$refs.scroll2.methods.scrollEnd()"/>
+                                <pl-button size="mini" label="scroll(no emit)" @click="$refs.scroll2.methods.scroll({x:100},{time:1000,noEmitScroll:true})"/>
+                            </p>
+                            <p>
+                                <pl-button size="mini" label="scrollEnd" @click="$refs.scroll2.methods.scrollEnd()"/>
                             </p>
                         </div>
                     </div>
@@ -201,6 +207,9 @@
             getClass(item) {
                 console.log('item', item)
                 return {}
+            },
+            log(...args) {
+                console.log(...args)
             },
         },
     }

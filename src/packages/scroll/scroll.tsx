@@ -10,6 +10,7 @@ import './scroll.scss'
 import {useStyles} from "../../use/useStyles";
 import {VerticalScrollbar} from "./vertical-scrollbar";
 import {HorizontalScrollbar} from "./horizontal-scrollbar";
+import {delay} from "plain-utils/utils/delay";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -65,6 +66,7 @@ export default designComponent({
             cancelAnimate: null as null | number,                               // 自动滚动动画计时器
             wrapperScrollTop: 0,                                                // 容器 scrollTop
             wrapperScrollLeft: 0,                                               // 容器 scrollLeft
+            emitScroll: true,                                                   // 当前是否派发scroll事件
 
             _isDragging: false,
             get isDragging() {
@@ -166,18 +168,26 @@ export default designComponent({
                     height: Math.ceil(height2),
                 })
             },
-            scroll(point: { x?: number, y?: number }, configOrTime?: number | { time?: number }) {
+            async scroll(point: { x?: number, y?: number }, configOrTime?: number | { time?: number, noEmitScroll?: boolean }) {
 
                 if (!refs.wrapper) return
 
                 const config = typeof configOrTime === "number" ? {time: configOrTime} : configOrTime
-                const time = (config || {}).time
+                const {time, noEmitScroll} = (config || {})
 
                 // if (point.x != null) this.wrapper!.scrollLeft = point.x
                 // if (point.y != null) this.wrapper!.scrollTop = point.y
+
+                if (noEmitScroll) {
+                    freezeState.emitScroll = false
+                }
+                const done = () => noEmitScroll && (freezeState.emitScroll = true)
+
                 if (!time) {
                     if (point.x != null) refs.wrapper!.scrollLeft = point.x
                     if (point.y != null) refs.wrapper!.scrollTop = point.y
+                    await delay(23)
+                    done()
                 } else {
 
                     if (!!freezeState.cancelAnimate) {
@@ -192,7 +202,7 @@ export default designComponent({
                     let kx = (point.x! - nx) / time
 
                     let startTime = Date.now()
-                    const run = () => {
+                    const run = async () => {
                         let nowTime = Date.now()
                         let delta = nowTime - startTime
                         let top;
@@ -206,6 +216,8 @@ export default designComponent({
                             if (!!refs.wrapper) {
                                 refs.wrapper.scrollTop = top
                                 refs.wrapper.scrollLeft = left
+                                await delay(23)
+                                done()
                             }
                         } else {
                             top = delta * ky + ny
@@ -228,8 +240,10 @@ export default designComponent({
                 methods.scroll({x: scrollLeft}, {time})
             },
             scrollEnd(point: { x: boolean, y?: boolean } = {x: true, y: true}) {
-                if (!!point.x) refs.wrapper!.scrollLeft = refs.wrapper!.scrollWidth
-                if (!!point.y) refs.wrapper!.scrollTop = refs.wrapper!.scrollHeight
+                methods.scroll({
+                    x: point.x ? refs.wrapper!.scrollWidth : undefined,
+                    y: point.y ? refs.wrapper!.scrollHeight : undefined,
+                })
             },
             autoScrollTop() {
                 const {hostHeight, contentHeight} = state
@@ -324,7 +338,9 @@ export default designComponent({
                 freezeState.wrapperScrollTop = target.scrollTop
                 freezeState.wrapperScrollLeft = target.scrollLeft
 
-                emit.scroll(e)
+                if (freezeState.emitScroll) {
+                    emit.scroll(e)
+                }
 
                 if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.top && freezeState.wrapperScrollTop > props.topThreshold!) {
                     /*进入center*/
