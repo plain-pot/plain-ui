@@ -40,6 +40,7 @@ export default designComponent({
 
         const serviceHandler = {
             onChange: (val: string | undefined, type?: TimeRangePanelType) => {
+                // console.log('service change', {val, type})
                 if (!props.range) {
                     model.value = val
                 } else {

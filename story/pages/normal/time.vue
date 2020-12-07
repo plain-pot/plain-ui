@@ -1,6 +1,6 @@
 <template>
     <div class="demo-time">
-        <demo-row title="time-base-column">
+        <!--<demo-row title="time-base-column">
             <demo-row title="基本用法">
                 <demo-line>
                     {{val[0]}}
@@ -83,7 +83,7 @@
                         <pl-button mode="text" label="clear" @click="val['13'] = null"/>
                         {{val[13]}}
                     </demo-line>
-                    <!--                    <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>-->
+                    &lt;!&ndash;                    <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom" @change="onCustomChange"/>&ndash;&gt;
                     <pl-time-base-panel v-model="val[13]" :layout="['h','m']" valueFormat="HH:mm" :custom="custom"/>
                 </demo-row>
             </demo-row>
@@ -174,7 +174,7 @@
             <demo-row title="时间范围">
                 <pl-button :label="range.start?`start:${range.start}, end:${range.end}`:'range usage'" ref="range" @click="range.toggle()"/>
             </demo-row>
-        </demo-row>
+        </demo-row>-->
 
         <demo-row title="pl-time">
             <demo-row title="基本用法">

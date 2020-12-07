@@ -108,6 +108,7 @@ export default designComponent({
 
         const handler = {
             columnChange: (value: number, type: string) => {
+                console.log('columnChange', {value, type})
 
                 const {value: vpd, max: maxpd, min: minpd} = formatData.value
 
