@@ -168,6 +168,17 @@ export default designComponent({
                     height: Math.ceil(height2),
                 })
             },
+            /**
+             * 滚动到指定位置
+             * @author  韦胜健
+             * @date    2020/12/7 12:20
+             * @param   point
+             * @param   point.x             // 滚动scrollLeft值
+             * @param   point.y             // 滚动scrollTop值
+             * @param   configOrTime        // number|{ time?: number, noEmitScroll?: boolean }
+             * @param   configOrTime.time   // 滚动的时间
+             * @param   configOrTime.noEmitScroll //滚动期间不派发scroll事件
+             */
             async scroll(point: { x?: number, y?: number }, configOrTime?: number | { time?: number, noEmitScroll?: boolean }) {
 
                 if (!refs.wrapper) return
