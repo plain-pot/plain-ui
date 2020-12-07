@@ -73,7 +73,7 @@ type Diff =
         Hms: null
     };
 
-type PlainDateType = Diff & Pub
+export type PlainDateType = Diff & Pub
 
 class WrapDate {
 
@@ -127,33 +127,6 @@ class WrapDate {
     get YMDHms() {return this.isNull ? null : Number(this.dateString! + this.timeString!)}
 
     get Hms() {return this.isNull ? null : Number(this.timeString)}
-
-    /*---------------------------------------static-------------------------------------------*/
-
-    static defaultDate(): Date {
-        const date = new Date()
-        date.setMonth(0, 1)
-        date.setHours(0, 0, 0)
-        return date
-    }
-
-    static format(dateObject: Date, formatString: string) {
-        if (!dateObject) return null
-        return fecha.format(dateObject, formatString)
-    }
-
-    static parse(dateString: string, formatString: string) {
-        if (!dateString) return null
-        return fecha.parse(dateString, formatString)
-    }
-
-    static today(displayFormat: string, valueFormat: string): WrapDate {
-        let today = new WrapDate(null, displayFormat, valueFormat)
-        today.setTime(new Date().getTime())
-        return today
-    }
-
-    static CompareMode = CompareMode
 
     /*---------------------------------------methods-------------------------------------------*/
 
@@ -233,11 +206,39 @@ class WrapDate {
     copy(): WrapDate {
         return new WrapDate(this.valueString, this.displayFormat, this.valueFormat)
     }
+
+    /*---------------------------------------static-------------------------------------------*/
+
+    static defaultDate(): Date {
+        const date = new Date()
+        date.setMonth(0, 1)
+        date.setHours(0, 0, 0)
+        return date
+    }
+
+    static format(dateObject: Date, formatString: string) {
+        if (!dateObject) return null
+        return fecha.format(dateObject, formatString)
+    }
+
+    static parse(dateString: string, formatString: string) {
+        if (!dateString) return null
+        return fecha.parse(dateString, formatString)
+    }
+
+    static today(displayFormat: string, valueFormat: string): PlainDateType {
+        let today = new WrapDate(null, displayFormat, valueFormat)
+        today.setTime(new Date().getTime())
+        return today as PlainDateType
+    }
+
+    static CompareMode = CompareMode
 }
 
 export const PlainDate = WrapDate as any as (new(...args: ConstructorParameters<typeof WrapDate>) => PlainDateType) & {
     defaultDate(): Date,
     format(dateObject: Date, formatString: string): string,
     parse(dateString: string, formatString: string): Date | null,
-    today(displayFormat: string, valueFormat: string): WrapDate,
+    today(displayFormat: string, valueFormat: string): PlainDateType,
+    CompareMode: typeof CompareMode,
 }
