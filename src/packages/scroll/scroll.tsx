@@ -166,8 +166,12 @@ export default designComponent({
                     height: Math.ceil(height2),
                 })
             },
-            scroll(point: { x?: number, y?: number }, time?: number) {
+            scroll(point: { x?: number, y?: number }, configOrTime?: number | { time?: number }) {
+
                 if (!refs.wrapper) return
+
+                const config = typeof configOrTime === "number" ? {time: configOrTime} : configOrTime
+                const time = (config || {}).time
 
                 // if (point.x != null) this.wrapper!.scrollLeft = point.x
                 // if (point.y != null) this.wrapper!.scrollTop = point.y
@@ -218,10 +222,10 @@ export default designComponent({
                 }
             },
             scrollTop(scrollTop: number, time?: number) {
-                methods.scroll({y: scrollTop}, time)
+                methods.scroll({y: scrollTop}, {time})
             },
             scrollLeft(scrollLeft: number, time?: number) {
-                methods.scroll({x: scrollLeft}, time)
+                methods.scroll({x: scrollLeft}, {time})
             },
             scrollEnd(point: { x: boolean, y?: boolean } = {x: true, y: true}) {
                 if (!!point.x) refs.wrapper!.scrollLeft = refs.wrapper!.scrollWidth
