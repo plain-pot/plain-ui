@@ -1,7 +1,7 @@
 import {computed, Transition} from 'vue'
 import {designComponent} from "../../../use/designComponent";
-import {DateEmitRangeType, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, Dbpid, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
-import {useDate} from "../useDate";
+import {DateEmitRangeType, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, Dbpid, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
+import {useDate, UseDateJudgementView} from "../useDate";
 
 export default designComponent({
     name: 'pl-date-base-panel-year',
@@ -23,9 +23,12 @@ export default designComponent({
             model,
             startModel,
             endModel,
+            utils: {
+                isActive,
+            },
         } = useDate({
             props,
-            judgement: {} as any,
+            judgementForChild: {} as any,
             emit,
             useModelConfig: {
                 model: {
@@ -62,6 +65,7 @@ export default designComponent({
                     }
                 }
             },
+            jdView: UseDateJudgementView.Y,
         })
 
         const data = computed(() => {
@@ -77,11 +81,11 @@ export default designComponent({
                 let item: Dbpid = {
                     /*data*/
                     label: i,
-                    ipd: ipd.copy(),
+                    ipd,
                     /*status*/
                     now: i === today.year,
                     disabled: false,
-                    active: false,
+                    active: isActive(ipd),
                     hoverStart: false,
                     hover: false,
                     hoverEnd: false,
