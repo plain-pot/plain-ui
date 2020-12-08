@@ -221,6 +221,7 @@ export function useDate(
                 if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hover) {
                     return parent.judgementForChild.hover(ipd, jdView)
                 }
+                const {hoverRange, valueRange} = topState.value
                 const val = ipd[jdView]!
                 return !!hoverRange ?
                     (hoverRange[0][jdView]! < val && hoverRange[1][jdView]! > val) :
@@ -232,6 +233,7 @@ export function useDate(
                 if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverEnd) {
                     return parent.judgementForChild.hoverEnd(ipd, jdView)
                 }
+                const {hoverRange, valueRange} = topState.value
                 const val = ipd[jdView]!
                 return !!hoverRange ? (hoverRange[1][jdView] == val) : valueRange[1][jdView] == val
             }
