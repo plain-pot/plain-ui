@@ -23,9 +23,7 @@ export default designComponent({
             model,
             startModel,
             endModel,
-            utils: {
-                isActive,
-            },
+            utils,
         } = useDate({
             props,
             judgementForChild: {} as any,
@@ -84,12 +82,12 @@ export default designComponent({
                     ipd,
                     /*status*/
                     now: i === today.year,
-                    disabled: false,
-                    active: isActive(ipd),
-                    hoverStart: false,
-                    hover: false,
-                    hoverEnd: false,
-                    range: false,
+                    active: utils.active(ipd),
+                    disabled: utils.disabled(ipd),
+                    hoverStart: utils.hoverStart(ipd),
+                    hover: utils.hover(ipd),
+                    hoverEnd: utils.hoverEnd(ipd),
+                    range: props.range,
                 }
                 list.push(item)
             }

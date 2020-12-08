@@ -27,17 +27,17 @@ export enum UseDateJudgementView {
 }
 
 type UseDateJudgement = {
-    active?: (val: PlainDateType, view: UseDateJudgementView) => boolean,
-    disabled?: (val: PlainDateType, view: UseDateJudgementView) => boolean,
-    hoverStart?: (val: PlainDateType, view: UseDateJudgementView) => boolean,
-    hover?: (val: PlainDateType, view: UseDateJudgementView) => boolean,
-    hoverEnd: (val: PlainDateType, view: UseDateJudgementView) => boolean,
+    active?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
+    disabled?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
+    hoverStart?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
+    hover?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
+    hoverEnd: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
 }
 
 type UseDateTopState = {
-    max: PlainDateType,
-    min: PlainDateType,
-    vpd: PlainDateType,
+    max?: PlainDateType,
+    min?: PlainDateType,
+    vpd?: PlainDateType,
     hoverRange: [PlainDateType, PlainDateType] | null | undefined,
     valueRange: [PlainDateType, PlainDateType],
     range?: boolean,
@@ -76,7 +76,11 @@ export type UseDateType = {
     setSelectDate: (pd: PlainDateType) => void,
 
     utils: {
-        isActive: (ipd: PlainDateType) => boolean,
+        active: (ipd: PlainDateType) => boolean,
+        disabled: (ipd: PlainDateType) => boolean,
+        hoverStart: (ipd: PlainDateType) => boolean,
+        hover: (ipd: PlainDateType) => boolean,
+        hoverEnd: (ipd: PlainDateType) => boolean,
     }
 }
 
@@ -122,9 +126,9 @@ export function useDate(
             return parent.state.topState
         }
         return {
-            max: new PlainDate(props.max, displayFormat, valueFormat),
-            min: new PlainDate(props.min, displayFormat, valueFormat),
-            vpd: new PlainDate(model.value, displayFormat, valueFormat),
+            max: !props.max ? undefined : new PlainDate(props.max, displayFormat, valueFormat),
+            min: !props.min ? undefined : new PlainDate(props.min, displayFormat, valueFormat),
+            vpd: !model.value && model.value != '0' ? undefined : new PlainDate(model.value, displayFormat, valueFormat),
             hoverRange: state.hoverRange,
             valueRange: state.valueRange,
             range: props.range,
@@ -184,16 +188,52 @@ export function useDate(
 
         setSelectDate: (pd) => state.selectDate = pd.isNull ? today.copy() : pd.copy(),
         utils: {
-            isActive: (ipd) => {
+            active: (ipd) => {
                 if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.active) {
                     return parent.judgementForChild.active(ipd, jdView)
                 }
-                const {range, vpd, valueRange: [startPd, endPd]} = topState.value
-                if (!range) {
-                    return !vpd.isNull && vpd[jdView] === ipd[jdView]
-                } else {
-                    return startPd[jdView] === ipd[jdView] || endPd[jdView] === ipd[jdView]
+                const {range, vpd, valueRange: [startPd, endPd]} = topState.value;
+                return !!(
+                    (range ? [startPd, endPd] : [vpd])
+                        .filter(i => !!i && !i.isNull)
+                        .find(i => i![jdView] == ipd[jdView])
+                )
+            },
+            disabled: (ipd) => {
+                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.disabled) {
+                    return parent.judgementForChild.disabled(ipd, jdView)
                 }
+                const {max, min} = topState.value
+                const val = ipd[jdView]!
+                if (!!max && max[jdView]! < val) return true
+                if (!!min && min[jdView]! > val) return true
+                return false
+            },
+            hoverStart: ipd => {
+                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverStart) {
+                    return parent.judgementForChild.hoverStart(ipd, jdView)
+                }
+                const {hoverRange, valueRange} = topState.value
+                const val = ipd[jdView]!
+                return !!hoverRange ? (hoverRange[0][jdView] == val) : valueRange[0][jdView] == val
+            },
+            hover: ipd => {
+                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hover) {
+                    return parent.judgementForChild.hover(ipd, jdView)
+                }
+                const val = ipd[jdView]!
+                return !!hoverRange ?
+                    (hoverRange[0][jdView]! < val && hoverRange[1][jdView]! > val) :
+                    ((!valueRange[0].isNull && !valueRange[1].isNull) &&
+                        valueRange[0][jdView]! < val &&
+                        valueRange[1][jdView]! > val)
+            },
+            hoverEnd: ipd => {
+                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverEnd) {
+                    return parent.judgementForChild.hoverEnd(ipd, jdView)
+                }
+                const val = ipd[jdView]!
+                return !!hoverRange ? (hoverRange[1][jdView] == val) : valueRange[1][jdView] == val
             }
         }
     }
