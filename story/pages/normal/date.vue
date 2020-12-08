@@ -2,6 +2,9 @@
     <div class="demo-date">
         <demo-row title="pl-date-base-panel-year">
             <demo-row title="基本用法">
+                <demo-line>
+                    val[0]:{{val[0]}}
+                </demo-line>
                 <pl-date-base-panel-year v-model="val[0]"/>
                 <pl-date-base-panel-year v-model="val[0]"/>
             </demo-row>

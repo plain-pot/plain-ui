@@ -27,7 +27,41 @@ export default designComponent({
             props,
             judgement: {} as any,
             emit,
-            useModelConfig: {} as any,
+            useModelConfig: {
+                model: {
+                    onChange: (val) => {
+                        state.slide = val == null ? SlideTransitionDirection.next : val > data.value.selectYear + 19 ? SlideTransitionDirection.next : SlideTransitionDirection.prev
+                        state.selectDate.setYear(val || today.year)
+                        setSelectDate(state.selectDate)
+                    }
+                },
+                start: {
+                    onChange: (val) => {
+                        tempPd.setValue(val)
+                        const startPd = tempPd.copy()
+                        tempPd.setValue(endModel.value)
+                        const endPd = tempPd.copy()
+
+                        state.valueRange = [startPd, endPd]
+                        state.hoverRange = null
+
+                        state.slide = val == null ? SlideTransitionDirection.next : val > data.value.selectYear + 19 ? SlideTransitionDirection.next : SlideTransitionDirection.prev
+                        state.selectDate.setYear(val || today.year)
+                        setSelectDate(state.selectDate)
+                    }
+                },
+                end: {
+                    onChange: (val) => {
+                        tempPd.setValue(startModel.value)
+                        const startPd = tempPd.copy()
+                        tempPd.setValue(val)
+                        const endPd = tempPd.copy()
+
+                        state.valueRange = [startPd, endPd]
+                        state.hoverRange = null
+                    }
+                }
+            },
         })
 
         const data = computed(() => {
