@@ -168,11 +168,11 @@ export default designComponent({
                             direction: "vertical"
                         }}>
                             {data.value.list.map(item => DatePanelItemWrapper({
+                                onClick: handler.onClickItem,
                                 item,
                                 Node: (<li
                                     key={item.label}
                                     class="pl-date-base-panel-year-item"
-                                    onClick={() => handler.onClickItem(item)}
                                     onMouseenter={() => handler.onMouseenterItem(item)}
                                 />),
                             }))}

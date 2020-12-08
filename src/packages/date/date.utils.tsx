@@ -108,23 +108,27 @@ export function DatePanelItemWrapper(
     {
         Node,
         item,
+        onClick,
     }: {
         Node: any,
         item: Dbpid,
+        onClick: (item: Dbpid) => void,
     }) {
 
     return (
-        <Node class={[
-            'pl-date-base-panel-item',
-            {
-                'pl-date-base-panel-item-active': item.active,
-                'pl-date-base-panel-item-now': item.now,
-                'pl-date-base-panel-item-disabled': item.disabled,
-                'pl-date-base-panel-item-hover-start': item.hoverStart,
-                'pl-date-base-panel-item-hover': item.hover,
-                'pl-date-base-panel-item-hover-end': item.hoverEnd,
-            }
-        ]}>
+        <Node
+            onClick={() => !item.disabled && onClick(item)}
+            class={[
+                'pl-date-base-panel-item',
+                {
+                    'pl-date-base-panel-item-active': item.active,
+                    'pl-date-base-panel-item-now': item.now,
+                    'pl-date-base-panel-item-disabled': item.disabled,
+                    'pl-date-base-panel-item-hover-start': item.hoverStart,
+                    'pl-date-base-panel-item-hover': item.hover,
+                    'pl-date-base-panel-item-hover-end': item.hoverEnd,
+                }
+            ]}>
             <div>
                 <span>{item.label}</span>
             </div>
