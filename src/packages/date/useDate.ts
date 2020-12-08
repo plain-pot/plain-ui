@@ -1,5 +1,5 @@
 import {DatePublicPropsType, DateView, SlideTransitionDirection} from "./date.utils";
-import {computed, inject, reactive, markRaw, provide} from 'vue';
+import {inject, provide, reactive} from 'vue';
 import {PlainDate, PlainDateType} from "../../utils/PlainDate";
 import {useModel, UseModelConfig} from "../../use/useModel";
 
@@ -30,7 +30,7 @@ type UseDateJudgement = {
 
 export type UseDateType = {
     /*当前组件的直接父组件*/
-    parent?: UseDateType,
+    parent: UseDateType | null,
     /*当前组件接收的props属性对象*/
     props: DatePublicPropsType,
     /*当前组件自己的judgement*/
@@ -56,6 +56,8 @@ export type UseDateType = {
         selectDate: PlainDateType,
         slide: SlideTransitionDirection,
     },
+
+    setSelectDate: (pd: PlainDateType) => void,
 }
 
 export function useDate(
@@ -86,7 +88,7 @@ export function useDate(
      * @author  韦胜健
      * @date    2020/12/7 20:48
      */
-    const parent = inject<UseDateType>(DATE_PANEL_PROVIDER)
+    const parent = inject<UseDateType | null>(DATE_PANEL_PROVIDER, null)
 
     /*---------------------------------------state-------------------------------------------*/
 
@@ -142,6 +144,8 @@ export function useDate(
         viewModel,
 
         state,
+
+        setSelectDate: (pd) => state.selectDate = pd.isNull ? today.copy() : pd.copy()
     }
 
     /*只有最顶层日期组件才有资格控制子组件*/
