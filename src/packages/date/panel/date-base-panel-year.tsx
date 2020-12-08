@@ -26,7 +26,6 @@ export default designComponent({
             utils,
         } = useDate({
             props,
-            judgementForChild: {} as any,
             emit,
             useModelConfig: {
                 model: {

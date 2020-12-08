@@ -49,7 +49,7 @@ export type UseDateType = {
     /*当前组件接收的props属性对象*/
     props: DatePublicPropsType,
     /*当前组件自己的judgement(提供给后代使用的judgement)*/
-    judgementForChild: UseDateJudgement,
+    judgementForChild?: UseDateJudgement,
     /*当前组件的显示值格式化字符串*/
     displayFormat: string,
     /*当前组件的值格式化字符串*/
@@ -93,7 +93,7 @@ export function useDate(
         jdView,
     }: {
         props: DatePublicPropsType,
-        judgementForChild: UseDateJudgement,
+        judgementForChild?: UseDateJudgement,
         emit: {
             updateModelValue: (val?: string) => void,
             updateStart: (val?: string) => void,
