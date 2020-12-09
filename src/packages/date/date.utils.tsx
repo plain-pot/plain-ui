@@ -123,13 +123,9 @@ export function DatePanelItemWrapper(
         parent: UseDateType | null,             // 用于判断当前组件是否存在父组件，如果存在父组件，则只显示禁用样式（如果禁用的话），仍然可以触发点击事件
     }) {
 
-    let listener = {} as any
-    if (!!parent || !item.disabled) {
-        listener.onClick = () => onClick(item)
-    }
-    if (!item.disabled) {
-        listener.onMouseenter = () => onMouseenter(item)
-    }
+    let listener = {} as any;
+    (!!parent || !item.disabled) && (listener.onClick = () => onClick(item));
+    (!item.disabled) && (listener.onMouseenter = () => onMouseenter(item));
 
     return (
         <Node
