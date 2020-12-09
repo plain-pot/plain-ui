@@ -85,9 +85,9 @@ export const enum DateEmitRangeType {
 }
 
 export function DatePanelWrapper(slots: {
-    left: VNodeChild,
+    left?: VNodeChild,
     center: VNodeChild,
-    right: VNodeChild,
+    right?: VNodeChild,
     content: VNodeChild,
 }) {
     return (
@@ -138,4 +138,11 @@ export function DatePanelItemWrapper(
         </Node>
     )
 
+}
+
+export const DateViewSeq = {
+    year: 1,
+    month: 2,
+    date: 3,
+    time: 4,
 }

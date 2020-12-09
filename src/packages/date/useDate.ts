@@ -102,9 +102,9 @@ export function useDate(
             updateView: (val: DateView) => void,
         },
         useModelConfig: {
-            model: UseModelConfig,
-            start: UseModelConfig,
-            end: UseModelConfig,
+            model?: UseModelConfig,
+            start?: UseModelConfig,
+            end?: UseModelConfig,
         },
         jdView: UseDateJudgementView,
     }
@@ -191,6 +191,9 @@ export function useDate(
             return false
         },
         hoverStart: (ipd: PlainDateType) => {
+            if (!topState.value.range) {
+                return false
+            }
             if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverStart) {
                 return parent.judgementForChild.hoverStart(ipd, jdView)
             }
@@ -199,6 +202,9 @@ export function useDate(
             return !!hoverRange ? (hoverRange[0][jdView] == val) : valueRange[0][jdView] == val
         },
         hover: (ipd: PlainDateType) => {
+            if (!topState.value.range) {
+                return false
+            }
             if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hover) {
                 return parent.judgementForChild.hover(ipd, jdView)
             }
@@ -211,6 +217,9 @@ export function useDate(
                     valueRange[1][jdView]! > val)
         },
         hoverEnd: (ipd: PlainDateType) => {
+            if (!topState.value.range) {
+                return false
+            }
             if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverEnd) {
                 return parent.judgementForChild.hoverEnd(ipd, jdView)
             }
