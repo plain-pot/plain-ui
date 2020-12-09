@@ -111,7 +111,12 @@ export default designComponent({
         })
 
         const defaultTimePd = computed(() => {
-            return new PlainDate(props.defaultTime || '12:00:00', 'HH:mm:ss', 'HH:mm:ss')
+            const pd = new PlainDate(props.defaultTime, 'HH:mm:ss', 'HH:mm:ss')
+            if (pd.isNull) {
+                const now = new Date()
+                pd.setHms(now.getHours(), now.getMinutes(), now.getSeconds())
+            }
+            return pd
         })
 
         /*---------------------------------------attrs-------------------------------------------*/
