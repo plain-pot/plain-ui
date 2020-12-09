@@ -104,6 +104,18 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date-panel-dates">
+            <demo-row title="基本用法">
+                <demo-line>
+                    max="2021-05-09" min="2019-10-07"
+                </demo-line>
+                <demo-line>
+                    {{val[19]}}
+                </demo-line>
+                <pl-date-panel-dates v-model="val[19]" max="2021-05-09" min="2019-10-07"/>
+                <pl-date-panel-dates v-model="val[19]"/>
+            </demo-row>
+        </demo-row>
 
     </div>
 </template>

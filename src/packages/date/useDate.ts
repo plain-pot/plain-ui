@@ -31,7 +31,7 @@ type UseDateJudgement = {
     disabled?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
     hoverStart?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
     hover?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
-    hoverEnd: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
+    hoverEnd?: (ipd: PlainDateType, view: UseDateJudgementView) => boolean,
 }
 
 type UseDateTopState = {
@@ -101,7 +101,7 @@ export function useDate(
             updateEnd: (val?: string) => void,
             updateView: (val: DateView) => void,
         },
-        useModelConfig: {
+        useModelConfig?: {
             model?: UseModelConfig,
             start?: UseModelConfig,
             end?: UseModelConfig,
@@ -145,6 +145,7 @@ export function useDate(
     const hoverRange: [PlainDateType, PlainDateType] | null = null
     const valueRange: [PlainDateType, PlainDateType] = [startPd, endPd]
 
+    useModelConfig = useModelConfig || {}
     const model = useModel(() => props.modelValue, emit.updateModelValue, useModelConfig.model)
     const startModel = !!parent || !props.range ? model : useModel(() => props.start, emit.updateStart, useModelConfig.start)
     const endModel = !!parent || !props.range ? model : useModel(() => props.end, emit.updateEnd, useModelConfig.end)
