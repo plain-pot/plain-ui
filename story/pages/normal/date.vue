@@ -27,29 +27,29 @@
                 <demo-line>
                     <div>{{val[3]}}</div>
                 </demo-line>
-                <pl-date-base-panel-month v-model="val[3]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
-                <pl-date-base-panel-month v-model="val[3]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
+                <pl-date-base-panel-month v-model="val[3]"/>
+                <pl-date-base-panel-month v-model="val[3]"/>
             </demo-row>
             <demo-row title="最大最小值">
                 <demo-line>
-                    max="2030-05-01" min="2018-10-1"
+                    max="2030-05" min="2018-10"
                 </demo-line>
                 <demo-line>
                     <div>{{val[4]}}</div>
                 </demo-line>
-                <pl-date-base-panel-month v-model="val[4]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" max="2030-05-01" min="2018-10-01"/>
-                <pl-date-base-panel-month v-model="val[4]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD"/>
+                <pl-date-base-panel-month v-model="val[4]" max="2030-05" min="2018-10"/>
+                <pl-date-base-panel-month v-model="val[4]"/>
             </demo-row>
             <demo-row title="范围选择">
                 <demo-line>
-                    max="2030-05-01" min="2018-10-1"
+                    max="2030-05" min="2018-10"
                 </demo-line>
                 <demo-line>
                     <div>start:{{val[5]}}</div>
                     <div>end:{{val[6]}}</div>
                 </demo-line>
-                <pl-date-base-panel-month v-model:start="val[5]" v-model:end="val[6]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" max="2030-05-01" min="2018-10-01" range/>
-                <pl-date-base-panel-month v-model:start="val[5]" v-model:end="val[6]" displayFormat="YYYY-MM-DD" valueFormat="YYYY-MM-DD" range/>
+                <pl-date-base-panel-month v-model:start="val[5]" v-model:end="val[6]" max="2030-05" min="2018-10" range/>
+                <pl-date-base-panel-month v-model:start="val[5]" v-model:end="val[6]" range/>
             </demo-row>
         </demo-row>
     </div>
