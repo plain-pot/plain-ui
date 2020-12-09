@@ -29,6 +29,7 @@ export default designComponent({
             endModel,
             viewModel,
             getStatus,
+            parent,
         } = useDate({
             props,
             emit,
@@ -199,6 +200,7 @@ export default designComponent({
                             }}>
                                 {monthList.value.map(item => (DatePanelItemWrapper({
                                     item,
+                                    parent,
                                     onClick: handler.onClickItem,
                                     onMouseenter: handler.onMouseEnterItem,
                                     Node: <li class="pl-date-base-panel-month-item" key={item.month}/>,

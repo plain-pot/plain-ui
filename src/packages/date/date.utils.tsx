@@ -6,6 +6,7 @@
 import {PlainDate, PlainDateType} from "../../utils/PlainDate";
 import {ExtractPropTypes} from 'vue';
 import {VNodeChild} from "../../shims";
+import {UseDateType} from './useDate';
 
 export const enum DateView {
     year = 'year',
@@ -113,17 +114,26 @@ export function DatePanelItemWrapper(
         item,
         onClick,
         onMouseenter,
+        parent,
     }: {
-        Node: any,
-        item: Dbpid,
-        onClick: (item: Dbpid) => void,
-        onMouseenter: (item: Dbpid) => void,
+        Node: any,                              // 容器节点
+        item: Dbpid,                            // item 数据
+        onClick: (item: Dbpid) => void,         // 点击item事件处理句柄
+        onMouseenter: (item: Dbpid) => void,    // 进入item事件处理句柄
+        parent: UseDateType | null,             // 用于判断当前组件是否存在父组件，如果存在父组件，则只显示禁用样式（如果禁用的话），仍然可以触发点击事件
     }) {
+
+    let listener = {} as any
+    if (!!parent || !item.disabled) {
+        listener.onClick = () => onClick(item)
+    }
+    if (!item.disabled) {
+        listener.onMouseenter = () => onMouseenter(item)
+    }
 
     return (
         <Node
-            onClick={() => !item.disabled && onClick(item)}
-            onMouseenter={() => !item.disabled && onMouseenter(item)}
+            {...listener}
             class={[
                 'pl-date-base-panel-item',
                 {

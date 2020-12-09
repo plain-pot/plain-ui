@@ -32,6 +32,7 @@ export default designComponent({
             setSelectDate,
             displayFormat,
             valueFormat,
+            parent,
         } = useDate({
             props,
             emit,
@@ -322,6 +323,7 @@ export default designComponent({
                             {dateList.value.map((item, index) => (
                                 DatePanelItemWrapper({
                                     item,
+                                    parent,
                                     onClick: handler.onClickItem,
                                     onMouseenter: emit.mouseenterItem,
                                     Node: <pl-item
