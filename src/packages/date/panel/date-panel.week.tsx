@@ -30,17 +30,17 @@ export default designComponent({
             jdView: UseDateJudgementView.YMD,
             judgementForChild: {
                 disabled: (ipd, view) => {
-                    if (view !== UseDateJudgementView.YMD) {
+                    const {max, min} = state.topState
+                    if ((!max || max.isNull) && (!min || min.isNull)) {
                         return false
                     }
-                    const {max, min} = state.topState
                     if (!!max && !max.isNull) {
-                        if (ipd.YMD! > max.YMD!) {
+                        if (ipd[view]! > max[view]!) {
                             return true
                         }
                     }
                     if (!!min && !min.isNull) {
-                        if (ipd.YMD! < min.YMD!) {
+                        if (ipd[view]! < min[view]!) {
                             return true
                         }
                     }
