@@ -121,9 +121,9 @@ export default designComponent({
                     now: today.YM === ipd.YM,
                     disabled: utils.disabled(ipd),
                     active: utils.active(ipd),
-                    hoverStart: false,
-                    hoverEnd: false,
-                    hover: false,
+                    hoverStart: utils.hoverStart(ipd),
+                    hoverEnd: utils.hoverEnd(ipd),
+                    hover: utils.hover(ipd),
                     range: props.range,
 
                     month: i,
@@ -224,9 +224,9 @@ export default designComponent({
                         direction: props.direction,
                     }}>
                         <Transition name={`pl-transition-slide-${viewModel.value === DateView.year ? 'prev' : 'next'}`}>
-                            {viewModel.value === DateView.month ? <Month/> : (
+                            {viewModel.value === DateView.month ? <Month {...{class: 'pl-date-base-panel-month', direction: 'horizontal'}}/> : (
                                 <pl-date-base-panel-year
-                                    modelValue={state.selectDate.year}
+                                    modelValue={String(state.selectDate.year)}
                                     onChange={handler.onSelectYearChange}
                                     direction="horizontal"/>
                             )}
