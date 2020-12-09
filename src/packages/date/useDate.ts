@@ -192,22 +192,22 @@ export function useDate(
             return false
         },
         hoverStart: (ipd: PlainDateType) => {
-            if (!topState.value.range) {
-                return false
-            }
             if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverStart) {
                 return parent.judgementForChild.hoverStart(ipd, jdView)
+            }
+            if (!topState.value.range) {
+                return false
             }
             const {hoverRange, valueRange} = topState.value
             const val = ipd[jdView]!
             return !!hoverRange ? (hoverRange[0][jdView] == val) : valueRange[0][jdView] == val
         },
         hover: (ipd: PlainDateType) => {
-            if (!topState.value.range) {
-                return false
-            }
             if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hover) {
                 return parent.judgementForChild.hover(ipd, jdView)
+            }
+            if (!topState.value.range) {
+                return false
             }
             const {hoverRange, valueRange} = topState.value
             const val = ipd[jdView]!
@@ -218,11 +218,11 @@ export function useDate(
                     valueRange[1][jdView]! > val)
         },
         hoverEnd: (ipd: PlainDateType) => {
-            if (!topState.value.range) {
-                return false
-            }
             if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverEnd) {
                 return parent.judgementForChild.hoverEnd(ipd, jdView)
+            }
+            if (!topState.value.range) {
+                return false
             }
             const {hoverRange, valueRange} = topState.value
             const val = ipd[jdView]!
