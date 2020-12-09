@@ -114,7 +114,7 @@ export function DatePanelItemWrapper(
         Node: any,
         item: Dbpid,
         onClick: (item: Dbpid) => void,
-        onMouseenter: (tiem: Dbpid) => void,
+        onMouseenter: (item: Dbpid) => void,
     }) {
 
     return (

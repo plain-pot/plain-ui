@@ -76,6 +76,31 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date-panel-date-range">
+            <demo-row title="基本用法">
+                <demo-line>
+                    max="2021-05-01" min="2018-10-01"
+                </demo-line>
+                <demo-line>
+                    <div>start:{{val[12]}}</div>
+                    <div>end:{{val[13]}}</div>
+                </demo-line>
+                <pl-date-panel-date-range v-model:start="val[12]" v-model:end="val[13]" max="2021-05-01" min="2018-10-01"/>
+                <pl-date-panel-date-range v-model:start="val[12]" v-model:end="val[13]"/>
+            </demo-row>
+            <demo-row title="日期时间">
+                <demo-line>
+                    defaultTime="08:55:00" max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"
+                </demo-line>
+                <demo-line>
+                    <div>start:{{val[14]}}</div>
+                    <div>end:{{val[15]}}</div>
+                </demo-line>
+                <pl-date-panel-date-range v-model:start="val[14]" v-model:end="val[15]" datetime defaultTime="08:55:00" max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"/>
+                <!--                <pl-date-panel-date-range v-model:start="val[14]" v-model:end="val[15]" datetime/>-->
+            </demo-row>
+        </demo-row>
+
 
     </div>
 </template>

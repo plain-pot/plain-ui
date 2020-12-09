@@ -16,7 +16,7 @@ export default designComponent({
         updateModelValue: (val?: string, ipd?: PlainDateType) => true,
         clickItem: (ipd: PlainDateType) => true,
         selectTime: (val: string) => true,
-        mouseenterItem: () => true,
+        mouseenterItem: (item: Dbpid) => true,
         selectDateChange: (ipd: PlainDateType) => true,
     },
     setup({props, event: {emit}}) {
