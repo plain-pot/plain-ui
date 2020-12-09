@@ -1,5 +1,5 @@
 import {DatePublicPropsType, DateView, SlideTransitionDirection} from "./date.utils";
-import {inject, provide, reactive, computed} from 'vue';
+import {computed, inject, provide, reactive} from 'vue';
 import {PlainDate, PlainDateType} from "../../utils/PlainDate";
 import {useModel, UseModelConfig} from "../../use/useModel";
 
@@ -74,14 +74,15 @@ export type UseDateType = {
     },
 
     setSelectDate: (pd: PlainDateType) => void,
-
-    utils: {
-        active: (ipd: PlainDateType) => boolean,
-        disabled: (ipd: PlainDateType) => boolean,
-        hoverStart: (ipd: PlainDateType) => boolean,
-        hover: (ipd: PlainDateType) => boolean,
-        hoverEnd: (ipd: PlainDateType) => boolean,
-    }
+    getStatus: (ipd: PlainDateType) => {
+        now: boolean,
+        disabled: boolean,
+        active: boolean,
+        hoverStart: boolean,
+        hoverEnd: boolean,
+        hover: boolean,
+        range: boolean,
+    },
 }
 
 export function useDate(
@@ -167,6 +168,58 @@ export function useDate(
         topState,
     })
 
+    const utils = {
+        active: (ipd: PlainDateType) => {
+            if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.active) {
+                return parent.judgementForChild.active(ipd, jdView)
+            }
+            const {range, vpd, valueRange: [startPd, endPd]} = topState.value;
+            return !!(
+                (range ? [startPd, endPd] : [vpd])
+                    .filter(i => !!i && !i.isNull)
+                    .find(i => i![jdView] == ipd[jdView])
+            )
+        },
+        disabled: (ipd: PlainDateType) => {
+            if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.disabled) {
+                return parent.judgementForChild.disabled(ipd, jdView)
+            }
+            const {max, min} = topState.value
+            const val = ipd[jdView]!
+            if (!!max && max[jdView]! < val) return true
+            if (!!min && min[jdView]! > val) return true
+            return false
+        },
+        hoverStart: (ipd: PlainDateType) => {
+            if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverStart) {
+                return parent.judgementForChild.hoverStart(ipd, jdView)
+            }
+            const {hoverRange, valueRange} = topState.value
+            const val = ipd[jdView]!
+            return !!hoverRange ? (hoverRange[0][jdView] == val) : valueRange[0][jdView] == val
+        },
+        hover: (ipd: PlainDateType) => {
+            if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hover) {
+                return parent.judgementForChild.hover(ipd, jdView)
+            }
+            const {hoverRange, valueRange} = topState.value
+            const val = ipd[jdView]!
+            return !!hoverRange ?
+                (hoverRange[0][jdView]! < val && hoverRange[1][jdView]! > val) :
+                ((!valueRange[0].isNull && !valueRange[1].isNull) &&
+                    valueRange[0][jdView]! < val &&
+                    valueRange[1][jdView]! > val)
+        },
+        hoverEnd: (ipd: PlainDateType) => {
+            if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverEnd) {
+                return parent.judgementForChild.hoverEnd(ipd, jdView)
+            }
+            const {hoverRange, valueRange} = topState.value
+            const val = ipd[jdView]!
+            return !!hoverRange ? (hoverRange[1][jdView] == val) : valueRange[1][jdView] == val
+        },
+    }
+
     /*---------------------------------------provide-------------------------------------------*/
 
     const provideData: UseDateType = {
@@ -187,57 +240,15 @@ export function useDate(
         state,
 
         setSelectDate: (pd) => state.selectDate = pd.isNull ? today.copy() : pd.copy(),
-        utils: {
-            active: (ipd) => {
-                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.active) {
-                    return parent.judgementForChild.active(ipd, jdView)
-                }
-                const {range, vpd, valueRange: [startPd, endPd]} = topState.value;
-                return !!(
-                    (range ? [startPd, endPd] : [vpd])
-                        .filter(i => !!i && !i.isNull)
-                        .find(i => i![jdView] == ipd[jdView])
-                )
-            },
-            disabled: (ipd) => {
-                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.disabled) {
-                    return parent.judgementForChild.disabled(ipd, jdView)
-                }
-                const {max, min} = topState.value
-                const val = ipd[jdView]!
-                if (!!max && max[jdView]! < val) return true
-                if (!!min && min[jdView]! > val) return true
-                return false
-            },
-            hoverStart: ipd => {
-                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverStart) {
-                    return parent.judgementForChild.hoverStart(ipd, jdView)
-                }
-                const {hoverRange, valueRange} = topState.value
-                const val = ipd[jdView]!
-                return !!hoverRange ? (hoverRange[0][jdView] == val) : valueRange[0][jdView] == val
-            },
-            hover: ipd => {
-                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hover) {
-                    return parent.judgementForChild.hover(ipd, jdView)
-                }
-                const {hoverRange, valueRange} = topState.value
-                const val = ipd[jdView]!
-                return !!hoverRange ?
-                    (hoverRange[0][jdView]! < val && hoverRange[1][jdView]! > val) :
-                    ((!valueRange[0].isNull && !valueRange[1].isNull) &&
-                        valueRange[0][jdView]! < val &&
-                        valueRange[1][jdView]! > val)
-            },
-            hoverEnd: ipd => {
-                if (!!parent && !!parent.judgementForChild && !!parent.judgementForChild.hoverEnd) {
-                    return parent.judgementForChild.hoverEnd(ipd, jdView)
-                }
-                const {hoverRange, valueRange} = topState.value
-                const val = ipd[jdView]!
-                return !!hoverRange ? (hoverRange[1][jdView] == val) : valueRange[1][jdView] == val
-            }
-        }
+        getStatus: (ipd) => ({
+            now: today[jdView] === ipd[jdView],
+            active: utils.active(ipd),
+            disabled: utils.disabled(ipd),
+            hoverStart: utils.hoverStart(ipd),
+            hover: utils.hover(ipd),
+            hoverEnd: utils.hoverEnd(ipd),
+            range: !!state.topState.range,
+        }),
     }
 
     /*只有最顶层日期组件才有资格控制子组件*/

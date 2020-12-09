@@ -28,7 +28,7 @@ export default designComponent({
             startModel,
             endModel,
             viewModel,
-            utils,
+            getStatus,
         } = useDate({
             props,
             emit,
@@ -114,19 +114,9 @@ export default designComponent({
                 tempPd.setMonthDate(i, 1)
                 const ipd = tempPd.copy()
                 const item = {
-                    /*data*/
                     label: months.value[i],
                     ipd,
-                    /*status*/
-                    now: today.YM === ipd.YM,
-                    disabled: utils.disabled(ipd),
-                    active: utils.active(ipd),
-                    hoverStart: utils.hoverStart(ipd),
-                    hoverEnd: utils.hoverEnd(ipd),
-                    hover: utils.hover(ipd),
-                    range: props.range,
-
-                    month: i,
+                    ...getStatus(ipd),
                 }
                 list.push(item)
             })

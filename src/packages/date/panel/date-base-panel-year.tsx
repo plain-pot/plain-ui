@@ -23,7 +23,7 @@ export default designComponent({
             model,
             startModel,
             endModel,
-            utils,
+            getStatus,
         } = useDate({
             props,
             emit,
@@ -76,17 +76,9 @@ export default designComponent({
                 tempPd.setYear(i)
                 const ipd = tempPd.copy()
                 let item: Dbpid = {
-                    /*data*/
                     label: i,
                     ipd,
-                    /*status*/
-                    now: i === today.year,
-                    active: utils.active(ipd),
-                    disabled: utils.disabled(ipd),
-                    hoverStart: utils.hoverStart(ipd),
-                    hover: utils.hover(ipd),
-                    hoverEnd: utils.hoverEnd(ipd),
-                    range: props.range,
+                    ...getStatus(ipd),
                 }
                 list.push(item)
             }
