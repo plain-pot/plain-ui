@@ -34,10 +34,13 @@ export const DatePublicProps = {
     view: {type: String, default: DateView.month},                                      // 当前视图
     selectDate: {type: PlainDate},                                                      // 当前面板的年月日期对象
 
-    /* base panel date 专用属性*/
+    /* base panel date 专用*/
     datetime: {type: Boolean},                                                          // 是否为日期时间视图
     firstWeekDay: {type: Number, default: 1},                                           // 一周的第一个是星期几，0是星期天，1是星期一
     defaultTime: {type: String},                                                        // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
+    /* date range 专用*/
+    defaultStartTime: {type: String},                                                   // 日期范围选择起始选择框日期面板，默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
+    defaultEndTime: {type: String},                                                     // 日期范围选择截止选择框日期面板，默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
 }
 
 /**

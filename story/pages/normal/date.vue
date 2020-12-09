@@ -96,8 +96,11 @@
                     <div>start:{{val[14]}}</div>
                     <div>end:{{val[15]}}</div>
                 </demo-line>
-                <pl-date-panel-date-range v-model:start="val[14]" v-model:end="val[15]" datetime defaultTime="08:55:00" max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"/>
-                <!--                <pl-date-panel-date-range v-model:start="val[14]" v-model:end="val[15]" datetime/>-->
+                <pl-date-panel-date-range datetime v-model:start="val[14]" v-model:end="val[15]"
+                                          defaultStartTime="08:55:00"
+                                          defaultEndTime="18:30:00"
+                                          max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"/>
+                <pl-date-panel-date-range v-model:start="val[14]" v-model:end="val[15]" datetime/>
             </demo-row>
         </demo-row>
 

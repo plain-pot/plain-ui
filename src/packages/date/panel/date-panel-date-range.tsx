@@ -4,6 +4,11 @@ import {useDate, UseDateJudgementView} from "../useDate";
 import {computed, nextTick} from 'vue';
 import {PlainDate, PlainDateType} from "../../../utils/PlainDate";
 
+const DefaultTime = {
+    start: '00:00:00',
+    end: '23:59:59'
+}
+
 export default designComponent({
     name: 'pl-date-panel-date-range',
     props: {
@@ -66,30 +71,21 @@ export default designComponent({
 
             const start = startModel.value
             const end = endModel.value
-            let defaultTimeString = props.defaultTime
 
-            const startDate = new PlainDate(start, displayFormat, valueFormat)
-            const endDate = new PlainDate(end, displayFormat, valueFormat)
+            const pdStart = new PlainDate(start, displayFormat, valueFormat)
+            const pdEnd = new PlainDate(end, displayFormat, valueFormat)
 
-            if (!defaultTimeString) defaultTimeString = '12:00:00'
-            let defaultTime = new PlainDate(defaultTimeString, 'HH:mm:ss', 'HH:mm:ss')
+            const pdStartTime = new PlainDate(props.defaultStartTime || DefaultTime.start, 'HH:mm:ss', 'HH:mm:ss');
+            const pdEndTime = new PlainDate(props.defaultEndTime || DefaultTime.end, 'HH:mm:ss', 'HH:mm:ss');
 
-            const startTime = defaultTime.copy()
-            if (!startDate.isNull) {
-                startTime.setHms(startDate)
-            }
-
-            const endTime = defaultTime.copy()
-            if (!endDate.isNull) {
-                endTime.setHms(endDate)
-            }
+            !pdStart.isNull && pdStartTime.setHms(pdStart);
+            !pdEnd.isNull && pdEndTime.setHms(pdEnd);
 
             return {
-                defaultTime,
-                startDate,
-                endDate,
-                startTime,
-                endTime,
+                pdStart,
+                pdEnd,
+                pdStartTime,
+                pdEndTime,
             }
         })
 
@@ -109,6 +105,7 @@ export default designComponent({
                 ...publicProps,
                 selectDate: selectDate,
                 modelValue: startModel.value,
+                defaultTime: props.defaultStartTime || DefaultTime.start,
 
                 onSelectDateChange: (val: PlainDateType) => state.selectDate = val.copy(),
                 onMouseenterItem: handler.onMouseenterItem,
@@ -123,6 +120,7 @@ export default designComponent({
                 ...publicProps,
                 selectDate: endSelectDate,
                 modelValue: endModel.value,
+                defaultTime: props.defaultEndTime || DefaultTime.end,
 
                 onSelectDateChange: (val: PlainDateType) => {
                     val.setMonthDate(val.month! - 1, 1)
@@ -172,7 +170,7 @@ export default designComponent({
 
         const handler = {
             async onClickItem(ipd: PlainDateType) {
-                const {startTime, endTime} = formatData.value
+                const {pdStartTime, pdEndTime} = formatData.value
                 const {hoverRange} = state
 
                 if (!hoverRange) {
@@ -184,8 +182,8 @@ export default designComponent({
                     startPd = startPd.copy()
                     endPd = endPd.copy()
 
-                    startPd.setHms(startTime)
-                    endPd.setHms(endTime)
+                    startPd.setHms(pdStartTime)
+                    endPd.setHms(pdEndTime)
 
                     if ((props.datetime ? startPd.YMDHms! > endPd.YMDHms! : startPd.YMD! > endPd.YMD!)) {
                         endPd = startPd
@@ -205,37 +203,37 @@ export default designComponent({
                 await nextTick()
 
                 let {selectDate} = state
-                let {startDate, endDate, defaultTime} = formatData.value
-                defaultTime = defaultTime.copy()
-                defaultTime.setValue(val)
+                let {pdStart, pdEnd, pdStartTime, pdEndTime} = formatData.value
 
                 if (type === DateEmitRangeType.start) {
-                    if (startDate.isNull) {
-                        startDate.setYMD(selectDate)
+                    if (pdStart.isNull) {
+                        pdStart.setYMD(selectDate)
                     }
-                    startDate.setHms(defaultTime)
-                    if (endDate.isNull) {
-                        endDate = startDate.copy()
+                    pdStartTime.setValue(val)
+                    pdStart.setHms(pdStartTime)
+                    if (pdEnd.isNull) {
+                        pdEnd = pdStart.copy()
                     } else {
-                        if ((props.datetime ? startDate.YMDHms! > endDate.YMDHms! : startDate.YMD! > endDate.YMD!)) {
-                            endDate = startDate.copy()
+                        if ((props.datetime ? pdStart.YMDHms! > pdEnd.YMDHms! : pdStart.YMD! > pdEnd.YMD!)) {
+                            pdEnd = pdStart.copy()
                         }
                     }
                 } else if (type === DateEmitRangeType.end) {
-                    if (endDate.isNull) {
-                        endDate.setYMD(selectDate)
+                    if (pdEnd.isNull) {
+                        pdEnd.setYMD(selectDate)
                     }
-                    endDate.setHms(defaultTime)
-                    if (startDate.isNull) {
-                        startDate = endDate.copy()
+                    pdEndTime.setValue(val)
+                    pdEnd.setHms(pdEndTime)
+                    if (pdStart.isNull) {
+                        pdStart = pdEnd.copy()
                     } else {
-                        if ((props.datetime ? startDate.YMDHms! > endDate.YMDHms! : startDate.YMD! > endDate.YMD!)) {
-                            startDate = endDate.copy()
+                        if ((props.datetime ? pdStart.YMDHms! > pdEnd.YMDHms! : pdStart.YMD! > pdEnd.YMD!)) {
+                            pdStart = pdEnd.copy()
                         }
                     }
                 }
 
-                utils.emitValue(startDate, endDate)
+                utils.emitValue(pdStart, pdEnd)
             },
         }
 
