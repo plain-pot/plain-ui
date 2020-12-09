@@ -208,9 +208,10 @@ export default designComponent({
                                 direction: 'vertical'
                             }}>
                                 {monthList.value.map(item => (DatePanelItemWrapper({
-                                    Node: <li class="pl-date-base-panel-month-item" key={item.month}/>,
                                     item,
                                     onClick: handler.onClickItem,
+                                    onMouseenter: handler.onMouseEnterItem,
+                                    Node: <li class="pl-date-base-panel-month-item" key={item.month}/>,
                                 })))}
                             </ul>
                         </Transition>

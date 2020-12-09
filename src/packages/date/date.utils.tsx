@@ -109,15 +109,18 @@ export function DatePanelItemWrapper(
         Node,
         item,
         onClick,
+        onMouseenter,
     }: {
         Node: any,
         item: Dbpid,
         onClick: (item: Dbpid) => void,
+        onMouseenter: (tiem: Dbpid) => void,
     }) {
 
     return (
         <Node
             onClick={() => !item.disabled && onClick(item)}
+            onMouseenter={() => !item.disabled && onMouseenter(item)}
             class={[
                 'pl-date-base-panel-item',
                 {

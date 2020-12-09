@@ -1,6 +1,6 @@
 import {computed, Transition} from 'vue'
 import {designComponent} from "../../../use/designComponent";
-import {DateEmitRangeType, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, Dbpid, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
+import {DateEmitRangeType, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, Dbpid, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
 import {useDate, UseDateJudgementView} from "../useDate";
 
 export default designComponent({
@@ -167,13 +167,10 @@ export default designComponent({
                             direction: "vertical"
                         }}>
                             {data.value.list.map(item => DatePanelItemWrapper({
-                                onClick: handler.onClickItem,
                                 item,
-                                Node: (<li
-                                    key={item.label}
-                                    class="pl-date-base-panel-year-item"
-                                    onMouseenter={() => handler.onMouseenterItem(item)}
-                                />),
+                                Node: (<li key={item.label} class="pl-date-base-panel-year-item"/>),
+                                onClick: handler.onClickItem,
+                                onMouseenter: handler.onMouseenterItem,
                             }))}
                         </ul>
                     </Transition>)
