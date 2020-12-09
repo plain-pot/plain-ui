@@ -18,6 +18,7 @@ export default designComponent({
         selectTime: (val: string) => true,
         mouseenterItem: (item: Dbpid) => true,
         selectDateChange: (ipd: PlainDateType) => true,
+        mouseleaveDateList: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -317,7 +318,7 @@ export default designComponent({
                                 </li>
                             ))}
                         </ul>
-                        <pl-list class="pl-date-base-panel-date-list" tag="ul">
+                        <pl-list class="pl-date-base-panel-date-list" tag="ul" onMouseleave={emit.mouseleaveDateList}>
                             {dateList.value.map((item, index) => (
                                 DatePanelItemWrapper({
                                     item,

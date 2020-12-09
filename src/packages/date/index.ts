@@ -6,12 +6,14 @@ import month from './panel/date-base-panel-month'
 import baseDate from './panel/date-base-panel-date'
 import range from './panel/date-panel-date-range'
 import dates from './panel/date-panel-dates'
+import week from './panel/date-panel.week'
 
 const DateBasePanelYear = createComponentPlugin(year)
 const DateBasePanelMonth = createComponentPlugin(month)
 const DateBasePanelDate = createComponentPlugin(baseDate)
 const DatePanelDateRange = createComponentPlugin(range)
 const DatePanelDates = createComponentPlugin(dates)
+const DatePanelWeek = createComponentPlugin(week)
 
 export default {
     DateBasePanelYear,
@@ -19,6 +21,8 @@ export default {
     DateBasePanelDate,
     DatePanelDateRange,
     DatePanelDates,
+    DatePanelWeek,
+
     ...createComponentPlugin(date, [
         DateTimeInput,
         DateBasePanelYear,
@@ -26,5 +30,6 @@ export default {
         DateBasePanelDate,
         DatePanelDateRange,
         DatePanelDates,
+        DatePanelWeek,
     ]),
 }

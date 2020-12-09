@@ -117,6 +117,30 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="pl-date-panel-week">
+            <demo-row title="基本用法">
+                <demo-line>
+                    max="2021-05-09" min="2019-10-07"
+                </demo-line>
+                <demo-line>
+                    {{val[16]}}
+                </demo-line>
+                <pl-date-panel-week v-model="val[16]"/>
+                <pl-date-panel-week v-model="val[16]" max="2021-05-09" min="2019-10-07"/>
+            </demo-row>
+            <demo-row title="范围选择">
+                <demo-line>
+                    max="2021-05-09" min="2019-10-07"
+                </demo-line>
+                <demo-line>
+                    <div>start:{{val[17]}}</div>
+                    <div>end:{{val[18]}}</div>
+                </demo-line>
+                <pl-date-panel-week v-model:start="val[17]" v-model:end="val[18]" range/>
+                <pl-date-panel-week v-model:start="val[17]" v-model:end="val[18]" range max="2021-05-09" min="2019-10-07"/>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 
