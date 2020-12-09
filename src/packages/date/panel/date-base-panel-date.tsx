@@ -131,13 +131,17 @@ export default designComponent({
 
         const timeAttrs = computed(() => {
 
-            const {vpd, max, min} = state.topState
-            const defaultTime = defaultTimePd.value
-            const timePd = (!vpd || vpd.isNull) ? defaultTime : vpd
-            const timeString = defaultTime.format(timePd.dateObject)
+            tempPd.setValue(model.value)
+            const vpd = tempPd.copy()
+            const timePd = defaultTimePd.value.copy()
+
+            /*此时tempPd存有model.value的时间，如果不为空，则设置时间得model.value的时间*/
+            if (!tempPd.isNull) {
+                timePd.setHms(tempPd)
+            }
 
             const attrs = {
-                modelValue: timeString,
+                modelValue: timePd.valueString,
                 displayFormat: 'HH:mm:ss',
                 valueFormat: 'HH:mm:ss',
                 max: undefined as undefined | string | null,
@@ -145,11 +149,13 @@ export default designComponent({
                 onChange: handler.onSelectTime,
             }
 
+            const {max, min} = state.topState
+
             if (!!vpd && !vpd.isNull) {
                 /*限制最大最小值*/
                 if (!!max && !max.isNull) {
                     if (max.YMD <= vpd.YMD) {
-                        let tempDefaultTime = defaultTime.copy()
+                        let tempDefaultTime = timePd.copy()
                         tempDefaultTime.setHms(max)
                         attrs.max = tempDefaultTime.valueString
                     }
@@ -157,7 +163,7 @@ export default designComponent({
 
                 if (!!min && !min.isNull) {
                     if (min.YMD >= vpd.YMD) {
-                        let tempDefaultTime = defaultTime.copy()
+                        let tempDefaultTime = timePd.copy()
                         tempDefaultTime.setHms(min)
                         attrs.min = tempDefaultTime.valueString
                     }
@@ -284,10 +290,9 @@ export default designComponent({
 
         watch(() => props.selectDate, (val) => state.selectDate = val || today.copy())
 
-        return {
-            render: () => {
-
-                const WrapDate: any = DatePanelWrapper({
+        const render = {
+            date: () => {
+                const Wrapper: any = DatePanelWrapper({
                     left: (<>
                         <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={methods.prevYear}/>
                         <pl-button icon="el-icon-arrow-left" mode="text" size="mini" onClick={methods.prevMonth}/>
@@ -330,25 +335,30 @@ export default designComponent({
                         </pl-list>
                     </>),
                 })
-                const WrapTime = DatePanelWrapper({
+                return <Wrapper {...{class: 'pl-date-base-panel-date', direction: 'horizontal', key: 'date'}}/>
+            },
+            month: () => {
+                return <pl-date-base-panel-month {...monthAttrs.value} direction="horizontal" key={viewModel.value}/>
+            },
+            time: () => {
+                const Wrapper: any = DatePanelWrapper({
                     center: (<><span onClick={() => methods.changeView(DateView.date)}>
-                    {showTimePd.value.year}-{zeroize(showTimePd.value.month! + 1)}-{zeroize(showTimePd.value.date!)}
-                </span></>),
+                                {showTimePd.value.year}-{zeroize(showTimePd.value.month! + 1)}-{zeroize(showTimePd.value.date!)}
+                            </span></>),
                     content: <pl-time-panel {...timeAttrs.value}/>,
                 })
+                return <Wrapper {...{class: 'pl-date-base-panel-time', direction: 'horizontal', key: 'time'}}/>
+            },
+        }
 
-                const Date: any = <WrapDate {...{class: 'pl-date-base-panel-date', direction: 'horizontal', key: 'date'}}/>
-                const Month: any = <pl-date-base-panel-month {...monthAttrs.value} direction="horizontal" key={viewModel.value}/>
-                const Time: any = <WrapTime {...{class: 'pl-date-base-panel-time', direction: 'horizontal', key: 'time'}}/>
-
-                return (
-                    <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
-                        <Transition name={`pl-transition-slide-${state.slide}`}>
-                            {{date: Date, month: Month, time: Time}[viewModel.value === DateView.year ? DateView.month : viewModel.value]}
-                        </Transition>
-                    </div>
-                )
-            }
+        return {
+            render: () => (
+                <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
+                    <Transition name={`pl-transition-slide-${state.slide}`}>
+                        {render[viewModel.value === DateView.year ? DateView.month : viewModel.value]()}
+                    </Transition>
+                </div>
+            )
         }
     },
 })
