@@ -24,7 +24,6 @@ export default designComponent({
             startModel,
             endModel,
             getStatus,
-            parent,
         } = useDate({
             props,
             emit,

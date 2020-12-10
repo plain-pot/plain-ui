@@ -62,8 +62,6 @@ export default designComponent({
                     }
                 }
             },
-
-            /*这个属性在这个组件里是没有用的，因为range肯定是顶层组件，不会再有useDate父组件了*/
             jdView: UseDateJudgementView.YMD,
         })
 

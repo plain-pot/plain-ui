@@ -32,7 +32,6 @@ export default designComponent({
             setSelectDate,
             displayFormat,
             valueFormat,
-            parent,
         } = useDate({
             props,
             emit,
