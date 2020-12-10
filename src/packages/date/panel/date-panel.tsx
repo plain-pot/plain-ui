@@ -66,7 +66,7 @@ export default designComponent({
                     onChange: handler.onChange,
                     displayFormat: displayFormat || DefaultDateFormatString[panel],
                     valueFormat: valueFormat || DefaultDateFormatString[panel],
-                    datetime: props.datetime,
+                    datetime: panel === DatePanelType.datetime,
                 },
             }
         })

@@ -11,7 +11,11 @@ export const DateServiceGetter = createAgentGetter({
         async onChange() {
             let renderAttrs: any = this.state.option.serviceOption.renderAttrs
             if (typeof renderAttrs === "function") renderAttrs = renderAttrs()
-            if (!renderAttrs.range && renderAttrs.panel !== DatePanelType.dates) {
+            if (!(
+                renderAttrs.panel === DatePanelType.datetime ||
+                renderAttrs.panel === DatePanelType.dates ||
+                renderAttrs.range
+            )) {
                 this.hide()
             }
         },
