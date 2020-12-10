@@ -257,7 +257,7 @@ export default designComponent({
                                         <span>~</span>
                                         <pl-date-time-input
                                             width="100"
-                                            value={formatData.value.end!.displayString}
+                                            modelValue={formatData.value.end!.displayString}
                                             ref="endInput"
                                             onChange={(val: string) => customHandler.onInputChange(val, 'end')}
                                             displayFormat={displayFormat.value}
