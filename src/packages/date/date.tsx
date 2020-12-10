@@ -42,6 +42,9 @@ export default designComponent({
                         startModel.value = val
                     } else {
                         endModel.value = val
+                        if (props.panel !== DatePanelType.datetime) {
+                            agentState.methods.hide()
+                        }
                     }
                 }
             },
