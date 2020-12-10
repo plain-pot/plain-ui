@@ -178,13 +178,12 @@ class WrapDate {
     }
 
     setYMD(year: number | WrapDate, month?: number, date?: number) {
-        if (typeof year === 'string') {
+        if (typeof year == "object") {
+            this.setYear(year.Y!)
+            this.setMonthDate(year.month!, year.date!)
+        } else {
             this.setYear(year)
             if (month != null && date != null) this.setMonthDate(month, date)
-        } else {
-            const pd = year as WrapDate
-            this.setYear(pd.year!)
-            this.setMonthDate(pd.month!, pd.date!)
         }
     }
 
