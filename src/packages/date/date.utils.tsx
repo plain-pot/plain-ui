@@ -155,3 +155,66 @@ export const DateViewSeq = {
     date: 3,
     time: 4,
 }
+
+export const WeekUtils = {
+    /**
+     * 获取特定日期，在一周中的最后一天
+     * @author  韦胜健
+     * @date    2020/12/10 9:42
+     */
+    getLastPdOfWeek: (pd: PlainDateType, firstWeekDay?: number) => {
+        if (pd.isNull) {
+            return null
+        }
+        pd = pd.copy()
+        firstWeekDay = firstWeekDay == null ? 1 : firstWeekDay
+        const weekDayDuration = pd.day! - firstWeekDay
+        let offsetDay = weekDayDuration === 0 ? 0 : weekDayDuration > 0 ? weekDayDuration : 7 + weekDayDuration
+        pd.setMonthDate(pd.month!, pd.date! - offsetDay + 6)
+        return pd
+    },
+    /**
+     * 获取日期在第几周
+     * @author  韦胜健
+     * @date    2020/12/10 10:19
+     */
+    getWeekNumber: (value?: string, config?: { valueFormat?: string, firstWeekDay?: number }) => {
+        let ret = {
+            year: null as null | number,
+            week: null as null | number,
+        }
+        if (!value) {return ret}
+
+        config = config || {}
+        const valueFormat = config.valueFormat || DefaultDateFormatString.date
+        const firstWeekDay = config.firstWeekDay == null ? 1 : config.firstWeekDay
+        let vpd = new PlainDate(value, valueFormat, valueFormat)
+        if (vpd.isNull) {return ret}
+
+        const valueLastWeekPd = WeekUtils.getLastPdOfWeek(vpd, firstWeekDay)!
+        vpd = valueLastWeekPd.copy()
+        vpd.setYMD(valueLastWeekPd.Y!, 0, 1)
+        const yearFirstDayLastWeekPd = WeekUtils.getLastPdOfWeek(vpd, firstWeekDay)
+
+        if (!!yearFirstDayLastWeekPd && !yearFirstDayLastWeekPd.isNull && !!valueLastWeekPd && !valueLastWeekPd.isNull) {
+            const num = (valueLastWeekPd.time - yearFirstDayLastWeekPd.time) / (24 * 60 * 60 * 1000 * 7)
+            ret.year = yearFirstDayLastWeekPd.year
+            ret.week = num + 1
+        }
+
+        return ret
+    },
+    /**
+     * 获取周字符串
+     * @author  韦胜健
+     * @date    2020/12/10 17:03
+     */
+    getWeekZhcnString: (value?: string, config?: { valueFormat?: string, firstWeekDay?: number }) => {
+        const {year, week} = WeekUtils.getWeekNumber(value, config)
+        if (!!year) {
+            return `${year}年 第${week}周`
+        } else {
+            return null
+        }
+    },
+}

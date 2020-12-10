@@ -123,7 +123,7 @@
                     max="2021-05-09" min="2019-10-07"
                 </demo-line>
                 <demo-line>
-                    {{val[16]}}
+                    {{getWeekZhcnString(val[16])}}
                 </demo-line>
                 <pl-date-panel-week v-model="val[16]"/>
                 <pl-date-panel-week v-model="val[16]" max="2021-05-09" min="2019-10-07"/>
@@ -133,8 +133,8 @@
                     max="2021-05-09" min="2019-10-07"
                 </demo-line>
                 <demo-line>
-                    <div>start:{{val[17]}}</div>
-                    <div>end:{{val[18]}}</div>
+                    <div>start:{{getWeekZhcnString(val[17])}}</div>
+                    <div>end:{{getWeekZhcnString(val[18])}}</div>
                 </demo-line>
                 <pl-date-panel-week v-model:start="val[17]" v-model:end="val[18]" range/>
                 <pl-date-panel-week v-model:start="val[17]" v-model:end="val[18]" range max="2021-05-09" min="2019-10-07"/>
@@ -145,10 +145,13 @@
 </template>
 
 <script>
+    import {WeekUtils} from "../../../src/packages/date/date.utils";
+
     export default {
         name: "date",
         data() {
             return {
+                getWeekZhcnString: WeekUtils.getWeekZhcnString,
                 val: {},
             }
         },
