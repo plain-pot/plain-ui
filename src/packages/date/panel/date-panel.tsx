@@ -1,7 +1,7 @@
 import {designComponent} from "../../../use/designComponent";
 import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "../date.utils";
 import {useModel} from "../../../use/useModel";
-import {computed} from 'vue';
+import {computed, resolveComponent} from 'vue';
 
 export const enum DatePanelType {
     year = 'year',
@@ -16,6 +16,7 @@ export default designComponent({
     name: 'pl-date-panel',
     props: {
         ...DatePublicProps,
+        modelValue: {},
         panel: {type: String, default: DatePanelType.date},
     },
     emits: {
@@ -23,7 +24,7 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue as any, emit.updateModelValue)
         const startModel = useModel(() => props.start, emit.updateStart)
         const endModel = useModel(() => props.end, emit.updateEnd)
 
@@ -48,9 +49,9 @@ export default designComponent({
             const value = model.value
             const start = startModel.value
             const end = endModel.value
-            const publicProps = {range, value, start, end, max, min, firstWeekDay, defaultTime,}
+            const publicProps = {range, modelValue: value, start, end, max, min, firstWeekDay, defaultTime,}
             return {
-                Component: {
+                name: {
                     year: 'pl-date-base-panel-year',
                     month: 'pl-date-base-panel-month',
                     date: 'pl-date-base-panel-date',
@@ -70,7 +71,8 @@ export default designComponent({
 
         return {
             render: () => {
-                const {Component, attrs} = binding.value
+                const {name, attrs} = binding.value
+                const Component = resolveComponent(name) as any
                 return <Component {...attrs}/>
             }
         }
