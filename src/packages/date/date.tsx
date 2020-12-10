@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import './date.scss'
 import {StyleProps} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
-import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "./date.utils";
+import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DefaultDateFormatString, WeekUtils} from "./date.utils";
 import {useModel} from "../../use/useModel";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {DateServiceGetter} from "./service/date-service";
@@ -21,6 +21,7 @@ export default designComponent({
         modelValue: {},
         panel: {type: String, default: 'date'},
         collapseTags: {type: Boolean, default: true},
+        customWeekString: {type: Function as any as new () => ((data: { week: number, year: number }) => string)},
     },
     emits: {
         ...DatePublicEmits,
@@ -147,6 +148,32 @@ export default designComponent({
             }
         })
 
+        const displayString = computed(() => {
+
+            if (props.panel !== DatePanelType.week) {
+                return {
+                    value: (formatData.value.value as PlainDateType).displayString,
+                    start: formatData.value.start!.displayString,
+                    end: formatData.value.end!.displayString,
+                }
+            } else {
+
+                if (!props.range) {
+                    const value = WeekUtils.getWeekNumber((formatData.value.value as PlainDateType).valueString!, {valueFormat: valueFormat.value, firstWeekDay: props.firstWeekDay})
+                    return {
+                        value: !value.year ? '' : !!props.customWeekString ? props.customWeekString(value as any) : `${value.year}年 第${value.week}周`
+                    }
+                } else {
+                    const start = WeekUtils.getWeekNumber((formatData.value.start!).valueString!, {valueFormat: valueFormat.value, firstWeekDay: props.firstWeekDay})
+                    const end = WeekUtils.getWeekNumber((formatData.value.end!).valueString!, {valueFormat: valueFormat.value, firstWeekDay: props.firstWeekDay})
+                    return {
+                        start: !start.year ? '' : !!props.customWeekString ? props.customWeekString(start as any) : `${start.year}年 第${start.week}周`,
+                        end: !end.year ? '' : !!props.customWeekString ? props.customWeekString(end as any) : `${end.year}年 第${end.week}周`,
+                    }
+                }
+            }
+        })
+
         /*---------------------------------------custom handler-------------------------------------------*/
 
         const customHandler = {
@@ -240,7 +267,7 @@ export default designComponent({
 
                             {props.panel !== DatePanelType.dates && (
                                 !props.range ? (<pl-date-time-input
-                                        modelValue={(formatData.value.value as PlainDateType).displayString}
+                                        modelValue={displayString.value.value}
                                         ref="valueInput"
                                         onChange={(val: string) => customHandler.onInputChange(val, 'value')}
                                         displayFormat={displayFormat.value}
@@ -250,7 +277,7 @@ export default designComponent({
                                     <>
                                         <pl-date-time-input
                                             width="100"
-                                            modelValue={formatData.value.start!.displayString}
+                                            modelValue={displayString.value.start}
                                             ref="startInput"
                                             displayFormat={displayFormat.value}
                                             onChange={(val: string) => customHandler.onInputChange(val, 'start')}
@@ -260,7 +287,7 @@ export default designComponent({
                                         <span>~</span>
                                         <pl-date-time-input
                                             width="100"
-                                            modelValue={formatData.value.end!.displayString}
+                                            modelValue={displayString.value.end}
                                             ref="endInput"
                                             onChange={(val: string) => customHandler.onInputChange(val, 'end')}
                                             displayFormat={displayFormat.value}
