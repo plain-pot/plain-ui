@@ -50,12 +50,14 @@ export default designComponent({
             const start = startModel.value
             const end = endModel.value
             const publicProps = {range, modelValue: value, start, end, max, min, firstWeekDay, defaultTime,}
+            const date = range ? 'pl-date-panel-date-range' : 'pl-date-base-panel-date'
+
             return {
                 name: {
                     year: 'pl-date-base-panel-year',
                     month: 'pl-date-base-panel-month',
-                    date: 'pl-date-base-panel-date',
-                    datetime: 'pl-date-base-panel-date',
+                    date: date,
+                    datetime: date,
                     week: 'pl-date-panel-week',
                     dates: 'pl-date-panel-dates',
                 }[panel] as any,

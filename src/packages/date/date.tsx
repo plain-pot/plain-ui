@@ -18,7 +18,7 @@ export default designComponent({
         ...StyleProps,
         ...EditProps,
         ...DatePublicProps,
-
+        modelValue: {},
         panel: {type: String, default: 'date'},
         collapseTags: {type: Boolean, default: true},
     },
@@ -29,7 +29,7 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue as any, emit.updateModelValue)
         const startModel = useModel(() => props.start, emit.updateStart)
         const endModel = useModel(() => props.end, emit.updateEnd)
 
