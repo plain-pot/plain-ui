@@ -314,7 +314,7 @@ export default designComponent({
                         <ul class="pl-date-base-panel-date-week-list">
                             {weekList.value.map(item => (
                                 <li class="pl-date-base-panel-item pl-date-base-panel-date-week-item" key={item}>
-                                    {item}
+                                    <div><span>{item}</span></div>
                                 </li>
                             ))}
                         </ul>

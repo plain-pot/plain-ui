@@ -131,7 +131,7 @@ export default designComponent({
                         'pl-input-tags': isDates,
                     },
                 ],
-                modelValue: inputValue.value,
+                modelValue: Array.isArray(inputValue.value) ? inputValue.value.join('') : inputValue.value,
                 suffixIcon: 'el-icon-date',
                 clearIcon: true,
                 isFocus: agentState.state.focusCounter > 0,
