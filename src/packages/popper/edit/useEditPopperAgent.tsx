@@ -86,6 +86,7 @@ export function useEditPopperAgent(
         state,
         isShow,
         isOpen,
+        editComputed,
     }
 
 }

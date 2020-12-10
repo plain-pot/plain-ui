@@ -428,8 +428,8 @@
     }
   }
 
-  .pl-popper-service-date {
-    .plain-popper-content {
+  [service-name=pl-popper-service-date] {
+    .pl-popper-content-inner {
       padding: 0 !important;
 
       & > .pl-date-base-panel {

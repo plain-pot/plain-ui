@@ -274,6 +274,94 @@
 
         </demo-row>
 
+        <demo-row title="pl-date">
+            <demo-row title="基本用法">
+                <demo-line>
+                    {{val[36]}}
+                </demo-line>
+                <pl-date v-model="val[36]"/>
+            </demo-row>
+            <demo-row title="日期范围">
+                <demo-line>
+                    <div>start:{{val[37]}}</div>
+                    <div>end:{{val[38]}}</div>
+                </demo-line>
+                <pl-date v-model:start="val[37]" v-model:end="val[38]" range/>
+                <pl-date v-model:start="val[37]" v-model:end="val[38]" range/>
+            </demo-row>
+
+            <demo-row title="六中视图">
+                <demo-line title="input">
+                    <pl-input/>
+                </demo-line>
+                <demo-line title="年">
+                    <pl-date panel="year"/>
+                </demo-line>
+                <demo-line title="年月">
+                    <pl-date panel="month"/>
+                </demo-line>
+                <demo-line title="年月日">
+                    <pl-date panel="date"/>
+                </demo-line>
+                <demo-line title="日期时间">
+                    <pl-date panel="datetime"/>
+                </demo-line>
+                <demo-line title="周">
+                    <pl-date panel="week"/>
+                </demo-line>
+                <demo-line title="多个日期">
+                    <pl-date panel="dates"/>
+                </demo-line>
+            </demo-row>
+            <demo-row title="六中视图：范围选择">
+                <demo-line title="年">
+                    <pl-date panel="year" range/>
+                </demo-line>
+                <demo-line title="年月">
+                    <pl-date panel="month" range/>
+                </demo-line>
+                <demo-line title="年月日">
+                    <pl-date panel="date" range/>
+                </demo-line>
+                <demo-line title="日期时间">
+                    <pl-date panel="datetime" range/>
+                </demo-line>
+                <demo-line title="周">
+                    <pl-date panel="week" range/>
+                </demo-line>
+            </demo-row>
+
+            <demo-row title="六中视图：最大最小值">
+                <demo-line title="年">
+                    <pl-date panel="year" max="2022" min="2020"/>
+                </demo-line>
+                <demo-line title="年月">
+                    <pl-date panel="month" max="2022-05" min="2020-01"/>
+                </demo-line>
+                <demo-line title="年月日">
+                    <pl-date panel="date" max="2022-05-05" min="2020-01-03"/>
+                </demo-line>
+                <demo-line title="日期时间">
+                    <pl-date panel="datetime" max="2022-05-05 12:30:20" min="2020-01-03 08:15:00"/>
+                </demo-line>
+                <demo-line title="周">
+                    <pl-date panel="week" max="2022-05-05" min="2020-01-03"/>
+                </demo-line>
+                <demo-line title="多个日期">
+                    <pl-date panel="dates" max="2022-05-05" min="2020-01-03"/>
+                </demo-line>
+            </demo-row>
+
+            <demo-row title="禁用以及只读">
+                <demo-line>
+                    <pl-checkbox v-model="val[39]"/>
+                </demo-line>
+                <pl-date :disabled="val[39]"/>
+                <pl-date :readonly="val[39]"/>
+            </demo-row>
+
+        </demo-row>
+
     </div>
 </template>
 
