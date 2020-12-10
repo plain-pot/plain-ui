@@ -161,7 +161,6 @@ export default designComponent({
                         }}>
                             {data.value.list.map(item => DatePanelItemWrapper({
                                 item,
-                                parent,
                                 Node: (<li key={item.label} class="pl-date-base-panel-year-item"/>),
                                 onClick: handler.onClickItem,
                                 onMouseenter: handler.onMouseenterItem,

@@ -82,7 +82,9 @@ export type UseDateType = {
         hoverEnd: boolean,
         hover: boolean,
         range: boolean,
+        clickable: boolean,
     },
+    jdView: UseDateJudgementView,
 }
 
 export function useDate(
@@ -250,15 +252,20 @@ export function useDate(
         state,
 
         setSelectDate: (pd) => state.selectDate = pd.isNull ? today.copy() : pd.copy(),
-        getStatus: (ipd) => ({
-            now: today[jdView] === ipd[jdView],
-            active: utils.active(ipd),
-            disabled: utils.disabled(ipd),
-            hoverStart: utils.hoverStart(ipd),
-            hover: utils.hover(ipd),
-            hoverEnd: utils.hoverEnd(ipd),
-            range: !!state.topState.range,
-        }),
+        getStatus: (ipd) => {
+            const disabled = utils.disabled(ipd)
+            return {
+                now: today[jdView] === ipd[jdView],
+                active: utils.active(ipd),
+                disabled,
+                hoverStart: utils.hoverStart(ipd),
+                hover: utils.hover(ipd),
+                hoverEnd: utils.hoverEnd(ipd),
+                range: !!state.topState.range,
+                clickable: (!!parent && parent.jdView !== jdView) || !disabled
+            }
+        },
+        jdView,
     }
 
     /*只有最顶层日期组件才有资格控制子组件*/
