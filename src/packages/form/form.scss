@@ -2,6 +2,39 @@
   .pl-form {
     .pl-form-item {
       display: inline-flex;
+      margin-bottom: 16px;
+
+      .pl-form-item-label {
+        line-height: normal;
+        align-items: flex-start;
+      }
+
+      &:not(.pl-form-item-static-width) {
+        .pl-form-item-label {
+          flex: 1;
+          flex-shrink: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    &.pl-form-size-large {
+
+    }
+
+    &.pl-form-size-normal {
+      .pl-form-item {
+        .pl-form-item-label {
+          font-size: 14px;
+          padding: 6px 0;
+        }
+      }
+    }
+
+    &.pl-form-size-large {
+
     }
   }
 }

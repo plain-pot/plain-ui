@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, reactive} from 'vue'
+import {computed, reactive, ComputedRef} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -54,19 +54,31 @@ const Form = designComponent({
         const {styleComputed} = useStyle()
         const {editComputed} = useEdit({adjust: data => {data.loading = false}})
         const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width'])
-        const state = reactive({
-            maxLabelWidth: null as null | number,                                   // form item 最大文本宽度
-        })
+        const state = reactive({})
 
         /*---------------------------------------compute-------------------------------------------*/
 
-        const itemWidth = computed(() => {
-            const label = numberState.labelWidth || state.maxLabelWidth
-            const content = numberState.contentWidth || 400
-            return {
-                label,
-                content,
-                total: !!label && !!content ? (label + content) : null,
+        const maxLabelWidth = computed(() => items.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as ComputedRef<number>
+
+        const widthState = computed(() => {
+            /*
+            *  如果没有设置contentWidth
+            *  如果是单列，默认contentWidth是400
+            *  多了则是220
+            */
+            const content = !!numberState.contentWidth ? numberState.contentWidth : numberState.column === 1 ? 400 : 220
+            const label = numberState.labelWidth || maxLabelWidth.value
+
+            if (!!label) {
+                return {
+                    col: label + content,
+                    label,
+                    content,
+                }
+            } else {
+                return {
+                    content,
+                }
             }
         })
 
@@ -82,19 +94,18 @@ const Form = designComponent({
         })
 
         const bodyStyles = useStyles(style => {
-            if (itemWidth.value.total) {
-                return
-            }
-            const {total, label} = itemWidth.value
+            const {label, col} = widthState.value
+            if (!label) {return}
             const {column} = numberState
-            style.width = `calc(${total}px ${column > 1 ? `+ ${column - 1}em` : ''})`
+            style.width = `calc(${col}px ${column > 1 ? `+ ${column - 1}em` : ''})`
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
 
         return {
             refer: {
                 props,
-                itemWidth,
+                widthState,
+                numberState,
             },
             render: () => {
                 return (<div class={classes.value} style={styles.value}>
