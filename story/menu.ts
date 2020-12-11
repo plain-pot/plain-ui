@@ -47,7 +47,7 @@ export const MENUS: MenuGroup[] = [
 
             {name: 'Cascade', title: '级联选择', page: '/normal/cascade', complete: true},
             {name: 'Time', title: '时间选择', page: '/normal/time', complete: true},
-            {name: 'Date', title: '日期选择', page: '/normal/date', complete: false},
+            {name: 'Date', title: '日期选择', page: '/normal/date', complete: true},
             {name: 'Upload', title: '文件上传', page: '/normal/upload', complete: false},
             {name: 'Img', title: '图片上传', page: '/normal/img', complete: false},
         ]
