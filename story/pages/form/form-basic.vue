@@ -5,12 +5,15 @@
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
-                <pl-form-item label="客户员工数量" field="type">
+                <FormItem label="客户员工数量" field="type">
                     <pl-number v-model="formData.type"/>
                     <template #suffix>
                         <pl-icon icon="el-icon-question" v-tooltip="'整数'"/>
                     </template>
-                </pl-form-item>
+                </FormItem>
+                <div>
+                    hello world
+                </div>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
                     <span>&nbsp;至&nbsp;</span>
@@ -48,8 +51,14 @@
 </template>
 
 <script>
+
+    import FormItem from '../../../src/packages/form/form-item'
+
     export default {
         name: "form-basic",
+        components: {
+            FormItem,
+        },
         data() {
             return {
                 formData: {},

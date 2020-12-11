@@ -18,6 +18,8 @@ export default designComponent({
         labelWidth: {type: [String, Number]},                               // 显示文本宽度
         column: {type: [String, Number]},                                   // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
+
+        seq: {type: Number},
     },
     emits: {},
     setup({props, event: {emit}}) {
@@ -38,7 +40,7 @@ export default designComponent({
             render: () => (
                 <div class="pl-form-item">
                     <div class="pl-form-item-label">
-                        {props.label}
+                        {props.label}-[{props.seq}]
                     </div>
                     <div class="pl-form-item-content">
                         {slots.default()}

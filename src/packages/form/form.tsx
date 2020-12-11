@@ -1,10 +1,10 @@
 import './form.scss'
+import {computed, reactive, resolveComponent} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {FormValidateMode} from "./form.utils";
 import {useNumber} from "../../use/useNumber";
-import {computed, reactive} from 'vue';
 import {useSlots} from "../../use/useSlots";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
@@ -46,7 +46,7 @@ const Form = designComponent({
     setup({props, event: {emit}}) {
 
         const {slots} = useSlots()
-
+        const FormItemComponent = resolveComponent('pl-form-item')
 
         /*---------------------------------------state-------------------------------------------*/
 
@@ -97,13 +97,28 @@ const Form = designComponent({
                 props,
                 itemWidth,
             },
-            render: () => (
-                <div class={classes.value} style={styles.value}>
+            render: () => {
+
+                let content = slots.default() as any[] | undefined
+                if (!!content) {
+                    let seq = 0
+                    content = content.reduce((prev, item) => {
+                        console.log(!!item.props ? item.props.label : 'no props', item.type, item.type == FormItemComponent)
+                        if (!!item.type && item.type.name === 'pl-form-item') {
+                            prev.push(<item seq={seq++}/>)
+                        } else {
+                            prev.push(item)
+                        }
+                        return prev
+                    }, [])
+                }
+
+                return (<div class={classes.value} style={styles.value}>
                     <div class="pl-form-body" style={bodyStyles.value}>
-                        {slots.default()}
+                        {content}
                     </div>
-                </div>
-            )
+                </div>)
+            }
         }
     },
 })
