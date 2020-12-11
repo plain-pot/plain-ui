@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, reactive, resolveComponent} from 'vue'
+import {computed, reactive} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -46,7 +46,6 @@ const Form = designComponent({
     setup({props, event: {emit}}) {
 
         const {slots} = useSlots()
-        const FormItemComponent = resolveComponent('pl-form-item')
 
         /*---------------------------------------state-------------------------------------------*/
 
