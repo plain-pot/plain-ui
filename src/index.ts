@@ -47,6 +47,7 @@ import Select from './packages/select'
 import DateTimeInput from './packages/date-time-input'
 import Time from './packages/time'
 import Date from './packages/date'
+import Form from './packages/form'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -61,6 +62,7 @@ const plugins: ComponentPlugin[] = [
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
+    Form,
 
     MessageService, DialogService, NoticeService, LoadingService,
 ]
@@ -76,6 +78,7 @@ export {
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
+    Form,
 
     MessageService, DialogService, NoticeService, LoadingService,
 }
