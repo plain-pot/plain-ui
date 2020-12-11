@@ -1,15 +1,116 @@
 import './form.scss'
 import {designComponent} from "../../use/designComponent";
+import {StyleProps, useStyle} from "../../use/useStyle";
+import {EditProps, useEdit} from "../../use/useEdit";
+import {FormValidateMode} from "./form.utils";
+import {useNumber} from "../../use/useNumber";
+import {computed, reactive} from 'vue';
+import {useSlots} from "../../use/useSlots";
+import {useStyles} from "../../use/useStyles";
+import {unit} from "plain-utils/string/unit";
+import {useCollect} from "../../use/useCollect";
+import FormItem from './form-item'
 
-export default designComponent({
+const Form = designComponent({
     name: 'pl-form',
-    setup() {
-        return {
-            render: () => (
-                <div class="pl-form">
+    props: {
+        ...EditProps,
+        ...StyleProps,
+        disabledFields: {type: Object},                                     // 禁用的字段
+        readonlyFields: {type: Object},                                     // 只读的字段
 
+        modelValue: {type: Object},                                         // model绑定表单对象
+        rules: {type: Object},                                              // 表单验证规则
+        validateResult: {type: Object},                                     // 校验结果信息
+        validateMode: {type: String, default: FormValidateMode.form},       // 校验模式
+        associateFields: {type: Object},                                    // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
+
+        hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
+        hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
+        validateOnRulesChange: {type: Boolean, default: null},              // 是否当rules属性改变之后立即触发一次验证
+
+        column: {type: [String, Number], default: 1},                       // 多列表单的列数
+        labelWidth: {type: [String, Number]},                               // formItem 文本宽度
+        contentWidth: {type: [String, Number]},                             // formItem 内容宽度
+
+        labelAlign: {type: Boolean},                                        // 文本对其方式
+        width: {type: [String, Number], default: '100%'},                   // 表单宽度
+        centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
+    },
+    emits: {
+        /*校验结果变化绑定事件*/
+        updateValidateResult: () => true,
+        /*字段值变化事件*/
+        fieldValueChange: (field: string, newVal: any, oldVal: any) => true,
+    },
+    setup({props, event: {emit}}) {
+
+        const {slots} = useSlots()
+
+
+        /*---------------------------------------state-------------------------------------------*/
+
+        const items = FormCollector.parent()
+
+        const {styleComputed} = useStyle()
+        const {editComputed} = useEdit({adjust: data => {data.loading = false}})
+        const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width'])
+        const state = reactive({
+            maxLabelWidth: null as null | number,                                   // form item 最大文本宽度
+        })
+
+        /*---------------------------------------compute-------------------------------------------*/
+
+        const itemWidth = computed(() => {
+            const label = numberState.labelWidth || state.maxLabelWidth
+            const content = numberState.contentWidth || 400
+            return {
+                label,
+                content,
+                total: !!label && !!content ? (label + content) : null,
+            }
+        })
+
+        const classes = computed(() => [
+            'pl-form',
+            `pl-form-label-align-${props.labelAlign}`,
+            `pl-form-column-${numberState.column}`,
+            `pl-form-size-${styleComputed.value.size}`
+        ])
+
+        const styles = useStyles((style) => {
+            style.width = unit(props.width)
+        })
+
+        const bodyStyles = useStyles(style => {
+            if (itemWidth.value.total) {
+                return
+            }
+            const {total, label} = itemWidth.value
+            const {column} = numberState
+            style.width = `calc(${total}px ${column > 1 ? `+ ${column - 1}em` : ''})`
+            style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
+        })
+
+        return {
+            refer: {
+                props,
+                itemWidth,
+            },
+            render: () => (
+                <div class={classes.value} style={styles.value}>
+                    <div class="pl-form-body" style={bodyStyles.value}>
+                        {slots.default()}
+                    </div>
                 </div>
             )
         }
     },
 })
+
+export default Form
+
+export const FormCollector = useCollect(() => ({
+    parent: Form,
+    child: FormItem,
+}))
