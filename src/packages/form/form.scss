@@ -1,0 +1,135 @@
+@include theme {
+  .pl-form {
+    @include public-style;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+
+    .pl-form-body {
+      position: relative;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .pl-form-item {
+      display: inline-block;
+      padding-bottom: 24px;
+      text-align: left;
+      position: relative;
+
+      & > * {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .pl-form-item-label {
+        text-align: right;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-left: 32px;
+        box-sizing: border-box;
+
+        span {
+          position: relative;
+        }
+      }
+
+      .pl-form-item-suffix {
+        padding-left: 10px;
+        padding-top: 5px;
+        box-sizing: border-box;
+      }
+
+      .pl-form-item-body {
+        display: inline-flex;
+
+        .pl-form-item-content {
+          flex: 1;
+          display: inline-flex;
+          align-items: center;
+          min-height: 28px;
+          position: relative;
+
+          .pl-input, .pl-textarea, .pl-checkbox-group, .pl-radio-group {
+            flex: 1;
+
+            .pl-input-inner, .pl-textarea-inner {
+              width: 100% !important;
+            }
+          }
+
+          & > .pl-button + .pl-button {
+            margin-left: 10px;
+          }
+
+          .pl-radio, .pl-checkbox {
+            padding-top: 5px;
+          }
+
+          .pl-form-item-message {
+            position: absolute;
+            top: calc(100% + 3px);
+            left: 0;
+            font-size: 12px;
+            color: $colorError;
+            white-space: nowrap;
+            overflow: visible;
+          }
+        }
+      }
+
+      &.pl-form-item-required {
+        .pl-form-item-label {
+          span {
+            &:before {
+              position: absolute;
+              content: '*';
+              color: $colorError;
+              left: -1em;
+              top: 2px;
+            }
+          }
+        }
+      }
+
+      &.pl-form-item-size-mini {
+        font-size: 12px;
+      }
+
+      &.pl-form-item-size-normal {
+        font-size: 14px;
+      }
+
+      &.pl-form-item-size-large {
+        font-size: 16px;
+      }
+    }
+
+    &.pl-form-label-align-left {
+      .pl-form-item-label {
+        text-align: left;
+      }
+    }
+
+    &.pl-form-label-align-center {
+      .pl-form-item-label {
+        text-align: center;
+      }
+    }
+
+    &.pl-form-label-align-right {
+      .pl-form-item-label {
+        text-align: right;
+      }
+    }
+
+    &.pl-form-column-1 {
+      .pl-form-item {
+        .pl-form-item-label {
+          padding-left: 1em;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+}
