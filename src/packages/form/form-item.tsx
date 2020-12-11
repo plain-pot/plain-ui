@@ -37,7 +37,12 @@ export default designComponent({
         return {
             render: () => (
                 <div class="pl-form-item">
-
+                    <div class="pl-form-item-label">
+                        {props.label}
+                    </div>
+                    <div class="pl-form-item-content">
+                        {slots.default()}
+                    </div>
                 </div>
             )
         }

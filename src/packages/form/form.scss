@@ -1,5 +1,7 @@
 @include theme {
   .pl-form {
-
+    .pl-form-item {
+      display: inline-flex;
+    }
   }
 }
