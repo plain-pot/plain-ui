@@ -93,7 +93,6 @@ const Form = designComponent({
 
         const classes = computed(() => [
             'pl-form',
-            `pl-form-label-align-${props.labelAlign}`,
             `pl-form-column-${numberState.column}`,
             `pl-form-size-${styleComputed.value.size}`
         ])
@@ -106,7 +105,7 @@ const Form = designComponent({
             const {label, col} = width.value
             if (!label) {return}
             const {column} = numberState
-            style.width = `calc(${col}px ${column > 1 ? `+ ${column - 1}em` : ''})`
+            style.width = `calc(${col! * column}px ${column > 1 ? `+ ${column - 1}em` : ''})`
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
 
