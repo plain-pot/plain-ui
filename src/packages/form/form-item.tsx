@@ -36,15 +36,20 @@ export default designComponent({
 
         const {numberState} = useNumber(props, ['labelWidth', 'column'])
         const state = reactive({
+            /*当前 form item的label宽度*/
             labelWidth: 0,
         })
 
         /*---------------------------------------computed-------------------------------------------*/
 
+        /*是否显示冒号*/
         const colon = computed(() => props.colon == null ? form.props.colon : props.colon)
-
+        /*label的目标宽度*/
         const labelWidth = computed(() => numberState.labelWidth || form.numberState.labelWidth)
+        /*是否设置了label宽度*/
         const staticWidth = computed(() => !!labelWidth.value)
+        /*是否存在label节点*/
+        const hasLabel = computed(() => !!props.label || slots.label.isExist())
 
         const classes = useClass(() => [
             'pl-form-item',
@@ -60,6 +65,9 @@ export default designComponent({
             if (!!col) {
                 style.width = unit(col * numberState.column)
             }
+            if (form.numberState.column > 1) {
+                style.marginRight = unit(form.numberState.columnGutter * numberState.column)
+            }
         })
 
         const labelStyles = useStyles(style => {
@@ -69,9 +77,13 @@ export default designComponent({
         })
 
         const bodyStyles = useStyles(style => {
-            const {label, col} = form.childState.width
-            if (!!label) {
-                style.width = unit(col! * numberState.column - label)
+            if (!hasLabel.value) {
+                style.width = '100%'
+            } else {
+                const {label, col} = form.childState.width
+                if (!!label) {
+                    style.width = unit(col! * numberState.column - label)
+                }
             }
         })
 
@@ -82,7 +94,7 @@ export default designComponent({
          * @author  韦胜健
          * @date    2020/12/11 21:32
          */
-        if (!staticWidth.value) {
+        if (!staticWidth.value && hasLabel.value) {
             onMounted(() => {
                 state.labelWidth = refs.label.scrollWidth
             })

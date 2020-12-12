@@ -38,6 +38,7 @@ const Form = designComponent({
         width: {type: [String, Number], default: '100%'},                   // 表单宽度
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         colon: {type: Boolean, default: true},                              // label的冒号
+        columnGutter: {type: [Number, String], default: 16},                // 列之间的间距
     },
     emits: {
         /*校验结果变化绑定事件*/
@@ -55,7 +56,7 @@ const Form = designComponent({
 
         const {styleComputed} = useStyle()
         const {editComputed} = useEdit({adjust: data => {data.loading = false}})
-        const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width'])
+        const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width', 'columnGutter'])
         const state = reactive({})
 
         /*---------------------------------------compute-------------------------------------------*/
@@ -105,7 +106,7 @@ const Form = designComponent({
             const {label, col} = width.value
             if (!label) {return}
             const {column} = numberState
-            style.width = `calc(${col! * column}px ${column > 1 ? `+ ${column - 1}em` : ''})`
+            style.width = `calc(${col! * column}px ${column > 1 ? `+ ${numberState.columnGutter * column}px` : ''})`
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
 

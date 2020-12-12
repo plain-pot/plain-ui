@@ -38,7 +38,7 @@
                 <pl-form-item label="备注" field="comments">
                     <pl-input textarea v-model="formData.comments"/>
                 </pl-form-item>
-                <pl-form-item label=" ">
+                <pl-form-item contentAlign="center">
                     <pl-button mode="stroke" label="取消"/>
                     <pl-button label="保存"/>
                 </pl-form-item>
@@ -163,7 +163,7 @@
                 <pl-form-item label="备注" field="comments" column="2">
                     <pl-input textarea v-model="formData.comments"/>
                 </pl-form-item>
-                <pl-form-item>
+                <pl-form-item label="">
                     <pl-button mode="stroke" label="取消"/>
                     <pl-button label="保存"/>
                 </pl-form-item>

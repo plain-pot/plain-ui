@@ -2,6 +2,7 @@
   .pl-form {
     display: flex;
     justify-content: center;
+    overflow-x: auto;
 
     & > .pl-form-body {
       position: relative;
@@ -16,7 +17,6 @@
       .pl-form-item-label {
         line-height: normal;
         align-items: flex-start;
-        padding-left: 8px;
         padding-right: 8px;
       }
 
