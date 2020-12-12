@@ -46,6 +46,25 @@
           text-overflow: ellipsis;
         }
       }
+
+      &.pl-form-item-label-align-left {
+        .pl-form-item-label {
+          text-align: left
+        }
+      }
+
+      &.pl-form-item-label-align-right {
+        .pl-form-item-label {
+          text-align: right
+        }
+      }
+
+      &.pl-form-item-label-align-center {
+        .pl-form-item-label {
+          text-align: center
+        }
+      }
+
     }
 
     @include sizeMixin(form) {

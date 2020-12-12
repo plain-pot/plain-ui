@@ -45,13 +45,14 @@ export default designComponent({
 
         const classes = useClass(() => [
             'pl-form-item',
+            `pl-form-item-label-align-${form.childState.labelAlign}`,
             {
                 'pl-form-item-static-width': staticWidth.value,
             }
         ])
 
         const styles = useStyles(style => {
-            const {col} = form.widthState.value
+            const {col} = form.childState.width
             if (!!col) {
                 style.width = unit(col * numberState.column)
             }
@@ -60,15 +61,10 @@ export default designComponent({
         const labelStyles = useStyles(style => {
             if (!!labelWidth.value) {
                 style.width = unit(labelWidth.value)
-                style.overflow = 'hidden'
-                style.textOverflow = 'ellipsis'
-                style.whiteSpace = 'nowrap'
             }
         })
 
-        const bodyStyles = useStyles(style => {
-            style.width = unit(form.widthState.value.content)
-        })
+        const bodyStyles = useStyles(style => {style.width = unit(form.childState.width.content)})
 
         /*---------------------------------------hook-------------------------------------------*/
 
@@ -89,9 +85,11 @@ export default designComponent({
             },
             render: () => (
                 <div class={classes.value} style={styles.value}>
-                    <div class="pl-form-item-label" style={labelStyles.value} ref="label">
-                        {props.label}{!!colon.value && ' : '}
-                    </div>
+                    {(!!props.label || slots.label.isExist()) && (
+                        <div class="pl-form-item-label" style={labelStyles.value} ref="label">
+                            {slots.label(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ' : '}
+                        </div>
+                    )}
                     <div class="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}
                     </div>

@@ -1,9 +1,9 @@
 import './form.scss'
-import {computed, reactive, ComputedRef} from 'vue'
+import {computed, reactive, ComputedRef, PropType} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {FormValidateMode} from "./form.utils";
+import {FormLabelAlign, FormValidateMode} from "./form.utils";
 import {useNumber} from "../../use/useNumber";
 import {useSlots} from "../../use/useSlots";
 import {useStyles} from "../../use/useStyles";
@@ -33,7 +33,7 @@ const Form = designComponent({
         labelWidth: {type: [String, Number]},                               // formItem 文本宽度
         contentWidth: {type: [String, Number]},                             // formItem 内容宽度
 
-        labelAlign: {type: Boolean},                                        // 文本对其方式
+        labelAlign: {type: String as PropType<FormLabelAlign>},             // 文本对其方式
         width: {type: [String, Number], default: '100%'},                   // 表单宽度
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         colon: {type: Boolean, default: true},                              // label的冒号
@@ -61,7 +61,12 @@ const Form = designComponent({
 
         const maxLabelWidth = computed(() => items.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as ComputedRef<number>
 
-        const widthState = computed(() => {
+        const labelAlign = computed(() => {
+            if (!!props.labelWidth) return props.labelWidth
+            return numberState.column === 1 ? FormLabelAlign.right : FormLabelAlign.left
+        })
+
+        const width = computed(() => {
             /*
             *  如果没有设置contentWidth
             *  如果是单列，默认contentWidth是400
@@ -95,17 +100,22 @@ const Form = designComponent({
         })
 
         const bodyStyles = useStyles(style => {
-            const {label, col} = widthState.value
+            const {label, col} = width.value
             if (!label) {return}
             const {column} = numberState
             style.width = `calc(${col}px ${column > 1 ? `+ ${column - 1}em` : ''})`
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
 
+        const childState = reactive({
+            labelAlign,
+            width,
+        })
+
         return {
             refer: {
                 props,
-                widthState,
+                childState,
                 numberState,
             },
             render: () => {
