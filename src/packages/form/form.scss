@@ -5,6 +5,7 @@
 
     & > .pl-form-body {
       position: relative;
+      justify-content: space-evenly;
     }
 
     .pl-form-item {
@@ -26,15 +27,6 @@
         & > * {
           flex-shrink: 0;
         }
-
-        & > .pl-input, & > .pl-textarea {
-          flex: 1;
-          flex-shrink: 0;
-
-          .pl-input-inner, .pl-textarea-inner {
-            width: 100%;
-          }
-        }
       }
 
       &:not(.pl-form-item-static-width) {
@@ -47,24 +39,20 @@
         }
       }
 
-      &.pl-form-item-label-align-left {
-        .pl-form-item-label {
-          text-align: left
+      @each $align in (left, center, right) {
+        &.pl-form-item-label-align-#{$align} {
+          .pl-form-item-label {
+            text-align: $align
+          }
         }
       }
-
-      &.pl-form-item-label-align-right {
-        .pl-form-item-label {
-          text-align: right
+      @each $content in (flex-start, center, flex-end, space-between, space-around, space-evenly) {
+        &.pl-form-item-content-align-#{$content} {
+          .pl-form-item-body {
+            justify-content: $content;
+          }
         }
       }
-
-      &.pl-form-item-label-align-center {
-        .pl-form-item-label {
-          text-align: center
-        }
-      }
-
     }
 
     @include sizeMixin(form) {
@@ -105,6 +93,29 @@
         }
       }
 
+    }
+  }
+
+  .pl-form {
+    .pl-form-item-body {
+      & > .pl-input, & > .pl-textarea {
+        flex: 1;
+        flex-shrink: 0;
+
+        .pl-input-inner, .pl-textarea-inner {
+          width: 100%;
+        }
+      }
+
+      & > .pl-button + .pl-button {
+        margin-left: 8px;
+      }
+
+      & > .pl-button-group {
+        & > .pl-button + .pl-button {
+          margin-left: 0;
+        }
+      }
     }
   }
 }

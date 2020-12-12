@@ -2,6 +2,28 @@
     <div class="demo-form-basic">
         <demo-row title="基本用法">
             <pl-form>
+                <pl-form-item label="文本对齐方式" contentAlign="space-between">
+                    <pl-radio-group v-model="config.labelAlign">
+                        <pl-radio label="左对齐" val="left"/>
+                        <pl-radio label="居中对齐" val="center"/>
+                        <pl-radio label="右对齐" val="right"/>
+                    </pl-radio-group>
+                </pl-form-item>
+                <pl-form-item label="内容对齐方式">
+                    <pl-radio-group v-model="config.contentAlign" itemWidth="50%">
+                        <pl-radio label="flex-start" val="flex-start"/>
+                        <pl-radio label="flex-end" val="flex-end"/>
+                        <pl-radio label="center" val="center"/>
+                        <pl-radio label="space-between" val="space-between"/>
+                        <pl-radio label="space-around" val="space-around"/>
+                        <pl-radio label="space-evenly" val="space-evenly"/>
+                    </pl-radio-group>
+                </pl-form-item>
+            </pl-form>
+
+            <pl-form :labelAlign="config.labelAlign" :contentAlign="config.contentAlign">
+                <div style="border-top: solid 1px #ddd;margin: 20px 0;"></div>
+
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
@@ -59,6 +81,7 @@
         data() {
             return {
                 formData: {},
+                config: {},
                 levelData: [
                     {levelName: '一级', code: '1'},
                     {levelName: '二级', code: '2'},

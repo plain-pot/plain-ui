@@ -7,8 +7,9 @@ import {useNumber} from "../../use/useNumber";
 import {FormCollector} from "./form";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
-import {reactive, onMounted, computed} from 'vue';
+import {reactive, onMounted, computed, PropType} from 'vue';
 import {useClass} from "../../use/useClasses";
+import {FormContentAlign, FormLabelAlign} from "./form.utils";
 
 export default designComponent({
     name: 'pl-form-item',
@@ -21,6 +22,8 @@ export default designComponent({
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
         colon: {type: Boolean, default: null},                              // label的冒号
+        labelAlign: {type: String as PropType<FormLabelAlign>},             // label 对齐方式
+        contentAlign: {type: String as PropType<FormContentAlign>},         // content 对齐方式
     },
     emits: {},
     setup({props, event: {emit}}) {
@@ -45,7 +48,8 @@ export default designComponent({
 
         const classes = useClass(() => [
             'pl-form-item',
-            `pl-form-item-label-align-${form.childState.labelAlign}`,
+            `pl-form-item-label-align-${props.labelAlign || form.childState.align.label}`,
+            `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
                 'pl-form-item-static-width': staticWidth.value,
             }

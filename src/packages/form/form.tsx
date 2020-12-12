@@ -3,7 +3,7 @@ import {computed, reactive, ComputedRef, PropType} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {FormLabelAlign, FormValidateMode} from "./form.utils";
+import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {useNumber} from "../../use/useNumber";
 import {useSlots} from "../../use/useSlots";
 import {useStyles} from "../../use/useStyles";
@@ -34,6 +34,7 @@ const Form = designComponent({
         contentWidth: {type: [String, Number]},                             // formItem 内容宽度
 
         labelAlign: {type: String as PropType<FormLabelAlign>},             // 文本对其方式
+        contentAlign: {type: String as PropType<FormContentAlign>, default: FormLabelAlign.left},// content 对齐方式
         width: {type: [String, Number], default: '100%'},                   // 表单宽度
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         colon: {type: Boolean, default: true},                              // label的冒号
@@ -61,9 +62,11 @@ const Form = designComponent({
 
         const maxLabelWidth = computed(() => items.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as ComputedRef<number>
 
-        const labelAlign = computed(() => {
-            if (!!props.labelWidth) return props.labelWidth
-            return numberState.column === 1 ? FormLabelAlign.right : FormLabelAlign.left
+        const align = computed(() => {
+            return {
+                label: props.labelAlign || (numberState.column === 1 ? FormLabelAlign.right : FormLabelAlign.left),
+                content: props.contentAlign,
+            }
         })
 
         const width = computed(() => {
@@ -108,7 +111,7 @@ const Form = designComponent({
         })
 
         const childState = reactive({
-            labelAlign,
+            align,
             width,
         })
 
