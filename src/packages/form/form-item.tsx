@@ -20,6 +20,7 @@ export default designComponent({
         labelWidth: {type: [String, Number]},                               // 显示文本宽度
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
+        colon: {type: Boolean, default: null},                              // label的冒号
     },
     emits: {},
     setup({props, event: {emit}}) {
@@ -36,6 +37,8 @@ export default designComponent({
         })
 
         /*---------------------------------------computed-------------------------------------------*/
+
+        const colon = computed(() => props.colon == null ? form.props.colon : props.colon)
 
         const labelWidth = computed(() => numberState.labelWidth || form.numberState.labelWidth)
         const staticWidth = computed(() => !!labelWidth.value)
@@ -87,7 +90,7 @@ export default designComponent({
             render: () => (
                 <div class={classes.value} style={styles.value}>
                     <div class="pl-form-item-label" style={labelStyles.value} ref="label">
-                        {props.label}
+                        {props.label}{!!colon.value && ' : '}
                     </div>
                     <div class="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}

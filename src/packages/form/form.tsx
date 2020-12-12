@@ -36,6 +36,7 @@ const Form = designComponent({
         labelAlign: {type: Boolean},                                        // 文本对其方式
         width: {type: [String, Number], default: '100%'},                   // 表单宽度
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
+        colon: {type: Boolean, default: true},                              // label的冒号
     },
     emits: {
         /*校验结果变化绑定事件*/
