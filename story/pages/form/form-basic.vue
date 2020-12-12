@@ -11,9 +11,6 @@
                         <pl-icon icon="el-icon-question" v-tooltip="'整数'"/>
                     </template>
                 </FormItem>
-                <div>
-                    hello world
-                </div>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-input v-model="formData.joinTime"/>
                     <span>&nbsp;至&nbsp;</span>

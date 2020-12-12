@@ -1,12 +1,40 @@
 @include theme {
   .pl-form {
+    display: flex;
+    justify-content: center;
+
+    & > .pl-form-body {
+      position: relative;
+    }
+
     .pl-form-item {
       display: inline-flex;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
 
       .pl-form-item-label {
         line-height: normal;
         align-items: flex-start;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .pl-form-item-body {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        & > * {
+          flex-shrink: 0;
+        }
+
+        & > .pl-input, & > .pl-textarea {
+          flex: 1;
+          flex-shrink: 0;
+
+          .pl-input-inner, .pl-textarea-inner {
+            width: 100%;
+          }
+        }
       }
 
       &:not(.pl-form-item-static-width) {
@@ -20,20 +48,43 @@
       }
     }
 
-    &.pl-form-size-large {
-
-    }
-
-    &.pl-form-size-normal {
+    @include sizeMixin(form) {
       .pl-form-item {
         .pl-form-item-label {
           font-size: 14px;
-          padding: 6px 0;
+          line-height: $value;
+        }
+
+        .pl-form-item-body {
+          & > .pl-radio, & > .pl-checkbox {
+            &:first-child {
+              line-height: $value;
+            }
+          }
         }
       }
-    }
 
-    &.pl-form-size-large {
+      &.pl-form-size-large {
+        .pl-form-item {
+          .pl-form-item-label {
+            font-size: 16px;
+          }
+        }
+      }
+      &.pl-form-size-normal {
+        .pl-form-item {
+          .pl-form-item-label {
+            font-size: 14px;
+          }
+        }
+      }
+      &.pl-form-size-mini {
+        .pl-form-item {
+          .pl-form-item-label {
+            font-size: 12px;
+          }
+        }
+      }
 
     }
   }
