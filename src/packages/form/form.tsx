@@ -10,7 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules} from "./form.validate";
+import {formatFormRules, FormComponentRules} from "./form.validate";
 
 const Form = designComponent({
     name: 'pl-form',
@@ -21,7 +21,7 @@ const Form = designComponent({
         readonlyFields: {type: Object},                                     // 只读的字段
 
         modelValue: {type: Object},                                         // model绑定表单对象
-        rules: {type: Object},                                              // 表单验证规则
+        rules: {type: Object as PropType<FormComponentRules>},              // 表单验证规则
         validateResult: {type: Object},                                     // 校验结果信息
         validateMode: {type: String, default: FormValidateMode.form},       // 校验模式
         associateFields: {type: Object},                                    // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段

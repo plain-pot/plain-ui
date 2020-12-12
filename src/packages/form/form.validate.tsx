@@ -44,9 +44,7 @@ export interface FormRule {
  * @author  韦胜健
  * @date    2020/12/12 15:59
  */
-export interface FormComponentRules {
-    [field: string]: FormRule
-}
+export type FormComponentRules = FormRule[] | ({ [field: string]: FormRule })
 
 /**
  * pl-form-item 组件rules属性对象类型
