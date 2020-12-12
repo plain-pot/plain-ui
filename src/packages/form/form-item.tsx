@@ -26,6 +26,7 @@ export default designComponent({
         contentAlign: {type: String as PropType<FormContentAlign>},         // content 对齐方式
     },
     emits: {},
+    provideRefer: true,
     setup({props, event: {emit}}) {
 
         const form = FormCollector.child()

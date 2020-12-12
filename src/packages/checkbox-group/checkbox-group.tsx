@@ -7,7 +7,7 @@ import {useModel} from "../../use/useModel";
 import {useCollect} from "../../use/useCollect";
 import Checkbox from '../checkbox/checkbox'
 import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
-import {computed} from 'vue';
+import {computed, inject} from 'vue';
 
 const CheckboxGroup = designComponent({
     name: 'pl-checkbox-group',
@@ -25,6 +25,8 @@ const CheckboxGroup = designComponent({
         updateModelValue: (val: (string | number)[] | undefined) => true,
     },
     setup({props, event: {emit}}) {
+
+        const formItem = inject('@@pl-form-item', null)
 
         /*插槽*/
         const {slots} = useSlots()
@@ -185,7 +187,11 @@ const CheckboxGroup = designComponent({
                 handler,
                 propsState,
             },
-            render: () => slots.default()
+            render: () => !formItem ? slots.default() : (
+                <div class="pl-checkbox-group">
+                    {slots.default()}
+                </div>
+            )
         }
     },
 })

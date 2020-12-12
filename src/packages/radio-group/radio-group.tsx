@@ -5,6 +5,7 @@ import {useSlots} from "../../use/useSlots";
 import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
 import {useModel} from "../../use/useModel";
 import {useProps} from "../../use/useProps";
+import {inject} from 'vue';
 
 export default designComponent({
     name: 'pl-radio-group',
@@ -20,6 +21,9 @@ export default designComponent({
     },
     provideRefer: true,
     setup({props, event: {emit}}) {
+
+        const formItem = inject('@@pl-form-item', null)
+
         const {slots} = useSlots()
         useEdit()
         useStyle({status: DEFAULT_STATUS})
@@ -44,7 +48,11 @@ export default designComponent({
                 handler,
                 utils,
             },
-            render: () => slots.default()
+            render: () => !formItem ? slots.default() : (
+                <div class="pl-radio-group">
+                    {slots.default()}
+                </div>
+            )
         }
     },
 })

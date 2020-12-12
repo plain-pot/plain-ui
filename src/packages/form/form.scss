@@ -120,6 +120,18 @@
           margin-left: 0;
         }
       }
+
+      & > .pl-checkbox-group, & > .pl-radio-group {
+        display: flex;
+        align-items: center;
+        flex-wrap: inherit;
+        justify-content: inherit;
+        padding-top: 4px;
+
+        & > * {
+          flex-shrink: 0;
+        }
+      }
     }
   }
 }
