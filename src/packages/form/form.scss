@@ -62,38 +62,31 @@
           font-size: 14px;
           line-height: $value;
         }
+      }
+    }
 
-        .pl-form-item-body {
-          & > .pl-radio, & > .pl-checkbox {
-            &:first-child {
-              line-height: $value;
-            }
-          }
+    &.pl-form-size-large {
+      .pl-form-item {
+        .pl-form-item-label {
+          font-size: 16px;
         }
       }
+    }
 
-      &.pl-form-size-large {
-        .pl-form-item {
-          .pl-form-item-label {
-            font-size: 16px;
-          }
+    &.pl-form-size-normal {
+      .pl-form-item {
+        .pl-form-item-label {
+          font-size: 14px;
         }
       }
-      &.pl-form-size-normal {
-        .pl-form-item {
-          .pl-form-item-label {
-            font-size: 14px;
-          }
-        }
-      }
-      &.pl-form-size-mini {
-        .pl-form-item {
-          .pl-form-item-label {
-            font-size: 12px;
-          }
-        }
-      }
+    }
 
+    &.pl-form-size-mini {
+      .pl-form-item {
+        .pl-form-item-label {
+          font-size: 12px;
+        }
+      }
     }
   }
 
