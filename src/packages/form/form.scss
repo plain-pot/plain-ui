@@ -7,6 +7,7 @@
     & > .pl-form-body {
       position: relative;
       justify-content: space-evenly;
+      color: $itc;
     }
 
     .pl-form-item {
@@ -91,6 +92,8 @@
 
   .pl-form {
     .pl-form-item-body {
+
+      /*input*/
       & > .pl-input, & > .pl-textarea {
         flex: 1;
         flex-shrink: 0;
@@ -110,6 +113,7 @@
         }
       }
 
+      /*button*/
       & > .pl-button + .pl-button {
         margin-left: 8px;
       }
@@ -120,15 +124,39 @@
         }
       }
 
+      /*checkbox and radio*/
       & > .pl-checkbox-group, & > .pl-radio-group {
         display: flex;
         align-items: center;
         flex-wrap: inherit;
         justify-content: inherit;
-        padding-top: 4px;
 
         & > * {
           flex-shrink: 0;
+        }
+      }
+    }
+
+    &.pl-form-size-large {
+      .pl-form-item-body {
+        & > .pl-checkbox-group, & > .pl-radio-group {
+          padding-top: 8px;
+        }
+      }
+    }
+
+    &.pl-form-size-normal {
+      .pl-form-item-body {
+        & > .pl-checkbox-group, & > .pl-radio-group {
+          padding-top: 4px;
+        }
+      }
+    }
+
+    &.pl-form-size-mini {
+      .pl-form-item-body {
+        & > .pl-checkbox-group, & > .pl-radio-group {
+          padding-top: 4px;
         }
       }
     }
