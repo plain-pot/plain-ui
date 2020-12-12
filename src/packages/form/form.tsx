@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, reactive, ComputedRef, PropType} from 'vue'
+import {computed, reactive, ComputedRef, PropType, onMounted} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -10,6 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
+import {formatFormRules} from "./form.validate";
 
 const Form = designComponent({
     name: 'pl-form',
@@ -118,6 +119,16 @@ const Form = designComponent({
         const childState = reactive({
             align,
             width,
+        })
+
+        /*---------------------------------------validate-------------------------------------------*/
+
+        const formatRules = computed(() => {
+            formatFormRules(props.rules, items)
+        })
+
+        onMounted(() => {
+            console.log(formatRules.value)
         })
 
         return {

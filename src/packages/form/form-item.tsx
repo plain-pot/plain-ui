@@ -10,12 +10,17 @@ import {unit} from "plain-utils/string/unit";
 import {reactive, onMounted, computed, PropType} from 'vue';
 import {useClass} from "../../use/useClasses";
 import {FormContentAlign, FormLabelAlign} from "./form.utils";
+import {FormComponentItemRules, FormRule} from "./form.validate";
 
 export default designComponent({
     name: 'pl-form-item',
     props: {
         ...EditProps,
         ...StyleProps,
+
+        field: {type: [String, Array] as PropType<string | string[]>},      // 绑定的属性字段名
+        rules: {type: [Array, Object] as PropType<FormRule | FormRule[]>},  // 校验规则
+        required: {type: Boolean},                                          // 不能为空
 
         label: {type: String, default: ' '},                                // 显示文本
         labelWidth: {type: [String, Number]},                               // 显示文本宽度
@@ -104,9 +109,19 @@ export default designComponent({
             })
         }
 
+        /*---------------------------------------validate-------------------------------------------*/
+
+        const formItemComponentRules = computed((): FormComponentItemRules => ({
+            label: props.label,
+            field: props.field,
+            required: props.required,
+            rules: props.rules,
+        }))
+
         return {
             refer: {
                 state,
+                formItemComponentRules,
             },
             render: () => (
                 <div class={classes.value} style={styles.value}>
