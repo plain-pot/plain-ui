@@ -60,6 +60,7 @@ export default designComponent({
             }
         ])
 
+        /*form-item的宽度，与下一个form-item的gutter*/
         const styles = useStyles(style => {
             const {col} = form.childState.width
             if (!!col) {
@@ -70,12 +71,14 @@ export default designComponent({
             }
         })
 
+        /*label节点宽度，如果有设置labelWidth的话*/
         const labelStyles = useStyles(style => {
             if (!!labelWidth.value) {
                 style.width = unit(labelWidth.value)
             }
         })
 
+        /*如果没有label的话，body应该占用百分百宽度，否则宽度为占用列数x列宽 - label宽度*/
         const bodyStyles = useStyles(style => {
             if (!hasLabel.value) {
                 style.width = '100%'

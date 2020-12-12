@@ -52,17 +52,19 @@ const Form = designComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
+        /*收集的子组件*/
         const items = FormCollector.parent()
 
         const {styleComputed} = useStyle()
         const {editComputed} = useEdit({adjust: data => {data.loading = false}})
         const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width', 'columnGutter'])
-        const state = reactive({})
 
         /*---------------------------------------compute-------------------------------------------*/
 
+        /*form-item中最大的label节点宽度*/
         const maxLabelWidth = computed(() => items.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as ComputedRef<number>
 
+        /*form-item所需要的对齐方式信息*/
         const align = computed(() => {
             return {
                 label: props.labelAlign || (numberState.column === 1 ? FormLabelAlign.right : FormLabelAlign.left),
@@ -70,6 +72,7 @@ const Form = designComponent({
             }
         })
 
+        /*form-item所需要的宽度信息*/
         const width = computed(() => {
             /*
             *  如果没有设置contentWidth
@@ -98,10 +101,12 @@ const Form = designComponent({
             `pl-form-size-${styleComputed.value.size}`
         ])
 
+        /*设置form宽度*/
         const styles = useStyles((style) => {
             style.width = unit(props.width)
         })
 
+        /*body节点宽度。如果是单列，则左偏移 label/2 个像素，确保content在屏幕中间*/
         const bodyStyles = useStyles(style => {
             const {label, col} = width.value
             if (!label) {return}
