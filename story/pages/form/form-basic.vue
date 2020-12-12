@@ -34,9 +34,9 @@
                     </template>
                 </FormItem>
                 <pl-form-item label="客户加入时间" field="joinTime">
-                    <pl-input v-model="formData.joinTime"/>
+                    <pl-date v-model="formData.joinTime"/>
                     <span>&nbsp;至&nbsp;</span>
-                    <pl-input v-model="formData.name"/>
+                    <pl-date v-model="formData.name"/>
                 </pl-form-item>
                 <pl-form-item label="是否老客户" field="oldFlag">
                     <pl-radio-group v-model="formData.oldFlag" itemWidth="50%">

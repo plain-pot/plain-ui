@@ -105,6 +105,16 @@
         .pl-input-inner, .pl-textarea-inner {
           width: 100%;
         }
+
+        &.pl-input-custom {
+          .pl-input-inner {
+            width: 100% !important;
+
+            input {
+              width: 100% !important;
+            }
+          }
+        }
       }
 
       & > .pl-button + .pl-button {
