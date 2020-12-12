@@ -112,7 +112,7 @@ export default designComponent({
                 <div class={classes.value} style={styles.value}>
                     {(!!props.label || slots.label.isExist()) && (
                         <div class="pl-form-item-label" style={labelStyles.value} ref="label">
-                            {slots.label(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ' : '}
+                            {slots.label(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ':'}
                         </div>
                     )}
                     <div class="pl-form-item-body" style={bodyStyles.value}>
