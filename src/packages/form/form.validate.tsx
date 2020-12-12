@@ -3,12 +3,24 @@
  * @author  韦胜健
  * @date    2020/12/12 15:41
  */
+import {toArray} from "../../utils/toArray";
+
+/**
+ * 校验触发器类型
+ * @author  韦胜健
+ * @date    2020/12/12 22:02
+ */
 export enum FormValidateTrigger {
     change = 'change',
     blur = 'blur',
     all = 'all',
 }
 
+/**
+ * 校验的值类型
+ * @author  韦胜健
+ * @date    2020/12/12 22:02
+ */
 export enum FormValueType {
     string = 'string',
     number = 'number',
@@ -23,7 +35,7 @@ export enum FormValueType {
  */
 export interface FormRule {
 
-    field?: string                                                                          // 绑定的字段
+    field?: string | string[]                                                               // 绑定的字段
     label?: string                                                                          // form item 的文本
     options?: any | any[]                                                                   // 选项值校验
 
@@ -44,7 +56,7 @@ export interface FormRule {
  * @author  韦胜健
  * @date    2020/12/12 15:59
  */
-export type FormComponentRules = FormRule[] | ({ [field: string]: FormRule })
+export type FormComponentRules = FormRule[] | ({ [field: string]: FormRule | FormRule[] })
 
 /**
  * pl-form-item 组件rules属性对象类型
@@ -58,12 +70,63 @@ export interface FormComponentItemRules {
     rules?: FormRule | FormRule[]
 }
 
+function getListValue<T>(val: T | T[] | null | undefined): T[] | null {
+    if (!val) {
+        return null
+    }
+    return Array.isArray(val) ? val : [val]
+}
+
+/**
+ * 获取总的FormRules数组
+ * @author  韦胜健
+ * @date    2020/12/12 21:45
+ */
 export function formatFormRules(
     formComponentRules?: FormComponentRules,
     formItems?: { formItemComponentRules: { value: FormComponentItemRules } }[]
 ) {
+
+    /*field 转化为 label的映射*/
+    let fieldToLabel = {} as Record<string, string>
+    /*返回值，总的校验规则数组*/
+    let resultRules: FormRule[] = []
+
+    if (!!formItems && formItems.length > 0) {
+        formItems.forEach(formItem => {
+            const {formItemComponentRules: {value: {label, field, required, rules}}} = formItem
+            const fields = getListValue(field)
+            if (!!fields) {
+                !!label && (fields.forEach(item => fieldToLabel[item] = label));
+                required && (resultRules.push({field, label, required: true,}))
+            } else {
+                if (required) {
+                    /*如果 form-item设置了required，但是没有设置field，这里给出警告！*/
+                    console.error("form-item's props.field is required when props.required is true!")
+                }
+            }
+            const formItemRules = getListValue(rules)
+            if (!!formItemRules && formItemRules.length > 0) {
+                formItemRules.forEach(r => {resultRules.push({...r, label: r.label || label, field: r.field || field,})})
+            }
+        })
+    }
+
+    if (!!formComponentRules) {
+        let formComponentRulesList: FormRule[] = []
+        if (Array.isArray(formComponentRules)) {
+            formComponentRulesList = formComponentRules
+        } else {
+            Object.keys(formComponentRules).forEach(f => {
+                const value = getListValue(formComponentRules[f])
+                !!value && value.forEach(r => formComponentRulesList.push({...r, field: r.field || f}))
+            })
+        }
+        resultRules.push(...formComponentRulesList)
+    }
+
     console.log({
-        formComponentRules,
-        formItems,
+        fieldToLabel,
+        resultRules,
     })
 }

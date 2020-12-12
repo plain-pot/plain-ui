@@ -128,7 +128,7 @@ const Form = designComponent({
         })
 
         onMounted(() => {
-            console.log(formatRules.value)
+            console.log('formatRules.value', formatRules.value)
         })
 
         return {
