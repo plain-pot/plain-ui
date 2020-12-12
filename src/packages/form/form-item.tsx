@@ -68,7 +68,12 @@ export default designComponent({
             }
         })
 
-        const bodyStyles = useStyles(style => {style.width = unit(form.childState.width.content)})
+        const bodyStyles = useStyles(style => {
+            const {label, col} = form.childState.width
+            if (!!label) {
+                style.width = unit(col! * numberState.column - label)
+            }
+        })
 
         /*---------------------------------------hook-------------------------------------------*/
 
