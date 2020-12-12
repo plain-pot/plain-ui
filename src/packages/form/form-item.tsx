@@ -79,7 +79,7 @@ export default designComponent({
          */
         if (!staticWidth.value) {
             onMounted(() => {
-                state.labelWidth = refs.label.offsetWidth
+                state.labelWidth = refs.label.scrollWidth
             })
         }
 
