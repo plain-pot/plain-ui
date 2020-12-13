@@ -412,16 +412,18 @@ export function formatFormRules(
             return (r.trigger || FormValidateTrigger.change) === trigger
         })
 
-        if (rules.length === 0) {
-            // 没有匹配的规则
-            formValidateResultMap[field] = undefined
-        } else {
+        if (rules.length > 0) {
             const validateResult = (await Promise.all(rules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel, field}))))
                 .filter(Boolean) as FormValidateResult[];
             formValidateResultMap[field] = validateResult[0]
+            return formValidateResultMap[field]
+        } else {
+            /*
+            *   如果没有可用的校验规则，则什么事也不做，不能清理掉现有的校验结果，比如
+            *   比如 没有change校验，但是只有blur校验。如果blur先执行。在校验change的时候会把blur的检验结果覆盖掉
+            */
+            return null
         }
-
-        return formValidateResultMap[field]
     }
 
     async function validate(formData: Record<string, any> | null): Promise<{ validateResultMap: FormValidateResultMap, validateMessage: string | undefined, validateResult?: FormValidateResult }> {
