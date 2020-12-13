@@ -56,8 +56,8 @@ const Form = designComponent({
         /*收集的子组件*/
         const items = FormCollector.parent()
 
-        const {styleComputed} = useStyle()
-        const {editComputed} = useEdit({adjust: data => {data.loading = false}})
+        useStyle();
+        useEdit({adjust: data => {data.loading = false}});
         const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width', 'columnGutter'])
 
         /*---------------------------------------compute-------------------------------------------*/
@@ -99,7 +99,6 @@ const Form = designComponent({
         const classes = computed(() => [
             'pl-form',
             `pl-form-column-${numberState.column}`,
-            `pl-form-size-${styleComputed.value.size}`
         ])
 
         /*设置form宽度*/

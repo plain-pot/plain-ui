@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {EditProps} from "../../use/useEdit";
-import {StyleProps} from "../../use/useStyle";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import {useNumber} from "../../use/useNumber";
@@ -37,6 +37,7 @@ export default designComponent({
         const form = FormCollector.child()
         const {slots} = useSlots(['label', 'suffix'], true)
         const {refs} = useRefs({label: HTMLDivElement,})
+        const {styleComputed} = useStyle()
 
         /*---------------------------------------state-------------------------------------------*/
 
@@ -59,6 +60,7 @@ export default designComponent({
 
         const classes = useClass(() => [
             'pl-form-item',
+            `pl-form-item-size-${styleComputed.value.size}`,
             `pl-form-item-label-align-${props.labelAlign || form.childState.align.label}`,
             `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
