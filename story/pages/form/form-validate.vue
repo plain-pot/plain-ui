@@ -82,7 +82,7 @@
                     <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
                 </pl-form-item>
                 <pl-form-item>
-                    <pl-button label="校验，不开启遮罩，自动loading按钮" @click="asyncSaveValidate" autoLoading/>
+                    <pl-button label="校验，不开启遮罩，自动loading按钮" :asyncHandler="asyncSaveValidate" autoLoading/>
                 </pl-form-item>
 
                 <pl-form-item>
@@ -136,7 +136,7 @@
             },
             async asyncSaveValidate() {
                 try {
-                    await this.$refs.form.validateWithoutMask()
+                    await this.$refs.form.validate({autoLoading: false})
                     this.$message.success('校验通过')
                 } catch (e) {
                     this.$message.error('请检查填写是否正确')
