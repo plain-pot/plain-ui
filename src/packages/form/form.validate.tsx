@@ -200,6 +200,7 @@ export const FormValidateUtils = {
         /*---------------------------------------options 选项值校验-------------------------------------------*/
 
         if (options) {
+            const optionList = Array.isArray(options) ? options : [options]
             const invalidValues = validList.filter(({value}) => {
 
                 //校验不通过才返回true
@@ -210,13 +211,13 @@ export const FormValidateUtils = {
                 }
                 if (!Array.isArray(value)) {
                     /*不是数组，判断值是否存在数组中*/
-                    const isExist = options.indexOf(value) > -1
+                    const isExist = optionList.indexOf(value) > -1
                     if (!isExist) {
                         return true
                     }
                 } else {
                     /*是数组，判断value数组中是否存在值，不符合options*/
-                    return !!(value as any[]).find(v => options.indexOf(v) === -1)
+                    return !!(value as any[]).find(v => optionList.indexOf(v) === -1)
                 }
             })
             if (invalidValues.length > 0) {

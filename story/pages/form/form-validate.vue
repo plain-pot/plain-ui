@@ -79,7 +79,7 @@
 
                 <pl-form-item>
                     <pl-button label="校验" @click="saveValidate"/>
-                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.methods.clearValidate()"/>
+                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
                 </pl-form-item>
                 <pl-form-item>
                     <pl-button label="校验，不开启遮罩，自动loading按钮" @click="asyncSaveValidate" autoLoading/>
