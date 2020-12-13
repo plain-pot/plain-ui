@@ -24,7 +24,7 @@
                 </pl-form-item>
 
                 <pl-form-item label="必填校验(失去焦点)" field="field2">
-                    <pl-number v-model="form1.formData.field2" :inputProps="{block:true}"/>
+                    <pl-number v-model="form1.formData.field2" :inputProps="{block:true}" @blur="$message('blur')"/>
                     <template #suffix>
                         <pl-icon icon="el-icon-question" v-tooltip="'提示'"/>
                     </template>

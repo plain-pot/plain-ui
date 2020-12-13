@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {EditProps} from "../../use/useEdit";
+import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
@@ -38,6 +38,20 @@ export default designComponent({
         const {slots} = useSlots(['label', 'suffix'], true)
         const {refs} = useRefs({label: HTMLDivElement,})
         const {styleComputed} = useStyle()
+
+        const handler = {
+            onEditChange: () => form.validateHandler.onEditChange(props.field),
+            onEditBlur: () => {
+                console.log('onEditBlur')
+                form.validateHandler.onBlurChange(props.field)
+            },
+        }
+        useEdit({
+            adjust: ret => {
+                ret.onChange = handler.onEditChange
+                ret.onBlur = handler.onEditBlur
+            }
+        })
 
         /*---------------------------------------state-------------------------------------------*/
 

@@ -10,7 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger} from "./form.validate";
+import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
 import {debounce} from "plain-utils/utils/debounce";
 
 const Form = designComponent({
@@ -167,11 +167,25 @@ const Form = designComponent({
         }
 
         const validateHandler = {
-            onEditChange: () => {
-                // todo
+            onEditChange: async (field?: string | string[]) => {
+                const fields = FormValidateUtils.getListValue(field)
+                if (!fields) {return}
+                await Promise.all(fields.map(f => formValidate.value.methods.validateField({
+                    field: f,
+                    trigger: FormValidateTrigger.change,
+                    formValidateResultMap: childState.validateResultMap,
+                    formData: props.modelValue || {},
+                })))
             },
-            onBlurChange: () => {
-                // todo
+            onBlurChange: async (field?: string | string[]) => {
+                const fields = FormValidateUtils.getListValue(field)
+                if (!fields) {return}
+                await Promise.all(fields.map(f => formValidate.value.methods.validateField({
+                    field: f,
+                    trigger: FormValidateTrigger.blur,
+                    formValidateResultMap: childState.validateResultMap,
+                    formData: props.modelValue || {},
+                })))
             },
             onFieldChange: async (field: string) => {
                 await formValidate.value.methods.validateField({
@@ -207,6 +221,7 @@ const Form = designComponent({
                 props,
                 childState,
                 numberState,
+                validateHandler,
                 ...validateMethods,
             },
             render: () => {
