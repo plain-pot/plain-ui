@@ -146,6 +146,13 @@ const Form = designComponent({
             clearValidate: () => {
                 childState.validateResultMap = {}
             },
+            showError: (error: any) => {
+                if (!!error.message) {
+                    alert(error.message)
+                } else {
+                    alert(String(error))
+                }
+            },
         }
 
         /*---------------------------------------end-------------------------------------------*/

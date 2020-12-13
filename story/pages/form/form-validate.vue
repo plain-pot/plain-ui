@@ -78,11 +78,16 @@
                 </pl-form-item>
 
                 <pl-form-item>
-                    <pl-button label="校验" @click="saveValidate"/>
-                    <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
+                    <pl-button-group>
+                        <pl-button label="校验" @click="saveValidate"/>
+                        <pl-button label="取消校验" mode="stroke" @click="$refs.form.clearValidate()"/>
+                    </pl-button-group>
                 </pl-form-item>
                 <pl-form-item>
-                    <pl-button label="校验，不开启遮罩，自动loading按钮" :asyncHandler="asyncSaveValidate" autoLoading/>
+                    <pl-button-group vertical>
+                        <pl-button label="校验，不开启遮罩，自动loading按钮" :asyncHandler="asyncSaveValidate" autoLoading/>
+                        <pl-button label="校验，自定义处理错误信息" @click="customHandleError"/>
+                    </pl-button-group>
                 </pl-form-item>
 
                 <pl-form-item>
@@ -126,13 +131,17 @@
         },
         methods: {
             async saveValidate() {
-                const err = await this.$refs.form.validate()
-                console.log('err', err)
-                /*if (!!err) {
-                    this.$refs.form.methods.showError(err)
-                } else {
+                await this.$refs.form.validate()
+                this.$message.success('校验通过')
+            },
+            async customHandleError() {
+                try {
+                    await this.$refs.form.validate({autoAlert: false})
                     this.$message.success('校验通过')
-                }*/
+                } catch (e) {
+                    // this.$refs.form.methods.showError(e)
+                    this.$notice.error(e.message)
+                }
             },
             async asyncSaveValidate() {
                 try {
