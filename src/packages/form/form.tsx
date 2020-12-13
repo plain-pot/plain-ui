@@ -168,6 +168,9 @@ const Form = designComponent({
 
         const validateHandler = {
             onEditChange: async (field?: string | string[]) => {
+                if (props.validateMode === FormValidateMode.form) {
+                    return
+                }
                 const fields = FormValidateUtils.getListValue(field)
                 if (!fields) {return}
                 await Promise.all(fields.map(f => formValidate.value.methods.validateField({

@@ -1,15 +1,5 @@
 <template>
     <div class="form-validate">
-        <demo-row title="111">
-            <pl-form>
-                <pl-form-item label="必填校验(失去焦点)" field="field2">
-                    <pl-number v-model="form1.formData.field2" :inputProps="{block:true}" @blur="$message('blur')"/>
-                    <template #suffix>
-                        <pl-icon icon="el-icon-question" v-tooltip="'提示'"/>
-                    </template>
-                </pl-form-item>
-            </pl-form>
-        </demo-row>
         <demo-row title="基本用法">
             <pl-form ref="form"
                      v-model="form1.formData"
@@ -34,7 +24,7 @@
                 </pl-form-item>
 
                 <pl-form-item label="必填校验(失去焦点)" field="field2">
-                    <pl-number v-model="form1.formData.field2" :inputProps="{block:true}" @blur="$message('blur')"/>
+                    <pl-number v-model="form1.formData.field2" :inputProps="{block:true}"/>
                     <template #suffix>
                         <pl-icon icon="el-icon-question" v-tooltip="'提示'"/>
                     </template>

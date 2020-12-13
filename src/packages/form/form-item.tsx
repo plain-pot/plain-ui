@@ -30,7 +30,10 @@ export default designComponent({
         labelAlign: {type: String as PropType<FormLabelAlign>},             // label 对齐方式
         contentAlign: {type: String as PropType<FormContentAlign>},         // content 对齐方式
     },
-    emits: {},
+    emits: {
+        blur: () => true,
+        change: () => true,
+    },
     provideRefer: true,
     setup({props, event: {emit}}) {
 
@@ -41,10 +44,7 @@ export default designComponent({
 
         const handler = {
             onEditChange: () => form.validateHandler.onEditChange(props.field),
-            onEditBlur: () => {
-                console.log('onEditBlur')
-                form.validateHandler.onBlurChange(props.field)
-            },
+            onEditBlur: () => form.validateHandler.onBlurChange(props.field),
         }
         useEdit({
             adjust: ret => {
