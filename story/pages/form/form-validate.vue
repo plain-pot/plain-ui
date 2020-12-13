@@ -130,10 +130,6 @@
             }
         },
         methods: {
-            async saveValidate() {
-                await this.$refs.form.validate()
-                this.$message.success('校验通过')
-            },
             async customHandleError() {
                 try {
                     await this.$refs.form.validate({autoAlert: false})
@@ -142,6 +138,10 @@
                     // this.$refs.form.methods.showError(e)
                     this.$notice.error(e.message)
                 }
+            },
+            async saveValidate() {
+                await this.$refs.form.validate()
+                this.$message.success('校验通过')
             },
             async asyncSaveValidate() {
                 try {

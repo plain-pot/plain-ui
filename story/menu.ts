@@ -59,7 +59,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Form', title: '表单尺寸', page: '/form/form-size', complete: true},
             {name: 'Form', title: '表单控制', page: '/form/form-edit-control', complete: true},
             {name: 'Form', title: '表单校验', page: '/form/form-validate', complete: true},
-            {name: 'Form', title: '校验blur', page: '/form/form-blur', complete: false},
+            {name: 'Form', title: '校验blur', page: '/form/form-blur', complete: true},
             {name: 'Form', title: '表单组件', page: '/form/form-elements', complete: false},
             {name: 'Form', title: '校验模式', page: '/form/form-validate-mode', complete: false},
             {name: 'Form', title: '动态表单项', page: '/form/form-dynamic-items', complete: false},
