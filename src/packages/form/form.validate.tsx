@@ -199,7 +199,7 @@ export const FormValidateUtils = {
 
         /*---------------------------------------options 选项值校验-------------------------------------------*/
 
-        if (options) {
+        if (options != null) {
             const optionList = Array.isArray(options) ? options : [options]
             const invalidValues = validList.filter(({value}) => {
 
