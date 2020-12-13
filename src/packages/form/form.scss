@@ -67,6 +67,13 @@
         }
       }
 
+      @include sizeMixin(form-item) {
+        .pl-form-item-label {
+          font-size: 16px;
+          line-height: $value;
+        }
+      }
+
       &.pl-form-item-size-large {
         .pl-form-item-label {
           font-size: 16px;
@@ -82,15 +89,6 @@
       &.pl-form-item-size-mini {
         .pl-form-item-label {
           font-size: 12px;
-        }
-      }
-    }
-
-    @include sizeMixin(form) {
-      .pl-form-item {
-        .pl-form-item-label {
-          font-size: 14px;
-          line-height: $value;
         }
       }
     }
@@ -144,18 +142,20 @@
     }
 
     .pl-form-item {
-      &.pl-form-item-size-large-large {
+      &.pl-form-item-size-large {
         .pl-form-item-body {
           & > .pl-checkbox-group, & > .pl-radio-group {
             padding-top: 8px;
+            padding-bottom: 8px;
           }
         }
       }
 
-      &.pl-form-item-size-normal-normal {
+      &.pl-form-item-size-normal {
         .pl-form-item-body {
           & > .pl-checkbox-group, & > .pl-radio-group {
             padding-top: 4px;
+            padding-bottom: 4px;
           }
         }
       }
@@ -164,6 +164,7 @@
         .pl-form-item-body {
           & > .pl-checkbox-group, & > .pl-radio-group {
             padding-top: 4px;
+            padding-bottom: 4px;
           }
         }
       }
