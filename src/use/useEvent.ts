@@ -1,5 +1,5 @@
 import {getCurrentInstance, onBeforeUnmount} from 'vue'
-import {createPlainEvent} from "../plugins/Event";
+import {createPlainEvent, PlainEvent} from "../plugins/Event";
 import {SimpleFunction} from "../shims";
 import {kebabCase} from 'plain-utils/string/kebabCase'
 
@@ -44,8 +44,12 @@ export function useEvent<T>(emitObject: T): ComponentEvent<T> {
     const once = {} as any;
     const off = {} as any;
 
+    const keys = Object.keys(emitObject || {})
+    if (!!emitObject && !!(emitObject as any).updateModelValue) {
+        keys.push('change')
+    }
 
-    Object.keys(emitObject || {}).forEach(key => {
+    keys.forEach(key => {
         /*派发事件名称，横杠命名*/
         const kebabCaseName = emitName2ListenName(key)
 
@@ -65,6 +69,6 @@ export function useEvent<T>(emitObject: T): ComponentEvent<T> {
     onBeforeUnmount(event.clear)
 
     return {
-        emit, on, once, off
-    } as any
+        emit, on, once, off,
+    }
 }
