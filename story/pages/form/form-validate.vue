@@ -94,6 +94,8 @@
 </template>
 
 <script>
+    import {delay} from "plain-utils/utils/delay";
+
     export default {
         name: "form-validate",
         props: {},
@@ -124,16 +126,17 @@
         },
         methods: {
             async saveValidate() {
-                const err = await this.$refs.form.methods.validate()
-                if (!!err) {
+                const err = await this.$refs.form.validate()
+                console.log('err', err)
+                /*if (!!err) {
                     this.$refs.form.methods.showError(err)
                 } else {
                     this.$message.success('校验通过')
-                }
+                }*/
             },
             async asyncSaveValidate() {
                 try {
-                    await this.$refs.form.methods.validateWithoutMask()
+                    await this.$refs.form.validateWithoutMask()
                     this.$message.success('校验通过')
                 } catch (e) {
                     this.$message.error('请检查填写是否正确')
@@ -143,7 +146,7 @@
                 console.log({
                     rule, value, row
                 })
-                await this.$plain.utils.delay(Math.random() * 500 + 500)
+                await delay(Math.random() * 500 + 500)
                 if (!row.field8) {
                     return '请先选择[父属性]'
                 }

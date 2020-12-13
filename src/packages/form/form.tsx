@@ -10,7 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules, FormComponentRules, FormValidate} from "./form.validate";
+import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap} from "./form.validate";
 
 const Form = designComponent({
     name: 'pl-form',
@@ -118,6 +118,22 @@ const Form = designComponent({
 
         const formValidate = computed(() => formatFormRules(props.rules, items)) as ComputedRef<FormValidate>
 
+        const validateMethods = {
+            validate: async () => {
+                const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
+                childState.validateResultMap = validateResultMap
+                if (!!validateMessage) {
+                    alert(validateMessage)
+                    return {
+                        validate: validateResult,
+                        message: validateMessage,
+                    }
+                } else {
+                    return null
+                }
+            }
+        }
+
         /*---------------------------------------end-------------------------------------------*/
 
         onMounted(() => {
@@ -128,6 +144,7 @@ const Form = designComponent({
             align,
             width,
             formValidate,
+            validateResultMap: {} as FormValidateResultMap,
         })
 
         return {
@@ -135,6 +152,7 @@ const Form = designComponent({
                 props,
                 childState,
                 numberState,
+                ...validateMethods,
             },
             render: () => {
                 return (<div class={classes.value} style={styles.value}>

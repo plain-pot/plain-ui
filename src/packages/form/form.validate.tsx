@@ -407,7 +407,7 @@ export function formatFormRules(
         return formValidateResultMap[field]
     }
 
-    async function validate(formData: Record<string, any> | null): Promise<{ validateResultMap: FormValidateResultMap, validateMessage: string | undefined }> {
+    async function validate(formData: Record<string, any> | null): Promise<{ validateResultMap: FormValidateResultMap, validateMessage: string | undefined, validateResult?: FormValidateResult }> {
         const validateResultList = (await Promise.all(resultRules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel}))))
             .filter(Boolean) as FormValidateResult[];
         const validateResultMap = validateResultList.reduce((prev, next) => {
@@ -419,12 +419,15 @@ export function formatFormRules(
             return prev
         }, {} as FormValidateResultMap)
         let validateMessage: string | undefined;
+        let validateResult: FormValidateResult | undefined;
         if (validateResultList.length > 0) {
             const {label, message} = validateResultList[0]!
             validateMessage = `“${label}” 校验不通过，${message}`
+            validateResult = validateResultList[0]
         }
         return {
             validateResultMap,
+            validateResult,
             validateMessage,
         }
     }
