@@ -157,10 +157,6 @@ export const FormValidateUtils = {
                 value: !!transform ? transform(v) : v,
             }
         })
-        console.log({
-            rule, fields, values,
-            formData: {...formData}
-        })
 
         /*---------------------------------------required 必填校验-------------------------------------------*/
 
