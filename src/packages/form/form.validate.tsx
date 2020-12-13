@@ -95,6 +95,25 @@ export interface FormValidateResultMap {[k: string]: FormValidateResult | undefi
  * @date    2020/12/13 14:53
  */
 export const FormValidateUtils = {
+    getValueByField(field: string, formData: Record<string, any> | undefined | null, transform?: (val: any) => any) {
+        if (!formData) {
+            return null
+        }
+        let val: any;
+        if (field.indexOf('.') === -1) {
+            val = formData[field]
+        } else {
+            const fields = field.split('.')
+            let index = 0, len = fields.length
+            let value = formData[fields[index]]
+
+            while (index < len - 1 && value != null) {
+                value = value[fields[++index]]
+            }
+            val = index == len - 1 ? value : null
+        }
+        return !transform ? val : transform(val)
+    },
     /**
      * 获取max校验失败信息
      * @author  韦胜健
@@ -155,12 +174,12 @@ export const FormValidateUtils = {
         /*如果函数参数中有field，则只校验一个字段,否则校验rule中所有的字段*/
         if (!!field) {
             /*校验一个字段*/
-            validList = [{field, value: !formData ? null : (!!transform ? transform(formData[field]) : formData[field])}]
+            validList = [{field, value: FormValidateUtils.getValueByField(field, formData, transform)}]
         } else {
             /*校验rule中所有的字段*/
             const fields = FormValidateUtils.getListValue(rule.field)
             if (!!fields) {
-                validList = fields.map(f => ({field: f, value: !formData ? null : (!!transform ? transform(formData[f]) : formData[f])}))
+                validList = fields.map(f => ({field: f, value: FormValidateUtils.getValueByField(f, formData, transform)}))
             }
         }
         if (!validList || validList.length === 0) {
