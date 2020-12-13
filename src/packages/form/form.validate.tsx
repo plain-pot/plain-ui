@@ -135,33 +135,42 @@ export const FormValidateUtils = {
         return Array.isArray(val) ? val : [val]
     },
     /**
-     * 执行校验规则
+     * 执行校验规则，如果函数参数中有field，则只校验一个字段,否则校验rule中所有的字段
      * @author  韦胜健
      * @date    2020/12/13 14:56
      * @param   rule                要校验的FormRule
      * @param   formData            表单数据对象
      * @param   fieldToLabel        字段映射label的对象
+     * @param   field               校验的字段
      */
-    async checkRule({rule, formData, fieldToLabel,}: { formData: Record<string, any> | null, rule: FormRule, fieldToLabel: Record<string, string>, }): Promise<null | FormValidateResult> {
+    async checkRule({rule, formData, fieldToLabel, field}: { formData: Record<string, any> | null, rule: FormRule, fieldToLabel: Record<string, string>, field?: string }): Promise<null | FormValidateResult> {
         const {
             transform, type,
-            field, label, message,
+            label, message,
             required, options, max, min, pattern, validator
         } = rule
 
-        const fields = toArray(field!)
-        const values = fields.map(f => {
-            const v = !formData ? null : formData[f]
-            return {
-                field: f,
-                value: !!transform ? transform(v) : v,
+        let validList: { field: string, value: any }[] | null = null;
+
+        /*如果函数参数中有field，则只校验一个字段,否则校验rule中所有的字段*/
+        if (!!field) {
+            /*校验一个字段*/
+            validList = [{field, value: !formData ? null : (!!transform ? transform(formData[field]) : formData[field])}]
+        } else {
+            /*校验rule中所有的字段*/
+            const fields = FormValidateUtils.getListValue(rule.field)
+            if (!!fields) {
+                validList = fields.map(f => ({field: f, value: !formData ? null : (!!transform ? transform(formData[f]) : formData[f])}))
             }
-        })
+        }
+        if (!validList || validList.length === 0) {
+            return null
+        }
 
         /*---------------------------------------required 必填校验-------------------------------------------*/
 
         if (required) {
-            const invalidValues = values.filter(({value}) => {
+            const invalidValues = validList.filter(({value}) => {
 
                 //校验不通过才返回true
 
@@ -191,7 +200,7 @@ export const FormValidateUtils = {
         /*---------------------------------------options 选项值校验-------------------------------------------*/
 
         if (options) {
-            const invalidValues = values.filter(({value}) => {
+            const invalidValues = validList.filter(({value}) => {
 
                 //校验不通过才返回true
 
@@ -224,7 +233,7 @@ export const FormValidateUtils = {
         /*---------------------------------------max-------------------------------------------*/
 
         if (max != null) {
-            const invalidValues = values.filter(({value, field}) => {
+            const invalidValues = validList.filter(({value, field}) => {
 
                 //校验不通过才返回true
 
@@ -256,7 +265,7 @@ export const FormValidateUtils = {
         /*---------------------------------------min-------------------------------------------*/
 
         if (min != null) {
-            const invalidValues = values.filter(({value}) => {
+            const invalidValues = validList.filter(({value}) => {
 
                 //校验不通过才返回true
 
@@ -288,7 +297,7 @@ export const FormValidateUtils = {
         /*---------------------------------------pattern-------------------------------------------*/
 
         if (!!pattern) {
-            const invalidValues = values.filter(({value}) => {
+            const invalidValues = validList.filter(({value}) => {
                 if (value == null) {
                     /*没有值，不校验*/
                     return false
@@ -309,8 +318,7 @@ export const FormValidateUtils = {
         /*---------------------------------------validator-------------------------------------------*/
 
         if (!!validator) {
-            const validateResultList = (await Promise.all(fields.map(async field => {
-                const value = !formData ? null : formData[field]
+            const validateResultList = (await Promise.all(validList.map(async ({field, value}) => {
                 const message = await validator(rule, value, formData || {})
                 if (!message) {
                     return null
@@ -407,7 +415,7 @@ export function formatFormRules(
             // 没有匹配的规则
             formValidateResultMap[field] = undefined
         } else {
-            const validateResult = (await Promise.all(rules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel}))))
+            const validateResult = (await Promise.all(rules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel, field}))))
                 .filter(Boolean) as FormValidateResult[];
             formValidateResultMap[field] = validateResult[0]
         }
