@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps, useStyle} from "../../use/useStyle";
+import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import {useNumber} from "../../use/useNumber";
@@ -40,7 +40,7 @@ export default designComponent({
         const form = FormCollector.child()
         const {slots} = useSlots(['label', 'suffix'], true)
         const {refs} = useRefs({label: HTMLDivElement,})
-        const {styleComputed} = useStyle()
+        const {styleComputed} = useStyle({adjust: ret => {!!invalidate.value && (ret.status = StyleStatus.error)}})
 
         const handler = {
             onEditChange: () => form.validateHandler.onEditChange(props.field),
