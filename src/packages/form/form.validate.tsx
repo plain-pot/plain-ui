@@ -161,6 +161,9 @@ export const FormValidateUtils = {
 
         if (required) {
             const invalidValues = values.filter(({value}) => {
+
+                //校验不通过才返回true
+
                 if (value == null) {
                     return true
                 }
@@ -168,7 +171,7 @@ export const FormValidateUtils = {
                     return true
                 }
                 if (typeof value === 'string') {
-                    return !!value
+                    return !value.trim()
                 } else {
                     return false
                 }
@@ -188,6 +191,9 @@ export const FormValidateUtils = {
 
         if (options) {
             const invalidValues = values.filter(({value}) => {
+
+                //校验不通过才返回true
+
                 if (value == null) {
                     /*没有值，不校验*/
                     return false
@@ -196,11 +202,11 @@ export const FormValidateUtils = {
                     /*不是数组，判断值是否存在数组中*/
                     const isExist = options.indexOf(value) > -1
                     if (!isExist) {
-                        return transform
+                        return true
                     }
                 } else {
                     /*是数组，判断value数组中是否存在值，不符合options*/
-                    return (value as any[]).find(v => options.indexOf(v) === -1)
+                    return !!(value as any[]).find(v => options.indexOf(v) === -1)
                 }
             })
             if (invalidValues.length > 0) {
@@ -218,6 +224,9 @@ export const FormValidateUtils = {
 
         if (max != null) {
             const invalidValues = values.filter(({value}) => {
+
+                //校验不通过才返回true
+
                 if (value == null) {
                     /*没有值，不校验*/
                     return false
@@ -250,6 +259,9 @@ export const FormValidateUtils = {
 
         if (min != null) {
             const invalidValues = values.filter(({value}) => {
+
+                //校验不通过才返回true
+
                 if (value == null) {
                     /*没有值，不校验*/
                     return false
@@ -265,7 +277,7 @@ export const FormValidateUtils = {
                         return true
                     }
                 }
-                return String(value).length > min
+                return String(value).length < min
             })
             if (invalidValues.length > 0) {
                 const {field, value} = invalidValues[0]!

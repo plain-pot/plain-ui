@@ -12,7 +12,7 @@
 
     .pl-form-item {
       display: inline-flex;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       vertical-align: top;
 
       .pl-form-item-label {
@@ -25,10 +25,19 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        position: relative;
 
         & > * {
           flex-shrink: 0;
         }
+      }
+
+      .pl-form-item-message {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        color: $colorError;
+        font-size: 12px;
       }
 
       &:not(.pl-form-item-static-width) {

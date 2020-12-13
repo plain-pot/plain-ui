@@ -66,7 +66,7 @@ export default designComponent({
             {
                 'pl-form-item-static-width': staticWidth.value,
                 'pl-form-item-required': isRequired.value,
-                // 'pl-form-item-invalidate': !!validateMessage.value,
+                'pl-form-item-invalidate': !!invalidate.value,
             }
         ])
 
@@ -122,6 +122,7 @@ export default designComponent({
             rules: props.rules,
         }))
 
+        /*当前是否必填校验*/
         const isRequired = computed(() => {
             const {fieldToRequired} = form.childState.formValidate
             const fields = FormValidateUtils.getListValue(props.field)
@@ -130,6 +131,17 @@ export default designComponent({
             }
             return !!fields.find(f => !!fieldToRequired[f])
         }) as ComputedRef<boolean>
+
+        /*当前是否校验不通过*/
+        const invalidate = computed(() => {
+            const {validateResultMap} = form.childState
+            const fields = FormValidateUtils.getListValue(props.field)
+            if (!fields) {
+                return null
+            }
+            const invalidField = fields.find(f => !!validateResultMap[f])
+            return !invalidField ? null : validateResultMap[invalidField]!
+        })
 
         return {
             refer: {
@@ -145,6 +157,10 @@ export default designComponent({
                     )}
                     <div class="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}
+
+                        {!!invalidate.value && (<div class="pl-form-item-message">
+                            {invalidate.value.message}
+                        </div>)}
                     </div>
                 </div>
             )
