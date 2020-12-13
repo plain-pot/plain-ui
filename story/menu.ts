@@ -54,10 +54,10 @@ export const MENUS: MenuGroup[] = [
     },
     {
         name: '表单示例', children: [
-            {name: 'Form', title: '表单基础', page: '/form/form-basic', complete: false},
+            {name: 'Form', title: '表单基础', page: '/form/form-basic', complete: true},
             {name: 'Form', title: '表单多列', page: '/form/form-grid', complete: true},
             {name: 'Form', title: '表单尺寸', page: '/form/form-size', complete: true},
-            {name: 'Form', title: '表单控制', page: '/form/form-edit-control', complete: false},
+            {name: 'Form', title: '表单控制', page: '/form/form-edit-control', complete: true},
             {name: 'Form', title: '表单校验', page: '/form/form-validate', complete: true},
             {name: 'Form', title: '校验blur', page: '/form/form-blur', complete: false},
             {name: 'Form', title: '表单组件', page: '/form/form-elements', complete: false},
