@@ -148,6 +148,7 @@ export const FormValidateUtils = {
             field, label, message,
             required, options, max, min, pattern, validator
         } = rule
+
         const fields = toArray(field!)
         const values = fields.map(f => {
             const v = !formData ? null : formData[f]
@@ -155,6 +156,10 @@ export const FormValidateUtils = {
                 field: f,
                 value: !!transform ? transform(v) : v,
             }
+        })
+        console.log({
+            rule, fields, values,
+            formData: {...formData}
         })
 
         /*---------------------------------------required 必填校验-------------------------------------------*/
@@ -396,13 +401,14 @@ export function formatFormRules(
             if (!matchField) {
                 return false
             }
-            if (trigger !== FormValidateTrigger.all) {
-                return r.trigger === trigger
+            if (trigger === FormValidateTrigger.all) {
+                return trigger
             }
+            return (r.trigger || FormValidateTrigger.change) === trigger
         })
 
         if (rules.length === 0) {
-            // todo 没有匹配的规则
+            // 没有匹配的规则
             formValidateResultMap[field] = undefined
         } else {
             const validateResult = (await Promise.all(rules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel}))))

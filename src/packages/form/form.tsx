@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, reactive, ComputedRef, PropType, onMounted} from 'vue'
+import {computed, ComputedRef, onMounted, PropType, reactive, watch} from 'vue'
 import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -10,7 +10,8 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap} from "./form.validate";
+import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger} from "./form.validate";
+import {debounce} from "plain-utils/utils/debounce";
 
 const Form = designComponent({
     name: 'pl-form',
@@ -23,7 +24,7 @@ const Form = designComponent({
         modelValue: {type: Object},                                         // model绑定表单对象
         rules: {type: Object as PropType<FormComponentRules>},              // 表单验证规则
         validateResult: {type: Object},                                     // 校验结果信息
-        validateMode: {type: String, default: FormValidateMode.form},       // 校验模式
+        validateMode: {type: String as PropType<FormValidateMode>, default: FormValidateMode.form},// 校验模式
         associateFields: {type: Object},                                    // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
 
         hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
@@ -160,6 +161,46 @@ const Form = designComponent({
             validateResultMap: {} as FormValidateResultMap,
             loading: false,
         })
+
+        const freezeState = {
+            oldFormData: {...(props.modelValue || {})},
+        }
+
+        const validateHandler = {
+            onEditChange: () => {
+                // todo
+            },
+            onBlurChange: () => {
+                // todo
+            },
+            onFieldChange: async (field: string) => {
+                await formValidate.value.methods.validateField({
+                    field,
+                    trigger: FormValidateTrigger.change,
+                    formValidateResultMap: childState.validateResultMap,
+                    formData: props.modelValue || {},
+                })
+            },
+            onFormDataChange: debounce((val: any) => {
+                const newFormData = val || {}
+                const oldFormData = freezeState.oldFormData || {}
+                const fields = Object.keys({...newFormData, ...oldFormData})
+
+                fields.forEach(field => {
+                    let newVal = newFormData[field]
+                    let oldVal = oldFormData[field]
+                    if (newVal !== oldVal) {
+                        emit.fieldValueChange(field, newVal, oldVal)
+                        validateHandler.onFieldChange(field)
+                    }
+                })
+                freezeState.oldFormData = {...val || {}}
+            }, 150, false)
+        }
+
+        if (props.validateMode === FormValidateMode.form) {
+            watch(() => props.modelValue, validateHandler.onFormDataChange, {deep: true})
+        }
 
         return {
             refer: {
