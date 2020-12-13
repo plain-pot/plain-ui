@@ -89,212 +89,239 @@ export interface FormValidateResult {
  */
 export interface FormValidateResultMap {[k: string]: FormValidateResult | undefined}
 
-function getMaxMessage({value, max, type,}: { value: any, max: number, type?: FormValueType, }) {
-    if (Array.isArray(value)) {
-        return `最多选择 ${max} 个选项`
-    }
-    if (type == "number") {
-        return `最大值 ${max}`
-    }
-    return `最大文本长度 ${max} 个字符`
-}
+/**
+ * 表单校验工具对象
+ * @author  韦胜健
+ * @date    2020/12/13 14:53
+ */
+export const FormValidateUtils = {
+    /**
+     * 获取max校验失败信息
+     * @author  韦胜健
+     * @date    2020/12/13 14:54
+     */
+    getMaxMessage({value, max, type,}: { value: any, max: number, type?: FormValueType, }) {
+        if (Array.isArray(value)) {
+            return `最多选择 ${max} 个选项`
+        }
+        if (type == "number") {
+            return `最大值 ${max}`
+        }
+        return `最大文本长度 ${max} 个字符`
+    },
+    /**
+     * 获取min校验失败信息
+     * @author  韦胜健
+     * @date    2020/12/13 14:54
+     */
+    getMinMessage({value, min, type,}: { value: any, min: number, type?: FormValueType, }) {
+        if (Array.isArray(value)) {
+            return `最少选择 ${min} 个选项`
+        }
+        if (type == "number") {
+            return `最小值 ${min}`
+        }
+        return `最小文本长度 ${min} 个字符`
+    },
+    /**
+     * 获取有效值列表。如果值不存在则返回null
+     * @author  韦胜健
+     * @date    2020/12/13 14:55
+     */
+    getListValue<T>(val: T | T[] | null | undefined): T[] | null {
+        if (!val) {
+            return null
+        }
+        return Array.isArray(val) ? val : [val]
+    },
+    /**
+     * 执行校验规则
+     * @author  韦胜健
+     * @date    2020/12/13 14:56
+     * @param   rule                要校验的FormRule
+     * @param   formData            表单数据对象
+     * @param   fieldToLabel        字段映射label的对象
+     */
+    async checkRule({rule, formData, fieldToLabel,}: { formData: Record<string, any> | null, rule: FormRule, fieldToLabel: Record<string, string>, }): Promise<null | FormValidateResult> {
+        const {
+            transform, type,
+            field, label, message,
+            required, options, max, min, pattern, validator
+        } = rule
+        const fields = toArray(field!)
+        const values = fields.map(f => {
+            const v = !formData ? null : formData[f]
+            return {
+                field: f,
+                value: !!transform ? transform(v) : v,
+            }
+        })
 
-function getMinMessage({value, min, type,}: { value: any, min: number, type?: FormValueType, }) {
-    if (Array.isArray(value)) {
-        return `最少选择 ${min} 个选项`
-    }
-    if (type == "number") {
-        return `最小值 ${min}`
-    }
-    return `最小文本长度 ${min} 个字符`
-}
+        /*---------------------------------------required 必填校验-------------------------------------------*/
 
-function getListValue<T>(val: T | T[] | null | undefined): T[] | null {
-    if (!val) {
+        if (required) {
+            const invalidValues = values.filter(({value}) => {
+                if (value == null) {
+                    return true
+                }
+                if (Array.isArray(value) && value.length === 0) {
+                    return true
+                }
+                if (typeof value === 'string') {
+                    return !!value
+                } else {
+                    return false
+                }
+            })
+            if (invalidValues.length > 0) {
+                const {field, value} = invalidValues[0]!
+                return {
+                    rule,
+                    value,
+                    label: label || fieldToLabel[field],
+                    message: message || '必填，不能为空！',
+                }
+            }
+        }
+
+        /*---------------------------------------options 选项值校验-------------------------------------------*/
+
+        if (options) {
+            const invalidValues = values.filter(({value}) => {
+                if (value == null) {
+                    /*没有值，不校验*/
+                    return false
+                }
+                if (!Array.isArray(value)) {
+                    /*不是数组，判断值是否存在数组中*/
+                    const isExist = options.indexOf(value) > -1
+                    if (!isExist) {
+                        return transform
+                    }
+                } else {
+                    /*是数组，判断value数组中是否存在值，不符合options*/
+                    return (value as any[]).find(v => options.indexOf(v) === -1)
+                }
+            })
+            if (invalidValues.length > 0) {
+                const {field, value} = invalidValues[0]!
+                return {
+                    rule,
+                    value,
+                    label: label || fieldToLabel[field],
+                    message: message || '不符合特定选项！',
+                }
+            }
+        }
+
+        /*---------------------------------------max-------------------------------------------*/
+
+        if (max != null) {
+            const invalidValues = values.filter(({value}) => {
+                if (value == null) {
+                    /*没有值，不校验*/
+                    return false
+                }
+                if (Array.isArray(value)) {
+                    const len = value.length
+                    if (len > max) {
+                        return true
+                    }
+                }
+                if (type == "number") {
+                    if (Number(value) > max) {
+                        return true
+                    }
+                }
+                return String(value).length > max
+            })
+            if (invalidValues.length > 0) {
+                const {field, value} = invalidValues[0]!
+                return {
+                    rule,
+                    value,
+                    label: label || fieldToLabel[field],
+                    message: message || FormValidateUtils.getMaxMessage({value, max, type}),
+                }
+            }
+        }
+
+        /*---------------------------------------min-------------------------------------------*/
+
+        if (min != null) {
+            const invalidValues = values.filter(({value}) => {
+                if (value == null) {
+                    /*没有值，不校验*/
+                    return false
+                }
+                if (Array.isArray(value)) {
+                    const len = value.length
+                    if (len < min) {
+                        return true
+                    }
+                }
+                if (type == "number") {
+                    if (Number(value) < min) {
+                        return true
+                    }
+                }
+                return String(value).length > min
+            })
+            if (invalidValues.length > 0) {
+                const {field, value} = invalidValues[0]!
+                return {
+                    rule,
+                    value,
+                    label: label || fieldToLabel[field],
+                    message: message || FormValidateUtils.getMinMessage({value, min, type}),
+                }
+            }
+        }
+
+        /*---------------------------------------pattern-------------------------------------------*/
+
+        if (!!pattern) {
+            const invalidValues = values.filter(({value}) => {
+                if (value == null) {
+                    /*没有值，不校验*/
+                    return false
+                }
+                return !pattern.test(value)
+            })
+            if (invalidValues.length > 0) {
+                const {field, value} = invalidValues[0]!
+                return {
+                    rule,
+                    value,
+                    label: label || fieldToLabel[field],
+                    message: message || '不符合特定模式',
+                }
+            }
+        }
+
+        /*---------------------------------------validator-------------------------------------------*/
+
+        if (!!validator) {
+            const validateResultList = (await Promise.all(fields.map(async field => {
+                const value = !formData ? null : formData[field]
+                const message = await validator(rule, value, formData || {})
+                if (!message) {
+                    return null
+                }
+                return {
+                    rule,
+                    message,
+                    value,
+                    label: label || fieldToLabel[field],
+                }
+            }))).filter(Boolean) as FormValidateResult[]
+            if (validateResultList.length > 0) {
+                return validateResultList[0]!
+            }
+        }
+
         return null
     }
-    return Array.isArray(val) ? val : [val]
-}
-
-async function checkRule({rule, formData, fieldToLabel,}: { formData: Record<string, any> | null, rule: FormRule, fieldToLabel: Record<string, string>, }): Promise<null | FormValidateResult> {
-    const {
-        transform, type,
-        field, label, message,
-        required, options, max, min, pattern, validator
-    } = rule
-    const fields = toArray(field!)
-    const values = fields.map(f => {
-        const v = !formData ? null : formData[f]
-        return {
-            field: f,
-            value: !!transform ? transform(v) : v,
-        }
-    })
-
-    /*---------------------------------------required 必填校验-------------------------------------------*/
-
-    if (required) {
-        const invalidValues = values.filter(({value}) => {
-            if (value == null) {
-                return true
-            }
-            if (Array.isArray(value) && value.length === 0) {
-                return true
-            }
-            if (typeof value === 'string') {
-                return !!value
-            } else {
-                return false
-            }
-        })
-        if (invalidValues.length > 0) {
-            const {field, value} = invalidValues[0]!
-            return {
-                rule,
-                value,
-                label: label || fieldToLabel[field],
-                message: message || '必填，不能为空！',
-            }
-        }
-    }
-
-    /*---------------------------------------options 选项值校验-------------------------------------------*/
-
-    if (options) {
-        const invalidValues = values.filter(({value}) => {
-            if (value == null) {
-                /*没有值，不校验*/
-                return false
-            }
-            if (!Array.isArray(value)) {
-                /*不是数组，判断值是否存在数组中*/
-                const isExist = options.indexOf(value) > -1
-                if (!isExist) {
-                    return transform
-                }
-            } else {
-                /*是数组，判断value数组中是否存在值，不符合options*/
-                return (value as any[]).find(v => options.indexOf(v) === -1)
-            }
-        })
-        if (invalidValues.length > 0) {
-            const {field, value} = invalidValues[0]!
-            return {
-                rule,
-                value,
-                label: label || fieldToLabel[field],
-                message: message || '不符合特定选项！',
-            }
-        }
-    }
-
-    /*---------------------------------------max-------------------------------------------*/
-
-    if (max != null) {
-        const invalidValues = values.filter(({value}) => {
-            if (value == null) {
-                /*没有值，不校验*/
-                return false
-            }
-            if (Array.isArray(value)) {
-                const len = value.length
-                if (len > max) {
-                    return true
-                }
-            }
-            if (type == "number") {
-                if (Number(value) > max) {
-                    return true
-                }
-            }
-            return String(value).length > max
-        })
-        if (invalidValues.length > 0) {
-            const {field, value} = invalidValues[0]!
-            return {
-                rule,
-                value,
-                label: label || fieldToLabel[field],
-                message: message || getMaxMessage({value, max, type}),
-            }
-        }
-    }
-
-    /*---------------------------------------min-------------------------------------------*/
-
-    if (min != null) {
-        const invalidValues = values.filter(({value}) => {
-            if (value == null) {
-                /*没有值，不校验*/
-                return false
-            }
-            if (Array.isArray(value)) {
-                const len = value.length
-                if (len < min) {
-                    return true
-                }
-            }
-            if (type == "number") {
-                if (Number(value) < min) {
-                    return true
-                }
-            }
-            return String(value).length > min
-        })
-        if (invalidValues.length > 0) {
-            const {field, value} = invalidValues[0]!
-            return {
-                rule,
-                value,
-                label: label || fieldToLabel[field],
-                message: message || getMinMessage({value, min, type}),
-            }
-        }
-    }
-
-    /*---------------------------------------pattern-------------------------------------------*/
-
-    if (!!pattern) {
-        const invalidValues = values.filter(({value}) => {
-            if (value == null) {
-                /*没有值，不校验*/
-                return false
-            }
-            return !pattern.test(value)
-        })
-        if (invalidValues.length > 0) {
-            const {field, value} = invalidValues[0]!
-            return {
-                rule,
-                value,
-                label: label || fieldToLabel[field],
-                message: message || '不符合特定模式',
-            }
-        }
-    }
-
-    /*---------------------------------------validator-------------------------------------------*/
-
-    if (!!validator) {
-        const validateResultList = (await Promise.all(fields.map(async field => {
-            const value = !formData ? null : formData[field]
-            const message = await validator(rule, value, formData || {})
-            if (!message) {
-                return null
-            }
-            return {
-                rule,
-                message,
-                value,
-                label: label || fieldToLabel[field],
-            }
-        }))).filter(Boolean) as FormValidateResult[]
-        if (validateResultList.length > 0) {
-            return validateResultList[0]!
-        }
-    }
-
-    return null
 }
 
 /**
@@ -315,7 +342,7 @@ export function formatFormRules(
     if (!!formItems && formItems.length > 0) {
         formItems.forEach(formItem => {
             const {formItemComponentRules: {value: {label, field, required, rules}}} = formItem
-            const fields = getListValue(field)
+            const fields = FormValidateUtils.getListValue(field)
             if (!!fields) {
                 !!label && (fields.forEach(item => fieldToLabel[item] = label));
                 required && (resultRules.push({field, label, required: true,}))
@@ -325,7 +352,7 @@ export function formatFormRules(
                     console.error("form-item's props.field is required when props.required is true!")
                 }
             }
-            const formItemRules = getListValue(rules)
+            const formItemRules = FormValidateUtils.getListValue(rules)
             if (!!formItemRules && formItemRules.length > 0) {
                 formItemRules.forEach(r => {resultRules.push({...r, label: r.label || label, field: r.field || field,})})
             }
@@ -338,7 +365,7 @@ export function formatFormRules(
             formComponentRulesList = formComponentRules
         } else {
             Object.keys(formComponentRules).forEach(f => {
-                const value = getListValue(formComponentRules[f])
+                const value = FormValidateUtils.getListValue(formComponentRules[f])
                 !!value && value.forEach(r => formComponentRulesList.push({...r, field: r.field || f}))
             })
         }
@@ -372,7 +399,7 @@ export function formatFormRules(
             // todo 没有匹配的规则
             formValidateResultMap[field] = undefined
         } else {
-            const validateResult = (await Promise.all(rules.map(r => checkRule({rule: r, formData, fieldToLabel}))))
+            const validateResult = (await Promise.all(rules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel}))))
                 .filter(Boolean) as FormValidateResult[];
             formValidateResultMap[field] = validateResult[0]
         }
@@ -380,12 +407,48 @@ export function formatFormRules(
         return formValidateResultMap[field]
     }
 
-    async function validate(formData: Record<string, any> | null): Promise<FormValidateResultMap> {
-        const validateResult = (await Promise.all(resultRules.map(r => checkRule({rule: r, formData, fieldToLabel}))))
+    async function validate(formData: Record<string, any> | null): Promise<{ validateResultMap: FormValidateResultMap, validateMessage: string | undefined }> {
+        const validateResultList = (await Promise.all(resultRules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel}))))
             .filter(Boolean) as FormValidateResult[];
-        return validateResult.reduce((prev, next) => {
-
+        const validateResultMap = validateResultList.reduce((prev, next) => {
+            const {rule: {field}} = next
+            const fields = FormValidateUtils.getListValue(field)
+            if (!!fields) {
+                fields.forEach(f => prev[f] = next)
+            }
             return prev
         }, {} as FormValidateResultMap)
+        let validateMessage: string | undefined;
+        if (validateResultList.length > 0) {
+            const {label, message} = validateResultList[0]!
+            validateMessage = `“${label}” 校验不通过，${message}`
+        }
+        return {
+            validateResultMap,
+            validateMessage,
+        }
+    }
+
+    const fieldToRequired = resultRules.reduce((prev, next) => {
+        if (!!next.required) {
+            const fields = FormValidateUtils.getListValue(next.field)!
+            fields.forEach(f => prev[f] = true)
+        }
+        return prev
+    }, {} as Record<string, boolean>)
+
+    return {
+        /*通过field映射label文本*/
+        fieldToLabel,
+        /*所有的校验规则*/
+        resultRules,
+        /*通过field映射required*/
+        fieldToRequired,
+        methods: {
+            /*校验单个字段*/
+            validateField,
+            /*校验所有规则*/
+            validate,
+        },
     }
 }
