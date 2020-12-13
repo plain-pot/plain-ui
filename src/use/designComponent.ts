@@ -93,7 +93,8 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                     return renderNothing
                 }
                 const ctx = getCurrentInstance()!
-                const event = useEvent<E>(emits!)
+                const event = useEvent<E>(emits!);
+                (ctx as any)._event = event;
 
                 const {refer, render} = setup({
                     props,
@@ -109,8 +110,6 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                         Object.assign(ctx.proxy, refer)
                     }
                 }
-
-                (ctx as any)._event = event
 
                 if (provideRefer) {
                     if (!options.name) {
