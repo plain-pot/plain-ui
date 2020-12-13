@@ -223,7 +223,7 @@ export const FormValidateUtils = {
         /*---------------------------------------max-------------------------------------------*/
 
         if (max != null) {
-            const invalidValues = values.filter(({value}) => {
+            const invalidValues = values.filter(({value, field}) => {
 
                 //校验不通过才返回true
 
@@ -232,16 +232,13 @@ export const FormValidateUtils = {
                     return false
                 }
                 if (Array.isArray(value)) {
-                    const len = value.length
-                    if (len > max) {
-                        return true
-                    }
+                    return value.length > max
                 }
-                if (type == "number") {
-                    if (Number(value) > max) {
-                        return true
-                    }
+                if (type == "number" || typeof value === "number") {
+                    value = typeof value === "number" ? value : Number(value)
+                    return value > max
                 }
+                // string
                 return String(value).length > max
             })
             if (invalidValues.length > 0) {
@@ -267,16 +264,13 @@ export const FormValidateUtils = {
                     return false
                 }
                 if (Array.isArray(value)) {
-                    const len = value.length
-                    if (len < min) {
-                        return true
-                    }
+                    return value.length < min
                 }
-                if (type == "number") {
-                    if (Number(value) < min) {
-                        return true
-                    }
+                if (type == "number" || typeof value === "number") {
+                    value = typeof value === "number" ? value : Number(value)
+                    return value < min
                 }
+                // string
                 return String(value).length < min
             })
             if (invalidValues.length > 0) {
