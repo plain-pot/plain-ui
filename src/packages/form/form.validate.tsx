@@ -452,3 +452,5 @@ export function formatFormRules(
         },
     }
 }
+
+export type FormValidate = ReturnType<typeof formatFormRules>

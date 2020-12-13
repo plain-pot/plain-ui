@@ -7,10 +7,10 @@ import {useNumber} from "../../use/useNumber";
 import {FormCollector} from "./form";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
-import {reactive, onMounted, computed, PropType} from 'vue';
+import {reactive, onMounted, computed, PropType, ComputedRef} from 'vue';
 import {useClass} from "../../use/useClasses";
 import {FormContentAlign, FormLabelAlign} from "./form.utils";
-import {FormComponentItemRules, FormRule} from "./form.validate";
+import {FormComponentItemRules, FormRule, FormValidateUtils} from "./form.validate";
 
 export default designComponent({
     name: 'pl-form-item',
@@ -63,6 +63,8 @@ export default designComponent({
             `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
                 'pl-form-item-static-width': staticWidth.value,
+                'pl-form-item-required': isRequired.value,
+                // 'pl-form-item-invalidate': !!validateMessage.value,
             }
         ])
 
@@ -117,6 +119,15 @@ export default designComponent({
             required: props.required,
             rules: props.rules,
         }))
+
+        const isRequired = computed(() => {
+            const {fieldToRequired} = form.childState.formValidate
+            const fields = FormValidateUtils.getListValue(props.field)
+            if (!fields) {
+                return false
+            }
+            return !!fields.find(f => !!fieldToRequired[f])
+        }) as ComputedRef<boolean>
 
         return {
             refer: {

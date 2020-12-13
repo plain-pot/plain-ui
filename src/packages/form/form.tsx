@@ -10,7 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules, FormComponentRules} from "./form.validate";
+import {formatFormRules, FormComponentRules, FormValidate} from "./form.validate";
 
 const Form = designComponent({
     name: 'pl-form',
@@ -115,20 +115,20 @@ const Form = designComponent({
             style.width = `calc(${col! * column}px ${column > 1 ? `+ ${numberState.columnGutter * column}px` : ''})`
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
+        /*---------------------------------------validate-------------------------------------------*/
+
+        const formValidate = computed(() => formatFormRules(props.rules, items)) as ComputedRef<FormValidate>
+
+        /*---------------------------------------end-------------------------------------------*/
+
+        onMounted(() => {
+            console.log('formValidate.value', formValidate.value)
+        })
 
         const childState = reactive({
             align,
             width,
-        })
-
-        /*---------------------------------------validate-------------------------------------------*/
-
-        const formatRules = computed(() => {
-            formatFormRules(props.rules, items)
-        })
-
-        onMounted(() => {
-            console.log('formatRules.value', formatRules.value)
+            formValidate,
         })
 
         return {

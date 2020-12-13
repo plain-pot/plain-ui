@@ -54,6 +54,18 @@
           }
         }
       }
+
+      &.pl-form-item-required {
+        .pl-form-item-label {
+          &:before {
+            content: '*';
+            color: $colorError;
+            position: relative;
+            top: 2px;
+            right: 4px;
+          }
+        }
+      }
     }
 
     @include sizeMixin(form) {
