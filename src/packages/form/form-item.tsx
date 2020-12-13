@@ -79,8 +79,8 @@ export default designComponent({
             `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
                 'pl-form-item-static-width': staticWidth.value,
-                'pl-form-item-required': isRequired.value,
-                'pl-form-item-invalidate': !!invalidate.value,
+                'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
+                'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
 
@@ -172,7 +172,7 @@ export default designComponent({
                     <div class="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}
 
-                        {!!invalidate.value && (<div class="pl-form-item-message">
+                        {!!invalidate.value && !form.props.hideValidateMessage && (<div class="pl-form-item-message">
                             {invalidate.value.message}
                         </div>)}
                     </div>
