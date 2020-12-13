@@ -119,25 +119,38 @@ const Form = designComponent({
         const formValidate = computed(() => formatFormRules(props.rules, items)) as ComputedRef<FormValidate>
 
         const validateMethods = {
-            validate: async () => {
+            validate: async (config?: { autoLoading?: boolean, autoAlert?: boolean, }) => {
+                config = config || {}
+                if (config.autoLoading != false) {
+                    childState.loading = true
+                }
                 const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
+                if (config.autoLoading != false) {
+                    childState.loading = false
+                }
+
                 childState.validateResultMap = validateResultMap
                 if (!!validateMessage) {
-                    alert(validateMessage)
-                    return {
+                    if (config.autoAlert !== false) {
+                        alert(validateMessage)
+                    }
+                    throw {
                         validate: validateResult,
                         message: validateMessage,
                     }
                 } else {
                     return null
                 }
-            }
+            },
+            clearValidate: () => {
+                childState.validateResultMap = {}
+            },
         }
 
         /*---------------------------------------end-------------------------------------------*/
 
         onMounted(() => {
-            console.log('formValidate.value', formValidate.value)
+            // console.log('formValidate.value', formValidate.value)
         })
 
         const childState = reactive({
@@ -145,6 +158,7 @@ const Form = designComponent({
             width,
             formValidate,
             validateResultMap: {} as FormValidateResultMap,
+            loading: false,
         })
 
         return {
@@ -155,7 +169,7 @@ const Form = designComponent({
                 ...validateMethods,
             },
             render: () => {
-                return (<div class={classes.value} style={styles.value}>
+                return (<div class={classes.value} style={styles.value} v-loading={childState.loading || !!props.loading}>
                     <div class="pl-form-body" style={bodyStyles.value}>
                         {slots.default()}
                     </div>
