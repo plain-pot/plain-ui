@@ -18,8 +18,8 @@ const Form = designComponent({
     props: {
         ...EditProps,
         ...StyleProps,
-        disabledFields: {type: Object},                                     // 禁用的字段
-        readonlyFields: {type: Object},                                     // 只读的字段
+        disabledFields: {type: Object as PropType<Record<string, boolean>>},// 禁用的字段
+        readonlyFields: {type: Object as PropType<Record<string, boolean>>},// 只读的字段
 
         modelValue: {type: Object},                                         // model绑定表单对象
         rules: {type: Object as PropType<FormComponentRules>},              // 表单验证规则

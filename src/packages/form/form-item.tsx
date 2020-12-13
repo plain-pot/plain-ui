@@ -50,6 +50,19 @@ export default designComponent({
             adjust: ret => {
                 ret.onChange = handler.onEditChange
                 ret.onBlur = handler.onEditBlur
+
+                if (!!form.props.disabledFields && !!props.field) {
+                    const fields = FormValidateUtils.getListValue(props.field)
+                    if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
+                        ret.disabled = true
+                    }
+                }
+                if (!!form.props.readonlyFields && !!props.field) {
+                    const fields = FormValidateUtils.getListValue(props.field)
+                    if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
+                        ret.readonly = true
+                    }
+                }
             }
         })
 
