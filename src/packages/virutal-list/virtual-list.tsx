@@ -42,19 +42,32 @@ export default designComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
+        /*非响应式属性*/
+        const freezeState = {
+            scrollTop: 0,                               // 实时的scrollTop值
+            current: {                                  // 当前的页面信息
+                pageIndex: 0,
+                start: 0,
+                end: 0,
+            },
+        }
+        /*响应式属性*/
         const state = reactive({
             nodes: [] as DataNode[],                    // 格式化的data数组数据
-            scrollTop: 0,                               // 当前滚动scrollTop
+            scrollTop: 0,                               // 当前滚动scrollTop（非实时的）
             pageSize: 0,                                // 页大小
         })
 
-        const isScrolling = (() => {
+        /**
+         * 滚动的过程中，pl-list 的队列动画
+         * @author  韦胜健
+         * @date    2020/12/14 22:41
+         */
+        const disbaleListTransition = (() => {
             const disabledQueueAnimation = debounce(() => refs.scroll!.refs.host.removeAttribute('virtual-scrolling'), 300, true)
-            return {
-                handler: () => {
-                    refs.scroll!.refs.host.setAttribute('virtual-scrolling', '')
-                    disabledQueueAnimation();
-                }
+            return () => {
+                refs.scroll!.refs.host.setAttribute('virtual-scrolling', '')
+                disabledQueueAnimation();
             }
         })();
 
@@ -64,10 +77,8 @@ export default designComponent({
          * @date    2020/11/15 9:28
          */
         const offsetData = computed((): { list: { item: any, index: number }[], startPageIndex: number, start: number } => {
-
             const {pageSize, scrollTop} = state
             const data = props.data || []
-
             if (!pageSize) {
                 return {list: [], startPageIndex: 0, start: 0}
             }
@@ -78,28 +89,7 @@ export default designComponent({
                     startPageIndex: 0,
                 }
             }
-
-            /*当前scrollTop对应的数据中数据的索引*/
-            let scrollIndex = utils.getIndex(scrollTop)
-            let pageIndex = Math.floor(scrollIndex / pageSize)
-            let start = pageIndex === 0 ? 0 : (pageIndex - 1) * pageSize
-            let end = start + pageSize * 3
-            /*console.log({
-                scrollIndex,
-                pageIndex,
-                start,
-                end,
-            })*/
-            const exceed = end - data.length
-            if (exceed > 0) {
-                end = data.length
-                start -= exceed
-                if (start < 0) {
-                    start = 0
-                }
-            }
-            pageIndex = Math.floor(start / pageSize)
-
+            const {start, end, pageIndex} = utils.getPageIndex(scrollTop, pageSize)
             return {
                 list: data.map((item, index) => ({item, index})).slice(start, end),
                 startPageIndex: pageIndex,
@@ -190,6 +180,40 @@ export default designComponent({
                 }
             },
             /**
+             * 根据scrollTop以及pageSize获取当前的pageIndex
+             * @author  韦胜健
+             * @date    2020/12/14 22:44
+             */
+            getPageIndex: (scrollTop: number, pageSize: number) => {
+                const data = props.data || []
+                /*当前scrollTop对应的数据中数据的索引*/
+                let scrollIndex = utils.getIndex(scrollTop)
+                let pageIndex = Math.floor(scrollIndex / pageSize)
+                let start = pageIndex === 0 ? 0 : (pageIndex - 1) * pageSize
+                let end = start + pageSize * 3
+                /*console.log({
+                    scrollIndex,
+                    pageIndex,
+                    start,
+                    end,
+                })*/
+                const exceed = end - data.length
+                if (exceed > 0) {
+                    end = data.length
+                    start -= exceed
+                    if (start < 0) {
+                        start = 0
+                    }
+                }
+                pageIndex = Math.floor(start / pageSize)
+                return {
+                    data,
+                    start,
+                    end,
+                    pageIndex,
+                }
+            },
+            /**
              * 格式化props.data为 DataNode数组
              * @author  韦胜健
              * @date    2020/11/15 9:29
@@ -211,13 +235,16 @@ export default designComponent({
         const handler = {
             scroll: (e: Event) => {
                 emit.onScroll(e)
-                isScrolling.handler()
-
+                disbaleListTransition()
                 if (props.disabled) {
                     return
                 }
-
-                state.scrollTop = (e.target as HTMLDivElement).scrollTop
+                freezeState.scrollTop = (e.target as HTMLDivElement).scrollTop
+                const current = utils.getPageIndex((e.target as HTMLDivElement).scrollTop, state.pageSize)
+                if (freezeState.current.pageIndex != current.pageIndex || freezeState.current.start != current.start) {
+                    state.scrollTop = (e.target as HTMLDivElement).scrollTop
+                    freezeState.current = current
+                }
             }
         }
 

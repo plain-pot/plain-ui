@@ -5,7 +5,7 @@
                 <pl-virtual-list :data="list" :size="40">
                     <template v-slot="{item,index}">
                         <div :key="index" :style="{backgroundColor:item.color,height: '40px'}" class="demo-virtual-list-item" :vid="index" @click="log(index,{...item})">
-                            <div class="seq">
+                            <div class="seq" :class="getClass(item)">
                                 {{index}}
                             </div>
                             <div class="content">
@@ -95,6 +95,10 @@
             },
             log(...args) {
                 console.log(...args)
+            },
+            getClass(item) {
+                console.log('item', item)
+                return {}
             },
         },
         mounted() {
