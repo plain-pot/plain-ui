@@ -8,6 +8,7 @@ import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {ColorPickerServiceGetter} from "./service/color-picker.service";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import './color-picker.scss'
+import {useModel} from "../../use/useModel";
 
 const opacityBg = require('./sub/opacity.png')
 
@@ -31,8 +32,9 @@ export const ColorPicker = designComponent({
         useStyle()
         const {refs} = useRefs({input: Input,})
 
+        const model = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {autoWatch: false})
         const state = reactive({
-            val: props.modelValue,
+            val: model.value,
             inputValue: props.modelValue,
         })
 
@@ -64,8 +66,7 @@ export const ColorPicker = designComponent({
 
         const methods = {
             emitValue(val: any) {
-                state.val = val
-                event.emit.onUpdateModelValue(val)
+                model.value = val
             },
         }
 
@@ -96,13 +97,14 @@ export const ColorPicker = designComponent({
                 if (agentState.state.focusCounter === 0) {
                     event.emit.onBlur(e)
                     agentState.methods.hide()
-                    state.val = props.modelValue
-                    state.inputValue = props.modelValue
+                    state.val = model.value
+                    state.inputValue = model.value
                 }
             },
         }
 
         watch(() => props.modelValue, (val) => {
+            model.value = val
             state.val = val
             state.inputValue = val
         })
