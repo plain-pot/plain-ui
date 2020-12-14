@@ -5,10 +5,9 @@ import {ArrowStep} from "./arrow-step/arrow-step";
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import Triangle from '../triangle'
 
-export default createComponentPlugin(StepGroup, {
+export default createComponentPlugin(Step, {
     exposeComponents: {
         StepGroup,
-        Step,
         ArrowStepGroup,
         ArrowStep,
     },

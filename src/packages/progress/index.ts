@@ -6,7 +6,6 @@ import './progress.scss'
 
 export default createComponentPlugin(ProgressBar, {
     exposeComponents: {
-        ProgressBar,
         ProgressCircle,
         ProgressMini,
     },
