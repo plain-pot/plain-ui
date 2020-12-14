@@ -62,13 +62,13 @@ export const useEdit = useFunctionWrapper(
         const event = (ctx as any)._event as ComponentEvent<any> | undefined
 
         if (!!parentEditComputed) {
-            if (!!parentEditComputed.value.onBlur && !!event && !!event.on.blur) {
-                event.on.blur(parentEditComputed.value.onBlur)
-                onBeforeUnmount(() => event.off.blur(parentEditComputed.value.onBlur!))
+            if (!!parentEditComputed.value.onBlur && !!event && !!event.on.onBlur) {
+                event.on.onBlur(parentEditComputed.value.onBlur)
+                onBeforeUnmount(() => event.off.onBlur(parentEditComputed.value.onBlur!))
             }
-            if (!!parentEditComputed.value.onChange && !!event && !!event.on.change) {
-                event.on.change(parentEditComputed.value.onChange)
-                onBeforeUnmount(() => event.off.change(parentEditComputed.value.onChange!))
+            if (!!parentEditComputed.value.onChange && !!event && !!event.on.onChange) {
+                event.on.onChange(parentEditComputed.value.onChange)
+                onBeforeUnmount(() => event.off.onChange(parentEditComputed.value.onChange!))
             }
         }
 
