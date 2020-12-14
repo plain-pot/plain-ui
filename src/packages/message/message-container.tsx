@@ -4,6 +4,8 @@ import {MessageServiceFormatOption} from "./index";
 import {useRefList} from "../../use/useRefList";
 import {nextTick, reactive} from 'vue';
 import Message from "./message";
+import List from '../list'
+import Item from '../item'
 
 export default designComponent({
     name: 'pl-message-container',
@@ -46,16 +48,16 @@ export default designComponent({
                 },
             },
             render: () => (
-                <pl-list direction="top" class={classes.value} style={styles}>
+                <List direction="top" class={classes.value} style={styles}>
                     {state.options.map((option, index) =>
-                        <pl-item key={option.id}>
+                        <Item key={option.id}>
                             <Message option={option}
                                      ref={(proxy: any) => refs[index] = proxy}
                                      {...{onClose: () => utils.closeMessage(index)}}
                             />
-                        </pl-item>
+                        </Item>
                     )}
-                </pl-list>
+                </List>
             )
         }
     },

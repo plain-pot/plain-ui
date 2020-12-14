@@ -56,7 +56,7 @@ export default designComponent({
                      onClick={handler.onClick}>
                     {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
                     <div class="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>
-                    <pl-icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>
+                    {/*<Icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>*/}
                 </div>
             )
         }

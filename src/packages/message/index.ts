@@ -7,6 +7,7 @@ import './message.scss'
 import Icon from '../icon'
 import List from '../list'
 import Item from '../item'
+import {getServiceWithoutContext} from "../../utils/getServiceWithoutContext";
 
 /**
  * 消息位置
@@ -132,6 +133,8 @@ const getMessageService = registryRootService(
         }, {})) as MessageService
     }
 )
+
+export const $$message = getServiceWithoutContext(getMessageService)
 
 export default createComponentPlugin({
     ...ManagerComponent,

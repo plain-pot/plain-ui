@@ -12,6 +12,7 @@ import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
 import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
 import {debounce} from "plain-utils/utils/debounce";
+import {$$message} from "../message";
 
 const Form = designComponent({
     name: 'pl-form',
@@ -133,7 +134,7 @@ const Form = designComponent({
                 childState.validateResultMap = validateResultMap
                 if (!!validateMessage) {
                     if (config.autoAlert !== false) {
-                        alert(validateMessage)
+                        $$message.warn(validateMessage)
                     }
                     throw {
                         validate: validateResult,
@@ -148,9 +149,9 @@ const Form = designComponent({
             },
             showError: (error: any) => {
                 if (!!error.message) {
-                    alert(error.message)
+                    $$message.warn(error.message)
                 } else {
-                    alert(String(error))
+                    $$message.warn(String(error))
                 }
             },
         }
