@@ -3,7 +3,9 @@ import {useClass} from "../../use/useClasses";
 import {NoticeServiceDirection, NoticeServiceFormatOption} from "./index";
 import {useRefList} from "../../use/useRefList";
 import {nextTick, reactive} from 'vue';
-import Nontice from "./notice";
+import Notice from "./notice";
+import List from '../list'
+import Item from '../item'
 
 export default designComponent({
     name: 'pl-notice-container',
@@ -44,18 +46,18 @@ export default designComponent({
                 },
             },
             render: () => (
-                <pl-list direction={props.horizontal === NoticeServiceDirection.start ? 'left' : 'right'}
-                         class={classes.value}
-                         style={styles}>
+                <List direction={props.horizontal === NoticeServiceDirection.start ? 'left' : 'right'}
+                      class={classes.value}
+                      style={styles}>
                     {state.options.map((option, index) =>
-                        <pl-item key={option.id}>
-                            <Nontice option={option}
-                                     ref={(proxy: any) => refs[index] = proxy}
-                                     {...{onClose: () => utils.close(index)}}
+                        <Item key={option.id}>
+                            <Notice option={option}
+                                    ref={(proxy: any) => refs[index] = proxy}
+                                    onClose={() => utils.close(index)}
                             />
-                        </pl-item>
+                        </Item>
                     )}
-                </pl-list>
+                </List>
             )
         }
     },

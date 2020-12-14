@@ -4,6 +4,7 @@ import {RequireFormat, SimpleFunction, VNodeChild} from "../../shims";
 import ManagerComponent from './notice-manager'
 import {App} from 'vue';
 import {STATUS} from "../../utils/constant";
+import {getServiceWithoutContext} from "../../utils/getServiceWithoutContext";
 
 export enum NoticeServiceDirection {
     start = 'start',
@@ -59,7 +60,7 @@ export interface NoticeServiceFunction {
     (message: string | NoticeServiceOption, option?: NoticeServiceOption): void
 }
 
-export type NoticeService = NoticeServiceFunction & { [k in keyof StyleStatus]: NoticeServiceFunction }
+export type NoticeService = NoticeServiceFunction & { [k in 'primary' | 'success' | 'warn' | 'error' | 'info']: NoticeServiceFunction }
 
 const getNoticeService = registryRootService(
     'notice',
@@ -96,6 +97,8 @@ const getNoticeService = registryRootService(
         }, {})) as NoticeService
     }
 )
+
+export const $$notice = getServiceWithoutContext(getNoticeService)
 
 export default {
     install(app: App) {

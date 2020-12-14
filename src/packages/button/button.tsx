@@ -12,6 +12,7 @@ import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 import {useStyles} from "../../use/useStyles";
 import {DEFAULT_STATUS} from "../../utils/constant";
+import Icon from '../icon'
 
 console.log('load button component')
 
@@ -134,7 +135,7 @@ export default designComponent({
                         {!!editComputed.value.loading && <pl-loading type="gamma"/>}
                         {
                             slots.default(<>
-                                {(!!props.icon && !editComputed.value.loading) ? <pl-icon icon={props.icon}/> : null}
+                                {(!!props.icon && !editComputed.value.loading) ? <Icon icon={props.icon}/> : null}
                                 {propsState.label ? <span>{propsState.label}</span> : null}
                             </>)
                         }

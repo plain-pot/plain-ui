@@ -4,6 +4,8 @@ import {useClass} from "../../use/useClasses";
 import {nextIndex} from "../../utils/nextIndex";
 import './notice-service.scss'
 import {PropType} from 'vue';
+import Icon from '../icon'
+import Button from '../button'
 
 export default designComponent({
     name: 'pl-notice',
@@ -51,14 +53,14 @@ export default designComponent({
                      onMouseleave={handler.onMouseleave}
                      onClick={handler.onClick}>
                     <div class="pl-notice-head">
-                        {!!props.option.icon && <pl-icon class="pl-notice-head-icon" icon={props.option.icon}/>}
+                        {!!props.option.icon && <Icon class="pl-notice-head-icon" icon={props.option.icon}/>}
                         {(!!props.option.renderHead || !!props.option.title) && (
                             <div class="pl-notice-title">
                                 {!!props.option.renderHead ? props.option.renderHead() : props.option.title}
                             </div>
                         )}
                         {!props.option.noClose && (
-                            <pl-button mode="text" icon="el-icon-close" class="pl-notice-close" onClick={handler.onClickCloseIcon}/>
+                            <Button mode="text" icon="el-icon-close" class="pl-notice-close" onClick={handler.onClickCloseIcon}/>
                         )}
                     </div>
                     {(!!props.option.renderContent || !!props.option.message) && (
