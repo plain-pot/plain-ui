@@ -39,9 +39,12 @@
           border-color: $value;
         }
       }
-      &.pl-checkbox-checked {
+    }
+
+    &.pl-checkbox-status-error {
+      &.pl-checkbox-check-status-check {
         .pl-checkbox-label {
-          color: $value;
+          color: $colorError;
         }
       }
     }
