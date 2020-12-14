@@ -3,7 +3,9 @@ import Icon from '../icon'
 import Alert from './alert'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Alert, [
-    Collapse,
-    Icon,
-])
+export default createComponentPlugin(Alert, {
+    plugins: [
+        Collapse,
+        Icon,
+    ]
+})

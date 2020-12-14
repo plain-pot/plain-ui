@@ -1,9 +1,4 @@
 import Root from './root'
-import {App} from 'vue';
+import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default {
-    ...Root,
-    install(app: App) {
-        app.component(Root.name, Root)
-    },
-}
+export default createComponentPlugin(Root)

@@ -5,11 +5,14 @@ import CascadeService from './service/cascade-service'
 
 const CascadePanel = createComponentPlugin(panel)
 
-export default {
-    CascadePanel,
-    CascadeService,
-    ...createComponentPlugin(cascade, [
+export default createComponentPlugin(cascade, {
+    exposeComponents: {
         CascadePanel,
+    },
+    plugins: [
+        CascadeService
+    ],
+    expose: {
         CascadeService,
-    ]),
-}
+    },
+})

@@ -1,30 +1,23 @@
 import time from './time'
-import column from './panel/time-base-column'
-import base from './panel/time-base-panel'
-import range from './panel/time-range-panel'
-import panel from './panel/time-panel'
+import TimeBaseColumn from './panel/time-base-column'
+import TimeBasePanel from './panel/time-base-panel'
+import TimeRangePanel from './panel/time-range-panel'
+import TimePanel from './panel/time-panel'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import {TimeServiceGetter} from "./servce/time-service";
 import DateTimeInput from '../date-time-input'
-import {DateServiceGetter} from "../date/service/date-service";
 
-const TimeBaseColumn = createComponentPlugin(column)
-const TimeBasePanel = createComponentPlugin(base)
-const TimeRangePanel = createComponentPlugin(range)
-const TimePanel = createComponentPlugin(panel)
-
-export default {
-    TimeBaseColumn,
-    TimeBasePanel,
-    TimeRangePanel,
-    TimePanel,
-    TimeServiceGetter,
-    DateServiceGetter,
-    ...createComponentPlugin(time, [
+export default createComponentPlugin(time, {
+    exposeComponents: {
         TimeBaseColumn,
         TimeBasePanel,
         TimeRangePanel,
         TimePanel,
+    },
+    plugins: [
         DateTimeInput,
-    ])
-}
+    ],
+    expose: {
+        TimeServiceGetter
+    },
+})

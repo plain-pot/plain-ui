@@ -139,20 +139,22 @@ export const $$message = getServiceWithoutContext(getMessageService)
 export default createComponentPlugin({
     ...ManagerComponent,
     getMessageService,
-}, [
-    Icon, List, Item,
-    {
-        install: (app: App) => {
-            app.mixin({
-                beforeCreate() {
-                    /*第一次调用 $message 的时候才调用 getMessageService*/
-                    Object.defineProperty(this, '$message', {
-                        get() {
-                            return getMessageService(this)
-                        },
-                    })
-                },
-            })
+}, {
+    plugins: [
+        Icon, List, Item,
+        {
+            install: (app: App) => {
+                app.mixin({
+                    beforeCreate() {
+                        /*第一次调用 $message 的时候才调用 getMessageService*/
+                        Object.defineProperty(this, '$message', {
+                            get() {
+                                return getMessageService(this)
+                            },
+                        })
+                    },
+                })
+            }
         }
-    }
-])
+    ]
+})

@@ -6,9 +6,11 @@ import Number from '../number'
 import Pagination from './pagination'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Pagination, [
-    Icon,
-    Loading,
-    Button,
-    Number,
-])
+export default createComponentPlugin(Pagination, {
+    plugins: [
+        Icon,
+        Loading,
+        Button,
+        Number,
+    ]
+})

@@ -1,20 +1,15 @@
 import Dropdown from './dropdown'
-import menu from './dropdown-menu'
-import group from './dropdown-group'
-import option from './dropdown-option'
+import DropdownMenu from './dropdown-menu'
+import DropdownGroup from './dropdown-group'
+import DropdownOption from './dropdown-option'
 import './dropdow.scss'
 
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-const DropdownMenu = createComponentPlugin(menu)
-const DropdownGroup = createComponentPlugin(group)
-const DropdownOption = createComponentPlugin(option)
-
-export default {
-    DropdownMenu,
-    ...createComponentPlugin(Dropdown, [
+export default createComponentPlugin(Dropdown, {
+    exposeComponents: {
         DropdownMenu,
         DropdownGroup,
         DropdownOption,
-    ]),
-}
+    }
+})
