@@ -29,42 +29,42 @@ export function getBaseTrigger(
         reference: HTMLElement,
 
         on: {
-            enterReference: SimpleFunction,
-            leaveReference: SimpleFunction,
+            onEnterReference: SimpleFunction,
+            onLeaveReference: SimpleFunction,
 
-            enterPopper: SimpleFunction,
-            leavePopper: SimpleFunction,
+            onEnterPopper: SimpleFunction,
+            onLeavePopper: SimpleFunction,
 
-            referenceFocus: SimpleFunction,
-            referenceBlur: SimpleFunction,
+            onReferenceFocus: SimpleFunction,
+            onReferenceBlur: SimpleFunction,
 
-            clickReference: SimpleFunction,
-            clickBody: SimpleFunction,
-            clickPopper: SimpleFunction,
+            onClickReference: SimpleFunction,
+            onClickBody: SimpleFunction,
+            onClickPopper: SimpleFunction,
         },
         off: {
-            enterReference: SimpleFunction,
-            leaveReference: SimpleFunction,
+            onEnterReference: SimpleFunction,
+            onLeaveReference: SimpleFunction,
 
-            enterPopper: SimpleFunction,
-            leavePopper: SimpleFunction,
+            onEnterPopper: SimpleFunction,
+            onLeavePopper: SimpleFunction,
 
-            referenceFocus: SimpleFunction,
-            referenceBlur: SimpleFunction,
+            onReferenceFocus: SimpleFunction,
+            onReferenceBlur: SimpleFunction,
 
-            clickReference: SimpleFunction,
-            clickBody: SimpleFunction,
-            clickPopper: SimpleFunction,
+            onClickReference: SimpleFunction,
+            onClickBody: SimpleFunction,
+            onClickPopper: SimpleFunction,
         },
         emit: {
-            referenceFocus: SimpleFunction,
-            referenceBlur: SimpleFunction,
+            onReferenceFocus: SimpleFunction,
+            onReferenceBlur: SimpleFunction,
 
-            enterReference: SimpleFunction,
-            leaveReference: SimpleFunction,
+            onEnterReference: SimpleFunction,
+            onLeaveReference: SimpleFunction,
 
-            enterPopper: SimpleFunction,
-            leavePopper: SimpleFunction,
+            onEnterPopper: SimpleFunction,
+            onLeavePopper: SimpleFunction,
         },
     },
 ) {
@@ -121,40 +121,40 @@ function getHoverTrigger({
     hoverCloseDelay: number,
 
     on: {
-        enterReference: Function,
-        leaveReference: Function,
+        onEnterReference: Function,
+        onLeaveReference: Function,
 
-        enterPopper: Function,
-        leavePopper: Function,
+        onEnterPopper: Function,
+        onLeavePopper: Function,
 
-        referenceFocus: Function,
-        referenceBlur: Function,
+        onReferenceFocus: Function,
+        onReferenceBlur: Function,
 
-        clickReference: Function,
-        clickPopper: Function,
+        onClickReference: Function,
+        onClickPopper: Function,
     },
     off: {
-        enterReference: Function,
-        leaveReference: Function,
+        onEnterReference: Function,
+        onLeaveReference: Function,
 
-        enterPopper: Function,
-        leavePopper: Function,
+        onEnterPopper: Function,
+        onLeavePopper: Function,
 
-        referenceFocus: Function,
-        referenceBlur: Function,
+        onReferenceFocus: Function,
+        onReferenceBlur: Function,
 
-        clickReference: Function,
-        clickPopper: Function,
+        onClickReference: Function,
+        onClickPopper: Function,
     },
     emit: {
-        referenceFocus: Function,
-        referenceBlur: Function,
+        onReferenceFocus: Function,
+        onReferenceBlur: Function,
 
-        enterReference: Function,
-        leaveReference: Function,
+        onEnterReference: Function,
+        onLeaveReference: Function,
 
-        enterPopper: Function,
-        leavePopper: Function,
+        onEnterPopper: Function,
+        onLeavePopper: Function,
     },
 }) {
     let closeTimer: number | undefined;
@@ -170,7 +170,7 @@ function getHoverTrigger({
                 openTimer = setTimeout(() => {
                     show()
                     openTimer = undefined
-                    emit.enterReference(model.value)
+                    emit.onEnterReference(model.value)
                 }, hoverOpenDelay)
             },
             leave: () => {
@@ -181,7 +181,7 @@ function getHoverTrigger({
                 closeTimer = setTimeout(() => {
                     hide()
                     closeTimer = undefined
-                    emit.leaveReference(model.value)
+                    emit.onLeaveReference(model.value)
                 }, hoverCloseDelay)
             },
         },
@@ -194,7 +194,7 @@ function getHoverTrigger({
                 openTimer = setTimeout(() => {
                     show()
                     openTimer = undefined
-                    emit.enterPopper(model.value)
+                    emit.onEnterPopper(model.value)
                 }, hoverOpenDelay)
             },
             leave: () => {
@@ -205,7 +205,7 @@ function getHoverTrigger({
                 closeTimer = setTimeout(() => {
                     hide()
                     closeTimer = undefined
-                    emit.leavePopper(model.value)
+                    emit.onLeavePopper(model.value)
                 }, hoverCloseDelay)
             },
         },
@@ -214,18 +214,18 @@ function getHoverTrigger({
     return new PopperTrigger(
         PopperTriggerType.hover,
         () => {
-            on.enterReference(handler.reference.enter)
-            on.leaveReference(handler.reference.leave)
+            on.onEnterReference(handler.reference.enter)
+            on.onLeaveReference(handler.reference.leave)
 
-            on.enterPopper(handler.popper.enter)
-            on.leavePopper(handler.popper.leave)
+            on.onEnterPopper(handler.popper.enter)
+            on.onLeavePopper(handler.popper.leave)
         },
         () => {
-            off.enterReference(handler.reference.enter)
-            off.leaveReference(handler.reference.leave)
+            off.onEnterReference(handler.reference.enter)
+            off.onLeaveReference(handler.reference.leave)
 
-            off.enterPopper(handler.popper.enter)
-            off.leavePopper(handler.popper.leave)
+            off.onEnterPopper(handler.popper.enter)
+            off.onLeavePopper(handler.popper.leave)
         }
     )
 }
@@ -244,25 +244,25 @@ function getClickTrigger({
     openModel: { value: boolean | undefined },
 
     on: {
-        clickReference: Function,
-        clickBody: Function,
+        onClickReference: Function,
+        onClickBody: Function,
     },
     off: {
-        clickReference: Function,
-        clickBody: Function,
+        onClickReference: Function,
+        onClickBody: Function,
     },
 
 }) {
 
     const handler = {
-        clickReference: () => {
+        onClickReference: () => {
             if (model.value) {
                 hide()
             } else {
                 show()
             }
         },
-        clickBody: () => {
+        onClickBody: () => {
             if (openModel.value) {
                 hide()
             }
@@ -272,12 +272,12 @@ function getClickTrigger({
     return new PopperTrigger(
         PopperTriggerType.click,
         () => {
-            on.clickReference(handler.clickReference)
-            on.clickBody(handler.clickBody)
+            on.onClickReference(handler.onClickReference)
+            on.onClickBody(handler.onClickBody)
         },
         () => {
-            off.clickReference(handler.clickReference)
-            off.clickBody(handler.clickBody)
+            off.onClickReference(handler.onClickReference)
+            off.onClickBody(handler.onClickBody)
         },
     )
 }
@@ -296,16 +296,16 @@ function getFocusTrigger(
         reference: HTMLElement,
 
         on: {
-            referenceFocus: Function,
-            referenceBlur: Function,
+            onReferenceFocus: Function,
+            onReferenceBlur: Function,
         },
         off: {
-            referenceFocus: Function,
-            referenceBlur: Function,
+            onReferenceFocus: Function,
+            onReferenceBlur: Function,
         },
         emit: {
-            referenceFocus: Function,
-            referenceBlur: Function,
+            onReferenceFocus: Function,
+            onReferenceBlur: Function,
         },
     }
 ) {
@@ -313,11 +313,11 @@ function getFocusTrigger(
     let oldTabIndex: string | null;
     const handler = {
         focus: (e: FocusEvent) => {
-            emit.referenceFocus(e)
+            emit.onReferenceFocus(e)
             show()
         },
         blur: (e: Event) => {
-            emit.referenceBlur(e)
+            emit.onReferenceBlur(e)
             hide()
         },
     }
@@ -328,8 +328,8 @@ function getFocusTrigger(
             if (oldTabIndex == null) {
                 reference.setAttribute('tabindex', '0')
             }
-            on.referenceFocus(handler.focus)
-            on.referenceBlur(handler.blur)
+            on.onReferenceFocus(handler.focus)
+            on.onReferenceBlur(handler.blur)
         },
         () => {
             if (oldTabIndex == null) {
@@ -337,8 +337,8 @@ function getFocusTrigger(
             } else {
                 reference.setAttribute('tabindex', oldTabIndex)
             }
-            off.referenceFocus(handler.focus)
-            off.referenceBlur(handler.blur)
+            off.onReferenceFocus(handler.focus)
+            off.onReferenceBlur(handler.blur)
         },
     )
 }

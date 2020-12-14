@@ -2,7 +2,7 @@ import {designComponent} from "../../../use/designComponent";
 import {EditProps} from "../../../use/useEdit";
 import {useRefs} from "../../../use/useRefs";
 import {useProps} from "../../../use/useProps";
-import {reactive, computed, watch, nextTick} from 'vue';
+import {computed, nextTick, reactive, watch} from 'vue';
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
@@ -21,7 +21,7 @@ export const ColorAlphaSlider = designComponent({
         thumbSize: {type: [String, Number], default: 10},           // 指示器宽度
     },
     emits: {
-        updateModelValue: (val: number) => true,
+        onUpdateModelValue: (val: number) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -61,7 +61,7 @@ export const ColorAlphaSlider = designComponent({
                 state.top = Math.max(0, Math.min(height.value, top))
             },
             emitValue: () => {
-                emit.updateModelValue(Number((state.top / height.value * 100).toFixed(0)))
+                emit.onUpdateModelValue(Number((state.top / height.value * 100).toFixed(0)))
             }
         }
 

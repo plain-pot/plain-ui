@@ -14,7 +14,7 @@ export const DemoUseCollectChildComponent = designComponent({
         falseValue: {default: false},
     },
     emits: {
-        updateModelValue: (val: any) => true
+        onUpdateModelValue: (val: any) => true
     },
     setup({props, event}) {
 
@@ -25,7 +25,7 @@ export const DemoUseCollectChildComponent = designComponent({
 
         const {slots} = useSlots()
 
-        const modelValue = useModel(() => props.modelValue, event.emit.updateModelValue, {
+        const modelValue = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {
             autoEmit: !parent,
             autoWatch: !parent,
         })

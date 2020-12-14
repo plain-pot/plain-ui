@@ -3,18 +3,6 @@ import {createPlainEvent, PlainEvent} from "../plugins/Event";
 import {SimpleFunction} from "../shims";
 import {kebabCase} from 'plain-utils/string/kebabCase'
 
-// focus                -> focus
-// itemClick            -> item-click
-// updateModelValue     -> update:modelValue
-// updateStart          -> update:start
-function emitName2ListenName(emitName: string): string {
-    const match = emitName.match(/update([A-Z])(.*)/)
-    if (match) {
-        return `update:${match[1].toLowerCase()}${match[2]}`
-    }
-    return kebabCase(emitName)!
-}
-
 type EventListener<EmitsValue> = EmitsValue extends (...args: any[]) => any ? Parameters<EmitsValue> : never
 
 export type ComponentEvent<Emit> = {
@@ -25,13 +13,20 @@ export type ComponentEvent<Emit> = {
 }
 
 export function getComponentEmit<T>(emitObject: T): T {
-    return {
-        change: null,
-        ...Object.keys(emitObject || {}).reduce((ret: any, key: string) => {
-            ret[emitName2ListenName(key)] = (emitObject as any)[key]
-            return ret
-        }, {} as any),
-    }
+    return Object.keys(emitObject || {}).reduce((prev, key) => {
+        const emitter = (emitObject as any)[key];
+        const match = key.match(/onUpdate([A-Z])(.*)/)
+        const kebabCaseName = kebabCase(key).replace('on-', '')
+        if (!!match) {
+            const updateName = `update:${match[1].toLowerCase()}${match[2]}`
+            prev[updateName] = emitter
+            if (key === 'onUpdateModelValue') {
+                prev['change'] = emitter
+            }
+        }
+        prev[kebabCaseName] = emitter
+        return prev
+    }, {} as any)
 }
 
 export function useEvent<T>(emitObject: T): ComponentEvent<T> {
@@ -45,20 +40,28 @@ export function useEvent<T>(emitObject: T): ComponentEvent<T> {
     const off = {} as any;
 
     const keys = Object.keys(emitObject || {})
-    if (!!emitObject && !!(emitObject as any).updateModelValue) {
-        keys.push('change')
-    }
+    if (!!emitObject && !!(emitObject as any).onUpdateModelValue) {keys.push('onChange')}
 
     keys.forEach(key => {
         /*派发事件名称，横杠命名*/
-        const kebabCaseName = emitName2ListenName(key)
-
-        emit[key] = (...args: any[]) => {
-            ctx.emit(kebabCaseName, ...args)
-            event.emit(kebabCaseName, ...args)
-            if (key === 'updateModelValue') {
-                ctx.emit('change', ...args)
-                event.emit('change', ...args)
+        const match = key.match(/onUpdate([A-Z])(.*)/)
+        const kebabCaseName = kebabCase(key).replace('on-', '')
+        if (!!match) {
+            const updateName = `update:${match[1].toLowerCase()}${match[2]}`
+            emit[key] = (...args: any[]) => {
+                ctx.emit(kebabCaseName, ...args)
+                event.emit(kebabCaseName, ...args)
+                ctx.emit(updateName, ...args)
+                event.emit(updateName, ...args)
+                if (key === 'onUpdateModelValue') {
+                    ctx.emit('change', ...args)
+                    event.emit('change', ...args)
+                }
+            }
+        } else {
+            emit[key] = (...args: any[]) => {
+                ctx.emit(kebabCaseName, ...args)
+                event.emit(kebabCaseName, ...args)
             }
         }
         on[key] = (fn: SimpleFunction) => event.on(kebabCaseName, fn)

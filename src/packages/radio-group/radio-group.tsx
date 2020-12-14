@@ -17,7 +17,7 @@ export default designComponent({
         itemWidth: {type: [String, Number]},                       // 每一个单选框的宽度
     },
     emits: {
-        updateModelValue: (val: any) => true
+        onUpdateModelValue: (val: any) => true
     },
     provideRefer: true,
     setup({props, event: {emit}}) {
@@ -27,7 +27,7 @@ export default designComponent({
         const {slots} = useSlots()
         useEdit()
         useStyle({status: DEFAULT_STATUS})
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const {propsState} = useProps(props, {
             itemWidth: useProps.NUMBER,
         })

@@ -1,7 +1,7 @@
 import './color-sv-panel.scss'
 import {designComponent} from "../../../use/designComponent";
 import {useProps} from "../../../use/useProps";
-import {reactive, computed, nextTick, watch} from 'vue';
+import {computed, nextTick, reactive, watch} from 'vue';
 import {hsv2rgb} from "../utils/ColorUtils";
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
@@ -18,8 +18,8 @@ export const ColorSvPanel = designComponent({
         width: {type: [String, Number], default: 240},          // 面板宽度
     },
     emits: {
-        change: (val: any) => true,
-        dblclick: (e: MouseEvent) => true,
+        onChange: (val: any) => true,
+        onDblclick: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -67,7 +67,7 @@ export const ColorSvPanel = designComponent({
                 state.saturation = Math.max(0, Math.min(100, state.saturation))
                 state.val = Math.max(0, Math.min(100, state.val))
 
-                emit.change({hue: props.hue, saturation: state.saturation, value: 100 - state.val})
+                emit.onChange({hue: props.hue, saturation: state.saturation, value: 100 - state.val})
             },
         }
 
@@ -91,7 +91,7 @@ export const ColorSvPanel = designComponent({
                 enableUserSelect()
             },
             dblclick: async (e: MouseEvent) => {
-                nextTick().then(() => emit.dblclick(e))
+                nextTick().then(() => emit.onDblclick(e))
             },
         }
 

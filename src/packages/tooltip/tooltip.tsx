@@ -19,7 +19,7 @@ export default designComponent({
         popperClass: {type: Object},                        // 传递给 pl-popper 的popperClass 属性
     },
     emits: {
-        updateModelValue: (val: boolean) => true
+        onUpdateModelValue: (val: boolean) => true
     },
     setup({props, event: {emit}}) {
 
@@ -31,7 +31,7 @@ export default designComponent({
             reference: HTMLSpanElement
         })
         const {slots} = useSlots(['tooltip'])
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
         const popperClasses = useClass(() => [
             'pl-tooltip',

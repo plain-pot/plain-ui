@@ -11,7 +11,7 @@ export default designComponent({
         option: {type: Object as PropType<NoticeServiceFormatOption>, required: true}
     },
     emits: {
-        close: () => true
+        onClose: () => true
     },
     setup({props, event: {emit}}) {
         const classes = useClass(() => [
@@ -20,7 +20,7 @@ export default designComponent({
         ])
         const styles = {zIndex: nextIndex()}
         const close = () => {
-            emit.close()
+            emit.onClose()
             !!props.option.onClose && props.option.onClose()
         }
         props.option.close = close

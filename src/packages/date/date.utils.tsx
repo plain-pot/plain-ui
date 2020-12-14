@@ -60,10 +60,10 @@ export const DefaultDateFormatString = {
 }
 
 export const DatePublicEmits = {
-    updateModelValue: (val?: string, rangeType?: DateEmitRangeType) => true,
-    updateStart: (val?: string) => true,
-    updateEnd: (val?: string) => true,
-    updateView: (view: DateView) => true,
+    onUpdateModelValue: (val?: string, rangeType?: DateEmitRangeType) => true,
+    onUpdateStart: (val?: string) => true,
+    onUpdateEnd: (val?: string) => true,
+    onUpdateView: (view: DateView) => true,
 }
 
 /*DateBasePanelItemData*/

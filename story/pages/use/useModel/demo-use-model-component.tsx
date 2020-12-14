@@ -9,15 +9,15 @@ export const DemoUseModelComponent = designComponent({
         range: {type: Boolean}
     },
     emits: {
-        updateModelValue: (val: any) => true,
-        updateStart: (val: any) => true,
-        updateEnd: (val: any) => true,
+        onUpdateModelValue: (val: any) => true,
+        onUpdateStart: (val: any) => true,
+        onUpdateEnd: (val: any) => true,
     },
     setup({props, event: {emit}}) {
 
-        const modelValue = useModel(() => props.modelValue, emit.updateModelValue)
-        const modelStart = useModel(() => props.start, emit.updateStart)
-        const modelEnd = useModel(() => props.end, emit.updateEnd)
+        const modelValue = useModel(() => props.modelValue, emit.onUpdateModelValue)
+        const modelStart = useModel(() => props.start, emit.onUpdateStart)
+        const modelEnd = useModel(() => props.end, emit.onUpdateEnd)
 
         return {
             render: () => {

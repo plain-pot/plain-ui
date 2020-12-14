@@ -12,7 +12,7 @@ export default designComponent({
     },
     provideRefer: true,
     emits: {
-        updateModelValue: (val: boolean) => true,
+        onUpdateModelValue: (val: boolean) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -23,7 +23,7 @@ export default designComponent({
             reference: {open: Boolean}
         })
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
         const state = reactive({})
 

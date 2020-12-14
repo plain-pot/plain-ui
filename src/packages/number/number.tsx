@@ -32,14 +32,14 @@ export default designComponent({
         inputProps: {type: Object},                                 // pl-input属性配置对象
     },
     emits: {
-        focus: (e: Event) => true,
-        blur: (e: Event) => true,
-        updateModelValue: (val: string | number | undefined) => true,
-        enter: (e: KeyboardEvent) => true,
+        onFocus: (e: Event) => true,
+        onBlur: (e: Event) => true,
+        onUpdateModelValue: (val: string | number | undefined) => true,
+        onEnter: (e: KeyboardEvent) => true,
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue, {autoEmit: false})
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoEmit: false})
         useStyle({status: undefined})
         const {editComputed} = useEdit()
         const state = reactive({
@@ -138,7 +138,7 @@ export default designComponent({
                 value += propsState.step
                 value = utils.checkValue(value)
                 model.value = value
-                emit.updateModelValue(model.value)
+                emit.onUpdateModelValue(model.value)
             },
             minus: () => {
                 if (!editComputed.value.editable) {
@@ -151,7 +151,7 @@ export default designComponent({
                 value -= propsState.step
                 value = utils.checkValue(value)
                 model.value = value
-                emit.updateModelValue(model.value)
+                emit.onUpdateModelValue(model.value)
             },
             clearInterval: () => {              // 清除定时器
                 if (state.interval != null) {
@@ -166,21 +166,21 @@ export default designComponent({
         const handler = {
             focus: (e: Event) => {
                 state.isFocus = true
-                emit.focus(e)
+                emit.onFocus(e)
             },
             blur: (e: Event) => {
                 model.value = utils.checkValue(utils.getEffectiveValue())
-                emit.updateModelValue(model.value)
+                emit.onUpdateModelValue(model.value)
                 state.isFocus = false
-                emit.blur(e)
+                emit.onBlur(e)
             },
             input: (e: HTMLInputEvent) => {
                 model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
                 model.value = utils.checkValue(utils.getEffectiveValue())
-                emit.updateModelValue(model.value)
-                emit.enter(e)
+                emit.onUpdateModelValue(model.value)
+                emit.onEnter(e)
             },
             intervalAdd: () => {
                 methods.add()
@@ -194,7 +194,7 @@ export default designComponent({
             },
             clearHandler: () => {
                 model.value = undefined
-                emit.updateModelValue(model.value)
+                emit.onUpdateModelValue(model.value)
             },
             keydown: (e: KeyboardEvent) => {
                 const key = getKey(e)

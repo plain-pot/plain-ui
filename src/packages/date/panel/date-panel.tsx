@@ -24,9 +24,9 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue as any, emit.updateModelValue)
-        const startModel = useModel(() => props.start, emit.updateStart)
-        const endModel = useModel(() => props.end, emit.updateEnd)
+        const model = useModel(() => props.modelValue as any, emit.onUpdateModelValue)
+        const startModel = useModel(() => props.start, emit.onUpdateStart)
+        const endModel = useModel(() => props.end, emit.onUpdateEnd)
 
         const handler = {
             onChange: (val: string | undefined, type?: DateEmitRangeType) => {
@@ -38,7 +38,7 @@ export default designComponent({
                     } else {
                         endModel.value = val
                     }
-                    emit.updateModelValue(val, type)
+                    emit.onUpdateModelValue(val, type)
                 }
             }
         }

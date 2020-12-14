@@ -52,12 +52,12 @@ export function useTree(
             checkStrictly?: boolean,
         },
         event: {
-            emit: { updateData: (data?: any[]) => void }
+            emit: { onUpdateData: (data?: any[]) => void }
         },
     }) {
 
     /*data双向绑定值*/
-    const dataModel = useModel(() => props.data, event.emit.updateData)
+    const dataModel = useModel(() => props.data, event.emit.onUpdateData)
 
     const expand = useFlagManager<TreeNode, boolean>()          // 是否展开
     const check = useFlagManager<TreeNode, boolean>()           // 是否选中

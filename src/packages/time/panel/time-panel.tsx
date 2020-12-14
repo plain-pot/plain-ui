@@ -18,19 +18,19 @@ export default designComponent({
         ...TimePanelProps,
     },
     emits: {
-        updateModelValue: (val: string | undefined, type: TimeRangePanelType) => true,
-        updateStart: (val?: string) => true,
-        updateEnd: (val?: string) => true,
+        onUpdateModelValue: (val: string | undefined, type: TimeRangePanelType) => true,
+        onUpdateStart: (val?: string) => true,
+        onUpdateEnd: (val?: string) => true,
 
-        mousedownBasePanel: (e: MouseEvent) => true,
-        mousedownStartPanel: (e: MouseEvent) => true,
-        mousedownEndPanel: (e: MouseEvent) => true,
+        onMousedownBasePanel: (e: MouseEvent) => true,
+        onMousedownStartPanel: (e: MouseEvent) => true,
+        onMousedownEndPanel: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue as any)
-        const start = useModel(() => props.start, emit.updateStart)
-        const end = useModel(() => props.end, emit.updateEnd)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue as any)
+        const start = useModel(() => props.start, emit.onUpdateStart)
+        const end = useModel(() => props.end, emit.onUpdateEnd)
 
         const handler = {
             onBaseChange: async (val?: string) => {
@@ -44,7 +44,7 @@ export default designComponent({
                 } else if (type === TimeRangePanelType.end) {
                     end.value = val
                 }
-                emit.updateModelValue(val, type)
+                emit.onUpdateModelValue(val, type)
             },
         }
 
@@ -60,15 +60,15 @@ export default designComponent({
                     ...publicProps,
                     modelValue: model.value,
                     onChange: handler.onBaseChange,
-                    onMousedown: emit.mousedownBasePanel,
+                    onMousedown: emit.onMousedownBasePanel,
                 },
                 range: {
                     ...publicProps,
                     start: start.value,
                     end: end.value,
                     onChange: handler.onRangeChange,
-                    onMousedownStartPanel: emit.mousedownStartPanel,
-                    onMousedownEndPanel: emit.mousedownEndPanel,
+                    onMousedownStartPanel: emit.onMousedownStartPanel,
+                    onMousedownEndPanel: emit.onMousedownEndPanel,
                 },
             }
         })

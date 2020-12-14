@@ -19,18 +19,18 @@ export default designComponent({
         ...TreeProps,
     },
     emits: {
-        clickNode: (node: TreeNode) => true,                        // 点击节点事件
-        updateCurrent: (current?: string) => true,                  // 当前高亮节点key变化绑定事件
-        currentChange: (node: TreeNode | null) => true,             // 当前高亮节点变化事件
-        updateData: (data?: any[]) => true,                         // 数据变化事件（拖拽排序、数据懒加载）
+        onClickNode: (node: TreeNode) => true,                        // 点击节点事件
+        onUpdateCurrent: (current?: string) => true,                  // 当前高亮节点key变化绑定事件
+        onCurrentChange: (node: TreeNode | null) => true,             // 当前高亮节点变化事件
+        onUpdateData: (data?: any[]) => true,                         // 数据变化事件（拖拽排序、数据懒加载）
 
-        expandChange: (expandKeys: string[]) => true,               // 展开节点变化事件
-        expand: (node: TreeNode) => true,                           // 展开事件
-        collapse: (node: TreeNode) => true,                         // 关闭节点事件
+        onExpandChange: (expandKeys: string[]) => true,               // 展开节点变化事件
+        onExpand: (node: TreeNode) => true,                           // 展开事件
+        onCollapse: (node: TreeNode) => true,                         // 关闭节点事件
 
-        checkChange: (checkKeys: string[]) => true,                 // 选中节点变化事件
-        check: (node: TreeNode) => true,                            // 选中节点事件
-        uncheck: (node: TreeNode) => true,                          // 取消选中节点事件
+        onCheckChange: (checkKeys: string[]) => true,                 // 选中节点变化事件
+        onCheck: (node: TreeNode) => true,                            // 选中节点事件
+        onUncheck: (node: TreeNode) => true,                          // 取消选中节点事件
     },
     setup({props, event}) {
 
@@ -52,7 +52,7 @@ export default designComponent({
             default: {node: Object as PropType<TreeNode>, index: Number},
         })
         /*当前高亮节点的key*/
-        const current = useModel(() => props.currentKey, emit.updateCurrent)
+        const current = useModel(() => props.currentKey, emit.onUpdateCurrent)
 
         /*---------------------------------------computer-------------------------------------------*/
         /*tree node content公共的样式*/
@@ -75,7 +75,7 @@ export default designComponent({
                 const node = tree.methods.getNode(keyOrNode)
                 if (!!node) {
                     current.value = node.key
-                    emit.currentChange(node)
+                    emit.onCurrentChange(node)
                 }
             },
             /**
@@ -114,8 +114,8 @@ export default designComponent({
                             node.expand = true
                             await nextTick()
 
-                            emit.expand(node)
-                            emit.expandChange(expandKeys.value)
+                            emit.onExpand(node)
+                            emit.onExpandChange(expandKeys.value)
                         }
                         if (!!props.autoExpandParent && !!parent && parent.level !== 0) {
                             await expandMethods.expand(parent)
@@ -130,12 +130,12 @@ export default designComponent({
                             handler: (node) => {
                                 if (node.expand) {
                                     node.expand = false
-                                    emit.collapse(node)
+                                    emit.onCollapse(node)
                                 }
                             }
                         })
                         await nextTick()
-                        emit.expandChange(expandKeys.value)
+                        emit.onExpandChange(expandKeys.value)
                     })
             },
             toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).expand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
@@ -170,8 +170,8 @@ export default designComponent({
                     }
 
                     await nextTick()
-                    emit.check(node)
-                    emit.checkChange(checkKeys.value)
+                    emit.onCheck(node)
+                    emit.onCheckChange(checkKeys.value)
                 })
             },
             uncheck: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
@@ -201,8 +201,8 @@ export default designComponent({
                     }
 
                     await nextTick()
-                    emit.uncheck(node)
-                    emit.checkChange(checkKeys.value)
+                    emit.onUncheck(node)
+                    emit.onCheckChange(checkKeys.value)
                 })
             },
             toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
@@ -249,7 +249,7 @@ export default designComponent({
              * @date    2020/11/28 15:54
              */
             onClickTreeNodeContent: async (node: TreeNode) => {
-                emit.clickNode(node)
+                emit.onClickNode(node)
                 methods.setCurrent(node)
                 props.expandOnClickNode && (await expandMethods.toggleExpand(node));
                 props.checkOnClickNode && (await checkMethods.toggleCheck(node));

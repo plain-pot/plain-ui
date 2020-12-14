@@ -47,26 +47,26 @@ export default designComponent({
         popperAttrs: {type: Object},                                // 给popper dom节点传递的属性
     },
     emits: {
-        updateModelValue: (val: boolean) => true,
-        updateOpen: (val: boolean) => true,
-        init: () => true,
-        destroy: () => true,
-        open: () => true,
-        close: () => true,
-        show: () => true,
-        hide: () => true,
+        onUpdateModelValue: (val: boolean) => true,
+        onUpdateOpen: (val: boolean) => true,
+        onInit: () => true,
+        onDestroy: () => true,
+        onOpen: () => true,
+        onClose: () => true,
+        onShow: () => true,
+        onHide: () => true,
 
-        clickReference: (e: MouseEvent) => true,
-        clickPopper: (e: MouseEvent) => true,
-        clickBody: (e: MouseEvent) => true,
-        mousedownPopper: (e: MouseEvent) => true,
+        onClickReference: (e: MouseEvent) => true,
+        onClickPopper: (e: MouseEvent) => true,
+        onClickBody: (e: MouseEvent) => true,
+        onMousedownPopper: (e: MouseEvent) => true,
 
-        enterReference: (e: MouseEvent) => true,
-        leaveReference: (e: MouseEvent) => true,
-        enterPopper: (e: MouseEvent) => true,
-        leavePopper: (e: MouseEvent) => true,
-        referenceFocus: (e: FocusEvent) => true,
-        referenceBlur: (e: Event) => true,
+        onEnterReference: (e: MouseEvent) => true,
+        onLeaveReference: (e: MouseEvent) => true,
+        onEnterPopper: (e: MouseEvent) => true,
+        onLeavePopper: (e: MouseEvent) => true,
+        onReferenceFocus: (e: FocusEvent) => true,
+        onReferenceBlur: (e: Event) => true,
     },
     setup({props, event}) {
 
@@ -93,8 +93,8 @@ export default designComponent({
             height: useProps.NUMBER,
         })
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue, {autoEmit: false, autoWatch: false})
-        const openModel = useModel(() => props.open, emit.updateOpen, {autoEmit: false, autoWatch: false})
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoEmit: false, autoWatch: false})
+        const openModel = useModel(() => props.open, emit.onUpdateOpen, {autoEmit: false, autoWatch: false})
 
         const state = reactive({
             el: {
@@ -183,13 +183,13 @@ export default designComponent({
 
         const handler = {
             onPopperContentTransitionend: (e: Event) => !!state.onTransitionend && state.onTransitionend(e),
-            clickReference: (e: MouseEvent) => {
-                emit.clickReference(e)
+            onClickReference: (e: MouseEvent) => {
+                emit.onClickReference(e)
             },
-            clickPopper: (e: MouseEvent) => {
-                emit.clickPopper(e)
+            onClickPopper: (e: MouseEvent) => {
+                emit.onClickPopper(e)
             },
-            clickBody: (e: MouseEvent) => {
+            onClickBody: (e: MouseEvent) => {
                 if (!model.value && !openModel.value) {
                     return;
                 }
@@ -201,7 +201,7 @@ export default designComponent({
                     /*点击了content*/
                     return
                 }
-                emit.clickBody(e)
+                emit.onClickBody(e)
             },
         }
 
@@ -237,7 +237,7 @@ export default designComponent({
                 })
 
                 state.trigger.init()
-                emit.init()
+                emit.onInit()
 
                 return true
             },
@@ -249,19 +249,19 @@ export default designComponent({
                 if (!!state.popper) {
                     state.popper.destroy()
                 }
-                emit.destroy()
+                emit.onDestroy()
             },
             bindEvents: () => {
                 if (!!state.referenceEl) {
-                    state.referenceEl.addEventListener('click', handler.clickReference)
+                    state.referenceEl.addEventListener('click', handler.onClickReference)
                 }
-                document.body.addEventListener('click', handler.clickBody, true)
+                document.body.addEventListener('click', handler.onClickBody, true)
             },
             unbindEvents: () => {
                 if (!!state.referenceEl) {
-                    state.referenceEl.removeEventListener('click', handler.clickReference)
+                    state.referenceEl.removeEventListener('click', handler.onClickReference)
                 }
-                document.body.removeEventListener('click', handler.clickBody, true)
+                document.body.removeEventListener('click', handler.onClickBody, true)
             },
             initPopper: () => {
                 state.popper = new PlainPopper({
@@ -297,9 +297,9 @@ export default designComponent({
 
                 state.zIndex = nextIndex()
                 model.value = true
-                emit.show()
+                emit.onShow()
                 if (shouldEmit) {
-                    emit.updateModelValue(model.value)
+                    emit.onUpdateModelValue(model.value)
                 }
                 state.onTransitionend = () => {
                     openModel.value = true
@@ -308,9 +308,9 @@ export default designComponent({
             },
             hide: (shouldEmit = true) => {
                 model.value = false
-                emit.hide()
+                emit.onHide()
                 if (shouldEmit) {
-                    emit.updateModelValue(model.value)
+                    emit.onUpdateModelValue(model.value)
                 }
                 state.onTransitionend = () => {
                     openModel.value = false
@@ -369,11 +369,11 @@ export default designComponent({
         // watch(() => model.value, (val) => {})
         watch(() => openModel.value, (val) => {
             if (!!val) {
-                emit.updateOpen(true)
-                emit.open()
+                emit.onUpdateOpen(true)
+                emit.onOpen()
             } else {
-                emit.updateOpen(false)
-                emit.close()
+                emit.onUpdateOpen(false)
+                emit.onClose()
             }
         })
         watch(() => props.placement, (val) => {
@@ -434,12 +434,12 @@ export default designComponent({
                                 <div class="plain-popper-content"
                                      ref="content"
 
-                                     onClick={emit.clickPopper}
+                                     onClick={emit.onClickPopper}
                                      onTransitionend={handler.onPopperContentTransitionend}
-                                     onMousedown={emit.mousedownPopper}
+                                     onMousedown={emit.onMousedownPopper}
                                      {...(props.trigger === 'hover' ? {
-                                         onMouseenter: emit.enterPopper,
-                                         onMouseleave: emit.leavePopper,
+                                         onMouseenter: emit.onEnterPopper,
+                                         onMouseleave: emit.onLeavePopper,
                                      } : {})}
                                 >
                                     <div class="plain-popper-arrow"/>

@@ -38,7 +38,7 @@ export default designComponent({
         nativeAttrs: {type: Object},
     },
     emits: {
-        click: (e: MouseEvent) => true,
+        onClick: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -61,7 +61,7 @@ export default designComponent({
                     return
                 }
                 if (!props.autoLoading) {
-                    return emit.click(e)
+                    return emit.onClick(e)
                 }
                 if (!props.asyncHandler) {
                     return console.error(`pl-button: props.asyncHandler is necessary when autoLoading is true!`)

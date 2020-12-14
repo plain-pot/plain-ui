@@ -28,8 +28,8 @@ const Panel = designComponent({
         showDebug: {type: Boolean},
     },
     emits: {
-        updateModelValue: (val: number | string | string[]) => true,
-        click: (option: SelectOption) => true,
+        onUpdateModelValue: (val: number | string | string[]) => true,
+        onClick: (option: SelectOption) => true,
     },
     provideRefer: true,
     setup({props, event: {emit}}) {
@@ -52,7 +52,7 @@ const Panel = designComponent({
         /*当前高亮的option.props.val*/
         const current = ref(null as null | SelectOption)
         /*双向绑定值*/
-        const model = useModel(() => props.modelValue as number | string | string[], emit.updateModelValue)
+        const model = useModel(() => props.modelValue as number | string | string[], emit.onUpdateModelValue)
 
         const classes = computed(() => [
             'pl-select-panel',
@@ -92,7 +92,7 @@ const Panel = designComponent({
 
                 if (option.props.disabled) return
 
-                emit.click(option)
+                emit.onClick(option)
 
                 if (!props.multiple) {
                     model.value = option.props.val

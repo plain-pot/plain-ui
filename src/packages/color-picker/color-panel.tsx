@@ -1,7 +1,7 @@
 import './color-panel.scss'
 import {designComponent} from "../../use/designComponent";
 import {Color, ColorFormat} from "./utils/Color";
-import {reactive, nextTick, watch} from 'vue';
+import {nextTick, reactive, watch} from 'vue';
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import Input from '../input'
 import {useRefs} from "../../use/useRefs";
@@ -26,8 +26,8 @@ export const ColorPanel = designComponent({
         format: {type: String},                     // 格式类型：hex、rgb
     },
     emits: {
-        updateModelValue: (val: any) => true,
-        dblclickSvPanel: (e: MouseEvent) => true,
+        onUpdateModelValue: (val: any) => true,
+        onBblclickSvPanel: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -70,11 +70,11 @@ export const ColorPanel = designComponent({
                 state.val = state.color.color
             },
             confirm: () => {
-                emit.updateModelValue(state.val)
+                emit.onUpdateModelValue(state.val)
             },
             dblclickSvPanel: (e: MouseEvent) => {
                 handler.confirm()
-                emit.dblclickSvPanel(e)
+                emit.onBblclickSvPanel(e)
             },
             inputChange: (val: string) => {
                 if (!val) {

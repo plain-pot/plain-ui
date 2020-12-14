@@ -75,7 +75,7 @@ export const VerticalScrollbar = designComponent({
             },
         }
 
-        scroll.on.scroll(handler.onScroll)
+        scroll.on.onScroll(handler.onScroll)
 
         return {
             render: () => {

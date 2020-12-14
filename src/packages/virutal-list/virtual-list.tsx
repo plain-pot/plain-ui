@@ -26,7 +26,7 @@ export default designComponent({
         disabled: {type: Boolean},                                  // 禁用虚拟滚动
     },
     emits: {
-        scroll: (e: Event) => true
+        onScroll: (e: Event) => true
     },
     setup({props, event: {emit}}) {
 
@@ -210,7 +210,7 @@ export default designComponent({
 
         const handler = {
             scroll: (e: Event) => {
-                emit.scroll(e)
+                emit.onScroll(e)
                 isScrolling.handler()
 
                 if (props.disabled) {

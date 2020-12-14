@@ -18,7 +18,7 @@ export default designComponent({
         ...TimePublicProps,
     },
     emits: {
-        updateModelValue: (val: string | null) => true,
+        onUpdateModelValue: (val: string | null) => true,
     },
     setup({props, event}) {
 
@@ -132,7 +132,7 @@ export default designComponent({
                     vpd.setValue(minpd.valueString!)
                 }
 
-                event.emit.updateModelValue(vpd.valueString)
+                event.emit.onUpdateModelValue(vpd.valueString)
             }
         }
 

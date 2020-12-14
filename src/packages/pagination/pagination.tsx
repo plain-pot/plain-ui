@@ -32,11 +32,11 @@ export default designComponent({
         jumperNumberWidth: {type: Number},                                                      // 跳转页的数字输入框宽度
     },
     emits: {
-        jump: (val: number) => true,
-        prev: () => true,
-        next: () => true,
-        currentChange: (val: number) => true,
-        sizeChange: (val: number) => true,
+        onJump: (val: number) => true,
+        onPrev: () => true,
+        onNext: () => true,
+        onCurrentChange: (val: number) => true,
+        onSizeChange: (val: number) => true,
     },
     setup({props, event: {emit}}) {
         const {editComputed} = useEdit()
@@ -168,7 +168,7 @@ export default designComponent({
              */
             changeCurrent(val: number) {
                 if (!editComputed.value.editable) return;
-                emit.currentChange(val)
+                emit.onCurrentChange(val)
             },
         }
 
@@ -184,7 +184,7 @@ export default designComponent({
                     return
                 }
                 utils.changeCurrent(pageInfo.value.currentPage! - 1)
-                emit.prev()
+                emit.onPrev()
             },
             /**
              * 跳转到下一页
@@ -197,7 +197,7 @@ export default designComponent({
                     return
                 }
                 utils.changeCurrent(pageInfo.value.currentPage! + 1)
-                emit.next()
+                emit.onNext()
             },
             /**
              * 跳转到指定页
@@ -218,7 +218,7 @@ export default designComponent({
                     await nextTick()
                     jumperValue.value = val
                 }
-                emit.jump(val)
+                emit.onJump(val)
             },
         }
 
@@ -233,7 +233,7 @@ export default designComponent({
                         readonly={editComputed.value.readonly || editComputed.value.loading}
                         filterable={false}
                         inputProps={{width: SizesWidth[styleComputed.value.size], clearIcon: false}}
-                        onChange={emit.sizeChange}>
+                        onChange={emit.onSizeChange}>
                         {(props.pageSizes || []).map(item => (
                             <pl-select-option label={`${item} 条/页`} val={item} key={item}/>
                         ))}

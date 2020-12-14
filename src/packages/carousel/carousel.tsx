@@ -27,7 +27,7 @@ export const Carousel = designComponent({
         cardScale: {type: Number, default: 0.64},                   // 卡片形式轮播的时候，缩小比例
     },
     emits: {
-        updateModelValue: (val: string | number | undefined | null) => true,
+        onUpdateModelValue: (val: string | number | undefined | null) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -53,7 +53,7 @@ export const Carousel = designComponent({
         })
 
         /*双向绑定值*/
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         /*子元素val数组*/
         const vals = computed(() => items.map(item => String(item.itemVal.value)!))
         /*当前激活的元素的val值*/

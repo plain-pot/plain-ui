@@ -25,8 +25,8 @@ export default designComponent({
         disableChangeOnScroll: {type: Boolean}, // 是否禁用在滚动的时候触发更新值动作
     },
     emits: {
-        updateModelValue: (val: number) => true,
-        clickItem: (i: number) => true,
+        onUpdateModelValue: (val: number) => true,
+        onClickItem: (i: number) => true,
     },
     setup({props, event}) {
 
@@ -35,7 +35,7 @@ export default designComponent({
         const {refs} = useRefs({scroll: Scroll,})
         const liList = useRefList<HTMLLIElement>()
 
-        const model = useModel(() => props.modelValue as any, event.emit.updateModelValue, {onChange: () => nextTick().then(methods.resetPosition)})
+        const model = useModel(() => props.modelValue as any, event.emit.onUpdateModelValue, {onChange: () => nextTick().then(methods.resetPosition)})
 
         const options = computed(() => {
             if (!!props.custom) {
@@ -80,7 +80,7 @@ export default designComponent({
                     return
                 }
                 model.value = item
-                event.emit.clickItem(item)
+                event.emit.onClickItem(item)
                 methods.resetPosition()
             },
             onScroll: (e: any) => {

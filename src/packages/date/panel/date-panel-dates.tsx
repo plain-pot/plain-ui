@@ -12,7 +12,7 @@ export default designComponent({
         modelValue: {type: Array},
     },
     emits: {
-        updateModelValue: (val?: string[]) => true,
+        onUpdateModelValue: (val?: string[]) => true,
     },
     setup({props, event: {emit}}) {
 

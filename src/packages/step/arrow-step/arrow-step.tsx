@@ -14,7 +14,7 @@ export const ArrowStep = designComponent({
         hideIndex: {type: Boolean},
     },
     emits: {
-        click: (e: MouseEvent) => true,
+        onClick: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
         const ctx = getCurrentInstance()!
@@ -54,7 +54,7 @@ export const ArrowStep = designComponent({
             refer: {},
             render: () => (
                 index.value != null ? (
-                    <div class={classes.value} onClick={emit.click} ref="el">
+                    <div class={classes.value} onClick={emit.onClick} ref="el">
                         <div class="pl-arrow-step-content">
                             {!props.hideIndex && <span class="pl-arrow-step-sequence">{index.value + 1}. &nbsp;</span>}
                             <span>{slots.default(props.title)}</span>

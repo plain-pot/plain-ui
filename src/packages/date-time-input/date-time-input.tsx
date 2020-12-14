@@ -17,9 +17,9 @@ export default designComponent({
         displayFormat: {type: String},
     },
     emits: {
-        updateModelValue: (val?: string) => true,
-        focus: (e: Event) => true,
-        blur: (e: Event) => true,
+        onUpdateModelValue: (val?: string) => true,
+        onFocus: (e: Event) => true,
+        onBlur: (e: Event) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -31,7 +31,7 @@ export default designComponent({
 
         const {numberState} = useNumber(props, ['width'])
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue, {autoEmit: false})
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoEmit: false})
 
         const styles = useStyles(style => {style.width = unit(numberState.width)})
 
@@ -47,15 +47,15 @@ export default designComponent({
             input: (e: HTMLInputEvent) => {
                 model.value = e.target.value
                 if (!model.value || regexp.value.test(model.value)) {
-                    emit.updateModelValue(model.value)
+                    emit.onUpdateModelValue(model.value)
                 }
             },
             blur: (e: Event) => {
                 model.value = props.modelValue
-                emit.blur(e)
+                emit.onBlur(e)
             },
             focus: (e: Event) => {
-                emit.focus(e)
+                emit.onFocus(e)
             },
         }
 

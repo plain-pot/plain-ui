@@ -38,10 +38,10 @@ export default designComponent({
         scrollAfterDragEnd: {type: Boolean,},                                                           // 是否拖拽结束后才刷新滚动位置
     },
     emits: {
-        scroll: (e: Event) => true,
-        verticalScrollTop: (e: Event) => true,
-        verticalScrollBottom: (e: Event) => true,
-        verticalScrollCenter: (e: Event) => true,
+        onScroll: (e: Event) => true,
+        onVerticalScrollTop: (e: Event) => true,
+        onVerticalScrollBottom: (e: Event) => true,
+        onVerticalScrollCenter: (e: Event) => true,
     },
     provideRefer: true,
     setup({props, event: {emit, on, off}}) {
@@ -350,29 +350,29 @@ export default designComponent({
                 freezeState.wrapperScrollLeft = target.scrollLeft
 
                 if (freezeState.emitScroll) {
-                    emit.scroll(e)
+                    emit.onScroll(e)
                 }
 
                 if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.top && freezeState.wrapperScrollTop > props.topThreshold!) {
                     /*进入center*/
-                    emit.verticalScrollCenter(e)
+                    emit.onVerticalScrollCenter(e)
                     freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
                 } else if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.center) {
                     // console.log(this.contentHeight - this.hostHeight - this.contentWrapperScrollTop, this.bottomScrollDuration)
                     if (freezeState.wrapperScrollTop < props.topThreshold!) {
                         /*进入top*/
-                        emit.verticalScrollTop(e)
+                        emit.onVerticalScrollTop(e)
                         freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.top
                     } else if (state.contentHeight - state.hostHeight - freezeState.wrapperScrollTop < props.bottomThreshold!) {
                         /*进入bottom*/
-                        emit.verticalScrollBottom(e)
+                        emit.onVerticalScrollBottom(e)
                         freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.bottom
                     }
 
                 } else if (freezeState.verticalPosition === PLAIN_SCROLL_VERTICAL_POSITION.bottom) {
                     if (state.contentHeight - state.hostHeight - freezeState.wrapperScrollTop > props.bottomThreshold!) {
                         /*进入center*/
-                        emit.verticalScrollCenter(e)
+                        emit.onVerticalScrollCenter(e)
                         freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
                     }
                 }
@@ -384,16 +384,16 @@ export default designComponent({
         onMounted(() => {
             window.addEventListener('resize', handler.windowResize)
             if (!!popper) {
-                popper.event.on.open(handler.popperOpen)
-                popper.event.on.show(handler.popperShow)
+                popper.event.on.onOpen(handler.popperOpen)
+                popper.event.on.onShow(handler.popperShow)
             }
         })
 
         onBeforeUnmount(() => {
             window.removeEventListener('resize', handler.windowResize)
             if (!!popper) {
-                popper.event.off.open(handler.popperOpen)
-                popper.event.off.show(handler.popperShow)
+                popper.event.off.onOpen(handler.popperOpen)
+                popper.event.off.onShow(handler.popperShow)
             }
         })
 

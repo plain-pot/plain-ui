@@ -22,7 +22,7 @@ const CheckboxGroup = designComponent({
         itemWidth: {type: [String, Number]},                        // 文本宽度
     },
     emits: {
-        updateModelValue: (val: (string | number)[] | undefined) => true,
+        onUpdateModelValue: (val: (string | number)[] | undefined) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -41,7 +41,7 @@ const CheckboxGroup = designComponent({
             itemWidth: useProps.NUMBER,
         })
         /*绑定值*/
-        const modelValue = useModel(() => props.modelValue, emit.updateModelValue)
+        const modelValue = useModel(() => props.modelValue, emit.onUpdateModelValue)
         /*子组件Checkbox*/
         const children = CheckboxGroupCollector.parent()
         /*可用子组件*/

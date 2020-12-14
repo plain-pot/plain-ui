@@ -60,9 +60,9 @@ export default designComponent({
         loading: {type: Boolean},                                               // 弹出框添加 加载中的遮罩
     },
     emits: {
-        updateModelValue: (val: boolean) => true,
-        confirm: () => true,
-        cancel: () => true,
+        onUpdateModelValue: (val: boolean) => true,
+        onConfirm: () => true,
+        onCancel: () => true,
     },
     setup({props, event: {emit}}) {
         const {slots} = useSlots(['head', 'foot'], true)
@@ -202,7 +202,7 @@ export default designComponent({
                 if (props.closeOnConfirm) {
                     methods.hide()
                 }
-                emit.confirm()
+                emit.onConfirm()
             },
             cancel() {
                 if (props.disabledCancel) {
@@ -211,11 +211,11 @@ export default designComponent({
                 if (props.closeOnCancel) {
                     methods.hide()
                 }
-                emit.cancel()
+                emit.onCancel()
             },
             open() {
                 model.value = true
-                emit.updateModelValue(model.value)
+                emit.onUpdateModelValue(model.value)
             },
             async close() {
                 try {
@@ -225,7 +225,7 @@ export default designComponent({
                         if (flag === false) return
                     }
                     model.value = false
-                    emit.updateModelValue(model.value)
+                    emit.onUpdateModelValue(model.value)
                 } catch (e) {
                     console.error(e)
                 } finally {

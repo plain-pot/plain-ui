@@ -7,7 +7,7 @@ import {removeClass} from "plain-utils/dom/removeClass";
 export default designComponent({
     name: 'pl-collapse-transition',
     emits: {
-        afterLeave: () => true,
+        onAfterLeave: () => true,
     },
     setup({event: {emit}}) {
 
@@ -67,7 +67,7 @@ export default designComponent({
                 el.style.overflow = el.dataset.oldOverflow as string;
                 el.style.paddingTop = el.dataset.oldPaddingTop as string;
                 el.style.paddingBottom = el.dataset.oldPaddingBottom as string;
-                emit.afterLeave()
+                emit.onAfterLeave()
             }
         }
 

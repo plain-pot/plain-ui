@@ -16,8 +16,8 @@ export default designComponent({
         close: {type: Boolean},
     },
     emits: {
-        click: (e: MouseEvent) => true,
-        close: (e: MouseEvent) => true,
+        onClick: (e: MouseEvent) => true,
+        onClose: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
         const {slots} = useSlots()
@@ -39,14 +39,14 @@ export default designComponent({
                 if (!editComputed.value.editable) {
                     return
                 }
-                emit.click(e)
+                emit.onClick(e)
             },
             clickClose: (e: MouseEvent) => {
                 e.stopPropagation()
                 if (!editComputed.value.editable) {
                     return
                 }
-                emit.close(e)
+                emit.onClose(e)
             }
         }
 

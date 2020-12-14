@@ -22,9 +22,9 @@ export const ColorPicker = designComponent({
         format: {type: String, default: 'hex'},                 // 颜色格式
     },
     emits: {
-        updateModelValue: (val: string | undefined) => true,
-        blur: (e: Event) => true,
-        focus: (e: Event) => true,
+        onUpdateModelValue: (val: string | undefined) => true,
+        onBlur: (e: Event) => true,
+        onFocus: (e: Event) => true,
     },
     setup({props, event}) {
 
@@ -65,7 +65,7 @@ export const ColorPicker = designComponent({
         const methods = {
             emitValue(val: any) {
                 state.val = val
-                event.emit.updateModelValue(val)
+                event.emit.onUpdateModelValue(val)
             },
         }
 
@@ -94,7 +94,7 @@ export const ColorPicker = designComponent({
             onBlur: (e: Event) => {
                 agentState.state.focusCounter--
                 if (agentState.state.focusCounter === 0) {
-                    event.emit.blur(e)
+                    event.emit.onBlur(e)
                     agentState.methods.hide()
                     state.val = props.modelValue
                     state.inputValue = props.modelValue

@@ -98,10 +98,10 @@ export function useDate(
         props: DatePublicPropsType,
         judgementForChild?: UseDateJudgement,
         emit: {
-            updateModelValue: (val?: string) => void,
-            updateStart: (val?: string) => void,
-            updateEnd: (val?: string) => void,
-            updateView: (val: DateView) => void,
+            onUpdateModelValue: (val?: string) => void,
+            onUpdateStart: (val?: string) => void,
+            onUpdateEnd: (val?: string) => void,
+            onUpdateView: (val: DateView) => void,
         },
         useModelConfig?: {
             model?: UseModelConfig,
@@ -148,10 +148,10 @@ export function useDate(
     const valueRange: [PlainDateType, PlainDateType] = [startPd, endPd]
 
     useModelConfig = useModelConfig || {}
-    const model = useModel(() => props.modelValue, emit.updateModelValue, useModelConfig.model)
-    const startModel = !!parent || !props.range ? model : useModel(() => props.start, emit.updateStart, useModelConfig.start)
-    const endModel = !!parent || !props.range ? model : useModel(() => props.end, emit.updateEnd, useModelConfig.end)
-    const viewModel = useModel(() => props.view as DateView, emit.updateView)
+    const model = useModel(() => props.modelValue, emit.onUpdateModelValue, useModelConfig.model)
+    const startModel = !!parent || !props.range ? model : useModel(() => props.start, emit.onUpdateStart, useModelConfig.start)
+    const endModel = !!parent || !props.range ? model : useModel(() => props.end, emit.onUpdateEnd, useModelConfig.end)
+    const viewModel = useModel(() => props.view as DateView, emit.onUpdateView)
 
     let selectDate = props.selectDate as (PlainDateType | undefined)
     if (!selectDate) {

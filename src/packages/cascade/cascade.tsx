@@ -30,12 +30,12 @@ export default designComponent({
         ...EditProps,
     },
     emits: {
-        updateModelValue: (val: any, expandNodes?: CascadeNode[]) => true,
-        clickItem: (data: { node: CascadeNode, index: number }) => true,
-        getChildren: (...args: any[]) => true,
-        updateData: (val: any) => true,
-        blur: (e: Event) => true,
-        focus: (e: Event) => true,
+        onUpdateModelValue: (val: any, expandNodes?: CascadeNode[]) => true,
+        onClickItem: (data: { node: CascadeNode, index: number }) => true,
+        onGetChildren: (...args: any[]) => true,
+        onUpdateData: (val: any) => true,
+        onBlur: (e: Event) => true,
+        onFocus: (e: Event) => true,
     },
     setup({props, event}) {
 
@@ -48,8 +48,8 @@ export default designComponent({
         }, true)
 
         /*之所以不自动派发事件，是因为派发事件的时候需要多传一个nodes值*/
-        const model = useModel(() => props.modelValue, event.emit.updateModelValue, {autoEmit: false})
-        const data = useModel(() => props.data, event.emit.updateData)
+        const model = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {autoEmit: false})
+        const data = useModel(() => props.data, event.emit.onUpdateData)
 
         const state = reactive({
             inputValue: null as null | string,
@@ -88,9 +88,9 @@ export default designComponent({
                     renderContent: utils.renderContent,
 
                     onChange: handler.onServiceChange,
-                    onClickItem: event.emit.clickItem,
-                    onGetChildren: event.emit.getChildren,
-                    onUpdateData: event.emit.updateData,
+                    onClickItem: event.emit.onClickItem,
+                    onGetChildren: event.emit.onGetChildren,
+                    onUpdateData: event.emit.onUpdateData,
                 }),
                 popperAttrs: {
                     onMousedownPopper: () => agentState.state.focusCounter++,
@@ -183,14 +183,14 @@ export default designComponent({
         const handler = {
             clear: () => {
                 model.value = undefined
-                event.emit.updateModelValue(model.value)
+                event.emit.onUpdateModelValue(model.value)
 
                 state.inputValue = null
                 refs.input!.methods.focus()
             },
             onServiceChange: (val: any, nodes: CascadeNode[]) => {
                 model.value = val
-                event.emit.updateModelValue(val, nodes)
+                event.emit.onUpdateModelValue(val, nodes)
             },
             onInputChange: (val: string) => {
                 state.inputValue = val

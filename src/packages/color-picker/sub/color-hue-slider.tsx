@@ -2,7 +2,7 @@ import './color-hue-slider.scss'
 import {designComponent} from "../../../use/designComponent";
 import {useRefs} from "../../../use/useRefs";
 import {useProps} from "../../../use/useProps";
-import {reactive, computed, watch, nextTick} from 'vue';
+import {computed, nextTick, reactive, watch} from 'vue';
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
@@ -15,7 +15,7 @@ export const ColorHueSlider = designComponent({
         thumbSize: {type: [String, Number], default: 10},           // 指示器宽度
     },
     emits: {
-        updateModelValue: (val: any) => true,
+        onUpdateModelValue: (val: any) => true,
     },
     setup({props, event: {emit}}) {
         const {refs} = useRefs({
@@ -48,7 +48,7 @@ export const ColorHueSlider = designComponent({
                 state.left = Math.max(0, Math.min(width.value, left))
             },
             emitValue: () => {
-                emit.updateModelValue(Number((state.left / width.value * 360).toFixed(0)))
+                emit.onUpdateModelValue(Number((state.left / width.value * 360).toFixed(0)))
             }
         }
 

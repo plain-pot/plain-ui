@@ -18,7 +18,7 @@ export default designComponent({
         inDirective: {type: Boolean},                                   // 是否为遮罩指令服务的实例
     },
     emits: {
-        updateModelValue: (val: boolean | undefined) => true,
+        onUpdateModelValue: (val: boolean | undefined) => true,
     },
     setup({props, event}) {
 
@@ -26,7 +26,7 @@ export default designComponent({
             el: HTMLElement
         })
 
-        const modelValue = useModel(() => props.modelValue, event.emit.updateModelValue)
+        const modelValue = useModel(() => props.modelValue, event.emit.onUpdateModelValue)
 
         const state = reactive({
             isMounted: false,

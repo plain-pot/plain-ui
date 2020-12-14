@@ -39,17 +39,17 @@ const Select = designComponent({
         ...Props,
     },
     emits: {
-        updateModelValue: (val?: number | string | string[]) => true,
-        click: (option: SelectOption) => true,
+        onUpdateModelValue: (val?: number | string | string[]) => true,
+        onClick: (option: SelectOption) => true,
 
-        space: (e: KeyboardEvent) => true,
-        enter: (e: KeyboardEvent) => true,
-        up: (e: KeyboardEvent) => true,
-        down: (e: KeyboardEvent) => true,
-        esc: (e: KeyboardEvent) => true,
+        onSpace: (e: KeyboardEvent) => true,
+        onEnter: (e: KeyboardEvent) => true,
+        onUp: (e: KeyboardEvent) => true,
+        onDown: (e: KeyboardEvent) => true,
+        onEsc: (e: KeyboardEvent) => true,
 
-        blur: (e: Event) => true,
-        focus: (e: Event) => true,
+        onBlur: (e: Event) => true,
+        onFocus: (e: Event) => true,
     },
     setup({props, event}) {
 
@@ -62,7 +62,7 @@ const Select = designComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const model = useModel(() => props.modelValue as number | string | string[] | undefined, event.emit.updateModelValue)
+        const model = useModel(() => props.modelValue as number | string | string[] | undefined, event.emit.onUpdateModelValue)
         const filterText = ref(null as string | null)
         const agentState = useEditPopperAgent({
             event,
@@ -80,7 +80,7 @@ const Select = designComponent({
                     content: slots.default,
                     filterMethod: utils.filterMethod,
                     onChange: handler.onServiceChange,
-                    onClick: event.emit.click,
+                    onClick: event.emit.onClick,
                 }),
                 popperAttrs: ({
                     onMousedownPopper: () => agentState.state.focusCounter++,
@@ -219,7 +219,7 @@ const Select = designComponent({
                         e.preventDefault()
                         panel!.methods.selectHighlight()
                     }
-                    event.emit.space(e)
+                    event.emit.onSpace(e)
                 },
                 enter: (e) => {
                     e.stopPropagation()

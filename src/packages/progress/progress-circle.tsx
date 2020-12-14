@@ -51,13 +51,13 @@ export const ProgressCircle = designComponent({
         loading: {type: Boolean},                                                               // 加载动画
     },
     emits: {
-        updateModelValue: (val?: number) => true,
+        onUpdateModelValue: (val?: number) => true,
     },
     setup({props, event}) {
 
         const {slots} = useSlots()
 
-        const model = useModel(() => 0, event.emit.updateModelValue, {autoWatch: false})
+        const model = useModel(() => 0, event.emit.onUpdateModelValue, {autoWatch: false})
 
         const animate = createAnimate({
             time: props.loading ? 1500 : 900,

@@ -6,7 +6,7 @@ export default designComponent({
     name: 'pl-dropdown-menu',
     props: {},
     emits: {
-        clickOption: (e: MouseEvent, val: any) => true,
+        onClickOption: (e: MouseEvent, val: any) => true,
     },
     provideRefer: true,
     setup({props, event: {emit}}) {
@@ -16,7 +16,7 @@ export default designComponent({
 
         const handler = {
             clickOption: (e: MouseEvent, val: any) => {
-                emit.clickOption(e, val)
+                emit.onClickOption(e, val)
                 dropdown.handler.clickDropdownOption(e)
             }
         }

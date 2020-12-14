@@ -153,8 +153,8 @@ export default designComponent({
                         state.hoverRange = null
                         state.valueRange = [startPd, endPd]
 
-                        emit.updateModelValue(startModel.value, DateEmitRangeType.start)
-                        emit.updateModelValue(endModel.value, DateEmitRangeType.end)
+                        emit.onUpdateModelValue(startModel.value, DateEmitRangeType.start)
+                        emit.onUpdateModelValue(endModel.value, DateEmitRangeType.end)
                     }
                 }
             },

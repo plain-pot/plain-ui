@@ -15,7 +15,7 @@ export const Step = designComponent({
         val: {type: String},
     },
     emits: {
-        click: (e: MouseEvent) => true,
+        onClick: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
         const {refs} = useRefs({
@@ -61,7 +61,7 @@ export const Step = designComponent({
         return {
             refer: {},
             render: () => (
-                <div class={classes.value} onClick={emit.click} ref="el">
+                <div class={classes.value} onClick={emit.onClick} ref="el">
                     <div class="pl-step-head">
                         {!stepGroup.props.vertical && (stepGroup.isTitleAlignBottom.value || isLast.value) && <span class="pl-step-divider pl-step-divider-prev"/>}
                         <span class="pl-step-icon">

@@ -44,10 +44,8 @@ const Form = designComponent({
         columnGutter: {type: [Number, String], default: 16},                // 列之间的间距
     },
     emits: {
-        /*校验结果变化绑定事件*/
-        updateValidateResult: () => true,
         /*字段值变化事件*/
-        fieldValueChange: (field: string, newVal: any, oldVal: any) => true,
+        onFieldValueChange: (field: string, newVal: any, oldVal: any) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -215,7 +213,7 @@ const Form = designComponent({
                     let newVal = newFormData[field]
                     let oldVal = oldFormData[field]
                     if (newVal !== oldVal) {
-                        emit.fieldValueChange(field, newVal, oldVal)
+                        emit.onFieldValueChange(field, newVal, oldVal)
                         validateHandler.onFieldChange(field)
                     }
                 })

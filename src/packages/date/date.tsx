@@ -25,14 +25,14 @@ export default designComponent({
     },
     emits: {
         ...DatePublicEmits,
-        blur: (e: Event) => true,
-        focus: (e: Event) => true,
+        onBlur: (e: Event) => true,
+        onFocus: (e: Event) => true,
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue as any, emit.updateModelValue)
-        const startModel = useModel(() => props.start, emit.updateStart)
-        const endModel = useModel(() => props.end, emit.updateEnd)
+        const model = useModel(() => props.modelValue as any, emit.onUpdateModelValue)
+        const startModel = useModel(() => props.start, emit.onUpdateStart)
+        const endModel = useModel(() => props.end, emit.onUpdateEnd)
 
         const serviceHandler = {
             onChange: (val: string | undefined, type: DateEmitRangeType) => {

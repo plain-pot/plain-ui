@@ -20,12 +20,12 @@ export default designComponent({
         falseValue: {default: false},                                           // 未选中时绑定的值
     },
     emits: {
-        updateModelValue: (val: any) => true,
-        mousedown: (e: MouseEvent) => true,
-        mouseup: (e: MouseEvent) => true,
-        click: (e: MouseEvent) => true,
-        focus: (e: Event) => true,
-        blur: (e: Event) => true,
+        onUpdateModelValue: (val: any) => true,
+        onMousedown: (e: MouseEvent) => true,
+        onMouseup: (e: MouseEvent) => true,
+        onClick: (e: MouseEvent) => true,
+        onFocus: (e: Event) => true,
+        onBlur: (e: Event) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -34,7 +34,7 @@ export default designComponent({
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const state = reactive({
             isActive: false,
         })
@@ -61,19 +61,19 @@ export default designComponent({
             mousedown: (e: MouseEvent) => {
                 state.isActive = true
                 window.addEventListener('mouseup', handler.mouseup)
-                emit.mousedown(e)
+                emit.onMousedown(e)
             },
             mouseup: (e: MouseEvent) => {
                 state.isActive = false
                 window.removeEventListener('mouseup', handler.mouseup)
-                emit.mouseup(e)
+                emit.onMouseup(e)
             },
             click: (e: MouseEvent) => {
                 if (!editComputed.value.editable) {
                     return
                 }
                 model.value = isChecked.value ? props.falseValue : props.trueValue
-                emit.click(e)
+                emit.onClick(e)
             },
             keydown: (e: KeyboardEvent) => {
                 const key = getKey(e)
@@ -83,8 +83,8 @@ export default designComponent({
                     handler.click(e as any)
                 }
             },
-            focus: emit.focus,
-            blur: emit.blur,
+            focus: emit.onFocus,
+            blur: emit.onBlur,
         }
         return {
             render: () => (

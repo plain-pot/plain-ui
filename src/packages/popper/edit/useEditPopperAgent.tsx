@@ -10,7 +10,7 @@ export function useEditPopperAgent(
         serviceGetter,
         option,
     }: {
-        event: { emit: { blur: (e: Event) => void, focus: (e: Event) => void } },
+        event: { emit: { onBlur: (e: Event) => void, onFocus: (e: Event) => void } },
         serviceGetter: (ins: ComponentPublicInstance) => ((o: SpecificPopperServiceOption) => PopperAgent),
         option: SpecificPopperServiceOption,
     }) {
@@ -49,13 +49,13 @@ export function useEditPopperAgent(
         onBlur: async (e: Event) => {
             state.focusCounter--
             if (state.focusCounter === 0) {
-                emit.blur(e)
+                emit.onBlur(e)
                 await methods.hide()
             }
         },
         onFocus: (e: Event) => {
             if (state.focusCounter === 0) {
-                emit.focus(e)
+                emit.onFocus(e)
             }
             state.focusCounter = 1
         },

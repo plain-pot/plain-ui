@@ -11,11 +11,11 @@ export default designComponent({
     },
     provideRefer: true,
     emits: {
-        updateModelValue: (val: string | string[] | undefined) => true
+        onUpdateModelValue: (val: string | string[] | undefined) => true
     },
     setup({props, event: {emit}}) {
         const {slots} = useSlots()
-        const model = useModel(() => props.modelValue as string | string[] | undefined, emit.updateModelValue)
+        const model = useModel(() => props.modelValue as string | string[] | undefined, emit.onUpdateModelValue)
 
         const utils = {
             isOpen: (val: string) => {

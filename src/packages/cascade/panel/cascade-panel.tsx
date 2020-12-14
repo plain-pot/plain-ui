@@ -34,18 +34,18 @@ export default designComponent({
     name: 'pl-cascade-panel',
     props: CascadePanelProps,
     emits: {
-        updateModelValue: (val: any, expandNodes?: CascadeNode[]) => true,
-        clickItem: (data: { node: CascadeNode, index: number }) => true,
-        getChildren: (...args: any[]) => true,
-        updateData: (val: any) => true,
+        onUpdateModelValue: (val: any, expandNodes?: CascadeNode[]) => true,
+        onClickItem: (data: { node: CascadeNode, index: number }) => true,
+        onGetChildren: (...args: any[]) => true,
+        onUpdateData: (val: any) => true,
     },
     setup({props, event: {emit}}) {
 
         const {scopedSlots} = useScopedSlots({
             default: {node: CascadeNode, index: Number}
         })
-        const model = useModel(() => props.modelValue, emit.updateModelValue, {autoEmit: false})
-        const data = useModel(() => props.data, emit.updateData)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoEmit: false})
+        const data = useModel(() => props.data, emit.onUpdateData)
         const expandKeys = ref([] as string[])
         const state = reactive({
             loading: false,
@@ -140,7 +140,7 @@ export default designComponent({
                             node.loading(false)
                             node.loaded(true)
                         }
-                        emit.getChildren(...results)
+                        emit.onGetChildren(...results)
                         resolve(...results)
                     })
                 })
@@ -200,9 +200,9 @@ export default designComponent({
                 if (node.nodeDisabled) return
                 if (node.isLeaf || props.selectBranch) {
                     model.value = state.expandKeys
-                    emit.updateModelValue(model.value as string[], expandNodes.value as CascadeNode[])
+                    emit.onUpdateModelValue(model.value as string[], expandNodes.value as CascadeNode[])
                 }
-                emit.clickItem({node, index})
+                emit.onClickItem({node, index})
             }
         }
 

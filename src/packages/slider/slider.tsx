@@ -37,9 +37,9 @@ export default designComponent({
         range: {type: Boolean},                                     //是否为范围选择
     },
     emits: {
-        updateModelValue: (val: number) => true,
-        updateStart: (val: number) => true,
-        updateEnd: (val: number) => true,
+        onUpdateModelValue: (val: number) => true,
+        onUpdateStart: (val: number) => true,
+        onUpdateEnd: (val: number) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -52,9 +52,9 @@ export default designComponent({
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
-        const start = useModel(() => props.start, emit.updateStart)
-        const end = useModel(() => props.end, emit.updateEnd)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
+        const start = useModel(() => props.start, emit.onUpdateStart)
+        const end = useModel(() => props.end, emit.onUpdateEnd)
 
         const isMounted = useMounted()
 

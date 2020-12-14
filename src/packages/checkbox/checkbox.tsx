@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import {useModel} from "../../use/useModel";
 import {useProps} from "../../use/useProps";
 import {useScopedSlots} from "../../use/useScopedSlots";
@@ -31,15 +31,15 @@ export default designComponent({
         checkStatus: {type: String},                                // checkbox 自定义状态
     },
     emits: {
-        updateModelValue: (val: any) => true,
-        click: (e?: MouseEvent) => true,
+        onUpdateModelValue: (val: any) => true,
+        onClick: (e?: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
         /*group父组件*/
         const checkboxGroup = CheckboxGroupCollector.child({injectDefaultValue: null})
         /*绑定值*/
-        const modelValue = useModel(() => props.modelValue, emit.updateModelValue)
+        const modelValue = useModel(() => props.modelValue, emit.onUpdateModelValue)
         /*格式化属性值*/
         const {propsState} = useProps(props, {
             label: useProps.PROMISE,
@@ -93,7 +93,7 @@ export default designComponent({
                 if (!!e) {
                     e.stopPropagation()
                 }
-                emit.click(e)
+                emit.onClick(e)
                 if (!editComputed.value.editable || props.customReadonly) {
                     return
                 }

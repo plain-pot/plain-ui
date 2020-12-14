@@ -13,12 +13,12 @@ export default designComponent({
     },
     emits: {
         ...DatePublicEmits,
-        updateModelValue: (val?: string, ipd?: PlainDateType) => true,
-        clickItem: (ipd: PlainDateType) => true,
-        selectTime: (val: string) => true,
-        mouseenterItem: (item: Dbpid) => true,
-        selectDateChange: (ipd: PlainDateType) => true,
-        mouseleaveDateList: (e: MouseEvent) => true,
+        onUpdateModelValue: (val?: string, ipd?: PlainDateType) => true,
+        onClickItem: (ipd: PlainDateType) => true,
+        onSelectTime: (val: string) => true,
+        onMouseenterItem: (item: Dbpid) => true,
+        onSelectDateChange: (ipd: PlainDateType) => true,
+        onMouseleaveDateList: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -58,7 +58,7 @@ export default designComponent({
                     setSelectDate(val)
                 }
                 if (autoEmit) {
-                    emit.selectDateChange(state.selectDate)
+                    emit.onSelectDateChange(state.selectDate)
                 }
             },
             /**
@@ -75,7 +75,7 @@ export default designComponent({
                     vpd = min
                 }
                 model.value = vpd.valueString!
-                emit.updateModelValue(model.value, vpd)
+                emit.onUpdateModelValue(model.value, vpd)
             },
         }
 
@@ -251,7 +251,7 @@ export default designComponent({
                     ipd!.setHms(defaultTime)
                 }
 
-                emit.clickItem(ipd)
+                emit.onClickItem(ipd)
                 utils.emitValue(ipd.valueString!)
             },
             /**
@@ -275,7 +275,7 @@ export default designComponent({
                 vpd.setHms(tempPd)
 
                 utils.emitValue(vpd.valueString!)
-                emit.selectTime(val)
+                emit.onSelectTime(val)
             },
             /**
              * 月份选择面板的值发生变化之后，改变视图
@@ -318,12 +318,12 @@ export default designComponent({
                                 </li>
                             ))}
                         </ul>
-                        <pl-list class="pl-date-base-panel-date-list" tag="ul" onMouseleave={emit.mouseleaveDateList}>
+                        <pl-list class="pl-date-base-panel-date-list" tag="ul" onMouseleave={emit.onMouseleaveDateList}>
                             {dateList.value.map((item, index) => (
                                 DatePanelItemWrapper({
                                     item,
                                     onClick: handler.onClickItem,
-                                    onMouseenter: emit.mouseenterItem,
+                                    onMouseenter: emit.onMouseenterItem,
                                     Node: <pl-item
                                         {...{
                                             tag: 'li',

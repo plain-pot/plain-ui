@@ -25,14 +25,14 @@ export default designComponent({
         inactiveIcon: {type: String},                                   //未激活的时候的图标
     },
     emits: {
-        updateModelValue: (val: number) => true,
+        onUpdateModelValue: (val: number) => true,
     },
     setup({props, event: {emit}}) {
 
         const {refs} = useRefs({
             el: HTMLDivElement,
         })
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const state = reactive({
             totalWidth: null as null | number,
             elLeft: null as null | number,

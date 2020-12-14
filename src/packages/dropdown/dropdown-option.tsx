@@ -13,7 +13,7 @@ export default designComponent({
         align: {type: String, default: 'left'},
     },
     emits: {
-        click: (e: MouseEvent) => true,
+        onClick: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -24,7 +24,7 @@ export default designComponent({
             if (props.disabled) {
                 return
             }
-            emit.click(e)
+            emit.onClick(e)
             menu.handler.clickOption(e, props.val)
         }
 

@@ -26,7 +26,7 @@ export function useDateTime(
         },
         agentState: EditPopperAgent,
         emit: {
-            blur: Function
+            onBlur: Function
         },
     }
 ) {
@@ -74,7 +74,7 @@ export function useDateTime(
                 ].indexOf(document.activeElement as any) === -1) {
                     agentState.state.focusCounter--
                     if (agentState.state.focusCounter === 0) {
-                        emit.blur()
+                        emit.onBlur()
                         agentState.methods.hide()
                     }
                 }

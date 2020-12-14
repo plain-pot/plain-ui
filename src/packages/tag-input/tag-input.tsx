@@ -24,7 +24,7 @@ export default designComponent({
         noInput: Function,                                                      // 是否显示输入框
     },
     emits: {
-        updateModelValue: (val: any[] | undefined) => true
+        onUpdateModelValue: (val: any[] | undefined) => true
     },
     setup({props, event: {emit}}) {
 
@@ -37,7 +37,7 @@ export default designComponent({
             input: Input,
         })
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
         const state = reactive({
             isEditing: false,

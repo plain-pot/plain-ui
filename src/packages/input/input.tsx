@@ -48,17 +48,17 @@ export default designComponent({
         nativeAttrs: {type: Object, default: () => ({})},
     },
     emits: {
-        updateModelValue: (val: any) => true,
-        focus: (e: FocusEvent) => true,
-        blur: (e: Event) => true,
-        keydown: (e: KeyboardEvent) => true,
-        enter: (e: KeyboardEvent) => true,
-        esc: (e: KeyboardEvent) => true,
+        onUpdateModelValue: (val: any) => true,
+        onFocus: (e: FocusEvent) => true,
+        onBlur: (e: Event) => true,
+        onKeydown: (e: KeyboardEvent) => true,
+        onEnter: (e: KeyboardEvent) => true,
+        onEsc: (e: KeyboardEvent) => true,
 
-        clickInput: (e: MouseEvent) => true,
-        clickPrefixIcon: (e: MouseEvent) => true,
-        clickSuffixIcon: (e: MouseEvent) => true,
-        clickClearIcon: (e: MouseEvent) => true,
+        onClickInput: (e: MouseEvent) => true,
+        onClickPrefixIcon: (e: MouseEvent) => true,
+        onClickSuffixIcon: (e: MouseEvent) => true,
+        onClickClearIcon: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -94,12 +94,12 @@ export default designComponent({
                             editState.loading = null
                         }
                     } else {
-                        emit.enter(e)
+                        emit.onEnter(e)
                     }
                 }
             },
         })
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
         /*---------------------------------------handler-------------------------------------------*/
 
@@ -116,7 +116,7 @@ export default designComponent({
                 }
                 e.stopPropagation()
                 e.preventDefault()
-                emit.clickPrefixIcon(e)
+                emit.onClickPrefixIcon(e)
             },
             clickSuffixIcon: (e: MouseEvent) => {
                 if (!editComputed.value.editable) {
@@ -124,7 +124,7 @@ export default designComponent({
                 }
                 e.stopPropagation()
                 e.preventDefault()
-                emit.clickSuffixIcon(e)
+                emit.onClickSuffixIcon(e)
             },
             clickClearIcon: (e: MouseEvent) => {
                 if (!editComputed.value.editable) {
@@ -132,7 +132,7 @@ export default designComponent({
                 }
                 e.stopPropagation()
                 e.preventDefault()
-                emit.clickClearIcon(e)
+                emit.onClickClearIcon(e)
                 if (!!props.clearHandler) {
                     props.clearHandler(e)
                 } else {
@@ -202,16 +202,16 @@ export default designComponent({
                 },
             } : {}),
 
-            onClick: emit.clickInput,
-            onFocus: emit.focus,
-            onBlur: emit.blur,
+            onClick: emit.onClickInput,
+            onFocus: emit.onFocus,
+            onBlur: emit.onBlur,
             onKeydown: (e: KeyboardEvent) => {
-                emit.keydown(e)
+                emit.onKeydown(e)
                 switch (getKey(e)) {
                     case KEY.enter:
                         return handler.enter(e)
                     case KEY.esc:
-                        return emit.esc(e)
+                        return emit.onEsc(e)
                 }
             },
             ref: "input",

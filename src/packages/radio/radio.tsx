@@ -31,8 +31,8 @@ export default designComponent({
         checkStatus: {type: String},                                // 自定义选中状态
     },
     emits: {
-        updateModelValue: (val: any) => true,
-        click: (e?: MouseEvent) => true,
+        onUpdateModelValue: (val: any) => true,
+        onClick: (e?: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -46,7 +46,7 @@ export default designComponent({
         const {propsState} = useProps(props, {
             width: useProps.NUMBER,
         })
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const checkStatus = computed(() => {
             if (!!props.checkStatus) {
                 return props.checkStatus as CheckboxStatus
@@ -86,7 +86,7 @@ export default designComponent({
                 if (!!e) {
                     e.stopPropagation()
                 }
-                emit.click(e)
+                emit.onClick(e)
                 if (!editComputed.value.editable || props.customReadonly) {
                     return
                 }

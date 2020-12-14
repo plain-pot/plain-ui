@@ -20,11 +20,11 @@ export default designComponent({
         val: {type: String},
     },
     emits: {
-        updateModelValue: (val: boolean) => true
+        onUpdateModelValue: (val: boolean) => true
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const group = Group.use.inject(null)
 
         const selfVal = computed(() => props.val || valCounter())

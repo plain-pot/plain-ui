@@ -11,14 +11,14 @@ export const DemoUseCollectParentComponent = designComponent({
         modelValue: {},
     },
     emits: {
-        updateModelValue: (val: undefined | (string | number)[]) => true
+        onUpdateModelValue: (val: undefined | (string | number)[]) => true
     },
     setup({props, event}) {
         const {slots} = useSlots()
 
         const children = DemoUseCollector.parent()
 
-        const modelValue = useModel(() => props.modelValue as undefined | (string | number)[], event.emit.updateModelValue)
+        const modelValue = useModel(() => props.modelValue as undefined | (string | number)[], event.emit.onUpdateModelValue)
 
         const utils = {
             isChecked: (val: string | number) => {

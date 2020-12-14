@@ -18,16 +18,16 @@ export default designComponent({
         ...TimePublicProps,
     },
     emits: {
-        updateModelValue: (val: string | undefined, type: TimeRangePanelType) => true,
-        updateStart: (val?: string) => true,
-        updateEnd: (val?: string) => true,
-        mousedownStartPanel: (e: MouseEvent) => true,
-        mousedownEndPanel: (e: MouseEvent) => true,
+        onUpdateModelValue: (val: string | undefined, type: TimeRangePanelType) => true,
+        onUpdateStart: (val?: string) => true,
+        onUpdateEnd: (val?: string) => true,
+        onMousedownStartPanel: (e: MouseEvent) => true,
+        onMousedownEndPanel: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
-        const start = useModel(() => props.start, emit.updateStart)
-        const end = useModel(() => props.end, emit.updateEnd)
+        const start = useModel(() => props.start, emit.onUpdateStart)
+        const end = useModel(() => props.end, emit.onUpdateEnd)
 
         const formatData = computed(() => {
             const {displayFormat, valueFormat} = props
@@ -42,23 +42,23 @@ export default designComponent({
         const handler = {
             onStartChange: (value?: string) => {
                 start.value = value
-                emit.updateModelValue(value, TimeRangePanelType.start)
+                emit.onUpdateModelValue(value, TimeRangePanelType.start)
 
                 const {end: endPd, start: startPd} = formatData.value
 
                 if (endPd.isNull || startPd.Hms! > endPd.Hms) {
                     end.value = start.value
-                    emit.updateModelValue(end.value, TimeRangePanelType.end)
+                    emit.onUpdateModelValue(end.value, TimeRangePanelType.end)
                 }
             },
             onEndChange: (value?: string) => {
                 end.value = value
-                emit.updateModelValue(value, TimeRangePanelType.end)
+                emit.onUpdateModelValue(value, TimeRangePanelType.end)
                 const {end: endPd, start: startPd} = formatData.value
 
                 if (startPd.isNull || endPd.Hms! < startPd.Hms) {
                     start.value = end.value
-                    emit.updateModelValue(start.value, TimeRangePanelType.start)
+                    emit.onUpdateModelValue(start.value, TimeRangePanelType.start)
                 }
             },
         }
@@ -80,13 +80,13 @@ export default designComponent({
                     ...publicBinding,
                     modelValue: start.value,
                     onChange: handler.onStartChange,
-                    onMousedown: emit.mousedownStartPanel,
+                    onMousedown: emit.onMousedownStartPanel,
                 },
                 end: {
                     ...publicBinding,
                     modelValue: end.value,
                     onChange: handler.onEndChange,
-                    onMousedown: emit.mousedownEndPanel,
+                    onMousedown: emit.onMousedownEndPanel,
                 },
             }
         })

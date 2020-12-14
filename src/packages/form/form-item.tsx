@@ -31,8 +31,8 @@ export default designComponent({
         contentAlign: {type: String as PropType<FormContentAlign>},         // content 对齐方式
     },
     emits: {
-        blur: () => true,
-        change: () => true,
+        onBlur: () => true,
+        onChange: () => true,
     },
     provideRefer: true,
     setup({props, event: {emit}}) {

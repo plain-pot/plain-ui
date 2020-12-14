@@ -20,17 +20,17 @@ export default designComponent({
         ...TimePanelProps,
     },
     emits: {
-        updateModelValue: (val?: string) => true,
-        updateStart: (val?: string) => true,
-        updateEnd: (val?: string) => true,
-        blur: (e: Event) => true,
-        focus: (e: Event) => true,
+        onUpdateModelValue: (val?: string) => true,
+        onUpdateStart: (val?: string) => true,
+        onUpdateEnd: (val?: string) => true,
+        onBlur: (e: Event) => true,
+        onFocus: (e: Event) => true,
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
-        const startModel = useModel(() => props.start, emit.updateStart)
-        const endModel = useModel(() => props.end, emit.updateEnd)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
+        const startModel = useModel(() => props.start, emit.onUpdateStart)
+        const endModel = useModel(() => props.end, emit.onUpdateEnd)
 
         const formatData = computed(() => ({
             value: new PlainDate(model.value, props.displayFormat, props.valueFormat),
