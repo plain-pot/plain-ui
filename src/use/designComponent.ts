@@ -28,12 +28,12 @@ type EmitToProp<E extends Record<string, any>> = {
     [k in keyof E]: { type: PropType<E[k] extends ((...args: any[]) => any) ? (...args: Parameters<E[k]>) => void : E[k]>, }
 }
 
-export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>,
-    RawBindings,
+export function designComponent<RawBindings,
     D,
     Refer,
     Expose extends object,
     Props extends Readonly<ExtractPropTypes<PropsOptions>>,
+    PropsOptions extends Readonly<ComponentPropsOptions> = {},
     C extends ComputedOptions = {},
     M extends MethodOptions = {},
     Mixin extends ComponentOptionsMixin = ComponentOptionsMixin,
