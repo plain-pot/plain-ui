@@ -2,6 +2,7 @@ import {designComponent} from "../../../../src/use/designComponent";
 import {DemoUseEventTableHead} from "./DemoUseEventTableHead";
 import {DemoUseEventTableBody} from "./DemoUseEventTableBody";
 import {reactive} from 'vue';
+import {createEventListener} from "../../../../src/utils/createEventListener";
 
 export enum DemoUseEventTablePart {
     head = 'head',
@@ -36,13 +37,14 @@ export const DemoUseEventTable = designComponent({
                         onClickHeader={(name) => {
                             name.toFixed(1)
                         }}
-                        {...{
-                            onMouseenter: () => state.hoverPart = DemoUseEventTablePart.head
-                        }}/>}
+                        {...createEventListener({
+                            onMouseenter: () => state.hoverPart = DemoUseEventTablePart.head,
+                        })}
+                    />}
 
-                    <DemoUseEventTableBody {...{
+                    <DemoUseEventTableBody {...createEventListener({
                         onMouseenter: () => state.hoverPart = DemoUseEventTablePart.body
-                    }}/>
+                    })}/>
 
                 </div>
             )
