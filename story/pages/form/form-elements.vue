@@ -18,6 +18,7 @@
 
                 <pl-form-item label="复选框" field="field5" :rules="{min:1,max:2}" required>
                     <pl-checkbox-group v-model="form1.formData.field5" itemWidth="50%">
+                        <pl-checkbox checkboxForAll label="全部"/>
                         <pl-checkbox label="大客户" val="large"/>
                         <pl-checkbox label="潜在客户" val="potential"/>
                         <pl-checkbox label="长久客户" val="long"/>
