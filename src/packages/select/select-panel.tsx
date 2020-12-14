@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import Option, {SelectOption} from './select-option'
 import {useCollect} from "../../use/useCollect";
-import {computed, ref} from 'vue';
+import {computed, PropType, ref} from 'vue';
 import {useRefs} from "../../use/useRefs";
 import Scroll from '../scroll'
 import {useModel} from "../../use/useModel";
@@ -21,7 +21,7 @@ const Panel = designComponent({
 
         noMatchText: {type: String, default: '暂无匹配数据'},             // 筛选无数据时展示的文本
         noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
-        filterMethod: {type: Function as any as new() => ((option: { val: string | number, label: string | number, disabled?: boolean }) => boolean)},// 筛选过滤函数
+        filterMethod: {type: Function as PropType<(option: { val: string | number, label: string | number, disabled?: boolean }) => boolean>},// 筛选过滤函数
         content: {type: [Object, Function]},                            // 内容虚拟dom或者渲染函数
         height: {type: Number},                                         // 面板高度，超过会显示自定义滚动条
 

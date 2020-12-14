@@ -2,11 +2,12 @@ import {designComponent} from "../../use/designComponent";
 import {MessageServiceFormatOption} from "./index";
 import {useClass} from "../../use/useClasses";
 import {nextIndex} from "../../utils/nextIndex";
+import {PropType} from 'vue';
 
 export default designComponent({
     name: 'pl-message',
     props: {
-        option: {type: Object as any as new() => MessageServiceFormatOption, required: true}
+        option: {type: Object as PropType<MessageServiceFormatOption>, required: true}
     },
     emits: {
         close: () => true

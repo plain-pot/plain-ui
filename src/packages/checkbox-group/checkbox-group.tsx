@@ -1,13 +1,13 @@
 import {designComponent} from "../../use/designComponent";
 import {EditProps, useEdit} from '../../use/useEdit';
-import {StyleProps, StyleStatus, useStyle} from '../../use/useStyle';
+import {StyleProps, useStyle} from '../../use/useStyle';
 import {useSlots} from "../../use/useSlots";
 import {useProps} from "../../use/useProps";
 import {useModel} from "../../use/useModel";
 import {useCollect} from "../../use/useCollect";
 import Checkbox from '../checkbox/checkbox'
 import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
-import {computed, inject} from 'vue';
+import {computed, inject, PropType} from 'vue';
 
 const CheckboxGroup = designComponent({
     name: 'pl-checkbox-group',
@@ -15,7 +15,7 @@ const CheckboxGroup = designComponent({
         ...EditProps,
         ...StyleProps,
 
-        modelValue: {type: Array as any as new() => (string | number)[]},
+        modelValue: {type: Array as PropType<(string | number)[]>},
 
         min: {type: Number},                                        // 最大勾选个数
         max: {type: Number},                                        // 最小勾选个数

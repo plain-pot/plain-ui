@@ -3,7 +3,7 @@ import {EditProps, useEdit} from "../../../use/useEdit";
 import {useRefs} from "../../../use/useRefs";
 import Scroll from '../../scroll'
 import {useModel} from "../../../use/useModel";
-import {computed, nextTick, onMounted} from 'vue';
+import {computed, nextTick, onMounted, PropType} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";
 import {findOne} from "plain-utils/object/findOne";
 import './time-base-column.scss'
@@ -20,7 +20,7 @@ export default designComponent({
         modelValue: {required: true},// 当前值
         max: {type: Number},                    // 最大值
         min: {type: Number},                    // 最小值
-        custom: {type: Function as any as new() => ((layout: string) => number[])},// 自定义选项函数
+        custom: {type: Function as PropType<(layout: string) => number[]>},// 自定义选项函数
         checkDisabled: Function,                // 用来判断选项是否禁用的函数
         disableChangeOnScroll: {type: Boolean}, // 是否禁用在滚动的时候触发更新值动作
     },

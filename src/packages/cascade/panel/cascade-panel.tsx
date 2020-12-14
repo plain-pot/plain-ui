@@ -4,7 +4,7 @@ import {VNodeChild} from "../../../shims";
 import {useScopedSlots} from "../../../use/useScopedSlots";
 import {useModel} from "../../../use/useModel";
 import {CascadeMark} from "../utils/CascadMark";
-import {computed, reactive, ref} from 'vue';
+import {computed, PropType, reactive, ref} from 'vue';
 import {debounce} from "plain-utils/utils/debounce";
 import './cascade-panel.scss'
 
@@ -14,30 +14,20 @@ export const CascadePanelProps = {
     trigger: {type: String, default: 'click'},                           // 展开触发类型：click，hover
     hoverDebounce: {type: Number, default: 150},                        // 触发器为hover的时候，防抖时间间隔
     emptyText: {type: String, default: '暂无数据'},                      // 没有子节点时展示的文本
-    nodeDisabled: {                                                     // 是否禁用判断函数
-        type: Function as any as new() => ((node: CascadeNode) => boolean)
-    },
-    renderContent: {                                                    // 渲染内容的渲染函数
-        type: Function as any as new() => ((data: { node: CascadeNode, index: number }) => VNodeChild)
-    },
+    nodeDisabled: {type: Function as PropType<(node: CascadeNode) => boolean>},// 是否禁用判断函数
+    renderContent: {type: Function as PropType<(data: { node: CascadeNode, index: number }) => VNodeChild>},// 渲染内容的渲染函数
     selectBranch: {type: Boolean},                                      // 点击分支的时候也能够触发 change 事件
     /*---------------------------------------separator-------------------------------------------*/
-    isLeaf: {                                                           // 函数，用来判断是否为叶子节点，默认根据节点是否存在子节点来判断是否为叶子节点，懒加载模式下，改属性为必需属性
-        type: Function as any as new() => ((node: CascadeNode) => boolean)
-    },
+    isLeaf: {type: Function as PropType<(node: CascadeNode) => boolean>},// 函数，用来判断是否为叶子节点，默认根据节点是否存在子节点来判断是否为叶子节点，懒加载模式下，改属性为必需属性
     lazy: {type: Boolean},                                              // 数据是否为懒加载
-    getChildren: {                                                      // 懒加载数据函数
-        type: Function as any as new() => ((node: CascadeNode | null, cb: (...args: any[]) => void) => any)
-    },
+    getChildren: {type: Function as PropType<(node: CascadeNode | null, cb: (...args: any[]) => void) => any>},// 懒加载数据函数
     /*---------------------------------------separator-------------------------------------------*/
     labelField: {type: String, required: true},                         // 记录显示文本的字段名
     keyField: {type: String, required: true},                           // 记录值的字段名
     childrenField: {type: String, required: true},                      // 记录的子节点数据的字段名
     /*---------------------------------------separator-------------------------------------------*/
     filterText: {type: String},                                         // 筛选文本
-    filterMethod: {
-        type: Function as any as new() => ((nodes: CascadeNode[], filterText: string) => boolean)
-    },                                      // 自定义筛选函数
+    filterMethod: {type: Function as PropType<(nodes: CascadeNode[], filterText: string) => boolean>},// 自定义筛选函数/
 }
 
 export default designComponent({

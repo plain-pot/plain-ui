@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useModel} from "../../use/useModel";
-import {computed, nextTick} from 'vue';
+import {computed, nextTick, PropType} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./core/props";
@@ -49,7 +49,7 @@ export default designComponent({
         /*---------------------------------------state-------------------------------------------*/
         /*作用域插槽*/
         const {scopedSlots} = useScopedSlots({
-            default: {node: Object as any as (new() => TreeNode), index: Number},
+            default: {node: Object as PropType<TreeNode>, index: Number},
         })
         /*当前高亮节点的key*/
         const current = useModel(() => props.currentKey, emit.updateCurrent)

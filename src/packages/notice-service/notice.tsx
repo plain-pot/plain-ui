@@ -3,11 +3,12 @@ import {NoticeServiceFormatOption} from "./index";
 import {useClass} from "../../use/useClasses";
 import {nextIndex} from "../../utils/nextIndex";
 import './notice-service.scss'
+import {PropType} from 'vue';
 
 export default designComponent({
     name: 'pl-notice',
     props: {
-        option: {type: Object as any as new() => NoticeServiceFormatOption, required: true}
+        option: {type: Object as PropType<NoticeServiceFormatOption>, required: true}
     },
     emits: {
         close: () => true

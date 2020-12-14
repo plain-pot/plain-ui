@@ -1,13 +1,13 @@
 import {designComponent} from "../../use/designComponent";
 import {CascadePanelProps} from "./panel/cascade-panel";
-import {EditProps, useEdit} from "../../use/useEdit";
+import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {useRefs} from "../../use/useRefs";
 import Input from '../input'
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {CascadeNode} from "./utils/CascadeNode";
 import {useModel} from "../../use/useModel";
-import {computed, reactive, watch} from 'vue';
+import {computed, PropType, reactive, watch} from 'vue';
 import {CascadeMark} from "./utils/CascadMark";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {CascadeServiceGetter} from "./service/cascade-service";
@@ -22,9 +22,7 @@ export default designComponent({
         showLast: {type: Boolean},                                          // 只显示最后一级节点文本
         separator: {type: String, default: ' / '},                          // 显示值分隔符
         filterable: {type: Boolean, default: true},                         // 是否可筛选
-        showFormat: {                                                       // 显示值格式化函数
-            type: Function as any as new() => ((value: any[]) => string)
-        },
+        showFormat: {type: Function as PropType<(value: any[]) => string>}, // 显示值格式化函数
 
         inputAttrs: {type: Object},                                         // 输入框属性值
 

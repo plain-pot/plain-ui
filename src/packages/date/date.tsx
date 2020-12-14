@@ -8,7 +8,7 @@ import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {DateServiceGetter} from "./service/date-service";
 import {useDateTime} from "../date-time-input/useDateTime";
 import {delay} from "plain-utils/utils/delay";
-import {computed} from 'vue';
+import {computed, PropType} from 'vue';
 import {DatePanelType} from "./panel/date-panel";
 import {PlainDate, PlainDateType} from "../../utils/PlainDate";
 
@@ -21,7 +21,7 @@ export default designComponent({
         modelValue: {},
         panel: {type: String, default: 'date'},
         collapseTags: {type: Boolean, default: true},
-        customWeekString: {type: Function as any as new () => ((data: { week: number, year: number }) => string)},
+        customWeekString: {type: Function as PropType<(data: { week: number, year: number }) => string>},
     },
     emits: {
         ...DatePublicEmits,

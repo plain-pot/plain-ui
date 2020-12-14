@@ -1,13 +1,13 @@
-import {computed, reactive, watch} from "vue";
+import {computed, PropType, reactive, watch} from "vue";
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import './button.scss'
 import {ClickWave} from "../click-wave/click-wave-directive";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import {useProps} from "../../use/useProps";
 import {ButtonModeProvider} from "../button-group/button-group";
-import {FuncProps, SimpleFunction} from "../../shims";
+import {SimpleFunction} from "../../shims";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 import {useStyles} from "../../use/useStyles";
@@ -28,7 +28,7 @@ export default designComponent({
         block: {type: Boolean},                                 // 块级元素
         throttleClick: {type: [Boolean, Number]},               // click节流
         autoLoading: {type: Boolean},                           // 在执行click处理函数时，是否自动变更为加载状态
-        asyncHandler: {type: Function as any as FuncProps<(e: MouseEvent) => void>},    // autoLoading 为true时，的异步处理函数
+        asyncHandler: {type: Function as PropType<(e: MouseEvent) => void>},    // autoLoading 为true时，的异步处理函数
 
         ...EditProps,
         ...StyleProps,
