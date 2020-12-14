@@ -5,7 +5,10 @@ import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
 const InputInnerTags = createComponentPlugin(InnerTags)
 
-export default {
-    InputInnerTags,
-    ...createComponentPlugin(Input, [Icon, InputInnerTags]),
-}
+export default createComponentPlugin(
+    Input,
+    [Icon, InputInnerTags],
+    {
+        InputInnerTags,
+    }
+)
