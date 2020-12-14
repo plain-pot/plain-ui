@@ -8,6 +8,7 @@ import {useCollect} from "../../use/useCollect";
 import Checkbox from '../checkbox/checkbox'
 import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
 import {computed, inject, PropType} from 'vue';
+import {$$notice} from "../notice-service";
 
 const CheckboxGroup = designComponent({
     name: 'pl-checkbox-group',
@@ -117,7 +118,7 @@ const CheckboxGroup = designComponent({
                  */
                 add: (val: (string | number)[]) => {
                     if (utils.exceed.max(val)) {
-                        alert(`最多可选 ${propsState.max} 个选项！`)
+                        $$notice.warn(`最多可选 ${propsState.max} 个选项！`)
                     } else {
                         modelValue.value = val
                     }
@@ -129,7 +130,7 @@ const CheckboxGroup = designComponent({
                  */
                 delete: (val: (string | number)[]) => {
                     if (utils.exceed.min(val)) {
-                        alert(`最少选择 ${propsState.min} 个选项！`)
+                        $$notice.warn(`最少选择 ${propsState.min} 个选项！`)
                     } else {
                         modelValue.value = val
                     }

@@ -9,6 +9,7 @@ import {useModel} from "../../use/useModel";
 import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
 import {useProps} from "../../use/useProps";
+import {$$notice} from "../notice-service";
 
 const Panel = designComponent({
     name: 'pl-select-panel',
@@ -101,12 +102,12 @@ const Panel = designComponent({
                     const index = newValue.indexOf(option.props.val!)
                     if (index > -1) {
                         if (!!propsState.multipleMinLimit && newValue.length <= propsState.multipleMinLimit) {
-                            return alert(`最少选择 ${propsState.multipleMinLimit} 个选项`)
+                            return $$notice.warn(`最少选择 ${propsState.multipleMinLimit} 个选项`)
                         }
                         newValue.splice(index, 1)
                     } else {
                         if (!!propsState.multipleMaxLimit && newValue.length >= propsState.multipleMaxLimit) {
-                            return alert(`最多选择 ${propsState.multipleMaxLimit} 个选项`)
+                            return $$notice.warn(`最多选择 ${propsState.multipleMaxLimit} 个选项`)
                         }
                         newValue.push(option.props.val!)
                     }

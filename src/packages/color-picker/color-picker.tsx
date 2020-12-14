@@ -9,6 +9,7 @@ import {ColorPickerServiceGetter} from "./service/color-picker.service";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import './color-picker.scss'
 import {useModel} from "../../use/useModel";
+import {$$notice} from "../notice-service";
 
 const opacityBg = require('./sub/opacity.png')
 
@@ -87,7 +88,7 @@ export const ColorPicker = designComponent({
 
             onEnter: (e: KeyboardEvent) => {
                 if (!!state.inputValue && state.inputValue !== state.val) {
-                    alert('请输入有效的颜色值')
+                    $$notice.warn('请输入有效的颜色值')
                     state.inputValue = state.val
                 }
                 agentState.inputHandler.onEnter(e)

@@ -5,6 +5,7 @@ import {nextTick, reactive, watch} from 'vue';
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import Input from '../input'
 import {useRefs} from "../../use/useRefs";
+import {$$notice} from "../notice-service";
 
 function getDefaultColor(format: ColorFormat, enableAlpha: boolean) {
     if (format === ColorFormat.hex) {
@@ -95,14 +96,14 @@ export const ColorPanel = designComponent({
             },
             inputBlur: () => {
                 if (!!refs.input!.model.value && refs.input!.model.value !== state.color.color) {
-                    alert('请输入正确的颜色值！')
+                    $$notice.warn('请输入正确的颜色值！')
                     refs.input!.model.value = state.color.color
                 }
             },
             inputEnter: async () => {
                 await nextTick()
                 if (!!refs.input!.model.value && refs.input!.model.value !== state.color.color) {
-                    alert('请输入正确的颜色值！')
+                    $$notice('请输入正确的颜色值！')
                     refs.input!.model.value = state.color.color
                 } else {
                     handler.confirm()
