@@ -3,6 +3,9 @@ import {DemoUseEventTable, DemoUseEventTablePart} from "./DemoUseEventTable";
 import {onBeforeUnmount, ref} from 'vue';
 
 export const DemoUseEventTableHead = designComponent({
+    emits: {
+        onClickHeader: (tag: number) => true,
+    },
     setup() {
 
         const wrapperEl = ref(null as null | HTMLDivElement)

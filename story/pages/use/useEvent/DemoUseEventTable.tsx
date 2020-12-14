@@ -32,9 +32,13 @@ export const DemoUseEventTable = designComponent({
                 <div class="demo-use-event-table" onMouseleave={() => state.hoverPart = null}>
 
                     {!!props.showHeader &&
-                    <DemoUseEventTableHead {...{
-                        onMouseenter: () => state.hoverPart = DemoUseEventTablePart.head
-                    }}/>}
+                    <DemoUseEventTableHead
+                        onClickHeader={(name) => {
+                            name.toFixed(1)
+                        }}
+                        {...{
+                            onMouseenter: () => state.hoverPart = DemoUseEventTablePart.head
+                        }}/>}
 
                     <DemoUseEventTableBody {...{
                         onMouseenter: () => state.hoverPart = DemoUseEventTablePart.body
