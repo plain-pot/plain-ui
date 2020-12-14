@@ -48,6 +48,7 @@ import DateTimeInput from './packages/date-time-input'
 import Time from './packages/time'
 import Date from './packages/date'
 import Form from './packages/form'
+import Table from './packages/table'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -58,7 +59,7 @@ const plugins: ComponentPlugin[] = [
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel,
+    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
@@ -74,7 +75,7 @@ export {
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel,
+    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
