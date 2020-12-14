@@ -1,6 +1,7 @@
 import {Directive, nextTick} from 'vue';
 import {PlainTooltip} from 'plain-popper';
 import {PlainTooltipConfig} from 'plain-popper/src/PlainTooltipUtils';
+import {deepEqual} from "plain-utils/object/deepEqual";
 
 type TooltipBinding = string | PlainTooltipConfig
 
@@ -14,24 +15,26 @@ class Tooltip {
     }
 
     tooltip: PlainTooltip | null = null
+    oldOption: any = null
 
-    constructor(el: HTMLElement, option: object | string) {
+    constructor(el: HTMLElement, option: PlainTooltipConfig | string) {
         this.updateOption(el, option)
     }
 
-    async updateOption(el: HTMLElement, option: object | string) {
+    async updateOption(el: HTMLElement, option: PlainTooltipConfig | string) {
+        if (deepEqual(this.oldOption, option)) {
+            return
+        }
+        this.oldOption = option
         await nextTick()
         if (!!this.tooltip) {
             this.tooltip.destroy()
             this.tooltip = null
         }
         if (!!option) {
-            if (typeof option === "string") {
-                option = {content: option}
-            }
-            option = Object.assign({reference: el} as Partial<PlainTooltipConfig>, Tooltip.DEFAULT_OPTION, option)
-            // @ts-ignore
-            this.tooltip = new PlainTooltip(option)
+            let config: PlainTooltipConfig = (typeof option === "string" ? {content: option} : option) as any
+            config = Object.assign({reference: el} as Partial<PlainTooltipConfig>, Tooltip.DEFAULT_OPTION, config)
+            this.tooltip = new PlainTooltip(config)
         }
     }
 
