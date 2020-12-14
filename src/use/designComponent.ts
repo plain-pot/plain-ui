@@ -1,4 +1,4 @@
-import {Component, ComponentPropsOptions, defineComponent, Directive, ExtractPropTypes, inject, provide, SetupContext, getCurrentInstance, Ref, ref, ComputedOptions, MethodOptions, ComponentOptionsMixin, EmitsOptions, DefineComponent,} from 'vue'
+import {Component, ComponentInternalInstance, ComponentOptionsMixin, ComponentPropsOptions, ComputedOptions, defineComponent, DefineComponent, Directive, EmitsOptions, ExtractPropTypes, getCurrentInstance, inject, MethodOptions, PropType, provide, Ref, ref, SetupContext,} from 'vue'
 import {ComponentEvent, getComponentEmit, useEvent} from "./useEvent";
 import {createError} from "../utils/createError";
 import {renderNothing} from "../utils/renderNothing";
@@ -24,6 +24,10 @@ interface UseType<Refer, Props> {
     props: Props,
 }
 
+type EmitToProp<E extends Record<string, any>> = {
+    [k in keyof E]: { type: PropType<E[k] extends ((...args: any[]) => any) ? (...args: Parameters<E[k]>) => void : E[k]>, }
+}
+
 export function designComponent<PropsOptions extends Readonly<ComponentPropsOptions>,
     RawBindings,
     D,
@@ -40,7 +44,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
     options: {
         provideRefer?: boolean,
         emits?: E,
-        setup?: (parameter: { props: Props, event: ComponentEvent<E>, setupContext: SetupContext<E> }) => {
+        setup?: (parameter: { props: Props, event: ComponentEvent<E>, setupContext: SetupContext<E>, ctx: ComponentInternalInstance }) => {
             refer?: Refer
             render: () => any,
         },
@@ -52,7 +56,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
         directives?: Record<string, Directive>;
     },
     expose?: Expose,
-): DefineComponent<PropsOptions, RawBindings, D, C, M, Mixin, Extends, E, EE> & {
+): DefineComponent<PropsOptions & EmitToProp<E>, RawBindings, D, C, M, Mixin, Extends, E, EE> & {
     use: UseType<Refer, Props>
 } & Expose {
 
@@ -97,6 +101,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                 (ctx as any)._event = event;
 
                 const {refer, render} = setup({
+                    ctx,
                     props,
                     event,
                     setupContext,
@@ -120,5 +125,7 @@ export function designComponent<PropsOptions extends Readonly<ComponentPropsOpti
                 }
                 return render
             },
-        }), {use, ...(expose || {})}) as any
+        }),
+        {use, ...(expose || {})}
+    ) as any
 }
