@@ -317,7 +317,6 @@ export function useTree(
         },
         /*重置state中的data数据*/
         resetData: () => {
-            console.log('resetData')
             const nodeMap = {} as Record<string, TreeNode>;
             const iterator = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TreeNode }): TreeNode => {
                 const node = utils.getTreeNodeByData({data, level, parentRef})
