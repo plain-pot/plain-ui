@@ -59,19 +59,6 @@ export default designComponent({
         })
 
         /**
-         * 滚动的过程中，pl-list 的队列动画
-         * @author  韦胜健
-         * @date    2020/12/14 22:41
-         */
-        const disableListTransition = (() => {
-            const disabledQueueAnimation = debounce(() => refs.scroll!.refs.host.removeAttribute('virtual-scrolling'), 300, true)
-            return () => {
-                refs.scroll!.refs.host.setAttribute('virtual-scrolling', '')
-                disabledQueueAnimation();
-            }
-        })();
-
-        /**
          * 计算得到的在虚拟列表当前要渲染的数组数据
          * @author  韦胜健
          * @date    2020/11/15 9:28
@@ -235,7 +222,6 @@ export default designComponent({
         const handler = {
             scroll: (e: Event) => {
                 emit.onScroll(e)
-                disableListTransition()
                 if (props.disabled) {
                     return
                 }
@@ -307,7 +293,7 @@ export default designComponent({
             render: () => {
                 const {list} = offsetData.value
                 return (
-                    <pl-scroll onScroll={handler.scroll} ref="scroll" class={classes.value}>
+                    <Scroll onScroll={handler.scroll} ref="scroll" class={classes.value} disableListTransition>
                         <div class="pl-virtual-list-strut" style={strutStyles.value}>
                             <div class="pl-virtual-list-content" style={contentStyles.value} ref="content">
                                 {scopedSlots.content({data: list}, list.map((node, virtualIndex) =>
@@ -315,7 +301,7 @@ export default designComponent({
                                 ))}
                             </div>
                         </div>
-                    </pl-scroll>
+                    </Scroll>
                 )
             }
         }

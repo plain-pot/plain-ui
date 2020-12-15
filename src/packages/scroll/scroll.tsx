@@ -11,6 +11,7 @@ import {useStyles} from "../../use/useStyles";
 import {VerticalScrollbar} from "./vertical-scrollbar";
 import {HorizontalScrollbar} from "./horizontal-scrollbar";
 import {delay} from "plain-utils/utils/delay";
+import {debounce} from "plain-utils/utils/debounce";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -36,6 +37,7 @@ export default designComponent({
         bottomThreshold: {type: Number, default: 20},                                                   // 距离底部多少距离派发滚动到底部事件
         autoScrollSpeed: {type: Number, default: 400},                                                  // 自动滚动的时候的速度，每秒钟滚动的距离
         scrollAfterDragEnd: {type: Boolean,},                                                           // 是否拖拽结束后才刷新滚动位置
+        disableListTransition: {type: Boolean,},                                                        // 是否股弄懂的时候禁用pl-list的队列动画
     },
     emits: {
         onScroll: (e: Event) => true,
@@ -318,6 +320,18 @@ export default designComponent({
                     freezeState.cancelAnimate = null
                 }
             },
+            /**
+             * 禁用pl-list的队列动画，300ms后恢复正常
+             * @author  韦胜健
+             * @date    2020/12/15 10:16
+             */
+            disableListTransition: (() => {
+                const disabledQueueAnimation = debounce(() => refs.host.removeAttribute('virtual-scrolling'), 300, true)
+                return () => {
+                    refs.host.setAttribute('virtual-scrolling', '')
+                    disabledQueueAnimation();
+                }
+            })(),
         }
 
 
@@ -375,6 +389,10 @@ export default designComponent({
                         emit.onVerticalScrollCenter(e)
                         freezeState.verticalPosition = PLAIN_SCROLL_VERTICAL_POSITION.center
                     }
+                }
+
+                if (props.disableListTransition) {
+                    methods.disableListTransition()
                 }
             },
         }
