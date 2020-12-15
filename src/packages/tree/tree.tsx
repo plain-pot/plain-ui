@@ -12,6 +12,7 @@ import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
 import {useTreeDraggier} from './core/drag';
 import Scroll from '../scroll/scroll'
+import {delay} from "plain-utils/utils/delay";
 
 export default designComponent({
     name: 'pl-tree',
@@ -283,11 +284,19 @@ export default designComponent({
             allowDrop: props.allowDrop,
             expand: (node: TreeNode) => expandMethods.expand(node),
             getScroll: () => props.virtual ? refs.list!.refs.scroll! : refs.scroll!,
-            refreshCheckStatus: () => {
+            refreshCheckStatus: async () => {
                 if (!props.showCheckbox) return
                 if (props.checkStrictly) return;
 
+                await nextTick()
+                await delay(120)
+
                 const next = (node: TreeNode) => {
+
+                    if (!node.parentRef) {
+                        return
+                    }
+
                     let hasCheck = false
                     let hasUncheck = false
 
