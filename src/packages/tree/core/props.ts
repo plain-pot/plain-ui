@@ -9,11 +9,13 @@ import allDrag = TreePropsType.allowDrag;
 import allDrop = TreePropsType.allowDrop;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 
+export type TreeDataObject = Record<string, any>;
+
 export const TreeProps = {
-    data: {type: Array as PropType<any[]>},               // 树形结构数据
+    data: {type: Array as PropType<TreeDataObject[]>},          // 树形结构数据
     loading: {type: Boolean},                                   // 当前是否处于loading状态
-    nodeIcon: {type: Function as PropType<nodeIcon>},// 节点图标
-    nodeHeight: {type: Number, default: 40},                      // 节点高度
+    nodeIcon: {type: Function as PropType<nodeIcon>},           // 节点图标
+    nodeHeight: {type: Number, default: 40},                    // 节点高度
     height: {type: String, default: '100%'},                    // 容器高度
 
     // 部分key

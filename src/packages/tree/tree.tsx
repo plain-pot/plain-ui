@@ -59,9 +59,9 @@ export default designComponent({
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
 
         /*当前展开的keys数组*/
-        const expandKeys = computed(() => tree.state.expand.getActiveKeys())
+        const expandKeys = computed(() => tree.expandNodes.value.map(node => node.key))
         /*当前选中的keys数组*/
-        const checkKeys = computed(() => tree.state.check.getActiveKeys())
+        const checkKeys = computed(() => tree.checkNodes.value.map(node => node.key))
 
         /*---------------------------------------methods-------------------------------------------*/
 
@@ -139,8 +139,8 @@ export default designComponent({
                     })
             },
             toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).expand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
-            expandAll: () => TreeUtils.iterateAll({nodes: tree.state.root.children, handler: node => node.expand = true}),
-            collapseAll: () => tree.state.expand.clear(),
+            expandAll: () => TreeUtils.iterateAll({nodes: tree.state.root!.children, handler: node => node.expand = true}),
+            collapseAll: () => tree.expandNodes.value.forEach(node => node.expand = false),
         }
 
         const checkMethods = {
@@ -160,7 +160,7 @@ export default designComponent({
                         // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
                         let parent = node.parentRef()
                         while (!!parent && !!parent.key) {
-                            if (!!parent.parentRef && parent.children!.every(child => tree.state.check.get(child))) {
+                            if (!!parent.parentRef && parent.children!.every(child => child.check)) {
                                 parent.check = true
                                 parent = !!parent.parentRef ? parent.parentRef() : null
                             } else {
@@ -206,9 +206,9 @@ export default designComponent({
                 })
             },
             toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
-            checkAll: () => TreeUtils.iterateAll({nodes: tree.state.root.children, handler: node => node.check = true}),
-            uncheckAll: () => tree.state.check.clear(),
-            getCheckedData: () => tree.state.check.getActiveKeys().map(tree.methods.getNode),
+            checkAll: () => TreeUtils.iterateAll({nodes: tree.state.root!.children, handler: node => node.check = true}),
+            uncheckAll: () => tree.checkNodes.value.forEach(node => node.check = false),
+            getCheckedData: () => tree.checkNodes.value,
             refreshCheckStatus: async (keyOrNode: string | TreeNode) => {
                 await tree.utils.handleKeyOrNode(keyOrNode, async node => {
                     /*刷新选中状态的前提是有子节点数据*/
@@ -392,7 +392,7 @@ export default designComponent({
             },
             render: () => {
                 return (
-                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || tree.state.root.loading}>
+                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || (!!tree.state.root && !!tree.state.root.loading)}>
                         {tree.flatList.value.length === 0 ? (
                             <div class="pl-tree-placeholder" key="placeholder">
                                 <pl-icon icon="el-icon-folder-opened"/>

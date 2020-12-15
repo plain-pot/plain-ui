@@ -13,7 +13,7 @@ export interface TreeNode {
 
     readonly childrenData?: any[]
     readonly label?: string,
-    readonly children?: TreeNode[],
+    children?: TreeNode[],
     readonly checkStatus: TreeNodeCheckStatus,
 
     expand: boolean,

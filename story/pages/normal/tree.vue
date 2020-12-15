@@ -25,23 +25,6 @@
             </div>
         </demo-row>
 
-        <demo-row title="懒加载子节点">
-            <demo-line>
-                <pl-button label="打印数据" @click="log(lazyDemo.treeData)"/>
-            </demo-line>
-            <pl-tree
-                    v-model:data="lazyDemo.treeData"
-                    height="330px"
-                    ref="lazyTree"
-                    keyField="id"
-                    labelField="name"
-                    childrenField="subs"
-                    lazy
-                    :isLeaf="lazyDemo.isLeaf"
-                    :getChildren="lazyDemo.getChildren"
-            />
-        </demo-row>
-
         <demo-row title="多选">
             <demo-line>
                 <pl-button-group>
@@ -63,6 +46,27 @@
                     labelField="name"
                     childrenField="subs"/>
         </demo-row>
+
+        <demo-row title="懒加载子节点">
+            <demo-line>
+                <pl-button label="打印数据" @click="log(lazyDemo.treeData)"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.lazyTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+            </demo-line>
+            <pl-tree
+                    v-model:data="lazyDemo.treeData"
+                    showCheckbox
+                    expandOnClickNode
+                    height="330px"
+                    ref="lazyTree"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    lazy
+                    :isLeaf="lazyDemo.isLeaf"
+                    :getChildren="lazyDemo.getChildren"
+            />
+        </demo-row>
+
 
         <demo-row title="多选：父子互不关联">
             <demo-line>
