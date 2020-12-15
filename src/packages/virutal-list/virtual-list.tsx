@@ -63,7 +63,7 @@ export default designComponent({
          * @author  韦胜健
          * @date    2020/12/14 22:41
          */
-        const disbaleListTransition = (() => {
+        const disableListTransition = (() => {
             const disabledQueueAnimation = debounce(() => refs.scroll!.refs.host.removeAttribute('virtual-scrolling'), 300, true)
             return () => {
                 refs.scroll!.refs.host.setAttribute('virtual-scrolling', '')
@@ -235,7 +235,7 @@ export default designComponent({
         const handler = {
             scroll: (e: Event) => {
                 emit.onScroll(e)
-                disbaleListTransition()
+                disableListTransition()
                 if (props.disabled) {
                     return
                 }
