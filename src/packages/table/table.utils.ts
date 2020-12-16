@@ -43,7 +43,7 @@ export const TableProps = {
     according: {type: Boolean},                                 // 是否开启手风琴模式，只打开一个兄弟节点
     loading: {type: Boolean, default: null},                    // 是否开启表格的加载状态
 
-    keyField: {type: String, required: true},                   // 每一个树节点用来标识的唯一树形
+    keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
     childrenField: {type: String, default: 'children'},         // 树节点对应子节点数据对应字段
     getChildren: {type: Function as PropType<TableGetChildrenFunction>},// 加载子节点数据的函数，仅当 lazy 为true时有效
     isCheckable: {type: Function as PropType<TableIsCheckable>},// 当即将选中树节点时，判断是否可以选中该树节点
