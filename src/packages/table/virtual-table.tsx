@@ -47,7 +47,7 @@ export const VirtualTable = designComponent({
         const summaryTableStyles = computed(() => {
             return {
                 ...tableStyles.value,
-                height: `${props.summaryData!.length * props.size!}px`
+                height: `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
             }
         })
 
@@ -91,7 +91,7 @@ export const VirtualTable = designComponent({
                                         <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: summaryTableStyles.value}}
                                                class="pl-virtual-table-summary-table">
                                             {slots.colgroup()}
-                                            {props.summaryData!.map((item, index) => scopedSlots.default({item, index}))}
+                                            {!props.summaryData ? null : props.summaryData.map((item, index) => scopedSlots.default({item, index}))}
                                         </table>
                                     </div>
                                 ),

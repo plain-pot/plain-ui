@@ -9,6 +9,22 @@
   $tableRowHoverBackground: #f5f7fa;
   $tableRowCurrentBackground: mix($colorPrimary, white, 7.5%);
 
+  /*---------------------------------------scroll-------------------------------------------*/
+
+  .pl-table, .pl-virtual-table {
+    .pl-scroll {
+      .pl-scroll-content {
+        min-width: 100%;
+      }
+
+      .pl-vertical-scrollbar-wrapper, .pl-horizontal-scrollbar-wrapper {
+        z-index: 10;
+      }
+    }
+  }
+
+  /*---------------------------------------table-------------------------------------------*/
+
   .pl-table {
     width: 100%;
     table-layout: fixed;
@@ -22,16 +38,6 @@
     border-bottom: solid 1px $tableHeadBorderColor;
 
     /*---------------------------------------scroll 滚动条-------------------------------------------*/
-
-    .pl-scroll {
-      .pl-scroll-content {
-        min-width: 100%;
-      }
-
-      .pl-vertical-scrollbar-wrapper, .pl-horizontal-scrollbar-wrapper {
-        z-index: 10;
-      }
-    }
 
     &:hover {
       .pl-scroll {
