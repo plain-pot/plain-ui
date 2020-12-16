@@ -2,6 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import './table.scss'
 import {TableProps} from "./table.utils";
+import PlcCollector from './plc-core/plc-collector'
 
 export default designComponent({
     name: 'pl-table',
@@ -13,7 +14,9 @@ export default designComponent({
         return {
             render: () => {
                 return (
-                    'this is table'
+                    <div class="pl-table">
+                        <PlcCollector>{slots.default()}</PlcCollector>
+                    </div>
                 )
             }
         }
