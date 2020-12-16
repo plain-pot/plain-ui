@@ -3,7 +3,6 @@
  * @author  韦胜健
  * @date    2020/12/12 15:41
  */
-import {toArray} from "../../utils/toArray";
 
 /**
  * 校验触发器类型
@@ -360,6 +359,19 @@ export const FormValidateUtils = {
 }
 
 /**
+ * validateField校验返回结果
+ * @author  韦胜健
+ * @date    2020/12/16 11:49
+ */
+export type FormValidateFieldReturn = FormValidateResult | undefined
+/**
+ * validate校验返回结果
+ * @author  韦胜健
+ * @date    2020/12/16 11:49
+ */
+export type FormValidateReturn = { validateResultMap: FormValidateResultMap, validateMessage: string | undefined, validateResult?: FormValidateResult }
+
+/**
  * 获取总的FormRules数组
  * @author  韦胜健
  * @date    2020/12/12 21:45
@@ -418,7 +430,7 @@ export function formatFormRules(
             formData: Record<string, any> | null,
             trigger: FormValidateTrigger,
             formValidateResultMap: FormValidateResultMap,
-        }) {
+        }): Promise<FormValidateFieldReturn> {
 
         const rules = resultRules.filter(r => {
             const matchField = Array.isArray(r.field) ? r.field.indexOf(field) > -1 : r.field == field
@@ -441,11 +453,11 @@ export function formatFormRules(
             *   如果没有可用的校验规则，则什么事也不做，不能清理掉现有的校验结果，比如
             *   比如 没有change校验，但是只有blur校验。如果blur先执行。在校验change的时候会把blur的检验结果覆盖掉
             */
-            return null
+            return
         }
     }
 
-    async function validate(formData: Record<string, any> | null): Promise<{ validateResultMap: FormValidateResultMap, validateMessage: string | undefined, validateResult?: FormValidateResult }> {
+    async function validate(formData: Record<string, any> | null): Promise<FormValidateReturn> {
         const validateResultList = (await Promise.all(resultRules.map(r => FormValidateUtils.checkRule({rule: r, formData, fieldToLabel}))))
             .filter(Boolean) as FormValidateResult[];
         const validateResultMap = validateResultList.reduce((prev, next) => {
