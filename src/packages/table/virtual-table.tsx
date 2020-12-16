@@ -31,6 +31,7 @@ export const VirtualTable = designComponent({
         const {refs} = useRefs({
             scroll: Scroll,
             content: HTMLDivElement,
+            summary: HTMLDivElement,
         })
 
         const {virtual} = useVirtualList({props, refs, emit,})
@@ -43,23 +44,58 @@ export const VirtualTable = designComponent({
             width: `${props.width}px`,
         }))
 
+        const summaryTableStyles = computed(() => {
+            return {
+                ...tableStyles.value,
+                height: `${props.summaryData!.length * props.size!}px`
+            }
+        })
+
+        const contentStyles = useStyles((style) => {
+            Object.assign(style, virtual.contentStyles.value)
+            const summaryHeight = (props.summaryData || []).length * props.size
+            style.paddingBottom = `${summaryHeight}px`
+        })
+
+        const handler = {
+            onScroll: (e: any) => {
+                virtual.handler.onScroll(e)
+                refs.summary.scrollLeft = e.target.scrollLeft
+            }
+        }
+
         return {
             render: () => {
 
                 const {list} = virtual.offsetData.value
 
                 return (
-                    <div style={styles.value}>
-                        <Scroll ref="scroll" disableListTransition onScroll={virtual.handler.onScroll} scrollX class={virtual.classes.value}>
-                            <div class="pl-virtual-list-strut" style={virtual.strutStyles.value}>
-                                <div class="pl-virtual-list-content" ref="content" style={virtual.contentStyles.value}>
-                                    <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
-                                        {slots.colgroup()}
-                                        {list.map((node) => scopedSlots.default(node))}
-                                    </table>
-                                </div>
-                            </div>
-                        </Scroll>
+                    <div style={styles.value} class="pl-virtual-table">
+                        <Scroll
+                            ref="scroll"
+                            disableListTransition
+                            onScroll={handler.onScroll}
+                            scrollX
+                            class={virtual.classes.value}
+                            v-slots={{
+                                default: () => (<div class="pl-virtual-list-strut" style={virtual.strutStyles.value}>
+                                    <div class="pl-virtual-list-content" ref="content" style={contentStyles.value}>
+                                        <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
+                                            {slots.colgroup()}
+                                            {list.map((node) => scopedSlots.default(node))}
+                                        </table>
+                                    </div>
+                                </div>),
+                                content: !props.summaryData || props.summaryData.length === 0 ? null : () => (
+                                    <div class="pl-virtual-table-summary-table-wrapper" ref="summary">
+                                        <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: summaryTableStyles.value}}
+                                               class="pl-virtual-table-summary-table">
+                                            {slots.colgroup()}
+                                            {props.summaryData!.map((item, index) => scopedSlots.default({item, index}))}
+                                        </table>
+                                    </div>
+                                ),
+                            }}/>
                     </div>
                 )
             }

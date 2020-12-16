@@ -1,0 +1,428 @@
+@include theme {
+  $tableHeadColor: rgba(0, 0, 0, 0.85);
+  $tableHeadBackground: #f5f7fa;
+  $tableHeadHoverBackground: #e4e7ef;
+  $tableHeadBorderColor: #eceff7;
+
+  $tableBodyColor: rgba(0, 0, 0, 0.65);
+
+  $tableRowHoverBackground: #f5f7fa;
+  $tableRowCurrentBackground: mix($colorPrimary, white, 7.5%);
+
+  .pl-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+    list-style: none;
+    position: relative;
+    @include public-style;
+
+    border-bottom: solid 1px $tableHeadBorderColor;
+
+    /*---------------------------------------scroll 滚动条-------------------------------------------*/
+
+    .pl-scroll {
+      .pl-scroll-content {
+        min-width: 100%;
+      }
+
+      .pl-vertical-scrollbar-wrapper, .pl-horizontal-scrollbar-wrapper {
+        z-index: 10;
+      }
+    }
+
+    &:hover {
+      .pl-scroll {
+        & > .pl-horizontal-scrollbar-wrapper, & > .pl-vertical-scrollbar-wrapper {
+          .pl-vertical-scrollbar, .pl-horizontal-scrollbar {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    /*---------------------------------------table样式-------------------------------------------*/
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      box-sizing: border-box;
+      table-layout: fixed;
+
+      tr {
+        td {
+          padding: 0;
+          position: relative;
+          @include transition;
+          transition-property: background-color;
+
+          & > div {
+            display: flex;
+            align-items: center;
+            padding: 1px 9px;
+            box-sizing: border-box;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            border-bottom: solid 1px $tableHeadBorderColor;
+
+            & > .pl-input {
+              width: 100%;
+
+              & > .pl-input-inner {
+                width: inherit !important;
+
+                & > .pl-input-custom-inner {
+                  & > input {
+                    width: 100% !important;
+                  }
+                }
+              }
+            }
+          }
+
+          &.plt-cell-editing {
+            &:not(.plt-cell-add-edit-padding) {
+              & > div {
+                padding-left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.pl-table-border {
+
+      .plt-head {
+        border-left: solid 1px $tableHeadBorderColor;
+      }
+
+      tr {
+        td {
+          & > div {
+            border-right: solid 1px $tableHeadBorderColor;
+          }
+        }
+      }
+    }
+
+    /*---------------------------------------cell-------------------------------------------*/
+
+    /*对齐方式*/
+    .plt-cell {
+      &.plt-cell-align-left {
+        & > div {
+          justify-content: flex-start;
+        }
+      }
+
+      &.plt-cell-align-center {
+        & > div {
+          justify-content: center;
+        }
+      }
+
+      &.plt-cell-align-right {
+        & > div {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .plt-inner-cell {
+      &.plt-inner-cell-no-padding {
+        padding: 0;
+      }
+    }
+
+    /*---------------------------------------head-------------------------------------------*/
+
+    .plt-head {
+      position: relative;
+      border-top: solid 1px $tableHeadBorderColor;
+
+      td {
+        background-color: $tableHeadBackground;
+        color: $tableHeadColor;
+
+        &:hover {
+          background-color: $tableHeadHoverBackground;
+        }
+      }
+
+      .plt-head-cell-indicator {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: inherit;
+        width: 6px;
+        right: 0;
+        content: '';
+        background-color: rgba(black, 0.1);
+        cursor: ew-resize;
+        opacity: 0;
+        transition: opacity 500ms $transition;
+        z-index: 1;
+      }
+    }
+
+    /*---------------------------------------body-------------------------------------------*/
+
+    .plt-body {
+      overflow: hidden;
+
+      tr {
+        td {
+          color: $tableBodyColor;
+          background-color: white;
+
+          /*最后一个td没有右边线*/
+          &:last-child:not(.plt-cell-first-fixed-right) {
+            & > div {
+              border-right: none;
+            }
+          }
+        }
+
+        &:hover {
+          td {
+            background-color: $tableRowHoverBackground;
+          }
+        }
+      }
+
+      .plt-row-summary {
+        td {
+          background-color: $tableHeadBackground;
+        }
+      }
+
+      .plt-row-current {
+        &, &:hover {
+          td {
+            background-color: $tableRowCurrentBackground;
+          }
+        }
+      }
+    }
+
+    /*---------------------------------------shadow-------------------------------------------*/
+
+    /*左右固定列阴影*/
+
+    &, &.pl-table-border {
+
+      .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
+
+        &:before {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 30px;
+          pointer-events: none;
+          content: '';
+          z-index: 4;
+          background-color: transparent;
+
+          left: initial;
+          right: initial;
+          transform: none;
+        }
+
+        &.plt-cell-last-fixed-left {
+          &:before {
+            right: -30px;
+            box-shadow: inset 10px 0 10px -10px mix(black, $boxshadowColor, 10%);
+          }
+        }
+
+        &.plt-cell-first-fixed-right {
+          &:before {
+            left: -30px;
+            box-shadow: inset -10px 0 10px -10px mix(black, $boxshadowColor, 10%);
+          }
+        }
+      }
+    }
+
+    &.plt-table-hide-fixed-left {
+      .plt-cell-last-fixed-left {
+        &:before {
+          content: none;
+        }
+      }
+    }
+
+    &.plt-table-hide-fixed-right {
+      .plt-cell-first-fixed-right {
+        &:before {
+          content: none;
+        }
+      }
+    }
+
+    /*---------------------------------------size-------------------------------------------*/
+
+    /*表格大小，只是改变了文字大小，以及组件大小*/
+    &.pl-table-size-large {
+      td {
+        font-size: 16px;
+      }
+    }
+
+    &.pl-table-size-normal {
+      td {
+        font-size: 14px;
+      }
+    }
+
+    &.pl-table-size-mini {
+      td {
+        font-size: 12px;
+      }
+    }
+  }
+
+  /*---------------------------------------expand-------------------------------------------*/
+
+  .plt-body {
+    tr.plt-expand-row {
+
+      & td {
+        z-index: 5;
+
+        & > div {
+          padding: 16px;
+          white-space: normal;
+        }
+      }
+
+      & td, &:hover td {
+        background-color: white;
+      }
+    }
+
+    .plc-expand-icon {
+      .pl-icon {
+        @include transition;
+        transition-property: transform;
+      }
+
+      &.plc-expand-icon-active {
+        .pl-icon {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+
+  /*---------------------------------------虚拟表格-------------------------------------------*/
+
+  .pl-virtual-table {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    table {
+      /*（未开启虚拟功能的时候，开启的时候是通过给struct设置额外的高度实现的）占位符，给滚动条让出来一些位置*/
+      &:after {
+        content: '';
+        display: block;
+        height: 6px;
+        width: 1px;
+      }
+    }
+
+    .pl-virtual-table-summary-table-wrapper {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      z-index: 5;
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        height: 6px;
+        left: 0;
+        right: 0;
+        content: '';
+        background-color: $tableHeadBackground;
+        z-index: 3;
+      }
+
+      .pl-virtual-table-summary-table {
+        pointer-events: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: $tableHeadBackground;
+      }
+    }
+  }
+
+  /*---------------------------------------plc-tree-------------------------------------------*/
+  .plc-tree-node {
+
+    display: flex;
+    align-items: center;
+
+    .plc-tree-node-expander, .plc-tree-node-check {
+      width: 30px;
+    }
+
+    .plc-tree-node-content {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /*.pl-icon {
+      @include transition;
+    }
+
+    &.plc-tree-node-expanded {
+      .pl-icon {
+        transform: rotate(90deg);
+      }
+    }*/
+  }
+
+  /*---------------------------------------plc-draggier-------------------------------------------*/
+
+  .pl-button.plc-draggier-handler {
+    cursor: move;
+  }
+
+  /*---------------------------------------plc-tree draggier-------------------------------------------*/
+
+  .plc-tree-drag-btn {
+    cursor: default !important;
+  }
+  body.plain-drag-move {
+    cursor: move !important;
+  }
+  body.plain-drag-not-allowed {
+    cursor: not-allowed !important;
+  }
+
+  /*---------------------------------------col draggier-------------------------------------------*/
+
+  .plt-col-draggier-indicator {
+    &[droppable="true"] {
+      background-color: $colorPrimary;
+    }
+
+    &[droppable="false"] {
+      background-color: $colorError;
+    }
+  }
+
+}
