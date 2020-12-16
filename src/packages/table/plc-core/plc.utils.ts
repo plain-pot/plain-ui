@@ -1,6 +1,7 @@
 import {PropType} from 'vue';
 import {PlcDefaultFunction, PlcEditableFunc, PlcEditFunction, PlcHeadFunction, PlcRenderAfterRowFunction, PlcSummaryFunction} from "./plc.type";
 import {FormRule} from "../../form/form.validate";
+import {StyleProperties} from "../../../shims";
 
 export enum TablePlcAlign {
     left = 'left',
@@ -77,4 +78,74 @@ export const PlcProps = {
 export const enum PlcComponentType {
     PLC = 'PLC',
     GROUP = 'GROUP',
+}
+
+/**
+ * plc组件的一些公共数据
+ * @author  韦胜健
+ * @date    2020/8/14 17:26
+ */
+export const PlcComponentPublicData = {
+    level: 0,
+    rowspan: 1,
+    colspan: 1,
+    fixedPosition: {
+        left: 0,
+        right: 0,
+    },
+    isLastFixedLeft: false,
+    isFirstFixedRight: false,
+    styles: {
+        head: {
+            cell: {},
+            innerCell: {},
+        },
+        body: {
+            cell: {},
+            innerCell: {},
+        },
+    },
+    classes: {
+        head: {
+            cell: {},
+            innerCell: {},
+        },
+        body: {
+            cell: {},
+            innerCell: {},
+        },
+    },
+} as {
+    level?: number,                     // 分组表头层级
+    rowspan?: number,                   // 表头td的rowspan
+    colspan?: number,                   // 表头td的colspan
+    fixedPosition: {                    // 固定列的sticky位置
+        left: number,
+        right: number,
+    },
+    isLastFixedLeft: boolean,           // 是否为最后一个左固定列
+    isFirstFixedRight: boolean,         // 是否为第一个右固定列
+
+    // 列style公共内联样式
+    styles: {
+        head: {
+            cell: StyleProperties,
+            innerCell: StyleProperties,
+        },
+        body: {
+            cell: StyleProperties,
+            innerCell: StyleProperties,
+        },
+    },
+    // 列公共class样式
+    classes: {
+        head: {
+            cell: any,
+            innerCell: any,
+        },
+        body: {
+            cell: any,
+            innerCell: any,
+        },
+    },
 }

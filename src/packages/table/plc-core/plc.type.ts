@@ -1,9 +1,5 @@
 import {VNodeChild} from "../../../shims";
 
-export type PlcType = {}
-
-export type PlcGroup = {}
-
 export type PlcHeadFunction = () => VNodeChild
 
 export type PlcDefaultFunction = () => VNodeChild
