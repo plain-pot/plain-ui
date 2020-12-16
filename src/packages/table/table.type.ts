@@ -1,7 +1,6 @@
 import {TableNode} from "./table-core/node";
 import {StyleProperties} from "../../shims";
-
-type PlcType = {}
+import {PlcType} from "./plc-core/plc.type";
 
 type Classes = { [k: string]: boolean } | string | Classes[] | null | undefined
 
