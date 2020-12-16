@@ -7,7 +7,11 @@ export default designComponent({
     setup() {
         const {slots} = useSlots()
         return {
-            render: () => slots.default()
+            render: () => {
+                return (
+                    'this is table'
+                )
+            }
         }
     },
 })
