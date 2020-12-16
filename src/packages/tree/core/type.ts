@@ -1,9 +1,9 @@
-import {VNodeChild} from "../../../shims";
+import {SimpleObject, VNodeChild} from "../../../shims";
 import {TreeDropType, TreeNodeCheckStatus} from "../utils/tree-constant";
 
 export interface TreeNode {
     key: string,
-    data: any,
+    data: SimpleObject,
     level: number,
     parentRef: () => TreeNode | null,
     selfRef: () => TreeNode,
@@ -11,7 +11,7 @@ export interface TreeNode {
     index: number,
     empty: boolean,
 
-    readonly childrenData?: any[]
+    readonly childrenData?: SimpleObject[]
     readonly label?: string,
     children?: TreeNode[],
     readonly checkStatus: TreeNodeCheckStatus,
@@ -29,7 +29,7 @@ export interface TreeNode {
     previousSibling: (node: TreeNode) => void,
     nextSibling: (node: TreeNode) => void,
     unshiftChild: (node: TreeNode) => void,
-    getReactiveChildrenData: () => any[],
+    getReactiveChildrenData: () => SimpleObject[],
 }
 
 export namespace TreePropsType {
