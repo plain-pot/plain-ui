@@ -227,7 +227,7 @@ export function useVirtualList(
     /*---------------------------------------handler-------------------------------------------*/
 
     const handler = {
-        scroll: (e: Event) => {
+        onScroll: (e: Event) => {
             emit.onScroll(e)
             if (props.disabled) {
                 return

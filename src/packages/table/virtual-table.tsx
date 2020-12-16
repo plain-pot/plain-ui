@@ -5,6 +5,9 @@ import Scroll from '../scroll'
 import {computed, PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useScopedSlots} from "../../use/useScopedSlots";
+import {useVirtualList} from "../virutal-list/useVirtualList";
+import {useStyles} from "../../use/useStyles";
+import {unit} from "plain-utils/string/unit";
 
 export const VirtualTable = designComponent({
     name: 'pl-virtual-table',
@@ -18,72 +21,41 @@ export const VirtualTable = designComponent({
         width: {type: Number},                                      // 宽度
         height: {type: Number},                                     // 高度
     },
-    setup({props}) {
+    emits: {
+        onScroll: (e: Event) => true
+    },
+    setup({props, event: {emit}}) {
 
         const {slots} = useSlots(['colgroup'])
         const {scopedSlots} = useScopedSlots({default: {item: Object, index: Number}})
-        const {refs} = useRefs({scroll: Scroll,})
+        const {refs} = useRefs({
+            scroll: Scroll,
+            content: HTMLDivElement,
+        })
 
-        /*---------------------------------------state-------------------------------------------*/
-
-        const freeState = {
-            scrollLeft: 0,
-        }
+        const {virtual} = useVirtualList({props, refs, emit,})
 
         /*---------------------------------------computed-------------------------------------------*/
-
-        const styles = computed(() => ({
-            height: `${props.height}px`
-        }))
-
+        const styles = useStyles(style => {
+            style.height = unit(props.height)
+        })
         const tableStyles = computed(() => ({
             width: `${props.width}px`,
         }))
 
-        const summaryTableStyles = computed(() => {
-            return {
-                ...tableStyles.value,
-                height: `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
-            }
-        })
-
-        const strutStyles = computed(() => {
-            if (props.disabled) return null
-            const dataHeight = (props.data || []).length * props.size
-            const summaryHeight = (!!props.summaryData && props.summaryData.length > 0) ? (props.summaryData.length * props.size) : 0
-            return {
-                height: `${dataHeight + summaryHeight + 6}px`
-            }
-        })
-
-        const classes = computed(() => [
-            'pl-virtual-list',
-            {
-                'pl-virtual-list-disabled': props.disabled,
-            }
-        ])
-
-        const handler = {
-            onScroll: (e: Event) => {
-                // todo
-            },
-        }
-
         return {
             render: () => {
+
+                const {list} = virtual.offsetData.value
+
                 return (
-                    <div class={classes.value} style={styles.value}>
-                        <Scroll
-                            ref="scroll"
-                            disableListTransition
-                            onScroll={handler.onScroll}
-                            scrollX
-                        >
-                            <div class="pl-virtual-list-strut">
-                                <div class="pl-virtual-list-content">
+                    <div style={styles.value}>
+                        <Scroll ref="scroll" disableListTransition onScroll={virtual.handler.onScroll} scrollX class={virtual.classes.value}>
+                            <div class="pl-virtual-list-strut" style={virtual.strutStyles.value}>
+                                <div class="pl-virtual-list-content" ref="content" style={virtual.contentStyles.value}>
                                     <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
                                         {slots.colgroup()}
-                                        {props.data.map((item, index) => scopedSlots.default({item, index}))}
+                                        {list.map((node) => scopedSlots.default(node))}
                                     </table>
                                 </div>
                             </div>

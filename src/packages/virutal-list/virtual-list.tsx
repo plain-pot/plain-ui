@@ -41,7 +41,7 @@ export default designComponent({
             render: () => {
                 const {list} = virtual.offsetData.value
                 return (
-                    <Scroll onScroll={virtual.handler.scroll} ref="scroll" class={virtual.classes.value} disableListTransition>
+                    <Scroll onScroll={virtual.handler.onScroll} ref="scroll" class={virtual.classes.value} disableListTransition>
                         <div class="pl-virtual-list-strut" style={virtual.strutStyles.value}>
                             <div class="pl-virtual-list-content" style={virtual.contentStyles.value} ref="content">
                                 {scopedSlots.content({data: list}, list.map((node, virtualIndex) =>
