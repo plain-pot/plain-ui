@@ -13,12 +13,14 @@
         </demo-row>
         <demo-row title="基本用法">
             <div style="height: 410px;overflow: hidden">
-                <pl-virtual-table :data="tableData"
-                                  :size="40"
-                                  :width="3000"
-                                  :summaryData="hasSummaryData?summaryData:null"
-                                  :scrollProps="{alwaysShowScrollbar: true}"
-                                  :disabled="disabled">
+                <pl-virtual-table
+                        :height="400"
+                        :data="tableData"
+                        :size="40"
+                        :width="3000"
+                        :summaryData="hasSummaryData?summaryData:null"
+                        :scrollProps="{alwaysShowScrollbar: true}"
+                        :disabled="disabled">
                     <template v-slot:default="{item,index}">
                         <pl-item tag="tr" :key="index" :vid="index" block>
                             <td style="height: 40px;">{{JSON.stringify(item)}}</td>
@@ -31,7 +33,7 @@
 </template>
 
 <script>
-    import data from '../data/data-2'
+    import data from '../data/data-1'
 
     const summaryData = [
         {
