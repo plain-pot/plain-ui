@@ -8,7 +8,6 @@ import {computed, onMounted, reactive} from 'vue';
 import {formatPlc} from "./plc-format/formatPlc";
 import {useNumber} from "../../use/useNumber";
 import {PltHead} from "./table-core/head/head";
-import {PltBody} from "./table-core/body/body";
 
 export default designComponent({
     name: 'pl-table',
@@ -39,6 +38,30 @@ export default designComponent({
         })
         const {numberState} = useNumber(props, ['bodyRowHeight', 'headRowHeight'])
 
+        /*---------------------------------------computed-------------------------------------------*/
+
+        /**
+         * 表体渲染所需要的的列信息
+         * @author  韦胜健
+         * @date    2020/8/13 22:31
+         */
+        const bodyPlcList = computed(() => {
+            if (!plcData.value) return null
+            return plcData.value.flatPlcList
+        })
+
+        /**
+         * 总的列宽度
+         * @author  韦胜健
+         * @date    2020/8/13 22:33
+         */
+        const totalContentWidth = computed(() => {
+            if (!bodyPlcList.value) return
+            return bodyPlcList.value.reduce((ret, plc) => {
+                return ret + (plc.props.width as number)
+            }, 0)
+        })
+
         const plcData = computed(() => {
             if (!state.tableWidth) {
                 return null
@@ -51,6 +74,7 @@ export default designComponent({
                 headRowHeight: numberState.headRowHeight,
             })
         })
+
 
         /*---------------------------------------utils-------------------------------------------*/
 
@@ -76,6 +100,8 @@ export default designComponent({
         const refer = reactive({
             props,
             plcData,
+            totalContentWidth,
+            bodyPlcList,
         })
 
         return {
@@ -87,7 +113,7 @@ export default designComponent({
                         {!!refer.plcData && (
                             <>
                                 <PltHead/>
-                                <PltBody/>
+                                {/*<PltBody/>*/}
                             </>
                         )}
                     </div>
