@@ -3,15 +3,13 @@ import table from './table'
 import {VirtualTable} from "./virtual-table";
 
 import Plc from './plc/core/plc'
-
-export {
-    Plc,
-}
+import PlcGroup from './plc/core/plc-group'
 
 export default createComponentPlugin(table, {
     exposeComponents: {
         VirtualTable,
         Plc,
+        PlcGroup,
     },
     plugins: []
 })
