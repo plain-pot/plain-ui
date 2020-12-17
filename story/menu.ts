@@ -11,7 +11,7 @@ interface MenuGroup {
 }
 
 export const MENUS: MenuGroup[] = [
-    {
+    /*{
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/useSlots/demo-use-slots', complete: true},
             {name: 'useScopedSlots', page: '/use/useScopedSlots/demo-use-scoped-slots', complete: true},
@@ -111,7 +111,7 @@ export const MENUS: MenuGroup[] = [
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
             {name: '$file', title: '文件服务', page: '/service/file', complete: false},
         ]
-    },
+    },*/
     {
         name: '表格', children: [
             {name: 'Virtual', title: 'pl-virtual-table', page: '/table/virtual-table', complete: true},
@@ -131,7 +131,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Table class-style', title: '行列样式', page: '/table/table-class-style', complete: false},
         ]
     },
-    {
+    /*{
         name: 'Sticky Table',
         children: [
             {name: 'Sticky Table', title: '另一种形式的表格', page: '/sticky-table/demo-sticky-table', complete: false},
@@ -150,5 +150,5 @@ export const MENUS: MenuGroup[] = [
             {name: 'List Draggier', title: '列表拖拽排序', page: '/test/test-list-draggier', complete: false},
             {name: '传递属性给根节点组件热更新报错', title: '列表拖拽排序', page: '/test/test-pass-attrs-hot-reload/test-pass-attrs-hot-reload', complete: true},
         ]
-    },
+    },*/
 ]
