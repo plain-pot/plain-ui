@@ -20,10 +20,10 @@ export type TableHeadCellStyleFunc = (plc: PlcType) => StyleProperties
 
 export type TableConfigFunc = (plcList: TablePlc[]) => { [k: string]: any }
 
-export type TableGetChildrenFunction = () => void
+export type TableGetChildrenFunction = (node: TableNode, cb: (...args: any[]) => void) => void
 
-export type TableIsCheckable = () => boolean
+export type TableIsCheckable = (node: TableNode) => boolean
 
-export type TableIsLeaf = () => boolean
+export type TableIsLeaf = (node: TableNode) => boolean
 
-export type TableFilterNodeMethod = () => boolean
+export type TableFilterNodeMethod = (node: TableNode) => boolean
