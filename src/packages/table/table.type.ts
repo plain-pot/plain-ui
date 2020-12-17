@@ -1,6 +1,6 @@
 import {TableNode} from "./table-core/node";
 import {StyleProperties} from "../../shims";
-import {PlcType} from "./plc-core/plc.type";
+import {PlcType, TablePlc} from "./plc-core/plc.type";
 
 type Classes = { [k: string]: boolean } | string | Classes[] | null | undefined
 
@@ -18,7 +18,7 @@ export type TableHeadCellStyleFunc = (plc: PlcType) => StyleProperties
 
 // todo
 
-export type TableConfigFunc = () => void
+export type TableConfigFunc = (plcList: TablePlc[]) => { [k: string]: any }
 
 export type TableGetChildrenFunction = () => void
 
