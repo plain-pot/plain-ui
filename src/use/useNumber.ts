@@ -5,7 +5,7 @@ function toNumber(val: null | string | number) {
         return
     }
     if (typeof val === "string") {
-        return Number(val)
+        return Number(val.replace('px', ''))
     }
     return val
 }
