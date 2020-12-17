@@ -4,6 +4,7 @@ import {useClass} from "../../use/useClasses";
 import {nextIndex} from "../../utils/nextIndex";
 import {PropType} from 'vue';
 import Icon from '../icon'
+import {createEventListener} from "../../utils/createEventListener";
 
 export default designComponent({
     name: 'pl-message',
@@ -57,7 +58,7 @@ export default designComponent({
                      onClick={handler.onClick}>
                     {!!props.option.icon && <pl-icon icon={props.option.icon}/>}
                     <div class="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>
-                    <Icon icon="el-icon-close" class="pl-message-close" onClick={handler.onClickCloseIcon}/>
+                    <Icon icon="el-icon-close" class="pl-message-close" {...createEventListener({onClick: handler.onClickCloseIcon})}/>
                 </div>
             )
         }
