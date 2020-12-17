@@ -313,7 +313,14 @@ export function useTree(
             }
             return parents
         },
-        /*重置state中的data数据*/
+        /**
+         * 重置state中的data数据
+         * 为什么不直接把root以及nodeMap做成计算属性。
+         * 因为在计算root以及nodeMap的时候，会获取 label，key以及children，如果这些字段被修改了，可能会导致
+         * 这个计算属性频繁执行。这里只检查子节点数据，当子节点数据变化的时候才重新执行root以及nodeMap
+         * @author  韦胜健
+         * @date    2020/12/17 16:17
+         */
         resetData: () => {
             const nodeMap = {} as Record<string, TreeNode>;
             const iterator = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TreeNode }): TreeNode => {
