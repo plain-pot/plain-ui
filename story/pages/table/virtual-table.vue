@@ -17,7 +17,7 @@
                         :height="400"
                         :data="tableData"
                         :size="40"
-                        :width="3000"
+                        :width="900"
                         :summaryData="hasSummaryData?summaryData:null"
                         :scrollProps="{alwaysShowScrollbar: true}"
                         :disabled="disabled">

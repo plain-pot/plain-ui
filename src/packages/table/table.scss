@@ -1,0 +1,82 @@
+@include theme{
+  $tableHeadColor: rgba(0, 0, 0, 0.85);
+  $tableHeadBackground: #f5f7fa;
+  $tableHeadHoverBackground: #e4e7ef;
+  $tableHeadBorderColor: #eceff7;
+
+  $tableBodyColor: rgba(0, 0, 0, 0.65);
+
+  $tableRowHoverBackground: #f5f7fa;
+  $tableRowCurrentBackground: mix($colorPrimary, white, 7.5%);
+
+  /*---------------------------------------scroll-------------------------------------------*/
+
+  .pl-table, .pl-virtual-table {
+    .pl-scroll {
+      .pl-scroll-content {
+        min-width: 100%;
+      }
+      .pl-vertical-scrollbar-wrapper, .pl-horizontal-scrollbar-wrapper {
+        z-index: 10;
+      }
+    }
+    &:hover {
+      .pl-scroll {
+        & > .pl-horizontal-scrollbar-wrapper, & > .pl-vertical-scrollbar-wrapper {
+          .pl-vertical-scrollbar, .pl-horizontal-scrollbar {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  /*---------------------------------------虚拟表格-------------------------------------------*/
+
+  .pl-virtual-table {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    table {
+      /*（未开启虚拟功能的时候，开启的时候是通过给struct设置额外的高度实现的）占位符，给滚动条让出来一些位置*/
+      &:after {
+        content: '';
+        display: block;
+        height: 6px;
+        width: 1px;
+      }
+    }
+
+    .pl-virtual-table-summary-table-wrapper {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      z-index: 5;
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        height: 6px;
+        left: 0;
+        right: 0;
+        content: '';
+        background-color: $tableHeadBackground;
+        z-index: 3;
+      }
+
+      .pl-virtual-table-summary-table {
+        pointer-events: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: $tableHeadBackground;
+      }
+    }
+  }
+
+}

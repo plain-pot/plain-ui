@@ -4,6 +4,7 @@ import PlcCollector from './plc/core/plc-collector'
 import {useRefs} from "../../use/useRefs";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
+import './table.scss'
 
 const Table = designComponent({
     name: 'pl-table',
