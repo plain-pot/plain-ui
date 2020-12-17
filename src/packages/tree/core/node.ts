@@ -5,8 +5,8 @@ import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {TreeUtils} from "./utils";
 import {createKeyHandler} from "../../../utils/createKeyHandler";
 import tree from "../tree";
-import {TreeDataObject} from "./props";
 import {throttle} from "plain-utils/utils/throttle";
+import {SimpleObject} from "../../../shims";
 import isCheckable = TreePropsType.isCheckable;
 import isLeaf = TreePropsType.isLeaf;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
@@ -20,7 +20,7 @@ const keyManager = createKeyHandler('tree')
  * @author  韦胜健
  * @date    2020/12/2 12:22
  */
-function iteratorTreeData({data, childrenField}: { data?: TreeDataObject[], childrenField: string }) {
+function iteratorTreeData({data, childrenField}: { data?: SimpleObject[], childrenField: string }) {
     if (!!data) {
         data.forEach(item => {
             if (!!item[childrenField]) {
@@ -41,7 +41,7 @@ export function useTree(
         event,
     }: {
         props: {
-            data?: TreeDataObject[],
+            data?: SimpleObject[],
             labelField?: string,
             keyField?: string,
             childrenField?: string,
@@ -54,7 +54,7 @@ export function useTree(
             checkStrictly?: boolean,
         },
         event: {
-            emit: { onUpdateData: (data?: TreeDataObject[]) => void }
+            emit: { onUpdateData: (data?: SimpleObject[]) => void }
         },
     }) {
 
@@ -319,7 +319,7 @@ export function useTree(
             const iterator = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TreeNode }): TreeNode => {
                 const node = utils.getTreeNodeByData({data, level, parentRef})
                 nodeMap[node.key] = node
-                const childrenData = !props.childrenField ? null : (data[props.childrenField!] as TreeDataObject[])
+                const childrenData = !props.childrenField ? null : (data[props.childrenField!] as SimpleObject[])
                 if (!!childrenData) {
                     node.children = childrenData.map(child => iterator({data: child, level: level + 1, parentRef: node.selfRef}))
                 }
