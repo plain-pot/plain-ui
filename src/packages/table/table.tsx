@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import './table.scss'
-import {TableProps} from "./table.utils";
+import {TableHoverPart, TableProps} from "./table.utils";
 import PlcCollector from './plc-core/plc-collector'
 import {useRefs} from "../../use/useRefs";
 import {computed, onMounted, reactive} from 'vue';
@@ -16,13 +16,24 @@ export default designComponent({
         ...TableProps,
     },
     provideRefer: true,
-    setup({props}) {
+    emits: {
+        onScrollLeft: (e: Event, part: TableHoverPart) => true,
+    },
+    setup({props, event: {emit, on}}) {
+
+        /*---------------------------------------base-------------------------------------------*/
 
         const {slots} = useSlots()
         const {refs} = useRefs({
             collector: PlcCollector,
             el: HTMLDivElement,
         })
+
+        /*---------------------------------------state-------------------------------------------*/
+
+        const freeState = {
+            hoverPart: null as null | TableHoverPart,
+        }
         const state = reactive({
             tableWidth: null as null | number,                  // mounted的时候表格的宽度
         })
@@ -41,9 +52,25 @@ export default designComponent({
             })
         })
 
+        /*---------------------------------------utils-------------------------------------------*/
+
+        /**
+         * 表头表体横向联动滚动
+         * @author  韦胜健
+         * @date    2020/12/17 15:07
+         */
+        const bindScroll = ({part, update,}: { part: TableHoverPart, update: (scrollLeft: number, part: TableHoverPart) => void, }) => {
+            on.onScrollLeft((e, part) => update((e.target as HTMLElement).scrollLeft, part))
+            return {
+                onMouseenter: () => freeState.hoverPart = part,
+                onScroll: (e: Event) => freeState.hoverPart === part && emit.onScrollLeft(e, part)
+            }
+        }
+
+        /*---------------------------------------lifecycle-------------------------------------------*/
+
         onMounted(() => {
             state.tableWidth = refs.el.offsetWidth
-            console.log(plcData.value)
         })
 
         const refer = reactive({
