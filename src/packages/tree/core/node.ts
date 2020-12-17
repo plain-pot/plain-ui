@@ -1,18 +1,16 @@
-import {computed, onBeforeUnmount, reactive, watchEffect, nextTick} from 'vue';
+import {computed, onBeforeUnmount, reactive, watchEffect} from 'vue';
 import {useModel} from "../../../use/useModel";
 import {TreeNode, TreePropsType} from "./type";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {TreeUtils} from "./utils";
 import {createKeyHandler} from "../../../utils/createKeyHandler";
+import tree from "../tree";
+import {TreeDataObject} from "./props";
+import {throttle} from "plain-utils/utils/throttle";
 import isCheckable = TreePropsType.isCheckable;
 import isLeaf = TreePropsType.isLeaf;
 import filterNodeMethod = TreePropsType.filterNodeMethod;
 import getChildren = TreePropsType.getChildren;
-import tree from "../tree";
-import {TreeDataObject} from "./props";
-import {throttle} from "plain-utils/utils/throttle";
-import {debounce} from "plain-utils/utils/debounce";
-import node from "postcss/lib/node";
 
 const keyManager = createKeyHandler('tree')
 
