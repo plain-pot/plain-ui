@@ -15,12 +15,17 @@ const Table = designComponent({
             collector: PlcCollector,
         })
 
+        const refer = {
+            props,
+        }
+
         return {
+            refer,
             render: () => (
                 <div>
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
-                    <PltHead table={true}/>
-                    <PltBody/>
+                    <PltHead table={refer}/>
+                    <PltBody table={refer}/>
                 </div>
             )
         }
