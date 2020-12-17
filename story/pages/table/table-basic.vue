@@ -1,6 +1,6 @@
 <template>
     <div class="table-basic">
-        <demo-row title="基础用法">
+        <!--<demo-row title="配置">
             <pl-form column="1">
                 <pl-form-item label="列宽度响应测试">
                     <pl-number v-model="plc.width" :step="100"/>
@@ -42,55 +42,16 @@
                     </pl-form-item>
                 </template>
             </pl-form>
+        </demo-row>-->
+        <demo-row title="基础用法">
             <div style="margin-right: 0">
-                <pl-table :data="tableData"
-                          :summaryData="other.hasSummaryData?summaryData:null"
-                          @dblclick-cell="onDblclickCell"
-                          v-bind="props">
-                    <template v-if="other.groupHead">
-                        <plc-input title="输入框列" field="id" required/>
-                        <plc-input title="输入框列" field="id"/>
-
-                        <plc-toggle title="开关" field="toggleFlag" :align="plc.align">
-                            <template #head>
-                                [head]
-                            </template>
-                            <template #summary>
-                                summary
-                            </template>
-                        </plc-toggle>
-
-                        <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
-                        <plc field="id" title="编号" :align="plc.align">
-                            <template #head>
-                                <span>自定义表头</span>
-                                <pl-icon icon="el-icon-warning" v-tooltip="'tips'"/>
-                            </template>
-                            <template v-slot:default="{rowData}">
-                                [{{rowData.data.star}}]
-                            </template>
-                            <template v-slot:summamry="{rowData}">
-                                -[{{rowData.data.star}}]-
-                            </template>
-                        </plc>
-                        <plc field="size" title="大小" :align="plc.align"/>
-                        <plc-group title="地址" :align="plc.align">
-                            <plc field="date" title="日期" :align="plc.align"/>
-                            <plc-list>
-                                <plc field="color" title="颜色" :align="plc.align"/>
-                                <plc field="name" title="名称" v-if="plc.init" :align="plc.align"/>
-                            </plc-list>
-                        </plc-group>
-                        <plc field="star" title="评分" :align="plc.align"/>
-                    </template>
-                    <template v-else>
-                        <plc field="id" title="编号" :order="4"/>
-                        <plc field="size" title="大小" :width="plc.width" :order="plc.order"/>
-                        <plc field="date" title="日期" :order="6"/>
-                        <plc field="color" title="颜色"/>
-                        <plc field="name" title="名称" v-if="plc.init"/>
-                        <plc field="star" title="评分" :hide="plc.hide"/>
-                    </template>
+                <pl-table :data="tableData">
+                    <plc field="id" title="编号"/>
+                    <plc field="size" title="大小"/>
+                    <plc field="date" title="日期"/>
+                    <plc field="color" title="颜色"/>
+                    <plc field="name" title="名称"/>
+                    <plc field="star" title="评分"/>
                 </pl-table>
             </div>
         </demo-row>
