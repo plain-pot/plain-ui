@@ -1,34 +1,32 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import PlcCollector from './plc/core/plc-collector'
-import {useRefs} from "../../use/useRefs";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
 import './table.scss'
-import {onMounted} from 'vue';
+import {TableProps} from './core/table.utils';
+import {usePlc} from "./plc/format/usePlc";
 
 const Table = designComponent({
     name: 'pl-table',
-    props: {},
+    props: {
+        ...TableProps,
+    },
     setup({props}) {
 
         const {slots} = useSlots()
-        const {refs} = useRefs({
-            collector: PlcCollector,
-        })
 
-        onMounted(() => {
-            console.log(refs.collector!.children)
-        })
+        const {numberState} = usePlc({props})
 
         const refer = {
             props,
+            numberState,
         }
 
         return {
             refer,
             render: () => (
-                <div class="pl-table">
+                <div class="pl-table" ref="el">
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                     <PltHead table={refer}/>
                     <PltBody table={refer}/>
