@@ -71,16 +71,6 @@ export const PlcProps = {
 }
 
 /**
- * plc组件类型，有列和组两种
- * @author  韦胜健
- * @date    2020/8/14 17:25
- */
-export const enum PlcComponentType {
-    PLC = 'PLC',
-    GROUP = 'GROUP',
-}
-
-/**
  * plc组件的一些公共数据
  * @author  韦胜健
  * @date    2020/8/14 17:26

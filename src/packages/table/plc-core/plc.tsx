@@ -1,13 +1,14 @@
 import {designComponent} from "../../../use/designComponent";
-import {PlcComponentPublicData, PlcProps, PlcComponentType} from "./plc.utils";
+import {PlcComponentPublicData, PlcProps} from "./plc.utils";
 import {PlcCollector} from "./plc-collector";
 import {useScopedSlots} from "../../../use/useScopedSlots";
 import {TableNode} from "../table-core/node";
-import {PropType, computed, reactive, ComponentInternalInstance} from 'vue';
+import {ComponentInternalInstance, computed, PropType, reactive} from 'vue';
 import {useNumber} from "../../../use/useNumber";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {PlcGroup, PlcType} from "./plc.type";
 
-const PlcComponent = designComponent({
+export default designComponent({
     name: 'plc',
     props: {
         ...PlcProps,
@@ -16,10 +17,10 @@ const PlcComponent = designComponent({
 
         const {ctx} = PlcCollector.child() as { ctx: ComponentInternalInstance }
         const {scopedSlots} = useScopedSlots({
-            head: {plc: Object},
-            default: {rowData: Object as PropType<TableNode>, plc: Object},
-            edit: {rowData: Object as PropType<TableNode>, plc: Object},
-            summary: {rowData: Object as PropType<TableNode>, plc: Object},
+            head: {plc: Object as PropType<PlcType | PlcGroup>},
+            default: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
+            edit: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
+            summary: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
         })
         const {numberState} = useNumber(props, ['width', 'fit', 'order'])
         const targetProps = computed(() => ({
@@ -42,12 +43,11 @@ const PlcComponent = designComponent({
             state.width = Number((state.width || targetProps.value.width)) + durWidth
         }
 
-        const refer = {
+        const refer: PlcType = {
             ...deepcopy(PlcComponentPublicData),
             group: false,
-            ctx,
+            ctx: ctx as any,
             scopedSlots,
-            type: PlcComponentType.PLC,
             props: targetProps,
             state,
             setDurWidth,
@@ -63,7 +63,3 @@ const PlcComponent = designComponent({
         }
     },
 })
-
-export type PlcType = typeof PlcComponent.use.class
-
-export default PlcComponent

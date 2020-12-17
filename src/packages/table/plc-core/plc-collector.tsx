@@ -1,8 +1,7 @@
 import {designComponent} from "../../../use/designComponent";
 import {useSlots} from "../../../use/useSlots";
-import {ref, ComponentPublicInstance, getCurrentInstance, provide, inject, onMounted, onBeforeUnmount} from 'vue';
-import {PlcType} from "./plc";
-import {PlcGroup} from "./plc-group";
+import {ComponentPublicInstance, getCurrentInstance, inject, onBeforeUnmount, onMounted, provide, ref} from 'vue';
+import {PlcGroup, PlcType} from "./plc.type";
 
 export const PlcCollector = (() => {
     const ProvideString = '@@PlcCollector'
