@@ -1,5 +1,6 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlcProps} from "./plc.utils";
+import {TablePlcCollector} from './plc-collector';
 
 export default designComponent({
     name: 'plc',
@@ -7,6 +8,7 @@ export default designComponent({
         ...PlcProps,
     },
     setup({props}) {
+        TablePlcCollector.useChild()
         return {
             render: () => (
                 <div>
