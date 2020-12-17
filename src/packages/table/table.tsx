@@ -19,7 +19,7 @@ const Table = designComponent({
             render: () => (
                 <div>
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
-                    <PltHead/>
+                    <PltHead table={true}/>
                     <PltBody/>
                 </div>
             )
