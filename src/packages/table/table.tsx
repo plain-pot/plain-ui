@@ -8,6 +8,7 @@ import {computed, onMounted, reactive} from 'vue';
 import {formatPlc} from "./plc-format/formatPlc";
 import {useNumber} from "../../use/useNumber";
 import {PltHead} from "./table-core/head/head";
+import {PltBody} from "./table-core/body/body";
 
 export default designComponent({
     name: 'pl-table',
@@ -46,6 +47,7 @@ export default designComponent({
         })
 
         const refer = reactive({
+            props,
             plcData,
         })
 
@@ -55,7 +57,12 @@ export default designComponent({
                 return (
                     <div class="pl-table" ref="el">
                         <PlcCollector ref="collector">{slots.default()}</PlcCollector>
-                        {!!refer.plcData && <PltHead/>}
+                        {!!refer.plcData && (
+                            <>
+                                <PltHead/>
+                                <PltBody/>
+                            </>
+                        )}
                     </div>
                 )
             }
