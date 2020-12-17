@@ -1,6 +1,6 @@
 import {VNodeChild} from "../../../shims";
 import {PlcComponentPublicData, PlcGroupProps, PlcProps} from "./plc.utils";
-import {ComponentPublicInstance, ComputedRef, ExtractPropTypes} from 'vue';
+import {ComponentPublicInstance, ExtractPropTypes} from 'vue';
 import {TableNode} from "../table-core/node";
 
 /*---------------------------------------plc props function type-------------------------------------------*/
@@ -30,7 +30,7 @@ export type PlcGroup = typeof PlcComponentPublicData & {
     scopedSlots: {
         head: (scope: { plc: PlcType | PlcGroup }, vnode?: VNodeChild) => VNodeChild,
     },
-    props: ComputedRef<PlcGroupTypeProps>,
+    props: PlcGroupTypeProps,
     state: PlcGroupTypeState,
     children: (PlcType | PlcGroup)[]
     setDurWidth: (width: number) => void,
@@ -39,7 +39,7 @@ export type PlcGroup = typeof PlcComponentPublicData & {
 export type PlcType = typeof PlcComponentPublicData & {
     group: false,
     ctx: ComponentPublicInstance,
-    props: ComputedRef<PlcTypeProps>,
+    props: PlcTypeProps,
     state: PlcTypeState,
     setDurWidth: (width: number) => void,
     scopedSlots: {

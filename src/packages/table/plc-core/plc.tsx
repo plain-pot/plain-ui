@@ -43,7 +43,7 @@ export default designComponent({
             state.width = Number((state.width || targetProps.value.width)) + durWidth
         }
 
-        const refer: PlcType = {
+        const refer: PlcType = reactive({
             ...deepcopy(PlcComponentPublicData),
             group: false,
             ctx: ctx as any,
@@ -51,7 +51,7 @@ export default designComponent({
             props: targetProps,
             state,
             setDurWidth,
-        }
+        })
 
         return {
             refer,

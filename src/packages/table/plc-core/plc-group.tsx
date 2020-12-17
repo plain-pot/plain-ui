@@ -43,7 +43,7 @@ export default designComponent({
             children.forEach(item => item.setDurWidth(itemDurWidth))
         }
 
-        const refer: PlcGroup = {
+        const refer: PlcGroup = reactive({
             ...deepcopy(PlcComponentPublicData),
             group: true,
             scopedSlots,
@@ -51,7 +51,7 @@ export default designComponent({
             state,
             setDurWidth,
             children,
-        }
+        })
 
         return {
             refer,
