@@ -23,7 +23,7 @@ const Table = designComponent({
         return {
             refer,
             render: () => (
-                <div>
+                <div class="pl-table">
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                     <PltHead table={refer}/>
                     <PltBody table={refer}/>
