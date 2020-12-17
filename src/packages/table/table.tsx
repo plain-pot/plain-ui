@@ -8,8 +8,13 @@ import {computed, onMounted, reactive} from 'vue';
 import {formatPlc} from "./plc-format/formatPlc";
 import {useNumber} from "../../use/useNumber";
 import {PltHead} from "./table-core/head/head";
+import {TableNode, useTableNode} from "./table-core/node";
+import {SimpleObject} from "../../shims";
+import {PltBody} from "./table-core/body/body";
+import {PlainScroll} from "../scroll/scroll";
+import {hasClass} from "plain-utils/dom/hasClass";
 
-export default designComponent({
+const Table = designComponent({
     name: 'pl-table',
     props: {
         ...TableProps,
@@ -17,6 +22,11 @@ export default designComponent({
     provideRefer: true,
     emits: {
         onScrollLeft: (e: Event, part: TableHoverPart) => true,
+        onUpdateData: (data?: SimpleObject[]) => true,
+        onClickRow: (node: TableNode, e: MouseEvent) => true,
+        onDblclickRow: (node: TableNode, e: MouseEvent) => true,
+        onClickCell: (node: TableNode, e: MouseEvent) => true,
+        onDblclickCell: (node: TableNode, e: MouseEvent) => true,
     },
     setup({props, event: {emit, on}}) {
 
@@ -35,8 +45,12 @@ export default designComponent({
         }
         const state = reactive({
             tableWidth: null as null | number,                  // mounted的时候表格的宽度
+            current: null as null | TableNode,                  // 当前选中的节点
         })
         const {numberState} = useNumber(props, ['bodyRowHeight', 'headRowHeight'])
+
+        // todo getValidate
+        const node = useTableNode({props, event: {emit}, getValidate: () => {return {} as any}})
 
         /*---------------------------------------computed-------------------------------------------*/
 
@@ -46,7 +60,7 @@ export default designComponent({
          * @date    2020/8/13 22:31
          */
         const bodyPlcList = computed(() => {
-            if (!plcData.value) return null
+            if (!plcData.value) return []
             return plcData.value.flatPlcList
         })
 
@@ -62,6 +76,11 @@ export default designComponent({
             }, 0)
         })
 
+        /**
+         * 收集得到的列数据
+         * @author  韦胜健
+         * @date    2020/12/17 16:38
+         */
         const plcData = computed(() => {
             if (!state.tableWidth) {
                 return null
@@ -75,6 +94,20 @@ export default designComponent({
             })
         })
 
+        /**
+         * 是否可以开启表格的虚拟滚动功能
+         * @author  韦胜健
+         * @date    2020/8/13 22:35
+         */
+        const isDisabledVirtualScroll = computed(() => {
+            if (!plcData.value) {
+                return true
+            }
+            if (plcData.value.notFitVirtualPlcList.length > 0) {
+                return true
+            }
+            return !props.virtual
+        })
 
         /*---------------------------------------utils-------------------------------------------*/
 
@@ -91,6 +124,41 @@ export default designComponent({
             }
         }
 
+        /*---------------------------------------handler-------------------------------------------*/
+        const handler = {
+            headMousewheel: (e: MouseEvent, scroll: PlainScroll) => {
+                e.preventDefault();
+
+                const {deltaX, deltaY} = e as any
+                // @ts-ignore
+                emit.scrollLeft({target: {scrollLeft: scroll.state.wrapperScrollLeft + (deltaX || deltaY)}}, null)
+            },
+            clickRow: (e: MouseEvent, node: TableNode) => {
+                methods.setCurrent(node)
+                emit.onClickRow(node, e)
+                if (hasClass(e.target as HTMLElement, ['plt-inner-cell', 'plt-cell'])) {
+                    emit.onClickCell(node, e)
+                }
+            },
+            dblclickRow: (e: MouseEvent, node: TableNode) => {
+                emit.onDblclickRow(node, e)
+                if (hasClass(e.target as HTMLElement, ['plt-inner-cell', 'plt-cell'])) {
+                    emit.onDblclickCell(node, e)
+                }
+            },
+        }
+
+        /*---------------------------------------methods-------------------------------------------*/
+
+        const methods = {
+            setCurrent: (keyOrNode: string | TableNode | null) => {
+                state.current = !keyOrNode ? null : node.methods.getNode(keyOrNode)
+            },
+            getCurrent: () => {
+                return state.current
+            }
+        }
+
         /*---------------------------------------lifecycle-------------------------------------------*/
 
         onMounted(() => {
@@ -99,9 +167,16 @@ export default designComponent({
 
         const refer = reactive({
             props,
+            numberState,
             plcData,
             totalContentWidth,
             bodyPlcList,
+            node,
+            bindScroll,
+            isDisabledVirtualScroll,
+            handler,
+            methods,
+            state,
         })
 
         return {
@@ -113,7 +188,7 @@ export default designComponent({
                         {!!refer.plcData && (
                             <>
                                 <PltHead/>
-                                {/*<PltBody/>*/}
+                                <PltBody/>
                             </>
                         )}
                     </div>
@@ -122,3 +197,9 @@ export default designComponent({
         }
     },
 })
+
+export function injectTable() {
+    return Table.use.inject()
+}
+
+export default Table

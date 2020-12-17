@@ -13,7 +13,7 @@ export type PlcEditFunction = () => VNodeChild
 
 export type PlcSummaryFunction = () => VNodeChild
 
-export type PlcRenderAfterRowFunction = () => VNodeChild
+export type PlcRenderAfterRowFunction = (option: { plc: PlcType, node: TableNode }) => VNodeChild
 
 export type PlcEditableFunc = boolean | (() => boolean)
 

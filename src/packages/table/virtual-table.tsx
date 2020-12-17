@@ -60,7 +60,7 @@ export const VirtualTable = designComponent({
         const handler = {
             onScroll: (e: any) => {
                 virtual.handler.onScroll(e)
-                refs.summary.scrollLeft = e.target.scrollLeft
+                !!refs.summary && (refs.summary.scrollLeft = e.target.scrollLeft)
             }
         }
 

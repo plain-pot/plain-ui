@@ -9,9 +9,9 @@ export const TableProps = {
     ...StyleProps,
 
     /*---------------------------------------basic-------------------------------------------*/
-    data: {type: Array as PropType<SimpleObject>},              // 显示的数据
+    data: {type: Array as PropType<SimpleObject[]>},            // 显示的数据
     virtual: {type: Boolean, default: false},                   // 虚拟滚动
-    summaryData: {type: Array as PropType<SimpleObject>},       // 表尾合计行数据
+    summaryData: {type: Array as PropType<SimpleObject[]>},     // 表尾合计行数据
     config: {type: Function as PropType<TableConfigFunc>},      // 配置列信息函数
     debugPlc: {type: Boolean},                                  // 调试plc数据
     rules: {type: Object as PropType<FormComponentRules>},      // 校验规则

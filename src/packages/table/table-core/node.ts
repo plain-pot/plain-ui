@@ -3,9 +3,10 @@ import {SimpleObject} from "../../../shims";
 import {TableFilterNodeMethod, TableGetChildrenFunction, TableIsCheckable, TableIsLeaf} from "../table.type";
 import {useModel} from "../../../use/useModel";
 import {TreeNodeCheckStatus} from "../../tree/utils/tree-constant";
-import {computed, reactive} from 'vue';
+import {computed, onBeforeUnmount, reactive, watchEffect} from 'vue';
 import {createKeyHandler} from "../../../utils/createKeyHandler";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {throttle} from "plain-utils/utils/throttle";
 
 /**
  * TableNode对象类型
@@ -20,7 +21,7 @@ export type TableNode = {
     selfRef: () => TableNode,                           // 自身引用
 
     index: number,                                      // 节点索引
-    empty: boolean,                                     // 是否为空节点
+    // empty: boolean,                                     // 是否为空节点
 
     readonly childrenData?: SimpleObject[]              // 子节点数据数组
     readonly label?: string,                            // 节点显示文本
@@ -95,6 +96,21 @@ function iterateAll(
     })
 }
 
+/**
+ * 根据childrenField遍历data树形数据
+ * @author  韦胜健
+ * @date    2020/12/2 12:22
+ */
+function iteratorTreeData({data, childrenField}: { data?: SimpleObject[], childrenField: string }) {
+    if (!!data) {
+        data.forEach(item => {
+            if (!!item[childrenField]) {
+                iteratorTreeData({data: item[childrenField], childrenField})
+            }
+        })
+    }
+}
+
 export function useTableNode(
     {
         props,
@@ -158,6 +174,52 @@ export function useTableNode(
         return map
     })
 
+    /**
+     * 拍-平的树形数据（不拍平无法实现虚拟滚动）
+     * @author  韦胜健
+     * @date    2020/12/2 12:16
+     */
+    const flatList = computed(() => {
+        let result: TableNode[] = []
+        if (!state.root) {
+            return []
+        }
+        iterateAll({
+            nodes: state.root.children,
+            iterateChildren: (treeNode) => treeNode.expand,
+            handler: (treeNode) => result.push(treeNode),
+        },)
+        result = result.filter((treeNode) => !!treeNode.isVisible)
+        result.forEach((node, index) => node.index = index)
+        return result
+    })
+
+    /*展开的节点*/
+    const expandNodes = computed(() => {
+        if (!state.root) {
+            return []
+        }
+        let nodes: TableNode[] = []
+        iterateAll({
+            nodes: state.root.children,
+            handler: (node) => node.expand && nodes.push(node),
+        })
+        return nodes
+    })
+
+    /*选中的节点*/
+    const checkNodes = computed(() => {
+        if (!state.root) {
+            return []
+        }
+        let nodes: TableNode[] = []
+        iterateAll({
+            nodes: state.root.children,
+            handler: (node) => node.check && nodes.push(node),
+        })
+        return nodes
+    })
+
     /*---------------------------------------utils-------------------------------------------*/
 
     const utils = {
@@ -179,7 +241,7 @@ export function useTableNode(
                         selfRef: () => node!,
 
                         index: 0,
-                        empty: false,
+                        // empty: false,
 
                         get childrenData() {return data[props.childrenField!]},
                         children: [],
@@ -299,6 +361,30 @@ export function useTableNode(
         },
     }
 
+    /*---------------------------------------methods-------------------------------------------*/
+
+    const methods = {
+        /*这里一直从 nodeMap 中获取最新的，因为keyOrNode如果是treeNode的话，可能只是一个快照*/
+        getNode: (keyOrNode: string | TableNode) => state.nodeMap[typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key],
+        /*设置子节点数据*/
+        setChildrenData: (node: TableNode, data: SimpleObject[]) => {if (!!props.childrenField) {node.data[props.childrenField] = data}},
+    }
+
+    /*---------------------------------------handler-------------------------------------------*/
+
+    const handler = {
+        /**
+         * 当节点数据变化之后，刷新state中的root以及nodeMap
+         * @author  韦胜健
+         * @date    2020/12/15 12:03
+         */
+        onDataChange: throttle(async () => {
+            const {root, nodeMap} = utils.resetData()
+            state.root = root
+            state.nodeMap = nodeMap
+        }, 100),
+    }
+
     /*---------------------------------------end-------------------------------------------*/
 
     const state = reactive((() => {
@@ -311,8 +397,19 @@ export function useTableNode(
         }
     })())
 
+    const stopWatchEffect = watchEffect(
+        () => iteratorTreeData({data: dataModel.value || [], childrenField: props.childrenField!}),
+        {onTrigger: handler.onDataChange}
+    )
+    onBeforeUnmount(stopWatchEffect)
+
     return {
         state,
+        utils,
+        flatList,
+        methods,
+        checkNodes,
+        expandNodes,
     }
 
 }

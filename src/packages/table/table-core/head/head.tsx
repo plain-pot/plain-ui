@@ -1,11 +1,11 @@
 import {designComponent} from "../../../../use/designComponent";
-import Table from '../../table'
+import {injectTable} from '../../table'
 import {renderColgroup} from "../../plc-format/renderColgroup";
 
 export const PltHead = designComponent({
     name: 'plt-head',
     setup() {
-        const table = Table.use.inject()
+        const table = injectTable()
         return {
             render: () => (
                 <div class="plt-head">

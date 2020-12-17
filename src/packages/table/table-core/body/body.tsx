@@ -1,32 +1,37 @@
 import {designComponent} from "../../../../use/designComponent";
-import Table from "../../table";
-import {SimpleObject} from "../../../../shims";
+import {injectTable} from "../../table";
 import {renderColgroup} from "../../plc-format/renderColgroup";
-import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../../../use/useStyles";
+import {VirtualTable} from "../../virtual-table";
+import {TableNode} from "../node";
+import {PltRow} from "./row";
 
 export const PltBody = designComponent({
     name: 'plt-body',
     setup() {
-        const table = Table.use.inject()
-        const tableStyles = useStyles(style => {style.width = unit(table.totalContentWidth!)})
+        const table = injectTable()
+        const styles = useStyles(style => {style.height = `${table.numberState.bodyRowHeight * table.props.showRows + 12}px`})
 
         return {
             render: () => (
-                <div class="plt-body">
-                    <table style={tableStyles.value}>
-                        {renderColgroup(table.plcData!.flatPlcList)}
-
-                        {(table.props.data || []).map((item: SimpleObject, index: number) => (
-                            <tr key={index}>
-                                {table.plcData!.flatPlcList.map((plc, plcIndex) => (
-                                    <td key={plcIndex}>
-                                        {!!plc.props.field ? item[plc.props.field] : null}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </table>
+                <div class="plt-body" style={styles.value}>
+                    <VirtualTable
+                        key={table.props.virtual ? 'enable-virtual' : 'disable-virtual'}
+                        ref="virtualTable"
+                        width={table.totalContentWidth}
+                        data={table.node.flatList}
+                        size={table.numberState.bodyRowHeight}
+                        disabled={table.isDisabledVirtualScroll}
+                        v-slots={{
+                            colgroup: () => renderColgroup(table.plcData!.flatPlcList),
+                            default: ({item}: { item: TableNode }) => table.plcData!.plcListHasRenderAfterRow.length > 0 ?
+                                <>
+                                    <PltRow key={`${item.key}_${item.index}`} vid={item.index} node={item}/>
+                                    {table.plcData!.plcListHasRenderAfterRow.map((plc) => (plc.props.renderAfterRow!({plc, node: item})))}
+                                </> :
+                                <PltRow key={`${item.key}_${item.index}`} vid={item.index} node={item}/>
+                        }}
+                    />
                 </div>
             )
         }
