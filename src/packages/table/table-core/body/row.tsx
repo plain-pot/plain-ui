@@ -46,6 +46,7 @@ export const PltRow = designComponent({
             render: () => (
                 <tr {...binding.value}>
                     {table.bodyPlcList.map((plc, plcIndex) => (<PltBodyCell
+                        table={table}
                         key={plcIndex}
                         plc={plc} node={props.node}
                     />))}

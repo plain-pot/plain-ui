@@ -1,21 +1,23 @@
-import {VNodeChild} from "../../../shims";
+import {SimpleObject, VNodeChild} from "../../../shims";
 import {PlcComponentPublicData, PlcGroupProps, PlcProps} from "./plc.utils";
 import {ComponentPublicInstance, ExtractPropTypes} from 'vue';
 import {TableNode} from "../table-core/node";
 
 /*---------------------------------------plc props function type-------------------------------------------*/
 
-export type PlcHeadFunction = () => VNodeChild
+export type PlcRenderFunction = (scope: { node: TableNode, row: SimpleObject, plc: PlcType }) => VNodeChild
 
-export type PlcDefaultFunction = () => VNodeChild
+export type PlcHeadFunction = (scope: { plc: PlcType }) => VNodeChild
 
-export type PlcEditFunction = () => VNodeChild
+export type PlcDefaultFunction = PlcRenderFunction
 
-export type PlcSummaryFunction = () => VNodeChild
+export type PlcEditFunction = PlcRenderFunction
+
+export type PlcSummaryFunction = PlcRenderFunction
 
 export type PlcRenderAfterRowFunction = (option: { plc: PlcType, node: TableNode }) => VNodeChild
 
-export type PlcEditableFunc = boolean | (() => boolean)
+export type PlcEditableFunc = boolean | ((node: TableNode) => boolean)
 
 /*---------------------------------------main-------------------------------------------*/
 

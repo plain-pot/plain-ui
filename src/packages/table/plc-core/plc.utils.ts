@@ -139,3 +139,11 @@ export const PlcComponentPublicData = {
         },
     },
 }
+
+/**
+ * 是否可以使用sticky定位
+ * @author  韦胜健
+ * @date    2020/8/15 23:58
+ */
+// export const stickyFlag = !ie || ie === 'edge'
+export const stickyFlag = true
