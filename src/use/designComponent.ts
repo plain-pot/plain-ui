@@ -38,7 +38,7 @@ export function designComponent<RawBindings,
     M extends MethodOptions = {},
     Mixin extends ComponentOptionsMixin = ComponentOptionsMixin,
     Extends extends ComponentOptionsMixin = ComponentOptionsMixin,
-    E extends EmitsOptions = Record<string, any>,
+    E extends EmitsOptions = {},
     EE extends string = string,
     >(
     options: {
