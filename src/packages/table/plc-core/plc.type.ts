@@ -34,6 +34,7 @@ export type PlcGroup = typeof PlcComponentPublicData & {
     state: PlcGroupTypeState,
     children: (TablePlc)[]
     setDurWidth: (width: number) => void,
+    self: () => PlcGroup,
 }
 
 export type PlcType = typeof PlcComponentPublicData & {
@@ -48,6 +49,7 @@ export type PlcType = typeof PlcComponentPublicData & {
         edit: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
         summary: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
     },
+    self: () => PlcType,
 }
 
 export type TablePlc = PlcType | PlcGroup

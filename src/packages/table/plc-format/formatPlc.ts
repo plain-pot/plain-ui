@@ -2,7 +2,7 @@ import {TablePlc} from "../plc-core/plc.type";
 
 function copyPlc(plcList: (TablePlc)[]): (TablePlc)[] {
     return plcList.map(plc => {
-        const newPlc = {...plc}
+        const newPlc = {...plc.self()}
         newPlc.props = {...newPlc.props}
         if (newPlc.group) {
             newPlc.children = copyPlc(newPlc.children)
@@ -20,4 +20,7 @@ export function formatPlc(
 ) {
     plcList = copyPlc(plcList)
 
+    return {
+        plcList
+    }
 }

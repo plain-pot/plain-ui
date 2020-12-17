@@ -51,6 +51,7 @@ export default designComponent({
             state,
             setDurWidth,
             children,
+            self: () => refer
         })
 
         return {

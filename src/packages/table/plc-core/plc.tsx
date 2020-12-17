@@ -3,7 +3,7 @@ import {PlcComponentPublicData, PlcProps} from "./plc.utils";
 import {PlcCollector} from "./plc-collector";
 import {useScopedSlots} from "../../../use/useScopedSlots";
 import {TableNode} from "../table-core/node";
-import {ComponentInternalInstance, computed, PropType, reactive} from 'vue';
+import {ComponentInternalInstance, computed, markRaw, PropType, reactive} from 'vue';
 import {useNumber} from "../../../use/useNumber";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {PlcType, TablePlc} from "./plc.type";
@@ -46,11 +46,12 @@ export default designComponent({
         const refer: PlcType = reactive({
             ...deepcopy(PlcComponentPublicData),
             group: false,
-            ctx: ctx as any,
+            ctx: markRaw(ctx as any),
             scopedSlots,
             props: targetProps,
             state,
             setDurWidth,
+            self: () => refer
         })
 
         return {

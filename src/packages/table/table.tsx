@@ -27,12 +27,9 @@ export default designComponent({
             if (!isMounted.value) {
                 return null
             }
-            const plcList = formatPlc({
+            return formatPlc({
                 plcList: refs.collector!.children
             })
-            return {
-                plcList
-            }
         })
 
         onMounted(() => {
