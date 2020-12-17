@@ -16,3 +16,7 @@ export type TableNode = TreeNode & {
     validate: () => Promise<FormValidateReturn>,
     saveEdit: () => void,
 }
+
+export function useTableNode() {
+
+}
