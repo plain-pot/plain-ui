@@ -5,6 +5,8 @@ import {TableProps} from "./table.utils";
 import PlcCollector from './plc-core/plc-collector'
 import {useRefs} from "../../use/useRefs";
 import {computed, onMounted} from 'vue';
+import {formatPlc} from "./plc-format/formatPlc";
+import {useMounted} from "../../use/useMounted";
 
 export default designComponent({
     name: 'pl-table',
@@ -13,6 +15,8 @@ export default designComponent({
     },
     setup() {
 
+        const isMounted = useMounted()
+
         const {slots} = useSlots()
 
         const {refs} = useRefs({
@@ -20,11 +24,19 @@ export default designComponent({
         })
 
         const plcData = computed(() => {
-            // todo
+            if (!isMounted.value) {
+                return null
+            }
+            const plcList = formatPlc({
+                plcList: refs.collector!.children
+            })
+            return {
+                plcList
+            }
         })
 
         onMounted(() => {
-            console.log(refs.collector!.children)
+            console.log(plcData.value)
         })
 
         return {
