@@ -21,7 +21,7 @@ export default designComponent({
             default: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
             edit: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
             summary: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
-        })
+        }, true)
         const {numberState} = useNumber(props, ['width', 'fit', 'order'])
         const targetProps = computed(() => ({
             ...props,

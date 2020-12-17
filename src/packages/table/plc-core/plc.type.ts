@@ -46,10 +46,10 @@ export type PlcType = typeof PlcComponentPublicData & {
     state: PlcTypeState,
     setDurWidth: (width: number) => void,
     scopedSlots: {
-        head: (scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild,
-        default: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
-        edit: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
-        summary: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
+        head: ((scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean },
+        default: ((scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean },
+        edit: ((scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean },
+        summary: ((scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild) & { isExist: () => boolean },
     },
     self: () => PlcType,
 }
