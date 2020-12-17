@@ -1,15 +1,18 @@
 import {designComponent} from "../../../../use/designComponent";
-import {injectTable} from '../../table'
+import {PlainTable} from '../../table'
 import {renderColgroup} from "../../plc-format/renderColgroup";
+import {PropType} from 'vue';
 
 export const PltHead = designComponent({
     name: 'plt-head',
-    setup() {
-        const table = injectTable()
+    props: {
+        table: {type: Object as PropType<PlainTable>, required: true}
+    },
+    setup({props}) {
+        const table = props.table
         return {
             render: () => (
                 <div class="plt-head">
-
                     {/*这里不能加 scrollY={false}，会导致sticky固定失效*/}
                     <pl-scroll
                         ref="scroll"

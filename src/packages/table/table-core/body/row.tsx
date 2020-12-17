@@ -1,7 +1,7 @@
 import {designComponent} from "../../../../use/designComponent";
 import {computed, PropType} from 'vue';
 import {TableNode} from "../node";
-import {injectTable} from "../../table";
+import {PlainTable} from "../../table";
 import {SingleClass} from "../../../../use/useClasses";
 import {toArray} from "../../../../utils/toArray";
 import {PltBodyCell} from "./body-cell";
@@ -10,9 +10,10 @@ export const PltRow = designComponent({
     name: 'plt-row',
     props: {
         node: {type: Object as PropType<TableNode>, required: true},
+        table: {type: Object as PropType<PlainTable>, required: true}
     },
     setup({props}) {
-        const table = injectTable()
+        const table = props.table
         const handler = {
             click: (e: MouseEvent) => {table.handler.clickRow(e, props.node)},
             dblclick: (e: MouseEvent) => {table.handler.dblclickRow(e, props.node)},

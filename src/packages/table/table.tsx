@@ -187,8 +187,8 @@ const Table = designComponent({
                         <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                         {!!refer.plcData && (
                             <>
-                                <PltHead/>
-                                <PltBody/>
+                                <PltHead table={refer}/>
+                                <PltBody table={refer}/>
                             </>
                         )}
                     </div>
@@ -198,8 +198,6 @@ const Table = designComponent({
     },
 })
 
-export function injectTable() {
-    return Table.use.inject()
-}
+export type PlainTable = typeof Table.use.class
 
 export default Table
