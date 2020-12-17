@@ -6,7 +6,7 @@ import {TableNode} from "../table-core/node";
 import {ComponentInternalInstance, computed, PropType, reactive} from 'vue';
 import {useNumber} from "../../../use/useNumber";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {PlcGroup, PlcType} from "./plc.type";
+import {PlcType, TablePlc} from "./plc.type";
 
 export default designComponent({
     name: 'plc',
@@ -17,7 +17,7 @@ export default designComponent({
 
         const {ctx} = PlcCollector.child() as { ctx: ComponentInternalInstance }
         const {scopedSlots} = useScopedSlots({
-            head: {plc: Object as PropType<PlcType | PlcGroup>},
+            head: {plc: Object as PropType<TablePlc>},
             default: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
             edit: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},
             summary: {node: Object as PropType<TableNode>, plc: Object as PropType<PlcType>},

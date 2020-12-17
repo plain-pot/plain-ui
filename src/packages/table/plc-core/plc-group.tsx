@@ -3,7 +3,7 @@ import {useSlots} from "../../../use/useSlots";
 import {PlcComponentPublicData, PlcGroupProps} from "./plc.utils";
 import {PlcCollector} from "./plc-collector";
 import {computed, PropType, reactive} from 'vue';
-import {PlcGroup, PlcType} from "./plc.type";
+import {PlcGroup, TablePlc} from "./plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {useScopedSlots} from "../../../use/useScopedSlots";
 import {useNumber} from "../../../use/useNumber";
@@ -17,9 +17,9 @@ export default designComponent({
 
         const {slots} = useSlots()
         const {scopedSlots} = useScopedSlots({
-            head: {plc: Object as PropType<PlcType | PlcGroup>},
+            head: {plc: Object as PropType<TablePlc>},
         })
-        const {children} = PlcCollector.parent() as any as { children: (PlcType | PlcGroup)[] }
+        const {children} = PlcCollector.parent() as any as { children: (TablePlc)[] }
         PlcCollector.child()
         const {numberState} = useNumber(props, ['order'])
         const targetProps = computed(() => ({

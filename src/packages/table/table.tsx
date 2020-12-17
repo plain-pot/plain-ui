@@ -4,7 +4,7 @@ import './table.scss'
 import {TableProps} from "./table.utils";
 import PlcCollector from './plc-core/plc-collector'
 import {useRefs} from "../../use/useRefs";
-import {onMounted} from 'vue';
+import {computed, onMounted} from 'vue';
 
 export default designComponent({
     name: 'pl-table',
@@ -17,6 +17,10 @@ export default designComponent({
 
         const {refs} = useRefs({
             collector: PlcCollector,
+        })
+
+        const plcData = computed(() => {
+            // todo
         })
 
         onMounted(() => {

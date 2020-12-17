@@ -1,7 +1,7 @@
 import {designComponent} from "../../../use/designComponent";
 import {useSlots} from "../../../use/useSlots";
 import {ComponentPublicInstance, getCurrentInstance, inject, onBeforeUnmount, onMounted, provide, ref} from 'vue';
-import {PlcGroup, PlcType} from "./plc.type";
+import {TablePlc} from "./plc.type";
 
 export const PlcCollector = (() => {
     const ProvideString = '@@PlcCollector'
@@ -10,7 +10,7 @@ export const PlcCollector = (() => {
         const ctx = getCurrentInstance()!
         const refer = {
             ctx,
-            children: children.value as any as (PlcType | PlcGroup)[],
+            children: children.value as any as (TablePlc)[],
             add: (proxy: ComponentPublicInstance) => {
                 const el = proxy.$el as HTMLElement
                 const index = Array.from(el.parentElement!.childNodes).indexOf(el)

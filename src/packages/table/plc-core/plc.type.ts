@@ -28,11 +28,11 @@ type PlcGroupTypeState = { [k in keyof PlcGroupTypeProps]: PlcTypeProps[k] | nul
 export type PlcGroup = typeof PlcComponentPublicData & {
     group: true,
     scopedSlots: {
-        head: (scope: { plc: PlcType | PlcGroup }, vnode?: VNodeChild) => VNodeChild,
+        head: (scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild,
     },
     props: PlcGroupTypeProps,
     state: PlcGroupTypeState,
-    children: (PlcType | PlcGroup)[]
+    children: (TablePlc)[]
     setDurWidth: (width: number) => void,
 }
 
@@ -43,9 +43,11 @@ export type PlcType = typeof PlcComponentPublicData & {
     state: PlcTypeState,
     setDurWidth: (width: number) => void,
     scopedSlots: {
-        head: (scope: { plc: PlcType | PlcGroup }, vnode?: VNodeChild) => VNodeChild,
+        head: (scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild,
         default: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
         edit: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
         summary: (scope: { node: TableNode, plc: PlcType }, vnode?: VNodeChild) => VNodeChild,
     },
 }
+
+export type TablePlc = PlcType | PlcGroup
