@@ -7,12 +7,14 @@ import {useRefs} from "../../use/useRefs";
 import {computed, onMounted, reactive} from 'vue';
 import {formatPlc} from "./plc-format/formatPlc";
 import {useNumber} from "../../use/useNumber";
+import {PltHead} from "./table-core/head/head";
 
 export default designComponent({
     name: 'pl-table',
     props: {
         ...TableProps,
     },
+    provideRefer: true,
     setup({props}) {
 
         const {slots} = useSlots()
@@ -43,11 +45,17 @@ export default designComponent({
             console.log(plcData.value)
         })
 
+        const refer = reactive({
+            plcData,
+        })
+
         return {
+            refer,
             render: () => {
                 return (
                     <div class="pl-table" ref="el">
                         <PlcCollector ref="collector">{slots.default()}</PlcCollector>
+                        {!!refer.plcData && <PltHead/>}
                     </div>
                 )
             }
