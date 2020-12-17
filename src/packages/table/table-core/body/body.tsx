@@ -5,9 +5,7 @@ import {SimpleObject} from "../../../../shims";
 export const PltBody = designComponent({
     name: 'plt-body',
     setup() {
-
         const table = Table.use.inject()
-
         return {
             render: () => (
                 <div class="plt-body">
