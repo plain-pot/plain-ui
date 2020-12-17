@@ -5,6 +5,7 @@ import {useRefs} from "../../use/useRefs";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
 import './table.scss'
+import {onMounted} from 'vue';
 
 const Table = designComponent({
     name: 'pl-table',
@@ -14,6 +15,10 @@ const Table = designComponent({
         const {slots} = useSlots()
         const {refs} = useRefs({
             collector: PlcCollector,
+        })
+
+        onMounted(() => {
+            console.log(refs.collector!.children)
         })
 
         const refer = {
