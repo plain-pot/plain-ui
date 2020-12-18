@@ -7,22 +7,28 @@ import './table.scss'
 import {TableProps} from './core/table.utils';
 import {usePlc} from "./plc/format/usePlc";
 import {PropType} from 'vue';
+import {useTableTree} from "./core/body/useTableTree";
+import {SimpleObject} from "../../shims";
 
 const Table = designComponent({
     name: 'pl-table',
     props: {
         ...TableProps,
     },
-    setup({props}) {
+    emits: {
+        onUpdateData: (data?: SimpleObject[]) => true,
+    },
+    setup({props, event: {emit}}) {
 
         const {slots} = useSlots()
-
         const {numberState, plcData} = usePlc({props})
+        const {dataModel} = useTableTree({props, emit})
 
         const refer = {
             props,
             numberState,
             plcData,
+            dataModel,
         }
 
         return {

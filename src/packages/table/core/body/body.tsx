@@ -1,8 +1,10 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlainTable} from "../../table";
-import Scroll from '../../../scroll'
-import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PltRow} from "./row";
+import {useStyles} from "../../../../use/useStyles";
+import {VirtualTable} from "../../virtual-table";
+import {SimpleObject} from "../../../../shims";
+import {renderColgroup} from "../../plc/core/renderColgroup";
 
 export const PltBody = designComponent({
     name: 'plt-head',
@@ -10,22 +12,25 @@ export const PltBody = designComponent({
         table: {type: PlainTable, required: true},
     },
     setup({props}) {
+
         return {
             render: () => (
-                <div>
-                    <Scroll scrollX>
-                        <table>
-                            {renderColgroup(props.table.plcData.value!.flatPlcList)}
-                            {(props.table.props.data || []).map((row, rowIndex) => (
-                                <PltRow
-                                    key={rowIndex}
-                                    table={props.table}
-                                    node={row}
-                                />
-                            ))}
-                        </table>
-                    </Scroll>
-                </div>
+                <VirtualTable
+                    size={props.table.numberState.bodyRowHeight}
+                    data={props.table.dataModel.value}
+                    height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
+                    v-slots={{
+                        default: ({item, index}: { item: SimpleObject, index: number }) => (
+                            <PltRow
+                                {...{vid: index}}
+                                key={index}
+                                table={props.table}
+                                node={item}
+                            />
+                        ),
+                        colgroup: () => renderColgroup(props.table.plcData.value!.flatPlcList)
+                    }}
+                />
             )
         }
     },
