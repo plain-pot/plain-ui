@@ -36,6 +36,7 @@ export function usePlc(
         return formatPlcList({
             plcList: children,
             props,
+            tableWidth: state.tableWidth,
         })
     })
 
