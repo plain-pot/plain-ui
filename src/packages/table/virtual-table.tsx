@@ -70,6 +70,9 @@ export const VirtualTable = designComponent({
         }
 
         return {
+            refer: {
+                refs
+            },
             render: () => {
 
                 const {list} = virtual.offsetData.value
