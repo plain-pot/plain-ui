@@ -86,7 +86,7 @@ export const VirtualTable = designComponent({
                             onScroll={handler.onScroll}
                             scrollX
                             class={virtual.classes.value}
-                            horizontalScrollbarTooltip={'推荐【表头使用鼠滚轮】，或者【表体Alt键+鼠标滚轮】横向滚动'}
+                            horizontalScrollbarTooltip={'推荐【表头使用鼠标滚轮】，或者【表体Alt键+鼠标滚轮】横向滚动'}
                             v-slots={{
                                 default: () => (<div class="pl-virtual-list-strut" style={strutStyles.value}>
                                     <div class="pl-virtual-list-content" ref="content" style={contentStyles.value}>
