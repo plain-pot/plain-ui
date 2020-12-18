@@ -9,7 +9,7 @@ export function formatPlcList(
         plcList: TablePlc[]
     }
 ) {
-
+    /*复制一份plc数据*/
     plcList = copyPlcList(plcList)
 
     const flatPlcList = [] as Plc[]
