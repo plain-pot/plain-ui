@@ -15,10 +15,9 @@ export const PltHead = designComponent({
                     <Scroll scrollX>
                         <table>
                             <colgroup>
-                                <col style="width:200px;min-width:200px"/>
-                                <col style="min-width:200px"/>
-                                <col style="min-width:200px"/>
-                                <col style="width:200px;min-width:200px"/>
+                                {props.table.plcData.value!.plcList.map((plc) => (
+                                    <col style={""}/>
+                                ))}
                             </colgroup>
                             <tr>
                                 <td>张三</td>

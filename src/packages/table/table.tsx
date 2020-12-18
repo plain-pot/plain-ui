@@ -16,11 +16,12 @@ const Table = designComponent({
 
         const {slots} = useSlots()
 
-        const {numberState} = usePlc({props})
+        const {numberState, plcData} = usePlc({props})
 
         const refer = {
             props,
             numberState,
+            plcData,
         }
 
         return {
@@ -28,8 +29,10 @@ const Table = designComponent({
             render: () => (
                 <div class="pl-table" ref="el">
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
-                    <PltHead table={refer}/>
-                    <PltBody table={refer}/>
+                    {!!plcData.value && <>
+                        <PltHead table={refer}/>
+                        <PltBody table={refer}/>
+                    </>}
                 </div>
             )
         }

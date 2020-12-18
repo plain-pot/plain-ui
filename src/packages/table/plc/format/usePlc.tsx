@@ -1,4 +1,4 @@
-import {ExtractPropTypes, onMounted, reactive} from 'vue';
+import {computed, ExtractPropTypes, onMounted, reactive} from 'vue';
 import {useRefs} from "../../../../use/useRefs";
 import {TableProps} from "../../core/table.utils";
 import {useNumber} from "../../../../use/useNumber";
@@ -16,11 +16,26 @@ export function usePlc(
         collector: PlcCollector,
         el: HTMLDivElement,
     })
+
+    /*---------------------------------------state-------------------------------------------*/
+
     const state = reactive({
         /*表格宽度*/
         tableWidth: null as null | number,
     })
     const {numberState} = useNumber(props, ['bodyRowHeight', 'headRowHeight'])
+
+    /*---------------------------------------computed-------------------------------------------*/
+
+    const plcData = computed(() => {
+        if (!state.tableWidth) {
+            return null
+        }
+        const {children} = refs.collector!
+        return {
+            plcList: children,
+        }
+    })
 
     onMounted(() => {
         state.tableWidth = refs.el.offsetWidth
@@ -29,5 +44,6 @@ export function usePlc(
 
     return {
         numberState,
+        plcData,
     }
 }
