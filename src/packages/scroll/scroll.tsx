@@ -39,6 +39,8 @@ const Scroll = designComponent({
         autoScrollSpeed: {type: Number, default: 400},                                                  // 自动滚动的时候的速度，每秒钟滚动的距离
         scrollAfterDragEnd: {type: Boolean,},                                                           // 是否拖拽结束后才刷新滚动位置
         disableListTransition: {type: Boolean,},                                                        // 是否股弄懂的时候禁用pl-list的队列动画
+        horizontalScrollbarTooltip: {type: String},                                                     // 横向滚动条tooltip显示文本
+        verticalScrollbarTooltip: {type: String},                                                       // 纵向滚动条tooltip显示文本
     },
     emits: {
         onScroll: (e: Event) => true,
@@ -452,14 +454,14 @@ const Scroll = designComponent({
                     {
                         !props.hideScrollbar && props.scrollY && (
                             <div class="pl-vertical-scrollbar-wrapper">
-                                {<VerticalScrollbar/>}
+                                {<VerticalScrollbar tooltip={props.verticalScrollbarTooltip}/>}
                             </div>
                         )
                     }
                     {
                         !props.hideScrollbar && props.scrollX && (
                             <div class="pl-horizontal-scrollbar-wrapper">
-                                {<HorizontalScrollbar/>}
+                                {<HorizontalScrollbar tooltip={props.horizontalScrollbarTooltip}/>}
                             </div>
                         )
                     }

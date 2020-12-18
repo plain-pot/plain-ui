@@ -1,12 +1,15 @@
 import {designComponent} from "../../use/designComponent";
 import Scroll from "./scroll";
-import {reactive, computed} from 'vue';
+import {reactive, computed, withDirectives, resolveDirective} from 'vue';
 import {useStyles} from "../../use/useStyles";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 
 export const HorizontalScrollbar = designComponent({
-    setup() {
+    props: {
+        tooltip: {type: String},
+    },
+    setup({props}) {
 
         const dragState = {
             left: 0,
@@ -73,9 +76,16 @@ export const HorizontalScrollbar = designComponent({
 
         return {
             render: () => {
+                let content = <div class="pl-horizontal-scrollbar" style={styles.value} onMousedown={handler.onMousedown}/> as any
+                if (!!props.tooltip) {
+                    const TooltipDirective = resolveDirective('tooltip')
+                    if (!!TooltipDirective) {
+                        content = withDirectives(content, [[TooltipDirective, props.tooltip]])
+                    }
+                }
                 return (
                     <div class="pl-horizontal-scrollbar-wrapper">
-                        <div class="pl-horizontal-scrollbar" style={styles.value} onMousedown={handler.onMousedown}/>
+                        {content}
                     </div>
                 )
             }
