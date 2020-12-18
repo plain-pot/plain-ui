@@ -35,6 +35,7 @@ export function usePlc(
         const {children} = refs.collector!
         return formatPlcList({
             plcList: children,
+            props,
         })
     })
 
