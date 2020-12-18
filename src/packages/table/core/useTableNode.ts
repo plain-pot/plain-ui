@@ -1,11 +1,12 @@
 import {SimpleObject} from "../../../shims";
 import {TreeNodeCheckStatus} from "../../tree/utils/tree-constant";
 import {FormValidate, FormValidateResult, FormValidateReturn} from "../../form/form.validate";
-import {computed, ExtractPropTypes, reactive, ref} from 'vue';
+import {computed, ExtractPropTypes, onBeforeUnmount, reactive, ref, watchEffect} from 'vue';
 import {TableProps} from "./table.utils";
 import {useModel} from "../../../use/useModel";
 import {createKeyHandler} from "../../../utils/createKeyHandler";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {throttle} from "plain-utils/utils/throttle";
 
 export function useTableNode(
     {
@@ -28,12 +29,12 @@ export function useTableNode(
         getNodeByData: tableNodeGetter({props, getValidate})(),
         getNodeState: () => {
             const nodeMap = {} as Record<string, TableNode>;
-            const iterator = ({data, level, parentRef}: { data: SimpleObject, level: number, parentRef: () => TableNode }): TableNode => {
-                const node = utils.getNodeByData({data, level, parentRef})
+            const iterator = ({data, level, parentRef, summary}: { data: SimpleObject, level: number, parentRef: () => TableNode, summary: boolean }): TableNode => {
+                const node = utils.getNodeByData({data, level, parentRef, summary})
                 nodeMap[node.key] = node
                 const childrenData = !props.childrenField ? null : (data[props.childrenField!] as SimpleObject[])
                 if (!!childrenData) {
-                    node.children = childrenData.map(child => iterator({data: child, level: level + 1, parentRef: node.selfRef}))
+                    node.children = childrenData.map(child => iterator({data: child, level: level + 1, parentRef: node.selfRef, summary}))
                 }
                 return node
             }
@@ -44,6 +45,7 @@ export function useTableNode(
                 },
                 level: 0,
                 parentRef: null as any,
+                summary: false,
             })
             return {
                 nodeMap,
@@ -62,7 +64,7 @@ export function useTableNode(
         /*通过key找到node的映射*/
         nodeMap,
         /*拍平的数组*/
-        flatList: computed(() => {
+        flatNodes: computed(() => {
             let list: TableNode[] = []
             if (!state.root) {
                 return []
@@ -76,9 +78,22 @@ export function useTableNode(
             list.forEach((node, index) => node.index = index)
             return list
         }),
+        summaryNodes: computed(() => !props.summaryData ? null : props.summaryData.map((data) => utils.getNodeByData({data, level: 1, parentRef: null as any, summary: true})))
     })
 
-    return state
+    const stopWatchEffect = watchEffect(
+        () => iteratorTreeData({data: dataModel.value || [], childrenField: props.childrenField!}),
+        {
+            onTrigger: throttle(async () => {
+                const {root, nodeMap} = utils.getNodeState()
+                state.root = root
+                state.nodeMap = nodeMap
+            }, 100)
+        }
+    )
+    onBeforeUnmount(stopWatchEffect)
+
+    return {nodeState: state}
 }
 
 export type TableNode = {
@@ -134,7 +149,7 @@ function tableNodeGetter({props, getValidate}: { props: ExtractPropTypes<typeof 
     /*之所以要返回一个函数再执行一遍，是因为map要重新创建，以便不同的table使用不同的map做缓存*/
     return () => {
         const map = new WeakMap<object, TableNode>()
-        const get = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TableNode }) => {
+        const get = ({data, level, parentRef, summary}: { data: any, level: number, parentRef: () => TableNode, summary: boolean }) => {
             let node: (TableNode | undefined) = map.get(data)
             const key = keyManager(data, props.keyField)
             if (!!node) {
@@ -199,7 +214,7 @@ function tableNodeGetter({props, getValidate}: { props: ExtractPropTypes<typeof 
                     },
 
                     /*当前是否为合计行*/
-                    isSummary: false,
+                    isSummary: summary,
                     /*当前是否开启编辑状态*/
                     edit: false,
                     /*当前编辑行数据*/
@@ -280,4 +295,19 @@ function iterateNodes(
         }
         iterateChildrenFirst && handler(treeNode);
     })
+}
+
+/**
+ * 根据childrenField遍历data树形数据
+ * @author  韦胜健
+ * @date    2020/12/2 12:22
+ */
+function iteratorTreeData({data, childrenField}: { data?: SimpleObject[], childrenField: string }) {
+    if (!!data) {
+        data.forEach(item => {
+            if (!!item[childrenField]) {
+                iteratorTreeData({data: item[childrenField], childrenField})
+            }
+        })
+    }
 }

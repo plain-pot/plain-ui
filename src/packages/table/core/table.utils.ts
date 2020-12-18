@@ -28,15 +28,34 @@ export const enum TableHoverPart {
 }
 
 export const TableProps = {
+
+    /*---------------------------------------basic-------------------------------------------*/
+
     ...StyleProps,
     data: {type: Array as PropType<SimpleObject[]>},            // 显示的数据
+    virtual: {type: Boolean, default: false},                   // 虚拟滚动
+    summaryData: {type: Array as PropType<SimpleObject[]>},     // 表尾合计行数据
+    config: {type: Function as PropType<TablePropsConfig>},     // 配置列信息函数
+
+    // rules: {type: Object as PropType<FormComponentRules>},      // 校验规则
+    // colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
+    // spanMethod: {type: Function as PropType<TableSpanMethod>},  // 合并表体单元格的方法
 
     /*---------------------------------------style-------------------------------------------*/
+
+    // border: {type: Boolean},                                    // 是否带纵向边框
+    // stripe: {type: Boolean},                                    // 是否为斑马纹table
+    // hideHeader: {type: Boolean},                             // 是否隐藏表头
+    // disabledStickyCompatible: {type: Boolean},                  // 是否禁用在ie下的sticky兼容
     headRowHeight: {type: [String, Number], default: 45},       // 表头行高
     bodyRowHeight: {type: [String, Number], default: 40},       // 表体行高
     showRows: {type: Number, default: 10},                      // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
 
-    config: {type: Function as PropType<TablePropsConfig>},     // 配置列信息函数
+    // rowClassFunc: {type: Function as PropType<TableRowClassFunc>},// 行 className 的计算函数
+    // cellClassFunc: {type: Function as PropType<TableCellClassFunc>},// 单元格 className 的计算函数
+    // cellStyleFunc: {type: Function as PropType<TableCellStyleFunc>},// 单元格 style 内联样式的计算函数
+    // headCellClassFunc: {type: Function as PropType<TableHeadCellClassFunc>},// 表头单元格的 className 的计算函数
+    // headCellStyleFunc: {type: Function as PropType<TableHeadCellStyleFunc>},// 表头单元格 style 内联样式计算函数
 
     /*---------------------------------------tree-------------------------------------------*/
     lazy: {type: Boolean},                                      // 是否懒加载数据
@@ -44,7 +63,7 @@ export const TableProps = {
     loading: {type: Boolean, default: null},                    // 是否开启表格的加载状态
 
     keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
-    childrenField: {type: String},                              // 树节点对应子节点数据对应字段
+    childrenField: {type: String, default: 'children'},         // 树节点对应子节点数据对应字段
     getChildren: {type: Function as PropType<TablePropsGetChildren>},// 加载子节点数据的函数，仅当 lazy 为true时有效
     isCheckable: {type: Function as PropType<TablePropsIsCheckable>},// 当即将选中树节点时，判断是否可以选中该树节点
     isLeaf: {type: Function as PropType<TablePropsIsLeaf>},     // 判断树节点是否为叶子节点的函数，仅在lazy模式有效
