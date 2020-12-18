@@ -13,7 +13,7 @@ export const PltHeadCell = designComponent({
         return {
             render: () => {
                 return (
-                    <td>
+                    <td class="plt-head-cell" rowspan={props.tablePlc.rowspan} colspan={props.tablePlc.colspan}>
                         {props.tablePlc.props.title}
                     </td>
                 )

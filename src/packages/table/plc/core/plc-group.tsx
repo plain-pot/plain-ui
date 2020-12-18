@@ -1,10 +1,11 @@
 import {designComponent} from "../../../../use/designComponent";
-import {PlcGroupProps} from "./plc.utils";
+import {PlcGroupProps, PlcPublicAttrs} from "./plc.utils";
 import {TablePlcCollector} from './plc-collector';
 import {useSlots} from "../../../../use/useSlots";
 import {PlcGroup} from "./plc.type";
 import {useNumber} from "../../../../use/useNumber";
 import {computed, reactive} from 'vue';
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export default designComponent({
     name: 'plc-group',
@@ -33,6 +34,7 @@ export default designComponent({
 
         /*核心暴露对象*/
         const group: PlcGroup = reactive({
+            ...deepcopy(PlcPublicAttrs),
             group: true,
             children,
             props: formatProps,

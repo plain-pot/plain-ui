@@ -1,5 +1,5 @@
 import {ExtractPropTypes} from 'vue'
-import {PlcGroupProps, PlcProps} from "./plc.utils";
+import {PlcGroupProps, PlcProps, PlcPublicAttrs} from "./plc.utils";
 
 type PlcPropsType = Omit<ExtractPropTypes<typeof PlcProps>, 'width' | 'order'> & { width: number, order: number | undefined }
 type PlcStateType = { [k in keyof PlcPropsType]: PlcPropsType[k] | null }
@@ -7,7 +7,7 @@ type PlcStateType = { [k in keyof PlcPropsType]: PlcPropsType[k] | null }
 type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupProps>, 'order'> & { order: number | undefined }
 type PlcGroupStateType = { [k in keyof PlcGroupPropsType]: PlcGroupPropsType[k] | null }
 
-export type PlcGroup = {
+export type PlcGroup = typeof PlcPublicAttrs & {
     group: true,
     children: TablePlc[],
     props: PlcGroupPropsType,
@@ -15,7 +15,7 @@ export type PlcGroup = {
     refer: () => PlcGroup,
 }
 
-export type Plc = {
+export type Plc = typeof PlcPublicAttrs & {
     group: false,
     props: PlcPropsType,
     state: PlcStateType,

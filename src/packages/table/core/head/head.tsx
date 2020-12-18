@@ -3,6 +3,7 @@ import {PlainTable} from "../../table";
 import Scroll from '../../../scroll'
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PltHeadCell} from "./head-cell";
+import {useStyles} from "../../../../use/useStyles";
 
 export const PltHead = designComponent({
     name: 'plt-head',
@@ -10,15 +11,22 @@ export const PltHead = designComponent({
         table: {type: PlainTable, required: true},
     },
     setup({props}) {
+
+        const styles = useStyles(style => {
+            style.height = `${props.table.plcData.value!.headPlcListArray.length * props.table.numberState.headRowHeight}px`
+        })
+
         return {
             render: () => (
-                <div>
+                <div class="plt-head" style={styles.value}>
                     <Scroll scrollX>
                         <table>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
-                            <tr style={`height:${props.table.numberState.headRowHeight}px`}>
-                                {props.table.plcData.value!.flatPlcList.map((plc) => <PltHeadCell table={props.table} tablePlc={plc}/>)}
-                            </tr>
+                            {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (
+                                <tr style={`height:${props.table.numberState.headRowHeight}px`} key={arrayIndex}>
+                                    {array.map((plc) => <PltHeadCell table={props.table} tablePlc={plc}/>)}
+                                </tr>
+                            ))}
                         </table>
                     </Scroll>
                 </div>

@@ -1,9 +1,10 @@
 import {designComponent} from "../../../../use/designComponent";
-import {PlcProps} from "./plc.utils";
+import {PlcProps, PlcPublicAttrs} from "./plc.utils";
 import {TablePlcCollector} from './plc-collector';
 import {Plc} from "./plc.type";
 import {useNumber} from "../../../../use/useNumber";
 import {computed, reactive} from 'vue';
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export default designComponent({
     name: 'plc',
@@ -27,6 +28,7 @@ export default designComponent({
         }, {}) as { [k in keyof typeof formatProps.value]: typeof formatProps.value[k] | null })
 
         const plc: Plc = reactive({
+            ...deepcopy(PlcPublicAttrs),
             group: false,
             props: formatProps,
             state: propsState,

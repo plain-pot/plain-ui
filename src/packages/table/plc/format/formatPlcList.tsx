@@ -5,6 +5,7 @@ import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
 import {ExtractPropTypes} from 'vue';
 import {TableProps} from "../../core/table.utils";
 import {processPlcSort} from "./process/processPlcSort";
+import {processHeadPlcList} from "./process/processHeadPlcList";
 
 export function formatPlcList(
     {
@@ -23,10 +24,13 @@ export function formatPlcList(
     const {notFitVirtual} = processStateConfigAndProps({plcList, config: props.config})
     /*对plc进行排序*/
     const {fitPlcList, flatPlcList} = processPlcSort({plcList, tableWidth})
-
+    /*计算表头渲染需要的数据*/
+    const {maxLevel, headPlcListArray} = processHeadPlcList(plcList)
 
     return {
         plcList,
         flatPlcList,
+        notFitVirtual,
+        headPlcListArray,
     }
 }

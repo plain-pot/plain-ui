@@ -42,7 +42,6 @@ export function usePlc(
 
     onMounted(() => {
         state.tableWidth = refs.el.offsetWidth
-        console.log(plcData.value)
     })
 
     return {

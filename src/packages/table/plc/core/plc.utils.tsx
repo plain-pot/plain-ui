@@ -29,3 +29,16 @@ export const PlcProps = {
     fit: {type: Boolean},                                                   // 列宽自适应(只有一个列能够自适应)
     notFitVirtual: {type: Boolean},                                         // 是否不兼容表格的虚拟滚动功能
 }
+
+/**
+ * Plc以及PlcGroup公共的一些属性
+ * @author  韦胜健
+ * @date    2020/12/18 14:41
+ */
+export const PlcPublicAttrs = {
+    level: 0,
+    rowspan: 1,
+    colspan: 1,
+    isLastFixedLeft: false,
+    isFirstFixedRight: false,
+}
