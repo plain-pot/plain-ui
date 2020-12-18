@@ -3,6 +3,7 @@ import {useRefs} from "../../../../use/useRefs";
 import {TableProps} from "../../core/table.utils";
 import {useNumber} from "../../../../use/useNumber";
 import PlcCollector from "../core/plc-collector";
+import {formatPlcList} from "./formatPlcList";
 
 export function usePlc(
     {
@@ -32,14 +33,14 @@ export function usePlc(
             return null
         }
         const {children} = refs.collector!
-        return {
+        return formatPlcList({
             plcList: children,
-        }
+        })
     })
 
     onMounted(() => {
         state.tableWidth = refs.el.offsetWidth
-        console.log(refs.collector!.children)
+        console.log(plcData.value)
     })
 
     return {

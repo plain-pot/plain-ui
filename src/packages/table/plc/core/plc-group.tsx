@@ -23,7 +23,7 @@ export default designComponent({
         /*目标props*/
         const formatProps = computed(() => ({
             ...props,
-            numberState,
+            ...numberState,
         }) as Omit<typeof props, 'order'> & typeof numberState)
         /*props的一个副本，不过如果有值的情况下，优先级比props中的值高（比config值也高）*/
         const propsState = reactive(Object.keys(PlcGroupProps).reduce((ret: any, key: string) => {
