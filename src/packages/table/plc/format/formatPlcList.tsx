@@ -23,13 +23,14 @@ export function formatPlcList(
     /*处理state、config以及props*/
     const {notFitVirtual} = processStateConfigAndProps({plcList, config: props.config})
     /*对plc进行排序*/
-    const {fitPlcList, flatPlcList} = processPlcSort({plcList, tableWidth})
+    const {flatPlcList, targetTableWidth} = processPlcSort({plcList, tableWidth})
     /*计算表头渲染需要的数据*/
-    const {maxLevel, headPlcListArray} = processHeadPlcList(plcList)
+    const {headPlcListArray} = processHeadPlcList(plcList)
 
     return {
         plcList,
         flatPlcList,
+        targetTableWidth,
         notFitVirtual,
         headPlcListArray,
     }
