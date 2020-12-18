@@ -1,7 +1,8 @@
 import {SimpleObject, VNodeChild} from "../../../../shims";
 import {Plc, TablePlc} from "./plc.type";
-import {TableNode, TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
+import {TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
 import {PropType} from 'vue';
+import {TableNode} from "../../core/useTableNode";
 
 export type PlcRenderFunction = (scope: { node: TableNode, row: SimpleObject, plc: Plc }) => VNodeChild
 export type PlcPropsHead = (scope: { plc: TablePlc }) => VNodeChild

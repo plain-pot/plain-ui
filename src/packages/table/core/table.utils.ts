@@ -5,8 +5,6 @@ import {TablePlc} from "../plc/core/plc.type";
 
 export type TablePropsConfig = (plcList: TablePlc[]) => Record<string, any>
 
-export type TableNode = {}
-
 export enum TablePlcAlign {
     left = 'left',
     center = 'center',
