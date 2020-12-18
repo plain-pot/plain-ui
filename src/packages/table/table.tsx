@@ -6,6 +6,7 @@ import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableProps} from './core/table.utils';
 import {usePlc} from "./plc/format/usePlc";
+import {PropType} from 'vue';
 
 const Table = designComponent({
     name: 'pl-table',
@@ -39,6 +40,6 @@ const Table = designComponent({
     },
 })
 
-export type PlainTable = typeof Table.use.class
+export const PlainTable = Object as PropType<typeof Table.use.class>
 
 export default Table
