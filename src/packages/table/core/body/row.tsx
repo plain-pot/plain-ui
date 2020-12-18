@@ -13,7 +13,7 @@ export const PltRow = designComponent({
     setup({props}) {
         return {
             render: () => (
-                <tr>
+                <tr class="plt-row" style={`height:${props.table.numberState.bodyRowHeight}px`}>
                     {props.table.plcData.value!.flatPlcList.map(plc => <PltCell table={props.table} node={props.node} plc={plc}/>)}
                 </tr>
             )

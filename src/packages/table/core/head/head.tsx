@@ -16,7 +16,7 @@ export const PltHead = designComponent({
                     <Scroll scrollX>
                         <table>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
-                            <tr>
+                            <tr style={`height:${props.table.numberState.headRowHeight}px`}>
                                 {props.table.plcData.value!.flatPlcList.map((plc) => <PltHeadCell table={props.table} tablePlc={plc}/>)}
                             </tr>
                         </table>
