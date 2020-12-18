@@ -18,7 +18,7 @@ const Table = designComponent({
     },
     emits: {
         onUpdateData: (data?: SimpleObject[]) => true,
-        onScrollLeft: (e: Event, part: TableHoverPart) => true,
+        onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,
     },
     setup({props, event}) {
         const {emit} = event
@@ -34,6 +34,7 @@ const Table = designComponent({
             plcData,
             dataModel,
             bindScroll,
+            event,
         }
 
         return {

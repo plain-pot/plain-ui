@@ -30,12 +30,20 @@ export const PltHead = designComponent({
             TableHoverPart.head,
             (scrollLeft, part) => part !== TableHoverPart.head && refs.scroll!.methods.scroll({x: scrollLeft}, {noEmitScroll: true})
         )
+        const onMousewheel = (e: WheelEvent) => {
+            const {deltaX, deltaY} = e
+            if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                e.preventDefault()
+                e.stopPropagation()
+                refs.scroll!.refs.wrapper.scrollLeft = refs.scroll!.refs.wrapper.scrollLeft + deltaY / 3
+            }
+        }
 
         return {
             render: () => (
                 <div class="plt-head" style={styles.value} onMouseenter={bindScroll.onMouseenter}>
                     <Scroll hideScrollbar scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref="scroll">
-                        <table {...{cellspacing: 0, cellpadding: 0, border: 0, style: tableStyles.value}}>
+                        <table {...{cellspacing: 0, cellpadding: 0, border: 0, style: tableStyles.value}} {...{onMousewheel: onMousewheel}}>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (
                                 <tr style={`height:${props.table.numberState.headRowHeight}px`} key={arrayIndex}>
