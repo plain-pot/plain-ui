@@ -1,6 +1,10 @@
 import {SimpleObject} from "../../../shims";
 import {TreeNodeCheckStatus} from "../../tree/utils/tree-constant";
 import {FormValidateResult, FormValidateReturn} from "../../form/form.validate";
+import {ExtractPropTypes} from 'vue';
+import {TableProps} from "./table.utils";
+import {useModel} from "../../../use/useModel";
+import {createKeyHandler} from "../../../utils/createKeyHandler";
 
 export type TableNode = {
 
@@ -43,5 +47,38 @@ export type TableNode = {
     cancelEdit: () => void,                             // 取消编辑状态
     validate: () => Promise<FormValidateReturn | null>, // 校验数据
     saveEdit: (newRow: SimpleObject) => Promise<void>,  // 保存编辑，将editRow以及newRow（请求得到的新对象）覆盖data
+
+}
+
+function tableNodeGetter(props: ExtractPropTypes<typeof TableProps>) {
+    const keyManager = createKeyHandler('table')
+    return () => {
+        const map = new WeakMap<object, TableNode>()
+        const get = ({data, level, parentRef}: { data: any, level: number, parentRef: () => TableNode }) => {
+            let node: (TableNode | undefined) = map.get(data)
+            const key = keyManager(data)
+            if (!!node) {
+
+            }
+        }
+        return get
+    }
+}
+
+export function useTableNode(
+    {
+        props,
+        emit,
+    }: {
+        props: ExtractPropTypes<typeof TableProps>,
+        emit: { onUpdateData: (data?: SimpleObject[]) => void }
+    }
+) {
+
+    /*---------------------------------------state-------------------------------------------*/
+
+    /*因为可能会发生拖拽节点，懒加载数据等操作，这里table内保存一份数据快照*/
+    const dataModel = useModel(() => props.data, emit.onUpdateData)
+
 
 }
