@@ -17,19 +17,23 @@ export const PltHead = designComponent({
         const {refs} = useRefs({
             scroll: Scroll,
         })
+        /*Scroll的父节点需要固定高度*/
         const styles = useStyles(style => {
             style.height = `${props.table.plcData.value!.headPlcListArray.length * (props.table.numberState.headRowHeight + 1)}px`
         })
+        /*当总的列宽度大于表格宽度时，设置宽度*/
         const tableStyles = useStyles(style => {
             const {targetTableWidth} = props.table.plcData.value!
             if (!!targetTableWidth) {
                 style.width = `${targetTableWidth}px`
             }
         })
+        /*表头表体联动滚动*/
         const bindScroll = props.table.bindScroll(
             TableHoverPart.head,
             (scrollLeft, part) => part !== TableHoverPart.head && refs.scroll!.methods.scroll({x: scrollLeft}, {noEmitScroll: true})
         )
+        /*表头支持鼠标滚动横向滚动*/
         const onMousewheel = (e: WheelEvent) => {
             const {deltaX, deltaY} = e
             if (Math.abs(deltaY) > Math.abs(deltaX)) {
