@@ -13,14 +13,14 @@ export const PltHead = designComponent({
     setup({props}) {
 
         const styles = useStyles(style => {
-            style.height = `${props.table.plcData.value!.headPlcListArray.length * props.table.numberState.headRowHeight}px`
+            style.height = `${props.table.plcData.value!.headPlcListArray.length * (props.table.numberState.headRowHeight + 1)}px`
         })
 
         return {
             render: () => (
                 <div class="plt-head" style={styles.value}>
                     <Scroll scrollX>
-                        <table>
+                        <table {...{cellspacing: 0, cellpadding: 0, border: 0}}>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (
                                 <tr style={`height:${props.table.numberState.headRowHeight}px`} key={arrayIndex}>

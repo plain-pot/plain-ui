@@ -2,7 +2,7 @@
   $tableHeadColor: rgba(0, 0, 0, 0.85);
   $tableHeadBackground: #f5f7fa;
   $tableHeadHoverBackground: #e4e7ef;
-  $tableHeadBorderColor: #eceff7;
+  $tableHeadBorderColor: #d0d3db;
 
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
@@ -94,6 +94,21 @@
     display: none;
   }
   /*---------------------------------------head-------------------------------------------*/
+  .plt-head {
+    tr {
+      border-bottom: solid 1px $tableHeadBorderColor;
+      border-top: solid 1px $tableHeadBorderColor;
+    }
+
+    td {
+      background-color: $tableHeadBackground;
+      color: $tableHeadColor;
+
+      &:hover {
+        background-color: $tableHeadHoverBackground;
+      }
+    }
+  }
   /*---------------------------------------body-------------------------------------------*/
   /*---------------------------------------row-------------------------------------------*/
   .plt-row {
