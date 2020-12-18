@@ -16,7 +16,7 @@ export const PltBody = designComponent({
         return {
             render: () => (
                 <VirtualTable
-                    width={props.table.plcData.value!.targetTableWidth || undefined}
+                    width={props.table.plcData.value!.targetTableWidth!}
                     size={props.table.numberState.bodyRowHeight}
                     data={props.table.dataModel.value}
                     height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}

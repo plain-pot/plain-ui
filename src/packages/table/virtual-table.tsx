@@ -40,9 +40,9 @@ export const VirtualTable = designComponent({
         const styles = useStyles(style => {
             style.height = unit(props.height)
         })
-        const tableStyles = computed(() => ({
-            width: `${props.width}px`,
-        }))
+        const tableStyles = useStyles((style) => {
+            !!props.width && (style.width = unit(props.width))
+        })
 
         const summaryTableStyles = computed(() => {
             return {
@@ -55,6 +55,11 @@ export const VirtualTable = designComponent({
             Object.assign(style, virtual.contentStyles.value)
             const summaryHeight = (props.summaryData || []).length * props.size
             style.paddingBottom = `${summaryHeight}px`
+        })
+
+        const strutStyles = useStyles(style => {
+            Object.assign(style, virtual.strutStyles.value)
+            !!props.width && (style.width = unit(props.width));
         })
 
         const handler = {
@@ -79,7 +84,7 @@ export const VirtualTable = designComponent({
                             scrollX
                             class={virtual.classes.value}
                             v-slots={{
-                                default: () => (<div class="pl-virtual-list-strut" style={virtual.strutStyles.value}>
+                                default: () => (<div class="pl-virtual-list-strut" style={strutStyles.value}>
                                     <div class="pl-virtual-list-content" ref="content" style={contentStyles.value}>
                                         <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
                                             {slots.colgroup()}
