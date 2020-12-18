@@ -19,6 +19,11 @@ export enum TablePlcFixedType {
     right = 'right',
 }
 
+export const enum TableHoverPart {
+    body = 'body',
+    head = 'head'
+}
+
 export const TableProps = {
     ...StyleProps,
     data: {type: Array as PropType<SimpleObject[]>},            // 显示的数据

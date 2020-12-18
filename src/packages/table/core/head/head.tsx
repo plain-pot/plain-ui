@@ -4,6 +4,8 @@ import Scroll from '../../../scroll'
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PltHeadCell} from "./head-cell";
 import {useStyles} from "../../../../use/useStyles";
+import {TableHoverPart} from "../table.utils";
+import {useRefs} from "../../../../use/useRefs";
 
 export const PltHead = designComponent({
     name: 'plt-head',
@@ -12,6 +14,9 @@ export const PltHead = designComponent({
     },
     setup({props}) {
 
+        const {refs} = useRefs({
+            scroll: Scroll,
+        })
         const styles = useStyles(style => {
             style.height = `${props.table.plcData.value!.headPlcListArray.length * (props.table.numberState.headRowHeight + 1)}px`
         })
@@ -21,11 +26,15 @@ export const PltHead = designComponent({
                 style.width = `${targetTableWidth}px`
             }
         })
+        const bindScroll = props.table.bindScroll(
+            TableHoverPart.head,
+            (scrollLeft, part) => part !== TableHoverPart.head && refs.scroll!.methods.scroll({x: scrollLeft}, {noEmitScroll: true})
+        )
 
         return {
             render: () => (
-                <div class="plt-head" style={styles.value}>
-                    <Scroll scrollX refreshState={props.table.plcData.value!.targetTableWidth}>
+                <div class="plt-head" style={styles.value} onMouseenter={bindScroll.onMouseenter}>
+                    <Scroll scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref="scroll">
                         <table {...{cellspacing: 0, cellpadding: 0, border: 0, style: tableStyles.value}}>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (

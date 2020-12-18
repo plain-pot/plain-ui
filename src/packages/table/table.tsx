@@ -4,11 +4,12 @@ import PlcCollector from './plc/core/plc-collector'
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
 import './table.scss'
-import {TableProps} from './core/table.utils';
+import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlc} from "./plc/format/usePlc";
 import {PropType} from 'vue';
 import {useTableTree} from "./core/body/useTableTree";
 import {SimpleObject} from "../../shims";
+import {useBindScroll} from "./core/useBindScroll";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -17,18 +18,22 @@ const Table = designComponent({
     },
     emits: {
         onUpdateData: (data?: SimpleObject[]) => true,
+        onScrollLeft: (e: Event, part: TableHoverPart) => true,
     },
-    setup({props, event: {emit}}) {
+    setup({props, event}) {
+        const {emit} = event
 
         const {slots} = useSlots()
         const {numberState, plcData} = usePlc({props})
         const {dataModel} = useTableTree({props, emit})
+        const {bindScroll} = useBindScroll(event)
 
         const refer = {
             props,
             numberState,
             plcData,
             dataModel,
+            bindScroll,
         }
 
         return {
