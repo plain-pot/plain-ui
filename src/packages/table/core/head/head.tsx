@@ -2,6 +2,7 @@ import {designComponent} from "../../../../use/designComponent";
 import {PropType} from 'vue';
 import {PlainTable} from "../../table";
 import Scroll from '../../../scroll'
+import {renderColgroup} from "../../plc/core/renderColgroup";
 
 export const PltHead = designComponent({
     name: 'plt-head',
@@ -14,16 +15,13 @@ export const PltHead = designComponent({
                 <div>
                     <Scroll scrollX>
                         <table>
-                            <colgroup>
-                                {props.table.plcData.value!.plcList.map((plc) => (
-                                    <col style={""}/>
-                                ))}
-                            </colgroup>
+                            {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             <tr>
-                                <td>张三</td>
-                                <td>李四</td>
-                                <td>王五</td>
-                                <td>赵六</td>
+                                {props.table.plcData.value!.flatPlcList.map((plc) => (
+                                    <td>
+                                        {plc.props.title}
+                                    </td>
+                                ))}
                             </tr>
                         </table>
                     </Scroll>
