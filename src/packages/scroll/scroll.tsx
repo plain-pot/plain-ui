@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import {useMounted} from "../../use/useMounted";
-import {computed, nextTick, onBeforeUnmount, onMounted, reactive} from 'vue';
+import {computed, nextTick, onBeforeUnmount, onMounted, reactive, watch} from 'vue';
 import {throttle} from 'plain-utils/utils/throttle';
 import {ResizeDetectFuncParam, ResizeDetectorDirective} from "../../plugins/ResizeDetector";
 import Popper from '../popper'
@@ -23,6 +23,7 @@ const Scroll = designComponent({
     name: 'pl-scroll',
     directives: {resize: ResizeDetectorDirective},
     props: {
+        refreshState: {},                                                                               // 监听改属性，以便自动执行refresh刷新
         scrollbarSize: {type: Number},                                                                  // 滚动条大小
         scrollbarColor: {type: String, default: 'rgba(144,147,153,.3)'},                                // 滚动条颜色
         scrollX: {type: Boolean},                                                                       // 可以横向滚动
@@ -414,6 +415,8 @@ const Scroll = designComponent({
                 popper.event.off.onShow(handler.popperShow)
             }
         })
+
+        watch(() => props.refreshState, methods.refresh)
 
         return {
             refer: {

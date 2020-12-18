@@ -25,7 +25,7 @@ export const PltHead = designComponent({
         return {
             render: () => (
                 <div class="plt-head" style={styles.value}>
-                    <Scroll scrollX>
+                    <Scroll scrollX refreshState={props.table.plcData.value!.targetTableWidth}>
                         <table {...{cellspacing: 0, cellpadding: 0, border: 0, style: tableStyles.value}}>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (

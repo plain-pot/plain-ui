@@ -72,6 +72,7 @@ export const VirtualTable = designComponent({
                 return (
                     <div style={styles.value} class="pl-virtual-table">
                         <Scroll
+                            refreshState={props.width}
                             ref="scroll"
                             disableListTransition
                             onScroll={handler.onScroll}
