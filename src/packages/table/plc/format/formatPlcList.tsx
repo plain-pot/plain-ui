@@ -1,21 +1,6 @@
 import {Plc, TablePlc} from "../core/plc.type";
-import {IteratePlcHandleType, iteratePlcList} from "./iteratePlcList";
-
-/**
- * 复制一份plc数据
- * @author  韦胜健
- * @date    2020/12/18 10:06
- */
-function copyPlcList(plcList: TablePlc[]) {
-    return plcList.map(plc => {
-        const newPlc = {...plc.refer()}
-        newPlc.props = {...newPlc.props}
-        if (newPlc.group) {
-            newPlc.children = copyPlcList(newPlc.children)
-        }
-        return newPlc
-    })
-}
+import {IteratePlcHandleType, iteratePlcList} from "./utils/iteratePlcList";
+import {copyPlcList} from "./process/copyPlcList";
 
 export function formatPlcList(
     {

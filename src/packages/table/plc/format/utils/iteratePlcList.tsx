@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2020/8/14 17:26
  */
-import {Plc, PlcGroup, TablePlc} from "../core/plc.type";
+import {Plc, PlcGroup, TablePlc} from "../../core/plc.type";
 
 export const enum IteratePlcHandleType {
     remove = 'remove',                      // 移除当前节点
