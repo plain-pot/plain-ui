@@ -1,5 +1,6 @@
 import {Plc, TablePlc, TableRenderScope} from "./plc.type";
 import {TableNode} from "../../core/useTableNode";
+import {VNodeChild} from "../../../../shims";
 
 export function renderHeadCell(plc: TablePlc) {
     // 如果存在 head作用域插槽，渲染head作用域插槽
@@ -23,7 +24,11 @@ export function renderBodyCell(
     }
 ) {
     const editable = getEditable(plc, node)
-
+    const body = getBodyCell({node, plc, editable})
+    return {
+        editable,
+        body,
+    }
 }
 
 /**
@@ -52,15 +57,56 @@ function getEditable(plc: Plc, node: TableNode) {
 function getBodyCell(
     {
         node,
-        plc
+        plc,
+        editable,
     }: {
         node: TableNode,
         plc: Plc,
+        editable: boolean,
     }
-) {
-    let renderData: TableRenderScope
+): VNodeChild {
+    let renderScope: TableRenderScope
     if (node.isSummary) {
+        // 合计行中的row一直是原始的row对象
+        renderScope = {node, plc, row: node.data}
+        // 合计行，使用作用域插槽 summary渲染，没有则使用渲染函数summary渲染，么有则使用 default作用域插槽渲染，没有
+        // 则使用渲染函数default渲染，没有则直接渲染field对应的值
+        if (plc.scopedSlots.summary.isExist()) {
+            return plc.scopedSlots.summary(renderScope)
+        }
+        if (!!plc.props.summary) {
+            return plc.props.summary(renderScope)
+        }
+        if (plc.scopedSlots.default.isExist()) {
+            return plc.scopedSlots.default(renderScope)
+        }
+        if (!!plc.props.default) {
+            return plc.props.default(renderScope)
+        }
+        return !!plc.props.field ? renderScope.row[plc.props.field] : null
+    } else {
+        // 如果当前行处于可编辑状态，则渲染的行数据对象为 rowData.editRow，否则为 rowData.data
+        let row = node.edit ? node.editRow : node.data
+        renderScope = {node, plc, row}
 
+        if (editable) {
+            // 当前一定存在 plc.scopedSlots.edit 或者 plc.props.edit，否则 editable不可能为true
+            if (plc.scopedSlots.edit.isExist()) {
+                return plc.scopedSlots.edit(renderScope)
+            }
+            if (!!plc.props.edit) {
+                return plc.props.edit(renderScope)
+            }
+        } else {
+            // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
+            // 使用作用域插槽default渲染，没有则使用渲染函数default渲染，没有则直接显示field对应的值
+            if (plc.scopedSlots.default.isExist()) {
+                return plc.scopedSlots.default(renderScope)
+            }
+            if (!!plc.props.default) {
+                return plc.props.default(renderScope)
+            }
+            return !!plc.props.field ? renderScope.row[plc.props.field] : null
+        }
     }
-
 }

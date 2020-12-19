@@ -3,6 +3,7 @@ import {PlainTable} from "../../table";
 import {PropType} from 'vue';
 import {TablePlc} from "../../plc/core/plc.type";
 import {useHeadCellResize} from "./useHeadCellResize";
+import {renderHeadCell} from "../../plc/core/render";
 
 export const PltHeadCell = designComponent({
     name: 'plt-head-cell',
@@ -16,12 +17,13 @@ export const PltHeadCell = designComponent({
 
         return {
             render: () => {
+                const content = renderHeadCell(props.tablePlc)
                 return (
                     <td class={props.tablePlc.classes.head}
                         style={props.tablePlc.styles.head as any}
                         rowspan={props.tablePlc.rowspan}
                         colspan={props.tablePlc.colspan}>
-                        {props.tablePlc.props.title}
+                        {content}
                         <span class="plt-head-cell-indicator" onMousedown={resizeHandler.mousedown}/>
                     </td>
                 )
