@@ -40,6 +40,10 @@ export default designComponent({
             props: formatProps,
             state: propsState,
             refer: () => group,
+            setDurWidth: (durWidth: number) => {
+                const itemDurWidth = Math.floor(durWidth / (children.length))
+                children.forEach(item => item.setDurWidth(itemDurWidth))
+            },
         })
 
         return {

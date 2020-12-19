@@ -13,6 +13,7 @@ export type PlcGroup = PlcPublicAttrsType & {
     props: PlcGroupPropsType,
     state: PlcGroupStateType,
     refer: () => PlcGroup,
+    setDurWidth: (width: number) => void,
 }
 
 export type Plc = PlcPublicAttrsType & {
@@ -20,6 +21,7 @@ export type Plc = PlcPublicAttrsType & {
     props: PlcPropsType,
     state: PlcStateType,
     refer: () => Plc,
+    setDurWidth: (width: number) => void,
 }
 
 export type TablePlc = PlcGroup | Plc

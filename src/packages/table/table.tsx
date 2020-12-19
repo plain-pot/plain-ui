@@ -11,6 +11,7 @@ import {useTableTree} from "./core/body/useTableTree";
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
 import {useTableNode} from "./core/useTableNode";
+import {useRefs} from "../../use/useRefs";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -22,8 +23,12 @@ const Table = designComponent({
         onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,
     },
     setup({props, event}) {
-        const {emit} = event
 
+        const {refs} = useRefs({
+            el: HTMLDivElement,
+        })
+
+        const {emit} = event
         const {slots} = useSlots()
         const {numberState, plcData} = usePlc({props})
         const {dataModel} = useTableTree({props, emit})
@@ -34,6 +39,7 @@ const Table = designComponent({
         const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
 
         const refer = {
+            refs,
             props,
             numberState,
             plcData,
