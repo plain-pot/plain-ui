@@ -2,10 +2,10 @@ import {designComponent} from "../../../../use/designComponent";
 import {PlainTable} from "../../table";
 import {PltRow} from "./row";
 import {VirtualTable} from "../../virtual-table";
-import {SimpleObject} from "../../../../shims";
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {useRefs} from "../../../../use/useRefs";
 import {TableHoverPart} from "../table.utils";
+import {TableNode} from "../useTableNode";
 
 export const PltBody = designComponent({
     name: 'plt-head',
@@ -38,12 +38,13 @@ export const PltBody = designComponent({
                     ref="virtual"
                     width={props.table.plcData.value!.targetTableWidth!}
                     size={props.table.numberState.bodyRowHeight}
-                    data={props.table.dataModel.value}
+                    data={props.table.nodeState.flatNodes}
+                    summaryData={props.table.nodeState.summaryNodes || undefined}
                     height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
                     {...bindScroll}
                     {...{onMousewheel}}
                     v-slots={{
-                        default: ({item, index}: { item: SimpleObject, index: number }) => (
+                        default: ({item, index}: { item: TableNode, index: number }) => (
                             <PltRow
                                 {...{vid: index}}
                                 key={index}

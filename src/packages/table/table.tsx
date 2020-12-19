@@ -41,7 +41,7 @@ const Table = designComponent({
         }
 
         onMounted(() => {
-            console.log(refer.nodeState)
+            // console.log(refer.nodeState)
         })
 
         return {
