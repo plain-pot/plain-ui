@@ -1,12 +1,12 @@
-import {SimpleObject, StyleProperties, VNodeChild} from "../../../../shims";
-import {Plc, TablePlc} from "./plc.type";
+import {StyleProperties, VNodeChild} from "../../../../shims";
+import {TablePlc, TableRenderScope} from "./plc.type";
 import {TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
 import {PropType} from 'vue';
 import {TableNode} from "../../core/useTableNode";
 import {MultipleClass} from "../../../../use/useClasses";
 import {FormRule} from "../../../form/form.validate";
 
-export type PlcRenderFunction = (scope: { node: TableNode, row: SimpleObject, plc: Plc }) => VNodeChild
+export type PlcRenderFunction = (scope: TableRenderScope) => VNodeChild
 export type PlcPropsHead = (scope: { plc: TablePlc }) => VNodeChild
 export type PlcPropsDefault = PlcRenderFunction
 export type PlcPropsSummary = PlcRenderFunction

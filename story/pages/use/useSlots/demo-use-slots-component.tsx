@@ -1,6 +1,6 @@
 import {designComponent} from "../../../../src/use/designComponent";
 import {useSlots} from "../../../../src/use/useSlots";
-import {computed, watch} from 'vue';
+import {computed} from 'vue';
 
 export const DemoUseSlotsComponent = designComponent({
     name: 'demo-use-slots-component',
@@ -30,7 +30,7 @@ export const DemoUseSlotsComponent = designComponent({
 
         return {
             render() {
-                console.log('render')
+                console.log('render.tsx')
                 return (
                     <div class={classes.value}>
                         <div class="demo-use-slots-component-head">

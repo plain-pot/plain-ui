@@ -7,7 +7,6 @@ import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlc} from "./plc/format/usePlc";
 import {computed, onMounted, PropType} from 'vue';
-import {useTableTree} from "./core/body/useTableTree";
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
 import {useTableNode} from "./core/useTableNode";
@@ -36,7 +35,6 @@ const Table = designComponent({
         const {emit} = event
         const {slots} = useSlots()
         const {numberState, plcData} = usePlc({props})
-        const {dataModel} = useTableTree({props, emit})
         const {bindScroll} = useBindScroll(event)
         const {nodeState} = useTableNode({props, emit, getValidate: () => null as any})
         const {fixedShadowClass} = useFixedShadow(event)
@@ -59,7 +57,6 @@ const Table = designComponent({
             props,
             numberState,
             plcData,
-            dataModel,
             bindScroll,
             event,
             nodeState,

@@ -1,7 +1,9 @@
 import {ExtractPropTypes} from 'vue'
 import {PlcGroupProps, PlcProps, PlcPublicAttrsType} from "./plc.utils";
-import {VNodeChild} from "../../../../shims";
+import {SimpleObject, VNodeChild} from "../../../../shims";
 import {TableNode} from "../../core/useTableNode";
+
+export type TableRenderScope = { plc: Plc, node: TableNode, row: SimpleObject }
 
 type PlcPropsType = Omit<ExtractPropTypes<typeof PlcProps>, 'width' | 'order'> & { width: number, order: number | undefined }
 type PlcStateType = { [k in keyof PlcPropsType]: PlcPropsType[k] | null }
@@ -31,9 +33,9 @@ export type Plc = PlcPublicAttrsType & {
     setDurWidth: (width: number) => void,
     scopedSlots: {
         head: ScopedSlotFunc<((scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild)>,
-        default: ScopedSlotFunc<((scope: { node: TableNode, plc: Plc }, vnode?: VNodeChild) => VNodeChild)>,
-        edit: ScopedSlotFunc<((scope: { node: TableNode, plc: Plc }, vnode?: VNodeChild) => VNodeChild)>,
-        summary: ScopedSlotFunc<((scope: { node: TableNode, plc: Plc }, vnode?: VNodeChild) => VNodeChild)>,
+        default: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
+        edit: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
+        summary: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
     },
 }
 
