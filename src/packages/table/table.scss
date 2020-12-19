@@ -72,7 +72,10 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        background-color: $tableHeadBackground;
+
+        td {
+          background-color: $tableHeadBackground;
+        }
       }
     }
   }
@@ -103,11 +106,6 @@
   }
   /*---------------------------------------head-------------------------------------------*/
   .plt-head {
-    tr {
-      border-bottom: solid 1px $tableHeadBorderColor;
-      border-top: solid 1px $tableHeadBorderColor;
-    }
-
     td {
       background-color: $tableHeadBackground;
       color: $tableHeadColor;
@@ -129,6 +127,19 @@
   .plt-row {
     &:not(:last-child) {
       border-bottom: solid 1px $tableHeadBorderColor;
+    }
+  }
+  .plt-head {
+    tr {
+      border-bottom: solid 1px $tableHeadBorderColor;
+      border-top: solid 1px $tableHeadBorderColor;
+    }
+  }
+  .plt-body {
+    .pl-virtual-table-summary-table-wrapper {
+      & > table {
+        border-top: solid 1px $tableHeadBorderColor;
+      }
     }
   }
   /*---------------------------------------cell-------------------------------------------*/
