@@ -136,7 +136,7 @@
 
                 other: {
                     hasSummaryData: true,                       // 是否由合计行数据
-                    groupHead: true,                            // 表头分组
+                    groupHead: false,                            // 表头分组
                 },
                 props: {
                     headRowHeight: 40,
