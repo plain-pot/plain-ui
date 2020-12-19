@@ -1,6 +1,6 @@
 import {designComponent} from "../../../../use/designComponent";
 import {useSlots} from "../../../../use/useSlots";
-import {ref, getCurrentInstance, ComponentPublicInstance, provide, inject, onMounted, onBeforeUnmount} from 'vue';
+import {ComponentPublicInstance, getCurrentInstance, inject, onBeforeUnmount, onMounted, provide, ref} from 'vue';
 import {TablePlc} from "./plc.type";
 
 export const TablePlcCollector = (() => {
@@ -11,7 +11,9 @@ export const TablePlcCollector = (() => {
             children: children.value,
             add: (proxy: ComponentPublicInstance) => {
                 const el = proxy.$el as HTMLElement
-                const index = Array.from(el.parentElement!.childNodes).indexOf(el)
+                const index = Array.from(el.parentElement!.childNodes)
+                    .filter((item: any) => item.nodeName !== '#comment' && item.nodeName !== '#text' && (!item.style || item.style.display !== 'none'))
+                    .indexOf(el)
                 children.value.splice(index, 0, proxy as any)
             },
             remove: (proxy: ComponentPublicInstance) => {

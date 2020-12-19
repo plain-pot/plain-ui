@@ -37,11 +37,7 @@ export default designComponent({
 
         return {
             refer: plc,
-            render: () => (
-                <div>
-                    plc-{props.title}-{props.field}
-                </div>
-            )
+            render: () => (<i {...{title: props.title, field: props.field}}/>)
         }
     },
 })
