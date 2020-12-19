@@ -88,6 +88,14 @@
      * 当总列宽大于表格宽度时，table设置具体的width宽度，fit值无效，以列具体宽度为准；
      */
     min-width: 100%;
+
+    tr {
+      td {
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   }
   /*---------------------------------------collector-------------------------------------------*/
   .plc-collector {
