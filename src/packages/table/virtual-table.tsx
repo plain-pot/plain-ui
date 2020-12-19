@@ -44,22 +44,15 @@ export const VirtualTable = designComponent({
             !!props.width && (style.width = unit(props.width))
         })
 
-        const summaryTableStyles = computed(() => {
-            return {
-                ...tableStyles.value,
-                height: `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
-            }
-        })
-
-        const contentStyles = useStyles((style) => {
-            Object.assign(style, virtual.contentStyles.value)
-            const summaryHeight = (props.summaryData || []).length * props.size
-            style.paddingBottom = `${summaryHeight}px`
-        })
+        const summaryTableStyles = computed(() => ({
+            ...tableStyles.value,
+            height: `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
+        }))
 
         const strutStyles = useStyles(style => {
             Object.assign(style, virtual.strutStyles.value)
             !!props.width && (style.width = unit(props.width));
+            style.paddingBottom = `${(props.summaryData || []).length * props.size}px`
         })
 
         const handler = {
@@ -89,7 +82,7 @@ export const VirtualTable = designComponent({
                             horizontalScrollbarTooltip={'推荐【表头使用鼠标滚轮】，或者【表体Alt键+鼠标滚轮】横向滚动'}
                             v-slots={{
                                 default: () => (<div class="pl-virtual-list-strut" style={strutStyles.value}>
-                                    <div class="pl-virtual-list-content" ref="content" style={contentStyles.value}>
+                                    <div class="pl-virtual-list-content" ref="content" style={virtual.contentStyles.value}>
                                         <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
                                             {slots.colgroup()}
                                             {list.map((node) => scopedSlots.default(node))}
