@@ -32,15 +32,31 @@ export const PlcProps = {
     notFitVirtual: {type: Boolean},                                         // 是否不兼容表格的虚拟滚动功能
 }
 
+export type PlcPublicAttrsType = {
+    level: number,                      // 分组表头层级
+    rowspan: number,                    // 表头td的rowspan
+    colspan: number,                    // 表头td的colspan
+    isLastFixedLeft: boolean,           // 是否为最后一个左固定列
+    isFirstFixedRight: boolean,         // 是否为第一个右固定列
+    fixedPosition: {                    // 固定列的sticky位置
+        left: number,
+        right: number,
+    },
+}
+
 /**
  * Plc以及PlcGroup公共的一些属性
  * @author  韦胜健
  * @date    2020/12/18 14:41
  */
-export const PlcPublicAttrs = {
+export const PlcPublicAttrs: PlcPublicAttrsType = {
     level: 0,
     rowspan: 1,
     colspan: 1,
     isLastFixedLeft: false,
     isFirstFixedRight: false,
+    fixedPosition: {
+        left: 0,
+        right: 0,
+    },
 }
