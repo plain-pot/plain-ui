@@ -5,7 +5,6 @@ import {useSlots} from "../../../../use/useSlots";
 import {PlcGroup} from "./plc.type";
 import {useNumber} from "../../../../use/useNumber";
 import {computed, reactive} from 'vue';
-import {deepcopy} from "plain-utils/object/deepcopy";
 
 export default designComponent({
     name: 'plc-group',
@@ -34,7 +33,8 @@ export default designComponent({
 
         /*核心暴露对象*/
         const group: PlcGroup = reactive({
-            ...deepcopy(PlcPublicAttrs),
+            /*PlcPublicAttrs 在 copyPlc中会深度复制一遍，这里适配类型即可*/
+            ...PlcPublicAttrs,
             group: true,
             children,
             props: formatProps,

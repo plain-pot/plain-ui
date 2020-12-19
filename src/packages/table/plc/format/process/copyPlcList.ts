@@ -1,4 +1,6 @@
 import {TablePlc} from "../../core/plc.type";
+import {deepcopy} from "plain-utils/object/deepcopy";
+import {PlcPublicAttrs} from "../../core/plc.utils";
 
 /**
  * 浅复制一份plc数据，复制plc最外层对象以及plc.props数据，props数据是需要动态计算修改的。
@@ -8,7 +10,11 @@ import {TablePlc} from "../../core/plc.type";
  */
 export function copyPlcList(plcList: TablePlc[]) {
     return plcList.map(plc => {
-        const newPlc = {...plc.refer()}
+        const refer = plc.refer()
+        const newPlc: TablePlc = {
+            ...refer,
+            ...deepcopy(PlcPublicAttrs),
+        }
         newPlc.props = {...newPlc.props}
         if (newPlc.group) {
             newPlc.children = copyPlcList(newPlc.children)

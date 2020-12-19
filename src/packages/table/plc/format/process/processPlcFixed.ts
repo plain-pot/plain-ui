@@ -1,6 +1,12 @@
-import {Plc} from "../../core/plc.type";
+import {Plc, TablePlc} from "../../core/plc.type";
 import {TablePlcFixedType} from "../../../core/table.utils";
+import {StyleProperties} from "../../../../../shims";
 
+/**
+ * 处理plc的fixed定位
+ * @author  韦胜健
+ * @date    2020/12/19 16:50
+ */
 export function processPlcFixed(flatPlcList: Plc[]) {
     const collect = (() => {
         const left = [] as Plc[]
@@ -40,4 +46,37 @@ export function processPlcFixed(flatPlcList: Plc[]) {
             }
         }
     })
+}
+
+/**
+ * 获取plcFixed样式
+ * @author  韦胜健
+ * @date    2020/12/19 16:55
+ */
+export function getPlcFixedStyle(plc: TablePlc) {
+    const {props: {fixed}} = plc
+    const styles = {} as StyleProperties
+    if (fixed === TablePlcFixedType.center) {
+        return styles
+    }
+    styles.position = 'sticky'
+    styles.zIndex = 3
+
+    if (!plc.group) {
+        styles[fixed] = plc.fixedPosition[fixed] + 'px'
+    } else {
+        let count = 10
+        const isFixedLeft = fixed === TablePlcFixedType.left
+        while (!!plc && plc.group && count > 0) {
+            plc = plc.children[isFixedLeft ? 0 : plc.children.length - 1]
+            count--
+        }
+        if (count === 0 && !!plc) {
+            throw new Error('解析异常')
+        }
+        if (!!plc) {
+            styles[fixed] = plc.fixedPosition[fixed] + 'px'
+        }
+    }
+    return styles
 }

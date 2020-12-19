@@ -6,6 +6,7 @@ import {TableProps} from "../../core/table.utils";
 import {processPlcSort} from "./process/processPlcSort";
 import {processHeadPlcList} from "./process/processHeadPlcList";
 import {processPlcFixed} from "./process/processPlcFixed";
+import {processPlcClassAndStyle} from "./process/processPlcClassAndStyle";
 
 export function formatPlcList(
     {
@@ -28,6 +29,8 @@ export function formatPlcList(
     const {headPlcListArray} = processHeadPlcList({plcList})
     /*计算固定列所需要的left，right值*/
     processPlcFixed(flatPlcList)
+    /*计算plc的class以及style*/
+    processPlcClassAndStyle({headPlcListArray})
 
     return {
         plcList,

@@ -4,7 +4,6 @@ import {TablePlcCollector} from './plc-collector';
 import {Plc} from "./plc.type";
 import {useNumber} from "../../../../use/useNumber";
 import {computed, reactive} from 'vue';
-import {deepcopy} from "plain-utils/object/deepcopy";
 
 export default designComponent({
     name: 'plc',
@@ -28,7 +27,8 @@ export default designComponent({
         }, {}) as { [k in keyof typeof formatProps.value]: typeof formatProps.value[k] | null })
 
         const plc: Plc = reactive({
-            ...deepcopy(PlcPublicAttrs),
+            /*PlcPublicAttrs 在 copyPlc中会深度复制一遍，这里适配类型即可*/
+            ...PlcPublicAttrs,
             group: false,
             props: formatProps,
             state: propsState,

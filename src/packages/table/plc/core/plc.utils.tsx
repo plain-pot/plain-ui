@@ -1,8 +1,10 @@
-import {SimpleObject, VNodeChild} from "../../../../shims";
+import {SimpleObject, StyleProperties, VNodeChild} from "../../../../shims";
 import {Plc, TablePlc} from "./plc.type";
 import {TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
 import {PropType} from 'vue';
 import {TableNode} from "../../core/useTableNode";
+import {MultipleClass} from "../../../../use/useClasses";
+import {FormRule} from "../../../form/form.validate";
 
 export type PlcRenderFunction = (scope: { node: TableNode, row: SimpleObject, plc: Plc }) => VNodeChild
 export type PlcPropsHead = (scope: { plc: TablePlc }) => VNodeChild
@@ -10,6 +12,7 @@ export type PlcPropsDefault = PlcRenderFunction
 export type PlcPropsSummary = PlcRenderFunction
 export type PlcPropsEdit = PlcRenderFunction
 export type PlcPropsRenderAfterRow = PlcRenderFunction
+export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
 export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题
@@ -30,6 +33,19 @@ export const PlcProps = {
     width: {type: [String, Number], default: 120},                          // 列宽度
     fit: {type: Boolean},                                                   // 列宽自适应(只有一个列能够自适应)
     notFitVirtual: {type: Boolean},                                         // 是否不兼容表格的虚拟滚动功能
+
+    // 渲染函数
+    head: {type: Function as PropType<PlcPropsHead>},                       // 列标题渲染函数
+    default: {type: Function as PropType<PlcPropsDefault>},                 // 列内容默认渲染函数
+    summary: {type: Function as PropType<PlcPropsSummary>},                 // 列内容在合计行上的渲染函数
+    edit: {type: Function as PropType<PlcPropsEdit>},                       // 列内容在编辑状态下的渲染函数
+    renderAfterRow: {type: Function as PropType<PlcPropsRenderAfterRow>},   // 行之后需要额外渲染的内容
+
+    // 编辑相关
+    required: {type: Boolean},                                              // 是否必填
+    rules: {type: [Object, Array] as PropType<FormRule | FormRule[]>},      // 校验规则
+    editable: {type: [Boolean, Function] as PropType<PlcPropsEditable>, default: true},// 是否可编辑
+    addEditPadding: {type: Boolean},                                        // 处于编辑状态的时候，是否添加内编辑，只有当行状态为编辑状态，并且列有edit渲染函数或者作用域插槽时，才符合“处于编辑状态”的条件
 }
 
 export type PlcPublicAttrsType = {
@@ -41,6 +57,16 @@ export type PlcPublicAttrsType = {
     fixedPosition: {                    // 固定列的sticky位置
         left: number,
         right: number,
+    },
+    // 列style公共内联样式
+    styles: {
+        head: StyleProperties,
+        body: StyleProperties,
+    },
+    // 列公共class样式
+    classes: {
+        head: MultipleClass,
+        body: MultipleClass,
     },
 }
 
@@ -58,5 +84,13 @@ export const PlcPublicAttrs: PlcPublicAttrsType = {
     fixedPosition: {
         left: 0,
         right: 0,
+    },
+    styles: {
+        head: {},
+        body: {},
+    },
+    classes: {
+        head: [],
+        body: [],
     },
 }
