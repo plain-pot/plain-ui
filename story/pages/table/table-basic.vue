@@ -34,7 +34,7 @@
                     <pl-toggle v-model="props.virtual"/>
                 </pl-form-item>
                 <template v-if="!other.groupHead">
-                    <pl-form-item label="order(大小)">
+                    <pl-form-item label="order(名称)">
                         <pl-number v-model="plc.order"/>
                     </pl-form-item>
                     <pl-form-item label="hide:(评分)">
@@ -46,7 +46,9 @@
                 <pl-table :data="tableData"
                           :summaryData="other.hasSummaryData?summaryData:null"
                           @dblclick-cell="onDblclickCell"
-                          v-bind="props">
+                          v-bind="props"
+                          :key="other.groupHead?'1':'2'"
+                >
                     <template v-if="other.groupHead">
                         <plc title="输入框列" field="id"/>
                         <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
@@ -59,12 +61,12 @@
                         <plc field="star" title="评分" :align="plc.align"/>
                     </template>
                     <template v-else>
-                        <plc field="id" title="编号"/>
+                        <plc field="id" title="编号(order=4)" order="4"/>
                         <plc field="size" title="大小"/>
-                        <plc field="name" title="名称" v-if="plc.init"/>
-                        <plc field="date" title="日期"/>
+                        <plc field="name" title="名称" v-if="plc.init" :order="plc.order"/>
+                        <plc field="date" title="日期(order=6)" order="6"/>
                         <plc field="color" title="颜色"/>
-                        <plc field="star" title="评分"/>
+                        <plc field="star" title="评分" :hide="plc.hide"/>
                     </template>
                 </pl-table>
             </div>
@@ -101,7 +103,7 @@
 
                 other: {
                     hasSummaryData: true,
-                    groupHead: true,
+                    groupHead: false,
                 },
                 props: {
                     headRowHeight: 45,

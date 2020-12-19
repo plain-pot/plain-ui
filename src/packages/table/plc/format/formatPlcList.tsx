@@ -1,5 +1,4 @@
-import {Plc, TablePlc} from "../core/plc.type";
-import {IteratePlcHandleType, iteratePlcList} from "./utils/iteratePlcList";
+import {TablePlc} from "../core/plc.type";
 import {copyPlcList} from "./process/copyPlcList";
 import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
 import {ExtractPropTypes} from 'vue';
@@ -23,9 +22,9 @@ export function formatPlcList(
     /*处理state、config以及props*/
     const {notFitVirtual} = processStateConfigAndProps({plcList, config: props.config})
     /*对plc进行排序*/
-    const {flatPlcList, targetTableWidth} = processPlcSort({plcList, tableWidth})
+    processPlcSort({plcList})
     /*计算表头渲染需要的数据*/
-    const {headPlcListArray} = processHeadPlcList(plcList)
+    const {headPlcListArray, flatPlcList, targetTableWidth} = processHeadPlcList({plcList, tableWidth})
 
     return {
         plcList,
