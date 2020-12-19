@@ -101,6 +101,7 @@
         text-overflow: ellipsis;
         box-sizing: border-box;
         position: relative;
+        padding: 1px 8px;
       }
     }
   }
@@ -139,6 +140,7 @@
     tr {
       td {
         background-color: white;
+        color: $tableBodyColor;
       }
     }
   }
@@ -146,6 +148,12 @@
   .plt-row {
     &:not(:last-child) {
       border-bottom: solid 1px $tableHeadBorderColor;
+    }
+
+    &:hover {
+      td {
+        background-color: $tableRowHoverBackground;
+      }
     }
   }
   .plt-head {
