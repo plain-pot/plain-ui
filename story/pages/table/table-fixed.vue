@@ -142,7 +142,7 @@
                     headRowHeight: 40,
                     bodyRowHeight: 36,
                     border: false,
-                    virtual: true,                             // 是否开启虚拟滚动
+                    virtual: false,                             // 是否开启虚拟滚动
                 },
                 plc: {
                     width: 120,

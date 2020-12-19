@@ -2,53 +2,6 @@ import {TablePlc} from "../../core/plc.type";
 import {TablePlcFixedType} from "../../../core/table.utils";
 
 /**
- * 对plc设置标记，是否为最后一个左固定列，是否为第一个右固定列
- * @author  韦胜健
- * @date    2020/8/15 23:06
- */
-function setFixedFlag(plcList: TablePlc[]) {
-    let lastFixedLeft: TablePlc | undefined;
-    let firstFixedRight: TablePlc | undefined;
-
-    plcList.forEach(plc => {
-        if (plc.props.fixed === TablePlcFixedType.left) {
-            lastFixedLeft = plc
-        }
-        if (!firstFixedRight && plc.props.fixed === TablePlcFixedType.right) {
-            firstFixedRight = plc
-        }
-    })
-
-    /**
-     * 递归设置，每一层的lastFixedLeft
-     * @author  韦胜健
-     * @date    2020/12/18 14:46
-     */
-    function setLastFixedLeft(plc: TablePlc) {
-        plc.isLastFixedLeft = true
-        if (plc.group) {
-            setLastFixedLeft(plc.children[plc.children.length - 1])
-        }
-    }
-
-    !!lastFixedLeft && setLastFixedLeft(lastFixedLeft);
-
-    /**
-     * 递归设置每一层的firstFixedRight
-     * @author  韦胜健
-     * @date    2020/12/18 14:46
-     */
-    function setFirstFixedRight(plc: TablePlc) {
-        plc.isFirstFixedRight = true
-        if (plc.group) {
-            setFirstFixedRight(plc.children[0])
-        }
-    }
-
-    !!firstFixedRight && setFirstFixedRight(firstFixedRight)
-}
-
-/**
  * 计算渲染表头所需要的二维数组以及层数
  * @author  韦胜健
  * @date    2020/12/18 14:38
@@ -107,4 +60,51 @@ export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
     return {
         headPlcListArray,
     }
+}
+
+/**
+ * 对plc设置标记，是否为最后一个左固定列，是否为第一个右固定列
+ * @author  韦胜健
+ * @date    2020/8/15 23:06
+ */
+function setFixedFlag(plcList: TablePlc[]) {
+    let lastFixedLeft: TablePlc | undefined;
+    let firstFixedRight: TablePlc | undefined;
+
+    plcList.forEach(plc => {
+        if (plc.props.fixed === TablePlcFixedType.left) {
+            lastFixedLeft = plc
+        }
+        if (!firstFixedRight && plc.props.fixed === TablePlcFixedType.right) {
+            firstFixedRight = plc
+        }
+    })
+
+    /**
+     * 递归设置，每一层的lastFixedLeft
+     * @author  韦胜健
+     * @date    2020/12/18 14:46
+     */
+    function setLastFixedLeft(plc: TablePlc) {
+        plc.isLastFixedLeft = true
+        if (plc.group) {
+            setLastFixedLeft(plc.children[plc.children.length - 1])
+        }
+    }
+
+    !!lastFixedLeft && setLastFixedLeft(lastFixedLeft);
+
+    /**
+     * 递归设置每一层的firstFixedRight
+     * @author  韦胜健
+     * @date    2020/12/18 14:46
+     */
+    function setFirstFixedRight(plc: TablePlc) {
+        plc.isFirstFixedRight = true
+        if (plc.group) {
+            setFirstFixedRight(plc.children[0])
+        }
+    }
+
+    !!firstFixedRight && setFirstFixedRight(firstFixedRight)
 }
