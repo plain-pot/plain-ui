@@ -16,7 +16,7 @@ export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
 export const PlcGroupProps = {
     title: {type: String},                                                  // 列标题
-    align: {type: String as PropType<TablePlcAlign>, default: TablePlcAlign.left},// 非编辑状态下文本对其方式
+    align: {type: String as PropType<TablePlcAlign>},                       // 非编辑状态下文本对其方式
     noPadding: {type: Boolean},                                             // 是否不兼容表格的虚拟滚动功能
     colDraggable: {type: Boolean, default: null},                           // 列是否可以拖拽排序
 

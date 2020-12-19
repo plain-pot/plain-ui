@@ -61,12 +61,12 @@
                         <plc field="star" title="评分" :align="plc.align"/>
                     </template>
                     <template v-else>
-                        <plc field="id" title="编号(order=4)" order="4"/>
-                        <plc field="size" title="大小"/>
-                        <plc field="name" title="名称" v-if="plc.init" :order="plc.order"/>
-                        <plc field="date" title="日期(order=6)" order="6"/>
-                        <plc field="color" title="颜色"/>
-                        <plc field="star" title="评分" :hide="plc.hide"/>
+                        <plc field="id" title="编号(order=4)" order="4" :align="plc.align"/>
+                        <plc field="size" title="大小" :align="plc.align"/>
+                        <plc field="name" title="名称" v-if="plc.init" :order="plc.order" :align="plc.align"/>
+                        <plc field="date" title="日期(order=6)" order="6" :align="plc.align"/>
+                        <plc field="color" title="颜色" :align="plc.align"/>
+                        <plc field="star" title="评分" :hide="plc.hide" :align="plc.align"/>
                     </template>
                 </pl-table>
             </div>

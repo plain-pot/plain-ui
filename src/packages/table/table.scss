@@ -143,6 +143,17 @@
     }
   }
   /*---------------------------------------cell-------------------------------------------*/
+  .plt-cell {
+    text-align: left;
+
+    &.plt-cell-align-center {
+      text-align: center;
+    }
+
+    &.plt-cell-align-right {
+      text-align: right;
+    }
+  }
   /*---------------------------------------border-------------------------------------------*/
   .pl-table {
 
