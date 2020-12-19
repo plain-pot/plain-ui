@@ -1,6 +1,6 @@
 <template>
     <div class="table-basic">
-        <!--<demo-row title="配置">
+        <demo-row title="基础用法">
             <pl-form column="1">
                 <pl-form-item label="列宽度响应测试">
                     <pl-number v-model="plc.width" :step="100"/>
@@ -11,7 +11,7 @@
                 <pl-form-item label="表体行高">
                     <pl-number v-model="props.bodyRowHeight" :step="5"/>
                 </pl-form-item>
-                <pl-form-item label="列销毁测试">
+                <pl-form-item label="列销毁测试(名称)">
                     <pl-toggle v-model="plc.init"/>
                 </pl-form-item>
                 <pl-form-item label="文本对齐方式">
@@ -42,16 +42,30 @@
                     </pl-form-item>
                 </template>
             </pl-form>
-        </demo-row>-->
-        <demo-row title="基础用法">
             <div style="margin-right: 0">
-                <pl-table :data="tableData">
-                    <plc field="id" title="编号"/>
-                    <plc field="size" title="大小"/>
-                    <plc field="date" title="日期"/>
-                    <plc field="color" title="颜色"/>
-                    <plc field="name" title="名称"/>
-                    <plc field="star" title="评分"/>
+                <pl-table :data="tableData"
+                          :summaryData="other.hasSummaryData?summaryData:null"
+                          @dblclick-cell="onDblclickCell"
+                          v-bind="props">
+                    <template v-if="other.groupHead">
+                        <plc title="输入框列" field="id"/>
+                        <plc field="id" title="编号" :width="plc.width" :align="plc.align"/>
+                        <plc field="size" title="大小" :align="plc.align"/>
+                        <plc-group title="地址" :align="plc.align">
+                            <plc field="date" title="日期" :align="plc.align"/>
+                            <plc field="name" title="名称" v-if="plc.init" :align="plc.align"/>
+                            <plc field="color" title="颜色" :align="plc.align"/>
+                        </plc-group>
+                        <plc field="star" title="评分" :align="plc.align"/>
+                    </template>
+                    <template v-else>
+                        <plc field="id" title="编号"/>
+                        <plc field="size" title="大小"/>
+                        <plc field="name" title="名称" v-if="plc.init"/>
+                        <plc field="date" title="日期"/>
+                        <plc field="color" title="颜色"/>
+                        <plc field="star" title="评分"/>
+                    </template>
                 </pl-table>
             </div>
         </demo-row>

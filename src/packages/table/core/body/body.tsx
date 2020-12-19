@@ -41,6 +41,7 @@ export const PltBody = designComponent({
                     data={props.table.nodeState.flatNodes}
                     summaryData={props.table.nodeState.summaryNodes || undefined}
                     height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
+                    disabled={props.table.disabledVirtual.value}
                     {...bindScroll}
                     {...{onMousewheel}}
                     v-slots={{

@@ -11,7 +11,7 @@
                 <pl-form-item label="表体行高">
                     <pl-number v-model="props.bodyRowHeight" :step="5"/>
                 </pl-form-item>
-                <pl-form-item label="列销毁测试">
+                <pl-form-item label="列销毁测试(颜色)">
                     <pl-toggle v-model="plc.init"/>
                 </pl-form-item>
                 <!-- <pl-form-item label="文本对齐方式">

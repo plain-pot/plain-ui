@@ -6,7 +6,7 @@ import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlc} from "./plc/format/usePlc";
-import {onMounted, PropType} from 'vue';
+import {computed, onMounted, PropType} from 'vue';
 import {useTableTree} from "./core/body/useTableTree";
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
@@ -30,6 +30,9 @@ const Table = designComponent({
         const {bindScroll} = useBindScroll(event)
         const {nodeState} = useTableNode({props, emit, getValidate: () => null as any})
 
+        /*是否可以启用虚拟滚动*/
+        const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
+
         const refer = {
             props,
             numberState,
@@ -38,6 +41,7 @@ const Table = designComponent({
             bindScroll,
             event,
             nodeState,
+            disabledVirtual,
         }
 
         onMounted(() => {
