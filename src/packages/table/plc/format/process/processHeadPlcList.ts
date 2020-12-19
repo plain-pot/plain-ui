@@ -1,4 +1,4 @@
-import {Plc, TablePlc} from "../../core/plc.type";
+import {TablePlc} from "../../core/plc.type";
 import {TablePlcFixedType} from "../../../core/table.utils";
 
 /**
@@ -53,7 +53,7 @@ function setFixedFlag(plcList: TablePlc[]) {
  * @author  韦胜健
  * @date    2020/12/18 14:38
  */
-export function processHeadPlcList({plcList, tableWidth}: { plcList: TablePlc[], tableWidth: number }) {
+export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
     // 最大表头层数
     let maxLevel = 1
     // 计算最大层数
@@ -102,40 +102,9 @@ export function processHeadPlcList({plcList, tableWidth}: { plcList: TablePlc[],
         }
     }
     calculateHeadColumns(plcList)
-
     setFixedFlag(headPlcListArray[0])
-
-    /*计算 flatPlcList 自己 targetTableWidth*/
-    const flatPlcList = headPlcListArray[headPlcListArray.length - 1] as Plc[]
-    /*计算表格需要固定的宽度*/
-    const {targetTableWidth} = (() => {
-        let totalPlcWidth = 0;                                          // 总的plc宽度
-        let fitPlc = null as null | Plc                                 // 需要自适应宽度的plc
-        flatPlcList.forEach(plc => {
-            totalPlcWidth += plc.props.width
-            if (plc.props.fit) {
-                fitPlc = plc
-            } else if ((!fitPlc || !fitPlc.props.fit) && plc.props.fixed === TablePlcFixedType.center) {
-                fitPlc = plc
-            }
-        })
-        /**
-         * 目标table宽度，当总宽度小于tableWidth时，table不设置width宽度。因为table设置了min-width为100%，此时fit的列会自适应宽度。
-         * 当总宽度大于tableWidth时，table需要设置width宽度，否则会导致列被压缩
-         * @author  韦胜健
-         * @date    2020/12/18 15:28
-         */
-        let targetTableWidth = totalPlcWidth > tableWidth ? totalPlcWidth : null
-        if (!targetTableWidth && !!fitPlc) {
-            fitPlc.props.width = 0
-        }
-        return {targetTableWidth,}
-    })();
-
 
     return {
         headPlcListArray,
-        flatPlcList,
-        targetTableWidth,
     }
 }

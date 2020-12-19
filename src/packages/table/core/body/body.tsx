@@ -36,6 +36,7 @@ export const PltBody = designComponent({
             render: () => (
                 <VirtualTable
                     ref="virtual"
+                    key={props.table.plcData.value!.plcKeyString}
                     width={props.table.plcData.value!.targetTableWidth!}
                     size={props.table.numberState.bodyRowHeight}
                     data={props.table.nodeState.flatNodes}

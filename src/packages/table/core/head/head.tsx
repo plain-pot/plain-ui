@@ -47,7 +47,14 @@ export const PltHead = designComponent({
             render: () => (
                 <div class="plt-head" style={styles.value} onMouseenter={bindScroll.onMouseenter}>
                     <Scroll hideScrollbar scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref="scroll">
-                        <table {...{cellspacing: 0, cellpadding: 0, border: 0, style: tableStyles.value}} {...{onMousewheel: onMousewheel}}>
+                        <table {...{
+                            cellspacing: 0,
+                            cellpadding: 0,
+                            border: 0,
+                            style: tableStyles.value,
+                            onMousewheel: onMousewheel,
+                            key: props.table.plcData.value!.plcKeyString,
+                        }}>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (
                                 <tr style={`height:${props.table.numberState.headRowHeight}px`} key={arrayIndex}>
