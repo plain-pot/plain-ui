@@ -158,10 +158,10 @@
   .pl-table {
 
     &.pl-table-border {
-      border-right: solid 1px $tableHeadBorderColor;
-      /*.plt-head {
-        border-left: solid 1px $tableHeadBorderColor;
-      }*/
+      &:not(.pl-table-fixed-width):not(.plt-table-hide-fixed-right) {
+        border-right: solid 1px $tableHeadBorderColor;
+      }
+
       tr {
         td {
           border-right: solid 1px $tableHeadBorderColor;
