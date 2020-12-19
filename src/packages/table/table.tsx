@@ -50,7 +50,6 @@ const Table = designComponent({
             `pl-table-shape-${styleComputed.value.shape}`,
             {
                 'pl-table-border': props.border,
-                'pl-table-fixed-width': !!plcData.value && !!plcData.value.targetTableWidth,
             },
             ...fixedShadowClass.value,
         ])

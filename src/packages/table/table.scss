@@ -10,6 +10,8 @@
   $tableRowCurrentBackground: mix($colorPrimary, white, 7.5%);
   /*---------------------------------------scroll-------------------------------------------*/
   .pl-table, .pl-virtual-table {
+    position: relative;
+
     .pl-scroll {
       .pl-scroll-content {
         min-width: 100%;
@@ -61,10 +63,10 @@
         bottom: 0;
         height: 12px;
         left: 0;
-        right: 0;
-        content: '';
-        background-color: $tableHeadBackground;
+        content: "";
+        background-color: #f5f7fa;
         z-index: 3;
+        width: 5000px;
       }
 
       .pl-virtual-table-summary-table {
@@ -97,6 +99,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        box-sizing: border-box;
       }
     }
   }
@@ -158,10 +161,6 @@
   .pl-table {
 
     &.pl-table-border {
-      &:not(.pl-table-fixed-width):not(.plt-table-hide-fixed-right) {
-        border-right: solid 1px $tableHeadBorderColor;
-      }
-
       tr {
         td {
           border-right: solid 1px $tableHeadBorderColor;
@@ -174,13 +173,24 @@
   .pl-table {
     &, &.pl-table-border {
 
+      &:after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 1px;
+        background-color: $tableHeadBorderColor;
+        content: '';
+        z-index: 5;
+      }
+
       .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
 
         &:before {
           position: absolute;
           top: 0;
           bottom: 0;
-          width: 4px;
+          width: 3px;
           pointer-events: none;
           content: '';
           z-index: 4;
