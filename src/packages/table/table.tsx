@@ -12,6 +12,9 @@ import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
 import {useTableNode} from "./core/useTableNode";
 import {useRefs} from "../../use/useRefs";
+import {PlainScroll} from "../scroll/scroll";
+import {useFixedShadow} from "./core/useFixedShadow";
+import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -21,6 +24,7 @@ const Table = designComponent({
     emits: {
         onUpdateData: (data?: SimpleObject[]) => true,
         onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,
+        onVirtualMounted: (data: { scroll: PlainScroll }) => true,
     },
     setup({props, event}) {
 
@@ -28,15 +32,27 @@ const Table = designComponent({
             el: HTMLDivElement,
         })
 
+        const {styleComputed} = useStyle({shape: StyleShape.square, size: StyleSize.mini, status: undefined})
         const {emit} = event
         const {slots} = useSlots()
         const {numberState, plcData} = usePlc({props})
         const {dataModel} = useTableTree({props, emit})
         const {bindScroll} = useBindScroll(event)
         const {nodeState} = useTableNode({props, emit, getValidate: () => null as any})
+        const {fixedShadowClass} = useFixedShadow(event)
 
         /*是否可以启用虚拟滚动*/
         const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
+
+        const classes = computed(() => [
+            'pl-table',
+            `pl-table-size-${styleComputed.value.size}`,
+            `pl-table-shape-${styleComputed.value.shape}`,
+            {
+                'pl-table-border': props.border,
+            },
+            ...fixedShadowClass.value,
+        ])
 
         const refer = {
             refs,
@@ -57,7 +73,7 @@ const Table = designComponent({
         return {
             refer,
             render: () => (
-                <div class="pl-table" ref="el">
+                <div class={classes.value} ref="el">
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                     {!!plcData.value && <>
                         <PltHead table={refer}/>

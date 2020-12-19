@@ -43,7 +43,7 @@ export const TableProps = {
 
     /*---------------------------------------style-------------------------------------------*/
 
-    // border: {type: Boolean},                                    // 是否带纵向边框
+    border: {type: Boolean},                                    // 是否带纵向边框
     // stripe: {type: Boolean},                                    // 是否为斑马纹table
     // hideHeader: {type: Boolean},                             // 是否隐藏表头
     // disabledStickyCompatible: {type: Boolean},                  // 是否禁用在ie下的sticky兼容

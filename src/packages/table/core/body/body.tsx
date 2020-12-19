@@ -6,6 +6,7 @@ import {renderColgroup} from "../../plc/core/renderColgroup";
 import {useRefs} from "../../../../use/useRefs";
 import {TableHoverPart} from "../table.utils";
 import {TableNode} from "../useTableNode";
+import {PlainScroll} from "../../../scroll/scroll";
 
 export const PltBody = designComponent({
     name: 'plt-head',
@@ -22,13 +23,19 @@ export const PltBody = designComponent({
             TableHoverPart.body,
             (scrollLeft, part) => part !== TableHoverPart.body && refs.virtual!.refs.scroll!.methods.scroll({x: scrollLeft}, {noEmitScroll: true})
         );
-        /*表体支持alt+鼠标滚动联动滚动*/
-        const onMousewheel = (e: MouseWheelEvent) => {
-            const {deltaX, deltaY} = e
-            if (e.altKey && Math.abs(deltaY) > Math.abs(deltaX)) {
-                e.preventDefault()
-                e.stopPropagation()
-                refs.virtual!.refs.scroll!.refs.wrapper.scrollLeft = refs.virtual!.refs.scroll!.refs.wrapper.scrollLeft + deltaY / 3
+
+        const handler = {
+            /*表体支持alt+鼠标滚动联动滚动*/
+            onMousewheel: (e: MouseWheelEvent) => {
+                const {deltaX, deltaY} = e
+                if (e.altKey && Math.abs(deltaY) > Math.abs(deltaX)) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    refs.virtual!.refs.scroll!.refs.wrapper.scrollLeft = refs.virtual!.refs.scroll!.refs.wrapper.scrollLeft + deltaY / 3
+                }
+            },
+            onVnodeMounted: () => {
+                props.table.event.emit.onVirtualMounted({scroll: refs.virtual!.refs.scroll as PlainScroll})
             }
         }
 
@@ -45,7 +52,7 @@ export const PltBody = designComponent({
                     height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
                     disabled={props.table.disabledVirtual.value}
                     {...bindScroll}
-                    {...{onMousewheel}}
+                    {...handler}
                     v-slots={{
                         default: ({item, index}: { item: TableNode, index: number }) => (
                             <PltRow
