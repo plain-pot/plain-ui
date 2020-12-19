@@ -94,7 +94,7 @@
     tr {
       td {
         white-space: nowrap;
-        overflow-x: hidden;
+        overflow: hidden;
         text-overflow: ellipsis;
       }
     }
@@ -160,17 +160,15 @@
   }
   /*---------------------------------------shadow-------------------------------------------*/
   .pl-table {
-    /*---------------------------------------shadow-------------------------------------------*/
     &, &.pl-table-border {
 
       .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
-        background-color: black !important;
 
         &:before {
           position: absolute;
           top: 0;
           bottom: 0;
-          width: 30px;
+          width: 4px;
           pointer-events: none;
           content: '';
           z-index: 4;
@@ -183,33 +181,23 @@
 
         &.plt-cell-last-fixed-left {
           &:before {
-            right: -30px;
+            right: 0;
             box-shadow: inset 10px 0 10px -10px mix(black, $boxshadowColor, 10%);
           }
         }
 
         &.plt-cell-first-fixed-right {
           &:before {
-            left: -30px;
+            left: 0;
             box-shadow: inset -10px 0 10px -10px mix(black, $boxshadowColor, 10%);
           }
         }
       }
     }
 
-    &.plt-table-hide-fixed-left {
-      .plt-cell-last-fixed-left {
-        &:before {
-          content: none;
-        }
-      }
-    }
-
-    &.plt-table-hide-fixed-right {
-      .plt-cell-first-fixed-right {
-        &:before {
-          content: none;
-        }
+    &.plt-table-hide-fixed-left .plt-cell-last-fixed-left, &.plt-table-hide-fixed-right .plt-cell-first-fixed-right {
+      &:before {
+        display: none;
       }
     }
   }
