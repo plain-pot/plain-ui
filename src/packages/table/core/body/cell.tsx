@@ -14,7 +14,12 @@ export const PltCell = designComponent({
     setup({props}) {
         return {
             render: () => (
-                <td>
+                <td
+                    colspan={1}
+                    rowspan={1}
+                    class={props.plc.classes.body}
+                    style={props.plc.styles.body as any}
+                >
                     {props.node.data[props.plc.props.field!]}
                 </td>
             )
