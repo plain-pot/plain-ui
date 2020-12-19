@@ -59,7 +59,7 @@
       &:after {
         position: absolute;
         bottom: 0;
-        height: 6px;
+        height: 12px;
         left: 0;
         right: 0;
         content: '';
@@ -70,7 +70,6 @@
       .pl-virtual-table-summary-table {
         pointer-events: auto;
         position: absolute;
-        bottom: 0;
         left: 0;
 
         td {

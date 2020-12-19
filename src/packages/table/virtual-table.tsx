@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import Scroll from '../scroll'
-import {computed, PropType} from 'vue';
+import {PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useVirtualList} from "../virutal-list/useVirtualList";
@@ -44,10 +44,11 @@ export const VirtualTable = designComponent({
             !!props.width && (style.width = unit(props.width))
         })
 
-        const summaryTableStyles = computed(() => ({
-            ...tableStyles.value,
-            height: `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
-        }))
+        const summaryTableStyles = useStyles((styles) => {
+            Object.assign(styles, tableStyles.value)
+            styles.height = `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
+            styles.bottom = '6px'
+        })
 
         const strutStyles = useStyles(style => {
             Object.assign(style, virtual.strutStyles.value)
