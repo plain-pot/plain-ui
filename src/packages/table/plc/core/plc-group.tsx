@@ -4,7 +4,8 @@ import {TablePlcCollector} from './plc-collector';
 import {useSlots} from "../../../../use/useSlots";
 import {PlcGroup} from "./plc.type";
 import {useNumber} from "../../../../use/useNumber";
-import {computed, reactive} from 'vue';
+import {computed, PropType, reactive} from 'vue';
+import {useScopedSlots} from "../../../../use/useScopedSlots";
 
 export default designComponent({
     name: 'plc-group',
@@ -14,6 +15,9 @@ export default designComponent({
     setup({props}) {
         /*插槽*/
         const {slots} = useSlots()
+        const {scopedSlots} = useScopedSlots({
+            head: {plc: Object as PropType<PlcGroup>},
+        }, true)
         /*collector收集列信息*/
         TablePlcCollector.useChild()
         /*子列信息*/
@@ -44,6 +48,7 @@ export default designComponent({
                 const itemDurWidth = Math.floor(durWidth / (children.length))
                 children.forEach(item => item.setDurWidth(itemDurWidth))
             },
+            scopedSlots,
         })
 
         return {

@@ -1,9 +1,11 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlcProps, PlcPublicAttrs} from "./plc.utils";
 import {TablePlcCollector} from './plc-collector';
-import {Plc} from "./plc.type";
+import {Plc, TablePlc} from "./plc.type";
 import {useNumber} from "../../../../use/useNumber";
-import {computed, reactive} from 'vue';
+import {computed, PropType, reactive} from 'vue';
+import {useScopedSlots} from "../../../../use/useScopedSlots";
+import {TableNode} from "../../core/useTableNode";
 
 export default designComponent({
     name: 'plc',
@@ -11,6 +13,13 @@ export default designComponent({
         ...PlcProps,
     },
     setup({props}) {
+
+        const {scopedSlots} = useScopedSlots({
+            head: {plc: Object as PropType<TablePlc>},
+            default: {node: Object as PropType<TableNode>, plc: Object as PropType<Plc>},
+            edit: {node: Object as PropType<TableNode>, plc: Object as PropType<Plc>},
+            summary: {node: Object as PropType<TableNode>, plc: Object as PropType<Plc>},
+        }, true)
         /*collector收集列信息*/
         TablePlcCollector.useChild()
         /*格式化props*/
@@ -34,6 +43,7 @@ export default designComponent({
             state: propsState,
             refer: () => plc,
             setDurWidth: (durWidth: number) => propsState.width = Number((propsState.width || formatProps.value.width)) + durWidth,
+            scopedSlots,
         })
 
         return {
