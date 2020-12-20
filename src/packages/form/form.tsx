@@ -116,7 +116,7 @@ const Form = designComponent({
         })
         /*---------------------------------------validate-------------------------------------------*/
 
-        const formValidate = computed(() => formatFormRules(props.rules, items)) as ComputedRef<FormValidate>
+        const formValidate = computed(() => formatFormRules(props.rules, items.map(item => item.formItemComponentRules.value))) as ComputedRef<FormValidate>
 
         const validateMethods = {
             validate: async (config?: { autoLoading?: boolean, autoAlert?: boolean, }) => {

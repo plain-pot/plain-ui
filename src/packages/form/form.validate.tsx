@@ -378,7 +378,7 @@ export type FormValidateReturn = { validateResultMap: FormValidateResultMap, val
  */
 export function formatFormRules(
     formComponentRules?: FormComponentRules,
-    formItems?: { formItemComponentRules: { value: FormComponentItemRules } }[]
+    formItems?: FormComponentItemRules[]
 ) {
 
     /*field 转化为 label的映射*/
@@ -388,7 +388,7 @@ export function formatFormRules(
 
     if (!!formItems && formItems.length > 0) {
         formItems.forEach(formItem => {
-            const {formItemComponentRules: {value: {label, field, required, rules}}} = formItem
+            const {label, field, required, rules} = formItem
             const fields = FormValidateUtils.getListValue(field)
             if (!!fields) {
                 !!label && (fields.forEach(item => fieldToLabel[item] = label));
