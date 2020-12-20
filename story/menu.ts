@@ -115,13 +115,13 @@ export const MENUS: MenuGroup[] = [
     {
         name: '表格', children: [
             {name: 'Virtual', title: 'pl-virtual-table', page: '/table/virtual-table', complete: true},
-            {name: 'Basic', title: '基础表格', page: '/table/table-basic', complete: false},
-            {name: 'Test', title: '基础测试', page: '/table/table-base-test', complete: false},
-            {name: 'Config', title: '自定义配置', page: '/table/table-config', complete: false},
-            {name: 'Fixed', title: '固定列', page: '/table/table-fixed', complete: false},
-            {name: 'ScopedSlot', title: '列作用域插槽', page: '/table/table-plc-scoped-slot', complete: false},
+            {name: 'Basic', title: '基础表格', page: '/table/table-basic', complete: true},
+            {name: 'Test', title: '基础测试', page: '/table/table-base-test', complete: true},
+            {name: 'Config', title: '自定义配置', page: '/table/table-config', complete: true},
+            {name: 'Fixed', title: '固定列', page: '/table/table-fixed', complete: true},
+            {name: 'ScopedSlot', title: '列作用域插槽', page: '/table/table-plc-scoped-slot', complete: true},
 
-            {name: 'Dynamic Control', title: '列动态控制', page: '/table/table-plc-editable', complete: false},
+            {name: 'Edit Control', title: '编辑控制', page: '/table/table-plc-editable', complete: true},
             {name: 'Plc', title: '列组件', page: '/table/table-columns', complete: false},
             {name: 'Expand', title: '展开列', page: '/table/table-expand', complete: false},
             {name: 'Span', title: '合并单元格', page: '/table/span/table-span', complete: false},
