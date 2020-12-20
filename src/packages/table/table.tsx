@@ -6,7 +6,7 @@ import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlcList} from "./plc/format/usePlcList";
-import {computed, onMounted, PropType} from 'vue';
+import {computed, ComputedRef, onMounted, PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
 import {TableNode, useTableNode} from "./core/useTableNode";
@@ -15,6 +15,7 @@ import {PlainScroll} from "../scroll/scroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {useTableCurrent} from "./core/useTableCurrent";
+import {formatFormRules, FormValidate} from "../form/form.validate";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -42,9 +43,17 @@ const Table = designComponent({
         const {slots} = useSlots()
         const {numberState, plcData} = usePlcList({props})
         const {bindScroll} = useBindScroll(event)
-        const {nodeState} = useTableNode({props, emit, getValidate: () => null as any})
+        const {nodeState} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)
         const tableCurrent = useTableCurrent({nodeState, emit: event.emit})
+        const formValidate = computed(() => formatFormRules(
+            props.rules,
+            !plcData.value ? undefined : plcData.value.flatPlcList.map(plc => ({
+                label: plc.props.title,
+                field: plc.props.field,
+                required: plc.props.required,
+                rules: plc.props.rules,
+            })))) as ComputedRef<FormValidate>
 
         /*是否可以启用虚拟滚动*/
         const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
@@ -74,6 +83,7 @@ const Table = designComponent({
             disabledVirtual,
             tableCurrent,
             ...methods,
+            formValidate,
         }
 
         onMounted(() => {
