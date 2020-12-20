@@ -4,6 +4,7 @@ import {PropType} from 'vue';
 import {TablePlc} from "../plc/core/plc.type";
 import {TableNode} from "./useTableNode";
 import {MultipleClass} from "../../../use/useClasses";
+import {FormComponentRules} from "../../form/form.validate";
 
 export type TablePropsConfig = (plcList: TablePlc[]) => Record<string, any>
 export type TablePropsGetChildren = (node: TableNode, cb: (...args: any[]) => void) => void
@@ -16,6 +17,8 @@ export type TablePropsCellClassFunc = () => MultipleClass
 export type TablePropsCellStyleFunc = () => StyleProperties
 export type TablePropsHeadCellClassFunc = (plc: TablePlc) => MultipleClass
 export type TablePropsHeadCellStyleFunc = (plc: TablePlc) => StyleProperties
+
+export type TablePropsSpanMethod = () => number
 
 export enum TablePlcAlign {
     left = 'left',
@@ -44,16 +47,16 @@ export const TableProps = {
     summaryData: {type: Array as PropType<SimpleObject[]>},     // 表尾合计行数据
     config: {type: Function as PropType<TablePropsConfig>},     // 配置列信息函数
 
-    // rules: {type: Object as PropType<FormComponentRules>},      // 校验规则
-    // colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
-    // spanMethod: {type: Function as PropType<TableSpanMethod>},  // 合并表体单元格的方法
+    rules: {type: Object as PropType<FormComponentRules>},      // 校验规则
+    colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
+    spanMethod: {type: Function as PropType<TablePropsSpanMethod>},// 合并表体单元格的方法
 
     /*---------------------------------------style-------------------------------------------*/
 
     border: {type: Boolean},                                    // 是否带纵向边框
-    // stripe: {type: Boolean},                                    // 是否为斑马纹table
-    // hideHeader: {type: Boolean},                             // 是否隐藏表头
-    // disabledStickyCompatible: {type: Boolean},                  // 是否禁用在ie下的sticky兼容
+    stripe: {type: Boolean},                                    // 是否为斑马纹table
+    hideHeader: {type: Boolean},                                // 是否隐藏表头
+    disabledStickyCompatible: {type: Boolean},                  // 是否禁用在ie下的sticky兼容
     headRowHeight: {type: [String, Number], default: 45},       // 表头行高
     bodyRowHeight: {type: [String, Number], default: 40},       // 表体行高
     showRows: {type: Number, default: 10},                      // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度

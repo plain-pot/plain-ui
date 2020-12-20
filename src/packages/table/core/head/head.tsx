@@ -42,6 +42,7 @@ export const PltHead = designComponent({
                 refs.scroll!.refs.wrapper.scrollLeft = refs.scroll!.refs.wrapper.scrollLeft + deltaY / 3
             }
         }
+        const scrollRef = () => refs.scroll!
 
         return {
             render: () => (
@@ -58,7 +59,7 @@ export const PltHead = designComponent({
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (
                                 <tr style={`height:${props.table.numberState.headRowHeight}px`} key={arrayIndex}>
-                                    {array.map((plc) => <PltHeadCell table={props.table} tablePlc={plc}/>)}
+                                    {array.map((plc) => <PltHeadCell table={props.table} tablePlc={plc} scroll={scrollRef}/>)}
                                 </tr>
                             ))}
                         </table>

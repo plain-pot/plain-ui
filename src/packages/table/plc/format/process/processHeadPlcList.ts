@@ -59,6 +59,7 @@ export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
 
     return {
         headPlcListArray,
+        maxLevel,
     }
 }
 

@@ -26,7 +26,7 @@ export function formatPlcList(
     /*对plc进行排序*/
     const {flatPlcList, targetTableWidth, plcKeyString} = processPlcSort({plcList, tableWidth})
     /*计算表头渲染需要的数据*/
-    const {headPlcListArray} = processHeadPlcList({plcList})
+    const {headPlcListArray, maxLevel} = processHeadPlcList({plcList})
     /*计算固定列所需要的left，right值*/
     processPlcFixed(flatPlcList)
     /*计算plc的class以及style*/
@@ -39,5 +39,6 @@ export function formatPlcList(
         notFitVirtual,
         headPlcListArray,
         plcKeyString,
+        maxLevel,
     }
 }
