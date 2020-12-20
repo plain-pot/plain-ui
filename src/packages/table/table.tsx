@@ -38,7 +38,13 @@ const Table = designComponent({
             el: HTMLDivElement,
         })
 
-        const {styleComputed} = useStyle({shape: StyleShape.square, size: StyleSize.normal, status: undefined})
+        const {styleComputed} = useStyle({
+            adjust: config => {
+                config.shape = props.shape || StyleShape.square
+                config.size = props.size || StyleSize.normal
+                config.status = props.status
+            }
+        })
         const {emit} = event
         const {slots} = useSlots()
         const {numberState, plcData} = usePlcList({props})

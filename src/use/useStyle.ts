@@ -1,5 +1,5 @@
 import {useFunctionWrapper} from "./useFunctionWrapper";
-import {inject, computed, provide} from 'vue';
+import {computed, inject, PropType, provide} from 'vue';
 
 export enum StyleMode {
     fill = 'fill',
@@ -28,9 +28,9 @@ export enum StyleStatus {
 }
 
 export const StyleProps = {
-    shape: {type: String},                      // fillet,round,square
-    size: {type: String},                       // normal,large,mini
-    status: {type: String},                     // primary,success,error,warn,info
+    shape: {type: String as PropType<StyleShape>},                      // fillet,round,square
+    size: {type: String as PropType<StyleSize>},                       // normal,large,mini
+    status: {type: String as PropType<StyleStatus>},                     // primary,success,error,warn,info
 }
 
 interface UseStyleProvideData {
@@ -64,6 +64,8 @@ export const useStyle = useFunctionWrapper('style', (ctx, option: UseStyleOption
         if (!!defaultData.adjust) {
             data = defaultData.adjust(data) || data
         }
+        (data as any).ctx = ctx;
+        (data as any).parent = parent
         return data
     })
 
