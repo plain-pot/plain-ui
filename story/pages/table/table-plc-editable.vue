@@ -16,6 +16,7 @@
                       :virtual="virtualFlag"
                       :associateFields="associateFields"
                       @dblclick-cell="onDblClickRow">
+                <plc-index/>
                 <plc field="id" title="编号" width="50"/>
                 <plc field="name" title="普通文本列"/>
                 <plc field="name" title="普通文本列，编辑作用域插槽" width="200" :editable="isEditable">

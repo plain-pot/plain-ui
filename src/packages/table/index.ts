@@ -4,6 +4,7 @@ import {VirtualTable} from "./virtual-table";
 
 import Plc from './plc/core/plc'
 import PlcGroup from './plc/core/plc-group'
+import {PlcStandard} from "./plc/standard";
 
 export default createComponentPlugin(table, {
     exposeComponents: {
@@ -11,5 +12,7 @@ export default createComponentPlugin(table, {
         Plc,
         PlcGroup,
     },
-    plugins: []
+    plugins: [
+        PlcStandard,
+    ]
 })
