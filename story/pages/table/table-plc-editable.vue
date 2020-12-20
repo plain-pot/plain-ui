@@ -30,12 +30,8 @@
                 <plc-input field="size"
                            title="文本框值大于6可以编辑"
                            width="200"
-                           :editable="({editRow})=>!!editRow.name && editRow.name.length>5"
-                           :rules="{
-                           validator:(rule,value,row)=>!!row.name && row.name.length>5?
-                           (!row.size && row.size!==0)?'name 长度大于5情况下必填':null
-                           :null
-                       }"
+                           :editable="isEditable"
+                           :rules="customRule"
                 />
 
                 <plc-number field="size" title="数字框"/>
@@ -63,6 +59,11 @@
                     name: 'size',
                 },
                 isEditable: ({editRow}) => !!editRow.name && editRow.name.length > 5,
+                customRule: {
+                    validator: (rule, value, row) => !!row.name && row.name.length > 5 ?
+                        (!row.size && row.size !== 0) ? 'name 长度大于5情况下必填' : null
+                        : null
+                }
             }
         },
         methods: {
