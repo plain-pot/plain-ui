@@ -259,6 +259,10 @@
     font-size: 12px;
   }
   .plt-cell {
+    & > * {
+      vertical-align: middle;
+    }
+
     & > .pl-input {
       width: 100%;
 

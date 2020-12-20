@@ -134,7 +134,7 @@ export type TableNode = {
     closeEdit: () => void,                              // 关闭编辑状态（不做任何处理）
     enableEdit: () => void,                             // 开启编辑状态（先判断当前是否可编辑，深度赋值一份data赋值给editRow，并且立即执行校验）
     cancelEdit: () => void,                             // 取消编辑状态
-    validate: () => Promise<FormValidateReturn | null>, // 校验数据
+    validate: () => Promise<(FormValidateReturn & { node: TableNode }) | null>, // 校验数据
     saveEdit: (newRow: SimpleObject) => Promise<void>,  // 保存编辑，将editRow以及newRow（请求得到的新对象）覆盖data
 
 }
@@ -243,11 +243,12 @@ function tableNodeGetter({props, getValidate}: { props: ExtractPropTypes<typeof 
                         return !validateMessage ? null : {
                             validateMessage,
                             validateResult,
-                            validateResultMap
+                            validateResultMap,
+                            node: this,
                         }
                     },
                     /*保存编辑，将editRow以及newRow（请求得到的新对象）覆盖data*/
-                    async saveEdit(newRow) {
+                    async saveEdit(newRow = {}) {
                         if (!this.edit) return
                         const {data, editRow} = this
                         Object.keys({...data, ...editRow, ...newRow}).forEach(k => this.data[k] = newRow[k])
