@@ -5,7 +5,7 @@ export default designPlc({
     render: {
         head: () => '#',
         default: ({node}) => node.index + 1,
-        summary: () => '合计行',
+        summary: ({props}) => props.summaryText,
     },
     standardProps: {
         autoFixedLeft: {default: true},
@@ -16,5 +16,12 @@ export default designPlc({
     },
     externalProps: {
         summaryText: {type: String, default: '合计'},
+    },
+    setup(props) {
+        return {
+            indexValue: {
+                sayHello: () => null,
+            }
+        }
     },
 })
