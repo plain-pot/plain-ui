@@ -42,7 +42,7 @@ export default designComponent({
             props: formatProps,
             state: propsState,
             refer: () => plc,
-            setDurWidth: (durWidth: number) => propsState.width = Number((propsState.width || formatProps.value.width)) + durWidth,
+            setDurWidth: (durWidth: number) => propsState.width = Number((formatProps.value.width)) + durWidth,
             scopedSlots,
         })
 
