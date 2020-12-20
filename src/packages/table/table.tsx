@@ -9,11 +9,12 @@ import {usePlcList} from "./plc/format/usePlcList";
 import {computed, onMounted, PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
-import {useTableNode} from "./core/useTableNode";
+import {TableNode, useTableNode} from "./core/useTableNode";
 import {useRefs} from "../../use/useRefs";
 import {PlainScroll} from "../scroll/scroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
+import {useTableCurrent} from "./core/useTableCurrent";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -24,6 +25,11 @@ const Table = designComponent({
         onUpdateData: (data?: SimpleObject[]) => true,
         onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,
         onVirtualMounted: (data: { scroll: PlainScroll }) => true,
+
+        onClickRow: (node: TableNode, e: MouseEvent) => true,
+        onDblclickRow: (node: TableNode, e: MouseEvent) => true,
+        onClickCell: (node: TableNode, e: MouseEvent) => true,
+        onDblclickCell: (node: TableNode, e: MouseEvent) => true,
     },
     setup({props, event}) {
 
@@ -38,6 +44,7 @@ const Table = designComponent({
         const {bindScroll} = useBindScroll(event)
         const {nodeState} = useTableNode({props, emit, getValidate: () => null as any})
         const {fixedShadowClass} = useFixedShadow(event)
+        const tableCurrent = useTableCurrent({nodeState, emit: event.emit})
 
         /*是否可以启用虚拟滚动*/
         const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
@@ -52,6 +59,10 @@ const Table = designComponent({
             ...fixedShadowClass.value,
         ])
 
+        const methods = {
+            ...tableCurrent.methods,
+        }
+
         const refer = {
             refs,
             props,
@@ -61,6 +72,8 @@ const Table = designComponent({
             event,
             nodeState,
             disabledVirtual,
+            tableCurrent,
+            ...methods,
         }
 
         onMounted(() => {
