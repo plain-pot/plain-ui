@@ -34,9 +34,9 @@
                     <plc field="size" title="大小" :width="plc.width"/>
                     <plc field="date" title="日期"/>
                 </plc-group>
-                <plc field="color" title="颜色"/>
+                <plc field="color" title="颜色" :fixed="fixed.colorFixedLeft?'left':'center'"/>
                 <plc-group title="第二组">
-                    <plc field="name" title="名称" :hide="hide.name"/>
+                    <plc field="name" title="名称" :hide="hide.name" :fixed="fixed.nameFixedLeft?'left':'center'"/>
                     <plc field="star" title="评分" :hide="hide.star"/>
                 </plc-group>
             </pl-table>

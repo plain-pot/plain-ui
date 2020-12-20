@@ -71,7 +71,7 @@ export function processPlcSort(
         if (!targetTableWidth && !!fitPlc) {
             fitPlc.props.width = 0
         }
-        return {targetTableWidth, plcKeyString: plcKeyString.sort((a, b) => a.localeCompare(b)).join('_')}
+        return {targetTableWidth, plcKeyString: plcKeyString.join('_')}
     })();
 
     return {
