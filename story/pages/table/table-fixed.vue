@@ -49,6 +49,7 @@
                       v-bind="props">
 
                 <template v-if="other.groupHead">
+                    <plc-index/>
                     <plc field="id" title="编号" fixed="left" :width="plc.width"/>
                     <plc field="id" title="编号"/>
                     <plc field="size" title="大小"/>
@@ -73,6 +74,7 @@
                 </template>
 
                 <template v-else>
+                    <plc-index/>
                     <plc field="id" title="编号" fixed="left"/>
                     <plc field="size" title="大小"/>
                     <plc field="date" title="日期"/>

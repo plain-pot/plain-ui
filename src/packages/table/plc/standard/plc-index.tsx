@@ -5,7 +5,7 @@ export default designPlc({
     render: {
         head: () => '#',
         default: ({node}) => node.index + 1,
-        summary: ({props}) => props.summaryText,
+        summary: ({props}) => <span class="plc-index-summary-text">{props.summaryText}</span>,
     },
     standardProps: {
         autoFixedLeft: {default: true},
