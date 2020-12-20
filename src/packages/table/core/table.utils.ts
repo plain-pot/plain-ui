@@ -1,14 +1,21 @@
 import {StyleProps} from "../../../use/useStyle";
-import {SimpleObject} from "../../../shims";
+import {SimpleObject, StyleProperties} from "../../../shims";
 import {PropType} from 'vue';
 import {TablePlc} from "../plc/core/plc.type";
 import {TableNode} from "./useTableNode";
+import {MultipleClass} from "../../../use/useClasses";
 
 export type TablePropsConfig = (plcList: TablePlc[]) => Record<string, any>
 export type TablePropsGetChildren = (node: TableNode, cb: (...args: any[]) => void) => void
 export type TablePropsIsCheckable = (node: TableNode) => boolean
 export type TablePropsIsLeaf = (node: TableNode) => boolean
 export type TablePropsFilterNodeMethod = (node: TableNode) => boolean
+
+export type TablePropsRowClassFunc = () => MultipleClass
+export type TablePropsCellClassFunc = () => MultipleClass
+export type TablePropsCellStyleFunc = () => StyleProperties
+export type TablePropsHeadCellClassFunc = (plc: TablePlc) => MultipleClass
+export type TablePropsHeadCellStyleFunc = (plc: TablePlc) => StyleProperties
 
 export enum TablePlcAlign {
     left = 'left',
@@ -51,11 +58,11 @@ export const TableProps = {
     bodyRowHeight: {type: [String, Number], default: 40},       // 表体行高
     showRows: {type: Number, default: 10},                      // 表格显示的行数，当表体的行数超过这个值时，将会出现表体内部滚动，这个属性实际上就是用来设值表格高度
 
-    // rowClassFunc: {type: Function as PropType<TableRowClassFunc>},// 行 className 的计算函数
-    // cellClassFunc: {type: Function as PropType<TableCellClassFunc>},// 单元格 className 的计算函数
-    // cellStyleFunc: {type: Function as PropType<TableCellStyleFunc>},// 单元格 style 内联样式的计算函数
-    // headCellClassFunc: {type: Function as PropType<TableHeadCellClassFunc>},// 表头单元格的 className 的计算函数
-    // headCellStyleFunc: {type: Function as PropType<TableHeadCellStyleFunc>},// 表头单元格 style 内联样式计算函数
+    rowClassFunc: {type: Function as PropType<TablePropsRowClassFunc>},// 行 className 的计算函数
+    cellClassFunc: {type: Function as PropType<TablePropsCellClassFunc>},// 单元格 className 的计算函数
+    cellStyleFunc: {type: Function as PropType<TablePropsCellStyleFunc>},// 单元格 style 内联样式的计算函数
+    headCellClassFunc: {type: Function as PropType<TablePropsHeadCellClassFunc>},// 表头单元格的 className 的计算函数
+    headCellStyleFunc: {type: Function as PropType<TablePropsHeadCellStyleFunc>},// 表头单元格 style 内联样式计算函数
 
     /*---------------------------------------tree-------------------------------------------*/
     lazy: {type: Boolean},                                      // 是否懒加载数据

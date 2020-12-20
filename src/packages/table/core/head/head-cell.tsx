@@ -15,12 +15,20 @@ export const PltHeadCell = designComponent({
 
         const {resizeHandler} = useHeadCellResize(props.table, props.tablePlc)
 
+
         return {
             render: () => {
                 const content = renderHeadCell(props.tablePlc)
                 return (
-                    <td class={props.tablePlc.classes.head}
-                        style={props.tablePlc.styles.head as any}
+                    <td
+                        class={[
+                            props.tablePlc.classes.head,
+                            !!props.table.props.headCellClassFunc ? props.table.props.headCellClassFunc(props.tablePlc) : null
+                        ]}
+                        style={{
+                            ...props.tablePlc.styles.head as any,
+                            ...(!!props.table.props.headCellStyleFunc ? props.table.props.headCellStyleFunc(props.tablePlc) : {})
+                        }}
                         rowspan={props.tablePlc.rowspan}
                         colspan={props.tablePlc.colspan}>
                         {content}
