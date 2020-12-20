@@ -32,21 +32,24 @@ export function designPlc<_,
     }
 ) {
     const OptionProps = deepcopy(PlcProps)
-    if (!!standardProps) {
-        Object.entries(OptionProps).map(([key, value]) => {
-            if (!!(standardProps as any)[key]) {
-                Object.assign(value, (standardProps as any)[key])
+
+    Object.entries(OptionProps).map(([key, value]) => {
+        if (!!standardProps && !!(standardProps as any)[key]) {
+            Object.assign(value, (standardProps as any)[key])
+        }
+        if (!!(render as any)[key]) {
+            (value as any).default = function (scope: any) {
+                return (render as any)[key]({...scope, refer: scope.plc.external, props: scope.plc.props})
             }
-            if (!!(render as any)[key]) {
-                (value as any).default = function (scope: any) {
-                    return (render as any)[key]({...scope, refer: scope.plc.external, props: scope.plc.props})
-                }
-            }
-        })
-    }
+        }
+    })
+
     return designComponent({
         name,
-        props: Object.assign(OptionProps, externalProps),
+        props: {
+            ...OptionProps,
+            ...(externalProps || {}),
+        },
         setup({props}) {
             const {render, refer} = usePlc(props)
             if (!!setup) {

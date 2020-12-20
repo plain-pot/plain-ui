@@ -48,7 +48,7 @@ function getEditable(plc: Plc, node: TableNode) {
         return false
     }
     // 如果没有edit渲染函数以及作用域插槽，那么直接定性为不可编辑
-    if (!plc.props.edit && !plc.scopedSlots.edit) {
+    if (!plc.props.edit && !plc.scopedSlots.edit.isExist()) {
         return false
     }
     return typeof plc.props.editable === "function" ? plc.props.editable(node) : (plc.props.editable !== false)
