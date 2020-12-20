@@ -13,22 +13,24 @@ export const PltCell = designComponent({
         plc: {type: Object as PropType<Plc>, required: true},
     },
     setup({props}) {
-        const {body, editable} = renderBodyCell({node: props.node, plc: props.plc})
         return {
-            render: () => (
-                <td
-                    colspan={1}
-                    rowspan={1}
-                    class={[
-                        props.plc.classes.body,
-                        {
-                            'plt-cell-editing': editable,
-                        }
-                    ]}
-                    style={props.plc.styles.body as any}>
-                    {body}
-                </td>
-            )
+            render: () => {
+                const {body, editable} = renderBodyCell({node: props.node, plc: props.plc})
+                return (
+                    <td
+                        colspan={1}
+                        rowspan={1}
+                        class={[
+                            props.plc.classes.body,
+                            {
+                                'plt-cell-editing': editable,
+                            }
+                        ]}
+                        style={props.plc.styles.body as any}>
+                        {body}
+                    </td>
+                )
+            }
         }
     },
 })
