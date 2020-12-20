@@ -5,7 +5,7 @@ import {useNumber} from "../../../../use/useNumber";
 import PlcCollector from "../core/plc-collector";
 import {formatPlcList} from "./formatPlcList";
 
-export function usePlc(
+export function usePlcList(
     {
         props,
     }: {

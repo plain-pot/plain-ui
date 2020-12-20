@@ -5,7 +5,7 @@ import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
-import {usePlc} from "./plc/format/usePlc";
+import {usePlcList} from "./plc/format/usePlcList";
 import {computed, onMounted, PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
@@ -34,7 +34,7 @@ const Table = designComponent({
         const {styleComputed} = useStyle({shape: StyleShape.square, size: StyleSize.normal, status: undefined})
         const {emit} = event
         const {slots} = useSlots()
-        const {numberState, plcData} = usePlc({props})
+        const {numberState, plcData} = usePlcList({props})
         const {bindScroll} = useBindScroll(event)
         const {nodeState} = useTableNode({props, emit, getValidate: () => null as any})
         const {fixedShadowClass} = useFixedShadow(event)
