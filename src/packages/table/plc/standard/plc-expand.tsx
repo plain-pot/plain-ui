@@ -58,7 +58,7 @@ export default designPlc(
             const expand = (node: TableNode) => state.expandKeys[node.key] = true
             const close = (node: TableNode) => state.expandKeys[node.key] = false
             if (props.toggleOnClickRow) {
-                table.event.on.onClickRow(toggle)
+                table.event.on.onClickCell(toggle)
                 onBeforeUnmount(() => table.event.off.onClickRow(toggle))
             }
             const refer: ExpandRefer = {

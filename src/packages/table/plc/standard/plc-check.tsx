@@ -72,7 +72,7 @@ export default designPlc({
             },
         }
         if (props.toggleOnClickRow) {
-            table.event.on.onClickRow(handler.onClickCheckbox)
+            table.event.on.onClickCell(handler.onClickCheckbox)
             onBeforeUnmount(() => table.event.off.onClickRow(handler.onClickCheckbox))
         }
         Object.assign(proxy, methods)
