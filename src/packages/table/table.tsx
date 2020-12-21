@@ -6,7 +6,7 @@ import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlcList} from "./plc/format/usePlcList";
-import {computed, ComputedRef, onMounted, PropType} from 'vue';
+import {computed, ComputedRef, onMounted, PropType, inject} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useBindScroll} from "./core/useBindScroll";
 import {TableNode, useTableNode} from "./core/useTableNode";
@@ -112,5 +112,7 @@ const Table = designComponent({
 })
 
 export const PlainTable = Object as PropType<typeof Table.use.class>
+
+export function injectPlainTable() {return inject('@@pl-table') as typeof Table.use.class}
 
 export default Table
