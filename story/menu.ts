@@ -11,7 +11,7 @@ interface MenuGroup {
 }
 
 export const MENUS: MenuGroup[] = [
-    {
+    /*{
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/useSlots/demo-use-slots', complete: true},
             {name: 'useScopedSlots', page: '/use/useScopedSlots/demo-use-scoped-slots', complete: true},
@@ -111,7 +111,7 @@ export const MENUS: MenuGroup[] = [
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
             {name: '$file', title: '文件服务', page: '/service/file', complete: false},
         ]
-    },
+    },*/
     {
         name: '表格', children: [
             {name: 'Virtual', title: 'pl-virtual-table', page: '/table/virtual-table', complete: true},
