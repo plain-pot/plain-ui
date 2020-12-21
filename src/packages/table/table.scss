@@ -146,9 +146,7 @@
   }
   /*---------------------------------------row-------------------------------------------*/
   .plt-row {
-    &:not(:last-child) {
-      border-bottom: solid 1px $tableHeadBorderColor;
-    }
+    border-bottom: solid 1px $tableHeadBorderColor;
 
     &:hover {
       td {
@@ -197,22 +195,24 @@
           border-left: solid 1px $tableHeadBorderColor;
         }
       }
-    }
-  }
-  /*---------------------------------------shadow-------------------------------------------*/
-  .pl-table {
-    &, &.pl-table-border {
 
       &:after {
         position: absolute;
         right: 0;
         bottom: 0;
         top: 0;
-        width: 1px;
-        background-color: $tableHeadBorderColor;
+        left: 0;
+        background-color: transparent;
+        border: solid 0.5px $tableHeadBorderColor;
         content: '';
         z-index: 5;
+        pointer-events: none;
       }
+    }
+  }
+  /*---------------------------------------shadow-------------------------------------------*/
+  .pl-table {
+    &, &.pl-table-border {
 
       .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
 

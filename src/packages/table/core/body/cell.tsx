@@ -65,8 +65,9 @@ export const PltCell = designComponent({
 
         return {
             render: () => {
-                const {body, editable} = renderBodyCell({node: props.node, plc: props.plc})
-                const span = !!props.table.props.spanMethod ? props.table.props.spanMethod(props.node) : {rowspan: 1, colspan: 1}
+                const {node, plc} = props
+                const {body, editable} = renderBodyCell({node, plc})
+                const span = !!props.table.props.spanMethod ? props.table.props.spanMethod({node, plc}) : {rowspan: 1, colspan: 1}
 
                 if (span.rowspan === 0 || span.colspan === 0) {
                     /*rowspan为0时，不会正确合并单元格，如果要合并单元格得不渲染这个td*/

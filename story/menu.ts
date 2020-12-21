@@ -124,7 +124,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Edit Control', title: '编辑控制', page: '/table/table-plc-editable', complete: true},
             {name: 'Plc', title: '列组件', page: '/table/table-columns', complete: false},
             {name: 'Expand', title: '展开列', page: '/table/table-expand', complete: true},
-            {name: 'Span', title: '合并单元格', page: '/table/span/table-span', complete: false},
+            {name: 'Span', title: '合并单元格', page: '/table/span/table-span', complete: true},
             {name: 'Tree', title: '树形表格', page: '/table/tree/table-tree', complete: false},
             {name: 'Row Draggable', title: '行拖拽排序', page: '/table/table-row-draggable', complete: false},
             {name: 'Col Draggable', title: '列拖拽排序', page: '/table/table-col-draggable', complete: false},

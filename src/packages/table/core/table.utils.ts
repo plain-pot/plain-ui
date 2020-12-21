@@ -1,7 +1,7 @@
 import {StyleProps} from "../../../use/useStyle";
 import {SimpleObject, StyleProperties} from "../../../shims";
 import {PropType} from 'vue';
-import {TablePlc} from "../plc/core/plc.type";
+import {Plc, TablePlc} from "../plc/core/plc.type";
 import {TableNode} from "./useTableNode";
 import {MultipleClass} from "../../../use/useClasses";
 import {FormComponentRules} from "../../form/form.validate";
@@ -18,7 +18,7 @@ export type TablePropsCellStyleFunc = () => StyleProperties
 export type TablePropsHeadCellClassFunc = (plc: TablePlc) => MultipleClass
 export type TablePropsHeadCellStyleFunc = (plc: TablePlc) => StyleProperties
 
-export type TablePropsSpanMethod = (node: TableNode) => { rowspan: number, colspan: number }
+export type TablePropsSpanMethod = (socpe: { node: TableNode, plc: Plc }) => { rowspan: number, colspan: number }
 
 export enum TablePlcAlign {
     left = 'left',
