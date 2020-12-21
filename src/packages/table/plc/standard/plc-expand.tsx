@@ -1,5 +1,5 @@
 import {designPlc} from "../core/designPlc";
-import {reactive, computed, ComputedRef, PropType} from 'vue';
+import {reactive, computed, ComputedRef, PropType, onBeforeUnmount} from 'vue';
 import {injectPlainTable} from "../../table";
 import {TableNode} from "../../core/useTableNode";
 import {SimpleObject, VNodeChild} from "../../../../shims";
@@ -56,6 +56,10 @@ export default designPlc(
             const toggle = (node: TableNode) => isExpand(node) ? close(node) : expand(node)
             const expand = (node: TableNode) => state.expandKeys[node.key] = true
             const close = (node: TableNode) => state.expandKeys[node.key] = false
+            if (props.toggleOnClickRow) {
+                table.event.on.onClickRow(toggle)
+                onBeforeUnmount(() => table.event.off.onClickRow(toggle))
+            }
             const refer: ExpandRefer = {
                 state,
                 totalSpan,
