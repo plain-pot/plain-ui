@@ -258,6 +258,7 @@
   .plc-index-summary-text {
     font-size: 12px;
   }
+  /*input*/
   .plt-cell {
     & > * {
       vertical-align: middle;
@@ -273,6 +274,30 @@
           & > input {
             width: 100% !important;
           }
+        }
+      }
+    }
+  }
+  /*plc-expand*/
+  .plt-row {
+    &.plt-expand-row {
+      td {
+        background-color: white;
+        z-index: 5;
+        padding: 16px;
+        white-space: normal;
+      }
+    }
+
+    .plc-expand-icon {
+      .pl-icon {
+        @include transition;
+        transition-property: transform;
+      }
+
+      &.plc-expand-icon-active {
+        .pl-icon {
+          transform: rotate(-180deg);
         }
       }
     }

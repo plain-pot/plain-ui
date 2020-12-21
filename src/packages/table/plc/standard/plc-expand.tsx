@@ -1,7 +1,20 @@
 import {designPlc} from "../core/designPlc";
-import {reactive, computed} from 'vue';
+import {reactive, computed, ComputedRef, PropType} from 'vue';
 import {injectPlainTable} from "../../table";
 import {TableNode} from "../../core/useTableNode";
+import {SimpleObject, VNodeChild} from "../../../../shims";
+import {Plc, TableRenderScope} from "../core/plc.type";
+import {useScopedSlots} from "../../../../use/useScopedSlots";
+
+interface ExpandRefer {
+    isExpand: (node: TableNode) => boolean,
+    totalSpan: ComputedRef<number>,
+    state: { expandKeys: Record<string, boolean> },
+    toggle: (node: TableNode) => void,
+    scopedSlots: {
+        expand: ((scope: TableRenderScope, vnode: VNodeChild) => VNodeChild)
+    },
+}
 
 export default designPlc(
     {
@@ -14,8 +27,16 @@ export default designPlc(
             notFitVirtual: {default: true},
             noPadding: {default: true},
             renderAfterRow: {
-                default: ({plc, node, row}: any) => {
-
+                default: ({plc, node, row}: { plc: Plc & { externalRefer: () => ExpandRefer }, node: TableNode, row: SimpleObject }) => {
+                    const refer = plc.externalRefer()
+                    if (node.isSummary || !refer.isExpand(node)) {return null}
+                    return (
+                        <tr class="plt-row plt-expand-row">
+                            <td class="plt-cell" rowspan={1} colspan={refer.totalSpan.value}>
+                                {refer.scopedSlots.expand({node, plc, row})}
+                            </td>
+                        </tr>
+                    )
                 }
             },
         },
@@ -24,6 +45,9 @@ export default designPlc(
         },
         setup: (props) => {
             const table = injectPlainTable()
+            const {scopedSlots} = useScopedSlots({
+                expand: {node: Object as PropType<TableNode>, plc: Object as PropType<Plc>, row: Object as PropType<SimpleObject>},
+            })
             const state = reactive({
                 expandKeys: {} as Record<string, boolean>,
             })
@@ -32,17 +56,19 @@ export default designPlc(
             const toggle = (node: TableNode) => isExpand(node) ? close(node) : expand(node)
             const expand = (node: TableNode) => state.expandKeys[node.key] = true
             const close = (node: TableNode) => state.expandKeys[node.key] = false
-            return {
+            const refer: ExpandRefer = {
                 state,
                 totalSpan,
                 isExpand,
                 toggle,
+                scopedSlots,
             }
+            return refer
         }
     },
     {
-        summary: () => null,
-        head: () => '<>',
+        summary: () => '',
+        head: () => '',
         default: ({refer, node}) => {
             return (<pl-button{...{
                 icon: 'el-icon-arrow-down',

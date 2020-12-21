@@ -22,6 +22,7 @@ const Table = designComponent({
     props: {
         ...TableProps,
     },
+    provideRefer: true,
     emits: {
         onUpdateData: (data?: SimpleObject[]) => true,
         onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,

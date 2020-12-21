@@ -38,7 +38,7 @@ export function designPlc<_,
         }
         if (!!(render as any)[key]) {
             (value as any).default = function (scope: any) {
-                return (render as any)[key]({...scope, refer: scope.plc.external, props: scope.plc.props})
+                return (render as any)[key]({...scope, refer: scope.plc.externalRefer(), props: scope.plc.props})
             }
         }
     })
@@ -52,8 +52,8 @@ export function designPlc<_,
         setup({props}) {
             const {render, refer} = usePlc(props)
             if (!!setup) {
-                const external = setup(props as any)
-                Object.assign(refer, {external})
+                const externalRefer = setup(props as any)
+                Object.assign(refer, {externalRefer: () => externalRefer})
             }
             return {
                 refer,
