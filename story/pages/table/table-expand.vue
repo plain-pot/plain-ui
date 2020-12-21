@@ -5,7 +5,7 @@
                       :summaryData="summaryData"
                       virtual>
                 <!--            <plc-check ref="check" toggleOnClickRow/>-->
-                <plc-expand toggleOnClickRow>
+                <plc-expand :toggleOnClickRow="true">
                     <template v-slot:expand="{row}">
                         <pl-form column="1" disabled>
                             <pl-form-item label="普通文本">{{row.name}}</pl-form-item>
