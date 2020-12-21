@@ -93,7 +93,7 @@ export function useTableNode(
     )
     onBeforeUnmount(stopWatchEffect)
 
-    return {nodeState: state}
+    return {nodeState: state, dataModel}
 }
 
 export type TableNode = {
