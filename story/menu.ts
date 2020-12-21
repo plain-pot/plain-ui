@@ -151,4 +151,5 @@ export const MENUS: MenuGroup[] = [
             {name: '传递属性给根节点组件热更新报错', title: '列表拖拽排序', page: '/test/test-pass-attrs-hot-reload/test-pass-attrs-hot-reload', complete: true},
         ]
     },*/
+
 ]
