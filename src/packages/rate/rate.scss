@@ -3,6 +3,7 @@
     position: relative;
     display: inline-block;
     cursor: pointer;
+    overflow: hidden;
 
     .pl-rate-active {
       white-space: nowrap;

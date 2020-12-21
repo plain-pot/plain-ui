@@ -38,7 +38,7 @@
                 <plc-date field="date" title="日期"/>
                 <plc-color-picker field="color" title="颜色"/>
 
-                <plc field="star" title="评分"/>
+                <plc-rate field="star" title="评分"/>
             </pl-table>
         </demo-row>
     </div>

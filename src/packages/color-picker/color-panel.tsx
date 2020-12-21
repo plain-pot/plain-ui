@@ -131,20 +131,22 @@ export const ColorPanel = designComponent({
         return {
             render: () => (
                 <div class="pl-color-panel">
-                    <pl-color-sv-panel height="180"
-                                       width="240"
-                                       hue={state.color.hue}
-                                       modelValue={state.color.val}
-                                       saturation={state.color.saturation}
-                                       onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
+                    <div>
+                        <pl-color-sv-panel height="180"
+                                           width="240"
+                                           hue={state.color.hue}
+                                           modelValue={state.color.val}
+                                           saturation={state.color.saturation}
+                                           onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
 
-                    {state.color.enableAlpha && (
-                        <pl-color-alpha-slider
-                            size="180"
-                            color={state.color.hex}
-                            modelValue={state.color.alpha}
-                            onChange={handler.alphaChange}/>
-                    )}
+                        {state.color.enableAlpha && (
+                            <pl-color-alpha-slider
+                                size="180"
+                                color={state.color.hex}
+                                modelValue={state.color.alpha}
+                                onChange={handler.alphaChange}/>
+                        )}
+                    </div>
 
 
                     <pl-color-hue-slider size="240"

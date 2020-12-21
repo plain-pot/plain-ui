@@ -4,6 +4,10 @@
     font-size: 0;
     padding: 0 12px;
 
+    & > div:first-child {
+      white-space: nowrap;
+    }
+
     .pl-color-hue-slider {
       margin-top: 8px;
       display: block;
