@@ -3,6 +3,7 @@ import {PlainTable} from "../../table";
 import {PropType} from 'vue';
 import {PltCell} from "./cell";
 import {TableNode} from "../useTableNode";
+import {useClass} from "../../../../use/useClasses";
 
 export const PltRow = designComponent({
     name: 'plt-row',
@@ -19,11 +20,21 @@ export const PltRow = designComponent({
             vid: props.vid,
         }
 
+        const classes = useClass(() => {
+            const ret = [
+                'plt-row',
+            ]
+            if (!!props.table.props.rowClassFunc) {
+                ret.push(props.table.props.rowClassFunc(props.node) as any)
+            }
+            return ret
+        })
+
         return {
             render: () => {
                 const content = [
                     (
-                        <tr class="plt-row" style={`height:${props.table.numberState.bodyRowHeight}px`} {...handler}>
+                        <tr class={classes.value} style={`height:${props.table.numberState.bodyRowHeight}px`} {...handler}>
                             {props.table.plcData.value!.flatPlcList.map(plc => <PltCell table={props.table} node={props.node} plc={plc}/>)}
                         </tr>
                     ),

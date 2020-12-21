@@ -12,9 +12,9 @@ export type TablePropsIsCheckable = (node: TableNode) => boolean
 export type TablePropsIsLeaf = (node: TableNode) => boolean
 export type TablePropsFilterNodeMethod = (node: TableNode) => boolean
 
-export type TablePropsRowClassFunc = () => MultipleClass
-export type TablePropsCellClassFunc = () => MultipleClass
-export type TablePropsCellStyleFunc = () => StyleProperties
+export type TablePropsRowClassFunc = (node: TableNode) => MultipleClass
+export type TablePropsCellClassFunc = (node: TableNode, plc: Plc) => MultipleClass
+export type TablePropsCellStyleFunc = (node: TableNode, plc: Plc) => StyleProperties
 export type TablePropsHeadCellClassFunc = (plc: TablePlc) => MultipleClass
 export type TablePropsHeadCellStyleFunc = (plc: TablePlc) => StyleProperties
 
