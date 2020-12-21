@@ -23,9 +23,9 @@ export const PltRow = designComponent({
         const classes = useClass(() => {
             const ret = [
                 'plt-row',
-            ]
+            ] as any[]
             if (!!props.table.props.rowClassFunc) {
-                ret.push(props.table.props.rowClassFunc(props.node) as any)
+                ret.push(props.table.props.rowClassFunc(props.node))
             }
             return ret
         })

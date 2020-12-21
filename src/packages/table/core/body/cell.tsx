@@ -7,6 +7,8 @@ import {renderBodyCell} from "../../plc/core/render";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
 import {FormValidate, FormValidateTrigger} from "../../../form/form.validate";
+import {useClass} from "../../../../use/useClasses";
+import {useStyles} from "../../../../use/useStyles";
 
 function useCellFormItemValidate(props: { plc: Plc, node: TableNode }, validate: ComputedRef<FormValidate>) {
     const handler = {
@@ -73,17 +75,25 @@ export const PltCell = designComponent({
                     /*rowspan为0时，不会正确合并单元格，如果要合并单元格得不渲染这个td*/
                     return null
                 }
+                const classes = useClass(() => {
+                    const ret = [
+                        props.plc.classes.body,
+                        {'plt-cell-editing': editable,}
+                    ] as any[]
+                    if (!!props.table.props.cellClassFunc) {
+                        ret.push(props.table.props.cellClassFunc(node, plc))
+                    }
+                    return ret
+                })
+                const styles = useStyles(style => {
+                    Object.assign(style, plc.styles.body)
+                    if (!!props.table.props.cellStyleFunc) {
+                        Object.assign(style, props.table.props.cellStyleFunc(node, plc))
+                    }
+                })
 
                 return (
-                    <td
-                        {...span}
-                        class={[
-                            props.plc.classes.body,
-                            {
-                                'plt-cell-editing': editable,
-                            }
-                        ]}
-                        style={props.plc.styles.body as any}>
+                    <td{...span} class={classes.value} style={styles.value}>
                         {body}
                     </td>
                 )
