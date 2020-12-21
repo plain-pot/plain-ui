@@ -1,10 +1,12 @@
 import {App} from 'vue'
 import PlcIndex from './plc-index'
 import PlcExpand from './plc-expand'
+import PlcCheck from './plc-check'
 
 const components = [
     PlcIndex,
-    PlcExpand
+    PlcExpand,
+    PlcCheck,
 ]
 
 export const PlcStandard = {
@@ -15,5 +17,6 @@ export const PlcStandard = {
 
 export {
     PlcIndex,
-    PlcExpand
+    PlcExpand,
+    PlcCheck,
 }

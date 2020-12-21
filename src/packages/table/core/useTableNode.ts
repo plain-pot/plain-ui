@@ -248,9 +248,10 @@ function tableNodeGetter({props, getValidate}: { props: ExtractPropTypes<typeof 
                         }
                     },
                     /*保存编辑，将editRow以及newRow（请求得到的新对象）覆盖data*/
-                    async saveEdit(newRow = {}) {
+                    async saveEdit(newRow) {
                         if (!this.edit) return
-                        const {data, editRow} = this
+                        let {data, editRow} = this
+                        newRow = newRow || this.editRow
                         Object.keys({...data, ...editRow, ...newRow}).forEach(k => this.data[k] = newRow[k])
                     },
                 }

@@ -24,15 +24,15 @@
     }
 
     &.pl-rate-size-min {
-      font-size: 12px;
-    }
-
-    &.pl-rate-size-normal {
       font-size: 14px;
     }
 
-    &.pl-rate-size-large {
+    &.pl-rate-size-normal {
       font-size: 16px;
+    }
+
+    &.pl-rate-size-large {
+      font-size: 18px;
     }
   }
 }
