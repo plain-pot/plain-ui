@@ -1,35 +1,5 @@
 import {defineComponent} from "vue"
 
-function getRenderReturn<_,
-    Refer,
-    OptionProps,
-    >(
-    option: {
-        props?: OptionProps,
-        setup: (this: OptionProps) => Refer,
-        render: (refer: Refer) => any,
-    }): Refer {
-    return {} as any
-}
-
-const a = getRenderReturn({
-    props: {
-        name: "111",
-        age: 11,
-    },
-    setup() {
-        console.log(this.age.toPrecision(0))
-        console.log(this.name.anchor('1'))
-        return {
-            sayHello: () => 123
-        }
-    },
-    render(refer) {
-        // console.log(refer.props.age.toFixed(0))
-        // refer.sayHello()
-    }
-})
-
 defineComponent({
     props: {
         type: {type: HTMLDivElement, required: true}
@@ -46,3 +16,31 @@ defineComponent({
         console.log(this.name.charCodeAt(0))
     },
 })
+
+function fun<_,
+    Props,
+    Setup extends (props: Props) => any,
+    Render extends (refer: ReturnType<Setup>) => any,
+    >({}: {
+    props: Props,
+    setup: Setup,
+    render: Render,
+}): ReturnType<Setup> {
+    return {} as any
+}
+
+const a = fun({
+    props: {name: '111', age: 111},
+    setup: (props) => {
+        console.log(props.name.charAt(0))
+        return {
+            ...props,
+            sayHello: () => null,
+        }
+    },
+    render: (refer) => {
+        console.log(refer.sayHello())
+    }
+})
+
+
