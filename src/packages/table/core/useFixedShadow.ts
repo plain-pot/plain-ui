@@ -1,5 +1,6 @@
 import {PlainScroll} from "../../scroll/scroll";
 import {computed, reactive} from 'vue';
+import {useTableGetScroll} from "./useTableGetScroll";
 
 export function useFixedShadow(event: {
     on: {
@@ -18,7 +19,7 @@ export function useFixedShadow(event: {
             state.showFixedRight = contentWidth > hostWidth && Math.abs(wrapperScrollLeft + hostWidth - contentWidth) > 5
         }
     }
-    event.on.onVirtualMounted(({scroll}) => {
+    useTableGetScroll(event.on.onVirtualMounted, (scroll) => {
         if (!!freeState.scroll) {freeState.scroll.off.onScroll(freeState.onScroll)}
         freeState.scroll = scroll
         scroll.on.onScroll(freeState.onScroll)
