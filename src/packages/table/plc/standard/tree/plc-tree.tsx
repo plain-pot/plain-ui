@@ -2,7 +2,6 @@ import {designPlc} from "../../core/designPlc";
 import {PropType} from 'vue';
 import {TableNode} from "../../../core/useTableNode";
 import {TreeDropType} from "../../../../tree/utils/tree-constant";
-import {injectPlainTable} from "../../../table";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
@@ -23,7 +22,7 @@ export default designPlc({
         allowRowDroppable: {type: Function as PropType<(startNode: TableNode, moveNode: TableNode, dropType: TreeDropType) => boolean>},// 行是否可以被放置（放到子节点中，放到前面，放到后面）
     },
     setup(props) {
-        const {} = injectPlainTable()
+
 
     },
 })

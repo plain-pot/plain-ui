@@ -1,19 +1,19 @@
 import {SimpleObject, VNodeChild} from "../../../shims";
 import {TreeDropType, TreeNodeCheckStatus} from "../utils/tree-constant";
 
-export interface TreeNode {
+export type CreateNodeType<T, V = {}> = {
     key: string,
     data: SimpleObject,
     level: number,
-    parentRef: () => TreeNode | null,
-    selfRef: () => TreeNode,
+    parentRef: () => CreateNodeType<T> | null,
+    selfRef: () => CreateNodeType<T>,
 
     index: number,
     empty: boolean,
 
     readonly childrenData?: SimpleObject[]
     readonly label?: string,
-    children?: TreeNode[],
+    children?: CreateNodeType<T>[],
     readonly checkStatus: TreeNodeCheckStatus,
 
     expand: boolean,
@@ -26,11 +26,13 @@ export interface TreeNode {
     readonly isVisible: boolean,
 
     removeSelf: () => void,
-    previousSibling: (node: TreeNode) => void,
-    nextSibling: (node: TreeNode) => void,
-    unshiftChild: (node: TreeNode) => void,
+    previousSibling: (node: CreateNodeType<T>) => void,
+    nextSibling: (node: CreateNodeType<T>) => void,
+    unshiftChild: (node: CreateNodeType<T>) => void,
     getReactiveChildrenData: () => SimpleObject[],
-}
+} & V;
+
+export type TreeNode = CreateNodeType<any>
 
 export namespace TreePropsType {
 
