@@ -2,11 +2,13 @@ import {App} from 'vue'
 import PlcIndex from './plc-index'
 import PlcExpand from './plc-expand'
 import PlcCheck from './plc-check'
+import PlcDraggier from './draggier/plc-draggier'
 
 const components = [
     PlcIndex,
     PlcExpand,
     PlcCheck,
+    PlcDraggier,
 ]
 
 export const PlcStandard = {
@@ -19,4 +21,5 @@ export {
     PlcIndex,
     PlcExpand,
     PlcCheck,
+    PlcDraggier,
 }
