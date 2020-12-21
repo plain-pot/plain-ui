@@ -18,7 +18,7 @@ export type TablePropsCellStyleFunc = () => StyleProperties
 export type TablePropsHeadCellClassFunc = (plc: TablePlc) => MultipleClass
 export type TablePropsHeadCellStyleFunc = (plc: TablePlc) => StyleProperties
 
-export type TablePropsSpanMethod = () => number
+export type TablePropsSpanMethod = (node: TableNode) => { rowspan: number, colspan: number }
 
 export enum TablePlcAlign {
     left = 'left',

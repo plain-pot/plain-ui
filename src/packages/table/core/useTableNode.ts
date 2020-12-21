@@ -1,6 +1,6 @@
 import {SimpleObject} from "../../../shims";
 import {TreeNodeCheckStatus} from "../../tree/utils/tree-constant";
-import {FormValidate, FormValidateResult, FormValidateReturn} from "../../form/form.validate";
+import {FormValidate, FormValidateResult, FormValidateResultMap, FormValidateReturn} from "../../form/form.validate";
 import {computed, ExtractPropTypes, onBeforeUnmount, reactive, ref, watchEffect} from 'vue';
 import {TableProps} from "./table.utils";
 import {useModel} from "../../../use/useModel";
@@ -128,7 +128,7 @@ export type TableNode = {
     isSummary: boolean,                                 // 当前是否为合计行数据
     edit: boolean,                                      // 当前是否处于可编辑状态
     editRow: SimpleObject,                              // 编辑行对象
-    validateResult: FormValidateResult | null,          // 当前行的校验结果
+    validateResultMap: FormValidateResultMap | null,    // 当前行的校验结果
 
     openEdit: () => void,                               // 开启编辑状态（不做任何处理）
     closeEdit: () => void,                              // 关闭编辑状态（不做任何处理）
@@ -220,7 +220,7 @@ function tableNodeGetter({props, getValidate}: { props: ExtractPropTypes<typeof 
                     /*当前编辑行数据*/
                     editRow: data,
                     /*校验结果信息*/
-                    validateResult: null,
+                    validateResultMap: null,
 
                     /*开启编辑状态（不做任何处理）*/
                     openEdit() {this.edit = true},
@@ -239,7 +239,7 @@ function tableNodeGetter({props, getValidate}: { props: ExtractPropTypes<typeof 
                     async validate() {
                         const {methods: {validate}} = getValidate()
                         const {validateMessage, validateResult, validateResultMap} = await validate(this.editRow)
-                        this.validateResult = validateResult || null
+                        this.validateResultMap = validateResultMap || null
                         return !validateMessage ? null : {
                             validateMessage,
                             validateResult,
