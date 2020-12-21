@@ -2,7 +2,7 @@ import {designComponent} from "../../../../use/designComponent";
 import {PlcProps} from "./plc.utils";
 import {usePlc} from "./plc";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {ComponentPropsOptions, ExtractPropTypes} from 'vue';
+import {ComponentInternalInstance, ComponentPropsOptions, ExtractPropTypes} from 'vue';
 import {VNodeChild} from "../../../../shims";
 import {Plc} from "./plc.type";
 import {TableNode} from "../../core/useTableNode";
@@ -21,7 +21,7 @@ export function designPlc<_,
         name: string,
         standardProps?: Partial<{ [k in keyof typeof PlcProps]: any }>,
         externalProps?: ExternalProps,
-        setup?: (props: TargetProps) => ExternalRefer,
+        setup?: (props: TargetProps, ctx: ComponentInternalInstance) => ExternalRefer,
     },
     render?: {
         head?: (scope: { plc: Plc, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
@@ -53,10 +53,10 @@ export function designPlc<_,
             ...OptionProps,
             ...(externalProps || {}),
         },
-        setup({props}) {
+        setup({props, ctx}) {
             const {render, refer} = usePlc(props)
             if (!!setup) {
-                const externalRefer = setup(props as any)
+                const externalRefer = setup(props as any, ctx!)
                 Object.assign(refer, {externalRefer: () => externalRefer})
             }
             return {
