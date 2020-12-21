@@ -302,4 +302,18 @@
       }
     }
   }
+  /*plc-draggier*/
+  .pl-button.plc-draggier-handler {
+    cursor: move;
+  }
+  /*col draggier*/
+  .plt-col-draggier-indicator {
+    &[droppable="true"] {
+      background-color: $colorPrimary;
+    }
+
+    &[droppable="false"] {
+      background-color: $colorError;
+    }
+  }
 }
