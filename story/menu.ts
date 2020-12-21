@@ -128,7 +128,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Tree', title: '树形表格', page: '/table/tree/table-tree', complete: false},
             {name: 'Row Draggable', title: '行拖拽排序', page: '/table/table-row-draggable', complete: true},
             {name: 'Col Draggable', title: '列拖拽排序', page: '/table/table-col-draggable', complete: true},
-            {name: 'Table class-style', title: '行列样式', page: '/table/table-class-style', complete: false},
+            {name: 'Table class-style', title: '行列样式', page: '/table/table-class-style', complete: true},
         ]
     },
     /*{
