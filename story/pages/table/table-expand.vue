@@ -44,7 +44,7 @@
         name: "table-expand",
         data() {
             return {
-                data,
+                data: data.slice(0, data.length - 3),
                 summaryData: data.slice(data.length - 2, data.length)
             }
         },

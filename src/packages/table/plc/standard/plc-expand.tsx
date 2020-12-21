@@ -29,7 +29,7 @@ export default designPlc(
             renderAfterRow: {
                 default: ({plc, node, row}: { plc: Plc & { externalRefer: () => ExpandRefer }, node: TableNode, row: SimpleObject }) => {
                     const refer = plc.externalRefer()
-                    if (node.isSummary || !refer.isExpand(node)) {return null}
+                    if (!refer.isExpand(node)) {return null}
                     return (
                         <tr class="plt-row plt-expand-row">
                             <td class="plt-cell" rowspan={1} colspan={refer.totalSpan.value}>
@@ -42,6 +42,7 @@ export default designPlc(
         },
         externalProps: {
             toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
+            summaryExpand: {type: Boolean},                         // 合计行是否可以展开
         },
         setup: (props) => {
             const table = injectPlainTable()
@@ -71,10 +72,9 @@ export default designPlc(
         }
     },
     {
-        summary: () => '',
         head: () => '',
-        default: ({refer, node}) => {
-            return (<pl-button{...{
+        default: ({refer, node, props}) => {
+            return (!node.isSummary || props.summaryExpand) && (<pl-button{...{
                 icon: 'el-icon-arrow-down',
                 mode: 'text',
                 class: [
