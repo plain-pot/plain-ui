@@ -14,7 +14,6 @@ export function designPlc<_,
     >(
     {
         name,
-        render,
         standardProps,
         externalProps,
         setup,
@@ -22,14 +21,14 @@ export function designPlc<_,
         name: string,
         standardProps?: Partial<{ [k in keyof typeof PlcProps]: any }>,
         externalProps?: ExternalProps,
-        render: {
-            head?: (scope: { plc: Plc, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-            default?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-            summary?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-            edit?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-        },
         setup?: (props: TargetProps) => ExternalRefer,
-    }
+    },
+    render?: {
+        head?: (scope: { plc: Plc, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        default?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        summary?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        edit?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+    },
 ) {
     const OptionProps = deepcopy(PlcProps)
 
