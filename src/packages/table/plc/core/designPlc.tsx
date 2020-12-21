@@ -38,7 +38,11 @@ export function designPlc<_,
         }
         if (!!(render as any)[key]) {
             (value as any).default = function (scope: any) {
-                return (render as any)[key]({...scope, refer: scope.plc.externalRefer(), props: scope.plc.props})
+                return (render as any)[key]({
+                    ...scope,
+                    refer: !scope.plc.externalRefer ? null : scope.plc.externalRefer(),
+                    props: scope.plc.props
+                })
             }
         }
     })
