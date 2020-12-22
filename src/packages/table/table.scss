@@ -343,6 +343,7 @@
 
     .plc-tree-node-expander, .plc-tree-node-check {
       width: 30px;
+      text-align: center;
     }
 
     .plc-tree-node-content {
@@ -350,6 +351,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      padding-left: 9px;
     }
   }
 }

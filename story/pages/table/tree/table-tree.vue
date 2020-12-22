@@ -30,14 +30,15 @@
                 <pl-button-group>
                     <pl-button label="全部展开" @click="$refs.tree2.expandAll()"/>
                     <pl-button label="全部收起" @click="$refs.tree2.collapseAll()"/>
-                    <pl-button label="获取选中数据" @click="$message($refs.tree2.getCheckedData().map(item=>item.name).join(','))"/>
+                    <pl-button label="获取选中数据" @click="$message($refs.tree2.getCheckedData().map(({data})=>data.name).join(','))"/>
                 </pl-button-group>
             </demo-line>
             <pl-table :data="data"
                       keyField="id"
-                      childrenField="subs">
+                      childrenField="subs"
+                      showCheckbox>
                 <plc-index/>
-                <plc-tree ref="tree2" showCheckbox>
+                <plc-tree ref="tree2">
                     <template v-slot:content="{row}">
                         {{row.name}}
                     </template>
@@ -69,17 +70,18 @@
             <demo-line>
                 <pl-button-group>
                     <pl-button @click="$message($refs.strictCheck.getSelected().map(node=>node.data.name).join(','))">获取多选列的选中数据</pl-button>
-                    <pl-button @click="$message($refs.strictTree.getCheckedData().map(item=>item.name).join(','))">获取树列的选中数据</pl-button>
+                    <pl-button @click="$message($refs.strictTree.getCheckedData().map(({data})=>data.name).join(','))">获取树列的选中数据</pl-button>
                 </pl-button-group>
             </demo-line>
             <pl-table :data="data"
 
                       keyField="id"
                       childrenField="subs"
-                      checkStrictly>
+                      checkStrictly
+                      showCheckbox>
                 <plc-index/>
                 <plc-check ref="strictCheck"/>
-                <plc-tree ref="strictTree" showCheckbox>
+                <plc-tree ref="strictTree">
                     <template v-slot:content="{row}">
                         {{row.name}}
                     </template>
@@ -93,17 +95,18 @@
             <demo-line>
                 <pl-button-group>
                     <pl-button @click="$message($refs.disabledCheck.getSelected().map(node=>node.data.name).join(','))">获取多选列的选中数据</pl-button>
-                    <pl-button @click="$message($refs.disabledCheckTree.getCheckedData().map(item=>item.name).join(','))">获取树列的选中数据</pl-button>
+                    <pl-button @click="$message($refs.disabledCheckTree.getCheckedData().map(({data})=>data.name).join(','))">获取树列的选中数据</pl-button>
                 </pl-button-group>
             </demo-line>
             <pl-table :data="data"
 
                       keyField="id"
                       childrenField="subs"
-                      :isCheckable="customIsCheckable">
+                      :isCheckable="customIsCheckable"
+                      showCheckbox>
                 <plc-index/>
                 <plc-check ref="disabledCheck" :isCheckable="customIsCheckable"/>
-                <plc-tree ref="disabledCheckTree" showCheckbox>
+                <plc-tree ref="disabledCheckTree">
                     <template v-slot:content="{row}">
                         {{row.name}}
                     </template>

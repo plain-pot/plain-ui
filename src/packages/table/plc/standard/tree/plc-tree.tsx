@@ -103,6 +103,7 @@ export default designPlc({
         }
 
         return {
+            tableProps: table.props,
             props,
             scopedSlots,
             handler,
@@ -122,6 +123,19 @@ export default designPlc({
                         icon={node.isLeaf ? refer.props.leafIcon : node.expand ? refer.props.folderExpandIcon : refer.props.folderCollapseIcon}
                         onClick={(e: MouseEvent) => !node.isLeaf && refer.handler.onClickExpandIcon(e, node)}/>
                 </div>
+                {refer.tableProps.showCheckbox && (
+                    <div class="plc-tree-node-check">
+                        <pl-checkbox
+                            key={node.key}
+                            size={'normal'}
+                            modelValue={node.check}
+                            customReadonlny
+                            checkStatus={node.checkStatus}
+                            disabled={!node.isCheckable}
+                            onClick={(e: MouseEvent) => refer.handler.onClickCheckbox(e, node)}
+                        />
+                    </div>
+                )}
                 {refer.scopedSlots.content.isExist() && (
                     <div class="plc-tree-node-content">
                         {refer.scopedSlots.content({node, row, plc}, !plc.props.field ? null : row[plc.props.field])}
