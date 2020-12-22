@@ -153,6 +153,14 @@
         background-color: $tableRowHoverBackground;
       }
     }
+
+    &.plt-row-current {
+      &, &:hover {
+        td {
+          background-color: $tableRowCurrentBackground;
+        }
+      }
+    }
   }
   .plt-head {
     tr {
