@@ -342,6 +342,7 @@
     import treeData from '../data/tree.data'
     import addressData from '../data/address'
     import {deepcopy} from "plain-utils/object/deepcopy";
+    import {delay} from "plain-utils/utils/delay";
 
     export default {
         name: "tree",
@@ -421,16 +422,17 @@
 
                 scopedSlotDemo: {
                     treeData: deepcopy(treeData),
-                    addItem: (e, treeNode) => {
+                    addItem: async (e, treeNode) => {
                         e.stopPropagation()
                         const {data} = treeNode
-                        if (!data.subs) {data.subs = []}
-                        const subs = data.subs
+                        const subs = data.subs || []
                         const name = `n-${data.id}-${subs.length + 1}`
                         const id = name + Date.now().toString()
                         subs.push({id, name: `new item ${name}`,})
+                        // 这里触发响应式更新，单独修改subs数组可能不会触发视图更新
+                        data.subs = [...subs]
                         this.$refs.scopedSlotDemo.refreshCheckStatus(treeNode)
-                        this.$nextTick().then(() => this.$refs.scopedSlotDemo.expand(id))
+                        this.$refs.scopedSlotDemo.expand(id)
                     },
                     deleteItem: (e, treeNode) => {
                         e.stopPropagation()
@@ -468,13 +470,9 @@
                         e.stopPropagation()
                         const {data} = treeNode
                         const subs = data.subs || []
-
                         const name = `n-${data.id}-${subs.length + 1}`
                         const id = name + Date.now().toString()
-                        subs.push({
-                            id,
-                            name: `new item ${name}`,
-                        })
+                        subs.push({id, name: `new item ${name}`,})
                         data.subs = subs
                         this.$refs.renderDemo.refreshCheckStatus(treeNode)
                         this.$nextTick().then(() => this.$refs.renderDemo.expand(id))
