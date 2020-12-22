@@ -1,10 +1,10 @@
 import {designPlc} from "../../core/designPlc";
-import {PropType, onMounted, watch, computed} from 'vue';
+import {computed, onMounted, PropType, watch} from 'vue';
 import {TableNode} from "../../../core/useTableNode";
 import {TreeDropType} from "../../../../tree/utils/tree-constant";
 import {useScopedSlots} from "../../../../../use/useScopedSlots";
 import {Plc} from "../../core/plc.type";
-import {SimpleObject, StyleProperties} from "../../../../../shims";
+import {SimpleObject} from "../../../../../shims";
 import {injectPlainTable} from "../../../table";
 import {unit} from "plain-utils/string/unit";
 
