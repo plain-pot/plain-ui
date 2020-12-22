@@ -6,17 +6,16 @@ import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlcList} from "./plc/format/usePlcList";
-import {computed, ComputedRef, onMounted, PropType, inject} from 'vue';
-import {SimpleObject} from "../../shims";
+import {computed, ComputedRef, inject, onMounted, PropType} from 'vue';
 import {useBindScroll} from "./core/useBindScroll";
 import {TableNode, useTableNode} from "./core/useTableNode";
 import {useRefs} from "../../use/useRefs";
 import {PlainScroll} from "../scroll/scroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
-import {useTableCurrent} from "./core/useTableCurrent";
 import {formatFormRules, FormValidate} from "../form/form.validate";
 import {useTree} from "../tree/core/useTree";
+import {hasClass} from "plain-utils/dom/hasClass";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -53,7 +52,6 @@ const Table = designComponent({
         const {bindScroll} = useBindScroll(event)
         const {state, flatNodes, summaryNodes, dataModel, methods} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)
-        const tableCurrent = useTableCurrent({methods, emit: event.emit})
         const formValidate = computed(() => formatFormRules(
             props.rules,
             !plcData.value ? undefined : plcData.value.flatPlcList.map(plc => ({
@@ -76,6 +74,18 @@ const Table = designComponent({
             ...fixedShadowClass.value,
         ])
 
+        const handler = {
+            onClickRow: (e: MouseEvent, node: TableNode) => {
+                methods.setCurrent(node.key);
+                emit.onClickRow(node, e);
+                hasClass(e.target as HTMLElement, 'plt-cell') && emit.onClickCell(node, e);
+            },
+            onDblclickRow: (e: MouseEvent, node: TableNode) => {
+                emit.onDblclickRow(node, e)
+                hasClass(e.target as HTMLElement, 'plt-cell') && emit.onDblclickCell(node, e);
+            }
+        }
+
         const refer = {
             refs,
             props,
@@ -86,7 +96,7 @@ const Table = designComponent({
             dataModel,
             state, flatNodes, summaryNodes,
             disabledVirtual,
-            tableCurrent,
+            handler,
             ...methods,
             formValidate,
         }
