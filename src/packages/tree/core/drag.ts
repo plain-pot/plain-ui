@@ -4,7 +4,6 @@ import Scroll from "../../scroll/scroll";
 import {StyleProperties} from "../../../shims";
 import {getRowEl} from "../../../utils/getRowEl";
 import {getScrollParent} from "../../../utils/getScrollParent";
-import {TreeNode} from "./type";
 
 const indicatorSize = 3;
 

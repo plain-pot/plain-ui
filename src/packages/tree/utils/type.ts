@@ -1,5 +1,5 @@
 import {SimpleObject, VNodeChild} from "../../../shims";
-import {TreeDropType, TreeNodeCheckStatus} from "../utils/tree-constant";
+import {TreeDropType, TreeNodeCheckStatus} from "./tree-constant";
 
 export type TreeNode = {
     key: string,
