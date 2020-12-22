@@ -133,6 +133,7 @@ export default designComponent({
                     flatList.value.forEach(next)
                 }
             },
+            methods,
         })
 
         const render = {

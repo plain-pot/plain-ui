@@ -4,6 +4,7 @@ import Scroll from "../../scroll/scroll";
 import {StyleProperties} from "../../../shims";
 import {getRowEl} from "../../../utils/getRowEl";
 import {getScrollParent} from "../../../utils/getScrollParent";
+import {TreeNode} from "./type";
 
 const indicatorSize = 3;
 
@@ -16,11 +17,6 @@ export function useTreeDraggier<T extends {
     children?: T[],
     check?: boolean,
     empty: boolean,
-
-    removeSelf: () => void,
-    previousSibling: (node: T) => void,
-    nextSibling: (node: T) => void,
-    unshiftChild: (node: T) => void,
 }>(
     {
         rowClass,
@@ -32,6 +28,7 @@ export function useTreeDraggier<T extends {
         expand,
         getScroll,
         refreshCheckStatus,
+        methods,
     }: {
         rowClass: string,                               // 行 class 标识
         dragClass: string,                              // 拖拽的节点class标识
@@ -42,6 +39,12 @@ export function useTreeDraggier<T extends {
         expand: (node: T) => void,                      // 展开某个元素
         getScroll: () => typeof Scroll.use.class,       // 获取 Scroll 组件实例引用
         refreshCheckStatus: () => void,                 // 刷新所有元素的选中状态
+        methods: {
+            removeSelf: (node: T) => void,
+            previousSibling: (self: T, target: T) => void,
+            nextSibling: (self: T, target: T) => void,
+            unshiftChild: (self: T, target: T) => void,
+        },
     }
 ) {
 
@@ -221,18 +224,18 @@ export function useTreeDraggier<T extends {
                 return
             }
 
-            startNode!.removeSelf()
+            methods.removeSelf(startNode!)
 
             switch (dropType) {
                 case TreeDropType.prev:
-                    moveNode!.previousSibling(startNode!)
+                    methods.previousSibling(moveNode!, startNode!)
                     break
                 case TreeDropType.inner:
-                    moveNode!.unshiftChild(startNode!)
+                    methods.unshiftChild(moveNode!, startNode!)
                     expand(moveNode!)
                     break
                 case TreeDropType.next:
-                    moveNode!.nextSibling(startNode!)
+                    methods.nextSibling(moveNode!, startNode!)
                     break
             }
 

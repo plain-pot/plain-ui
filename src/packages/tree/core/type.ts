@@ -24,12 +24,6 @@ export type TreeNode = {
     readonly isCheckable: boolean,
     readonly isLeaf: boolean,
     readonly isVisible: boolean,
-
-    removeSelf: () => void,
-    previousSibling: (node: TreeNode) => void,
-    nextSibling: (node: TreeNode) => void,
-    unshiftChild: (node: TreeNode) => void,
-    getReactiveChildrenData: () => SimpleObject[],
 }
 
 export namespace TreePropsType {
