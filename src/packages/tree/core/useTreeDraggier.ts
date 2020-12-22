@@ -20,25 +20,23 @@ export function useTreeDraggier<T extends {
     {
         rowClass,
         dragClass,
-        intent,
         flatList,
-        allowDrag,
-        allowDrop,
-        expand,
         getScroll,
-        refreshCheckStatus,
+        props,
         methods,
     }: {
-        rowClass: string,                               // 行 class 标识
-        dragClass: string,                              // 拖拽的节点class标识
-        intent: number,                                 // 层级偏移距离
-        flatList: { value: T[] },                       // 拍平的数据
-        allowDrag?: (node: T) => boolean | undefined,   // 判断元素是否可以拖拽
-        allowDrop?: (start: T, move: T, dropType: TreeDropType) => boolean | undefined,// 判断元素是否可以放置
-        expand: (node: T) => void,                      // 展开某个元素
-        getScroll: () => typeof Scroll.use.class,       // 获取 Scroll 组件实例引用
-        refreshCheckStatus: () => void,                 // 刷新所有元素的选中状态
+        rowClass: string,                                   // 行 class 标识
+        dragClass: string,                                  // 拖拽的节点class标识
+        flatList: { value: T[] },                           // 拍平的数据
+        getScroll: () => typeof Scroll.use.class,           // 获取 Scroll 组件实例引
+        props: {
+            intent: number,                                 // 层级偏移距离
+            allowDrag?: (node: T) => boolean | undefined,   // 判断元素是否可以拖拽
+            allowDrop?: (start: T, move: T, dropType: TreeDropType) => boolean | undefined,// 判断元素是否可以放置
+        },
         methods: {
+            expand: (node: T) => void,                      // 展开某个元素
+            refreshCheckStatus: () => void,                 // 刷新所有元素的选中状态
             removeSelf: (node: T) => void,
             previousSibling: (self: T, target: T) => void,
             nextSibling: (self: T, target: T) => void,
@@ -91,17 +89,17 @@ export function useTreeDraggier<T extends {
             return parents
         },
         allowRowDraggable: (node: T) => {
-            return !allowDrag || allowDrag(node) !== false
+            return !props.allowDrag || props.allowDrag(node) !== false
         },
         allowRowDroppable: (startNode: T, moveNode: T, dropType: TreeDropType) => {
-            return !allowDrop || allowDrop(startNode, moveNode, dropType) !== false
+            return !props.allowDrop || props.allowDrop(startNode, moveNode, dropType) !== false
         },
         getIndicatorStyles(moveNode: T, droppable: boolean, dropType: TreeDropType) {
 
             const styles: StyleProperties = {}
 
             let top = moveNode.index * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop)
-            let paddingLeft = (moveNode.level - state.startNode!.level) * intent
+            let paddingLeft = (moveNode.level - state.startNode!.level) * props.intent
 
             styles.top = `${dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top}px`
             styles.left = `${state.dragNodeBaseLeft + paddingLeft}px`
@@ -231,14 +229,13 @@ export function useTreeDraggier<T extends {
                     break
                 case TreeDropType.inner:
                     methods.unshiftChild(moveNode!, startNode!)
-                    expand(moveNode!)
+                    methods.expand(moveNode!)
                     break
                 case TreeDropType.next:
                     methods.nextSibling(moveNode!, startNode!)
                     break
             }
-
-            refreshCheckStatus()
+            methods.refreshCheckStatus()
         }
     }
 

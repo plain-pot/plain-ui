@@ -8,7 +8,7 @@ import {TreeUtils} from "./utils/tree.utils";
 import {TreeNode} from "./utils/type";
 import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
-import {useTreeDraggier} from './core/drag';
+import {useTreeDraggier} from './core/useTreeDraggier';
 import Scroll from '../scroll/scroll'
 import {delay} from "plain-utils/utils/delay";
 import {useTree} from "./core/useTree";
@@ -84,18 +84,16 @@ export default designComponent({
         const draggier = useTreeDraggier<TreeNode>({
             rowClass: 'pl-tree-node',
             dragClass: 'pl-tree-node-draggier',
-            intent: props.intent,
             flatList,
-            allowDrag: props.allowDrag,
-            allowDrop: props.allowDrop,
-            expand: (node: TreeNode) => methods.expand(node),
             getScroll: () => props.virtual ? refs.list!.refs.scroll! : refs.scroll!,
-            refreshCheckStatus: async () => {
-                await nextTick()
-                await delay(120)
-                flatList.value.forEach(methods.refreshCheckStatus)
+            props,
+            methods: {
+                ...methods,
+                refreshCheckStatus: async () => {
+                    await delay(120)
+                    flatList.value.forEach(methods.refreshCheckStatus)
+                },
             },
-            methods,
         })
 
         const render = {
