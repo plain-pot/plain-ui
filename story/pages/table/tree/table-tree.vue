@@ -215,6 +215,7 @@
         data() {
             return {
                 data,
+                log: (...args) => console.log(...args),
                 lazyDemo: {
                     data: [],
                     isLeaf: (node) => {

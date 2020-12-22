@@ -70,15 +70,20 @@ export default designPlc({
             },
         }
 
+        const methods = {
+            ...table.expandMethods,
+            ...table.checkMethods,
+        }
+
         const handler = {
             clickExpandIcon: async (e: MouseEvent, node: TableNode) => {
                 e.stopPropagation()
                 if (node.isLeaf) {return}
-                await table.toggleExpand(node.key)
+                await methods.toggleExpand(node.key)
             },
             clickCheckbox: async (e: MouseEvent, node: TableNode) => {
                 e.stopPropagation()
-                await table.toggleCheck(node.key)
+                await methods.toggleCheck(node.key)
             }
         }
 
@@ -87,6 +92,8 @@ export default designPlc({
                 plc.state.width = width.value
             }, {immediate: true})
         })
+
+        Object.assign(ctx.proxy, methods)
 
         return {
             props,

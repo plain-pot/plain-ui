@@ -349,9 +349,9 @@ function use<Node extends {
         handler,
         methods: {
             ...baseMethods,
-            ...expandMethods,
-            ...checkMethods,
-            ...treeNodeMethods,
+            expandMethods,
+            checkMethods,
+            treeNodeMethods,
         },
     }
 }

@@ -66,6 +66,13 @@ export default designComponent({
             return result
         })
 
+        const exposeMethods = {
+            ...methods,
+            ...methods.expandMethods,
+            ...methods.checkMethods,
+            ...methods.treeNodeMethods,
+        }
+
         /*---------------------------------------draggier-------------------------------------------*/
 
         const draggier = useTreeDraggier<TreeNode>({
@@ -75,10 +82,10 @@ export default designComponent({
             getScroll: () => props.virtual ? refs.list!.refs.scroll! : refs.scroll!,
             props,
             methods: {
-                ...methods,
+                ...exposeMethods,
                 refreshCheckStatus: async () => {
                     await delay(120)
-                    flatList.value.forEach(methods.refreshCheckStatus)
+                    flatList.value.forEach(methods.checkMethods.refreshCheckStatus)
                 },
             },
         })
@@ -141,7 +148,7 @@ export default designComponent({
 
         return {
             refer: {
-                ...methods,
+                ...exposeMethods,
             },
             render: () => {
                 return (
