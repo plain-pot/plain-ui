@@ -76,15 +76,7 @@ export default designPlc({
         }
 
         const handler = {
-            clickExpandIcon: async (e: MouseEvent, node: TableNode) => {
-                e.stopPropagation()
-                if (node.isLeaf) {return}
-                await methods.toggleExpand(node.key)
-            },
-            clickCheckbox: async (e: MouseEvent, node: TableNode) => {
-                e.stopPropagation()
-                await methods.toggleCheck(node.key)
-            }
+            ...table.handler,
         }
 
         onMounted(() => {
@@ -113,7 +105,7 @@ export default designPlc({
                         mode="text"
                         size="normal"
                         icon={node.isLeaf ? refer.props.leafIcon : node.expand ? refer.props.folderExpandIcon : refer.props.folderCollapseIcon}
-                        onClick={(e: MouseEvent) => refer.handler.clickExpandIcon(e, node)}/>
+                        onClick={(e: MouseEvent) => !node.isLeaf && refer.handler.onClickExpandIcon(e, node)}/>
                 </div>
                 {refer.scopedSlots.content.isExist() && (
                     <div class="plc-tree-node-content">
