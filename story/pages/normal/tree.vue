@@ -4,9 +4,9 @@
 
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.tree1.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.tree1.methods.collapseAll()"/>
-                    <pl-button label="展开特定节点" @click="$refs.tree1.methods.expand('2-2-2')"/>
+                    <pl-button label="全部展开" @click="$refs.tree1.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.tree1.collapseAll()"/>
+                    <pl-button label="展开特定节点" @click="$refs.tree1.expand('2-2-2')"/>
                     <pl-button label="展开部分节点" @click="tree1.expandSome"/>
                     <pl-button label="当前选中节点" @click="tree1.showCurrent"/>
                     <pl-button label="展开并且设置当前选中节点" @click="tree1.expandAndSelect"/>
@@ -28,12 +28,12 @@
         <demo-row title="多选">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="展开所有节点" @click="$refs.checkTree.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.checkTree.methods.collapseAll()"/>
-                    <pl-button label="全部选中" @click="$refs.checkTree.methods.checkAll()"/>
-                    <pl-button label="全部取消" @click="$refs.checkTree.methods.uncheckAll()"/>
-                    <pl-button label="选中部分数据" @click="$refs.checkTree.methods.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                    <pl-button label="展开所有节点" @click="$refs.checkTree.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.checkTree.collapseAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkTree.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree
@@ -50,7 +50,7 @@
         <demo-row title="懒加载子节点">
             <demo-line>
                 <pl-button label="打印数据" @click="log(lazyDemo.treeData)"/>
-                <pl-button label="获取选中的数据" @click="$message($refs.lazyTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.lazyTree.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
             </demo-line>
             <pl-tree
                     v-model:data="lazyDemo.treeData"
@@ -71,12 +71,12 @@
         <demo-row title="多选：父子互不关联">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="展开所有节点" @click="$refs.checkStrictlyTree.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.checkStrictlyTree.methods.collapseAll()"/>
-                    <pl-button label="全部选中" @click="$refs.checkStrictlyTree.methods.checkAll()"/>
-                    <pl-button label="全部取消" @click="$refs.checkStrictlyTree.methods.uncheckAll()"/>
-                    <pl-button label="选中部分数据" @click="$refs.checkStrictlyTree.methods.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkStrictlyTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                    <pl-button label="展开所有节点" @click="$refs.checkStrictlyTree.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.checkStrictlyTree.collapseAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkStrictlyTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkStrictlyTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkStrictlyTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkStrictlyTree.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree ref="checkStrictlyTree"
@@ -92,11 +92,11 @@
         <demo-row title="多选：禁用部分选项，只能勾选1结尾的节点">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="展开所有节点" @click="$refs.checkableTree.methods.expandAll()"/>
-                    <pl-button label="全部选中" @click="$refs.checkableTree.methods.checkAll()"/>
-                    <pl-button label="全部取消" @click="$refs.checkableTree.methods.uncheckAll()"/>
-                    <pl-button label="选中部分数据" @click="$refs.checkableTree.methods.check(['1-1-1','2-2-2'])"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                    <pl-button label="展开所有节点" @click="$refs.checkableTree.expandAll()"/>
+                    <pl-button label="全部选中" @click="$refs.checkableTree.checkAll()"/>
+                    <pl-button label="全部取消" @click="$refs.checkableTree.uncheckAll()"/>
+                    <pl-button label="选中部分数据" @click="$refs.checkableTree.check(['1-1-1','2-2-2'])"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.checkableTree.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
             <pl-tree ref="checkableTree"
@@ -113,10 +113,10 @@
 
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.methods.collapseAll()"/>
-                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.methods.getCurrent() ? $refs.scopedSlotDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                    <pl-button label="全部展开" @click="$refs.scopedSlotDemo.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.scopedSlotDemo.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.scopedSlotDemo.getCurrent() ? $refs.scopedSlotDemo.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.scopedSlotDemo.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                     <pl-button label="打印数据" @click="log(scopedSlotDemo.treeData)"/>
                 </pl-button-group>
             </demo-line>
@@ -146,10 +146,10 @@
 
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.renderDemo.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.renderDemo.methods.collapseAll()"/>
-                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.methods.getCurrent() ? $refs.renderDemo.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                    <pl-button label="全部展开" @click="$refs.renderDemo.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.renderDemo.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.renderDemo.getCurrent() ? $refs.renderDemo.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.renderDemo.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                 </pl-button-group>
             </demo-line>
 
@@ -198,7 +198,7 @@
 
         <demo-row title="绑定currentKey">
             <demo-line>
-                <pl-button label="全部展开" @click="$refs.currentTree.methods.expandAll()"/>
+                <pl-button label="全部展开" @click="$refs.currentTree.expandAll()"/>
                 <pl-button label="设置currentKey" @click="currentKey = '3-1-1'"/>
                 {{currentKey}}
             </demo-line>
@@ -228,10 +228,10 @@
         <demo-row title="虚拟滚动">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.virtualTree.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.virtualTree.methods.collapseAll()"/>
-                    <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTree.methods.getCurrent() ? $refs.virtualTree.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                    <pl-button label="全部展开" @click="$refs.virtualTree.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.virtualTree.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTree.getCurrent() ? $refs.virtualTree.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTree.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
                     <pl-button label="打印数据" @click="log(addressData)"/>
                 </pl-button-group>
             </demo-line>
@@ -249,7 +249,7 @@
 
         <demo-row title="拖拽节点">
             <demo-line>
-                <pl-button label="全部展开" @click="$refs.dragTree.methods.expandAll()"/>
+                <pl-button label="全部展开" @click="$refs.dragTree.expandAll()"/>
                 <pl-button label="打印数据" @click="log(treeData)"/>
             </demo-line>
             <pl-tree
@@ -275,9 +275,9 @@
                 <li>非父子关联模式下，拖拽节点不会导致节点选中状态变化</li>
             </pl-card>
             <demo-line>
-                <pl-button label="全部展开" @click="$refs.dragAndCheckTree.methods.expandAll()"/>
+                <pl-button label="全部展开" @click="$refs.dragAndCheckTree.expandAll()"/>
                 <pl-button label="打印数据" @click="log(treeData)"/>
-                <pl-button label="获取选中的数据" @click="$message($refs.dragAndCheckTree.methods.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
+                <pl-button label="获取选中的数据" @click="$message($refs.dragAndCheckTree.getCheckedData().map(node=>node.data.name).join('____'),{time:null})"/>
             </demo-line>
             <pl-tree
                     ref="dragAndCheckTree"
@@ -312,10 +312,10 @@
         <demo-row title="可拖拽+虚拟滚动">
             <demo-line>
                 <pl-button-group>
-                    <pl-button label="全部展开" @click="$refs.virtualTreeWithDrag.methods.expandAll()"/>
-                    <pl-button label="全部收起" @click="$refs.virtualTreeWithDrag.methods.collapseAll()"/>
-                    <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTreeWithDrag.methods.getCurrent() ? $refs.virtualTreeWithDrag.methods.getCurrent().data.name : '未选中任何节点！')"/>
-                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTreeWithDrag.methods.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
+                    <pl-button label="全部展开" @click="$refs.virtualTreeWithDrag.expandAll()"/>
+                    <pl-button label="全部收起" @click="$refs.virtualTreeWithDrag.collapseAll()"/>
+                    <pl-button label="当前选中节点" @click="$message(!!$refs.virtualTreeWithDrag.getCurrent() ? $refs.virtualTreeWithDrag.getCurrent().data.name : '未选中任何节点！')"/>
+                    <pl-button label="获取选中的数据" @click="$message($refs.virtualTreeWithDrag.getCheckedData().map(node=>node.data.name).join(','),{time:null})"/>
                     <pl-button label="打印数据" @click="log(treeData)"/>
                 </pl-button-group>
             </demo-line>
@@ -353,16 +353,16 @@
 
                 tree1: (() => ({
                     showCurrent: () => {
-                        let current = this.$refs.tree1.methods.getCurrent()
+                        let current = this.$refs.tree1.getCurrent()
                         this.$message(!!current ? current.data.name : '未选中任何节点！')
                     },
                     expandSome: async () => {
                         // console.log(this.$refs.tree1.state)
-                        await this.$refs.tree1.methods.expand(['2-2-2', '3-1-2'])
+                        await this.$refs.tree1.expand(['2-2-2', '3-1-2'])
                     },
                     expandAndSelect: () => {
-                        this.$refs.tree1.methods.expand('2-2-2')
-                        this.$refs.tree1.methods.setCurrent('2-2-2')
+                        this.$refs.tree1.expand('2-2-2')
+                        this.$refs.tree1.setCurrent('2-2-2')
                     },
                 }))(),
 
@@ -429,8 +429,8 @@
                         const name = `n-${data.id}-${subs.length + 1}`
                         const id = name + Date.now().toString()
                         subs.push({id, name: `new item ${name}`,})
-                        this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode)
-                        this.$nextTick().then(() => this.$refs.scopedSlotDemo.methods.expand(id))
+                        this.$refs.scopedSlotDemo.refreshCheckStatus(treeNode)
+                        this.$nextTick().then(() => this.$refs.scopedSlotDemo.expand(id))
                     },
                     deleteItem: (e, treeNode) => {
                         e.stopPropagation()
@@ -439,7 +439,7 @@
                         const subs = parent.data.subs
                         const ids = subs.map(item => item.id)
                         subs.splice(ids.indexOf(data.id), 1)
-                        this.$refs.scopedSlotDemo.methods.refreshCheckStatus(treeNode.parentRef())
+                        this.$refs.scopedSlotDemo.refreshCheckStatus(treeNode.parentRef())
                     },
                     clear: (e, treeNode) => {
                         e.stopPropagation()
@@ -476,8 +476,8 @@
                             name: `new item ${name}`,
                         })
                         data.subs = subs
-                        this.$refs.renderDemo.methods.refreshCheckStatus(treeNode)
-                        this.$nextTick().then(() => this.$refs.renderDemo.methods.expand(id))
+                        this.$refs.renderDemo.refreshCheckStatus(treeNode)
+                        this.$nextTick().then(() => this.$refs.renderDemo.expand(id))
                     },
                     deleteItem: (e, treeNode) => {
                         e.stopPropagation()
@@ -486,7 +486,7 @@
                         const subs = parent.data.subs
                         const ids = subs.map(item => item.id)
                         subs.splice(ids.indexOf(data.id), 1)
-                        this.$refs.renderDemo.methods.refreshCheckStatus(treeNode.parentRef())
+                        this.$refs.renderDemo.refreshCheckStatus(treeNode.parentRef())
                     },
                 },
 

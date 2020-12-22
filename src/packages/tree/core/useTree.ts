@@ -1,22 +1,25 @@
 import {nextTick, computed, ref} from 'vue';
-import {SimpleObject} from "../../shims";
-import {TableNode} from "../table/core/useTableNode";
-import {TreeUtils} from "./core/utils";
-import {TreeNode} from "./core/type";
+import {SimpleObject} from "../../../shims";
+import {TableNode} from "../../table/core/useTableNode";
+import {TreeUtils} from "./utils";
+import {TreeNode} from "./type";
+import {useTreeNode} from "./useTreeNode";
+import {TreeNodeCheckStatus} from "../utils/tree-constant";
+import {useModel} from "../../../use/useModel";
 
-export function generateTreeUtils<Node extends {
+export function useTree<Node extends {
     key: string,
     data: SimpleObject,
     level: number,
     parentRef: () => Node | null,
     selfRef: () => Node,
 
-    // index: number,
+    index: number,
 
-    // readonly childrenData?: SimpleObject[]
+    readonly childrenData?: SimpleObject[]
     readonly label?: string,
     children?: Node[],
-    // readonly checkStatus: TreeNodeCheckStatus,
+    readonly checkStatus: TreeNodeCheckStatus,
 
     expand: boolean,
     check: boolean,
@@ -25,18 +28,12 @@ export function generateTreeUtils<Node extends {
 
     readonly isCheckable: boolean,
     readonly isLeaf: boolean,
-    // readonly isVisible: boolean,
-
-    // removeSelf: () => void,
-    // previousSibling: (node: Node) => void,
-    // nextSibling: (node: Node) => void,
-    // unshiftChild: (node: Node) => void,
-    // getReactiveChildrenData: () => SimpleObject[],
+    readonly isVisible: boolean,
 }>(
     {
         props,
-        state,
         emit,
+        keyManager,
     }: {
         props: {
             lazy?: boolean,
@@ -47,10 +44,8 @@ export function generateTreeUtils<Node extends {
             checkStrictly?: boolean,
             expandOnClickNode?: boolean,
             checkOnClickNode?: boolean,
-        },
-        state: {
-            root: Node,
-            nodeMap: Record<string, Node>,
+            defaultExpandAll?: boolean,
+            currentKey?: string,
         },
         emit: {
             onExpand: (node: Node) => void,
@@ -60,13 +55,18 @@ export function generateTreeUtils<Node extends {
             onUncheck: (node: Node) => void,
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: Node) => void,
-        }
+            onUpdateData: (data?: SimpleObject[]) => void,
+            onUpdateCurrent: (key?: string) => void,
+        },
+        keyManager: (obj: any, keyField: string | undefined | null) => string,
     }
 ) {
 
-    const current = ref(null as null | Node) as { value: Node | null | undefined }
+    const {dataModel, state, utils: treeNodeUtils, methods: treeNodeMethods} = useTreeNode<Node>({props, event: {emit}, keyManager})
+    const current = useModel(() => props.currentKey, emit.onUpdateCurrent)
 
     const utils = {
+        ...treeNodeUtils,
         /*遍历key或者node*/
         handleKeyOrNode: async (keyOrNode: string | Node | (string | Node)[], handler: (node: Node) => void | Promise<void>): Promise<void> => {
             if (!keyOrNode) {
@@ -102,17 +102,6 @@ export function generateTreeUtils<Node extends {
                 })
             })
         },
-        /*遍历所有节点数据*/
-        iterate: ({nodes, handler, iterateChildren, iterateChildrenFirst,}: { nodes: Node[] | undefined, handler: (node: Node) => void, iterateChildren?: (node: Node) => boolean, iterateChildrenFirst?: boolean, }) => {
-            if (!nodes) return
-            nodes.forEach(Node => {
-                !iterateChildrenFirst && handler(Node);
-                if (!!Node.children && (!iterateChildren || iterateChildren(Node))) {
-                    utils.iterate({nodes: Node.children, handler, iterateChildren, iterateChildrenFirst,})
-                }
-                iterateChildrenFirst && handler(Node);
-            })
-        },
         /*获取Node所有的父节点*/
         getParents: (keyOrNode: Node | string): Node[] => {
             let node = baseMethods.getNode(keyOrNode)
@@ -125,6 +114,11 @@ export function generateTreeUtils<Node extends {
                 parent = parent.parentRef()
             }
             return parents
+        },
+        /*初始化逻辑*/
+        init: () => {
+            props.lazy && utils.getChildrenAsync(state.root!).then(val => dataModel.value = val);
+            props.defaultExpandAll && nextTick().then(() => expandMethods.expandAll());
         },
     }
 
@@ -153,9 +147,9 @@ export function generateTreeUtils<Node extends {
         /*通过keyOrNode获取node*/
         getNode: (keyOrNode: string | Node): Node | undefined => typeof keyOrNode === "string" ? state.nodeMap[keyOrNode] : keyOrNode,
         /*设置当前选中行*/
-        setCurrent: (keyOrNode: string | Node) => current.value = baseMethods.getNode(keyOrNode),
+        setCurrent: (keyOrNode: string | Node) => current.value = typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key,
         /*获取当前选中行*/
-        getCurrent: () => current.value,
+        getCurrent: (): Node | undefined => !current.value ? undefined : baseMethods.getNode(current.value),
     }
     const expandMethods = {
         /*展开节点*/
@@ -327,17 +321,19 @@ export function generateTreeUtils<Node extends {
         },
     }
 
+    utils.init()
+
     return {
+        state,
+        current,
         utils,
         handler,
         methods: {
             ...baseMethods,
             ...expandMethods,
             ...checkMethods,
+            ...treeNodeMethods,
         },
     }
 }
-
-const treeUtils = generateTreeUtils<TableNode>({} as any)
-const tableTreeUtils = generateTreeUtils<TableNode>({} as any)
 
