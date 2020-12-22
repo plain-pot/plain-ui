@@ -1,10 +1,10 @@
-import {computed, nextTick} from 'vue';
+import {computed, nextTick, PropType} from 'vue';
 import {SimpleObject} from "../../../shims";
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {useModel} from "../../../use/useModel";
 
-export function useTree<Node extends {
+function use<Node extends {
     key: string,
     data: SimpleObject,
     level: number,
@@ -33,17 +33,26 @@ export function useTree<Node extends {
         keyManager,
     }: {
         props: {
-            lazy?: boolean,
-            getChildren?: (node: Node, cb: (...args: any[]) => void) => void,
+            /*useTreeNode*/
+            data?: SimpleObject[],
+            labelField?: string,
+            keyField?: string,
             childrenField?: string,
+            filterNodeMethod?: (node: Node) => boolean,
+            isLeaf?: (node: Node) => boolean,
+            isCheckable?: (node: Node) => boolean,
+            getChildren?: (node: Node, cb: (data: SimpleObject[]) => void) => void,
+            lazy?: boolean,
+            showCheckbox?: boolean,
+            checkStrictly?: boolean,
+
+            /*useTree*/
             according?: boolean,
             autoExpandParent?: boolean,
-            checkStrictly?: boolean,
             expandOnClickNode?: boolean,
             checkOnClickNode?: boolean,
             defaultExpandAll?: boolean,
             currentKey?: string,
-            showCheckbox?: boolean,
         },
         emit: {
             onExpand: (node: Node) => void,
@@ -78,7 +87,7 @@ export function useTree<Node extends {
             }
         },
         /*获取子节点数据异步方法*/
-        getChildrenAsync: (node: Node): Promise<Node[]> => {
+        getChildrenAsync: (node: Node): Promise<SimpleObject[]> => {
             return new Promise((resolve) => {
                 if (!props.getChildren) {
                     console.error('getChildren is required when using lazy mode!')
@@ -89,14 +98,14 @@ export function useTree<Node extends {
                 } else {
                     node.loading = true
                 }
-                props.getChildren(node, (...results) => {
+                props.getChildren(node, (results) => {
                     if (node.level === 0) {
                         !!state.root && (state.root.loading = false)
                     } else {
                         node.loading = false
                         node.loaded = true
                     }
-                    resolve(...results)
+                    resolve(results)
                 })
             })
         },
@@ -158,11 +167,11 @@ export function useTree<Node extends {
                     if (!node.expand) {
                         if (
                             props.lazy &&                           // 懒加载模式
-                            !node.loaded &&                       // 未曾加载过子节点数据
+                            !node.loaded &&                         // 未曾加载过子节点数据
                             !node.isLeaf                            // 节点不是叶子节点
                         ) {
-                            const children = await utils.getChildrenAsync(node)
-                            baseMethods.setChildrenData(node, children || [])
+                            const childrenData = await utils.getChildrenAsync(node)
+                            baseMethods.setChildrenData(node, childrenData || [])
                             await nextTick()
                         }
 
@@ -342,4 +351,32 @@ export function useTree<Node extends {
         },
     }
 }
+
+export const useTree = Object.assign(use, {
+    createProps: <Node>() => {
+        return {
+            /*useTreeNode*/
+            data: {type: Array as PropType<SimpleObject[]>},            // 树形结构数据
+            keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
+            labelField: {type: String},                                 // 树节点展示文本对应字段
+            childrenField: {type: String, required: true},              // 树节点对应子节点数据对应字段
+
+            filterNodeMethod: {type: Function as PropType<(node: Node) => boolean>},// 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
+            isLeaf: {type: Function as PropType<(node: Node) => boolean>},// 判断树节点是否为叶子节点的函数，仅在lazy模式有效
+            isCheckable: {type: Function as PropType<(node: Node) => boolean>},     // 当即将选中树节点时，判断是否可以选中该树节点
+            getChildren: {type: Function as PropType<(node: Node, cb: (data: SimpleObject[]) => void) => void>},// 加载子节点数据的函数，仅当 lazy 为true时有效
+            lazy: {type: Boolean},                                      // 是否懒加载子节点数据
+            showCheckbox: {type: Boolean},                              // 是否展示勾选框
+            checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
+
+            /*useTree*/
+            according: {type: Boolean},                                 // 是否每次只展开一个同级的树节点
+            autoExpandParent: {type: Boolean, default: true},           // 是否展开节点的时候，自动展开父节点
+            expandOnClickNode: {type: Boolean, default: true},          // 是否点击树节点的时候展开子节点
+            checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
+            defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
+            currentKey: {type: String},                                 // 当前选中节点的key
+        }
+    },
+})
 
