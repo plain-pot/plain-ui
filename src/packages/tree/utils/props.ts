@@ -1,15 +1,10 @@
 import {TreeNode, TreePropsType} from "./type";
 import {PropType} from 'vue';
-import {SimpleObject} from "../../../shims";
+import {useTree} from "../core/useTree";
 import nodeIcon = TreePropsType.nodeIcon;
 import renderContent = TreePropsType.renderContent;
-import isLeaf = TreePropsType.isLeaf;
-import getChildren = TreePropsType.getChildren;
-import isCheckable = TreePropsType.isCheckable;
 import allDrag = TreePropsType.allowDrag;
 import allDrop = TreePropsType.allowDrop;
-import filterNodeMethod = TreePropsType.filterNodeMethod;
-import {useTree} from "../core/useTree";
 
 export const TreeProps = {
     ...useTree.createProps<TreeNode>(),
