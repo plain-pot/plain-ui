@@ -32,6 +32,7 @@ function use<Node extends {
         props,
         emit,
         keyManager,
+        getTreeNodeByDataAdjust,
     }: {
         props: {
             /*useTreeNode*/
@@ -67,10 +68,11 @@ function use<Node extends {
             onUpdateCurrent: (key?: string) => void,
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
+        getTreeNodeByDataAdjust?: (node: Node) => void,
     }
 ) {
 
-    const {dataModel, state, utils: treeNodeUtils, methods: treeNodeMethods} = useTreeNode<Node>({props, event: {emit}, keyManager})
+    const {dataModel, state, utils: treeNodeUtils, methods: treeNodeMethods} = useTreeNode<Node>({props, event: {emit}, keyManager, getTreeNodeByDataAdjust})
     const current = useModel(() => props.currentKey, emit.onUpdateCurrent)
 
     const utils = {
@@ -361,7 +363,7 @@ export const useTree = Object.assign(use, {
             data: {type: Array as PropType<SimpleObject[]>},            // 树形结构数据
             keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
             labelField: {type: String},                                 // 树节点展示文本对应字段
-            childrenField: {type: String, required: true},              // 树节点对应子节点数据对应字段
+            childrenField: {type: String},                              // 树节点对应子节点数据对应字段
 
             filterNodeMethod: {type: Function as PropType<(node: Node) => boolean>},// 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
             isLeaf: {type: Function as PropType<(node: Node) => boolean>},// 判断树节点是否为叶子节点的函数，仅在lazy模式有效

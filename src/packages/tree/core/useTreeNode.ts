@@ -46,6 +46,7 @@ export function useTreeNode<Node extends {
         props,
         event,
         keyManager,
+        getTreeNodeByDataAdjust,
     }: {
         props: {
             data?: SimpleObject[],
@@ -64,6 +65,7 @@ export function useTreeNode<Node extends {
             emit: { onUpdateData: (data?: SimpleObject[]) => void }
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
+        getTreeNodeByDataAdjust?: (node: Node) => void,
     }
 ) {
 
@@ -107,7 +109,7 @@ export function useTreeNode<Node extends {
         /*根据data获取Node*/
         getTreeNodeByData: (() => {
             const map = new WeakMap<object, Node>()
-            const get = ({data, level, parentRef}: { data: any, level: number, parentRef: () => Node }): Node => {
+            const get = ({data, level, parentRef, adjust}: { data: any, level: number, parentRef: () => Node, adjust?: (node: Node) => void }): Node => {
                 let node: Node | undefined = map.get(data)
                 if (!node) {
                     node = {
@@ -137,6 +139,7 @@ export function useTreeNode<Node extends {
                             return !props.filterNodeMethod ? true : (props.filterNodeMethod(this as any) || (!!this.children && this.children.some((child: Node) => child.isVisible)))
                         },
                     } as any
+                    if (!!adjust) adjust(node!)
                     map.set(data, node!)
                 } else {
                     Object.assign(node, {
@@ -161,7 +164,7 @@ export function useTreeNode<Node extends {
         resetData: () => {
             const nodeMap = {} as Record<string, Node>;
             const iterator = ({data, level, parentRef}: { data: any, level: number, parentRef: () => Node }): Node => {
-                const node = utils.getTreeNodeByData({data, level, parentRef})
+                const node = utils.getTreeNodeByData({data, level, parentRef, adjust: getTreeNodeByDataAdjust})
                 nodeMap[node.key] = node
                 const childrenData = !props.childrenField ? null : (data[props.childrenField!] as SimpleObject[])
                 if (!!childrenData) {

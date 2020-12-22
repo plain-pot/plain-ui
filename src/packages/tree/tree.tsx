@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
-import {computed, nextTick, PropType} from 'vue';
+import {computed, PropType} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./utils/props";
@@ -19,20 +19,7 @@ export default designComponent({
     props: {
         ...TreeProps,
     },
-    emits: {
-        onClickNode: (node: TreeNode) => true,                        // 点击节点事件
-        onUpdateCurrent: (current?: string) => true,                  // 当前高亮节点key变化绑定事件
-        onCurrentChange: (node: TreeNode | null) => true,             // 当前高亮节点变化事件
-        onUpdateData: (data?: any[]) => true,                         // 数据变化事件（拖拽排序、数据懒加载）
-
-        onExpandChange: (expandKeys: string[]) => true,               // 展开节点变化事件
-        onExpand: (node: TreeNode) => true,                           // 展开事件
-        onCollapse: (node: TreeNode) => true,                         // 关闭节点事件
-
-        onCheckChange: (checkKeys: string[]) => true,                 // 选中节点变化事件
-        onCheck: (node: TreeNode) => true,                            // 选中节点事件
-        onUncheck: (node: TreeNode) => true,                          // 取消选中节点事件
-    },
+    emits: useTree.createEvent<TreeNode>(),
     setup({props, event}) {
 
         const {emit} = event
