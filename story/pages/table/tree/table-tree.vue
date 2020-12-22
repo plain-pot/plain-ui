@@ -165,7 +165,7 @@
                       keyField="id"
                       childrenField="subs">
                 <plc-index/>
-                <plc-tree rowDraggable>
+                <plc-tree :rowDraggable="true">
                     <template v-slot:content="{row}">
                         {{row.name}}
                     </template>
@@ -190,7 +190,7 @@
                       keyField="id"
                       childrenField="subs">
                 <plc-index/>
-                <plc-tree rowDraggable
+                <plc-tree :rowDraggable="true"
                           ref="draggableTree"
                           :allowRowDraggable="allow.rowDraggable"
                           :allowRowDroppable="allow.rowDroppable"

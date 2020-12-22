@@ -21,7 +21,6 @@ export default designPlc({
     },
     externalProps: {
         contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
-        showCheckbox: {type: Boolean},                                      // 是否显示复选框
         rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
         allowRowDraggable: {type: Function as PropType<(node: TableNode) => boolean>},// 行是否可以被拖拽放置到其他位置
         allowRowDroppable: {type: Function as PropType<(startNode: TableNode, moveNode: TableNode, dropType: TreeDropType) => boolean>},// 行是否可以被放置（放到子节点中，放到前面，放到后面）
@@ -52,7 +51,7 @@ export default designPlc({
             // 内容宽度，如果有content插槽，则加上props.contentWidth
             let content = scopedSlots.content.isExist() ? props.contentWidth : 0
             // 如果显示复选框，则宽度再加上size
-            let check = props.showCheckbox ? size : 0
+            let check = table.props.showCheckbox ? size : 0
             // 如果显示拖拽排序按钮，则宽度再加上size
             let draggable = props.rowDraggable ? size : 0
 
@@ -63,6 +62,12 @@ export default designPlc({
         })
 
         const utils = {
+            allowDrag: (node: TableNode) => {
+                return !props.allowRowDraggable || props.allowRowDraggable(node) !== false
+            },
+            allowDrop: (startNode: TableNode, moveNode: TableNode, dropType: TreeDropType) => {
+                return !props.allowRowDroppable || props.allowRowDroppable(startNode, moveNode, dropType) !== false
+            },
             getExpanderAttrs: (node: TableNode) => {
                 return {
                     style: {marginLeft: unit((node.level - 1) * size)} as any,
@@ -135,6 +140,13 @@ export default designPlc({
                             onClick={(e: MouseEvent) => refer.handler.onClickCheckbox(e, node)}
                         />
                     </div>
+                )}
+                {refer.props.rowDraggable && (
+                    <pl-button mode="text"
+                               icon="el-icon-list"
+                               class="plc-tree-node-drag-btn"
+                               disabled={!refer.utils.allowDrag(node)}
+                    />
                 )}
                 {refer.scopedSlots.content.isExist() && (
                     <div class="plc-tree-node-content">
