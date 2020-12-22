@@ -1,6 +1,6 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlainTable} from "../../table";
-import {PropType, ComputedRef} from 'vue';
+import {ComputedRef, PropType} from 'vue';
 import {Plc} from "../../plc/core/plc.type";
 import {TableNode} from "../useTableNode";
 import {renderBodyCell} from "../../plc/core/render";
@@ -78,6 +78,7 @@ export const PltCell = designComponent({
                 const classes = useClass(() => {
                     const ret = [
                         props.plc.classes.body,
+                        props.plc.props.bodyCls,
                         {'plt-cell-editing': editable,}
                     ] as any[]
                     if (!!props.table.props.cellClassFunc) {

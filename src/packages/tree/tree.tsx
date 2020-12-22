@@ -1,339 +1,94 @@
 import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
-import {useModel} from "../../use/useModel";
-import {computed, nextTick, PropType} from 'vue';
+import {computed, PropType} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
-import {TreeProps} from "./core/props";
-import {TreeUtils} from "./core/utils";
-import {useTree} from "./core/node";
-import {TreeNode} from "./core/type";
+import {TreeProps} from "./utils/props";
+import {TreeUtils} from "./utils/tree.utils";
+import {TreeNode} from "./utils/type";
 import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
-import {useTreeDraggier} from './core/drag';
+import {useTreeDraggier} from './core/useTreeDraggier';
 import Scroll from '../scroll/scroll'
 import {delay} from "plain-utils/utils/delay";
+import {useTree} from "./core/useTree";
+import {createKeyHandler} from "../../utils/createKeyHandler";
 
 export default designComponent({
     name: 'pl-tree',
     props: {
         ...TreeProps,
     },
-    emits: {
-        onClickNode: (node: TreeNode) => true,                        // 点击节点事件
-        onUpdateCurrent: (current?: string) => true,                  // 当前高亮节点key变化绑定事件
-        onCurrentChange: (node: TreeNode | null) => true,             // 当前高亮节点变化事件
-        onUpdateData: (data?: any[]) => true,                         // 数据变化事件（拖拽排序、数据懒加载）
-
-        onExpandChange: (expandKeys: string[]) => true,               // 展开节点变化事件
-        onExpand: (node: TreeNode) => true,                           // 展开事件
-        onCollapse: (node: TreeNode) => true,                         // 关闭节点事件
-
-        onCheckChange: (checkKeys: string[]) => true,                 // 选中节点变化事件
-        onCheck: (node: TreeNode) => true,                            // 选中节点事件
-        onUncheck: (node: TreeNode) => true,                          // 取消选中节点事件
-    },
+    emits: useTree.createEvent<TreeNode>(),
     setup({props, event}) {
 
         const {emit} = event
+        const {refs} = useRefs({list: VirtualList, scroll: Scroll,})
+        const {scopedSlots} = useScopedSlots({default: {node: Object as PropType<TreeNode>, index: Number},})
+        const {state, methods, current, handler, utils} = useTree<TreeNode>({props, emit, keyManager: createKeyHandler('tree'),})
 
-        const {refs} = useRefs({
-            list: VirtualList,
-            scroll: Scroll,
-        })
-
-        const tree = useTree({
-            props,
-            event,
-        })
-
-        /*---------------------------------------state-------------------------------------------*/
-        /*作用域插槽*/
-        const {scopedSlots} = useScopedSlots({
-            default: {node: Object as PropType<TreeNode>, index: Number},
-        })
-        /*当前高亮节点的key*/
-        const current = useModel(() => props.currentKey, emit.onUpdateCurrent)
-
-        /*---------------------------------------computer-------------------------------------------*/
         /*tree node content公共的样式*/
         const contentStyles = useStyles(style => {style.height = `${props.nodeHeight}px`})
-
-        /*当前展开的keys数组*/
-        const expandKeys = computed(() => tree.expandNodes.value.map(node => node.key))
-        /*当前选中的keys数组*/
-        const checkKeys = computed(() => tree.checkNodes.value.map(node => node.key))
-
-        /*---------------------------------------methods-------------------------------------------*/
-
-        const methods = {
-            /**
-             * 选中某一个树节点
-             * @author  韦胜健
-             * @date    2020/3/31 9:26
-             */
-            setCurrent(keyOrNode: string | TreeNode) {
-                const node = tree.methods.getNode(keyOrNode)
-                if (!!node) {
-                    current.value = node.key
-                    emit.onCurrentChange(node)
-                }
-            },
-            /**
-             * 获取当前选中节点
-             * @author  韦胜健
-             * @date    2020/3/31 9:39
-             */
-            getCurrent(): TreeNode | null {
-                if (!current.value) return null
-                return tree.methods.getNode(current.value)
-            },
-        }
-
-        const expandMethods = {
-            expand: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
-                await tree.utils.handleKeyOrNode(keyOrNode,
-                    async (node) => {
-                        const parent = node.parentRef()
-                        if (!node.expand) {
-                            if (
-                                props.lazy &&                           // 懒加载模式
-                                !node.loaded &&                       // 未曾加载过子节点数据
-                                !node.isLeaf                            // 节点不是叶子节点
-                            ) {
-                                const children = await tree.utils.getChildrenAsync(node)
-                                tree.methods.setChildrenData(node, children || [])
-                                await nextTick()
-                            }
-
-                            if (props.according) {
-                                // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
-                                if (!!parent && !!parent.children) {
-                                    parent.children.forEach((child: TreeNode) => child.key !== node.key && expandMethods.collapse(child))
-                                }
-                            }
-                            node.expand = true
-                            await nextTick()
-
-                            emit.onExpand(node)
-                            emit.onExpandChange(expandKeys.value)
-                        }
-                        if (!!props.autoExpandParent && !!parent && parent.level !== 0) {
-                            await expandMethods.expand(parent)
-                        }
-                    })
-            },
-            collapse: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
-                await tree.utils.handleKeyOrNode(keyOrNode,
-                    async (node) => {
-                        await TreeUtils.iterateAll({
-                            nodes: [node, ...(node.children || [])],
-                            handler: (node) => {
-                                if (node.expand) {
-                                    node.expand = false
-                                    emit.onCollapse(node)
-                                }
-                            }
-                        })
-                        await nextTick()
-                        emit.onExpandChange(expandKeys.value)
-                    })
-            },
-            toggleExpand: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).expand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode),
-            expandAll: () => TreeUtils.iterateAll({nodes: tree.state.root!.children, handler: node => node.expand = true}),
-            collapseAll: () => tree.expandNodes.value.forEach(node => node.expand = false),
-        }
-
-        const checkMethods = {
-            check: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
-                await tree.utils.handleKeyOrNode(keyOrNode, async (node) => {
-                    if (node.check || !node.isCheckable) {
-                        return
-                    }
-                    node.check = true
-                    // 父子关联模式下，改变子节点以及父节点状态
-                    if (!props.checkStrictly) {
-                        // 选中所有子节点
-                        TreeUtils.iterateAll({
-                            nodes: node.children,
-                            handler: (child) => child.check = true,
-                        })
-                        // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
-                        let parent = node.parentRef()
-                        while (!!parent && !!parent.key) {
-                            if (!!parent.parentRef && parent.children!.every(child => child.check)) {
-                                parent.check = true
-                                parent = !!parent.parentRef ? parent.parentRef() : null
-                            } else {
-                                break
-                            }
-                        }
-                    }
-
-                    await nextTick()
-                    emit.onCheck(node)
-                    emit.onCheckChange(checkKeys.value)
-                })
-            },
-            uncheck: async (keyOrNode: string | TreeNode | (string | TreeNode)[]) => {
-                await tree.utils.handleKeyOrNode(keyOrNode, async node => {
-                    if (!node.check || !node.isCheckable) {
-                        return
-                    }
-                    node.check = false
-
-                    // 父子关联模式下，改变子节点以及父节点状态
-                    if (!props.checkStrictly) {
-                        // 取消选中所有子节点
-                        TreeUtils.iterateAll({
-                            nodes: node.children,
-                            handler: (child) => child.check = false,
-                        })
-                        // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
-                        let parent = node.parentRef()
-                        while (!!parent && !!parent.key) {
-                            if (parent.check) {
-                                parent.check = false
-                                parent = parent.parentRef()
-                            } else {
-                                break
-                            }
-                        }
-                    }
-
-                    await nextTick()
-                    emit.onUncheck(node)
-                    emit.onCheckChange(checkKeys.value)
-                })
-            },
-            toggleCheck: (keyOrNode: string | TreeNode) => tree.methods.getNode(keyOrNode).check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode),
-            checkAll: () => TreeUtils.iterateAll({nodes: tree.state.root!.children, handler: node => node.check = true}),
-            uncheckAll: () => tree.checkNodes.value.forEach(node => node.check = false),
-            getCheckedData: () => tree.checkNodes.value,
-            refreshCheckStatus: async (keyOrNode: string | TreeNode) => {
-                await tree.utils.handleKeyOrNode(keyOrNode, async node => {
-                    /*刷新选中状态的前提是有子节点数据*/
-                    if (props.checkStrictly || node.isLeaf || !node.children || node.children.length === 0) {
-                        return
-                    }
-                    let hasCheck = false, hasUncheck = false;
-                    node.children.forEach(chlid => chlid.check ? hasCheck = true : hasUncheck = true)
-                    if (node.check && hasUncheck) {
-                        // 自身选中而子节点有非选中,令所有父节点变成非选中状态
-                        let parents = tree.utils.getParents(node);
-                        [...parents, node].forEach(n => n.check = false)
-                    }
-                    if (!node.check && hasCheck && !hasUncheck) {
-                        // 自身非选中而子节点全部选中，令所有父节点变成选中状态
-                        let parents = tree.utils.getParents(node);
-                        [...parents, node].forEach(n => n.check = true)
-                    }
-                })
-            },
-        }
-
-        /*---------------------------------------handler-------------------------------------------*/
-
-        const handler = {
-            /**
-             * 点击展开图标
-             * @author  韦胜健
-             * @date    2020/11/28 15:54
-             */
-            onClickExpandIcon: async (e: MouseEvent, node: TreeNode) => {
-                e.stopPropagation()
-                await expandMethods.toggleExpand(node)
-            },
-            /**
-             * 点击节点内容
-             * @author  韦胜健
-             * @date    2020/11/28 15:54
-             */
-            onClickTreeNodeContent: async (node: TreeNode) => {
-                emit.onClickNode(node)
-                methods.setCurrent(node)
-                props.expandOnClickNode && (await expandMethods.toggleExpand(node));
-                props.checkOnClickNode && (await checkMethods.toggleCheck(node));
-            },
-            /**
-             * 处理点击复选框事件
-             * @author  韦胜健
-             * @date    2020/11/28 17:07
-             */
-            onClickCheckbox: async (e: MouseEvent, node: TreeNode) => {
-                e.stopPropagation()
-                await checkMethods.toggleCheck(node)
+        /**
+         * 拍-平的树形数据（不拍平无法实现虚拟滚动）
+         * @author  韦胜健
+         * @date    2020/12/2 12:16
+         */
+        const flatList = computed(() => {
+            let result: (TreeNode)[] = []
+            if (!state.root) {
+                return []
             }
+            utils.iterate({
+                nodes: state.root.children,
+                iterateChildren: (treeNode) => treeNode.expand,
+                handler: (treeNode) => {
+                    result.push(treeNode)
+                    // console.log(treeNode.label, {'!treeNode.isLeaf': !treeNode.isLeaf, 'treeNode.loaded': treeNode.loaded, 'treeNode.isVisible': treeNode.isVisible, 'treeNode.expand': treeNode.expand, 'treeNode.children': treeNode.children,})
+                    if (
+                        !treeNode.isLeaf &&
+                        treeNode.loaded &&
+                        treeNode.isVisible &&
+                        treeNode.expand &&
+                        treeNode.children!.length === 0
+                    ) {
+                        result.push({
+                            key: `@@empty_${treeNode.key}`,
+                            parentRef: () => treeNode,
+                            empty: true,
+                            level: treeNode.level + 1,
+                        } as TreeNode)
+                    }
+                },
+            },)
+            result = result.filter((treeNode) => treeNode.empty ? true : !!treeNode.isVisible)
+            result.forEach((node, index) => node.index = index)
+            return result
+        })
+
+        const exposeMethods = {
+            ...methods,
+            ...methods.expandMethods,
+            ...methods.checkMethods,
+            ...methods.treeNodeMethods,
         }
 
         /*---------------------------------------draggier-------------------------------------------*/
 
-        /*const draggier = useListDraggierWithVirtual({
-            rowClass: 'pl-tree-node',
-            onChange: (start, end) => {
-                console.log({start, end})
-            },
-            getScroll: () => refs.list!.refs.scroll!,
-        })*/
         const draggier = useTreeDraggier<TreeNode>({
             rowClass: 'pl-tree-node',
             dragClass: 'pl-tree-node-draggier',
-            intent: props.intent,
-            flatList: tree.flatList,
-            allowDrag: props.allowDrag,
-            allowDrop: props.allowDrop,
-            expand: (node: TreeNode) => expandMethods.expand(node),
+            flatList,
             getScroll: () => props.virtual ? refs.list!.refs.scroll! : refs.scroll!,
-            refreshCheckStatus: async () => {
-                if (!props.showCheckbox) return
-                if (props.checkStrictly) return;
-
-                await nextTick()
-                await delay(120)
-
-                const next = (node: TreeNode) => {
-
-                    if (!node.parentRef) {
-                        return
-                    }
-
-                    let hasCheck = false
-                    let hasUncheck = false
-
-                    if (!!node.children) {
-                        node.children.forEach(child => {
-                            next(child)
-                            if (child.check) {
-                                hasCheck = true
-                            } else {
-                                hasUncheck = true
-                            }
-                        })
-                    }
-                    if (hasCheck && !hasUncheck) {
-                        // 所有子节点选中
-                        if (!node.check) {
-                            node.check = true
-                        }
-                    } else if (hasUncheck) {
-                        // 有子节点未选中
-                        if (node.check) {
-                            node.check = false
-                        }
-                    }
-                }
-
-                if (!!tree.flatList.value) {
-                    tree.flatList.value.forEach(next)
-                }
+            props,
+            methods: {
+                ...exposeMethods,
+                refreshCheckStatus: async () => {
+                    await delay(120)
+                    flatList.value.forEach(methods.checkMethods.refreshCheckStatus)
+                },
             },
         })
-
-        /*---------------------------------------init-------------------------------------------*/
-
-        tree.utils.initialize()
-
-        if (props.defaultExpandAll) nextTick().then(() => expandMethods.expandAll())
 
         const render = {
             node: (node: TreeNode, index: number) => {
@@ -365,7 +120,7 @@ export default designComponent({
                         </div>
                         <div class="pl-tree-node-content"
                              style={contentStyles.value}
-                             onClick={() => handler.onClickTreeNodeContent(node)}>
+                             onClick={(e: MouseEvent) => handler.onClickCell(e, node)}>
                             {scopedSlots.default({node, index}, !!props.renderContent ? props.renderContent({node, index}) : node.label)}
                         </div>
                     </pl-item>
@@ -393,16 +148,12 @@ export default designComponent({
 
         return {
             refer: {
-                methods: {
-                    ...methods,
-                    ...expandMethods,
-                    ...checkMethods,
-                },
+                ...exposeMethods,
             },
             render: () => {
                 return (
-                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || (!!tree.state.root && !!tree.state.root.loading)}>
-                        {tree.flatList.value.length === 0 ? (
+                    <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || (!!state.root && state.root.loading)}>
+                        {flatList.value.length === 0 ? (
                             <div class="pl-tree-placeholder" key="placeholder">
                                 <pl-icon icon="el-icon-folder-opened"/>
                                 <span>{props.emptyText}</span>
@@ -411,7 +162,7 @@ export default designComponent({
                             props.virtual ?
                                 (<pl-virtual-list
                                     ref="list"
-                                    data={tree.flatList.value}
+                                    data={flatList.value}
                                     size={props.nodeHeight}
                                     v-slots={{
                                         // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
@@ -424,7 +175,7 @@ export default designComponent({
                                 />) : (
                                     <pl-scroll ref="scroll">
                                         <pl-list direction="top" className="pl-tree-node-list">
-                                            {tree.flatList.value.map((node, index) => render.node(node, index))}
+                                            {flatList.value.map((node, index) => render.node(node, index))}
                                         </pl-list>
                                     </pl-scroll>
                                 )

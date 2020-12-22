@@ -25,6 +25,9 @@ export const PlcGroupProps = {
     fixed: {type: String as PropType<TablePlcFixedType>, default: TablePlcFixedType.center},// 冻结列位置：left、right、undefined
     autoFixedLeft: {type: Boolean},                                         // 当出现左固定列的时候，是否自动设置为左固定列
     autoFixedRight: {type: Boolean},                                        // 当出现右固定列的时候，是否自动设置为右固定列
+
+    headCls: {},                                                            // 给表头添加的class
+    bodyCls: {},                                                            // 给表体添加的class
 }
 
 export const PlcProps = {

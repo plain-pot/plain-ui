@@ -6,16 +6,16 @@ import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlcList} from "./plc/format/usePlcList";
-import {computed, ComputedRef, onMounted, PropType, inject} from 'vue';
-import {SimpleObject} from "../../shims";
+import {computed, ComputedRef, inject, onMounted, PropType} from 'vue';
 import {useBindScroll} from "./core/useBindScroll";
 import {TableNode, useTableNode} from "./core/useTableNode";
 import {useRefs} from "../../use/useRefs";
 import {PlainScroll} from "../scroll/scroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
-import {useTableCurrent} from "./core/useTableCurrent";
 import {formatFormRules, FormValidate} from "../form/form.validate";
+import {useTree} from "../tree/core/useTree";
+import {hasClass} from "plain-utils/dom/hasClass";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -24,7 +24,7 @@ const Table = designComponent({
     },
     provideRefer: true,
     emits: {
-        onUpdateData: (data?: SimpleObject[]) => true,
+        ...useTree.createEvent<TableNode>(),
         onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,
         onVirtualMounted: (data: { scroll: PlainScroll }) => true,
 
@@ -50,9 +50,8 @@ const Table = designComponent({
         const {slots} = useSlots()
         const {numberState, plcData} = usePlcList({props})
         const {bindScroll} = useBindScroll(event)
-        const {nodeState, dataModel} = useTableNode({props, emit, getValidate: () => formValidate.value})
+        const {state, flatNodes, summaryNodes, dataModel, methods, current, handler, utils} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)
-        const tableCurrent = useTableCurrent({nodeState, emit: event.emit})
         const formValidate = computed(() => formatFormRules(
             props.rules,
             !plcData.value ? undefined : plcData.value.flatPlcList.map(plc => ({
@@ -75,8 +74,17 @@ const Table = designComponent({
             ...fixedShadowClass.value,
         ])
 
-        const methods = {
-            ...tableCurrent.methods,
+        const exposeHandler = {
+            ...handler,
+            onClickRow: (e: MouseEvent, node: TableNode) => {
+                methods.setCurrent(node.key);
+                emit.onClickRow(node, e);
+                hasClass(e.target as HTMLElement, 'plt-cell') && emit.onClickCell(node, e);
+            },
+            onDblclickRow: (e: MouseEvent, node: TableNode) => {
+                emit.onDblclickRow(node, e)
+                hasClass(e.target as HTMLElement, 'plt-cell') && emit.onDblclickCell(node, e);
+            }
         }
 
         const refer = {
@@ -86,12 +94,14 @@ const Table = designComponent({
             plcData,
             bindScroll,
             event,
-            nodeState,
             dataModel,
+            state, flatNodes, summaryNodes,
             disabledVirtual,
-            tableCurrent,
+            handler: exposeHandler,
             ...methods,
             formValidate,
+            current,
+            utils,
         }
 
         onMounted(() => {
@@ -101,7 +111,7 @@ const Table = designComponent({
         return {
             refer,
             render: () => (
-                <div class={classes.value} ref="el">
+                <div class={classes.value} ref="el" v-loading={props.loading || state.root.loading}>
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                     {!!plcData.value && <>
                         <PltHead table={refer}/>

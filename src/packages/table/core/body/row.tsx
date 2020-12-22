@@ -15,14 +15,17 @@ export const PltRow = designComponent({
     setup({props}) {
 
         const handler = {
-            onClick: (e: MouseEvent) => props.table.tableCurrent.onClickRow(e, props.node),
-            onDblclick: (e: MouseEvent) => props.table.tableCurrent.onDblclickRow(e, props.node),
+            onClick: (e: MouseEvent) => props.table.handler.onClickRow(e, props.node),
+            onDblclick: (e: MouseEvent) => props.table.handler.onDblclickRow(e, props.node),
             vid: props.vid,
         }
 
         const classes = useClass(() => {
             const ret = [
                 'plt-row',
+                {
+                    'plt-row-current': props.table.current.value === props.node.key
+                }
             ] as any[]
             if (!!props.table.props.rowClassFunc) {
                 ret.push(props.table.props.rowClassFunc(props.node))

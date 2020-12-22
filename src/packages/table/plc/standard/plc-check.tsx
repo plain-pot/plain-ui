@@ -1,5 +1,5 @@
 import {designPlc} from "../core/designPlc";
-import {computed, PropType, reactive, onBeforeUnmount} from 'vue';
+import {computed, onBeforeUnmount, PropType, reactive} from 'vue';
 import {TableNode} from "../../core/useTableNode";
 import {injectPlainTable} from "../../table";
 import {CheckboxStatus} from "../../../../utils/constant";
@@ -29,7 +29,7 @@ export default designPlc({
         })
         const status = computed(() => {
             if (state.selected.length === 0) return CheckboxStatus.uncheck
-            if (table.nodeState.flatNodes.every((item) => selectedKeys.value.indexOf(item.key) > -1)) {
+            if (table.flatNodes.value.every((item) => selectedKeys.value.indexOf(item.key) > -1)) {
                 return CheckboxStatus.check
             } else {
                 return CheckboxStatus.minus
@@ -47,7 +47,7 @@ export default designPlc({
                 if (status.value === CheckboxStatus.check) {
                     state.selected = []
                 } else {
-                    const availableSelectItems = table.nodeState.flatNodes
+                    const availableSelectItems = table.flatNodes.value
                         .filter(isCheckable)
                         .map((item: TableNode) => item)
                     if (state.selected.length === availableSelectItems.length) {
@@ -63,7 +63,7 @@ export default designPlc({
             clearSelected: () => state.selected = [],
             addSelected: (key: string | string[]) => {
                 const keys = toArray(key)
-                const nodes = keys.map(k => table.nodeState.nodeMap[k]).filter(Boolean)
+                const nodes = keys.map(k => table.state.nodeMap[k]).filter(Boolean)
                 state.selected = [...state.selected, ...nodes]
             },
             removeSelected: (key: string | string[]) => {

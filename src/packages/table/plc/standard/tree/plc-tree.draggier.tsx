@@ -1,105 +1,87 @@
-import {TreeDropType} from "../utils/tree-constant";
-import {useAutoScroll} from "../../../use/useAutoScroll";
-import Scroll from "../../scroll/scroll";
-import {StyleProperties} from "../../../shims";
-import {getRowEl} from "../../../utils/getRowEl";
-import {getScrollParent} from "../../../utils/getScrollParent";
+import {TableNode} from "../../../core/useTableNode";
+import {TreeDropType} from "../../../../tree/utils/tree-constant";
+import {useAutoScroll} from "../../../../../use/useAutoScroll";
+import {PlainScroll} from "../../../../scroll/scroll";
+import {StyleProperties} from "../../../../../shims";
+import {getRowEl, getScrollParent} from '../draggier/core/utils';
 
 const indicatorSize = 3;
 
-export function useTreeDraggier<T extends {
-    key: string,
-    index: number,
-    isLeaf: boolean,
-    level: number,
-    parentRef: () => T | null,
-    children?: T[],
-    check?: boolean,
-    empty: boolean,
-
-    removeSelf: () => void,
-    previousSibling: (node: T) => void,
-    nextSibling: (node: T) => void,
-    unshiftChild: (node: T) => void,
-}>(
+export function usePlcTreeDraggier(
     {
         rowClass,
         dragClass,
-        intent,
-        flatList,
-        allowDrag,
-        allowDrop,
-        expand,
+        flatDataList,
+        levelPadding,
+        props,
+        methods,
         getScroll,
-        refreshCheckStatus,
+        getParents,
     }: {
-        rowClass: string,                               // 行 class 标识
-        dragClass: string,                              // 拖拽的节点class标识
-        intent: number,                                 // 层级偏移距离
-        flatList: { value: T[] },                       // 拍平的数据
-        allowDrag?: (node: T) => boolean | undefined,   // 判断元素是否可以拖拽
-        allowDrop?: (start: T, move: T, dropType: TreeDropType) => boolean | undefined,// 判断元素是否可以放置
-        expand: (node: T) => void,                      // 展开某个元素
-        getScroll: () => typeof Scroll.use.class,       // 获取 Scroll 组件实例引用
-        refreshCheckStatus: () => void,                 // 刷新所有元素的选中状态
+        rowClass: string,                                                           // 行class
+        dragClass?: string,                                                         // 拖拽元素的class
+        flatDataList: { value: TableNode[] },                                       // 拍平的数据
+        levelPadding: number,
+        props: {
+            rowDraggable?: boolean,
+            allowRowDraggable?: (node: TableNode) => boolean,
+            allowRowDroppable?: (start: TableNode, move: TableNode, type: TreeDropType) => boolean,
+        },
+        methods: {
+            expand: (node: TableNode) => void,                      // 展开某个元素
+            refreshCheckStatus: () => void,                 // 刷新所有元素的选中状态
+            removeSelf: (node: TableNode) => void,
+            previousSibling: (self: TableNode, target: TableNode) => void,
+            nextSibling: (self: TableNode, target: TableNode) => void,
+            unshiftChild: (self: TableNode, target: TableNode) => void,
+        },
+        getScroll: () => PlainScroll,
+        getParents: (node: TableNode) => TableNode[]
     }
 ) {
 
     const state = {
 
-        startNode: null as null | T,                    // 拖拽开始的时候节点
-        moveNode: null as null | T,                     // 拖拽移动过程中的节点
+        startNode: null as null | TableNode,
+        moveNode: null as null | TableNode,
 
-        startScrollTop: 0,                              // 开始拖拽的时候，滚动容器的scrollTop
-        moveScrollTop: 0,                               // 拖拽移动过程中，滚动容器的scrollTop
+        startScrollTop: 0,
+        moveScrollTop: 0,
 
-        startClientY: 0,                                // 开始拖拽的时候，鼠标的clientY值
-        moveClientY: 0,                                 // 拖拽过程中，鼠标的clientY值
+        startClientY: 0,
+        moveClientY: 0,
 
-        rowHeight: 0,                                   // 行高（不可变，每行高度都必须一样）
-        scrollParent: null as null | HTMLElement,       // 滚动容器节点
-        rowEl: null as null | HTMLElement,              // 拖拽开始的时候，节点的行dom对象
-        scrollParentRect: {                             // 滚动容器的位置属性
+        rowHeight: 0,
+        scrollParent: null as null | HTMLElement,
+        rowEl: null as null | HTMLElement,
+        scrollParentRect: {
             top: 0,
             left: 0,
             width: 0,
             height: 0,
         },
-        indicator: null as null | HTMLElement,          // 指示器dom对象
-        dragNodeBaseLeft: 0,                            // dragNode(dragClass标识的拖拽元素)的left属性
+        indicator: null as null | HTMLElement,
+        dragNodeBaseLeft: 0,
 
-        dropType: TreeDropType.inner,                   // 当前拖拽移动过程中的放置类型
-        droppable: false,                               // 当前拖拽过程中，是否可放置
+        dropType: TreeDropType.inner,
+        droppable: false,
     }
 
     const autoScroll = useAutoScroll({vertical: true, getScroll,})
 
     const utils = {
-        /**
-         * 获取目标节点所有父节点
-         * @author  韦胜健
-         * @date    2020/8/25 16:33
-         */
-        getParents: (node: T | null) => {
-            const parents = [] as T[]
-            while (!!node && node.level > 0) {
-                parents.push(node)
-                node = node.parentRef()
-            }
-            return parents
+        allowDrag: (node: TableNode) => {
+            return !props.allowRowDraggable || props.allowRowDraggable(node) !== false
         },
-        allowRowDraggable: (node: T) => {
-            return !allowDrag || allowDrag(node) !== false
+        allowDrop: (startNode: TableNode, moveNode: TableNode, dropType: TreeDropType) => {
+            return !props.allowRowDroppable || props.allowRowDroppable(startNode, moveNode, dropType) !== false
         },
-        allowRowDroppable: (startNode: T, moveNode: T, dropType: TreeDropType) => {
-            return !allowDrop || allowDrop(startNode, moveNode, dropType) !== false
-        },
-        getIndicatorStyles(moveNode: T, droppable: boolean, dropType: TreeDropType) {
+        getIndicatorStyles(moveNode: TableNode, droppable: boolean, dropType: TreeDropType) {
 
             const styles: StyleProperties = {}
 
             let top = moveNode.index * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop)
-            let paddingLeft = (moveNode.level - state.startNode!.level) * intent
+            let paddingLeft = (moveNode.level - state.startNode!.level) * levelPadding
 
             styles.top = `${dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top}px`
             styles.left = `${state.dragNodeBaseLeft + paddingLeft}px`
@@ -116,7 +98,7 @@ export function useTreeDraggier<T extends {
             const external = targetIndex % 1
             targetIndex = Math.floor(targetIndex)
             let dropType: TreeDropType = external < 0.3 ? TreeDropType.prev : external > 0.7 ? TreeDropType.next : TreeDropType.inner
-            const moveNode = flatList.value[targetIndex]
+            const moveNode = flatDataList.value[targetIndex]
             if (!moveNode) {
                 return
             }
@@ -124,16 +106,13 @@ export function useTreeDraggier<T extends {
             let droppable = true
 
             state.moveNode = moveNode
-            if (state.moveNode.empty) {
+            const parents = getParents(state.moveNode)
+            parents.push(state.moveNode)
+            if (parents.indexOf(state.startNode!) > -1) {
                 droppable = false
-            } else {
-                const parents = utils.getParents(state.moveNode)
-                if (parents.map(n => n.key).indexOf(state.startNode!.key) > -1) {
-                    droppable = false
-                }
-                if (!utils.allowRowDroppable(state.startNode!, moveNode, dropType)) {
-                    droppable = false
-                }
+            }
+            if (!utils.allowDrop(state.startNode!, moveNode, dropType)) {
+                droppable = false
             }
 
             state.dropType = dropType
@@ -150,9 +129,9 @@ export function useTreeDraggier<T extends {
             state.rowEl = getRowEl(e, rowClass)
             state.rowHeight = state.rowEl.offsetHeight
             const vid = Number(state.rowEl.getAttribute('vid'))
-            state.moveNode = state.startNode = flatList.value[vid]
+            state.moveNode = state.startNode = flatDataList.value[vid]
 
-            if (!utils.allowRowDraggable(state.startNode)) {
+            if (!utils.allowDrag(state.startNode)) {
                 return
             }
 
@@ -221,28 +200,26 @@ export function useTreeDraggier<T extends {
                 return
             }
 
-            startNode!.removeSelf()
+            methods.removeSelf(startNode!)
 
             switch (dropType) {
                 case TreeDropType.prev:
-                    moveNode!.previousSibling(startNode!)
+                    methods.previousSibling(moveNode!, startNode!)
                     break
                 case TreeDropType.inner:
-                    moveNode!.unshiftChild(startNode!)
-                    expand(moveNode!)
+                    methods.unshiftChild(moveNode!, startNode!)
+                    methods.expand(moveNode!)
                     break
                 case TreeDropType.next:
-                    moveNode!.nextSibling(startNode!)
+                    methods.nextSibling(moveNode!, startNode!)
                     break
             }
-
-            refreshCheckStatus()
+            methods.refreshCheckStatus()
         }
     }
 
     return {
-        handler,
         utils,
+        handler: {onMousedown: handler.mousedown}
     }
-
 }

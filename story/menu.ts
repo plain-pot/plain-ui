@@ -11,7 +11,7 @@ interface MenuGroup {
 }
 
 export const MENUS: MenuGroup[] = [
-    /*{
+    {
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/useSlots/demo-use-slots', complete: true},
             {name: 'useScopedSlots', page: '/use/useScopedSlots/demo-use-scoped-slots', complete: true},
@@ -111,7 +111,7 @@ export const MENUS: MenuGroup[] = [
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
             {name: '$file', title: '文件服务', page: '/service/file', complete: false},
         ]
-    },*/
+    },
     {
         name: '表格', children: [
             {name: 'Virtual', title: 'pl-virtual-table', page: '/table/virtual-table', complete: true},
@@ -125,7 +125,7 @@ export const MENUS: MenuGroup[] = [
             {name: 'Plc', title: '列组件', page: '/table/table-columns', complete: true},
             {name: 'Expand', title: '展开列', page: '/table/table-expand', complete: true},
             {name: 'Span', title: '合并单元格', page: '/table/span/table-span', complete: true},
-            {name: 'Tree', title: '树形表格', page: '/table/tree/table-tree', complete: false},
+            {name: 'Tree', title: '树形表格', page: '/table/tree/table-tree', complete: true},
             {name: 'Row Draggable', title: '行拖拽排序', page: '/table/table-row-draggable', complete: true},
             {name: 'Col Draggable', title: '列拖拽排序', page: '/table/table-col-draggable', complete: true},
             {name: 'Table class-style', title: '行列样式', page: '/table/table-class-style', complete: true},

@@ -153,6 +153,14 @@
         background-color: $tableRowHoverBackground;
       }
     }
+
+    &.plt-row-current {
+      &, &:hover {
+        td {
+          background-color: $tableRowCurrentBackground;
+        }
+      }
+    }
   }
   .plt-head {
     tr {
@@ -177,6 +185,10 @@
 
     &.plt-cell-align-right {
       text-align: right;
+    }
+
+    &.plt-cell-no-padding {
+      padding: 0;
     }
 
     &.plt-cell-editing {
@@ -314,6 +326,32 @@
 
     &[droppable="false"] {
       background-color: $colorError;
+    }
+  }
+  /*plc-tree*/
+  .plc-tree-node {
+    white-space: nowrap;
+
+    & > * {
+      display: inline-block;
+      height: 100%;
+    }
+
+    &:not(.plt-head-cell) {
+      padding: 0;
+    }
+
+    .plc-tree-node-expander, .plc-tree-node-check {
+      width: 30px;
+      text-align: center;
+    }
+
+    .plc-tree-node-content {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-left: 9px;
     }
   }
 }

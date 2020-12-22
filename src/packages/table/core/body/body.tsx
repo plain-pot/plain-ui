@@ -47,8 +47,8 @@ export const PltBody = designComponent({
                     key={props.table.plcData.value!.plcKeyString}
                     width={props.table.plcData.value!.targetTableWidth!}
                     size={props.table.numberState.bodyRowHeight}
-                    data={props.table.nodeState.flatNodes}
-                    summaryData={props.table.nodeState.summaryNodes || undefined}
+                    data={props.table.flatNodes.value}
+                    summaryData={props.table.summaryNodes.value || undefined}
                     height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
                     disabled={props.table.disabledVirtual.value}
                     {...bindScroll}
