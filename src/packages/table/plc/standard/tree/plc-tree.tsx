@@ -1,10 +1,10 @@
 import {designPlc} from "../../core/designPlc";
-import {computed, onMounted, PropType, watch} from 'vue';
+import {computed, onMounted, PropType, watch, onBeforeUnmount} from 'vue';
 import {TableNode} from "../../../core/useTableNode";
 import {TreeDropType} from "../../../../tree/utils/tree-constant";
 import {useScopedSlots} from "../../../../../use/useScopedSlots";
 import {Plc} from "../../core/plc.type";
-import {SimpleObject} from "../../../../../shims";
+import {SimpleFunction, SimpleObject} from "../../../../../shims";
 import {injectPlainTable} from "../../../table";
 import {unit} from "plain-utils/string/unit";
 
@@ -86,6 +86,21 @@ export default designPlc({
         })
 
         Object.assign(ctx.proxy, methods)
+
+        let unmountListener = [] as SimpleFunction[]
+        if (table.props.expandOnClickNode) {
+            const listener = (node: TableNode) => methods.toggleExpand(node)
+            table.event.on.onClickCell(listener)
+            unmountListener.push(listener)
+        }
+        if (table.props.checkOnClickNode) {
+            const listener = (node: TableNode) => methods.toggleCheck(node)
+            table.event.on.onClickCell(listener)
+            unmountListener.push(listener)
+        }
+        if (unmountListener.length > 0) {
+            onBeforeUnmount(() => unmountListener.forEach(listener => table.event.off.onClickCell(listener)))
+        }
 
         return {
             props,
