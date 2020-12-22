@@ -91,47 +91,9 @@ export default designComponent({
             expand: (node: TreeNode) => methods.expand(node),
             getScroll: () => props.virtual ? refs.list!.refs.scroll! : refs.scroll!,
             refreshCheckStatus: async () => {
-                if (!props.showCheckbox) return
-                if (props.checkStrictly) return;
-
                 await nextTick()
                 await delay(120)
-
-                const next = (node: TreeNode) => {
-
-                    if (!node.parentRef) {
-                        return
-                    }
-
-                    let hasCheck = false
-                    let hasUncheck = false
-
-                    if (!!node.children) {
-                        node.children.forEach(child => {
-                            next(child)
-                            if (child.check) {
-                                hasCheck = true
-                            } else {
-                                hasUncheck = true
-                            }
-                        })
-                    }
-                    if (hasCheck && !hasUncheck) {
-                        // 所有子节点选中
-                        if (!node.check) {
-                            node.check = true
-                        }
-                    } else if (hasUncheck) {
-                        // 有子节点未选中
-                        if (node.check) {
-                            node.check = false
-                        }
-                    }
-                }
-
-                if (!!flatList.value) {
-                    flatList.value.forEach(next)
-                }
+                flatList.value.forEach(methods.refreshCheckStatus)
             },
             methods,
         })

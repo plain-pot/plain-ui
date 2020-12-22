@@ -46,6 +46,7 @@ export function useTree<Node extends {
             checkOnClickNode?: boolean,
             defaultExpandAll?: boolean,
             currentKey?: string,
+            showCheckbox?: boolean,
         },
         emit: {
             onExpand: (node: Node) => void,
@@ -280,23 +281,28 @@ export function useTree<Node extends {
         getCheckedData: () => checkNodes.value,
         /*刷新所有节点的选中状态*/
         refreshCheckStatus: async (keyOrNode: string | Node) => {
-            await utils.handleKeyOrNode(keyOrNode, async node => {
-                /*刷新选中状态的前提是有子节点数据*/
-                if (props.checkStrictly || node.isLeaf || !node.children || node.children.length === 0) {
-                    return
-                }
-                let hasCheck = false, hasUncheck = false;
-                node.children.forEach(chlid => chlid.check ? hasCheck = true : hasUncheck = true)
-                if (node.check && hasUncheck) {
-                    // 自身选中而子节点有非选中,令所有父节点变成非选中状态
-                    let parents = utils.getParents(node);
-                    [...parents, node].forEach(n => n.check = false)
-                }
-                if (!node.check && hasCheck && !hasUncheck) {
-                    // 自身非选中而子节点全部选中，令所有父节点变成选中状态
-                    let parents = utils.getParents(node);
-                    [...parents, node].forEach(n => n.check = true)
-                }
+            if (!props.showCheckbox) return
+            if (props.checkStrictly) return;
+            const node = baseMethods.getNode(keyOrNode)
+            if (!node) {return }
+            const parents = utils.getParents(node)
+            utils.iterate({
+                nodes: [node, ...parents],
+                handler: node => {
+                    /*刷新选中状态的前提是有子节点数据*/
+                    if (node.isLeaf || !node.children || node.children.length === 0) return
+                    let hasCheck = false, hasUncheck = false;
+                    node.children.forEach(chlid => chlid.check ? hasCheck = true : hasUncheck = true)
+                    if (node.check && hasUncheck) {
+                        // 自身选中而子节点有非选中,取消当前节点的选中状态
+                        node.check = false
+                    }
+                    if (!node.check && hasCheck && !hasUncheck) {
+                        // 自身非选中而子节点全部选中，选中当前节点
+                        node.check = true
+                    }
+                },
+                iterateChildrenFirst: true,
             })
         },
     }
