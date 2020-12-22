@@ -1,8 +1,5 @@
-import {nextTick, computed, ref} from 'vue';
+import {computed, nextTick} from 'vue';
 import {SimpleObject} from "../../../shims";
-import {TableNode} from "../../table/core/useTableNode";
-import {TreeUtils} from "./utils";
-import {TreeNode} from "./type";
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {useModel} from "../../../use/useModel";

@@ -4,7 +4,7 @@ import {computed, nextTick, PropType} from 'vue';
 import './tree.scss'
 import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./core/props";
-import {TreeUtils} from "./core/utils";
+import {TreeUtils} from "./core/tree.utils";
 import {TreeNode} from "./core/type";
 import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
