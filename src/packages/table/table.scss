@@ -187,6 +187,10 @@
       text-align: right;
     }
 
+    &.plt-cell-no-padding {
+      padding: 0;
+    }
+
     &.plt-cell-editing {
       &:not(.plt-cell-add-edit-padding) {
         padding-left: 0;
