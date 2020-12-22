@@ -71,7 +71,7 @@ export default designPlc({
     summary: () => null,
     default: ({refer, node, plc, row}) => {
         return (
-            <div>
+            <div class="plc-tree-node">
                 <div class="plc-tree-node-expander">
                     <pl-button mode="text" size="normal" icon={node.expand ? 'el-icon-caret-bottom' : 'el-icon-caret-right'}/>
                 </div>

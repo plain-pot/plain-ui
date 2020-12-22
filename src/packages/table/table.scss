@@ -328,4 +328,20 @@
       background-color: $colorError;
     }
   }
+  /*plc-tree*/
+  .plc-tree-node {
+    display: flex;
+    align-items: center;
+
+    .plc-tree-node-expander, .plc-tree-node-check {
+      width: 30px;
+    }
+
+    .plc-tree-node-content {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }

@@ -16,8 +16,8 @@
                       childrenField="subs"
                       ref="table1">
                 <plc-index/>
-                <plc-tree ref="tree1">
-                    <template v-slot:cotnent="{row}">
+                <plc-tree ref="tree1" title="标题">
+                    <template v-slot:content="{row}">
                         {{row.name}}
                     </template>
                 </plc-tree>
