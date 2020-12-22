@@ -11,9 +11,10 @@
         <pl-table :data="tableData"
                   keyField="code"
                   childrenField="children"
-                  virtual>
+                  virtual
+                  showCheckbox>
             <plc-index/>
-            <plc-tree ref="tree" showCheckbox>
+            <plc-tree ref="tree">
                 <template v-slot:content="{row}">
                     {{row.name}}
                 </template>
