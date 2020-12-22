@@ -5,7 +5,7 @@ export default designPlc({
     standardProps: {
         autoFixedLeft: {default: true},
         order: {default: -9999},
-        width: {default: 40},
+        width: {default: 45},
         align: {default: 'center'},
         noPadding: {default: true},
     },

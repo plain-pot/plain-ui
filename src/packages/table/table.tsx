@@ -16,6 +16,7 @@ import {useFixedShadow} from "./core/useFixedShadow";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {useTableCurrent} from "./core/useTableCurrent";
 import {formatFormRules, FormValidate} from "../form/form.validate";
+import {useTree} from "../tree/core/useTree";
 
 const Table = designComponent({
     name: 'pl-table',
@@ -24,7 +25,7 @@ const Table = designComponent({
     },
     provideRefer: true,
     emits: {
-        onUpdateData: (data?: SimpleObject[]) => true,
+        ...useTree.createEvent<TableNode>(),
         onScrollLeft: (scrollLeft: number, part: TableHoverPart) => true,
         onVirtualMounted: (data: { scroll: PlainScroll }) => true,
 
@@ -50,9 +51,9 @@ const Table = designComponent({
         const {slots} = useSlots()
         const {numberState, plcData} = usePlcList({props})
         const {bindScroll} = useBindScroll(event)
-        const {nodeState, dataModel} = useTableNode({props, emit, getValidate: () => formValidate.value})
+        const {state, flatNodes, summaryNodes, dataModel, methods} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)
-        const tableCurrent = useTableCurrent({nodeState, emit: event.emit})
+        const tableCurrent = useTableCurrent({methods, emit: event.emit})
         const formValidate = computed(() => formatFormRules(
             props.rules,
             !plcData.value ? undefined : plcData.value.flatPlcList.map(plc => ({
@@ -75,10 +76,6 @@ const Table = designComponent({
             ...fixedShadowClass.value,
         ])
 
-        const methods = {
-            ...tableCurrent.methods,
-        }
-
         const refer = {
             refs,
             props,
@@ -86,8 +83,8 @@ const Table = designComponent({
             plcData,
             bindScroll,
             event,
-            nodeState,
             dataModel,
+            state, flatNodes, summaryNodes,
             disabledVirtual,
             tableCurrent,
             ...methods,

@@ -4,10 +4,12 @@ import {hasClass} from "plain-utils/dom/hasClass";
 
 export function useTableCurrent(
     {
-        nodeState,
         emit,
+        methods,
     }: {
-        nodeState: { nodeMap: { [k: string]: TableNode } },
+        methods: {
+            setCurrent: (key: string) => void,
+        },
         emit: {
             onClickRow: (node: TableNode, e: MouseEvent) => void,
             onDblclickRow: (node: TableNode, e: MouseEvent) => void,
@@ -16,19 +18,10 @@ export function useTableCurrent(
         },
     }
 ) {
-
-    const state = reactive({
-        current: null as null | TableNode,
-    })
-    const methods = {
-        setCurrent: (keyOrNode: string | TableNode) => state.current = typeof keyOrNode === "object" ? keyOrNode : nodeState.nodeMap[keyOrNode],
-        getCurrent: () => state.current,
-    }
     return {
-        state,
         methods,
         onClickRow: (e: MouseEvent, node: TableNode) => {
-            methods.setCurrent(node);
+            methods.setCurrent(node.key);
             emit.onClickRow(node, e);
             hasClass(e.target as HTMLElement, 'plt-cell') && emit.onClickCell(node, e);
         },
