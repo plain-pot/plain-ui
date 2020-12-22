@@ -285,24 +285,27 @@ export function useTree<Node extends {
             if (props.checkStrictly) return;
             const node = baseMethods.getNode(keyOrNode)
             if (!node) {return }
-            const parents = utils.getParents(node)
+            const nodes = [] as Node[]
             utils.iterate({
-                nodes: [node, ...parents],
-                handler: node => {
-                    /*刷新选中状态的前提是有子节点数据*/
-                    if (node.isLeaf || !node.children || node.children.length === 0) return
-                    let hasCheck = false, hasUncheck = false;
-                    node.children.forEach(chlid => chlid.check ? hasCheck = true : hasUncheck = true)
-                    if (node.check && hasUncheck) {
-                        // 自身选中而子节点有非选中,取消当前节点的选中状态
-                        node.check = false
-                    }
-                    if (!node.check && hasCheck && !hasUncheck) {
-                        // 自身非选中而子节点全部选中，选中当前节点
-                        node.check = true
-                    }
-                },
+                nodes: node.children,
+                handler: node => {nodes.unshift(node)},
                 iterateChildrenFirst: true,
+            })
+            nodes.unshift(node)
+            nodes.unshift(...utils.getParents(node).reverse())
+            nodes.reverse().forEach(node => {
+                /*刷新选中状态的前提是有子节点数据*/
+                if (node.isLeaf || !node.children || node.children.length === 0) return
+                let hasCheck = false, hasUncheck = false;
+                node.children.forEach(child => child.check ? hasCheck = true : hasUncheck = true)
+                if (node.check && hasUncheck) {
+                    // 自身选中而子节点有非选中,取消当前节点的选中状态
+                    node.check = false
+                }
+                if (!node.check && hasCheck && !hasUncheck) {
+                    // 自身非选中而子节点全部选中，选中当前节点
+                    node.check = true
+                }
             })
         },
     }
