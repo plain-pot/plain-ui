@@ -78,6 +78,7 @@ export const PltCell = designComponent({
                 const classes = useClass(() => {
                     const ret = [
                         props.plc.classes.body,
+                        props.plc.props.bodyCls,
                         {'plt-cell-editing': editable,}
                     ] as any[]
                     if (!!props.table.props.cellClassFunc) {

@@ -14,9 +14,9 @@ export default designPlc({
     name: 'plc-tree',
     standardProps: {
         autoFixedLeft: {default: true},
-        noPadding: {default: true},
         order: {default: -9996},
         width: {default: size},
+        bodyCls: {default: 'plc-tree-node'},
     },
     externalProps: {
         contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
@@ -71,7 +71,7 @@ export default designPlc({
     summary: () => null,
     default: ({refer, node, plc, row}) => {
         return (
-            <div class="plc-tree-node">
+            <>
                 <div class="plc-tree-node-expander">
                     <pl-button mode="text" size="normal" icon={node.expand ? 'el-icon-caret-bottom' : 'el-icon-caret-right'}/>
                 </div>
@@ -80,7 +80,7 @@ export default designPlc({
                         {refer.scopedSlots.content({node, row, plc}, !plc.props.field ? null : row[plc.props.field])}
                     </div>
                 )}
-            </div>
+            </>
         )
     }
 })

@@ -330,8 +330,16 @@
   }
   /*plc-tree*/
   .plc-tree-node {
-    display: flex;
-    align-items: center;
+    white-space: nowrap;
+
+    & > * {
+      display: inline-block;
+      height: 100%;
+    }
+
+    &:not(.plt-head-cell) {
+      padding: 0;
+    }
 
     .plc-tree-node-expander, .plc-tree-node-check {
       width: 30px;

@@ -30,6 +30,7 @@ export const PltHeadCell = designComponent({
                     <td
                         class={[
                             props.tablePlc.classes.head,
+                            props.tablePlc.props.headCls,
                             !!props.table.props.headCellClassFunc ? props.table.props.headCellClassFunc(props.tablePlc) : null
                         ]}
                         style={{
