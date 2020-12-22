@@ -1,5 +1,5 @@
 import {designPlc} from "../../core/designPlc";
-import {computed, onMounted, PropType, watch, onBeforeUnmount} from 'vue';
+import {computed, onBeforeUnmount, onMounted, PropType, watch} from 'vue';
 import {TableNode} from "../../../core/useTableNode";
 import {TreeDropType} from "../../../../tree/utils/tree-constant";
 import {useScopedSlots} from "../../../../../use/useScopedSlots";
@@ -7,6 +7,9 @@ import {Plc} from "../../core/plc.type";
 import {SimpleFunction, SimpleObject} from "../../../../../shims";
 import {injectPlainTable} from "../../../table";
 import {unit} from "plain-utils/string/unit";
+import {useTableGetScroll} from "../../../core/useTableGetScroll";
+import {usePlcTreeDraggier} from "./plc-tree.draggier";
+import {delay} from "plain-utils/utils/delay";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
@@ -33,6 +36,8 @@ export default designPlc({
 
         const plc = ctx.proxy as any as Plc;
         const table = injectPlainTable()
+        const {getScroll} = useTableGetScroll(table.event.on.onVirtualMounted)
+
         const {scopedSlots} = useScopedSlots({content: {node: Object as PropType<TableNode>, plc: Object as PropType<Plc>, row: Object as PropType<SimpleObject>},}, true)
 
         const maxShowLevel = computed(() => {
@@ -61,27 +66,39 @@ export default designPlc({
             return expand * (level - 1) + (content + expand + check + draggable)
         })
 
+        const methods = {
+            ...table.expandMethods,
+            ...table.checkMethods,
+            ...table.treeNodeMethods,
+        }
+
+        const handler = {
+            ...table.handler,
+        }
+
+        const draggier = usePlcTreeDraggier({
+            rowClass: 'plt-row',
+            dragClass: 'plc-tree-node-drag-btn',
+            levelPadding: size,
+            flatDataList: table.flatNodes,
+            props,
+            getScroll,
+            getParents: table.utils.getParents,
+            methods: {
+                ...methods,
+                refreshCheckStatus: async () => {
+                    await delay(120)
+                    table.flatNodes.value.forEach(methods.refreshCheckStatus)
+                },
+            },
+        })
+
         const utils = {
-            allowDrag: (node: TableNode) => {
-                return !props.allowRowDraggable || props.allowRowDraggable(node) !== false
-            },
-            allowDrop: (startNode: TableNode, moveNode: TableNode, dropType: TreeDropType) => {
-                return !props.allowRowDroppable || props.allowRowDroppable(startNode, moveNode, dropType) !== false
-            },
             getExpanderAttrs: (node: TableNode) => {
                 return {
                     style: {marginLeft: unit((node.level - 1) * size)} as any,
                 }
             },
-        }
-
-        const methods = {
-            ...table.expandMethods,
-            ...table.checkMethods,
-        }
-
-        const handler = {
-            ...table.handler,
         }
 
         onMounted(() => {
@@ -113,6 +130,7 @@ export default designPlc({
             scopedSlots,
             handler,
             utils,
+            draggier,
         }
     },
 }, {
@@ -145,8 +163,8 @@ export default designPlc({
                     <pl-button mode="text"
                                icon="el-icon-list"
                                class="plc-tree-node-drag-btn"
-                               disabled={!refer.utils.allowDrag(node)}
-                    />
+                               disabled={!refer.draggier.utils.allowDrag(node)}
+                               onMousedown={refer.draggier.handler.onMousedown}/>
                 )}
                 {refer.scopedSlots.content.isExist() && (
                     <div class="plc-tree-node-content">

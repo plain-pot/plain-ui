@@ -81,7 +81,7 @@ export function useTableNode(
         return list
     })
     const summaryNodes = computed(() => !props.summaryData ? null : props.summaryData.map((data) => utils.getTreeNodeByData({data, level: 1, parentRef: null as any, adjust: node => node.isSummary = true})))
-    return {state, dataModel, flatNodes, summaryNodes, methods, current, handler}
+    return {state, dataModel, flatNodes, summaryNodes, methods, current, handler, utils}
 }
 
 export type TableNode = {
@@ -104,12 +104,6 @@ export type TableNode = {
     readonly isCheckable: boolean,                      // 节点是否可以选择
     readonly isLeaf: boolean,                           // 节点是否为叶子节点
     readonly isVisible: boolean,                        // 节点是否可见
-
-    removeSelf: () => void,                             // 移除自身节点
-    previousSibling: (node: TableNode) => void,         // 将目标节点插入为自身节点的兄节点
-    nextSibling: (node: TableNode) => void,             // 将目标节点插入为自身节点的弟节点
-    unshiftChild: (node: TableNode) => void,            // 将目标节点插入为当前节点的子节点
-    getReactiveChildrenData: () => SimpleObject[],      // 获取响应式子节点数据数组
 
     /*---------------------------------------edit-------------------------------------------*/
 
