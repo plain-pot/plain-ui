@@ -3,6 +3,7 @@ import {SimpleObject} from "../../../shims";
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {useModel} from "../../../use/useModel";
+import {TreeNode} from "../utils/type";
 
 function use<Node extends {
     key: string,
@@ -339,6 +340,7 @@ function use<Node extends {
     utils.init()
 
     return {
+        dataModel,
         state,
         current,
         utils,
@@ -378,5 +380,21 @@ export const useTree = Object.assign(use, {
             currentKey: {type: String},                                 // 当前选中节点的key
         }
     },
+    createEvent: <Node>() => {
+        return {
+            onClickNode: (node: Node) => true,                          // 点击节点事件
+            onUpdateCurrent: (current?: string) => true,                // 当前高亮节点key变化绑定事件
+            onCurrentChange: (node: Node | null) => true,               // 当前高亮节点变化事件
+            onUpdateData: (data?: SimpleObject[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
+
+            onExpandChange: (expandKeys: string[]) => true,             // 展开节点变化事件
+            onExpand: (node: Node) => true,                             // 展开事件
+            onCollapse: (node: Node) => true,                           // 关闭节点事件
+
+            onCheckChange: (checkKeys: string[]) => true,               // 选中节点变化事件
+            onCheck: (node: Node) => true,                              // 选中节点事件
+            onUncheck: (node: Node) => true,                            // 取消选中节点事件
+        }
+    }
 })
 
