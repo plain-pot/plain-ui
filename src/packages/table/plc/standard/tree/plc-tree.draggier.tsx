@@ -11,8 +11,8 @@ export function usePlcTreeDraggier(
     {
         rowClass,
         dragClass,
-        levelPadding,
         flatDataList,
+        levelPadding,
         props,
         methods,
         getScroll,
@@ -20,8 +20,8 @@ export function usePlcTreeDraggier(
     }: {
         rowClass: string,                                                           // 行class
         dragClass?: string,                                                         // 拖拽元素的class
-        levelPadding: number,                                                       // 层级偏移距离
         flatDataList: { value: TableNode[] },                                       // 拍平的数据
+        levelPadding: number,
         props: {
             rowDraggable?: boolean,
             allowRowDraggable?: (node: TableNode) => boolean,
@@ -81,8 +81,7 @@ export function usePlcTreeDraggier(
             const styles: StyleProperties = {}
 
             let top = moveNode.index * state.rowHeight + state.scrollParentRect.top - (state.moveScrollTop)
-            let paddingLeft = (moveNode.level - 1) * levelPadding
-            if (moveNode.isLeaf) paddingLeft += levelPadding
+            let paddingLeft = (moveNode.level - state.startNode!.level) * levelPadding
 
             styles.top = `${dropType === TreeDropType.next ? top + state.rowHeight - indicatorSize : top}px`
             styles.left = `${state.dragNodeBaseLeft + paddingLeft}px`

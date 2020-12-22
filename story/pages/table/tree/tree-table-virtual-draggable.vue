@@ -3,9 +3,9 @@
 
         <demo-line>
             <pl-button-group>
-                <pl-button label="全部展开" @click="$refs.tree.treePlc.methods.expandAll()"/>
-                <pl-button label="全部收起" @click="$refs.tree.treePlc.methods.collapseAll()"/>
-                <pl-button label="获取选中数据" @click="$message($refs.tree.treePlc.methods.getCheckedData().map(item=>item.name).join(','))"/>
+                <pl-button label="全部展开" @click="$refs.tree.expandAll()"/>
+                <pl-button label="全部收起" @click="$refs.tree.collapseAll()"/>
+                <pl-button label="获取选中数据" @click="$message($refs.tree.getCheckedData().map(({data})=>data.name).join(','))"/>
             </pl-button-group>
         </demo-line>
         <pl-table :data="tableData"
