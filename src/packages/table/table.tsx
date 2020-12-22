@@ -50,7 +50,7 @@ const Table = designComponent({
         const {slots} = useSlots()
         const {numberState, plcData} = usePlcList({props})
         const {bindScroll} = useBindScroll(event)
-        const {state, flatNodes, summaryNodes, dataModel, methods, current} = useTableNode({props, emit, getValidate: () => formValidate.value})
+        const {state, flatNodes, summaryNodes, dataModel, methods, current, handler} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)
         const formValidate = computed(() => formatFormRules(
             props.rules,
@@ -74,7 +74,8 @@ const Table = designComponent({
             ...fixedShadowClass.value,
         ])
 
-        const handler = {
+        const exposeHandler = {
+            ...handler,
             onClickRow: (e: MouseEvent, node: TableNode) => {
                 methods.setCurrent(node.key);
                 emit.onClickRow(node, e);
@@ -96,7 +97,7 @@ const Table = designComponent({
             dataModel,
             state, flatNodes, summaryNodes,
             disabledVirtual,
-            handler,
+            handler: exposeHandler,
             ...methods,
             formValidate,
             current,
