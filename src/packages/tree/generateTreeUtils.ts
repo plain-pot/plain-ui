@@ -1,30 +1,70 @@
+import {nextTick, computed, ref} from 'vue';
+import {SimpleObject} from "../../shims";
+import {TableNode} from "../table/core/useTableNode";
+import {TreeUtils} from "./core/utils";
 import {TreeNode} from "./core/type";
-import {nextTick} from 'vue';
 
-export function generateTreeUtils<Node extends TreeNode>(
+export function generateTreeUtils<Node extends {
+    key: string,
+    data: SimpleObject,
+    level: number,
+    parentRef: () => Node | null,
+    selfRef: () => Node,
+
+    // index: number,
+
+    // readonly childrenData?: SimpleObject[]
+    readonly label?: string,
+    children?: Node[],
+    // readonly checkStatus: TreeNodeCheckStatus,
+
+    expand: boolean,
+    check: boolean,
+    loading: boolean,
+    loaded: boolean,
+
+    readonly isCheckable: boolean,
+    readonly isLeaf: boolean,
+    // readonly isVisible: boolean,
+
+    // removeSelf: () => void,
+    // previousSibling: (node: Node) => void,
+    // nextSibling: (node: Node) => void,
+    // unshiftChild: (node: Node) => void,
+    // getReactiveChildrenData: () => SimpleObject[],
+}>(
     {
-        getNode,
         props,
         state,
         emit,
     }: {
-        getNode: (key: string) => Node | undefined | null,
         props: {
             lazy?: boolean,
             getChildren?: (node: Node, cb: (...args: any[]) => void) => void,
             childrenField?: string,
             according?: boolean,
             autoExpandParent?: boolean,
+            checkStrictly?: boolean,
+            expandOnClickNode?: boolean,
+            checkOnClickNode?: boolean,
         },
         state: {
             root: Node,
+            nodeMap: Record<string, Node>,
         },
         emit: {
             onExpand: (node: Node) => void,
             onExpandChange: (keys: string[]) => void,
+            onCollapse: (node: Node) => void,
+            onCheck: (node: Node) => void,
+            onUncheck: (node: Node) => void,
+            onCheckChange: (keys: string[]) => void,
+            onClickNode: (node: Node) => void,
         }
     }
 ) {
+
+    const current = ref(null as null | Node) as { value: Node | null | undefined }
 
     const utils = {
         /*遍历key或者node*/
@@ -33,17 +73,13 @@ export function generateTreeUtils<Node extends TreeNode>(
                 return
             }
             if (!Array.isArray(keyOrNode)) {
-                const node = typeof keyOrNode === "string" ? getNode(keyOrNode) : keyOrNode
+                const node = baseMethods.getNode(keyOrNode)
                 if (!!node) {await handler(node)}
             } else {
                 await Promise.all(keyOrNode.map(k => utils.handleKeyOrNode(k, handler)))
             }
         },
-        /**
-         * 获取子节点数据异步方法
-         * @author  韦胜健
-         * @date    2020/3/31 15:21
-         */
+        /*获取子节点数据异步方法*/
         getChildrenAsync: (node: Node): Promise<Node[]> => {
             return new Promise((resolve) => {
                 if (!props.getChildren) {
@@ -65,15 +101,64 @@ export function generateTreeUtils<Node extends TreeNode>(
                     resolve(...results)
                 })
             })
-        }
-    }
-    const baseMethods = {
-        setChildrenData: (node: Node, children: any[]) => {
-            !!props.childrenField && (node.data[props.childrenField] = children)
-        }
+        },
+        /*遍历所有节点数据*/
+        iterate: ({nodes, handler, iterateChildren, iterateChildrenFirst,}: { nodes: Node[] | undefined, handler: (node: Node) => void, iterateChildren?: (node: Node) => boolean, iterateChildrenFirst?: boolean, }) => {
+            if (!nodes) return
+            nodes.forEach(Node => {
+                !iterateChildrenFirst && handler(Node);
+                if (!!Node.children && (!iterateChildren || iterateChildren(Node))) {
+                    utils.iterate({nodes: Node.children, handler, iterateChildren, iterateChildrenFirst,})
+                }
+                iterateChildrenFirst && handler(Node);
+            })
+        },
+        /*获取Node所有的父节点*/
+        getParents: (keyOrNode: Node | string): Node[] => {
+            let node = baseMethods.getNode(keyOrNode)
+            if (!node) {return []}
+            let parents = [] as Node[]
+            let parent = node.parentRef()
+            /*root 是没有 parentRef的*/
+            while (!!parent && !!parent.parentRef) {
+                parents.push(parent)
+                parent = parent.parentRef()
+            }
+            return parents
+        },
     }
 
+    /*展开的节点*/
+    const expandNodes = computed(() => {
+        if (!state.root) {return []}
+        let nodes: Node[] = []
+        utils.iterate({nodes: state.root.children, handler: (node) => node.expand && nodes.push(node),})
+        return nodes
+    })
+    /*选中的节点*/
+    const checkNodes = computed(() => {
+        if (!state.root) {return []}
+        let nodes: Node[] = []
+        utils.iterate({nodes: state.root.children, handler: (node) => node.check && nodes.push(node)})
+        return nodes
+    })
+    /*展开的keys*/
+    const expandKeys = computed(() => expandNodes.value.map(i => i.key))
+    /*选中的keys*/
+    const checkKeys = computed(() => checkNodes.value.map(i => i.key))
+
+    const baseMethods = {
+        /*设置子节点数据*/
+        setChildrenData: (node: Node, children: any[]) => !!props.childrenField && (node.data[props.childrenField] = children),
+        /*通过keyOrNode获取node*/
+        getNode: (keyOrNode: string | Node): Node | undefined => typeof keyOrNode === "string" ? state.nodeMap[keyOrNode] : keyOrNode,
+        /*设置当前选中行*/
+        setCurrent: (keyOrNode: string | Node) => current.value = baseMethods.getNode(keyOrNode),
+        /*获取当前选中行*/
+        getCurrent: () => current.value,
+    }
     const expandMethods = {
+        /*展开节点*/
         expand: async (keyOrNode: string | Node | (string | Node)[]) => {
             await utils.handleKeyOrNode(keyOrNode,
                 async (node) => {
@@ -92,19 +177,167 @@ export function generateTreeUtils<Node extends TreeNode>(
                         if (props.according) {
                             // 手风琴模式，展开某一个节点的时候，关闭兄弟节点
                             if (!!parent && !!parent.children) {
-                                // parent.children.forEach((child: TreeNode) => child.key !== node.key && expandMethods.collapse(child))
+                                parent.children.forEach((child) => child.key !== node.key && expandMethods.collapse(child))
                             }
                         }
                         node.expand = true
                         await nextTick()
 
                         emit.onExpand(node)
-                        // emit.onExpandChange(expandKeys.value)
+                        emit.onExpandChange(expandKeys.value)
                     }
                     if (!!props.autoExpandParent && !!parent && parent.level !== 0) {
-                        // await expandMethods.expand(parent)
+                        await expandMethods.expand(parent)
                     }
                 })
-        }
+        },
+        /*收起节点*/
+        collapse: async (keyOrNode: string | Node | (string | Node)[]) => {
+            await utils.handleKeyOrNode(keyOrNode,
+                async (node) => {
+                    await utils.iterate({
+                        nodes: [node, ...(node.children || [])],
+                        handler: (node) => {
+                            if (node.expand) {
+                                node.expand = false
+                                emit.onCollapse(node)
+                            }
+                        }
+                    })
+                    await nextTick()
+                    emit.onExpandChange(expandKeys.value)
+                })
+        },
+        /*展开或者收起节点*/
+        toggleExpand: (keyOrNode: string | Node) => {
+            const node = baseMethods.getNode(keyOrNode)
+            if (!node) {return}
+            node.expand ? expandMethods.collapse(keyOrNode) : expandMethods.expand(keyOrNode)
+        },
+        /*展开所有节点*/
+        expandAll: () => utils.iterate({nodes: state.root!.children, handler: node => node.expand = true}),
+        /*收起所有节点*/
+        collapseAll: () => expandNodes.value.forEach(node => node.expand = false),
+    }
+
+    const checkMethods = {
+        /*选中节点*/
+        check: async (keyOrNode: string | Node | (string | Node)[]) => {
+            await utils.handleKeyOrNode(keyOrNode, async (node) => {
+                if (node.check || !node.isCheckable) {return}
+                node.check = true
+                // 父子关联模式下，改变子节点以及父节点状态
+                if (!props.checkStrictly) {
+                    // 选中所有子节点
+                    utils.iterate({nodes: node.children, handler: (child) => child.check = true,})
+                    // 更新父节点状态，如果父节点所有的子节点都处于选中状态，则更新父节点为选中状态
+                    let parent = node.parentRef()
+                    while (!!parent && !!parent.key) {
+                        if (!!parent.parentRef && parent.children!.every(child => child.check)) {
+                            parent.check = true
+                            parent = !!parent.parentRef ? parent.parentRef() : null
+                        } else {
+                            break
+                        }
+                    }
+                }
+                await nextTick()
+                emit.onCheck(node)
+                emit.onCheckChange(checkKeys.value)
+            })
+        },
+        /*取消选中节点*/
+        uncheck: async (keyOrNode: string | Node | (string | Node)[]) => {
+            await utils.handleKeyOrNode(keyOrNode, async node => {
+                if (!node.check || !node.isCheckable) {return}
+                node.check = false
+                // 父子关联模式下，改变子节点以及父节点状态
+                if (!props.checkStrictly) {
+                    // 取消选中所有子节点
+                    utils.iterate({nodes: node.children, handler: (child) => child.check = false,})
+                    // 更新父节点状态，如果父节点所有的子节点都处于非选中状态，则更新父节点为非选中状态
+                    let parent = node.parentRef()
+                    while (!!parent && !!parent.key) {
+                        if (parent.check) {
+                            parent.check = false
+                            parent = parent.parentRef()
+                        } else {
+                            break
+                        }
+                    }
+                }
+
+                await nextTick()
+                emit.onUncheck(node)
+                emit.onCheckChange(checkKeys.value)
+            })
+        },
+        /*选中或者取消选中节点*/
+        toggleCheck: (keyOrNode: string | Node) => {
+            const node = baseMethods.getNode(keyOrNode)
+            if (!node) return
+            node.check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode)
+        },
+        /*选中所有节点*/
+        checkAll: () => utils.iterate({nodes: state.root!.children, handler: node => node.check = true}),
+        /*取消选中所有节点*/
+        uncheckAll: () => checkNodes.value.forEach(node => node.check = false),
+        /*获取所有选中的节点*/
+        getCheckedData: () => checkNodes.value,
+        /*刷新所有节点的选中状态*/
+        refreshCheckStatus: async (keyOrNode: string | Node) => {
+            await utils.handleKeyOrNode(keyOrNode, async node => {
+                /*刷新选中状态的前提是有子节点数据*/
+                if (props.checkStrictly || node.isLeaf || !node.children || node.children.length === 0) {
+                    return
+                }
+                let hasCheck = false, hasUncheck = false;
+                node.children.forEach(chlid => chlid.check ? hasCheck = true : hasUncheck = true)
+                if (node.check && hasUncheck) {
+                    // 自身选中而子节点有非选中,令所有父节点变成非选中状态
+                    let parents = utils.getParents(node);
+                    [...parents, node].forEach(n => n.check = false)
+                }
+                if (!node.check && hasCheck && !hasUncheck) {
+                    // 自身非选中而子节点全部选中，令所有父节点变成选中状态
+                    let parents = utils.getParents(node);
+                    [...parents, node].forEach(n => n.check = true)
+                }
+            })
+        },
+    }
+
+    const handler = {
+        /*点击展开图标*/
+        onClickExpandIcon: async (e: MouseEvent, node: Node) => {
+            e.stopPropagation()
+            await expandMethods.toggleExpand(node)
+        },
+        /*点击复选框*/
+        onClickCheckbox: async (e: MouseEvent, node: Node) => {
+            e.stopPropagation()
+            await checkMethods.toggleCheck(node)
+        },
+        /*点击行*/
+        onClickCell: async (e: MouseEvent, node: Node) => {
+            emit.onClickNode(node)
+            baseMethods.setCurrent(node)
+            props.expandOnClickNode && (await expandMethods.toggleExpand(node));
+            props.checkOnClickNode && (await checkMethods.toggleCheck(node));
+        },
+    }
+
+    return {
+        utils,
+        handler,
+        methods: {
+            ...baseMethods,
+            ...expandMethods,
+            ...checkMethods,
+        },
     }
 }
+
+const treeUtils = generateTreeUtils<TableNode>({} as any)
+const tableTreeUtils = generateTreeUtils<TableNode>({} as any)
+
