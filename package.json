@@ -23,7 +23,8 @@
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.5",
     "plain-utils": "^0.1.17",
-    "vue": "^3.0.2"
+    "vue": "^3.0.2",
+    "fecha": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -46,7 +47,6 @@
     "dart-sass": "^1.25.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
-    "fecha": "^4.2.0",
     "mini-css-extract-plugin": "^1.1.1",
     "postcss": "^8.1.2",
     "rollup-plugin-postcss": "^3.1.8",
