@@ -1,5 +1,6 @@
 const $utils = require("../build.utils")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     mode: "production",
@@ -23,12 +24,9 @@ module.exports = {
     },
     plugins: [
         new $utils.webpack.ProgressPlugin(),
-        new MiniCssExtractPlugin({
-            filename: 'index.css'
-        }),
-        new $utils.webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1
-        })
+        new MiniCssExtractPlugin({filename: 'index.css'}),
+        new $utils.webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
+        new BundleAnalyzerPlugin(),
     ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js'],
