@@ -26,7 +26,7 @@ module.exports = {
         new $utils.webpack.ProgressPlugin(),
         new MiniCssExtractPlugin({filename: 'index.css'}),
         new $utils.webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
-        new BundleAnalyzerPlugin(),
+        new BundleAnalyzerPlugin({analyzerMode: 'static'}),
     ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js'],
