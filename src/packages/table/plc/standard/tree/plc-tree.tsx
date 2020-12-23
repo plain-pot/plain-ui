@@ -167,7 +167,7 @@ export default designPlc({
                                onMousedown={refer.draggier.handler.onMousedown}/>
                 )}
                 {refer.scopedSlots.content.isExist() && (
-                    <div class="plc-tree-node-content">
+                    <div class="plc-tree-node-content" style={`width:${unit(refer.props.contentWidth)}`}>
                         {refer.scopedSlots.content({node, row, plc}, !plc.props.field ? null : row[plc.props.field])}
                     </div>
                 )}
