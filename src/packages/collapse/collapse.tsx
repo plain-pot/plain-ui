@@ -2,10 +2,10 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {useClass} from "../../use/useClasses";
-import './collapse.scss'
 import Group from './collapse-group'
 import {computed} from 'vue';
 import {createCounter} from "../../utils/createCounter";
+import './collapse.scss'
 
 const valCounter = createCounter('collapse')
 
