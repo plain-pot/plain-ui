@@ -46,18 +46,19 @@ export default designComponent({
                 },
             },
             render: () => (
-                <List direction={props.horizontal === NoticeServiceDirection.start ? 'left' : 'right'}
-                      class={classes.value}
-                      style={styles}>
-                    {state.options.map((option, index) =>
-                        <Item key={option.id}>
-                            <Notice option={option}
-                                    ref={(proxy: any) => refs[index] = proxy}
-                                    onClose={() => utils.close(index)}
-                            />
-                        </Item>
-                    )}
-                </List>
+                <div class={classes.value} style={styles}>
+                    <List direction={props.horizontal === NoticeServiceDirection.start ? 'left' : 'right'}>
+                        <Item key="placeholder"/>
+                        {state.options.map((option, index) =>
+                            <Item key={option.id}>
+                                <Notice option={option}
+                                        ref={(proxy: any) => refs[index] = proxy}
+                                        onClose={() => utils.close(index)}
+                                />
+                            </Item>
+                        )}
+                    </List>
+                </div>
             )
         }
     },

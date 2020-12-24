@@ -16,8 +16,21 @@
       @each $horizontal in (start, end) {
         @each $vertical in (start, end) {
           &.pl-notice-container-#{$horizontal}-#{$vertical} {
-            align-items: flex-#{$horizontal};
             justify-content: flex-#{$vertical};
+
+            & > .pl-list {
+              & > .pl-item {
+                width: 100%;
+                $textAlign: center;
+                @if ($horizontal == "start") {
+                  $textAlign: left;
+                }
+                @if ($horizontal == "end") {
+                  $textAlign: right;
+                }
+                text-align: $textAlign;
+              }
+            }
           }
         }
       }
@@ -25,6 +38,7 @@
   }
 
   .pl-notice {
+    text-align: initial;
     pointer-events: auto;
     background-color: white;
     display: inline-block;

@@ -6,7 +6,7 @@
     left: 0;
     z-index: 9999;
   }
-  .pl-list.pl-message-container {
+  .pl-message-container {
     pointer-events: none;
     position: fixed;
     top: 0;
@@ -17,34 +17,41 @@
     flex-direction: column;
     box-sizing: border-box;
 
-    & > .pl-item {
-      margin-bottom: 8px;
-    }
-
     @each $horizontal in (start, center, end) {
       @each $vertical in (start, center, end) {
         &.pl-message-container-#{$horizontal}-#{$vertical} {
-          @if $horizontal== center {
-            align-items: center;
-          } @else {
-            align-items: flex-#{$horizontal};
-          }
           @if $vertical  == center {
             justify-content: center;
           } @else {
             justify-content: flex-#{$vertical};
+          }
+
+          & > .pl-list {
+            & > .pl-item {
+              margin-bottom: 8px;
+              width: 100%;
+              $textAlign: center;
+              @if ($horizontal == "start") {
+                $textAlign: left;
+              }
+              @if ($horizontal == "end") {
+                $textAlign: right;
+              }
+              text-align: $textAlign;
+            }
           }
         }
       }
     }
   }
   .pl-message {
+    text-align: initial;
     padding: 12px 20px;
     white-space: nowrap;
     border-radius: 2px;
     border: solid 1px;
     pointer-events: auto;
-    display: flex;
+    display: inline-flex;
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
