@@ -49,13 +49,13 @@ export default designComponent({
                 el.dataset.oldPaddingTop = el.style.paddingTop;
                 el.dataset.oldPaddingBottom = el.style.paddingBottom;
                 el.dataset.oldOverflow = el.style.overflow;
-
                 el.style.height = el.scrollHeight + 'px';
                 el.style.overflow = 'hidden';
             },
             leave(el: HTMLElement) {
                 if (el.scrollHeight != 0) {
                     addClass(el, 'pl-collapse-transition');
+                    el.style.transitionProperty = 'height'
                     el.style.height = "0";
                     el.style.paddingTop = '0';
                     el.style.paddingBottom = '0';
