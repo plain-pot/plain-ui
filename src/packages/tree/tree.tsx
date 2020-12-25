@@ -174,7 +174,7 @@ export default designComponent({
                                     }}
                                 />) : (
                                     <pl-scroll ref="scroll">
-                                        <pl-list direction="top" className="pl-tree-node-list">
+                                        <pl-list direction="top" class="pl-tree-node-list">
                                             {flatList.value.map((node, index) => render.node(node, index))}
                                         </pl-list>
                                     </pl-scroll>

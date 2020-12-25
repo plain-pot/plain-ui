@@ -38,7 +38,7 @@
     }
 
     .pl-list-move-#{$key}-leave-to {
-      opacity: 0;
+      opacity: 0 !important;
     }
 
     .pl-list-move-#{$key}-leave-active {
