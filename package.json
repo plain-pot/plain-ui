@@ -16,7 +16,7 @@
     "dist",
     "src"
   ],
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "typings": "src/index.ts",
   "dependencies": {
     "core-js": "^3.6.5",
