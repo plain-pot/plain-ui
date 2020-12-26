@@ -28,8 +28,7 @@ export default designComponent({
         noPadding: {type: Boolean},                             // 按钮是否无边距
         block: {type: Boolean},                                 // 块级元素
         throttleClick: {type: [Boolean, Number]},               // click节流
-        autoLoading: {type: Boolean},                           // 在执行click处理函数时，是否自动变更为加载状态
-        asyncHandler: {type: Function as PropType<(e: MouseEvent) => void>},    // autoLoading 为true时，的异步处理函数
+        asyncHandler: {type: Function as PropType<(e: MouseEvent) => void>},    // 异步处理函数，会自动开启关闭loading状态
 
         ...EditProps,
         ...StyleProps,
@@ -61,11 +60,8 @@ export default designComponent({
                 if (!editComputed.value.editable) {
                     return
                 }
-                if (!props.autoLoading) {
-                    return emit.onClick(e)
-                }
                 if (!props.asyncHandler) {
-                    return console.error(`pl-button: props.asyncHandler is necessary when autoLoading is true!`)
+                    return emit.onClick(e)
                 }
                 editState.loading = true
                 try {
