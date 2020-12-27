@@ -2,11 +2,12 @@
 
   .pl-color-button {
     border-radius: 2px;
-    height: 28px;
-    width: 28px;
+    height: 24px;
+    width: 24px;
     border: solid 1px $ibc;
     padding: 2px;
     box-sizing: border-box;
+    display: inline-block;
 
     .pl-color-button-background {
       background-size: 7px 7px;
