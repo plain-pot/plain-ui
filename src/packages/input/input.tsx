@@ -38,8 +38,7 @@ export default designComponent({
         isFocus: {type: Boolean},                               // 当前是否处于激活状态
         inputReadonly: {type: Boolean},                         // 输入框只读
         throttleEnter: {type: [Boolean, Number]},               // enter按键事件节流
-        autoLoading: {type: Boolean},                           // enter自动处理异步任务，开启/关闭loading状态
-        asyncHandler: {type: Function},                         // 异步处理函数
+        asyncHandler: {type: Function},                         // 异步处理函数，会自动开启关闭loading状态
 
         /*---------------------------------------原生属性-------------------------------------------*/
         inputInnerTabindex: {type: Number, default: 0},
@@ -81,10 +80,7 @@ export default designComponent({
             handlerEnter: null as null | Function,
             handleEnterInner: async (e: KeyboardEvent) => {
                 if (editComputed.value.editable) {
-                    if (props.autoLoading) {
-                        if (!props.asyncHandler) {
-                            return console.error(`pl-input: props.asyncHandler is necessary when autoLoading is true!`)
-                        }
+                    if (!!props.asyncHandler) {
                         editState.loading = true
                         try {
                             await props.asyncHandler()
