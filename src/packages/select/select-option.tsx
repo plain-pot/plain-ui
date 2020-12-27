@@ -48,6 +48,7 @@ const Option = designComponent({
 
         const handler = {
             click: () => {
+                if (props.group) return
                 !!panel && panel.handler.clickOption(refer)
             }
         }
