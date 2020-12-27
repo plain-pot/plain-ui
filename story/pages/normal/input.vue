@@ -90,7 +90,7 @@
                 <pl-input :width="asyncWidth"/>
             </demo-line>
         </demo-row>
-        <!--<demo-row title="输入框组">
+        <demo-row title="输入框组">
 
             <demo-line>
                 <pl-checkbox v-model="prepend" label="show prepend"/>
@@ -98,27 +98,36 @@
             </demo-line>
 
             <pl-input prefixIcon="el-icon-search" suffixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')">
-                <div slot="prepend" v-if="prepend" style="width:75px;text-align: right">
-                    <pl-dropdown :popperProps="{placement:'bottom-end'}" :width="null">
-                        <div>{{val[3]}}://
-                            <pl-icon class="el-icon-arrow-down"/>
-                        </div>
-                        <pl-dropdown-menu slot="dropdown">
-                            <pl-dropdown-item v-for="item in ['ftp','http','https','ssh']" :key="item" :label="`${item}://`" @click="val[3] = item"/>
-                        </pl-dropdown-menu>
-                    </pl-dropdown>
-                </div>
-                <div slot="append" v-if="append">append content</div>
+                <template #prepend v-if="prepend">
+                    <div style="width:75px;text-align: left">
+                        <pl-dropdown placement="bottom-end" :width="null">
+                            <div>{{val[3]}}://
+                                <pl-icon class="el-icon-arrow-down"/>
+                            </div>
+                            <template #popper>
+                                <pl-dropdown-menu>
+                                    <pl-dropdown-option v-for="item in ['ftp','http','https','ssh']" :key="item" :label="`${item}://`" @click="val[3] = item"/>
+                                </pl-dropdown-menu>
+                            </template>
+                        </pl-dropdown>
+                    </div>
+                </template>
+                <template #append v-if="append">
+                    <div>append content</div>
+                </template>
             </pl-input>
             <pl-input prefixIcon="el-icon-search" suffixIcon="el-icon-search" clearIcon @click-clear-icon="log('click-clear-icon')" @click-prefix-icon="log('click-prefix-icon')">
-                <pl-select v-model="val[3]" :inputProps="{width:100}" slot="prepend" v-if="prepend">
-                    <pl-select-option v-for="item in ['ftp','http','https','ssh']" :label="item" :val="item" :key="item"/>
-                </pl-select>
-
-                <div slot="append" v-if="append">append content</div>
+                <template #prepend v-if="prepend">
+                    <pl-select v-model="val[3]" :inputProps="{width:100}">
+                        <pl-select-option v-for="item in ['ftp','http','https','ssh']" :label="item" :val="item" :key="item"/>
+                    </pl-select>
+                </template>
+                <template #append v-if="append">
+                    <div>append content</div>
+                </template>
             </pl-input>
 
-        </demo-row>-->
+        </demo-row>
         <demo-row title="自定义内容">
             <pl-input suffixIcon="el-icon-search">
                 <span>自定义内容</span>
