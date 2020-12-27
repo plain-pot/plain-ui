@@ -12,10 +12,14 @@ export default designComponent({
 
         return {
             render: () => (
-                <div class="pl-dropdown-group">
+                <div class={[
+                    'pl-dropdown-group',
+                    {'pl-dropdown-no-title': !slots.title.isExist() && !props.title}
+                ]}>
                     {slots.title.isExist() || props.title && (
                         <div class="pl-dropdown-group-title">
-                            {slots.title(props.title)}
+                            <pl-icon icon="el-icon-list"/>
+                            <span>{slots.title(props.title)}</span>
                         </div>
                     )}
                     <div class="pl-dropdown-group-content">

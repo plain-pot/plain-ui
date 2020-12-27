@@ -43,16 +43,19 @@
       color: $colorPrimary;
       padding: 0 12px;
       margin-top: 4px;
+
+      & > .pl-icon {
+        margin-right: 6px;
+      }
     }
 
     .pl-dropdown-group-content {
       padding: 4px 0;
     }
 
-    &:not(:last-child) {
-      .pl-dropdown-group-content {
-        border-bottom: solid 1px $ibl;
-      }
+    &.pl-dropdown-no-title:not(:last-child) {
+      border-bottom: solid 1px $ibc;
     }
+
   }
 }
