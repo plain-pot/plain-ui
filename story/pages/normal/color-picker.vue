@@ -44,6 +44,9 @@
             <pl-color-picker v-model="val[3]"/>
             <pl-color-picker v-model="val[3]" @focus="log('focus')" @blur="log('blur')"/>
         </demo-row>
+        <demo-row title="ColorPicker按钮形式">
+            <pl-color-picker v-model="val[3]" type="button"/>
+        </demo-row>
         <demo-row title="ColorPicker；禁用透明度，使用十六进制颜色值">
             <pl-color-picker v-model="val[4]" :enableAlpha="false"/>
             <pl-color-picker v-model="val[4]" :enableAlpha="false"/>

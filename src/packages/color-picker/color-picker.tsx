@@ -3,15 +3,19 @@ import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {useRefs} from "../../use/useRefs";
 import Input from '../input'
-import {reactive, watch} from 'vue';
+import {reactive, watch, PropType} from 'vue';
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {ColorPickerServiceGetter} from "./service/color-picker.service";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import './color-picker.scss'
 import {useModel} from "../../use/useModel";
 import {$$notice} from "../notice-service";
+import ColorButton from './color-button'
 
-const opacityBg = require('./sub/opacity.png')
+enum ColorPickerType {
+    input = 'input',
+    button = 'button',
+}
 
 export const ColorPicker = designComponent({
     name: 'pl-color-picker',
@@ -22,6 +26,7 @@ export const ColorPicker = designComponent({
         modelValue: {type: String},                             // 当前颜色值
         enableAlpha: {type: Boolean, default: true},            // 是否启用透明度
         format: {type: String, default: 'hex'},                 // 颜色格式
+        type: {type: String as PropType<ColorPickerType>, default: ColorPickerType.input}
     },
     emits: {
         onUpdateModelValue: (val: string | undefined) => true,
@@ -31,7 +36,10 @@ export const ColorPicker = designComponent({
     setup({props, event}) {
 
         useStyle()
-        const {refs} = useRefs({input: Input,})
+        const {refs} = useRefs({
+            input: Input,
+            button: ColorButton,
+        })
 
         const model = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {autoWatch: false})
         const state = reactive({
@@ -43,7 +51,7 @@ export const ColorPicker = designComponent({
             event,
             serviceGetter: ColorPickerServiceGetter,
             option: {
-                reference: () => refs.input as any,
+                reference: () => refs.input as any || refs.button,
                 renderAttrs: () => ({
                     modelValue: state.val,
                     enableAlpha: props.enableAlpha,
@@ -59,7 +67,7 @@ export const ColorPicker = designComponent({
                         agentState.state.focusCounter++
                     },
                     onClickPopper: () => {
-                        refs.input!.methods.focus()
+                        !!refs.input && refs.input.methods.focus()
                     },
                 }),
             },
@@ -72,9 +80,10 @@ export const ColorPicker = designComponent({
         }
 
         const suffixIcon = () => (
-            <div class="pl-color-picker-suffix" style={{backgroundImage: `url(${opacityBg})`}}>
-                <div class="pl-color-picker-suffix-inner" style={{backgroundColor: state.val}}/>
-            </div>
+            <ColorButton
+                ref="button"
+                color={state.val}
+                onClick={agentState.inputHandler.onClickInput}/>
         )
 
         const inputHandler = {
@@ -112,16 +121,18 @@ export const ColorPicker = designComponent({
 
         return {
             render: () => (
-                <pl-input ref="input"
-                          class="pl-color-picker"
-                          modelValue={state.inputValue}
-                          suffixIcon={suffixIcon}
-                          isFocus={agentState.state.focusCounter > 0}
-                          {...{
-                              ...agentState.inputHandler,
-                              ...inputHandler,
-                          }}
-                />
+                props.type === ColorPickerType.input ?
+                    <pl-input ref="input"
+                              class="pl-color-picker"
+                              modelValue={state.inputValue}
+                              suffixIcon={suffixIcon}
+                              isFocus={agentState.state.focusCounter > 0}
+                              {...{
+                                  ...agentState.inputHandler,
+                                  ...inputHandler,
+                              }}
+                    /> :
+                    suffixIcon()
             )
         }
     },

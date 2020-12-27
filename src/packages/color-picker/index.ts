@@ -4,6 +4,7 @@ import {ColorAlphaSlider} from "./sub/color-alpha-slider";
 import {ColorHueSlider} from "./sub/color-hue-slider";
 import {ColorSvPanel} from "./sub/color-sv-panel";
 import {ColorPanel} from "./color-panel";
+import ColorButton from './color-button'
 import ColorPickerService from './service/color-picker.service'
 
 export default createComponentPlugin(ColorPicker, {
@@ -12,6 +13,7 @@ export default createComponentPlugin(ColorPicker, {
         ColorHueSlider,
         ColorSvPanel,
         ColorPanel,
+        ColorButton,
     },
     plugins: [ColorPickerService],
     expose: {
