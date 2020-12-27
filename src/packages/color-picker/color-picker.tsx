@@ -11,6 +11,7 @@ import './color-picker.scss'
 import {useModel} from "../../use/useModel";
 import {$$notice} from "../notice-service";
 import ColorButton from './color-button'
+import {useScopedSlots} from "../../use/useScopedSlots";
 
 enum ColorPickerType {
     input = 'input',
@@ -40,6 +41,9 @@ export const ColorPicker = designComponent({
             input: Input,
             button: ColorButton,
         })
+        const {scopedSlots} = useScopedSlots({
+            default: {color: String, onClick: Function as PropType<() => void>},
+        }, true)
 
         const model = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {autoWatch: false})
         const state = reactive({
@@ -51,7 +55,7 @@ export const ColorPicker = designComponent({
             event,
             serviceGetter: ColorPickerServiceGetter,
             option: {
-                reference: () => refs.input as any || refs.button,
+                reference: () => refs.input as any || refs.button || scopedSlotsOnClick.el,
                 renderAttrs: () => ({
                     modelValue: state.val,
                     enableAlpha: props.enableAlpha,
@@ -72,6 +76,16 @@ export const ColorPicker = designComponent({
                 }),
             },
         })
+        const scopedSlotsOnClick = (() => {
+            const variable = {
+                el: null as null | HTMLDivElement,
+                onClick: (e: MouseEvent) => {
+                    variable.el = e.target as HTMLDivElement
+                    agentState.inputHandler.onClickInput()
+                }
+            }
+            return variable
+        })();
 
         const methods = {
             emitValue(val: any) {
@@ -120,20 +134,24 @@ export const ColorPicker = designComponent({
         })
 
         return {
-            render: () => (
-                props.type === ColorPickerType.input ?
-                    <pl-input ref="input"
-                              class="pl-color-picker"
-                              modelValue={state.inputValue}
-                              suffixIcon={suffixIcon}
-                              isFocus={agentState.state.focusCounter > 0}
-                              {...{
-                                  ...agentState.inputHandler,
-                                  ...inputHandler,
-                              }}
-                    /> :
-                    suffixIcon()
-            )
+            render: () => {
+                return scopedSlots.default({
+                    color: state.val!,
+                    onClick: scopedSlotsOnClick.onClick,
+                }, (
+                    props.type === ColorPickerType.input ? (
+                        <pl-input ref="input"
+                                  class="pl-color-picker"
+                                  modelValue={state.inputValue}
+                                  suffixIcon={suffixIcon}
+                                  isFocus={agentState.state.focusCounter > 0}
+                                  {...{
+                                      ...agentState.inputHandler,
+                                      ...inputHandler,
+                                  }}/>
+                    ) : suffixIcon()
+                ))
+            }
         }
     },
 })

@@ -47,6 +47,15 @@
         <demo-row title="ColorPicker按钮形式">
             <pl-color-picker v-model="val[3]" type="button"/>
         </demo-row>
+        <demo-row title="自定义内容">
+            <pl-color-picker v-model="val[3]">
+                <template v-slot="{color,onClick}">
+                    <div :style="`display:inline-flex;height:30px;width:30px;align-items:center;justify-content:center;border:solid 1px #eee; color:${color}`" @click="onClick">
+                        <pl-icon icon="el-icon-folder-s"/>
+                    </div>
+                </template>
+            </pl-color-picker>
+        </demo-row>
         <demo-row title="ColorPicker；禁用透明度，使用十六进制颜色值">
             <pl-color-picker v-model="val[4]" :enableAlpha="false"/>
             <pl-color-picker v-model="val[4]" :enableAlpha="false"/>
