@@ -23,6 +23,7 @@ const Group = designComponent({
                     <>
                         {isShow.value && (slots.label.isExist() || !!props.label) && (
                             <pl-select-option class="pl-select-group" group label="" val="">
+                                <pl-icon icon="el-icon-list"/>
                                 {slots.label(props.label)}
                             </pl-select-option>
                         )}

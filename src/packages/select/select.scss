@@ -44,7 +44,7 @@
     }
 
     &.pl-select-option-group-child {
-      padding-left: 20px;
+      padding-left: 28px;
     }
 
     &.pl-select-group {
@@ -52,6 +52,10 @@
       color: $colorPrimary;
       padding: 0 12px;
       margin: 4px 0;
+
+      .pl-icon {
+        margin-right: 6px;
+      }
     }
 
     .pl-select-option-icon {
