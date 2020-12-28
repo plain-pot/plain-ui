@@ -17,7 +17,6 @@ export const TreeProps = {
     renderContent: {type: Function as PropType<renderContent>}, // 树节点内容渲染函数
     /*展开相关属性*/
     emptyText: {type: String, default: '暂无数据'},              // 没有子节点的时候展示的文本
-    expandIcon: {type: String},                                 // 树展开图标
     intent: {type: Number, default: 22},                        // 相邻级节点水平缩进距离，默认16，单位px
     /*拖拽属性*/
     draggable: {type: Boolean},                                 // 是否可拖拽
