@@ -126,7 +126,11 @@ function use<Node extends {
         },
         /*初始化逻辑*/
         init: () => {
-            props.lazy && utils.getChildrenAsync(state.root!).then(val => dataModel.value = val);
+            console.log(props.lazy)
+            props.lazy && utils.getChildrenAsync(state.root!).then(val => {
+                dataModel.value = val
+                console.log(val)
+            });
             props.defaultExpandAll && nextTick().then(() => expandMethods.expandAll());
         },
     }
