@@ -120,8 +120,8 @@ const Form = designComponent({
             }
             const {label, col} = width.value
             if (!label) {return}
-            const {column} = numberState
-            style.width = `calc(${col! * column}px ${column > 1 ? `+ ${numberState.columnGutter * column}px` : ''})`
+            const {column, columnGutter} = numberState
+            style.width = unit((col! + columnGutter) * column)
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
         /*---------------------------------------validate-------------------------------------------*/

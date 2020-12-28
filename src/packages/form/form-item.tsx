@@ -110,13 +110,13 @@ export default designComponent({
                 return style
             }
             const {col} = form.childState.width
-            const {flag: block, column} = isBlock.value
+            const {column} = isBlock.value
             const {columnGutter} = form.numberState
             if (!!col) {
-                style.width = unit(col * column + columnGutter * (column - 1))
+                style.width = unit((col + columnGutter) * column)
             }
-            if (form.numberState.column > 1 && !block) {
-                style.marginRight = unit(form.numberState.columnGutter)
+            if (form.numberState.column > 1) {
+                style.paddingRight = unit(form.numberState.columnGutter)
             }
         })
 
