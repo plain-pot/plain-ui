@@ -204,12 +204,11 @@
             </demo-line>
             <pl-tree ref="currentTree"
                      height="330px"
-                     :currentKey="currentKey"
+                     v-model:currentKey="currentKey"
                      :data="treeData"
                      keyField="id"
                      labelField="name"
-                     childrenField="subs"
-                     @current-change="treeNode=>currentKey = treeNode.key"/>
+                     childrenField="subs"/>
         </demo-row>
 
         <demo-row title="展开图标">

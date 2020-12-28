@@ -24,7 +24,7 @@ export function useTableNode(
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: TableNode) => void,
             onUpdateData: (data?: SimpleObject[]) => void,
-            onUpdateCurrent: (key?: string) => void,
+            onUpdateCurrentKey: (key?: string) => void,
         },
     }
 ) {

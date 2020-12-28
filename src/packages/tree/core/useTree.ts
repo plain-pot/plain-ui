@@ -65,7 +65,7 @@ function use<Node extends {
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: Node) => void,
             onUpdateData: (data?: SimpleObject[]) => void,
-            onUpdateCurrent: (key?: string) => void,
+            onUpdateCurrentKey: (key?: string) => void,
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
         getTreeNodeByDataAdjust?: (node: Node) => void,
@@ -73,7 +73,7 @@ function use<Node extends {
 ) {
 
     const {dataModel, state, utils: treeNodeUtils, methods: treeNodeMethods} = useTreeNode<Node>({props, event: {emit}, keyManager, getTreeNodeByDataAdjust})
-    const current = useModel(() => props.currentKey, emit.onUpdateCurrent)
+    const current = useModel(() => props.currentKey, emit.onUpdateCurrentKey)
 
     const utils = {
         ...treeNodeUtils,
@@ -390,8 +390,7 @@ export const useTree = Object.assign(use, {
     createEvent: <Node>() => {
         return {
             onClickNode: (node: Node) => true,                          // 点击节点事件
-            onUpdateCurrent: (current?: string) => true,                // 当前高亮节点key变化绑定事件
-            onCurrentChange: (node: Node | null) => true,               // 当前高亮节点变化事件
+            onUpdateCurrentKey: (current?: string) => true,                // 当前高亮节点key变化绑定事件
             onUpdateData: (data?: SimpleObject[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
 
             onExpandChange: (expandKeys: string[]) => true,             // 展开节点变化事件
