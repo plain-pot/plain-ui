@@ -19,6 +19,14 @@ app.config.warnHandler = function (msg, vm, trace) {
         return
     }
     console.warn(msg, {vm, trace})
+};
+
+(window as any).MockData = {
+    data: async () => (await import('./pages/data/data.json')).default,
+    data1: async () => (await import('./pages/data/data-1.json')).default,
+    data2: async () => (await import('./pages/data/data-2.json')).default,
+    treeData: async () => (await import('./pages/data/tree.data.json')).default,
+    address: async () => (await import('./pages/data/address.json')).default,
 }
 
 app.mount('#app')
