@@ -128,16 +128,33 @@ const Form = designComponent({
 
         const formValidate = computed(() => formatFormRules(props.rules, items.map(item => item.formItemComponentRules.value))) as ComputedRef<FormValidate>
 
+        const loading = (() => {
+            let time: null | number;
+            return {
+                show: () => {
+                    time = setTimeout(() => {
+                        childState.loading = true
+                        time = null
+                    }, 500)
+                },
+                hide: () => {
+                    if (!!time) {
+                        clearTimeout(time)
+                    } else {
+                        childState.loading = false
+                    }
+                },
+            }
+        })();
+
         const validateMethods = {
             validate: async (config?: { autoLoading?: boolean, autoAlert?: boolean, }) => {
                 config = config || {}
                 if (config.autoLoading != false) {
-                    childState.loading = true
+                    loading.show()
                 }
                 const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
-                if (config.autoLoading != false) {
-                    childState.loading = false
-                }
+                loading.hide()
 
                 childState.validateResultMap = validateResultMap
                 if (!!validateMessage) {
