@@ -96,6 +96,13 @@ export default designComponent({
                 'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
+        const isBlock = computed(() => {
+            const flag = !!props.block || numberState.column === form.numberState.column
+            return {
+                flag,
+                column: flag ? form.numberState.column : numberState.column
+            }
+        })
 
         /*form-item的宽度，与下一个form-item的gutter*/
         const styles = useStyles(style => {
@@ -103,18 +110,13 @@ export default designComponent({
                 return style
             }
             const {col} = form.childState.width
-            if (!props.block) {
-                if (!!col) {
-                    style.width = unit(col * numberState.column)
-                }
-                if (form.numberState.column > 1) {
-                    style.marginRight = unit(form.numberState.columnGutter * numberState.column)
-                }
-            } else {
-                if (!!col) {
-                    const {column, columnGutter} = form.numberState
-                    style.width = unit(col * column + (column - 1) * columnGutter)
-                }
+            const {flag: block, column} = isBlock.value
+            const {columnGutter} = form.numberState
+            if (!!col) {
+                style.width = unit(col * column + columnGutter * (column - 1))
+            }
+            if (form.numberState.column > 1 && !block) {
+                style.marginRight = unit(form.numberState.columnGutter)
             }
         })
 
@@ -138,12 +140,9 @@ export default designComponent({
             } else {
                 const {label, col} = form.childState.width
                 if (!!label) {
-                    const {column, columnGutter} = form.numberState
-                    if (!props.block) {
-                        style.width = unit(col! * numberState.column - label)
-                    } else {
-                        style.width = unit(col! * column + (column - 1) * columnGutter - label)
-                    }
+                    const {columnGutter} = form.numberState
+                    const {column} = isBlock.value
+                    style.width = unit(col! * column + (column - 1) * columnGutter - label)
                 }
             }
         })

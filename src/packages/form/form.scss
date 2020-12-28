@@ -10,6 +10,7 @@
       justify-content: space-evenly;
       color: $itc;
       white-space: normal;
+      flex-shrink: 0;
     }
 
     .pl-form-item {
