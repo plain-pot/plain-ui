@@ -103,11 +103,18 @@ export default designComponent({
                 return style
             }
             const {col} = form.childState.width
-            if (!!col) {
-                style.width = unit(col * numberState.column)
-            }
-            if (form.numberState.column > 1) {
-                style.marginRight = unit(form.numberState.columnGutter * numberState.column)
+            if (!props.block) {
+                if (!!col) {
+                    style.width = unit(col * numberState.column)
+                }
+                if (form.numberState.column > 1) {
+                    style.marginRight = unit(form.numberState.columnGutter * numberState.column)
+                }
+            } else {
+                if (!!col) {
+                    const {column, columnGutter} = form.numberState
+                    style.width = unit(col * column + (column - 1) * columnGutter)
+                }
             }
         })
 
@@ -131,7 +138,12 @@ export default designComponent({
             } else {
                 const {label, col} = form.childState.width
                 if (!!label) {
-                    style.width = unit(col! * numberState.column - label)
+                    const {column, columnGutter} = form.numberState
+                    if (!props.block) {
+                        style.width = unit(col! * numberState.column - label)
+                    } else {
+                        style.width = unit(col! * column + (column - 1) * columnGutter - label)
+                    }
                 }
             }
         })
