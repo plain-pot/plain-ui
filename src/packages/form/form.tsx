@@ -42,6 +42,7 @@ const Form = designComponent({
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         colon: {type: Boolean, default: true},                              // label的冒号
         columnGutter: {type: [Number, String], default: 16},                // 列之间的间距
+        inline: {type: Boolean},                                            // 行内表单
     },
     emits: {
         /*字段值变化事件*/
@@ -99,15 +100,24 @@ const Form = designComponent({
         const classes = computed(() => [
             'pl-form',
             `pl-form-column-${numberState.column}`,
+            {
+                'pl-form-inline': props.inline,
+            }
         ])
 
         /*设置form宽度*/
         const styles = useStyles((style) => {
+            if (props.inline) {
+                return style
+            }
             style.width = unit(props.width)
         })
 
         /*body节点宽度。如果是单列，则左偏移 label/2 个像素，确保content在屏幕中间*/
         const bodyStyles = useStyles(style => {
+            if (props.inline) {
+                return style
+            }
             const {label, col} = width.value
             if (!label) {return}
             const {column} = numberState

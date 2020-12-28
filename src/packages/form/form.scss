@@ -105,6 +105,14 @@
         }
       }
     }
+
+    &.pl-form-inline {
+      .pl-form-item {
+        & + .pl-form-item {
+          margin-left: 8px;
+        }
+      }
+    }
   }
 
   .pl-form {

@@ -112,6 +112,20 @@
                 </pl-form-item>
             </pl-form>
         </demo-row>
+
+        <demo-row title="内联表单">
+            <pl-form v-model="formData" inline>
+                <pl-form-item label="用户名称">
+                    <pl-input v-model="formData.name"/>
+                </pl-form-item>
+                <pl-form-item label="生日">
+                    <pl-date v-model="formData.date"/>
+                </pl-form-item>
+                <pl-form-item>
+                    <pl-button icon="el-icon-search" label="查询"/>
+                </pl-form-item>
+            </pl-form>
+        </demo-row>
     </div>
 </template>
 
