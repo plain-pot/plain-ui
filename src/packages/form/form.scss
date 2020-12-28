@@ -45,6 +45,11 @@
         font-size: 12px;
       }
 
+      .pl-form-item-suffix {
+        padding-left: 10px;
+        box-sizing: border-box;
+      }
+
       &:not(.pl-form-item-static-width) {
         .pl-form-item-label {
           flex: 1;

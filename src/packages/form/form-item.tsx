@@ -204,7 +204,11 @@ export default designComponent({
                     )}
                     <div class="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}
-
+                        {slots.suffix.isExist() && (
+                            <div class="pl-form-item-suffix">
+                                {slots.suffix()}
+                            </div>
+                        )}
                         {!!invalidate.value && !form.props.hideValidateMessage && (<div class="pl-form-item-message">
                             {invalidate.value.message}
                         </div>)}
