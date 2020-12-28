@@ -191,5 +191,7 @@
 </script>
 
 <style lang="scss">
-
+    .demo-form-grid {
+        width: 1000px;
+    }
 </style>

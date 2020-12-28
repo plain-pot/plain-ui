@@ -9,6 +9,8 @@
  * @author  韦胜健
  * @date    2020/12/12 22:02
  */
+import {toArray} from "../../utils/toArray";
+
 export enum FormValidateTrigger {
     change = 'change',
     blur = 'blur',
@@ -56,6 +58,13 @@ export interface FormRule {
  * @date    2020/12/12 15:59
  */
 export type FormComponentRules = FormRule[] | ({ [field: string]: FormRule | FormRule[] })
+
+/**
+ * 关联校验字段
+ * @author  韦胜健
+ * @date    2020/12/28 12:07
+ */
+export type FormAssociateFields = Record<string, string | string[]>
 
 /**
  * pl-form-item 组件rules属性对象类型
@@ -338,7 +347,12 @@ export const FormValidateUtils = {
 
         if (!!validator) {
             const validateResultList = (await Promise.all(validList.map(async ({field, value}) => {
-                const message = await validator(rule, value, formData || {})
+                let message: string | void;
+                try {
+                    message = await validator(rule, value, formData || {})
+                } catch (e) {
+                    message = !!e.toString ? e.toString() : e
+                }
                 if (!message) {
                     return null
                 }
@@ -425,12 +439,23 @@ export function formatFormRules(
             formData,
             trigger,
             formValidateResultMap,
+            associateFields,
         }: {
             field: string,
             formData: Record<string, any> | null,
             trigger: FormValidateTrigger,
             formValidateResultMap: FormValidateResultMap,
+            associateFields?: FormAssociateFields,
         }): Promise<FormValidateFieldReturn> {
+
+        if (!!associateFields && !!associateFields[field]) {
+            toArray(associateFields[field]).forEach(f => validateField({
+                field: f,
+                formData,
+                trigger: FormValidateTrigger.all,
+                formValidateResultMap,
+            }))
+        }
 
         const rules = resultRules.filter(r => {
             const matchField = Array.isArray(r.field) ? r.field.indexOf(field) > -1 : r.field == field

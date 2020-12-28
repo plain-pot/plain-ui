@@ -1,7 +1,12 @@
 <template>
     <div class="demo-alert">
         <demo-row title="基本用法">
-            <pl-alert label="默认提示"/>
+            <div style="width: 800px">
+                <pl-alert style="margin-bottom: 10px">
+                    Form校验模式的有点就是能够兼容所有的组件，包括原生表单控件以及其他组件库的组件。
+                    当校验失败的时候，FormItem底部必定会显示红色的警告信息；
+                </pl-alert>
+            </div>
             <pl-alert label="不显示状态图标" :icon="null"/>
         </demo-row>
         <demo-row title="状态">

@@ -96,20 +96,35 @@ export default designComponent({
                 'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
+        const isBlock = computed(() => {
+            const flag = !!props.block || numberState.column === form.numberState.column
+            return {
+                flag,
+                column: flag ? form.numberState.column : numberState.column
+            }
+        })
 
         /*form-item的宽度，与下一个form-item的gutter*/
         const styles = useStyles(style => {
+            if (form.props.inline) {
+                return style
+            }
             const {col} = form.childState.width
+            const {column} = isBlock.value
+            const {columnGutter} = form.numberState
             if (!!col) {
-                style.width = unit(col * numberState.column)
+                style.width = unit((col + columnGutter) * column)
             }
             if (form.numberState.column > 1) {
-                style.marginRight = unit(form.numberState.columnGutter * numberState.column)
+                style.paddingRight = unit(form.numberState.columnGutter)
             }
         })
 
         /*label节点宽度，如果有设置labelWidth的话*/
         const labelStyles = useStyles(style => {
+            if (form.props.inline) {
+                return style
+            }
             if (!!labelWidth.value) {
                 style.width = unit(labelWidth.value)
             }
@@ -117,12 +132,17 @@ export default designComponent({
 
         /*如果没有label的话，body应该占用百分百宽度，否则宽度为占用列数x列宽 - label宽度*/
         const bodyStyles = useStyles(style => {
+            if (form.props.inline) {
+                return style
+            }
             if (!hasLabel.value) {
                 style.width = '100%'
             } else {
                 const {label, col} = form.childState.width
                 if (!!label) {
-                    style.width = unit(col! * numberState.column - label)
+                    const {columnGutter} = form.numberState
+                    const {column} = isBlock.value
+                    style.width = unit(col! * column + (column - 1) * columnGutter - label)
                 }
             }
         })
@@ -184,7 +204,11 @@ export default designComponent({
                     )}
                     <div class="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}
-
+                        {slots.suffix.isExist() && (
+                            <div class="pl-form-item-suffix">
+                                {slots.suffix()}
+                            </div>
+                        )}
                         {!!invalidate.value && !form.props.hideValidateMessage && (<div class="pl-form-item-message">
                             {invalidate.value.message}
                         </div>)}

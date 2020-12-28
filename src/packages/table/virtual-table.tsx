@@ -9,6 +9,8 @@ import {useVirtualList} from "../virutal-list/useVirtualList";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 
+// const scrollbarSize = 12;
+
 export const VirtualTable = designComponent({
     name: 'pl-virtual-table',
     props: {
@@ -47,13 +49,13 @@ export const VirtualTable = designComponent({
         const summaryTableStyles = useStyles((styles) => {
             Object.assign(styles, tableStyles.value)
             styles.height = `${!props.summaryData ? 0 : props.summaryData.length * props.size}px`
-            styles.bottom = '6px'
+            styles.bottom = `0px`
         })
 
         const strutStyles = useStyles(style => {
             Object.assign(style, virtual.strutStyles.value)
             !!props.width && (style.width = unit(props.width));
-            style.paddingBottom = `${(props.summaryData || []).length * props.size}px`
+            style.paddingBottom = `${(props.summaryData || []).length * props.size + 8}px`
         })
 
         const handler = {
@@ -68,9 +70,7 @@ export const VirtualTable = designComponent({
                 refs
             },
             render: () => {
-
                 const {list} = virtual.offsetData.value
-
                 return (
                     <div style={styles.value} class="pl-virtual-table">
                         <Scroll
@@ -90,14 +90,15 @@ export const VirtualTable = designComponent({
                                         </table>
                                     </div>
                                 </div>),
-                                content: !props.summaryData || props.summaryData.length === 0 ? null : () => (
-                                    <div class="pl-virtual-table-summary-table-wrapper" ref="summary">
-                                        <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: summaryTableStyles.value}}
-                                               class="pl-virtual-table-summary-table">
-                                            {slots.colgroup()}
-                                            {!props.summaryData ? null : props.summaryData.map((item, index) => scopedSlots.default({item, index}))}
-                                        </table>
-                                    </div>
+                                content: () => (
+                                    !props.summaryData || props.summaryData.length === 0 ? null :
+                                        <div class="pl-virtual-table-summary-table-wrapper" ref="summary">
+                                            <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: summaryTableStyles.value}}
+                                                   class="pl-virtual-table-summary-table">
+                                                {slots.colgroup()}
+                                                {!props.summaryData ? null : props.summaryData.map((item, index) => scopedSlots.default({item, index}))}
+                                            </table>
+                                        </div>
                                 ),
                             }}/>
                     </div>

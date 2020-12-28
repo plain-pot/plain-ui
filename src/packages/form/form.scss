@@ -1,21 +1,24 @@
 @include theme {
   .pl-form {
-    display: flex;
-    justify-content: center;
+    text-align: center;
     overflow-x: auto;
     padding: 12px 0;
 
     & > .pl-form-body {
+      text-align: initial;
+      display: inline-block;
       position: relative;
       justify-content: space-evenly;
       color: $itc;
       white-space: normal;
+      flex-shrink: 0;
     }
 
     .pl-form-item {
       display: inline-flex;
       margin-bottom: 18px;
       vertical-align: top;
+      box-sizing: border-box;
 
       .pl-form-item-label {
         line-height: normal;
@@ -40,6 +43,11 @@
         left: 0;
         color: $colorError;
         font-size: 12px;
+      }
+
+      .pl-form-item-suffix {
+        padding-left: 10px;
+        box-sizing: border-box;
       }
 
       &:not(.pl-form-item-static-width) {
@@ -102,6 +110,14 @@
       &.pl-form-item-size-mini {
         .pl-form-item-label {
           font-size: 12px;
+        }
+      }
+    }
+
+    &.pl-form-inline {
+      .pl-form-item {
+        & + .pl-form-item {
+          margin-left: 8px;
         }
       }
     }

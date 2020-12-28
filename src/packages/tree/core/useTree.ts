@@ -3,6 +3,7 @@ import {SimpleObject} from "../../../shims";
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {useModel} from "../../../use/useModel";
+import {delay} from "plain-utils/utils/delay";
 
 function use<Node extends {
     key: string,
@@ -64,7 +65,7 @@ function use<Node extends {
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: Node) => void,
             onUpdateData: (data?: SimpleObject[]) => void,
-            onUpdateCurrent: (key?: string) => void,
+            onUpdateCurrentKey: (key?: string) => void,
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
         getTreeNodeByDataAdjust?: (node: Node) => void,
@@ -72,7 +73,7 @@ function use<Node extends {
 ) {
 
     const {dataModel, state, utils: treeNodeUtils, methods: treeNodeMethods} = useTreeNode<Node>({props, event: {emit}, keyManager, getTreeNodeByDataAdjust})
-    const current = useModel(() => props.currentKey, emit.onUpdateCurrent)
+    const current = useModel(() => props.currentKey, emit.onUpdateCurrentKey)
 
     const utils = {
         ...treeNodeUtils,
@@ -126,7 +127,7 @@ function use<Node extends {
         },
         /*初始化逻辑*/
         init: () => {
-            props.lazy && utils.getChildrenAsync(state.root!).then(val => dataModel.value = val);
+            props.lazy && utils.getChildrenAsync(state.root!).then(val => {dataModel.value = val});
             props.defaultExpandAll && nextTick().then(() => expandMethods.expandAll());
         },
     }
@@ -291,6 +292,7 @@ function use<Node extends {
         refreshCheckStatus: async (keyOrNode: string | Node) => {
             if (!props.showCheckbox) return
             if (props.checkStrictly) return;
+            await delay(0)
             const node = baseMethods.getNode(keyOrNode)
             if (!node) {return }
             const nodes = [] as Node[]
@@ -305,6 +307,10 @@ function use<Node extends {
                 /*刷新选中状态的前提是有子节点数据*/
                 if (node.isLeaf || !node.children || node.children.length === 0) return
                 let hasCheck = false, hasUncheck = false;
+                /*console.log({
+                    node: node.label,
+                    children: node.children.map(child => child.label)
+                })*/
                 node.children.forEach(child => child.check ? hasCheck = true : hasUncheck = true)
                 if (node.check && hasUncheck) {
                     // 自身选中而子节点有非选中,取消当前节点的选中状态
@@ -384,8 +390,7 @@ export const useTree = Object.assign(use, {
     createEvent: <Node>() => {
         return {
             onClickNode: (node: Node) => true,                          // 点击节点事件
-            onUpdateCurrent: (current?: string) => true,                // 当前高亮节点key变化绑定事件
-            onCurrentChange: (node: Node | null) => true,               // 当前高亮节点变化事件
+            onUpdateCurrentKey: (current?: string) => true,                // 当前高亮节点key变化绑定事件
             onUpdateData: (data?: SimpleObject[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
 
             onExpandChange: (expandKeys: string[]) => true,             // 展开节点变化事件

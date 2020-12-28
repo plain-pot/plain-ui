@@ -10,7 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
+import {FormAssociateFields, formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
 import {debounce} from "plain-utils/utils/debounce";
 import {$$notice} from "../notice-service";
 
@@ -26,7 +26,7 @@ const Form = designComponent({
         rules: {type: Object as PropType<FormComponentRules>},              // 表单验证规则
         validateResult: {type: Object},                                     // 校验结果信息
         validateMode: {type: String as PropType<FormValidateMode>, default: FormValidateMode.form},// 校验模式
-        associateFields: {type: Object},                                    // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
+        associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
 
         hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
         hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
@@ -42,6 +42,7 @@ const Form = designComponent({
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         colon: {type: Boolean, default: true},                              // label的冒号
         columnGutter: {type: [Number, String], default: 16},                // 列之间的间距
+        inline: {type: Boolean},                                            // 行内表单
     },
     emits: {
         /*字段值变化事件*/
@@ -99,35 +100,61 @@ const Form = designComponent({
         const classes = computed(() => [
             'pl-form',
             `pl-form-column-${numberState.column}`,
+            {
+                'pl-form-inline': props.inline,
+            }
         ])
 
         /*设置form宽度*/
         const styles = useStyles((style) => {
+            if (props.inline) {
+                return style
+            }
             style.width = unit(props.width)
         })
 
         /*body节点宽度。如果是单列，则左偏移 label/2 个像素，确保content在屏幕中间*/
         const bodyStyles = useStyles(style => {
+            if (props.inline) {
+                return style
+            }
             const {label, col} = width.value
             if (!label) {return}
-            const {column} = numberState
-            style.width = `calc(${col! * column}px ${column > 1 ? `+ ${numberState.columnGutter * column}px` : ''})`
+            const {column, columnGutter} = numberState
+            style.width = unit((col! + columnGutter) * column)
             style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
         /*---------------------------------------validate-------------------------------------------*/
 
         const formValidate = computed(() => formatFormRules(props.rules, items.map(item => item.formItemComponentRules.value))) as ComputedRef<FormValidate>
 
+        const loading = (() => {
+            let time: null | number;
+            return {
+                show: () => {
+                    time = setTimeout(() => {
+                        childState.loading = true
+                        time = null
+                    }, 500)
+                },
+                hide: () => {
+                    if (!!time) {
+                        clearTimeout(time)
+                    } else {
+                        childState.loading = false
+                    }
+                },
+            }
+        })();
+
         const validateMethods = {
             validate: async (config?: { autoLoading?: boolean, autoAlert?: boolean, }) => {
                 config = config || {}
                 if (config.autoLoading != false) {
-                    childState.loading = true
+                    loading.show()
                 }
                 const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
-                if (config.autoLoading != false) {
-                    childState.loading = false
-                }
+                loading.hide()
 
                 childState.validateResultMap = validateResultMap
                 if (!!validateMessage) {
@@ -184,6 +211,7 @@ const Form = designComponent({
                     trigger: FormValidateTrigger.change,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
+                    associateFields: props.associateFields,
                 })))
             },
             onBlurChange: async (field?: string | string[]) => {
@@ -194,6 +222,7 @@ const Form = designComponent({
                     trigger: FormValidateTrigger.blur,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
+                    associateFields: props.associateFields,
                 })))
             },
             onFieldChange: async (field: string) => {
@@ -202,6 +231,7 @@ const Form = designComponent({
                     trigger: FormValidateTrigger.change,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
+                    associateFields: props.associateFields,
                 })
             },
             onFormDataChange: debounce((val: any) => {
