@@ -209,15 +209,17 @@ export function useTreeNode<Node extends {
         }
     })()) as { root: Node, nodeMap: Record<string, Node> };
 
+    const dataEffectTrigger = throttle(() => {
+        const {root, nodeMap} = utils.resetData()
+        state.root = root
+        state.nodeMap = nodeMap
+    }, 100)
+
     const stopWatchEffect = watchEffect(
-        () => iteratorTreeData({data: dataModel.value || [], childrenField: props.childrenField!}),
-        {
-            onTrigger: throttle(async () => {
-                const {root, nodeMap} = utils.resetData()
-                state.root = root
-                state.nodeMap = nodeMap
-            }, 100)
-        }
+        () => {
+            iteratorTreeData({data: dataModel.value || [], childrenField: props.childrenField!})
+            dataEffectTrigger()
+        },
     )
     onBeforeUnmount(stopWatchEffect)
     const methods = {
