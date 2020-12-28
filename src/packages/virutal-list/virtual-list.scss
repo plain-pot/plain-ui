@@ -3,14 +3,14 @@
 
   & > .pl-scroll-wrapper {
     & > .pl-scroll-content {
-      overflow-y: unset;
+      overflow-y: hidden;
     }
   }
 
   .pl-virtual-table {
     & > .pl-scroll-wrapper {
       & > .pl-scroll-content {
-        overflow-y: initial;
+        overflow-y: unset;
       }
     }
   }
