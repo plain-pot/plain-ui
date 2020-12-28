@@ -3,6 +3,7 @@ import {SimpleObject} from "../../../shims";
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {useModel} from "../../../use/useModel";
+import {delay} from "plain-utils/utils/delay";
 
 function use<Node extends {
     key: string,
@@ -291,6 +292,7 @@ function use<Node extends {
         refreshCheckStatus: async (keyOrNode: string | Node) => {
             if (!props.showCheckbox) return
             if (props.checkStrictly) return;
+            await delay(0)
             const node = baseMethods.getNode(keyOrNode)
             if (!node) {return }
             const nodes = [] as Node[]
@@ -305,6 +307,10 @@ function use<Node extends {
                 /*刷新选中状态的前提是有子节点数据*/
                 if (node.isLeaf || !node.children || node.children.length === 0) return
                 let hasCheck = false, hasUncheck = false;
+                /*console.log({
+                    node: node.label,
+                    children: node.children.map(child => child.label)
+                })*/
                 node.children.forEach(child => child.check ? hasCheck = true : hasUncheck = true)
                 if (node.check && hasUncheck) {
                     // 自身选中而子节点有非选中,取消当前节点的选中状态
