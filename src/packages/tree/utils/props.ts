@@ -23,9 +23,9 @@ export const TreeProps = {
     allowDrag: {type: Function as PropType<allDrag>},           // 判断节点是否可以拖拽
     allowDrop: {type: Function as PropType<allDrop>},           // 判断目标节点能够被放置
 
-    folderCollapseIcon: {type: String, default: 'el-icon-folder-s'},
-    folderExpandIcon: {type: String, default: 'el-icon-folder-opened'},
-    leafIcon: {type: String, default: 'el-icon-document'},
+    folderCollapseIcon: {type: String, default: 'el-icon-folder-s'},//节点收起时展示的图标
+    folderExpandIcon: {type: String, default: 'el-icon-folder-opened'},//节点展开时显示的图标
+    leafIcon: {type: String, default: 'el-icon-document'},      // 叶子节点显示的图标
 
     virtual: {type: Boolean},                                   // 是否开启虚拟滚动
 }
