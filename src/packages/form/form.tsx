@@ -10,7 +10,7 @@ import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
 import FormItem from './form-item'
-import {formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
+import {FormAssociateFields, formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
 import {debounce} from "plain-utils/utils/debounce";
 import {$$notice} from "../notice-service";
 
@@ -26,7 +26,7 @@ const Form = designComponent({
         rules: {type: Object as PropType<FormComponentRules>},              // 表单验证规则
         validateResult: {type: Object},                                     // 校验结果信息
         validateMode: {type: String as PropType<FormValidateMode>, default: FormValidateMode.form},// 校验模式
-        associateFields: {type: Object},                                    // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
+        associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
 
         hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
         hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
@@ -211,6 +211,7 @@ const Form = designComponent({
                     trigger: FormValidateTrigger.change,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
+                    associateFields: props.associateFields,
                 })))
             },
             onBlurChange: async (field?: string | string[]) => {
@@ -221,6 +222,7 @@ const Form = designComponent({
                     trigger: FormValidateTrigger.blur,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
+                    associateFields: props.associateFields,
                 })))
             },
             onFieldChange: async (field: string) => {
@@ -229,6 +231,7 @@ const Form = designComponent({
                     trigger: FormValidateTrigger.change,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
+                    associateFields: props.associateFields,
                 })
             },
             onFormDataChange: debounce((val: any) => {
