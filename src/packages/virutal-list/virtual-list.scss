@@ -1,6 +1,12 @@
 .pl-virtual-list {
   position: relative;
 
+  & > .pl-scroll-wrapper {
+    & > .pl-scroll-content {
+      overflow-y: hidden;
+    }
+  }
+
   &:not(.pl-virtual-list-disabled) {
     .pl-virtual-list-strut {
       position: relative;
