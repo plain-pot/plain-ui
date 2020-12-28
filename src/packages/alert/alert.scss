@@ -1,8 +1,11 @@
 @include theme {
+  $icon-width-large: 56px;
+  $icon-width-normal: 32px;
+
   .pl-alert {
     position: relative;
-    padding: 8px 16px;
     border-radius: 2px;
+    padding: 8px 16px;
 
     .pl-alert-label {
       font-size: 13px;
@@ -13,9 +16,20 @@
       margin-top: 4px;
     }
 
-    .pl-alert-icon {
-      font-size: 1.2em;
-      display: inline-block;
+    &.pl-alert-has-icon {
+      padding-left: $icon-width-normal;
+
+      .pl-alert-icon {
+        font-size: 1.2em;
+        position: absolute;
+        width: $icon-width-normal;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
     &.pl-alert-has-close {
@@ -83,27 +97,13 @@
         .pl-alert-label {
           display: inline-block;
         }
-
-        .pl-alert-icon {
-          display: inline-block;
-          margin-right: 8px;
-        }
       }
 
       &.pl-alert-has-desc {
-        $icon-width: 56px;
-        position: relative;
-        padding-left: $icon-width;
+        padding-left: $icon-width-large;
 
         .pl-alert-icon {
-          position: absolute;
-          width: $icon-width;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          width: $icon-width-large;
         }
       }
     }
