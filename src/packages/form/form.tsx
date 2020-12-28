@@ -153,24 +153,20 @@ const Form = designComponent({
                 if (config.autoLoading != false) {
                     loading.show()
                 }
-                try {
-                    const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
-                    childState.validateResultMap = validateResultMap
-                    if (!!validateMessage) {
-                        if (config.autoAlert !== false) {
-                            $$notice.warn(validateMessage)
-                        }
-                        throw {
-                            validate: validateResult,
-                            message: validateMessage,
-                        }
-                    } else {
-                        return null
+                const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
+                loading.hide()
+
+                childState.validateResultMap = validateResultMap
+                if (!!validateMessage) {
+                    if (config.autoAlert !== false) {
+                        $$notice.warn(validateMessage)
                     }
-                } catch (e) {
-                    throw e
-                } finally {
-                    loading.hide()
+                    throw {
+                        validate: validateResult,
+                        message: validateMessage,
+                    }
+                } else {
+                    return null
                 }
             },
             clearValidate: () => {

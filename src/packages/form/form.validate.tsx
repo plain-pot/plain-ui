@@ -338,7 +338,12 @@ export const FormValidateUtils = {
 
         if (!!validator) {
             const validateResultList = (await Promise.all(validList.map(async ({field, value}) => {
-                const message = await validator(rule, value, formData || {})
+                let message: string | void;
+                try {
+                    message = await validator(rule, value, formData || {})
+                } catch (e) {
+                    message = !!e.toString ? e.toString() : e
+                }
                 if (!message) {
                     return null
                 }
