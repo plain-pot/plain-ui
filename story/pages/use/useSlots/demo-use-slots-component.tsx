@@ -30,7 +30,7 @@ export const DemoUseSlotsComponent = designComponent({
 
         return {
             render() {
-                console.log('render.tsx')
+                console.log('render')
                 return (
                     <div class={classes.value}>
                         <div class="demo-use-slots-component-head">

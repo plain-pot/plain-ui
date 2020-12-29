@@ -20,7 +20,7 @@ const OptionKeys = [
     'editValue',
     'editReadonly',
     'status',
-    'render.tsx',
+    'render',
     'onConfirm',
     'onCancel',
     'close',
