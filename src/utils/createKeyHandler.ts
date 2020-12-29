@@ -15,6 +15,6 @@ export function createKeyHandler(prefix: string) {
             key = `${prefix}_${count++}`
             map.set(obj, key)
         }
-        return key
+        return String(key)
     }
 }
