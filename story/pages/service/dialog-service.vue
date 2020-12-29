@@ -46,7 +46,7 @@
         </demo-row>
 
         <demo-row title="多实例">
-            <pl-button label="基本用法" @click="multiService"/>
+            <pl-button label="基本用法" @click="multiService()"/>
         </demo-row>
     </div>
 </template>
@@ -98,17 +98,14 @@
                     },
                 })
             },
-            multiService() {
-                let message = Math.random()
+            multiService(message = 1) {
                 const option = this.$dialog({
                     render: () => {
                         return (
                             <div>
-                                message:{message}
-                                <div>
-                                    <pl-button label="close" onClick={() => option.close()}/>
-                                    <pl-button label="open another dialog service" onClick={() => this.multiService()}/>
-                                </div>
+                                {`第${message}个实例`}
+                                <pl-button label="close" onClick={() => option.close()} style="margin:0 8px"/>
+                                <pl-button label="open another dialog" onClick={() => this.multiService(message + 1)}/>
                             </div>
                         )
                     },
