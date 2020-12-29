@@ -6,6 +6,7 @@ import {useClass} from "../../use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import {useRefs} from "../../use/useRefs";
 import {onUpdated, reactive, onMounted} from 'vue';
+import {debounce} from "plain-utils/utils/debounce";
 
 export default designComponent({
     name: 'pl-tooltip',
@@ -39,15 +40,17 @@ export default designComponent({
             props.popperClass,
         ])
 
+        const refresh = debounce(() => {
+            if (!refs.reference) return
+            const {scrollWidth, offsetWidth} = refs.reference
+            if (state.scrollWidth != scrollWidth) state.scrollWidth = scrollWidth
+            if (state.offsetWidth != offsetWidth) state.offsetWidth = offsetWidth
+            // console.log({...state})
+        }, 100)
+
         if (props.showWidth) {
-            onUpdated(() => {
-                const {scrollWidth, offsetWidth} = refs.reference
-                Object.assign(state, {scrollWidth, offsetWidth})
-            })
-            onMounted(() => {
-                const {scrollWidth, offsetWidth} = refs.reference
-                Object.assign(state, {scrollWidth, offsetWidth})
-            })
+            onUpdated(refresh)
+            onMounted(refresh)
         }
 
         return {
@@ -58,13 +61,16 @@ export default designComponent({
                     placement={props.placement}
                     v-model={model.value}
                     v-slots={{
-                        default: () => !!props.showWidth ? (
-                            <span class="pl-tooltip-reference"
-                                  ref="reference"
-                                  style={{width: unit(props.showWidth)!}}>
+                        default: () => {
+                            refresh()
+                            return !!props.showWidth ? (
+                                <span class="pl-tooltip-reference"
+                                      ref="reference"
+                                      style={{width: unit(props.showWidth)!}}>
                                 {slots.default(props.tooltip)}
                             </span>
-                        ) : slots.default(props.tooltip),
+                            ) : slots.default(props.tooltip)
+                        },
                         popper: () => slots.tooltip(props.tooltip)
                     }}
                 />
