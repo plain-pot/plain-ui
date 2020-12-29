@@ -155,9 +155,9 @@ function use<Node extends {
         /*设置子节点数据*/
         setChildrenData: (node: Node, children: any[]) => !!props.childrenField && (node.data[props.childrenField] = children),
         /*通过keyOrNode获取node*/
-        getNode: (keyOrNode: string | Node): Node | undefined => typeof keyOrNode === "string" ? state.nodeMap[keyOrNode] : keyOrNode,
+        getNode: (keyOrNode: string | Node): Node | undefined => typeof keyOrNode === "object" ? keyOrNode : state.nodeMap[keyOrNode],
         /*设置当前选中行*/
-        setCurrent: (keyOrNode: string | Node) => current.value = typeof keyOrNode === "string" ? keyOrNode : keyOrNode.key,
+        setCurrent: (keyOrNode: string | Node) => current.value = typeof keyOrNode === "object" ? keyOrNode.key : keyOrNode,
         /*获取当前选中行*/
         getCurrent: (): Node | undefined => !current.value ? undefined : baseMethods.getNode(current.value),
     }
