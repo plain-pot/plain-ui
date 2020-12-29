@@ -17,6 +17,7 @@ export function useVirtualList(
         props,
         refs,
         emit,
+        transform,
     }: {
         props: {
             data: any[],
@@ -31,6 +32,7 @@ export function useVirtualList(
         emit: {
             onScroll: (e: Event) => void
         },
+        transform?: boolean,
     }
 ) {
 
@@ -132,10 +134,13 @@ export function useVirtualList(
             top = state.nodes[start].top
         }
 
-        /*top定位*/
-        // style.top = `${top}px`
-        /*transform定位*/
-        style.transform = `translateY(${top}px)`
+        if (transform !== false) {
+            /*transform定位*/
+            style.transform = `translateY(${top}px)`
+        } else {
+            /*top定位*/
+            style.top = `${top}px`
+        }
     })
 
     /*---------------------------------------utils-------------------------------------------*/

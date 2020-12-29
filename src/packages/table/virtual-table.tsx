@@ -36,7 +36,7 @@ export const VirtualTable = designComponent({
             summary: HTMLDivElement,
         })
 
-        const {virtual} = useVirtualList({props, refs, emit,})
+        const {virtual} = useVirtualList({props, refs, emit, transform: false})
 
         /*---------------------------------------computed-------------------------------------------*/
         const styles = useStyles(style => {

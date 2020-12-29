@@ -1,17 +1,20 @@
+
+.pl-virtual-table {
+  & > .pl-virtual-list {
+    & > .pl-scroll-wrapper {
+      & > .pl-scroll-content {
+        overflow-y: unset;
+      }
+    }
+  }
+}
+
 .pl-virtual-list {
   position: relative;
 
   & > .pl-scroll-wrapper {
     & > .pl-scroll-content {
       overflow-y: hidden;
-    }
-  }
-
-  .pl-virtual-table {
-    & > .pl-scroll-wrapper {
-      & > .pl-scroll-content {
-        overflow-y: unset;
-      }
     }
   }
 
