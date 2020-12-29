@@ -64,34 +64,20 @@
         methods: {
             customOption() {
 
-                let username, oldPwd, newPwd, repeatPwd;
-
                 this.$dialog({
-                    confirmButton: true,
-                    cancelButton: true,
-                    onConfirm: () => this.$message(JSON.stringify({username, oldPwd, newPwd, repeatPwd})),
-                    onCancel: () => this.$message('cancel'),
-
                     title: '确认提示',
                     horizontal: 'end',
                     transition: 'pl-transition-dialog-right',
                     fullHeight: true,
                     wrapperPadding: false,
-
                     render() {
                         return (
-                            <pl-form centerWhenSingleColumn rules={{}}>
+                            <pl-form centerWhenSingleColumn>
                                 <pl-form-item label="用户名">
-                                    <pl-input onInput={val => username = val}/>
+                                    <pl-input v-model={this.userInfo.username}/>
                                 </pl-form-item>
                                 <pl-form-item label="旧密码">
-                                    <pl-input nativeAttrs={{type: "password"}} onInput={val => oldPwd = val}/>
-                                </pl-form-item>
-                                <pl-form-item label="新密码">
-                                    <pl-input nativeAttrs={{type: "password"}} onInput={val => newPwd = val}/>
-                                </pl-form-item>
-                                <pl-form-item label="确认密码" required field="repeatPwd">
-                                    <pl-input nativeAttrs={{type: "password"}} onInput={val => repeatPwd = val}/>
+                                    <pl-input v-model={this.userInfo.password} nativeAttrs={{type: 'password'}}/>
                                 </pl-form-item>
                             </pl-form>
                         )
