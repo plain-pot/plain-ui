@@ -4,20 +4,26 @@ import {SingleClass, useClass} from "../../use/useClasses";
 import {useStyles} from "../../use/useStyles";
 import {useSlots} from "../../use/useSlots";
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
+import {PropType} from 'vue';
+
+export type GridColSize = number | {
+    span: number,
+    offset: number,
+}
 
 export const Col = designComponent({
     name: 'pl-col',
     props: {
-        span: [Number, String],
-        order: [Number, String],
-        offset: [Number, String],
-        push: [Number, String],
-        pull: [Number, String],
+        span: {type: [Number, String] as PropType<string | number>},
+        order: {type: [Number, String] as PropType<string | number>},
+        offset: {type: [Number, String] as PropType<string | number>},
+        push: {type: [Number, String] as PropType<string | number>},
+        pull: {type: [Number, String] as PropType<string | number>},
         className: String,
-        xs: [Number, Object],
-        sm: [Number, Object],
-        md: [Number, Object],
-        lg: [Number, Object]
+        xs: {type: [Number, Object] as PropType<GridColSize>},
+        sm: {type: [Number, Object] as PropType<GridColSize>},
+        md: {type: [Number, Object] as PropType<GridColSize>},
+        lg: {type: [Number, Object] as PropType<GridColSize>},
     },
     setup({props}) {
         const {slots} = useSlots()
@@ -35,19 +41,13 @@ export const Col = designComponent({
                 }
             ] as SingleClass[];
 
-            const sizeProps = props as any
-            ['xs', 'sm', 'md', 'lg'].forEach(size => {
+            const sizeProps = props;
+            (['xs', 'sm', 'md', 'lg'] as ['xs', 'sm', 'md', 'lg']).forEach(size => {
                 if (typeof sizeProps[size] === 'number') {
                     classList.push(`pl-col-${size}-${sizeProps[size]}`);
                 } else if (typeof sizeProps[size] === 'object') {
                     let obj = sizeProps[size];
-                    Object.keys(obj).forEach(prop => {
-                        classList.push(
-                            prop !== 'span'
-                                ? `pl-col-${size}-${prop}-${obj[prop]}`
-                                : `pl-col-span-${size}-${obj[prop]}`
-                        );
-                    });
+                    !!obj && Object.entries(obj).forEach(([key, val]) => classList.push(key !== 'span' ? `pl-col-${size}-${key}-${val}` : `pl-col-span-${size}-${val}`))
                 }
             });
             return classList;

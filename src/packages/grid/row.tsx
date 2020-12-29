@@ -5,14 +5,29 @@ import {useSlots} from "../../use/useSlots";
 import {unit} from 'plain-utils/string/unit';
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './grid.scss'
+import {PropType} from 'vue';
+
+export enum GridAlign {
+    left = 'left',
+    center = 'center',
+    right = 'right',
+}
+
+export enum GridJustify {
+    start = "start",
+    end = "start",
+    center = "start",
+    'space-around' = "space-around",
+    'space-between' = "space-between",
+}
 
 export const Row = designComponent({
     name: 'pl-row',
     props: {
-        type: {type: String},                               //类型,type
-        align: {type: String},                              //对其方式,left|center|right
-        justify: {type: String},                            //内容弹性布局方式,start,end,center,space-around,space-between
-        gutter: {type: [Number, String], default: 0},       //间隔
+        type: {type: String as PropType<undefined | null | string>},        //类型,type
+        align: {type: String as PropType<GridAlign>},                       //对其方式,left|center|right
+        justify: {type: String as PropType<GridJustify>},                   //内容弹性布局方式,start,end,center,space-around,space-between
+        gutter: {type: [Number, String], default: 0},                       //间隔
     },
     provideRefer: true,
     setup({props}) {
