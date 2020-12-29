@@ -31,6 +31,7 @@
         </demo-row>
         <demo-row title="自定义内容">
             <pl-button @click="showCustom" label="show"/>
+            {{text}}
         </demo-row>
     </div>
 </template>
@@ -41,6 +42,7 @@
         data() {
             return {
                 flag: true,
+                text:'',
             }
         },
         methods: {
@@ -57,8 +59,8 @@
                     status: 'lite',
                     render: () => (
                         <div>
-                            <pl-checkbox style="margin-right:10px" v-model={this.flag} label="这里是自定义的内容"/>
-                            <pl-button label="关闭" onClick={() => option.close()} mode="text"/>
+                            <pl-input style="margin-right:10px;" v-model={this.text}/>
+                            <pl-button label="close" mode="text" onClick={() => option.close()}/>
                         </div>
                     )
                 })
