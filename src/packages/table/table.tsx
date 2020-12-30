@@ -70,6 +70,7 @@ const Table = designComponent({
             `pl-table-shape-${styleComputed.value.shape}`,
             {
                 'pl-table-border': props.border,
+                'pl-table-stripe': props.stripe,
             },
             ...fixedShadowClass.value,
         ])

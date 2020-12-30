@@ -48,6 +48,7 @@
                           @dblclick-cell="onDblclickCell"
                           v-bind="props"
                           :key="other.groupHead?'1':'2'"
+                          stripe
                 >
                     <template v-if="other.groupHead">
                         <plc title="输入框列" field="id"/>

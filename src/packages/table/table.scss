@@ -222,6 +222,20 @@
         pointer-events: none;
       }
     }
+
+    &.pl-table-stripe {
+      .plt-body {
+        .pl-virtual-list-content {
+          table {
+            tr:nth-child(odd):not(:hover):not(.plt-row-current) {
+              td {
+                background-color: #f2f5ff;
+              }
+            }
+          }
+        }
+      }
+    }
   }
   /*---------------------------------------shadow-------------------------------------------*/
   .pl-table {
