@@ -115,7 +115,7 @@ const Table = designComponent({
                 <div class={classes.value} ref="el" v-loading={props.loading || state.root.loading}>
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                     {!!plcData.value && <>
-                        <PltHead table={refer}/>
+                        {!props.hideHeader && <PltHead table={refer}/>}
                         <PltBody table={refer}/>
                     </>}
                 </div>
