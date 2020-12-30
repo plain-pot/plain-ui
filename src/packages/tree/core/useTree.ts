@@ -159,7 +159,7 @@ function use<Node extends {
         /*设置当前选中行*/
         setCurrent: (keyOrNode: string | Node) => current.value = typeof keyOrNode === "object" ? keyOrNode.key : keyOrNode,
         /*获取当前选中行*/
-        getCurrent: (): Node | undefined => !current.value ? undefined : baseMethods.getNode(current.value),
+        getCurrent: (): Node | undefined => current.value == null ? undefined : baseMethods.getNode(current.value),
     }
     const expandMethods = {
         /*展开节点*/
