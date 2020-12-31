@@ -43,24 +43,24 @@ export default designPlc({
         }
         const handler = {
             onClickCheckbox: (node: TableNode) => isCheckable(node) && toggle(node),
-            onClickHeadCheckbox: () => {
-                if (status.value === CheckboxStatus.check) {
-                    state.selected = []
-                } else {
-                    const availableSelectItems = table.flatNodes.value
-                        .filter(isCheckable)
-                        .map((item: TableNode) => item)
-                    if (state.selected.length === availableSelectItems.length) {
-                        state.selected = []
-                    } else {
-                        state.selected = availableSelectItems
-                    }
-                }
-            },
         }
         const methods = {
             getSelected: () => state.selected,
-            clearSelected: () => state.selected = [],
+            clearAll: () => state.selected = [],
+            checkAll: () => {
+                const availableSelectItems = table.flatNodes.value
+                    .filter(isCheckable)
+                    .map((item: TableNode) => item)
+                if (state.selected.length === availableSelectItems.length) {
+                    state.selected = []
+                } else {
+                    state.selected = availableSelectItems
+                }
+            },
+            reverse: () => {
+                state.selected = table.flatNodes.value
+                    .filter(node => isCheckable(node) && selectedKeys.value.indexOf(node.key) === -1)
+            },
             addSelected: (key: string | string[]) => {
                 const keys = toArray(key)
                 const nodes = keys.map(k => table.state.nodeMap[k]).filter(Boolean)
@@ -83,6 +83,7 @@ export default designPlc({
             handler,
             isCheck,
             isCheckable,
+            methods,
         }
     },
 }, {
@@ -93,8 +94,17 @@ export default designPlc({
         onClick={() => refer.handler.onClickCheckbox(node)}
         disabled={!refer.isCheckable(node)}
     />,
-    head: ({refer}) => <pl-checkbox
-        checkStatus={refer.status.value}
-        onClick={refer.handler.onClickHeadCheckbox}
-    />
+    head: ({refer}) => (
+        <pl-dropdown
+            placement="bottom-center"
+            v-slots={{
+                default: () => <pl-checkbox checkStatus={refer.status.value}/>,
+                popper: () => <pl-dropdown-menu>
+                    <pl-dropdown-option label="全部选中" icon="el-icon-check-bold" onClick={refer.methods.checkAll}/>
+                    <pl-dropdown-option label="全部取消" icon="el-icon-close-bold" onClick={refer.methods.clearAll}/>
+                    <pl-dropdown-option label="全部反选" icon="el-icon-refresh" onClick={refer.methods.reverse}/>
+                </pl-dropdown-menu>
+            }}
+        />
+    )
 })
