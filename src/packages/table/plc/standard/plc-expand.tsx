@@ -15,6 +15,10 @@ interface ExpandRefer {
         expand: ((scope: TableRenderScope, vnode: VNodeChild) => VNodeChild)
     },
     width: () => number,
+    methods: {
+        expandAll: () => void,
+        collapseAll: () => void,
+    },
 }
 
 export default designPlc(
@@ -64,6 +68,15 @@ export default designPlc(
                 table.event.on.onClickCell(toggle)
                 onBeforeUnmount(() => table.event.off.onClickRow(toggle))
             }
+            const methods = {
+                expandAll: () => {
+                    state.expandKeys = {}
+                    Object.values(table.state.nodeMap).forEach(node => expand(node))
+                },
+                collapseAll: () => {
+                    state.expandKeys = {}
+                },
+            }
             const refer: ExpandRefer = {
                 state,
                 totalSpan,
@@ -71,12 +84,24 @@ export default designPlc(
                 toggle,
                 scopedSlots,
                 width: () => table.plcData.value!.tableWidth,
+                methods,
             }
             return refer
         }
     },
     {
-        head: () => '',
+        head: ({refer}) => (
+            <pl-dropdown
+                placement="bottom-center"
+                v-slots={{
+                    default: () => <pl-button icon="el-icon-menu" mode="text"/>,
+                    popper: () => <pl-dropdown-menu>
+                        <pl-dropdown-option label="全部展开" onClick={refer.methods.expandAll}/>
+                        <pl-dropdown-option label="全部收起" onClick={refer.methods.collapseAll}/>
+                    </pl-dropdown-menu>
+                }}
+            />
+        ),
         default: ({refer, node, props}) => {
             return (!node.isSummary || props.summaryExpand) && (<pl-button{...{
                 icon: 'el-icon-arrow-down',
