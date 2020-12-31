@@ -96,8 +96,8 @@ export default designPlc(
                 v-slots={{
                     default: () => <pl-button icon="el-icon-menu" mode="text"/>,
                     popper: () => <pl-dropdown-menu>
-                        <pl-dropdown-option label="全部展开" onClick={refer.methods.expandAll}/>
-                        <pl-dropdown-option label="全部收起" onClick={refer.methods.collapseAll}/>
+                        <pl-dropdown-option label="全部展开" onClick={refer.methods.expandAll} icon="el-icon-zoom-full"/>
+                        <pl-dropdown-option label="全部收起" onClick={refer.methods.collapseAll} icon="el-icon-zoom-scale"/>
                     </pl-dropdown-menu>
                 }}
             />
