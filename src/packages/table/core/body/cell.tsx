@@ -6,11 +6,11 @@ import {TableNode} from "../useTableNode";
 import {renderBodyCell} from "../../plc/core/render";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
-import {FormValidate, FormValidateTrigger} from "../../../form/form.validate";
+import {FormAssociateFields, FormValidate, FormValidateTrigger} from "../../../form/form.validate";
 import {useClass} from "../../../../use/useClasses";
 import {useStyles} from "../../../../use/useStyles";
 
-function useCellFormItemValidate(props: { plc: Plc, node: TableNode }, validate: ComputedRef<FormValidate>) {
+function useCellFormItemValidate(props: { plc: Plc, node: TableNode }, validate: ComputedRef<FormValidate>, associateFields?: FormAssociateFields) {
     const handler = {
         onEditChange: async () => {
             let {plc: {props: {field}}, node: {edit, data, editRow, validateResultMap}} = props
@@ -21,6 +21,7 @@ function useCellFormItemValidate(props: { plc: Plc, node: TableNode }, validate:
                 formData: edit ? editRow : data,
                 trigger: FormValidateTrigger.change,
                 formValidateResultMap: validateResultMap,
+                associateFields,
             })
         },
         onEditBlur: async () => {
@@ -32,6 +33,7 @@ function useCellFormItemValidate(props: { plc: Plc, node: TableNode }, validate:
                 formData: edit ? editRow : data,
                 trigger: FormValidateTrigger.blur,
                 formValidateResultMap: validateResultMap,
+                associateFields,
             })
         },
     }
@@ -63,7 +65,7 @@ export const PltCell = designComponent({
     },
     setup({props}) {
 
-        useCellFormItemValidate(props, props.table.formValidate)
+        useCellFormItemValidate(props, props.table.formValidate, props.table.props.associateFields)
 
         return {
             render: () => {

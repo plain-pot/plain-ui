@@ -4,7 +4,7 @@ import {PropType} from 'vue';
 import {Plc, TablePlc} from "../plc/core/plc.type";
 import {TableNode} from "./useTableNode";
 import {MultipleClass} from "../../../use/useClasses";
-import {FormComponentRules} from "../../form/form.validate";
+import {FormAssociateFields, FormComponentRules} from "../../form/form.validate";
 import {useTree} from "../../tree/core/useTree";
 
 export type TablePropsConfig = (plcList: TablePlc[]) => Record<string, any>
@@ -44,8 +44,8 @@ export const TableProps = {
     virtual: {type: Boolean, default: false},                   // 虚拟滚动
     summaryData: {type: Array as PropType<SimpleObject[]>},     // 表尾合计行数据
     config: {type: Function as PropType<TablePropsConfig>},     // 配置列信息函数
-
     rules: {type: Object as PropType<FormComponentRules>},      // 校验规则
+    associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
     colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
     spanMethod: {type: Function as PropType<TablePropsSpanMethod>},// 合并表体单元格的方法
 
