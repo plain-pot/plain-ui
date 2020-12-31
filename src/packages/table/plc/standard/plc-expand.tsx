@@ -14,6 +14,7 @@ interface ExpandRefer {
     scopedSlots: {
         expand: ((scope: TableRenderScope, vnode: VNodeChild) => VNodeChild)
     },
+    width: () => number,
 }
 
 export default designPlc(
@@ -33,7 +34,9 @@ export default designPlc(
                     return (
                         <tr class="plt-row plt-expand-row">
                             <td class="plt-cell" rowspan={1} colspan={refer.totalSpan.value}>
-                                {refer.scopedSlots.expand({node, plc, row})}
+                                <div class="plt-expand-body" style={`width:${refer.width() - 20}px`}>
+                                    {refer.scopedSlots.expand({node, plc, row})}
+                                </div>
                             </td>
                         </tr>
                     )
@@ -67,6 +70,7 @@ export default designPlc(
                 isExpand,
                 toggle,
                 scopedSlots,
+                width: () => table.plcData.value!.tableWidth,
             }
             return refer
         }

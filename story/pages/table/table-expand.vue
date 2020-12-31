@@ -24,13 +24,27 @@
                         </pl-form>
                     </template>
                 </plc-expand>
-                <plc field="name" title="普通文本列"/>
-                <plc-input field="name" title="文本框" required fixed="left"/>
-                <plc-number field="size" title="数字框" :order="10"/>
-                <plc-date field="date" title="日期" required/>
-                <plc-color-picker field="color" title="颜色" :order="11"/>
-                <!--            <plc-rate field="star" title="评分"/>-->
-                <!--            <plc-toggle field="flag" title="开关" fixed="right"/>-->
+                <plc-index/>
+                <plc field="id" title="编号"/>
+                <plc field="size" title="大小"/>
+                <plc-group title="地址" fixed="left">
+                    <plc field="date" title="日期"/>
+                    <plc field="color" title="颜色"/>
+                </plc-group>
+
+                <plc field="id" title="编号"/>
+                <plc field="star" title="评分"/>
+                <plc field="addr" title="地址"/>
+
+                <plc field="name" title="名称" fixed="right"/>
+                <plc-group title="站点" fixed="right">
+                    <plc field="url" title="链接"/>
+                    <plc field="domain" title="域名"/>
+                </plc-group>
+
+                <plc field="protocol" title="协议"/>
+                <plc field="email" title="邮箱"/>
+                <plc field="ip" title="ip"/>
             </pl-table>
         </demo-row>
     </div>

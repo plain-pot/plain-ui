@@ -39,7 +39,8 @@ export function formatPlcList(
     return {
         plcList,                                                // 列数组数据，树形结构的数据
         flatPlcList,                                            // 展开之后最底层的列数组
-        targetTableWidth,                                       // 表格宽度
+        targetTableWidth,                                       // 表格设置的样式宽度
+        tableWidth,                                             // 表格容器宽度
         notFitVirtual,                                          // 不兼容虚拟列表的列数组
         headPlcListArray,                                       // 表头渲染的二维数组
         plcKeyString,                                           // 当列排序或者其他属性变化之后，需要刷新body，否则会出现部分节点没有更新的问题

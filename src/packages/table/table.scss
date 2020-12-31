@@ -311,8 +311,20 @@
       td {
         background-color: white;
         z-index: 5;
-        padding: 16px;
         white-space: normal;
+        padding: 0;
+        overflow: unset;
+      }
+
+      .plt-expand-body {
+        padding: 16px;
+        box-sizing: border-box;
+        position: sticky;
+        left: 0;
+
+        & > .pl-form {
+          padding: 0;
+        }
       }
     }
 
