@@ -283,7 +283,7 @@ function use<Node extends {
             node.check ? checkMethods.uncheck(keyOrNode) : checkMethods.check(keyOrNode)
         },
         /*选中所有节点*/
-        checkAll: () => utils.iterate({nodes: state.root!.children, handler: node => node.check = true}),
+        checkAll: () => utils.iterate({nodes: state.root!.children, handler: node => node.isCheckable && (node.check = true)}),
         /*取消选中所有节点*/
         uncheckAll: () => checkNodes.value.forEach(node => node.check = false),
         /*获取所有选中的节点*/

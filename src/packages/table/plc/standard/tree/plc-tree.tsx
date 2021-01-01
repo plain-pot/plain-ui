@@ -20,6 +20,7 @@ export default designPlc({
         autoFixedLeft: {default: true},
         order: {default: -9996},
         width: {default: size},
+        noPadding: {default: true},
         bodyCls: {default: 'plc-tree-node'},
     },
     externalProps: {
@@ -131,10 +132,28 @@ export default designPlc({
             handler,
             utils,
             draggier,
+            methods,
         }
     },
 }, {
     summary: () => null,
+    head: ({refer, plc}) => (<>
+        <pl-dropdown
+            placement="bottom"
+            v-slots={{
+                default: () => <pl-button icon="el-icon-menu" mode="text"/>,
+                popper: () => <pl-dropdown-menu>
+                    <pl-dropdown-option label="全部展开" icon="el-icon-zoom-full" onClick={refer.methods.expandAll}/>
+                    <pl-dropdown-option label="全部收起" icon="el-icon-zoom-scale" onClick={refer.methods.collapseAll}/>
+                    {refer.tableProps.showCheckbox && <>
+                        <pl-dropdown-option label="全部选中" icon="el-icon-check" onClick={refer.methods.checkAll}/>
+                        <pl-dropdown-option label="取消选中" icon="el-icon-close" onClick={refer.methods.uncheckAll}/>
+                    </>}
+                </pl-dropdown-menu>
+            }}
+        />
+        <span>{plc.props.title}</span>
+    </>),
     default: ({refer, node, plc, row}) => {
         return (
             <>

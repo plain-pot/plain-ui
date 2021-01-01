@@ -21,7 +21,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -43,7 +43,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -86,7 +86,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -111,7 +111,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -127,7 +127,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -152,7 +152,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -170,7 +170,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>
@@ -199,7 +199,7 @@
                         {{row.name}}
                     </template>
                 </plc-tree>
-                <plc title="名称" field="id"/>
+                <plc title="编号" field="id"/>
                 <plc title="名称" field="name"/>
             </pl-table>
         </demo-row>

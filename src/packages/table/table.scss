@@ -358,14 +358,9 @@
   /*plc-tree*/
   .plc-tree-node {
     white-space: nowrap;
-
     & > * {
       display: inline-block;
       height: 100%;
-    }
-
-    &:not(.plt-head-cell) {
-      padding: 0;
     }
 
     .plc-tree-node-expander, .plc-tree-node-check {
