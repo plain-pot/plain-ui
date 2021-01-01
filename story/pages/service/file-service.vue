@@ -45,9 +45,9 @@
                 this.base64 = base64
             },
             async uploadFile() {
-                const file = await $$file.getFile()
+                const file = await $$file.chooseFile()
                 await $$file.upload({
-                    action: 'http://localhost:8989/upload/uploadFile',
+                    action: 'http://193.112.75.134/server/upload/uploadFile',
                     file,
                     filename: 'file',
                     data: {
@@ -66,9 +66,9 @@
                 })
             },
             async uploadFiles() {
-                const file = await $$file.getFile({multiple: true})
+                const file = await $$file.chooseFile({multiple: true})
                 await $$file.upload({
-                    action: 'http://localhost:8989/upload/uploadFiles',
+                    action: 'http://193.112.75.134/server/upload/uploadFiles',
                     file,
                     filename: 'files',
                     data: {
