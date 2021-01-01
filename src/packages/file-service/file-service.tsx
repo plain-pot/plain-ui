@@ -72,7 +72,7 @@ export function createFileService() {
                 file.calcSize = Number((file.size / (1024 * 1024)).toFixed(2))
                 if (!!config!.validator && !config!.validator(file)) return
                 if (!!config!.max && file.calcSize > config!.max) {
-                    return $$message.error(`[${file.name}]大小为${file.calcSize}兆，超过最大限制${config!.max}兆`, {time: 5000})
+                    return $$message.error(`[${file.name}]大小为${file.calcSize}MB，超过最大限制${config!.max}MB`, {time: 5000})
                 }
                 files.push(file)
             }
@@ -114,7 +114,7 @@ export function createFileService() {
      * @date    2021/1/1 17:07
      */
     const upload = (uploadConfig: FileServiceUploadConfig) => {
-        const xhr = (window.hasOwnProperty('XMLHttpRequest') ? new XMLHttpRequest() : new (Window as any).ActiveXObject('Microsoft.XMLHTTP')) as XMLHttpRequest
+        const xhr = ('XMLHttpRequest' in window ? new XMLHttpRequest() : new (Window as any).ActiveXObject('Microsoft.XMLHTTP')) as XMLHttpRequest
         xhr.open('post', uploadConfig.action, true)
 
         if (!!xhr.upload) {
@@ -124,7 +124,7 @@ export function createFileService() {
             })
         }
 
-        if (uploadConfig.withCredentials != null && xhr.hasOwnProperty('withCredentials')) {
+        if (uploadConfig.withCredentials != null && 'withCredentials' in xhr) {
             xhr.withCredentials = uploadConfig.withCredentials
         }
 
