@@ -358,6 +358,7 @@
   /*plc-tree*/
   .plc-tree-node {
     white-space: nowrap;
+
     & > * {
       display: inline-block;
       height: 100%;
@@ -367,14 +368,13 @@
       width: 30px;
       text-align: center;
     }
-
-    .plc-tree-node-content {
-      display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      padding-left: 9px;
-      box-sizing: border-box;
-    }
+  }
+  .plc-tree-node-content {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 8px;
+    box-sizing: border-box;
   }
 }

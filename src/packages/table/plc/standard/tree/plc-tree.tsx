@@ -152,7 +152,7 @@ export default designPlc({
                 </pl-dropdown-menu>
             }}
         />
-        <span>{plc.props.title}</span>
+        <div class="plc-tree-node-content">{plc.props.title}</div>
     </>),
     default: ({refer, node, plc, row}) => {
         return (
