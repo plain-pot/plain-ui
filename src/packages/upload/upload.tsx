@@ -132,8 +132,8 @@ export default designComponent({
                         name: f.name,
                         file: f,
                     } as UploadFile))
-                    multipleModel.value = [...multipleModel.value || [], ...addFiles]
-                    uploadFiles = addFiles
+                    multipleModel.value = [...addFiles, ...multipleModel.value || []]
+                    uploadFiles = multipleModel.value!.slice(0, addFiles.length)
                 }
                 if (props.autoUpload) {
                     await methods.uploadFile(uploadFiles)
@@ -172,7 +172,10 @@ export default designComponent({
                         toArray(uploadFiles).forEach(file => file.percent = percent)
                     },
                     onSuccess: () => {
-                        toArray(uploadFiles).forEach(file => file.status = UploadStatus.success)
+                        toArray(uploadFiles).forEach(file => {
+                            file.status = UploadStatus.success
+                            console.log('success', file.name)
+                        })
                     },
                     onError: () => {
                         toArray(uploadFiles).forEach(file => file.status = UploadStatus.error)
@@ -218,6 +221,7 @@ export default designComponent({
                 )}
             </div>
             <div class="pl-upload-list">
+                {console.log('render item')}
                 {!!multipleModel.value && multipleModel.value
                     .filter(item => item.status !== UploadStatus.remove)
                     .map(file => renderItem(file))}
