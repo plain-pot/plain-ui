@@ -103,9 +103,11 @@
       align-items: stretch;
       justify-content: center;
 
-      & > .pl-button:first-child {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+      & > .pl-button-group:first-child {
+        & > .pl-button:last-child {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
       }
 
       .pl-upload-item {

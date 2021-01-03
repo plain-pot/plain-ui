@@ -57,7 +57,7 @@ export default designComponent({
         /*other*/
         draggable: {type: Boolean},                                     // 支持拖拽上传
         request: {type: Function as PropType<CustomRequest>},           // 自定义上传行为
-        method: {type: String, default: 'post'},                        // 上传时的method方法
+        // method: {type: String, default: 'post'},                        // 上传时的method方法
         autoUpload: {type: Boolean, default: true},                     // 获取到文件之后，自动上传文件
         removeConfirm: {type: Boolean, default: true},                  // 删除前的确认提示
 
@@ -131,7 +131,6 @@ export default designComponent({
                     return true
                 }) as FileServiceSingleFile[]
 
-                let uploadFiles: UploadFile | UploadFile[];
                 if (!props.multiple) {
                     const file = selectFiles[0]!
                     singleModel.value = {
@@ -140,7 +139,6 @@ export default designComponent({
                         file,
                         status: UploadStatus.ready,
                     }
-                    uploadFiles = singleModel.value
                 } else {
                     const addFiles = toArray(selectFiles).map(f => ({
                         id: nextFileId(),
@@ -149,10 +147,9 @@ export default designComponent({
                         file: f,
                     } as UploadFile))
                     multipleModel.value = [...addFiles, ...multipleModel.value || []]
-                    uploadFiles = multipleModel.value!.slice(0, addFiles.length)
                 }
                 if (props.autoUpload) {
-                    await methods.uploadFile(uploadFiles)
+                    await methods.upload()
                 }
             },
         }
@@ -237,6 +234,14 @@ export default designComponent({
                     }
                 }
             },
+            upload: () => {
+                let files = props.multiple ? multipleModel.value : (singleModel.value ? [singleModel.value] : undefined)
+                if (!files) return
+                /*上传 准备就绪或者上传失败的文件*/
+                files = files.filter(f => f.status === UploadStatus.ready || f.status === UploadStatus.error)
+                if (files.length === 0) return
+                return methods.uploadFile(props.multiple ? files : files[0])
+            },
             uploadFile: (uploadFiles: UploadFile | UploadFile[]) => {
 
                 toArray(uploadFiles).forEach(file => {
@@ -295,13 +300,19 @@ export default designComponent({
         )
 
         const singleRender = computed(() => <>
-            <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+            <pl-button-group>
+                <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+                {!props.autoUpload && <pl-button label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
+            </pl-button-group>
             {renderItem(singleModel.value || singleEmptyFile)}
         </>)
         const multipleRender = computed(() => <>
             <div class="pl-upload-button">
                 {!props.draggable ? (
-                    <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+                    <pl-button-group>
+                        <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+                        {!props.autoUpload && <pl-button label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
+                    </pl-button-group>
                 ) : (
                     <div class="pl-upload-drop-area" onClick={methods.chooseFile} {...dropHandler}>
                         <pl-icon icon="el-icon-upload"/>

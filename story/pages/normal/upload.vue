@@ -12,7 +12,6 @@
             />
         </demo-row>
 
-
         <demo-row title="多文件上传">
             <pl-upload
                     v-model="val[0]"
@@ -72,7 +71,6 @@
 
         <demo-row title="拖拽上传">
             <pl-upload
-                    disabled
                     v-model="val[0]"
                     draggable
                     action="http://193.112.75.134/server/upload/uploadFiles"
@@ -80,6 +78,60 @@
                     :handleRemove="handleRemove"
             />
         </demo-row>
+
+        <demo-row title="手动上传">
+            <h4>单文件上传</h4>
+            <pl-upload
+                    :autoUpload="false"
+                    :multiple="false"
+                    :data="uploadData"
+                    :headers="uploadHeaders"
+                    v-model="val.singleValue"
+                    action="http://193.112.75.134/server/upload/uploadFile"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+            <h4>多文件上传</h4>
+            <pl-upload
+                    :autoUpload="false"
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+        </demo-row>
+
+        <demo-row title="禁用上传">
+            <h4>单文件上传</h4>
+            <pl-upload
+                    disabled
+                    :multiple="false"
+                    :data="uploadData"
+                    :headers="uploadHeaders"
+                    v-model="val.singleValue"
+                    action="http://193.112.75.134/server/upload/uploadFile"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+            <h4>多文件上传</h4>
+            <pl-upload
+                    disabled
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+            <h4>多文件上传</h4>
+            <pl-upload
+                    draggable
+                    disabled
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+        </demo-row>
+
     </div>
 </template>
 
