@@ -20,6 +20,46 @@
             />
         </demo-row>
 
+        <demo-row title="选择特定类型的文件">
+            <h4>内置的accept：excel（另一个是image）</h4>
+            <pl-upload
+                    accept="excel"
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+            <h4>自定义accept，选择png文件</h4>
+            <pl-upload
+                    accept="image/png"
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+            />
+        </demo-row>
+
+        <demo-row title="选择文件的时候，校验文件">
+            <h4>点击选择文件</h4>
+            <pl-upload
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+                    :validator="chooseFileValidator"
+            />
+            <h4>拖拽接收文件</h4>
+            <pl-upload
+                    draggable
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+                    :validator="chooseFileValidator"
+            />
+        </demo-row>
+
+
         <demo-row title="文件状态">
             <pl-upload v-model="val[1]"
                        action="http://193.112.75.134/server/upload/uploadFiles"
@@ -29,11 +69,13 @@
         </demo-row>
 
         <demo-row title="拖拽上传">
-            <pl-upload v-model="val[0]"
-                       draggable
-                       action="http://193.112.75.134/server/upload/uploadFiles"
-                       filename="file"
-                       :handleRemove="handleRemove"
+            <pl-upload
+                    disabled
+                    v-model="val[0]"
+                    draggable
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
             />
         </demo-row>
     </div>
@@ -64,6 +106,20 @@
                 }
             }
         },
+        methods: {
+            chooseFileValidator(file) {
+                const {name, calcSize} = file
+                const filename = name.slice(0, name.lastIndexOf('.'))
+                if (filename.length > 3) {
+                    this.$notice.warn(`文件【${name}】校验不通过，文件名最大三个字符。`, {time: 5000})
+                    return false
+                }
+                if (calcSize > 0.1) {
+                    this.$notice.warn(`文件【${name}】校验不通过，文件大小超出 0.1 M`, {time: 5000})
+                    return false
+                }
+            },
+        }
     }
 </script>
 

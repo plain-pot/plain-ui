@@ -112,6 +112,8 @@
         flex: 1;
         border: solid 1px $ibc;
         border-left: none;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
       }
     }
 
@@ -145,6 +147,16 @@
 
         .pl-upload-drop-upload-button {
           margin-left: 8px;
+        }
+      }
+
+      &.pl-upload-disabled {
+        .pl-upload-drop-area {
+          color: $disabledText;
+
+          & > .pl-icon {
+            color: $icc;
+          }
         }
       }
     }

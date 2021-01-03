@@ -95,6 +95,7 @@ export default designComponent({
             `pl-upload-${props.multiple ? 'multiple' : 'single'}`,
             {
                 'pl-upload-remove': !!props.handleRemove,
+                'pl-upload-disabled': editComputed.value.disabled,
             }
         ])
 
@@ -165,6 +166,10 @@ export default designComponent({
             },
             onDrop: async (e: DragEvent) => {
                 e.preventDefault()
+                if (!editComputed.value.editable) {
+                    return
+                }
+
                 const accept = !props.accept ? undefined : FileServiceDefaultAccept[props.accept] || props.accept
                 let files: File[] = Array.from(e.dataTransfer!.files)
                 if (!!accept) {
@@ -199,6 +204,9 @@ export default designComponent({
 
         const methods = {
             chooseFile: async () => {
+                if (!editComputed.value.editable) {
+                    return
+                }
                 const files = await $$file.chooseFile({
                     multiple: props.multiple,
                     accept: props.accept,
@@ -267,7 +275,12 @@ export default designComponent({
                         {file.status === UploadStatus.ready ? '(待上传) ' : ''}
                         {file.name}
                     </>}
-                    {(!!props.handleRemove && file.status !== UploadStatus.empty && file.status !== UploadStatus.uploading) && (
+                    {(
+                        !!props.handleRemove
+                        && file.status !== UploadStatus.empty
+                        && file.status !== UploadStatus.uploading
+                        && editComputed.value.editable
+                    ) && (
                         <div class="pl-upload-item-remove" onClick={() => methods.removeFile(file)}>
                             <pl-icon icon="el-icon-delete-solid"/>
                         </div>
