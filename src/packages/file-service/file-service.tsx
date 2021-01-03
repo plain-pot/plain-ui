@@ -2,11 +2,12 @@ import {defer} from "../../utils/defer";
 import {$$message} from "../message";
 
 export type FileServiceSingleFile = File & { calcSize: number }
+export type FileServiceValidator = (file: FileServiceSingleFile) => boolean
 
 export type FileServiceChooseFileConfig = {
     multiple?: boolean,                 // 是否多选
     accept?: string,                    // 选择的文件类型， input组件的accept属性值
-    validator?: (file: FileServiceSingleFile) => boolean,          // 自定义校验函数
+    validator?: FileServiceValidator,   // 自定义校验函数
     max?: number,                       // 最大文件大小
 }
 
