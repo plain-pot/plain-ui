@@ -20,14 +20,14 @@ export type FileServiceUploadErrorEvent = Error & {
 
 export type FileServiceUploadConfig = {
     action: string,                             // 上传地址
-    data: Record<string, string>,               // 上传的额外数据
-    headers?: Record<string, string>,           // 请求头
-    withCredentials?: boolean,                  // 是否带cookies凭证
     file: File | File[],                        // 上传的文件
     filename: string,                           // 上传文件接收的文件名
-    onProgress: (percent: number, e: ProgressEvent) => void,
-    onSuccess: (data: string | Record<string, string>) => void,
-    onError: (e: FileServiceUploadErrorEvent | ProgressEvent) => void,
+    data?: Record<string, string>,               // 上传的额外数据
+    headers?: Record<string, string>,           // 请求头
+    withCredentials?: boolean,                  // 是否带cookies凭证
+    onProgress?: (percent: number, e: ProgressEvent) => void,
+    onSuccess?: (data: string | Record<string, string>) => void,
+    onError?: (e: FileServiceUploadErrorEvent | ProgressEvent) => void,
 }
 
 export function createFileService() {

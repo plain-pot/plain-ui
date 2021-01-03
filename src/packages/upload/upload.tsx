@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {$$file, FileServiceSingleFile, FileServiceValidator} from "../file-service/file-service";
-import {computed, PropType} from 'vue';
+import {computed, PropType, nextTick} from 'vue';
 import {EditProps, useEdit} from "../../use/useEdit";
 import {useModel} from "../../use/useModel";
 import {toArray} from "../../utils/toArray";
@@ -8,6 +8,7 @@ import './upload.scss'
 import {useClass} from "../../use/useClasses";
 import {createCounter} from "../../utils/createCounter";
 import {VNodeChild} from "../../shims";
+import {delay} from "plain-utils/utils/delay";
 
 const nextFileId = createCounter('upload')
 
@@ -26,10 +27,12 @@ type UploadFile = {
     name: string,
     response?: any,
     file?: FileServiceSingleFile,
+    percent?: number,
 }
 
 type BeforeUpload = (file: FileServiceSingleFile, fileList: FileServiceSingleFile[]) => boolean | Promise<FileServiceSingleFile | undefined>
-type BeforeRemove = () => boolean
+type BeforeRemove = (file: UploadFile) => boolean
+type HandleRemove = (file: UploadFile) => boolean
 type CustomRequest = () => any
 type UploadData = Record<string, string> | (() => Record<string, string>)
 type UploadModelValue = UploadFile | UploadFile[]
@@ -45,20 +48,20 @@ export default designComponent({
         validator: {type: Function as PropType<FileServiceValidator>},  // FileServiceChooseFileConfig.validator, 选择文件的校验函数
         max: {type: Number},                                            // 最多上传文件个数
         /*upload*/
-        action: {type: String, required: true},                                         // 文件上传地址
+        action: {type: String, required: true},                         // 文件上传地址
         data: {type: [Object, Function] as PropType<UploadData>},       // 上传时的额外参数，或者获取额外参数的函数
         headers: {type: Object as PropType<Record<string, string>>,},   // 上传时的请求头
         withCredentials: {type: Boolean},                               // 带cookie凭证信息
         filename: {type: String, required: true},                       // 文件上传的的时候接收的文件名
         /*other*/
-        remove: {type: Boolean, default: true},                         // 是否可删除
         draggable: {type: Boolean},                                     // 支持拖拽上传
         request: {type: Function as PropType<CustomRequest>},           // 自定义上传行为
         method: {type: String, default: 'post'},                        // 上传时的method方法
-        autoUpload: {type: Boolean},                                    // 获取到文件之后，自动上传文件
+        autoUpload: {type: Boolean, default: true},                     // 获取到文件之后，自动上传文件
 
         beforeUpload: {type: Function as PropType<BeforeUpload>},       // 上传前校验文件
         beforeRemove: {type: Function as PropType<BeforeRemove>},       // 删除前校验
+        handleRemove: {type: Function as PropType<HandleRemove>},       // 执行删除逻辑
     },
     emits: {
         updateModelValue: (val?: UploadModelValue) => true,
@@ -89,7 +92,7 @@ export default designComponent({
             'pl-upload',
             `pl-upload-${props.multiple ? 'multiple' : 'single'}`,
             {
-                'pl-upload-remove': props.remove,
+                'pl-upload-remove': !!props.handleRemove,
             }
         ])
 
@@ -110,6 +113,7 @@ export default designComponent({
                     validator: props.validator,
                     max: props.max,
                 })
+                let uploadFiles: UploadFile | UploadFile[];
                 if (!props.multiple) {
                     const file = files as any as FileServiceSingleFile
                     singleModel.value = {
@@ -118,6 +122,7 @@ export default designComponent({
                         file,
                         status: UploadStatus.ready,
                     }
+                    uploadFiles = singleModel.value
                 } else {
                     const addFiles = toArray(files).map(f => ({
                         id: nextFileId(),
@@ -126,9 +131,21 @@ export default designComponent({
                         file: f,
                     } as UploadFile))
                     multipleModel.value = [...multipleModel.value || [], ...addFiles]
+                    uploadFiles = addFiles
+                }
+                if (props.autoUpload) {
+                    await methods.uploadFile(uploadFiles)
                 }
             },
             removeFile: async (file: UploadFile) => {
+
+                // 状态不存在或者状态为success表示需要用户处理删除文件在后端的逻辑，否则其他状态直接前端删除
+                if (!file.status || file.status === UploadStatus.success) {
+                    if (!!props.beforeRemove) {await props.beforeRemove(file)}
+                    await props.handleRemove!(file)
+                }
+
+                // 前端删除
                 if (!props.multiple) {
                     singleModel.value = undefined
                 } else {
@@ -137,6 +154,25 @@ export default designComponent({
                         multipleModel.value!.splice(index, 1)
                     }
                 }
+            },
+            uploadFile: (uploadFiles: UploadFile | UploadFile[]) => {
+                $$file.upload({
+                    action: props.action,
+                    data: typeof props.data === "function" ? props.data() : props.data,
+                    headers: props.headers,
+                    withCredentials: props.withCredentials,
+                    file: Array.isArray(uploadFiles) ? uploadFiles.map(f => f.file!) : uploadFiles.file!,
+                    filename: props.filename,
+                    onProgress: (percent) => {
+                        toArray(uploadFiles).forEach(file => file.percent = percent)
+                    },
+                    onSuccess: () => {
+                        toArray(uploadFiles).forEach(file => file.status = UploadStatus.success)
+                    },
+                    onError: () => {
+                        toArray(uploadFiles).forEach(file => file.status = UploadStatus.error)
+                    },
+                })
             },
         }
 
@@ -147,7 +183,7 @@ export default designComponent({
                     {file.status === UploadStatus.ready ? '(待上传) ' : ''}
                     {file.name}
                 </>}
-                {props.remove && file.status !== UploadStatus.empty && (
+                {(!!props.handleRemove && file.status !== UploadStatus.empty) && (
                     <div class="pl-upload-item-remove" onClick={() => methods.removeFile(file)}>
                         <pl-icon icon="el-icon-delete-solid"/>
                     </div>

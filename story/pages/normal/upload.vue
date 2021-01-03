@@ -6,6 +6,7 @@
                     v-model="val.singleValue"
                     action="http://193.112.75.134/server/upload/uploadFile"
                     filename="file"
+                    :handleRemove="handleRemove"
             />
         </demo-row>
 
@@ -13,22 +14,27 @@
         <demo-row title="多文件上传">
             <pl-upload
                     v-model="val[0]"
-                    action="http://193.112.75.134/server/upload/uploadFile"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
                     filename="file"
+                    :handleRemove="handleRemove"
             />
         </demo-row>
 
         <demo-row title="文件状态">
             <pl-upload v-model="val[1]"
-                       action="http://193.112.75.134/server/upload/uploadFile"
-                       filename="file"/>
+                       action="http://193.112.75.134/server/upload/uploadFiles"
+                       filename="file"
+                       :handleRemove="handleRemove"
+            />
         </demo-row>
 
         <demo-row title="拖拽上传">
             <pl-upload v-model="val[0]"
                        draggable
-                       action="http://193.112.75.134/server/upload/uploadFile"
-                       filename="file"/>
+                       action="http://193.112.75.134/server/upload/uploadFiles"
+                       filename="file"
+                       :handleRemove="handleRemove"
+            />
         </demo-row>
     </div>
 </template>
@@ -38,6 +44,9 @@
         name: "upload",
         data() {
             return {
+                handleRemove: (file) => {
+                    console.log('remove file', file)
+                },
                 val: {
                     0: [
                         {id: '001', name: 'logo.jpg',},
