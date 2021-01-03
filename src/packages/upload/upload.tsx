@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
-import {$$file, FileServiceSingleFile, FileServiceValidator} from "../file-service/file-service";
-import {computed, PropType, nextTick} from 'vue';
+import {$$file, FileServiceDefaultAccept, FileServiceSingleFile, FileServiceValidator} from "../file-service/file-service";
+import {computed, PropType} from 'vue';
 import {EditProps, useEdit} from "../../use/useEdit";
 import {useModel} from "../../use/useModel";
 import {toArray} from "../../utils/toArray";
@@ -8,8 +8,8 @@ import './upload.scss'
 import {useClass} from "../../use/useClasses";
 import {createCounter} from "../../utils/createCounter";
 import {VNodeChild} from "../../shims";
-import {delay} from "plain-utils/utils/delay";
 import {$$dialog} from "../dialog-service";
+import {$$message} from "../message";
 
 const nextFileId = createCounter('upload')
 
@@ -107,17 +107,32 @@ export default designComponent({
             ],
         }
 
-        const methods = {
-            chooseFile: async () => {
-                const files = await $$file.chooseFile({
-                    multiple: props.multiple,
-                    accept: props.accept,
-                    validator: props.validator,
-                    max: props.max,
-                })
+        const handler = {
+            onSelectFile: async (files: File | File[]) => {
+
+                const selectFiles = toArray(files).filter(file => {
+                    const f = file as FileServiceSingleFile
+                    f.calcSize = Number((file.size / (1024 * 1024)).toFixed(2))
+                    /*validator*/
+                    if (props.validator != null) {
+                        const flag = props.validator(f)
+                        if (flag === false) {
+                            return false
+                        }
+                    }
+                    /*max*/
+                    if (props.max != null) {
+                        if (f.calcSize > props.max) {
+                            $$message.error(`[${file.name}]大小为${f.calcSize}MB，超过最大限制${props.max}MB`, {time: 5000})
+                            return false
+                        }
+                    }
+                    return true
+                }) as FileServiceSingleFile[]
+
                 let uploadFiles: UploadFile | UploadFile[];
                 if (!props.multiple) {
-                    const file = files as any as FileServiceSingleFile
+                    const file = selectFiles[0]!
                     singleModel.value = {
                         id: nextFileId(),
                         name: file.name,
@@ -126,7 +141,7 @@ export default designComponent({
                     }
                     uploadFiles = singleModel.value
                 } else {
-                    const addFiles = toArray(files).map(f => ({
+                    const addFiles = toArray(selectFiles).map(f => ({
                         id: nextFileId(),
                         status: UploadStatus.ready,
                         name: f.name,
@@ -138,6 +153,60 @@ export default designComponent({
                 if (props.autoUpload) {
                     await methods.uploadFile(uploadFiles)
                 }
+            },
+        }
+
+        const dropHandler = {
+            onDragover: (e: DragEvent) => {
+                e.preventDefault()
+            },
+            onDragLeave: (e: DragEvent) => {
+                e.preventDefault()
+            },
+            onDrop: async (e: DragEvent) => {
+                e.preventDefault()
+                const accept = !props.accept ? undefined : FileServiceDefaultAccept[props.accept] || props.accept
+                let files: File[] = Array.from(e.dataTransfer!.files)
+                if (!!accept) {
+                    files = Array.from(e.dataTransfer!.files).filter(file => {
+                        const {type, name} = file;
+                        const extension = name.indexOf('.') > -1
+                            ? `.${name.split('.').pop()}`
+                            : '';
+                        const baseType = type.replace(/\/.*$/, '');
+                        return accept.split(',')
+                            .map(type => type.trim())
+                            .filter(type => type)
+                            .some(acceptedType => {
+                                if (/\..+$/.test(acceptedType)) {
+                                    return extension === acceptedType;
+                                }
+                                if (/\/\*$/.test(acceptedType)) {
+                                    return baseType === acceptedType.replace(/\/\*$/, '');
+                                }
+                                if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
+                                    return type === acceptedType;
+                                }
+                                return false;
+                            });
+                    })
+                }
+                if (files.length > 0) {
+                    await handler.onSelectFile(files)
+                }
+            },
+        }
+
+        const methods = {
+            chooseFile: async () => {
+                const files = await $$file.chooseFile({
+                    multiple: props.multiple,
+                    accept: props.accept,
+                    /*validator以及max不在这里校验，因为 drop file的时候不走这里，在onSelectFile中统一处理*/
+                    // validator: props.validator,
+                    // max: props.max,
+                })
+                await handler.onSelectFile(files)
             },
             removeFile: async (file: UploadFile) => {
 
@@ -221,7 +290,7 @@ export default designComponent({
                 {!props.draggable ? (
                     <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
                 ) : (
-                    <div class="pl-upload-drop-area" onClick={methods.chooseFile}>
+                    <div class="pl-upload-drop-area" onClick={methods.chooseFile} {...dropHandler}>
                         <pl-icon icon="el-icon-upload"/>
                         <div>
                             <span>将文件拖拽至此处，或者</span>
@@ -234,7 +303,6 @@ export default designComponent({
                 )}
             </div>
             <div class="pl-upload-list">
-                {console.log('render item')}
                 {!!multipleModel.value && multipleModel.value
                     .filter(item => item.status !== UploadStatus.remove)
                     .map(file => renderItem(file))}
