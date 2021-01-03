@@ -3,6 +3,8 @@
         <demo-row title="单文件上传">
             <pl-upload
                     :multiple="false"
+                    :data="uploadData"
+                    :headers="uploadHeaders"
                     v-model="val.singleValue"
                     action="http://193.112.75.134/server/upload/uploadFile"
                     filename="file"
@@ -86,6 +88,13 @@
         name: "upload",
         data() {
             return {
+                uploadData: {
+                    level: '123',
+                    orgCode: '001-123',
+                },
+                uploadHeaders: {
+                    Authorization: '2781368215742187',
+                },
                 handleRemove: (file) => {
                     console.log('remove file', file)
                 },
