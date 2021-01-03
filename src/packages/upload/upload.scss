@@ -1,5 +1,6 @@
 @include theme {
   .pl-upload {
+
     .pl-upload-button {
 
     }
@@ -14,12 +15,39 @@
         color: $itc;
 
         & > .pl-icon:first-child {
-          margin-right: 8px;
           color: $icc;
+        }
+
+        & > .pl-icon, & > .pl-loading {
+          margin-right: 8px;
         }
 
         & + .pl-upload-item {
           margin-top: 8px;
+        }
+
+        &.pl-upload-item-status-success {
+          &, & > .pl-icon {
+            color: $colorPrimary;
+          }
+        }
+
+        &.pl-upload-item-status-error {
+          &, & > .pl-icon {
+            color: $colorError;
+          }
+        }
+
+        &.pl-upload-item-status-error {
+          &, & > .pl-icon {
+            color: $colorError;
+          }
+        }
+
+        &.pl-upload-item-status-ready {
+          &, & > .pl-icon {
+            color: $colorWarn;
+          }
         }
       }
     }
@@ -41,9 +69,14 @@
             justify-content: center;
             cursor: pointer;
             color: $icc;
+            transition: all 300ms linear;
 
             &:hover {
-              background-color: #f6f6f6;
+              background-color: $colorError;
+
+              .pl-icon {
+                color: white;
+              }
             }
           }
         }

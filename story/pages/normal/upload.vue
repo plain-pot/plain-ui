@@ -7,6 +7,12 @@
                     filename="file"
             />
         </demo-row>
+
+        <demo-row title="文件状态">
+            <pl-upload v-model="val[1]"
+                       action="http://193.112.75.134/server/upload/uploadFile"
+                       filename="file"/>
+        </demo-row>
     </div>
 </template>
 
@@ -17,9 +23,17 @@
             return {
                 val: {
                     0: [
-                        {id: '001', name: 'logo.jpg', status: 'done'},
-                        {id: '002', name: 'home.jpg', status: 'done'},
-                        {id: '003', name: 'sketch.png', status: 'done'},
+                        {id: '001', name: 'logo.jpg',},
+                        {id: '002', name: 'home.jpg',},
+                        {id: '003', name: 'sketch.png',},
+                    ],
+                    1: [
+                        {id: '000', name: '已完成.jpg',},
+                        {id: '001', name: '上传成功.jpg', status: 'success'},
+                        {id: '002', name: '准备就绪(未上传).jpg', status: 'ready'},
+                        {id: '003', name: '上传失败.jpg', status: 'error'},
+                        {id: '004', name: '正在上传.jpg', status: 'uploading'},
+                        {id: '005', name: '已删除.jpg', status: 'remove'},
                     ],
                 }
             }

@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {FileServiceSingleFile} from "../file-service/file-service";
-import {PropType} from 'vue';
+import {PropType, computed} from 'vue';
 import {EditProps, useEdit} from "../../use/useEdit";
 import {useModel} from "../../use/useModel";
 import {toArray} from "../../utils/toArray";
@@ -9,7 +9,7 @@ import {useClass} from "../../use/useClasses";
 
 export enum UploadStatus {
     ready = 'ready',                        // 刚添加，还未上传
-    done = 'done',                          // 已上传完毕
+    success = 'success',                    // 已上传完毕
     error = 'error',                        // 上传失败
     uploading = 'uploading',                // 正在上传
     remove = 'remove',                      // 已删除
@@ -58,12 +58,42 @@ export default designComponent({
         const {editComputed} = useEdit()
         const model = useModel(() => props.modelValue, emit.updateModelValue)
 
+        const renderIcon = {
+            [UploadStatus.success]: <pl-icon icon="el-icon-check-bold"/>,
+            [UploadStatus.ready]: <pl-icon icon="el-icon-upload1"/>,
+            [UploadStatus.error]: <pl-icon icon="el-icon-close-bold"/>,
+            [UploadStatus.uploading]: <pl-loading type='beta' status="primary"/>,
+            [UploadStatus.remove]: null,
+        }
+
+        const utils = {
+            getItemClass: (item: UploadFile) => [
+                'pl-upload-item',
+                {
+                    [`pl-upload-item-status-${item.status}`]: !!item.status
+                }
+            ],
+        }
+
         const classes = useClass(() => [
             'pl-upload',
             {
                 'pl-upload-remove': props.remove,
             }
         ])
+
+        const content = computed(() =>
+            toArray(model.value || [])
+                .filter(item => item.status !== UploadStatus.remove)
+                .map(file => (
+                    <div class={utils.getItemClass(file)} key={file.id}>
+                        {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
+                        {file.name}
+                        <div class="pl-upload-item-remove">
+                            <pl-icon icon="el-icon-delete-solid"/>
+                        </div>
+                    </div>
+                )))
 
         return {
             render: () => {
@@ -73,15 +103,7 @@ export default designComponent({
                             <pl-button label="选择文件" icon="el-icon-upload"/>
                         </div>
                         <div class="pl-upload-list">
-                            {toArray(model.value || []).map(file => (
-                                <div class="pl-upload-item" key={file.id}>
-                                    <pl-icon icon="el-icon-document"/>
-                                    {file.name}
-                                    <div class="pl-upload-item-remove">
-                                        <pl-icon icon="el-icon-delete-solid"/>
-                                    </div>
-                                </div>
-                            ))}
+                            {content.value}
                         </div>
                     </div>
                 )
