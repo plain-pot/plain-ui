@@ -34,9 +34,9 @@ type UploadFile = {
     percent?: number,
 }
 
-type BeforeUpload = (file: FileServiceSingleFile, fileList: FileServiceSingleFile[]) => boolean | Promise<FileServiceSingleFile | undefined>
 type BeforeRemove = (file: UploadFile) => boolean
-type HandleRemove = (file: UploadFile) => boolean
+type BeforeUpload = (file: UploadFile) => void | Promise<void>
+type HandleRemove = (file: UploadFile) => Promise<void>
 type HandleUpload = (files: UploadFile | UploadFile[]) => Promise<void>
 
 type UploadData = Record<string, string> | (() => Record<string, string>)
@@ -257,6 +257,10 @@ export default designComponent({
                     file.percent = 0
                     file.status = UploadStatus.uploading
                 })
+
+                if (!!props.beforeUpload) {
+                    await Promise.all(toArray(uploadFiles).map(file => props.beforeUpload!(file)))
+                }
 
                 const handler = {
                     onSuccess: () => {
