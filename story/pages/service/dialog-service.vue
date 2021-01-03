@@ -6,6 +6,9 @@
         <demo-row title="提示状态">
             <pl-button :label="item" :status="item" @click="$dialog[item]('操作进行中')" v-for="item in ['primary','success','warn','error','info']" :key="item"/>
         </demo-row>
+        <demo-row title="确认对话框">
+            <pl-button label="基本用法" @click="confirm"/>
+        </demo-row>
         <demo-row title="去掉 状态 图标">
             <pl-button label="基本用法" @click="$dialog('操作成功',{status:null})"/>
         </demo-row>
@@ -96,6 +99,10 @@
                         )
                     },
                 })
+            },
+            async confirm() {
+                await this.$dialog.confirm('确认要删除该文件吗？')
+                this.$message.success('删除成功！')
             },
         },
     }
