@@ -3,6 +3,7 @@ import {useRefs} from "../../use/useRefs";
 import {DialogServiceFormatOption} from "./index";
 import Input from '../input'
 import Dialog from '../dialog'
+import Icon from '../icon'
 import {STATUS} from "../../utils/constant";
 import {delay} from "plain-utils/utils/delay";
 import './dialog-service.scss'
@@ -107,7 +108,7 @@ export default createDefaultService({
 
                 /*---------------------------------------head-------------------------------------------*/
                 let head = <div class="pl-dialog-service-head">
-                    {!!status && STATUS[status] && <pl-icon class="pl-dialog-service-status-icon" icon={STATUS[status].icon}/>}
+                    {!!status && STATUS[status] && <Icon class="pl-dialog-service-status-icon" icon={STATUS[status].icon}/>}
                     {!!option.renderHead ? option.renderHead() : (option.title || '提示')}
                 </div>
                 /*---------------------------------------content-------------------------------------------*/
@@ -120,14 +121,14 @@ export default createDefaultService({
                         (binding as any).minHeight = null
                     }
                     serviceClass += ` pl-dialog-service-edit`
-                    content = <pl-input ref="input"
-                                        block
-                                        minHeight={null}
-                                        maxHeight={null}
-                                        autoHeight={false}
-                                        v-model={state.editValue}
-                                        readonly={option.editReadonly}
-                                        textarea={option.editType === 'textarea'}/>
+                    content = <Input ref="input"
+                                     block
+                                     minHeight={null as any}
+                                     maxHeight={null as any}
+                                     autoHeight={false}
+                                     v-model={state.editValue}
+                                     readonly={option.editReadonly}
+                                     textarea={option.editType === 'textarea'}/>
                 } else if (!!option.message) {
                     content = (
                         <div class="pl-dialog-service-item-message">
@@ -141,7 +142,7 @@ export default createDefaultService({
                 let foot = !option.renderFoot ? null : option.renderFoot()
 
                 return (
-                    <pl-dialog
+                    <Dialog
                         serviceClass={serviceClass}
                         v-model={isShow.value}
                         key={state.key}

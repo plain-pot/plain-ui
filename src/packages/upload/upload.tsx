@@ -9,6 +9,7 @@ import {useClass} from "../../use/useClasses";
 import {createCounter} from "../../utils/createCounter";
 import {VNodeChild} from "../../shims";
 import {delay} from "plain-utils/utils/delay";
+import {$$dialog} from "../dialog-service";
 
 const nextFileId = createCounter('upload')
 
@@ -58,6 +59,7 @@ export default designComponent({
         request: {type: Function as PropType<CustomRequest>},           // 自定义上传行为
         method: {type: String, default: 'post'},                        // 上传时的method方法
         autoUpload: {type: Boolean, default: true},                     // 获取到文件之后，自动上传文件
+        removeConfirm: {type: Boolean, default: true},                  // 删除前的确认提示
 
         beforeUpload: {type: Function as PropType<BeforeUpload>},       // 上传前校验文件
         beforeRemove: {type: Function as PropType<BeforeRemove>},       // 删除前校验
@@ -141,6 +143,9 @@ export default designComponent({
 
                 // 状态不存在或者状态为success表示需要用户处理删除文件在后端的逻辑，否则其他状态直接前端删除
                 if (!file.status || file.status === UploadStatus.success) {
+                    if (props.removeConfirm) {
+                        await $$dialog.confirm(`确认要删除文件：${file.name} 吗？`)
+                    }
                     if (!!props.beforeRemove) {await props.beforeRemove(file)}
                     await props.handleRemove!(file)
                 }

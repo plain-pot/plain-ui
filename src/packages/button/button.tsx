@@ -13,6 +13,7 @@ import {unit} from 'plain-utils/string/unit'
 import {useStyles} from "../../use/useStyles";
 import {DEFAULT_STATUS} from "../../utils/constant";
 import Icon from '../icon'
+import Loading from '../loading'
 
 console.log('load button component')
 
@@ -128,7 +129,7 @@ export default designComponent({
                             onClick: state.handleClick!,
                         }}
                     >
-                        {!!editComputed.value.loading && <pl-loading type="gamma"/>}
+                        {!!editComputed.value.loading && <Loading type="gamma"/>}
                         {
                             slots.default(<>
                                 {(!!props.icon && !editComputed.value.loading) ? <Icon icon={props.icon}/> : null}

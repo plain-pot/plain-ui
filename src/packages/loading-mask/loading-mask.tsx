@@ -5,6 +5,7 @@ import {computed, nextTick, reactive, watch, Transition, onMounted} from 'vue';
 import {useModel} from "../../use/useModel";
 import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
+import Loading from '../loading'
 
 export default designComponent({
     name: 'pl-loading-mask',
@@ -91,7 +92,7 @@ export default designComponent({
                 <Transition name="pl-transition-loading-mask">
                     {!!modelValue.value && state.isMounted && (
                         <div style={styles.value} class={classes.value} ref="el">
-                            <pl-loading type={props.loadingType}/>
+                            <Loading type={props.loadingType}/>
                             {!!props.message && <span>{props.message}</span>}
                         </div>
                     )}

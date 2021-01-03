@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {StyleProps, useStyle} from "../../use/useStyle";
+import {StyleProps, StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
@@ -10,6 +10,8 @@ import {unit} from "plain-utils/string/unit";
 import {KeyboardService, KeyboardServiceOption} from "../keyboard";
 import './dialog.scss'
 import {useClass} from "../../use/useClasses";
+import Button from '../button'
+import LoadingMask from '../loading-mask'
 
 export default designComponent({
     name: 'pl-dialog',
@@ -260,11 +262,11 @@ export default designComponent({
                                         {slots.head(<span class="pl-dialog-head-title">{propsState.title}</span>)}
                                         {!!props.showClose && (
                                             <div class="pl-dialog-head-close">
-                                                <pl-button icon="el-icon-close"
-                                                           shape="round"
-                                                           mode="text"
-                                                           size="large"
-                                                           onClick={handler.clickClose}/>
+                                                <Button icon="el-icon-close"
+                                                        shape={StyleShape.round}
+                                                        mode="text"
+                                                        size={StyleSize.large}
+                                                        onClick={handler.clickClose}/>
                                             </div>
                                         )}
                                     </div>}
@@ -274,10 +276,10 @@ export default designComponent({
                                     {hasFoot.value && <div class="pl-dialog-foot">
                                         {slots.foot()}
 
-                                        {!!props.cancelButton && <pl-button label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
-                                        {!!props.confirmButton && <pl-button label={props.confirmButtonText} onClick={methods.confirm}/>}
+                                        {!!props.cancelButton && <Button label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
+                                        {!!props.confirmButton && <Button label={props.confirmButtonText} onClick={methods.confirm}/>}
                                     </div>}
-                                    <pl-loading-mask v-model={isLoading.value}/>
+                                    <LoadingMask v-model={isLoading.value}/>
                                 </div>
                             </Wrapper>}
                         </Transition>

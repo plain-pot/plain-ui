@@ -8,6 +8,7 @@ import {App} from 'vue';
 import {DialogService} from "../../index";
 import {installPlugin} from "../../utils/installPlugin";
 import {defer} from "../../utils/defer";
+import {getServiceWithoutContext} from "../../utils/getServiceWithoutContext";
 
 export enum DialogServiceEditType {
     input = 'input',
@@ -92,6 +93,8 @@ const getDialogService = registryRootService(
         } as DialogService
     }
 )
+
+export const $$dialog = getServiceWithoutContext(getDialogService)
 
 export default {
     install(app: App) {
