@@ -10,6 +10,9 @@ import {createCounter} from "../../utils/createCounter";
 import {VNodeChild} from "../../shims";
 import {$$dialog} from "../dialog-service";
 import {$$message} from "../message";
+import {defer} from "../../utils/defer";
+import {useSlots} from "../../use/useSlots";
+import {useScopedSlots} from "../../use/useScopedSlots";
 
 const nextFileId = createCounter('upload')
 
@@ -34,7 +37,8 @@ type UploadFile = {
 type BeforeUpload = (file: FileServiceSingleFile, fileList: FileServiceSingleFile[]) => boolean | Promise<FileServiceSingleFile | undefined>
 type BeforeRemove = (file: UploadFile) => boolean
 type HandleRemove = (file: UploadFile) => boolean
-type CustomRequest = () => any
+type HandleUpload = (files: UploadFile | UploadFile[]) => Promise<void>
+
 type UploadData = Record<string, string> | (() => Record<string, string>)
 type UploadModelValue = UploadFile | UploadFile[]
 
@@ -56,7 +60,7 @@ export default designComponent({
         filename: {type: String, required: true},                       // 文件上传的的时候接收的文件名
         /*other*/
         draggable: {type: Boolean},                                     // 支持拖拽上传
-        request: {type: Function as PropType<CustomRequest>},           // 自定义上传行为
+        // request: {type: Function as PropType<CustomRequest>},           // 自定义上传行为
         // method: {type: String, default: 'post'},                        // 上传时的method方法
         autoUpload: {type: Boolean, default: true},                     // 获取到文件之后，自动上传文件
         removeConfirm: {type: Boolean, default: true},                  // 删除前的确认提示
@@ -64,6 +68,7 @@ export default designComponent({
         beforeUpload: {type: Function as PropType<BeforeUpload>},       // 上传前校验文件
         beforeRemove: {type: Function as PropType<BeforeRemove>},       // 删除前校验
         handleRemove: {type: Function as PropType<HandleRemove>},       // 执行删除逻辑
+        handleUpload: {type: Function as PropType<HandleUpload>},       // 自定义上传逻辑
     },
     emits: {
         updateModelValue: (val?: UploadModelValue) => true,
@@ -71,6 +76,10 @@ export default designComponent({
     setup({props, event: {emit}}) {
 
         const {editComputed} = useEdit()
+        const {slots} = useSlots(['button'])
+        const {scopedSlots} = useScopedSlots({
+            default: {item: Object as PropType<UploadFile>, index: Number}
+        })
 
         const singleModel = useModel(() => props.modelValue as undefined | UploadFile, emit.updateModelValue)
         const multipleModel = useModel(() => props.modelValue as undefined | UploadFile[], emit.updateModelValue)
@@ -242,43 +251,60 @@ export default designComponent({
                 if (files.length === 0) return
                 return methods.uploadFile(props.multiple ? files : files[0])
             },
-            uploadFile: (uploadFiles: UploadFile | UploadFile[]) => {
+            uploadFile: async (uploadFiles: UploadFile | UploadFile[]) => {
 
                 toArray(uploadFiles).forEach(file => {
                     file.percent = 0
                     file.status = UploadStatus.uploading
                 })
 
-                $$file.upload({
-                    action: props.action,
-                    data: typeof props.data === "function" ? props.data() : props.data,
-                    headers: props.headers,
-                    withCredentials: props.withCredentials,
-                    file: Array.isArray(uploadFiles) ? uploadFiles.map(f => f.file!) : uploadFiles.file!,
-                    filename: props.filename,
-                    onProgress: (percent) => {
-                        toArray(uploadFiles).forEach(file => file.percent = percent)
-                    },
+                const handler = {
                     onSuccess: () => {
                         toArray(uploadFiles).forEach(file => {
                             file.status = UploadStatus.success
                             file.percent = undefined
                         })
+                        dfd.resolve()
                     },
                     onError: () => {
                         toArray(uploadFiles).forEach(file => file.status = UploadStatus.error)
+                        dfd.reject()
                     },
-                })
+                }
+
+                const dfd = defer()
+                if (!!props.handleUpload) {
+                    const promise = props.handleUpload(uploadFiles)
+                    if (!promise) {
+                        console.error('pl-upload: handleUpload must return promise object!')
+                    } else {
+                        promise.then(handler.onSuccess, handler.onError)
+                    }
+                } else {
+                    $$file.upload({
+                        action: props.action,
+                        data: typeof props.data === "function" ? props.data() : props.data,
+                        headers: props.headers,
+                        withCredentials: props.withCredentials,
+                        file: Array.isArray(uploadFiles) ? uploadFiles.map(f => f.file!) : uploadFiles.file!,
+                        filename: props.filename,
+                        ...handler,
+                        onProgress: (percent) => {
+                            toArray(uploadFiles).forEach(file => file.percent = percent)
+                        },
+                    })
+                }
+                return dfd.promise
             },
         }
 
-        const renderItem = (file: UploadFile, custom?: () => VNodeChild) => (
+        const renderItem = (file: UploadFile, index: number, custom?: () => VNodeChild) => (
             <div class={utils.getItemClass(file)} key={file.id}>
                 <div class="pl-upload-item-inner">
                     {!!custom ? custom() : <>
                         {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
                         {file.status === UploadStatus.ready ? '(待上传) ' : ''}
-                        {file.name}
+                        {scopedSlots.default({item: file, index}, file.name)}
                     </>}
                     {(
                         !!props.handleRemove
@@ -303,8 +329,9 @@ export default designComponent({
             <pl-button-group>
                 <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
                 {!props.autoUpload && <pl-button label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
+                {slots.button()}
             </pl-button-group>
-            {renderItem(singleModel.value || singleEmptyFile)}
+            {renderItem(singleModel.value || singleEmptyFile, 0)}
         </>)
         const multipleRender = computed(() => <>
             <div class="pl-upload-button">
@@ -312,6 +339,7 @@ export default designComponent({
                     <pl-button-group>
                         <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
                         {!props.autoUpload && <pl-button label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
+                        {slots.button()}
                     </pl-button-group>
                 ) : (
                     <div class="pl-upload-drop-area" onClick={methods.chooseFile} {...dropHandler}>
@@ -322,6 +350,7 @@ export default designComponent({
                                 <span>点击上传</span>
                                 <pl-icon icon="el-icon-upload1"/>
                             </pl-button>
+                            {slots.button()}
                         </div>
                     </div>
                 )}
@@ -329,7 +358,7 @@ export default designComponent({
             <div class="pl-upload-list">
                 {!!multipleModel.value && multipleModel.value
                     .filter(item => item.status !== UploadStatus.remove)
-                    .map(file => renderItem(file))}
+                    .map((file, index) => renderItem(file, index))}
             </div>
         </>)
 

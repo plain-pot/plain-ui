@@ -132,10 +132,45 @@
             />
         </demo-row>
 
+        <demo-row title="自定义上传：将多个文件分开上传，并且每一个文件需要选择一个类型">
+            <h4>多文件上传</h4>
+            <pl-upload
+                    :autoUpload="false"
+                    v-model="customUpload.val"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="customUpload.handleRemove"
+                    :handleUpload="customUpload.handleUpload"
+                    :validator="customUpload.validator"
+
+            >
+                <template #default="{item,index}">
+                    {{index+1}}、{{item.name}}--[{{item.file.data.businessType}}]
+                </template>
+                <template #button>
+                    <pl-dropdown>
+                        <pl-button width="188">
+                            <span>业务类型：{{customUpload.businessType||'无'}}</span>
+                            <pl-icon icon="el-icon-arrow-down"/>
+                        </pl-button>
+                        <template #popper>
+                            <pl-dropdown-menu>
+                                <pl-dropdown-option label="搜索" @click="customUpload.businessType = '搜索'" icon="el-icon-search"/>
+                                <pl-dropdown-option label="排序" @click="customUpload.businessType = '排序'" icon="el-icon-sort"/>
+                                <pl-dropdown-option label="删除" @click="customUpload.businessType = '删除'" icon="el-icon-folder-delete"/>
+                            </pl-dropdown-menu>
+                        </template>
+                    </pl-dropdown>
+                </template>
+            </pl-upload>
+        </demo-row>
+
     </div>
 </template>
 
 <script>
+    import {$$file} from "../../../src/packages/file-service/file-service";
+
     export default {
         name: "upload",
         data() {
@@ -164,7 +199,32 @@
                         {id: '004', name: '正在上传.jpg', status: 'uploading', percent: 78},
                         {id: '005', name: '已删除.jpg', status: 'remove'},
                     ],
-                }
+                },
+
+                customUpload: {
+                    val: [],
+                    businessType: null,
+                    handleRemove: () => {
+                        console.log('调用接口删除后端文件')
+                    },
+                    handleUpload: async (files) => {
+                        await Promise.all(files.map(file => $$file.upload({
+                            action: 'http://193.112.75.134/server/upload/uploadFile',
+                            filename: 'file',
+                            file: file.file,
+                            data: file.file.data,
+                        })))
+                    },
+                    validator: (file) => {
+                        const {businessType} = this.customUpload
+                        if (!businessType) {
+                            this.$notice.error('请先选择业务类型！')
+                            return false
+                        }
+                        file.data = {businessType}
+                        return true
+                    },
+                },
             }
         },
         methods: {
