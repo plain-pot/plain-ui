@@ -1,0 +1,53 @@
+@include theme {
+  .pl-upload {
+    .pl-upload-button {
+
+    }
+
+    .pl-upload-list {
+      margin-top: 8px;
+
+      .pl-upload-item {
+        border: dashed 1px $ibc;
+        padding: 4px 9px;
+        font-size: 12px;
+        color: $itc;
+
+        & > .pl-icon:first-child {
+          margin-right: 8px;
+          color: $icc;
+        }
+
+        & + .pl-upload-item {
+          margin-top: 8px;
+        }
+      }
+    }
+
+    &.pl-upload-remove {
+      .pl-upload-list {
+        .pl-upload-item {
+          padding-right: 32px;
+          position: relative;
+
+          .pl-upload-item-remove {
+            width: 32px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: $icc;
+
+            &:hover {
+              background-color: #f6f6f6;
+            }
+          }
+        }
+      }
+    }
+  }
+}
