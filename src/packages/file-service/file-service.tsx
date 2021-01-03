@@ -30,12 +30,12 @@ export type FileServiceUploadConfig = {
     onError?: (e: FileServiceUploadErrorEvent | ProgressEvent) => void,
 }
 
-export function createFileService() {
+export const FileServiceDefaultAccept = {
+    image: 'image/gif, image/jpeg, image/png, image/jpg',
+    excel: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+} as Record<string, string>
 
-    const defaultAccept = {
-        image: 'image/gif, image/jpeg, image/png, image/jpg',
-        excel: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    } as Record<string, string>
+export function createFileService() {
 
     /**
      * 选择文件
@@ -54,7 +54,7 @@ export function createFileService() {
         }
         /*accept*/
         if (!!config.accept) {
-            const defaultInputAccept = defaultAccept[config.accept]
+            const defaultInputAccept = FileServiceDefaultAccept[config.accept]
             input.setAttribute('accept', defaultInputAccept || config.accept)
         } else {
             input.removeAttribute('accept')
