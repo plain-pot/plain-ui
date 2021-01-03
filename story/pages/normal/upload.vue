@@ -58,7 +58,7 @@
                         {id: '001', name: '上传成功.jpg', status: 'success'},
                         {id: '002', name: '准备就绪.jpg', status: 'ready'},
                         {id: '003', name: '上传失败.jpg', status: 'error'},
-                        {id: '004', name: '正在上传.jpg', status: 'uploading'},
+                        {id: '004', name: '正在上传.jpg', status: 'uploading', percent: 78},
                         {id: '005', name: '已删除.jpg', status: 'remove'},
                     ],
                 }

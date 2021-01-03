@@ -161,6 +161,12 @@ export default designComponent({
                 }
             },
             uploadFile: (uploadFiles: UploadFile | UploadFile[]) => {
+
+                toArray(uploadFiles).forEach(file => {
+                    file.percent = 0
+                    file.status = UploadStatus.uploading
+                })
+
                 $$file.upload({
                     action: props.action,
                     data: typeof props.data === "function" ? props.data() : props.data,
@@ -174,7 +180,7 @@ export default designComponent({
                     onSuccess: () => {
                         toArray(uploadFiles).forEach(file => {
                             file.status = UploadStatus.success
-                            console.log('success', file.name)
+                            file.percent = undefined
                         })
                     },
                     onError: () => {
@@ -186,14 +192,21 @@ export default designComponent({
 
         const renderItem = (file: UploadFile, custom?: () => VNodeChild) => (
             <div class={utils.getItemClass(file)} key={file.id}>
-                {!!custom ? custom() : <>
-                    {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
-                    {file.status === UploadStatus.ready ? '(待上传) ' : ''}
-                    {file.name}
-                </>}
-                {(!!props.handleRemove && file.status !== UploadStatus.empty) && (
-                    <div class="pl-upload-item-remove" onClick={() => methods.removeFile(file)}>
-                        <pl-icon icon="el-icon-delete-solid"/>
+                <div class="pl-upload-item-inner">
+                    {!!custom ? custom() : <>
+                        {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
+                        {file.status === UploadStatus.ready ? '(待上传) ' : ''}
+                        {file.name}
+                    </>}
+                    {(!!props.handleRemove && file.status !== UploadStatus.empty && file.status !== UploadStatus.uploading) && (
+                        <div class="pl-upload-item-remove" onClick={() => methods.removeFile(file)}>
+                            <pl-icon icon="el-icon-delete-solid"/>
+                        </div>
+                    )}
+                </div>
+                {file.percent != null && (
+                    <div class="pl-upload-item-progress">
+                        <div class="pl-upload-item-progress-inner" style={{width: `${file.percent}%`}}/>
                     </div>
                 )}
             </div>

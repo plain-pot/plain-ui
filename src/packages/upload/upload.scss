@@ -2,16 +2,40 @@
   .pl-upload {
 
     .pl-upload-item {
-      padding: 4px 9px;
-      font-size: 12px;
-      color: $itc;
+      position: relative;
 
-      & > .pl-icon:first-child {
-        color: $icc;
+      .pl-upload-item-inner {
+        padding: 6px 9px;
+        font-size: 12px;
+        color: $itc;
+        position: relative;
+        z-index: 2;
+
+        & > .pl-icon:first-child {
+          color: $icc;
+        }
+
+        & > .pl-icon, & > .pl-loading {
+          margin-right: 8px;
+        }
       }
 
-      & > .pl-icon, & > .pl-loading {
-        margin-right: 8px;
+      .pl-upload-item-progress {
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        right: 2px;
+        z-index: 1;
+
+        .pl-upload-item-progress-inner {
+          transition: all 1s linear;
+          height: 100%;
+          background-color: rgba($colorPrimary, 0.2);
+          border-top-right-radius: 100px;
+          border-bottom-right-radius: 100px;
+          z-index: -1;
+        }
       }
 
       & + .pl-upload-item {
@@ -19,34 +43,36 @@
       }
 
       &.pl-upload-item-status-success {
-        &, & > .pl-icon {
-          color: $colorPrimary;
+        .pl-upload-item-inner {
+          &, & > .pl-icon {
+            color: $colorPrimary;
+          }
         }
       }
 
       &.pl-upload-item-status-error {
-        &, & > .pl-icon {
-          color: $colorError;
-        }
-      }
-
-      &.pl-upload-item-status-error {
-        &, & > .pl-icon {
-          color: $colorError;
+        .pl-upload-item-inner {
+          &, & > .pl-icon {
+            color: $colorError;
+          }
         }
       }
 
       &.pl-upload-item-status-ready {
-        &, & > .pl-icon {
-          color: $colorWarn;
+        .pl-upload-item-inner {
+          &, & > .pl-icon {
+            color: $colorWarn;
+          }
         }
       }
     }
 
     &.pl-upload-remove {
       .pl-upload-item {
-        padding-right: 32px;
-        position: relative;
+        .pl-upload-item-inner {
+          padding-right: 32px;
+        }
+
         .pl-upload-item-remove {
           width: 32px;
           position: absolute;
