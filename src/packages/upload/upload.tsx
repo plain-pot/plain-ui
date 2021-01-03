@@ -7,6 +7,7 @@ import {toArray} from "../../utils/toArray";
 import './upload.scss'
 import {useClass} from "../../use/useClasses";
 import {createCounter} from "../../utils/createCounter";
+import {VNodeChild} from "../../shims";
 
 const nextFileId = createCounter('upload')
 
@@ -16,13 +17,15 @@ export enum UploadStatus {
     error = 'error',                        // 上传失败
     uploading = 'uploading',                // 正在上传
     remove = 'remove',                      // 已删除
+    empty = 'empty',                        // 无文件
 }
 
 type UploadFile = {
-    status: UploadStatus,
+    status?: UploadStatus,
     id: string,
     name: string,
     response?: any,
+    file?: FileServiceSingleFile,
 }
 
 type BeforeUpload = (file: FileServiceSingleFile, fileList: FileServiceSingleFile[]) => boolean | Promise<FileServiceSingleFile | undefined>
@@ -63,7 +66,9 @@ export default designComponent({
     setup({props, event: {emit}}) {
 
         const {editComputed} = useEdit()
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+
+        const singleModel = useModel(() => props.modelValue as undefined | UploadFile, emit.updateModelValue)
+        const multipleModel = useModel(() => props.modelValue as undefined | UploadFile[], emit.updateModelValue)
 
         const renderIcon = {
             [UploadStatus.success]: <pl-icon icon="el-icon-check-bold"/>,
@@ -71,13 +76,20 @@ export default designComponent({
             [UploadStatus.error]: <pl-icon icon="el-icon-close-bold"/>,
             [UploadStatus.uploading]: <pl-loading type='beta' status="primary"/>,
             [UploadStatus.remove]: null,
+
+            [UploadStatus.empty]: <pl-icon icon="el-icon-upload1"/>,
+        }
+        const singleEmptyFile: UploadFile = {
+            name: '未上传',
+            status: UploadStatus.empty,
+            id: 'nothing'
         }
 
         const classes = useClass(() => [
             'pl-upload',
+            `pl-upload-${props.multiple ? 'multiple' : 'single'}`,
             {
                 'pl-upload-remove': props.remove,
-                'pl-upload-multiple': props.multiple,
             }
         ])
 
@@ -90,62 +102,92 @@ export default designComponent({
             ],
         }
 
-        const content = computed(() =>
-            toArray(model.value || [])
-                .filter(item => item.status !== UploadStatus.remove)
-                .map(file => (
-                    <div class={utils.getItemClass(file)} key={file.id}>
-                        {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
-                        {file.name}
-                        <div class="pl-upload-item-remove">
-                            <pl-icon icon="el-icon-delete-solid"/>
-                        </div>
-                    </div>
-                )))
-
         const methods = {
             chooseFile: async () => {
-                const file = await $$file.chooseFile({
+                const files = await $$file.chooseFile({
                     multiple: props.multiple,
                     accept: props.accept,
                     validator: props.validator,
                     max: props.max,
                 })
-                const files = toArray(file).map(f => ({
-                    status: UploadStatus.ready,
-                    id: nextFileId(),
-                    name: f.name,
-                } as UploadFile))
-                model.value = [...toArray(model.value || []), ...files]
+                if (!props.multiple) {
+                    const file = files as any as FileServiceSingleFile
+                    singleModel.value = {
+                        id: nextFileId(),
+                        name: file.name,
+                        file,
+                        status: UploadStatus.ready,
+                    }
+                } else {
+                    const addFiles = toArray(files).map(f => ({
+                        id: nextFileId(),
+                        status: UploadStatus.ready,
+                        name: f.name,
+                        file: f,
+                    } as UploadFile))
+                    multipleModel.value = [...multipleModel.value || [], ...addFiles]
+                }
             },
-            deleteFile: async (file: UploadFile) => {
-                //
+            removeFile: async (file: UploadFile) => {
+                if (!props.multiple) {
+                    singleModel.value = undefined
+                } else {
+                    const index = multipleModel.value!.indexOf(file)
+                    if (index > -1) {
+                        multipleModel.value!.splice(index, 1)
+                    }
+                }
             },
         }
+
+        const renderItem = (file: UploadFile, custom?: () => VNodeChild) => (
+            <div class={utils.getItemClass(file)} key={file.id}>
+                {!!custom ? custom() : <>
+                    {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
+                    {file.status === UploadStatus.ready ? '(待上传) ' : ''}
+                    {file.name}
+                </>}
+                {props.remove && file.status !== UploadStatus.empty && (
+                    <div class="pl-upload-item-remove" onClick={() => methods.removeFile(file)}>
+                        <pl-icon icon="el-icon-delete-solid"/>
+                    </div>
+                )}
+            </div>
+        )
+
+        const singleRender = computed(() => <>
+            <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+            {renderItem(singleModel.value || singleEmptyFile)}
+        </>)
+        const multipleRender = computed(() => <>
+            <div class="pl-upload-button">
+                {!props.draggable ? (
+                    <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+                ) : (
+                    <div class="pl-upload-drop-area" onClick={methods.chooseFile}>
+                        <pl-icon icon="el-icon-upload"/>
+                        <div>
+                            <span>将文件拖拽至此处，或者</span>
+                            <pl-button mode="text" class="pl-upload-drop-upload-button" onClick={methods.chooseFile}>
+                                <span>点击上传</span>
+                                <pl-icon icon="el-icon-upload1"/>
+                            </pl-button>
+                        </div>
+                    </div>
+                )}
+            </div>
+            <div class="pl-upload-list">
+                {!!multipleModel.value && multipleModel.value
+                    .filter(item => item.status !== UploadStatus.remove)
+                    .map(file => renderItem(file))}
+            </div>
+        </>)
 
         return {
             render: () => {
                 return (
                     <div class={classes.value}>
-                        <div class="pl-upload-button">
-                            {!props.draggable ? (
-                                <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
-                            ) : (
-                                <div class="pl-upload-drop-area" onClick={methods.chooseFile}>
-                                    <pl-icon icon="el-icon-upload"/>
-                                    <div>
-                                        <span>将文件拖拽至此处，或者</span>
-                                        <pl-button mode="text" class="pl-upload-drop-upload-button">
-                                            <span>点击上传</span>
-                                            <pl-icon icon="el-icon-upload1"/>
-                                        </pl-button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                        <div class="pl-upload-list">
-                            {content.value}
-                        </div>
+                        {props.multiple ? multipleRender.value : singleRender.value}
                     </div>
                 )
             }

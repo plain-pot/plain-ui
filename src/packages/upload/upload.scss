@@ -1,106 +1,128 @@
 @include theme {
   .pl-upload {
 
-    .pl-upload-button {
+    .pl-upload-item {
+      padding: 4px 9px;
+      font-size: 12px;
+      color: $itc;
 
-    }
+      & > .pl-icon:first-child {
+        color: $icc;
+      }
 
-    .pl-upload-list {
-      margin-top: 8px;
+      & > .pl-icon, & > .pl-loading {
+        margin-right: 8px;
+      }
 
-      .pl-upload-item {
-        border: dashed 1px $ibc;
-        padding: 4px 9px;
-        font-size: 12px;
-        color: $itc;
+      & + .pl-upload-item {
+        margin-top: 8px;
+      }
 
-        & > .pl-icon:first-child {
-          color: $icc;
+      &.pl-upload-item-status-success {
+        &, & > .pl-icon {
+          color: $colorPrimary;
         }
+      }
 
-        & > .pl-icon, & > .pl-loading {
-          margin-right: 8px;
+      &.pl-upload-item-status-error {
+        &, & > .pl-icon {
+          color: $colorError;
         }
+      }
 
-        & + .pl-upload-item {
-          margin-top: 8px;
+      &.pl-upload-item-status-error {
+        &, & > .pl-icon {
+          color: $colorError;
         }
+      }
 
-        &.pl-upload-item-status-success {
-          &, & > .pl-icon {
-            color: $colorPrimary;
-          }
-        }
-
-        &.pl-upload-item-status-error {
-          &, & > .pl-icon {
-            color: $colorError;
-          }
-        }
-
-        &.pl-upload-item-status-error {
-          &, & > .pl-icon {
-            color: $colorError;
-          }
-        }
-
-        &.pl-upload-item-status-ready {
-          &, & > .pl-icon {
-            color: $colorWarn;
-          }
+      &.pl-upload-item-status-ready {
+        &, & > .pl-icon {
+          color: $colorWarn;
         }
       }
     }
 
     &.pl-upload-remove {
-      .pl-upload-list {
-        .pl-upload-item {
-          padding-right: 32px;
-          position: relative;
+      .pl-upload-item {
+        padding-right: 32px;
+        position: relative;
+        .pl-upload-item-remove {
+          width: 32px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: $icc;
+          transition: all 300ms linear;
 
-          .pl-upload-item-remove {
-            width: 32px;
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: $icc;
-            transition: all 300ms linear;
+          &:hover {
+            background-color: $colorError;
 
-            &:hover {
-              background-color: $colorError;
-
-              .pl-icon {
-                color: white;
-              }
+            .pl-icon {
+              color: white;
             }
           }
         }
       }
     }
 
-    .pl-upload-drop-area {
+    &.pl-upload-single {
       display: flex;
-      flex-direction: column;
-      padding: 12px;
-      align-items: center;
+      flex-direction: row;
+      align-items: stretch;
       justify-content: center;
-      border: dashed 1px $ibc;
-      cursor: pointer;
 
-      & > .pl-icon {
-        font-size: 32px;
-        color: $icc;
-        margin-bottom: 8px;
+      & > .pl-button:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
       }
 
-      .pl-upload-drop-upload-button {
-        margin-left: 8px;
+      .pl-upload-item {
+        flex: 1;
+        border: solid 1px $ibc;
+        border-left: none;
       }
     }
+
+    &.pl-upload-multiple {
+      .pl-upload-button {
+
+      }
+
+      .pl-upload-list {
+        margin-top: 8px;
+
+        .pl-upload-item {
+          border: dashed 1px $ibc;
+        }
+      }
+
+      .pl-upload-drop-area {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        align-items: center;
+        justify-content: center;
+        border: dashed 1px $ibc;
+        cursor: pointer;
+
+        & > .pl-icon {
+          font-size: 32px;
+          color: $icc;
+          margin-bottom: 8px;
+        }
+
+        .pl-upload-drop-upload-button {
+          margin-left: 8px;
+        }
+      }
+    }
+
+
   }
 }
