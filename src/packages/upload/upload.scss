@@ -82,5 +82,25 @@
         }
       }
     }
+
+    .pl-upload-drop-area {
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      align-items: center;
+      justify-content: center;
+      border: dashed 1px $ibc;
+      cursor: pointer;
+
+      & > .pl-icon {
+        font-size: 32px;
+        color: $icc;
+        margin-bottom: 8px;
+      }
+
+      .pl-upload-drop-upload-button {
+        margin-left: 8px;
+      }
+    }
   }
 }

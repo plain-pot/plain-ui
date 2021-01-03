@@ -100,7 +100,21 @@ export default designComponent({
                 return (
                     <div class={classes.value}>
                         <div class="pl-upload-button">
-                            <pl-button label="选择文件" icon="el-icon-upload"/>
+                            {!props.draggable ? (
+                                <pl-button label="选择文件" icon="el-icon-upload"/>
+                            ) : (
+                                <div class="pl-upload-drop-area">
+                                    <pl-icon icon="el-icon-upload"/>
+                                    <div>
+                                        <span>将文件拖拽至此处，或者</span>
+                                        <pl-button mode="text" class="pl-upload-drop-upload-button">
+                                            <span>点击上传</span>
+                                            <pl-icon icon="el-icon-upload1"/>
+                                        </pl-button>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                         <div class="pl-upload-list">
                             {content.value}

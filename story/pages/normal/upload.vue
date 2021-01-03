@@ -13,6 +13,13 @@
                        action="http://193.112.75.134/server/upload/uploadFile"
                        filename="file"/>
         </demo-row>
+
+        <demo-row title="拖拽上传">
+            <pl-upload v-model="val[0]"
+                       draggable
+                       action="http://193.112.75.134/server/upload/uploadFile"
+                       filename="file"/>
+        </demo-row>
     </div>
 </template>
 
