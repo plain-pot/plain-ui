@@ -38,6 +38,10 @@
         }
       }
 
+      .pl-upload-item-content {
+        display: inline-block;
+      }
+
       & + .pl-upload-item {
         margin-top: 8px;
       }
@@ -62,6 +66,18 @@
         .pl-upload-item-inner {
           &, & > .pl-icon {
             color: $colorWarn;
+          }
+        }
+      }
+    }
+
+    &.pl-upload-preview {
+      .pl-upload-item {
+        .pl-upload-item-content {
+          &:hover {
+            text-decoration: underline;
+            color: $colorPrimary;
+            cursor: pointer;
           }
         }
       }

@@ -38,6 +38,7 @@ type BeforeRemove = (file: UploadFile) => boolean
 type BeforeUpload = (file: UploadFile) => void | Promise<void>
 type HandleRemove = (file: UploadFile) => Promise<void>
 type HandleUpload = (files: UploadFile | UploadFile[]) => Promise<void>
+type HandlePreview = (file: UploadFile) => void
 
 type UploadData = Record<string, string> | (() => Record<string, string>)
 type UploadModelValue = UploadFile | UploadFile[]
@@ -69,6 +70,7 @@ export default designComponent({
         beforeRemove: {type: Function as PropType<BeforeRemove>},       // 删除前校验
         handleRemove: {type: Function as PropType<HandleRemove>},       // 执行删除逻辑
         handleUpload: {type: Function as PropType<HandleUpload>},       // 自定义上传逻辑
+        handlePreview: {type: Function as PropType<HandlePreview>},     // 处理预览文件逻辑
     },
     emits: {
         updateModelValue: (val?: UploadModelValue) => true,
@@ -105,6 +107,7 @@ export default designComponent({
             {
                 'pl-upload-remove': !!props.handleRemove,
                 'pl-upload-disabled': editComputed.value.disabled,
+                'pl-upload-preview': !!props.handlePreview,
             }
         ])
 
@@ -308,7 +311,9 @@ export default designComponent({
                     {!!custom ? custom() : <>
                         {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
                         {file.status === UploadStatus.ready ? '(待上传) ' : ''}
-                        {scopedSlots.default({item: file, index}, file.name)}
+                        <div class="pl-upload-item-content" onClick={() => !!props.handlePreview && props.handlePreview(file)}>
+                            {scopedSlots.default({item: file, index}, file.name)}
+                        </div>
                     </>}
                     {(
                         !!props.handleRemove

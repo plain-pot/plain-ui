@@ -21,6 +21,16 @@
             />
         </demo-row>
 
+        <demo-row title="文件预览">
+            <pl-upload
+                    v-model="val[0]"
+                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    filename="file"
+                    :handleRemove="handleRemove"
+                    :handlePreview="handlePreview"
+            />
+        </demo-row>
+
         <demo-row title="选择特定类型的文件">
             <h4>内置的accept：excel（另一个是image）</h4>
             <pl-upload
@@ -184,6 +194,9 @@
                 },
                 handleRemove: (file) => {
                     console.log('remove file', file)
+                },
+                handlePreview(file) {
+                    console.log(file)
                 },
                 val: {
                     0: [
