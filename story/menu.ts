@@ -81,8 +81,7 @@ export const MENUS: MenuGroup[] = [
     },
     {
         name: '导航', children: [
-            {name: 'NavTab', title: '页签导航', page: '/nav/nav-tab', complete: false},
-            {name: 'NavPages', title: '页面导航', page: '/nav/nav-page', complete: false},
+            {name: 'NavPageStack', title: '页面导航', page: '/nav/nav-page-stack', complete: true},
             {name: 'Nav', title: '应用导航', page: '/nav/nav', complete: false},
         ]
     },
