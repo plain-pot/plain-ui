@@ -1,14 +1,13 @@
 import {designComponent} from "../../use/designComponent";
 
 export default designComponent({
-    name: 'pl-nav-page',
-    props: {},
-    setup({props}) {
+    name: 'pl-nav',
+    setup() {
         return {
             render: () => {
                 return (
                     <div>
-                        this is nav page
+                        i am nav
                     </div>
                 )
             }
