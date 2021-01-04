@@ -50,6 +50,7 @@ import Date from './packages/date'
 import Form from './packages/form'
 import Table from './packages/table'
 import Upload from './packages/upload'
+import NavPage from './packages/nav-page'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -61,6 +62,7 @@ const plugins: ComponentPlugin[] = [
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
     Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
+    NavPage,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
@@ -77,6 +79,7 @@ export {
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
     Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
+    NavPage,
 
     Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
