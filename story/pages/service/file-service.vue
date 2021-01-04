@@ -25,7 +25,6 @@
 </template>
 
 <script>
-    import {$$file} from "../../../src/packages/file-service/file-service";
 
     export default {
         name: "file-service",
@@ -36,17 +35,17 @@
         },
         methods: {
             async getSingleFile(option) {
-                const file = await $$file.chooseFile(option)
+                const file = await this.$$file.chooseFile(option)
                 console.log('success', file)
             },
             async showImage() {
-                const file = await $$file.chooseImage()
-                const base64 = await $$file.readAsDataURL(file)
+                const file = await this.$$file.chooseImage()
+                const base64 = await this.$$file.readAsDataURL(file)
                 this.base64 = base64
             },
             async uploadFile() {
-                const file = await $$file.chooseFile()
-                await $$file.upload({
+                const file = await this.$$file.chooseFile()
+                await this.$$file.upload({
                     action: 'http://193.112.75.134/server/upload/uploadFile',
                     file,
                     filename: 'file',
@@ -66,8 +65,8 @@
                 })
             },
             async uploadFiles() {
-                const file = await $$file.chooseFile({multiple: true})
-                await $$file.upload({
+                const file = await this.$$file.chooseFile({multiple: true})
+                await this.$$file.upload({
                     action: 'http://193.112.75.134/server/upload/uploadFiles',
                     file,
                     filename: 'files',
