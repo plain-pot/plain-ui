@@ -136,12 +136,24 @@
       .pro-home-menu-header {
         height: $headSize;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         color: $colorPrimary;
         font-weight: 600;
-        font-size: 18px;
-        letter-spacing: 4px;
+        font-size: 16px;
+        letter-spacing: 7px;
+        border-bottom: solid 1px $ibl;
+
+        & > span {
+          margin-bottom: 8px;
+          margin-left: 6px;
+        }
+
+        .pl-input-inner {
+          background-color: #f2f2f2;
+          border: none;
+        }
       }
 
       .pro-home-menu-content {
@@ -150,6 +162,7 @@
         bottom: 0;
         left: 0;
         right: 0;
+        padding: 8px 0;
 
         .pro-home-menu-item {
 

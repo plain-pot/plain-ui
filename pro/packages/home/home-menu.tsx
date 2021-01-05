@@ -1,8 +1,8 @@
 import {designComponent} from "../../../src/use/designComponent";
 import {PropType} from 'vue';
-import {ProHomeMenuData} from "./home.utils";
 import {ProHomeMenuItem} from "./home-menu-item";
 import {NavigatorManager} from "../../../src/packages/nav/NavigatorManager";
+import {ProHomeMenuData} from "../../pro.menu";
 
 export const ProHomeMenu = designComponent({
     props: {
@@ -14,7 +14,8 @@ export const ProHomeMenu = designComponent({
             render: () => (
                 <div class="pro-home-menu">
                     <div class="pro-home-menu-header">
-                        PLAINUIPRO
+                        <span>PLAINUIPRO</span>
+                        <pl-input prefixIcon="el-icon-search" size="mini" shape="round"/>
                     </div>
                     <div class="pro-home-menu-content">
                         <pl-scroll fitHostWidth>
