@@ -126,9 +126,13 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
     }
     const pageMethods = {
         /*push一个页面*/
-        push: () => {/*todo*/},
+        push: (stack: Stack, pageConfig: PageConfig) => {
+            stack.pages.push(utils.createPage(pageConfig))
+        },
         /*pop一个页面*/
-        back: () => {/*todo*/},
+        back: (stack: Stack) => {
+            stack.pages.length > 1 && stack.pages.pop()
+        },
         /*重定向到一个页面*/
         redirect: () => {/*todo*/},
         /*刷新页面*/

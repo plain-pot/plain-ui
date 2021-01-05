@@ -28,11 +28,9 @@ export const NavPage = designComponent({
             render: () => {
                 const {PageComponent} = state
                 return (
-                    !!props.isLast && (
-                        <div class="pl-nav-page">
-                            {PageComponent && <PageComponent/>}
-                        </div>
-                    )
+                    <div class="pl-nav-page" v-show={props.isLast}>
+                        {PageComponent && <PageComponent/>}
+                    </div>
                 )
             }
         }

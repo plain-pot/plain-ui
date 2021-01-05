@@ -1,27 +1,30 @@
 <template>
     <div>
-        我是页面一,{{$nav}}
+        我是页面一
         <div>
             <pl-input/>
         </div>
+        <pl-button label="打开页面二" @click="nextPage"/>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "nav-first-page",
-        data() {
+    import {defineComponent} from 'vue'
+    import {useNav} from "../../../src/packages/nav/nav-stack";
+
+    export default defineComponent({
+        setup() {
+            const $nav = useNav()
             return {
-                a: 1,
-                b: 2,
+                nextPage: () => {
+                    $nav.push({
+                        title: '页面二',
+                        path: 'nav/nav-second-page'
+                    })
+                },
             }
         },
-        computed: {
-            $nav() {
-                return this.a + this.b
-            },
-        },
-    }
+    })
 </script>
 
 <style lang="scss">
