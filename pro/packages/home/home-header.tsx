@@ -43,6 +43,7 @@ export const ProHomeHeader = designComponent({
                                 </pl-badge>
                             </div>
                             <pl-dropdown
+                                transition="pl-transition-scale"
                                 placement="bottom"
                                 trigger="hover"
                                 v-slots={{
