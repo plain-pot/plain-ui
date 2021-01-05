@@ -11,7 +11,7 @@ export enum NavRouteMode {
 }
 
 /*跳转页面信息*/
-interface Page {
+interface PageConfig {
     title: string,                                  // 页面标题
     path: string,                                   // 第一个页面的路径
     icon?: string,                                  // 图标
@@ -21,33 +21,33 @@ interface Page {
 }
 
 /*Page在Stack中具体信息*/
-interface StackPage {
-    page: Page,                                     // 页面信息
+interface Page {
+    page: PageConfig,                                     // 页面信息
     init: boolean,                                  // 页面是否已经初始化
     loading: boolean,                               // 页面是否处于加载状态
 }
 
 export interface Stack {
     id: string,                                     // 页面栈id
-    page: Page,                                     // 页面栈初始化的page
-    pages: StackPage[],                             // 页面栈数组
+    page: PageConfig,                                     // 页面栈初始化的page
+    pages: Page[],                             // 页面栈数组
     show: boolean,                                  // 页面栈是否显示
 }
 
 /*生成stack的唯一标识的id*/
-type GenerateStackId = (page: Page) => string
+type GenerateStackId = (page: PageConfig) => string
 
 /*创建NavigatorManager的配置参数*/
 interface NavigatorManagerConfig {
     routerMode: NavRouteMode,                       // 路由模式，解析url的时候是哈希路由还是history路由
-    defaultPage: Page,                              // 当没有指定路由，也没有缓存的页面时，默认打开的页面
+    defaultPage: PageConfig,                              // 当没有指定路由，也没有缓存的页面时，默认打开的页面
     generateStackId?: GenerateStackId,
     storageKey?: string,                            // 多页面应用中可能会存在缓存冲突的问题。通过这个属性可以隔离多页面应用之间的缓存
     maxStack?: number,                              // 最大的可以打开的stack个数
 }
 
 /*创建Stack*/
-function createStack(config: { generateStackId?: GenerateStackId, page: Page, }): Stack {
+function createStack(config: { generateStackId?: GenerateStackId, page: PageConfig, }): Stack {
     return {
         id: (config.generateStackId || nextStackId)(config.page),
         page: config.page,
@@ -65,7 +65,7 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
 
     /*---------------------------------------page stack-------------------------------------------*/
     /*打开一个tab*/
-    const openTab = async (page: Page) => {
+    const openTab = async (page: PageConfig) => {
         const newStack = createStack({page, generateStackId: config.generateStackId})
         state.stacks.push(newStack)
         await hideTab()
