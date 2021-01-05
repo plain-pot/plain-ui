@@ -19,6 +19,7 @@
         defaultPage: {
             title: '主页',
             path: 'nav/nav-first-page',
+            icon: 'el-icon-s-shop',
         },
     })
 

@@ -15,7 +15,7 @@ type GenerateStackId = (pageConfig: PageConfig) => string
 /*获取页面组件对象*/
 export type GetPage = (pageConfig: PageConfig) => Promise<any>
 /*打开页面的时候的标题*/
-type PageConfigTitle = string | ((pageConfig: string) => string)
+type PageConfigTitle = string | ((pageConfig: PageConfig) => string)
 
 /*跳转页面信息*/
 export interface PageConfig {
