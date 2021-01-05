@@ -22,20 +22,20 @@ interface PageConfig {
 
 /*Page在Stack中具体信息*/
 interface Page {
-    page: PageConfig,                                     // 页面信息
+    pageConfig: PageConfig,                         // 页面信息
     init: boolean,                                  // 页面是否已经初始化
     loading: boolean,                               // 页面是否处于加载状态
 }
 
 export interface Stack {
     id: string,                                     // 页面栈id
-    page: PageConfig,                                     // 页面栈初始化的page
-    pages: Page[],                             // 页面栈数组
+    pageConfig: PageConfig,                         // 页面栈初始化的page
+    pages: Page[],                                  // 页面栈数组
     show: boolean,                                  // 页面栈是否显示
 }
 
 /*生成stack的唯一标识的id*/
-type GenerateStackId = (page: PageConfig) => string
+type GenerateStackId = (pageConfig: PageConfig) => string
 
 /*创建NavigatorManager的配置参数*/
 interface NavigatorManagerConfig {
@@ -47,10 +47,10 @@ interface NavigatorManagerConfig {
 }
 
 /*创建Stack*/
-function createStack(config: { generateStackId?: GenerateStackId, page: PageConfig, }): Stack {
+function createStack(config: { generateStackId?: GenerateStackId, pageConfig: PageConfig, }): Stack {
     return {
-        id: (config.generateStackId || nextStackId)(config.page),
-        page: config.page,
+        id: (config.generateStackId || nextStackId)(config.pageConfig),
+        pageConfig: config.pageConfig,
         pages: [],
         show: false,
     }
@@ -65,8 +65,8 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
 
     /*---------------------------------------page stack-------------------------------------------*/
     /*打开一个tab*/
-    const openTab = async (page: PageConfig) => {
-        const newStack = createStack({page, generateStackId: config.generateStackId})
+    const openTab = async (pageConfig: PageConfig) => {
+        const newStack = createStack({pageConfig, generateStackId: config.generateStackId})
         state.stacks.push(newStack)
         await hideTab()
         await showTab(newStack.id)
