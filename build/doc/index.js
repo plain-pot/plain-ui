@@ -13,6 +13,13 @@ module.exports = {
             title: 'plain-ui-v3',
             chunks: ['chunk-vendors', 'chunk-common', 'index'],
         },
+        pro: {
+            entry: $utils.resolve('pro/main.tsx'),
+            template: 'public/index.html',
+            filename: 'pro.html',
+            title: 'plain-ui-pro',
+            chunks: ['chunk-vendors', 'chunk-common', 'pro'],
+        },
     },
     css: {
         sourceMap: false,
@@ -43,7 +50,7 @@ module.exports = {
 
         config.resolve.alias
             .set('story', $utils.resolve('story'))
-            // .set('src', $utils.resolve('src'))
+        // .set('src', $utils.resolve('src'))
 
         const fontRule = config.module.rule('fonts')
         fontRule.uses.clear()

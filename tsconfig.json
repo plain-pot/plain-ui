@@ -31,10 +31,14 @@
     "story/**/*.ts",
     "story/**/*.tsx",
     "story/**/*.vue",
+    "pro/**/*.ts",
+    "pro/**/*.tsx",
+    "pro/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "node_modules/plain-utils",
-    "node_modules/plain-loading"
+    "node_modules/plain-loading",
+    "node_modules/vue"
   ],
   "exclude": [
     "node_modules"
