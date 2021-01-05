@@ -156,12 +156,14 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
     }
 
     return reactive({
-        utils,
-        ...tabMethods,
-        ...pageMethods,
         state,
-        init,
         currentStack,
+        utils,
+        tabMethods,
+        pageMethods,
+        ...tabMethods,
+
+        init,
     })
 }
 
