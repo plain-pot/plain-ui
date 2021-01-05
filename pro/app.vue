@@ -1,12 +1,15 @@
 <template>
-    <div class="app">
-        this is app
-    </div>
+    <pro-home/>
 </template>
 
 <script>
+    import {ProHome} from "./packages/home/home";
+
     export default {
-        name: "App"
+        name: "App",
+        components: {
+            ProHome,
+        },
     }
 </script>
 

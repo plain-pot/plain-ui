@@ -1,0 +1,65 @@
+@include theme {
+
+  $headSize: 72px;
+  $menuSize: 220px;
+
+  .pro-home {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+
+    & > div {
+      position: absolute;
+    }
+
+    .pro-home-header {
+      height: $headSize;
+      left: $menuSize - 20;
+      top: 0;
+      right: 0;
+      box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+      box-sizing: border-box;
+      padding-left: 40px;
+      background-color: white;
+      z-index: 1;
+    }
+
+    .pro-home-menu {
+      width: $menuSize;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      box-shadow: 2px 0 8px 0 rgba(29, 35, 41, .05);
+      box-sizing: border-box;
+      background-color: white;
+      z-index: 2;
+
+      .pro-home-menu-header {
+        height: $headSize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $colorPrimary;
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      .pro-home-menu-content {
+        position: absolute;
+        top: $headSize;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    .pro-home-content {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      background-color: #f0f2f5;
+    }
+  }
+}
