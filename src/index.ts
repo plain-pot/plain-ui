@@ -51,6 +51,7 @@ import Form from './packages/form'
 import Table from './packages/table'
 import Upload from './packages/upload'
 import Nav from './packages/nav'
+import FileService from './packages/file-service'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -68,7 +69,7 @@ const plugins: ComponentPlugin[] = [
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
     Form, Upload,
 
-    MessageService, DialogService, NoticeService, LoadingService,
+    MessageService, DialogService, NoticeService, LoadingService, FileService,
 ]
 
 export {
@@ -85,7 +86,7 @@ export {
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
     Form, Upload,
 
-    MessageService, DialogService, NoticeService, LoadingService,
+    MessageService, DialogService, NoticeService, LoadingService, FileService,
 }
 
 export default {
