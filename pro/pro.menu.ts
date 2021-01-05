@@ -1,5 +1,4 @@
 import {ProHomeMenuData} from "./packages/home/home.utils";
-import time from "../src/packages/time/time";
 
 export const ProMenus: ProHomeMenuData[] = [
     {
