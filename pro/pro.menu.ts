@@ -25,7 +25,7 @@ export const ProMenus: ProHomeMenuData[] = [
             {
                 title: '页面三',
                 path: 'nav/nav-third-page',
-                icon: 'el-icon-s-ticket',
+                icon: 'el-icon-delete-location',
             },
         ],
     },
