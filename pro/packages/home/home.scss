@@ -50,6 +50,52 @@
         bottom: 0;
         left: 0;
         right: 0;
+
+        .pro-home-menu-item {
+          .pro-home-menu-item-content {
+            height: 40px;
+            line-height: 40px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            color: $itc;
+            position: relative;
+            cursor: pointer;
+            font-size: 14px;
+
+            &, & .pl-icon {
+              transition: all 300ms linear;
+            }
+
+            & > .pro-home-menu-item-expander {
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              right: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              color: $icc;
+            }
+
+            & > * {
+              line-height: normal;
+            }
+
+            & > .pl-icon:first-child {
+              margin-right: 8px;
+              color: $icc;
+            }
+
+            &:hover {
+              background-color: rgba($colorPrimary, 0.1);
+
+              &, & .pl-icon {
+                color: $colorPrimary;
+              }
+            }
+          }
+        }
       }
     }
 

@@ -18,7 +18,7 @@ export type GetPage = (pageConfig: PageConfig) => Promise<any>
 type PageConfigTitle = string | ((pageConfig: string) => string)
 
 /*跳转页面信息*/
-interface PageConfig {
+export interface PageConfig {
     title: PageConfigTitle,                                     // 页面标题
     path: string,                                               // 第一个页面的路径
     icon?: string,                                              // 图标
