@@ -4,8 +4,8 @@ import {ProHomeMenu} from "./home-menu";
 import {ProHomeHeader} from "./home-header";
 import {ProHomeContent} from "./home-content";
 import {PropType} from 'vue';
-import {ProHomeMenuData} from "./home.utils";
 import {NavigatorManager} from "../../../src/packages/nav/NavigatorManager";
+import {ProHomeMenuData} from "../../pro.menu";
 
 export const ProHome = designComponent({
     name: 'pro-home',
