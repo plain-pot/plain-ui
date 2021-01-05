@@ -18,7 +18,7 @@
         },
         defaultPage: {
             title: '主页',
-            path: 'nav-first-page',
+            path: 'nav/nav-first-page',
         },
     })
 

@@ -3,17 +3,17 @@ import {ProHomeMenuData} from "./packages/home/home.utils";
 export const ProMenus: ProHomeMenuData[] = [
     {
         title: '页面一',
-        path: 'nav-first-page',
+        path: 'nav/nav-first-page',
         icon: 'el-icon-paperclip',
     },
     {
         title: '页面二',
-        path: 'nav-second-page',
+        path: 'nav/nav-second-page',
         icon: 'el-icon-share',
     },
     {
         title: '页面三',
-        path: 'nav-third-page',
+        path: 'nav/nav-third-page',
         icon: 'el-icon-s-ticket',
     },
     {
