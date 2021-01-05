@@ -18,27 +18,27 @@ export type GetPage = (pageConfig: PageConfig) => Promise<any>
 type PageConfigTitle = string | ((pageConfig: PageConfig) => string)
 
 /*跳转页面信息*/
-export interface PageConfig {
+export interface PageConfig<DATA = any> {
     title: PageConfigTitle,                                     // 页面标题
     path: string,                                               // 第一个页面的路径
     icon?: string,                                              // 图标
     param?: string,                                             // 页面参数（动态路由参数也是放这里边的）
     query?: Record<string, any>,                                // 路由的query参数
-    data?: any,                                                 // 额外的数据
+    data?: DATA,                                                 // 额外的数据
 }
 
 /*Page在Stack中具体信息*/
-export interface Page {
+export interface Page<DATA = any> {
     id: string,                                                 // 页面标识
-    pageConfig: PageConfig,                                     // 页面信息
+    pageConfig: PageConfig<DATA>,                                     // 页面信息
     init: boolean,                                              // 页面是否已经初始化
     loading: boolean,                                           // 页面是否处于加载状态
 }
 
 /*页面栈信息*/
-export interface Stack {
+export interface Stack<DATA = any> {
     id: string,                                                 // 页面栈id
-    pageConfig: PageConfig,                                     // 页面栈初始化的page
+    pageConfig: PageConfig<DATA>,                                     // 页面栈初始化的page
     pages: Page[],                                              // 页面栈数组
     show: boolean,                                              // 页面栈是否显示
 }
@@ -61,6 +61,7 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
     const currentStack = computed(() => state.stacks.filter(s => s.show).shift())
 
     /*---------------------------------------utils-------------------------------------------*/
+
     const utils = {
         /*创建Page*/
         createPage: (pageConfig: PageConfig): Page => {
@@ -82,6 +83,10 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         },
         /*获取页面组件*/
         getPage: (pageConfig: PageConfig) => config.getPage(pageConfig),
+        /*查找一个Stack*/
+        findStack<DATA = any>(judjement: (stack: Stack<DATA>) => boolean): Stack<DATA> | undefined {
+            return state.stacks.find(judjement)
+        },
     }
     const tabMethods = {
         /*打开一个tab*/

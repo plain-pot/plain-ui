@@ -2,6 +2,7 @@ import {designComponent} from "../../../src/use/designComponent";
 import {PropType, computed} from 'vue';
 import {ProHomeMenuData} from "./home.utils";
 import {NavigatorManager, PageConfig} from "../../../src/packages/nav/NavigatorManager";
+import {openMenu} from "../../pro.navigator";
 
 export const ProHomeMenuItem = designComponent({
     props: {
@@ -15,13 +16,7 @@ export const ProHomeMenuItem = designComponent({
 
         const onClickContent = async (menu: ProHomeMenuData) => {
             if (!!menu.path) {
-                const pageConfig: PageConfig = {
-                    title: menu.title,
-                    path: menu.path,
-                    icon: menu.icon,
-                    data: {menu},
-                }
-                await props.nav.openTab(pageConfig)
+                await openMenu(menu)
             }
             if (!hasChildren.value) return
             menu.expand = !menu.expand
