@@ -1,3 +1,5 @@
-.pl-nav {
-  background-color: #ddd;
+@include theme {
+  .pl-nav {
+    border: solid 1px $ibc;
+  }
 }
