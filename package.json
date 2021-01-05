@@ -48,6 +48,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
     "mini-css-extract-plugin": "^1.1.1",
+    "mockjs": "^1.1.0",
     "postcss": "^8.1.2",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-terser": "^7.0.2",
