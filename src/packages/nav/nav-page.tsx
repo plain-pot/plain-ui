@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {PropType, reactive, watch, markRaw} from 'vue';
+import {markRaw, PropType, reactive, watch} from 'vue';
 import {GetPage, Page} from "./NavigatorManager";
 
 export const NavPage = designComponent({
@@ -26,9 +26,11 @@ export const NavPage = designComponent({
             render: () => {
                 const {PageComponent} = state
                 return (
-                    <div class="pl-nav-page">
-                        {PageComponent && <PageComponent/>}
-                    </div>
+                    !!props.isLast && (
+                        <div class="pl-nav-page">
+                            {PageComponent && <PageComponent/>}
+                        </div>
+                    )
                 )
             }
         }
