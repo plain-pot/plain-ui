@@ -137,6 +137,14 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         loading: () => {/*todo*/},
         /*获取当前页面信息*/
         getCurrentPage: () => {/*todo*/},
+        /*监听事件*/
+        on: () => {/*todo*/},
+        /*解除监听事件*/
+        off: () => {/*todo*/},
+        /*监听一次事件*/
+        once: () => {/*todo*/},
+        /*派发事件*/
+        emit: () => {/*todo*/},
     }
 
     /*执行初始化逻辑*/
