@@ -1,8 +1,8 @@
 import {designComponent} from "../../../src/use/designComponent";
-import {PropType, computed} from 'vue';
-import {ProHomeMenuData} from "./home.utils";
-import {NavigatorManager, PageConfig} from "../../../src/packages/nav/NavigatorManager";
+import {computed, PropType} from 'vue';
+import {NavigatorManager} from "../../../src/packages/nav/NavigatorManager";
 import {openMenu} from "../../pro.navigator";
+import {ProHomeMenuData} from "../../pro.menu";
 
 export const ProHomeMenuItem = designComponent({
     props: {
