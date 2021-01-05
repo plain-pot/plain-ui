@@ -1,6 +1,6 @@
 import {designComponent} from "../../../src/use/designComponent";
 import {NavigatorManager, Stack} from "../../../src/packages/nav/NavigatorManager";
-import {PropType} from 'vue';
+import {PropType, computed} from 'vue';
 
 export const ProHomeHeader = designComponent({
     props: {
@@ -12,6 +12,14 @@ export const ProHomeHeader = designComponent({
             await props.nav.showTab(stack.id)
         }
 
+        const stackNames = computed(() => {
+            if (!props.nav.currentStack) {
+                return ''
+            }
+            const stackTitle = props.nav.currentStack.pageConfig.title
+            let page
+        })
+
         return {
             render: () => (
                 <div class="pro-home-header">
@@ -20,6 +28,7 @@ export const ProHomeHeader = designComponent({
                             <div class="pro-home-header-info-item">
                                 <pl-icon icon="el-icon-s-fold"/>
                             </div>
+                            <span></span>
                         </div>
                         <div>
                             <div class="pro-home-header-info-item">

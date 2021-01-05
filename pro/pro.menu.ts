@@ -9,19 +9,25 @@ export type ProHomeMenuData = {
 
 export const ProMenus: ProHomeMenuData[] = [
     {
-        title: '页面一',
-        path: 'nav/nav-first-page',
-        icon: 'el-icon-paperclip',
-    },
-    {
-        title: '页面二',
-        path: 'nav/nav-second-page',
-        icon: 'el-icon-share',
-    },
-    {
-        title: '页面三',
-        path: 'nav/nav-third-page',
-        icon: 'el-icon-s-ticket',
+        title: '文件夹',
+        icon: 'el-icon-folder',
+        children: [
+            {
+                title: '页面一',
+                path: 'nav/nav-first-page',
+                icon: 'el-icon-paperclip',
+            },
+            {
+                title: '页面二',
+                path: 'nav/nav-second-page',
+                icon: 'el-icon-share',
+            },
+            {
+                title: '页面三',
+                path: 'nav/nav-third-page',
+                icon: 'el-icon-s-ticket',
+            },
+        ],
     },
     {
         title: "仪表盘",
