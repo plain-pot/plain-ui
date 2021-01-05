@@ -1,6 +1,9 @@
 <template>
     <div>
         我是页面一,{{$nav}}
+        <div>
+            <pl-input/>
+        </div>
     </div>
 </template>
 

@@ -1,6 +1,9 @@
 <template>
     <div>
         我是页面二
+        <div>
+            <pl-input/>
+        </div>
     </div>
 </template>
 
