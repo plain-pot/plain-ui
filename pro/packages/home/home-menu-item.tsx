@@ -27,7 +27,7 @@ export const ProHomeMenuItem = designComponent({
                  key={menu.title}
                  onClick={() => onClickContent(menu)}
             >
-                {!!menu.icon && <pl-icon icon={menu.icon}/>}
+                <span class="pro-home-menu-item-icon">{!!menu.icon && <pl-icon icon={menu.icon}/>}</span>
                 <span>{menu.title}</span>
                 {hasChildren.value && (
                     <div class="pro-home-menu-item-expander">
@@ -46,7 +46,7 @@ export const ProHomeMenuItem = designComponent({
                             {props.menu.expand === true && (
                                 <div class="pro-home-menu-children">
                                     {props.menu.children.map((child) => (
-                                        <ProHomeMenuItem menu={child} basePadding={props.basePadding + 16}/>
+                                        <ProHomeMenuItem menu={child} basePadding={props.basePadding + 8}/>
                                     ))}
                                 </div>
                             )}
