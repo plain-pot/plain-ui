@@ -22,6 +22,8 @@
         },
     })
 
+    navigator.init()
+
     export default {
         name: "App",
         components: {

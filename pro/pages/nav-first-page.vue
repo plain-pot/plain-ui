@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>我是页面一</h4>
+        我是页面一
     </div>
 </template>
 

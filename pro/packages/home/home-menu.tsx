@@ -18,7 +18,7 @@ export const ProHomeMenu = designComponent({
                     </div>
                     <div class="pro-home-menu-content">
                         <pl-scroll fitHostWidth>
-                            {props.menus.map((menu, index) => <ProHomeMenuItem key={index} menu={menu}/>)}
+                            {props.menus.map((menu, index) => <ProHomeMenuItem key={index} menu={menu} nav={props.nav}/>)}
                         </pl-scroll>
                     </div>
                 </div>

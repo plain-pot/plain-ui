@@ -1,17 +1,28 @@
 import {designComponent} from "../../../src/use/designComponent";
 import {PropType, computed} from 'vue';
 import {ProHomeMenuData} from "./home.utils";
+import {NavigatorManager, PageConfig} from "../../../src/packages/nav/NavigatorManager";
 
 export const ProHomeMenuItem = designComponent({
     props: {
         menu: {type: Object as PropType<ProHomeMenuData>, required: true},
         basePadding: {type: Number, default: 16},
+        nav: {type: Object as PropType<NavigatorManager>, required: true},
     },
     setup({props}) {
 
         const hasChildren = computed(() => !!props.menu.children && props.menu.children.length > 0)
 
-        const onClickContent = (menu: ProHomeMenuData) => {
+        const onClickContent = async (menu: ProHomeMenuData) => {
+            if (!!menu.path) {
+                const pageConfig: PageConfig = {
+                    title: menu.title,
+                    path: menu.path,
+                    icon: menu.icon,
+                    data: {menu},
+                }
+                await props.nav.openTab(pageConfig)
+            }
             if (!hasChildren.value) return
             menu.expand = !menu.expand
         }
@@ -46,7 +57,7 @@ export const ProHomeMenuItem = designComponent({
                             {props.menu.expand === true && (
                                 <div class="pro-home-menu-children">
                                     {props.menu.children.map((child) => (
-                                        <ProHomeMenuItem menu={child} basePadding={props.basePadding + 8}/>
+                                        <ProHomeMenuItem menu={child} basePadding={props.basePadding + 8} nav={props.nav}/>
                                     ))}
                                 </div>
                             )}
