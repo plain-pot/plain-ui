@@ -1,10 +1,26 @@
 <template>
-    <pro-home :menus="ProMenus"/>
+    <pro-home :menus="ProMenus" :nav="navigator"/>
 </template>
 
 <script>
     import {ProHome} from "./packages/home/home";
     import {ProMenus} from "./pro.menu";
+    import {createNavigatorManager, NavRouteMode} from "../src/packages/nav/NavigatorManager";
+
+    const navigator = createNavigatorManager({
+        routerMode: NavRouteMode.hash,
+        getPage: async (pageConfig) => {
+            let {path} = pageConfig
+            if (path.endsWith('.vue')) {
+                path = path.slice(0, path.length - 4)
+            }
+            return (await import('pro/pages/' + path)).default
+        },
+        defaultPage: {
+            title: '主页',
+            path: 'nav-first-page',
+        },
+    })
 
     export default {
         name: "App",
@@ -14,6 +30,7 @@
         data() {
             return {
                 ProMenus,
+                navigator,
             }
         },
     }

@@ -2,10 +2,12 @@ import {designComponent} from "../../../src/use/designComponent";
 import {PropType} from 'vue';
 import {ProHomeMenuData} from "./home.utils";
 import {ProHomeMenuItem} from "./home-menu-item";
+import {NavigatorManager} from "../../../src/packages/nav/NavigatorManager";
 
 export const ProHomeMenu = designComponent({
     props: {
         menus: {type: Array as PropType<ProHomeMenuData[]>, required: true},
+        nav: {type: Object as PropType<NavigatorManager>, required: true},
     },
     setup({props}) {
         return {

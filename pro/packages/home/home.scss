@@ -42,6 +42,7 @@
         color: $colorPrimary;
         font-weight: 600;
         font-size: 18px;
+        letter-spacing: 4px;
       }
 
       .pro-home-menu-content {
@@ -130,6 +131,9 @@
       bottom: 0;
       overflow: hidden;
       background-color: #f0f2f5;
+      padding-top: $headSize;
+      padding-left: $menuSize;
+      box-sizing: border-box;
     }
   }
 }
