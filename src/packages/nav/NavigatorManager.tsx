@@ -88,7 +88,6 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         openTab: async (pageConfig: PageConfig) => {
             const newStack = utils.createStack(pageConfig)
             state.stacks.push(newStack)
-            await tabMethods.hideTab()
             await tabMethods.showTab(newStack.id)
         },
         /*关闭tab*/
@@ -99,6 +98,7 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         getCurrentTab: () => {/*todo*/},
         /*显示tab*/
         showTab: async (stackId: string) => {
+            await tabMethods.hideTab()
             const stack = state.stacks.find(item => item.id === stackId)
             if (!!stack) {
                 stack.show = true
@@ -142,13 +142,14 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         await tabMethods.openTab(config.defaultPage)
     }
 
-    return {
+    return reactive({
         utils,
         ...tabMethods,
         ...pageMethods,
         state,
         init,
-    }
+        currentStack,
+    })
 }
 
 export type NavigatorManager = ReturnType<typeof createNavigatorManager>

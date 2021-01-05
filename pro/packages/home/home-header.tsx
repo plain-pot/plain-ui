@@ -1,5 +1,5 @@
 import {designComponent} from "../../../src/use/designComponent";
-import {NavigatorManager} from "../../../src/packages/nav/NavigatorManager";
+import {NavigatorManager, Stack} from "../../../src/packages/nav/NavigatorManager";
 import {PropType} from 'vue';
 
 export const ProHomeHeader = designComponent({
@@ -7,6 +7,11 @@ export const ProHomeHeader = designComponent({
         nav: {type: Object as PropType<NavigatorManager>, required: true},
     },
     setup({props}) {
+
+        const onClickTab = async (stack: Stack) => {
+            await props.nav.showTab(stack.id)
+        }
+
         return {
             render: () => (
                 <div class="pro-home-header">
@@ -61,11 +66,16 @@ export const ProHomeHeader = designComponent({
                         <pl-scroll fitHostWidth scrollY={false}>
                             <div class="pro-home-header-tab-list">
                                 {props.nav.state.stacks.sort((a, b) => a.id.localeCompare(b.id)).map((stack, index) => (
-                                    <div class="pro-home-header-tab" key={index}>
+                                    <div class={[
+                                        'pro-home-header-tab',
+                                        {'pro-home-header-tab-active': !!props.nav.currentStack && props.nav.currentStack.id === stack.id}
+                                    ]}
+                                         key={index}
+                                         onClick={() => onClickTab(stack)}>
                                         {!!stack.pageConfig.icon && <pl-icon icon={stack.pageConfig.icon}/>}
                                         <span>
-                                    {typeof stack.pageConfig.title === "string" ? stack.pageConfig.title : stack.pageConfig.title(stack.pageConfig)}
-                                </span>
+                                            {typeof stack.pageConfig.title === "string" ? stack.pageConfig.title : stack.pageConfig.title(stack.pageConfig)}
+                                        </span>
                                     </div>
                                 ))}
                             </div>

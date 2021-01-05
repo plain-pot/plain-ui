@@ -31,7 +31,10 @@ export const ProHomeMenuItem = designComponent({
             <div class={[
                 'pro-home-menu-item-content',
                 {
-                    'pro-home-menu-item-expand': menu.expand
+                    'pro-home-menu-item-expand': menu.expand,
+                    'pro-home-menu-item-active': !!props.nav.currentStack &&
+                        menu.title == props.nav.currentStack.pageConfig.title &&
+                        menu.path == props.nav.currentStack.pageConfig.path,
                 }
             ]}
                  style={{paddingLeft: `${props.basePadding}px`}}

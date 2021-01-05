@@ -12,7 +12,7 @@ export const NavStack = designComponent({
     setup({props}) {
         return {
             render: () => (
-                <div class="pl-nav-stack">
+                <div class="pl-nav-stack" v-show={props.stack.show}>
                     {props.stack.pages.map((page, index) => {
                         return (
                             <NavPage

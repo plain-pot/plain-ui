@@ -89,6 +89,7 @@
           color: $itc;
           position: relative;
           border-radius: 2px;
+          transition: all 300ms $transition;
 
           .pl-icon {
             margin-right: 4px;
@@ -112,6 +113,11 @@
 
           &:active {
             background-color: rgba($colorPrimary, 0.2);
+          }
+
+          &.pro-home-header-tab-active {
+            background-color: $colorPrimary;
+            color: white;
           }
         }
       }
@@ -193,13 +199,13 @@
               line-height: normal;
             }
 
-            &:hover, &.pro-home-menu-item-expand {
+            &:hover, &.pro-home-menu-item-expand, &.pro-home-menu-item-active {
               &, & .pl-icon {
                 color: $colorPrimary;
               }
             }
 
-            &:hover {
+            &:hover, &.pro-home-menu-item-active {
               background-color: rgba($colorPrimary, 0.1);
             }
 
@@ -210,6 +216,10 @@
                   transform: rotateX(180deg);
                 }
               }
+            }
+
+            &.pro-home-menu-item-active {
+              border-right: solid 5px $colorPrimary;
             }
           }
         }

@@ -17,7 +17,7 @@
             return (await import('pro/pages/' + path)).default
         },
         defaultPage: {
-            title: '主页',
+            title: '页面一',
             path: 'nav/nav-first-page',
             icon: 'el-icon-s-shop',
         },
