@@ -4,4 +4,5 @@ export type ProHomeMenuData = {
     icon?: string,
     data?: any,
     children?: ProHomeMenuData[],
+    expand?: boolean,
 }

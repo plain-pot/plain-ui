@@ -55,12 +55,12 @@
           .pro-home-menu-item-content {
             height: 40px;
             line-height: 40px;
-            margin-top: 4px;
-            margin-bottom: 8px;
             color: $itc;
             position: relative;
             cursor: pointer;
             font-size: 14px;
+            padding-right: 40px;
+            box-sizing: border-box;
 
             &, & .pl-icon {
               transition: all 300ms linear;
@@ -76,6 +76,12 @@
               justify-content: center;
               width: 40px;
               color: $icc;
+              transition: transform .3s cubic-bezier(.645, .045, .355, 1);
+              perspective: 150px;
+
+              .pl-icon {
+                transform: rotate(0);
+              }
             }
 
             & > * {
@@ -87,11 +93,22 @@
               color: $icc;
             }
 
-            &:hover {
-              background-color: rgba($colorPrimary, 0.1);
-
+            &:hover, &.pro-home-menu-item-expand {
               &, & .pl-icon {
                 color: $colorPrimary;
+              }
+            }
+
+            &:hover {
+              background-color: rgba($colorPrimary, 0.1);
+            }
+
+            &.pro-home-menu-item-expand {
+              //border-right: solid 3px $colorPrimary;
+              & > .pro-home-menu-item-expander {
+                .pl-icon {
+                  transform: rotateX(180deg);
+                }
               }
             }
           }
