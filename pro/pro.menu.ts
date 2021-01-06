@@ -19,6 +19,15 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
+        title: '订单行',
+        icon: 'el-icon-tools',
+        children: [
+            {title: '订单系列', path: 'order/order-series'},
+            {title: '订单层次', path: 'order/order-levels'},
+            {title: '订单分类', path: 'order/order-category'},
+        ],
+    },
+    {
         title: '文件夹',
         icon: 'el-icon-folder',
         children: [

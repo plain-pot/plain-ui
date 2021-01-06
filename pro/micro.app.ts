@@ -35,18 +35,19 @@ export const MicroAppManager = (() => {
             if (!!app.config.getPage) {
                 return await app.config.getPage(pageConfig)
             } else {
-                console.log('加载子应用')
+                console.log('匹配子应用', app.config.name)
                 if (!app.entry) {
                     try {
+                        console.log('加载子应用', app.config.name)
                         const html = await importHTML(app.config.url!)
                         app.assetPublicPath = html.assetPublicPath
                         app.entry = (await html.execScripts())
+                        await app.entry!.bootstrap(app)
                     } catch (e) {
                         $$notice.error(`加载子应用【${app.config.name}】失败！`)
                         throw  e
                     }
                 }
-                await app.entry!.bootstrap(app)
                 return await app.entry!.getPage(pageConfig)
             }
         } else {

@@ -4,8 +4,13 @@ import {MicroAppManager} from "./micro.app";
 
 MicroAppManager.registryApplication({
     name: '产品',
-    url: 'http://localhost:3335/plain-sub-prod/micro.html',
+    url: 'http://localhost:3330/plain-sub-prod/micro.html',
     pattern: /^\/?prod/,
+})
+MicroAppManager.registryApplication({
+    name: '订单',
+    url: 'http://localhost:3331/plain-sub-order/micro.html',
+    pattern: /^\/?order/,
 })
 
 MicroAppManager.registryApplication({
