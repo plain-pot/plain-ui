@@ -1,5 +1,8 @@
 import {reactive, computed} from 'vue';
 import {createCounter} from "../../utils/createCounter";
+import {MicroApp, MicroAppConfig, MicroAppLoader} from "../../../pro/micro.app";
+import {$$notice} from "../notice-service";
+import importHTML from 'import-html-entry';
 
 const nextStackId = createCounter('navigator_stack')
 const nextPageId = createCounter('navigator_page')
@@ -47,16 +50,16 @@ export interface Stack<DATA = any> {
 interface NavigatorManagerConfig {
     routerMode: NavRouteMode,                                   // 路由模式，解析url的时候是哈希路由还是history路由
     defaultPage: PageConfig,                                    // 当没有指定路由，也没有缓存的页面时，默认打开的页面
-    getPage: GetPage,                                           // 根据PageConfig获取页面组件对象
     storageKey?: string,                                        // 多页面应用中可能会存在缓存冲突的问题。通过这个属性可以隔离多页面应用之间的缓存
     maxStack?: number,                                          // 最大的可以打开的stack个数
-    generateStackId?: GenerateStackId,
+    generateStackId?: GenerateStackId,                          // 生成StackId的函数
+    microAppConfig?: MicroAppConfig[],
 }
 
 export function createNavigatorManager(config: NavigatorManagerConfig) {
-    const state = reactive({
-        stacks: [] as Stack[],
-    })
+
+    const apps: MicroApp[] = (config.microAppConfig || []).map(config => ({config}))
+    const state = reactive({stacks: [] as Stack[],})
     /*当前正在显示的tab*/
     const currentStack = computed(() => state.stacks.filter(s => s.show).shift())
 
@@ -81,11 +84,37 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
                 show: false,
             }
         },
-        /*获取页面组件*/
-        getPage: (pageConfig: PageConfig) => config.getPage(pageConfig),
+        /*获取页面加载器*/
+        getAppLoader: async (pageConfig: PageConfig): Promise<MicroAppLoader | undefined> => {
+            const app = apps.filter(a => a.config.pattern.test(pageConfig.path)).shift()
+            if (!!app) {
+                console.log('app', app)
+                if (!!app.config.getPage) {
+                    return {getPage:app.config.getPage}
+                } else {
+                    console.log('匹配子应用', app.config.name)
+                    if (!app.loader) {
+                        try {
+                            console.log('加载子应用', app.config.name)
+                            const html = await importHTML(app.config.url!)
+                            app.assetPublicPath = html.assetPublicPath
+                            const bootstrap = ((await html.execScripts()) as any).default
+                            console.log(bootstrap)
+                            app.loader = await bootstrap(app)
+                        } catch (e) {
+                            $$notice.error(`加载子应用【${app.config.name}】失败！`)
+                            throw  e
+                        }
+                    }
+                    return app.loader!
+                }
+            } else {
+                console.error('无子应用可以处理该页面！', pageConfig)
+            }
+        },
         /*查找一个Stack*/
-        findStack<DATA = any>(judjement: (stack: Stack<DATA>) => boolean): Stack<DATA> | undefined {
-            return state.stacks.find(judjement)
+        findStack<DATA = any>(judgement: (stack: Stack<DATA>) => boolean): Stack<DATA> | undefined {
+            return state.stacks.find(judgement)
         },
     }
     const tabMethods = {

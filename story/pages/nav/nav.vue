@@ -18,13 +18,6 @@
 
     const navigator = createNavigatorManager({
         routerMode: NavRouteMode.hash,
-        getPage: async (pageConfig) => {
-            let {path} = pageConfig
-            if (path.endsWith('.vue')) {
-                path = path.slice(0, path.length - 4)
-            }
-            return (await import('story/pages/' + path)).default
-        },
         defaultPage: {
             title: '主页',
             path: 'nav/nav-first-page',

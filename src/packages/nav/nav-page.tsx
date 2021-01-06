@@ -1,7 +1,9 @@
 import {designComponent} from "../../use/designComponent";
-import {markRaw, PropType, reactive, watch} from 'vue';
+import {markRaw, PropType, reactive, watch, nextTick, onBeforeUnmount} from 'vue';
 import {Page} from "./NavigatorManager";
 import Nav from './nav'
+import {useRefs} from "../../use/useRefs";
+import {SimpleFunction} from "../../shims";
 
 export const NavPage = designComponent({
     name: 'pl-nav-page',
@@ -11,22 +13,44 @@ export const NavPage = designComponent({
     },
     setup({props}) {
 
+        const {refs} = useRefs({
+            el: HTMLDivElement
+        })
+
         const parent = Nav.use.inject()
 
         const state = reactive({
             PageComponent: null as any,
+            renderEl: false,
         });
 
+        let unmountHandler: null | SimpleFunction = null;
+
         (async () => {
-            const Component = await parent.props.nav.utils.getPage(props.page.pageConfig)
-            state.PageComponent = markRaw(Component)
+            const loader = await parent.props.nav.utils.getAppLoader(props.page.pageConfig)
+            if (!!loader) {
+                if ('getPage' in loader) {
+                    const Component = await loader.getPage(props.page.pageConfig)
+                    state.PageComponent = markRaw(Component)
+                } else {
+                    state.renderEl = true
+                    await nextTick()
+                    const mountData = await loader.mount(refs.el!, props.page.pageConfig)
+                    unmountHandler = () => loader.unmount(mountData)
+                }
+            }
         })();
+
+        onBeforeUnmount(() => {
+            !!unmountHandler && unmountHandler()
+        })
 
         return {
             render: () => {
                 const {PageComponent} = state
                 return (
                     <div class="pl-nav-page" v-show={props.isLast}>
+                        {state.renderEl && <div ref="el"/>}
                         {PageComponent && <PageComponent/>}
                     </div>
                 )
