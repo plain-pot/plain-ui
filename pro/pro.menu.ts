@@ -8,8 +8,8 @@ export type ProHomeMenuData = {
 }
 
 export const ProMenus: ProHomeMenuData[] = [
-    {title: '产品行', path: 'prod/prod-series', icon: 'el-icon-tools',},
-    /*{
+    // {title: '产品行', path: 'prod/prod-series', icon: 'el-icon-tools',},
+    {
         title: '产品行',
         icon: 'el-icon-tools',
         children: [
@@ -17,7 +17,7 @@ export const ProMenus: ProHomeMenuData[] = [
             {title: '产品层次', path: 'prod/prod-levels'},
             {title: '产品分类', path: 'prod/prod-category'},
         ],
-    },*/
+    },
     {
         title: '文件夹',
         icon: 'el-icon-folder',

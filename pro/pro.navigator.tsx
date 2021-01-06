@@ -3,10 +3,13 @@ import {ProHomeMenuData} from "./pro.menu";
 import {MicroAppManager} from "./micro.app";
 
 MicroAppManager.registryApplication({
+    name: '产品',
     url: 'http://localhost:3335/plain-sub-prod/micro.html',
     pattern: /^\/?prod/,
 })
+
 MicroAppManager.registryApplication({
+    name: '主应用',
     pattern: /^\/?pro/,
     getPage: async (pageConfig) => {
         let {path} = pageConfig
