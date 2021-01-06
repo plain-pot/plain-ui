@@ -15,14 +15,12 @@ export const NavPage = designComponent({
 
         const state = reactive({
             PageComponent: null as any,
-        })
+        });
 
-        watch(() => props.page.pageConfig, async pageConfig => {
-            const Component = await parent.props.nav.utils.getPage(pageConfig)
+        (async () => {
+            const Component = await parent.props.nav.utils.getPage(props.page.pageConfig)
             state.PageComponent = markRaw(Component)
-        }, {
-            immediate: true
-        })
+        })();
 
         return {
             render: () => {
