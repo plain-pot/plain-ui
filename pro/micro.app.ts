@@ -34,7 +34,7 @@ export const MicroAppManager = (() => {
         if (!!app) {
             console.log('app', app)
             if (!!app.config.getPage) {
-                return {page: await app.config.getPage(pageConfig)}
+                return await app.config.getPage(pageConfig)
             } else {
                 console.log('匹配子应用', app.config.name)
                 if (!app.entry) {
