@@ -1,4 +1,4 @@
-import {GetPage, PageConfig} from "../src/packages/nav/NavigatorManager";
+import {PageConfig} from "../src/packages/nav/NavigatorManager";
 import importHTML from 'import-html-entry';
 import {$$notice} from "../src/packages/notice-service";
 
@@ -9,15 +9,16 @@ interface MicroAppConfig {
     getPage?: (pageConfig: PageConfig) => Promise<any>,         // 子应用获取页面的方式
 }
 
-interface MicroAppEntry {
-    bootstrap: (app: MicroApp) => Promise<void>,
-    getPage: GetPage,
+type MicroAppEntry = { getPage: (pageConfig: PageConfig) => Promise<any> }
+    | {
+    mount: (el: HTMLDivElement, pageConfig: PageConfig) => Promise<any>,
+    unmount: (data: any) => Promise<void>
 }
 
 interface MicroApp {
     config: MicroAppConfig,
-    entry?: MicroAppEntry,
     assetPublicPath?: string,
+    entry?: MicroAppEntry,
 }
 
 
@@ -41,14 +42,16 @@ export const MicroAppManager = (() => {
                         console.log('加载子应用', app.config.name)
                         const html = await importHTML(app.config.url!)
                         app.assetPublicPath = html.assetPublicPath
-                        app.entry = (await html.execScripts())
-                        await app.entry!.bootstrap(app)
+                        const bootstrap = ((await html.execScripts()) as any).default
+                        console.log(bootstrap)
+                        app.entry = await bootstrap(app)
                     } catch (e) {
                         $$notice.error(`加载子应用【${app.config.name}】失败！`)
                         throw  e
                     }
                 }
-                return await app.entry!.getPage(pageConfig)
+                // todo
+                console.log(app.entry)
             }
         } else {
             console.error('无子应用可以处理该页面！', pageConfig)
