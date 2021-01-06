@@ -189,7 +189,8 @@
             }
 
             &, & .pl-icon {
-              transition: all 300ms linear;
+              transition: 300ms linear;
+              transition-property: background-color, color;
             }
 
             & > .pro-home-menu-item-expander {

@@ -3,6 +3,7 @@ import {createCounter} from "../../utils/createCounter";
 import {MicroApp, MicroAppConfig, MicroAppLoader} from "../../../pro/micro.app";
 import {$$notice} from "../notice-service";
 import importHTML from 'import-html-entry';
+import {defer} from "../../utils/defer";
 
 const nextStackId = createCounter('navigator_stack')
 const nextPageId = createCounter('navigator_page')
@@ -88,18 +89,24 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         getAppLoader: async (pageConfig: PageConfig): Promise<MicroAppLoader | undefined> => {
             const app = apps.filter(a => a.config.pattern.test(pageConfig.path)).shift()
             if (!!app) {
-                console.log('app', app)
+                console.log('匹配子应用：', {app: app.config.name, url: pageConfig.path})
                 if (!!app.config.getPage) {
-                    return {getPage:app.config.getPage}
+                    return {getPage: app.config.getPage}
                 } else {
-                    console.log('匹配子应用', app.config.name)
                     if (!app.loader) {
                         try {
-                            console.log('加载子应用', app.config.name)
-                            const html = await importHTML(app.config.url!)
-                            app.assetPublicPath = html.assetPublicPath
-                            const bootstrap = ((await html.execScripts()) as any).default
-                            app.loader = await bootstrap(app)
+                            if (!!app.loadWork) {
+                                await app.loadWork
+                            } else {
+                                console.log('加载子应用', app.config.name)
+                                const dfd = defer<MicroAppLoader>()
+                                app.loadWork = dfd.promise
+                                const html = await importHTML(app.config.url!)
+                                app.assetPublicPath = html.assetPublicPath
+                                const bootstrap = ((await html.execScripts()) as any).default
+                                app.loader = await bootstrap(app)
+                                dfd.resolve(app.loader!)
+                            }
                         } catch (e) {
                             $$notice.error(`加载子应用【${app.config.name}】失败！`)
                             throw  e

@@ -19,6 +19,7 @@ export type MicroAppLoader =
 export interface MicroApp {
     config: MicroAppConfig,
     assetPublicPath?: string,
+    loadWork?: Promise<MicroAppLoader>,
     loader?: MicroAppLoader,
 }
 

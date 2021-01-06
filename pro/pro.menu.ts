@@ -31,9 +31,9 @@ export const ProMenus: ProHomeMenuData[] = [
         title: 'Vue页面(子应用)',
         icon: 'el-icon-tools',
         children: [
-            {title: '页面一', path: 'sub-vue/vue-page-1'},
-            {title: '页面二', path: 'sub-vue/vue-page-2'},
-            {title: '页面三', path: 'sub-vue/vue-page-3'},
+            {title: 'Vue页面一', path: 'sub-vue/vue-page-1'},
+            {title: 'Vue页面二', path: 'sub-vue/vue-page-2'},
+            {title: 'Vue页面三', path: 'sub-vue/vue-page-3'},
         ],
     },
     {
