@@ -34,7 +34,7 @@ export const MicroAppManager = (() => {
         if (!!app) {
             console.log('app', app)
             if (!!app.config.getPage) {
-                return await app.config.getPage(pageConfig)
+                return {page: await app.config.getPage(pageConfig)}
             } else {
                 console.log('匹配子应用', app.config.name)
                 if (!app.entry) {
@@ -50,8 +50,13 @@ export const MicroAppManager = (() => {
                         throw  e
                     }
                 }
-                // todo
-                console.log(app.entry)
+                const entry = app.entry!
+                if ('getPage' in entry) {
+                    return {page: await entry.getPage(pageConfig)}
+                } else {
+                    const {mount, unmount} = entry
+                    return {mount, unmount}
+                }
             }
         } else {
             console.error('无子应用可以处理该页面！', pageConfig)
