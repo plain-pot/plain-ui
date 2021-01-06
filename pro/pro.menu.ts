@@ -10,7 +10,7 @@ export type ProHomeMenuData = {
 export const ProMenus: ProHomeMenuData[] = [
     // {title: '产品行', path: 'prod/prod-series', icon: 'el-icon-tools',},
     {
-        title: '产品行',
+        title: '产品（主应用子模块）',
         icon: 'el-icon-tools',
         children: [
             {title: '产品系列', path: 'prod/prod-series'},
@@ -19,7 +19,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: '订单行',
+        title: '订单（主应用子模块）',
         icon: 'el-icon-tools',
         children: [
             {title: '订单系列', path: 'order/order-series'},
@@ -28,7 +28,16 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: '文件夹',
+        title: 'Vue子应用',
+        icon: 'el-icon-tools',
+        children: [
+            {title: '页面一', path: 'sub-vue/vue-page-1'},
+            {title: '页面二', path: 'sub-vue/vue-page-2'},
+            {title: '页面三', path: 'sub-vue/vue-page-3'},
+        ],
+    },
+    {
+        title: '测试导航组件',
         icon: 'el-icon-folder',
         children: [
             {
@@ -49,7 +58,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "仪表盘",
+        title: "系统仪表盘",
         icon: 'el-icon-s-grid',
         children: [
             {title: '分析', path: 'dsad',},
@@ -58,7 +67,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "表单页",
+        title: "表单页示例",
         icon: 'el-icon-edit-outline',
         children: [
             {title: '基础表单', path: 'nw2131ge',},
@@ -67,7 +76,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "列表页",
+        title: "列表页示例",
         icon: 'el-icon-list',
         children: [
             {
@@ -83,7 +92,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "详情页",
+        title: "详情页示例",
         icon: 'el-icon-document',
         children: [
             {title: '基础详情页', path: 'tyutge',},
@@ -91,7 +100,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "结果页",
+        title: "结果页示例",
         icon: 'el-icon-check-bold',
         children: [
             {title: '成功', path: 'nEG6U356e',},
@@ -99,7 +108,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "异常页",
+        title: "异常页示例",
         icon: 'el-icon-close-bold',
         children: [
             {title: '权限不足（403）', path: 'nHYTKU7K6',},
@@ -108,7 +117,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: "个人页",
+        title: "个人页示例",
         icon: 'el-icon-s-tools',
         children: [
             {title: '个人设置', path: 'n654U5Je',},

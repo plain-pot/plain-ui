@@ -2,15 +2,23 @@ import {createNavigatorManager, NavRouteMode, PageConfig} from "../src/packages/
 import {ProHomeMenuData} from "./pro.menu";
 import {MicroAppManager} from "./micro.app";
 
+/*主应用子模块*/
 MicroAppManager.registryApplication({
     name: '产品',
     url: 'http://localhost:3330/plain-sub-prod/micro.html',
     pattern: /^\/?prod/,
 })
+/*主应用子模块*/
 MicroAppManager.registryApplication({
     name: '订单',
     url: 'http://localhost:3331/plain-sub-order/micro.html',
     pattern: /^\/?order/,
+})
+/*子应用*/
+MicroAppManager.registryApplication({
+    name: 'Vue子应用',
+    url: 'http://localhost:3328/plain-sub-vue/micro.html',
+    pattern: /^\/?sub-vue/,
 })
 
 MicroAppManager.registryApplication({
