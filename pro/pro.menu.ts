@@ -28,7 +28,7 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
-        title: 'Vue子应用',
+        title: 'Vue页面(子应用)',
         icon: 'el-icon-tools',
         children: [
             {title: '页面一', path: 'sub-vue/vue-page-1'},

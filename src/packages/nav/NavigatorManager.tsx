@@ -99,7 +99,6 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
                             const html = await importHTML(app.config.url!)
                             app.assetPublicPath = html.assetPublicPath
                             const bootstrap = ((await html.execScripts()) as any).default
-                            console.log(bootstrap)
                             app.loader = await bootstrap(app)
                         } catch (e) {
                             $$notice.error(`加载子应用【${app.config.name}】失败！`)
