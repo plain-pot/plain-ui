@@ -105,7 +105,7 @@
             margin-left: 2px;
           }
 
-          &:hover {
+          &:hover:not(.pro-home-header-tab-active) {
             background-color: rgba($colorPrimary, 0.1);
 
             span, .pl-icon {
