@@ -88,35 +88,36 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         /*获取页面加载器*/
         getAppLoader: async (pageConfig: PageConfig): Promise<MicroAppLoader | undefined> => {
             const app = apps.filter(a => a.config.pattern.test(pageConfig.path)).shift()
-            if (!!app) {
-                console.log('匹配子应用：', {app: app.config.name, url: pageConfig.path})
-                if (!!app.config.getPage) {
-                    return {getPage: app.config.getPage}
-                } else {
-                    if (!app.loader) {
-                        try {
-                            if (!!app.loadWork) {
-                                await app.loadWork
-                            } else {
-                                console.log('加载子应用', app.config.name)
-                                const dfd = defer<MicroAppLoader>()
-                                app.loadWork = dfd.promise
-                                const html = await importHTML(app.config.url!)
-                                app.assetPublicPath = html.assetPublicPath
-                                const bootstrap = ((await html.execScripts()) as any).default
-                                app.loader = await bootstrap(app)
-                                dfd.resolve(app.loader!);
-                            }
-                        } catch (e) {
-                            $$notice.error(`加载子应用【${app.config.name}】失败！`)
-                            throw  e
-                        }
-                    }
-                    return app.loader!
-                }
-            } else {
+            if (!app) {
                 console.error('无子应用可以处理该页面！', pageConfig)
+                return
             }
+            console.log('匹配子应用：', {app: app.config.name, url: pageConfig.path})
+            if (!!app.config.loader) {return app.config.loader}
+            if (!app.config.url) {
+                console.error('子应用信息错误，app.config.url 以及 app.config.loader 不能同时为空')
+                return
+            }
+            if (!app.loader) {
+                try {
+                    if (!!app.loadWork) {
+                        await app.loadWork
+                    } else {
+                        console.log('加载子应用', app.config.name)
+                        const dfd = defer<MicroAppLoader>()
+                        app.loadWork = dfd.promise
+                        const html = await importHTML(app.config.url!)
+                        app.assetPublicPath = html.assetPublicPath
+                        const bootstrap = ((await html.execScripts()) as any).default
+                        app.loader = await bootstrap(app)
+                        dfd.resolve(app.loader!);
+                    }
+                } catch (e) {
+                    $$notice.error(`加载子应用【${app.config.name}】失败！`)
+                    throw  e
+                }
+            }
+            return app.loader!
         },
         /*查找一个Stack*/
         findStack<DATA = any>(judgement: (stack: Stack<DATA>) => boolean): Stack<DATA> | undefined {

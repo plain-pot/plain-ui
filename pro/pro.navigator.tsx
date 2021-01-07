@@ -8,13 +8,15 @@ export const proNav = createNavigatorManager({
         createLocalModule({
             name: '主应用',
             pattern: /^\/?pro\//,
-            getPage: async (pageConfig) => {
-                let {path} = pageConfig
-                path = path.replace(/\/?pro\//, '')
-                if (path.endsWith('.vue')) {
-                    path = path.slice(0, path.length - 4)
+            loader: {
+                getPage: async (pageConfig) => {
+                    let {path} = pageConfig
+                    path = path.replace(/\/?pro\//, '')
+                    if (path.endsWith('.vue')) {
+                        path = path.slice(0, path.length - 4)
+                    }
+                    return (await import('pro/pages/' + path)).default
                 }
-                return (await import('pro/pages/' + path)).default
             }
         }),
         createSubApplication({
