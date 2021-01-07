@@ -122,6 +122,9 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         findStack<DATA = any>(judgement: (stack: Stack<DATA>) => boolean): Stack<DATA> | undefined {
             return state.stacks.find(judgement)
         },
+        registryMicroApp: (config: MicroAppConfig) => {
+            apps.unshift({config})
+        },
     }
     const tabMethods = {
         /*打开一个tab*/
@@ -201,7 +204,7 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
         tabMethods,
         pageMethods,
         ...tabMethods,
-
+        registryMicroApp: utils.registryMicroApp,
         init,
     })
 }
