@@ -4,8 +4,8 @@ const buildConfig = require('../build.config')
 const APP_NAME = 'main-application'
 
 module.exports = {
-    publicPath: '/plain-ui/',                       // plain-ui仓库专用
-    // publicPath: '/plain-ui-pro/',                // plain-ui-pro 仓库专用
+    // publicPath: '/plain-ui/',                       // plain-ui仓库专用
+    publicPath: '/plain-ui-pro/',                // plain-ui-pro 仓库专用
     devServer: {
         port: '3334',
         // 关闭主机检查，使微应用可以被 fetch
