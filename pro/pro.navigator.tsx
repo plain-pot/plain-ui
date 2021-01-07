@@ -36,7 +36,7 @@ export const proNav = createNavigatorManager({
         }),
         createSubApplication({
             name: 'React子应用',
-            url: 'http://localhost:3327/plain-sub-react/index.html',
+            url: 'http://martsforever-demo.gitee.io/plain-sub-react/',
             pattern: /^\/?sub-react\//,
         }),
     ],
