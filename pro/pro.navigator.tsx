@@ -32,6 +32,11 @@ export const proNav = createNavigatorManager({
             url: 'http://localhost:3328/plain-sub-vue/micro.html',
             pattern: /^\/?sub-vue\//,
         }),
+        createSubApplication({
+            name: 'React子应用',
+            url: 'http://localhost:3327/plain-sub-react/index.html',
+            pattern: /^\/?sub-react\//,
+        }),
     ],
     defaultPage: {
         title: '页面一',

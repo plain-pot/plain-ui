@@ -37,6 +37,15 @@ export const ProMenus: ProHomeMenuData[] = [
         ],
     },
     {
+        title: 'React页面(子应用)',
+        icon: 'el-icon-tools',
+        children: [
+            {title: 'React页面一', path: 'sub-react/react-page-1'},
+            {title: 'React页面二', path: 'sub-react/react-page-2'},
+            {title: 'React页面三', path: 'sub-react/react-page-3'},
+        ],
+    },
+    {
         title: '测试导航组件',
         icon: 'el-icon-folder',
         children: [
