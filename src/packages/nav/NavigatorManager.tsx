@@ -107,6 +107,14 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
                         const dfd = defer<MicroAppLoader>()
                         app.loadWork = dfd.promise
                         const html = await importHTML(app.config.url!)
+
+                        const styles: string[] = await html.getExternalStyleSheets()
+                        styles.forEach(style => {
+                            const ele = document.createElement('style') as HTMLStyleElement
+                            ele.innerHTML = style
+                            document.body.appendChild(ele)
+                        })
+
                         app.assetPublicPath = html.assetPublicPath
                         const bootstrap = ((await html.execScripts()) as any).default
                         app.loader = await bootstrap(app)

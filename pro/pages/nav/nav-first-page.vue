@@ -19,7 +19,7 @@
                 nextPage: () => {
                     $nav.push({
                         title: '页面二',
-                        path: 'nav/nav-second-page'
+                        path: 'pro/nav/nav-second-page'
                     })
                 },
             }

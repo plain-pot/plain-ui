@@ -31,7 +31,7 @@ export const proNav = createNavigatorManager({
         }),
         createSubApplication({
             name: 'Vue子应用',
-            url: 'http://localhost:3328/plain-sub-vue/micro.html',
+            url: 'http://martsforever-demo.gitee.io/plain-sub-vue/micro.html',
             pattern: /^\/?sub-vue\//,
         }),
         createSubApplication({
