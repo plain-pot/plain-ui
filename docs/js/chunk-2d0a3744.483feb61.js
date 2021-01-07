@@ -1,0 +1,2 @@
+(window["webpackJsonp_main-application-project"]=window["webpackJsonp_main-application-project"]||[]).push([["chunk-2d0a3744"],{"01f3":function(p){p.exports=JSON.parse("[\"<path d='M896 192H128v128h768V192z m0 256H384v128h512v-128z m0 256H128v128h768v-128zM320 384l-192 128 192 128v-256z'  ></path>\"]")}}]);
+//# sourceMappingURL=chunk-2d0a3744.483feb61.js.map

@@ -1,0 +1,2 @@
+(window["webpackJsonp_main-application-project"]=window["webpackJsonp_main-application-project"]||[]).push([["chunk-2d0b9995"],{3442:function(p){p.exports=JSON.parse("[\"<path d='M192 384l320 384 320-384H192z'  ></path>\"]")}}]);
+//# sourceMappingURL=chunk-2d0b9995.fabe7aaa.js.map
