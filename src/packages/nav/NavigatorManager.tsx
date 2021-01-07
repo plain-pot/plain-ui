@@ -105,7 +105,13 @@ export function createNavigatorManager(config: NavigatorManagerConfig) {
                                 app.assetPublicPath = html.assetPublicPath
                                 const bootstrap = ((await html.execScripts()) as any).default
                                 app.loader = await bootstrap(app)
-                                dfd.resolve(app.loader!)
+                                dfd.resolve(app.loader!);
+
+                                (async ()=>{
+                                    console.log(html)
+                                    // const styleSheets = await html.template
+                                    // console.log({styleSheets})
+                                })();
                             }
                         } catch (e) {
                             $$notice.error(`加载子应用【${app.config.name}】失败！`)

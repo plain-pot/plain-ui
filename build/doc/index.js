@@ -40,6 +40,9 @@ module.exports = {
         config.plugins
             .delete('prefetch-index')
             .delete('preload-index')
+        config.plugins
+            .delete('prefetch-pro')
+            .delete('preload-pro')
 
         config
             .plugin('html-index')
