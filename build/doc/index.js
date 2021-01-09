@@ -55,7 +55,7 @@ module.exports = {
             // 将你的 library 暴露为所有的模块定义下都可运行的方式
             libraryTarget: "umd",
             // 按需加载相关，设置为 webpackJsonp_vue-projec 即可
-            jsonpFunction: `webpackJsonp_${APP_NAME}-project`,
+            jsonpFunction: `webpackJsonp_${APP_NAME}_project`,
         },
     },
     chainWebpack: config => {
