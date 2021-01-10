@@ -62,6 +62,7 @@
         data() {
             return {
                 inputValue: '默认文本',
+                userInfo: {},
             }
         },
         methods: {
@@ -73,7 +74,7 @@
                     transition: 'pl-transition-dialog-right',
                     fullHeight: true,
                     wrapperPadding: false,
-                    render() {
+                    render: () => {
                         return (
                             <pl-form centerWhenSingleColumn>
                                 <pl-form-item label="用户名">

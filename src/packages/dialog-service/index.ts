@@ -39,7 +39,7 @@ export type DialogServiceFormatOption = RequireFormat<DialogServiceOption, 'stat
 }
 
 type DialogServiceFunction = (message: string | DialogServiceOption, option?: DialogServiceOption) => void
-type DialogService = { [k in StyleStatus]: DialogServiceFunction } & { confirm: DialogServiceFunction }
+type DialogService = DialogServiceFunction & { [k in StyleStatus]: DialogServiceFunction } & { confirm: DialogServiceFunction }
 
 function formatOption(o: DialogServiceOption): DialogServiceFormatOption {
     return Object.assign(o, {
@@ -61,8 +61,9 @@ const getDialogService = registryRootService(
             return fo
         }
 
-        return {
-            ...Object.assign(service, Object.keys(StyleStatus).reduce((prev: any, status: any) => {
+        return Object.assign(
+            service,
+            Object.keys(StyleStatus).reduce((prev: any, status: any) => {
                 prev[status] = function (message: string | DialogServiceOption, option?: DialogServiceOption) {
                     const o = typeof message === "object" ? message : {message}
                     if (!!option) {
@@ -72,25 +73,26 @@ const getDialogService = registryRootService(
                     return service(o)
                 }
                 return prev
-            }, {})),
-            confirm: (message, option) => {
-                const dfd = defer()
-                const o = typeof message === "object" ? message : {message}
-                if (!!option) {
-                    Object.assign(o, option)
+            }, {
+                confirm: (message: string | DialogServiceOption, option?: DialogServiceOption) => {
+                    const dfd = defer()
+                    const o = typeof message === "object" ? message : {message}
+                    if (!!option) {
+                        Object.assign(o, option)
+                    }
+                    o.status = o.status || StyleStatus.info
+                    o.confirmButton = true
+                    o.cancelButton = true
+                    const {onConfirm} = o
+                    o.onConfirm = () => {
+                        dfd.resolve();
+                        onConfirm && onConfirm()
+                    }
+                    service(o)
+                    return dfd.promise
                 }
-                o.status = o.status || StyleStatus.info
-                o.confirmButton = true
-                o.cancelButton = true
-                const {onConfirm} = o
-                o.onConfirm = () => {
-                    dfd.resolve();
-                    onConfirm && onConfirm()
-                }
-                service(o)
-                return dfd.promise
-            }
-        } as DialogService
+            })
+        ) as DialogService
     }
 )
 
