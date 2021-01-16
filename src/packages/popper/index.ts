@@ -1,5 +1,4 @@
-import Popper from './popper'
-import PopperService from './service'
+import {PlPopper} from './popper'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Popper, {expose: {PopperService}, plugins: [PopperService]})
+export default createComponentPlugin(PlPopper)

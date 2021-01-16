@@ -6,7 +6,7 @@ import {RootController} from "./registryRootService";
 import {useRefList} from "../../use/useRefList";
 import './root.scss'
 
-export default designComponent({
+export const PlRoot =  designComponent({
     name: 'pl-root',
     props: {
         ...StyleProps,

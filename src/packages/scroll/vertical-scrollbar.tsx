@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
-import Scroll from './scroll'
-import {reactive, computed, resolveDirective, withDirectives} from 'vue';
+import {PlScroll} from './scroll'
+import {computed, reactive, resolveDirective, withDirectives} from 'vue';
 import {useStyles} from "../../use/useStyles";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
@@ -11,7 +11,7 @@ export const VerticalScrollbar = designComponent({
     },
     setup({props}) {
 
-        const scroll = Scroll.use.inject()
+        const scroll = PlScroll.use.inject()
 
         const dragState = {
             top: 0,

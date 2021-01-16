@@ -1,4 +1,4 @@
-import scroll from './scroll'
+import {PlScroll} from './scroll'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(scroll)
+export default createComponentPlugin(PlScroll)

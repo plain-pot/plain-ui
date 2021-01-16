@@ -18,7 +18,7 @@ import {delay} from "plain-utils/utils/delay";
 
 const error = createError('pl-popper')
 
-export default designComponent({
+export const PlPopper = designComponent({
     name: 'pl-popper',
     props: {
         modelValue: {type: Boolean},                                // 双向绑定值，当前是否打开

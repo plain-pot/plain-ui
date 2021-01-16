@@ -1,4 +1,4 @@
-import Root from './root'
+import {PlRoot} from './root'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Root)
+export default createComponentPlugin(PlRoot)

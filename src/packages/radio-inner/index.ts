@@ -1,4 +1,4 @@
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
-import inner from './radio-inner'
+import {PlRadioInner} from './radio-inner'
 
-export default createComponentPlugin(inner)
+export default createComponentPlugin(PlRadioInner)

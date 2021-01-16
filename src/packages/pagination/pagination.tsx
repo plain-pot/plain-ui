@@ -12,7 +12,7 @@ const SizesWidth = {
     mini: 90,
 }
 
-export default designComponent({
+export const PlPagination = designComponent({
     name: 'pl-pagination',
     props: {
         ...StyleProps,

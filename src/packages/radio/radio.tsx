@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import {useSlots} from "../../use/useSlots";
 import {useProps} from "../../use/useProps";
 import {useModel} from "../../use/useModel";
@@ -15,7 +15,7 @@ import Group from '../radio-group'
 import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
 
-export default designComponent({
+export const PlRadio = designComponent({
     name: 'pl-radio',
     directives: {ClickWave},
     props: {

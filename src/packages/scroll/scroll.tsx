@@ -19,7 +19,7 @@ export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     bottom = 'bottom'
 }
 
-const Scroll = designComponent({
+export const PlScroll = designComponent({
     name: 'pl-scroll',
     directives: {resize: ResizeDetectorDirective},
     props: {
@@ -471,6 +471,4 @@ const Scroll = designComponent({
     },
 })
 
-export type PlainScroll = typeof Scroll.use.class
-
-export default Scroll
+export type PlainScroll = typeof PlScroll.use.class

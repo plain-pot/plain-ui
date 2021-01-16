@@ -11,7 +11,7 @@ import './number.scss'
 
 const NAN = 'NAN'
 
-export default designComponent({
+export const PlNumber = designComponent({
     name: 'pl-number',
     directives: {
         ClickWave,

@@ -10,7 +10,7 @@ import {useMounted} from "../../use/useMounted";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 
-export default designComponent({
+export const PlRate = designComponent({
     name: 'pl-rate',
     props: {
         ...EditProps,

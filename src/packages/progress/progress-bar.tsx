@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import {computed} from 'vue';
 
-export const ProgressBar = designComponent({
+export const PlProgressBar = designComponent({
     name: 'pl-progress-bar',
     props: {
         ...PROGRESS_DEFAULT_PROPS,

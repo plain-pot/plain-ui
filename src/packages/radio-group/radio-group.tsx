@@ -7,7 +7,7 @@ import {useModel} from "../../use/useModel";
 import {useProps} from "../../use/useProps";
 import {inject} from 'vue';
 
-export default designComponent({
+export const PlRadioGroup = designComponent({
     name: 'pl-radio-group',
     props: {
         ...EditProps,

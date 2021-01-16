@@ -5,7 +5,6 @@ import {unit} from 'plain-utils/string/unit';
 import {computed, reactive, watch} from 'vue';
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
-import loading from "../loading/loading";
 import {createAnimate} from "../../utils/createAnimate";
 
 /*

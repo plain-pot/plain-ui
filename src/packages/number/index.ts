@@ -1,9 +1,4 @@
-import Input from '../input'
-import Number from './number'
+import {PlNumber} from './number'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Number, {
-    plugins: [
-        Input,
-    ]
-})
+export default createComponentPlugin(PlNumber)

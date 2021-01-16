@@ -1,9 +1,9 @@
 import {designComponent} from "../../use/designComponent";
-import Scroll from "./scroll";
 import {reactive, computed, withDirectives, resolveDirective} from 'vue';
 import {useStyles} from "../../use/useStyles";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
+import {PlScroll} from "./scroll";
 
 export const HorizontalScrollbar = designComponent({
     props: {
@@ -16,7 +16,7 @@ export const HorizontalScrollbar = designComponent({
             clientX: 0,
         }
 
-        const scroll = Scroll.use.inject()
+        const scroll = PlScroll.use.inject()
 
         const state = reactive({
             scrollLeft: 0,

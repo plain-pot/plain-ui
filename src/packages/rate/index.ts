@@ -1,5 +1,4 @@
-import Rate from './rate'
-import Icon from '../icon'
+import {PlRate} from './rate'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Rate, {plugins: [Icon]})
+export default createComponentPlugin(PlRate)

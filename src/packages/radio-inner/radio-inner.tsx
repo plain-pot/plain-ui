@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useClass} from "../../use/useClasses";
 import './radio-inner.scss'
 
-export default designComponent({
+export const PlRadioInner = designComponent({
     name: 'pl-radio-inner',
     props: {
         checkStatus: {type: String},                // check,uncheck
