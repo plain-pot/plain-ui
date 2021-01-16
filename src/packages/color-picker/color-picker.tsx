@@ -10,8 +10,8 @@ import {isEffectiveColorString} from "./utils/ColorUtils";
 import './color-picker.scss'
 import {useModel} from "../../use/useModel";
 import {$$notice} from "../notice-service";
-import ColorButton from './color-button'
 import {useScopedSlots} from "../../use/useScopedSlots";
+import {PlColorButton} from "./color-button";
 
 enum ColorPickerType {
     input = 'input',
@@ -39,7 +39,7 @@ export const PlColorPicker = designComponent({
         useStyle()
         const {refs} = useRefs({
             input: Input,
-            button: ColorButton,
+            button: PlColorButton,
         })
         const {scopedSlots} = useScopedSlots({
             default: {color: String, onClick: Function as PropType<() => void>},
@@ -94,7 +94,7 @@ export const PlColorPicker = designComponent({
         }
 
         const suffixIcon = () => (
-            <ColorButton
+            <PlColorButton
                 ref="button"
                 color={state.val}
                 onClick={agentState.inputHandler.onClickInput}/>

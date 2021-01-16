@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 
 const opacityBg = require('./sub/opacity.png')
 
-export default designComponent({
+export const PlColorButton = designComponent({
     name: 'pl-color-button',
     props: {
         color: {type: String}

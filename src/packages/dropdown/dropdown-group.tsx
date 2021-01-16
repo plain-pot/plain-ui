@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 
-export default designComponent({
+export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',
     props: {
         title: {type: String},

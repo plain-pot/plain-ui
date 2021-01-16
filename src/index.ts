@@ -11,6 +11,7 @@ import Loading from './packages/loading'
 import LoadingMask from './packages/loading-mask'
 import Checkbox from './packages/checkbox'
 import CheckboxGroup from './packages/checkbox-group'
+import CheckboxInner from './packages/checkbox-inner'
 import MessageService from './packages/message'
 import List from './packages/list'
 import Item from './packages/item'
@@ -35,11 +36,17 @@ import Badge from './packages/badge'
 import Step from './packages/step'
 import Popper from './packages/popper'
 import Dropdown from './packages/dropdown'
+import DropdownGroup from './packages/dropdown-group'
+import DropdownMenu from './packages/dropdown-menu'
+import DropdownOption from './packages/dropdown-option'
 import Tooltip from './packages/tooltip'
 import Alert from './packages/alert'
 import Collapse from './packages/collapse'
+import CollapseGroup from './packages/collapse-group'
+import CollapseTransition from './packages/collapse-transition'
 import Card from './packages/card'
 import Carousel from './packages/carousel'
+import CarouselItem from './packages/carousel-item'
 import ColorPicker from './packages/color-picker'
 import Cascade from './packages/cascade'
 import Tree from './packages/tree'
@@ -62,10 +69,11 @@ const plugins: ComponentPlugin[] = [
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
-    Nav,
+    Step, Popper, Dropdown, DropdownGroup, DropdownMenu, DropdownOption,
+    Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
+    Carousel, CarouselItem, Table, Nav,
 
-    Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
+    Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
     Form, Upload,
 

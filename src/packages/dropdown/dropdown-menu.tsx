@@ -1,8 +1,8 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
-import Dropdown from './dropdown'
+import {PlDropdown} from "./dropdown";
 
-export default designComponent({
+export const PlDropdownMenu = designComponent({
     name: 'pl-dropdown-menu',
     props: {},
     emits: {
@@ -11,7 +11,7 @@ export default designComponent({
     provideRefer: true,
     setup({props, event: {emit}}) {
 
-        const dropdown = Dropdown.use.inject()
+        const dropdown = PlDropdown.use.inject()
         const {slots} = useSlots()
 
         const handler = {
