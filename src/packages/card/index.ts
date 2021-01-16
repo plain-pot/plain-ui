@@ -1,4 +1,4 @@
-import Card from './card'
+import {PlCard} from './card'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Card)
+export default createComponentPlugin(PlCard)

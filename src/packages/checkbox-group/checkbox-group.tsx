@@ -5,12 +5,12 @@ import {useSlots} from "../../use/useSlots";
 import {useProps} from "../../use/useProps";
 import {useModel} from "../../use/useModel";
 import {useCollect} from "../../use/useCollect";
-import Checkbox from '../checkbox/checkbox'
 import {CheckboxStatus, DEFAULT_STATUS} from "../../utils/constant";
 import {computed, inject, PropType} from 'vue';
 import {$$notice} from "../notice-service";
+import {PlCheckbox} from "../checkbox/checkbox";
 
-const CheckboxGroup = designComponent({
+export const PlCheckboxGroup = designComponent({
     name: 'pl-checkbox-group',
     props: {
         ...EditProps,
@@ -78,7 +78,7 @@ const CheckboxGroup = designComponent({
              * @author  韦胜健
              * @date    2020/11/4 11:26
              */
-            getCheckStatus: (checkbox: typeof Checkbox.use.class): CheckboxStatus => {
+            getCheckStatus: (checkbox: typeof PlCheckbox.use.class): CheckboxStatus => {
                 const {innerState: {props: {checkboxForAll, val}}} = checkbox
                 if (checkboxForAll) {
                     return checkStatus.value
@@ -144,7 +144,7 @@ const CheckboxGroup = designComponent({
              * @author  韦胜健
              * @date    2020/11/4 11:27
              */
-            clickCheckbox: (checkbox: typeof Checkbox.use.class) => {
+            clickCheckbox: (checkbox: typeof PlCheckbox.use.class) => {
                 if (!editComputed.value.editable) {
                     return
                 }
@@ -198,8 +198,6 @@ const CheckboxGroup = designComponent({
 })
 
 export const CheckboxGroupCollector = useCollect(() => ({
-    parent: CheckboxGroup,
-    child: Checkbox,
+    parent: PlCheckboxGroup,
+    child: PlCheckbox,
 }))
-
-export default CheckboxGroup

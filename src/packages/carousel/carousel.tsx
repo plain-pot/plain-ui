@@ -5,15 +5,15 @@ import {useSlots} from "../../use/useSlots";
 import {useProps} from "../../use/useProps";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
-import Item from './carousel-item'
 import {useCollect} from "../../use/useCollect";
 import {useModel} from "../../use/useModel";
 import {useRefs} from "../../use/useRefs";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useClass} from "../../use/useClasses";
 import {throttle} from "plain-utils/utils/throttle";
+import {PlCarouselItem} from "./carousel-item";
 
-export const Carousel = designComponent({
+export const PlCarousel = designComponent({
     name: 'pl-carousel',
     props: {
         modelValue: {type: [String, Number]},                       // 双向绑定值
@@ -275,6 +275,6 @@ export const Carousel = designComponent({
 })
 
 export const CarouselCollector = useCollect(() => ({
-    parent: Carousel,
-    child: Item,
+    parent: PlCarousel,
+    child: PlCarouselItem,
 }))

@@ -1,12 +1,11 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useStyles} from "../../use/useStyles";
-import {useProps} from "../../use/useProps";
 import {unit} from "plain-utils/string/unit";
 import './card.scss'
 import {useClass} from "../../use/useClasses";
 
-export default designComponent({
+export const PlCard = designComponent({
     name: 'pl-card',
     props: {
         width: {type: [String, Number], default: '300'},        // 卡片宽度

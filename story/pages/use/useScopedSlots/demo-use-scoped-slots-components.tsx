@@ -1,7 +1,6 @@
 import {designComponent} from "../../../../src/use/designComponent";
 import {useScopedSlots} from "../../../../src/use/useScopedSlots";
 import {computed} from 'vue';
-import button from "../../../../src/packages/button/button";
 
 class TreeNode {
     isExpand = false

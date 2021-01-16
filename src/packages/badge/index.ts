@@ -1,4 +1,4 @@
-import Badge from './badge'
+import {PlBadge} from './badge'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Badge)
+export default createComponentPlugin(PlBadge)

@@ -23,7 +23,7 @@ export const ButtonModeProvider = (() => {
     }
 })()
 
-export default designComponent({
+export const PlButtonGroup = designComponent({
     name: 'pl-button-group',
     props: {
         mode: {type: String, default: StyleMode.fill},                  // fill,stroke,text

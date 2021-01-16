@@ -14,7 +14,7 @@ import {CascadeServiceGetter} from "./service/cascade-service";
 import {ie} from "plain-utils/utils/ie";
 import './cascade.scss'
 
-export default designComponent({
+export const PlCascade = designComponent({
     name: 'pl-cascade',
     props: {
         ...CascadePanelProps,

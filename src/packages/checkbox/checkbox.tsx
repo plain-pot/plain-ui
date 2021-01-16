@@ -13,7 +13,7 @@ import {useSlots} from "../../use/useSlots";
 import {unit} from 'plain-utils/string/unit';
 import {useStyles} from "../../use/useStyles";
 
-export default designComponent({
+export const PlCheckbox = designComponent({
     name: 'pl-checkbox',
     directives: {ClickWave},
     props: {

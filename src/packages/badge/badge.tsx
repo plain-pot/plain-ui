@@ -3,7 +3,7 @@ import {useSlots} from "../../use/useSlots";
 import {computed} from 'vue';
 import './badge.scss'
 
-export default designComponent({
+export const PlBadge = designComponent({
     name: 'pl-badge',
     props: {
         data: {},                                       //显示的数据

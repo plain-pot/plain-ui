@@ -1,6 +1,4 @@
-import {Carousel} from './carousel'
-import CarouselItem from './carousel-item'
+import {PlCarousel} from './carousel'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-
-export default createComponentPlugin(Carousel, {exposeComponents: {CarouselItem}})
+export default createComponentPlugin(PlCarousel)

@@ -8,7 +8,7 @@ import {createCounter} from "../../utils/createCounter";
 
 const counter = createCounter('carousel')
 
-export default designComponent({
+export const PlCarouselItem = designComponent({
     name: 'pl-carousel-item',
     props: {
         val: {type: [String, Number]},

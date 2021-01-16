@@ -5,7 +5,7 @@ import {STATUS} from "../../utils/constant";
 import {computed, reactive} from 'vue';
 import './alert.scss'
 
-export default designComponent({
+export const PlAlert = designComponent({
     name: 'pl-alert',
     props: {
         ...StyleProps,

@@ -17,7 +17,7 @@ import Loading from '../loading'
 
 console.log('load button component')
 
-export default designComponent({
+export const PlButton = designComponent({
     name: 'pl-button',
     directives: {ClickWave},
     props: {
