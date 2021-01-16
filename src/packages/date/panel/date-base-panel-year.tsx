@@ -2,8 +2,10 @@ import {computed, Transition} from 'vue'
 import {designComponent} from "../../../use/designComponent";
 import {DateEmitRangeType, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, Dbpid, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
 import {useDate, UseDateJudgementView} from "../useDate";
+import {PlButton} from "../../button/button";
+import {StyleSize} from "../../../use/useStyle";
 
-export default designComponent({
+export const PlDateBasePanelYear = designComponent({
     name: 'pl-date-base-panel-year',
     props: {
         ...DatePublicProps,
@@ -149,9 +151,9 @@ export default designComponent({
         return {
             render: () => {
                 const Wrapper = DatePanelWrapper({
-                    left: <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={methods.prevYearList}/>,
+                    left: <PlButton icon="el-icon-d-arrow-left" mode="text" size={StyleSize.mini} onClick={methods.prevYearList}/>,
                     center: <span class="pl-date-base-panel-header-static-label">{data.value.title}</span>,
-                    right: <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={methods.nextYearList}/>,
+                    right: <PlButton icon="el-icon-d-arrow-right" mode="text" size={StyleSize.mini} onClick={methods.nextYearList}/>,
                     content: (<Transition name={`pl-transition-slide-${state.slide}`}>
                         <ul{...{
                             class: 'pl-date-base-panel-year-list',

@@ -3,10 +3,11 @@ import {designComponent} from "../../../use/designComponent";
 import {newInstance} from "../../../utils/newInstance";
 import LoadingMaskPlugin from '../../loading-mask'
 import LoadingPlugin from '../../loading'
+import {PlLoadingMask} from "../../loading-mask/loading-mask";
 
 type LoadingMaskBinding = boolean | {
     modelValue?: boolean,
-    message?: boolean,
+    message?: string,
     loadingType?: 'alpha' | 'beta' | 'gamma' | 'delta',
     background?: string,
     unlock?: boolean,
@@ -29,7 +30,7 @@ const Mask = designComponent({
                 }
             },
             render: () => (
-                !!state.option ? <pl-loading-mask {...state.option} inDirective/> : null
+                !!state.option ? <PlLoadingMask {...state.option} inDirective/> : null
             )
         }
     },

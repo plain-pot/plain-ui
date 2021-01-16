@@ -5,6 +5,8 @@ import {useSlots} from "../../use/useSlots";
 import {DEFAULT_STATUS} from "../../utils/constant";
 import {computed} from 'vue';
 import './tag.scss'
+import {PlIcon} from "../icon/icon";
+import {createEventListener} from "../../utils/createEventListener";
 
 export const PlTag = designComponent({
     name: 'pl-tag',
@@ -54,7 +56,7 @@ export const PlTag = designComponent({
             render: () => (
                 <div class={classes.value} onClick={handler.click}>
                     {slots.default(props.label)}
-                    {!!props.close && <pl-icon icon="el-icon-close" class="pl-tag-close" onClick={handler.clickClose}/>}
+                    {!!props.close && <PlIcon icon="el-icon-close" class="pl-tag-close" {...createEventListener({onClick: handler.clickClose})}/>}
                 </div>
             )
         }

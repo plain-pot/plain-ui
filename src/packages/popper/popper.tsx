@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
-import {computed, onMounted, createCommentVNode, Teleport, reactive, markRaw, nextTick, watch, getCurrentInstance, onBeforeUnmount} from 'vue';
+import {computed, onMounted, createCommentVNode, Teleport, reactive, markRaw, nextTick, watch, getCurrentInstance, onBeforeUnmount, PropType} from 'vue';
 import {createError} from "../../utils/createError";
 import {useRefs} from "../../use/useRefs";
 import {getElement} from "../../utils/getElement";
@@ -15,6 +15,7 @@ import {debounce} from "plain-utils/utils/debounce";
 import './popper.scss'
 import {refreshPopperReference} from "./refershPopperReference";
 import {delay} from "plain-utils/utils/delay";
+import {PlScroll} from '../scroll/scroll';
 
 const error = createError('pl-popper')
 
@@ -37,7 +38,7 @@ export const PlPopper = designComponent({
         hoverCloseDelay: {type: [Number, String], default: 200},    // hover触发条件下，关闭延迟时间
         noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
 
-        reference: {type: [Function, Element]},                     // 目标dom元素
+        reference: {type: [Function, Element] as PropType<HTMLElement | (() => HTMLElement)>},// 目标dom元素
         placement: {type: String, default: 'bottom-start'},         // 位置
         arrow: {type: Boolean, default: true},                      // 是否需要箭头
 
@@ -448,9 +449,9 @@ export const PlPopper = designComponent({
                                     </div>}
                                     {(props.message || slots.popper.isExist()) && <div class="pl-popper-content-inner" style={sizeStyles.value}>
                                         {!!scrollAttrs.value ? (
-                                            <pl-scroll {...scrollAttrs.value}>
+                                            <PlScroll {...scrollAttrs.value}>
                                                 {props.message || slots.popper()}
-                                            </pl-scroll>
+                                            </PlScroll>
                                         ) : (props.message || slots.popper())}
                                     </div>}
                                 </div>

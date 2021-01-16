@@ -1,6 +1,7 @@
 import {LoadingMaskServiceFormatOption} from "./index";
 import {reactive, ref} from 'vue';
 import {createDefaultService} from "../../root/createDefaultService";
+import PlLoadingMask from "../../loading-mask";
 
 export default createDefaultService({
     name: 'loading-mask-service',
@@ -30,7 +31,7 @@ export default createDefaultService({
             },
             render: () => {
                 return (
-                    <pl-loading-mask
+                    <PlLoadingMask
                         key={state.key}
                         v-model={isShow.value}
                         message={state.option.message}

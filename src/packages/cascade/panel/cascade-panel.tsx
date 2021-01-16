@@ -7,6 +7,11 @@ import {CascadeMark} from "../utils/CascadMark";
 import {computed, PropType, reactive, ref} from 'vue';
 import {debounce} from "plain-utils/utils/debounce";
 import './cascade-panel.scss'
+import {PlItem} from "../../item/item";
+import {PlIcon} from "../../icon/icon";
+import {PlScroll} from "../../scroll/scroll";
+import {PlList} from "../../list/list";
+import {PlLoading} from "../../loading/loading";
 
 export const CascadePanelProps = {
     modelValue: {type: Array},                                          // 数组，双向绑定值
@@ -30,7 +35,7 @@ export const CascadePanelProps = {
     filterMethod: {type: Function as PropType<(nodes: CascadeNode[], filterText: string) => boolean>},// 自定义筛选函数/
 }
 
-export default designComponent({
+export const PlCascadePanel = designComponent({
     name: 'pl-cascade-panel',
     props: CascadePanelProps,
     emits: {
@@ -233,85 +238,85 @@ export default designComponent({
             },
             render: () => {
                 const empty = (
-                    <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
-                        <pl-icon icon="el-icon-nodata"/>
+                    <PlItem class="pl-cascade-item pl-cascade-empty" key="empty" block>
+                        <PlIcon icon="el-icon-nodata"/>
                         {props.emptyText}
-                    </pl-item>
+                    </PlItem>
                 )
 
                 const filterList = (
-                    <pl-item class="pl-cascade-list pl-cascade-filter-list" key={0}>
-                        <pl-scroll>
-                            <pl-list>
+                    <PlItem class="pl-cascade-list pl-cascade-filter-list" key={0}>
+                        <PlScroll>
+                            <PlList>
                                 {(!filterData.value || filterData.value.length === 0) && empty}
                                 {filterData.value.map((nodes) => (
-                                    <pl-item block
-                                             class={[
-                                                 'pl-cascade-item',
-                                                 {
-                                                     'pl-cascade-item-active': !!model.value && model.value.toString() === nodes.map(node => node.key).toString(),
-                                                     'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
-                                                 }
-                                             ]}
-                                             key={nodes.map(node => node.key).join(' ')}
-                                             {...{
-                                                 onClick: () => {
-                                                     handler.clickItem(nodes[nodes.length - 1], -1)
-                                                 },
-                                             }}>
+                                    <PlItem block
+                                            class={[
+                                                'pl-cascade-item',
+                                                {
+                                                    'pl-cascade-item-active': !!model.value && model.value.toString() === nodes.map(node => node.key).toString(),
+                                                    'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
+                                                }
+                                            ]}
+                                            key={nodes.map(node => node.key).join(' ')}
+                                            {...{
+                                                onClick: () => {
+                                                    handler.clickItem(nodes[nodes.length - 1], -1)
+                                                },
+                                            }}>
                                         <div class="pl-cascade-content">
                                             {nodes.map(node => node.label).join(' / ')}
                                         </div>
-                                    </pl-item>
+                                    </PlItem>
                                 ))}
-                            </pl-list>
-                        </pl-scroll>
-                    </pl-item>
+                            </PlList>
+                        </PlScroll>
+                    </PlItem>
                 )
 
                 const cascadeList = cascadeData.value.map((list, listIndex) => (
-                    <pl-item class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && state.cascadeMark.loading.get(state.expandKeys[listIndex - 1])}>
-                        <pl-scroll>
-                            <pl-list>
+                    <PlItem class="pl-cascade-list" key={listIndex} v-loading={listIndex > 0 && state.cascadeMark.loading.get(state.expandKeys[listIndex - 1])}>
+                        <PlScroll>
+                            <PlList>
                                 {list.map((node, nodeIndex) => (
-                                    <pl-item block
-                                             class={[
-                                                 'pl-cascade-item',
-                                                 {
-                                                     'pl-cascade-item-expand': node.key === state.expandKeys[listIndex],
-                                                     'pl-cascade-item-active': !!model.value && model.value[listIndex] === node.key,
-                                                     'pl-cascade-item-disabled': node.nodeDisabled,
-                                                 }
-                                             ]}
-                                             key={node.key}
+                                    <PlItem block
+                                            class={[
+                                                'pl-cascade-item',
+                                                {
+                                                    'pl-cascade-item-expand': node.key === state.expandKeys[listIndex],
+                                                    'pl-cascade-item-active': !!model.value && model.value[listIndex] === node.key,
+                                                    'pl-cascade-item-disabled': node.nodeDisabled,
+                                                }
+                                            ]}
+                                            key={node.key}
 
-                                             {...{
-                                                 onClick: () => handler.clickItem(node, nodeIndex),
-                                                 ...(props.trigger === 'hover' ? {
-                                                     onMouseenter: () => handler.mouseenterItem(node),
-                                                 } : {})
-                                             }}>
+                                            {...{
+                                                onClick: () => handler.clickItem(node, nodeIndex),
+                                                ...(props.trigger === 'hover' ? {
+                                                    onMouseenter: () => handler.mouseenterItem(node),
+                                                } : {})
+                                            }}>
                                         <div class="pl-cascade-content">
                                             {scopedSlots.default({node, index: nodeIndex}, (
                                                 !!props.renderContent ? props.renderContent({node, index: nodeIndex}) : node.label
                                             ))}
                                             {!node.isLeaf && (
                                                 <div class="pl-cascade-arrow">
-                                                    {node.isLoading ? <pl-loading type="gamma" status="primary"/> : <pl-icon icon="el-icon-arrow-right"/>}
+                                                    {node.isLoading ? <PlLoading type="gamma" status="primary"/> : <PlIcon icon="el-icon-arrow-right"/>}
                                                 </div>
                                             )}
                                         </div>
-                                    </pl-item>
+                                    </PlItem>
                                 ))}
                                 {list.length === 0 && (
-                                    <pl-item class="pl-cascade-item pl-cascade-empty" key="empty" block>
-                                        <pl-icon icon="el-icon-nodata"/>
+                                    <PlItem class="pl-cascade-item pl-cascade-empty" key="empty" block>
+                                        <PlIcon icon="el-icon-nodata"/>
                                         {props.emptyText}
-                                    </pl-item>
+                                    </PlItem>
                                 )}
-                            </pl-list>
-                        </pl-scroll>
-                    </pl-item>
+                            </PlList>
+                        </PlScroll>
+                    </PlItem>
                 ))
 
                 const isEmpty = !!props.filterText ? (filterData.value.length === 0) : (cascadeData.value.length === 0)
@@ -319,13 +324,13 @@ export default designComponent({
                 return (
                     <div class="pl-cascade-panel" v-loading={state.loading}>
                         {!!props.filterText ? filterList : (
-                            <pl-list>
+                            <PlList>
                                 {isEmpty ? (
                                     <div class="pl-cascade-list" key="empty">
                                         {empty}
                                     </div>
                                 ) : cascadeList}
-                            </pl-list>
+                            </PlList>
                         )}
                     </div>
                 )

@@ -4,6 +4,7 @@ import {useSlots} from "../../../use/useSlots";
 import {StepStatus, StepUtils} from "../step.utils";
 import {ArrowStepCollector} from "./arrow-step-group";
 import {useRefs} from "../../../use/useRefs";
+import {PlTriangle} from "../../triangle/triangle";
 
 export const PlArrowStep = designComponent({
     name: 'pl-arrow-step',
@@ -59,10 +60,10 @@ export const PlArrowStep = designComponent({
                             {!props.hideIndex && <span class="pl-arrow-step-sequence">{index.value + 1}. &nbsp;</span>}
                             <span>{slots.default(props.title)}</span>
                         </div>
-                        {!isLast.value ? <pl-triangle direction="right" size={null}/> : null}
+                        {!isLast.value ? <PlTriangle direction="right" size={null as any}/> : null}
                         {!isFirst.value ? [
-                            <pl-triangle direction="bottom" half="start" size={null}/>,
-                            <pl-triangle direction="top" half="start" size={null}/>
+                            <PlTriangle direction="bottom" half="start" size={null as any}/>,
+                            <PlTriangle direction="top" half="start" size={null as any}/>
                         ] : null}
                     </div>
                 ) : <div/>

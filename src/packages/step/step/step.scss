@@ -32,12 +32,12 @@
         color: $icc;
         margin: 0 8px;
 
-        .pl-icon, .pl-loading {
+        .PlIcon, .pl-loading {
           font-size: 1.8em;
         }
 
         .pl-step-number {
-          .pl-icon {
+          .PlIcon {
             font-size: 1.2em;
           }
         }
@@ -307,12 +307,12 @@
           color: $icc;
           margin: 0 8px;
 
-          .pl-icon, .pl-loading {
+          .PlIcon, .pl-loading {
             font-size: 1.8em;
           }
 
           .pl-step-number {
-            .pl-icon {
+            .PlIcon {
               font-size: 1.2em;
             }
           }

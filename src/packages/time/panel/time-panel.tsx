@@ -3,6 +3,7 @@ import {TimePublicProps} from "./time-panel.utils";
 import {useModel} from "../../../use/useModel";
 import {nextTick, computed} from 'vue';
 import {TimeRangePanelType} from "./time-range-panel";
+import {PlTimeBasePanel} from "./time-base-panel";
 
 export const TimePanelProps = {
     modelValue: {type: String},
@@ -12,7 +13,7 @@ export const TimePanelProps = {
     ...TimePublicProps,
 }
 
-export default designComponent({
+export const PlTimePanel = designComponent({
     name: 'pl-time-panel',
     props: {
         ...TimePanelProps,
@@ -76,8 +77,8 @@ export default designComponent({
         return {
             render: () => (
                 !props.range ?
-                    <pl-time-base-panel class="pl-time-panel" {...binding.value.base} key="base"/> :
-                    <pl-time-range-panel class="pl-time-panel" {...binding.value.range} key="range"/>
+                    <PlTimeBasePanel class="pl-time-panel" {...binding.value.base} key="base"/> :
+                    <PlTimeBasePanel class="pl-time-panel" {...binding.value.range} key="range"/>
             )
         }
 

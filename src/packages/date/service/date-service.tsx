@@ -1,9 +1,9 @@
 import {createAgentGetter} from "../../popper/edit/createAgentGetter";
-import {DatePanelType} from "../panel/date-panel";
+import {DatePanelType, PlDatePanel} from "../panel/date-panel";
 
 export const DateServiceGetter = createAgentGetter({
     name: 'date',
-    render: (attrs) => <pl-date-panel {...attrs}/>,
+    render: (attrs) => <PlDatePanel {...attrs}/>,
     defaultPopperAttrs: {
         transition: 'pl-transition-popper-drop',
     },

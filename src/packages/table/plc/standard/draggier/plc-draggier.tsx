@@ -4,6 +4,7 @@ import {computed} from 'vue';
 import {useListDraggier} from "./core";
 import {ie} from "plain-utils/utils/ie";
 import {useTableGetScroll} from "../../../core/useTableGetScroll";
+import {PlButton} from "../../../../button/button";
 
 export default designPlc({
     name: 'plc-draggier',
@@ -35,7 +36,7 @@ export default designPlc({
         }
     }
 }, {
-    default: ({refer}) => <pl-button
+    default: ({refer}) => <PlButton
         icon="el-icon-list"
         mode="text"
         class="plc-draggier-handler"

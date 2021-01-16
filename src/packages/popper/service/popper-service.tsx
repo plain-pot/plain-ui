@@ -1,6 +1,7 @@
 import {createDefaultService} from "../../root/createDefaultService";
 import {PopperServiceOption} from "./index";
 import {nextTick, reactive, ref} from 'vue';
+import {PlPopper} from "../popper";
 
 export const PopperService = createDefaultService({
     name: 'pl-popper-service',
@@ -57,7 +58,7 @@ export const PopperService = createDefaultService({
         return {
             refer,
             render: () => (
-                <pl-popper
+                <PlPopper
                     v-model={isShow.value}
                     {...{
                         trigger: 'manual',

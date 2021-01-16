@@ -8,7 +8,7 @@ import {reactive, computed} from 'vue';
 import {getKey, KEY} from "../keyboard";
 import './toggle.scss'
 
-export const PlToggle =  designComponent({
+export const PlToggle = designComponent({
     name: 'pl-toggle',
     directives: {ClickWave},
     props: {
@@ -16,8 +16,8 @@ export const PlToggle =  designComponent({
         ...StyleProps,
 
         modelValue: {},                                                              // 双向绑定值
-        trueValue: {default: true},                                             // 选中时绑定的值
-        falseValue: {default: false},                                           // 未选中时绑定的值
+        trueValue: {default: true as any},                                           // 选中时绑定的值
+        falseValue: {default: false as any},                                         // 未选中时绑定的值
     },
     emits: {
         onUpdateModelValue: (val: any) => true,

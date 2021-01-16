@@ -2,6 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useClass} from "../../use/useClasses";
 import {PlDropdownMenu} from "./dropdown-menu";
+import {PlIcon} from "../icon/icon";
 
 export const PlDropdownOption = designComponent({
     name: 'pl-dropdown-option',
@@ -39,7 +40,7 @@ export const PlDropdownOption = designComponent({
         return {
             render: () => (
                 <div class={classes.value} onClick={onClick}>
-                    {!!props.icon && <pl-icon icon={props.icon} class="pl-dropdown-option-icon"/>}
+                    {!!props.icon && <PlIcon icon={props.icon} class="pl-dropdown-option-icon"/>}
                     {slots.default(props.label)}
                 </div>
             )

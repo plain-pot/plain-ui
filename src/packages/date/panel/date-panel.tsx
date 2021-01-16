@@ -12,7 +12,7 @@ export const enum DatePanelType {
     dates = 'dates',
 }
 
-export default designComponent({
+export const PlDatePanel = designComponent({
     name: 'pl-date-panel',
     props: {
         ...DatePublicProps,

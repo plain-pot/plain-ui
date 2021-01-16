@@ -1,4 +1,4 @@
-import {computed, onMounted, reactive, watch} from 'vue';
+import {computed, onMounted, reactive, watch, PropType} from 'vue';
 import './input.scss'
 import {designComponent} from "../../use/designComponent";
 import {useModel} from "../../use/useModel";
@@ -8,14 +8,17 @@ import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import {useProps} from "../../use/useProps";
 import {useClass} from "../../use/useClasses";
-import {StyleProperties} from "../../shims";
+import {SimpleFunction, StyleProperties} from "../../shims";
 import {unit} from 'plain-utils/string/unit';
 import {getKey, KEY} from "../keyboard";
 import {throttle} from 'plain-utils/utils/throttle';
+import {PlIcon} from "../icon/icon";
+import {createEventListener} from "../../utils/createEventListener";
+import {PlLoading} from "../loading/loading";
 
 console.log('load input component')
 
-export const PlInput =  designComponent({
+export const PlInput = designComponent({
     name: 'pl-input',
     props: {
         ...EditProps,
@@ -24,7 +27,7 @@ export const PlInput =  designComponent({
         modelValue: {type: [String, Number]},
         placeValue: {type: [String, Number]},
 
-        width: {type: [Number, String, Object, Function], default: null,},        // 输入框默认宽度
+        width: {type: [Number, String, Object, Function] as PropType<string | number>, default: null,},        // 输入框默认宽度
         minHeight: {type: [Number, String], default: 100},      // 文本域最小高度
         maxHeight: {type: [Number, String], default: 156},      // 文本域最大高度
         block: {type: Boolean},                                 // 块级元素
@@ -280,7 +283,7 @@ export const PlInput =  designComponent({
                     /*普通输入框*/
                     const input = (
                         <div class={['pl-input', classes.value]}>
-                            {!!props.prefixIcon && <span class="pl-input-prefix-icon" onClick={handler.clickPrefixIcon}><pl-icon icon={props.prefixIcon}/></span>}
+                            {!!props.prefixIcon && <span class="pl-input-prefix-icon" onClick={handler.clickPrefixIcon}><PlIcon icon={props.prefixIcon}/></span>}
 
                             {slots.default.isExist() ?
                                 <div tabIndex={props.inputInnerTabindex} class="pl-input-inner" {...publicProps.value}>
@@ -290,10 +293,10 @@ export const PlInput =  designComponent({
                                 <input class="pl-input-inner" {...publicProps.value}/>}
 
                             {!!props.suffixIcon && <span class="pl-input-suffix-icon">
-                                {typeof props.suffixIcon === 'function' ? (props.suffixIcon as any)() : <pl-icon onMousedown={handler.clickSuffixIcon} icon={props.suffixIcon}/>}
+                                {typeof props.suffixIcon === 'function' ? (props.suffixIcon as any)() : <PlIcon {...createEventListener({onMousedown: handler.clickSuffixIcon})} icon={props.suffixIcon}/>}
                             </span>}
-                            {!!props.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><pl-icon onMousedown={handler.clickClearIcon} icon="el-icon-error"/></span>)}
-                            {!!editComputed.value.loading && <pl-loading class="pl-input-suffix-icon"/>}
+                            {!!props.clearIcon && (<span class="pl-input-suffix-icon pl-input-clear-icon"><PlIcon {...createEventListener({onMousedown: handler.clickClearIcon})} icon="el-icon-error"/></span>)}
+                            {!!editComputed.value.loading && <PlLoading class="pl-input-suffix-icon"/>}
                             {slots.hidden.isExist() && <div class="pl-input-inner-hidden">{slots.hidden()}</div>}
                         </div>
                     )

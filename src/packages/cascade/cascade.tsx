@@ -13,6 +13,7 @@ import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {CascadeServiceGetter} from "./service/cascade-service";
 import {ie} from "plain-utils/utils/ie";
 import './cascade.scss'
+import {PlInput} from "../input/input";
 
 export const PlCascade = designComponent({
     name: 'pl-cascade',
@@ -204,20 +205,20 @@ export const PlCascade = designComponent({
 
         return {
             render: () => (
-                <pl-input
+                <PlInput
                     ref="input"
                     class={classes.value}
                     clearIcon
                     suffixIcon="el-icon-d-arrow-right"
-                    modelValue={(agentState.isShow.value && props.filterable) ? state.inputValue : showValue.value}
-                    placeValue={showValue.value}
+                    modelValue={((agentState.isShow.value && props.filterable) ? state.inputValue : showValue.value) || undefined}
+                    placeValue={showValue.value || undefined}
                     placeholder={((agentState.isShow.value && props.filterable) ? showValue.value : (!!props.inputAttrs ? props.inputAttrs!.placeholder : null)) || ''}
                     clearHandler={handler.clear}
                     inputReadonly={!props.filterable}
                     isFocus={agentState.state.focusCounter > 0}
 
-                    onChange={handler.onInputChange}
                     {...agentState.inputHandler}
+                    {...{onChange: handler.onInputChange}}
                 />
             )
         }

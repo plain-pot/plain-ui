@@ -14,6 +14,7 @@ import './radio.scss'
 import Group from '../radio-group'
 import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
+import {PlRadioInner} from "../radio-inner/radio-inner";
 
 export const PlRadio = designComponent({
     name: 'pl-radio',
@@ -127,9 +128,7 @@ export const PlRadio = designComponent({
                     >
                         <span class="plain-click-node">
                             <Transition name="pl-transition-fade" mode="out-in">
-                                <pl-radio-inner checkStatus={checkStatus.value}
-                                                key={checkStatus.value}
-                                                disabled={editComputed.value.disabled}/>
+                                <PlRadioInner checkStatus={checkStatus.value} key={checkStatus.value}/>
                             </Transition>
                         </span>
                         {slots.label(<span class="pl-radio-label">{props.label}</span>)}

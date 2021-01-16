@@ -11,11 +11,11 @@
         position: relative;
         z-index: 2;
 
-        & > .pl-icon:first-child {
+        & > .PlIcon:first-child {
           color: $icc;
         }
 
-        & > .pl-icon, & > .pl-loading {
+        & > .PlIcon, & > .pl-loading {
           margin-right: 8px;
         }
       }
@@ -48,7 +48,7 @@
 
       &.pl-upload-item-status-success {
         .pl-upload-item-inner {
-          &, & > .pl-icon {
+          &, & > .PlIcon {
             color: $colorPrimary;
           }
         }
@@ -56,7 +56,7 @@
 
       &.pl-upload-item-status-error {
         .pl-upload-item-inner {
-          &, & > .pl-icon {
+          &, & > .PlIcon {
             color: $colorError;
           }
         }
@@ -64,7 +64,7 @@
 
       &.pl-upload-item-status-ready {
         .pl-upload-item-inner {
-          &, & > .pl-icon {
+          &, & > .PlIcon {
             color: $colorWarn;
           }
         }
@@ -105,7 +105,7 @@
           &:hover {
             background-color: $colorError;
 
-            .pl-icon {
+            .PlIcon {
               color: white;
             }
           }
@@ -157,7 +157,7 @@
         border: dashed 1px $ibc;
         cursor: pointer;
 
-        & > .pl-icon {
+        & > .PlIcon {
           font-size: 32px;
           color: $colorPrimary;
           margin-bottom: 8px;
@@ -172,7 +172,7 @@
         .pl-upload-drop-area {
           color: $disabledText;
 
-          & > .pl-icon {
+          & > .PlIcon {
             color: $icc;
           }
         }

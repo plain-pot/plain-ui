@@ -7,8 +7,9 @@ import {unit} from "plain-utils/string/unit";
 import {useRefs} from "../../use/useRefs";
 import {onUpdated, reactive, onMounted} from 'vue';
 import {debounce} from "plain-utils/utils/debounce";
+import {PlPopper} from "../popper/popper";
 
-export const PlTooltip =  designComponent({
+export const PlTooltip = designComponent({
     name: 'pl-tooltip',
     props: {
         modelValue: {type: Boolean},                        // 双向绑定控制是否显示
@@ -55,7 +56,7 @@ export const PlTooltip =  designComponent({
 
         return {
             render: () => (
-                <pl-popper
+                <PlPopper
                     disabled={!!props.showWidth ? state.offsetWidth === state.scrollWidth : false}
                     popperClass={popperClasses.value}
                     placement={props.placement}

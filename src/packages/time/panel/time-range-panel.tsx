@@ -4,6 +4,7 @@ import {useModel} from "../../../use/useModel";
 import {PlainDate} from "../../../utils/PlainDate";
 import {computed} from 'vue';
 import './time-range-panel.scss'
+import {PlTimeBasePanel} from "./time-base-panel";
 
 export enum TimeRangePanelType {
     start = 'start',
@@ -94,8 +95,8 @@ export default designComponent({
         return {
             render: () => (
                 <div class="pl-time-range-panel">
-                    <pl-time-base-panel {...binding.value.start}/>
-                    <pl-time-base-panel {...binding.value.end}/>
+                    <PlTimeBasePanel {...binding.value.start}/>
+                    <PlTimeBasePanel {...binding.value.end}/>
                 </div>
             )
         }

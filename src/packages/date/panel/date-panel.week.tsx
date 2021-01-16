@@ -3,6 +3,7 @@ import {DateEmitRangeType, DatePublicEmits, DatePublicProps, Dbpid} from "../dat
 import {useDate, UseDateJudgementView} from "../useDate";
 import {computed, ref} from 'vue';
 import {PlainDate, PlainDateType} from "../../../utils/PlainDate";
+import {PlDateBasePanelDate} from "./date-base-panel-date";
 
 export default designComponent({
     name: 'pl-date-panel-week',
@@ -292,7 +293,7 @@ export default designComponent({
         }
 
         return {
-            render: () => <pl-date-base-panel-date {...dateAttrs.value}/>
+            render: () => <PlDateBasePanelDate {...dateAttrs.value}/>
         }
     },
 })

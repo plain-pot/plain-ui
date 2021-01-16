@@ -6,6 +6,8 @@ import {useRefs} from "../../use/useRefs";
 import {computed} from 'vue';
 import {SelectGroupCollector} from "./select-group";
 import {SelectCollector} from "./select";
+import {PlIcon} from "../icon/icon";
+import {PlCheckbox} from "../checkbox/checkbox";
 
 export const PlSelectOption = designComponent({
     name: 'pl-select-option',
@@ -67,8 +69,8 @@ export const PlSelectOption = designComponent({
                             onClick: handler.click,
                         }}>
                         {!!panel && isShow.value && <>
-                            {!!panel.props.multiple && !props.group ? <pl-checkbox customReadonly modelValue={isSelected.value} class="pl-select-option-checkbox"/> : null}
-                            {!!props.icon && <pl-icon icon={props.icon} class="pl-select-option-icon"/>}
+                            {!!panel.props.multiple && !props.group ? <PlCheckbox customReadonly modelValue={isSelected.value} class="pl-select-option-checkbox"/> : null}
+                            {!!props.icon && <PlIcon icon={props.icon} class="pl-select-option-icon"/>}
                             {slots.default(props.label)}
                         </>}
                     </div>

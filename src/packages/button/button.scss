@@ -144,7 +144,7 @@
       display: block;
     }
 
-    & > .pl-loading, & > .pl-icon, & > span {
+    & > .pl-loading, & > .PlIcon, & > span {
       & + * {
         margin-left: 3px;
       }

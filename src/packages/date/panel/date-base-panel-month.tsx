@@ -2,8 +2,11 @@ import {designComponent} from "../../../use/designComponent";
 import {DateEmitRangeType, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, Dbpid, DefaultDateFormatString, SlideTransitionDirection} from '../date.utils';
 import {computed, Transition} from 'vue';
 import {useDate, UseDateJudgementView} from "../useDate";
+import {PlButton} from "../../button/button";
+import {StyleSize} from "../../../use/useStyle";
+import {PlDateBasePanelYear} from "./date-base-panel-year";
 
-export default designComponent({
+export const PlDateBasePanelMonth = designComponent({
     name: 'pl-date-base-panel-month',
     props: {
         ...DatePublicProps,
@@ -187,9 +190,9 @@ export default designComponent({
             render: () => {
 
                 const Month = DatePanelWrapper({
-                    left: <pl-button icon="el-icon-d-arrow-left" mode="text" size="mini" onClick={methods.prevYear}/>,
+                    left: <PlButton icon="el-icon-d-arrow-left" mode="text" size={StyleSize.mini} onClick={methods.prevYear}/>,
                     center: <span onClick={() => viewModel.value = DateView.year}>{state.selectDate.year}</span>,
-                    right: <pl-button icon="el-icon-d-arrow-right" mode="text" size="mini" onClick={methods.nextYear}/>,
+                    right: <PlButton icon="el-icon-d-arrow-right" mode="text" size={StyleSize.mini} onClick={methods.nextYear}/>,
                     content: (
                         <Transition name={`pl-transition-slide-${state.slide}`}>
                             <ul {...{
@@ -215,9 +218,9 @@ export default designComponent({
                     }}>
                         <Transition name={`pl-transition-slide-${viewModel.value === DateView.year ? 'prev' : 'next'}`}>
                             {viewModel.value === DateView.month ? <Month {...{class: 'pl-date-base-panel-month', direction: 'horizontal'}}/> : (
-                                <pl-date-base-panel-year
+                                <PlDateBasePanelYear
                                     modelValue={String(state.selectDate.year)}
-                                    onChange={handler.onSelectYearChange}
+                                    {...{onChange: handler.onSelectYearChange}}
                                     direction="horizontal"/>
                             )}
                         </Transition>

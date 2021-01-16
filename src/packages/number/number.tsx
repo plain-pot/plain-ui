@@ -8,6 +8,8 @@ import {useProps} from "../../use/useProps";
 import {HTMLInputEvent} from "../../shims";
 import {getKey, KEY} from "../keyboard";
 import './number.scss'
+import {PlIcon} from "../icon/icon";
+import {PlInput} from "../input/input";
 
 const NAN = 'NAN'
 
@@ -221,14 +223,14 @@ export const PlNumber = designComponent({
                 ...methods,
             },
             render: () => (
-                <pl-input class={classes.value}
-                          isFocus={state.isFocus}
-                          inputInnerTabindex={null}
-                          {...(props.inputProps || {})}
+                <PlInput class={classes.value}
+                         isFocus={state.isFocus}
+                         inputInnerTabindex={null as any}
+                         {...(props.inputProps || {})}
                 >
                     {!props.hideButton && (
                         <div class="pl-number-prepend-button plain-click-node" onMousedown={handler.intervalMinus} v-click-wave>
-                            <pl-icon icon="el-icon-minus"/>
+                            <PlIcon icon="el-icon-minus"/>
                         </div>
                     )}
                     <input type="text"
@@ -241,10 +243,10 @@ export const PlNumber = designComponent({
                            onKeydown={handler.keydown}/>
                     {!props.hideButton && (
                         <div class="pl-number-append-button plain-click-node" onMousedown={handler.intervalAdd} v-click-wave>
-                            <pl-icon icon="el-icon-plus"/>
+                            <PlIcon icon="el-icon-plus"/>
                         </div>
                     )}
-                </pl-input>
+                </PlInput>
             )
         }
     },

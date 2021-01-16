@@ -1,10 +1,11 @@
 import {createAgentGetter} from "../popper/edit/createAgentGetter";
 import {App} from 'vue';
+import {PlSelectPanel} from "./select-panel";
 
 export const SelectServiceGetter = createAgentGetter({
     name: 'select',
     render: (attrs) => {
-        return <pl-select-panel {...attrs}/>
+        return <PlSelectPanel {...attrs}/>
     },
     defaultPopperAttrs: {
         transition: 'pl-transition-popper-drop',

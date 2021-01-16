@@ -1,6 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import {computed} from 'vue';
+import {PlIcon} from "../icon/icon";
 
 export const PlProgressBar = designComponent({
     name: 'pl-progress-bar',
@@ -44,8 +45,8 @@ export const PlProgressBar = designComponent({
                             {props.inlineText && props.modelValue > 20 && (
                                 <div>
                                     <div class="pl-progress-bar-content">
-                                        {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: 'white'}}/>}
-                                        {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: 'white'}}/>}
+                                        {props.status === 'success' && <PlIcon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: 'white'}}/>}
+                                        {props.status === 'error' && <PlIcon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: 'white'}}/>}
                                         {props.status !== 'success' && props.status !== 'error' && <span>{props.modelValue}%</span>}
                                     </div>
                                 </div>
@@ -54,8 +55,8 @@ export const PlProgressBar = designComponent({
                         {props.inlineText && props.modelValue < 20 && (
                             <div>
                                 <div class="pl-progress-bar-content">
-                                    {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                                    {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                                    {props.status === 'success' && <PlIcon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                                    {props.status === 'error' && <PlIcon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                                     {props.status !== 'success' && props.status !== 'error' && <span>{props.modelValue}%</span>}
                                 </div>
                             </div>
@@ -64,8 +65,8 @@ export const PlProgressBar = designComponent({
                     {
                         !props.inlineText && (
                             <div class="pl-progress-bar-content">
-                                {props.status === 'success' && <pl-icon icon="el-icon-success" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                                {props.status === 'error' && <pl-icon icon="el-icon-error" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                                {props.status === 'success' && <PlIcon icon="el-icon-success" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                                {props.status === 'error' && <PlIcon icon="el-icon-error" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                                 {props.status !== 'success' && props.status !== 'error' && <span>{props.modelValue}%</span>}
                             </div>
                         )

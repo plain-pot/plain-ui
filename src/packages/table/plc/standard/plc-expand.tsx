@@ -5,6 +5,10 @@ import {TableNode} from "../../core/useTableNode";
 import {SimpleObject, VNodeChild} from "../../../../shims";
 import {Plc, TableRenderScope} from "../core/plc.type";
 import {useScopedSlots} from "../../../../use/useScopedSlots";
+import {PlButton} from "../../../button/button";
+import {PlDropdown} from "../../../dropdown/dropdown";
+import {PlDropdownMenu} from "../../../dropdown/dropdown-menu";
+import {PlDropdownOption} from "../../../dropdown/dropdown-option";
 
 interface ExpandRefer {
     isExpand: (node: TableNode) => boolean,
@@ -91,19 +95,19 @@ export default designPlc(
     },
     {
         head: ({refer}) => (
-            <pl-dropdown
-                placement="bottom-center"
+            <PlDropdown
+                {...{placement: "bottom-center"}}
                 v-slots={{
-                    default: () => <pl-button icon="el-icon-menu" mode="text"/>,
-                    popper: () => <pl-dropdown-menu>
-                        <pl-dropdown-option label="全部展开" onClick={refer.methods.expandAll} icon="el-icon-zoom-full"/>
-                        <pl-dropdown-option label="全部收起" onClick={refer.methods.collapseAll} icon="el-icon-zoom-scale"/>
-                    </pl-dropdown-menu>
+                    default: () => <PlButton icon="el-icon-menu" mode="text"/>,
+                    popper: () => <PlDropdownMenu>
+                        <PlDropdownOption label="全部展开" onClick={refer.methods.expandAll} icon="el-icon-zoom-full"/>
+                        <PlDropdownOption label="全部收起" onClick={refer.methods.collapseAll} icon="el-icon-zoom-scale"/>
+                    </PlDropdownMenu>
                 }}
             />
         ),
         default: ({refer, node, props}) => {
-            return (!node.isSummary || props.summaryExpand) && (<pl-button{...{
+            return (!node.isSummary || props.summaryExpand) && (<PlButton{...{
                 icon: 'el-icon-arrow-down',
                 mode: 'text',
                 class: [

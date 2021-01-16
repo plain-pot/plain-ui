@@ -1,5 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
+import {PlIcon} from "../icon/icon";
 
 export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',
@@ -18,7 +19,7 @@ export const PlDropdownGroup = designComponent({
                 ]}>
                     {slots.title.isExist() || props.title && (
                         <div class="pl-dropdown-group-title">
-                            <pl-icon icon="el-icon-list"/>
+                            <PlIcon icon="el-icon-list"/>
                             <span>{slots.title(props.title)}</span>
                         </div>
                     )}

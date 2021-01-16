@@ -12,8 +12,12 @@ import {computed, ref} from 'vue';
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
 import {handleKeyboard} from "../keyboard";
-import Panel from './select-panel'
 import {useModel} from "../../use/useModel";
+import {PlIcon} from "../icon/icon";
+import {createEventListener} from "../../utils/createEventListener";
+import {PlSelectPanel} from "./select-panel";
+import {PlInput} from "../input/input";
+import {PlInputInnerTags} from "../input/input-inner-tags";
 
 const Props = {
     ...EditProps,
@@ -58,7 +62,7 @@ export const PlSelect = designComponent({
         const {refs} = useRefs({input: Input,})
 
         /*对 pl-select-panel 的引用*/
-        let panel = null as typeof Panel.use.class | null
+        let panel = null as typeof PlSelectPanel.use.class | null
 
         /*---------------------------------------state-------------------------------------------*/
 
@@ -180,8 +184,8 @@ export const PlSelect = designComponent({
                     }
                 ],
 
-                modelValue: (props.filterable && agentState.isShow.value) ? filterText.value : displayValue.value,
-                placeValue: displayValue.value,
+                modelValue: (props.filterable && agentState.isShow.value) ? filterText.value! : displayValue.value as string,
+                placeValue: displayValue.value as string,
                 inputReadonly: !props.filterable,
                 placeholder: placeholderValue.value,
                 suffixIcon: 'el-icon-arrow-down',
@@ -272,16 +276,16 @@ export const PlSelect = designComponent({
 
         return {
             render: () => (
-                <pl-input {...inputBinding.value} v-slots={{
+                <PlInput {...inputBinding.value} v-slots={{
                     hidden: slots.default,
                     default: !props.multiple ? null : () => (
-                        <pl-input-inner-tags
+                        <PlInputInnerTags
                             data={multipleTags.value}
                             collapseTags={props.collapseTags}
                             v-slots={{
                                 default: ({item, index}: { item: SelectOption, index: number }) => [
                                     <span>{item.props.label}</span>,
-                                    <pl-icon icon="el-icon-close" onClick={() => handler.onClickItemCloseIcon(item, index)}/>
+                                    <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
                                 ]
                             }}
                         />

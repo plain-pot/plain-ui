@@ -10,6 +10,13 @@ import {unit} from "plain-utils/string/unit";
 import {useTableGetScroll} from "../../../core/useTableGetScroll";
 import {usePlcTreeDraggier} from "./plc-tree.draggier";
 import {delay} from "plain-utils/utils/delay";
+import {PlButton} from "../../../../button/button";
+import {StyleSize} from "../../../../../use/useStyle";
+import {createEventListener} from "../../../../../utils/createEventListener";
+import {PlDropdown} from "../../../../dropdown/dropdown";
+import {PlDropdownMenu} from "../../../../dropdown/dropdown-menu";
+import {PlDropdownOption} from "../../../../dropdown/dropdown-option";
+import {PlCheckbox} from "../../../../checkbox/checkbox";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
@@ -138,18 +145,18 @@ export default designPlc({
 }, {
     summary: () => null,
     head: ({refer, plc}) => (<>
-        <pl-dropdown
-            placement="bottom"
+        <PlDropdown
+            {...{placement: "bottom"}}
             v-slots={{
-                default: () => <pl-button icon="el-icon-menu" mode="text"/>,
-                popper: () => <pl-dropdown-menu>
-                    <pl-dropdown-option label="全部展开" icon="el-icon-zoom-full" onClick={refer.methods.expandAll}/>
-                    <pl-dropdown-option label="全部收起" icon="el-icon-zoom-scale" onClick={refer.methods.collapseAll}/>
+                default: () => <PlButton icon="el-icon-menu" mode="text"/>,
+                popper: () => <PlDropdownMenu>
+                    <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={refer.methods.expandAll}/>
+                    <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={refer.methods.collapseAll}/>
                     {refer.tableProps.showCheckbox && <>
-                        <pl-dropdown-option label="全部选中" icon="el-icon-check" onClick={refer.methods.checkAll}/>
-                        <pl-dropdown-option label="取消选中" icon="el-icon-close" onClick={refer.methods.uncheckAll}/>
+                        <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={refer.methods.checkAll}/>
+                        <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={refer.methods.uncheckAll}/>
                     </>}
-                </pl-dropdown-menu>
+                </PlDropdownMenu>
             }}
         />
         <div class="plc-tree-node-content">{plc.props.title}</div>
@@ -158,32 +165,32 @@ export default designPlc({
         return (
             <>
                 <div class="plc-tree-node-expander" {...refer.utils.getExpanderAttrs(node)}>
-                    <pl-button
+                    <PlButton
                         loading={node.loading}
                         mode="text"
-                        size="normal"
+                        size={StyleSize.normal}
                         icon={node.isLeaf ? refer.props.leafIcon : node.expand ? refer.props.folderExpandIcon : refer.props.folderCollapseIcon}
                         onClick={(e: MouseEvent) => !node.isLeaf && refer.handler.onClickExpandIcon(e, node)}/>
                 </div>
                 {refer.tableProps.showCheckbox && (
                     <div class="plc-tree-node-check">
-                        <pl-checkbox
+                        <PlCheckbox
                             key={node.key}
-                            size={'normal'}
+                            size={StyleSize.normal}
                             modelValue={node.check}
-                            customReadonlny
+                            customReadonly={true}
                             checkStatus={node.checkStatus}
                             disabled={!node.isCheckable}
-                            onClick={(e: MouseEvent) => refer.handler.onClickCheckbox(e, node)}
+                            {...{onClick: (e?: MouseEvent) => refer.handler.onClickCheckbox(e, node)}}
                         />
                     </div>
                 )}
                 {refer.props.rowDraggable && (
-                    <pl-button mode="text"
-                               icon="el-icon-list"
-                               class="plc-tree-node-drag-btn"
-                               disabled={!refer.draggier.utils.allowDrag(node)}
-                               onMousedown={refer.draggier.handler.onMousedown}/>
+                    <PlButton mode="text"
+                              icon="el-icon-list"
+                              class="plc-tree-node-drag-btn"
+                              disabled={!refer.draggier.utils.allowDrag(node)}
+                              {...createEventListener({onMousedown: refer.draggier.handler.onMousedown})}/>
                 )}
                 {refer.scopedSlots.content.isExist() && (
                     <div class="plc-tree-node-content" style={`width:${unit(refer.props.contentWidth)}`}>

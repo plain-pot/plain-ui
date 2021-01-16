@@ -331,9 +331,9 @@ function use<Node extends {
             await expandMethods.toggleExpand(node)
         },
         /*点击复选框*/
-        onClickCheckbox: async (e: MouseEvent, node: Node) => {
-            e.stopPropagation()
-            await checkMethods.toggleCheck(node)
+        onClickCheckbox: async (e?: MouseEvent, node?: Node) => {
+            !!e && e.stopPropagation();
+            !!node && await checkMethods.toggleCheck(node)
         },
         /*点击行*/
         onClickCell: async (e: MouseEvent, node: Node) => {

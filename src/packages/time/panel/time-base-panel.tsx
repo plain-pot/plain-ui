@@ -3,6 +3,7 @@ import {TimePublicProps} from './time-panel.utils';
 import {computed} from 'vue';
 import {PlainDate} from "../../../utils/PlainDate";
 import './time-base-panel.scss'
+import {PlTimeBaseColumn} from "./time-base-column";
 
 export enum TimePanelLayout {
     h = 'hour',
@@ -10,7 +11,7 @@ export enum TimePanelLayout {
     s = 'second',
 }
 
-export default designComponent({
+export const PlTimeBasePanel = designComponent({
     name: 'pl-time-base-panel',
     props: {
         modelValue: {type: String},
@@ -141,15 +142,15 @@ export default designComponent({
                 return (
                     <div class="pl-time-base-panel">
                         {props.layout.map((layout: any) => (
-                            <pl-time-base-column
+                            <PlTimeBaseColumn
                                 {...{
                                     key: layout,
                                     layout,
                                     modelValue: (formatData as any).value.value[(TimePanelLayout as any)[layout]],
                                     max: (maxmin as any).value.max[(TimePanelLayout as any)[layout]],
                                     min: (maxmin as any).value.min[(TimePanelLayout as any)[layout]],
-                                    checkDisabled: checkDisabled.value,
-                                    custom: custom.value,
+                                    checkDisabled: checkDisabled.value!,
+                                    custom: custom.value as any,
                                     onChange: (val: number) => handler.columnChange(val, layout),
                                     disableChangeOnScroll: props.disableChangeOnScroll,
                                 }}

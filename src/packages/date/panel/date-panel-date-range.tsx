@@ -3,6 +3,7 @@ import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DateView, Dbpid} fr
 import {useDate, UseDateJudgementView} from "../useDate";
 import {computed, nextTick} from 'vue';
 import {PlainDate, PlainDateType} from "../../../utils/PlainDate";
+import {PlDateBasePanelDate} from "./date-base-panel-date";
 
 const DefaultTime = {
     start: '00:00:00',
@@ -238,8 +239,8 @@ export default designComponent({
         return {
             render: () => (
                 <div class="pl-date-base-panel pl-date-panel-date-range">
-                    <pl-date-base-panel-date {...binding.value.start}/>
-                    <pl-date-base-panel-date {...binding.value.end}/>
+                    <PlDateBasePanelDate {...binding.value.start}/>
+                    <PlDateBasePanelDate {...binding.value.end}/>
                 </div>
             )
         }

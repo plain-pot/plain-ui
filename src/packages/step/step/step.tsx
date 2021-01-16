@@ -4,6 +4,8 @@ import {computed, getCurrentInstance, Ref} from 'vue';
 import {StepStatus, StepUtils} from "../step.utils";
 import {StepCollector} from "./step-group";
 import {useRefs} from "../../../use/useRefs";
+import {PlIcon} from "../../icon/icon";
+import {PlLoading} from "../../loading/loading";
 
 export const PlStep = designComponent({
     name: 'pl-step',
@@ -67,7 +69,7 @@ export const PlStep = designComponent({
                         <span class="pl-step-icon">
                         {
                             !!icon.value ?
-                                (currentStatus.value !== 'process' ? <pl-icon icon={icon.value}/> : <pl-loading type="delta"/>)
+                                (currentStatus.value !== 'process' ? <PlIcon icon={icon.value}/> : <PlLoading type="delta"/>)
                                 :
                                 (
                                     !!stepGroup.props.dotIcon ?
@@ -76,10 +78,10 @@ export const PlStep = designComponent({
                                         (
                                             <span class="pl-step-number">
                                                 {currentStatus.value === StepStatus.finish ?
-                                                    <pl-icon icon="el-icon-check"/>
+                                                    <PlIcon icon="el-icon-check"/>
                                                     :
                                                     (currentStatus.value === StepStatus.error ?
-                                                            <pl-icon icon="el-icon-close"/>
+                                                            <PlIcon icon="el-icon-close"/>
                                                             :
                                                             <span>{index.value + 1}</span>
                                                     )

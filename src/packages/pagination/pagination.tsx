@@ -2,9 +2,14 @@ import {designComponent} from "../../use/designComponent";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
-import {computed, nextTick, ref, watch} from 'vue';
+import {computed, nextTick, ref, watch, PropType} from 'vue';
 import './pagination.scss'
 import {useNumber} from "../../use/useNumber";
+import {PlIcon} from "../icon/icon";
+import {PlSelect} from "../select/select";
+import {PlSelectOption} from "../select/select-option";
+import {PlNumber} from "../number/number";
+import {PlLoading} from "../loading/loading";
 
 const SizesWidth = {
     large: 120,
@@ -25,7 +30,7 @@ export const PlPagination = designComponent({
         currentPage: {type: [Number, String]},                                                  // 当前页
 
         layout: {type: String, default: 'sizes,jumper,prev,pager,next,loading,blank,total,slot'},// 组件布局
-        pageSizes: {type: Array, default: [10, 20, 50, 100]},                                   // 页大小下拉选项数组
+        pageSizes: {type: Array as PropType<number[]>, default: [10, 20, 50, 100]},             // 页大小下拉选项数组
         prevText: {type: String},                                                               // 上一页按钮替换文本
         nextText: {type: String},                                                               // 下一页按钮替换文本
 
@@ -225,43 +230,43 @@ export const PlPagination = designComponent({
         return {
             render: () => {
                 const sizes = (
-                    <pl-select
+                    <PlSelect
                         class="pl-pagination-sizes"
                         modelValue={numberState.pageSize}
 
                         loading={false}
-                        readonly={editComputed.value.readonly || editComputed.value.loading}
+                        readonly={editComputed.value.readonly || editComputed.value.loading!}
                         filterable={false}
                         inputProps={{width: SizesWidth[styleComputed.value.size], clearIcon: false}}
-                        onChange={emit.onSizeChange}>
-                        {(props.pageSizes || []).map(item => (
-                            <pl-select-option label={`${item} 条/页`} val={item} key={item}/>
+                        {...{onChange: emit.onSizeChange}}>
+                        {(props.pageSizes || []).map((item) => (
+                            <PlSelectOption label={`${item} 条/页`} val={item} key={item}/>
                         ))}
-                    </pl-select>
+                    </PlSelect>
                 )
 
                 const jumper = (
                     <div class="pl-pagination-jumper">
                         <span>前往</span>
-                        <pl-number inputProps={{width: jumperNumberWidth.value}}
-                                   readonly={editComputed.value.readonly || editComputed.value.loading}
-                                   hideButton
-                                   loading={false}
-                                   v-model={jumperValue.value}
-                                   min={0}
-                                   onEnter={handler.onJump}/>
+                        <PlNumber inputProps={{width: jumperNumberWidth.value}}
+                                  readonly={editComputed.value.readonly || editComputed.value.loading!}
+                                  hideButton
+                                  loading={false}
+                                  v-model={jumperValue.value}
+                                  min={0}
+                                  onEnter={handler.onJump}/>
                         <span>页</span>
                     </div>
                 )
 
                 const prev = (
                     <div class="pl-pagination-prev pl-pagination-pager-button" onClick={handler.onPrev}>
-                        {!!props.prevText ? props.prevText : <pl-icon icon="el-icon-arrow-left"/>}
+                        {!!props.prevText ? props.prevText : <PlIcon icon="el-icon-arrow-left"/>}
                     </div>
                 )
                 const next = (
                     <div class="pl-pagination-next pl-pagination-pager-button" onClick={handler.onNext}>
-                        {!!props.nextText ? props.nextText : <pl-icon icon="el-icon-arrow-right"/>}
+                        {!!props.nextText ? props.nextText : <PlIcon icon="el-icon-arrow-right"/>}
                     </div>
                 )
 
@@ -269,11 +274,11 @@ export const PlPagination = designComponent({
                     <ul class="pl-pagination-pager">
                         {pageInfo.value.totalPage > 0 && <li key="first" class={utils.getPagerButtonClass(1)} onClick={() => utils.changeCurrent(1)}>1</li>}
                         {pageInfo.value.showPrevMore && <li key="prev-more" class={utils.getPagerButtonClass('prev')}>
-                            <pl-icon icon="el-icon-more"/>
+                            <PlIcon icon="el-icon-more"/>
                         </li>}
                         {pagers.value.map((page, index) => <li class={utils.getPagerButtonClass(page)} key={index} onClick={() => utils.changeCurrent(page)}>{page}</li>)}
                         {pageInfo.value.showNextMore && <li key="prev-more" class={utils.getPagerButtonClass('next')}>
-                            <pl-icon icon="el-icon-more"/>
+                            <PlIcon icon="el-icon-more"/>
                         </li>}
                         {pageInfo.value.totalPage > 1 && <li key="last" class={utils.getPagerButtonClass(pageInfo.value.totalPage)} onClick={() => utils.changeCurrent(pageInfo.value.totalPage)}>{pageInfo.value.totalPage}</li>}
                     </ul>
@@ -284,7 +289,7 @@ export const PlPagination = designComponent({
                 const slot = !slots.default.isExist() ? null : (<div class="pl-pagination-slot">{slots.default()}</div>)
                 const loading = !editComputed.value.loading ? null : (
                     <div class="pl-pagination-loading">
-                        <pl-loading type="beta"/>
+                        <PlLoading type="beta"/>
                     </div>
                 )
 

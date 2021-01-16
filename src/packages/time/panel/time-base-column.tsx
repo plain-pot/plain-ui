@@ -11,7 +11,7 @@ import {PlScroll} from "../../scroll/scroll";
 
 const size = 24;
 
-export default designComponent({
+export const PlTimeBaseColumn = designComponent({
     name: 'pl-time-base-column',
     props: {
         ...EditProps,
@@ -100,7 +100,7 @@ export default designComponent({
         return {
             render: () => (
                 <div class="pl-time-base-column">
-                    <pl-scroll ref="scroll" onScroll={handler.onScroll}>
+                    <PlScroll ref="scroll" onScroll={handler.onScroll}>
                         <ul class="pl-time-base-column-list">
                             {[1, 2, 3].map((item, index) => (
                                 <li
@@ -129,7 +129,7 @@ export default designComponent({
 
                             {[1, 2, 3].map(item => (<li class="pl-time-base-column-item" key={-item - 3}/>))}
                         </ul>
-                    </pl-scroll>
+                    </PlScroll>
                 </div>
             )
         }

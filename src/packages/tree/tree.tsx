@@ -13,6 +13,12 @@ import {useTree} from "./core/useTree";
 import {createKeyHandler} from "../../utils/createKeyHandler";
 import {PlScroll} from "../scroll/scroll";
 import {PlVirtualList} from "../virutal-list/virtual-list";
+import {PlIcon} from "../icon/icon";
+import {createEventListener} from "../../utils/createEventListener";
+import {PlItem} from '../item/item';
+import {PlCheckbox} from "../checkbox/checkbox";
+import {PlLoading} from "../loading/loading";
+import {PlList} from "../list/list";
 
 export const PlTree = designComponent({
     name: 'pl-tree',
@@ -96,52 +102,53 @@ export const PlTree = designComponent({
                     return render.empty(node)
                 }
                 return (
-                    <pl-item
+                    <PlItem
                         key={node.key}
                         class={TreeUtils.getTreeNodeClasses(node, current.value)}
                         style={TreeUtils.getTreeNodeStyles(node.level, props.intent, props.nodeHeight)}
-                        vid={index}>
+                        {...{vid: index}}>
 
                         <div class="pl-tree-node-operator">
-                            {!!props.showCheckbox && <pl-checkbox
+                            {!!props.showCheckbox && <PlCheckbox
                                 checkStatus={node.checkStatus}
                                 disabled={!node.isCheckable}
-                                onClick={(e: MouseEvent) => handler.onClickCheckbox(e, node)}
+                                {...{onClick: (e?: MouseEvent) => handler.onClickCheckbox(e, node)}}
                             />}
                             <div class="pl-tree-node-expander">
                                 {node.loading ?
-                                    <pl-loading type="gamma"/> :
-                                    <pl-icon icon={node.isLeaf ? props.leafIcon : node.expand ? props.folderExpandIcon : props.folderCollapseIcon}
-                                             onClick={(e: MouseEvent) => handler.onClickExpandIcon(e, node)}/>
+                                    <PlLoading type="gamma"/> :
+                                    <PlIcon icon={node.isLeaf ? props.leafIcon : node.expand ? props.folderExpandIcon : props.folderCollapseIcon}
+                                            {...createEventListener({onClick: (e: MouseEvent) => handler.onClickExpandIcon(e, node)})}/>
                                 }
                             </div>
-                            {!!props.draggable && <pl-icon icon="el-icon-list" class="pl-tree-node-draggier" onMousedown={draggier.handler.mousedown}/>}
-                            {!!props.nodeIcon && <pl-icon icon={props.nodeIcon(node)}/>}
+                            {!!props.draggable && <PlIcon icon="el-icon-list" class="pl-tree-node-draggier"
+                                                          {...createEventListener({onMousedown: draggier.handler.mousedown})}/>}
+                            {!!props.nodeIcon && <PlIcon icon={props.nodeIcon(node)}/>}
                         </div>
                         <div class="pl-tree-node-content"
                              style={contentStyles.value}
                              onClick={(e: MouseEvent) => handler.onClickCell(e, node)}>
                             {scopedSlots.default({node, index}, !!props.renderContent ? props.renderContent({node, index}) : node.label)}
                         </div>
-                    </pl-item>
+                    </PlItem>
                 )
             },
             empty: (emptyNode: TreeNode) => {
                 const parent = emptyNode.parentRef()!
                 return (
-                    <pl-item
+                    <PlItem
                         key={`${parent.key}_empty`}
                         class="pl-tree-node pl-tree-empty-node"
                         style={TreeUtils.getTreeNodeStyles(parent.level + 1, props.intent, props.nodeHeight)}>
                         <div class="pl-tree-node-operator">
                             <div class="pl-tree-node-expander">
-                                <pl-icon icon="el-icon-close-bold"/>
+                                <PlIcon icon="el-icon-close-bold"/>
                             </div>
                         </div>
                         <div class="pl-tree-node-content" style={contentStyles.value}>
                             <span>{props.emptyText}</span>
                         </div>
-                    </pl-item>
+                    </PlItem>
                 )
             },
         }
@@ -155,29 +162,29 @@ export const PlTree = designComponent({
                     <div class="pl-tree" style={{height: props.height}} v-loading={props.loading || (!!state.root && state.root.loading)}>
                         {flatList.value.length === 0 ? (
                             <div class="pl-tree-placeholder" key="placeholder">
-                                <pl-icon icon="el-icon-folder-opened"/>
+                                <PlIcon icon="el-icon-folder-opened"/>
                                 <span>{props.emptyText}</span>
                             </div>
                         ) : (
                             props.virtual ?
-                                (<pl-virtual-list
+                                (<PlVirtualList
                                     ref="list"
                                     data={flatList.value}
                                     size={props.nodeHeight}
                                     v-slots={{
                                         // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
                                         content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
-                                            <pl-list direction="top" class="pl-tree-node-list">
+                                            <PlList direction="top" class="pl-tree-node-list">
                                                 {data.map(({item, index}) => render.node(item, index))}
-                                            </pl-list>
+                                            </PlList>
                                         )
                                     }}
                                 />) : (
-                                    <pl-scroll ref="scroll">
-                                        <pl-list direction="top" class="pl-tree-node-list">
+                                    <PlScroll ref="scroll">
+                                        <PlList direction="top" class="pl-tree-node-list">
                                             {flatList.value.map((node, index) => render.node(node, index))}
-                                        </pl-list>
-                                    </pl-scroll>
+                                        </PlList>
+                                    </PlScroll>
                                 )
                         )}
                     </div>

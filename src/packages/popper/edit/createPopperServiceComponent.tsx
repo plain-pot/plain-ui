@@ -2,6 +2,7 @@ import {createDefaultService} from "../../root/createDefaultService";
 import {nextTick, reactive, ref, computed} from 'vue';
 import {PopperServiceComponentOption} from "./utils";
 import {createCounter} from "../../../utils/createCounter";
+import {PlPopper} from "../popper";
 
 /**
  * 生成id的计数器，每次show的时候获取一个新的计数器，一遍令render重新渲染
@@ -146,7 +147,7 @@ export function createPopperServiceComponent(name: string) {
             return {
                 refer,
                 render: () => (
-                    <pl-popper
+                    <PlPopper
                         v-model={isShow.value}
                         onClickBody={handler.onClickBody}
                         popperAttrs={{['service-name']: name}}

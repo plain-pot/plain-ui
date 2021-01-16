@@ -4,6 +4,8 @@ import {useSlots} from "../../use/useSlots";
 import {STATUS} from "../../utils/constant";
 import {computed, reactive} from 'vue';
 import './alert.scss'
+import {PlCollapseTransition} from "../collapse/collapse-transition";
+import {PlIcon} from "../icon/icon";
 
 export const PlAlert = designComponent({
     name: 'pl-alert',
@@ -57,14 +59,14 @@ export const PlAlert = designComponent({
 
         return {
             render: () => (
-                <pl-collapse-transition>
+                <PlCollapseTransition>
                     {!state.isClosed && <div class="pl-alert-wrapper">
                         <div class={classes.value}>
                             {!!icon.value && <div class="pl-alert-icon">
-                                <pl-icon icon={icon.value}/>
+                                <PlIcon icon={icon.value}/>
                             </div>}
                             {!props.noClose && <div class="pl-alert-close" onClick={handler.onClickClosed}>
-                                {slots.close(<pl-icon icon="el-icon-close"/>)}
+                                {slots.close(<PlIcon icon="el-icon-close"/>)}
                             </div>}
                             {(!!props.label || slots.default.isExist()) && (
                                 <div class="pl-alert-label">
@@ -78,7 +80,7 @@ export const PlAlert = designComponent({
                             )}
                         </div>
                     </div>}
-                </pl-collapse-transition>
+                </PlCollapseTransition>
             )
         }
 

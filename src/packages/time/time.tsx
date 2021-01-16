@@ -11,8 +11,10 @@ import {TimeRangePanelType} from "./panel/time-range-panel";
 import {delay} from "plain-utils/utils/delay";
 import {useDateTime} from "../date-time-input/useDateTime";
 import './time.scss'
+import {PlInput} from "../input/input";
+import {PlDateTimeInput} from "../date-time-input/date-time-input";
 
-export const PlTime= designComponent({
+export const PlTime = designComponent({
     name: 'pl-time',
     props: {
         ...StyleProps,
@@ -157,50 +159,50 @@ export const PlTime= designComponent({
 
         return {
             render: () => (
-                <pl-input
+                <PlInput
                     ref="plInput"
                     class="pl-time pl-input-custom"
                     modelValue={inputValue.value}
                     suffixIcon="el-icon-time"
                     clearIcon
                     isFocus={agentState.state.focusCounter > 0}
-                    width={null}
-                    inputInnerTabindex={null}
+                    width={null as any}
+                    inputInnerTabindex={null as any}
                     clearHandler={handler.clearHandler}
                     onClickInput={handler.clickInput}
                     onKeydown={handler.keydown}>
                     <div{...{class: 'pl-input-custom-inner', range: String(props.range)}}>
                         {!props.range ? (
-                            <pl-date-time-input
+                            <PlDateTimeInput
                                 ref="valueInput"
-                                modelValue={formatData.value.value.displayString}
+                                modelValue={formatData.value.value.displayString!}
                                 displayFormat={props.displayFormat}
-                                onChange={(val: string) => customHandler.change(val, 'value')}
+                                {...{onChange: (val: string) => customHandler.change(val, 'value')}}
                                 onFocus={handler.customInputFocus}
                                 onBlur={handler.customInputBlur}/>
                         ) : (
                             <>
-                                <pl-date-time-input
+                                <PlDateTimeInput
                                     ref="startInput"
                                     width="100"
-                                    modelValue={formatData.value.start.displayString}
+                                    modelValue={formatData.value.start.displayString!}
                                     displayFormat={props.displayFormat}
-                                    onChange={(val: string) => customHandler.change(val, 'start')}
+                                    {...{onChange: (val: string) => customHandler.change(val, 'start')}}
                                     onFocus={handler.customInputFocus}
                                     onBlur={handler.customInputBlur}/>
                                 <span>~</span>
-                                <pl-date-time-input
+                                <PlDateTimeInput
                                     ref="endInput"
                                     width="100"
-                                    modelValue={formatData.value.end.displayString}
+                                    modelValue={formatData.value.end.displayString!}
                                     displayFormat={props.displayFormat}
-                                    onChange={(val: string) => customHandler.change(val, 'end')}
+                                    {...{onChange: (val: string) => customHandler.change(val, 'end')}}
                                     onFocus={handler.customInputFocus}
                                     onBlur={handler.customInputBlur}/>
                             </>)
                         }
                     </div>
-                </pl-input>
+                </PlInput>
             )
         }
     },

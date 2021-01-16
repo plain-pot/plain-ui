@@ -2,11 +2,12 @@ import {createAgentGetter} from "../../popper/edit/createAgentGetter";
 import './cascade-service.scss'
 import {App} from 'vue';
 import {delay} from 'plain-utils/utils/delay';
+import {PlCascadePanel} from "../panel/cascade-panel";
 
 export const CascadeServiceGetter = createAgentGetter({
     name: 'cascade',
     render(attrs) {
-        return <pl-cascade-panel {...attrs}/>
+        return <PlCascadePanel {...attrs}/>
     },
     defaultPopperAttrs: {
         transition: 'pl-transition-popper-drop',

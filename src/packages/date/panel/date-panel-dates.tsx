@@ -4,6 +4,7 @@ import {useDate, UseDateJudgementView} from "../useDate";
 import {computed} from 'vue';
 import {PlainDate, PlainDateType} from "../../../utils/PlainDate";
 import {findOne} from "plain-utils/object/findOne";
+import {PlDateBasePanelDate} from "./date-base-panel-date";
 
 export default designComponent({
     name: 'pl-date-panel-dates',
@@ -55,7 +56,7 @@ export default designComponent({
         }
 
         return {
-            render: () => (<pl-date-base-panel-date onClickItem={handler.onClickItem}/>)
+            render: () => (<PlDateBasePanelDate onClickItem={handler.onClickItem}/>)
         }
     },
 })

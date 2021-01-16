@@ -11,6 +11,10 @@ import {delay} from "plain-utils/utils/delay";
 import {computed, PropType} from 'vue';
 import {DatePanelType} from "./panel/date-panel";
 import {PlainDate, PlainDateType} from "../../utils/PlainDate";
+import {PlInput} from '../input/input';
+import {PlInputInnerTags} from "../input/input-inner-tags";
+import {PlIcon} from "../icon/icon";
+import {PlDateTimeInput} from "../date-time-input/date-time-input";
 
 export const PlDate = designComponent({
     name: 'pl-date',
@@ -250,46 +254,45 @@ export const PlDate = designComponent({
         return {
             render: () => {
                 return (
-                    <pl-input ref="plInput"{...inputAttrs.value}>
+                    <PlInput ref="plInput"{...inputAttrs.value as any}>
                         <div {...{class: 'pl-input-custom-inner', range: props.range}}>
 
-
-                            {props.panel === DatePanelType.dates && (<pl-input-inner-tags
+                            {props.panel === DatePanelType.dates && (<PlInputInnerTags
                                 data={formatData.value.datesString}
                                 collapseTags={props.collapseTags}
                                 v-slots={{
                                     default: ({item, index}: { item: string, index: number }) => (<>
                                         <span>{item}</span>
-                                        <pl-icon icon="el-icon-close" onClick={(e: MouseEvent) => customHandler.onClickItemCloseIcon(item, index, e)}/>
+                                        <PlIcon icon="el-icon-close" {...{onClick: (e: MouseEvent) => customHandler.onClickItemCloseIcon(item, index, e)}}/>
                                     </>)
                                 }}
                             />)}
 
                             {props.panel !== DatePanelType.dates && (
-                                !props.range ? (<pl-date-time-input
-                                        modelValue={displayString.value.value}
+                                !props.range ? (<PlDateTimeInput
+                                        modelValue={displayString.value.value!}
                                         ref="valueInput"
-                                        onChange={(val: string) => customHandler.onInputChange(val, 'value')}
+                                        {...{onChange: (val: string) => customHandler.onInputChange(val, 'value')}}
                                         displayFormat={displayFormat.value}
                                         onFocus={handler.customInputFocus}
                                         onBlur={handler.customInputBlur}
                                     />) :
                                     <>
-                                        <pl-date-time-input
+                                        <PlDateTimeInput
                                             width="100"
-                                            modelValue={displayString.value.start}
+                                            modelValue={displayString.value.start!}
                                             ref="startInput"
                                             displayFormat={displayFormat.value}
-                                            onChange={(val: string) => customHandler.onInputChange(val, 'start')}
+                                            {...{onChange: (val: string) => customHandler.onInputChange(val, 'start')}}
                                             onFocus={handler.customInputFocus}
                                             onBlur={handler.customInputBlur}
                                         />
                                         <span>~</span>
-                                        <pl-date-time-input
+                                        <PlDateTimeInput
                                             width="100"
-                                            modelValue={displayString.value.end}
+                                            modelValue={displayString.value.end!}
                                             ref="endInput"
-                                            onChange={(val: string) => customHandler.onInputChange(val, 'end')}
+                                            {...{onChange: (val: string) => customHandler.onInputChange(val, 'end')}}
                                             displayFormat={displayFormat.value}
                                             onFocus={handler.customInputFocus}
                                             onBlur={handler.customInputBlur}
@@ -298,7 +301,7 @@ export const PlDate = designComponent({
                             )}
 
                         </div>
-                    </pl-input>
+                    </PlInput>
                 )
             }
         }

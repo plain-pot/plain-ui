@@ -12,6 +12,7 @@ import {useModel} from "../../use/useModel";
 import {$$notice} from "../notice-service";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {PlColorButton} from "./color-button";
+import {PlInput} from "../input/input";
 
 enum ColorPickerType {
     input = 'input',
@@ -140,15 +141,15 @@ export const PlColorPicker = designComponent({
                     onClick: scopedSlotsOnClick.onClick,
                 }, (
                     props.type === ColorPickerType.input ? (
-                        <pl-input ref="input"
-                                  class="pl-color-picker"
-                                  modelValue={state.inputValue}
-                                  suffixIcon={suffixIcon}
-                                  isFocus={agentState.state.focusCounter > 0}
-                                  {...{
-                                      ...agentState.inputHandler,
-                                      ...inputHandler,
-                                  }}/>
+                        <PlInput ref="input"
+                                 class="pl-color-picker"
+                                 modelValue={state.inputValue}
+                                 suffixIcon={suffixIcon}
+                                 isFocus={agentState.state.focusCounter > 0}
+                                 {...{
+                                     ...agentState.inputHandler,
+                                     ...inputHandler,
+                                 }}/>
                     ) : suffixIcon()
                 ))
             }

@@ -13,6 +13,10 @@ import {$$message} from "../message";
 import {defer} from "../../utils/defer";
 import {useSlots} from "../../use/useSlots";
 import {useScopedSlots} from "../../use/useScopedSlots";
+import {PlButton} from "../button/button";
+import {PlButtonGroup} from "../button-group/button-group";
+import {PlIcon} from "../icon/icon";
+import {PlLoading} from "../loading/loading";
 
 const nextFileId = createCounter('upload')
 
@@ -43,7 +47,7 @@ type HandlePreview = (file: UploadFile) => void
 type UploadData = Record<string, string> | (() => Record<string, string>)
 type UploadModelValue = UploadFile | UploadFile[]
 
-export const PlUpload =  designComponent({
+export const PlUpload = designComponent({
     name: 'pl-upload',
     props: {
         ...EditProps,
@@ -87,13 +91,13 @@ export const PlUpload =  designComponent({
         const multipleModel = useModel(() => props.modelValue as undefined | UploadFile[], emit.updateModelValue)
 
         const renderIcon = {
-            [UploadStatus.success]: <pl-icon icon="el-icon-check-bold"/>,
-            [UploadStatus.ready]: <pl-icon icon="el-icon-upload1"/>,
-            [UploadStatus.error]: <pl-icon icon="el-icon-close-bold"/>,
-            [UploadStatus.uploading]: <pl-loading type='beta' status="primary"/>,
+            [UploadStatus.success]: <PlIcon icon="el-icon-check-bold"/>,
+            [UploadStatus.ready]: <PlIcon icon="el-icon-upload1"/>,
+            [UploadStatus.error]: <PlIcon icon="el-icon-close-bold"/>,
+            [UploadStatus.uploading]: <PlLoading type='beta' status="primary"/>,
             [UploadStatus.remove]: null,
 
-            [UploadStatus.empty]: <pl-icon icon="el-icon-upload1"/>,
+            [UploadStatus.empty]: <PlIcon icon="el-icon-upload1"/>,
         }
         const singleEmptyFile: UploadFile = {
             name: '未上传',
@@ -309,7 +313,7 @@ export const PlUpload =  designComponent({
             <div class={utils.getItemClass(file)} key={file.id}>
                 <div class="pl-upload-item-inner">
                     {!!custom ? custom() : <>
-                        {file.status ? renderIcon[file.status] : <pl-icon icon="el-icon-document"/>}
+                        {file.status ? renderIcon[file.status] : <PlIcon icon="el-icon-document"/>}
                         {file.status === UploadStatus.ready ? '(待上传) ' : ''}
                         <div class="pl-upload-item-content" onClick={() => !!props.handlePreview && props.handlePreview(file)}>
                             {scopedSlots.default({item: file, index}, file.name)}
@@ -322,7 +326,7 @@ export const PlUpload =  designComponent({
                         && editComputed.value.editable
                     ) && (
                         <div class="pl-upload-item-remove" onClick={() => methods.removeFile(file)}>
-                            <pl-icon icon="el-icon-delete-solid"/>
+                            <PlIcon icon="el-icon-delete-solid"/>
                         </div>
                     )}
                 </div>
@@ -335,30 +339,30 @@ export const PlUpload =  designComponent({
         )
 
         const singleRender = computed(() => <>
-            <pl-button-group>
-                <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
-                {!props.autoUpload && <pl-button label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
+            <PlButtonGroup>
+                <PlButton label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+                {!props.autoUpload && <PlButton label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
                 {slots.button()}
-            </pl-button-group>
+            </PlButtonGroup>
             {renderItem(singleModel.value || singleEmptyFile, 0)}
         </>)
         const multipleRender = computed(() => <>
             <div class="pl-upload-button">
                 {!props.draggable ? (
-                    <pl-button-group>
-                        <pl-button label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
-                        {!props.autoUpload && <pl-button label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
+                    <PlButtonGroup>
+                        <PlButton label="选择文件" icon="el-icon-upload" onClick={methods.chooseFile}/>
+                        {!props.autoUpload && <PlButton label="上传" icon="el-icon-connection" onClick={methods.upload}/>}
                         {slots.button()}
-                    </pl-button-group>
+                    </PlButtonGroup>
                 ) : (
                     <div class="pl-upload-drop-area" onClick={methods.chooseFile} {...dropHandler}>
-                        <pl-icon icon="el-icon-upload"/>
+                        <PlIcon icon="el-icon-upload"/>
                         <div>
                             <span>将文件拖拽至此处，或者</span>
-                            <pl-button mode="text" class="pl-upload-drop-upload-button" onClick={methods.chooseFile}>
+                            <PlButton mode="text" class="pl-upload-drop-upload-button" onClick={methods.chooseFile}>
                                 <span>点击上传</span>
-                                <pl-icon icon="el-icon-upload1"/>
-                            </pl-button>
+                                <PlIcon icon="el-icon-upload1"/>
+                            </PlButton>
                             {slots.button()}
                         </div>
                     </div>

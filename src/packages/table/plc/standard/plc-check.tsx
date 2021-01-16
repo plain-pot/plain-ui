@@ -4,6 +4,10 @@ import {TableNode} from "../../core/useTableNode";
 import {injectPlainTable} from "../../table";
 import {CheckboxStatus} from "../../../../utils/constant";
 import {toArray} from "../../../../utils/toArray";
+import {PlCheckbox} from "../../../checkbox/checkbox";
+import {PlDropdown} from "../../../dropdown/dropdown";
+import {PlDropdownMenu} from "../../../dropdown/dropdown-menu";
+import {PlDropdownOption} from "../../../dropdown/dropdown-option";
 
 export default designPlc({
     name: 'plc-check',
@@ -88,22 +92,22 @@ export default designPlc({
     },
 }, {
     summary: () => null,
-    default: ({refer, node}) => <pl-checkbox
+    default: ({refer, node}) => <PlCheckbox
         customReadonly
         modelValue={refer.isCheck(node)}
         onClick={() => refer.handler.onClickCheckbox(node)}
         disabled={!refer.isCheckable(node)}
     />,
     head: ({refer}) => (
-        <pl-dropdown
-            placement="bottom-center"
+        <PlDropdown
+            {...{placement: 'bottom-center'}}
             v-slots={{
-                default: () => <pl-checkbox checkStatus={refer.status.value}/>,
-                popper: () => <pl-dropdown-menu>
-                    <pl-dropdown-option label="全部选中" icon="el-icon-check-bold" onClick={refer.methods.checkAll}/>
-                    <pl-dropdown-option label="全部取消" icon="el-icon-close-bold" onClick={refer.methods.clearAll}/>
-                    <pl-dropdown-option label="全部反选" icon="el-icon-refresh" onClick={refer.methods.reverse}/>
-                </pl-dropdown-menu>
+                default: () => <PlCheckbox checkStatus={refer.status.value}/>,
+                popper: () => <PlDropdownMenu>
+                    <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={refer.methods.checkAll}/>
+                    <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={refer.methods.clearAll}/>
+                    <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={refer.methods.reverse}/>
+                </PlDropdownMenu>
             }}
         />
     )

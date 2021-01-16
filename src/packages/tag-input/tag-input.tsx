@@ -9,8 +9,11 @@ import {delay} from "plain-utils/utils/delay";
 import {getKey, KEY} from "../keyboard";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import './tag-input.scss'
+import {PlIcon} from "../icon/icon";
+import {PlTag} from "../tag/tag";
+import {PlInput} from "../input/input";
 
-export const PlTagInput =  designComponent({
+export const PlTagInput = designComponent({
     name: 'pl-tag-input',
     props: {
         ...EditProps,
@@ -124,24 +127,24 @@ export const PlTagInput =  designComponent({
                     {
                         (model.value || []).map((item: any, index) => (
                             scopedSlots.default({item, index}, (
-                                <pl-tag key={index} label={item} close={editComputed.value.editable && props.close} onClose={() => handler.tagClose(item, index)}/>
+                                <PlTag key={index} label={item} close={editComputed.value.editable && props.close} onClose={() => handler.tagClose(item, index)}/>
                             ))
                         ))
                     }
                     {!props.noInput && (
-                        <pl-input v-model={state.inputValue}
-                                  ref="input"
-                                  key={state.isEditing ? 1 : 2}
-                                  onKeydown={handler.keydown}
-                                  v-slots={!state.isEditing ? {
-                                      default: () => (
-                                          <div class="pl-tag-input-not-edit"
-                                               onClick={handler.clickEditButton}>
-                                              <pl-icon icon="el-icon-plus"/>
-                                              <span>添加</span>
-                                          </div>
-                                      )
-                                  } : null}
+                        <PlInput v-model={state.inputValue}
+                                 ref="input"
+                                 key={state.isEditing ? 1 : 2}
+                                 onKeydown={handler.keydown}
+                                 v-slots={!state.isEditing ? {
+                                     default: () => (
+                                         <div class="pl-tag-input-not-edit"
+                                              onClick={handler.clickEditButton}>
+                                             <PlIcon icon="el-icon-plus"/>
+                                             <span>添加</span>
+                                         </div>
+                                     )
+                                 } : null}
                         />
                     )}
                 </div>

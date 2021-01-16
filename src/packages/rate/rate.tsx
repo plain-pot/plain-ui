@@ -9,6 +9,7 @@ import {DEFAULT_STATUS} from "../../utils/constant";
 import {useMounted} from "../../use/useMounted";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
+import {PlIcon} from "../icon/icon";
 
 export const PlRate = designComponent({
     name: 'pl-rate',
@@ -139,10 +140,10 @@ export const PlRate = designComponent({
             render: () => (
                 <div class={classes.value} onMousedown={handler.mousedown} ref="el">
                     <div class="pl-rate-active" style={activeStyles.value}>
-                        {data.value.map(i => <pl-icon icon={props.activeIcon || 'el-icon-star-on'} key={i}/>)}
+                        {data.value.map(i => <PlIcon icon={props.activeIcon || 'el-icon-star-on'} key={i}/>)}
                     </div>
                     <div class="pl-rate-inactive">
-                        {data.value.map(i => <pl-icon icon={props.inactiveIcon || 'el-icon-star-off'} key={i}/>)}
+                        {data.value.map(i => <PlIcon icon={props.inactiveIcon || 'el-icon-star-off'} key={i}/>)}
                     </div>
                 </div>
             )

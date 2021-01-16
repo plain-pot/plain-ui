@@ -6,6 +6,13 @@ import {isEffectiveColorString} from "./utils/ColorUtils";
 import Input from '../input'
 import {useRefs} from "../../use/useRefs";
 import {$$notice} from "../notice-service";
+import {PlColorSvPanel} from "./sub/color-sv-panel";
+import {PlColorAlphaSlider} from "./sub/color-alpha-slider";
+import {PlColorHueSlider} from "./sub/color-hue-slider";
+import {PlInput} from "../input/input";
+import {StyleSize} from "../../use/useStyle";
+import {PlButtonGroup} from "../button-group/button-group";
+import {PlButton} from "../button/button";
 
 function getDefaultColor(format: ColorFormat, enableAlpha: boolean) {
     if (format === ColorFormat.hex) {
@@ -19,7 +26,7 @@ function getDefaultColor(format: ColorFormat, enableAlpha: boolean) {
     }
 }
 
-export const ColorPanel = designComponent({
+export const PlColorPanel = designComponent({
     name: 'pl-color-panel',
     props: {
         modelValue: {type: String},                      // 当前颜色值
@@ -132,43 +139,42 @@ export const ColorPanel = designComponent({
             render: () => (
                 <div class="pl-color-panel">
                     <div>
-                        <pl-color-sv-panel height="180"
-                                           width="240"
-                                           hue={state.color.hue}
-                                           modelValue={state.color.val}
-                                           saturation={state.color.saturation}
-                                           onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
+                        <PlColorSvPanel height="180"
+                                        width="240"
+                                        hue={state.color.hue}
+                                        modelValue={state.color.val}
+                                        saturation={state.color.saturation}
+                                        onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
 
                         {state.color.enableAlpha && (
-                            <pl-color-alpha-slider
+                            <PlColorAlphaSlider
                                 size="180"
                                 color={state.color.hex}
                                 modelValue={state.color.alpha}
-                                onChange={handler.alphaChange}/>
+                                {...{onChange: handler.alphaChange}}
+                            />
                         )}
                     </div>
 
 
-                    <pl-color-hue-slider size="240"
-                                         modelValue={state.color.hue}
-                                         onInput={(val: number) => state.color.hue = val}
-                                         onChange={handler.hueChange}/>
+                    <PlColorHueSlider size="240"
+                                      v-model={state.color.hue}
+                                      {...{onChange: handler.hueChange}}/>
                     <div class="pl-color-panel-input-group">
-                        <pl-input ref="input"
-                                  size="mini"
-                                  modelValue={state.val}
-                                  width={props.enableAlpha ? 204 : 186}
-                                  onChange={handler.inputChange}
-                                  onBlur={handler.inputBlur}
-                                  onEnter={handler.inputEnter}/>
-                        <pl-button-group size="mini">
-                            <pl-button icon="el-icon-close-bold" onClick={methods.reset}/>
-                            <pl-button icon="el-icon-check-bold" onClick={handler.confirm}/>
-                        </pl-button-group>
+                        <PlInput ref="input"
+                                 size={StyleSize.mini}
+                                 modelValue={state.val}
+                                 width={props.enableAlpha ? 204 : 186}
+                                 {...{onChange: handler.inputChange}}
+                                 onBlur={handler.inputBlur}
+                                 onEnter={handler.inputEnter}/>
+                        <PlButtonGroup size={StyleSize.mini}>
+                            <PlButton icon="el-icon-close-bold" onClick={methods.reset}/>
+                            <PlButton icon="el-icon-check-bold" onClick={handler.confirm}/>
+                        </PlButtonGroup>
                     </div>
                 </div>
             )
         }
-
     },
 })

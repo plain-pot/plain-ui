@@ -10,8 +10,9 @@ import {useProps} from "../../use/useProps";
 import {$$notice} from "../notice-service";
 import {PlSelectOption, SelectOption} from "./select-option";
 import {PlScroll} from "../scroll/scroll";
+import {PlIcon} from "../icon/icon";
 
-const Panel = designComponent({
+export const PlSelectPanel = designComponent({
     name: 'pl-select-panel',
     props: {
         modelValue: {type: [String, Number, Array]},                     // 双向绑定值
@@ -230,7 +231,7 @@ const Panel = designComponent({
                 const inner = [
                     (options.value.length === 0 || showOptions.value.length === 0) ? (
                         <div class="pl-select-panel-empty-text">
-                            <pl-icon icon="el-icon-nodata"/>
+                            <PlIcon icon="el-icon-nodata"/>
                             {options.value.length === 0 ? props.noDataText : props.noMatchText}
                         </div>
                     ) : null,
@@ -244,9 +245,9 @@ const Panel = designComponent({
                 ].filter(Boolean)
 
                 const content: any = !!props.height ? (
-                    <pl-scroll fitHostWidth ref="scroll">
+                    <PlScroll fitHostWidth ref="scroll">
                         {inner}
-                    </pl-scroll>
+                    </PlScroll>
                 ) : inner
 
                 return (
@@ -259,9 +260,7 @@ const Panel = designComponent({
     },
 })
 
-export default Panel
-
 export const SelectPanelCollector = useCollect(() => ({
-    parent: Panel,
+    parent: PlSelectPanel,
     child: PlSelectOption,
 }))

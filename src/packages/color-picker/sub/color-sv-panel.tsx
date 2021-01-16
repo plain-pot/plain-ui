@@ -7,7 +7,7 @@ import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 
-export const ColorSvPanel = designComponent({
+export const PlColorSvPanel = designComponent({
     name: 'pl-color-sv-panel',
     props: {
         hue: {type: Number, default: 360},                      // 色相

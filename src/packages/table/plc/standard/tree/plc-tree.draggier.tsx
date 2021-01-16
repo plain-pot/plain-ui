@@ -123,7 +123,7 @@ export function usePlcTreeDraggier(
     }
 
     const handler = {
-        mousedown: (e: DragEvent) => {
+        mousedown: (e: MouseEvent) => {
             state.startClientY = state.moveClientY = e.clientY
 
             state.rowEl = getRowEl(e, rowClass)

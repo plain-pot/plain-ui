@@ -6,6 +6,7 @@ import {computed, reactive, watch} from 'vue';
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {createAnimate} from "../../utils/createAnimate";
+import {PlIcon} from '../icon/icon';
 
 /*
 
@@ -166,8 +167,8 @@ export const PlProgressCircle = designComponent({
                     <div class="pl-progress-circle-label">
                         {props.loading ? slots.default() : <>
                             {props.status === 'normal' && slots.default(`${model.value}%`)}
-                            {props.status === 'success' && <pl-icon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
-                            {props.status === 'error' && <pl-icon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
+                            {props.status === 'success' && <PlIcon icon="el-icon-check-bold" class="pl-progress-bar-icon-success" style={{color: props.successColor}}/>}
+                            {props.status === 'error' && <PlIcon icon="el-icon-close-bold" class="pl-progress-bar-icon-error" style={{color: props.errorColor}}/>}
                         </>}
                     </div>
                 </div>

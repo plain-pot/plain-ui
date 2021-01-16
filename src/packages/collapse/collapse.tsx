@@ -6,6 +6,8 @@ import {computed} from 'vue';
 import {createCounter} from "../../utils/createCounter";
 import './collapse.scss'
 import {PlCollapseGroup} from "./collapse-group";
+import {PlIcon} from "../icon/icon";
+import {PlCollapseTransition} from "./collapse-transition";
 
 const valCounter = createCounter('collapse')
 
@@ -79,14 +81,14 @@ export const PlCollapse = designComponent({
                         {slots.title(props.title)}
 
                         {!props.noArrow && !isDisabled.value && <div class="pl-collapse-arrow">
-                            <pl-icon icon="el-icon-arrow-right"/>
+                            <PlIcon icon="el-icon-arrow-right"/>
                         </div>}
                     </div>}
-                    <pl-collapse-transition>
+                    <PlCollapseTransition>
                         {isOpen.value && (!!props.detail || slots.default.isExist()) && <div class="pl-collapse-detail">
                             {slots.default(props.detail)}
                         </div>}
-                    </pl-collapse-transition>
+                    </PlCollapseTransition>
                 </div>
             )
         }

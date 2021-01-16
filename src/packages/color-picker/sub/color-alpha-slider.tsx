@@ -10,7 +10,7 @@ import './color-alpha-slider.scss'
 
 const bg = require('./opacity.png')
 
-export const ColorAlphaSlider = designComponent({
+export const PlColorAlphaSlider = designComponent({
     name: 'pl-color-alpha-slider',
     props: {
         ...EditProps,

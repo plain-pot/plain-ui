@@ -12,6 +12,7 @@ import {useScopedSlots} from "../../use/useScopedSlots";
 import {useClass} from "../../use/useClasses";
 import {throttle} from "plain-utils/utils/throttle";
 import {PlCarouselItem} from "./carousel-item";
+import {PlIcon} from "../icon/icon";
 
 export const PlCarousel = designComponent({
     name: 'pl-carousel',
@@ -245,10 +246,10 @@ export const PlCarousel = designComponent({
 
                     {!props.disabledOperator && <div class="pl-carousel-operator">
                         <div class="pl-carousel-operator-btn pl-carousel-operator-prev" onClick={handler.onPrev}>
-                            <pl-icon icon="el-icon-arrow-left"/>
+                            <PlIcon icon="el-icon-arrow-left"/>
                         </div>
                         <div class="pl-carousel-operator-btn pl-carousel-operator-next" onClick={handler.onNext}>
-                            <pl-icon icon="el-icon-arrow-right"/>
+                            <PlIcon icon="el-icon-arrow-right"/>
                         </div>
                     </div>}
 

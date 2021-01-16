@@ -12,6 +12,7 @@ import {CheckboxGroupCollector} from "../checkbox-group/checkbox-group";
 import {useSlots} from "../../use/useSlots";
 import {unit} from 'plain-utils/string/unit';
 import {useStyles} from "../../use/useStyles";
+import {PlCheckboxInner} from "../checkbox-inner/checkbox-inner";
 
 export const PlCheckbox = designComponent({
     name: 'pl-checkbox',
@@ -124,10 +125,10 @@ export const PlCheckbox = designComponent({
                          v-click-wave={{disabled: !editComputed.value.editable}}>
                         <span class="plain-click-node">
                             <Transition name="pl-transition-scale" mode="out-in">
-                                <pl-checkbox-inner
+                                <PlCheckboxInner
                                     checkStatus={checkStatus.value}
                                     key={checkStatus.value}
-                                    disabled={editComputed.value.disabled}/>
+                                    disabled={editComputed.value.disabled!}/>
                             </Transition>
                         </span>
                         {slots.label(!!propsState.label ? <span class="pl-checkbox-label">{propsState.label}</span> : null)}

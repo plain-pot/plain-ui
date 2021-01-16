@@ -15,7 +15,7 @@
       flex-direction: column;
       color: $icc;
 
-      & > .pl-icon {
+      & > .PlIcon {
         font-size: 3em;
         margin-bottom: 8px;
       }
@@ -59,7 +59,7 @@
           transition: all 300ms linear;
         }
 
-        .pl-icon {
+        .PlIcon {
           cursor: pointer;
 
           &.pl-tree-node-draggier {

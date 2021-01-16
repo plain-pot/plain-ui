@@ -3,8 +3,9 @@ import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {reactive} from 'vue';
 import {useScopedSlots} from "../../use/useScopedSlots";
+import {PlPopper} from "../popper/popper";
 
-export const PlDropdown =  designComponent({
+export const PlDropdown = designComponent({
     name: 'pl-dropdown',
     props: {
         modelValue: {type: Boolean},
@@ -41,7 +42,7 @@ export const PlDropdown =  designComponent({
                 handler,
             },
             render: () => (
-                <pl-popper
+                <PlPopper
                     trigger="click"
                     v-model={model.value}
                     noContentPadding
@@ -51,7 +52,7 @@ export const PlDropdown =  designComponent({
                         {open: model.value},
                         slots.default()
                     )}
-                </pl-popper>
+                </PlPopper>
             )
         }
     },

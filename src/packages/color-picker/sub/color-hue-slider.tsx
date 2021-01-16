@@ -7,7 +7,7 @@ import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 
-export const ColorHueSlider = designComponent({
+export const PlColorHueSlider = designComponent({
     name: 'pl-color-hue-slider',
     props: {
         modelValue: {type: Number, default: 0},                          // 当前色相
