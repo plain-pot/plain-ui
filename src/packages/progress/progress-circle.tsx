@@ -36,8 +36,7 @@ A rx ry x-axis-rotation large-arc-flag sweep-flag x y
 - y：结束点y坐标
 
 */
-
-export const ProgressCircle = designComponent({
+export const PlProgressCircle = designComponent({
     name: 'pl-progress-circle',
     props: {
         ...PROGRESS_DEFAULT_PROPS,

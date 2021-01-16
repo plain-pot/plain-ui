@@ -6,7 +6,7 @@ import {unit} from 'plain-utils/string/unit';
 import {createAnimate} from "../../utils/createAnimate";
 import {useModel} from "../../use/useModel";
 
-export const ProgressMini = designComponent({
+export const PlProgressMini = designComponent({
     name: 'pl-progress-mini',
     props: {
         size: {default: 28},

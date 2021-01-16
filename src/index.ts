@@ -34,6 +34,9 @@ import TagInput from './packages/tag-input'
 import Rate from './packages/rate'
 import VirtualList from './packages/virutal-list'
 import Progress from './packages/progress'
+import ProgressBar from './packages/progress-bar'
+import ProgressCircle from './packages/progress-circle'
+import ProgressMini from './packages/progress-mini'
 import Pagination from './packages/pagination'
 import Badge from './packages/badge'
 import Step from './packages/step'
@@ -72,7 +75,8 @@ const plugins: ComponentPlugin[] = [
     Root,
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
-    List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
+    List, Item, Grid, Dialog, Scroll, VirtualList, Progress, ProgressBar,
+    ProgressCircle, ProgressMini, Pagination, Badge,
     Step, Popper, Dropdown, DropdownGroup, DropdownMenu, DropdownOption,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
     Carousel, CarouselItem, Table, Nav, Row, Col,
