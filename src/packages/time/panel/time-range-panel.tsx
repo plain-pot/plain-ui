@@ -11,7 +11,7 @@ export enum TimeRangePanelType {
     end = 'end',
 }
 
-export default designComponent({
+export const PlTimeRangePanel= designComponent({
     name: 'pl-time-range-panel',
     props: {
         start: {type: String},

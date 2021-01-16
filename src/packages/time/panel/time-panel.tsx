@@ -2,7 +2,7 @@ import {designComponent} from "../../../use/designComponent";
 import {TimePublicProps} from "./time-panel.utils";
 import {useModel} from "../../../use/useModel";
 import {nextTick, computed} from 'vue';
-import {TimeRangePanelType} from "./time-range-panel";
+import {PlTimeRangePanel, TimeRangePanelType} from "./time-range-panel";
 import {PlTimeBasePanel} from "./time-base-panel";
 
 export const TimePanelProps = {
@@ -78,7 +78,7 @@ export const PlTimePanel = designComponent({
             render: () => (
                 !props.range ?
                     <PlTimeBasePanel class="pl-time-panel" {...binding.value.base} key="base"/> :
-                    <PlTimeBasePanel class="pl-time-panel" {...binding.value.range} key="range"/>
+                    <PlTimeRangePanel class="pl-time-panel" {...binding.value.range} key="range"/>
             )
         }
 
