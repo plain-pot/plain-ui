@@ -15,7 +15,7 @@ import {throttle} from 'plain-utils/utils/throttle';
 
 console.log('load input component')
 
-export default designComponent({
+export const PlInput =  designComponent({
     name: 'pl-input',
     props: {
         ...EditProps,

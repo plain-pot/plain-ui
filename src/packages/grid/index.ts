@@ -1,5 +1,4 @@
-import Row from "./row";
-import Col from './col'
+import {PlRow} from "./row";
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Row, {exposeComponents: {Col}})
+export default createComponentPlugin(PlRow)

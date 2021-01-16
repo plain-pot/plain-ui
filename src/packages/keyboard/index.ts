@@ -180,7 +180,7 @@ export const KeyboardService = {
     _onkeydown(e: KeyboardEvent) {
         if (e.currentTarget !== e.target) return
         const names = [] as string[];
-        e.ctrlKey && names.push('ctrl')
+        (e.metaKey || e.ctrlKey) && names.push('ctrl')
         e.shiftKey && names.push('shift')
         e.altKey && names.push('alt')
         // @ts-ignore

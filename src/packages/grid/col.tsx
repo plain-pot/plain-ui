@@ -11,7 +11,7 @@ export type GridColSize = number | {
     offset: number,
 }
 
-export const Col = designComponent({
+export const PlCol = designComponent({
     name: 'pl-col',
     props: {
         span: {type: [Number, String] as PropType<string | number>},
@@ -71,5 +71,3 @@ export const Col = designComponent({
         }
     },
 })
-
-export default createComponentPlugin(Col)

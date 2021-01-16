@@ -3,7 +3,7 @@ import {designComponent} from "../../use/designComponent";
 import {TransitionGroup} from 'vue'
 import {useSlots} from "../../use/useSlots";
 
-export default designComponent({
+export const PlList = designComponent({
     name: 'pl-list',
     props: {
         direction: {                            //item入场出场动画 'left', 'right', 'top', 'bottom', 'left-top', 'top-left', 'right-top', 'top-right', 'left-bottom', 'bottom-left', 'right-bottom', 'bottom-right'

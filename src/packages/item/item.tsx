@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 
-export default designComponent({
+export const PlItem = designComponent({
     name: 'pl-item',
     props: {
         block: {type: Boolean},

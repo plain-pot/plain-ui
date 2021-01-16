@@ -1,4 +1,4 @@
-import Loading from './loading'
+import {PlLoading} from './loading'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Loading)
+export default createComponentPlugin(PlLoading)

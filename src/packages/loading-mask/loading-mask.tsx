@@ -7,7 +7,7 @@ import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
 import Loading from '../loading'
 
-export default designComponent({
+export const PlLoadingMask =  designComponent({
     name: 'pl-loading-mask',
     props: {
         modelValue: {type: Boolean},                                    // 是否打开loading遮罩

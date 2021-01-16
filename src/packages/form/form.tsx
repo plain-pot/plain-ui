@@ -9,12 +9,12 @@ import {useSlots} from "../../use/useSlots";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {useCollect} from "../../use/useCollect";
-import FormItem from './form-item'
+import {PlFormItem} from './form-item'
 import {FormAssociateFields, formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
 import {debounce} from "plain-utils/utils/debounce";
 import {$$notice} from "../notice-service";
 
-const Form = designComponent({
+export const PlForm = designComponent({
     name: 'pl-form',
     props: {
         ...EditProps,
@@ -274,9 +274,9 @@ const Form = designComponent({
     },
 })
 
-export default Form
+export default PlForm
 
 export const FormCollector = useCollect(() => ({
-    parent: Form,
-    child: FormItem,
+    parent: PlForm,
+    child: PlFormItem,
 }))

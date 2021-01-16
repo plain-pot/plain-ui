@@ -21,7 +21,7 @@ export enum GridJustify {
     'space-between' = "space-between",
 }
 
-export const Row = designComponent({
+export const PlRow = designComponent({
     name: 'pl-row',
     props: {
         type: {type: String as PropType<undefined | null | string>},        //类型,type
@@ -64,5 +64,3 @@ export const Row = designComponent({
         }
     },
 })
-
-export default createComponentPlugin(Row)

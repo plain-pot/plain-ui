@@ -1,12 +1,4 @@
-import Input from "./input";
-import Icon from '../icon'
-import InputInnerTags from './input-inner-tags'
+import {PlInput} from "./input";
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(
-    Input,
-    {
-        plugins: [Icon],
-        exposeComponents: {InputInnerTags}
-    },
-)
+export default createComponentPlugin(PlInput)

@@ -131,13 +131,8 @@
 
 <script>
 
-    import FormItem from '../../../src/packages/form/form-item'
-
     export default {
         name: "form-basic",
-        components: {
-            FormItem,
-        },
         data() {
             return {
                 formData: {},

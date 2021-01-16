@@ -1,9 +1,4 @@
-import form from './form'
-import item from './form-item'
+import PlForm from './form'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-const FormItem = createComponentPlugin(item)
-
-export default createComponentPlugin(form, {
-    exposeComponents: {FormItem}
-})
+export default createComponentPlugin(PlForm)

@@ -1,4 +1,4 @@
-import item from './item'
+import {PlItem} from './item'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(item)
+export default createComponentPlugin(PlItem)

@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
 
-export default designComponent({
+export const InputInnerTags = designComponent({
     name: 'pl-input-inner-tags',
     props: {
         data: {type: Array},

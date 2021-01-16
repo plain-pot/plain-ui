@@ -12,7 +12,7 @@ import {useClass} from "../../use/useClasses";
 import {FormContentAlign, FormLabelAlign} from "./form.utils";
 import {FormComponentItemRules, FormRule, FormValidateUtils} from "./form.validate";
 
-export default designComponent({
+export const PlFormItem = designComponent({
     name: 'pl-form-item',
     props: {
         ...EditProps,

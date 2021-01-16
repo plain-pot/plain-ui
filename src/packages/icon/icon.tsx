@@ -41,7 +41,7 @@ registry('el-icon-', async (icon) => {
     }
 })
 
-export default designComponent({
+export const PlIcon = designComponent({
     name: 'pl-icon',
     props: {
         icon: {type: String},                       // 图标名称
