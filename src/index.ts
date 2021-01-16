@@ -57,6 +57,8 @@ import ColorPicker from './packages/color-picker'
 import Cascade from './packages/cascade'
 import Tree from './packages/tree'
 import Select from './packages/select'
+import SelectOption from './packages/select-option'
+import SelectGroup from './packages/select-group'
 import DateTimeInput from './packages/date-time-input'
 import Time from './packages/time'
 import Date from './packages/date'
@@ -82,8 +84,8 @@ const plugins: ComponentPlugin[] = [
     Carousel, CarouselItem, Table, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
-    Form, FormItem, Upload,
+    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
+    DateTimeInput, Date, Form, FormItem, Upload,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 ]

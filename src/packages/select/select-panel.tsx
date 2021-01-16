@@ -8,7 +8,7 @@ import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
 import {useProps} from "../../use/useProps";
 import {$$notice} from "../notice-service";
-import {PlOption, SelectOption} from "./select-option";
+import {PlSelectOption, SelectOption} from "./select-option";
 import {PlScroll} from "../scroll/scroll";
 
 const Panel = designComponent({
@@ -263,5 +263,5 @@ export default Panel
 
 export const SelectPanelCollector = useCollect(() => ({
     parent: Panel,
-    child: PlOption,
+    child: PlSelectOption,
 }))

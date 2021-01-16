@@ -5,7 +5,7 @@ import {EditProps} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import Input from '../input'
-import {PlOption, SelectOption} from "./select-option";
+import {PlSelectOption, SelectOption} from "./select-option";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {SelectServiceGetter} from "./select-service";
 import {computed, ref} from 'vue';
@@ -294,5 +294,5 @@ export const PlSelect = designComponent({
 
 export const SelectCollector = useCollect(() => ({
     parent: PlSelect,
-    child: PlOption,
+    child: PlSelectOption,
 }))

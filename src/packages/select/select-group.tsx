@@ -1,11 +1,11 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useCollect} from "../../use/useCollect";
-import {PlOption, SelectOption} from './select-option'
+import {PlSelectOption, SelectOption} from './select-option'
 import {computed} from 'vue';
 import Panel from './select-panel'
 
-const Group = designComponent({
+export const PlSelectGroup = designComponent({
     name: 'pl-select-group',
     props: {
         label: {type: String},
@@ -35,9 +35,7 @@ const Group = designComponent({
     },
 })
 
-export default Group
-
 export const SelectGroupCollector = useCollect(() => ({
-    parent: Group,
-    child: PlOption,
+    parent: PlSelectGroup,
+    child: PlSelectOption,
 }))

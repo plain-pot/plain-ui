@@ -7,7 +7,7 @@ import {computed} from 'vue';
 import {SelectGroupCollector} from "./select-group";
 import {SelectCollector} from "./select";
 
-export const PlOption = designComponent({
+export const PlSelectOption = designComponent({
     name: 'pl-select-option',
     props: {
         label: {type: [String, Number], required: true},
@@ -78,4 +78,4 @@ export const PlOption = designComponent({
     },
 })
 
-export type SelectOption = typeof PlOption.use.class
+export type SelectOption = typeof PlSelectOption.use.class
