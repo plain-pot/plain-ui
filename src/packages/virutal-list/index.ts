@@ -1,4 +1,4 @@
-import VirtualList from './virtual-list'
+import {PlVirtualList} from './virtual-list'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(VirtualList)
+export default createComponentPlugin(PlVirtualList)

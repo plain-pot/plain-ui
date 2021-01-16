@@ -12,7 +12,7 @@ import {delay} from "plain-utils/utils/delay";
 import {useDateTime} from "../date-time-input/useDateTime";
 import './time.scss'
 
-export default designComponent({
+export const PlTime= designComponent({
     name: 'pl-time',
     props: {
         ...StyleProps,

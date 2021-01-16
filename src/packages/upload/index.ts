@@ -1,4 +1,4 @@
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
-import upload from './upload'
+import {PlUpload} from './upload'
 
-export default createComponentPlugin(upload)
+export default createComponentPlugin(PlUpload)

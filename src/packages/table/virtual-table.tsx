@@ -11,7 +11,7 @@ import {PlScroll} from "../scroll/scroll";
 
 // const scrollbarSize = 12;
 
-export const VirtualTable = designComponent({
+export const PlVirtualTable = designComponent({
     name: 'pl-virtual-table',
     props: {
         data: {type: Array as PropType<SimpleObject[]>, require: true, default: []},// 要渲染的长数据

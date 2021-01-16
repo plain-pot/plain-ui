@@ -18,7 +18,7 @@ function uppercaseFirstLetter(name: string): string {
     return name.charAt(0).toUpperCase() + name.slice(1)
 }
 
-export default designComponent({
+export const PlTriangle = designComponent({
     name: 'pl-triangle',
     props: {
         direction: {type: String, default: 'top'},

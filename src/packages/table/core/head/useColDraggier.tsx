@@ -1,5 +1,4 @@
 import {Plc, TablePlc} from "../../plc/core/plc.type";
-import Table from "../../table";
 import {useAutoScroll} from "../../../../use/useAutoScroll";
 import {StyleProperties} from "../../../../shims";
 import {addClass} from "plain-utils/dom/addClass";
@@ -7,6 +6,7 @@ import {nextIndex} from "../../../../utils/nextIndex";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {PlainScroll} from "../../../scroll/scroll";
+import {PlTable} from "../../table";
 
 interface DragData {
     left: number
@@ -106,7 +106,7 @@ function getPlcWidth(plc: TablePlc) {
  */
 function getIndicatorHeight(
     plc: TablePlc,
-    table: typeof Table.use.class,
+    table: typeof PlTable.use.class,
 ) {
     if (plc.group) {
         return (table.plcData.value!.maxLevel - plc.level!) * table.numberState.headRowHeight
@@ -139,7 +139,7 @@ function getLowestPlcList(plcList: TablePlc[]): Plc[] {
  * @author  韦胜健
  * @date    2020/9/6 20:41
  */
-function getDragData(table: typeof Table.use.class, plc: TablePlc): {
+function getDragData(table: typeof PlTable.use.class, plc: TablePlc): {
     broData: DragData[],
     broList: TablePlc[]
 } {
@@ -177,7 +177,7 @@ function getDragData(table: typeof Table.use.class, plc: TablePlc): {
 
 export function useColDraggier(config: () => {
     plc: TablePlc,
-    table: typeof Table.use.class,
+    table: typeof PlTable.use.class,
     scrollRefer: () => PlainScroll,
 }) {
     const {plc, table, scrollRefer} = config()

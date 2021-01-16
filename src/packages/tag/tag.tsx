@@ -6,7 +6,7 @@ import {DEFAULT_STATUS} from "../../utils/constant";
 import {computed} from 'vue';
 import './tag.scss'
 
-export default designComponent({
+export const PlTag = designComponent({
     name: 'pl-tag',
     props: {
         ...EditProps,

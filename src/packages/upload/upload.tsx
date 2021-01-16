@@ -43,7 +43,7 @@ type HandlePreview = (file: UploadFile) => void
 type UploadData = Record<string, string> | (() => Record<string, string>)
 type UploadModelValue = UploadFile | UploadFile[]
 
-export default designComponent({
+export const PlUpload =  designComponent({
     name: 'pl-upload',
     props: {
         ...EditProps,

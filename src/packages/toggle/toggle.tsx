@@ -8,7 +8,7 @@ import {reactive, computed} from 'vue';
 import {getKey, KEY} from "../keyboard";
 import './toggle.scss'
 
-export default designComponent({
+export const PlToggle =  designComponent({
     name: 'pl-toggle',
     directives: {ClickWave},
     props: {

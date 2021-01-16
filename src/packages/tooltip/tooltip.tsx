@@ -8,7 +8,7 @@ import {useRefs} from "../../use/useRefs";
 import {onUpdated, reactive, onMounted} from 'vue';
 import {debounce} from "plain-utils/utils/debounce";
 
-export default designComponent({
+export const PlTooltip =  designComponent({
     name: 'pl-tooltip',
     props: {
         modelValue: {type: Boolean},                        // 双向绑定控制是否显示

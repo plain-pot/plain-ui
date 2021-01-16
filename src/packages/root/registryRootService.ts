@@ -1,5 +1,5 @@
-import Root from "./root";
 import {ComponentPublicInstance} from 'vue';
+import {PlRoot} from "./root";
 
 /**
  * 用来注册root组件，建立 root 与 app中的 $root根实例的唯一对应关系
@@ -7,9 +7,9 @@ import {ComponentPublicInstance} from 'vue';
  * @date    2020/11/26 9:32
  */
 export const RootController = (() => {
-    const map = new WeakMap<ComponentPublicInstance, typeof Root.use.class>()
+    const map = new WeakMap<ComponentPublicInstance, typeof PlRoot.use.class>()
     return {
-        initRoot: (root: typeof Root.use.class) => {
+        initRoot: (root: typeof PlRoot.use.class) => {
             const $root = root.rootRef()
             map.set($root, root)
         },

@@ -4,11 +4,11 @@
  * @date    2020/8/18 16:17
  */
 import {TablePlc} from "../../plc/core/plc.type";
-import Table from "../../table";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
+import {PlTable} from "../../table";
 
-export function useHeadCellResize(table: typeof Table.use.class, plc: TablePlc) {
+export function useHeadCellResize(table: typeof PlTable.use.class, plc: TablePlc) {
 
     const state = {
         indicatorEl: null as null | HTMLElement,

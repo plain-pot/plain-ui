@@ -1,9 +1,4 @@
-import TagInput from './tag-input'
-import Tag from '../tag'
+import {PlTagInput} from './tag-input'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(TagInput, {
-    plugins: [
-        Tag
-    ]
-})
+export default createComponentPlugin(PlTagInput)

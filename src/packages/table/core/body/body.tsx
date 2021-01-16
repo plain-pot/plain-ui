@@ -1,7 +1,7 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlainTable} from "../../table";
 import {PltRow} from "./row";
-import {VirtualTable} from "../../virtual-table";
+import {PlVirtualTable} from "../../virtual-table";
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {useRefs} from "../../../../use/useRefs";
 import {TableHoverPart} from "../table.utils";
@@ -16,7 +16,7 @@ export const PltBody = designComponent({
     setup({props}) {
 
         const {refs} = useRefs({
-            virtual: VirtualTable,
+            virtual: PlVirtualTable,
         })
         /*表头表体联动滚动*/
         const bindScroll = props.table.bindScroll(
@@ -41,7 +41,7 @@ export const PltBody = designComponent({
 
         return {
             render: () => (
-                <VirtualTable
+                <PlVirtualTable
                     class="plt-body"
                     ref="virtual"
                     key={props.table.plcData.value!.plcKeyString}

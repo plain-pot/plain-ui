@@ -1,11 +1,11 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlainTable} from "../../table";
-import {PlScroll} from '../../../scroll'
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PltHeadCell} from "./head-cell";
 import {useStyles} from "../../../../use/useStyles";
 import {TableHoverPart} from "../table.utils";
 import {useRefs} from "../../../../use/useRefs";
+import {PlScroll} from "../../../scroll/scroll";
 
 export const PltHead = designComponent({
     name: 'plt-head',
@@ -15,7 +15,7 @@ export const PltHead = designComponent({
     setup({props}) {
 
         const {refs} = useRefs({
-            scroll: Scroll,
+            scroll: PlScroll,
         })
         /*Scroll的父节点需要固定高度*/
         const styles = useStyles(style => {
@@ -47,7 +47,7 @@ export const PltHead = designComponent({
         return {
             render: () => (
                 <div class="plt-head" style={styles.value} onMouseenter={bindScroll.onMouseenter}>
-                    <Scroll hideScrollbar scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref="scroll">
+                    <PlScroll hideScrollbar scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref="scroll">
                         <table {...{
                             cellspacing: 0,
                             cellpadding: 0,
@@ -63,7 +63,7 @@ export const PltHead = designComponent({
                                 </tr>
                             ))}
                         </table>
-                    </Scroll>
+                    </PlScroll>
                 </div>
             )
         }

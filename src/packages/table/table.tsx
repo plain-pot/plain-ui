@@ -17,7 +17,7 @@ import {formatFormRules, FormValidate} from "../form/form.validate";
 import {useTree} from "../tree/core/useTree";
 import {hasClass} from "plain-utils/dom/hasClass";
 
-const Table = designComponent({
+export const PlTable = designComponent({
     name: 'pl-table',
     props: {
         ...TableProps,
@@ -124,8 +124,6 @@ const Table = designComponent({
     },
 })
 
-export const PlainTable = Object as PropType<typeof Table.use.class>
+export const PlainTable = Object as PropType<typeof PlTable.use.class>
 
-export function injectPlainTable() {return inject('@@pl-table') as typeof Table.use.class}
-
-export default Table
+export function injectPlainTable() {return inject('@@pl-table') as typeof PlTable.use.class}

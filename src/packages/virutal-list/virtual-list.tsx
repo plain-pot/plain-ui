@@ -5,7 +5,7 @@ import {useRefs} from "../../use/useRefs";
 import {useVirtualList} from "./useVirtualList";
 import {PlScroll} from "../scroll/scroll";
 
-export default designComponent({
+export const PlVirtualList =  designComponent({
     name: 'pl-virtual-list',
     props: {
         data: {type: Array, require: true, default: []},            // 要渲染的长数据

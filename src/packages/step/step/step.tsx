@@ -5,7 +5,7 @@ import {StepStatus, StepUtils} from "../step.utils";
 import {StepCollector} from "./step-group";
 import {useRefs} from "../../../use/useRefs";
 
-export const Step = designComponent({
+export const PlStep = designComponent({
     name: 'pl-step',
     props: {
         icon: {type: String},

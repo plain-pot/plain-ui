@@ -6,15 +6,15 @@ import {useStyles} from "../../use/useStyles";
 import {TreeProps} from "./utils/props";
 import {TreeUtils} from "./utils/tree.utils";
 import {TreeNode} from "./utils/type";
-import VirtualList from '../virutal-list/virtual-list'
 import {useRefs} from "../../use/useRefs";
 import {useTreeDraggier} from './core/useTreeDraggier';
 import {delay} from "plain-utils/utils/delay";
 import {useTree} from "./core/useTree";
 import {createKeyHandler} from "../../utils/createKeyHandler";
 import {PlScroll} from "../scroll/scroll";
+import {PlVirtualList} from "../virutal-list/virtual-list";
 
-export default designComponent({
+export const PlTree = designComponent({
     name: 'pl-tree',
     props: {
         ...TreeProps,
@@ -23,7 +23,7 @@ export default designComponent({
     setup({props, event}) {
 
         const {emit} = event
-        const {refs} = useRefs({list: VirtualList, scroll: PlScroll,})
+        const {refs} = useRefs({list: PlVirtualList, scroll: PlScroll,})
         const {scopedSlots} = useScopedSlots({default: {node: Object as PropType<TreeNode>, index: Number},})
         const {state, methods, current, handler, utils} = useTree<TreeNode>({props, emit, keyManager: createKeyHandler('tree'),})
 

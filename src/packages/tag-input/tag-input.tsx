@@ -10,7 +10,7 @@ import {getKey, KEY} from "../keyboard";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import './tag-input.scss'
 
-export default designComponent({
+export const PlTagInput =  designComponent({
     name: 'pl-tag-input',
     props: {
         ...EditProps,

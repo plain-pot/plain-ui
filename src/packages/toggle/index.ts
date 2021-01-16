@@ -1,4 +1,4 @@
-import Toggle from './toggle'
+import {PlToggle} from './toggle'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(Toggle)
+export default createComponentPlugin(PlToggle)

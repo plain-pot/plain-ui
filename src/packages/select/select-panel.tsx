@@ -3,13 +3,13 @@ import {useSlots} from "../../use/useSlots";
 import {useCollect} from "../../use/useCollect";
 import {computed, PropType, ref} from 'vue';
 import {useRefs} from "../../use/useRefs";
-import {PlScroll} from '../scroll'
 import {useModel} from "../../use/useModel";
 import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
 import {useProps} from "../../use/useProps";
 import {$$notice} from "../notice-service";
 import {PlOption, SelectOption} from "./select-option";
+import {PlScroll} from "../scroll/scroll";
 
 const Panel = designComponent({
     name: 'pl-select-panel',
@@ -43,7 +43,7 @@ const Panel = designComponent({
         /*插槽*/
         const {slots} = useSlots()
         /*组件引用*/
-        const {refs} = useRefs({scroll: Scroll})
+        const {refs} = useRefs({scroll: PlScroll})
         /*收集的 select-option 子组件*/
         const items = SelectPanelCollector.parent()
         /*筛选的出有效的 select-option 子组件*/
