@@ -16,7 +16,7 @@
         align-items: center;
         justify-content: center;
 
-        .PlIcon {
+        .pl-icon {
           transition: transform 300ms $transition;
         }
       }
@@ -24,7 +24,7 @@
 
     &.pl-collapse-is-open {
       .pl-collapse-arrow {
-        .PlIcon {
+        .pl-icon {
           transform: rotate(90deg);
         }
       }

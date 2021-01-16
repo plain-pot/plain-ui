@@ -329,13 +329,13 @@
     }
 
     .plc-expand-icon {
-      .PlIcon {
+      .pl-icon {
         @include transition;
         transition-property: transform;
       }
 
       &.plc-expand-icon-active {
-        .PlIcon {
+        .pl-icon {
           transform: rotate(-180deg);
         }
       }
