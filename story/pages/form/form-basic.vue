@@ -73,12 +73,12 @@
                 <pl-form-item label="客户名称" field="name">
                     <pl-input v-model="formData.name"/>
                 </pl-form-item>
-                <FormItem label="客户员工数量" field="type">
+                <pl-form-item label="客户员工数量" field="type">
                     <pl-number v-model="formData.type"/>
                     <template #suffix>
                         <pl-icon icon="el-icon-question" v-tooltip="'整数'"/>
                     </template>
-                </FormItem>
+                </pl-form-item>
                 <pl-form-item label="客户加入时间" field="joinTime">
                     <pl-date v-model="formData.joinTime"/>
                     <span>&nbsp;至&nbsp;</span>
