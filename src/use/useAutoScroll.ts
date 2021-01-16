@@ -1,7 +1,7 @@
-import Scroll from '../packages/scroll/scroll'
 import {addClass} from "plain-utils/dom/addClass";
 import {nextIndex} from "../utils/nextIndex";
 import {StyleProperties} from "../shims";
+import {PlScroll} from "../packages/scroll/scroll";
 
 function createIndicator(hostEl: HTMLElement, vertical: boolean) {
 
@@ -53,7 +53,7 @@ function createIndicator(hostEl: HTMLElement, vertical: boolean) {
 }
 
 export function useAutoScroll(config: {
-    getScroll: () => typeof Scroll.use.class,
+    getScroll: () => typeof PlScroll.use.class,
     vertical: boolean,
 }) {
 

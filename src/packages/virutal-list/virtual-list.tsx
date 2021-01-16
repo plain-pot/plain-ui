@@ -2,8 +2,8 @@ import './virtual-list.scss'
 import {designComponent} from "../../use/designComponent";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useRefs} from "../../use/useRefs";
-import Scroll from '../scroll'
 import {useVirtualList} from "./useVirtualList";
+import {PlScroll} from "../scroll/scroll";
 
 export default designComponent({
     name: 'pl-virtual-list',
@@ -24,7 +24,7 @@ export default designComponent({
         })
 
         const {refs} = useRefs({
-            scroll: Scroll,
+            scroll: PlScroll,
             content: HTMLDivElement,
         })
 
@@ -41,7 +41,7 @@ export default designComponent({
             render: () => {
                 const {list} = virtual.offsetData.value
                 return (
-                    <Scroll onScroll={virtual.handler.onScroll} ref="scroll" class={virtual.classes.value} disableListTransition>
+                    <PlScroll onScroll={virtual.handler.onScroll} ref="scroll" class={virtual.classes.value} disableListTransition>
                         <div class="pl-virtual-list-strut" style={virtual.strutStyles.value}>
                             <div class="pl-virtual-list-content" style={virtual.contentStyles.value} ref="content">
                                 {scopedSlots.content({data: list}, list.map((node, virtualIndex) =>
@@ -49,7 +49,7 @@ export default designComponent({
                                 ))}
                             </div>
                         </div>
-                    </Scroll>
+                    </PlScroll>
                 )
             }
         }

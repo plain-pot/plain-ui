@@ -1,7 +1,7 @@
 import {designComponent} from "../../../use/designComponent";
 import {EditProps, useEdit} from "../../../use/useEdit";
 import {useRefs} from "../../../use/useRefs";
-import Scroll from '../../scroll'
+import {PlScroll} from '../../scroll'
 import {useModel} from "../../../use/useModel";
 import {computed, nextTick, onMounted, PropType} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";

@@ -1,6 +1,6 @@
 import {TreeDropType} from "../utils/tree-constant";
 import {useAutoScroll} from "../../../use/useAutoScroll";
-import Scroll from "../../scroll/scroll";
+import {PlScroll} from "../../scroll/scroll";
 import {StyleProperties} from "../../../shims";
 import {getRowEl} from "../../../utils/getRowEl";
 import {getScrollParent} from "../../../utils/getScrollParent";
@@ -28,7 +28,7 @@ export function useTreeDraggier<T extends {
         rowClass: string,                                   // 行 class 标识
         dragClass: string,                                  // 拖拽的节点class标识
         flatList: { value: T[] },                           // 拍平的数据
-        getScroll: () => typeof Scroll.use.class,           // 获取 Scroll 组件实例引
+        getScroll: () => typeof PlScroll.use.class,           // 获取 Scroll 组件实例引
         props: {
             intent: number,                                 // 层级偏移距离
             allowDrag?: (node: T) => boolean | undefined,   // 判断元素是否可以拖拽

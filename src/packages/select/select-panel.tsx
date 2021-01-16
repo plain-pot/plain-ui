@@ -1,15 +1,15 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
-import Option, {SelectOption} from './select-option'
 import {useCollect} from "../../use/useCollect";
 import {computed, PropType, ref} from 'vue';
 import {useRefs} from "../../use/useRefs";
-import Scroll from '../scroll'
+import {PlScroll} from '../scroll'
 import {useModel} from "../../use/useModel";
 import {unit} from "plain-utils/string/unit";
 import {useStyles} from "../../use/useStyles";
 import {useProps} from "../../use/useProps";
 import {$$notice} from "../notice-service";
+import {PlOption, SelectOption} from "./select-option";
 
 const Panel = designComponent({
     name: 'pl-select-panel',
@@ -263,5 +263,5 @@ export default Panel
 
 export const SelectPanelCollector = useCollect(() => ({
     parent: Panel,
-    child: Option,
+    child: PlOption,
 }))

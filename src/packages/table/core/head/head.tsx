@@ -1,6 +1,6 @@
 import {designComponent} from "../../../../use/designComponent";
 import {PlainTable} from "../../table";
-import Scroll from '../../../scroll'
+import {PlScroll} from '../../../scroll'
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PltHeadCell} from "./head-cell";
 import {useStyles} from "../../../../use/useStyles";

@@ -1,7 +1,7 @@
-import Scroll from '../scroll'
 import {computed, reactive, nextTick, watch, onMounted, onUpdated} from 'vue'
 import {useClass} from "../../use/useClasses";
 import {useStyles} from "../../use/useStyles";
+import {PlScroll} from "../scroll/scroll";
 
 interface DataNode {
     top: number
@@ -26,7 +26,7 @@ export function useVirtualList(
             dynamicSize?: boolean,
         },
         refs: {
-            scroll: typeof Scroll.use.class | null,
+            scroll: typeof PlScroll.use.class | null,
             content: HTMLDivElement,
         },
         emit: {

@@ -5,7 +5,7 @@ import {EditProps} from "../../use/useEdit";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
 import Input from '../input'
-import Option, {SelectOption} from "./select-option";
+import {PlOption, SelectOption} from "./select-option";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {SelectServiceGetter} from "./select-service";
 import {computed, ref} from 'vue';
@@ -33,7 +33,7 @@ const Props = {
     filterMethod: Function,                                         // 筛选过滤函数
 }
 
-const Select = designComponent({
+export const PlSelect = designComponent({
     name: 'pl-select',
     props: {
         ...Props,
@@ -292,9 +292,7 @@ const Select = designComponent({
     },
 })
 
-export default Select
-
 export const SelectCollector = useCollect(() => ({
-    parent: Select,
-    child: Option,
+    parent: PlSelect,
+    child: PlOption,
 }))

@@ -1,7 +1,7 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useCollect} from "../../use/useCollect";
-import Option, {SelectOption} from './select-option'
+import {PlOption, SelectOption} from './select-option'
 import {computed} from 'vue';
 import Panel from './select-panel'
 
@@ -39,5 +39,5 @@ export default Group
 
 export const SelectGroupCollector = useCollect(() => ({
     parent: Group,
-    child: Option,
+    child: PlOption,
 }))

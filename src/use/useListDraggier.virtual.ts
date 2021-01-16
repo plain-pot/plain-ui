@@ -1,5 +1,5 @@
 import {useAutoScroll} from "./useAutoScroll";
-import Scroll from "../packages/scroll/scroll";
+import {PlScroll} from "../packages/scroll/scroll";
 import {getRowEl} from "../utils/getRowEl";
 import {getScrollParent} from "../utils/getScrollParent";
 
@@ -8,7 +8,7 @@ export interface UseListDraggierType {
         rowClass: string,                                                               // 行的class，要确保只有行所在的dom对象有这个class，其子节点是没有这个class的
         onChange: (start: number, end: number) => void | Promise<void>,                 // 拖拽导致排序变化动作
         virtual?: boolean,                                                              // 是否为虚拟滚动
-        getScroll: () => typeof Scroll.use.class,                                       // 获取 scroll 组件的引用
+        getScroll: () => typeof PlScroll.use.class,                                       // 获取 scroll 组件的引用
     }): {
         handler: {
             mousedown: (e: MouseEvent) => void,

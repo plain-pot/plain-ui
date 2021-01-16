@@ -1,4 +1,4 @@
-import Scroll from '../scroll'
+import {PlScroll} from '../scroll'
 import VirtualList from './virtual-list'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
