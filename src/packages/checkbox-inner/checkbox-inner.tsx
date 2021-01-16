@@ -3,7 +3,7 @@ import {useClass} from "../../use/useClasses";
 import './checkbox-inner.scss'
 import {CheckboxStatus} from "../../utils/constant";
 
-export default designComponent({
+export const CheckboxInner = designComponent({
     name: 'pl-checkbox-inner',
     props: {
         disabled: {type: Boolean},

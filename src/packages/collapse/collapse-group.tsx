@@ -2,7 +2,7 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 
-export default designComponent({
+export const PlCollapseGroup = designComponent({
     name: 'pl-collapse-group',
     props: {
         modelValue: {type: [String, Array]},

@@ -2,12 +2,12 @@ import {ModelType} from "../../shims";
 import {useStyle} from "../../use/useStyle";
 import {useEdit} from "../../use/useEdit";
 import {useRefs} from "../../use/useRefs";
-import DateTimeInput from './date-time-input'
 import Input from '../input'
 import {computed} from 'vue';
 import {EditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {delay} from "plain-utils/utils/delay";
 import {handleKeyboard} from "../keyboard";
+import {PlDateTimeInput} from "./date-time-input";
 
 export function useDateTime(
     {
@@ -34,9 +34,9 @@ export function useDateTime(
     useStyle()
 
     const {refs} = useRefs({
-        valueInput: DateTimeInput,
-        startInput: DateTimeInput,
-        endInput: DateTimeInput,
+        valueInput: PlDateTimeInput,
+        startInput: PlDateTimeInput,
+        endInput: PlDateTimeInput,
         plInput: Input,
     })
 

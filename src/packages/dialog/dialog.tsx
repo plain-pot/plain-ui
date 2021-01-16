@@ -13,7 +13,7 @@ import {useClass} from "../../use/useClasses";
 import Button from '../button'
 import LoadingMask from '../loading-mask'
 
-export default designComponent({
+export const PlDialog =  designComponent({
     name: 'pl-dialog',
     props: {
         ...StyleProps,

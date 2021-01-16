@@ -4,7 +4,7 @@ import {useModel} from "../../use/useModel";
 import {reactive} from 'vue';
 import {useScopedSlots} from "../../use/useScopedSlots";
 
-export default designComponent({
+export const PlDropdown =  designComponent({
     name: 'pl-dropdown',
     props: {
         modelValue: {type: Boolean},

@@ -1,9 +1,4 @@
-import input from './date-time-input'
+import {PlDateTimeInput} from './date-time-input'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
-import {useDateTime} from "./useDateTime";
 
-export default createComponentPlugin(input, {
-    expose: {
-        useDateTime,
-    }
-})
+export default createComponentPlugin(PlDateTimeInput)

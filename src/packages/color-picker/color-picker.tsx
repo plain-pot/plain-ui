@@ -18,7 +18,7 @@ enum ColorPickerType {
     button = 'button',
 }
 
-export const ColorPicker = designComponent({
+export const PlColorPicker = designComponent({
     name: 'pl-color-picker',
     props: {
         ...EditProps,

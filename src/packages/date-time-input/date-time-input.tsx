@@ -8,7 +8,7 @@ import {unit} from 'plain-utils/string/unit';
 import {computed} from 'vue';
 import {HTMLInputEvent} from "../../shims";
 
-export default designComponent({
+export const PlDateTimeInput = designComponent({
     name: 'pl-date-time-input',
     props: {
         ...EditProps,

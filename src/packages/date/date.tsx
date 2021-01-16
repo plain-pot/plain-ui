@@ -12,7 +12,7 @@ import {computed, PropType} from 'vue';
 import {DatePanelType} from "./panel/date-panel";
 import {PlainDate, PlainDateType} from "../../utils/PlainDate";
 
-export default designComponent({
+export const PlDate = designComponent({
     name: 'pl-date',
     props: {
         ...StyleProps,

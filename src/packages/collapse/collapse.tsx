@@ -2,14 +2,14 @@ import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useModel} from "../../use/useModel";
 import {useClass} from "../../use/useClasses";
-import Group from './collapse-group'
 import {computed} from 'vue';
 import {createCounter} from "../../utils/createCounter";
 import './collapse.scss'
+import {PlCollapseGroup} from "./collapse-group";
 
 const valCounter = createCounter('collapse')
 
-export default designComponent({
+export const PlCollapse = designComponent({
     name: 'pl-collapse',
     props: {
         modelValue: {type: Boolean, default: true},
@@ -25,7 +25,7 @@ export default designComponent({
     setup({props, event: {emit}}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
-        const group = Group.use.inject(null)
+        const group = PlCollapseGroup.use.inject(null)
 
         const selfVal = computed(() => props.val || valCounter())
 

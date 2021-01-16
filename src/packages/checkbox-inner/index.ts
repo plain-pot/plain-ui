@@ -1,4 +1,4 @@
-import inner from './checkbox-inner'
+import {CheckboxInner} from './checkbox-inner'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
-export default createComponentPlugin(inner)
+export default createComponentPlugin(CheckboxInner)

@@ -4,7 +4,7 @@ import {useSlots} from "../../use/useSlots";
 import {addClass} from "plain-utils/dom/addClass";
 import {removeClass} from "plain-utils/dom/removeClass";
 
-export default designComponent({
+export const PlCollapseTransition = designComponent({
     name: 'pl-collapse-transition',
     emits: {
         onAfterLeave: () => true,

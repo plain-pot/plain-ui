@@ -1,11 +1,4 @@
-import Collapse from './collapse'
-import CollapseGroup from './collapse-group'
+import {PlCollapse} from './collapse'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
-import CollapseTransition from './collapse-transition'
 
-export default createComponentPlugin(Collapse, {
-    exposeComponents: {
-        CollapseTransition,
-        CollapseGroup,
-    },
-})
+export default createComponentPlugin(PlCollapse)
