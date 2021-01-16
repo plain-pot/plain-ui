@@ -3,10 +3,10 @@ import {useSlots} from "../../../use/useSlots";
 import {computed} from 'vue';
 import {StepUtils} from "../step.utils";
 import {useCollect} from "../../../use/useCollect";
-import {ArrowStep} from "./arrow-step";
+import {PlArrowStep} from "./arrow-step";
 import './arrow-step.scss'
 
-export const ArrowStepGroup = designComponent({
+export const PlArrowStepGroup = designComponent({
     name: 'pl-arrow-step-group',
     props: {
         current: {},
@@ -32,6 +32,6 @@ export const ArrowStepGroup = designComponent({
 })
 
 export const ArrowStepCollector = useCollect(() => ({
-    parent: ArrowStepGroup,
-    child: ArrowStep,
+    parent: PlArrowStepGroup,
+    child: PlArrowStep,
 }))

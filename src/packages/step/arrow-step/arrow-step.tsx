@@ -5,7 +5,7 @@ import {StepStatus, StepUtils} from "../step.utils";
 import {ArrowStepCollector} from "./arrow-step-group";
 import {useRefs} from "../../../use/useRefs";
 
-export const ArrowStep = designComponent({
+export const PlArrowStep = designComponent({
     name: 'pl-arrow-step',
     props: {
         status: {type: String},

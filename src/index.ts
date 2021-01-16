@@ -40,6 +40,9 @@ import ProgressMini from './packages/progress-mini'
 import Pagination from './packages/pagination'
 import Badge from './packages/badge'
 import Step from './packages/step'
+import StepGroup from './packages/step-group'
+import ArrowStep from './packages/arrow-step'
+import ArrowStepGroup from './packages/arrow-step-group'
 import Popper from './packages/popper'
 import Dropdown from './packages/dropdown'
 import DropdownGroup from './packages/dropdown-group'
@@ -79,7 +82,8 @@ const plugins: ComponentPlugin[] = [
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, ProgressBar,
     ProgressCircle, ProgressMini, Pagination, Badge,
-    Step, Popper, Dropdown, DropdownGroup, DropdownMenu, DropdownOption,
+    Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
+    DropdownMenu, DropdownOption,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
     Carousel, CarouselItem, Table, Nav, Row, Col,
 
