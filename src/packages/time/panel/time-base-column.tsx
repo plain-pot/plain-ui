@@ -1,13 +1,13 @@
 import {designComponent} from "../../../use/designComponent";
 import {EditProps, useEdit} from "../../../use/useEdit";
 import {useRefs} from "../../../use/useRefs";
-import {PlScroll} from '../../scroll'
 import {useModel} from "../../../use/useModel";
 import {computed, nextTick, onMounted, PropType} from 'vue';
 import {zeroize} from "plain-utils/string/zeroize";
 import {findOne} from "plain-utils/object/findOne";
 import './time-base-column.scss'
 import {useRefList} from "../../../use/useRefList";
+import {PlScroll} from "../../scroll/scroll";
 
 const size = 24;
 
@@ -32,7 +32,7 @@ export default designComponent({
 
         const {editComputed} = useEdit()
 
-        const {refs} = useRefs({scroll: Scroll,})
+        const {refs} = useRefs({scroll: PlScroll,})
         const liList = useRefList<HTMLLIElement>()
 
         const model = useModel(() => props.modelValue as any, event.emit.onUpdateModelValue, {onChange: () => nextTick().then(methods.resetPosition)})

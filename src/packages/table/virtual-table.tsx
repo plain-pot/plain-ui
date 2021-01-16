@@ -1,13 +1,13 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useRefs} from "../../use/useRefs";
-import {PlScroll} from '../scroll'
 import {PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useScopedSlots} from "../../use/useScopedSlots";
 import {useVirtualList} from "../virutal-list/useVirtualList";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
+import {PlScroll} from "../scroll/scroll";
 
 // const scrollbarSize = 12;
 
@@ -31,7 +31,7 @@ export const VirtualTable = designComponent({
         const {slots} = useSlots(['colgroup'])
         const {scopedSlots} = useScopedSlots({default: {item: Object, index: Number}})
         const {refs} = useRefs({
-            scroll: Scroll,
+            scroll: PlScroll,
             content: HTMLDivElement,
             summary: HTMLDivElement,
         })
@@ -73,7 +73,7 @@ export const VirtualTable = designComponent({
                 const {list} = virtual.offsetData.value
                 return (
                     <div style={styles.value} class="pl-virtual-table">
-                        <Scroll
+                        <PlScroll
                             refreshState={props.width}
                             ref="scroll"
                             disableListTransition
