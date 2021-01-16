@@ -20,6 +20,7 @@ import Grid from './packages/grid'
 import Row from './packages/row'
 import Col from './packages/col'
 import Radio from './packages/radio'
+import RadioInner from './packages/radio-inner'
 import RadioGroup from './packages/radio-group'
 import Dialog from './packages/dialog'
 import DialogService from './packages/dialog-service'
@@ -84,11 +85,11 @@ const plugins: ComponentPlugin[] = [
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, ProgressBar,
     ProgressCircle, ProgressMini, Pagination, Badge,
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
-    DropdownMenu, DropdownOption,
+    DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
     Carousel, CarouselItem, Table, Plc, Nav, Row, Col,
 
-    Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
+    Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload,
 
@@ -99,13 +100,16 @@ export {
     install, Root,
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
-    List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
-    Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
-    Nav,
+    List, Item, Grid, Dialog, Scroll, VirtualList, Progress, ProgressBar,
+    ProgressCircle, ProgressMini, Pagination, Badge,
+    Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
+    DropdownMenu, DropdownOption,
+    Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
+    Carousel, CarouselItem, Table, Plc, Nav, Row, Col,
 
-    Input, InputInnerTags, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
-    Form, Upload,
+    Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
+    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
+    DateTimeInput, Date, Form, FormItem, Upload,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 }

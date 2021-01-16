@@ -25,8 +25,8 @@
         </demo-row>
 
         <demo-row title="radio-inner">
-            <pl-radio-inner status="check"/>
-            <pl-radio-inner status="uncheck"/>
+            <pl-radio-inner checkStatus="check"/>
+            <pl-radio-inner checkStatus="uncheck"/>
         </demo-row>
 
         <demo-row title="单选按钮组">
