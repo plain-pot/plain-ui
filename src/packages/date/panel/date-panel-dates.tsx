@@ -6,7 +6,7 @@ import {PlainDate, PlainDateType} from "../../../utils/PlainDate";
 import {findOne} from "plain-utils/object/findOne";
 import {PlDateBasePanelDate} from "./date-base-panel-date";
 
-export default designComponent({
+export const PlDatePanelDates = designComponent({
     name: 'pl-date-panel-dates',
     props: {
         ...DatePublicProps,

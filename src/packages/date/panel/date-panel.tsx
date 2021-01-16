@@ -1,7 +1,13 @@
 import {designComponent} from "../../../use/designComponent";
 import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "../date.utils";
 import {useModel} from "../../../use/useModel";
-import {computed, resolveComponent} from 'vue';
+import {computed} from 'vue';
+import {PlDateBasePanelYear} from "./date-base-panel-year";
+import {PlDateBasePanelMonth} from "./date-base-panel-month";
+import {PlDateBasePanelDate} from "./date-base-panel-date";
+import {PlDatePanelWeek} from "./date-panel.week";
+import {PlDatePanelDates} from "./date-panel-dates";
+import {PlDatePanelDateRange} from "./date-panel-date-range";
 
 export const enum DatePanelType {
     year = 'year',
@@ -50,16 +56,16 @@ export const PlDatePanel = designComponent({
             const start = startModel.value
             const end = endModel.value
             const publicProps = {range, modelValue: value, start, end, max, min, firstWeekDay, defaultTime,}
-            const date = range ? 'pl-date-panel-date-range' : 'pl-date-base-panel-date'
+            const date = range ? PlDatePanelDateRange : PlDateBasePanelDate
 
             return {
                 name: {
-                    year: 'pl-date-base-panel-year',
-                    month: 'pl-date-base-panel-month',
+                    year: PlDateBasePanelYear,
+                    month: PlDateBasePanelMonth,
                     date: date,
                     datetime: date,
-                    week: 'pl-date-panel-week',
-                    dates: 'pl-date-panel-dates',
+                    week: PlDatePanelWeek,
+                    dates: PlDatePanelDates,
                 }[panel] as any,
                 attrs: {
                     ...publicProps,
@@ -73,8 +79,7 @@ export const PlDatePanel = designComponent({
 
         return {
             render: () => {
-                const {name, attrs} = binding.value
-                const Component = resolveComponent(name) as any
+                const {name: Component, attrs} = binding.value
                 return <Component {...attrs}/>
             }
         }

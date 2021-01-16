@@ -5,7 +5,7 @@ import {computed, ref} from 'vue';
 import {PlainDate, PlainDateType} from "../../../utils/PlainDate";
 import {PlDateBasePanelDate} from "./date-base-panel-date";
 
-export default designComponent({
+export const PlDatePanelWeek = designComponent({
     name: 'pl-date-panel-week',
     props: {
         ...DatePublicProps,
