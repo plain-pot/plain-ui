@@ -6,6 +6,7 @@ import Root from './packages/root'
 import Button from "./packages/button";
 import ButtonGroup from './packages/button-group'
 import Input from "./packages/input";
+import InputInnerTags from './packages/input-inner-tags'
 import Icon from './packages/icon';
 import Loading from './packages/loading'
 import LoadingMask from './packages/loading-mask'
@@ -84,16 +85,14 @@ const plugins: ComponentPlugin[] = [
 ]
 
 export {
-    install,
-
-    Root,
+    install, Root,
 
     Button, ButtonGroup, Icon, Loading, LoadingMask,
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
     Step, Popper, Dropdown, Tooltip, Alert, Collapse, Card, Carousel, Table,
     Nav,
 
-    Input, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
+    Input, InputInnerTags, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
     Form, Upload,
 
