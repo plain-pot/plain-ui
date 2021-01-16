@@ -281,6 +281,9 @@
 </template>
 
 <script>
+    import {createRootService} from "../../../src/packages/root/registryRootService";
+    import {CascadeServiceGetter} from "../../../src/packages/cascade/service/cascade-service";
+
     export default {
         name: "cascade",
         data() {
@@ -408,11 +411,13 @@
 
                 /*---------------------------------------service-------------------------------------------*/
                 ...((() => {
+
+                    const $cascade = createRootService(this, CascadeServiceGetter)
                     const newToggle = (name, option) => {
                         let agent;
                         return () => {
                             if (!agent) {
-                                agent = this.$cascade((() => {
+                                agent = $cascade((() => {
                                     const opt = {
                                         reference: () => this.$refs[name],
                                         renderAttrs: {
