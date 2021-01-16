@@ -72,18 +72,23 @@
 
 <script>
 
+    import {ColorPickerServiceGetter} from "../../../src/packages/color-picker/service/color-picker.service";
+    import {createRootService} from "../../../src/packages/root/registryRootService";
+
     export default {
         name: "color-picker",
         data() {
 
-            const serviceBasicUsage = this.$colorPicker({
+            const $colorPicker = createRootService(this, ColorPickerServiceGetter)
+
+            const serviceBasicUsage = $colorPicker({
                 reference: () => this.$refs['serviceBasicUsage'],
                 renderAttrs: {
                     onChange: val => this.$message(val)
                 },
             })
 
-            const hexValue = this.$colorPicker({
+            const hexValue = $colorPicker({
                 reference: () => this.$refs['hexValue'],
                 renderAttrs: {
                     onChange: val => this.$message(val),
@@ -91,7 +96,7 @@
                     format: 'hex',
                 },
             })
-            const rgbValue = this.$colorPicker({
+            const rgbValue = $colorPicker({
                 reference: () => this.$refs['rgbValue'],
                 renderAttrs: {
                     onChange: val => this.$message(val),
@@ -100,7 +105,7 @@
                 },
             })
 
-            const rgbWithoutOpacity = this.$colorPicker({
+            const rgbWithoutOpacity = $colorPicker({
                 reference: () => this.$refs['rgbWithoutOpacity'],
                 renderAttrs: {
                     onChange: val => this.$message(val),
@@ -109,7 +114,7 @@
                 },
             })
 
-            const hexWithOpacity = this.$colorPicker({
+            const hexWithOpacity = $colorPicker({
                 reference: () => this.$refs['hexWithOpacity'],
                 renderAttrs: {
                     onChange: val => this.$message(val),
@@ -119,7 +124,7 @@
                 },
             })
 
-            const rgbaWithOpacity = this.$colorPicker({
+            const rgbaWithOpacity = $colorPicker({
                 reference: () => this.$refs['rgbaWithOpacity'],
                 renderAttrs: {
                     onChange: val => this.$message(val),
@@ -139,7 +144,7 @@
                         enableAlpha: true,
                     },
                 }
-                return this.$colorPicker(option)
+                return $colorPicker(option)
             })();
 
             return {

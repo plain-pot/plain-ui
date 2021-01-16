@@ -1,4 +1,4 @@
-import {ComponentPublicInstance} from 'vue';
+import {ComponentPublicInstance, getCurrentInstance} from 'vue';
 import {PlRoot} from "./root";
 
 /**
@@ -37,8 +37,7 @@ export enum RootServiceScope {
  * @param   createService               负责通过得到的manager实例，获取service实例，调用service实例的service方法提供服务
  * @param   scope                       应用服务的作用范围，root表示整个应用只有一个服务，ins表示每个组件都有自己的服务。
  */
-export function registryRootService<
-    ManagerComponent extends { use: { class: any } },
+export function registryRootService<ManagerComponent extends { use: { class: any } },
     CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>, ins: ComponentPublicInstance) => any>
 (
     name: string,
@@ -64,4 +63,13 @@ export function registryRootService<
         map.set(mapKey, service!)
         return service!
     }
+}
+
+export function createRootService<Service>(context: ComponentPublicInstance, serviceGetter: (ins: ComponentPublicInstance) => Service): Service {
+    return serviceGetter(context)
+}
+
+export function useRootService<Service>(serviceGetter: (ins: ComponentPublicInstance) => Service) {
+    const ctx = getCurrentInstance()!
+    return serviceGetter(ctx.proxy!)
 }
