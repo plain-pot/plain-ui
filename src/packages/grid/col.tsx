@@ -1,10 +1,9 @@
 import {designComponent} from "../../use/designComponent";
-import {Row} from './row'
 import {SingleClass, useClass} from "../../use/useClasses";
 import {useStyles} from "../../use/useStyles";
 import {useSlots} from "../../use/useSlots";
-import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import {PropType} from 'vue';
+import {PlRow} from "./row";
 
 export type GridColSize = number | {
     span: number,
@@ -27,7 +26,7 @@ export const PlCol = designComponent({
     },
     setup({props}) {
         const {slots} = useSlots()
-        const row = Row.use.inject()
+        const row = PlRow.use.inject()
         const classes = useClass(() => {
             let classList = [
                 'pl-col',

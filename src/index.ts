@@ -16,6 +16,8 @@ import MessageService from './packages/message'
 import List from './packages/list'
 import Item from './packages/item'
 import Grid from './packages/grid'
+import Row from './packages/row'
+import Col from './packages/col'
 import Radio from './packages/radio'
 import RadioGroup from './packages/radio-group'
 import Dialog from './packages/dialog'
@@ -55,6 +57,7 @@ import DateTimeInput from './packages/date-time-input'
 import Time from './packages/time'
 import Date from './packages/date'
 import Form from './packages/form'
+import FormItem from './packages/form-item'
 import Table from './packages/table'
 import Upload from './packages/upload'
 import Nav from './packages/nav'
@@ -71,11 +74,11 @@ const plugins: ComponentPlugin[] = [
     List, Item, Grid, Dialog, Scroll, VirtualList, Progress, Pagination, Badge,
     Step, Popper, Dropdown, DropdownGroup, DropdownMenu, DropdownOption,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, Nav,
+    Carousel, CarouselItem, Table, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, Time, DateTimeInput, Date,
-    Form, Upload,
+    Form, FormItem, Upload,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 ]

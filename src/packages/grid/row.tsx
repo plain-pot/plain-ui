@@ -3,7 +3,6 @@ import {useClass} from "../../use/useClasses";
 import {useStyles} from "../../use/useStyles";
 import {useSlots} from "../../use/useSlots";
 import {unit} from 'plain-utils/string/unit';
-import {createComponentPlugin} from "../../utils/createComponentPlugin";
 import './grid.scss'
 import {PropType} from 'vue';
 
