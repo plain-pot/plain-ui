@@ -42,7 +42,7 @@ registry('el-icon-', async (icon) => {
 })
 
 export const PlIcon = designComponent({
-    name: 'PlIcon',
+    name: 'pl-icon',
     props: {
         icon: {type: String},                       // 图标名称
         status: {type: String},                     // 图标状态
@@ -54,9 +54,9 @@ export const PlIcon = designComponent({
         const icon = ref(null as any)
 
         const classes = computed(() => [
-            'PlIcon',
+            'pl-icon',
             {
-                [`PlIcon-status-${props.status}`]: !!props.status
+                [`pl-icon-status-${props.status}`]: !!props.status
             }
         ])
 
