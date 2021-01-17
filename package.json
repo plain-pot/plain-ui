@@ -20,11 +20,12 @@
   "typings": "src/index.ts",
   "dependencies": {
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.3",
+    "fecha": "^4.2.0",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.5",
     "plain-utils": "^0.1.17",
-    "vue": "^3.0.2",
-    "fecha": "^4.2.0"
+    "vue": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
