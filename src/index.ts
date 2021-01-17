@@ -65,7 +65,7 @@ import SelectOption from './packages/select-option'
 import SelectGroup from './packages/select-group'
 import DateTimeInput from './packages/date-time-input'
 import Time from './packages/time'
-import Date from './packages/date'
+// import Date from './packages/date'
 import Form from './packages/form'
 import FormItem from './packages/form-item'
 import Table from './packages/table'
@@ -91,7 +91,7 @@ const plugins: ComponentPlugin[] = [
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
-    DateTimeInput, Date, Form, FormItem, Upload,
+    DateTimeInput, Form, FormItem, Upload,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 ]
@@ -109,7 +109,7 @@ export {
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
-    DateTimeInput, Date, Form, FormItem, Upload,
+    DateTimeInput, Form, FormItem, Upload,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 }
