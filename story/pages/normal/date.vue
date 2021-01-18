@@ -53,6 +53,13 @@
                 <div>end:{{val[7]}}</div>
             </demo-row>
         </demo-row>
+        <demo-row title="日期">
+            <demo-row title="单选">
+                <pl-date-panel-date v-model="val[8]"/>
+                <pl-date-panel-date v-model="val[8]"/>
+                <div>value:{{val[8]}}</div>
+            </demo-row>
+        </demo-row>
 
     </div>
 </template>

@@ -85,7 +85,7 @@ export function useDate(
             onUpdateEnd: (val?: string) => void,
             onUpdateView: (val: DateView) => void,
         },
-        getSlide: (pd: PDate) => SlideTransitionDirection,
+        getSlide?: (pd: PDate) => SlideTransitionDirection,
     }): UseDateType {
 
     /**
@@ -110,7 +110,7 @@ export function useDate(
                 const value = val as string[] | undefined
                 pd = !value || value.length === 0 ? today : today.useValue(value[0])
             }
-            state.slide = getSlide(pd)
+            !!getSlide && (state.slide = getSlide(pd))
             useDateData.setSelectDate(pd)
         }
     })
@@ -122,7 +122,7 @@ export function useDate(
                 hover: null,
                 value: !!spd && !!epd ? [spd, epd] : null
             }
-            state.slide = getSlide(spd || today)
+            !!getSlide && (state.slide = getSlide(spd || today))
             useDateData.setSelectDate(spd || today)
         }
     })
