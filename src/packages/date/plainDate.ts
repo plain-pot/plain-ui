@@ -51,8 +51,8 @@ export interface PDate {
     useMinute: (minute: number) => PDate
     useSecond: (second: number) => PDate
     useTime: (time: number) => PDate
-    useHms: ((pd: PDate) => PDate) | ((hour: number, minute: number, second: number) => PDate)
-    useYMD: ((pd: PDate) => PDate) | ((year: number, month: number, date: number) => PDate)
+    useHms: (data: PDate | [number, number, number]) => PDate,
+    useYMD: (data: PDate | [number, number, number]) => PDate,
 
     format: (value: InitialValue) => string
     parseDisplay: (display: string) => PDate
@@ -126,20 +126,24 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
         /*根据时间戳修改*/
         useTime: (time: number) => wrapDate(new Date(time), config),
         /*根据时分秒修改*/
-        useHms: (val: PDate | number, minute: number, second: number) => {
-            if (typeof val === "number") {
-                return wrapDate(dj.hour(val).minute(minute).second(second), config)
+        useHms: (val) => {
+            const obj = new Date(dateObj)
+            if (Array.isArray(val)) {
+                obj.setHours(val[0], val[1], val[2])
             } else {
-                return wrapDate(dj.hour(val.hour).minute(val.minute).second(val.second), config)
+                obj.setHours(val.hour, val.minute, val.second)
             }
+            return wrapDate(obj, config)
         },
         /*根据年月日修改*/
-        useYMD: (val: number | PDate, month: number, date: number) => {
-            if (typeof val === "number") {
-                return wrapDate(dj.year(val).month(month).date(date), config)
+        useYMD: (val) => {
+            const obj = new Date(dateObj)
+            if (Array.isArray(val)) {
+                obj.setFullYear(val[0], val[1], val[2])
             } else {
-                return wrapDate(dj.year(val.year).month(val.month).date(val.date), config)
+                obj.setFullYear(val.year, val.month, val.date)
             }
+            return wrapDate(obj, config)
         },
         /*格式化值*/
         format: (value) => DayJs(value, config.valueFormat).format(config.displayFormat),

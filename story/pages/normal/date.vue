@@ -25,6 +25,11 @@
                 <div>end:{{val[3]}}</div>
             </demo-row>
         </demo-row>
+        <demo-row title="年月">
+            <pl-date-panel-month v-model="val[4]"/>
+            <pl-date-panel-month v-model="val[4]"/>
+            <div>{{val[4]}}</div>
+        </demo-row>
 
     </div>
 </template>
