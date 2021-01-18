@@ -12,6 +12,12 @@
                 <pl-date-panel-year v-model="val[1]" multiple/>
                 {{val[1]}}
             </demo-row>
+            <demo-row title="范围选择">
+                <pl-date-panel-year v-model:start="val[2]" v-model:end="val[3]" range/>
+                <pl-date-panel-year v-model:start="val[2]" v-model:end="val[3]" range/>
+                <div>start:{{val[2]}}</div>
+                <div>end:{{val[3]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
