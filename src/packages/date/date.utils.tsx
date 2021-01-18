@@ -1,5 +1,6 @@
 import {PropType, ExtractPropTypes} from 'vue';
 import {PDate} from "./plainDate";
+import {VNodeChild} from "../../shims";
 
 /**
  * 当前面板的视图
@@ -63,12 +64,12 @@ export const DatePublicProps = {
     modelValue: {type: [String, Array] as PropType<string | string[]>},         // 双向绑定值，单选时为单个字符串，多选时为字符串数组
     start: {type: String},                                                      // 范围选择，起始值绑定值
     end: {type: String},                                                        // 范围选择，截止值绑定值
-    displayFormat: {type: String},                                              // 显示值格式化字符串
-    valueFormat: {type: String},                                                // 值格式化字符串
+    displayFormat: {type: String, default: ''},                                 // 显示值格式化字符串
+    valueFormat: {type: String, default: ''},                                   // 值格式化字符串
     max: {type: String},                                                        // 最大值
     min: {type: String},                                                        // 最小值
-    range: {type: String},                                                      // 是否为范围选择，与multiple多选只能二选一
-    multiple: {type: String},                                                   // 是否为 多选，与range多选只能二选一
+    range: {type: Boolean},                                                     // 是否为范围选择，与multiple多选只能二选一
+    multiple: {type: Boolean},                                                  // 是否为 多选，与range多选只能二选一
 
     firstWeekDay: {type: Number, default: 1},                                   // 一周的第一个是星期几，0是星期天，1是星期一
     defaultTime: {type: String},                                                // 默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
@@ -77,7 +78,7 @@ export const DatePublicProps = {
 
     /*inner props*/
     direction: {type: String, default: 'horizontal'},                           // 根节点在 pl-transition-slide 动画下的动画方向，是horizontal还是vertical
-    view: {type: String, default: DateView.month},                              // 当前视图
+    view: {type: String as PropType<DateView>, default: DateView.month},        // 当前视图
     selectDate: {type: Object as PropType<PDate>},                              // 当前面板的年月日期对象
     datetime: {type: Boolean},                                                  // 是否为日期时间视图
 }
@@ -95,8 +96,86 @@ export type DatePublicPropsType = ExtractPropTypes<typeof DatePublicProps>
  * @date    2021/1/18 10:45
  */
 export const DatePublicEmits = {
-    onUpdateModelValue: (val?: string, rangeType?: DateEmitRangeType) => true,
+    onUpdateModelValue: (val?: string | string[], rangeType?: DateEmitRangeType) => true,
     onUpdateStart: (val?: string) => true,
     onUpdateEnd: (val?: string) => true,
     onUpdateView: (view: DateView) => true,
+}
+
+/**
+ * 单个日期选项的数据类型
+ * @author  韦胜健
+ * @date    2021/1/18 16:04
+ */
+export interface DateItemData {
+    label: string | number,
+    active: boolean,
+    now: boolean,
+    disabled: boolean,
+    start: boolean,
+    hover: boolean,
+    end: boolean,
+    clickable: boolean,
+    pd: PDate,
+    range: boolean,
+
+    [key: string]: any,
+}
+
+export function DatePanelWrapper(slots: {
+    left?: VNodeChild,
+    center: VNodeChild,
+    right?: VNodeChild,
+    content: VNodeChild,
+}) {
+    return (
+        <div class="pl-date-base-panel">
+            <div class="pl-date-base-panel-header">
+                <div>{slots.left}</div>
+                <div>{slots.center}</div>
+                <div>{slots.right}</div>
+            </div>
+            <div class="pl-date-base-panel-body">
+                {slots.content}
+            </div>
+        </div>
+    ) as any
+}
+
+export function DatePanelItemWrapper(
+    {
+        Node,
+        item,
+        onClick,
+        onMouseenter,
+    }: {
+        Node: any,                                      // 容器节点
+        item: DateItemData,                             // item 数据
+        onClick: (item: DateItemData) => void,          // 点击item事件处理句柄
+        onMouseenter: (item: DateItemData) => void,     // 进入item事件处理句柄
+    }) {
+
+    let listener = {} as any;
+    item.clickable && (listener.onClick = () => onClick(item));
+    !item.disabled && (listener.onMouseenter = () => onMouseenter(item));
+
+    return (
+        <Node
+            {...listener}
+            class={[
+                'pl-date-base-panel-item',
+                {
+                    'pl-date-base-panel-item-active': item.active,
+                    'pl-date-base-panel-item-now': item.now,
+                    'pl-date-base-panel-item-disabled': item.disabled,
+                    'pl-date-base-panel-item-hover-start': item.hoverStart,
+                    'pl-date-base-panel-item-hover': item.hover,
+                    'pl-date-base-panel-item-hover-end': item.hoverEnd,
+                }
+            ]}>
+            <div>
+                <span>{item.label}</span>
+            </div>
+        </Node>
+    )
 }

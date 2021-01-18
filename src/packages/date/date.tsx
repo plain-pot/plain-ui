@@ -1,4 +1,5 @@
 import {designComponent} from "../../use/designComponent";
+import './date.scss'
 
 export const PlDate = designComponent({
     name: 'pl-date',
