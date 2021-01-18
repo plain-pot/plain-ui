@@ -6,6 +6,11 @@ DayJs.extend(Format)
 
 type InitialValue = string | DayJs.Dayjs | Date | undefined;
 
+/**
+ * 所有use开头的函数，都会返回一个新的PDate实例，不会修改原有基础的对象
+ * @author  韦胜健
+ * @date    2021/1/18 10:26
+ */
 interface PDate {
     year: number
     month: number
@@ -15,8 +20,6 @@ interface PDate {
     second: number
     time: number
     day: number
-    display: string
-    value: string
     timeString: string
     dateString: string
     displayFormat: string
@@ -26,6 +29,10 @@ interface PDate {
     YMD: number
     YMDHms: number
     Hms: number
+
+    getDisplay: () => string
+    getValue: () => string
+
     useValue: (value: string) => PDate
     useDisplay: (display: string) => PDate
     useYear: (year: number) => PDate
@@ -36,6 +43,7 @@ interface PDate {
     useTime: (time: number) => PDate
     useHms: ((pd: PDate) => PDate) | ((hour: number, minute: number, second: number) => PDate)
     useYMD: ((pd: PDate) => PDate) | ((year: number, month: number, date: number) => PDate)
+
     format: (value: InitialValue) => string
     parseDisplay: (display: string) => PDate
     parseValue: (value: string) => PDate
@@ -55,9 +63,6 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
     const time = dateObj.getTime()
     const day = dateObj.getDay()
 
-    const display = dj.format(config.displayFormat)
-    const value = dj.format(config.valueFormat)
-
     const timeString = prefix(hour) + prefix(minute) + prefix(second)
     const dateString = prefix(year) + prefix(month + 1) + prefix(date)
 
@@ -75,8 +80,6 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
         second,
         day,
         time,
-        display,
-        value,
         timeString,
         dateString,
         Y: Y,
@@ -84,16 +87,24 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
         YMD: Number(YMD),
         YMDHms: Number(YMDHms),
         Hms: Number(timeString),
-        displayFormat: config.displayFormat!,                       // 显示值格式化字符串
-        valueFormat: config.valueFormat!,                           // 值格式化字符串
+        displayFormat: config.displayFormat!,
+        valueFormat: config.valueFormat!,
+
+        getDisplay: () => dj.format(config.displayFormat),
+        getValue: () => dj.format(config.valueFormat),
+
         /*根据值修改*/
         useValue: (value: InitialValue) => wrapDate(value, config),
         /*根据显示值修改*/
-        useDisplay: (display?: string | undefined) => wrapDate(DayJs(display, config!.displayFormat), config),
+        useDisplay: (display: string) => wrapDate(DayJs(display, config!.displayFormat), config),
         /*根据年份修改*/
         useYear: (year: number) => wrapDate(dj.year(year), config),
         /*根据月份日期修改*/
-        useMonthDate: (month: number, date: number) => wrapDate(dj.month(month).date(date), config),
+        useMonthDate: (month: number, date: number) => {
+            const d = new Date(dj.toDate())
+            d.setMonth(month, date)
+            return wrapDate(d, config)
+        },
         /*根据时间修改*/
         useHour: (hour: number) => wrapDate(dj.hour(hour), config),
         /*根据分钟修改*/
