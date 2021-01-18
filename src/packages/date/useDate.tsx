@@ -114,8 +114,28 @@ export function useDate(
             useDateData.setSelectDate(pd)
         }
     })
-    const startModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.start, emit.onUpdateStart)
-    const endModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.end, emit.onUpdateEnd)
+    const startModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.start, emit.onUpdateStart, {
+        onChange: (val) => {
+            const spd = !val ? null : today.useValue(val)
+            const epd = state.pd.epd
+            state.range = {
+                hover: null,
+                value: !!spd && !!epd ? [spd, epd] : null
+            }
+            state.slide = getSlide(spd || today)
+            useDateData.setSelectDate(spd || today)
+        }
+    })
+    const endModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.end, emit.onUpdateEnd, {
+        onChange: (val) => {
+            const spd = state.pd.spd
+            const epd = !val ? null : today.useValue(val)
+            state.range = {
+                hover: null,
+                value: !!spd && !!epd ? [spd, epd] : null
+            }
+        },
+    })
     const viewModel = useModel(() => props.view, emit.onUpdateView)
 
     const pd = computed(() => {
