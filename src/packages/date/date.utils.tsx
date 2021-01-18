@@ -118,8 +118,7 @@ export interface DateItemData {
     clickable: boolean,
     pd: PDate,
     range: boolean,
-
-    [key: string]: any,
+    externals?: any,
 }
 
 export function DatePanelWrapper(slots: {
@@ -168,9 +167,9 @@ export function DatePanelItemWrapper(
                     'pl-date-base-panel-item-active': item.active,
                     'pl-date-base-panel-item-now': item.now,
                     'pl-date-base-panel-item-disabled': item.disabled,
-                    'pl-date-base-panel-item-hover-start': item.hoverStart,
+                    'pl-date-base-panel-item-hover-start': item.start,
                     'pl-date-base-panel-item-hover': item.hover,
-                    'pl-date-base-panel-item-hover-end': item.hoverEnd,
+                    'pl-date-base-panel-item-hover-end': item.end,
                 }
             ]}>
             <div>

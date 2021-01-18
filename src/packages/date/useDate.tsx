@@ -2,6 +2,7 @@ import {computed, inject, reactive, provide} from 'vue';
 import {DateEmitRangeType, DateItemData, DatePublicPropsType, DateView, SlideTransitionDirection} from "./date.utils";
 import {PDate, plainDate} from "./plainDate";
 import {useModel} from "../../use/useModel";
+import {toArray} from "../../utils/toArray";
 
 /**
  * 日期子组件注入父组件提供的值的时候的唯一标识
@@ -14,6 +15,17 @@ export enum UseDateJudgementView {
     'Y' = 'Y',
     'YM' = 'YM',
     'YMD' = 'YMD',
+}
+
+type UseDateTopState = {
+    max: PDate | null,
+    min: PDate | null,
+    vpd: PDate | PDate[] | null,
+    range: {
+        hover: null | [PDate, PDate],
+        value: null | [PDate, PDate],
+    },
+    isRange: boolean,
 }
 
 export type UseDateType = {
@@ -38,10 +50,11 @@ export type UseDateType = {
             value: null | [PDate, PDate],
         },
         slide: SlideTransitionDirection,
+        topState: UseDateTopState,
     },
 
     setSelectDate: (pd: PDate) => void,
-    getStatus: (pd?: PDate | null | undefined) => {
+    getStatus: (pd: PDate) => {
         now: boolean,
         disabled: boolean,
         active: boolean,
@@ -81,7 +94,7 @@ export function useDate(
     const parent = inject<UseDateType | null>(DATE_PANEL_PROVIDER, null)
 
     const innerUtils = {
-        createPd: (val?: string) => plainDate(val, {displayFormat: props.displayFormat, valueFormat: props.valueFormat})
+        createPd: (val: string) => plainDate(val, {displayFormat: props.displayFormat, valueFormat: props.valueFormat})
     }
 
     const today = !!parent ? parent.today : plainDate.today(props.displayFormat, props.valueFormat)
@@ -133,7 +146,19 @@ export function useDate(
             }
         })(),
         slide: SlideTransitionDirection.next,
-
+        topState: computed((): UseDateTopState => {
+            if (!!parent) {
+                return parent.state.topState
+            }
+            const {vpd} = pd.value
+            return {
+                max: !props.max ? null : innerUtils.createPd(props.max),
+                min: !props.min ? null : innerUtils.createPd(props.min),
+                vpd,
+                range: state.range,
+                isRange: props.range,
+            }
+        }),
     })
 
     const handler = {
@@ -208,11 +233,41 @@ export function useDate(
     }
 
     const utils = {
-        active: (pd: PDate) => {/*todo*/},
-        disabled: (pd: PDate) => {/*todo*/},
-        start: (pd: PDate) => {/*todo*/},
-        hover: (pd: PDate) => {/*todo*/},
-        end: (pd: PDate) => {/*todo*/},
+        active: (pd: PDate): boolean => {
+            const {isRange, vpd, range} = state.topState
+            let condition: PDate[] = []
+            if (!isRange) {
+                if (!!vpd) {condition = toArray(vpd)}
+            } else {
+                if (!!range.value) {condition = [range.value[0], range.value[1]]}
+            }
+            return !!condition.find(item => item[jdView] === pd[jdView])
+        },
+        disabled: (pd: PDate): boolean => {
+            const {max, min} = state.topState
+            if (!!max && max[jdView] < pd[jdView]) return true
+            if (!!min && min[jdView] > pd[jdView]) return true
+            return false
+        },
+        start: (pd: PDate) => {
+            const {isRange, range: {hover, value}} = state.topState
+            if (!isRange) {return false}
+            let condition = hover || value
+            return !condition ? false : condition[0][jdView] === pd[jdView]
+        },
+        end: (pd: PDate) => {
+            const {isRange, range: {hover, value}} = state.topState
+            if (!isRange) {return false}
+            let condition = hover || value
+            return !condition ? false : condition[1][jdView] === pd[jdView]
+        },
+        hover: (pd: PDate) => {
+            const {isRange, range: {hover, value}} = state.topState
+            if (!isRange) {return false}
+            let condition: null | [PDate, PDate]
+            condition = hover || value
+            return !condition ? false : (condition[0][jdView] < pd[jdView] && condition[1][jdView] > pd[jdView])
+        },
     }
 
     const useDateData: UseDateType = {
@@ -227,7 +282,19 @@ export function useDate(
         viewModel,
 
         setSelectDate: (pd) => state.selectDate = pd || today,
-        getStatus: () => { return {} as any},
+        getStatus: (pd) => {
+            const disabled = utils.disabled(pd)
+            return {
+                now: today[jdView] === pd[jdView],
+                active: utils.active(pd),
+                disabled,
+                start: utils.start(pd),
+                hover: utils.hover(pd),
+                end: utils.end(pd),
+                range: !!state.topState.range,
+                clickable: (!!parent && parent.jdView !== jdView) || !disabled
+            }
+        },
         handler,
     }
 
