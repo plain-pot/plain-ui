@@ -1,7 +1,7 @@
 import {computed, inject, reactive, provide} from 'vue';
 import {DateEmitRangeType, DateItemData, DatePublicPropsType, DateView, SlideTransitionDirection} from "./date.utils";
 import {PDate, plainDate} from "./plainDate";
-import {useModel} from "../../use/useModel";
+import {useModel, UseModelConfig} from "../../use/useModel";
 import {toArray} from "../../utils/toArray";
 
 /**
@@ -30,8 +30,8 @@ type UseDateTopState = {
 
 export type UseDateType = {
     parent: UseDateType | null,
-    today: PDate,
     jdView: UseDateJudgementView,
+    today: PDate,
 
     model: { value?: string | string[] },
     startModel: { value?: string },
@@ -73,17 +73,19 @@ export type UseDateType = {
 export function useDate(
     {
         props,
-        emit,
         jdView,
+        emit,
+        getSlide,
     }: {
         props: DatePublicPropsType,
+        jdView: UseDateJudgementView,
         emit: {
             onUpdateModelValue: (val?: string | string[], rangeType?: DateEmitRangeType) => void,
             onUpdateStart: (val?: string) => void,
             onUpdateEnd: (val?: string) => void,
             onUpdateView: (val: DateView) => void,
         },
-        jdView: UseDateJudgementView,
+        getSlide: (pd: PDate) => SlideTransitionDirection,
     }): UseDateType {
 
     /**
@@ -97,9 +99,21 @@ export function useDate(
         createPd: (val: string) => plainDate(val, {displayFormat: props.displayFormat, valueFormat: props.valueFormat})
     }
 
-    const today = !!parent ? parent.today : plainDate.today(props.displayFormat, props.valueFormat)
-
-    const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
+    const today = plainDate.today(props.displayFormat, props.valueFormat)
+    const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {
+        onChange: (val) => {
+            let pd: PDate;
+            if (!props.multiple) {
+                const value = val as string | undefined
+                pd = !value ? today : today.useValue(value)
+            } else {
+                const value = val as string[] | undefined
+                pd = !value || value.length === 0 ? today : today.useValue(value[0])
+            }
+            state.slide = getSlide(pd)
+            useDateData.setSelectDate(pd)
+        }
+    })
     const startModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.start, emit.onUpdateStart)
     const endModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.end, emit.onUpdateEnd)
     const viewModel = useModel(() => props.view, emit.onUpdateView)
@@ -272,9 +286,9 @@ export function useDate(
 
     const useDateData: UseDateType = {
         parent,
-        today,
         jdView,
         state,
+        today,
 
         model,
         startModel,

@@ -26,7 +26,8 @@ export const PlDatePanelYear = designComponent({
         } = useDate({
             props,
             emit,
-            jdView: UseDateJudgementView.Y
+            jdView: UseDateJudgementView.Y,
+            getSlide: (pd) => pd.year > data.value.selectYear + 19 ? SlideTransitionDirection.next : SlideTransitionDirection.prev,
         })
 
         const data = computed(() => {
