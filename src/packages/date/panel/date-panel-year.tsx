@@ -22,6 +22,7 @@ export const PlDatePanelYear = designComponent({
             setSelectDate,
             today,
             getStatus,
+            handler,
         } = useDate({
             props,
             emit,
@@ -68,11 +69,6 @@ export const PlDatePanelYear = designComponent({
             },
         }
 
-        const handler = {
-            onClickItem: () => {/*todo*/},
-            onMouseenterItem: () => {/*todo*/},
-        }
-
         return {
             render: () => {
                 const Wrapper = DatePanelWrapper({
@@ -88,8 +84,8 @@ export const PlDatePanelYear = designComponent({
                             {data.value.list.map(item => DatePanelItemWrapper({
                                 item,
                                 Node: (<li key={item.label} class="pl-date-base-panel-year-item"/>),
-                                onClick: handler.onClickItem,
-                                onMouseenter: handler.onMouseenterItem,
+                                onClick: () => handler.onClick(item),
+                                onMouseenter: () => handler.onMouseenter(item),
                             }))}
                         </ul>
                     </Transition>)
