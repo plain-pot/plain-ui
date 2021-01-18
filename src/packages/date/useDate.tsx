@@ -32,6 +32,8 @@ export type UseDateType = {
     parent: UseDateType | null,
     jdView: UseDateJudgementView,
     today: PDate,
+    displayFormat: string,
+    valueFormat: string,
 
     model: { value?: string | string[] },
     startModel: { value?: string },
