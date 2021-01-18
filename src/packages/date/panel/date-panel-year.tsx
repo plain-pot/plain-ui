@@ -85,8 +85,8 @@ export const PlDatePanelYear = designComponent({
                             {data.value.list.map(item => DatePanelItemWrapper({
                                 item,
                                 Node: (<li key={item.label} class="pl-date-base-panel-year-item"/>),
-                                onClick: () => handler.onClick(item),
-                                onMouseenter: () => handler.onMouseenter(item),
+                                onClick: handler.onClick,
+                                onMouseenter: handler.onMouseenter,
                             }))}
                         </ul>
                     </Transition>)
