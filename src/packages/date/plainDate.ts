@@ -11,7 +11,7 @@ type InitialValue = string | DayJs.Dayjs | Date | undefined;
  * @author  韦胜健
  * @date    2021/1/18 10:26
  */
-interface PDate {
+export interface PDate {
     year: number
     month: number
     date: number
