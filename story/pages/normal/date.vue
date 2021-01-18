@@ -18,6 +18,12 @@
                 <div>start:{{val[2]}}</div>
                 <div>end:{{val[3]}}</div>
             </demo-row>
+            <demo-row title="最大最小值">
+                <pl-date-panel-year v-model:start="val[2]" v-model:end="val[3]" range max="2050" min="2021"/>
+                <pl-date-panel-year v-model:start="val[2]" v-model:end="val[3]" range/>
+                <div>start:{{val[2]}}</div>
+                <div>end:{{val[3]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
