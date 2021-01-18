@@ -1,8 +1,16 @@
 import DayJs from 'dayjs';
 import Format from 'dayjs/plugin/customParseFormat'
+import WeekYear from 'dayjs/plugin/weekYear'
+import WeekOfYear from 'dayjs/plugin/weekOfYear'
+import AdvanceFormat from 'dayjs/plugin/advancedFormat'
+import 'dayjs/locale/de'
 import {prefix} from "../../utils/prefix";
 
+DayJs.locale('de')
 DayJs.extend(Format)
+DayJs.extend(WeekYear)
+DayJs.extend(WeekOfYear)
+DayJs.extend(AdvanceFormat)
 
 type InitialValue = string | DayJs.Dayjs | Date | undefined;
 
@@ -30,6 +38,8 @@ export interface PDate {
     YMDHms: number
     Hms: number
 
+    getDayJs: () => DayJs.Dayjs,
+    getDate: () => Date,
     getDisplay: () => string
     getValue: () => string
 
@@ -90,6 +100,8 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
         displayFormat: config.displayFormat!,
         valueFormat: config.valueFormat!,
 
+        getDate: () => dateObj,
+        getDayJs: () => dj,
         getDisplay: () => dj.format(config.displayFormat),
         getValue: () => dj.format(config.valueFormat),
 
@@ -179,4 +191,4 @@ const today = (displayFormat: string, valueFormat: string) => {
     return wrapDate(new Date(), {displayFormat, valueFormat})
 }
 
-export const plainDate = Object.assign(wrapDate, {defaultDate, format, parse, today,})
+export const plainDate = Object.assign(wrapDate, {defaultDate, format, parse, today, DayJs})

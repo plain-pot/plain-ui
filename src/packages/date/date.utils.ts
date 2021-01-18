@@ -46,6 +46,19 @@ export const enum DateEmitRangeType {
     end = 'end',
 }
 
+/**
+ * 面板的默认格式化字符串
+ * @author  韦胜健
+ * @date    2021/1/18 10:46
+ */
+export const DefaultDateFormatString = {
+    year: 'YYYY',
+    month: 'YYYY-MM',
+    date: 'YYYY-MM-DD',
+    datetime: 'YYYY-MM-DD HH:mm:ss',
+    week: 'YYYY, ww',
+}
+
 export const DatePublicProps = {
     modelValue: {type: [String, Array] as PropType<string | string[]>},         // 双向绑定值，单选时为单个字符串，多选时为字符串数组
     start: {type: String},                                                      // 范围选择，起始值绑定值
