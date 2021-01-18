@@ -6,6 +6,7 @@ export function prefix(val: string | number, config?: { char?: string, len?: num
     if (!config) config = {}
     while (len < (config.len || 2)) {
         val = (config.char || '0') + val
+        len++
     }
     return val
 }
