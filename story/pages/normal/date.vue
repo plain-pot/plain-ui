@@ -26,9 +26,16 @@
             </demo-row>
         </demo-row>
         <demo-row title="年月">
-            <pl-date-panel-month v-model="val[4]"/>
-            <pl-date-panel-month v-model="val[4]"/>
-            <div>{{val[4]}}</div>
+            <demo-row title="单选">
+                <pl-date-panel-month v-model="val[4]"/>
+                <pl-date-panel-month v-model="val[4]"/>
+                <div>{{val[4]}}</div>
+            </demo-row>
+            <demo-row title="多选">
+                <pl-date-panel-month v-model="val[5]" multiple/>
+                <pl-date-panel-month v-model="val[5]" multiple/>
+                <div>{{val[5]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
