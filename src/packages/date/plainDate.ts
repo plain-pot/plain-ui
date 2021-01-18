@@ -140,22 +140,41 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
     }
 }
 
+/**
+ * 获取一个默认日期
+ * @author  韦胜健
+ * @date    2021/1/18 10:29
+ */
 const defaultDate = () => {
     const date = new Date()
     date.setMonth(0, 1)
     date.setHours(0, 0, 0)
     return date
 }
+/**
+ * 格式化日期为字符串
+ * @author  韦胜健
+ * @date    2021/1/18 10:29
+ */
 const format = (date: Date | undefined | null, format: string) => {
     if (!date) return ''
     return DayJs(date).format(format)
 }
-
+/**
+ * 解析字符串为日期对象
+ * @author  韦胜健
+ * @date    2021/1/18 10:30
+ */
 const parse = (str: string | undefined | null, format: string) => {
     if (!str) return null
     return DayJs(str, format)
 }
 
+/**
+ * 获取当天的日期信息
+ * @author  韦胜健
+ * @date    2021/1/18 10:30
+ */
 const today = (displayFormat: string, valueFormat: string) => {
     return wrapDate(new Date(), {displayFormat, valueFormat})
 }
