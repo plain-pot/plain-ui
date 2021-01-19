@@ -122,6 +122,14 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="季度">
+            <demo-row title="单选">
+                <pl-date-panel-quarter v-model="val[20]"/>
+                <pl-date-panel-quarter v-model="val[20]"/>
+                <div>value:{{val[20]}}</div>
+            </demo-row>
+        </demo-row>
+
     </div>
 </template>
 

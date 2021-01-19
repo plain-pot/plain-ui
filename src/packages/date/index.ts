@@ -5,6 +5,7 @@ import {PlDatePanelMonth} from "./panel/date-panel-month";
 import {PlDatePanelDate} from "./panel/date-panel-date";
 import {PlDatePanelRange} from "./panel/date-panel-range";
 import {PlDatePanelWeek} from "./panel/date-panel-week";
+import {PlDatePanelQuarter} from "./panel/date-panel-quarter";
 
 export default createComponentPlugin(PlDate, {
     exposeComponents: {
@@ -13,5 +14,6 @@ export default createComponentPlugin(PlDate, {
         PlDatePanelDate,
         PlDatePanelRange,
         PlDatePanelWeek,
+        PlDatePanelQuarter,
     }
 })
