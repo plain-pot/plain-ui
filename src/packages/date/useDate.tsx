@@ -22,6 +22,13 @@ export enum UseDateJudgementView {
     'YMD' = 'YMD',
 }
 
+type DateCustomStatus = {
+    active: () => PDate[],
+    start: () => PDate[],
+    end: () => PDate[],
+    hover: () => [PDate, PDate][],
+}
+
 /**
  * 顶层父面板向下提供的数据
  * @author  韦胜健
@@ -36,6 +43,7 @@ type UseDateTopState = {
         value: null | [PDate, PDate],
     },
     isRange: boolean,
+    customStatus?: DateCustomStatus,
 }
 
 /**
@@ -94,6 +102,7 @@ export function useDate(
         getSlide,
         processPd,
         emit,
+        customStatus,
     }: {
         props: DatePublicPropsType,
         jdView: UseDateJudgementView,
@@ -109,6 +118,7 @@ export function useDate(
             onUpdateEnd: (val?: string) => void,
             onUpdateView: (val: DateView) => void,
         },
+        customStatus?: DateCustomStatus,
     }): UseDateType {
 
     const defaultFormat = (() => {
@@ -228,6 +238,7 @@ export function useDate(
                 vpd,
                 range: state.range,
                 isRange: props.range,
+                customStatus,
             }
         }),
     })
@@ -316,10 +327,14 @@ export function useDate(
         active: (pd: PDate): boolean => {
             const {isRange, vpd, range} = state.topState
             let condition: PDate[] = []
-            if (!isRange) {
-                if (!!vpd) {condition = toArray(vpd)}
+            if (!!state.topState.customStatus && state.topState.customStatus.active) {
+                condition = state.topState.customStatus.active()
             } else {
-                if (!!range.value) {condition = [range.value[0], range.value[1]]}
+                if (!isRange) {
+                    if (!!vpd) {condition = toArray(vpd)}
+                } else {
+                    if (!!range.value) {condition = [range.value[0], range.value[1]]}
+                }
             }
             return !!condition.find(item => item[jdView] === pd[jdView])
         },
@@ -331,22 +346,43 @@ export function useDate(
         },
         start: (pd: PDate) => {
             const {isRange, range: {hover, value}} = state.topState
-            if (!isRange) {return false}
-            let condition = hover || value
-            return !condition ? false : condition[0][jdView] === pd[jdView]
+            let condition: PDate[] = []
+            if (!!state.topState.customStatus && !!state.topState.customStatus.start) {
+                condition = state.topState.customStatus.start()
+            } else {
+                if (!!isRange) {
+                    if (!!hover) condition.push(hover[0])
+                    else if (!!value) condition.push(value[0])
+                }
+            }
+            return condition.some(item => item[jdView] === pd[jdView])
         },
         end: (pd: PDate) => {
             const {isRange, range: {hover, value}} = state.topState
-            if (!isRange) {return false}
-            let condition = hover || value
-            return !condition ? false : condition[1][jdView] === pd[jdView]
+            let condition: PDate[] = []
+            if (!!state.topState.customStatus && !!state.topState.customStatus.end) {
+                condition = state.topState.customStatus.end()
+            } else {
+                if (!!isRange) {
+                    if (!!hover) condition.push(hover[1])
+                    else if (!!value) condition.push(value[1])
+                }
+            }
+            return condition.some(item => item[jdView] === pd[jdView])
         },
         hover: (pd: PDate) => {
             const {isRange, range: {hover, value}} = state.topState
-            if (!isRange) {return false}
-            let condition: null | [PDate, PDate]
-            condition = hover || value
-            return !condition ? false : (condition[0][jdView] < pd[jdView] && condition[1][jdView] > pd[jdView])
+            let condition: [PDate, PDate][] = []
+            if (!!state.topState.customStatus && !!state.topState.customStatus.hover) {
+                condition = state.topState.customStatus.hover()
+            } else {
+                if (!!isRange) {
+                    if (!!hover || !!value) {
+                        condition.push((hover || value)!)
+                    }
+                }
+            }
+            return condition.some(([spd, epd]) => (spd[jdView] < pd[jdView] && epd[jdView] > pd[jdView]))
         },
     }
 
