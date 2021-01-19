@@ -34,8 +34,9 @@ export const PlDatePanelQuarter = designComponent({
             selectDate: useDateData.state.selectDate,
             onMouseenter: externalHandler.onMouseenter,
             onClick: externalHandler.onClick,
-            onMouseleaveDateList: externalHandler.onMouseleaveDateList,
+            onMouseleaveList: externalHandler.onMouseleaveDateList,
             onSelectDateChange: useDateData.setSelectDate,
+            showQuarter: true,
         }))
 
         return {

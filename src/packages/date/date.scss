@@ -185,21 +185,49 @@
         overflow: hidden;
       }
 
-      .pl-date-base-panel-month-list {
-        transition: all $transition 500ms;
+      .pl-date-base-panel-month-item {
+        height: 36px;
+      }
+
+      .pl-date-base-panel-month-quarter-list, .pl-date-base-panel-month-list {
         position: absolute;
-        left: 0;
         top: 0;
-        right: 0;
         bottom: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
+        transition: all $transition 500ms;
+      }
+
+      .pl-date-base-panel-month-quarter-list {
+        left: 0;
+        width: 56px;
+        border-right: dashed 1px $ibc;
+
+        .pl-date-base-panel-month-item {
+          width: 44px;
+
+          & > div {
+            border-radius: 100px;
+          }
+        }
+      }
+
+      .pl-date-base-panel-month-list {
+        right: 0;
 
         .pl-date-base-panel-month-item {
           width: 92px;
-          height: 36px;
+        }
+
+        &.pl-date-base-panel-month-list-show-quarter {
+          width: 216px;
+          left: initial;
+
+          .pl-date-base-panel-month-item {
+            width: 72px;
+          }
         }
       }
     }

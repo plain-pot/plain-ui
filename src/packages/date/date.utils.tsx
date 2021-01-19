@@ -84,6 +84,9 @@ export const DatePublicProps = {
     defaultStartTime: {type: String},                                           // 日期范围选择起始选择框日期面板，默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
     defaultEndTime: {type: String},                                             // 日期范围选择截止选择框日期面板，默认时间，如果没有初始值，选择日期的时候时间会取这里的默认时间
 
+    showQuarter: {type: Boolean},                                               // 月份面板是否显示季度
+    isQuarterActive: {type: Function as PropType<(did: DateItemData) => boolean>},// 季度是否高亮判断函数
+
     /*inner props*/
     direction: {type: String, default: 'horizontal'},                           // 根节点在 pl-transition-slide 动画下的动画方向，是horizontal还是vertical
     view: {type: String as PropType<DateView>, default: DateView.month},        // 当前视图
@@ -134,6 +137,7 @@ export function DatePanelWrapper(slots: {
     center: VNodeChild,
     right?: VNodeChild,
     content: VNodeChild,
+    bodyAttrs?: any,
 }) {
     return (
         <div class="pl-date-base-panel">
@@ -142,7 +146,7 @@ export function DatePanelWrapper(slots: {
                 <div>{slots.center}</div>
                 <div>{slots.right}</div>
             </div>
-            <div class="pl-date-base-panel-body">
+            <div class="pl-date-base-panel-body" {...(slots.bodyAttrs || {})}>
                 {slots.content}
             </div>
         </div>

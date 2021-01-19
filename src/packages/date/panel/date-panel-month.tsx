@@ -5,6 +5,7 @@ import {useDate, UseDateJudgementView} from "../useDate";
 import {PlButton} from "../../button/button";
 import {StyleSize} from "../../../use/useStyle";
 import {PlDatePanelYear} from "./date-panel-year";
+import {useClass} from "../../../use/useClasses";
 
 export const PlDatePanelMonth = designComponent({
     name: 'pl-date-panel-month',
@@ -16,6 +17,7 @@ export const PlDatePanelMonth = designComponent({
         ...DatePublicEmits,
         onClick: (did: DateItemData) => true,
         onMouseenter: (did: DateItemData) => true,
+        onMouseleaveList: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -67,6 +69,23 @@ export const PlDatePanelMonth = designComponent({
             return list
         })
 
+        const quarterList = computed(() => {
+            const {selectDate} = state
+            let list: DateItemData[] = [];
+            [0, 1, 2, 3].forEach(i => {
+                const pd = selectDate.useMonthDate(i * 3, 1);
+                list.push({label: `Q${i + 1}`, pd, ...getStatus(pd),})
+            })
+            return list
+        })
+
+        const listClasses = useClass(() => [
+            'pl-date-base-panel-month-list',
+            {
+                'pl-date-base-panel-month-list-show-quarter': props.showQuarter,
+            }
+        ])
+
         const externalHandler = {
             /**
              * 处理年份面板选择年份变化动作
@@ -94,10 +113,27 @@ export const PlDatePanelMonth = designComponent({
                     left: <PlButton icon="el-icon-d-arrow-left" mode="text" size={StyleSize.mini} onClick={methods.prevYear}/>,
                     center: <span onClick={() => viewModel.value = DateView.year}>{state.selectDate.year}</span>,
                     right: <PlButton icon="el-icon-d-arrow-right" mode="text" size={StyleSize.mini} onClick={methods.nextYear}/>,
-                    content: (
+                    bodyAttrs: {onMouseleave: emit.onMouseleaveList},
+                    content: (<>
+                        {props.showQuarter && (
+                            <Transition name={`pl-transition-slide-${state.slide}`}>
+                                <ul {...{
+                                    class: 'pl-date-base-panel-month-quarter-list',
+                                    key: state.selectDate.year!,
+                                    direction: 'vertical'
+                                }}>
+                                    {quarterList.value.map(item => (DatePanelItemWrapper({
+                                        item,
+                                        onClick: externalHandler.onClick,
+                                        onMouseenter: externalHandler.onMouseenter,
+                                        Node: <li class="pl-date-base-panel-month-item" key={item.label}/>,
+                                    })))}
+                                </ul>
+                            </Transition>
+                        )}
                         <Transition name={`pl-transition-slide-${state.slide}`}>
                             <ul {...{
-                                class: 'pl-date-base-panel-month-list',
+                                class: listClasses.value,
                                 key: state.selectDate.year!,
                                 direction: 'vertical'
                             }}>
@@ -109,7 +145,7 @@ export const PlDatePanelMonth = designComponent({
                                 })))}
                             </ul>
                         </Transition>
-                    )
+                    </>)
                 }) as any
 
                 const Wrapper = (
