@@ -100,9 +100,8 @@ export function useDate(
         getSlide?: (pd: PDate) => SlideTransitionDirection,
         /*process 不能处理多选的情况*/
         processPd?: {
-            vpd?: (vpd: PDate) => PDate,
-            spd?: (spd: PDate) => PDate,
-            epd?: (epd: PDate) => PDate,
+            value?: (vpd: PDate) => PDate,
+            range?: (spd: PDate, vpd: PDate) => { spd: PDate, epd: PDate },
         },
         emit: {
             onUpdateModelValue: (val?: string | string[], rangeType?: DateEmitRangeType) => void,
@@ -256,7 +255,7 @@ export function useDate(
                         *  单选
                         */
                         let {pd} = did
-                        if (!!processPd && !!processPd.vpd) pd = processPd.vpd(pd)
+                        if (!!processPd && !!processPd.value) pd = processPd.value(pd)
                         model.value = pd.getDisplay()
                     } else {
                         /*
@@ -270,9 +269,11 @@ export function useDate(
                             }
                         } else {
                             let [spd, epd] = state.range.hover
-                            if (!!processPd && !!processPd.spd) spd = processPd.spd(spd)
-                            if (!!processPd && !!processPd.epd) epd = processPd.epd(epd)
-
+                            if (!!processPd && !!processPd.range) {
+                                const data = processPd.range(spd, epd)
+                                spd = data.spd
+                                epd = data.epd
+                            }
                             startModel.value = spd.getDisplay()
                             endModel.value = epd.getDisplay()
                             state.range = {
@@ -286,7 +287,7 @@ export function useDate(
                 }
             } else {
                 let {pd} = did
-                if (!!processPd && !!processPd.vpd) pd = processPd.vpd(pd)
+                if (!!processPd && !!processPd.value) pd = processPd.value(pd)
                 model.value = pd.getDisplay()
             }
         },

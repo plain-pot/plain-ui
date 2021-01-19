@@ -22,10 +22,10 @@ export const PlDatePanelDate = designComponent({
     emits: {
         ...DatePublicEmits,
         // onUpdateModelValue: (val?: string, ipd?: PDate) => true,
-        onClickItem: (ipd: PDate) => true,
+        onClick: (did: DateItemData) => true,
+        onMouseenter: (did: DateItemData) => true,
         onSelectTime: (val: string) => true,
-        onMouseenterItem: (item: DateItemData) => true,
-        onSelectDateChange: (ipd: PDate) => true,
+        onSelectDateChange: (pd: PDate) => true,
         onMouseleaveDateList: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
@@ -39,13 +39,14 @@ export const PlDatePanelDate = designComponent({
             valueFormat,
             viewModel,
             setSelectDate,
-            handler
+            handler,
+            parent,
         } = useDate({
             props,
             emit,
             jdView: UseDateJudgementView.YMD,
             processPd: {
-                vpd: (pd) => {
+                value: (pd) => {
                     if (!props.datetime) return pd
                     pd = pd.useHms(showTimePd.value)
                     if (!!state.topState.max && state.topState.max.YMDHms < pd.YMDHms) {pd = state.topState.max}
@@ -171,6 +172,7 @@ export const PlDatePanelDate = designComponent({
                 methods.changeView(DateView.date)
             },
             onSelectTime: (val: string) => {
+                if (!!parent) {return emit.onSelectTime(val)}
                 const timePd = defaultTimePd.value.useValue(val)
                 let vpd = state.pd.vpd as PDate | undefined || today
                 vpd = vpd.useHms(timePd)
@@ -178,7 +180,12 @@ export const PlDatePanelDate = designComponent({
                 emit.onSelectTime(val)
             },
             onClick: (did: DateItemData) => {
+                if (!!parent) {return emit.onClick(did)}
                 handler.onClick(did)
+            },
+            onMouseenter: (did: DateItemData) => {
+                if (!!parent) {return emit.onMouseenter(did)}
+                handler.onMouseenter(did)
             },
         }
 
@@ -216,7 +223,7 @@ export const PlDatePanelDate = designComponent({
                                 DatePanelItemWrapper({
                                     item,
                                     onClick: externalHandler.onClick,
-                                    onMouseenter: emit.onMouseenterItem,
+                                    onMouseenter: externalHandler.onMouseenter,
                                     Node: <PlItem
                                         {...{
                                             tag: 'li',
