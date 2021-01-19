@@ -24,6 +24,7 @@ export enum UseDateJudgementView {
 
 type DateCustomStatus = {
     active: () => PDate[],
+    disabled: () => { max: PDate | null, min: PDate | null },
     start: () => PDate[],
     end: () => PDate[],
     hover: () => [PDate, PDate][],
@@ -339,7 +340,7 @@ export function useDate(
             return !!condition.find(item => item[jdView] === pd[jdView])
         },
         disabled: (pd: PDate): boolean => {
-            const {max, min} = state.topState
+            const {max, min} = (!!state.topState.customStatus && !!state.topState.customStatus.disabled) ? state.topState.customStatus.disabled() : state.topState
             if (!!max && max[jdView] < pd[jdView]) return true
             if (!!min && min[jdView] > pd[jdView]) return true
             return false

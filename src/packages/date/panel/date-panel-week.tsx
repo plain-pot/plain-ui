@@ -39,6 +39,7 @@ export const PlDatePanelWeek = designComponent({
                     }
                     return ret
                 },
+                disabled: () => maxmin.value,
                 start: () => {
                     let ret: PDate[] = []
                     if (!props.range) {
@@ -102,6 +103,13 @@ export const PlDatePanelWeek = designComponent({
 
         const externalState = reactive({
             current: null as null | DateItemData,
+        })
+
+        const maxmin = computed(() => {
+            return {
+                max: !state.topState.max ? null : utils.getDateData(state.topState.max)[1],
+                min: !state.topState.min ? null : utils.getDateData(state.topState.min)[0],
+            }
         })
 
         const dateData = computed(() => {
