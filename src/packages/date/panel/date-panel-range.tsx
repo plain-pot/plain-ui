@@ -36,7 +36,13 @@ export const PlDatePanelRange = designComponent({
             props,
             emit,
             jdView: UseDateJudgementView.YMD,
-            processPd: {range: (spd, epd) => utils.processPd(spd, epd),},
+            processPd: {
+                range: (spd, epd) => {
+                    spd = spd.useHms(state.pd.spd || defaultTimePd.value.start)
+                    epd = epd.useHms(state.pd.epd || defaultTimePd.value.end)
+                    return utils.processPd(spd, epd)
+                }
+            },
         })
 
         const defaultTimePd = computed(() => {
@@ -45,12 +51,6 @@ export const PlDatePanelRange = designComponent({
                 start: plainDate(props.defaultStartTime || DefaultTime.start, config),
                 end: plainDate(props.defaultEndTime || DefaultTime.end, config),
             }
-        })
-
-        const timePd = computed(() => {
-            const start = state.pd.spd || defaultTimePd.value.start
-            const epd = state.pd.epd || defaultTimePd.value.end
-            return {start, epd}
         })
 
         const utils = {
@@ -79,7 +79,7 @@ export const PlDatePanelRange = designComponent({
         const externalHandler = {
             onSelectTime: (val: string, type: DateEmitRangeType) => {
                 let pd = (type === DateEmitRangeType.start ? state.pd.spd : state.pd.epd) || today
-                pd = pd.useHms(timePd.value.start.useValue(val))
+                pd = pd.useHms(defaultTimePd.value.start.useValue(val))
                 const {spd, epd} = utils.processPd(type === DateEmitRangeType.start ? pd : state.pd.spd, type === DateEmitRangeType.end ? pd : state.pd.epd)
                 startModel.value = spd.getDisplay()
                 endModel.value = epd.getDisplay()

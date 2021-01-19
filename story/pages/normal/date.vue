@@ -79,10 +79,26 @@
         </demo-row>
 
         <demo-row title="日期范围">
-            <pl-date-panel-range v-model:start="val[12]" v-model:end="val[13]"/>
-            <pl-date-panel-range v-model:start="val[12]" v-model:end="val[13]"/>
-            <div>start:{{val[11]}}</div>
-            <div>end:{{val[12]}}</div>
+            <demo-row title="基本选择">
+                <pl-date-panel-range v-model:start="val[12]" v-model:end="val[13]"/>
+                <pl-date-panel-range v-model:start="val[12]" v-model:end="val[13]"/>
+                <div>start:{{val[12]}}</div>
+                <div>end:{{val[13]}}</div>
+            </demo-row>
+            <demo-row title="最大最小值">
+                <pl-date-panel-range v-model:start="val[14]"
+                                     v-model:end="val[15]"
+                                     datetime
+                                     defaultStartTime="08:30:00"
+                                     defaultEndTime="20:30:30"
+                                     max="2021-05-05 12:00:00"
+                                     min="2019-05-05 08:30:15"/>
+                <pl-date-panel-range v-model:start="val[14]" v-model:end="val[15]" datetime/>
+                <div>max:2021-05-05 12:00:00</div>
+                <div>min:2019-05-05 08:30:15</div>
+                <div>start:{{val[14]}}</div>
+                <div>end:{{val[15]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
