@@ -14,6 +14,8 @@ export const PlDatePanelMonth = designComponent({
     },
     emits: {
         ...DatePublicEmits,
+        onClick: (did: DateItemData) => true,
+        onMouseenter: (did: DateItemData) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -75,6 +77,14 @@ export const PlDatePanelMonth = designComponent({
                 viewModel.value = DateView.month
                 setSelectDate(state.selectDate.useYear(val as any as number))
             },
+            onClick: (did: DateItemData) => {
+                emit.onClick(did)
+                handler.onClick(did)
+            },
+            onMouseenter: (did: DateItemData) => {
+                emit.onMouseenter(did)
+                handler.onMouseenter(did)
+            },
         }
 
         return {
@@ -93,8 +103,8 @@ export const PlDatePanelMonth = designComponent({
                             }}>
                                 {monthList.value.map(item => (DatePanelItemWrapper({
                                     item,
-                                    onClick: handler.onClick,
-                                    onMouseenter: handler.onMouseenter,
+                                    onClick: externalHandler.onClick,
+                                    onMouseenter: externalHandler.onMouseenter,
                                     Node: <li class="pl-date-base-panel-month-item" key={item.label}/>,
                                 })))}
                             </ul>
