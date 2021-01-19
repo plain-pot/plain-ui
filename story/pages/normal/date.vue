@@ -78,6 +78,13 @@
             </demo-row>
         </demo-row>
 
+        <demo-row title="日期范围">
+            <pl-date-panel-range v-model:start="val[12]" v-model:end="val[13]"/>
+            <pl-date-panel-range v-model:start="val[12]" v-model:end="val[13]"/>
+            <div>start:{{val[11]}}</div>
+            <div>end:{{val[12]}}</div>
+        </demo-row>
+
     </div>
 </template>
 

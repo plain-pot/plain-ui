@@ -10,8 +10,8 @@ const DefaultTime = {
     end: '23:59:59'
 }
 
-export const PlDatePanelDateRange = designComponent({
-    name: 'pl-date-panel-date-range',
+export const PlDatePanelRange = designComponent({
+    name: 'pl-date-panel-range',
     props: {
         ...DatePublicProps,
         range: {type: Boolean, default: true},
