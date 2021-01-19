@@ -187,7 +187,7 @@ export function useDate(
             if (!selectDate) {
                 const {vpd, spd} = pd.value
                 if (!props.range) {
-                    if (props.multiple) {
+                    if (!props.multiple) {
                         const pd = vpd as PDate | null
                         selectDate = pd || today
                     } else {
