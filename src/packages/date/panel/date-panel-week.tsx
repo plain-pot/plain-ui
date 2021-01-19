@@ -4,6 +4,7 @@ import {useDate, UseDateJudgementView} from "../useDate";
 import {PlDatePanelDate} from "./date-panel-date";
 import {computed, reactive} from 'vue';
 import {PDate, plainDate} from "../plainDate";
+import {toArray} from "../../../utils/toArray";
 
 export const PlDatePanelWeek = designComponent({
     name: 'pl-date-panel-week',
@@ -27,12 +28,23 @@ export const PlDatePanelWeek = designComponent({
             emit,
             jdView: UseDateJudgementView.YMD,
             customStatus: {
-                active: () => [],
+                active: () => {
+                    let ret: PDate[] = []
+                    if (!props.range) {
+                        if (!!dateData.value.value) {
+                            dateData.value.value.forEach((item) => ret.push(...item))
+                        }
+                    }
+                    return ret
+                },
                 start: () => {
                     let ret: PDate[] = []
                     if (!props.range) {
-                        if (!!dateData.value.hover) {
-                            ret.push(dateData.value.hover[0])
+                        if (!!dateData.value.current) {
+                            ret.push(dateData.value.current[0])
+                        }
+                        if (!!dateData.value.value) {
+                            dateData.value.value.forEach(([spd]) => ret.push(spd))
                         }
                     }
                     return ret
@@ -40,8 +52,11 @@ export const PlDatePanelWeek = designComponent({
                 end: () => {
                     let ret: PDate[] = []
                     if (!props.range) {
-                        if (!!dateData.value.hover) {
-                            ret.push(dateData.value.hover[1])
+                        if (!!dateData.value.current) {
+                            ret.push(dateData.value.current[1])
+                        }
+                        if (!!dateData.value.value) {
+                            dateData.value.value.forEach(([, epd]) => ret.push(epd))
                         }
                     }
                     return ret
@@ -49,8 +64,11 @@ export const PlDatePanelWeek = designComponent({
                 hover: () => {
                     let ret: [PDate, PDate][] = []
                     if (!props.range) {
-                        if (!!dateData.value.hover) {
-                            ret.push(dateData.value.hover)
+                        if (!!dateData.value.current) {
+                            ret.push(dateData.value.current)
+                        }
+                        if (!!dateData.value.value) {
+                            dateData.value.value.forEach((item) => ret.push(item))
                         }
                     }
                     return ret
@@ -59,12 +77,13 @@ export const PlDatePanelWeek = designComponent({
         })
 
         const externalState = reactive({
-            hover: null as null | DateItemData,
+            current: null as null | DateItemData,
         })
 
         const dateData = computed(() => {
             return {
-                hover: !!externalState.hover ? utils.getDateData(externalState.hover.pd) : null,
+                value: !state.pd.vpd ? null : toArray(state.pd.vpd).map(item => utils.getDateData(item)),
+                current: !!externalState.current ? utils.getDateData(externalState.current.pd) : null,
             }
         })
 
@@ -73,7 +92,7 @@ export const PlDatePanelWeek = designComponent({
             firstWeekDay: props.firstWeekDay,
             onMouseenter: externalHandler.onMouseenter,
             onClick: externalHandler.onClick,
-            onMouseleaveDateList: () => externalState.hover = null,
+            onMouseleaveDateList: () => externalState.current = null,
             onSelectDateChange: setSelectDate,
         }))
 
@@ -96,6 +115,8 @@ export const PlDatePanelWeek = designComponent({
 
         const externalHandler = {
             onClick: (did: DateItemData) => {
+                const [spd] = utils.getDateData(did.pd)
+                handler.onClick({...did, pd: spd})
                 /*const {spd, epd} = utils.getDateData(did.pd)
                 console.table({
                     '选中日期': did.pd.getDisplay(),
@@ -105,7 +126,7 @@ export const PlDatePanelWeek = designComponent({
             },
             onMouseenter: (did: DateItemData) => {
                 if (!props.range) {
-                    externalState.hover = did
+                    externalState.current = did
                 }
             },
         }
