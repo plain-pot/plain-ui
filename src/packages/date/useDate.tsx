@@ -47,6 +47,13 @@ type UseDateTopState = {
     customStatus?: DateCustomStatus,
 }
 
+export type UseDateEmit = {
+    onUpdateModelValue: (val?: string | string[], rangeType?: DateEmitRangeType) => void,
+    onUpdateStart: (val?: string) => void,
+    onUpdateEnd: (val?: string) => void,
+    onUpdateView: (val: DateView) => void,
+}
+
 /**
  * useDate得到的数据对象
  * @author  韦胜健
@@ -113,12 +120,7 @@ export function useDate(
             value?: (vpd: PDate) => PDate,
             range?: (spd: PDate, vpd: PDate) => { spd: PDate, epd: PDate },
         },
-        emit: {
-            onUpdateModelValue: (val?: string | string[], rangeType?: DateEmitRangeType) => void,
-            onUpdateStart: (val?: string) => void,
-            onUpdateEnd: (val?: string) => void,
-            onUpdateView: (val: DateView) => void,
-        },
+        emit: UseDateEmit,
         customStatus?: DateCustomStatus,
     }): UseDateType {
 
