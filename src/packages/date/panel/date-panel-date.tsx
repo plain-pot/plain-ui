@@ -17,8 +17,6 @@ export const PlDatePanelDate = designComponent({
     name: 'pl-date-panel-date',
     props: {
         ...DatePublicProps,
-        displayFormat: {type: String, default: DefaultDateFormatString.date},
-        valueFormat: {type: String, default: DefaultDateFormatString.date},
         view: {type: String as PropType<DateView>, default: DateView.date},
     },
     emits: {
@@ -46,6 +44,9 @@ export const PlDatePanelDate = designComponent({
             props,
             emit,
             jdView: UseDateJudgementView.YMD,
+            processPd: {
+                vpd: (pd) => !props.datetime ? pd : pd.useHms(showTimePd.value),
+            },
         })
 
         const utils = {
@@ -163,8 +164,12 @@ export const PlDatePanelDate = designComponent({
                 utils.setSelectDate(state.selectDate.useValue(val))
                 methods.changeView(DateView.date)
             },
-            onSelectTime: () => {
-                console.log('select time')
+            onSelectTime: (val: string) => {
+                const timePd = defaultTimePd.value.useValue(val)
+                let vpd = state.pd.vpd as PDate | undefined || today
+                vpd = vpd.useHms(timePd)
+                model.value = vpd.getValue()
+                emit.onSelectTime(val)
             },
             onClick: (did: DateItemData) => {
                 handler.onClick(did)

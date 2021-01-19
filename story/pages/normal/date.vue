@@ -64,6 +64,11 @@
                 <pl-date-panel-date v-model="val[9]" multiple/>
                 <div>value:{{val[9]}}</div>
             </demo-row>
+            <demo-row title="日期时间">
+                <pl-date-panel-date v-model="val[10]" datetime defaultTime="08:30:00"/>
+                <pl-date-panel-date v-model="val[10]" datetime/>
+                <div>value:{{val[10]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>

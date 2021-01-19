@@ -91,18 +91,25 @@ export function useDate(
     {
         props,
         jdView,
-        emit,
         getSlide,
+        processPd,
+        emit,
     }: {
         props: DatePublicPropsType,
         jdView: UseDateJudgementView,
+        getSlide?: (pd: PDate) => SlideTransitionDirection,
+        /*process 不能处理多选的情况*/
+        processPd?: {
+            vpd?: (vpd: PDate) => PDate,
+            spd?: (spd: PDate) => PDate,
+            epd?: (epd: PDate) => PDate,
+        },
         emit: {
             onUpdateModelValue: (val?: string | string[], rangeType?: DateEmitRangeType) => void,
             onUpdateStart: (val?: string) => void,
             onUpdateEnd: (val?: string) => void,
             onUpdateView: (val: DateView) => void,
         },
-        getSlide?: (pd: PDate) => SlideTransitionDirection,
     }): UseDateType {
 
     const defaultFormat = (() => {
@@ -219,12 +226,12 @@ export function useDate(
 
     const handler = {
         onClick: (did: DateItemData) => {
-            const display = did.pd.getDisplay()
             if (!parent) {
                 /*
                 *  没有父面板，表明当前面板为顶层面板
                 */
                 if (props.multiple) {
+                    const display = did.pd.getDisplay()
                     /*
                     *  多选
                     */
@@ -248,7 +255,9 @@ export function useDate(
                         /*
                         *  单选
                         */
-                        model.value = display
+                        let {pd} = did
+                        if (!!processPd && !!processPd.vpd) pd = processPd.vpd(pd)
+                        model.value = pd.getDisplay()
                     } else {
                         /*
                         *  范围选择
@@ -260,7 +269,10 @@ export function useDate(
                                 value: [pd, pd],
                             }
                         } else {
-                            const [spd, epd] = state.range.hover
+                            let [spd, epd] = state.range.hover
+                            if (!!processPd && !!processPd.spd) spd = processPd.spd(spd)
+                            if (!!processPd && !!processPd.epd) epd = processPd.epd(epd)
+
                             startModel.value = spd.getDisplay()
                             endModel.value = epd.getDisplay()
                             state.range = {
@@ -273,7 +285,9 @@ export function useDate(
                     }
                 }
             } else {
-                model.value = display
+                let {pd} = did
+                if (!!processPd && !!processPd.vpd) pd = processPd.vpd(pd)
+                model.value = pd.getDisplay()
             }
         },
         onMouseenter: (did: DateItemData) => {
