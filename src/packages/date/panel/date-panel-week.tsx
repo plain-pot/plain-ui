@@ -89,7 +89,7 @@ export const PlDatePanelWeek = designComponent({
                 const weekDayDuration = day - firstWeekDay
                 let offsetDay = weekDayDuration === 0 ? 0 : weekDayDuration > 0 ? weekDayDuration : 7 + weekDayDuration
                 const spd = pd.useMonthDate(pd.month, pd.date - offsetDay)
-                const epd = pd.useMonthDate(spd.month, spd.date + 6)
+                const epd = spd.useMonthDate(spd.month, spd.date + 6)
                 return [spd, epd] as [PDate, PDate]
             },
         }
