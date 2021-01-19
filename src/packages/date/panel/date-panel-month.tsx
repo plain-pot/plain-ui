@@ -10,8 +10,6 @@ export const PlDatePanelMonth = designComponent({
     name: 'pl-date-panel-month',
     props: {
         ...DatePublicProps,
-        displayFormat: {type: String, default: DefaultDateFormatString.month},
-        valueFormat: {type: String, default: DefaultDateFormatString.month},
         view: {type: String as PropType<DateView>, default: DateView.month},
     },
     emits: {
