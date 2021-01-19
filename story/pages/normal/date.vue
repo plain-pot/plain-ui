@@ -107,6 +107,19 @@
                 <pl-date-panel-week v-model="val[16]" :firstWeekDay="0"/>
                 <div>value:{{val[16]}}</div>
             </demo-row>
+            <demo-row title="多选">
+                <pl-date-panel-week v-model="val[17]" multiple/>
+                <pl-date-panel-week v-model="val[17]" multiple/>
+                <div>value:{{val[17]}}</div>
+            </demo-row>
+            <demo-row title="范围选择">
+                <pl-date-panel-week v-model:start="val[18]" v-model:end="val[19]" range max="2021-05-05" min="2019-05-05"/>
+                <pl-date-panel-week v-model:start="val[18]" v-model:end="val[19]" range/>
+                <div>max:2021-05-05</div>
+                <div>min:2019-05-05</div>
+                <div>start:{{val[18]}}</div>
+                <div>end:{{val[19]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
