@@ -69,6 +69,13 @@
                 <pl-date-panel-date v-model="val[10]" datetime/>
                 <div>value:{{val[10]}}</div>
             </demo-row>
+            <demo-row title="最大最小值">
+                <pl-date-panel-date v-model="val[11]" datetime defaultTime="08:30:00" max="2021-05-05 12:00:00" min="2019-05-05 08:30:15"/>
+                <pl-date-panel-date v-model="val[11]" datetime :firstWeekDay="0"/>
+                <div>max:2021-05-05 12:00:00</div>
+                <div>min:2019-05-05 08:30:15</div>
+                <div>value:{{val[11]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>

@@ -45,7 +45,13 @@ export const PlDatePanelDate = designComponent({
             emit,
             jdView: UseDateJudgementView.YMD,
             processPd: {
-                vpd: (pd) => !props.datetime ? pd : pd.useHms(showTimePd.value),
+                vpd: (pd) => {
+                    if (!props.datetime) return pd
+                    pd = pd.useHms(showTimePd.value)
+                    if (!!state.topState.max && state.topState.max.YMDHms < pd.YMDHms) {pd = state.topState.max}
+                    if (!!state.topState.min && state.topState.min.YMDHms > pd.YMDHms) {pd = state.topState.min}
+                    return pd
+                }
             },
         })
 
