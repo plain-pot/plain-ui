@@ -1,7 +1,7 @@
-import {computed, inject, reactive, provide} from 'vue';
-import {DateEmitRangeType, DateItemData, DatePublicPropsType, DateView, SlideTransitionDirection} from "./date.utils";
+import {computed, inject, provide, reactive} from 'vue';
+import {DateEmitRangeType, DateItemData, DatePublicPropsType, DateView, DefaultDateFormatString, SlideTransitionDirection} from "./date.utils";
 import {PDate, plainDate} from "./plainDate";
-import {useModel, UseModelConfig} from "../../use/useModel";
+import {useModel} from "../../use/useModel";
 import {toArray} from "../../utils/toArray";
 
 /**
@@ -11,12 +11,22 @@ import {toArray} from "../../utils/toArray";
  */
 export const DATE_PANEL_PROVIDER = '@@DATE_PANEL_PROVIDER'
 
+/**
+ * 判断对比类型
+ * @author  韦胜健
+ * @date    2021/1/19 9:22
+ */
 export enum UseDateJudgementView {
     'Y' = 'Y',
     'YM' = 'YM',
     'YMD' = 'YMD',
 }
 
+/**
+ * 顶层父面板向下提供的数据
+ * @author  韦胜健
+ * @date    2021/1/19 9:23
+ */
 type UseDateTopState = {
     max: PDate | null,
     min: PDate | null,
@@ -28,6 +38,11 @@ type UseDateTopState = {
     isRange: boolean,
 }
 
+/**
+ * useDate得到的数据对象
+ * @author  韦胜健
+ * @date    2021/1/19 9:23
+ */
 export type UseDateType = {
     parent: UseDateType | null,
     jdView: UseDateJudgementView,
@@ -90,6 +105,15 @@ export function useDate(
         getSlide?: (pd: PDate) => SlideTransitionDirection,
     }): UseDateType {
 
+    const defaultFormat = (() => {
+        if (jdView === UseDateJudgementView.Y) return DefaultDateFormatString.year
+        if (jdView === UseDateJudgementView.YM) return DefaultDateFormatString.month
+        if (jdView === UseDateJudgementView.YMD) return props.datetime ? DefaultDateFormatString.datetime : DefaultDateFormatString.date
+    })();
+    const displayFormat = props.displayFormat || defaultFormat!
+    const valueFormat = props.valueFormat || defaultFormat!
+    const createPlainDate = (val: string) => plainDate(val, {displayFormat, valueFormat})
+
     /**
      * 顶层父面板
      * @author  韦胜健
@@ -97,11 +121,7 @@ export function useDate(
      */
     const parent = inject<UseDateType | null>(DATE_PANEL_PROVIDER, null)
 
-    const innerUtils = {
-        createPd: (val: string) => plainDate(val, {displayFormat: props.displayFormat, valueFormat: props.valueFormat})
-    }
-
-    const today = plainDate.today(props.displayFormat, props.valueFormat)
+    const today = plainDate.today(displayFormat, valueFormat)
     const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {
         onChange: (val) => {
             let pd: PDate;
@@ -143,14 +163,14 @@ export function useDate(
     const pd = computed(() => {
         let vpd: null | PDate | PDate[];
         if (!props.multiple) {
-            vpd = !model.value ? null : innerUtils.createPd(model.value as string)
+            vpd = !model.value ? null : createPlainDate(model.value as string)
         } else {
-            vpd = !model.value ? null : (model.value as string[]).map(item => innerUtils.createPd(item))
+            vpd = !model.value ? null : (model.value as string[]).map(item => createPlainDate(item))
         }
         return {
             vpd,
-            spd: (!props.range || !!parent) ? null : (!startModel.value ? null : innerUtils.createPd(startModel.value)),
-            epd: (!props.range || !!parent) ? null : (!endModel.value ? null : innerUtils.createPd(endModel.value)),
+            spd: (!props.range || !!parent) ? null : (!startModel.value ? null : createPlainDate(startModel.value)),
+            epd: (!props.range || !!parent) ? null : (!endModel.value ? null : createPlainDate(endModel.value)),
         }
     })
 
@@ -188,8 +208,8 @@ export function useDate(
             }
             const {vpd} = pd.value
             return {
-                max: !props.max ? null : innerUtils.createPd(props.max),
-                min: !props.min ? null : innerUtils.createPd(props.min),
+                max: !props.max ? null : createPlainDate(props.max),
+                min: !props.min ? null : createPlainDate(props.min),
                 vpd,
                 range: state.range,
                 isRange: props.range,
@@ -311,6 +331,8 @@ export function useDate(
         jdView,
         state,
         today,
+        displayFormat,
+        valueFormat,
 
         model,
         startModel,

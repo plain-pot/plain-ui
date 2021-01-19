@@ -9,8 +9,6 @@ export const PlDatePanelYear = designComponent({
     name: 'pl-date-panel-year',
     props: {
         ...DatePublicProps,
-        displayFormat: {type: String, default: DefaultDateFormatString.year},
-        valueFormat: {type: String, default: DefaultDateFormatString.year},
     },
     emits: {
         ...DatePublicEmits,

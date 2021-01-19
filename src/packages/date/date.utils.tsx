@@ -64,8 +64,8 @@ export const DatePublicProps = {
     modelValue: {type: [String, Array] as PropType<string | string[]>},         // 双向绑定值，单选时为单个字符串，多选时为字符串数组
     start: {type: String},                                                      // 范围选择，起始值绑定值
     end: {type: String},                                                        // 范围选择，截止值绑定值
-    displayFormat: {type: String, default: ''},                                 // 显示值格式化字符串
-    valueFormat: {type: String, default: ''},                                   // 值格式化字符串
+    displayFormat: {type: String},                                              // 显示值格式化字符串
+    valueFormat: {type: String},                                                // 值格式化字符串
     max: {type: String},                                                        // 最大值
     min: {type: String},                                                        // 最小值
     range: {type: Boolean},                                                     // 是否为范围选择，与multiple多选只能二选一
