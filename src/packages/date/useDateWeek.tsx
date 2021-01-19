@@ -6,18 +6,21 @@ import {reactive, computed} from 'vue';
 
 export function useDateWeek(
     {
-        props, emit,
+        props,
+        emit,
         getDateData,
+        jdView,
     }: {
         props: DatePublicPropsType,
         emit: UseDateEmit,
         getDateData: (pd: PDate) => [PDate, PDate],
+        jdView: UseDateJudgementView,
     }) {
 
     const useDateData = useDate({
         props,
         emit,
-        jdView: UseDateJudgementView.YMD,
+        jdView,
         customStatus: {
             active: () => {
                 let ret: PDate[] = []

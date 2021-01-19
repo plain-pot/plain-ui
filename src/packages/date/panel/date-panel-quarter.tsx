@@ -4,6 +4,7 @@ import {PlDatePanelMonth} from "./date-panel-month";
 import {PDate} from "../plainDate";
 import {computed} from 'vue';
 import {useDateWeek} from "../useDateWeek";
+import {UseDateJudgementView} from "../useDate";
 
 export const PlDatePanelQuarter = designComponent({
     name: 'pl-date-panel-quarter',
@@ -18,8 +19,8 @@ export const PlDatePanelQuarter = designComponent({
         const {useDateData, externalHandler} = useDateWeek({
             props,
             emit,
+            jdView: UseDateJudgementView.YM,
             getDateData: (pd: PDate) => {
-                console.warn('pd', pd)
                 let month = pd.month
                 let quarter = Math.floor(month / 3)
                 const spd = pd.useMonthDate(quarter * 3, 1)

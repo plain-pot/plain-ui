@@ -4,6 +4,7 @@ import {PlDatePanelDate} from "./date-panel-date";
 import {computed} from 'vue';
 import {PDate} from "../plainDate";
 import {useDateWeek} from "../useDateWeek";
+import {UseDateJudgementView} from "../useDate";
 
 export const PlDatePanelWeek = designComponent({
     name: 'pl-date-panel-week',
@@ -18,6 +19,7 @@ export const PlDatePanelWeek = designComponent({
         const {useDateData, externalHandler} = useDateWeek({
             props,
             emit,
+            jdView: UseDateJudgementView.YMD,
             getDateData: (pd: PDate) => {
                 let day = pd.day
                 let firstWeekDay = props.firstWeekDay
