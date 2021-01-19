@@ -146,7 +146,6 @@ export function useDate(
     const startModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.start, emit.onUpdateStart, {
         onChange: (val) => {
             if (!!props.selectDate) {return}
-            console.log('start change to reset select date')
             const spd = !val ? null : today.useValue(val)
             const epd = state.pd.epd
             state.range = {
