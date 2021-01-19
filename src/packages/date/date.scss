@@ -227,6 +227,11 @@
 
           .pl-date-base-panel-month-item {
             width: 72px;
+
+            & > div > span {
+              background-color: transparent;
+              color: inherit;
+            }
           }
         }
       }
