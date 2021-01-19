@@ -19,6 +19,7 @@ export const PlDatePanelQuarter = designComponent({
             props,
             emit,
             getDateData: (pd: PDate) => {
+                console.warn('pd', pd)
                 let month = pd.month
                 let quarter = Math.floor(month / 3)
                 const spd = pd.useMonthDate(quarter * 3, 1)
