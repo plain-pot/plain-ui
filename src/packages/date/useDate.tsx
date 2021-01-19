@@ -1,4 +1,4 @@
-import {computed, inject, provide, reactive} from 'vue';
+import {computed, inject, provide, reactive, watch} from 'vue';
 import {DateEmitRangeType, DateItemData, DatePublicPropsType, DateView, DefaultDateFormatString, SlideTransitionDirection} from "./date.utils";
 import {PDate, plainDate} from "./plainDate";
 import {useModel} from "../../use/useModel";
@@ -130,6 +130,7 @@ export function useDate(
     const today = plainDate.today(displayFormat, valueFormat)
     const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {
         onChange: (val) => {
+            if (!!props.selectDate) {return}
             let pd: PDate;
             if (!props.multiple) {
                 const value = val as string | undefined
@@ -144,6 +145,8 @@ export function useDate(
     })
     const startModel = (!props.range || !!parent) ? model as { value?: string } : useModel(() => props.start, emit.onUpdateStart, {
         onChange: (val) => {
+            if (!!props.selectDate) {return}
+            console.log('start change to reset select date')
             const spd = !val ? null : today.useValue(val)
             const epd = state.pd.epd
             state.range = {
@@ -197,6 +200,13 @@ export function useDate(
                 } else {
                     selectDate = spd || today
                 }
+            }
+            if (!!props.selectDate) {
+                watch(() => props.selectDate, pd => {
+                    if (!pd) {return}// 肯定会有值
+                    !!getSlide && (state.slide = getSlide(pd!))
+                    useDateData.setSelectDate(pd!)
+                })
             }
             return selectDate
         })(),

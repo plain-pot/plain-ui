@@ -189,8 +189,6 @@ export const PlDatePanelDate = designComponent({
             },
         }
 
-        watch(() => props.selectDate, (val) => state.selectDate = val || today)
-
         const render = {
             date: () => {
                 const Wrapper: any = DatePanelWrapper({

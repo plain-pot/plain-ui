@@ -127,7 +127,6 @@ export const PlDatePanelRange = designComponent({
                 onSelectTime: (val: string) => externalHandler.onSelectTime(val, DateEmitRangeType.end),
                 onMousedown: (e: MouseEvent) => emit.mousedown(e, DateEmitRangeType.end),
             }
-
             return {start, end}
         })
 
