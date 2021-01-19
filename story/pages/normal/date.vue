@@ -59,6 +59,11 @@
                 <pl-date-panel-date v-model="val[8]"/>
                 <div>value:{{val[8]}}</div>
             </demo-row>
+            <demo-row title="多选">
+                <pl-date-panel-date v-model="val[9]" multiple/>
+                <pl-date-panel-date v-model="val[9]" multiple/>
+                <div>value:{{val[9]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
