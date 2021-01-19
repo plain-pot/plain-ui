@@ -104,7 +104,7 @@
         <demo-row title="周">
             <demo-row title="单选">
                 <pl-date-panel-week v-model="val[16]"/>
-<!--                <pl-date-panel-week v-model="val[16]" :firstWeekDay="0"/>-->
+                <pl-date-panel-week v-model="val[16]" :firstWeekDay="0"/>
                 <div>value:{{val[16]}}</div>
             </demo-row>
         </demo-row>

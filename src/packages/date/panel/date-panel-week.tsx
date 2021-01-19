@@ -90,6 +90,7 @@ export const PlDatePanelWeek = designComponent({
         const dateAttrs = computed(() => ({
             class: 'pl-date-panel-week',
             firstWeekDay: props.firstWeekDay,
+            selectDate: state.selectDate,
             onMouseenter: externalHandler.onMouseenter,
             onClick: externalHandler.onClick,
             onMouseleaveDateList: () => externalState.current = null,
