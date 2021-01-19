@@ -45,7 +45,7 @@ export const PlDatePanelDate = designComponent({
         } = useDate({
             props,
             emit,
-            jdView: UseDateJudgementView.Y,
+            jdView: UseDateJudgementView.YMD,
         })
 
         const utils = {
