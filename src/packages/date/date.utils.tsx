@@ -57,7 +57,7 @@ export const DefaultDateFormatString = {
     month: 'YYYY-MM',
     date: 'YYYY-MM-DD',
     datetime: 'YYYY-MM-DD HH:mm:ss',
-    week: 'YYYY, ww',
+    week: 'YYYY-MM-DD',
     Hms: 'HH:mm:ss',
 }
 
