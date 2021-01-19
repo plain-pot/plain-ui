@@ -1,7 +1,7 @@
 import {designComponent} from "../../../use/designComponent";
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, DateViewSeq, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
 import {useDate, UseDateJudgementView} from "../useDate";
-import {PropType, computed, watch, Transition} from 'vue';
+import {computed, PropType, Transition, watch} from 'vue';
 import {PDate, plainDate} from "../plainDate";
 import {PlButton} from "../../button/button";
 import {StyleSize} from "../../../use/useStyle";
@@ -159,14 +159,15 @@ export const PlDatePanelDate = designComponent({
         }
 
         const externalHandler = {
-            onSelectMonthChange: () => {
-                console.log('select month change')
+            onSelectMonthChange: (val: string) => {
+                utils.setSelectDate(state.selectDate.useValue(val))
+                methods.changeView(DateView.date)
             },
             onSelectTime: () => {
                 console.log('select time')
             },
-            onClick: () => {
-                console.log('click item')
+            onClick: (did: DateItemData) => {
+                handler.onClick(did)
             },
         }
 
