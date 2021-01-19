@@ -128,6 +128,19 @@
                 <pl-date-panel-quarter v-model="val[20]"/>
                 <div>value:{{val[20]}}</div>
             </demo-row>
+            <demo-row title="多选">
+                <pl-date-panel-quarter v-model="val[21]" multiple/>
+                <pl-date-panel-quarter v-model="val[21]" multiple/>
+                <div>value:{{val[21]}}</div>
+            </demo-row>
+            <demo-row title="范围选择">
+                <pl-date-panel-quarter v-model:start="val[22]" v-model:end="val[23]" range max="2021-05" min="2019-05"/>
+                <pl-date-panel-quarter v-model:start="val[22]" v-model:end="val[23]" range/>
+                <div>max:2021-05</div>
+                <div>min:2019-05</div>
+                <div>start:{{val[22]}}</div>
+                <div>end:{{val[23]}}</div>
+            </demo-row>
         </demo-row>
 
     </div>
