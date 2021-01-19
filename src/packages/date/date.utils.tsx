@@ -58,6 +58,14 @@ export const DefaultDateFormatString = {
     date: 'YYYY-MM-DD',
     datetime: 'YYYY-MM-DD HH:mm:ss',
     week: 'YYYY, ww',
+    Hms: 'HH:mm:ss',
+}
+
+export const DateViewSeq = {
+    year: 1,
+    month: 2,
+    date: 3,
+    time: 4,
 }
 
 export const DatePublicProps = {
