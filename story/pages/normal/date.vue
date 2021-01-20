@@ -226,6 +226,33 @@
                     <div>end:{{val[41]}}</div>
                 </demo-row>
             </demo-row>
+            <demo-row title="年月">
+                <demo-row title="基本单选">
+                    <pl-date v-model="val[42]" panel="month"/>
+                    <pl-date v-model="val[42]" panel="month" displayFormat="YYYY年MM月"/>
+                    <div>value:{{val[42]}}</div>
+                </demo-row>
+                <demo-row title="多选">
+                    <pl-date v-model="val[43]" panel="month" multiple/>
+                    <pl-date v-model="val[43]" panel="month" multiple displayFormat="YYYY年MM月"/>
+                    <div>value:{{val[43]}}</div>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <pl-date v-model:start="val[44]" v-model:end="val[45]" range panel="month"/>
+                    <pl-date v-model:start="val[44]" v-model:end="val[45]" range panel="month" displayFormat="YYYY年MM月"/>
+                    <div>start:{{val[44]}}</div>
+                    <div>end:{{val[45]}}</div>
+                </demo-row>
+                <demo-row title="最大最小值限制">
+                    <div>max:2050-05</div>
+                    <div>min:2019-03</div>
+                    <pl-date v-model="val[46]" panel="month" max="2050-05" min="2019-03"/>
+                    <div>value:{{val[46]}}</div>
+                    <pl-date v-model:start="val[47]" v-model:end="val[48]" range panel="month" max="2050-05" min="2019-03"/>
+                    <div>start:{{val[47]}}</div>
+                    <div>end:{{val[48]}}</div>
+                </demo-row>
+            </demo-row>
         </demo-row>
     </div>
 </template>
