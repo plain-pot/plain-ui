@@ -523,4 +523,14 @@
       }
     }
   }
+
+  .pl-date-panel-foot {
+    padding: 8px;
+    border-top: solid 1px $ibl;
+    display: flex;
+    justify-content: center;
+    & > * + * {
+      margin-left: 8px;
+    }
+  }
 }

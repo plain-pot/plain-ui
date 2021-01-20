@@ -8,15 +8,18 @@ import {PlDatePanelYear} from "./date-panel-year";
 import {PlDatePanelMonth} from "./date-panel-month";
 import {PlDatePanelWeek} from "./date-panel-week";
 import {PlDatePanelQuarter} from "./date-panel-quarter";
+import {VNodeChild} from "../../../shims";
 
 export const PlDatePanel = designComponent({
     name: 'pl-date-panel',
     props: {
         ...DatePublicProps,
         panel: {type: String as PropType<DatePanel>, default: DatePanel.date},
+        foot: {type: Function as PropType<() => VNodeChild>},
     },
     emits: {
         ...DatePublicEmits,
+        onMousedown: (e: MouseEvent, type?: DateEmitRangeType) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -58,6 +61,7 @@ export const PlDatePanel = designComponent({
                 attrs: {
                     ...publicProps,
                     onChange: handler.onChange,
+                    onMousedown: emit.onMousedown,
                     displayFormat: displayFormat || DefaultDateFormatString[panel],
                     valueFormat: valueFormat || DefaultDateFormatString[panel],
                 },
@@ -67,7 +71,12 @@ export const PlDatePanel = designComponent({
         return {
             render: () => {
                 const {name: Component, attrs} = binding.value
-                return <Component {...attrs}/>
+                return <>
+                    <Component {...attrs}/>
+                    {!!props.foot && <div class="pl-date-panel-foot" onMousedown={emit.onMousedown}>
+                        {props.foot()}
+                    </div>}
+                </>
             }
         }
     },

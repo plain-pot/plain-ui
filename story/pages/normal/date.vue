@@ -141,6 +141,20 @@
             </demo-row>
         </demo-row>
         <demo-row title="Date下拉选择">
+            <demo-row title="额外内容">
+                <pl-date>
+                    <template #foot>
+                        <pl-button mode="stroke" size="mini">昨天</pl-button>
+                        <pl-button mode="stroke" size="mini">今天</pl-button>
+                        <pl-button mode="stroke" size="mini">明天</pl-button>
+                    </template>
+                </pl-date>
+                <pl-date datetime>
+                    <template #foot>
+                        <pl-button mode="text" size="mini">现在</pl-button>
+                    </template>
+                </pl-date>
+            </demo-row>
             <demo-row title="日期">
                 <demo-row title="基本单选">
                     <pl-date v-model="val[24]"/>
