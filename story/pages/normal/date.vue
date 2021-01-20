@@ -149,16 +149,57 @@
                 </demo-row>
                 <demo-row title="日期时间">
                     <pl-date v-model="val[25]" datetime/>
-                    <pl-date v-model="val[25]" datetime displayFormat="YYYY年MM月DD日 HH时mm分ss秒"/>
+                    <pl-date v-model="val[25]" datetime defaultTime="08:30:00" displayFormat="YYYY年MM月DD日 HH时mm分ss秒"/>
                     <div>value:{{val[25]}}</div>
+                    <pl-alert>通过 defaultTime 设置默认的时间</pl-alert>
                 </demo-row>
                 <demo-row title="多选">
                     <pl-date v-model="val[26]" multiple/>
-                    <pl-date v-model="val[26]" multiple displayFormat="YYYY年MM月DD日"/>
+                    <pl-date v-model="val[26]" multiple displayFormat="YYYY年MM月DD日" :collapseTags="false"/>
                     <div>value:{{val[26]}}</div>
+                    <pl-alert>多选情况下（其他面板多选也一样），collapseTags为false可以使得输入框显示的选项不折叠</pl-alert>
                 </demo-row>
-
+                <demo-row title="范围选择">
+                    <pl-date v-model:start="val[27]" v-model:end="val[28]" range/>
+                    <pl-date v-model:start="val[27]" v-model:end="val[28]" range displayFormat="YYYY年MM月DD日"/>
+                    <div>start:{{val[27]}}</div>
+                    <div>end:{{val[28]}}</div>
+                </demo-row>
+                <demo-row title="最大最小值">
+                    <div>max:2021-05-05</div>
+                    <div>min:2019-05-05</div>
+                    <pl-date v-model="val[29]" max="2021-05-05" min="2019-05-05"/>
+                    <div>value:{{val[29]}}</div>
+                    <pl-date v-model:start="val[30]" v-model:end="val[31]" range max="2021-05-05" min="2019-05-05"/>
+                    <div>start:{{val[30]}}</div>
+                    <div>end:{{val[31]}}</div>
+                    <pl-alert>设置最大最小值之后，除了面板中的日期会标记为不可选的状态之外，在输入框中手动输入的值也会受最大最小值限制</pl-alert>
+                </demo-row>
+                <demo-row title="最大最小值：日期时间">
+                    <div>max:2021-05-05 12:00:00</div>
+                    <div>min:2019-05-05 08:30:15</div>
+                    <pl-date v-model="val[32]"
+                             datetime
+                             defaultTime="08:30:00"
+                             max="2021-05-05 12:00:00"
+                             min="2019-05-05 08:30:15"/>
+                    <div>value:{{val[32]}}</div>
+                    <pl-date v-model:start="val[33]"
+                             v-model:end="val[34]"
+                             range
+                             datetime
+                             defaultStartTime="08:30:00"
+                             defaultEndTime="22:00:00"
+                             max="2021-05-05 12:00:00"
+                             min="2019-05-05 08:30:15"/>
+                    <div>start:{{val[33]}}</div>
+                    <div>end:{{val[34]}}</div>
+                    <pl-alert>
+                        设置defaultStartTie以及defaultEndTime可以设置日期时间范围选择的默认开始时间以及结束时间
+                    </pl-alert>
+                </demo-row>
             </demo-row>
+
         </demo-row>
     </div>
 </template>
