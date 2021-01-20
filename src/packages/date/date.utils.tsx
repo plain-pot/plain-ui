@@ -59,6 +59,7 @@ export const DefaultDateFormatString = {
     datetime: 'YYYY-MM-DD HH:mm:ss',
     week: 'YYYY-MM-DD',
     Hms: 'HH:mm:ss',
+    quarter: 'gggg年第ww季度',
 }
 
 export const DateViewSeq = {
