@@ -70,25 +70,31 @@ export function createPopperServiceComponent(name: string) {
              * @date    2020/11/27 9:32
              */
             async function service(option: PopperServiceComponentOption) {
+                let newKey = true
                 if (!option.getService || option.getService !== getRefer) {
                     /*clear*/
                     state.option.getService = undefined
                     /*init*/
                     state.option = option
                     state.option.getService = getRefer
+                    state.renderKey = counter()
+                    newKey = false
                     await nextTick()
                 }
-                await show()
+                await show(newKey)
             }
 
             /**
              * 显示服务
              * @author  韦胜健
              * @date    2020/11/27 9:33
+             * @param   newKey          默认情况下每次show之前都应该重新初始化内容，避免不必要的bug
              */
-            async function show() {
-                state.renderKey = counter()
-                await nextTick()
+            async function show(newKey = true) {
+                if (newKey) {
+                    state.renderKey = counter()
+                    await nextTick()
+                }
                 isShow.value = true
             }
 
