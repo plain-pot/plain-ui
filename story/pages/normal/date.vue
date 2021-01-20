@@ -147,10 +147,15 @@
                     <pl-date v-model="val[24]" displayFormat="YYYY年MM月DD日"/>
                     <div>value:{{val[24]}}</div>
                 </demo-row>
-                <demo-row title="多选">
-                    <pl-date v-model="val[25]" multiple/>
-                    <pl-date v-model="val[25]" multiple displayFormat="YYYY年MM月DD日"/>
+                <demo-row title="日期时间">
+                    <pl-date v-model="val[25]" datetime/>
+                    <pl-date v-model="val[25]" datetime displayFormat="YYYY年MM月DD日 HH时mm分ss秒"/>
                     <div>value:{{val[25]}}</div>
+                </demo-row>
+                <demo-row title="多选">
+                    <pl-date v-model="val[26]" multiple/>
+                    <pl-date v-model="val[26]" multiple displayFormat="YYYY年MM月DD日"/>
+                    <div>value:{{val[26]}}</div>
                 </demo-row>
 
             </demo-row>

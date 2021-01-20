@@ -82,6 +82,7 @@ export const PlDate = designComponent({
                     modelValue: model.value,
                     start: startModel.value,
                     end: endModel.value,
+                    ...format.value,
                     ...serviceHandler,
                 })
             },
@@ -100,10 +101,13 @@ export const PlDate = designComponent({
             emit,
         })
 
-        const format = computed(() => ({
-            displayFormat: props.displayFormat || DefaultDateFormatString[props.panel],
-            valueFormat: props.valueFormat || DefaultDateFormatString[props.panel],
-        }))
+        const format = computed(() => {
+            const fmt = props.panel !== DatePanel.date ? DefaultDateFormatString[props.panel] : (props.datetime ? DefaultDateFormatString.datetime : DefaultDateFormatString.date)
+            return {
+                displayFormat: props.displayFormat || fmt,
+                valueFormat: props.valueFormat || fmt,
+            }
+        })
 
         const today = plainDate.today(format.value.displayFormat, format.value.valueFormat)
 
