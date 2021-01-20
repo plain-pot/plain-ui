@@ -206,7 +206,7 @@
         border-right: dashed 1px $ibc;
 
         .pl-date-base-panel-month-item {
-          width: 44px;
+          width: 36px;
 
           & > div {
             border-radius: 100px;
@@ -244,6 +244,32 @@
       position: absolute;
       left: 0;
       top: 0;
+    }
+  }
+
+  .pl-date-panel-quarter {
+    .pl-date-base-panel-month-item {
+      &:nth-child(3n+1) {
+        & > div {
+          border-top-left-radius: 100px !important;
+          border-bottom-left-radius: 100px !important;
+
+          &:before {
+            display: none;
+          }
+        }
+      }
+
+      &:nth-child(3n) {
+        & > div {
+          border-top-right-radius: 100px !important;
+          border-bottom-right-radius: 100px !important;
+
+          &:after {
+            display: none;
+          }
+        }
+      }
     }
   }
 
