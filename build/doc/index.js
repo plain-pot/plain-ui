@@ -76,6 +76,7 @@ module.exports = {
         config.resolve.alias
             .set('story', $utils.resolve('story'))
             .set('pro', $utils.resolve('pro'))
+            .set('plain-ui', $utils.resolve('src'))
         // .set('src', $utils.resolve('src'))
 
         const fontRule = config.module.rule('fonts')

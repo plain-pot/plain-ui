@@ -263,4 +263,6 @@ export const PlDate = designComponent({
             }
         }
     },
+}, {
+    plainDate,
 })

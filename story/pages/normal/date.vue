@@ -142,16 +142,16 @@
         </demo-row>
         <demo-row title="Date下拉选择">
             <demo-row title="额外内容">
-                <pl-date>
+                <pl-date v-model="val[24]">
                     <template #foot>
-                        <pl-button mode="stroke" size="mini">昨天</pl-button>
-                        <pl-button mode="stroke" size="mini">今天</pl-button>
-                        <pl-button mode="stroke" size="mini">明天</pl-button>
+                        <pl-button mode="stroke" size="mini" @click="setDate('yesterday')">昨天</pl-button>
+                        <pl-button mode="stroke" size="mini" @click="setDate('today')">今天</pl-button>
+                        <pl-button mode="stroke" size="mini" @click="setDate('tomorrow')">明天</pl-button>
                     </template>
                 </pl-date>
-                <pl-date datetime>
+                <pl-date datetime v-model="val[25]" defaultTime="08:30:00">
                     <template #foot>
-                        <pl-button mode="text" size="mini">现在</pl-button>
+                        <pl-button mode="text" size="mini" @click="setDatetime">现在</pl-button>
                     </template>
                 </pl-date>
             </demo-row>
@@ -326,12 +326,34 @@
 </template>
 
 <script>
+    import {Date} from 'plain-ui'
+
     export default {
         name: "date",
         data() {
             return {
                 val: {},
             }
+        },
+        methods: {
+            setDate(type) {
+                const pd = Date.plainDate.today('YYYY-MM-DD', 'YYYY-MM-DD')
+                switch (type) {
+                    case 'yesterday':
+                        this.val[24] = pd.useMonthDate(pd.month, pd.date - 1).getValue()
+                        break
+                    case 'today':
+                        this.val[24] = pd.getValue()
+                        break
+                    case 'tomorrow':
+                        this.val[24] = pd.useMonthDate(pd.month, pd.date + 1).getValue()
+                        break
+                }
+            },
+            setDatetime() {
+                const pd = Date.plainDate.today('YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD HH:mm:ss')
+                this.val[25] = pd.getValue()
+            },
         },
     }
 </script>
