@@ -280,6 +280,33 @@
                     <div>end:{{val[55]}}</div>
                 </demo-row>
             </demo-row>
+            <demo-row title="季度">
+                <demo-row title="基本单选">
+                    <pl-date v-model="val[56]" panel="quarter"/>
+                    <pl-date v-model="val[56]" panel="quarter" displayFormat="年：YYYY, 季度：Q"/>
+                    <div>value:{{val[56]}}</div>
+                </demo-row>
+                <demo-row title="多选">
+                    <pl-date v-model="val[57]" panel="quarter" multiple/>
+                    <pl-date v-model="val[57]" panel="quarter" multiple displayFormat="年：YYYY, 季度：Q"/>
+                    <div>value:{{val[57]}}</div>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <pl-date v-model:start="val[58]" v-model:end="val[59]" range panel="quarter"/>
+                    <pl-date v-model:start="val[58]" v-model:end="val[59]" range panel="quarter" displayFormat="年：YYYY, 季度：Q"/>
+                    <div>start:{{val[58]}}</div>
+                    <div>end:{{val[59]}}</div>
+                </demo-row>
+                <demo-row title="最大最小值限制">
+                    <div>max:2050-05</div>
+                    <div>min:2019-04</div>
+                    <pl-date v-model="val[60]" panel="quarter" max="2050-05" min="2019-04"/>
+                    <div>value:{{val[60]}}</div>
+                    <pl-date v-model:start="val[61]" v-model:end="val[62]" range panel="quarter" max="2050-05" min="2019-04"/>
+                    <div>start:{{val[61]}}</div>
+                    <div>end:{{val[62]}}</div>
+                </demo-row>
+            </demo-row>
         </demo-row>
     </div>
 </template>
