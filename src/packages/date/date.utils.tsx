@@ -25,19 +25,6 @@ export enum SlideTransitionDirection {
 }
 
 /**
- * 用户使用的面板，所有面板都有单选、范围选择功能。除了datetime面板之外，其他所有面板都有多选功能；
- * @author  韦胜健
- * @date    2021/1/18 10:43
- */
-export enum DatePanel {
-    year = 'year',
-    month = 'month',
-    date = 'date',
-    datetime = 'datetime',
-    week = 'week',
-}
-
-/**
  * 在派发modelValue时，派发的start还是end事件
  * @author  韦胜健
  * @date    2021/1/18 10:44
