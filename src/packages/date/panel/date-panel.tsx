@@ -33,15 +33,14 @@ export const PlDatePanel = designComponent({
         const endModel = useModel(() => props.end, emit.onUpdateEnd)
 
         const handler = {
-            onChange: (val: string | undefined, type?: DateEmitRangeType) => {
-                console.log('change type', type)
-                if (!props.range) {
+            onChange: (val: string | string[] | undefined, type?: DateEmitRangeType) => {
+                if (!props.range || props.multiple) {
                     model.value = val
                 } else {
                     if (type === DateEmitRangeType.start) {
-                        startModel.value = val
+                        startModel.value = val as string | undefined
                     } else {
-                        endModel.value = val
+                        endModel.value = val as string | undefined
                     }
                     emit.onUpdateModelValue(val, type)
                 }
@@ -49,12 +48,12 @@ export const PlDatePanel = designComponent({
         }
 
         const binding = computed(() => {
-            const {range, max, min, displayFormat, valueFormat, firstWeekDay, defaultTime, defaultStartTime, defaultEndTime, datetime} = props
+            const {range, max, min, displayFormat, valueFormat, firstWeekDay, defaultTime, defaultStartTime, defaultEndTime, datetime, multiple} = props
             const panel = props.panel
             const value = model.value
             const start = startModel.value
             const end = endModel.value
-            const publicProps = {range, modelValue: value, start, end, max, min, firstWeekDay, defaultTime, defaultStartTime, defaultEndTime, datetime}
+            const publicProps = {range, modelValue: value, start, end, max, min, firstWeekDay, defaultTime, defaultStartTime, defaultEndTime, datetime, multiple}
 
             return {
                 name: {

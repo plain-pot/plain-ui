@@ -38,7 +38,7 @@ export const PlDate = designComponent({
 
         const serviceHandler = {
             onChange: (val: string | undefined, type: DateEmitRangeType) => {
-                if (!props.range) {
+                if (!props.range || props.multiple) {
                     model.value = val
                 } else {
                     if (type === 'start') {
