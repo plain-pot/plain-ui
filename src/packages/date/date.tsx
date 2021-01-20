@@ -1,10 +1,9 @@
 import {designComponent} from "../../use/designComponent";
 import './date.scss'
-import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "./date.utils";
+import {DateEmitRangeType, DatePanel, DatePublicEmits, DatePublicProps, getDefaultDateFormatter} from "./date.utils";
 import {EditProps} from "../../use/useEdit";
 import {StyleProps} from "../../use/useStyle";
 import {useModel} from "../../use/useModel";
-import {DatePanel} from "./panel/date-panel";
 import {delay} from "plain-utils/utils/delay";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {DateServiceGetter} from "./date.service";
@@ -102,10 +101,10 @@ export const PlDate = designComponent({
         })
 
         const format = computed(() => {
-            const fmt = props.panel !== DatePanel.date ? DefaultDateFormatString[props.panel] : (props.datetime ? DefaultDateFormatString.datetime : DefaultDateFormatString.date)
+            const {displayFormat, valueFormat} = getDefaultDateFormatter(props.panel, props.datetime)
             return {
-                displayFormat: props.displayFormat || fmt,
-                valueFormat: props.valueFormat || fmt,
+                displayFormat: props.displayFormat || displayFormat,
+                valueFormat: props.valueFormat || valueFormat,
             }
         })
 

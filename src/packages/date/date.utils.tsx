@@ -1,4 +1,4 @@
-import {PropType, ExtractPropTypes} from 'vue';
+import {ExtractPropTypes, PropType} from 'vue';
 import {PDate} from "./plainDate";
 import {VNodeChild} from "../../shims";
 
@@ -12,6 +12,14 @@ export enum DateView {
     month = 'month',
     date = 'date',
     time = 'time',
+}
+
+export enum DatePanel {
+    year = 'year',
+    month = 'month',
+    date = 'date',
+    week = 'week',
+    quarter = 'quarter',
 }
 
 /**
@@ -46,8 +54,45 @@ export const DefaultDateFormatString = {
     datetime: 'YYYY-MM-DD HH:mm:ss',
     week: 'YYYY-MM-DD',
     Hms: 'HH:mm:ss',
-    quarter: 'gggg年第ww季度',
+    quarter: 'YYYY年第ww季度',
 }
+
+export const getDefaultDateFormatter = (() => {
+    function getDefaultDateValueFormat(panel: DatePanel, datetime?: boolean) {
+        switch (panel) {
+            case DatePanel.year:
+                return DefaultDateFormatString.year
+            case DatePanel.month:
+                return DefaultDateFormatString.month
+            case DatePanel.date:
+                return datetime ? DefaultDateFormatString.datetime : DefaultDateFormatString.date
+            case DatePanel.week:
+                return DefaultDateFormatString.date
+            case DatePanel.quarter:
+                return DefaultDateFormatString.month
+        }
+    }
+
+    function getDefaultDateDisplayFormat(panel: DatePanel, datetime?: boolean) {
+        switch (panel) {
+            case DatePanel.year:
+                return DefaultDateFormatString.year
+            case DatePanel.month:
+                return DefaultDateFormatString.month
+            case DatePanel.date:
+                return datetime ? DefaultDateFormatString.datetime : DefaultDateFormatString.date
+            case DatePanel.week:
+                return 'gggg年第ww周'
+            case DatePanel.quarter:
+                return 'YYYY年第Q季度'
+        }
+    }
+
+    return (panel: DatePanel, datetime?: boolean) => ({
+        displayFormat: getDefaultDateDisplayFormat(panel, datetime),
+        valueFormat: getDefaultDateValueFormat(panel, datetime),
+    })
+})();
 
 export const DateViewSeq = {
     year: 1,

@@ -1,5 +1,5 @@
 import {designComponent} from "../../../use/designComponent";
-import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "../date.utils";
+import {DateEmitRangeType, DatePanel, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "../date.utils";
 import {PropType, computed} from 'vue';
 import {useModel} from "../../../use/useModel";
 import {PlDatePanelRange} from "./date-panel-range";
@@ -8,14 +8,6 @@ import {PlDatePanelYear} from "./date-panel-year";
 import {PlDatePanelMonth} from "./date-panel-month";
 import {PlDatePanelWeek} from "./date-panel-week";
 import {PlDatePanelQuarter} from "./date-panel-quarter";
-
-export enum DatePanel {
-    year = 'year',
-    month = 'month',
-    date = 'date',
-    week = 'week',
-    quarter = 'quarter',
-}
 
 export const PlDatePanel = designComponent({
     name: 'pl-date-panel',
