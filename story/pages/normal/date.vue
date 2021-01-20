@@ -259,26 +259,26 @@
                     <pl-date v-model="val[49]" panel="week" displayFormat="年：gggg, 周：ww"/>
                     <div>value:{{val[49]}}</div>
                 </demo-row>
-                <!--<demo-row title="多选">
-                    <pl-date v-model="val[43]" panel="month" multiple/>
-                    <pl-date v-model="val[43]" panel="month" multiple displayFormat="YYYY年MM月"/>
-                    <div>value:{{val[43]}}</div>
+                <demo-row title="多选">
+                    <pl-date v-model="val[50]" panel="week" multiple/>
+                    <pl-date v-model="val[50]" panel="week" multiple displayFormat="年：gggg, 周：ww"/>
+                    <div>value:{{val[50]}}</div>
                 </demo-row>
                 <demo-row title="范围选择">
-                    <pl-date v-model:start="val[44]" v-model:end="val[45]" range panel="month"/>
-                    <pl-date v-model:start="val[44]" v-model:end="val[45]" range panel="month" displayFormat="YYYY年MM月"/>
-                    <div>start:{{val[44]}}</div>
-                    <div>end:{{val[45]}}</div>
+                    <pl-date v-model:start="val[51]" v-model:end="val[52]" range panel="week"/>
+                    <pl-date v-model:start="val[51]" v-model:end="val[52]" range panel="week" displayFormat="年：gggg, 周：ww"/>
+                    <div>start:{{val[51]}}</div>
+                    <div>end:{{val[52]}}</div>
                 </demo-row>
                 <demo-row title="最大最小值限制">
-                    <div>max:2050-05</div>
-                    <div>min:2019-03</div>
-                    <pl-date v-model="val[46]" panel="month" max="2050-05" min="2019-03"/>
-                    <div>value:{{val[46]}}</div>
-                    <pl-date v-model:start="val[47]" v-model:end="val[48]" range panel="month" max="2050-05" min="2019-03"/>
-                    <div>start:{{val[47]}}</div>
-                    <div>end:{{val[48]}}</div>
-                </demo-row>-->
+                    <div>max:2050-05-05</div>
+                    <div>min:2019-03-03</div>
+                    <pl-date v-model="val[53]" panel="week" max="2050-05-05" min="2019-03-03"/>
+                    <div>value:{{val[53]}}</div>
+                    <pl-date v-model:start="val[54]" v-model:end="val[55]" range panel="week" max="2050-05-05" min="2019-03-03"/>
+                    <div>start:{{val[54]}}</div>
+                    <div>end:{{val[55]}}</div>
+                </demo-row>
             </demo-row>
         </demo-row>
     </div>
