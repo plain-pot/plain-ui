@@ -144,9 +144,9 @@
             <demo-row title="额外内容">
                 <pl-date v-model="val[24]">
                     <template #foot>
-                        <pl-button mode="stroke" size="mini" @click="setDate('yesterday')">昨天</pl-button>
-                        <pl-button mode="stroke" size="mini" @click="setDate('today')">今天</pl-button>
-                        <pl-button mode="stroke" size="mini" @click="setDate('tomorrow')">明天</pl-button>
+                        <pl-button size="mini" @click="setDate('yesterday')">昨天</pl-button>
+                        <pl-button size="mini" @click="setDate('today')">今天</pl-button>
+                        <pl-button size="mini" @click="setDate('tomorrow')">明天</pl-button>
                     </template>
                 </pl-date>
                 <pl-date datetime v-model="val[25]" defaultTime="08:30:00">
