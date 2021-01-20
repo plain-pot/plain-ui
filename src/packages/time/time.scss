@@ -28,4 +28,15 @@
       width: auto !important;
     }
   }
+
+  .pl-time-panel-foot {
+    padding: 8px 8px 0 8px;
+    border-top: solid 1px $ibl;
+    display: flex;
+    justify-content: center;
+
+    & > * + * {
+      margin-left: 8px;
+    }
+  }
 }

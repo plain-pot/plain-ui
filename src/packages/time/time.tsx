@@ -13,6 +13,7 @@ import {useDateTime} from "../date-time-input/useDateTime";
 import './time.scss'
 import {PlInput} from "../input/input";
 import {PlDateTimeInput} from "../date-time-input/date-time-input";
+import {useSlots} from "../../use/useSlots";
 
 export const PlTime = designComponent({
     name: 'pl-time',
@@ -29,6 +30,8 @@ export const PlTime = designComponent({
         onFocus: (e: Event) => true,
     },
     setup({props, event: {emit}}) {
+
+        const {slots} = useSlots(['foot'], true)
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const startModel = useModel(() => props.start, emit.onUpdateStart)
@@ -84,6 +87,7 @@ export const PlTime = designComponent({
                     start: startModel.value,
                     end: endModel.value,
                     ...serviceHandler,
+                    foot: slots.foot.isExist() ? slots.foot : undefined,
                 })
             },
         })

@@ -1,9 +1,10 @@
 import {designComponent} from "../../../use/designComponent";
 import {TimePublicProps} from "./time-panel.utils";
 import {useModel} from "../../../use/useModel";
-import {nextTick, computed} from 'vue';
+import {nextTick, computed, PropType} from 'vue';
 import {PlTimeRangePanel, TimeRangePanelType} from "./time-range-panel";
 import {PlTimeBasePanel} from "./time-base-panel";
+import {VNodeChild} from "../../../shims";
 
 export const TimePanelProps = {
     modelValue: {type: String},
@@ -17,6 +18,7 @@ export const PlTimePanel = designComponent({
     name: 'pl-time-panel',
     props: {
         ...TimePanelProps,
+        foot: {type: Function as PropType<() => VNodeChild>},
     },
     emits: {
         onUpdateModelValue: (val: string | undefined, type: TimeRangePanelType) => true,
@@ -75,11 +77,14 @@ export const PlTimePanel = designComponent({
         })
 
         return {
-            render: () => (
-                !props.range ?
+            render: () => <>
+                {!props.range ?
                     <PlTimeBasePanel class="pl-time-panel" {...binding.value.base} key="base"/> :
-                    <PlTimeRangePanel class="pl-time-panel" {...binding.value.range} key="range"/>
-            )
+                    <PlTimeRangePanel class="pl-time-panel" {...binding.value.range} key="range"/>}
+                {!!props.foot && <div class="pl-time-panel-foot" onMousedown={emit.onMousedownBasePanel}>
+                    {props.foot()}
+                </div>}
+            </>
         }
 
     },

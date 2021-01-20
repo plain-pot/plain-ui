@@ -177,6 +177,13 @@
         </demo-row>-->
 
         <demo-row title="pl-time">
+            <demo-row title="额外的内容">
+                <pl-time v-model="val[18]">
+                    <template #foot>
+                        <pl-button mode="text" size="mini" @click="setTime">现在</pl-button>
+                    </template>
+                </pl-time>
+            </demo-row>
             <demo-row title="基本用法">
                 <div>
                     <pl-input/>
@@ -295,6 +302,7 @@
     import {zeroize} from "plain-utils/string/zeroize";
     import {TimeServiceGetter} from "../../../src/packages/time/servce/time-service";
     import {ref} from 'vue'
+    import {Date} from 'plain-ui'
 
     export default {
         name: "demo-time",
@@ -451,6 +459,9 @@
                         this.val['13'] = newValue
                     }
                 }
+            },
+            setTime() {
+                this.val[18] = Date.plainDate.today('HH:mm:ss', 'HH:mm:ss').getValue()
             },
         }
     }
