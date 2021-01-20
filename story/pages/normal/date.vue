@@ -199,7 +199,33 @@
                     </pl-alert>
                 </demo-row>
             </demo-row>
-
+            <demo-row title="年">
+                <demo-row title="基本单选">
+                    <pl-date v-model="val[35]" panel="year"/>
+                    <pl-date v-model="val[35]" panel="year" displayFormat="YYYY年"/>
+                    <div>value:{{val[35]}}</div>
+                </demo-row>
+                <demo-row title="多选">
+                    <pl-date v-model="val[36]" panel="year" multiple/>
+                    <pl-date v-model="val[36]" panel="year" multiple displayFormat="YYYY年"/>
+                    <div>value:{{val[36]}}</div>
+                </demo-row>
+                <demo-row title="范围选择">
+                    <pl-date v-model:start="val[37]" v-model:end="val[38]" range panel="year"/>
+                    <pl-date v-model:start="val[37]" v-model:end="val[38]" range panel="year" displayFormat="YYYY年"/>
+                    <div>start:{{val[37]}}</div>
+                    <div>end:{{val[38]}}</div>
+                </demo-row>
+                <demo-row title="最大最小值限制">
+                    <div>max:2050</div>
+                    <div>min:2019</div>
+                    <pl-date v-model="val[39]" panel="year" max="2050" min="2019"/>
+                    <div>value:{{val[39]}}</div>
+                    <pl-date v-model:start="val[40]" v-model:end="val[41]" range panel="year" max="2050" min="2019"/>
+                    <div>start:{{val[40]}}</div>
+                    <div>end:{{val[41]}}</div>
+                </demo-row>
+            </demo-row>
         </demo-row>
     </div>
 </template>
