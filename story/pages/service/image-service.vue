@@ -10,6 +10,14 @@
             <img :src="compressData.before" v-if="compressData.before">
             <img :src="compressData.after" v-if="compressData.after">
         </demo-row>
+        <demo-row title="预览图片">
+            <demo-row title="预览单张图片">
+                <img src="http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg" @click="handlePreview('http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg')">
+            </demo-row>
+            <demo-row title="预览多张图片">
+
+            </demo-row>
+        </demo-row>
     </div>
 </template>
 
@@ -78,6 +86,9 @@
                 })
                 const after = await Image.$image.compress(before, {maxSize})
                 this.compressData = {before: null, after}
+            },
+            handlePreview(url) {
+                Image.$image.preview(url)
             },
         },
     }

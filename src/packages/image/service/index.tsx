@@ -7,19 +7,23 @@ import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext"
 import {imageCompress} from "./image.service.utils";
 
 interface ImageServicePreviewOption {
-    imageList: string | string[],
+    urls: string[],
 }
 
 const Service = createDefaultService({
-    name: 'pl-image-service',
+    name: 'pl-image-preview-service',
     setup: (option: ImageServicePreviewOption) => {
         const isShow = ref(false)
         const state = reactive({
+            current: 0,
             key: 0,
             option,
         })
 
-        const show = () => isShow.value = true
+        const show = () => {
+            state.current = 0
+            isShow.value = true
+        }
         const hide = () => isShow.value = false
 
         const service = async (option: ImageServicePreviewOption) => {
@@ -29,6 +33,13 @@ const Service = createDefaultService({
             return hide
         }
 
+        const buttons = [
+            {
+                label: '逆时针旋转90°',
+                icon: '',
+            }
+        ]
+
         return {
             refer: {
                 isShow,
@@ -36,8 +47,11 @@ const Service = createDefaultService({
                 service,
             },
             render: () => (
-                <div>
-                    image service
+                <div class="pl-image-preview-service">
+                    {!!state.option.urls[state.current] && <img class="pl-image-preview-service-img" src={state.option.urls[state.current]}/>}
+                    <div class="pl-image-preview-service-button-group">
+                        <div class="pl-image-preview-service-button"></div>
+                    </div>
                 </div>
             )
         }
@@ -48,8 +62,16 @@ const getImageService = registryRootService(
     'image',
     createDefaultManager('pl-image-manager', Service),
     (getManager) => {
-        const preview = (urls: string | string[] | ImageServicePreviewOption) => {
-            console.log('preview')
+        const preview = (o: string | string[] | ImageServicePreviewOption) => {
+            let option: ImageServicePreviewOption;
+            if (Array.isArray(o)) {
+                option = {urls: o}
+            } else if (typeof o === "string") {
+                option = {urls: [o]}
+            } else {
+                option = o
+            }
+            getManager().then(manager => manager.service(option))
         }
         return {
             choose: $$file.chooseImage,
