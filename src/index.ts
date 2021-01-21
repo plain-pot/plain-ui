@@ -73,6 +73,7 @@ import Plc from './packages/plc'
 import Upload from './packages/upload'
 import Nav from './packages/nav'
 import FileService from './packages/file-service'
+import Image from './packages/image'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -91,7 +92,7 @@ const plugins: ComponentPlugin[] = [
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
-    DateTimeInput, Date, Form, FormItem, Upload,
+    DateTimeInput, Date, Form, FormItem, Upload, Image,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 ]
@@ -109,7 +110,7 @@ export {
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
-    DateTimeInput, Date, Form, FormItem, Upload,
+    DateTimeInput, Date, Form, FormItem, Upload, Image,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 }
