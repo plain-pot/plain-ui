@@ -45,7 +45,7 @@ const Service = createDefaultService({
                 transform.push(`rotate(${rotate}deg)`)
             }
             if (transform.length > 0) {
-                style.transform = transform.join(',')
+                style.transform = transform.join(' ')
             }
             if (!!top) {
                 style.top = `${top}px`
