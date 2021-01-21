@@ -16,6 +16,7 @@ import {createDefaultService} from "../root/createDefaultService";
  * @date    2020/11/7 20:04
  */
 const OptionKeys = [
+    'title',
     'message',
     'editType',
     'editValue',
