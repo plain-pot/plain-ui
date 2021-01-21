@@ -1,4 +1,5 @@
 import {designComponent} from "../../use/designComponent";
+import {$image} from "./service";
 
 export const PlImage = designComponent({
     name: 'pl-image',
@@ -12,4 +13,6 @@ export const PlImage = designComponent({
             )
         }
     },
+}, {
+    $image,
 })

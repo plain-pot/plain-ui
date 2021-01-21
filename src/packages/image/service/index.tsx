@@ -1,16 +1,17 @@
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultService} from "../../root/createDefaultService";
-import {ref, reactive} from 'vue';
+import {reactive, ref} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
+import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
 
-interface ImageServiceOption {
+interface ImageServicePreviewOption {
     imageList: string | string[],
 }
 
 const Service = createDefaultService({
     name: 'pl-image-service',
-    setup: (option: ImageServiceOption) => {
+    setup: (option: ImageServicePreviewOption) => {
         const isShow = ref(false)
         const state = reactive({
             key: 0,
@@ -20,7 +21,7 @@ const Service = createDefaultService({
         const show = () => isShow.value = true
         const hide = () => isShow.value = false
 
-        const service = async (option: ImageServiceOption) => {
+        const service = async (option: ImageServicePreviewOption) => {
             state.option = option
             state.key++
             show()
@@ -46,17 +47,20 @@ const getImageService = registryRootService(
     'image',
     createDefaultManager('pl-image-manager', Service),
     (getManager) => {
-        return (option: ImageServiceOption) => {
+        const choose = $$file.chooseImage
 
-            const choose = $$file.chooseImage
-
-            const preview = () => {
-
-            }
-            const compress = () => {
-
-            }
-
+        const preview = (urls: string | string[] | ImageServicePreviewOption) => {
+            console.log('preview')
+        }
+        const compress = () => {
+            console.log('compress')
+        }
+        return {
+            choose,
+            preview,
+            compress,
         }
     }
 )
+
+export const $image = getServiceWithoutContext(getImageService)

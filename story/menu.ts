@@ -110,6 +110,7 @@ export const MENUS: MenuGroup[] = [
             {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: true},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
             {name: '$file', title: '文件服务', page: '/service/file-service', complete: true},
+            {name: '$image', title: '图片服务', page: '/service/image-service', complete: true},
         ]
     },
     {
