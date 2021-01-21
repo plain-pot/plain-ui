@@ -4,6 +4,7 @@ import {reactive, ref} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
 import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
+import {imageCompress} from "./image.service.utils";
 
 interface ImageServicePreviewOption {
     imageList: string | string[],
@@ -47,18 +48,13 @@ const getImageService = registryRootService(
     'image',
     createDefaultManager('pl-image-manager', Service),
     (getManager) => {
-        const choose = $$file.chooseImage
-
         const preview = (urls: string | string[] | ImageServicePreviewOption) => {
             console.log('preview')
         }
-        const compress = () => {
-            console.log('compress')
-        }
         return {
-            choose,
+            choose: $$file.chooseImage,
+            compress: imageCompress,
             preview,
-            compress,
         }
     }
 )

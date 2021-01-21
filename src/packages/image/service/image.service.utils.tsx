@@ -90,3 +90,71 @@ export function dataURLToFile(dataUrl: string) {
 export function blobToFile(blob: Blob, filename: string, option?: FilePropertyBag) {
     return new File([blob], filename, option)
 }
+
+export const imageCompress = (() => {
+    /**
+     * 根据尺寸压缩图片
+     * @author  韦胜健
+     * @date    2021/1/21 16:11
+     */
+    const compressByMeasure = async (image: HTMLImageElement, config: { maxHeight?: number, maxWidth?: number }, filename: string) => {
+        const canvas = document.createElement('canvas') as HTMLCanvasElement
+        const ctx = canvas.getContext('2d')!
+        let height = image.height, width = image.width;
+        if (!!config.maxHeight && height > config.maxHeight) {
+            width = config.maxHeight / height * width
+            height = config.maxHeight
+        }
+        if (!!config.maxWidth && width > config.maxWidth) {
+            height = config.maxWidth / width * height
+            width = config.maxWidth
+        }
+        canvas.width = width
+        canvas.height = height
+        ctx.drawImage(image, 0, 0, width, height)
+        return canvasToFile(canvas, 'image/png', 1, filename)
+    }
+    /**
+     * 根据图片容量大小压缩图片
+     * @author  韦胜健
+     * @date    2021/1/21 16:11
+     */
+    const compressByMaxSize = async (image: HTMLImageElement, maxSize: number, filename: string) => {
+        const max = maxSize * 1000 * 1000
+        let rate = 1
+        const canvas = document.createElement('canvas') as HTMLCanvasElement
+        const ctx = canvas.getContext('2d')!
+        canvas.height = image.height
+        canvas.width = image.width
+        ctx.drawImage(image, 0, 0, image.width, image.height)
+
+        let file = await canvasToFile(canvas, 'image/png', 1, filename)
+        while (!!file && file.size > max && rate > 0.1) {
+            ctx.clearRect(0, 0, image.width * rate, image.height * rate)
+            rate -= 0.3
+            canvas.height = image.height * rate
+            canvas.width = image.width * rate
+            ctx.drawImage(image, 0, 0, image.width * rate, image.height * rate)
+            file = await canvasToFile(canvas, 'image/png', 1, filename)
+        }
+        return file
+    }
+    return async (url: string, config: { maxSize?: number, maxHeight?: number, maxWidth?: number }): Promise<string | ArrayBuffer | null> => {
+        if (!url) {
+            throw new Error('compress: url is empty!')
+        }
+        /*if (/^https?/.test(url) && url.indexOf('?') === -1) {
+            url += `?timestamp=${Date.now()}`
+        }*/
+        let image = await urlToImage(url)
+        if (!!config.maxHeight || !!config.maxWidth) {
+            let file = await compressByMeasure(image, config, '根据尺寸压缩图片.png')
+            return !file ? null : fileToDataURL(file)
+        }
+        if (!!config.maxSize) {
+            let file = await compressByMaxSize(image, config.maxSize, '根据文件大小压缩图片.png')
+            return !file ? null : fileToDataURL(file)
+        }
+        throw new Error('compress: maxSize, maxHeight, maxWidth is empty!')
+    }
+})();
