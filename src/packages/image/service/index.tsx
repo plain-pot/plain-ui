@@ -1,10 +1,12 @@
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultService} from "../../root/createDefaultService";
-import {reactive, ref} from 'vue';
+import {reactive, ref, withDirectives, Transition, computed} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
 import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
 import {imageCompress} from "./image.service.utils";
+import {PlIcon} from "../../icon/icon";
+import {TooltipDirective} from "../../tooltip/tooltip-directive";
 
 interface ImageServicePreviewOption {
     urls: string[],
@@ -15,8 +17,7 @@ const Service = createDefaultService({
     setup: (option: ImageServicePreviewOption) => {
         const isShow = ref(false)
         const state = reactive({
-            current: 0,
-            key: 0,
+            current: 0,                                 // 当前显示的图片索引
             option,
         })
 
@@ -28,7 +29,6 @@ const Service = createDefaultService({
 
         const service = async (option: ImageServicePreviewOption) => {
             state.option = option
-            state.key++
             show()
             return hide
         }
@@ -36,9 +36,33 @@ const Service = createDefaultService({
         const buttons = [
             {
                 label: '逆时针旋转90°',
-                icon: '',
-            }
+                icon: 'el-icon-rotate-left',
+            },
+            {
+                label: '顺时针旋转90°',
+                icon: 'el-icon-rotate-right',
+            },
+            {
+                label: '放大',
+                icon: 'el-icon-zoom-in',
+            },
+            {
+                label: '缩小',
+                icon: 'el-icon-zoom-out',
+            },
+            {
+                label: '关闭',
+                icon: 'el-icon-close',
+                onClick: hide,
+            },
         ]
+
+        const classes = computed(() => [
+            'pl-image-preview-service',
+            {
+                'pl-image-preview-service-show': isShow.value
+            }
+        ])
 
         return {
             refer: {
@@ -47,12 +71,16 @@ const Service = createDefaultService({
                 service,
             },
             render: () => (
-                <div class="pl-image-preview-service">
-                    {!!state.option.urls[state.current] && <img class="pl-image-preview-service-img" src={state.option.urls[state.current]}/>}
-                    <div class="pl-image-preview-service-button-group">
-                        <div class="pl-image-preview-service-button"></div>
+                <Transition name="pl-image-preview">
+                    <div class={classes.value} v-show={isShow.value}>
+                        {!!state.option.urls[state.current] && <img class="pl-image-preview-service-img" src={state.option.urls[state.current]}/>}
+                        <div class="pl-image-preview-service-button-group">
+                            {buttons.map(btn => withDirectives(<div class="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
+                                <PlIcon icon={btn.icon}/>
+                            </div> as any, [[TooltipDirective, btn.label]]))}
+                        </div>
                     </div>
-                </div>
+                </Transition>
             )
         }
     }
