@@ -128,6 +128,11 @@ const Service = createDefaultService({
                 },
             },
             {
+                label: '重置',
+                icon: 'el-icon-refresh',
+                onClick: resetAdjust,
+            },
+            {
                 label: '关闭',
                 icon: 'el-icon-close',
                 onClick: hide,

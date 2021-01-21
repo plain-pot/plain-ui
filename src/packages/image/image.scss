@@ -19,6 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform linear 300ms;
 
     .pl-image-preview-service-button {
       height: 48px;
@@ -50,7 +51,6 @@
   }
 
   & > .pl-image-preview-service-img-wrapper {
-    transition: transform linear 300ms;
 
     & > img {
       cursor: grab;
@@ -69,6 +69,18 @@
   opacity: 0;
 
   .pl-image-preview-service-img-wrapper {
-    transform: scale(0.75);
+    transform: scale(0.25);
+  }
+
+  .pl-image-preview-service-button-group {
+    transform: translateY(200px);
+  }
+}
+
+@include theme {
+  .pl-image-preview-service {
+    .pl-image-preview-service-img-wrapper {
+      transition: transform $transition 300ms;
+    }
   }
 }
