@@ -114,6 +114,20 @@ const Service = createDefaultService({
                 }
             },
             {
+                label: '上一张',
+                icon: 'el-icon-arrow-left',
+                onClick: () => {
+                    /**/
+                },
+            },
+            {
+                label: '下一张',
+                icon: 'el-icon-arrow-right',
+                onClick: () => {
+                    /**/
+                },
+            },
+            {
                 label: '关闭',
                 icon: 'el-icon-close',
                 onClick: hide,
