@@ -157,12 +157,9 @@ const Service = createDefaultService({
         })();
 
         const handler = {
-            onClickImg: (e: MouseEvent) => {
-                e.stopPropagation()
-            },
-            onDblclickImg: () => {
-                hide()
-            },
+            stopPropagation: (e: MouseEvent) => e.stopPropagation(),
+            onDblclickImg: hide,
+            onClickMask: hide,
         }
 
         return {
@@ -173,7 +170,7 @@ const Service = createDefaultService({
             },
             render: () => (
                 <Transition name="pl-image-preview">
-                    <div class="pl-image-preview-service" v-show={isShow.value}>
+                    <div class="pl-image-preview-service" v-show={isShow.value} onClick={handler.onClickMask}>
                         <div class="pl-image-preview-service-img-wrapper">
                             {!!state.option.urls[state.current] && (
                                 <img
@@ -181,14 +178,14 @@ const Service = createDefaultService({
                                     style={imgStyles.value}
                                     class="pl-image-preview-service-img"
                                     src={state.option.urls[state.current]}
-                                    onClick={handler.onClickImg}
+                                    onClick={handler.stopPropagation}
                                     onDblclick={handler.onDblclickImg}
                                     onMousedown={dragImg.mousedown}
                                     onDragstart={dragImg.dragstart}
                                 />
                             )}
                         </div>
-                        <div class="pl-image-preview-service-button-group">
+                        <div class="pl-image-preview-service-button-group" onClick={handler.stopPropagation}>
                             {buttons.map(btn => withDirectives(<div class="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
                                 <PlIcon icon={btn.icon}/>
                             </div> as any, [[TooltipDirective, btn.label]]))}
