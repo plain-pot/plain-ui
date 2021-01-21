@@ -49,16 +49,14 @@
     }
   }
 
-  & > img {
+  & > .pl-image-preview-service-img-wrapper {
     transition: transform linear 300ms;
-    transform: scale(0.75);
-    cursor: grab;
-    position: relative;
-  }
 
-  &.pl-image-preview-service-show {
     & > img {
-      transform: scale(1);
+      cursor: grab;
+      position: relative;
+      user-select: none;
+      transition: transform linear 0.1s;
     }
   }
 }
@@ -69,4 +67,8 @@
 
 .pl-image-preview-enter-from, .pl-image-preview-leave-to {
   opacity: 0;
+
+  .pl-image-preview-service-img-wrapper {
+    transform: scale(0.75);
+  }
 }
