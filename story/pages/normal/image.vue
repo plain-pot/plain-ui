@@ -10,6 +10,9 @@
 </template>
 
 <script>
+
+    import {Image} from 'plain-ui'
+
     export default {
         name: "demo-image"
     }
