@@ -31,7 +31,8 @@ export type FileServiceUploadConfig = {
 }
 
 export const FileServiceDefaultAccept = {
-    image: 'image/gif, image/jpeg, image/png, image/jpg',
+    // image: 'image/gif, image/jpeg, image/png, image/jpg',
+    image: 'bmp,jpg,jpeg,png,tif,gif,pcx,tga,exif,fpx,svg,psd,cdr,pcd,dxf,ufo,eps,ai,raw,WMF,webp,avif'.split(',').map(i => `image/${i}`).join(', '),
     excel: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 } as Record<string, string>
 
