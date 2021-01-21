@@ -1,13 +1,12 @@
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultService} from "../../root/createDefaultService";
-import {reactive, ref, withDirectives, Transition, computed, onMounted} from 'vue';
+import {computed, onMounted, reactive, ref, Transition, withDirectives} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
 import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
 import {imageCompress} from "./image.service.utils";
 import {PlIcon} from "../../icon/icon";
 import {TooltipDirective} from "../../tooltip/tooltip-directive";
-import {useRefs} from "../../../use/useRefs";
 import {useStyles} from "../../../use/useStyles";
 
 interface ImageServicePreviewOption {
@@ -73,7 +72,7 @@ const Service = createDefaultService({
 
         const service = async (option: ImageServicePreviewOption) => {
             state.option = option
-            show()
+            await show()
             return hide
         }
 
@@ -81,10 +80,18 @@ const Service = createDefaultService({
             {
                 label: '逆时针旋转90°',
                 icon: 'el-icon-rotate-left',
+                onClick: () => {
+                    const {rotate} = state.adjust
+                    state.adjust.rotate = (rotate == null ? 0 : rotate) + step.rotate
+                }
             },
             {
                 label: '顺时针旋转90°',
                 icon: 'el-icon-rotate-right',
+                onClick: () => {
+                    const {rotate} = state.adjust
+                    state.adjust.rotate = (rotate == null ? 0 : rotate) - step.rotate
+                }
             },
             {
                 label: '放大',
@@ -108,13 +115,6 @@ const Service = createDefaultService({
                 onClick: hide,
             },
         ]
-
-        const classes = computed(() => [
-            'pl-image-preview-service',
-            {
-                'pl-image-preview-service-show': isShow.value
-            }
-        ])
 
         const dragImg = (() => {
             let freezeState = {
@@ -169,7 +169,7 @@ const Service = createDefaultService({
             },
             render: () => (
                 <Transition name="pl-image-preview">
-                    <div class={classes.value} v-show={isShow.value}>
+                    <div class="pl-image-preview-service" v-show={isShow.value}>
                         <div class="pl-image-preview-service-img-wrapper">
                             {!!state.option.urls[state.current] && (
                                 <img
