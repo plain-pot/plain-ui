@@ -1,6 +1,6 @@
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultService} from "../../root/createDefaultService";
-import {reactive, ref, withDirectives, Transition, computed} from 'vue';
+import {reactive, ref, withDirectives, Transition, computed, onMounted} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
 import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
@@ -33,6 +33,7 @@ const Service = createDefaultService({
                 left: null as null | number,            // 当前图片拖拽left距离
                 rotate: null as null | number,          // 当前图片旋转距离
             },
+            mounted: new Promise(resolve => onMounted(resolve))
         })
 
         const imgStyles = useStyles(style => {
@@ -55,9 +56,10 @@ const Service = createDefaultService({
             }
         })
 
-        const show = () => {
+        const show = async () => {
             state.current = 0
             resetAdjust()
+            await state.mounted
             isShow.value = true
         }
         const hide = () => isShow.value = false
