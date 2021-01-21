@@ -1,6 +1,6 @@
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultService} from "../../root/createDefaultService";
-import {computed, onMounted, reactive, ref, Transition, withDirectives} from 'vue';
+import {onMounted, reactive, ref, Transition, withDirectives} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
 import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
@@ -81,16 +81,20 @@ const Service = createDefaultService({
                 label: '逆时针旋转90°',
                 icon: 'el-icon-rotate-left',
                 onClick: () => {
-                    const {rotate} = state.adjust
-                    state.adjust.rotate = (rotate == null ? 0 : rotate) + step.rotate
+                    let {rotate} = state.adjust
+                    rotate = (rotate == null ? 0 : rotate) + step.rotate;
+                    (rotate === 360) && (rotate = 0);
+                    state.adjust.rotate = rotate
                 }
             },
             {
                 label: '顺时针旋转90°',
                 icon: 'el-icon-rotate-right',
                 onClick: () => {
-                    const {rotate} = state.adjust
-                    state.adjust.rotate = (rotate == null ? 0 : rotate) - step.rotate
+                    let {rotate} = state.adjust
+                    rotate = (rotate == null ? 0 : rotate) - step.rotate;
+                    (rotate === -360) && (rotate = 0);
+                    state.adjust.rotate = rotate
                 }
             },
             {
