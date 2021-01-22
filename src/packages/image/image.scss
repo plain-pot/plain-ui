@@ -83,4 +83,70 @@
       transition: transform $transition 300ms;
     }
   }
+
+  img.pl-image {
+    vertical-align: bottom;
+  }
+
+  div.pl-image {
+    vertical-align: bottom;
+    min-height: 60px;
+    min-width: 60px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .pl-icon {
+      font-size: 36px;
+      color: $icc;
+    }
+
+    span {
+      color: $itc;
+      font-size: 12px;
+    }
+
+    &.pl-image-status-pending {
+      .pl-loading {
+        margin-bottom: 0;
+      }
+    }
+
+    &.pl-image-status-empty {
+      background-color: $disabled;
+
+      .pl-icon {
+        color: $disabledDeep;
+      }
+
+      span {
+        color: $disabledText;
+      }
+    }
+
+    &.pl-image-status-error {
+      background-color: rgba($colorError, 0.1);
+
+      .pl-icon {
+        color: $colorError;
+      }
+
+      span {
+        color: $colorError;
+      }
+    }
+
+    &.pl-image-status-pending {
+      background-color: rgba($colorPrimary, 0.1);
+
+      .pl-icon {
+        color: $colorPrimary;
+      }
+
+      span {
+        color: $colorPrimary;
+      }
+    }
+  }
 }

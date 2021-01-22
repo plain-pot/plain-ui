@@ -8,16 +8,11 @@ import {imageCompress} from "./image.service.utils";
 import {PlIcon} from "../../icon/icon";
 import {TooltipDirective} from "../../tooltip/tooltip-directive";
 import {useStyles} from "../../../use/useStyles";
+import {ImageStatus} from "../image.utils";
 
 interface ImageServicePreviewOption {
     urls: string[],
     current: number,
-}
-
-export enum ImageStatus {
-    success = 'success',
-    error = 'error',
-    pending = 'pending',
 }
 
 function formatOption(option: ImageServicePreviewOption) {

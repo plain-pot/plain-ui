@@ -1,18 +1,20 @@
 <template>
     <div class="demo-image">
-        <demo-row title="图片预览服务">
-            <img src="http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg" alt="">
-        </demo-row>
-        <demo-row title="Image组件">
-            <pl-image/>
+        <demo-row title="pl-image">
+            <demo-row title="基本用法">
+                <pl-image src="http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg"/>
+            </demo-row>
+            <demo-row title="四种状态">
+                <pl-image status="empty"/>
+                <pl-image status="pending"/>
+                <pl-image status="success" src="http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg" height="60" width="60"/>
+                <pl-image status="error"/>
+            </demo-row>
         </demo-row>
     </div>
 </template>
 
 <script>
-
-    import {Image} from 'plain-ui'
-
     export default {
         name: "demo-image"
     }

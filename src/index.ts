@@ -74,6 +74,7 @@ import Upload from './packages/upload'
 import Nav from './packages/nav'
 import FileService from './packages/file-service'
 import Image from './packages/image'
+import ImageUploader from './packages/image-uploader'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -92,7 +93,7 @@ const plugins: ComponentPlugin[] = [
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
-    DateTimeInput, Date, Form, FormItem, Upload, Image,
+    DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 ]
@@ -110,7 +111,7 @@ export {
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
-    DateTimeInput, Date, Form, FormItem, Upload, Image,
+    DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
 }
