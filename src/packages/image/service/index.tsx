@@ -119,6 +119,7 @@ const Service = createDefaultService({
                 icon: 'el-icon-arrow-left',
                 show: () => isMultipleImages.value,
                 onClick: () => {
+                    resetAdjust()
                     let current = state.option.current - 1
                     if (current < 0) current = state.option.urls.length - 1
                     state.option.current = current
@@ -129,6 +130,7 @@ const Service = createDefaultService({
                 icon: 'el-icon-arrow-right',
                 show: () => isMultipleImages.value,
                 onClick: () => {
+                    resetAdjust()
                     let current = state.option.current + 1
                     if (current > state.option.urls.length - 1) current = 0
                     state.option.current = current
@@ -210,6 +212,9 @@ const Service = createDefaultService({
                                 }}
                             />
                         </div>
+                        {isMultipleImages.value && <div class="pl-image-preview-service-indicator">
+                            {state.option.urls.map((item, index) => <div class={`pl-image-preview-service-indicator-item ${index === state.option.current?'pl-image-preview-service-indicator-item-active':''}`} key={index}/>)}
+                        </div>}
                         <div class="pl-image-preview-service-button-group" onClick={handler.stopPropagation}>
                             {buttons.map(btn => {
                                 if (!!btn.show && !btn.show()) {

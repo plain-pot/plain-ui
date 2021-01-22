@@ -11,6 +11,35 @@
   justify-content: center;
   transition: all 300ms linear;
 
+  .pl-image-preview-service-indicator {
+
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform linear 300ms;
+    user-select: none;
+
+    .pl-image-preview-service-indicator-item {
+      width: 16px;
+      height: 4px;
+      background-color: rgba(white, 0.25);
+      transition: all linear 150ms;
+
+      & + div {
+        margin-left: 8px;
+      }
+
+      &.pl-image-preview-service-indicator-item-active {
+        background-color: white;
+        width: 32px;
+      }
+    }
+  }
+
   .pl-image-preview-service-button-group {
     position: absolute;
     bottom: 20px;
@@ -115,7 +144,7 @@
     }
 
     &.pl-image-status-empty {
-      background-color: rgba(black, 0.03);
+      background-color: $disabled;
 
       .pl-icon {
         color: $disabledDeep;
