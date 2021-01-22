@@ -203,6 +203,7 @@ const Service = createDefaultService({
                             <Transition name="pl-transition-scale" mode="out-in">
                                 <PlImage
                                     style={imgStyles.value}
+                                    previewOnClick={false}
                                     class="pl-image-preview-service-img"
                                     src={state.option.urls[state.option.current]}
                                     key={state.option.urls[state.option.current]}

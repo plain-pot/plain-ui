@@ -15,6 +15,7 @@ export const PlImage = designComponent({
         src: {type: String},
         alt: {type: String},
         status: {type: String as PropType<ImageStatus>},
+        previewOnClick: {type: Boolean, default: true},
         width: {type: [String, Number]},
         height: {type: [String, Number]},
         maxHeight: {type: [String, Number]},
@@ -22,7 +23,10 @@ export const PlImage = designComponent({
         maxWidth: {type: [String, Number]},
         minWidth: {type: [String, Number]},
     },
-    setup({props}) {
+    emits: {
+        onClick: (e: MouseEvent) => true,
+    },
+    setup({props, event: {emit}}) {
 
         const state = reactive({
             src: undefined as string | undefined,
@@ -48,6 +52,9 @@ export const PlImage = designComponent({
         const classes = useClass(() => [
             'pl-image',
             `pl-image-status-${status.value}`,
+            {
+                'pl-image-preview-on-click': props.previewOnClick,
+            },
         ])
 
         const styles = useStyles(style => {
@@ -65,11 +72,20 @@ export const PlImage = designComponent({
             [ImageStatus.error]: '加载失败',
         }
 
+        const handler = {
+            onClick: (e: MouseEvent) => {
+                if (state.status === ImageStatus.success && props.previewOnClick) {
+                    $image.preview(state.src!)
+                }
+                emit.onClick(e)
+            }
+        }
+
         return {
             render: () => {
                 if (status.value === ImageStatus.empty || status.value === ImageStatus.pending || status.value === ImageStatus.error) {
                     return (
-                        <div class={classes.value} style={styles.value}>
+                        <div class={classes.value} style={styles.value} onClick={handler.onClick}>
                             <PlIcon icon="el-icon-picture"/>
                             <span>{tip[status.value]}</span>
                             {status.value === ImageStatus.pending && (<PlLoadingMask modelValue={true} background="rgba(255,255,255,0.5)"/>)}
@@ -78,7 +94,7 @@ export const PlImage = designComponent({
                 }
                 if (status.value === ImageStatus.success) {
                     return (
-                        <img src={state.src} class={classes.value} style={styles.value}/>
+                        <img src={state.src} class={classes.value} style={styles.value} onClick={handler.onClick}/>
                     )
                 }
             }
