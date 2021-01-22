@@ -11,21 +11,37 @@ import {useStyles} from "../../../use/useStyles";
 
 interface ImageServicePreviewOption {
     urls: string[],
+    current: number,
+}
+
+export enum ImageStatus {
+    success = 'success',
+    error = 'error',
+    pending = 'pending',
+}
+
+function formatOption(option: ImageServicePreviewOption) {
+    return {
+        current: option.current,
+        images: option.urls.map(url => ({
+            url,                                // 图片地址
+            loaded: false,                      // 图片是否加载完毕
+            status: ImageStatus.pending,        // 图片此时的加载状态
+        }))
+    }
 }
 
 const Service = createDefaultService({
     name: 'pl-image-preview-service',
     setup: (option: ImageServicePreviewOption) => {
 
-        const step = {
-            scale: 0.2,
-            rotate: 90,
-        }
-
+        const step = {scale: 0.2, rotate: 90,}
         const isShow = ref(false)
         const state = reactive({
             current: 0,                                 // 当前显示的图片索引
             option,
+            data: {},
+
             adjust: {
                 scale: null as null | number,           // 当前图片缩放大小
                 top: null as null | number,             // 当前图片拖拽top距离
@@ -220,15 +236,11 @@ const getImageService = registryRootService(
     'image',
     createDefaultManager('pl-image-manager', Service),
     (getManager) => {
-        const preview = (o: string | string[] | ImageServicePreviewOption) => {
-            let option: ImageServicePreviewOption;
-            if (Array.isArray(o)) {
-                option = {urls: o}
-            } else if (typeof o === "string") {
-                option = {urls: [o]}
-            } else {
-                option = o
-            }
+        const preview = (urls: string | string[], current?: number) => {
+            let option: ImageServicePreviewOption = {
+                urls: Array.isArray(urls) ? urls : [urls],
+                current: current == null ? 0 : current,
+            };
             getManager().then(manager => manager.service(option))
         }
         return {

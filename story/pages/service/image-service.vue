@@ -12,10 +12,10 @@
         </demo-row>
         <demo-row title="预览图片">
             <demo-row title="预览单张图片">
-                <img src="http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg" @click="handlePreview('http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg')">
+                <img src="http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg" @click="previewSingleImage('http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg')">
             </demo-row>
             <demo-row title="预览多张图片">
-
+                <img v-for="(item,index) in urls" :src="item" :key="index" @click="previewMultipleImage(urls,index)">
             </demo-row>
         </demo-row>
     </div>
@@ -33,6 +33,14 @@
                     before: null,
                     after: null,
                 },
+                urls: [
+                    'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1329_s.jpg',
+                    'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1327_s.jpg',
+                    'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/hpic1328_s.jpg',
+                    'http://pic2.sc.chinaz.com/Files/pic/pic9/201908/bpic13052_s.jpg',
+                    'error.jpg',
+                    null,
+                ],
             }
         },
         methods: {
@@ -87,8 +95,11 @@
                 const after = await Image.$image.compress(before, {maxSize})
                 this.compressData = {before: null, after}
             },
-            handlePreview(url) {
+            previewSingleImage(url) {
                 Image.$image.preview(url)
+            },
+            previewMultipleImage(urls, index) {
+                Image.$image.preview(urls, index)
             },
         },
     }
