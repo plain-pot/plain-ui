@@ -9,11 +9,21 @@ import {PlLoadingMask} from "../loading-mask/loading-mask";
 import {useStyles} from "../../use/useStyles";
 import {unit} from 'plain-utils/string/unit';
 
+export enum ImageFit {
+    fill = 'fill',
+    contain = 'contain',
+    cover = 'cover',
+    none = 'none',
+    'scale-down' = 'scale-down',
+}
+
 export const PlImage = designComponent({
     name: 'pl-image',
     props: {
         src: {type: String},
         alt: {type: String},
+        fit: {type: String as PropType<ImageFit>, default: ImageFit.cover},
+        position: {type: String, default: 'top center'},
         status: {type: String as PropType<ImageStatus>},
         previewOnClick: {type: Boolean, default: true},
         width: {type: [String, Number]},
@@ -64,6 +74,8 @@ export const PlImage = designComponent({
             if (!!props.minWidth) style.minWidth = unit(props.minWidth)
             if (!!props.maxHeight) style.maxHeight = unit(props.maxHeight)
             if (!!props.maxWidth) style.maxWidth = unit(props.maxWidth)
+            if (!!props.fit) style.objectFit = props.fit
+            if (!!props.position) style.objectPosition = props.position
         })
 
         const tip = {
