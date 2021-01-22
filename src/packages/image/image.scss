@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(black, 0.5);
+  background-color: rgba(black, 0.85);
   color: white;
   display: flex;
   align-items: center;
@@ -20,6 +20,7 @@
     align-items: center;
     justify-content: center;
     transition: transform linear 300ms;
+    user-select: none;
 
     .pl-image-preview-service-button {
       height: 48px;
@@ -114,7 +115,7 @@
     }
 
     &.pl-image-status-empty {
-      background-color: $disabled;
+      background-color: rgba(black, 0.03);
 
       .pl-icon {
         color: $disabledDeep;

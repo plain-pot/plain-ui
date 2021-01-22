@@ -1,6 +1,6 @@
 import {registryRootService} from "../../root/registryRootService";
 import {createDefaultService} from "../../root/createDefaultService";
-import {onMounted, reactive, ref, Transition, withDirectives} from 'vue';
+import {onMounted, reactive, ref, Transition, withDirectives, computed} from 'vue';
 import {createDefaultManager} from "../../root/createDefaultManager";
 import {$$file} from "../../file-service/file-service";
 import {getServiceWithoutContext} from "../../../utils/getServiceWithoutContext";
@@ -8,22 +8,11 @@ import {imageCompress} from "./image.service.utils";
 import {PlIcon} from "../../icon/icon";
 import {TooltipDirective} from "../../tooltip/tooltip-directive";
 import {useStyles} from "../../../use/useStyles";
-import {ImageStatus} from "../image.utils";
+import {PlImage} from "../image";
 
 interface ImageServicePreviewOption {
     urls: string[],
     current: number,
-}
-
-function formatOption(option: ImageServicePreviewOption) {
-    return {
-        current: option.current,
-        images: option.urls.map(url => ({
-            url,                                // 图片地址
-            loaded: false,                      // 图片是否加载完毕
-            status: ImageStatus.pending,        // 图片此时的加载状态
-        }))
-    }
 }
 
 const Service = createDefaultService({
@@ -31,12 +20,11 @@ const Service = createDefaultService({
     setup: (option: ImageServicePreviewOption) => {
 
         const step = {scale: 0.2, rotate: 90,}
-        const isShow = ref(false)
-        const state = reactive({
-            current: 0,                                 // 当前显示的图片索引
-            option,
-            data: {},
 
+        const isShow = ref(false)
+
+        const state = reactive({
+            option,
             adjust: {
                 scale: null as null | number,           // 当前图片缩放大小
                 top: null as null | number,             // 当前图片拖拽top距离
@@ -67,11 +55,11 @@ const Service = createDefaultService({
         })
 
         const show = async () => {
-            state.current = 0
             resetAdjust()
             await state.mounted
             isShow.value = true
         }
+
         const hide = () => isShow.value = false
 
         const resetAdjust = () => state.adjust = {
@@ -86,6 +74,8 @@ const Service = createDefaultService({
             await show()
             return hide
         }
+
+        const isMultipleImages = computed(() => state.option.urls.length > 1)
 
         const buttons = [
             {
@@ -127,15 +117,21 @@ const Service = createDefaultService({
             {
                 label: '上一张',
                 icon: 'el-icon-arrow-left',
+                show: () => isMultipleImages.value,
                 onClick: () => {
-                    /**/
+                    let current = state.option.current - 1
+                    if (current < 0) current = state.option.urls.length - 1
+                    state.option.current = current
                 },
             },
             {
                 label: '下一张',
                 icon: 'el-icon-arrow-right',
+                show: () => isMultipleImages.value,
                 onClick: () => {
-                    /**/
+                    let current = state.option.current + 1
+                    if (current > state.option.urls.length - 1) current = 0
+                    state.option.current = current
                 },
             },
             {
@@ -202,23 +198,30 @@ const Service = createDefaultService({
                 <Transition name="pl-image-preview">
                     <div class="pl-image-preview-service" v-show={isShow.value} onClick={handler.onClickMask}>
                         <div class="pl-image-preview-service-img-wrapper">
-                            {!!state.option.urls[state.current] && (
-                                <img
-                                    ref="img"
-                                    style={imgStyles.value}
-                                    class="pl-image-preview-service-img"
-                                    src={state.option.urls[state.current]}
-                                    onClick={handler.stopPropagation}
-                                    onDblclick={handler.onDblclickImg}
-                                    onMousedown={dragImg.mousedown}
-                                    onDragstart={dragImg.dragstart}
-                                />
-                            )}
+                            <PlImage
+                                style={imgStyles.value}
+                                class="pl-image-preview-service-img"
+                                src={state.option.urls[state.option.current]}
+                                {...{
+                                    onClick: handler.stopPropagation,
+                                    onDblclick: handler.onDblclickImg,
+                                    onMousedown: dragImg.mousedown,
+                                    onDragstart: dragImg.dragstart,
+                                }}
+                            />
                         </div>
                         <div class="pl-image-preview-service-button-group" onClick={handler.stopPropagation}>
-                            {buttons.map(btn => withDirectives(<div class="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
-                                <PlIcon icon={btn.icon}/>
-                            </div> as any, [[TooltipDirective, btn.label]]))}
+                            {buttons.map(btn => {
+                                if (!!btn.show && !btn.show()) {
+                                    return null
+                                }
+                                return withDirectives(
+                                    <div class="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
+                                        <PlIcon icon={btn.icon}/>
+                                    </div> as any,
+                                    [[TooltipDirective, btn.label]]
+                                )
+                            })}
                         </div>
                     </div>
                 </Transition>
