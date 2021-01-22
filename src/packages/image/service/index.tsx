@@ -200,20 +200,23 @@ const Service = createDefaultService({
                 <Transition name="pl-image-preview">
                     <div class="pl-image-preview-service" v-show={isShow.value} onClick={handler.onClickMask}>
                         <div class="pl-image-preview-service-img-wrapper">
-                            <PlImage
-                                style={imgStyles.value}
-                                class="pl-image-preview-service-img"
-                                src={state.option.urls[state.option.current]}
-                                {...{
-                                    onClick: handler.stopPropagation,
-                                    onDblclick: handler.onDblclickImg,
-                                    onMousedown: dragImg.mousedown,
-                                    onDragstart: dragImg.dragstart,
-                                }}
-                            />
+                            <Transition name="pl-transition-scale" mode="out-in">
+                                <PlImage
+                                    style={imgStyles.value}
+                                    class="pl-image-preview-service-img"
+                                    src={state.option.urls[state.option.current]}
+                                    key={state.option.urls[state.option.current]}
+                                    {...{
+                                        onClick: handler.stopPropagation,
+                                        onDblclick: handler.onDblclickImg,
+                                        onMousedown: dragImg.mousedown,
+                                        onDragstart: dragImg.dragstart,
+                                    }}
+                                />
+                            </Transition>
                         </div>
                         {isMultipleImages.value && <div class="pl-image-preview-service-indicator">
-                            {state.option.urls.map((item, index) => <div class={`pl-image-preview-service-indicator-item ${index === state.option.current?'pl-image-preview-service-indicator-item-active':''}`} key={index}/>)}
+                            {state.option.urls.map((item, index) => <div class={`pl-image-preview-service-indicator-item ${index === state.option.current ? 'pl-image-preview-service-indicator-item-active' : ''}`} key={index}/>)}
                         </div>}
                         <div class="pl-image-preview-service-button-group" onClick={handler.stopPropagation}>
                             {buttons.map(btn => {

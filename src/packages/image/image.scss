@@ -48,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform linear 300ms;
+    transition: transform linear 250ms;
     user-select: none;
 
     .pl-image-preview-service-button {
@@ -81,8 +81,9 @@
   }
 
   & > .pl-image-preview-service-img-wrapper {
-
     & > img {
+      max-height: 800px;
+      max-width: 1000px;
       cursor: grab;
       position: relative;
       user-select: none;
