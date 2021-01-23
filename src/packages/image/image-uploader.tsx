@@ -127,13 +127,18 @@ export const PlImageUploader = designComponent({
                 if (!editComputed.value.editable) return
                 await methods.choose()
             },
+            onClickImage: async () => {
+                if (state.status === ImageUploaderStatus.error) {
+                    await handler.onClick()
+                }
+            },
             onImageLoadSuccess: () => state.status = ImageUploaderStatus.success,
             onImageLoadError: () => state.status = ImageUploaderStatus.fail,
         }
 
         return {
             render: () => (
-                <div class={classes.value} style={styles.value} onClick={handler.onClick}>
+                <div class={classes.value} style={styles.value}>
                     {(!!model.value || !!state.chooseBase64) && (
                         <PlImage
                             src={model.value || state.chooseBase64}
@@ -142,13 +147,14 @@ export const PlImageUploader = designComponent({
                             previewOnClick={false}
                             height={props.height}
                             width={props.width}
+                            onClick={handler.onClickImage}
                         />
                     )}
-                    {state.status === ImageUploaderStatus.empty && <>
+                    {state.status === ImageUploaderStatus.empty && <div class="pl-image-uploader-empty" onClick={handler.onClick}>
                         <PlIcon icon="el-icon-picture"/>
                         <span>待上传</span>
-                    </>}
-                    {state.status === ImageUploaderStatus.fail && <div class="pl-image-uploader-fail">
+                    </div>}
+                    {state.status === ImageUploaderStatus.fail && <div class="pl-image-uploader-fail" onClick={handler.onClick}>
                         <PlIcon icon="el-icon-close"/>
                         <span>上传失败</span>
                     </div>}
