@@ -44,7 +44,6 @@ export const PlImage = designComponent({
 
         const state = reactive({
             src: undefined as string | undefined,
-            image: null,
             status: ImageStatus.empty,
         })
 
