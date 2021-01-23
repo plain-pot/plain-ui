@@ -21,12 +21,6 @@ export const PlImageProps = {
     alt: {type: String},                                                        // 图片描述
     fit: {type: String as PropType<ImageFit>, default: ImageFit.cover},         // 图片 object-fit 属性
     position: {type: String, default: 'top center'},                            // 图片 object-position 属性
-    width: {type: [String, Number]},                                            // 图片宽度
-    height: {type: [String, Number]},                                           // 图片高度
-    maxHeight: {type: [String, Number]},                                        // 最大高度
-    minHeight: {type: [String, Number]},                                        // 最小高度
-    maxWidth: {type: [String, Number]},                                         // 最大宽度
-    minWidth: {type: [String, Number]},                                         // 最小宽度
 }
 
 export const PlImage = designComponent({
@@ -35,10 +29,18 @@ export const PlImage = designComponent({
         src: {type: String},                                                     // 图片地址
         status: {type: String as PropType<ImageStatus>},                         // 当前转股固态，fill, container, cover, none, scale-down
         previewOnClick: {type: Boolean, default: true},                          // 是否点击的时候放大预览图片
+        maxHeight: {type: [String, Number]},                                     // 最大高度
+        minHeight: {type: [String, Number]},                                     // 最小高度
+        maxWidth: {type: [String, Number]},                                      // 最大宽度
+        minWidth: {type: [String, Number]},                                      // 最小宽度
+        width: {type: [String, Number]},                                         // 图片宽度
+        height: {type: [String, Number]},                                        // 图片高度
         ...PlImageProps,
     },
     emits: {
         onClick: (e: MouseEvent) => true,
+        onSuccess: (val: string) => true,
+        onError: (e: string | Event) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -57,8 +59,14 @@ export const PlImage = designComponent({
             state.src = val
             state.status = ImageStatus.pending
             const image = new Image()
-            image.onload = () => state.status = ImageStatus.success
-            image.onerror = () => state.status = ImageStatus.error
+            image.onload = () => {
+                state.status = ImageStatus.success
+                emit.onSuccess(val)
+            }
+            image.onerror = (e) => {
+                state.status = ImageStatus.error
+                emit.onError(e)
+            }
             image.src = val
         }, {immediate: true})
 
