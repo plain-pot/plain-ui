@@ -20,18 +20,18 @@ export enum ImageFit {
 export const PlImage = designComponent({
     name: 'pl-image',
     props: {
-        src: {type: String},
-        alt: {type: String},
-        fit: {type: String as PropType<ImageFit>, default: ImageFit.cover},
-        position: {type: String, default: 'top center'},
-        status: {type: String as PropType<ImageStatus>},
-        previewOnClick: {type: Boolean, default: true},
-        width: {type: [String, Number]},
-        height: {type: [String, Number]},
-        maxHeight: {type: [String, Number]},
-        minHeight: {type: [String, Number]},
-        maxWidth: {type: [String, Number]},
-        minWidth: {type: [String, Number]},
+        src: {type: String},                                                        // 图片地址
+        alt: {type: String},                                                        // 图片描述
+        fit: {type: String as PropType<ImageFit>, default: ImageFit.cover},         // 图片 object-fit 属性
+        position: {type: String, default: 'top center'},                            // 图片 object-position 属性
+        status: {type: String as PropType<ImageStatus>},                            // 当前转股固态，fill, container, cover, none, scale-down
+        previewOnClick: {type: Boolean, default: true},                             // 是否点击的时候放大预览图片
+        width: {type: [String, Number]},                                            // 图片宽度
+        height: {type: [String, Number]},                                           // 图片高度
+        maxHeight: {type: [String, Number]},                                        // 最大高度
+        minHeight: {type: [String, Number]},                                        // 最小高度
+        maxWidth: {type: [String, Number]},                                         // 最大宽度
+        minWidth: {type: [String, Number]},                                         // 最小宽度
     },
     emits: {
         onClick: (e: MouseEvent) => true,
