@@ -28,8 +28,14 @@
             </demo-row>
         </demo-row>
         <demo-row title="pl-image-uploader">
-            <demo-row title="基本用法">
-                <pl-image-uploader/>
+            <demo-row title="图片有效">
+                <pl-image-uploader v-model="val[0]" :uploadConfig="uploadConfig"/>
+            </demo-row>
+            <demo-row title="图片无效">
+                <pl-image-uploader v-model="val[1]" :uploadConfig="uploadConfig"/>
+            </demo-row>
+            <demo-row title="上传失败">
+                <pl-image-uploader :uploadConfig="errorUploadConfig"/>
             </demo-row>
         </demo-row>
     </div>
@@ -37,7 +43,24 @@
 
 <script>
     export default {
-        name: "demo-image"
+        name: "demo-image",
+        data() {
+            return {
+                uploadConfig: {
+                    action: 'http://193.112.75.134/server/upload/uploadFile',
+                    filename: 'file',
+                    data: {
+                        headId: '123',
+                        module: 'single',
+                    },
+                },
+                errorUploadConfig: {},
+                val: {
+                    0: 'http://193.112.75.134/upload//single/1352951926693560321/技术体系.png',
+                    1: 'http://www.abc.com/123.png',
+                },
+            }
+        },
     }
 </script>
 

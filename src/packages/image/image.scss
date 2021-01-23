@@ -184,4 +184,75 @@
   img.pl-image-preview-on-click {
     cursor: zoom-in;
   }
+
+  .pl-image-uploader {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    vertical-align: bottom;
+    user-select: none;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    & > img {
+      height: 100%;
+      width: 100%;
+    }
+
+    &, & .pl-icon, & span {
+      transition: all linear 200ms;
+    }
+
+    .pl-icon {
+      font-size: 32px;
+    }
+
+    span {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    &.pl-image-uploader-status-empty {
+      border: dashed 2px $ibc;
+
+      .pl-icon {
+        color: $icc;
+      }
+
+      span {
+        color: $itc;
+      }
+
+      &:hover {
+        border-color: $colorPrimary;
+
+        .pl-icon, span {
+          color: $colorPrimary;
+        }
+      }
+
+      &:active {
+        background-color: rgba($colorPrimary, 0.1);
+      }
+    }
+
+    &.pl-image-uploader-status-error {
+      .pl-image-uploader-error {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(black, 0.85);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
 }
