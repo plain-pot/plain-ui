@@ -56,7 +56,6 @@ export const PlImage = designComponent({
             if (!val) {
                 return state.status = ImageStatus.empty
             }
-            state.src = val
             state.status = ImageStatus.pending
             const image = new Image()
             image.onload = () => {
