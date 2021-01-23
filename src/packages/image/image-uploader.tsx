@@ -1,6 +1,6 @@
 import {designComponent} from "../../use/designComponent";
 import './image.scss'
-import {PropType, reactive} from 'vue';
+import {PropType, reactive, watch} from 'vue';
 import {$$file, FileServiceDefaultAccept, FileServiceUploadConfig} from "../file-service/file-service";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {useStyles} from "../../use/useStyles";
@@ -11,12 +11,16 @@ import {deepcopy} from "plain-utils/object/deepcopy";
 import {defer} from "../../utils/defer";
 import {useModel} from "../../use/useModel";
 import {PlImage, PlImageProps} from "./image";
+import {ImageStatus} from "./image.utils";
 
 enum ImageUploaderStatus {
+    /*加载*/
     empty = 'empty',                                        // 当前无图片
+    pending = 'pending',                                    // 加载中
     success = 'success',                                    // 图片加载成功或者上传成功
-    error = 'error',                                        // 图片上传失败
-    fail = 'fail',                                          // 图片加兹安失败
+    error = 'error',                                        // 图片加载失败
+    /*上传*/
+    fail = 'fail',                                          // 图片上传失败
     upload = 'upload',                                      // 图片加载中
 }
 
@@ -33,10 +37,15 @@ export const PlImageUploader = designComponent({
     },
     emits: {
         onUpdateModelValue: (val?: string) => true,
+        onLoadSuccess: (url: string) => true,
+        onLoadError: (e: string | Event) => true,
+        onUploadSuccess: (resp: object | string) => true,
+        onUploadProgress: (percent: number, e: ProgressEvent) => true,
+        onUploadFail: (e: any) => true,
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoWatch: false})
 
         const {editComputed} = useEdit()
 
@@ -45,6 +54,24 @@ export const PlImageUploader = designComponent({
             percent: null as null | number,
             chooseBase64: undefined as string | undefined,
         })
+
+        watch(() => props.modelValue, val => {
+            model.value = val
+            if (!val) {
+                return state.status = ImageUploaderStatus.empty
+            }
+            state.status = ImageUploaderStatus.pending
+            const image = new Image()
+            image.onload = () => {
+                state.status = ImageUploaderStatus.success
+                emit.onLoadSuccess(val)
+            }
+            image.onerror = (e) => {
+                state.status = ImageUploaderStatus.error
+                emit.onLoadError(e)
+            }
+            image.src = val
+        }, {immediate: true})
 
         const classes = useClass(() => [
             'pl-image-uploader',
@@ -74,6 +101,7 @@ export const PlImageUploader = designComponent({
                         if (!!config.onProgress) config.onProgress(percent, e)
                         console.log('percent', percent)
                         state.percent = percent
+                        emit.onUploadProgress(percent, e)
                     },
                     onSuccess: (resp) => {
                         if (!!config.onSuccess) config.onSuccess(resp)
@@ -81,11 +109,13 @@ export const PlImageUploader = designComponent({
                         model.value = String(state.chooseBase64)
                         state.chooseBase64 = undefined
                         state.status = ImageUploaderStatus.success
+                        emit.onUploadSuccess(resp)
                     },
                     onError: (e) => {
                         if (!!config.onError) config.onError(e)
-                        console.log('upload error, e:', e)
-                        state.status = ImageUploaderStatus.error
+                        console.log('upload fail, e:', e)
+                        state.status = ImageUploaderStatus.fail
+                        emit.onUploadFail(e)
                     },
                 })
                 return dfd.promise
@@ -93,8 +123,9 @@ export const PlImageUploader = designComponent({
         }
 
         const handler = {
-            onClick: () => {
-                methods.choose()
+            onClick: async () => {
+                if (!editComputed.value.editable) return
+                await methods.choose()
             },
             onImageLoadSuccess: () => state.status = ImageUploaderStatus.success,
             onImageLoadError: () => state.status = ImageUploaderStatus.fail,
@@ -109,8 +140,6 @@ export const PlImageUploader = designComponent({
                             fit={props.fit}
                             position={props.position}
                             previewOnClick={false}
-                            onSuccess={handler.onImageLoadSuccess}
-                            onError={handler.onImageLoadError}
                             height={props.height}
                             width={props.width}
                         />
@@ -119,7 +148,7 @@ export const PlImageUploader = designComponent({
                         <PlIcon icon="el-icon-picture"/>
                         <span>待上传</span>
                     </>}
-                    {state.status === ImageUploaderStatus.error && <div class="pl-image-uploader-error">
+                    {state.status === ImageUploaderStatus.fail && <div class="pl-image-uploader-fail">
                         <PlIcon icon="el-icon-close"/>
                         <span>上传失败</span>
                     </div>}

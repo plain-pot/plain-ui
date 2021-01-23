@@ -239,8 +239,8 @@
       }
     }
 
-    &.pl-image-uploader-status-error {
-      .pl-image-uploader-error {
+    &.pl-image-uploader-status-fail {
+      .pl-image-uploader-fail {
         position: absolute;
         top: 0;
         left: 0;
