@@ -28,7 +28,9 @@
             </demo-row>
         </demo-row>
         <demo-row title="pl-image-uploader">
-
+            <demo-row title="基本用法">
+                <pl-image-uploader/>
+            </demo-row>
         </demo-row>
     </div>
 </template>
