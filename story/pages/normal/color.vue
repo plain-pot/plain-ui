@@ -27,14 +27,31 @@
                 </div>
             </div>
         </demo-row>
-        <demo-row :title="list.title" v-for="(list,index) in backgroundColor" :key="index">
-            <div class="doc-theme-background-color-list">
-                <div class="doc-theme-font-color-item" v-for="item in list.data" :key="item.clz" :class="item.clz">
-                    <div>{{item.desc}}</div>
-                    <div>.{{item.clz}}</div>
+
+        <demo-row :title="statusBackground.title">
+            <div class="doc-theme-background-color-list doc-theme-background-status">
+                <div class="doc-theme-font-color-item" v-for="item in statusBackground.data" :key="item.clz" :class="item.clz">
+                    <div>
+                        <span>{{item.desc}}</span>
+                        <span>.{{item.clz}}</span>
+                    </div>
+                    <div></div>
                 </div>
             </div>
         </demo-row>
+
+        <demo-row :title="disabledBackgroundColor.title">
+            <div class="doc-theme-background-color-list doc-theme-background-status doc-theme-background-disabled">
+                <div class="doc-theme-font-color-item" v-for="item in disabledBackgroundColor.data" :key="item.clz" :class="item.clz">
+                    <div>
+                        <span>{{item.desc}}</span>
+                        <span>.{{item.clz}}</span>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+        </demo-row>
+
     </div>
 </template>
 
@@ -50,26 +67,24 @@
                     {name: '错误', status: 'error'},
                     {name: '帮助', status: 'info'},
                 ],
-                backgroundColor: [
-                    {
-                        title: '状态背景色',
-                        data: [
-                            {desc: '基础背景', clz: 'pl-background-primary'},
-                            {desc: '成功背景', clz: 'pl-background-success'},
-                            {desc: '警告背景', clz: 'pl-background-warn'},
-                            {desc: '危险背景', clz: 'pl-background-error'},
-                            {desc: '提示背景', clz: 'pl-background-info'},
-                        ],
-                    },
-                    {
-                        title: '禁用背景色',
-                        data: [
-                            {desc: '禁用背景', clz: 'pl-background-disabled'},
-                            {desc: '禁用背景(轻)', clz: 'pl-background-disabled-light'},
-                            {desc: '禁用背景(深)', clz: 'pl-background-disabled-deep'},
-                        ],
-                    },
-                ],
+                statusBackground: {
+                    title: '状态背景色',
+                    data: [
+                        {desc: '基础背景', clz: 'pl-background-primary'},
+                        {desc: '成功背景', clz: 'pl-background-success'},
+                        {desc: '警告背景', clz: 'pl-background-warn'},
+                        {desc: '危险背景', clz: 'pl-background-error'},
+                        {desc: '提示背景', clz: 'pl-background-info'},
+                    ],
+                },
+                disabledBackgroundColor: {
+                    title: '禁用背景色',
+                    data: [
+                        {desc: '禁用背景', clz: 'pl-background-disabled'},
+                        {desc: '禁用背景(轻)', clz: 'pl-background-disabled-light'},
+                        {desc: '禁用背景(深)', clz: 'pl-background-disabled-deep'},
+                    ],
+                },
                 fontColor: [
                     {
                         title: '状态字体色',
@@ -134,19 +149,70 @@
         .doc-theme-font-color-list {
         }
         /*背景色*/
-        .doc-theme-background-color-list {
+        .doc-theme-background-status {
             .doc-theme-font-color-item {
+                width: 180px;
+                border-radius: 4px;
+
                 div:first-child {
                     border: none;
                     color: white;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+
+                    & > span:last-child {
+                        font-size: 12px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
                 }
 
                 div:last-child {
-                    background-color: white;
+                    background-color: transparent;
+                    position: relative;
+
+                    &:before {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 50%;
+                        bottom: 0;
+                        background-color: rgba(white, 0.5);
+                        content: '';
+                    }
+
+                    &:after {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 50%;
+                        bottom: 0;
+                        background-color: rgba(white, 0.85);
+                        content: '';
+                    }
                 }
             }
         }
+        /*禁用色*/
+        .doc-theme-background-disabled {
+            .doc-theme-font-color-item {
+                &:not(:last-child) {
+                    border: solid 1px $ibc;
+                }
 
+                & > div {
+                    & > span:first-child {
+                        color: $ihc;
+                    }
+
+                    & > span:last-child {
+                        color: $itc;
+                    }
+                }
+            }
+        }
 
         .pl-block {
             height: 40px;
