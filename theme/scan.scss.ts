@@ -72,6 +72,10 @@ const ScanUtils = (() => {
             map[name] = (await utils.fs.readFile(path)).toString("utf-8").replace(/(\\r|\\n)/g, '')
         },
     })
-    const data = Object.entries(map).map(([path, source]) => ({path, source}))
+    const data = Object.entries(map).map(([path, source]) => ({
+        path,
+        source,
+        basename: utils.path.basename(path).replace('.scss', ''),
+    }))
     await fs.writeFile(output, JSON.stringify(data, null, 2))
 })();
