@@ -206,15 +206,6 @@
       transition: all linear 200ms;
     }
 
-    .pl-icon {
-      font-size: 32px;
-    }
-
-    span {
-      font-size: 12px;
-      margin-top: 4px;
-    }
-
     & > div {
       position: absolute;
       top: 0;
@@ -225,6 +216,15 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
+      & > .pl-icon {
+        font-size: 32px;
+      }
+
+      & > span {
+        font-size: 12px;
+        margin-top: 4px;
+      }
     }
 
     &.pl-image-uploader-status-empty {
@@ -255,6 +255,64 @@
       .pl-image-uploader-fail {
         background-color: rgba(black, 0.85);
         color: white;
+      }
+    }
+
+    & > .pl-image-uploader-button-group {
+      bottom: 0;
+      top: initial;
+      left: 0;
+      right: 0;
+      height: 40px;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        background-color: white;
+        width: 2px;
+        content: '';
+        transform: translate(-50%, 100%);
+        transition: all $transition 300ms;
+      }
+
+      & > div {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(black, 0.65);
+        border-radius: 4px;
+        transition: all $transition 300ms;
+        transform: translateY(100%);
+
+        &:hover {
+          background-color: rgba(black, 0.45);
+        }
+
+        &:active {
+          opacity: 0.75;
+        }
+
+        .pl-icon {
+          color: white;
+        }
+      }
+    }
+
+    &.pl-image-editable.pl-image-uploader-status-success {
+      &:hover > .pl-image-uploader-button-group {
+        & > div {
+          transform: translateY(0);
+        }
+
+        &:after {
+          transform: translate(-50%, 0);
+        }
       }
     }
   }

@@ -1,13 +1,13 @@
 interface Defer {
     (): {
         resolve: () => void,
-        reject: () => void,
+        reject: (...args: any[]) => void,
         promise: Promise<void>
     },
 
     <T>(): {
         resolve: (val: T) => void,
-        reject: () => void,
+        reject: (...args: any[]) => void,
         promise: Promise<T>
     },
 }

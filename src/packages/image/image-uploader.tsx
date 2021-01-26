@@ -33,7 +33,9 @@ export const PlImageUploader = designComponent({
         width: {type: [String, Number], default: '80px'},                                       // 图片宽度
         height: {type: [String, Number], default: '80px'},                                      // 图片高度
         accept: {type: String, default: FileServiceDefaultAccept.image},                        // 选择文件的时候，图片类型
-        uploadConfig: {type: Object as PropType<Omit<FileServiceUploadConfig, 'file'>>, required: true},// 上传配置信息对象
+        uploadConfig: {type: Object as PropType<Omit<FileServiceUploadConfig, 'file'>>},        // 上传配置信息对象
+        handleDelete: {type: Function as PropType<() => void | Promise<void>>},
+        handleUpload: {type: Function as PropType<(file: File) => void | Promise<void>>},
     },
     emits: {
         onUpdateModelValue: (val?: string) => true,
@@ -57,6 +59,7 @@ export const PlImageUploader = designComponent({
 
         watch(() => props.modelValue, val => {
             model.value = val
+            state.chooseBase64 = undefined
             if (!val) {
                 return state.status = ImageUploaderStatus.empty
             }
@@ -89,35 +92,46 @@ export const PlImageUploader = designComponent({
 
         const methods = {
             choose: async () => {
-                const dfd = defer()
+                const dfd = defer<void | string | Record<string, string>>()
                 const file = await $$file.chooseImage() as File
                 state.chooseBase64 = await $$file.readAsDataURL(file) as string
-                const config = deepcopy(props.uploadConfig)
-                state.status = ImageUploaderStatus.upload
-                $$file.upload({
-                    ...config,
-                    file,
-                    onProgress: (percent, e) => {
-                        if (!!config.onProgress) config.onProgress(percent, e)
-                        console.log('percent', percent)
-                        state.percent = percent
-                        emit.onUploadProgress(percent, e)
-                    },
-                    onSuccess: (resp) => {
-                        if (!!config.onSuccess) config.onSuccess(resp)
-                        console.log('upload success, resp:', resp)
-                        model.value = String(state.chooseBase64)
-                        state.chooseBase64 = undefined
-                        state.status = ImageUploaderStatus.success
-                        emit.onUploadSuccess(resp)
-                    },
-                    onError: (e) => {
-                        if (!!config.onError) config.onError(e)
-                        console.log('upload fail, e:', e)
-                        state.status = ImageUploaderStatus.fail
-                        emit.onUploadFail(e)
-                    },
-                })
+
+                if (!!props.uploadConfig) {
+                    const config = deepcopy(props.uploadConfig)
+                    state.status = ImageUploaderStatus.upload
+                    $$file.upload({
+                        ...config,
+                        file,
+                        onProgress: (percent, e) => {
+                            if (!!config.onProgress) config.onProgress(percent, e)
+                            console.log('percent', percent)
+                            state.percent = percent
+                            emit.onUploadProgress(percent, e)
+                        },
+                        onSuccess: (resp) => {
+                            if (!!config.onSuccess) config.onSuccess(resp)
+                            console.log('upload success, resp:', resp)
+                            model.value = String(state.chooseBase64)
+                            state.chooseBase64 = undefined
+                            state.status = ImageUploaderStatus.success
+                            emit.onUploadSuccess(resp)
+                            dfd.resolve(resp)
+                        },
+                        onError: (e) => {
+                            if (!!config.onError) config.onError(e)
+                            console.log('upload fail, e:', e)
+                            state.status = ImageUploaderStatus.fail
+                            emit.onUploadFail(e)
+                            dfd.reject(e)
+                        },
+                    })
+                } else if (!!props.handleUpload) {
+                    await props.handleUpload(file)
+                    dfd.resolve()
+                } else {
+                    dfd.reject('image-uploader: no props.uploadConfig and props.handleUpload, do nothing')
+                }
+
                 return dfd.promise
             },
         }
@@ -132,8 +146,13 @@ export const PlImageUploader = designComponent({
                     await handler.onClick()
                 }
             },
-            onImageLoadSuccess: () => state.status = ImageUploaderStatus.success,
-            onImageLoadError: () => state.status = ImageUploaderStatus.fail,
+            onClickDelete: async () => {
+                if (!!props.handleDelete) {
+                    await props.handleDelete()
+                }
+                model.value = undefined
+                state.chooseBase64 = undefined
+            },
         }
 
         return {
@@ -158,6 +177,14 @@ export const PlImageUploader = designComponent({
                         <PlIcon icon="el-icon-close"/>
                         <span>上传失败</span>
                     </div>}
+                    <div class="pl-image-uploader-button-group">
+                        <div class="pl-image-uploader-button" onClick={handler.onClick}>
+                            <PlIcon icon="el-icon-upload"/>
+                        </div>
+                        <div class="pl-image-uploader-button" onClick={handler.onClickDelete}>
+                            <PlIcon icon="el-icon-close-bold"/>
+                        </div>
+                    </div>
                 </div>
             )
         }
