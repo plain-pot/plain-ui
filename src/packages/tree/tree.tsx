@@ -12,7 +12,7 @@ import {delay} from "plain-utils/utils/delay";
 import {useTree} from "./core/useTree";
 import {createKeyHandler} from "../../utils/createKeyHandler";
 import {PlScroll} from "../scroll/scroll";
-import {PlVirtualList} from "../virutal-list/virtual-list";
+import {PlVirtualList} from "../virtual-list/virtual-list";
 import {PlIcon} from "../icon/icon";
 import {createEventListener} from "../../utils/createEventListener";
 import {PlItem} from '../item/item';

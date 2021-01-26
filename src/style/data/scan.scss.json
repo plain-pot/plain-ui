@@ -149,7 +149,7 @@
   "triangle": [
     "@include theme {  .pl-triangle {    display: inline-block;    vertical-align: middle;    overflow: hidden;    box-sizing: border-box;    .pl-triangle-target {      width: 0;      height: 0;      position: relative;    }  }}"
   ],
-  "virutal-list": [
+  "virtual-list": [
     ".pl-virtual-table {  & > .pl-virtual-list {    & > .pl-scroll-wrapper {      & > .pl-scroll-content {        overflow-y: unset;      }    }  }}.pl-virtual-list {  position: relative;  & > .pl-scroll-wrapper {    & > .pl-scroll-content {      overflow-y: hidden;    }  }  &:not(.pl-virtual-list-disabled) {    .pl-virtual-list-strut {      position: relative;      //overflow: hidden;      .pl-virtual-list-content {        position: absolute;        top: 0;        left: 0;        right: 0;        //overflow: hidden;      }    }  }}"
   ],
   "step": [
