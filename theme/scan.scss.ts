@@ -105,6 +105,19 @@ const ScanUtils = (() => {
             map[name] = await resolveScssCode(path)
         },
     })
-    const data = Object.entries(map).filter(([path]) => dependList.indexOf(path) === -1).map(([path, source]) => ({path, source, basename: utils.path.basename(path).replace('.scss', ''),}))
+
+    const compReg = /src\/packages\/(.*?)\/.*/
+
+    const data = Object.entries(map).filter(([path]) => dependList.indexOf(path) === -1).map(([path, source]) => {
+        const match = compReg.exec(path)
+        return {
+            source,
+            component: !match ? 'no component!' : match[1],
+        }
+    }).reduce((prev, item) => {
+        if (!prev[item.component]) prev[item.component] = []
+        prev[item.component].push(item.source)
+        return prev
+    }, {} as Record<string, string[]>)
     await fs.writeFile(output, JSON.stringify(data, null, 2))
 })();
