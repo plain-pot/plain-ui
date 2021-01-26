@@ -1,4 +1,4 @@
-import './dropdow.scss'
+import './dropdown.scss'
 import {PlDropdown} from './dropdown'
 import {createComponentPlugin} from "../../utils/createComponentPlugin";
 
