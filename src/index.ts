@@ -69,7 +69,9 @@ import Date from './packages/date'
 import Form from './packages/form'
 import FormItem from './packages/form-item'
 import Table from './packages/table'
+import VirtualTable from './packages/virtual-table'
 import Plc from './packages/plc'
+import PlcGroup from './packages/plc-group'
 import Upload from './packages/upload'
 import Nav from './packages/nav'
 import FileService from './packages/file-service'
@@ -89,7 +91,7 @@ const plugins: ComponentPlugin[] = [
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
     DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, Plc, Nav, Row, Col,
+    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
@@ -107,7 +109,7 @@ export {
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
     DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, Plc, Nav, Row, Col,
+    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
