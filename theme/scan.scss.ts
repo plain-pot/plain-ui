@@ -35,12 +35,12 @@ const ScanUtils = (() => {
                 if (!!excludeFileRegexp && (Array.isArray(excludeFileRegexp) ? excludeFileRegexp.some(i => i.test(path)) : excludeFileRegexp.test(path))) {
                     return
                 }
-                !!handleFile && handleFile(path)
+                !!handleFile && await handleFile(path)
             } else {
                 if (!!excludeDirectoryRegExp && (Array.isArray(excludeDirectoryRegExp) ? excludeDirectoryRegExp.some(i => i.test(path)) : excludeDirectoryRegExp.test(path))) {
                     return
                 }
-                !!handleDirectory && handleDirectory(path)
+                !!handleDirectory && await handleDirectory(path)
                 const files = await utils.fs.readdir(path)
                 await Promise.all(files.map((file: string) => scan({
                     path: utils.join(path, file),
@@ -62,32 +62,49 @@ const ScanUtils = (() => {
     const output = resolve("theme/scan.scss.json")
     const map: Record<string, string> = {}
 
-    const handleFile = async (path: string) => {
-        const name = path.replace(/[\\\/]/g, '/')
-        if (!!map[name]) return
-        const basename = utils.path.basename(path)
-        const extname = utils.path.extname(basename)
-        if (extname !== '.scss') return;
-        let code = (await utils.fs.readFile(path)).toString("utf-8").replace(/([\r\n])/g, '')
+    /*属于依赖的scss文件，最后输出的数据中，会去除这里出现的依赖文件*/
+    let dependList: string[] = []
 
+    /*扫描scss，如果scss引入了其他的scss文件，一并输出到结果去*/
+    const resolveScssCode = async (filePath: string): Promise<string> => {
+        let code = (await utils.fs.readFile(filePath)).toString("utf-8").replace(/([\r\n])/g, '')
         if (code.indexOf('@import') > -1) {
-            const regexp = /@import "(.*)"/g
+            const regexp = /@import "(.*?)";?/g
             let match = regexp.exec(code)
+            let dependencies: {
+                input: string,
+                path: string,
+            }[] = []
             while (!!match) {
                 let name = match[1]
                 if (!name.endsWith('.scss')) {name = name + '.scss'}
-                const dependencyPath = utils.path.resolve(utils.path.dirname(path), name)
-                console.log('依赖的文件：', {
-                    basename,
-                    dependencyPath,
+                const p = utils.path.resolve(utils.path.dirname(filePath), name)
+                dependencies.push({
+                    input: match[0],
+                    path: p,
                 })
+                dependList.push(p.replace(/[\\\/]/g, '/'))
                 match = regexp.exec(code)
             }
+            await Promise.all(dependencies.map(async ({input, path}) => {
+                const subCode = await resolveScssCode(path)
+                code = code.replace(input, subCode)
+            }))
         }
-
-        map[name] = code
+        return code
     }
-    await ScanUtils.scan({path: resolve("src/packages"), handleFile,})
-    const data = Object.entries(map).map(([path, source]) => ({path, source, basename: utils.path.basename(path).replace('.scss', ''),}))
+
+    await ScanUtils.scan({
+        path: resolve("src/packages"),
+        handleFile: async (path: string) => {
+            const name = path.replace(/[\\\/]/g, '/')
+            if (!!map[name]) return
+            const basename = utils.path.basename(path)
+            const extname = utils.path.extname(basename)
+            if (extname !== '.scss') return;
+            map[name] = await resolveScssCode(path)
+        },
+    })
+    const data = Object.entries(map).filter(([path]) => dependList.indexOf(path) === -1).map(([path, source]) => ({path, source, basename: utils.path.basename(path).replace('.scss', ''),}))
     await fs.writeFile(output, JSON.stringify(data, null, 2))
 })();
