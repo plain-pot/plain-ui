@@ -16,10 +16,10 @@
   .pl-background-error {background-color: $colorError;}
   .pl-background-info {background-color: $colorInfo;}
 
-  .pl-background-disabled{background-color: $colorInfo;}
-  .pl-background-disabled-light {background-color: $colorInfo;}
-  .pl-background-disabled-deep {background-color: $colorInfo;}
-  .pl-background-disabled-text {background-color: $colorInfo;}
+  .pl-background-disabled{background-color: $disabled;}
+  .pl-background-disabled-light {background-color: $disabledLight;}
+  .pl-background-disabled-deep {background-color: $disabledDeep;}
+  .pl-background-disabled-text {color: $disabledText;}
 
   .pl-border-radius-fillet{border-radius: $shapeFillet;}
   .pl-border-radius-round{border-radius: $shapeRound;}

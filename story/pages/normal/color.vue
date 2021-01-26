@@ -19,13 +19,19 @@
             </demo-line>
         </demo-row>-->
 
-        <demo-row title="字体颜色">
+        <demo-row :title="list.title" v-for="(list,index) in fontColor" :key="index">
             <div class="doc-theme-font-color-list">
-                <div v-for="(list,index) in fontColor" :key="index">
-                    <div class="doc-theme-font-color-item pl-border-color pl-border-radius-fillet" v-for="item in list" :key="item.clz">
-                        <div :class="item.clz">{{item.desc}}</div>
-                        <div>.{{item.clz}}</div>
-                    </div>
+                <div class="doc-theme-font-color-item" v-for="item in list.data" :key="item.clz">
+                    <div :class="item.clz">{{item.desc}}</div>
+                    <div>.{{item.clz}}</div>
+                </div>
+            </div>
+        </demo-row>
+        <demo-row :title="list.title" v-for="(list,index) in backgroundColor" :key="index">
+            <div class="doc-theme-background-color-list">
+                <div class="doc-theme-font-color-item" v-for="item in list.data" :key="item.clz" :class="item.clz">
+                    <div>{{item.desc}}</div>
+                    <div>.{{item.clz}}</div>
                 </div>
             </div>
         </demo-row>
@@ -44,26 +50,48 @@
                     {name: '错误', status: 'error'},
                     {name: '帮助', status: 'info'},
                 ],
-                backgroundColor:[
-                    [
-
-                    ],
+                backgroundColor: [
+                    {
+                        title: '状态背景色',
+                        data: [
+                            {desc: '基础背景', clz: 'pl-background-primary'},
+                            {desc: '成功背景', clz: 'pl-background-success'},
+                            {desc: '警告背景', clz: 'pl-background-warn'},
+                            {desc: '危险背景', clz: 'pl-background-error'},
+                            {desc: '提示背景', clz: 'pl-background-info'},
+                        ],
+                    },
+                    {
+                        title: '禁用背景色',
+                        data: [
+                            {desc: '禁用背景', clz: 'pl-background-disabled'},
+                            {desc: '禁用背景(轻)', clz: 'pl-background-disabled-light'},
+                            {desc: '禁用背景(深)', clz: 'pl-background-disabled-deep'},
+                        ],
+                    },
                 ],
                 fontColor: [
-                    [
-                        {desc: '基础文字', clz: 'pl-text-primary'},
-                        {desc: '成功文字', clz: 'pl-text-success'},
-                        {desc: '警告文字', clz: 'pl-text-warn'},
-                        {desc: '危险文字', clz: 'pl-text-error'},
-                        {desc: '提示文字', clz: 'pl-text-info'},
-                    ],
-                    [
-                        {desc: '正文', clz: 'pl-text-color'},
-                        {desc: '正文(轻)', clz: 'pl-text-color-light'},
-                        {desc: '标题', clz: 'pl-title-color'},
-                        {desc: '占位符', clz: 'pl-placeholder-color'},
-                        {desc: '图标', clz: 'pl-icon-color'},
-                    ],
+                    {
+                        title: '状态字体色',
+                        data: [
+                            {desc: '基础文字', clz: 'pl-text-primary'},
+                            {desc: '成功文字', clz: 'pl-text-success'},
+                            {desc: '警告文字', clz: 'pl-text-warn'},
+                            {desc: '危险文字', clz: 'pl-text-error'},
+                            {desc: '提示文字', clz: 'pl-text-info'},
+                        ],
+                    },
+                    {
+                        title: '其他字体色',
+                        data: [
+                            {desc: '正文', clz: 'pl-text-color'},
+                            {desc: '正文(轻)', clz: 'pl-text-color-light'},
+                            {desc: '标题', clz: 'pl-title-color'},
+                            {desc: '占位符', clz: 'pl-placeholder-color'},
+                            {desc: '图标', clz: 'pl-icon-color'},
+                            {desc: '禁用文字', clz: 'pl-background-disabled-text'},
+                        ],
+                    },
                 ],
             }
         },
@@ -73,33 +101,48 @@
 <style lang="scss">
     @include theme {
 
-        /*文字颜色*/
-        .doc-theme-font-color-list {
-            & > div {
-                margin-bottom: 8px;
+        .doc-theme-font-color-item {
+            display: inline-block;
+            width: 150px;
+            margin-right: 8px;
 
-                & > div {
-                    margin-right: 8px;
-                }
+            &, & > * {
+                box-sizing: border-box;
             }
 
-            .doc-theme-font-color-item {
-                display: inline-block;
-                border-style: solid;
-                border-width: 1px;
-                width: 150px;
+            div:first-child {
+                padding: 12px 20px;
+                font-size: 18px;
+                border: solid 1px $ibl;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+            }
 
+            div:last-child {
+                background-color: $ibl;
+                padding: 12px 20px;
+                color: $itl;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                font-size: 12px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        /*文字颜色*/
+        .doc-theme-font-color-list {
+        }
+        /*背景色*/
+        .doc-theme-background-color-list {
+            .doc-theme-font-color-item {
                 div:first-child {
-                    padding: 4px 9px;
-                    font-size: 20px;
+                    border: none;
+                    color: white;
                 }
 
                 div:last-child {
-                    background-color: $ibl;
-                    border-top: solid 1px $ibc;
-                    padding: 4px 9px;
-                    color: $itl;
-                    font-size: 12px;
+                    background-color: white;
                 }
             }
         }
