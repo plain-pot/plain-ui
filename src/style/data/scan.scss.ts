@@ -1,7 +1,7 @@
 const path = require("path")
 const fs = require("fs").promises
 // @ts-ignore
-const resolve = (filePath: string) => path.join(__dirname, "../", filePath)
+const resolve = (filePath: string) => path.join(__dirname, "../../../", filePath)
 const utils = {path, fs, resolve, join: path.join}
 
 interface ScanOption {
@@ -59,7 +59,9 @@ const ScanUtils = (() => {
 })();
 
 (async () => {
-    const output = resolve("theme/scan.scss.json")
+    const output = resolve("src/style/data/scan.scss.json")
+    const entry = resolve("src/packages")
+
     const map: Record<string, string> = {}
 
     /*属于依赖的scss文件，最后输出的数据中，会去除这里出现的依赖文件*/
@@ -95,7 +97,7 @@ const ScanUtils = (() => {
     }
 
     await ScanUtils.scan({
-        path: resolve("src/packages"),
+        path: entry,
         handleFile: async (path: string) => {
             const name = path.replace(/[\\\/]/g, '/')
             if (!!map[name]) return

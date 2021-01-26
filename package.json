@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint",
     "rollup": "rollup -c ./build/release/rollup.js",
     "webpack": "webpack -c ./build/release/webpack.js",
-    "theme": "ts-node ./theme/scan.scss.ts",
+    "theme": "ts-node src/style/data/scan.scss.ts",
     "icon": "node ./iconfont/scan.js",
     "beta": "npm publish --tag=beta"
   },
