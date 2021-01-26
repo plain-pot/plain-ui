@@ -4,7 +4,7 @@ import {useRefs} from "../../use/useRefs";
 import {PropType} from 'vue';
 import {SimpleObject} from "../../shims";
 import {useScopedSlots} from "../../use/useScopedSlots";
-import {useVirtualList} from "../virutal-list/useVirtualList";
+import {useVirtualList} from "../virtual-list/useVirtualList";
 import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
 import {PlScroll} from "../scroll/scroll";

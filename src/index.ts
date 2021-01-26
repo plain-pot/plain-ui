@@ -33,7 +33,7 @@ import Slider from './packages/slider'
 import Tag from './packages/tag'
 import TagInput from './packages/tag-input'
 import Rate from './packages/rate'
-import VirtualList from './packages/virutal-list'
+import VirtualList from './packages/virtual-list'
 import Progress from './packages/progress'
 import ProgressBar from './packages/progress-bar'
 import ProgressCircle from './packages/progress-circle'
@@ -58,6 +58,7 @@ import Card from './packages/card'
 import Carousel from './packages/carousel'
 import CarouselItem from './packages/carousel-item'
 import ColorPicker from './packages/color-picker'
+import ColorButton from './packages/color-button'
 import Cascade from './packages/cascade'
 import Tree from './packages/tree'
 import Select from './packages/select'
@@ -69,7 +70,9 @@ import Date from './packages/date'
 import Form from './packages/form'
 import FormItem from './packages/form-item'
 import Table from './packages/table'
+import VirtualTable from './packages/virtual-table'
 import Plc from './packages/plc'
+import PlcGroup from './packages/plc-group'
 import Upload from './packages/upload'
 import Nav from './packages/nav'
 import FileService from './packages/file-service'
@@ -89,10 +92,10 @@ const plugins: ComponentPlugin[] = [
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
     DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, Plc, Nav, Row, Col,
+    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
+    Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
@@ -107,10 +110,10 @@ export {
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
     DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, Plc, Nav, Row, Col,
+    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
+    Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
