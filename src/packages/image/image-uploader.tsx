@@ -162,6 +162,7 @@ export const PlImageUploader = designComponent({
                         <PlImage
                             src={model.value || state.chooseBase64}
                             fit={props.fit}
+                            alt={props.alt}
                             position={props.position}
                             previewOnClick={false}
                             height={props.height}
