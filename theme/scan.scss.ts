@@ -69,7 +69,7 @@ const ScanUtils = (() => {
             const basename = utils.path.basename(path)
             const extname = utils.path.extname(basename)
             if (extname !== '.scss') return;
-            map[name] = (await utils.fs.readFile(path)).toString("utf-8").replace(/(\\r|\\n)/g, '')
+            map[name] = (await utils.fs.readFile(path)).toString("utf-8").replace(/([\r\n])/g, '')
         },
     })
     const data = Object.entries(map).map(([path, source]) => ({
