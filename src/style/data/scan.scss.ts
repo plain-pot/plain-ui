@@ -60,9 +60,11 @@ const ScanUtils = (() => {
 
 (async () => {
     const output = resolve("src/style/data/scan.scss.json")
-    const entry = resolve("src/packages")
+    const packages = resolve("src/packages")
+    const entry = resolve('src/index.ts')
 
-    const map: Record<string, string> = {}
+    /*文件path映射code对象*/
+    const pathToCode: Record<string, string> = {}
 
     /*属于依赖的scss文件，最后输出的数据中，会去除这里出现的依赖文件*/
     let dependList: string[] = []
@@ -97,29 +99,54 @@ const ScanUtils = (() => {
     }
 
     await ScanUtils.scan({
-        path: entry,
+        path: packages,
         handleFile: async (path: string) => {
             const name = path.replace(/[\\\/]/g, '/')
-            if (!!map[name]) return
+            if (!!pathToCode[name]) return
             const basename = utils.path.basename(path)
             const extname = utils.path.extname(basename)
             if (extname !== '.scss') return;
-            map[name] = await resolveScssCode(path)
+            pathToCode[name] = await resolveScssCode(path)
         },
     })
 
     const compReg = /src\/packages\/(.*?)\/.*/
 
-    const data = Object.entries(map).filter(([path]) => dependList.indexOf(path) === -1).map(([path, source]) => {
-        const match = compReg.exec(path)
-        return {
-            source,
-            component: !match ? 'no component!' : match[1],
+    let data = Object.entries(pathToCode)
+        .filter(([path]) => dependList.indexOf(path) === -1)
+        .map(([path, source]) => {
+            const match = compReg.exec(path)
+            return {
+                source,
+                component: !match ? 'no component!' : match[1],
+            }
+        })
+        .reduce((prev, item) => {
+            if (!prev[item.component]) prev[item.component] = []
+            prev[item.component].push(item.source)
+            return prev
+        }, {} as Record<string, string[]>)
+
+    const sortIndex = await new Promise<Record<string, number>>(async (resolve, reject) => {
+        try {
+            const entryContent = (await fs.readFile(entry)).toString('utf-8')
+            let regexp = /\.\/packages\/(.*?)(['"])/g
+            let count = 0
+            let ret: Record<string, number> = {}
+            let match = regexp.exec(entryContent)
+            while (!!match) {
+                ret[match[1]] = count++
+                match = regexp.exec(entryContent)
+            }
+            resolve(ret)
+        } catch (e) {
+            console.error(e)
         }
-    }).reduce((prev, item) => {
-        if (!prev[item.component]) prev[item.component] = []
-        prev[item.component].push(item.source)
-        return prev
-    }, {} as Record<string, string[]>)
-    await fs.writeFile(output, JSON.stringify(data, null, 2))
+    })
+    console.log(sortIndex)
+    const result = Object.entries(data).map(([name, codes]) => ({
+        name, codes, seq: sortIndex[name] == null ? 9999 : sortIndex[name],
+    })).sort((a, b) => a.seq - b.seq)
+
+    await fs.writeFile(output, JSON.stringify(result, null, 2))
 })();
