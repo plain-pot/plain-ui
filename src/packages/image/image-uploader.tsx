@@ -12,6 +12,7 @@ import {defer} from "../../utils/defer";
 import {useModel} from "../../use/useModel";
 import {PlImage, PlImageProps} from "./image";
 import {ImageStatus} from "./image.utils";
+import {$image} from "./service";
 
 enum ImageUploaderStatus {
     /*加载*/
@@ -34,8 +35,10 @@ export const PlImageUploader = designComponent({
         height: {type: [String, Number], default: '80px'},                                      // 图片高度
         accept: {type: String, default: FileServiceDefaultAccept.image},                        // 选择文件的时候，图片类型
         uploadConfig: {type: Object as PropType<Omit<FileServiceUploadConfig, 'file'>>},        // 上传配置信息对象
-        handleDelete: {type: Function as PropType<() => void | Promise<void>>},
-        handleUpload: {type: Function as PropType<(file: File) => void | Promise<void>>},
+        previewImage: {type: String},                                                           // 预览的时候显示的图片
+        handleDelete: {type: Function as PropType<() => void | Promise<void>>},                 // 自定义删除图片逻辑
+        handleUpload: {type: Function as PropType<(file: File) => void | Promise<void>>},       // 自定义上传图片逻辑
+        handlePreview: {type: Function as PropType<(url?: string) => void>},                    // 自定义预览逻辑
     },
     emits: {
         onUpdateModelValue: (val?: string) => true,
@@ -143,7 +146,13 @@ export const PlImageUploader = designComponent({
             },
             onClickImage: async () => {
                 if (state.status === ImageUploaderStatus.error) {
-                    await handler.onClick()
+                    return await handler.onClick()
+                }
+                const url = props.previewImage || model.value || state.chooseBase64
+                if (!!props.handlePreview) {
+                    return props.handlePreview(url)
+                } else {
+                    !!url && $image.preview(url)
                 }
             },
             onClickDelete: async () => {
