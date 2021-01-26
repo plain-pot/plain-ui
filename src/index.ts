@@ -58,6 +58,7 @@ import Card from './packages/card'
 import Carousel from './packages/carousel'
 import CarouselItem from './packages/carousel-item'
 import ColorPicker from './packages/color-picker'
+import ColorButton from './packages/color-button'
 import Cascade from './packages/cascade'
 import Tree from './packages/tree'
 import Select from './packages/select'
@@ -94,7 +95,7 @@ const plugins: ComponentPlugin[] = [
     Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
+    Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
@@ -112,7 +113,7 @@ export {
     Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
-    Tag, TagInput, Rate, ColorPicker, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
+    Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
     MessageService, DialogService, NoticeService, LoadingService, FileService,
