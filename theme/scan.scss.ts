@@ -61,21 +61,33 @@ const ScanUtils = (() => {
 (async () => {
     const output = resolve("theme/scan.scss.json")
     const map: Record<string, string> = {}
-    await ScanUtils.scan({
-        path: resolve("src/packages"),
-        handleFile: async (path) => {
-            const name = path.replace(/[\\\/]/g, '/')
-            if (!!map[name]) return
-            const basename = utils.path.basename(path)
-            const extname = utils.path.extname(basename)
-            if (extname !== '.scss') return;
-            map[name] = (await utils.fs.readFile(path)).toString("utf-8").replace(/([\r\n])/g, '')
-        },
-    })
-    const data = Object.entries(map).map(([path, source]) => ({
-        path,
-        source,
-        basename: utils.path.basename(path).replace('.scss', ''),
-    }))
+
+    const handleFile = async (path: string) => {
+        const name = path.replace(/[\\\/]/g, '/')
+        if (!!map[name]) return
+        const basename = utils.path.basename(path)
+        const extname = utils.path.extname(basename)
+        if (extname !== '.scss') return;
+        let code = (await utils.fs.readFile(path)).toString("utf-8").replace(/([\r\n])/g, '')
+
+        if (code.indexOf('@import') > -1) {
+            const regexp = /@import "(.*)"/g
+            let match = regexp.exec(code)
+            while (!!match) {
+                let name = match[1]
+                if (!name.endsWith('.scss')) {name = name + '.scss'}
+                const dependencyPath = utils.path.resolve(utils.path.dirname(path), name)
+                console.log('依赖的文件：', {
+                    basename,
+                    dependencyPath,
+                })
+                match = regexp.exec(code)
+            }
+        }
+
+        map[name] = code
+    }
+    await ScanUtils.scan({path: resolve("src/packages"), handleFile,})
+    const data = Object.entries(map).map(([path, source]) => ({path, source, basename: utils.path.basename(path).replace('.scss', ''),}))
     await fs.writeFile(output, JSON.stringify(data, null, 2))
 })();
