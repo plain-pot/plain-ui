@@ -62,6 +62,7 @@ const ScanUtils = (() => {
     const output = resolve("src/style/data/scan.scss.json")
     const packages = resolve("src/packages")
     const entry = resolve('src/index.ts')
+    const globalImportFilePath = resolve('src/style/global-import.scss')
 
     /*文件path映射code对象*/
     const pathToCode: Record<string, string> = {}
@@ -71,7 +72,8 @@ const ScanUtils = (() => {
 
     /*扫描scss，如果scss引入了其他的scss文件，一并输出到结果去*/
     const resolveScssCode = async (filePath: string): Promise<string> => {
-        let code = (await utils.fs.readFile(filePath)).toString("utf-8").replace(/([\r\n])/g, '')
+        let code = (await utils.fs.readFile(filePath)).toString("utf-8")
+        // .replace(/([\r\n])/g, '')
         if (code.indexOf('@import') > -1) {
             const regexp = /@import "(.*?)";?/g
             let match = regexp.exec(code)
@@ -143,10 +145,13 @@ const ScanUtils = (() => {
             console.error(e)
         }
     })
-    console.log(sortIndex)
-    const result = Object.entries(data).map(([name, codes]) => ({
+    const packagesScss = Object.entries(data).map(([name, codes]) => ({
         name, codes, seq: sortIndex[name] == null ? 9999 : sortIndex[name],
     })).sort((a, b) => a.seq - b.seq)
+    const globalImport = await resolveScssCode(globalImportFilePath)
 
-    await fs.writeFile(output, JSON.stringify(result, null, 2))
+    await fs.writeFile(output, JSON.stringify({
+        globalImport,
+        packagesScss,
+    }, null, 2))
 })();
