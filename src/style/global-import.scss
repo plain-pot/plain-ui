@@ -1,5 +1,5 @@
-@import "./theme/blue";
 @import "./main";
+@import "./theme/blue";
 
 $themes: map_merge($theme-default, $theme-blue);
 
