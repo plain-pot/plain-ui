@@ -79,12 +79,12 @@ export const MENUS: MenuGroup[] = [
             {name: 'Tab', title: '页签', page: '/normal/tab', complete: false},
         ]
     },
-    {
+    /*{
         name: '导航', children: [
             {name: 'NavPageStack', title: '页面导航', page: '/nav/nav-page-stack', complete: true},
             {name: 'Nav', title: '应用导航', page: '/nav/nav', complete: false},
         ]
-    },
+    },*/
     {
         name: '其他', children: [
             {name: 'Scroll', title: '滚动条', page: '/normal/scroll', complete: true},
@@ -99,13 +99,13 @@ export const MENUS: MenuGroup[] = [
             {name: 'Alert', title: '提示信息', page: '/normal/alert', complete: true},
             // {name: 'Triangle', title: '三角形元素', page: '/normal/triangle', complete: false},
             // {name: 'FilletCorner', title: '圆角', page: '/normal/fillet-corner', complete: false},
-            {name: 'TabHeader', title: '页签头组件', page: '/normal/tab-header', complete: false},
+            // {name: 'TabHeader', title: '页签头组件', page: '/normal/tab-header', complete: false},
         ]
     },
     {
         name: '服务', children: [
             {name: '$message', title: '消息服务', page: '/service/message-service', complete: true},
-            {name: '$popper', title: '浮层服务', page: '/service/popper-service', complete: true},
+            // {name: '$popper', title: '浮层服务', page: '/service/popper-service', complete: true},
             // {name: '$select', title: '选择服务', page: '/service/select-service', complete: false},
             {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: true},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
