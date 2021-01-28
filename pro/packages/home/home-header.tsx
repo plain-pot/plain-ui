@@ -12,14 +12,6 @@ export const ProHomeHeader = designComponent({
             await props.nav.showTab(stack.id)
         }
 
-        const stackNames = computed(() => {
-            if (!props.nav.currentStack) {
-                return ''
-            }
-            const stackTitle = props.nav.currentStack.pageConfig.title
-            let page
-        })
-
         return {
             render: () => (
                 <div class="pro-home-header">

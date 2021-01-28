@@ -31,6 +31,7 @@ export default createDefaultService({
                 case LoadingBarStatus.fail:
                     return state.option!.failColor
             }
+            return LoadingBarStatus.process
         })
 
         const status = ['primary', 'success', 'warn', 'error', 'info']
