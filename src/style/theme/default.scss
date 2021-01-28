@@ -37,8 +37,8 @@ $theme-default: (
                 transition:cubic-bezier(0.23, 1, 0.32, 1),              /*默认过渡动画*/
                 transition2:cubic-bezier(.59,1.12,.81,.95),             /*过渡动画(轻)*/
 
-                boxshadow:$boxshadow,                                   /*阴影*/
-                boxshadowColor:$boxshadowColor,                         /*阴影*/
+                boxshadow:#f0f1f2,                                      /*阴影颜色*/
+                boxshadowColor:0 2px 8px $boxshadowColor,               /*阴影*/
                 popperRadius:2px,                                       /*阴影*/
         )
 );
