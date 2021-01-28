@@ -77,7 +77,7 @@
                 </pl-form-item>
 
                 <pl-form-item label="日期时间范围选择" :field="['field20','field21']" required>
-                    <pl-date v-model:start="form1.formData.field20" v-model:end="form1.formData.field21" range panel="datetime"/>
+                    <pl-date v-model:start="form1.formData.field20" v-model:end="form1.formData.field21" range datetime/>
                 </pl-form-item>
 
                 <pl-form-item>
