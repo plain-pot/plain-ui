@@ -18,7 +18,7 @@ export function createDefaultManager<Option>(
             }
         }
     },
-    isItemAvailable?: (item: typeof serviceComponent.use.class, opt: Option) => boolean,
+    isItemAvailable?: (refs: typeof serviceComponent.use.class[], opt: Option) => null | typeof serviceComponent.use.class,
 ) {
     return designComponent({
         name: managerName,
@@ -36,19 +36,22 @@ export function createDefaultManager<Option>(
              * @date    2020/11/26 9:23
              */
             const service = async (option: Option): Promise<void> => {
-                for (let i = 0; i < refs.length; i++) {
-                    const item = refs[i];
-                    if (!!isItemAvailable) {
-                        if (isItemAvailable(item, option)) {
-                            return item.service(option)
-                        }
-                    } else {
+                if (isItemAvailable) {
+                    const item = isItemAvailable(refs, option)
+                    if (!!item) {
+                        return item.service(option)
+                    }
+                } else {
+                    for (let i = 0; i < refs.length; i++) {
+                        const item = refs[i];
                         const {isShow, isOpen} = item
                         if (!isShow.value && !isOpen.value) {
                             return item.service(option)
                         }
                     }
                 }
+
+                // 没有合适的item，创建新的item提供服务
                 options.value.push(option as any)
                 await nextTick()
             }
