@@ -1,5 +1,5 @@
 import {designComponent} from "../../use/designComponent";
-import {PropType, reactive, onMounted, onBeforeUnmount} from 'vue';
+import {PropType, reactive, onMounted, onBeforeUnmount, computed} from 'vue';
 import {TabData} from "./tabs.utils";
 import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
@@ -61,6 +61,15 @@ export const PlTabsHeader = designComponent({
         const listStyles = useStyles(style => {
             style.left = `${state.offsetData.listLeft}px`
         })
+        const indicatorStyle = useStyles(style => {
+            const index = props.tabs.findIndex(i => i.active)
+            if (index == null || index === -1) return
+            const el = state.offsetData.children[index]
+            if (!el) return;
+            const {left, width} = el
+            style.left = `${left}px`
+            style.width = `${width}px`
+        })
 
         let refreshTimer: number;
         onMounted(() => {
@@ -84,6 +93,7 @@ export const PlTabsHeader = designComponent({
                                 {tab.item.scopedSlots.head({active: false}, tab.item.props.title)}
                             </div>
                         ))}
+                        <i class="pl-tabs-header-indicator" style={indicatorStyle.value}/>
                     </div>
                 </div>
             )

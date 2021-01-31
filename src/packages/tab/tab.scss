@@ -10,7 +10,6 @@
     .pl-tabs-header {
       height: 45px;
       /*background-color: #697b8c;*/
-      border-bottom: solid 1px $ibc;
       box-sizing: border-box;
       overflow-x: hidden;
 
@@ -20,6 +19,8 @@
         align-items: stretch;
         height: 100%;
         position: relative;
+        border-bottom: solid 1px $ibc;
+        box-sizing: border-box;
 
         .pl-tabs-header-item {
           display: inline-block;
@@ -37,6 +38,17 @@
             color: $colorPrimary;
           }
         }
+      }
+
+      .pl-tabs-header-indicator {
+        position: absolute;
+        bottom: -1px;
+        height: 2px;
+        background-color: $colorPrimary;
+        transition-property: width, left;
+        transition-duration: 200ms;
+        transition-timing-function: $transitionFlexible;
+        width: 0;
       }
     }
 
