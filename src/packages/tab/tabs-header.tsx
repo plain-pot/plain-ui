@@ -3,6 +3,7 @@ import {PropType, reactive, onMounted, onBeforeUnmount, computed} from 'vue';
 import {TabData} from "./tabs.utils";
 import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export const PlTabsHeader = designComponent({
     props: {
@@ -34,7 +35,8 @@ export const PlTabsHeader = designComponent({
                 state.offsetData.hostWidth = offsetWidth;
                 state.offsetData.children = (Array.from(children) as HTMLDivElement[]).reduce((prev, item, index) => {
                     const {offsetLeft, offsetWidth} = item
-                    if (index === children.length - 1) {state.offsetData.totalWidth = offsetLeft + offsetWidth}
+                    /*最后一个是 indicator，所以这里找最后一个child是-2*/
+                    if (index === children.length - 2) {state.offsetData.totalWidth = offsetLeft + offsetWidth}
                     prev.push({left: offsetLeft, width: offsetWidth})
                     return prev
                 }, [] as { left: number, width: number }[])

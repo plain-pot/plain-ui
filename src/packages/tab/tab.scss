@@ -11,7 +11,18 @@
       height: 45px;
       /*background-color: #697b8c;*/
       box-sizing: border-box;
-      overflow-x: hidden;
+      position: relative;
+      overflow: hidden;
+
+      &:before {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background-color: $ibc;
+        content: '';
+      }
 
       .pl-tabs-header-list {
         display: inline-flex;
@@ -19,7 +30,6 @@
         align-items: stretch;
         height: 100%;
         position: relative;
-        border-bottom: solid 1px $ibc;
         box-sizing: border-box;
 
         .pl-tabs-header-item {
@@ -43,7 +53,7 @@
       .pl-tabs-header-indicator {
         position: absolute;
         bottom: -1px;
-        height: 2px;
+        height: 3px;
         background-color: $colorPrimary;
         transition-property: width, left;
         transition-duration: 200ms;
