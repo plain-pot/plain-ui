@@ -14,20 +14,18 @@ export const PlTabsHeader = designComponent({
         return {
             render: () => (
                 <div class="pl-tabs-header">
-                    <PlScroll scrollX={true} scrollY={false}>
-                        <div class="pl-tabs-header-list">
-                            {props.tabs.map((tab, index) => (
-                                <div class={[
-                                    'pl-tabs-header-item',
-                                    {'pl-tabs-header-item-active': tab.active}
-                                ]} key={index}
-                                     onClick={() => emit.onClickTabHead(tab)}
-                                >
-                                    {tab.item.scopedSlots.head({active: false}, tab.item.props.title)}
-                                </div>
-                            ))}
-                        </div>
-                    </PlScroll>
+                    <div class="pl-tabs-header-list">
+                        {props.tabs.map((tab, index) => (
+                            <div class={[
+                                'pl-tabs-header-item',
+                                {'pl-tabs-header-item-active': tab.active}
+                            ]} key={index}
+                                 onClick={() => emit.onClickTabHead(tab)}
+                            >
+                                {tab.item.scopedSlots.head({active: false}, tab.item.props.title)}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )
         }
