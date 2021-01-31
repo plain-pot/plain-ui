@@ -6,10 +6,9 @@
       transition: all $transition 300ms;
       transform-origin: top left;
       background-color: white;
-      padding: 5px 12px;
       box-sizing: border-box;
-      font-size: 14px;
       box-shadow: $boxshadow;
+      padding: 12px 0;
     }
   }
 }
