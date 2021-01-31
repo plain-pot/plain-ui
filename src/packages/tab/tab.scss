@@ -40,7 +40,30 @@
     }
 
     .pl-tabs-body {
-      padding: 20px 0;
+      position: relative;
+      margin-top: 20px;
     }
+  }
+
+  /*transition*/
+
+  .pl-inner-tab {
+    transform-origin: left top;
+    transition: all 500ms $transition;
+  }
+
+  .pl-transition-tab-enter-active, .pl-transition-tab-leave-active {
+    opacity: 1;
+  }
+
+  .pl-transition-tab-enter, .pl-transition-tab-leave-to {
+    opacity: 0;
+  }
+
+  .pl-transition-tab-leave-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 }
