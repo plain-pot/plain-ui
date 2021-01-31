@@ -79,6 +79,8 @@ import FileService from './packages/file-service'
 import Image from './packages/image'
 import ImageUploader from './packages/image-uploader'
 import Contextmenu from './packages/contextmenu'
+import Tabs from './packages/tabs'
+import Tab from './packages/tab'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -93,7 +95,7 @@ const plugins: ComponentPlugin[] = [
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
     DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
+    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col, Tabs, Tab,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
@@ -111,7 +113,7 @@ export {
     Step, StepGroup, ArrowStep, ArrowStepGroup, Popper, Dropdown, DropdownGroup,
     DropdownMenu, DropdownOption, InputInnerTags,
     Tooltip, Alert, Collapse, CollapseGroup, CollapseTransition, Card,
-    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col,
+    Carousel, CarouselItem, Table, VirtualTable, Plc, PlcGroup, Nav, Row, Col, Tabs, Tab,
 
     Input, CheckboxInner, Checkbox, CheckboxGroup, Radio, RadioInner, RadioGroup, Number, Toggle, Slider,
     Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
