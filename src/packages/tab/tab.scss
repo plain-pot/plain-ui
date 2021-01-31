@@ -1,0 +1,46 @@
+@include theme {
+  .pl-tabs {
+    .pl-tabs-collector {
+      height: 0;
+      width: 0;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .pl-tabs-header {
+      height: 45px;
+      /*background-color: #697b8c;*/
+      border-bottom: solid 1px $ibc;
+      box-sizing: border-box;
+
+      .pl-tabs-header-list {
+        display: inline-block;
+        height: 100%;
+        position: relative;
+
+        .pl-tabs-header-item {
+          display: inline-block;
+          float: left;
+          /*background-color: #000000;
+          color: white;*/
+          height: 100%;
+          line-height: 45px;
+          font-size: 14px;
+
+          & + .pl-tabs-header-item {
+            margin-left: 32px;
+          }
+
+          &:hover {
+            color: $colorPrimary;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .pl-tabs-body {
+
+    }
+  }
+}

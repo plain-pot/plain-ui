@@ -5,7 +5,8 @@ import {useModel} from "../../use/useModel";
 import {useSlots} from "../../use/useSlots";
 import {useCollect} from "../../use/useCollect";
 import {PlTab} from "./tab";
-
+import {PlTabsHeader} from "./tabs-header";
+import './tab.scss'
 
 export const PlTabs = designComponent({
     name: 'pl-tabs',
@@ -32,8 +33,10 @@ export const PlTabs = designComponent({
             render: () => {
                 return (
                     <div class="pl-tabs">
+                        <div class="pl-tabs-collector">{slots.default()}</div>
+                        <PlTabsHeader tabs={items}/>
                         <div class="pl-tabs-body">
-                            {slots.default()}
+                            
                         </div>
                     </div>
                 )
