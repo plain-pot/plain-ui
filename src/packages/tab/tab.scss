@@ -26,21 +26,21 @@
           height: 100%;
           line-height: 45px;
           font-size: 14px;
+          cursor: pointer;
 
           & + .pl-tabs-header-item {
             margin-left: 32px;
           }
 
-          &:hover {
+          &:hover, &.pl-tabs-header-item-active {
             color: $colorPrimary;
-            cursor: pointer;
           }
         }
       }
     }
 
     .pl-tabs-body {
-
+      padding: 20px 0;
     }
   }
 }

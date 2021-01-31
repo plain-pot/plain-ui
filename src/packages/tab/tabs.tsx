@@ -1,12 +1,13 @@
 import {designComponent} from "../../use/designComponent";
-import {PropType, onMounted} from 'vue';
-import {TabHeadPosition, TabHeadType} from "./tabs.utils";
+import {PropType, onMounted, computed} from 'vue';
+import {TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
 import {useModel} from "../../use/useModel";
 import {useSlots} from "../../use/useSlots";
 import {useCollect} from "../../use/useCollect";
-import {PlTab} from "./tab";
+import {PlTab, PlTabComponent} from "./tab";
 import {PlTabsHeader} from "./tabs-header";
 import './tab.scss'
+import {PlInnerTab} from "./inner-tab";
 
 export const PlTabs = designComponent({
     name: 'pl-tabs',
@@ -25,8 +26,31 @@ export const PlTabs = designComponent({
         const model = useModel(() => props.modelValue, emit.updateModelValue)
         const items = TabCollector.parent()
 
+        const tabs = computed(() => items.map((item, index) => ({
+            item,
+            index,
+            active: (() => {
+                const {val} = item.props
+                if (val != null) {
+                    return model.value == val
+                }
+                if (model.value != null) {
+                    return model.value == index
+                }
+                return index == 0
+            })(),
+        })))
+
+        const handler = {
+            onClickTabHeader: ({item, index, active}: TabData) => {
+                const {props: {val}} = item
+                if (active) {return}
+                model.value = val == null ? index : val
+            }
+        }
+
         onMounted(() => {
-            console.log(items, model)
+            // console.log(items, model)
         })
 
         return {
@@ -34,9 +58,11 @@ export const PlTabs = designComponent({
                 return (
                     <div class="pl-tabs">
                         <div class="pl-tabs-collector">{slots.default()}</div>
-                        <PlTabsHeader tabs={items}/>
+                        <PlTabsHeader tabs={tabs.value} onClickTabHead={handler.onClickTabHeader}/>
                         <div class="pl-tabs-body">
-                            
+                            {tabs.value.map((tab, index) => (
+                                <PlInnerTab item={tab.item} key={index} active={tab.active}/>
+                            ))}
                         </div>
                     </div>
                 )

@@ -32,3 +32,5 @@ export const PlTab = designComponent({
         }
     },
 })
+
+export type PlTabComponent = typeof PlTab.use.class
