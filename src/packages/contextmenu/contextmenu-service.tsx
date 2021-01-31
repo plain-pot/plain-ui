@@ -28,6 +28,7 @@ const Service = createDefaultService({
             option,
         })
         const mounted = new Promise(resolve => onMounted(resolve))
+        let hideTimer: number | null = null
 
         const methods = {
             service: (option: ContextmenuServiceOption) => {
@@ -36,13 +37,12 @@ const Service = createDefaultService({
                 return methods.hide
             },
             show: async () => {
-                if (isShow.value) return
+                if (!!hideTimer) clearTimeout(hideTimer)
                 await mounted;
                 console.log('show')
                 isShow.value = true
             },
             hide: () => {
-                if (!isShow.value) return
                 console.log('hide')
                 isShow.value = false
             },
@@ -71,7 +71,8 @@ const Service = createDefaultService({
         const handler = {
             onMousedownWindow: (e: MouseEvent) => {
                 if (!refs.el.contains(e.target as HTMLDivElement)) {
-                    methods.hide()
+                    console.log('onMousedownWindow')
+                    hideTimer = setTimeout(() => methods.hide(), 50)
                 }
             }
         }
@@ -81,8 +82,8 @@ const Service = createDefaultService({
 
         return {
             refer: {
-                isShow,
-                isOpen: isShow,
+                isShow: {value: false},
+                isOpen: {value: false},
                 ...methods,
             },
             render: () => {
