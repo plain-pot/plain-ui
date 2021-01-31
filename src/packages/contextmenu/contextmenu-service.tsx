@@ -7,13 +7,36 @@ import {getServiceWithoutContext} from "../../utils/getServiceWithoutContext";
 import './contextmenu-service.scss'
 import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
+import {nextIndex} from "../../utils/nextIndex";
 
-type ContextmenuReference = MouseEvent | HTMLElement | { $el: HTMLElement } | { x: string, y: string }
+type ContextmenuReference = MouseEvent | HTMLElement | { $el: HTMLElement } | { x: number, y: number }
 type ContextContent = (() => VNodeChild) | { label: string, icon?: string, disabled?: string }[]
 
 interface ContextmenuServiceOption {
     reference: ContextmenuReference,
     content: ContextContent,
+}
+
+function getReferencePosition(reference: ContextmenuReference): { top: number, left: number } {
+    if ('addEventListener' in reference || '$el' in reference) {
+        let el = '$el' in reference ? reference.$el : reference
+        const {top, left, height} = el.getBoundingClientRect()
+        return {
+            top: top + height,
+            left: left,
+        }
+    } else if ('clientX' in reference) {
+        const {clientX, clientY} = reference
+        return {
+            top: clientY,
+            left: clientX,
+        }
+    } else {
+        return {
+            top: reference.y,
+            left: reference.x,
+        }
+    }
 }
 
 const Service = createDefaultService({
@@ -26,6 +49,7 @@ const Service = createDefaultService({
         const isShow = ref(false)
         const state = reactive({
             option,
+            zIndex: nextIndex(),
         })
         const mounted = new Promise(resolve => onMounted(resolve))
         let hideTimer: number | null = null
@@ -38,6 +62,7 @@ const Service = createDefaultService({
             },
             show: async () => {
                 if (!!hideTimer) clearTimeout(hideTimer)
+                state.zIndex = nextIndex()
                 await mounted;
                 console.log('show')
                 isShow.value = true
@@ -49,23 +74,10 @@ const Service = createDefaultService({
         }
 
         const styles = useStyles(style => {
-            const {reference} = state.option
-            if ('addEventListener' in reference) {
-                const {top, left, height} = reference.getBoundingClientRect()
-                style.top = `${top + height}px`
-                style.left = `${left}px`
-            } else if ('clientX' in reference) {
-                const {clientX, clientY} = reference
-                style.top = `${clientY}px`
-                style.left = `${clientX}px`
-            } else if ('$el' in reference) {
-                const {top, left, height} = reference.$el.getBoundingClientRect()
-                style.top = `${top + height}px`
-                style.left = `${left}px`
-            } else {
-                style.top = `${reference.y}px`
-                style.left = `${reference.x}px`
-            }
+            const {top, left} = getReferencePosition(state.option.reference)
+            style.top = `${top}px`
+            style.left = `${left}px`
+            style.zIndex = state.zIndex
         })
 
         const handler = {
@@ -82,8 +94,9 @@ const Service = createDefaultService({
 
         return {
             refer: {
-                isShow: {value: false},
-                isOpen: {value: false},
+                state,
+                isShow,
+                isOpen: isShow,
                 ...methods,
             },
             render: () => {
@@ -98,7 +111,7 @@ const Service = createDefaultService({
                 }
 
                 return (
-                    <div class="pl-contextmenu-service" style={styles.value} ref="el">
+                    <div class="pl-contextmenu-service" style={styles.value} ref="el" {...{show: String(isShow.value)} as any}>
                         <Transition name="pl-transition-scale">
                             <div class="pl-contextmenu-service-body" v-show={isShow.value}>
                                 {content}
@@ -112,9 +125,30 @@ const Service = createDefaultService({
     },
 })
 
+type ServiceComponent = typeof Service.use.class
+
 export const getContextmenuService = registryRootService(
     'contextmenu',
-    createDefaultManager('pl-contextmenu-service-manager', Service),
+    createDefaultManager('pl-contextmenu-service-manager', Service, ((items: ServiceComponent[], option: ContextmenuServiceOption) => {
+
+        const newPos = getReferencePosition(option.reference)
+        let exist: ServiceComponent | null = null
+        let available: ServiceComponent | null = null
+        items.forEach(item => {
+            if (!!exist) {
+                return
+            }
+            const oldPos = getReferencePosition(item.state.option.reference)
+            if (oldPos.top === newPos.top && oldPos.left === newPos.left) {
+                exist = item
+                return;
+            }
+            if (!item.isShow.value && !item.isOpen.value) {
+                available = item
+            }
+        })
+        return exist || available
+    }) as any),
     (getManager) => {
         return async (reference: ContextmenuReference, content: ContextContent) => {
             const option = {reference, content}
