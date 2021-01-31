@@ -20,16 +20,19 @@ export function createDefaultService<Option extends object, Refer extends {
     {
         name,
         setup,
+        components,
     }: {
         name: string,
         setup: (option: Option) => {
             refer: Refer,
             render: () => VNodeChild,
         },
+        components?: any,
     }
 ) {
     return designComponent({
         name: `pl-${name}-service`,
+        components,
         props: {
             option: {type: Object, required: true}
         },
