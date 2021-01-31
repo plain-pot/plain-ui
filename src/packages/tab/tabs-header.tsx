@@ -1,6 +1,5 @@
 import {designComponent} from "../../use/designComponent";
 import {PropType} from 'vue';
-import {PlScroll} from "../scroll/scroll";
 import {TabData} from "./tabs.utils";
 
 export const PlTabsHeader = designComponent({
