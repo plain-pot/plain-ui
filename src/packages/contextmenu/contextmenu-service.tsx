@@ -1,6 +1,6 @@
 import {registryRootService} from "../root/registryRootService";
 import {VNodeChild} from "../../shims";
-import {reactive, ref, Transition, onBeforeUnmount, onMounted} from 'vue';
+import {onBeforeUnmount, onMounted, reactive, ref, Transition, provide} from 'vue';
 import {createDefaultService} from "../root/createDefaultService";
 import {createDefaultManager} from "../root/createDefaultManager";
 import {getServiceWithoutContext} from "../../utils/getServiceWithoutContext";
@@ -8,6 +8,8 @@ import './contextmenu-service.scss'
 import {useStyles} from "../../use/useStyles";
 import {useRefs} from "../../use/useRefs";
 import {nextIndex} from "../../utils/nextIndex";
+import {PlDropdownOption} from "../dropdown/dropdown-option";
+import {PlDropdownMenu} from "../dropdown/dropdown-menu";
 
 type ContextmenuReference = MouseEvent | HTMLElement | { $el: HTMLElement } | { x: number, y: number }
 type ContextContent = (() => VNodeChild) | { label: string, icon?: string, disabled?: string }[]
@@ -43,6 +45,10 @@ function getReferencePosition(reference: ContextmenuReference): { top: number, l
 
 const Service = createDefaultService({
     name: 'pl-contextmenu-service',
+    components: {
+        'pl-dropdown-option': PlDropdownOption,
+        'pl-dropdown-menu': PlDropdownMenu,
+    },
     setup(option: ContextmenuServiceOption) {
 
         const {refs} = useRefs({
@@ -103,10 +109,15 @@ const Service = createDefaultService({
                     hideTimer = setTimeout(() => methods.hide(), 50)
                 }
             },
+            clickDropdownOption: () => {
+                methods.hide()
+            },
         }
 
         document.body.addEventListener('mouseup', handler.onMousedownWindow)
         onBeforeUnmount(() => document.body.removeEventListener('mouseup', handler.onMousedownWindow))
+
+        provide('@@pl-dropdown', {handler})
 
         return {
             refer: {
