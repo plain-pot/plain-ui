@@ -78,6 +78,7 @@ import Nav from './packages/nav'
 import FileService from './packages/file-service'
 import Image from './packages/image'
 import ImageUploader from './packages/image-uploader'
+import Contextmenu from './packages/contextmenu'
 
 function install(app: App) {
     installPlugin(app, plugins)
@@ -98,7 +99,7 @@ const plugins: ComponentPlugin[] = [
     Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
-    MessageService, DialogService, NoticeService, LoadingService, FileService,
+    MessageService, DialogService, NoticeService, LoadingService, FileService, Contextmenu,
 ]
 
 export {
@@ -116,7 +117,7 @@ export {
     Tag, TagInput, Rate, ColorPicker, ColorButton, Cascade, Tree, Select, SelectOption, SelectGroup, Time,
     DateTimeInput, Date, Form, FormItem, Upload, Image, ImageUploader,
 
-    MessageService, DialogService, NoticeService, LoadingService, FileService,
+    MessageService, DialogService, NoticeService, LoadingService, FileService, Contextmenu,
 }
 
 export default {

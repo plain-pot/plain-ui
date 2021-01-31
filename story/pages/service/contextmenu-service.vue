@@ -12,8 +12,6 @@
 </template>
 
 <script>
-    import {$$contextmenu} from "../../../src/packages/contextmenu/contextmenu-service";
-
     export default {
         name: "contextmenu-service",
         methods: {
@@ -22,7 +20,7 @@
                 this.useByClick(e)
             },
             useByClick(e) {
-                $$contextmenu(e, () => (
+                this.$contextmenu(e, () => (
                     <pl-dropdown-menu>
                         <pl-dropdown-option>第一个选项</pl-dropdown-option>
                         <pl-dropdown-option>第二个选项</pl-dropdown-option>
@@ -31,7 +29,7 @@
                 ))
             },
             useByReference(e) {
-                $$contextmenu(e.target, () => (
+                this.$contextmenu(e.target, () => (
                     <pl-dropdown-menu>
                         <pl-dropdown-option>第一个选项</pl-dropdown-option>
                         <pl-dropdown-option>第二个选项</pl-dropdown-option>
@@ -40,7 +38,7 @@
                 ))
             },
             useWithIcon(e) {
-                $$contextmenu(e.target, () => (
+                this.$contextmenu(e.target, () => (
                     <pl-dropdown-menu>
                         <pl-dropdown-option label="新建 Create" onClick={() => this.$message('新建')} icon="el-icon-document-add"/>
                         <pl-dropdown-option label="编辑 Edit" onClick={() => this.$message('编辑')} disabled icon="el-icon-document"/>
