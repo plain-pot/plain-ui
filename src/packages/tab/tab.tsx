@@ -1,6 +1,8 @@
 import {designComponent} from "../../use/designComponent";
 import {useSlots} from "../../use/useSlots";
 import {useScopedSlots} from "../../use/useScopedSlots";
+import {TabCollector} from "./tabs";
+import {useRefs} from "../../use/useRefs";
 
 export const PlTab = designComponent({
     name: 'pl-tab',
@@ -11,19 +13,22 @@ export const PlTab = designComponent({
         destroyOnHide: {type: Boolean},                     // 是否再隐藏页签的时候销毁页签页面(重新打开页签的时候，页签内容会重新初始化)
     },
     setup({props}) {
+        const {refs} = useRefs({
+            el: HTMLSpanElement,
+        })
         const {slots} = useSlots()
         const {scopedSlots} = useScopedSlots({
             head: {active: Boolean},
         })
+        TabCollector.child({sort: () => refs.el})
+
         return {
             refer: {
                 slots,
                 scopedSlots,
                 props,
             },
-            render: () => (
-                <span>{props.title}</span>
-            )
+            render: () => (<span ref="el">{props.title}</span>)
         }
     },
 })

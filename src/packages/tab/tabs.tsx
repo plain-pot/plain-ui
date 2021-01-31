@@ -1,12 +1,14 @@
 import {designComponent} from "../../use/designComponent";
-import {PropType} from 'vue';
+import {PropType, onMounted} from 'vue';
 import {TabHeadPosition, TabHeadType} from "./tabs.utils";
 import {useModel} from "../../use/useModel";
 import {useSlots} from "../../use/useSlots";
+import {useCollect} from "../../use/useCollect";
+import {PlTab} from "./tab";
 
 
 export const PlTabs = designComponent({
-    name:'pl-tabs',
+    name: 'pl-tabs',
     props: {
         modelValue: {type: [String, Number]},
         headType: {type: String as PropType<TabHeadType>, default: TabHeadType.text},
@@ -20,6 +22,11 @@ export const PlTabs = designComponent({
 
         const {slots} = useSlots()
         const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const items = TabCollector.parent()
+
+        onMounted(() => {
+            console.log(items, model)
+        })
 
         return {
             render: () => {
@@ -34,3 +41,8 @@ export const PlTabs = designComponent({
         }
     },
 })
+
+export const TabCollector = useCollect(() => ({
+    parent: PlTabs,
+    child: PlTab,
+}))
