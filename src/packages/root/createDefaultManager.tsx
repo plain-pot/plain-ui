@@ -17,7 +17,9 @@ export function createDefaultManager<Option>(
                 service: (option: Option) => any,
             }
         }
-    }) {
+    },
+    isItemAvailable?: (item: typeof serviceComponent.use.class, opt: Option) => boolean,
+) {
     return designComponent({
         name: managerName,
         setup() {
@@ -36,9 +38,15 @@ export function createDefaultManager<Option>(
             const service = async (option: Option): Promise<void> => {
                 for (let i = 0; i < refs.length; i++) {
                     const item = refs[i];
-                    const {isShow, isOpen} = item
-                    if (!isShow.value && !isOpen.value) {
-                        return item.service(option)
+                    if (!!isItemAvailable) {
+                        if (isItemAvailable(item, option)) {
+                            return item.service(option)
+                        }
+                    } else {
+                        const {isShow, isOpen} = item
+                        if (!isShow.value && !isOpen.value) {
+                            return item.service(option)
+                        }
                     }
                 }
                 options.value.push(option as any)
