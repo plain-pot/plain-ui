@@ -12,18 +12,19 @@
       /*background-color: #697b8c;*/
       border-bottom: solid 1px $ibc;
       box-sizing: border-box;
+      overflow-x: hidden;
 
       .pl-tabs-header-list {
-        display: inline-block;
+        display: inline-flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
         height: 100%;
         position: relative;
 
         .pl-tabs-header-item {
           display: inline-block;
-          float: left;
-          /*background-color: #000000;
-          color: white;*/
-          height: 100%;
+          flex-shrink: 0;
+          flex-grow: 0;
           line-height: 45px;
           font-size: 14px;
           cursor: pointer;

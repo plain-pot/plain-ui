@@ -1,6 +1,8 @@
 import {designComponent} from "../../use/designComponent";
-import {PropType} from 'vue';
+import {PropType, reactive, onMounted, onBeforeUnmount} from 'vue';
 import {TabData} from "./tabs.utils";
+import {useStyles} from "../../use/useStyles";
+import {useRefs} from "../../use/useRefs";
 
 export const PlTabsHeader = designComponent({
     props: {
@@ -10,10 +12,68 @@ export const PlTabsHeader = designComponent({
         onClickTabHead: (tab: TabData) => true,
     },
     setup({props, event: {emit}}) {
+
+        const {refs} = useRefs({
+            el: HTMLDivElement,
+            list: HTMLDivElement,
+        })
+
+        const state = reactive({
+            offsetData: {
+                listLeft: 0,                    // list元素当前left值
+                hostWidth: 0,                   // 容器宽度
+                totalWidth: 0,                  // 总的item宽度
+                children: [] as { left: number, width: number }[],
+            },
+        })
+
+        const utils = {
+            refreshOffsetData: () => {
+                const {offsetWidth} = refs.el
+                const {children} = refs.list
+                state.offsetData.hostWidth = offsetWidth;
+                state.offsetData.children = (Array.from(children) as HTMLDivElement[]).reduce((prev, item, index) => {
+                    const {offsetLeft, offsetWidth} = item
+                    if (index === children.length - 1) {state.offsetData.totalWidth = offsetLeft + offsetWidth}
+                    prev.push({left: offsetLeft, width: offsetWidth})
+                    return prev
+                }, [] as { left: number, width: number }[])
+            }
+        }
+
+        const handler = {
+            onMousewheel: (e: MouseWheelEvent) => {
+                e.stopPropagation()
+                e.preventDefault()
+                const {totalWidth, hostWidth, listLeft} = state.offsetData
+                if (totalWidth < hostWidth) {return}
+                const delta = ((Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY))
+                let target = listLeft - delta
+                if (target > 0) {
+                    target = 0
+                } else if (target < (hostWidth - totalWidth)) {
+                    target = hostWidth - totalWidth
+                }
+                state.offsetData.listLeft = target
+            }
+        }
+
+        const listStyles = useStyles(style => {
+            style.left = `${state.offsetData.listLeft}px`
+        })
+
+        let refreshTimer: number;
+        onMounted(() => {
+            refreshTimer = setInterval(() => utils.refreshOffsetData(), 1000)
+        })
+        onBeforeUnmount(() => {
+            clearInterval(refreshTimer)
+        })
+
         return {
             render: () => (
-                <div class="pl-tabs-header">
-                    <div class="pl-tabs-header-list">
+                <div class="pl-tabs-header" onWheel={handler.onMousewheel} ref="el">
+                    <div class="pl-tabs-header-list" style={listStyles.value} ref="list">
                         {props.tabs.map((tab, index) => (
                             <div class={[
                                 'pl-tabs-header-item',

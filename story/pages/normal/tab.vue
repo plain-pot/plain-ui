@@ -19,6 +19,27 @@
                 </pl-tab>
             </pl-tabs>
         </demo-row>
+        <demo-row title="超长列表">
+            <pl-tabs>
+                <template v-for="item in [1,2,3,4,5,6,7,8,9,10,11]" :key="item">
+                    <pl-tab title="用户管理">
+                        <div style="height: 100px;background-color: #c6c6c6">
+                            user management
+                        </div>
+                    </pl-tab>
+                    <pl-tab title="配置管理">
+                        <div style="height: 200px;background-color: #969696">
+                            config management
+                        </div>
+                    </pl-tab>
+                    <pl-tab title="数据集">
+                        <div style="height: 300px;background-color: #606266">
+                            data map
+                        </div>
+                    </pl-tab>
+                </template>
+            </pl-tabs>
+        </demo-row>
     </div>
 </template>
 
