@@ -138,6 +138,10 @@ export const getContextmenuService = registryRootService(
             if (!!exist) {
                 return
             }
+            if (item.state.option === option) {
+                exist = item
+                return;
+            }
             const oldPos = getReferencePosition(item.state.option.reference)
             if (oldPos.top === newPos.top && oldPos.left === newPos.left) {
                 exist = item
