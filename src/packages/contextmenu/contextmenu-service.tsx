@@ -15,6 +15,8 @@ type ContextContent = (() => VNodeChild) | { label: string, icon?: string, disab
 interface ContextmenuServiceOption {
     reference: ContextmenuReference,
     content: ContextContent,
+    width?: number,
+    height?: number,
 }
 
 function getReferencePosition(reference: ContextmenuReference): { top: number, left: number } {
@@ -47,12 +49,14 @@ const Service = createDefaultService({
             el: HTMLDivElement,
         })
         const isShow = ref(false)
+        const isOpen = ref(false)
         const state = reactive({
             option,
             zIndex: nextIndex(),
         })
         const mounted = new Promise(resolve => onMounted(resolve))
         let hideTimer: number | null = null
+        let onTransitionEnd: (() => void) | null = null
 
         const methods = {
             service: (option: ContextmenuServiceOption) => {
@@ -64,12 +68,18 @@ const Service = createDefaultService({
                 if (!!hideTimer) clearTimeout(hideTimer)
                 state.zIndex = nextIndex()
                 await mounted;
-                console.log('show')
                 isShow.value = true
+                onTransitionEnd = () => {
+                    isOpen.value = true
+                    onTransitionEnd = null
+                }
             },
             hide: () => {
-                console.log('hide')
                 isShow.value = false
+                onTransitionEnd = () => {
+                    isOpen.value = false
+                    onTransitionEnd = null
+                }
             },
         }
 
@@ -80,13 +90,19 @@ const Service = createDefaultService({
             style.zIndex = state.zIndex
         })
 
+        const bodyStyles = useStyles(style => {
+            const {width, height} = state.option
+            !!width && (style.width = `${width}px`);
+            !!height && (style.height = `${height}px`);
+        })
+
         const handler = {
+            onTransitionEnd: () => !!onTransitionEnd && onTransitionEnd(),
             onMousedownWindow: (e: MouseEvent) => {
                 if (!refs.el.contains(e.target as HTMLDivElement)) {
-                    console.log('onMousedownWindow')
                     hideTimer = setTimeout(() => methods.hide(), 50)
                 }
-            }
+            },
         }
 
         document.body.addEventListener('mouseup', handler.onMousedownWindow)
@@ -96,7 +112,7 @@ const Service = createDefaultService({
             refer: {
                 state,
                 isShow,
-                isOpen: isShow,
+                isOpen,
                 ...methods,
             },
             render: () => {
@@ -112,8 +128,8 @@ const Service = createDefaultService({
 
                 return (
                     <div class="pl-contextmenu-service" style={styles.value} ref="el" {...{show: String(isShow.value)} as any}>
-                        <Transition name="pl-transition-scale">
-                            <div class="pl-contextmenu-service-body" v-show={isShow.value}>
+                        <Transition name="pl-transition-scale" onAfterEnter={handler.onTransitionEnd} onAfterLeave={handler.onTransitionEnd}>
+                            <div class="pl-contextmenu-service-body" v-show={isShow.value} style={bodyStyles.value}>
                                 {content}
                             </div>
                         </Transition>
@@ -121,7 +137,6 @@ const Service = createDefaultService({
                 )
             }
         }
-
     },
 })
 

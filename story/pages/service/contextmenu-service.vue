@@ -1,8 +1,10 @@
 <template>
     <div class="contextmenu-service">
-        <pl-button label="contextmenu" @contextmenu="useByContextmenu"/>
-        <pl-button label="click" @click="useByClick"/>
-        <pl-button label="reference" ref="btn" @click="useByReference"/>
+        <demo-row title="reference类型">
+            <pl-button label="contextmenu" @contextmenu="useByContextmenu"/>
+            <pl-button label="click" @click="useByClick"/>
+            <pl-button label="reference" ref="btn" @click="useByReference"/>
+        </demo-row>
     </div>
 </template>
 
