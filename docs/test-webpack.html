@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../dist/index.css">
+    <link rel="stylesheet" href="./theme-hello.css">
+    <link rel="stylesheet" href="./default.css">
 </head>
 <body>
 <div id="app">
@@ -20,6 +21,27 @@
     const app = createApp({
         template: `
             <div>
+                <pl-button v-for="item in ['primary','success','warn','error','info']" :key="item" :status="item" style="margin-right: 8px">
+                    {{item}}
+                </pl-button>
+                <hr>
+                <pl-input v-for="item in ['primary','success','warn','error','info']" :key="item" :status="item" style="margin-right: 8px" v-model="text"/>
+
+                <div style="font-size: 40px;color: #4caf50">
+                    <span>普通的文本：NORMAL normal</span>
+                    <pl-icon icon="el-icon-alarm-clock"/>
+                    <pl-icon icon="el-icon-arrow-down"/>
+                </div>
+                <button @click="showFlag = true">
+                    应用图标
+                    <pl-icon icon="el-icon-bottom" v-if="showFlag"/>
+                </button>
+
+                <pl-input ref="myInput"/>
+                <button @click="outerClear"> outer clear</button>
+            </div>
+
+            <div class="theme-hello">
                 <pl-button v-for="item in ['primary','success','warn','error','info']" :key="item" :status="item" style="margin-right: 8px">
                     {{item}}
                 </pl-button>

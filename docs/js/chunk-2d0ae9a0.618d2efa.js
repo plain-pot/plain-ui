@@ -1,0 +1,2 @@
+(window["webpackJsonp_main-application_project"]=window["webpackJsonp_main-application_project"]||[]).push([["chunk-2d0ae9a0"],{"0b80":function(n,a,e){"use strict";e.r(a);var c=e("7a23"),t=Object(c["k"])("h4",null,"我是页面二",-1);function i(n,a,e,i,p,o){return Object(c["w"])(),Object(c["g"])("div",null,[t])}var p={name:"nav-second-page"};p.render=i;a["default"]=p}}]);
+//# sourceMappingURL=chunk-2d0ae9a0.618d2efa.js.map

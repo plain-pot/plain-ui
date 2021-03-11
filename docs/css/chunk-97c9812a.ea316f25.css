@@ -1,0 +1,1 @@
+html .demo-radio .demo-radio-block{width:120px;height:80px;border:1px solid #ebeef5;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s cubic-bezier(.23,1,.32,1)}html .demo-radio .demo-radio-block-is-active{background-color:#dbf4f2;border-color:#12b4a5}

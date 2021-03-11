@@ -1,2 +1,0 @@
-(window["webpackJsonp_main-application-project"]=window["webpackJsonp_main-application-project"]||[]).push([["chunk-2d0cb6f6"],{"4a3f":function(p){p.exports=JSON.parse("[\"<path d='M256 768h416q14.016 0 23.008 8.992T704 800t-8.992 23.008T672 832H224q-14.016 0-23.008-8.992T192 800V352q0-14.016 8.992-23.008T224 320t23.008 8.992T256 352v416z m-8.992 55.008Q236.992 832 224 832t-22.496-9.504T192 800t8.992-23.008l544-544Q755.008 224 768 224t22.496 9.504T800 256t-8.992 23.008z'  ></path>\"]")}}]);
-//# sourceMappingURL=chunk-2d0cb6f6.391f7b89.js.map
