@@ -18,14 +18,9 @@ export const ColorPickerServiceGetter = createAgentGetter({
 export default {
     install(app: App) {
         app.mixin({
-            beforeCreate(): void {
-                Object.defineProperty(this, '$colorPicker', {
-                    get() {
-                        const service = ColorPickerServiceGetter(this)
-                        return service
-                    },
-                })
-            }
+            computed: {
+                $colorPicker() { ColorPickerServiceGetter(this)},
+            },
         })
     },
 }

@@ -13,15 +13,13 @@ export default {
         installPlugin(app, LoadingMask)
         app.directive('loading', LoadingMaskDirective)
         app.mixin({
-            beforeCreate() {
-                Object.defineProperty(this, '$loading', {
-                    get() {
-                        return {
-                            mask: getLoadingMaskService(this),
-                            bar: getLoadingBarService(this),
-                        }
-                    },
-                })
+            computed: {
+                $loading() {
+                    return {
+                        mask: getLoadingMaskService(this),
+                        bar: getLoadingBarService(this),
+                    }
+                },
             },
         })
     },

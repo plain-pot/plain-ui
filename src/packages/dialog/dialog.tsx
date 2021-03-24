@@ -136,7 +136,7 @@ export const PlDialog =  designComponent({
             let width = props.fullWidth ? '100vw' : propsState.width
 
             let minHeight = propsState.minHeight !== undefined ? propsState.minHeight : height !== undefined ? null : '15vh'
-            let minWidth = propsState.minWidth !== undefined ? propsState.minWidth : width !== undefined ? null : '30vw'
+            let minWidth = propsState.minWidth !== undefined ? propsState.minWidth : width !== undefined ? null : '336px'
             let maxHeight = propsState.maxHeight !== undefined ? propsState.maxHeight : height !== undefined ? null : '80vh'
             let maxWidth = propsState.maxWidth !== undefined ? propsState.maxWidth : width !== undefined ? null : '60vw'
 

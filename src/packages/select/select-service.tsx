@@ -27,14 +27,9 @@ export const SelectServiceGetter = createAgentGetter({
 export default {
     install(app: App) {
         app.mixin({
-            beforeCreate(): void {
-                Object.defineProperty(this, '$select', {
-                    get() {
-                        const service = SelectServiceGetter(this)
-                        return service
-                    },
-                })
-            }
+            computed: {
+                $select() {return SelectServiceGetter(this)},
+            },
         })
     },
 }

@@ -103,13 +103,9 @@ export const $$notice = getServiceWithoutContext(getNoticeService)
 export default {
     install(app: App) {
         app.mixin({
-            beforeCreate(): void {
-                Object.defineProperty(this, '$notice', {
-                    get() {
-                        return getNoticeService(this)
-                    },
-                })
-            }
+            computed: {
+                $notice() {return getNoticeService(this)},
+            },
         })
     },
 }

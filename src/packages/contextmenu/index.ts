@@ -4,12 +4,8 @@ import {getContextmenuService} from "./contextmenu-service";
 export default {
     install(app: App) {
         app.mixin({
-            beforeCreate() {
-                Object.defineProperty(this, '$contextmenu', {
-                    get() {
-                        return getContextmenuService(this)
-                    },
-                })
+            computed: {
+                $contextmenu() {return getContextmenuService(this)},
             },
         })
     },

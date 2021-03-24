@@ -145,13 +145,10 @@ export default createComponentPlugin({
         {
             install: (app: App) => {
                 app.mixin({
-                    beforeCreate() {
-                        /*第一次调用 $message 的时候才调用 getMessageService*/
-                        Object.defineProperty(this, '$message', {
-                            get() {
-                                return getMessageService(this)
-                            },
-                        })
+                    computed: {
+                        $message() {
+                            return getMessageService(this)
+                        },
                     },
                 })
             }

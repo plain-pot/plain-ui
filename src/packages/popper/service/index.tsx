@@ -82,12 +82,8 @@ const UnmountListener = (() => {
 export default {
     install(app: App) {
         app.mixin({
-            beforeCreate() {
-                Object.defineProperty(this, '$popper', {
-                    get() {
-                        return getPopperService(this)
-                    },
-                })
+            computed: {
+                $popper() {return getPopperService(this)},
             },
             beforeUnmount() {
                 UnmountListener.emit(this)

@@ -117,7 +117,8 @@ export default createDefaultService({
                 if (!!option.editType) {
                     binding = {...binding}
                     if (option.editType !== 'input') {
-                        (binding as any).height = binding.height || '500px'
+                        (binding as any).height = binding.height || '300px';
+                        (binding as any).width = binding.width || '400px';
                     } else {
                         (binding as any).minHeight = null
                     }

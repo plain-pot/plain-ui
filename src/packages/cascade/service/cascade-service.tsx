@@ -28,14 +28,9 @@ export const CascadeServiceGetter = createAgentGetter({
 export default {
     install(app: App) {
         app.mixin({
-            beforeCreate(): void {
-                Object.defineProperty(this, '$cascade', {
-                    get() {
-                        const service = CascadeServiceGetter(this)
-                        return service
-                    },
-                })
-            }
+            computed: {
+                $cascade() {CascadeServiceGetter(this)},
+            },
         })
     },
 }

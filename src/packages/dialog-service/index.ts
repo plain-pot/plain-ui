@@ -102,12 +102,8 @@ export default {
     install(app: App) {
         installPlugin(app, Dialog)
         app.mixin({
-            beforeCreate() {
-                Object.defineProperty(this, '$dialog', {
-                    get() {
-                        return getDialogService(this)
-                    },
-                })
+            computed: {
+                $dialog() {return getDialogService(this)},
             },
         })
     },
