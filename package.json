@@ -22,7 +22,6 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "dayjs": "^1.10.3",
-    "fecha": "^4.2.0",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.5",
     "plain-utils": "^0.1.17",
