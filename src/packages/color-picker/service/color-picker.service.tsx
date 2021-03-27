@@ -19,7 +19,7 @@ export default {
     install(app: App) {
         app.mixin({
             computed: {
-                $colorPicker() { ColorPickerServiceGetter(this)},
+                $colorPicker() {return ColorPickerServiceGetter(this)},
             },
         })
     },

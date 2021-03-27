@@ -29,7 +29,7 @@ export default {
     install(app: App) {
         app.mixin({
             computed: {
-                $cascade() {CascadeServiceGetter(this)},
+                $cascade() {return CascadeServiceGetter(this)},
             },
         })
     },
