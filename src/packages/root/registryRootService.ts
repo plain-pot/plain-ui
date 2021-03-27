@@ -60,7 +60,7 @@ export function registryRootService<ManagerComponent extends { use: { class: any
             /*获取一个 Controller 实例，没有就给我创建一个*/
             return await root.getManagerInstance(name, managerComponent)
         }, ins)
-        console.log({mapKey, service})
+        // console.log({mapKey, service})
         map.set(mapKey, service!)
         return service!
     }

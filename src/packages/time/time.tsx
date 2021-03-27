@@ -4,7 +4,6 @@ import {EditProps} from "../../use/useEdit";
 import {TimePanelProps} from "./panel/time-panel";
 import {useModel} from "../../use/useModel";
 import {computed} from 'vue';
-import {PlainDate} from "../../utils/PlainDate";
 import {useEditPopperAgent} from "../popper/edit/useEditPopperAgent";
 import {TimeServiceGetter} from "./servce/time-service";
 import {TimeRangePanelType} from "./panel/time-range-panel";
@@ -14,6 +13,7 @@ import './time.scss'
 import {PlInput} from "../input/input";
 import {PlDateTimeInput} from "../date-time-input/date-time-input";
 import {useSlots} from "../../use/useSlots";
+import {plainDate} from "../date/plainDate";
 
 export const PlTime = designComponent({
     name: 'pl-time',
@@ -38,9 +38,9 @@ export const PlTime = designComponent({
         const endModel = useModel(() => props.end, emit.onUpdateEnd)
 
         const formatData = computed(() => ({
-            value: new PlainDate(model.value, props.displayFormat, props.valueFormat),
-            start: new PlainDate(startModel.value, props.displayFormat, props.valueFormat),
-            end: new PlainDate(endModel.value, props.displayFormat, props.valueFormat),
+            value: !model.value ? null : plainDate(model.value, props),
+            start: !startModel.value ? null : plainDate(startModel.value, props),
+            end: !endModel.value ? null : plainDate(endModel.value, props),
         }))
 
         const serviceHandler = {
@@ -106,57 +106,39 @@ export const PlTime = designComponent({
         })
 
         const customHandler = {
-            change: (val: string, type: 'start' | 'end' | 'value') => {
-                const {value: valuePd, start: startPd, end: endPd} = formatData.value
+            change: (val: string | undefined, type: 'start' | 'end' | 'value') => {
+
+                if (!val) {
+                    /*清空值*/
+                    switch (type) {
+                        case "value":
+                            return model.value = undefined
+                        case "start":
+                            return startModel.value = undefined
+                        case "end":
+                            return endModel.value = undefined
+                    }
+                }
+
+                let vpd = plainDate.parse(val, props.displayFormat)
+
+                if (!vpd) {
+                    /*值解析失败*/
+                    return
+                }
+
+                if (vpd.format(props.displayFormat) !== val) {
+                    /*值格式不正确*/
+                    return
+                }
 
                 switch (type) {
                     case "value":
-                        if (!val) {
-                            valuePd.setValue(undefined)
-                            model.value = undefined
-                            return;
-                        }
-                        if (valuePd.format(valuePd.parseDisplayString(val)) != val) {
-                            return;
-                        }
-
-                        valuePd.setDisplayValue(val)
-                        model.value = valuePd.valueString!
-
-                        break
+                        return model.value = vpd.format(props.valueFormat)
                     case "start":
-                        if (!val) {
-                            return;
-                        }
-                        if (startPd.format(startPd.parseDisplayString(val)) != val) {
-                            return;
-                        }
-
-                        startPd.setDisplayValue(val)
-                        startModel.value = startPd.valueString as string
-
-                        if (endPd.isNull || startPd.Hms! > endPd.Hms) {
-                            endModel.value = startModel.value
-                        }
-
-                        break
-
+                        return startModel.value = vpd.format(props.valueFormat)
                     case "end":
-                        if (!val) {
-                            return;
-                        }
-                        if (endPd.format(endPd.parseDisplayString(val)) != val) {
-                            return;
-                        }
-
-                        endPd.setDisplayValue(val)
-                        endModel.value = endPd.valueString as string
-
-                        if (startPd.isNull || endPd.Hms! < startPd.Hms) {
-                            startModel.value = endModel.value
-                        }
-
-                        break
+                        return endModel.value = vpd.format(props.valueFormat)
                 }
             },
         }
@@ -179,7 +161,7 @@ export const PlTime = designComponent({
                         {!props.range ? (
                             <PlDateTimeInput
                                 ref="valueInput"
-                                modelValue={formatData.value.value.displayString!}
+                                modelValue={!formatData.value.value ? undefined : formatData.value.value.getDisplay()}
                                 displayFormat={props.displayFormat}
                                 {...{onChange: (val: string) => customHandler.change(val, 'value')}}
                                 onFocus={handler.customInputFocus}
@@ -189,7 +171,7 @@ export const PlTime = designComponent({
                                 <PlDateTimeInput
                                     ref="startInput"
                                     width="100"
-                                    modelValue={formatData.value.start.displayString!}
+                                    modelValue={!formatData.value.start ? undefined : formatData.value.start.getDisplay()}
                                     displayFormat={props.displayFormat}
                                     {...{onChange: (val: string) => customHandler.change(val, 'start')}}
                                     onFocus={handler.customInputFocus}
@@ -198,7 +180,7 @@ export const PlTime = designComponent({
                                 <PlDateTimeInput
                                     ref="endInput"
                                     width="100"
-                                    modelValue={formatData.value.end.displayString!}
+                                    modelValue={!formatData.value.end ? undefined : formatData.value.end.getDisplay()}
                                     displayFormat={props.displayFormat}
                                     {...{onChange: (val: string) => customHandler.change(val, 'end')}}
                                     onFocus={handler.customInputFocus}

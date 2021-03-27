@@ -1,9 +1,9 @@
 import {designComponent} from "../../../use/designComponent";
 import {TimePublicProps} from './time-panel.utils';
 import {computed} from 'vue';
-import {PlainDate} from "../../../utils/PlainDate";
 import './time-base-panel.scss'
 import {PlTimeBaseColumn} from "./time-base-column";
+import {plainDate} from "../../date/plainDate";
 
 export enum TimePanelLayout {
     h = 'hour',
@@ -23,11 +23,13 @@ export const PlTimeBasePanel = designComponent({
     },
     setup({props, event}) {
 
+        const now = plainDate.today(props.displayFormat, props.valueFormat)
+
         const formatData = computed(() => {
             return {
-                value: new PlainDate(props.modelValue, props.displayFormat, props.valueFormat),
-                max: new PlainDate(props.max, props.displayFormat, props.valueFormat),
-                min: new PlainDate(props.min, props.displayFormat, props.valueFormat),
+                value: !props.modelValue ? now : plainDate(props.modelValue, props),
+                max: !props.max ? null : plainDate(props.max, props),
+                min: !props.min ? null : plainDate(props.min, props),
             }
         })
 
@@ -46,9 +48,9 @@ export const PlTimeBasePanel = designComponent({
 
             const {max: maxpd, min: minpd, value: vpd} = formatData.value
 
-            if (!!maxpd.hour) {
+            if (!!maxpd) {
                 max.hour = maxpd.hour
-                if (vpd.hour == null) {
+                if (!vpd) {
                     // 有最大值，但是没有选择【时】的情况下，分以及秒不能选择任意选项
                     max.minute = -Infinity
                     max.second = -Infinity
@@ -72,9 +74,9 @@ export const PlTimeBasePanel = designComponent({
                 }
             }
 
-            if (!!minpd.hour) {
+            if (!!minpd) {
                 min.hour = minpd.hour
-                if (vpd.hour == null) {
+                if (!vpd) {
                     // 有最小值，但是没有选择【时】的情况下，分以及秒不能选择任意选项
                     min.minute = Infinity
                     min.second = Infinity
@@ -111,29 +113,29 @@ export const PlTimeBasePanel = designComponent({
             columnChange: (value: number, type: string) => {
                 // console.log('columnChange', {value, type})
 
-                const {value: vpd, max: maxpd, min: minpd} = formatData.value
+                let {value: vpd, max: maxpd, min: minpd} = formatData.value
 
                 switch (type) {
                     case 'h':
-                        vpd.setHour(value)
+                        vpd = vpd.useHour(value)
                         break
                     case 'm':
-                        vpd.setMinute(value)
+                        vpd = vpd.useMinute(value)
                         break
                     case 's':
-                        vpd.setSecond(value)
+                        vpd = vpd.useSecond(value)
                         break
                 }
 
-                if (!maxpd.isNull && vpd.Hms! > maxpd.Hms) {
-                    vpd.setValue(maxpd.valueString!)
+                if (!!maxpd && vpd.Hms! > maxpd.Hms) {
+                    vpd = maxpd
                 }
 
-                if (!minpd.isNull && vpd.Hms! < minpd.Hms) {
-                    vpd.setValue(minpd.valueString!)
+                if (!!minpd && vpd.Hms! < minpd.Hms) {
+                    vpd = minpd
                 }
 
-                event.emit.onUpdateModelValue(vpd.valueString)
+                event.emit.onUpdateModelValue(vpd.getValue())
             }
         }
 

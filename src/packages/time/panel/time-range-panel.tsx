@@ -1,17 +1,17 @@
 import {designComponent} from "../../../use/designComponent";
 import {TimePublicProps} from "./time-panel.utils";
 import {useModel} from "../../../use/useModel";
-import {PlainDate} from "../../../utils/PlainDate";
 import {computed} from 'vue';
 import './time-range-panel.scss'
 import {PlTimeBasePanel} from "./time-base-panel";
+import {plainDate} from "../../date/plainDate";
 
 export enum TimeRangePanelType {
     start = 'start',
     end = 'end',
 }
 
-export const PlTimeRangePanel= designComponent({
+export const PlTimeRangePanel = designComponent({
     name: 'pl-time-range-panel',
     props: {
         start: {type: String},
@@ -31,12 +31,11 @@ export const PlTimeRangePanel= designComponent({
         const end = useModel(() => props.end, emit.onUpdateEnd)
 
         const formatData = computed(() => {
-            const {displayFormat, valueFormat} = props
             return {
-                start: new PlainDate(start.value, displayFormat, valueFormat),
-                end: new PlainDate(end.value, displayFormat, valueFormat),
-                max: new PlainDate(props.max, displayFormat, valueFormat),
-                min: new PlainDate(props.min, displayFormat, valueFormat)
+                start: !start.value ? null : plainDate(start.value, props),
+                end: !end.value ? null : plainDate(end.value, props),
+                max: !props.max ? null : plainDate(props.max, props),
+                min: !props.min ? null : plainDate(props.min, props),
             }
         })
 
@@ -47,7 +46,7 @@ export const PlTimeRangePanel= designComponent({
 
                 const {end: endPd, start: startPd} = formatData.value
 
-                if (endPd.isNull || startPd.Hms! > endPd.Hms) {
+                if (!endPd || startPd!.Hms! > endPd.Hms) {
                     end.value = start.value
                     emit.onUpdateModelValue(end.value, TimeRangePanelType.end)
                 }
@@ -57,7 +56,7 @@ export const PlTimeRangePanel= designComponent({
                 emit.onUpdateModelValue(value, TimeRangePanelType.end)
                 const {end: endPd, start: startPd} = formatData.value
 
-                if (startPd.isNull || endPd.Hms! < startPd.Hms) {
+                if (!startPd || endPd!.Hms! < startPd.Hms) {
                     start.value = end.value
                     emit.onUpdateModelValue(start.value, TimeRangePanelType.start)
                 }
