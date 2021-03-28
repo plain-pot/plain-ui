@@ -108,6 +108,8 @@ export const PlTime = designComponent({
         const customHandler = {
             change: (val: string | undefined, type: 'start' | 'end' | 'value') => {
 
+                let {start: spd, end: epd} = formatData.value
+
                 if (!val) {
                     /*清空值*/
                     switch (type) {
@@ -136,9 +138,19 @@ export const PlTime = designComponent({
                     case "value":
                         return model.value = vpd.format(props.valueFormat)
                     case "start":
-                        return startModel.value = vpd.format(props.valueFormat)
+                        spd = plainDate(val, props)
+                        startModel.value = vpd.format(props.valueFormat)
+                        if (!epd || spd.Hms > epd.Hms) {
+                            endModel.value = startModel.value
+                        }
+                        return
                     case "end":
-                        return endModel.value = vpd.format(props.valueFormat)
+                        epd = plainDate(val, props)
+                        endModel.value = vpd.format(props.valueFormat)
+                        if (!spd || epd.Hms < spd.Hms) {
+                            startModel.value = endModel.value
+                        }
+                        return
                 }
             },
         }
