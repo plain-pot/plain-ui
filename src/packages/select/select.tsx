@@ -163,7 +163,15 @@ export const PlSelect = designComponent({
          * @author  韦胜健
          * @date    2020/12/4 11:21
          */
-        const placeholderValue = computed(() => (agentState.isShow.value ? displayValue.value || inputProps.value.placeholder : inputProps.value.placeholder) || '')
+        const placeholderValue = computed(() => {
+            if (agentState.isShow.value) {
+                return displayValue.value
+            }
+            if (!!inputProps.value.placeholder) {
+                return inputProps.value.placeholder
+            }
+            return agentState.editComputed.value.placeholder
+        })
 
         /**
          * 给input组件绑定的目标对象
@@ -276,21 +284,24 @@ export const PlSelect = designComponent({
 
         return {
             render: () => (
-                <PlInput {...inputBinding.value} v-slots={{
-                    hidden: slots.default,
-                    default: !props.multiple ? null : () => (
-                        <PlInputInnerTags
-                            data={multipleTags.value}
-                            collapseTags={props.collapseTags}
-                            v-slots={{
-                                default: ({item, index}: { item: SelectOption, index: number }) => [
-                                    <span>{item.props.label}</span>,
-                                    <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
-                                ]
-                            }}
-                        />
-                    )
-                }}/>
+                <PlInput
+                    {...inputBinding.value}
+                    v-slots={{
+                        hidden: slots.default,
+                        default: !props.multiple ? null : () => (
+                            <PlInputInnerTags
+                                data={multipleTags.value}
+                                collapseTags={props.collapseTags}
+                                placeholder={inputBinding.value.placeholder}
+                                v-slots={{
+                                    default: ({item, index}: { item: SelectOption, index: number }) => [
+                                        <span>{item.props.label}</span>,
+                                        <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
+                                    ]
+                                }}
+                            />
+                        )
+                    }}/>
             )
         }
     },

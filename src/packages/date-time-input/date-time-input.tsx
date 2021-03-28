@@ -71,6 +71,7 @@ export const PlDateTimeInput = designComponent({
                        class="pl-date-time-inner-input pl-input-custom-inner-input"
                        style={styles.value}
                        value={model.value}
+                       placeholder={editComputed.value.placeholder}
                        onInput={handler.input as any}
                        onBlur={handler.blur}
                        onFocus={handler.focus}

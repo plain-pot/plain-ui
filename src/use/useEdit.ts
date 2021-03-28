@@ -53,6 +53,7 @@ export const useEdit = useFunctionWrapper(
 
             return {
                 ...data,
+                placeholder: data.placeholder || '',
                 editable: !data.disabled && !data.readonly && !data.loading
             }
         });

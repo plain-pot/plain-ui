@@ -235,6 +235,7 @@ export const PlNumber = designComponent({
                     )}
                     <input type="text"
                            value={model.value}
+                           placeholder={editComputed.value.placeholder}
                            disabled={editComputed.value.disabled!}
                            readonly={editComputed.value.readonly!}
                            onFocus={handler.focus}
