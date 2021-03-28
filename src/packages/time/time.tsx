@@ -37,11 +37,20 @@ export const PlTime = designComponent({
         const startModel = useModel(() => props.start, emit.onUpdateStart)
         const endModel = useModel(() => props.end, emit.onUpdateEnd)
 
+        const today = plainDate.today(props.displayFormat, props.valueFormat)
+
         const formatData = computed(() => ({
             value: !model.value ? null : plainDate(model.value, props),
             start: !startModel.value ? null : plainDate(startModel.value, props),
             end: !endModel.value ? null : plainDate(endModel.value, props),
         }))
+
+        const maxmin = computed(() => {
+            return {
+                max: !props.max ? null : plainDate(props.max, props),
+                min: !props.min ? null : plainDate(props.min, props),
+            }
+        })
 
         const serviceHandler = {
             onChange: (val: string | undefined, type?: TimeRangePanelType) => {
@@ -108,49 +117,33 @@ export const PlTime = designComponent({
         const customHandler = {
             change: (val: string | undefined, type: 'start' | 'end' | 'value') => {
 
+                const jdView = 'Hms'
                 let {start: spd, end: epd} = formatData.value
-
+                /*没有值的话，如果是单值则请控值，否则什么也不做*/
                 if (!val) {
-                    /*清空值*/
-                    switch (type) {
-                        case "value":
-                            return model.value = undefined
-                        case "start":
-                            return startModel.value = undefined
-                        case "end":
-                            return endModel.value = undefined
-                    }
-                }
-
-                let vpd = plainDate.parse(val, props.displayFormat)
-
-                if (!vpd) {
-                    /*值解析失败*/
+                    if (type === 'value') {model.value = undefined}
                     return
                 }
-
-                if (vpd.format(props.displayFormat) !== val) {
-                    /*值格式不正确*/
-                    return
-                }
+                let pd = today.useDisplay(val)
+                /*输入值格式不正确，，什么是也不做*/
+                if (!pd.getDayJs().isValid()) {return;}
+                /*检查最大最小值*/
+                const {max, min} = maxmin.value
+                if (!!max && max[jdView] < pd[jdView]) pd = max
+                if (!!min && min[jdView] > pd[jdView]) pd = min
 
                 switch (type) {
-                    case "value":
-                        return model.value = vpd.format(props.valueFormat)
-                    case "start":
-                        spd = plainDate(val, props)
-                        startModel.value = vpd.format(props.valueFormat)
-                        if (!epd || spd.Hms > epd.Hms) {
-                            endModel.value = startModel.value
-                        }
-                        return
-                    case "end":
-                        epd = plainDate(val, props)
-                        endModel.value = vpd.format(props.valueFormat)
-                        if (!spd || epd.Hms < spd.Hms) {
-                            startModel.value = endModel.value
-                        }
-                        return
+                    case 'value':
+                        model.value = pd.getValue()
+                        break
+                    case 'start':
+                        startModel.value = pd.getDisplay()
+                        if (!epd || (pd[jdView] > epd[jdView])) {endModel.value = startModel.value}
+                        break
+                    case 'end':
+                        endModel.value = pd.getDisplay()
+                        if (!spd || (pd[jdView] < spd[jdView])) {startModel.value = endModel.value}
+                        break
                 }
             },
         }
