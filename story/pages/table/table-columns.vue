@@ -87,7 +87,7 @@
                 this.$message(selected.map(item => item.data.name).join(','))
             },
             async clearSelected() {
-                this.$refs.check.clearSelected()
+                this.$refs.check.clearAll()
             },
             async addSelected() {
                 this.$refs.check.addSelected([1, 2])
