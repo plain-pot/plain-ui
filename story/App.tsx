@@ -1,16 +1,17 @@
-import {defineComponent, reactive} from "vue";
+import {defineComponent} from "vue";
+import {DemoRowController} from "./components/DemoRowController";
+import {AppMenu} from "./app/AppMenu";
+import {AppNavigator} from "./app/AppNavigator";
+import './app.scss'
 
 export default defineComponent(() => {
-
-    const state = reactive({
-        count: 0
-    })
-
     return () => <>
-        <div>
-            <button onClick={() => state.count++}>add</button>
-            {state.count}
-            <button onClick={() => state.count--}>sub</button>
-        </div>
+        <DemoRowController>
+            <div class="app-head">
+                <div>Plain Design</div>
+            </div>
+            <AppMenu/>
+            <AppNavigator/>
+        </DemoRowController>
     </>
 })

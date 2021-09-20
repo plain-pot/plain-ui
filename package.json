@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "plain-ui-composition": "0.0.3",
+    "plain-utils": "^0.1.24",
     "vue": "^3.0.0"
   },
   "devDependencies": {

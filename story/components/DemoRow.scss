@@ -1,0 +1,134 @@
+.demo-row {
+
+    margin-bottom: 20px;
+    padding: 16px 0;
+    border-radius: 4px;
+    box-shadow: 0 8px 12px #ebedf0;
+    background-color: white;
+
+    .demo-row-title {
+        border-bottom: dashed 1px #f1f1f1;
+        font-size: 22px;
+        padding: 14px 24px;
+        color: black;
+        font-weight: bold;
+
+        span {
+            cursor: pointer;
+        }
+
+        .pl-icon {
+            color: rgba(0, 0, 0, 0.45) !important;
+        }
+    }
+
+    .demo-row-content {
+        padding: 16px 24px;
+        font-size: 14px;
+
+        & > *:not(.demo-line) {
+            margin-right: 16px;
+        }
+    }
+
+    .demo-row-icon-expand {
+        transform: rotate(90deg);
+        transition: all linear 300ms;
+        margin-left: 12px;
+    }
+
+    &.demo-row-show {
+        & > .demo-row-title > .demo-row-icon-expand {
+            transform: rotate(-90deg);
+        }
+    }
+
+    &.demo-row-group {
+        background-color: transparent;
+        box-shadow: none;
+
+        & > .demo-row-title {
+            background-color: white;
+        }
+
+        & > .demo-row-content {
+            padding: 8px 12px;
+        }
+    }
+}
+
+.demo-line {
+    margin-bottom: 6px;
+
+    .demo-line-title {
+        display: block;
+        font-size: 12px;
+        color: #606266;
+        padding: 8px 9px 8px 0;
+        position: relative;
+
+        &:after {
+            position: absolute;
+            bottom: 50%;
+            border-top: 1px dashed #f2f2f2;
+            content: '';
+            left: 0;
+            right: 0;
+        }
+
+        span {
+            background: white;
+            position: relative;
+            z-index: 1;
+            padding: 0 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+
+    .demo-line-content {
+        display: inline-block;
+
+        & > * {
+            margin-right: 16px !important;
+        }
+    }
+}
+
+@include theme {
+    .demo-row-collector-operator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+
+        & > div {
+            padding: 8px 16px;
+            background-color: white;
+            box-shadow: $boxshadow;
+            border: solid 1px $ibc;
+            font-size: 12px;
+            cursor: pointer;
+
+            &:first-child {
+                border-right: none;
+                border-bottom-left-radius: 2px;
+                border-top-left-radius: 2px;
+            }
+
+            &:last-child {
+                border-bottom-right-radius: 2px;
+                border-top-right-radius: 2px;
+            }
+
+            & > span {
+                margin-right: 6px;
+            }
+
+            &:active {
+                background-color: #f6f6f6;
+            }
+        }
+    }
+}
