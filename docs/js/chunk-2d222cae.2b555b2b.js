@@ -1,2 +1,0 @@
-(window["webpackJsonp_main-application_project"]=window["webpackJsonp_main-application_project"]||[]).push([["chunk-2d222cae"],{cfb7:function(p){p.exports=JSON.parse("[\"<path d='M608.992 148.992L277.984 489.984q-8.992 8.992-8.992 21.504t8.992 22.496l331.008 340.992q8.992 8 20.992 8t20.992-8.992 8.992-20.992-8.992-20.992l-312-320 312-320q8.992-8.992 8.992-20.992t-8.992-20.992-20.992-8.992-20.992 8z'  ></path>\"]")}}]);
-//# sourceMappingURL=chunk-2d222cae.2b555b2b.js.map

@@ -1,2 +1,0 @@
-(window["webpackJsonp_main-application_project"]=window["webpackJsonp_main-application_project"]||[]).push([["chunk-2d0e9da1"],{"8efd":function(h){h.exports=JSON.parse("[\"<path d='M640 384v256h-256v-256h256z m64 0h192v256h-192v-256z m-64 512h-256v-192h256v192z m64 0v-192h192v192h-192zM640 128v192h-256V128h256z m64 0h192v192h-192V128z m-384 256v256H128v-256h192z m0 512H128v-192h192v192z m0-768v192H128V128h192z'  ></path>\"]")}}]);
-//# sourceMappingURL=chunk-2d0e9da1.7e323723.js.map
