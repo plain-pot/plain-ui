@@ -1,6 +1,7 @@
 import {ref, watch} from 'vue'
 import './icon.scss'
 import {designComponent, useClasses, VueNode} from 'plain-ui-composition'
+import {classnames} from "../../utils/classnames";
 // todo
 // import {refreshPopperReference} from "../PlPopper/refershPopperReference";
 
@@ -25,10 +26,10 @@ const registry = (() => {
 registry('el-icon-', async (icon) => {
     try {
         const module = await import('./icons/' + icon + '.json')
-        // console.log(module)
+        // console.log(module,icon)
         return (
             <svg {...{
-                dangerouslySetInnerHTML: {__html: module.default[0],},
+                innerHTML: module.default[0],
                 class: `el-svg-icon ${icon}`,
                 viewBox: "0 0 1024 1024",
                 version: "1.1",
@@ -52,12 +53,12 @@ export const PlIcon = designComponent({
         const icon = ref(null as any)
         // const {freshPopperReference} = refreshPopperReference.inject()
 
-        const classes = useClasses(() => [
+        const classes = useClasses(() => classnames([
             'pl-icon',
             {
                 [`pl-icon-status-${props.status}`]: !!props.status
             }
-        ])
+        ]))
 
         const utils = {
             getIconVNode: async (iconName: string) => {
