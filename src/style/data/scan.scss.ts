@@ -59,10 +59,10 @@ const ScanUtils = (() => {
 })();
 
 (async () => {
-    const output = resolve("src/style/data/scan.scss.json")
+    const output = resolve("src/styles/data/scan.scss.json")
     const packages = resolve("src/packages")
     const entry = resolve('src/index.ts')
-    const globalImportFilePath = resolve('src/style/global-import.scss')
+    const globalImportFilePath = resolve('src/styles/global-import.scss')
 
     /*文件path映射code对象*/
     const pathToCode: Record<string, string> = {}
@@ -111,6 +111,9 @@ const ScanUtils = (() => {
             pathToCode[name] = await resolveScssCode(path)
         },
     })
+
+    pathToCode['plain-loading'] = await resolveScssCode(utils.resolve('node_modules/plain-loading/src/index.scss'))
+    pathToCode['click-wave'] = await resolveScssCode(utils.resolve('src/directives/ClickWave/click-wave.scss'))
 
     const compReg = /src\/packages\/(.*?)\/.*/
 
