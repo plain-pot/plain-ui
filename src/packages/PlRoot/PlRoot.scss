@@ -1,0 +1,17 @@
+@import "../../style/public/public";
+
+.pl-root-service-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    //background-color: rgba(black, 0.1);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1500;
+
+    & > * {
+        pointer-events: auto;
+    }
+}
