@@ -90,10 +90,12 @@ export const PlLoadingMask = designComponent({
             refer: {refs},
             render: () => (
                 <Transition name={'pl-transition-fade'}>
-                    <div style={styles.value} class={classes.value} ref={onRef.el} {...attrs} v-if={!!modelValue.value && state.isMounted}>
-                        <PlLoading type={props.loadingType}/>
-                        {!!props.message && <span>{props.message}</span>}
-                    </div>
+                    {!!modelValue.value && state.isMounted && (
+                        <div style={styles.value} class={classes.value} ref={onRef.el} {...attrs}>
+                            <PlLoading type={props.loadingType}/>
+                            {!!props.message && <span>{props.message}</span>}
+                        </div>
+                    )}
                 </Transition>
             )
         }
