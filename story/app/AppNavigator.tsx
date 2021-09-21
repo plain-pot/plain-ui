@@ -1,5 +1,5 @@
-import {designComponent} from 'plain-ui-composition'
-import {reactive, watch,Fragment} from 'vue'
+import {designComponent, reactive, watch} from 'plain-ui-composition'
+import {Fragment} from 'vue'
 import {Router} from "./navigator.utils";
 
 export const AppNavigator = designComponent({
