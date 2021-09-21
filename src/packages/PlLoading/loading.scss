@@ -1,0 +1,7 @@
+@include theme {
+    .pl-loading {
+        @include statusMixin(loading) {
+            color: $value;
+        }
+    }
+}

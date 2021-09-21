@@ -1,0 +1,55 @@
+@include theme {
+    .pl-loading-bar-manager {
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+
+        .pl-loading-bar-service {
+            display: block;
+            transition: all 300ms linear;
+            position: relative;
+            overflow: hidden;
+            border-radius: 100px;
+            margin-bottom: 1px;
+
+            &:after {
+                position: absolute;
+                content: '';
+                top: 0;
+                left: -100vw;
+                width: 300vw;
+                bottom: 0;
+                animation: pl-loading-bar-processing 30s infinite linear;
+            }
+
+            @include statusMixin(loading-bar-service) {
+                background-color: rgba($value, 0.5);
+                &:after {
+                    background: linear-gradient(
+                            45deg,
+                            $value 0, $value 25%,
+                            rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 50%,
+                            $value 50%, $value 75%,
+                            rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 100%
+                    );
+                    background-size: 20px 20px;
+                }
+            }
+        }
+
+        @keyframes pl-loading-bar-processing {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(50vw);
+            }
+            100% {
+                transform: translateX(100vw);
+            }
+        }
+    }
+}
