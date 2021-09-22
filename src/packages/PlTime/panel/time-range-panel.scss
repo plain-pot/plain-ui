@@ -1,0 +1,13 @@
+@include theme {
+  .pl-time-range-panel {
+    display: inline-block;
+
+    .pl-time-base-panel {
+
+      &:first-child {
+        border-right: solid 1px $ibc;
+        border-radius: 0;
+      }
+    }
+  }
+}

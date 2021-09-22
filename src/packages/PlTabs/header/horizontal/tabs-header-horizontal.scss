@@ -1,0 +1,60 @@
+@include theme {
+  .pl-tabs-header-horizontal {
+    overflow: hidden;
+    position: relative;
+
+    .pl-tabs-header-list {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      min-width: 100%;
+      position: relative;
+      transition: 300ms $transitionFlexible left;
+    }
+
+    .pl-tabs-header-item {
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    &.pl-tabs-header-show-more {
+      padding-right: 80px;
+
+      .pl-tabs-header-more-button {
+        z-index: 1;
+        position: absolute;
+        background-color: rgba(white, 0.9);
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 80px;
+        box-shadow: 0 2px 8px #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $ihc;
+      }
+    }
+  }
+
+  .pl-tabs-head-position-top, .pl-tabs-head-position-bottom {
+    &.pl-tabs-fit-height {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex: 1;
+
+      & > .pl-tabs-body {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        align-items: stretch;
+
+        & > .pl-inner-tab {
+          flex: 1;
+          overflow: auto;
+        }
+      }
+    }
+  }
+}

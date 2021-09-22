@@ -1,0 +1,11 @@
+.pl-filter {
+  &.pl-input-group-block {
+    & > *:not(.pl-filter-ele) {
+      flex: 1;
+
+      & > .pl-input-inner {
+        width: 100%;
+      }
+    }
+  }
+}

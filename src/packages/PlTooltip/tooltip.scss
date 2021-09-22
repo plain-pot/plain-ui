@@ -1,0 +1,36 @@
+@include theme {
+  .pl-tooltip {
+    .plain-popper-content .pl-popper-content-inner {
+      color: inherit;
+      padding: 8px 12px !important;
+    }
+
+    &.pl-tooltip-theme-dark {
+      .plain-popper-content {
+        background-color: black !important;
+
+        &, & .pl-popper-content-inner, & .pl-popper-title {
+          color: white;
+        }
+      }
+    }
+
+    &.pl-tooltip-theme-light {
+      .plain-popper-content {
+        background-color: white !important;
+
+        &, & .pl-popper-content-inner {
+          color: $itc !important;
+        }
+      }
+    }
+  }
+
+  .pl-tooltip-reference {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: baseline;
+  }
+}

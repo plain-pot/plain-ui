@@ -1,0 +1,42 @@
+@include theme {
+    .pl-progress-bar {
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+
+        .pl-progress-bar-content {
+            display: inline-block;
+            width: 50px;
+            text-align: left;
+            font-size: 14px;
+            padding: 0 6px;
+
+            .pl-icon {
+                vertical-align: -0.1em;
+            }
+        }
+
+        .pl-progress-bar-outer {
+            display: inline-flex;
+            align-items: center;
+            overflow: hidden;
+
+            .pl-progress-bar-inner {
+                height: 100%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: flex-end;
+
+                transition: all $transition 300ms;
+
+                .pl-progress-bar-content {
+                    text-align: right;
+
+                    span {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}

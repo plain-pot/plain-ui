@@ -1,0 +1,45 @@
+.pl-dialog-service-edit {
+  .pl-dialog-content {
+    & > .pl-textarea {
+      display: block !important;
+      height: 100%;
+
+      .pl-textarea-inner {
+        height: 100%;
+      }
+    }
+  }
+}
+
+@include theme {
+  .pl-dialog-service {
+    @include statusMixin(dialog-service) {
+      .pl-dialog-head {
+        background-color: rgba($value, 0.05);
+        color: $value;
+        /*position: relative;
+
+        &:after {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          height: 4px;
+          background-color: $value;
+          content: '';
+        }*/
+        border-top: solid 4px rgba($value, 0.85);
+
+        .pl-dialog-service-head {
+          color: $value;
+
+          .pl-dialog-service-status-icon {
+            font-size: 18px;
+            margin-right: 4px;
+            vertical-align: -0.25em;
+          }
+        }
+      }
+    }
+  }
+}

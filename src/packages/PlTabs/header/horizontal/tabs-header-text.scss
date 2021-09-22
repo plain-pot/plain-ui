@@ -1,0 +1,50 @@
+@include theme {
+  .pl-tabs-header.pl-tabs-header-horizontal.pl-tabs-header-type-text {
+
+    .pl-tabs-header-item {
+      line-height: 45px;
+
+      & + .pl-tabs-header-item {
+        margin-left: 32px;
+      }
+
+      &.pl-tabs-header-item-active, &:hover {
+        color: $colorPrimary;
+      }
+    }
+
+    .pl-tabs-header-list {
+      position: relative;
+
+      .pl-tabs-header-horizontal-text-indicator-container {
+        background-color: $disabled;
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+
+        .pl-tabs-header-horizontal-text-indicator {
+          position: absolute;
+          width: 0;
+          left: 0;
+          height: 100%;
+          background-color: $colorPrimary;
+          display: block;
+          transition: $transition 150ms all;
+        }
+      }
+    }
+
+    &.pl-tabs-header-pos-top {
+      .pl-tabs-header-horizontal-text-indicator-container {
+        bottom: 0;
+      }
+    }
+
+    &.pl-tabs-header-pos-bottom {
+      .pl-tabs-header-horizontal-text-indicator-container {
+        top: 0;
+      }
+    }
+  }
+}

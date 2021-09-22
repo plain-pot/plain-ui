@@ -1,7 +1,7 @@
-import {StyleProperties} from "plain-ui-composition/src/use/useStyles";
 import {addClass} from "plain-utils/dom/addClass";
+import {nextIndex} from "plain-ui-composition"
+import {StyleProperties} from "plain-ui-composition"
 import {PlScroll} from "./index";
-import {nextIndex} from "../../utils/nextIndex";
 
 function createIndicator(hostEl: HTMLElement, vertical: boolean) {
 

@@ -1,0 +1,19 @@
+@include theme {
+    .pl-progress-mini {
+        vertical-align: middle;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+
+        svg {
+            flex-shrink: 0;
+            width: 200%;
+            height: 200%;
+        }
+
+        &.pl-progress-mini-round {
+            border-radius: 1000px;
+        }
+    }
+}

@@ -1,0 +1,101 @@
+@include theme {
+  .pl-tree {
+    width: 100%;
+    position: relative;
+
+    .pl-tree-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: $icc;
+
+      & > .pl-icon {
+        font-size: 3em;
+        margin-bottom: 8px;
+      }
+    }
+
+    .pl-tree-node-list {
+      overflow: hidden;
+    }
+
+    .pl-tree-node {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 14px;
+      box-sizing: border-box;
+      border-bottom: solid 1px $ibl;
+      color: $itc;
+
+      & > .pl-tree-node-content {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex: 1;
+      }
+
+      & > .pl-tree-node-operator {
+        display: flex;
+        align-items: center;
+        font-size: 1.2em;
+
+        .pl-tree-node-expander {
+          width: 1em;
+        }
+
+        & > * {
+          margin-right: 8px;
+          color: $colorPrimary;
+          user-select: none;
+          width: 1em;
+          transition: all 300ms linear;
+        }
+
+        .pl-icon {
+          cursor: pointer;
+
+          &.pl-tree-node-draggier {
+            cursor: move;
+          }
+        }
+      }
+
+      &:first-child {
+        border-top: solid 1px $ibl;
+      }
+
+      &:hover {
+        background-color: #f6f6f6;
+      }
+
+      &.pl-tree-node-current {
+        background-color: rgba($colorPrimary, 0.1);
+        color: $colorPrimary;
+      }
+
+      &.pl-tree-empty-node {
+        color: $colorWarn;
+
+        & > .pl-tree-node-operator > * {
+          color: $colorWarn;
+        }
+      }
+
+      &.pl-tree-node-not-checkable {
+        color: $disabledText;
+
+        & > .pl-tree-node-operator > * {
+          color: $disabledText;
+        }
+      }
+    }
+  }
+}

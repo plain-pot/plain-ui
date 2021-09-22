@@ -2,7 +2,7 @@ import {MultipleClass} from "plain-ui-composition/src/use/useClasses";
 
 const hasOwn = {}.hasOwnProperty;
 
-export function classnames(...args: MultipleClass[]): string {
+export function (...args: MultipleClass[]): string {
     const classes: (string | number)[] = [];
 
     for (let i = 0; i < args.length; i++) {
@@ -15,7 +15,7 @@ export function classnames(...args: MultipleClass[]): string {
             classes.push(arg as string | number);
         } else if (Array.isArray(arg) && arg.length) {
             // eslint-disable-next-line prefer-spread
-            let inner = classnames.apply(null, arg);
+            let inner = .apply(null, arg);
             if (inner) {
                 classes.push(inner);
             }

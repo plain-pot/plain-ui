@@ -1,0 +1,43 @@
+@include theme {
+  .pl-table-pro-distinct-filter-item {
+    display: flex;
+    align-items: stretch;
+    line-height: 28px;
+
+    padding: 8px 0;
+
+    background-color: white;
+    transition: background-color 300ms linear;
+
+    &:not(:last-child) {
+      border-bottom: solid 1px $ibl;
+    }
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
+
+    .pl-table-pro-distinct-filter-item-title {
+      color: $colorPrimary;
+      margin: 0 8px;
+    }
+
+    .pl-table-pro-distinct-filter-item-tags {
+
+      cursor: pointer;
+
+      & > div {
+        display: inline-block;
+        font-size: 12px;
+        background-color: $colorPrimaryLight;
+        padding: 0 12px;
+        margin: 1px 2px;
+        border-radius: 4px;
+      }
+    }
+
+    .pl-table-pro-distinct-filter-item-button {
+
+    }
+  }
+}

@@ -1,9 +1,9 @@
-import {designComponent, useStyles} from "plain-ui-composition";
-import {computed, reactive} from 'vue'
+import {computed, designComponent, reactive, useStyles} from "plain-ui-composition";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
+
 import {PlScroll} from "./index";
-// import PlTooltip from "../PlTooltip";
+import PlTooltip from "../PlTooltip";
 
 export const HorizontalScrollbar = designComponent({
     props: {
@@ -77,7 +77,7 @@ export const HorizontalScrollbar = designComponent({
         return {
             render: () => {
                 let content = <div class="pl-horizontal-scrollbar" style={styles.value} onMousedown={handler.onMousedown}/>
-                // if (!!props.tooltip) {content = (<PlTooltip message={props.tooltip}>{content}</PlTooltip>)}
+                if (!!props.tooltip) {content = (<PlTooltip message={props.tooltip}>{content}</PlTooltip>)}
                 return (
                     <div class="pl-horizontal-scrollbar-wrapper">
                         {content}

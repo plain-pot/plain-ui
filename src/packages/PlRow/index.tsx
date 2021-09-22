@@ -1,6 +1,8 @@
-import {designComponent, PropType, useClasses, useRefs, useStyles} from 'plain-ui-composition'
+import {designComponent, PropType, useRefs, useStyles} from 'plain-ui-composition'
 import './grid.scss'
+import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
+
 import {removeUnit} from "plain-utils/string/removeUnit";
 
 export enum GridAlign {

@@ -1,9 +1,10 @@
 import './scroll.scss'
-import {computed, onBeforeUnmount, onMounted, reactive, watch} from "vue";
-import {designComponent, useClasses, useMounted, useRefs, useStyles} from "plain-ui-composition";
+import {computed, designComponent, onBeforeUnmount, onMounted, reactive, useMounted, useRefs, useStyles, watch} from "plain-ui-composition";
+import {useClasses} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 import {debounce} from "plain-utils/utils/debounce";
 import {throttle} from "plain-utils/utils/throttle";
+
 import {VerticalScrollbar} from "./VerticalScrollbar";
 import {HorizontalScrollbar} from "./HorizontalScrollbar";
 import {ResizeDetectFuncParam, useResizeDetector} from "../../directives/ResizeDetector";
@@ -355,7 +356,7 @@ export const PlScroll = designComponent({
                     freezeState.cancelAnimate = null
                 }
             },
-            wrapperScroll: (e: Event) => {
+            wrapperScroll: ({nativeEvent: e}: UIEvent) => {
 
                 const target = e.target as HTMLElement
                 freezeState.wrapperScrollTop = target.scrollTop

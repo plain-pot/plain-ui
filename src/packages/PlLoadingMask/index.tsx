@@ -1,8 +1,11 @@
-import {designComponent, nextIndex, onMounted, reactive, useClasses, useModel, useRefs, useStyles, watch} from 'plain-ui-composition'
-import {Transition} from 'vue'
+import {designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './loading-mask.scss'
+import {nextIndex} from "plain-ui-composition"
+import {useClasses} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
+
 import PlLoading from "../PlLoading";
+import PlTransition from "../PlTransition";
 
 export const PlLoadingMask = designComponent({
     name: 'pl-loading-mask',
@@ -89,14 +92,12 @@ export const PlLoadingMask = designComponent({
         return {
             refer: {refs},
             render: () => (
-                <Transition name={'pl-transition-fade'}>
-                    {!!modelValue.value && state.isMounted && (
-                        <div style={styles.value} class={classes.value} ref={onRef.el} {...attrs}>
-                            <PlLoading type={props.loadingType}/>
-                            {!!props.message && <span>{props.message}</span>}
-                        </div>
-                    )}
-                </Transition>
+                <PlTransition name={'pl-transition-fade'} unmount show={!!modelValue.value && state.isMounted}>
+                    <div style={styles.value} class={classes.value} ref={onRef.el} {...attrs}>
+                        <PlLoading type={props.loadingType}/>
+                        {!!props.message && <span>{props.message}</span>}
+                    </div>
+                </PlTransition>
             )
         }
     },

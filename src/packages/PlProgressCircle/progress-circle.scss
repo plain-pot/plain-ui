@@ -1,0 +1,46 @@
+@include theme {
+    .pl-progress-circle {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 1000px;
+
+        & > svg > path {
+            transform-origin: center center;
+        }
+
+        .pl-progress-circle-label {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .pl-icon {
+                font-size: 24px;
+            }
+        }
+
+        @keyframes path-animate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        &.pl-progress-circle-loading {
+            & > svg {
+                animation: path-animate 15000ms linear infinite;
+
+                & > path {
+                    animation: path-animate 1500ms linear infinite;
+                }
+            }
+        }
+    }
+}

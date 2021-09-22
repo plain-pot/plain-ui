@@ -1,7 +1,8 @@
-import {designComponent, PropType, useClasses, useRefs, useStyles} from "plain-ui-composition"
-import {SingleClass} from "plain-ui-composition/src/use/useClasses";
-import {HtmlHTMLAttributes} from 'vue'
+import {designComponent, PropType, useRefs, useStyles} from "plain-ui-composition"
 import {PlRow} from "../PlRow";
+import {useClasses} from "plain-ui-composition";
+import {SingleClass} from "plain-ui-composition"
+
 
 export type GridColSize = number | {
     span: number,
@@ -16,13 +17,13 @@ export const PlCol = designComponent({
         offset: {type: [Number, String] as PropType<string | number>},
         push: {type: [Number, String] as PropType<string | number>},
         pull: {type: [Number, String] as PropType<string | number>},
-        class: String,
+        className: String,
         xs: {type: [Number, Object] as PropType<GridColSize>},
         sm: {type: [Number, Object] as PropType<GridColSize>},
         md: {type: [Number, Object] as PropType<GridColSize>},
         lg: {type: [Number, Object] as PropType<GridColSize>},
     },
-    inheritPropsType: {} as HtmlHTMLAttributes,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots}) {
 
@@ -37,7 +38,7 @@ export const PlCol = designComponent({
                     [`pl-col-offset-${props.offset}`]: props.offset,
                     [`pl-col-push-${props.push}`]: props.push,
                     [`pl-col-pull-${props.pull}`]: props.pull,
-                    [`${props.class}`]: !!props.class
+                    [`${props.className}`]: !!props.className
                 }
             ] as SingleClass[];
 

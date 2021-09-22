@@ -1,0 +1,40 @@
+@include theme {
+  .pl-tag-input {
+    display: inline-block;
+
+    .pl-tag {
+      //margin-bottom: 8px;
+
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+
+    .pl-input {
+      //margin-bottom: 8px;
+
+      .pl-input-inner {
+        border-style: dashed;
+        width: 100% !important;
+      }
+    }
+
+    .pl-tag-input-not-edit {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    @include statusMixin(tag-input) {
+      .pl-tag-input-not-edit {
+        color: $value;
+      }
+    }
+
+    &.pl-tag-input-disabled {
+      .pl-tag-input-not-edit {
+        cursor: not-allowed;
+        color: $disabledText;
+      }
+    }
+  }
+}

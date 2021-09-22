@@ -1,0 +1,81 @@
+@include theme {
+  .pl-tabs-header.pl-tabs-header-horizontal.pl-tabs-header-type-card {
+    .pl-tabs-header-item {
+      line-height: 45px;
+      padding: 0 20px;
+      border-left: solid 1px $ibc;
+
+      &:last-child {
+        border-right: solid 1px $ibc;
+      }
+
+      &:hover, &.pl-tabs-header-item-active {
+        color: $colorPrimary;
+      }
+    }
+
+    &.pl-tabs-header-pos-top {
+      .pl-tabs-header-list {
+        border-bottom: solid 1px $ibc;
+
+        .pl-tabs-header-item {
+          border-top: solid 1px $ibc;
+
+          &:first-child {
+            border-top-left-radius: $shapeFillet;
+          }
+
+          &:last-child {
+            border-top-right-radius: $shapeFillet;
+          }
+
+          &.pl-tabs-header-item-active {
+            position: relative;
+
+            &:before {
+              position: absolute;
+              background-color: white;
+              left: 0;
+              right: 0;
+              top: 100%;
+              height: 1px;
+              content: '';
+            }
+          }
+        }
+      }
+    }
+
+    &.pl-tabs-header-pos-bottom {
+      .pl-tabs-header-list {
+        border-top: solid 1px $ibc;
+
+        .pl-tabs-header-item {
+          border-bottom: solid 1px $ibc;
+
+          &:first-child {
+            border-bottom-left-radius: $shapeFillet;
+          }
+
+          &:last-child {
+            border-bottom-right-radius: $shapeFillet;
+          }
+
+          &.pl-tabs-header-item-active {
+            position: relative;
+
+            &:before {
+              position: absolute;
+              background-color: white;
+              left: 0;
+              right: 0;
+              bottom: 100%;
+              height: 1px;
+              content: '';
+            }
+          }
+        }
+      }
+    }
+  }
+}

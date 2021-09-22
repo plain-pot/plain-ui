@@ -1,0 +1,196 @@
+.pl-dialog {
+  z-index: 1500;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: all linear 300ms;
+
+  &:before {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    user-select: none;
+    transition: all linear 300ms;
+  }
+
+  .pl-dialog-body {
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    transition: all cubic-bezier(0.410, 1.110, 0.615, 0.995) 300ms;
+    box-shadow: 0 0 20px 8px rgba(100, 100, 100, 0.1);
+    overflow: hidden;
+    pointer-events: auto;
+    box-sizing: border-box;
+
+    .pl-dialog-head {
+      padding: 12px 24px;
+      background-color: white;
+      position: relative;
+      font-size: 14px;
+      font-weight: 500;
+
+      .pl-dialog-head-close {
+        font-size: 18px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 0 8px;
+        opacity: 0.75;
+        color: inherit;
+      }
+    }
+
+    .pl-dialog-content {
+      overflow: auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .pl-dialog-foot {
+      padding: 8px 24px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      & > * + * {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  &.pl-dialog-fullscreen {
+    padding: 0 !important;
+
+    .pl-dialog-body {
+      position: fixed;
+      height: 100% !important;
+      width: 100% !important;
+    }
+  }
+
+  &.pl-dialog-no-mask {
+    pointer-events: none;
+
+    &:before {
+      display: none;
+    }
+  }
+
+  &.pl-dialog-vertical-center {
+    padding: 0;
+    align-items: center;
+  }
+
+  &.pl-dialog-no-content-padding {
+    .pl-dialog-content {
+      padding: 0;
+    }
+  }
+}
+
+.pl-transition-dialog {
+  /*@formatter:off*/
+    &.pl-transition-dialog-enter {
+        &:before {opacity: 0;}
+        .pl-dialog-body {transform: translateY(-5vh) scale(0.85);opacity: 0;}
+    }
+    &.pl-transition-dialog-enter-active {
+        &:before {opacity: 1;}
+        .pl-dialog-body {transform: translateY(0) scale(1);opacity: 1;}
+    }
+    &.pl-transition-dialog-exit {
+        &:before {opacity: 1;}
+        .pl-dialog-body {transform: translateY(0) scale(1);opacity: 1;}
+    }
+    &.pl-transition-dialog-exit-active {
+        &:before {opacity: 0;}
+        .pl-dialog-body {transform: translateY(-5vh) scale(0.85);opacity: 0;}
+    }
+    &.pl-transition-dialog-enter-active, &.pl-transition-dialog-exit-active {
+        transition: opacity 300ms linear, transform 300ms $transition;
+    }
+    /*@formatter:on*/
+}
+
+@include theme {
+  .pl-dialog {
+    .pl-dialog-body {
+      color: $itc;
+
+      .pl-dialog-head {
+        color: $ihc;
+        border-bottom: solid 1px $ibl;
+        background: #fafafa;
+
+        .pl-dialog-head-close .pl-button.pl-button-mode-text.pl-button-status-primary {
+          color: $icc;
+
+          &:hover {
+            color: $colorPrimary;
+          }
+        }
+      }
+
+      .pl-dialog-foot {
+        border-top: solid 1px $ibl;
+        //background: #fafafa;
+      }
+
+      @include shapeMixin(dialog-body) {
+        border-radius: $value;
+      }
+    }
+  }
+
+  $dialogTransition: (
+    left:translate3d(-100%, 0, 0),
+    right:translate3d(100%, 0, 0),
+    top:translate3d(0, -100%, 0),
+    bottom:translate3d(0, 100%, 0),
+  );
+
+  @each $key, $value in $dialogTransition {
+    .pl-transition-dialog-#{$key} {
+      /*@formatter:off*/
+            &.pl-transition-dialog-#{$key}-enter {
+                &:before {opacity: 0;}
+                .pl-dialog-body {transform: $value;}
+            }
+            &.pl-transition-dialog-#{$key}-enter-active {
+                &:before {opacity: 1;}
+                .pl-dialog-body {transform: translate3d(0, 0, 0);}
+            }
+            &.pl-transition-dialog-#{$key}-exit {
+                &:before {opacity: 1;}
+                .pl-dialog-body {transform: translate3d(0, 0, 0);}
+            }
+            &.pl-transition-dialog-#{$key}-exit-active {
+                &:before {opacity: 0;}
+                .pl-dialog-body {transform: $value;}
+            }
+            &.pl-transition-dialog-#{$key}-enter-active, &.pl-transition-dialog-#{$key}-exit-active {
+                .pl-dialog-body {
+                    transition: all $transition2 300ms;
+                }
+            }
+            /*@formatter:on*/
+    }
+  }
+}

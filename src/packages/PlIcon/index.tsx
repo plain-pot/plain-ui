@@ -1,9 +1,8 @@
-import {ref, watch} from 'vue'
+import {designComponent, ref, VueNode, watch} from 'plain-ui-composition'
 import './icon.scss'
-import {designComponent, useClasses, VueNode} from 'plain-ui-composition'
-import {classnames} from "../../utils/classnames";
-// todo
-// import {refreshPopperReference} from "../PlPopper/refershPopperReference";
+import {useClasses} from 'plain-ui-composition';
+import {refreshPopperReference} from "../PlPopper/refershPopperReference";
+import {HtmlHTMLAttributes} from 'vue'
 
 interface IconGetter {
     (icon: string): VueNode | Promise<VueNode>
@@ -26,10 +25,10 @@ const registry = (() => {
 registry('el-icon-', async (icon) => {
     try {
         const module = await import('./icons/' + icon + '.json')
-        // console.log(module,icon)
+        // console.log(module)
         return (
             <svg {...{
-                innerHTML: module.default[0],
+                dangerouslySetInnerHTML: {__html: module.default[0],},
                 class: `el-svg-icon ${icon}`,
                 viewBox: "0 0 1024 1024",
                 version: "1.1",
@@ -47,18 +46,18 @@ export const PlIcon = designComponent({
         icon: {type: String},                       // 图标名称
         status: {type: String},                     // 图标状态
     },
-    inheritPropsType: HTMLElement,
+    inheritPropsType: {} as HtmlHTMLAttributes,
     expose: {registry},
     setup({props}) {
         const icon = ref(null as any)
-        // const {freshPopperReference} = refreshPopperReference.inject()
+        const {freshPopperReference} = refreshPopperReference.inject()
 
-        const classes = useClasses(() => classnames([
+        const classes = useClasses(() => [
             'pl-icon',
             {
                 [`pl-icon-status-${props.status}`]: !!props.status
             }
-        ]))
+        ])
 
         const utils = {
             getIconVNode: async (iconName: string) => {
@@ -73,7 +72,7 @@ export const PlIcon = designComponent({
             reset: async (iconName: string) => {
                 const Icon = await utils.getIconVNode(iconName)
                 icon.value = Icon || null
-                // freshPopperReference()
+                freshPopperReference()
             }
         }
 
@@ -85,7 +84,7 @@ export const PlIcon = designComponent({
                 ...Icon,
                 props: {
                     ...Icon.props,
-                    class: `${Icon.props.class || ''} ${classes.value}`
+                    class: `${Icon.props.className || ''} ${classes.value}`
                 },
             } : <i class="PlIcon"/>
         }

@@ -3,6 +3,7 @@ import {LoadingMaskServiceFormatOption} from "./index";
 import {reactive, ref} from "plain-ui-composition";
 import {PlLoadingMask} from "../../PlLoadingMask";
 
+
 export default createDefaultService({
     name: 'loading-mask-service',
     setup: (option: LoadingMaskServiceFormatOption) => {

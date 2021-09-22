@@ -1,0 +1,67 @@
+@include theme {
+  .pl-table-pro-setting-export {
+    .pl-table-pro-setting-export-option {
+      padding: 12px 12px 12px 50px;
+      transition: background-color linear 300ms;
+      position: relative;
+
+      &:hover {
+        background-color: $colorPrimaryLight;
+        cursor: pointer;
+      }
+
+      &:not(:first-child) {
+        border-top: solid 1px $ibl;
+      }
+
+      .pl-table-pro-setting-export-option-radio {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pl-table-pro-setting-export-option-title {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      .pl-table-pro-setting-export-option-desc {
+        font-size: 12px;
+        color: $icc;
+      }
+    }
+
+    .pl-table-pro-setting-export-foot {
+      text-align: center;
+      margin-top: 20px;
+
+      .pl-button + .pl-button {
+        margin-left: 8px;
+      }
+    }
+
+    .pl-table-pro-setting-export-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .pl-loading, .pl-icon {
+        font-size: 32px;
+      }
+
+      & > span {
+        color: $icc;
+      }
+
+      & > * {
+        margin-bottom: 24px;
+      }
+    }
+  }
+}

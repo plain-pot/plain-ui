@@ -1,7 +1,7 @@
+import {RequireFormat} from "../../../shims";
 import {createServiceWithoutContext, createUseService} from "../../PlRoot/registryRootService";
 import Service from "./Service";
 import {createDefaultManager} from "../../PlRoot/createDefaultManager";
-import {RequireFormat} from "../../../utils/type";
 
 export interface LoadingBarOption {
     color?: string,

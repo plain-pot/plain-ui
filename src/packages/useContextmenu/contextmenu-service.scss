@@ -1,0 +1,19 @@
+@include theme {
+  .pl-contextmenu-service {
+    position: fixed;
+
+    .pl-contextmenu-service-body {
+      transition: all $transition 300ms;
+      transform-origin: top left;
+      box-sizing: border-box;
+      box-shadow: $boxshadow;
+      padding: 4px 0;
+      border: solid 1px $ibc;
+
+      .pl-dropdown-option {
+        font-size: 12px;
+        color: $itc;
+      }
+    }
+  }
+}

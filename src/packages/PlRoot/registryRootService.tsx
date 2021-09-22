@@ -4,8 +4,9 @@
  * @date    2020/11/26 9:32
  */
 import {PlRoot, PlRootInstance} from "./PlRoot";
+import ReactDOM from "react-dom";
+
 import {addClass} from "plain-utils/dom/addClass";
-import {createApp, defineComponent} from 'vue'
 
 export function createUseService<_,
     ManagerComponent extends { use: { class: { props: { name: any, Component: any } } } },
@@ -52,15 +53,9 @@ export function createServiceWithoutContext<UseService extends (getRoot: () => P
         return () => {
             if (!root) {
                 const el = document.createElement('div')
-                addClass(el, 'plain-ui-root-without-context')
+                addClass(el, 'plain-design-root-without-context')
                 document.body.appendChild(el)
-                const App = defineComponent(() => {
-                    return () => (
-                        <PlRoot ref={(refer: any) => root = refer!}/>
-                    )
-                })
-                const app = createApp(App)
-                app.mount(el)
+                ReactDOM.render(<PlRoot ref={refer => root = refer!}/>, el)
             }
             return root!
         }

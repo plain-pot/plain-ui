@@ -1,0 +1,57 @@
+.pl-input-group {
+  display: inline-block;
+  white-space: nowrap;
+
+  & > * {
+    display: inline-block;
+
+    &.pl-input-group.pl-input-group-block {
+      display: inline-flex;
+    }
+  }
+
+  &.pl-input-group-block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  & > *:not(:first-child) {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+
+    input, .pl-input-inner {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+  }
+
+  & > *:not(:last-child) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+
+    input, .pl-input-inner {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+  }
+
+  & > .pl-button {
+    position: relative;
+    z-index: 2;
+  }
+
+  & > *, & > * input {
+    &:hover, &:focus, &.pl-input-focus {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  @for $i from 2 through 10 {
+    & > *:nth-child(#{$i}) {
+      margin-left: -#{$i - 1}px;
+    }
+  }
+}

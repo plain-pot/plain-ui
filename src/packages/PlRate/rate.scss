@@ -1,0 +1,39 @@
+@include theme {
+  .pl-rate {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    overflow: hidden;
+    vertical-align: text-bottom;
+
+    .pl-rate-active {
+      white-space: nowrap;
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    @include statusMixin(rate) {
+      color: $value;
+    }
+
+    &.pl-rate-disabled {
+      color: $disabledText !important;
+      cursor: not-allowed;
+    }
+
+    &.pl-rate-size-min {
+      font-size: 14px;
+    }
+
+    &.pl-rate-size-normal {
+      font-size: 16px;
+    }
+
+    &.pl-rate-size-large {
+      font-size: 18px;
+    }
+  }
+}

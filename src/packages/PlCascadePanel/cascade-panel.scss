@@ -1,0 +1,106 @@
+@include theme {
+    .pl-cascade-panel {
+        display: inline-block;
+        height: 200px;
+        border: solid 1px $ibc;
+        border-radius: $popperRadius;
+        color: $itc;
+
+        & > .pl-list {
+            height: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .pl-cascade-list {
+            width: 180px;
+            height: 100%;
+            padding: 6px 0;
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: top;
+            overflow: hidden;
+            box-sizing: border-box;
+
+            &:not(:last-child) {
+                border-right: solid 1px $ibc;
+            }
+
+            .pl-list {
+                overflow: hidden;
+            }
+
+            .pl-cascade-item {
+                padding: 5px 0 5px 12px;
+                font-weight: 400;
+                font-size: 13px;
+                color: $itc;
+                background-color: white;
+                transition: all 300ms $transition;
+                cursor: pointer;
+
+                .pl-cascade-content {
+                    padding-right: 30px;
+                    position: relative;
+
+                    .pl-cascade-arrow {
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        width: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: $icc;
+                    }
+                }
+
+                &.pl-cascade-item-expand, &:hover {
+                    color: $ihc;
+                    background-color: $disabled;
+                }
+
+                &.pl-cascade-item-active {
+                    color: $colorPrimary;
+                    background-color: rgba($colorPrimary, 0.1);
+                }
+
+                &.pl-cascade-empty {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+
+                    padding-left: 0;
+                    font-size: 12px;
+                    color: $disabledText;
+                    background-color: transparent;
+                    cursor: auto;
+
+                    .pl-icon {
+                        margin-bottom: 8px;
+                        font-size: 20px;
+                    }
+                }
+
+                &.pl-cascade-item-disabled {
+                    background-color: transparent;
+                    color: $disabledText;
+                    cursor: not-allowed;
+                }
+            }
+
+            &.pl-cascade-filter-list {
+                width: 360px;
+            }
+        }
+
+        .pl-loading-mask {
+            top: 1px;
+            bottom: 1px;
+            left: 1px;
+            right: 1px;
+        }
+    }
+}

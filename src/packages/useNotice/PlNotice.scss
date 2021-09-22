@@ -1,0 +1,115 @@
+@include theme {
+    .pl-notice-manager {
+        pointer-events: none;
+
+        .pl-notice-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+
+            @each $horizontal in (start, end) {
+                @each $vertical in (start, end) {
+                    &.pl-notice-container-#{$horizontal}-#{$vertical} {
+                        justify-content: flex-#{$vertical};
+
+                        & > .pl-list {
+                            & > .pl-item {
+                                width: 100%;
+                                $textAlign: center;
+                                @if ($horizontal == "start") {
+                                    $textAlign: left;
+                                }
+                                @if ($horizontal == "end") {
+                                    $textAlign: right;
+                                }
+                                text-align: $textAlign;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .pl-notice {
+        text-align: initial;
+        pointer-events: auto;
+        background-color: white;
+        display: inline-block;
+        padding: 8px 24px 16px 24px;
+        box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
+        width: 384px;
+        max-width: calc(100vw - 48px);
+        margin-bottom: 16px;
+        box-sizing: border-box;
+        border-radius: 2px;
+
+        .pl-notice-head {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            .pl-notice-title {
+                flex: 1;
+                padding: 8px 0;
+                font-size: 14px;
+                color: $ihc;
+            }
+
+            .pl-notice-close {
+                font-size: 18px;
+                color: $icc;
+                position: relative;
+                right: -8px;
+            }
+
+            .pl-notice-head-icon {
+                position: absolute;
+                font-size: 20px;
+                left: -24px;
+                top: 0;
+                transform: translate(-55%, 25%);
+                background-color: white;
+                border-radius: 100px;
+                padding: 1px;
+            }
+        }
+
+        .pl-notice-content {
+            font-size: 12px;
+            padding-top: 8px;
+            color: $itc;
+            line-height: 1.5715;
+        }
+
+        .pl-notice-foot {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-top: 16px;
+
+            & > * {
+                & + * {
+                    margin-left: 8px;
+                }
+            }
+        }
+
+        @include statusMixin(notice) {
+            border-left: 3px $value solid;
+            .pl-notice-title {
+                color: $value;
+            }
+            .pl-notice-head-icon {
+                background-color: $value;
+                color: white;
+            }
+        }
+    }
+}

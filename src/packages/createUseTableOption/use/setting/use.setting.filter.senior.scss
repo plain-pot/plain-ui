@@ -1,0 +1,25 @@
+.pl-table-pro-setting-senior-filter {
+  .pl-table-pro-setting-senior-filter-button {
+    display: flex;
+    justify-content: space-between;
+
+    .pl-button + * {
+      margin-left: 8px;
+    }
+  }
+
+  .pl-table-pro-setting-senior-filter-item {
+    margin-bottom: 16px;
+
+    .pl-table-pro-setting-senior-filter-item-id {
+      width: 80px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .pl-table-pro-setting-senior-filter-item-content {
+      width: calc(100% - 80px);
+      display: inline-block;
+    }
+  }
+}

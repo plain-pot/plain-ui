@@ -1,0 +1,113 @@
+@include theme {
+  .pl-table-pro-setting {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+
+    $nav-bg: #fcfcfc;
+
+    .pl-table-pro-setting-nav {
+      background-color: $nav-bg;
+      display: flex;
+      flex-direction: column;
+
+      .pl-table-pro-setting-nav-item:last-child {
+        flex: 1;
+      }
+
+      .pl-table-pro-setting-nav-item {
+        padding: 12px 24px;
+        cursor: pointer;
+        background-color: white;
+        position: relative;
+
+        .pl-table-pro-setting-nav-item-inner {
+          position: relative;
+          z-index: 1;
+        }
+
+        &:hover, &.pl-table-pro-setting-nav-item-active {
+          color: $colorPrimary;
+        }
+
+        &.pl-table-pro-setting-nav-item-active {
+          &:after {
+            position: absolute;
+            content: '';
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background-color: $colorPrimary;
+          }
+        }
+
+        &.pl-table-pro-setting-nav-item-prev {
+          &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-bottom-right-radius: 4px;
+            background-color: $nav-bg;
+            content: '';
+            border-bottom: solid 1px $ibl;
+            border-right: solid 1px $ibl;
+          }
+        }
+
+        &.pl-table-pro-setting-nav-item-next {
+          &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-top-right-radius: 4px;
+            background-color: $nav-bg;
+            content: '';
+            border-top: solid 1px $ibl;
+            border-right: solid 1px $ibl;
+          }
+        }
+
+        &:not(.pl-table-pro-setting-nav-item-prev):not(.pl-table-pro-setting-nav-item-next):not(.pl-table-pro-setting-nav-item-active) {
+          background-color: $nav-bg;
+          border-right: solid 1px $ibl;
+        }
+      }
+    }
+
+    .pl-table-pro-setting-content {
+      flex: 1;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      width: 650px;
+      box-sizing: border-box;
+
+      &.pl-table-pro-setting-content-pending {
+        padding: 16px;
+      }
+
+      &::-webkit-scrollbar {
+        background: white;
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(black, 0.25);
+        border-radius: 6px;
+      }
+
+      .pl-table-pro-setting-content-header {
+        text-align: right;
+
+        & > .pl-button + .pl-button {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+}

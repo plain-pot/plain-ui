@@ -1,0 +1,44 @@
+@include theme {
+  .pl-tabs {
+    .pl-tabs-collector {
+      height: 0;
+      width: 0;
+      overflow: hidden;
+      display: block;
+    }
+
+    .pl-tabs-header-item {
+      cursor: pointer;
+      user-select: none;
+
+      .pl-icon {
+        margin-left: 8px;
+      }
+
+      &:not(.pl-tabs-header-item-active) {
+        .pl-icon {
+          color: $icc;
+        }
+      }
+    }
+
+    .pl-tabs-header-item-operator {
+      flex-grow: 1;
+      flex-shrink: 0;
+      position: sticky;
+      right: 4px;
+      height: 45px;
+      line-height: 45px;
+      padding-left: 16px;
+      justify-self: flex-end;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      background-color: white;
+
+      & > * + * {
+        margin-left: 4px;
+      }
+    }
+  }
+}

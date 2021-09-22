@@ -1,0 +1,118 @@
+@include theme {
+  .pl-tabs {
+    &.pl-tabs-head-position-left, &.pl-tabs-head-position-right {
+      display: flex;
+
+      .pl-tabs-body {
+        flex: 1;
+        box-sizing: border-box;
+      }
+
+      .pl-tabs-header {
+        position: relative;
+
+        .pl-tabs-header-item {
+          line-height: 36px;
+          padding: 0 16px;
+          position: relative;
+          z-index: 1;
+          transition: all linear 150ms;
+          white-space: nowrap;
+
+          &:hover {
+            color: $colorPrimary;
+          }
+
+          &.pl-tabs-header-item-active {
+            color: $colorPrimary;
+            background-color: $colorPrimaryLight;
+          }
+        }
+
+        &.pl-tabs-header-pos-left {
+
+          &:before {
+            position: absolute;
+            content: '';
+            right: 0;
+            width: 2px;
+            top: 0;
+            bottom: 0;
+            background-color: $ibl;
+          }
+
+          .pl-tabs-header-item {
+            text-align: right;
+            border-right: solid 2px transparent;
+
+            &:hover {
+              border-right-color: rgba($colorPrimary, 0.5);
+            }
+
+            &.pl-tabs-header-item-active {
+              border-right-color: $colorPrimary;
+            }
+          }
+        }
+
+        &.pl-tabs-header-pos-right {
+          &:before {
+            position: absolute;
+            content: '';
+            left: 0;
+            width: 2px;
+            top: 0;
+            bottom: 0;
+            background-color: $ibl;
+          }
+
+          .pl-tabs-header-item {
+            text-align: left;
+            border-left: solid 2px transparent;
+
+            &:hover {
+              border-left-color: rgba($colorPrimary, 0.5);
+            }
+
+            &.pl-tabs-header-item-active {
+              border-left-color: $colorPrimary;
+            }
+          }
+        }
+      }
+
+      &.pl-tabs-fit-height {
+        height: 100%;
+        flex: 1;
+        align-items: stretch;
+
+        & > .pl-tabs-header {
+          overflow: auto;
+        }
+
+        & > .pl-tabs-body {
+          overflow: hidden;
+          display: flex;
+          align-items: stretch;
+
+          & > .pl-inner-tab {
+            flex: 1;
+            overflow: auto;
+          }
+        }
+      }
+    }
+
+    &.pl-tabs-head-position-left {
+      .pl-tabs-body {
+        padding-left: 16px;
+      }
+    }
+
+    &.pl-tabs-head-position-right {
+      .pl-tabs-body {
+        padding-right: 16px;
+      }
+    }
+  }
+}

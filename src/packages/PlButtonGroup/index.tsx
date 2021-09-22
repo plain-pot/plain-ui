@@ -1,7 +1,9 @@
-import {computed, designComponent, inject, provide, useClasses, useRefs} from 'plain-ui-composition'
+import {computed, designComponent, inject, provide, useRefs} from 'plain-ui-composition'
 import './button-group.scss'
 import {DEFAULT_STATUS, StyleMode, StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
+import {useClasses} from "plain-ui-composition";
+
 
 interface ButtonModeProviderValue {
     value: { mode: string }

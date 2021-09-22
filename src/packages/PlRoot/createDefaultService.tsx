@@ -8,7 +8,8 @@
  * @author  韦胜健
  * @date    2020/11/26 9:24
  */
-import {designComponent, VueNode} from "plain-ui-composition";
+import {VueNode} from "react";
+import {designComponent} from "plain-ui-composition";
 
 export function createDefaultService<Option extends Record<string, any>, Refer extends {
     isShow: { value: boolean },

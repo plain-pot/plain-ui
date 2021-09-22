@@ -1,0 +1,538 @@
+@include theme {
+    $width: 276px;
+
+    .pl-date-base-panel {
+
+        border: solid 1px $ibc;
+        border-radius: 2px;
+        display: inline-block;
+        padding: 8px 12px 12px 12px;
+        width: 302px;
+        height: 282px;
+        transition: all $transition 500ms;
+        box-sizing: border-box;
+
+        .pl-date-base-panel-header {
+            width: $width;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            color: $itc;
+            height: 40px;
+            font-size: 14px;
+
+            & > div:nth-child(2) {
+                flex: 1;
+                text-align: center;
+
+                span {
+                    transition: all $transition 300ms;
+
+                    &:hover:not(.pl-date-base-panel-header-static-label) {
+                        color: $colorPrimary;
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .pl-button {
+                color: $icc !important;
+
+                &:hover {
+                    color: $colorPrimary !important;
+                }
+            }
+        }
+
+        .pl-date-base-panel-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: $width;
+            height: 220px;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: block;
+
+            .pl-date-base-panel-item {
+                cursor: pointer;
+                box-sizing: border-box;
+                display: inline-block;
+                font-size: 12px;
+                color: $itc;
+                user-select: none;
+
+                & > div {
+                    width: 100%;
+                    height: 100%;
+                    padding: 4px;
+                    box-sizing: border-box;
+                    border-radius: 100px;
+
+                    span {
+                        display: inline-flex;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 100px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+                &:hover:not(.pl-date-base-panel-item-disabled) {
+
+                    & > div {
+                        background-color: rgba($colorPrimary, 0.1);
+                    }
+                }
+
+                &.pl-date-base-panel-item-now {
+                    color: $colorPrimary;
+                    font-weight: bold;
+                }
+
+                &.pl-date-base-panel-item-active {
+                    & > div {
+                        background-color: rgba($colorPrimary, 0.1);
+
+                        & > span {
+                            background-color: $colorPrimary;
+                            color: white;
+                        }
+                    }
+                }
+
+                &.pl-date-base-panel-item-disabled {
+                    cursor: not-allowed;
+                    color: $disabledText;
+                }
+
+                &.pl-date-base-panel-item-hover {
+
+                    & > div {
+                        background-color: rgba($colorPrimary, 0.1);
+                        border-radius: 0;
+                    }
+                }
+
+                &.pl-date-base-panel-item-hover-start {
+
+                    & > div {
+                        background-color: rgba($colorPrimary, 0.1);
+                        border-radius: 100px 0 0 100px;
+                    }
+                }
+
+                &.pl-date-base-panel-item-hover-end {
+
+                    & > div {
+                        background-color: rgba($colorPrimary, 0.1);
+                        border-radius: 0 100px 100px 0;
+                    }
+
+                    &.pl-date-base-panel-item-hover-start {
+                        & > div {
+                            border-top-left-radius: 100px;
+                            border-bottom-left-radius: 100px;
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
+    .pl-date-base-panel-year {
+        .pl-date-base-panel-body {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pl-date-base-panel-year-list {
+            background-color: white;
+            transition: all $transition 500ms;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            .pl-date-base-panel-year-item {
+                width: 63px;
+                height: 36px;
+            }
+        }
+    }
+
+    .pl-date-base-panel-month-wrapper {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+
+        .pl-date-base-panel-month {
+
+            .pl-date-base-panel-body {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .pl-date-base-panel-month-item {
+                height: 36px;
+            }
+
+            .pl-date-base-panel-month-quarter-list, .pl-date-base-panel-month-list {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                transition: all $transition 500ms;
+            }
+
+            .pl-date-base-panel-month-quarter-list {
+                left: 0;
+                width: 56px;
+                border-right: dashed 1px $ibc;
+
+                .pl-date-base-panel-month-item {
+                    width: 36px;
+
+                    & > div {
+                        border-radius: 100px;
+                    }
+                }
+            }
+
+            .pl-date-base-panel-month-list {
+                right: 0;
+
+                .pl-date-base-panel-month-item {
+                    width: 92px;
+                }
+
+                &.pl-date-base-panel-month-list-show-quarter {
+                    width: 216px;
+                    left: initial;
+
+                    .pl-date-base-panel-month-item {
+                        width: 72px;
+
+                        & > div > span {
+                            background-color: transparent;
+                            color: inherit;
+                        }
+                    }
+                }
+            }
+        }
+
+        padding: 0;
+
+        & > div {
+            border: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+
+    .pl-date-panel-quarter {
+        .pl-date-base-panel-month-item {
+            &:nth-child(3n+1) {
+                & > div {
+                    border-top-left-radius: 100px !important;
+                    border-bottom-left-radius: 100px !important;
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            &:nth-child(3n) {
+                & > div {
+                    border-top-right-radius: 100px !important;
+                    border-bottom-right-radius: 100px !important;
+
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .pl-date-base-panel-date-wrapper {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+
+        .pl-date-base-panel-date {
+
+            .pl-date-base-panel-body {
+                flex-direction: column;
+            }
+
+            .pl-date-base-panel-date-time-label {
+                margin-left: 8px;
+            }
+
+            ul {
+                $itemWidth: 36px;
+                $itemHeight: 30px;
+
+                &.pl-date-base-panel-date-week-list {
+                    border-bottom: solid 1px $ibl;
+                    padding-bottom: 4px;
+                    width: $itemWidth*7;
+
+                    .pl-date-base-panel-date-week-item {
+                        width: $itemWidth;
+                        height: $itemHeight;
+                        padding: 0 3px;
+                    }
+                }
+
+                &.pl-date-base-panel-date-list {
+                    width: $itemWidth*7;
+
+                    .pl-date-base-panel-date-item {
+                        width: $itemWidth;
+                        height: $itemHeight;
+                        text-align: center;
+
+                        & > div {
+                            width: $itemHeight;
+                            height: $itemHeight;
+                            display: inline-block;
+                            padding: 3px;
+                        }
+
+                        &, & span {
+                            transition: all $transition 300ms;
+                        }
+
+                        &.pl-date-base-panel-date-item-other-month:not(:hover) {
+                            span {
+                                opacity: 0.2;
+                            }
+                        }
+
+                        &.pl-date-base-panel-item-disabled {
+                            & > div {
+                                span {
+                                    position: relative;
+
+                                    &:after {
+                                        position: absolute;
+                                        left: 5px;
+                                        top: 5px;
+                                        bottom: 0;
+                                        width: 1px;
+                                        content: '';
+                                        background-color: $ibc;
+                                        transform: rotate(-45deg);
+                                        transform-origin: top left;
+                                    }
+                                }
+                            }
+                        }
+
+                        margin-top: 2px;
+
+                        &.pl-date-base-panel-item-hover-start {
+                            & > div {
+                                position: relative;
+
+                                &:after {
+                                    position: absolute;
+                                    top: 0;
+                                    bottom: 0;
+                                    right: -3px;
+                                    width: 3px;
+                                    background-color: rgba($colorPrimary, 0.1);
+                                    content: '';
+                                }
+                            }
+                        }
+
+                        &.pl-date-base-panel-item-hover {
+                            & > div {
+                                position: relative;
+
+                                &:after {
+                                    position: absolute;
+                                    top: 0;
+                                    bottom: 0;
+                                    right: -3px;
+                                    width: 3px;
+                                    background-color: rgba($colorPrimary, 0.1);
+                                    content: '';
+                                }
+
+                                &:before {
+                                    position: absolute;
+                                    top: 0;
+                                    bottom: 0;
+                                    left: -3px;
+                                    width: 3px;
+                                    background-color: rgba($colorPrimary, 0.1);
+                                    content: '';
+                                }
+                            }
+                        }
+
+                        &.pl-date-base-panel-item-hover-end {
+                            & > div {
+                                position: relative;
+
+                                &:before {
+                                    position: absolute;
+                                    top: 0;
+                                    bottom: 0;
+                                    left: -3px;
+                                    width: 3px;
+                                    background-color: rgba($colorPrimary, 0.1);
+                                    content: '';
+                                }
+                            }
+
+                            &.pl-date-base-panel-item-hover-start {
+                                & > div {
+                                    position: relative;
+
+                                    &:before, &:after {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .pl-date-base-panel-body {
+            & > .pl-time-panel {
+                border: none;
+            }
+        }
+
+        padding: 0;
+
+        & > div {
+            border: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+
+    .pl-date-panel-date-range {
+        width: auto;
+        padding: 0;
+        white-space: nowrap;
+
+        & > .pl-date-base-panel {
+            border: none;
+            white-space: normal;
+
+            &:first-child {
+                &:after {
+                    top: 16px;
+                    bottom: 16px;
+                    right: 0;
+                    content: '';
+                    position: absolute;
+                    background-color: $ibl;
+                    width: 1px;
+                }
+            }
+        }
+    }
+
+    .pl-date-panel-week {
+        .pl-date-base-panel-date-item {
+            &:nth-child(7n+1) {
+                & > div {
+                    border-top-left-radius: 100px !important;
+                    border-bottom-left-radius: 100px !important;
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            &:nth-child(7n) {
+                & > div {
+                    border-top-right-radius: 100px !important;
+                    border-bottom-right-radius: 100px !important;
+
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    [service-name=pl-popper-service-date] {
+        .pl-popper-content-inner {
+            padding: 0 !important;
+
+            & > .pl-date-base-panel {
+                border: none;
+            }
+        }
+    }
+
+    .pl-date {
+        .pl-date-inner {
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+
+            & > span {
+                color: $icc;
+            }
+
+            .pl-date-input-inner {
+                border: none;
+                outline: none;
+                width: 90px;
+                height: 100%;
+                background: transparent;
+            }
+        }
+
+        &.pl-date-range {
+            .pl-date-input-inner {
+                text-align: center;
+            }
+        }
+    }
+
+    .pl-date-panel-foot {
+        padding: 8px;
+        border-top: solid 1px $ibl;
+        display: flex;
+        justify-content: center;
+
+        & > * + * {
+            margin-left: 8px;
+        }
+    }
+}

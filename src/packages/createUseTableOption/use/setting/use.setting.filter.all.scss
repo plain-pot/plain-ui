@@ -1,0 +1,40 @@
+@include theme {
+  .pl-table-pro-setting-all-filter {
+
+    background-color: #fafafa;
+    min-height: 100%;
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 16px;
+
+    & > * {
+      margin-bottom: 16px;
+
+      &:first-child {
+        text-align: right;
+      }
+    }
+
+    .pl-table-pro-setting-all-filter-item {
+      background-color: white;
+      box-sizing: border-box;
+      border-radius: 2px;
+      box-shadow: 1px 1px 8px 1px #e2e3e4;
+
+      .pl-table-pro-setting-all-filter-item-head {
+        font-size: 16px;
+        font-weight: 600;
+        border-bottom: solid 1px $ibl;
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .pl-table-pro-setting-all-filter-item-body {
+        padding: 16px;
+      }
+    }
+  }
+
+}
