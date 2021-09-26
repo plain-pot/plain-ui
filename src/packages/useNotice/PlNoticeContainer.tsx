@@ -1,5 +1,5 @@
 import {designComponent, reactive, useRefList, useClasses} from "plain-ui-composition";
-import {NoticeServiceFormatOption} from "./index";
+import {NoticeServiceDirection, NoticeServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
 import PlNotice from "./PlNotice";
 import PlList from "../PlList";
@@ -45,7 +45,7 @@ export const PlNoticeContainer = designComponent({
             },
             render: () => (
                 <div class={classes.value} style={styles}>
-                    <PlList>
+                    <PlList direction={props.horizontal === NoticeServiceDirection.start ? 'left' : 'right'}>
                         {state.options.map((option, index) =>
                             <PlItem class={"pl-item"} key={option.id}>
                                 <PlNotice
