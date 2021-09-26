@@ -1,9 +1,7 @@
-import {computed, useRefs, designComponent, reactive, useModel} from "plain-ui-composition"
+import {computed, useRefs, designComponent, useClasses, reactive, useModel} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {getKey, KEY} from "../keyboard";
-import {useClasses} from "plain-ui-composition";
-
 import {useClickWave} from "../../directives/ClickWave";
 import './toggle.scss'
 
