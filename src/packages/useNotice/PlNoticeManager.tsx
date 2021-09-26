@@ -3,7 +3,6 @@ import {NoticeServiceDirection} from "./index";
 import {PlNoticeContainer} from "./PlNoticeContainer";
 import {delay} from "plain-utils/utils/delay";
 
-
 export const PlNoticeManager = designComponent({
     name: 'pl-notice-manager',
     props: {
@@ -36,7 +35,6 @@ export const PlNoticeManager = designComponent({
 
         return {
             refer: {
-                name: 'I am notice controller',
                 getContainer,
                 props,
             },
