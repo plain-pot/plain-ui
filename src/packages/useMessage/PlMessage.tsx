@@ -1,11 +1,7 @@
-import {designComponent, PropType} from 'plain-ui-composition'
+import {createEventListener, designComponent, nextIndex, PropType, useClasses} from 'plain-ui-composition'
 import './PlMessage.scss'
 import {MessageServiceFormatOption} from "./index";
-import {useClasses} from "plain-ui-composition";
-import {nextIndex} from "plain-ui-composition"
-
 import {PlIcon} from "../PlIcon";
-import {createEventListener} from "plain-ui-composition"
 
 export default designComponent({
     name: 'pl-message',

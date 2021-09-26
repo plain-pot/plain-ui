@@ -3,7 +3,6 @@ import {MessageServiceDirection} from "./index";
 import PlMessageContainer from "./PlMessageContainer";
 import {delay} from "plain-utils/utils/delay";
 
-
 export const PlMessageManager = designComponent({
     name: 'pl-message-manager',
     props: {
@@ -34,7 +33,6 @@ export const PlMessageManager = designComponent({
         }
         return {
             refer: {
-                name: 'I am message controller',
                 props,
                 getContainer,
             },
