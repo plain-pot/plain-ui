@@ -1,16 +1,14 @@
-import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from "plain-ui-composition";
+import {computed, designComponent, useModel, useNumber, useRefs, useStyles, SimpleFunction, useClasses} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {SimpleFunction} from "plain-ui-composition";
 import {CheckboxStatus} from "../../utils/constant";
-import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
-import {Transition} from 'vue'
 import PlCheckboxInner from "../PlCheckboxInner";
 import {CheckboxGroupCollector} from "../PlCheckboxGroup";
 import {useClickWave} from "../../directives/ClickWave";
 import './checkbox.scss'
 import {isis} from "../../utils/ifSlotIsString";
+import {Transition} from "vue";
 
 export const PlCheckbox = designComponent({
     name: 'pl-checkbox',
@@ -23,6 +21,7 @@ export const PlCheckbox = designComponent({
         width: {type: [String, Number]},                            // 宽度
         trueValue: {default: true as any},                           // 选中实际值
         falseValue: {default: false as any},                         // 非选中值
+        label: {type: String},                                       // 复选框文本
 
         checkboxForAll: {type: Boolean},                            // 是否为 checkbox 全选按钮
         checkStatus: {type: String},                                // checkbox 自定义状态
@@ -31,7 +30,7 @@ export const PlCheckbox = designComponent({
         onUpdateModelValue: (val: any) => true,
         onClick: (e?: MouseEvent) => true,
     },
-    slots: ['label'],
+    slots: ['labelContent'],
     inheritPropsType: HTMLDivElement,
     scopeSlots: {
         default: (scope: { checked: boolean, status: keyof typeof CheckboxStatus, click: SimpleFunction }) => {},
@@ -118,14 +117,14 @@ export const PlCheckbox = designComponent({
                          onClick={handler.clickEl}
                          ref={onRef.el}>
                         <span class="plain-click-node">
-                            <Transition name="pl-transition-fade">
+                            <Transition name="pl-transition-fade" mode="out-in">
                                 <PlCheckboxInner
                                     checkStatus={checkStatus.value}
                                     key={checkStatus.value}
                                     disabled={editComputed.value.disabled!}/>
                             </Transition>
                         </span>
-                        {isis(slots.label, label => <span class="pl-checkbox-label">{label}</span>)}
+                        {slots.labelContent(<span class="pl-checkbox-label">{props.label}</span>)}
                     </div>
                 ))
         }

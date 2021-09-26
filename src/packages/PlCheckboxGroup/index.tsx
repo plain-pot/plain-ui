@@ -4,7 +4,6 @@ import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";
 import {PlCheckbox} from "../PlCheckbox";
 import $$notice from "../$$notice";
-
 import {useCollect} from "../../use/useCollect";
 
 export const PlCheckboxGroup = designComponent({
