@@ -131,7 +131,7 @@ const MenuData: MenuGroup[] = [
             {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: false},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
             {name: '$contextmenu', title: '菜单服务', page: '/service/contextmenu-service', complete: true},
-            {name: '$file', title: '文件服务', page: '/service/file-service', complete: false},
+            {name: '$file', title: '文件服务', page: '/service/file-service', complete: true},
             {name: '$image', title: '图片服务', page: '/service/image-service', complete: false},
         ]
     },
