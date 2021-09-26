@@ -1,4 +1,4 @@
-import {iQueryRequest, iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
+import {iQueryRequest, iTableSortData, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
 import {reactive, VueNode} from "plain-ui-composition";
@@ -6,6 +6,7 @@ import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
 import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
 import {iTableOptionCacheData, iTableOptionCacheItemData} from "./use.cache.utils";
+import {PlainObject} from "plain-utils/utils/event";
 
 export interface iTableProRenderConfig {
     seq: number,
@@ -114,7 +115,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
 
         /*表格相关*/
         onRefTable: createSyncHooks<(table: typeof PlTable.use.class) => void>(),                   // 获取table对象的引用
-        onRefTableProEl: createHooks<(el: HTMLDivElement) => void>(),                               // 获取table pro的dom节点引用
+        onRefTableProEl: createHooks<(el: HTMLDivElement | null) => void>(),                               // 获取table pro的dom节点引用
         onLoading: createSyncHooks<(flag: boolean) => void>(true),                         // 当前是否开启加载状态
         onColumns: createSyncHooks<(children: VueNode) => void>(true),                   // 渲染Table的内容
         onButtons: createSyncHooks<(content: VueNode) => void>(true),                    // 同步钩子，用来处理按钮信息

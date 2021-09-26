@@ -24,7 +24,7 @@ export const PlTablePro = designComponent({
             return props.option.hooks.onLoading.exec(false)
         })
 
-        const onRef = (el: HTMLDivElement) => {
+        const onRef = (el: HTMLDivElement | null) => {
             props.option.hooks.onRefTableProEl.exec(el)
         }
 

@@ -117,7 +117,7 @@ export const PlTimeBaseColumn = designComponent({
                                 ])}
                                     key={item}
                                     onClick={() => handler.clickItem(item)}
-                                    ref={onRefList(index + 3)  as any}>
+                                    ref={onRefList(index + 3)}>
                                     {item}
                                 </li>
                             ))}

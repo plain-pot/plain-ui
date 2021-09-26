@@ -52,7 +52,7 @@ export default designComponent({
                             <PlItem key={option.id}>
                                 <PlMessage
                                     option={option}
-                                    ref={onRefList(index) as any}
+                                    ref={onRefList(index)}
                                     onClose={() => utils.closeMessage(index)}
                                 />
                             </PlItem>

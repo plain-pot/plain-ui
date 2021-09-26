@@ -50,7 +50,7 @@ export const PlNoticeContainer = designComponent({
                             <PlItem class={"pl-item"} key={option.id}>
                                 <PlNotice
                                     option={option}
-                                    ref={onRefList(index) as any}
+                                    ref={onRefList(index)}
                                     onClose={() => utils.close(index)}
                                 />
                             </PlItem>
