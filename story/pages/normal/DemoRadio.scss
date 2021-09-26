@@ -1,0 +1,20 @@
+@include theme {
+    .demo-radio {
+        .demo-radio-block {
+            width: 120px;
+            height: 80px;
+            border: solid 1px $ibl;
+            border-radius: $shapeFillet;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            @include transition;
+        }
+
+        .demo-radio-block-is-active {
+            background-color: $colorPrimaryLight;
+            border-color: $colorPrimary;
+        }
+    }
+}

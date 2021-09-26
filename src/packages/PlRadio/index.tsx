@@ -1,17 +1,14 @@
-import {computed, designComponent, PropType, useModel, useNumber, useRefs, useStyles} from 'plain-ui-composition'
+import {computed, designComponent, PropType, SimpleFunction, useClasses, useModel, useRefs, useStyles} from 'plain-ui-composition'
 import './radio.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {SimpleFunction} from "plain-ui-composition"
 import {CheckboxStatus} from "../../utils/constant";
-import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {getKey, KEY} from "../keyboard";
-
 import PlRadioInner from "../PlRadioInner";
-import {isis} from "../../utils/ifSlotIsString";
 import {useClickWave} from "../../directives/ClickWave";
 import {PlRadioGroup} from "../PlRadioGroup";
+import {Transition} from "vue";
 
 export const PlRadio = designComponent({
     name: 'pl-radio',
@@ -25,8 +22,9 @@ export const PlRadio = designComponent({
         trueValue: {default: true as any},                          // 真值
         falseValue: {default: false as any},                        // 假值
         checkStatus: {type: String as PropType<'check' | 'uncheck'>}, // 自定义选中状态
+        label: {type: String},                                      // 单选框文本
     },
-    slots: ['label'],
+    slots: ['labelContent'],
     scopeSlots: {
         default: (scope: { checked: boolean, status: 'check' | 'uncheck', click: SimpleFunction }) => {},
     },
@@ -124,9 +122,11 @@ export const PlRadio = designComponent({
                         onKeydown={handler.keydown}
                     >
                         <span class="plain-click-node">
-                            <PlRadioInner checkStatus={checkStatus.value} key={checkStatus.value}/>
+                            <Transition name="pl-transition-fade" mode="out-in">
+                                <PlRadioInner checkStatus={checkStatus.value} key={checkStatus.value}/>
+                            </Transition>
                         </span>
-                        {isis(slots.label, label => <span class="pl-radio-label">{label}</span>)}
+                        {slots.labelContent(<span class="pl-radio-label">{props.label}</span>)}
                     </div>
                 ))
             }
