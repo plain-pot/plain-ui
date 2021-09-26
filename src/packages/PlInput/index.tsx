@@ -1,16 +1,14 @@
-import {computed, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
+import {useClasses, computed, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, createEventListener} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {getKey, KEY} from "../keyboard";
 import {throttle} from "plain-utils/utils/throttle";
-
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-ui-composition"
 import PlLoading from "../PlLoading";
 import './input.scss'
 import {noop} from "../../utils/constant";
+import {classnames} from "plain-utils/dom/classnames";
 
 console.log('load input component')
 
@@ -95,8 +93,8 @@ export const PlInput = designComponent({
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
-            input: (e: Event) => {
-                model.value = (e as any).target.value
+            input: (e: any) => {
+                model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
                 state.handlerEnter!(e)
@@ -134,7 +132,7 @@ export const PlInput = designComponent({
 
         /*---------------------------------------computed-------------------------------------------*/
 
-        const classes = useClasses(() => [
+        const classes = useClasses(() => classnames([
             `pl-input-shape-${styleComputed.value.shape}`,
             `pl-input-size-${styleComputed.value.size}`,
             {
@@ -152,7 +150,7 @@ export const PlInput = designComponent({
                 'pl-input-fill-group': props.fillGroup,
                 [`pl-input-align-${props.align}`]: !!props.align,
             }
-        ])
+        ]))
 
         const styles = useStyles(styles => {
             /*没有前置以及后置插槽以及非块级元素的情况下，设置宽度*/
@@ -179,7 +177,7 @@ export const PlInput = designComponent({
         const publicProps = computed(() => ({
             style: styles.value,
             disabled: editComputed.value.disabled,
-            readOnly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
+            readonly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
             value: model.value || '',
             placeholder: props.placeholder,
             ...(props.nativeAttrs || {}),
@@ -203,7 +201,7 @@ export const PlInput = designComponent({
                 if (e.target !== e.currentTarget) {return}
                 emit.onBlur(e)
             },
-            onKeyDown: (e: KeyboardEvent) => {
+            onKeydown: (e: KeyboardEvent) => {
                 emit.onKeydown(e)
                 switch (getKey(e)) {
                     case KEY.enter:

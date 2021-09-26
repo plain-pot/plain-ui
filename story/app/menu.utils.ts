@@ -53,7 +53,7 @@ const MenuData: MenuGroup[] = [
     },
     {
         name: '表单元素', children: [
-            {name: 'Input', title: '输入框', page: '/normal/DemoInput', complete: false},
+            {name: 'Input', title: '输入框', page: '/normal/DemoInput', complete: true},
             {name: 'Radio', title: '单选框', page: '/normal/DemoRadio', complete: true},
             {name: 'Checkbox', title: '复选框', page: '/normal/DemoCheckbox', complete: true},
             {name: 'Number', title: '数字输入', page: '/normal/DemoNumber', complete: false},

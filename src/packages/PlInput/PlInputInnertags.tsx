@@ -1,6 +1,5 @@
 import {designComponent, useRefs} from "plain-ui-composition";
 
-
 export const PlInputInnerTags = designComponent({
     name: 'pl-input-inner-tags',
     props: {
