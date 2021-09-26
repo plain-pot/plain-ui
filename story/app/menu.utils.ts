@@ -56,7 +56,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Input', title: '输入框', page: '/normal/DemoInput', complete: true},
             {name: 'Radio', title: '单选框', page: '/normal/DemoRadio', complete: true},
             {name: 'Checkbox', title: '复选框', page: '/normal/DemoCheckbox', complete: true},
-            {name: 'Number', title: '数字输入', page: '/normal/DemoNumber', complete: false},
+            {name: 'Number', title: '数字输入', page: '/normal/DemoNumber', complete: true},
             {name: 'Loading', title: '加载', page: '/normal/DemoLoading', complete: true},
             {name: 'Select', title: '下拉选择', page: '/normal/DemoSelect', complete: false},
             {name: 'Toggle', title: '开关切换', page: '/normal/DemoToggle', complete: false},

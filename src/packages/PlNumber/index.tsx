@@ -1,10 +1,8 @@
-import {computed, designComponent, reactive, useModel, useNumber, useRefs} from "plain-ui-composition";
+import {computed, designComponent, reactive, useModel, useNumber, useRefs, useClasses} from "plain-ui-composition";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {getKey, KEY} from "../keyboard";
 import {PlInput} from "../PlInput";
-
-import {useClasses} from "plain-ui-composition";
 import PlIcon from "../PlIcon";
 import {useClickWave} from "../../directives/ClickWave";
 import './number.scss'
