@@ -1,9 +1,9 @@
-import {SimpleObject, VNodeChild} from "../../../shims";
+import {PlainObject, VNodeChild} from "../../../shims";
 import {TreeDropType, TreeNodeCheckStatus} from "./tree-constant";
 
 export type TreeNode = {
     key: string,
-    data: SimpleObject,
+    data: PlainObject,
     level: number,
     parentRef: () => TreeNode | null,
     selfRef: () => TreeNode,
@@ -11,7 +11,7 @@ export type TreeNode = {
     index: number,
     empty: boolean,
 
-    readonly childrenData?: SimpleObject[]
+    readonly childrenData?: PlainObject[]
     readonly label?: string,
     children?: TreeNode[],
     readonly checkStatus: TreeNodeCheckStatus,

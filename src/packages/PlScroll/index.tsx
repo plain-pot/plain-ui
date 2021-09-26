@@ -356,7 +356,7 @@ export const PlScroll = designComponent({
                     freezeState.cancelAnimate = null
                 }
             },
-            wrapperScroll: ({nativeEvent: e}: UIEvent) => {
+            wrapperScroll: (e: Event) => {
 
                 const target = e.target as HTMLElement
                 freezeState.wrapperScrollTop = target.scrollTop

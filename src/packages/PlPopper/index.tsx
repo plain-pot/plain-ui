@@ -1,18 +1,17 @@
 import './popper.scss'
 import {createError} from "../../utils/createError";
-import {computed, designComponent, getCurrentDesignInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
+import {computed, designComponent, getCurrentInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
 import {nextIndex} from "plain-ui-composition"
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "./trigger/PopperTrigger";
 import {getElement} from "../../utils/getElement";
 import {SimpleFunction} from "plain-ui-composition"
 import {delay} from "plain-utils/utils/delay";
 import {debounce} from "plain-utils/utils/debounce";
+import {PlainPopper} from 'plain-popper'
+import {Teleport} from 'vue'
 
 import {useClasses} from "plain-ui-composition";
 import {PlScroll} from "../PlScroll";
-import {createPortal, findDOMNode} from 'react-dom';
-import {PlainPopper} from 'plain-popper'
-import {ClassWrapper} from "../../utils/ClassWrapper";
 import {refreshPopperReference} from './refershPopperReference';
 import {ClickBodyListener} from "../../utils/ClickBodyListener";
 import {MultipleClass} from "plain-ui-composition/src/use/useClasses";
@@ -80,7 +79,7 @@ export const PlPopper = designComponent({
         const {emit, on, off} = event
 
         const {refs, onRef} = useRefs({
-            wrapper: ClassWrapper,                                               // 注释节点，用来查找reference的第一个节点
+            // wrapper: ClassWrapper,                                               // 注释节点，用来查找reference的第一个节点
             popper: HTMLDivElement,                                             // popper div 节点
             content: HTMLDivElement,                                            // popper content 节点
         });
@@ -207,8 +206,9 @@ export const PlPopper = designComponent({
 
         const utils = {
             getReferenceInWrapper: () => {
-                if (!refs.wrapper) return null
-                return findDOMNode(refs.wrapper) as HTMLElement
+                // if (!refs.wrapper) return null
+                // return findDOMNode(refs.wrapper) as HTMLElement
+                return {} as HTMLElement
             },
             init: (): boolean => {
                 const referenceInWrapper = utils.getReferenceInWrapper()
@@ -377,13 +377,13 @@ export const PlPopper = designComponent({
             }
         })
 
-        const ctx = getCurrentDesignInstance()!
+        const ctx = getCurrentInstance()!
         const popperConfigChangeHandler = debounce(async () => {
             // console.log('popperConfigChangeHandler')
             await delay()
-            if (ctx.isDestroyed) {
+            /*if (ctx.isDestroyed) {
                 return
-            }
+            }*/
             await utils.destroy()
             await utils.init()
             if (!state.referenceEl) {
@@ -425,42 +425,45 @@ export const PlPopper = designComponent({
                     <>
                         {/*如果没有reference，则不渲染comment节点*/}
                         {!!children && <>
-                            <ClassWrapper ref={onRef.wrapper}>
+                            {/*<ClassWrapper ref={onRef.wrapper}>
                                 {children}
-                            </ClassWrapper>
+                            </ClassWrapper>*/}
                         </>}
 
-                        {state.init && createPortal(
-                            <div class={popperClasses.value}
-                                 style={popperStyles.value}
-                                 {...attrs}
-                                 {...(props.popperAttrs || {})}
-                                 ref={onRef.popper}>
-                                <div class="plain-popper-content"
-                                     ref={onRef.content}
+                        {state.init && (
+                            <Teleport to=".pl-root-service-container">
+                                <div class={popperClasses.value}
+                                     style={popperStyles.value}
+                                     {...attrs}
+                                     {...(props.popperAttrs || {})}
+                                     ref={onRef.popper}>
+                                    <div class="plain-popper-content"
+                                         ref={onRef.content}
 
-                                     onClick={emit.onClickPopper}
-                                     onTransitionEnd={handler.onPopperContentTransitionend}
-                                     onMousedown={emit.onMousedownPopper}
-                                     onMouseUp={handler.onMouseupPopper}
-                                     {...(props.trigger === 'hover' ? {
-                                         onMouseEnter: e => emit.onEnterPopper(e),
-                                         onMouseLeave: e => emit.onLeavePopper(e),
-                                     } : {})}
-                                >
-                                    <div class="plain-popper-arrow"/>
-                                    {(slots.title.isExist()) && <div class="pl-popper-title">
-                                        {slots.title()}
-                                    </div>}
-                                    {(props.message || slots.popper.isExist()) && <div class="pl-popper-content-inner" style={sizeStyles.value}>
-                                        {!!scrollAttrs.value ? (
-                                            <PlScroll {...scrollAttrs.value}>
-                                                {props.message || slots.popper()}
-                                            </PlScroll>
-                                        ) : (props.message || slots.popper())}
-                                    </div>}
+                                         onClick={emit.onClickPopper}
+                                         onTransitionend={handler.onPopperContentTransitionend}
+                                         onMousedown={emit.onMousedownPopper}
+                                         onMouseup={handler.onMouseupPopper}
+                                         {...(props.trigger === 'hover' ? {
+                                             onMouseenter: e => emit.onEnterPopper(e),
+                                             onMouseleave: e => emit.onLeavePopper(e),
+                                         } : {})}
+                                    >
+                                        <div class="plain-popper-arrow"/>
+                                        {(slots.title.isExist()) && <div class="pl-popper-title">
+                                            {slots.title()}
+                                        </div>}
+                                        {(props.message || slots.popper.isExist()) && <div class="pl-popper-content-inner" style={sizeStyles.value}>
+                                            {!!scrollAttrs.value ? (
+                                                <PlScroll {...scrollAttrs.value}>
+                                                    {props.message || slots.popper()}
+                                                </PlScroll>
+                                            ) : (props.message || slots.popper())}
+                                        </div>}
+                                    </div>
                                 </div>
-                            </div>, document.querySelector('.pl-root-service-container')!)}
+                            </Teleport>
+                        )}
                     </>
                 )
             }

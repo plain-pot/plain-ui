@@ -1,21 +1,20 @@
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {delay} from "plain-utils/utils/delay";
-import {SimpleObject} from "../../../shims";
-import {computed, PropType, useModel} from "plain-ui-composition";
-import {nextTick} from "../../../utils/nextTick";
+import {computed, nextTick, PropType, useModel} from "plain-ui-composition";
+import {PlainObject} from "plain-utils/utils/event";
 
 
 function use<Node extends {
     key: string,
-    data: SimpleObject,
+    data: PlainObject,
     level: number,
     parentRef: () => Node | null,
     selfRef: () => Node,
 
     index: number,
 
-    readonly childrenData?: SimpleObject[]
+    readonly childrenData?: PlainObject[]
     readonly label?: string,
     children?: Node[],
     readonly checkStatus: TreeNodeCheckStatus,
@@ -37,14 +36,14 @@ function use<Node extends {
     }: {
         props: {
             /*useTreeNode*/
-            data?: SimpleObject[],
+            data?: PlainObject[],
             labelField?: string,
             keyField?: string,
             childrenField?: string,
             filterNodeMethod?: (node: Node) => boolean,
             isLeaf?: (node: Node) => boolean,
             isCheckable?: (node: Node) => boolean,
-            getChildren?: (node: Node, cb: (data: SimpleObject[]) => void) => void,
+            getChildren?: (node: Node, cb: (data: PlainObject[]) => void) => void,
             lazy?: boolean,
             showCheckbox?: boolean,
             checkStrictly?: boolean,
@@ -65,7 +64,7 @@ function use<Node extends {
             onUncheck: (node: Node) => void,
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: Node) => void,
-            onUpdateData: (data?: SimpleObject[]) => void,
+            onUpdateData: (data?: PlainObject[]) => void,
             onUpdateCurrentKey: (key?: string | number) => void,
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
@@ -91,7 +90,7 @@ function use<Node extends {
             }
         },
         /*获取子节点数据异步方法*/
-        getChildrenAsync: (node: Node): Promise<SimpleObject[]> => {
+        getChildrenAsync: (node: Node): Promise<PlainObject[]> => {
             return new Promise((resolve) => {
                 if (!props.getChildren) {
                     console.error('getChildren is required when using lazy mode!')
@@ -366,7 +365,7 @@ export const useTree = Object.assign(use, {
     createProps: <Node>() => {
         return {
             /*useTreeNode*/
-            data: {type: Array as PropType<SimpleObject[]>},            // 树形结构数据
+            data: {type: Array as PropType<PlainObject[]>},            // 树形结构数据
             keyField: {type: String},                                   // 每一个树节点用来标识的唯一树形
             labelField: {type: String},                                 // 树节点展示文本对应字段
             childrenField: {type: String},                              // 树节点对应子节点数据对应字段
@@ -374,7 +373,7 @@ export const useTree = Object.assign(use, {
             filterNodeMethod: {type: Function as PropType<(node: Node) => boolean>},// 对树节点进行筛选的方法，返回true表示可以显示，返回false表示隐藏
             isLeaf: {type: Function as PropType<(node: Node) => boolean>},// 判断树节点是否为叶子节点的函数，仅在lazy模式有效
             isCheckable: {type: Function as PropType<(node: Node) => boolean>},     // 当即将选中树节点时，判断是否可以选中该树节点
-            getChildren: {type: Function as PropType<(node: Node, cb: (data: SimpleObject[]) => void) => void>},// 加载子节点数据的函数，仅当 lazy 为true时有效
+            getChildren: {type: Function as PropType<(node: Node, cb: (data: PlainObject[]) => void) => void>},// 加载子节点数据的函数，仅当 lazy 为true时有效
             lazy: {type: Boolean},                                      // 是否懒加载子节点数据
             showCheckbox: {type: Boolean},                              // 是否展示勾选框
             checkStrictly: {type: Boolean},                             // 在显示复选框的情况下，是否严格遵循父子互不关联的做法，默认为false
@@ -392,7 +391,7 @@ export const useTree = Object.assign(use, {
         return {
             onClickNode: (node: Node) => true,                          // 点击节点事件
             onUpdateCurrentKey: (current?: string | number) => true,                // 当前高亮节点key变化绑定事件
-            onUpdateData: (data?: SimpleObject[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
+            onUpdateData: (data?: PlainObject[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
 
             onExpandChange: (expandKeys: string[]) => true,             // 展开节点变化事件
             onExpand: (node: Node) => true,                             // 展开事件

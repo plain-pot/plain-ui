@@ -1,11 +1,11 @@
-import {SimpleObject} from "../../../../shims";
 import {ExtractPropTypes} from "plain-ui-composition";
 import {TableNode} from "../../table/use/useTableNode";
 import {PlcEmitsOptions, PlcGroupPropsOptions, PlcPropsOptions, PlcPublicAttrsType} from "./plc.utils";
 import {PlcPropsHead, tPlcScopeSlots, tPlcSlots} from "./plc.scope-slots";
-import {ComponentEvent} from "plain-ui-composition/src/composition/emit.type";
+import {PlainObject} from "plain-utils/utils/event";
+import {ComponentEvent} from "plain-ui-composition/src/packages/emit";
 
-export type TableRenderScope = { plc: tPlc, node: TableNode, row: SimpleObject }
+export type TableRenderScope = { plc: tPlc, node: TableNode, row: PlainObject }
 export type PlcPropsType = Omit<ExtractPropTypes<typeof PlcPropsOptions>, 'width' | 'order'> & { width: number, order: number | undefined }
 export type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupPropsOptions>, 'order'> & { order: number | undefined }
 export type tPlcEvent = ComponentEvent<typeof PlcEmitsOptions>

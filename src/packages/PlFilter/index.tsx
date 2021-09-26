@@ -1,4 +1,5 @@
 import {designComponent, PropType} from "plain-ui-composition";
+import {Fragment} from 'vue'
 
 import {FilterConfig, iFilterTargetOption} from "./FilterConfig";
 import PlSelect from "../PlSelect";

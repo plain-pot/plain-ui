@@ -1,7 +1,6 @@
 import {TableNode} from "../../table/use/useTableNode";
 import {CheckboxStatus} from "../../../../utils/constant";
-import {toArray} from "../../../../utils/toArray";
-import {computed, designComponent, getCurrentDesignInstance, onBeforeUnmount, PropType, reactive} from "plain-ui-composition";
+import {computed, designComponent, getCurrentInstance, onBeforeUnmount, PropType, reactive} from "plain-ui-composition";
 import {injectPlainTable} from "../../index";
 
 import {PlCheckbox} from "../../../PlCheckbox";
@@ -11,6 +10,7 @@ import PlDropdownOption from "../../../PlDropdownOption";
 import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
+import {toArray} from "plain-utils/utils/toArray";
 
 export default designComponent({
     name: 'plc-check',
@@ -31,7 +31,7 @@ export default designComponent({
     setup({props, slots, scopeSlots, event}) {
 
         const table = injectPlainTable()
-        const proxy = getCurrentDesignInstance().proxy!
+        const proxy = getCurrentInstance()!.proxy!
         const state = reactive({
             selected: [] as TableNode[],
         })
@@ -100,12 +100,14 @@ export default designComponent({
                 head: () => (
                     <PlDropdown
                         {...{placement: 'bottom-center'}}
-                        default={() => <PlCheckbox checkStatus={status.value}/>}
-                        popper={() => <PlDropdownMenu>
-                            <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
-                            <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
-                            <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
-                        </PlDropdownMenu>}
+                        v-slots={{
+                            default: () => <PlCheckbox checkStatus={status.value}/>,
+                            popper: () => <PlDropdownMenu>
+                                <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
+                                <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
+                                <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
+                            </PlDropdownMenu>,
+                        }}
                     />
                 )
             }

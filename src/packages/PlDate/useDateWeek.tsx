@@ -2,7 +2,7 @@ import {DateItemData, DatePublicPropsType} from "./date.utils";
 import {useDatePanel, UseDateEmit, UseDateJudgementView} from "./useDatePanel";
 import {PDate} from "../../utils/plainDate";
 import {computed, reactive} from "plain-ui-composition";
-import {toArray} from "../../utils/toArray";
+import {toArray} from "plain-utils/utils/toArray";
 
 export function useDateWeek(
     {

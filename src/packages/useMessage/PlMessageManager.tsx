@@ -45,7 +45,7 @@ export const PlMessageManager = designComponent({
                             key={index}
                             horizontal={container.horizontal}
                             vertical={container.vertical}
-                            ref={onRefList(index)}/>)}
+                            ref={onRefList(index) as any}/>)}
                 </div>
             )
         }

@@ -2,8 +2,6 @@ import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from
 import {EditProps, useEdit} from "../../use/useEdit";
 import {unit} from "plain-utils/string/unit";
 
-import {NativeInput} from "../NativeInput";
-
 export const PlDateTimeInput = designComponent({
     name: 'pl-date-time-input',
     props: {
@@ -40,7 +38,7 @@ export const PlDateTimeInput = designComponent({
         }
 
         const handler = {
-            input: (e: FormEvent) => {
+            input: (e: Event) => {
                 model.value = (e as any).target.value
                 if (!model.value || regexp.value.test(model.value)) {
                     emit.onUpdateModelValue(model.value)
@@ -62,7 +60,7 @@ export const PlDateTimeInput = designComponent({
                 methods,
             },
             render: () => (
-                <NativeInput
+                <input
                     type="text"
                     ref={onRef.input}
                     class="pl-date-time-inner-input pl-input-custom-inner-input"
@@ -73,7 +71,7 @@ export const PlDateTimeInput = designComponent({
                     onBlur={handler.blur}
                     onFocus={handler.focus}
                     disabled={editComputed.value.disabled as any}
-                    readOnly={editComputed.value.readonly as any}
+                    readonly={editComputed.value.readonly as any}
                 />
             )
         }

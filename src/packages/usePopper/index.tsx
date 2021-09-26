@@ -1,6 +1,5 @@
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {VueNode} from "react";
-import {computed, onBeforeUnmount, reactive, ref} from "plain-ui-composition";
+import {computed, onBeforeUnmount, reactive, ref, VueNode} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 import PlPopper from "../PlPopper";
 
@@ -79,7 +78,9 @@ const PopperService = createDefaultService({
                         ...handler,
                         ...(state.option.popperAttrs || {}),
                     }}
-                    popper={state.option.render}
+                    v-slots={{
+                        popper:state.option.render,
+                    }}
                 />
             )
         }

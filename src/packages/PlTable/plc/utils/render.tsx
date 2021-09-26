@@ -1,6 +1,6 @@
 import {tPlc, tPlcType, TableRenderScope} from "./plc.type";
 import {TableNode} from "../../table/use/useTableNode";
-import {VNodeChild} from "../../../../shims";
+import {VueNode} from "plain-ui-composition";
 
 export function renderHeadCell(plc: tPlcType) {
     // 如果存在 props.head 渲染函数，则渲染 props.head
@@ -69,7 +69,7 @@ function getBodyCell(
         editable: boolean,
         formEdit: boolean,
     }
-): VNodeChild {
+): VueNode {
     let renderScope: TableRenderScope
     if (node.isSummary) {
         // 合计行中的row一直是原始的row对象

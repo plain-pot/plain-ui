@@ -106,8 +106,8 @@ export const PltCell = designComponent({
 
                 return (
                     <td
-                        rowSpan={span.rowspan}
-                        colSpan={span.colspan}
+                        rowspan={span.rowspan}
+                        colspan={span.colspan}
                         class={classes.value}
                         style={styles.value}
                         onClick={onClick}>

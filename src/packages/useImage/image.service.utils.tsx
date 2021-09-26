@@ -3,8 +3,8 @@
  * @author  韦胜健
  * @date    2021/1/21 11:46
  */
-import {defer} from "../../utils/defer";
 import $$file from "../$$file";
+import {defer} from "plain-utils/utils/defer";
 
 export function urlToImage(url: string) {
     const dfd = defer<HTMLImageElement>()

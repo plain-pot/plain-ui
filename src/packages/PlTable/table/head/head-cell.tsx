@@ -5,10 +5,8 @@ import {useColDraggier} from "./useColDraggier";
 import {computed, designComponent, PropType} from "plain-ui-composition";
 import {PlainTable} from "../../index";
 import {PlainScroll} from "../../../PlScroll";
-import {} from "plain-ui-composition";
-
-import {toArray} from "../../../../utils/toArray";
 import PlIcon from "../../../PlIcon";
+import {toArray} from "plain-utils/utils/toArray";
 
 export const PltHeadCell = designComponent({
     name: 'plt-head-cell',
@@ -49,8 +47,8 @@ export const PltHeadCell = designComponent({
                             ...props.tablePlc.styles.head as any,
                             ...(!!props.table.props.headCellStyleFunc ? props.table.props.headCellStyleFunc(props.tablePlc) : {})
                         }}
-                        rowSpan={props.tablePlc.rowspan}
-                        colSpan={props.tablePlc.colspan}
+                        rowspan={props.tablePlc.rowspan}
+                        colspan={props.tablePlc.colspan}
                         onClick={e => props.table.event.emit.onClickHead(props.tablePlc, e)}
                         {...tdAttrs}
                     >

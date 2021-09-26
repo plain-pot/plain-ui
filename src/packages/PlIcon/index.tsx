@@ -3,6 +3,7 @@ import './icon.scss'
 import {useClasses} from 'plain-ui-composition';
 import {refreshPopperReference} from "../PlPopper/refershPopperReference";
 import {HtmlHTMLAttributes} from 'vue'
+import {classnames} from 'plain-utils/dom/classnames'
 
 interface IconGetter {
     (icon: string): VueNode | Promise<VueNode>
@@ -28,7 +29,7 @@ registry('el-icon-', async (icon) => {
         // console.log(module)
         return (
             <svg {...{
-                dangerouslySetInnerHTML: {__html: module.default[0],},
+                innerHTML: module.default[0],
                 class: `el-svg-icon ${icon}`,
                 viewBox: "0 0 1024 1024",
                 version: "1.1",
@@ -84,7 +85,7 @@ export const PlIcon = designComponent({
                 ...Icon,
                 props: {
                     ...Icon.props,
-                    class: `${Icon.props.className || ''} ${classes.value}`
+                    class: `${Icon.props.class || ''} ${classnames(classes.value)}`
                 },
             } : <i class="PlIcon"/>
         }

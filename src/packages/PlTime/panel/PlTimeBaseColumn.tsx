@@ -6,8 +6,6 @@ import {zeroize} from "plain-utils/string/zeroize";
 import {delay} from "plain-utils/utils/delay";
 import {findOne} from "plain-utils/object/findOne";
 
-import {} from "plain-ui-composition";
-
 const size = 24;
 
 export const PlTimeBaseColumn = designComponent({
@@ -119,7 +117,7 @@ export const PlTimeBaseColumn = designComponent({
                                 ])}
                                     key={item}
                                     onClick={() => handler.clickItem(item)}
-                                    ref={onRefList(index + 3)}>
+                                    ref={onRefList(index + 3)  as any}>
                                     {item}
                                 </li>
                             ))}

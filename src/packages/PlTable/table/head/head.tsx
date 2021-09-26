@@ -45,7 +45,7 @@ export const PltHead = designComponent({
 
         return {
             render: () => (
-                <div class="plt-head" style={styles.value} onMouseEnter={bindScroll.onMouseEnter}>
+                <div class="plt-head" style={styles.value} onMouseenter={bindScroll.onMouseEnter}>
                     <PlScroll hideScrollbar scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref={onRef.scroll}>
                         <table {...{
                             cellSpacing: 0,

@@ -8,7 +8,6 @@ import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {getKey, KEY} from "../keyboard";
 
-import PlTransition from "../PlTransition";
 import PlRadioInner from "../PlRadioInner";
 import {isis} from "../../utils/ifSlotIsString";
 import {useClickWave} from "../../directives/ClickWave";
@@ -120,14 +119,12 @@ export const PlRadio = designComponent({
                         ref={onRef.el}
                         class={classes.value}
                         style={styles.value}
-                        tabIndex={0}
+                        tabindex={0}
                         onClick={handler.click}
-                        onKeyDown={handler.keydown}
+                        onKeydown={handler.keydown}
                     >
                         <span class="plain-click-node">
-                            <PlTransition switch name="pl-transition-fade">
-                                <PlRadioInner checkStatus={checkStatus.value} key={checkStatus.value}/>
-                            </PlTransition>
+                            <PlRadioInner checkStatus={checkStatus.value} key={checkStatus.value}/>
                         </span>
                         {isis(slots.label, label => <span class="pl-radio-label">{label}</span>)}
                     </div>

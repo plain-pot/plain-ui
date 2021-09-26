@@ -1,4 +1,4 @@
-import {SimpleObject} from "../../../shims";
+import {PlainObject} from "../../../shims";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {throttle} from "plain-utils/utils/throttle";
 import {reactive, computed, onBeforeUnmount, useModel, watchEffect, watch} from "plain-ui-composition";
@@ -8,7 +8,7 @@ import {reactive, computed, onBeforeUnmount, useModel, watchEffect, watch} from 
  * @author  韦胜健
  * @date    2020/12/2 12:22
  */
-function iteratorTreeData({data, childrenField}: { data?: SimpleObject[], childrenField: string }) {
+function iteratorTreeData({data, childrenField}: { data?: PlainObject[], childrenField: string }) {
     if (!!data) {
         data.forEach(item => {
             if (!!item[childrenField]) {
@@ -20,14 +20,14 @@ function iteratorTreeData({data, childrenField}: { data?: SimpleObject[], childr
 
 export function useTreeNode<Node extends {
     key: string,
-    data: SimpleObject,
+    data: PlainObject,
     level: number,
     parentRef: () => Node | null,
     selfRef: () => Node,
 
     index: number,
 
-    readonly childrenData?: SimpleObject[]
+    readonly childrenData?: PlainObject[]
     readonly label?: string,
     children?: Node[],
     readonly checkStatus: TreeNodeCheckStatus,
@@ -48,20 +48,20 @@ export function useTreeNode<Node extends {
         getTreeNodeByDataAdjust,
     }: {
         props: {
-            data?: SimpleObject[],
+            data?: PlainObject[],
             labelField?: string,
             keyField?: string,
             childrenField?: string,
             filterNodeMethod?: (node: Node) => boolean,
             isLeaf?: (node: Node) => boolean,
             isCheckable?: (node: Node) => boolean,
-            getChildren?: (node: Node, cb: (data: SimpleObject[]) => void) => void,
+            getChildren?: (node: Node, cb: (data: PlainObject[]) => void) => void,
             lazy?: boolean,
             showCheckbox?: boolean,
             checkStrictly?: boolean,
         },
         event: {
-            emit: { onUpdateData: (data?: SimpleObject[]) => void }
+            emit: { onUpdateData: (data?: PlainObject[]) => void }
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
         getTreeNodeByDataAdjust?: (node: Node) => void,
@@ -171,7 +171,7 @@ export function useTreeNode<Node extends {
             const iterator = ({data, level, parentRef}: { data: any, level: number, parentRef: () => Node }): Node => {
                 const node = utils.getTreeNodeByData({data, level, parentRef, adjust: getTreeNodeByDataAdjust})
                 nodeMap[node.key] = node
-                const childrenData = !props.childrenField ? null : (data[props.childrenField!] as SimpleObject[])
+                const childrenData = !props.childrenField ? null : (data[props.childrenField!] as PlainObject[])
                 if (!!childrenData) {
                     node.children = childrenData.map(child => iterator({data: child, level: level + 1, parentRef: () => state.nodeMap[node.key]}))
                 }

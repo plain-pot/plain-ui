@@ -5,11 +5,11 @@ import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$fi
 import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {defer} from "../../utils/defer";
 import {$$image} from "../useImage";
 
 import PlIcon from "../PlIcon";
-import {SimpleObject} from "../../shims";
+import {defer} from "plain-utils/utils/defer";
+import {PlainObject} from "plain-utils/utils/event";
 
 enum ImageUploaderStatus {
     /*加载*/
@@ -42,7 +42,7 @@ export const PlImageUploader = designComponent({
         onUpdateModelValue: (val?: string) => true,
         onLoadSuccess: (url: string) => true,
         onLoadError: (e: string | Event) => true,
-        onUploadSuccess: (resp: SimpleObject | string) => true,
+        onUploadSuccess: (resp: PlainObject | string) => true,
         onUploadProgress: (percent: number, e: ProgressEvent) => true,
         onUploadFail: (e: any) => true,
     },

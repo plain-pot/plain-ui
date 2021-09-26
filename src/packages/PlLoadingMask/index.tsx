@@ -5,7 +5,6 @@ import {useClasses} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 
 import PlLoading from "../PlLoading";
-import PlTransition from "../PlTransition";
 
 export const PlLoadingMask = designComponent({
     name: 'pl-loading-mask',
@@ -92,12 +91,10 @@ export const PlLoadingMask = designComponent({
         return {
             refer: {refs},
             render: () => (
-                <PlTransition name={'pl-transition-fade'} unmount show={!!modelValue.value && state.isMounted}>
-                    <div style={styles.value} class={classes.value} ref={onRef.el} {...attrs}>
-                        <PlLoading type={props.loadingType}/>
-                        {!!props.message && <span>{props.message}</span>}
-                    </div>
-                </PlTransition>
+                <div style={styles.value} class={classes.value} ref={onRef.el} {...attrs}>
+                    <PlLoading type={props.loadingType}/>
+                    {!!props.message && <span>{props.message}</span>}
+                </div>
             )
         }
     },

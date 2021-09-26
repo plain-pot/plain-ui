@@ -1,13 +1,11 @@
-import {computed, useRefs, reactive, ref} from "plain-ui-composition";
+import {computed, useRefs, reactive, ref, VueNode} from "plain-ui-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {DialogServiceEditType, DialogServiceFormatOption} from "./index";
 import {PlInput} from "../PlInput";
 import {PlDialog} from "../PlDialog";
 import {delay} from "plain-utils/utils/delay";
-import React, {VueNode} from "react";
 import {STATUS} from "../../utils/constant";
 import PlIcon from "../PlIcon";
-import {StyleShape} from "../../use/useStyle";
 import PlNumber from "../PlNumber";
 import $$message from "../$$message";
 import {deepcopy} from "plain-utils/object/deepcopy";
@@ -173,7 +171,7 @@ export default createDefaultService({
                             readonly={option.editReadonly}
                         />
                     ) : <PlInput
-                        ref={(refer) => { onRef.input(refer) }}
+                        ref={(refer: any) => { onRef.input(refer) }}
                         block
                         minHeight={null as any}
                         maxHeight={null as any}

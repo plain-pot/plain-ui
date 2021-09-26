@@ -1,6 +1,5 @@
-import {reactive} from "plain-ui-composition";
+import {reactive, VueNode} from "plain-ui-composition";
 
-import {VueNode} from "react";
 import PlInput from "../PlInput";
 import {FilterTextContains} from "./editor/FilterTextContains";
 import PlSelect from "../PlSelect";

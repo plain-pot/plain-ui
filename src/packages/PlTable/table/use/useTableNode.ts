@@ -1,4 +1,3 @@
-import {SimpleObject} from "../../../../shims";
 import {TableProps} from "../utils/table.utils";
 import {createKeyHandler} from "../../../../utils/createKeyHandler";
 import {deepcopy} from "plain-utils/object/deepcopy";
@@ -6,6 +5,7 @@ import {computed, ExtractPropTypes} from "plain-ui-composition";
 import {useTree} from "../../../PlTree/core/useTree";
 import {TreeNodeCheckStatus} from "../../../PlTree/utils/tree-constant";
 import {FormValidateError, tFormRuleData} from "../../../PlForm/form.validate";
+import {PlainObject} from "plain-utils/utils/event";
 
 export function useTableNode(
     {
@@ -23,7 +23,7 @@ export function useTableNode(
             onUncheck: (node: TableNode) => void,
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: TableNode) => void,
-            onUpdateData: (data?: SimpleObject[]) => void,
+            onUpdateData: (data?: PlainObject[]) => void,
             onUpdateCurrentKey: (key?: string | number) => void,
         },
     }
@@ -85,7 +85,7 @@ export function useTableNode(
 export type TableNode = {
 
     key: string,                                        // 节点唯一标识
-    data: SimpleObject,                                 // 节点数据
+    data: PlainObject,                                 // 节点数据
     level: number,                                      // 节点层级
     parentRef: () => TableNode | null,                  // 父节点引用
     selfRef: () => TableNode,                           // 自身引用
@@ -97,7 +97,7 @@ export type TableNode = {
     loading: boolean,                                   // 节点是否处于加载状态
     loaded: boolean,                                    // 节点是否已经加载完毕
 
-    readonly childrenData?: SimpleObject[]              // 子节点数据数组
+    readonly childrenData?: PlainObject[]              // 子节点数据数组
     readonly checkStatus: TreeNodeCheckStatus,          // 节点选中状态
     readonly isCheckable: boolean,                      // 节点是否可以选择
     readonly isLeaf: boolean,                           // 节点是否为叶子节点
@@ -107,7 +107,7 @@ export type TableNode = {
 
     isSummary: boolean,                                 // 当前是否为合计行数据
     edit: boolean,                                      // 当前是否处于可编辑状态
-    editRow: SimpleObject,                              // 编辑行对象
+    editRow: PlainObject,                              // 编辑行对象
     validateErrors: FormValidateError[] | null,         // 当前行的校验结果
 
     openEdit: () => void,                               // 开启编辑状态（不做任何处理）
@@ -115,6 +115,6 @@ export type TableNode = {
     enableEdit: () => void,                             // 开启编辑状态（先判断当前是否可编辑，深度赋值一份data赋值给editRow，并且立即执行校验）
     cancelEdit: () => void,                             // 取消编辑状态
     validate: () => Promise<({ errors: FormValidateError[], node: TableNode }) | null>, // 校验数据
-    saveEdit: (newRow?: SimpleObject) => Promise<void>,  // 保存编辑，将editRow以及newRow（请求得到的新对象）覆盖data
+    saveEdit: (newRow?: PlainObject) => Promise<void>,  // 保存编辑，将editRow以及newRow（请求得到的新对象）覆盖data
 
 }

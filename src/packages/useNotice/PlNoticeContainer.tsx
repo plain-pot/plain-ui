@@ -2,7 +2,6 @@ import {useClasses} from "plain-ui-composition";
 import {designComponent, reactive, useRefList} from "plain-ui-composition";
 import {NoticeServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
-import {PlList} from "../PlList";
 
 import PlNotice from "./PlNotice";
 
@@ -46,17 +45,15 @@ export const PlNoticeContainer = designComponent({
             },
             render: () => (
                 <div class={classes.value} style={styles}>
-                    <PlList>
-                        {state.options.map((option, index) =>
-                            <div class={"pl-item"} key={option.id}>
-                                <PlNotice
-                                    option={option}
-                                    ref={onRefList(index)}
-                                    onClose={() => utils.close(index)}
-                                />
-                            </div>
-                        )}
-                    </PlList>
+                    {state.options.map((option, index) =>
+                        <div class={"pl-item"} key={option.id}>
+                            <PlNotice
+                                option={option}
+                                ref={onRefList(index) as any}
+                                onClose={() => utils.close(index)}
+                            />
+                        </div>
+                    )}
                 </div>
             )
         }

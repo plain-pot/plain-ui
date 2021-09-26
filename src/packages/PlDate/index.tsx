@@ -13,7 +13,6 @@ import {PlDateTimeInput} from "../PlDateTimeInput";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
 import {PlInput} from "../PlInput";
-import {} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import PlPopper from "../PlPopper";
 
@@ -229,10 +228,12 @@ export const PlDate = designComponent({
                                 data={formatData.value.vpds || []}
                                 maxTags={props.maxTags}
                                 collapseTags={props.collapseTags}
-                                default={({item, index}: { item: PDate, index: number }) => (<>
-                                    <span>{item.getDisplay()}</span>
-                                    <PlIcon icon="el-icon-close" {...{onClick: (e: any) => customHandler.onClickItemCloseIcon(index, e)}}/>
-                                </>)}
+                                v-slots={{
+                                    default: ({item, index}: { item: PDate, index: number }) => (<>
+                                        <span>{item.getDisplay()}</span>
+                                        <PlIcon icon="el-icon-close" {...{onClick: (e: any) => customHandler.onClickItemCloseIcon(index, e)}}/>
+                                    </>)
+                                }}
                             />)}
 
                             {!props.multiple && (

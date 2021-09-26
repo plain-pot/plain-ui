@@ -96,10 +96,10 @@ export const PlToggle = designComponent({
                 <div
                     ref={onRef.el}
                     class={classes.value}
-                    tabIndex={0}
+                    tabindex={0}
                     onMousedown={handler.mousedown}
                     onClick={handler.click}
-                    onKeyDown={handler.keydown}
+                    onKeydown={handler.keydown}
                     onFocus={handler.focus}
                     onBlur={handler.blur}>
                     <div class="pl-toggle-inner"/>

@@ -1,6 +1,5 @@
 import {TableNode} from "../../table/use/useTableNode";
-import {SimpleObject} from "../../../../shims";
-import {, computed, designComponent, onBeforeUnmount, reactive} from "plain-ui-composition";
+import {computed, designComponent, onBeforeUnmount, reactive} from "plain-ui-composition";
 
 import {injectPlainTable} from "../../index";
 import PlDropdown from "../../../PlDropdown";
@@ -10,6 +9,7 @@ import PlDropdownOption from "../../../PlDropdownOption";
 import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
+import {PlainObject} from "plain-utils/utils/event";
 
 export default designComponent({
     props: {
@@ -27,7 +27,7 @@ export default designComponent({
     emits: PlcEmitsOptions,
     scopeSlots: {
         ...PlcScopeSlotsOptions,
-        expand: (scope: { node: TableNode, row: SimpleObject }) => null,
+        expand: (scope: { node: TableNode, row: PlainObject }) => null,
     },
     setup({props, slots, scopeSlots, event}) {
 
@@ -43,7 +43,7 @@ export default designComponent({
                 content: <>
                     {content}
                     <tr class="plt-row plt-expand-row" key={`expand_${node.key}`}>
-                        <td class="plt-cell" rowSpan={1} colSpan={totalSpan.value}>
+                        <td class="plt-cell" rowspan={1} colspan={totalSpan.value}>
                             <div class="plt-expand-body" style={{width: `${table.plcData.value!.tableWidth - 20}px`}}>
                                 {scopeSlots.expand({node, row})}
                             </div>
@@ -80,11 +80,13 @@ export default designComponent({
                 head: () => (
                     <PlDropdown
                         {...{placement: "bottom-center"}}
-                        default={() => <PlButton icon="el-icon-menu" mode="text"/>}
-                        popper={() => <PlDropdownMenu>
-                            <PlDropdownOption label="全部展开" onClick={methods.expandAll} icon="el-icon-zoom-full"/>
-                            <PlDropdownOption label="全部收起" onClick={methods.collapseAll} icon="el-icon-zoom-scale"/>
-                        </PlDropdownMenu>}
+                        v-slots={{
+                            default: () => <PlButton icon="el-icon-menu" mode="text"/>,
+                            popper: () => <PlDropdownMenu>
+                                <PlDropdownOption label="全部展开" onClick={methods.expandAll} icon="el-icon-zoom-full"/>
+                                <PlDropdownOption label="全部收起" onClick={methods.collapseAll} icon="el-icon-zoom-scale"/>
+                            </PlDropdownMenu>
+                        }}
                     />
                 ),
                 normal: ({node}) => {

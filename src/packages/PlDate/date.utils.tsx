@@ -3,11 +3,8 @@
  * @author  韦胜健
  * @date    2021/1/18 10:43
  */
-import {ExtractPropTypes, PropType} from "plain-ui-composition";
+import {ExtractPropTypes, PropType, VueNode} from "plain-ui-composition";
 import {PDate, plainDate} from "../../utils/plainDate";
-import {VueNode} from "react";
-
-import {} from "plain-ui-composition";
 
 export enum DateView {
     year = 'year',

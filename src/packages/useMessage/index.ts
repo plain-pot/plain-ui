@@ -3,11 +3,11 @@
  * @author  韦胜健
  * @date    2020/11/7 18:20
  */
-import {VueNode} from "react";
-import {RequireFormat} from "../../shims";
 import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {PlMessageManager} from "./PlMessageManager";
 import {STATUS} from "../../utils/constant";
+import {VueNode} from "plain-ui-composition";
+import {RequireFormat} from "../../utils/type";
 
 export enum MessageServiceDirection {
     start = 'start',

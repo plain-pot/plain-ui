@@ -1,5 +1,6 @@
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
-import {VueNode} from "react";
+import {VueNode} from "plain-ui-composition";
+import {PlainObject} from "plain-utils/utils/event";
 
 export interface PopperAgent {
     state: { option: PopperServiceComponentOption, },
@@ -12,7 +13,7 @@ export interface PopperAgent {
 }
 
 interface Attrs {
-    [k: string]: ((this: PopperAgent, ...args: any[]) => void) | string | number | null | undefined | object | boolean | any[]
+    [k: string]: ((this: PopperAgent, ...args: any[]) => void) | string | number | null | undefined | PlainObject | boolean | any[]
 }
 
 export interface CreateAgentGetterOption {
@@ -23,7 +24,7 @@ export interface CreateAgentGetterOption {
 }
 
 export interface SpecificPopperServiceOption {
-    reference: object | (() => object),
+    reference: PlainObject | (() => PlainObject),
     popperAttrs?: Attrs | (() => Attrs),
     renderAttrs?: Attrs | (() => Attrs),
     hideOnClickBody?: boolean,

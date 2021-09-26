@@ -1,10 +1,9 @@
 import {StyleStatus} from "../../use/useStyle";
-import {SimpleFunction} from "plain-ui-composition"
-import {RequireFormat} from "../../shims";
-import {VueNode} from "react";
+import {SimpleFunction, VueNode} from "plain-ui-composition"
 import {STATUS} from "../../utils/constant";
 import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {PlNoticeManager} from "./PlNoticeManager";
+import {RequireFormat} from "../../utils/type";
 
 export enum NoticeServiceDirection {
     start = 'start',

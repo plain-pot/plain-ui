@@ -1,4 +1,3 @@
-import {ModelType} from "../../shims";
 import {EditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useStyle} from "../../use/useStyle";
 import {computed, SimpleFunction, useRefs} from "plain-ui-composition";
@@ -7,6 +6,7 @@ import {PlInput} from "../PlInput";
 import {delay} from "plain-utils/utils/delay";
 import {handleKeyboard} from "../keyboard";
 
+export type ModelType = { value: any }
 
 export function useDateTime(
     {

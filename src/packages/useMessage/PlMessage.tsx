@@ -1,4 +1,4 @@
-import {designClassComponent, PropType} from 'plain-ui-composition'
+import {designComponent, PropType} from 'plain-ui-composition'
 import './PlMessage.scss'
 import {MessageServiceFormatOption} from "./index";
 import {useClasses} from "plain-ui-composition";
@@ -7,7 +7,7 @@ import {nextIndex} from "plain-ui-composition"
 import {PlIcon} from "../PlIcon";
 import {createEventListener} from "plain-ui-composition"
 
-export default designClassComponent({
+export default designComponent({
     name: 'pl-message',
     props: {
         option: {type: Object as PropType<MessageServiceFormatOption>, required: true}
@@ -57,8 +57,8 @@ export default designClassComponent({
             render: () => (
                 <div class={classes.value}
                      style={styles}
-                     onMouseEnter={handler.onMouseenter}
-                     onMouseLeave={handler.onMouseleave}
+                     onMouseenter={handler.onMouseenter}
+                     onMouseleave={handler.onMouseleave}
                      onClick={handler.onClick}>
                     {!!props.option.icon && <PlIcon icon={props.option.icon}/>}
                     <div class="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>

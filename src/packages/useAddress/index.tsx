@@ -2,7 +2,7 @@ import {getInitialConfigState} from "../initialize";
 import {iAddressConfig, iAddressData, iAddressService, iUseAddress} from "./useAddress.utils";
 import {reactive} from "plain-ui-composition";
 import {debounce} from "plain-utils/utils/debounce";
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 
 export const useAddress: iUseAddress = (() => {
     const map = new WeakMap<iAddressConfig, iAddressService>()

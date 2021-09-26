@@ -4,11 +4,11 @@
  * @date    2020/11/27 9:31
  */
 import {computed, reactive, ref} from "plain-ui-composition";
-import {createCounter} from "plain-ui-composition"
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {delay} from "plain-utils/utils/delay";
 import {PopperServiceComponentOption} from "./useEditPopperAgent.utils";
 import PlPopper from "../PlPopper";
+import {createCounter} from "plain-utils/utils/createCounter";
 
 
 const counter = createCounter('popper-service-component')

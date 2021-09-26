@@ -1,7 +1,6 @@
 import {designComponent} from "plain-ui-composition";
 import PlDropdown from "../PlDropdown";
 
-
 export const PlDropdownMenu = designComponent({
     name: 'pl-dropdown-menu',
     props: {},

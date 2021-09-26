@@ -52,8 +52,8 @@ export default designComponent({
             render: () => (
                 <div class={classes.value}
                      style={styles}
-                     onMouseEnter={handler.onMouseenter}
-                     onMouseLeave={handler.onMouseleave}
+                     onMouseenter={handler.onMouseenter}
+                     onMouseleave={handler.onMouseleave}
                      onClick={handler.onClick}>
                     <div class="pl-notice-head">
                         {!!props.option.icon && <PlIcon class="pl-notice-head-icon" icon={props.option.icon}/>}

@@ -1,4 +1,4 @@
-import {, computed, designComponent, useClasses, useModel, watch} from "plain-ui-composition";
+import { computed, designComponent, useClasses, useModel, watch} from "plain-ui-composition";
 import './tabs.scss'
 import {useCollect} from "../../use/useCollect";
 import PlTab from "../PlTab";

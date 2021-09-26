@@ -2,12 +2,12 @@
 import {tTableOption} from "../createUseTableOption";
 import useDialog, {DialogServiceFormatOption} from "../useDialog";
 import PlTablePro from "../PlTablePro";
-import {defer} from "../../utils/defer";
-import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import PlcPick from "../PlcPick";
 import {designPage, onBeforeUnmount, useRefs} from "plain-ui-composition";
 import PlcCheckRow from "../PlcCheckRow";
 import useMessage from "../useMessage";
+import {PlainObject} from "plain-utils/utils/event";
+import {defer} from "plain-utils/utils/defer";
 
 export interface ObjectServiceOption {
     option: tTableOption,

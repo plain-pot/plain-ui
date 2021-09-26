@@ -1,10 +1,10 @@
 import {TableNode} from "./useTableNode";
 import {createHooks, createSyncHooks} from "../../../createUseTableOption/use/use.hooks";
-import React, {VueNode} from "react";
 import {PlainScroll} from "../../../PlScroll";
 import {TableHoverPart} from "../utils/table.utils";
 import {tPlcType} from "../../plc/utils/plc.type";
 import {tPlcCacheStateData} from "../../plc/utils/usePropsState";
+import {VueNode} from "plain-ui-composition";
 
 export function useTableHooks() {
     const hooks = {

@@ -150,15 +150,15 @@ export const PlProgressCircle = designComponent({
                             cy="50"
                             r={radius.value}
                             stroke={circleStroke.value}
-                            strokeWidth={props.lineSize}
+                            stroke-width={props.lineSize}
                             fill="none"/>
 
                         {percent.value !== 1 && <path
                             d={pathD.value}
                             stroke={pathStroke.value}
-                            strokeWidth={props.lineSize}
+                            stroke-width={props.lineSize}
                             fill="none"
-                            strokeLinecap="round"
+                            stroke-linecap="round"
                             style={pathStyles.value}
                         />}
 

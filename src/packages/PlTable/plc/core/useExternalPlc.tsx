@@ -3,7 +3,7 @@ import {PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions, tPlcScopeSlots, tPlcSlots} from "../utils/plc.scope-slots";
 import {TableRenderScope, tPlcEvent, tPlcType} from "../utils/plc.type";
 import {useBasePlc} from "./useBasePlc";
-import {PlainObject} from "../../../createUseTableOption/createUseTableOption.utils";
+import {PlainObject} from "plain-utils/utils/event";
 
 type tPlcDefaultScopeSlotsOptions = Partial<typeof PlcScopeSlotsOptions>
 

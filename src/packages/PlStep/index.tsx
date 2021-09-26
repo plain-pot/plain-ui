@@ -1,4 +1,4 @@
-import {computed, designComponent, getCurrentDesignInstance, useRefs} from "plain-ui-composition";
+import {computed, designComponent, getCurrentInstance, useRefs} from "plain-ui-composition";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
 import {useClasses} from "plain-ui-composition";
 
@@ -23,7 +23,7 @@ export const PlStep = designComponent({
             el: HTMLDivElement
         })
         const stepGroup = StepCollector.child({sort: () => refs.el!})
-        const ctx = getCurrentDesignInstance()
+        const ctx = getCurrentInstance()!
 
         /*---------------------------------------computer-------------------------------------------*/
 

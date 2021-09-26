@@ -1,7 +1,4 @@
-import {designComponent, useRefs} from "plain-ui-composition";
-
-import {useClasses} from "plain-ui-composition";
-import PlIcon from "../PlIcon";
+import {designComponent, useClasses, useRefs} from "plain-ui-composition";
 
 export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',

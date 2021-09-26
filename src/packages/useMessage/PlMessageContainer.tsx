@@ -2,7 +2,6 @@ import {designComponent, reactive, useRefList} from "plain-ui-composition"
 import {useClasses} from "plain-ui-composition";
 import {MessageServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
-import {PlList} from "../PlList";
 
 import PlMessage from "./PlMessage";
 
@@ -48,17 +47,15 @@ export default designComponent({
             },
             render: () => (
                 <div class={classes.value} style={styles}>
-                    <PlList>
-                        {state.options.map((option, index) =>
-                            <div class="pl-item" key={option.id}>
-                                <PlMessage
-                                    option={option}
-                                    ref={onRefList(index)}
-                                    onClose={() => utils.closeMessage(index)}
-                                />
-                            </div>
-                        )}
-                    </PlList>
+                    {state.options.map((option, index) =>
+                        <div class="pl-item" key={option.id}>
+                            <PlMessage
+                                option={option}
+                                ref={onRefList(index) as any}
+                                onClose={() => utils.closeMessage(index)}
+                            />
+                        </div>
+                    )}
                 </div>
             )
         }

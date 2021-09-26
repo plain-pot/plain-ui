@@ -18,7 +18,6 @@ import {removeUnit} from "plain-utils/string/removeUnit";
 import {getPropsState, tPlcCacheStateData} from "./plc/utils/usePropsState";
 import {tPlcType} from "./plc/utils/plc.type";
 import {tPlcData} from "./plc/format/formatPlcList";
-import noDataImg from './assets/no_data.svg'
 import {PlEmpty} from "../PlEmpty";
 
 export const PlTable = designComponent({

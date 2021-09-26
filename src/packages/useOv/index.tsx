@@ -2,7 +2,7 @@ import {iOvConfig, iOvData, iOvService, iUseOv} from "./useOv.utils";
 import {getInitialConfigState} from "../initialize";
 import {reactive} from "plain-ui-composition";
 import {debounce} from "plain-utils/utils/debounce";
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 
 export const useOv: iUseOv = (() => {
 

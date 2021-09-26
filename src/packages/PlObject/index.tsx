@@ -1,11 +1,11 @@
 import {designComponent, PropType} from "plain-ui-composition";
 import {tTableOption} from "../createUseTableOption";
-import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import PlInput from "../PlInput";
 
 import useObject from "../useObject";
+import {PlainObject} from "plain-utils/utils/event";
 
 export const PlObjectPropsOption = {
     option: {type: Object as PropType<tTableOption>},
@@ -61,7 +61,7 @@ export const PlObject = designComponent({
                 modelValue={!props.row || !props.showKey ? null : props.row[props.showKey]}
                 inputReadonly
                 suffixIcon="el-icon-search"
-                onClick={open}
+                onClickInput={open}
             />
         )
 

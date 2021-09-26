@@ -3,10 +3,10 @@ import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {TableNode} from "../../table/use/useTableNode";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {injectPlainTable} from "../../index";
-import {PlainObject} from "../../../PlForm/form.validate";
 import {useExternalPlc} from "../core/useExternalPlc";
 
 import PlRadio from "../../../PlRadio";
+import {PlainObject} from "plain-utils/utils/event";
 
 export default designComponent({
     name: 'plc-pick',

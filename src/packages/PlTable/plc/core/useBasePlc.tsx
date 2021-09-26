@@ -3,7 +3,6 @@ import {PlcPropsOptions, PlcPublicAttrs} from "../utils/plc.utils";
 import {tPlcScopeSlots, tPlcSlots} from "../utils/plc.scope-slots";
 import {PlcCollector} from "./PlcGroup";
 import {tPlc, tPlcEvent} from "../utils/plc.type";
-import React, {VueNode} from "react";
 import {getPropsState, usePropsState} from "../utils/usePropsState";
 import PlTable from "../../index";
 

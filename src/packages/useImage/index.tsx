@@ -1,7 +1,6 @@
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {reactive, onMounted, ref, useStyles, computed, onBeforeUnmount} from "plain-ui-composition";
-import PlTransition from "../PlTransition";
-
+import {Transition, Teleport} from 'vue'
 import {PlImage} from "../PlImage";
 import PlTooltip from "../PlTooltip";
 import PlIcon from "../PlIcon";
@@ -9,9 +8,8 @@ import {createServiceWithoutContext, createUseService} from "../PlRoot/registryR
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import $$file from "../$$file";
 import {imageCompress} from "./image.service.utils";
-import {createPortal} from "react-dom";
-import {createCounter} from "plain-ui-composition"
 import {KeyboardService} from "../keyboard";
+import {createCounter} from "plain-utils/utils/createCounter";
 
 interface ImageServicePreviewOption {
     urls: (string | null | undefined)[],
@@ -211,18 +209,19 @@ const Service = createDefaultService({
                 service,
             },
             render: () => (
-                createPortal(<PlTransition name="pl-image-preview" show={isShow.value}>
-                        <div class="pl-image-preview-service" onClick={handler.onClickMask}>
+                <Teleport to=".pl-root-service-container">
+                    <Transition name="pl-image-preview">
+                        {isShow.value && <div class="pl-image-preview-service" onClick={handler.onClickMask}>
                             <div class="pl-image-preview-service-img-wrapper">
-                                <PlTransition switch name={'pl-transition-scale'} key={state.count}>
+                                <Transition name={'pl-transition-scale'} key={state.count}>
                                     {/*不加这个div，switch动画没有效果，真是奇怪。PlButton可以，PlCard可以，就PlImage不行*/}
-                                    <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]}>
+                                    <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]!}>
                                         <PlImage
                                             style={imgStyles.value}
                                             previewOnClick={false}
                                             class="pl-image-preview-service-img"
                                             src={state.option.urls[state.option.current]}
-                                            key={state.option.urls[state.option.current]}
+                                            key={state.option.urls[state.option.current]!}
                                             {...{
                                                 onClick: handler.stopPropagation,
                                                 onDoubleClick: handler.onDblclickImg,
@@ -231,7 +230,7 @@ const Service = createDefaultService({
                                             }}
                                         />
                                     </div>
-                                </PlTransition>
+                                </Transition>
                             </div>
                             {isMultipleImages.value && <div class="pl-image-preview-service-indicator">
                                 {state.option.urls.map((item, index) => <div class={`pl-image-preview-service-indicator-item ${index === state.option.current ? 'pl-image-preview-service-indicator-item-active' : ''}`} key={index}/>)}
@@ -242,7 +241,7 @@ const Service = createDefaultService({
                                         return null
                                     }
                                     return (
-                                        <PlTooltip tooltip={btn.label} key={btn.label}>
+                                        <PlTooltip title={btn.label} key={btn.label}>
                                             <div class="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
                                                 <PlIcon icon={btn.icon}/>
                                             </div>
@@ -250,9 +249,9 @@ const Service = createDefaultService({
                                     )
                                 })}
                             </div>
-                        </div>
-                    </PlTransition>,
-                    document.querySelector('.pl-root-service-container') as HTMLElement)
+                        </div>}
+                    </Transition>
+                </Teleport>
             )
         }
     }

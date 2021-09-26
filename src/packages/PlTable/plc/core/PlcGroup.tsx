@@ -40,7 +40,7 @@ const PlcGroup = designComponent({
              * @date    2021/6/2 15:57
              */
             props: propsState,
-            slots,
+            slots: slots as any,
             refer: () => group,
             /*分组表头宽度调整时，将放大/缩小的列宽分配给每一个子列*/
             setDurWidth: (durWidth: number) => {

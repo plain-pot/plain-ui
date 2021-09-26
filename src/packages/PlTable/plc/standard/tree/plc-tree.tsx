@@ -1,6 +1,5 @@
 import {TableNode} from "../../../table/use/useTableNode";
 import {tPlc} from "../../utils/plc.type";
-import {SimpleObject} from "../../../../../shims";
 import {unit} from "plain-utils/string/unit";
 import {useTableGetScroll} from "../../../table/use/useTableGetScroll";
 import {usePlcTreeDraggier} from "./plc-tree.draggier";
@@ -18,6 +17,7 @@ import {PlCheckbox} from "../../../../PlCheckbox";
 import {createPlcPropOptions, PlcEmitsOptions} from "../../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../../utils/plc.scope-slots";
 import {useExternalPlc} from "../../core/useExternalPlc";
+import {PlainObject} from "plain-utils/utils/event";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
@@ -45,7 +45,7 @@ export default designComponent({
     emits: PlcEmitsOptions,
     scopeSlots: {
         ...PlcScopeSlotsOptions,
-        content: (scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => null,
+        content: (scope: { node: TableNode, plc: tPlc, row: PlainObject }) => null,
     },
     setup({props, slots, scopeSlots, event}) {
 
@@ -141,15 +141,17 @@ export default designComponent({
                 head: ({plc}) => (<>
                     <PlDropdown
                         {...{placement: "bottom"}}
-                        default={() => <PlButton icon="el-icon-menu" mode="text"/>}
-                        popper={() => <PlDropdownMenu>
-                            <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={methods.expandAll}/>
-                            <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={methods.collapseAll}/>
-                            {table.props.showCheckbox && <>
-                                <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={methods.checkAll}/>
-                                <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={methods.uncheckAll}/>
-                            </>}
-                        </PlDropdownMenu>}
+                        v-slots={{
+                            default: () => <PlButton icon="el-icon-menu" mode="text"/>,
+                            popper: () => <PlDropdownMenu>
+                                <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={methods.expandAll}/>
+                                <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={methods.collapseAll}/>
+                                {table.props.showCheckbox && <>
+                                    <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={methods.checkAll}/>
+                                    <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={methods.uncheckAll}/>
+                                </>}
+                            </PlDropdownMenu>
+                        }}
                     />
                     <div class="plc-tree-node-content">{plc.props.title}</div>
                 </>),

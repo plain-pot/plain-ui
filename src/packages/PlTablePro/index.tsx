@@ -1,5 +1,5 @@
-import {, computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-ui-composition";
-
+import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-ui-composition";
+import {Fragment} from 'vue'
 import {tTableOption} from "../createUseTableOption";
 import './table-pro.scss'
 import {iTableProRenderConfig} from "../createUseTableOption/use/use.hooks";
@@ -47,7 +47,7 @@ export const PlTablePro = designComponent({
                 <div class={([
                     'pl-table-pro',
                     {'pl-table-pro-fill': props.option.config.fill},
-                ])} ref={onRef}>
+                ])} ref={onRef as any}>
                     <div class="pl-table-pro-head">
                         {/*<span class="pl-table-pro-title">
                         <PlIcon icon="el-icon-menu" status="primary"/>

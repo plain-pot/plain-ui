@@ -8,7 +8,6 @@ import {useClasses} from "plain-ui-composition";
 import PlIcon from "../PlIcon";
 import {useClickWave} from "../../directives/ClickWave";
 import './number.scss'
-import {NativeInput} from "../NativeInput";
 
 const NAN = 'NAN'
 
@@ -178,7 +177,7 @@ export const PlNumber = designComponent({
                 state.isFocus = false
                 emit.onBlur(e)
             },
-            input: (e: ChangeEvent<HTMLInputElement>) => {
+            input: (e: any) => {
                 model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
@@ -244,17 +243,17 @@ export const PlNumber = designComponent({
                             <PlIcon icon="el-icon-minus"/>
                         </div>
                     )}
-                    <NativeInput
+                    <input
                         ref={onRef.innerInput}
                         type="text"
                         value={model.value == null ? '' : model.value}
                         disabled={editComputed.value.disabled!}
-                        readOnly={editComputed.value.readonly!}
+                        readonly={editComputed.value.readonly!}
                         placeholder={editComputed.value.placeholder!}
                         onFocus={handler.focus}
                         onBlur={handler.blur}
                         onInput={handler.input}
-                        onKeyDown={handler.keydown}/>
+                        onKeydown={handler.keydown}/>
                     {!props.hideButton && (
                         <div class="pl-number-append-button plain-click-node" onMousedown={handler.intervalAdd} ref={onRef.add}>
                             <PlIcon icon="el-icon-plus"/>

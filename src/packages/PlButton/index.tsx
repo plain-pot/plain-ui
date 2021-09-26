@@ -11,6 +11,7 @@ import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {ButtonModeProvider} from "../PlButtonGroup";
 import {useClickWave} from "../../directives/ClickWave";
+import {HtmlHTMLAttributes} from "vue";
 
 console.log('load button component')
 
@@ -34,7 +35,7 @@ export const PlButton = designComponent({
         type: {type: String, default: 'button'},
         nativeAttrs: {type: Object},
     },
-    inheritPropsType: HTMLButtonElement,
+    inheritPropsType: {} as HtmlHTMLAttributes,
     emits: {
         onClick: (e: MouseEvent) => true,
     },

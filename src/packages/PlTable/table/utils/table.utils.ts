@@ -2,10 +2,10 @@ import {StyleProps} from "../../../../use/useStyle";
 import {tPlc, tPlcType} from "../../plc/utils/plc.type";
 import {TableNode} from "../use/useTableNode";
 import {MultipleClass, PropType, StyleProperties} from "plain-ui-composition"
-import {SimpleObject} from "../../../../shims";
 import {FormAssociateFields, tFormPropRules} from "../../../PlForm/form.validate";
 import {useTree} from "../../../PlTree/core/useTree";
 import {iTableSortData} from "../../../createUseTableOption/createUseTableOption.utils";
+import {PlainObject} from "plain-utils/utils/event";
 
 export type TablePropsConfig = (plcList: tPlcType[], flatList: tPlc[]) => void
 
@@ -43,7 +43,7 @@ export const TableProps = {
 
     loading: {type: Boolean, default: null},                    // 是否开启表格的加载状态
     virtual: {type: Boolean, default: false},                   // 虚拟滚动
-    summaryData: {type: Array as PropType<SimpleObject[]>},     // 表尾合计行数据
+    summaryData: {type: Array as PropType<PlainObject[]>},     // 表尾合计行数据
     config: {type: Function as PropType<TablePropsConfig>},     // 配置列信息函数
     rules: {type: Object as PropType<tFormPropRules>},          // 校验规则
     associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段

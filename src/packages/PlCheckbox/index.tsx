@@ -5,9 +5,8 @@ import {SimpleFunction} from "plain-ui-composition";
 import {CheckboxStatus} from "../../utils/constant";
 import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
-
+import {Transition} from 'vue'
 import PlCheckboxInner from "../PlCheckboxInner";
-import PlTransition from "../PlTransition";
 import {CheckboxGroupCollector} from "../PlCheckboxGroup";
 import {useClickWave} from "../../directives/ClickWave";
 import './checkbox.scss'
@@ -119,12 +118,12 @@ export const PlCheckbox = designComponent({
                          onClick={handler.clickEl}
                          ref={onRef.el}>
                         <span class="plain-click-node">
-                            <PlTransition switch name="pl-transition-fade">
+                            <Transition name="pl-transition-fade">
                                 <PlCheckboxInner
                                     checkStatus={checkStatus.value}
                                     key={checkStatus.value}
                                     disabled={editComputed.value.disabled!}/>
-                            </PlTransition>
+                            </Transition>
                         </span>
                         {isis(slots.label, label => <span class="pl-checkbox-label">{label}</span>)}
                     </div>

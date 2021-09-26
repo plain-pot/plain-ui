@@ -1,8 +1,7 @@
 import {designComponent, useRefList, markRaw, reactive} from "plain-ui-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {delay} from "plain-utils/utils/delay";
-
-import {createPortal} from 'react-dom'
+import {Teleport} from 'vue'
 import './PlRoot.scss'
 
 export const PlRoot = designComponent({
@@ -65,7 +64,7 @@ export const PlRoot = designComponent({
             refer,
             render: () => <>
                 {slots.default()}
-                {createPortal(
+                <Teleport to="body">
                     <div class="pl-root-service-container">
                         {state.managers.map(({name, Component, RenderComponent}, index) => (
                             <RenderComponent
@@ -74,9 +73,8 @@ export const PlRoot = designComponent({
                                 ref={onRefList(index)}
                             />
                         ))}
-                    </div>,
-                    document.body,
-                )}
+                    </div>
+                </Teleport>
             </>
         }
     },

@@ -1,5 +1,5 @@
+import { PropType } from "plain-ui-composition";
 import {PlTabComponent} from "../PlTab";
-import {PropType} from "plain-ui-composition/src/index";
 
 export enum TabHeadType {
     text = 'text',

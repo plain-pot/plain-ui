@@ -1,8 +1,7 @@
-import {computed, ExtractPropTypes, onBeforeUnmount, reactive, useRefs, watch} from "plain-ui-composition";
+import {computed, ExtractPropTypes, onBeforeUnmount, reactive, useRefs, VueNode, watch} from "plain-ui-composition";
 import {TableProps} from "../../table/utils/table.utils";
 import {formatPlcList, tPlcData} from "./formatPlcList";
 import PlcGroup from "../core/PlcGroup";
-import React, {VueNode} from "react";
 import {tTableHooks} from "../../table/use/useTableHooks";
 import {tPlc, tPlcType} from "../utils/plc.type";
 import {runOnce} from "./utils/runOnce";

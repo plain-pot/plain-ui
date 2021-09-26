@@ -7,14 +7,13 @@ import {PlInput} from "../PlInput";
 import {PlSelectPanel} from "./PlSelectPanel";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useSelect} from "./useSelect";
-
+import {Fragment} from 'vue'
 import {handleKeyboard} from "../keyboard";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
 import {createEventListener} from "plain-ui-composition"
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
-import {} from "plain-ui-composition";
 import PlPopper from "../PlPopper";
 
 const Props = {
@@ -296,12 +295,14 @@ export const PlSelect = designComponent({
                                 collapseTags={props.collapseTags}
                                 maxTags={props.maxTags}
                                 placeholder={inputBinding.value.placeholder!}
-                                default={({item, index}: { item: SelectOption, index: number }) => (
-                                    <Fragment key={index}>
-                                        <span>{item.props.label}</span>,
-                                        <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
-                                    </Fragment>
-                                )}
+                                v-slots={{
+                                    default: ({item, index}: { item: SelectOption, index: number }) => (
+                                        <Fragment key={index}>
+                                            <span>{item.props.label}</span>,
+                                            <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
+                                        </Fragment>
+                                    )
+                                }}
                             />
                         )
                     }}

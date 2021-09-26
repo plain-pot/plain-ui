@@ -1,22 +1,22 @@
-import {SimpleObject} from "../../shims";
 import {unit} from "plain-utils/string/unit";
 import {designComponent, PropType, useRefs, useStyles} from "plain-ui-composition";
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "../PlVirtualList/useVirtualList";
 
 import '../PlTable/table.scss'
+import {PlainObject} from "plain-utils/utils/event";
 
 // const scrollbarSize = 12;
 
 export const PlVirtualTable = designComponent({
     name: 'pl-virtual-table',
     props: {
-        data: {type: Array as PropType<SimpleObject[]>, require: true, default: []},// 要渲染的长数据
+        data: {type: Array as PropType<PlainObject[]>, require: true, default: []},// 要渲染的长数据
         size: {type: Number, require: true, default: 40},           // 每一行高度
         dynamicSize: {type: Boolean},                               // 标识列表中的每一行高度不是固定的，但是还是需要提供 size 属性，而且size属性不能与每一行的高度差距太多；
         disabled: {type: Boolean},                                  // 禁用虚拟滚动
 
-        summaryData: {type: Array as PropType<SimpleObject[]>},     // 合计行数据
+        summaryData: {type: Array as PropType<PlainObject[]>},     // 合计行数据
         width: {type: Number},                                      // 宽度
         height: {type: Number},                                     // 高度
     },

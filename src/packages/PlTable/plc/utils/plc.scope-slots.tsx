@@ -1,9 +1,8 @@
 import {TableRenderScope, tPlcType} from "./plc.type";
-import {VNodeChild} from "../../../../shims";
-import {VueNode} from "react";
+import {VueNode} from "plain-ui-composition";
 
-export type PlcRenderFunction = (scope: TableRenderScope) => VNodeChild
-export type PlcPropsHead = (scope: { plc: tPlcType }) => VNodeChild
+export type PlcRenderFunction = (scope: TableRenderScope) => VueNode
+export type PlcPropsHead = (scope: { plc: tPlcType }) => VueNode
 export type PlcPropsDefault = PlcRenderFunction
 export type PlcPropsSummary = PlcRenderFunction
 export type PlcPropsEdit = PlcRenderFunction
