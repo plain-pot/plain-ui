@@ -29,7 +29,7 @@ module.exports = {
         sourceMap: false,
         loaderOptions: {
             sass: {
-                prependData: `@import "src/style/global-import.scss";`
+                prependData: `@import "src/styles/global-import.scss";`
             }
         },
     },
