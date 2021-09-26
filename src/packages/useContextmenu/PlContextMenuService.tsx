@@ -1,7 +1,7 @@
 import {nextIndex, onBeforeUnmount, onMounted, provide, reactive, ref, useRefs, useStyles, VueNode} from "plain-ui-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {Transition} from 'vue'
 import {ClickBodyListener} from "../../utils/ClickBodyListener";
+import {Transition} from "vue";
 
 export type ContextmenuReference = MouseEvent | HTMLElement | { x: number, y: number } | Element | EventTarget | null
 export type ContextContent = (() => VueNode) | { label: string, icon?: string, disabled?: string }[]
@@ -151,7 +151,12 @@ export const PlContextMenuService = createDefaultService({
 
                 return (
                     <div class="pl-contextmenu-service" style={styles.value} ref={onRef.el} {...{show: String(isShow.value)} as any}>
-                        <Transition name="pl-transition-scale">
+                        <Transition
+                            key={state.zIndex}
+                            name="pl-transition-scale"
+                            onEnter={() => state.bodyPos = {width: refs.el!.offsetWidth, height: refs.el!.offsetHeight}}
+                            onAfterEnter={handler.onTransitionEnd}
+                            onAfterLeave={handler.onTransitionEnd}>
                             <div class="pl-contextmenu-service-body" style={bodyStyles.value} v-show={isShow.value}>
                                 {content}
                             </div>

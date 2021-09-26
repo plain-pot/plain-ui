@@ -1,6 +1,6 @@
 import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
-import {ContextContent, ContextmenuReference, ContextmenuServiceOption, getReferencePosition, PlContextMenuService, PlContextMenuServiceComponent} from "./PlContextMenuService";
+import {ContextContent, ContextmenuReference, ContextmenuServiceOption, PlContextMenuService, PlContextMenuServiceComponent} from "./PlContextMenuService";
 import './contextmenu-service.scss'
 
 export const useContextmenu = createUseService({
