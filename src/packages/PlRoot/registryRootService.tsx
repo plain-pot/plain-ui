@@ -55,7 +55,7 @@ export function createServiceWithoutContext<UseService extends (getRoot: () => P
                 const el = document.createElement('div')
                 addClass(el, 'plain-design-root-without-context')
                 document.body.appendChild(el)
-                createApp(<PlRoot ref={(refer: any) => root = refer!}/>).mount(el)
+                createApp(()=><PlRoot ref={(refer: any) => root = refer!}/>).mount(el)
             }
             return root!
         }
