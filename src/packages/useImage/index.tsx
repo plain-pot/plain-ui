@@ -1,6 +1,5 @@
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {reactive, onMounted, ref, useStyles, computed, onBeforeUnmount} from "plain-ui-composition";
-import {Transition, Teleport} from 'vue'
 import {PlImage} from "../PlImage";
 import PlTooltip from "../PlTooltip";
 import PlIcon from "../PlIcon";
@@ -10,6 +9,7 @@ import $$file from "../$$file";
 import {imageCompress} from "./image.service.utils";
 import {KeyboardService} from "../keyboard";
 import {createCounter} from "plain-utils/utils/createCounter";
+import {Transition, Teleport} from "vue";
 
 interface ImageServicePreviewOption {
     urls: (string | null | undefined)[],
@@ -211,9 +211,9 @@ const Service = createDefaultService({
             render: () => (
                 <Teleport to=".pl-root-service-container">
                     <Transition name="pl-image-preview">
-                        {isShow.value && <div class="pl-image-preview-service" onClick={handler.onClickMask}>
+                        <div class="pl-image-preview-service" onClick={handler.onClickMask} v-show={isShow.value}>
                             <div class="pl-image-preview-service-img-wrapper">
-                                <Transition name={'pl-transition-scale'} key={state.count}>
+                                <Transition name={'pl-transition-scale'} key={state.count} mode="in-out">
                                     {/*不加这个div，switch动画没有效果，真是奇怪。PlButton可以，PlCard可以，就PlImage不行*/}
                                     <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]!}>
                                         <PlImage
@@ -225,7 +225,7 @@ const Service = createDefaultService({
                                             {...{
                                                 onClick: handler.stopPropagation,
                                                 onDoubleClick: handler.onDblclickImg,
-                                                onMousedown: dragImg.mousedown,
+                                                onMouseDown: dragImg.mousedown,
                                                 onDragStart: dragImg.dragstart,
                                             }}
                                         />
@@ -249,7 +249,7 @@ const Service = createDefaultService({
                                     )
                                 })}
                             </div>
-                        </div>}
+                        </div>
                     </Transition>
                 </Teleport>
             )
