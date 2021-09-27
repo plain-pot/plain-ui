@@ -90,19 +90,7 @@
 
 @include theme {
 
-  .pl-image-preview-enter {
-    opacity: 0;
-
-    .pl-image-preview-service-img-wrapper {
-      transform: scale(0.25);
-    }
-
-    .pl-image-preview-service-button-group {
-      transform: translateY(200px);
-    }
-  }
-
-  .pl-image-preview-enter-active {
+  .pl-image-preview-enter-active, .pl-image-preview-leave-active {
     opacity: 1;
 
     .pl-image-preview-service-img-wrapper {
@@ -114,11 +102,7 @@
     }
   }
 
-  .pl-image-preview-exit {
-    opacity: 1;
-  }
-
-  .pl-image-preview-exit-active {
+  .pl-image-preview-enter-from, .pl-image-preview-leave-to {
     opacity: 0;
 
     .pl-image-preview-service-img-wrapper {
@@ -130,7 +114,7 @@
     }
   }
 
-  .pl-image-preview-enter-active, .pl-image-preview-exit-active {
+  .pl-image-preview-enter-active, .pl-image-preview-leave-to {
     transition: all 300ms linear;
 
     .pl-image-preview-service-indicator {

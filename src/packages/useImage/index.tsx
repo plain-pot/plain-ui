@@ -210,10 +210,10 @@ const Service = createDefaultService({
             },
             render: () => (
                 <Teleport to=".pl-root-service-container">
-                    <Transition name="pl-image-preview" v-show={isShow.value}>
-                        <div class="pl-image-preview-service" onClick={handler.onClickMask}>
+                    <Transition name="pl-image-preview">
+                        <div class="pl-image-preview-service" onClick={handler.onClickMask} v-show={isShow.value}>
                             <div class="pl-image-preview-service-img-wrapper">
-                                <Transition name={'pl-transition-scale'} key={state.count}>
+                                <Transition name="pl-transition-scale" key={state.count} mode="out-in">
                                     {/*不加这个div，switch动画没有效果，真是奇怪。PlButton可以，PlCard可以，就PlImage不行*/}
                                     <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]!}>
                                         <PlImage
@@ -224,9 +224,9 @@ const Service = createDefaultService({
                                             key={state.option.urls[state.option.current]!}
                                             {...{
                                                 onClick: handler.stopPropagation,
-                                                onDoubleClick: handler.onDblclickImg,
-                                                onMouseDown: dragImg.mousedown,
-                                                onDragStart: dragImg.dragstart,
+                                                onDblClick: handler.onDblclickImg,
+                                                onMousedown: dragImg.mousedown,
+                                                onDragstart: dragImg.dragstart,
                                             }}
                                         />
                                     </div>
@@ -241,7 +241,7 @@ const Service = createDefaultService({
                                         return null
                                     }
                                     return (
-                                        <PlTooltip title={btn.label} key={btn.label}>
+                                        <PlTooltip tooltip={btn.label} key={btn.label}>
                                             <div class="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
                                                 <PlIcon icon={btn.icon}/>
                                             </div>

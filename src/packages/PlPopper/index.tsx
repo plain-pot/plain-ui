@@ -446,7 +446,7 @@ export const PlPopper = designComponent({
                                      } : {})}
                                 >
                                     <div class="plain-popper-arrow"/>
-                                    {(slots.head.isExist() || props.title) && <div class="pl-popper-title">
+                                    {(slots.head.isExist() || !!props.title) && <div class="pl-popper-title">
                                         {slots.head(props.title)}
                                     </div>}
                                     {(props.message || slots.popper.isExist()) && <div class="pl-popper-content-inner" style={sizeStyles.value}>
