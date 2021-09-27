@@ -1,6 +1,7 @@
 import {computed, designComponent, useClasses, useRefs, useStyles} from "plain-ui-composition";
 import {CarouselCollector} from "../PlCarousel";
 import {createCounter} from "plain-utils/utils/createCounter";
+import {reactive} from "vue";
 
 const counter = createCounter('carousel')
 
@@ -26,10 +27,10 @@ export const PlCarouselItem = designComponent({
         ])
 
         return {
-            refer: {
+            refer: reactive({
                 itemVal,
                 refs,
-            },
+            }),
             render: () => {
                 return (
                     <div class={classes.value}

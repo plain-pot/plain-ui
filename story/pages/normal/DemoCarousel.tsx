@@ -57,9 +57,17 @@ export default designPage(() => {
                     </PlCarousel>
                 </DemoLine>
                 <DemoLine title={'自定义指示器'}>
-                    <PlCarousel style={{width: '400px'}} indicatorTrigger={'hover'}>
-
-                    </PlCarousel>
+                    <PlCarousel style={{width: '400px'}} indicatorTrigger={'hover'} v-slots={{
+                        default: () => <>
+                            <PlCarouselItem style={{backgroundColor: '#8A2BE2', ...publicItemStyles}}>panel1</PlCarouselItem>
+                            <PlCarouselItem style={{backgroundColor: '#409EFF', ...publicItemStyles}}>panel2</PlCarouselItem>
+                            <PlCarouselItem style={{backgroundColor: '#F38585', ...publicItemStyles}}>panel3</PlCarouselItem>
+                            <PlCarouselItem style={{backgroundColor: '#455a64', ...publicItemStyles}}>panel4</PlCarouselItem>
+                        </>,
+                        indicator: ({active, index}) => (
+                            <div key={index} style={{marginRight: '8px', height: '5px', width: '5px', backgroundColor: `rgba(255,255,255,${active ? '1' : '0.5'})`}}/>
+                        )
+                    }}/>
                 </DemoLine>
             </DemoRow>
             <DemoRow title={'cover覆盖内容'}>
