@@ -1,0 +1,22 @@
+.demo-scroll {
+    .demo-scroll-wrapper {
+        background-color: #f6f6f6;
+        height: 198px;
+        width: 91px;
+        display: inline-block;
+    }
+
+    .demo-scroll-content {
+        height: 400px;
+        width: 400px;
+        display: inline-block;
+    }
+
+    .demo-scroll-label {
+        /*margin: 50px 0;*/
+        padding: 8px 16px;
+        border-bottom: solid 1px white;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+}
