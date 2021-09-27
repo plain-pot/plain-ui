@@ -1,10 +1,7 @@
-import {designComponent, useRefs} from "plain-ui-composition";
+import {useClasses, designComponent, useRefs, createEventListener} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {useClasses} from "plain-ui-composition";
 import PlIcon from "../PlIcon";
-
-import {createEventListener} from "plain-ui-composition"
 import './tag.scss'
 
 export const PlTag = designComponent({

@@ -1,13 +1,11 @@
-import {designComponent, useRefs, onBeforeUnmount, reactive, useModel} from 'plain-ui-composition'
+import {designComponent, onBeforeUnmount, reactive, useClasses, useModel, useRefs} from 'plain-ui-composition'
 import './tag-input.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {PlInput} from "../PlInput";
-import {useClasses} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 import {getKey, KEY} from "../keyboard";
 import PlTag from "../PlTag";
-
 import PlIcon from "../PlIcon";
 
 export const PlTagInput = designComponent({
@@ -130,20 +128,23 @@ export const PlTagInput = designComponent({
                             ))
                         }
                         {!props.noInput && (
-                            <PlInput v-model={state.inputValue}
-                                     ref={onRef.input}
-                                     key={state.isEditing ? 1 : 2}
-                                     onKeydown={handler.keydown}>
-                                {{
-                                    default: state.isEditing ? undefined : (
-                                        <div class="pl-tag-input-not-edit"
-                                             onClick={handler.clickEditButton}>
-                                            <PlIcon icon="el-icon-plus"/>
-                                            <span>添加</span>
-                                        </div>
-                                    )
+                            <PlInput
+                                v-model={state.inputValue}
+                                ref={onRef.input}
+                                key={state.isEditing ? 1 : 2}
+                                onKeydown={handler.keydown}
+                                v-slots={{
+                                    ...state.isEditing ? {} : {
+                                        default: () => (
+                                            <div class="pl-tag-input-not-edit"
+                                                 onClick={handler.clickEditButton}>
+                                                <PlIcon icon="el-icon-plus"/>
+                                                <span>添加</span>
+                                            </div>
+                                        )
+                                    }
                                 }}
-                            </PlInput>
+                            />
                         )}
                     </div>
                 )
