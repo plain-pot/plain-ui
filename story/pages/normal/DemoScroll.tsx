@@ -66,14 +66,12 @@ export default designPage(() => {
                 <div class="demo-scroll-wrapper" style={{display: 'inline-block', verticalAlign: 'top'}}>
                     <PlScroll>
                         <PlCheckboxGroup v-model={state.checkboxValue}>
-                            <PlList>
-                                {state.list.map(item => (
-                                    <div class={'demo-scroll-label'} key={item}>
-                                        <PlCheckbox val={item}/>、
-                                        {item}
-                                    </div>
-                                ))}
-                            </PlList>
+                            {state.list.map(item => (
+                                <div class={'demo-scroll-label'} key={item}>
+                                    <PlCheckbox val={item}/>、
+                                    {item}
+                                </div>
+                            ))}
                         </PlCheckboxGroup>
                     </PlScroll>
                 </div>
