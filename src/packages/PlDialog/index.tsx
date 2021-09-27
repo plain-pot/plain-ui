@@ -1,14 +1,13 @@
 import './dialog.scss'
 import {computed, designComponent, nextIndex, onBeforeUnmount, PropType, reactive, ref, useClasses, useRefs, watch} from "plain-ui-composition";
-import {Teleport} from 'vue'
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {unit} from "plain-utils/string/unit";
 import {KeyboardService, KeyboardServiceOption} from "../keyboard";
-
 import PlButton from "../PlButton";
 import {PlLoadingMask} from "../PlLoadingMask";
 import PlIcon from "../PlIcon";
+import {Teleport, Transition} from "vue";
 
 export const PlDialog = designComponent({
     name: 'pl-dialog',
@@ -48,8 +47,8 @@ export const PlDialog = designComponent({
         cancelButton: {type: Boolean},                                          // 是否显示取消按钮
         closeOnConfirm: {type: Boolean, default: true},                         // 是否点击确认按钮之后自动关闭
         closeOnCancel: {type: Boolean, default: true},                          // 是否点击取消按钮之后自动关闭
-        confirmButtonText: {type: String, default: '确认'},                      // 确认按钮文本
-        cancelButtonText: {type: String, default: '取消'},                       // 取消按钮文本
+        confirmButtonText: {type: [String, Object], default: '确认'},            // 确认按钮文本
+        cancelButtonText: {type: [String, Object], default: '取消'},             // 取消按钮文本
         confirmOnEnter: {type: Boolean, default: true},                         // 是否在点击 enter 按键的时候触发 confirm 事件
         cancelOnEsc: {type: Boolean, default: true},                            // 是否在点击 esc 按键的时候出发 cancel事件
         disabledCancel: {type: Boolean},                                        // 禁用cancel，当任何动作触发cancel时，不做任何处理，适用于开发者完全控制对话框的情况，对话框内置的按钮以及键盘事件不做任何处理
@@ -58,6 +57,7 @@ export const PlDialog = designComponent({
         vertical: {type: String, default: 'start'},                             // 纵向对其方式：start,center,end
         horizontal: {type: String, default: 'center'},                          // 横向对其方式：start,center,end
         loading: {type: Boolean},                                               // 弹出框添加 加载中的遮罩
+        title: {type: String, default: '提示'},                                  // 弹框标题
     },
     emits: {
         onUpdateModelValue: (val: boolean) => true,
@@ -66,7 +66,7 @@ export const PlDialog = designComponent({
         onConfirm: () => true,
         onCancel: () => true,
     },
-    slots: ['default', 'head', 'foot', 'title'],
+    slots: ['default', 'head', 'foot'],
     setup({props, slots, event}) {
 
         const {emit} = event
@@ -110,7 +110,7 @@ export const PlDialog = designComponent({
         ])
 
         const hasHead = computed(() => {
-            return props.showHead
+            return props.showHead && (slots.head.isExist() || props.title)
         })
         const hasFoot = computed(() => {
             return slots.foot.isExist() || props.confirmButton || props.cancelButton
@@ -245,29 +245,40 @@ export const PlDialog = designComponent({
             },
             render: () => {
                 return (
-                    <Teleport to=".pl-root-service-container">
-                        <div onClick={handler.clickWrapper} style={wrapperStyles.value as any} class={wrapperClasses.value} ref={onRef.el}>
-                            <div class={bodyClasses.value} ref={onRef.body}>
-                                {hasHead.value && <div class="pl-dialog-head">
-                                    {slots.head(<span class="pl-dialog-head-title">{slots.title() || '提示'}</span>)}
-                                    {!!props.showClose && (
-                                        <div class="pl-dialog-head-close" onClick={handler.clickClose}>
-                                            <PlIcon icon="el-icon-close"/>
-                                        </div>
-                                    )}
-                                </div>}
-                                <div class="pl-dialog-content" style={contentStyle.value as any}>
-                                    {slots.default()}
-                                </div>
-                                {hasFoot.value && <div class="pl-dialog-foot" style={{justifyContent: props.footAlign || 'flex-end'}}>
-                                    {slots.foot()}
+                    <Teleport to='.pl-root-service-container'>
+                        <Transition name={props.transition} onAfterEnter={emit.onOpen} onAfterLeave={emit.onClose}>
+                            {(() => {
+                                let Content = (
+                                    <div onClick={handler.clickWrapper} style={wrapperStyles.value as any} class={wrapperClasses.value} ref={onRef.el}>
+                                        <div class={bodyClasses.value} ref={onRef.body}>
+                                            {hasHead.value && <div class="pl-dialog-head">
+                                                {slots.head(<span class="pl-dialog-head-title">{props.title}</span>)}
+                                                {!!props.showClose && (
+                                                    <div class="pl-dialog-head-close" onClick={handler.clickClose}>
+                                                        <PlIcon icon="el-icon-close"/>
+                                                    </div>
+                                                )}
+                                            </div>}
+                                            <div class="pl-dialog-content" style={contentStyle.value as any}>
+                                                {slots.default()}
+                                            </div>
+                                            {hasFoot.value && <div class="pl-dialog-foot" style={{justifyContent: props.footAlign || 'flex-end'}}>
+                                                {slots.foot()}
 
-                                    {!!props.cancelButton && <PlButton label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
-                                    {!!props.confirmButton && <PlButton label={props.confirmButtonText} onClick={methods.confirm}/>}
-                                </div>}
-                                <PlLoadingMask v-model={isLoading.value}/>
-                            </div>
-                        </div>
+                                                {!!props.cancelButton && <PlButton label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
+                                                {!!props.confirmButton && <PlButton label={props.confirmButtonText} onClick={methods.confirm}/>}
+                                            </div>}
+                                            <PlLoadingMask v-model={isLoading.value}/>
+                                        </div>
+                                    </div>
+                                ) as any
+                                if (props.destroyOnClose) {
+                                    return model.value && Content
+                                } else {
+                                    return <Content v-show={model.value}/>
+                                }
+                            })()}
+                        </Transition>
                     </Teleport>
                 )
             }

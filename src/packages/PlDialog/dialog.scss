@@ -106,27 +106,22 @@
 }
 
 .pl-transition-dialog {
-  /*@formatter:off*/
-    &.pl-transition-dialog-enter {
-        &:before {opacity: 0;}
-        .pl-dialog-body {transform: translateY(-5vh) scale(0.85);opacity: 0;}
+  &.pl-transition-dialog-enter-active, &.pl-transition-dialog-leave-active {
+    &:before, .pl-dialog-body {
+      transition: opacity 300ms linear, transform 300ms $transition;
     }
-    &.pl-transition-dialog-enter-active {
-        &:before {opacity: 1;}
-        .pl-dialog-body {transform: translateY(0) scale(1);opacity: 1;}
+  }
+
+  &.pl-transition-dialog-enter-from, &.pl-transition-dialog-leave-to {
+    &:before {
+      opacity: 0;
     }
-    &.pl-transition-dialog-exit {
-        &:before {opacity: 1;}
-        .pl-dialog-body {transform: translateY(0) scale(1);opacity: 1;}
+
+    .pl-dialog-body {
+      transform: translateY(-5vh) scale(0.85);
+      opacity: 0
     }
-    &.pl-transition-dialog-exit-active {
-        &:before {opacity: 0;}
-        .pl-dialog-body {transform: translateY(-5vh) scale(0.85);opacity: 0;}
-    }
-    &.pl-transition-dialog-enter-active, &.pl-transition-dialog-exit-active {
-        transition: opacity 300ms linear, transform 300ms $transition;
-    }
-    /*@formatter:on*/
+  }
 }
 
 @include theme {
@@ -160,37 +155,25 @@
   }
 
   $dialogTransition: (
-    left:translate3d(-100%, 0, 0),
-    right:translate3d(100%, 0, 0),
-    top:translate3d(0, -100%, 0),
-    bottom:translate3d(0, 100%, 0),
+          left:translate3d(-100%, 0, 0),
+          right:translate3d(100%, 0, 0),
+          top:translate3d(0, -100%, 0),
+          bottom:translate3d(0, 100%, 0),
   );
 
   @each $key, $value in $dialogTransition {
     .pl-transition-dialog-#{$key} {
       /*@formatter:off*/
-            &.pl-transition-dialog-#{$key}-enter {
-                &:before {opacity: 0;}
-                .pl-dialog-body {transform: $value;}
-            }
-            &.pl-transition-dialog-#{$key}-enter-active {
-                &:before {opacity: 1;}
-                .pl-dialog-body {transform: translate3d(0, 0, 0);}
-            }
-            &.pl-transition-dialog-#{$key}-exit {
-                &:before {opacity: 1;}
-                .pl-dialog-body {transform: translate3d(0, 0, 0);}
-            }
-            &.pl-transition-dialog-#{$key}-exit-active {
-                &:before {opacity: 0;}
-                .pl-dialog-body {transform: $value;}
-            }
-            &.pl-transition-dialog-#{$key}-enter-active, &.pl-transition-dialog-#{$key}-exit-active {
-                .pl-dialog-body {
-                    transition: all $transition2 300ms;
-                }
-            }
-            /*@formatter:on*/
+      &.pl-transition-dialog-#{$key}-enter-from,&.pl-transition-dialog-#{$key}-leave-to {
+          &:before {opacity: 0;}
+          .pl-dialog-body {transform: $value;}
+      }
+      &.pl-transition-dialog-#{$key}-enter-active, &.pl-transition-dialog-#{$key}-leave-active {
+        &:before, .pl-dialog-body {
+          transition: all $transition2 300ms;
+        }
+      }
+      /*@formatter:on*/
     }
   }
 }
