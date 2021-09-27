@@ -4,12 +4,12 @@ $transition: cubic-bezier(0.23, 1, 0.32, 1);
 
 .pl-transition-scale-enter-active, .pl-transition-scale-leave-active {
     transform: scale(1);
+    transition: opacity 300ms linear, transform 300ms $transition;
 }
 
 .pl-transition-scale-enter-from, .pl-transition-scale-leave-to {
     transform: scale(0.75);
     opacity: 0;
-    transition: opacity 300ms linear, transform 300ms $transition;
 }
 
 /*---------------------------------------scale-y-------------------------------------------*/
