@@ -1,12 +1,10 @@
-import {computed, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-ui-composition"
+import {computed, useClasses, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {removeUnit} from "plain-utils/string/removeUnit";
 import {disabledUserSelect} from 'plain-utils/dom/disabledUserSelect'
 import {enableUserSelect} from 'plain-utils/dom/enableUserSelect'
-
 import './slider.scss'
 
 export const PlSlider = designComponent({
