@@ -1,15 +1,13 @@
-import {designComponent, PropType, reactive, useModel, useRefs, useStyles, watch} from "plain-ui-composition"
+import {useClasses, designComponent, PropType, reactive, useModel, useRefs, useStyles, watch} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlImage, {PlImageProps} from "../PlImage";
 import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$file";
-import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {$$image} from "../useImage";
-
 import PlIcon from "../PlIcon";
-import {defer} from "plain-utils/utils/defer";
 import {PlainObject} from "plain-utils/utils/event";
+import {defer} from "plain-utils/utils/defer";
 
 enum ImageUploaderStatus {
     /*加载*/

@@ -1,8 +1,6 @@
-import {reactive, computed, designComponent, PropType, watch, useStyles, useRefs} from 'plain-ui-composition'
+import {useClasses, reactive, computed, designComponent, PropType, watch, useStyles, useRefs} from 'plain-ui-composition'
 import './image.scss'
-import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
-
 import PlIcon from "../PlIcon";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {$$image} from "../useImage";
