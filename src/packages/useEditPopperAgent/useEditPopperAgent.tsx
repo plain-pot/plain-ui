@@ -2,7 +2,6 @@ import {computed, onBeforeUnmount, reactive} from "plain-ui-composition";
 import {useEdit} from "../../use/useEdit";
 import {PopperAgent, SpecificPopperServiceOption} from "./useEditPopperAgent.utils";
 
-
 export type EditPopperAgent = ReturnType<typeof useEditPopperAgent>
 
 export function useEditPopperAgent(

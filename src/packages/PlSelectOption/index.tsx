@@ -1,7 +1,5 @@
-import {computed, designComponent, useRefs} from "plain-ui-composition";
+import {computed, designComponent, useClasses, useRefs} from "plain-ui-composition";
 import {SelectGroupCollector} from "../PlSelectGroup";
-import {useClasses} from "plain-ui-composition";
-
 import {PlCheckbox} from "../PlCheckbox";
 import PlIcon from "../PlIcon";
 import {SelectPanelCollector} from "../PlSelect/PlSelectPanel";

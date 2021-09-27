@@ -1,12 +1,10 @@
-import {computed, designComponent, PropType, ref, useModel, useNumber, useRefs, useStyles} from "plain-ui-composition";
+import {computed, designComponent, PropType, ref, useClasses, useModel, useNumber, useRefs, useStyles} from "plain-ui-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlScroll} from "../PlScroll";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
 import PlIcon from "../PlIcon";
-
 import {useCollect} from "../../use/useCollect";
-import {useClasses} from "plain-ui-composition";
 
 export const PlSelectPanel = designComponent({
     name: 'pl-select-panel',

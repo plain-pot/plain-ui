@@ -1,13 +1,14 @@
 import {computed, designComponent} from "plain-ui-composition";
-import PlIcon from "../PlIcon";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlSelectPanel} from "../PlSelect/PlSelectPanel";
-
 import {useCollect} from "../../use/useCollect";
 
 export const PlSelectGroup = designComponent({
     name: 'pl-select-group',
-    slots: ['label', 'default'],
+    props: {
+        label: {type: String},
+    },
+    slots: ['title', 'default'],
     setup({props, slots}) {
 
         const options = (SelectGroupCollector as any).parent() as SelectOption[]
@@ -18,9 +19,9 @@ export const PlSelectGroup = designComponent({
             render: () => {
                 return (
                     <>
-                        {isShow.value && (slots.label.isExist()) && (
+                        {isShow.value && (props.label || slots.title.isExist()) && (
                             <PlSelectOption class="pl-select-group" group label="" val="">
-                                {slots.label()}
+                                {slots.title(props.label)}
                             </PlSelectOption>
                         )}
                         {slots.default()}

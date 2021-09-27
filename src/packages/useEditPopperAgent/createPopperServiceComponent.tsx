@@ -10,7 +10,6 @@ import {PopperServiceComponentOption} from "./useEditPopperAgent.utils";
 import PlPopper from "../PlPopper";
 import {createCounter} from "plain-utils/utils/createCounter";
 
-
 const counter = createCounter('popper-service-component')
 
 /**

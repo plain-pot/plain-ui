@@ -1,20 +1,20 @@
 import './select.scss'
 import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {computed, designComponent, PropType, ref, useModel, useRefs} from "plain-ui-composition";
+import {computed, createEventListener, designComponent, PropType, ref, useModel, useRefs} from "plain-ui-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlInput} from "../PlInput";
 import {PlSelectPanel} from "./PlSelectPanel";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useSelect} from "./useSelect";
-import {Fragment} from 'vue'
 import {handleKeyboard} from "../keyboard";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-ui-composition"
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
 import PlPopper from "../PlPopper";
+import {classnames} from "plain-utils/dom/classnames";
+import {Fragment} from 'vue'
 
 const Props = {
     ...EditProps,
@@ -186,7 +186,7 @@ export const PlSelect = designComponent({
             const {onEnter, ...inputHandler} = agentState.inputHandler
             return {
                 ref: onRef.input,
-                class: ([
+                class: classnames([
                     'pl-select',
                     {
                         'pl-input-tags': !!props.multiple,
@@ -317,4 +317,4 @@ export const SelectCollector = useCollect(() => ({
     child: PlSelectOption,
 }))
 
-export default PlSelect
+export default PlSelect;
