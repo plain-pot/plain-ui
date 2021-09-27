@@ -1,6 +1,5 @@
 import './tooltip.scss'
-import {designComponent, onMounted, onUpdated, reactive, useModel, useRefs} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {useClasses, designComponent, onMounted, onUpdated, reactive, useModel, useRefs} from "plain-ui-composition";
 import {debounce} from "plain-utils/utils/debounce";
 import PlPopper from "../PlPopper";
 import {unit} from "plain-utils/string/unit";
@@ -11,16 +10,16 @@ export const PlTooltip = designComponent({
         modelValue: {type: Boolean},                        // 双向绑定控制是否显示
         showWidth: {type: [Number, String]},                // 设置宽度，当内容宽度超过这个宽度时，才会显示tooltip
         theme: {type: String, default: 'dark'},             // 主题，dark以及light
-        title: {type: String},                              // tooltip文本标题
 
         placement: {type: String, default: 'top'},          // 位置
         popperClass: {type: Object},                        // 传递给 pl-popper 的popperClass 属性
+        tooltip: {type: String},                            // tooltip 文本
     },
     inheritPropsType: PlPopper,
     emits: {
         onUpdateModelValue: (val?: boolean) => true
     },
-    slots: ['tooltip', 'default'],
+    slots: ['popper', 'default'],
     setup({props, slots, event: {emit}}) {
 
         const state = reactive({
@@ -59,18 +58,16 @@ export const PlTooltip = designComponent({
                     disabled={!!props.showWidth ? state.offsetWidth === state.scrollWidth : false}
                     popperClass={popperClasses.value}
                     placement={props.placement}
-                    v-model={model.value}>
-                    {{
-                        default: !!props.showWidth ? (
-                            <span class="pl-tooltip-reference"
-                                  ref={onRef.reference}
-                                  style={{width: unit(props.showWidth)!}}>
+                    v-model={model.value} v-slots={{
+                    default: () => !!props.showWidth ? (
+                        <span class="pl-tooltip-reference"
+                              ref={onRef.reference}
+                              style={{width: unit(props.showWidth)!}}>
                                 {slots.default()}
                             </span>
-                        ) : slots.default(),
-                        popper: slots.tooltip(props.title)
-                    }}
-                </PlPopper>
+                    ) : slots.default(),
+                    popper: () => slots.popper(props.tooltip)
+                }}/>
             )
         }
     },

@@ -110,7 +110,7 @@ const MenuData: MenuGroup[] = [
         name: '其他', children: [
             {name: 'Scroll', title: '滚动条', page: '/normal/DemoScroll', complete: false},
             {name: 'Dialog', title: '对话框', page: '/normal/DemoDialog', complete: false},
-            {name: 'Tooltip', title: '文字提示', page: '/normal/DemoTooltip', complete: false},
+            {name: 'Tooltip', title: '文字提示', page: '/normal/DemoTooltip', complete: true},
             {name: 'Dropdown', title: '下拉菜单', page: '/normal/DemoDropdown', complete: false},
             // {name: 'Popover', title: '弹出框', page: '/normal/popover', complete: false},
             {name: 'Popper', title: '悬浮框', page: '/normal/DemoPopper', complete: true},
