@@ -1,16 +1,16 @@
 import './upload.scss'
 import $$file, {FileServiceDefaultAccept, FileServiceSingleFile, FileServiceValidator} from "../$$file";
-import {computed, designComponent, PropType, useModel, useRefs, VueNode} from 'plain-ui-composition';
+import {computed, useClasses, designComponent, PropType, useModel, useRefs, VueNode} from 'plain-ui-composition';
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
-import {useClasses} from "plain-ui-composition";
 import $$message from "../$$message";
 import {$$dialog} from "../useDialog";
 import PlButtonGroup from "../PlButtonGroup";
 import PlButton from "../PlButton";
 import $$notice from "../$$notice";
 import {createCounter} from "plain-utils/utils/createCounter";
+import {classnames} from "plain-utils/dom/classnames";
 import {toArray} from "plain-utils/utils/toArray";
 import {defer} from "plain-utils/utils/defer";
 
@@ -115,7 +115,7 @@ export const PlUpload = designComponent({
         ])
 
         const utils = {
-            getItemClass: (item: UploadFile) => ([
+            getItemClass: (item: UploadFile) => classnames([
                 'pl-upload-item',
                 {
                     [`pl-upload-item-status-${item.status}`]: !!item.status
@@ -170,10 +170,10 @@ export const PlUpload = designComponent({
         }
 
         const dropHandler = {
-            onDragOver: (e: DragEvent) => {
+            onDragover: (e: DragEvent) => {
                 e.preventDefault()
             },
-            onDragLeave: (e: DragEvent) => {
+            onDragleave: (e: DragEvent) => {
                 e.preventDefault()
             },
             onDrop: async (e: DragEvent) => {

@@ -4,7 +4,7 @@ import WeekYear from 'dayjs/plugin/weekYear'
 import WeekOfYear from 'dayjs/plugin/weekOfYear'
 import AdvanceFormat from 'dayjs/plugin/advancedFormat'
 import 'dayjs/locale/de'
-import {prefix} from "./prefix";
+import {zeroize} from "plain-utils/string/zeroize";
 
 DayJs.locale('de')
 DayJs.extend(Format)
@@ -74,12 +74,12 @@ function wrapDate(initialValue: InitialValue, config: { displayFormat: string, v
     const time = dateObj.getTime()
     const day = dateObj.getDay()
 
-    const timeString = prefix(hour) + prefix(minute) + prefix(second)
-    const dateString = prefix(year) + prefix(month + 1) + prefix(date)
+    const timeString = zeroize(hour) + zeroize(minute) + zeroize(second)
+    const dateString = zeroize(year) + zeroize(month + 1) + zeroize(date)
 
     const Y = year
-    const YM = `${Y}${prefix(month + 1)}`
-    const YMD = `${YM}${prefix(date)}`
+    const YM = `${Y}${zeroize(month + 1)}`
+    const YMD = `${YM}${zeroize(date)}`
     const YMDHms = `${YMD}${timeString}`
     // const Hms = timeString
     return {
