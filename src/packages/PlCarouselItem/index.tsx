@@ -1,7 +1,5 @@
-import {computed, designComponent, useRefs, useStyles} from "plain-ui-composition";
-
+import {computed, designComponent, useClasses, useRefs, useStyles} from "plain-ui-composition";
 import {CarouselCollector} from "../PlCarousel";
-import {useClasses} from "plain-ui-composition";
 import {createCounter} from "plain-utils/utils/createCounter";
 
 const counter = createCounter('carousel')

@@ -1,9 +1,7 @@
 import './carousel.scss'
-import {computed, designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {computed, designComponent, onMounted, reactive, useClasses, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {throttle} from "plain-utils/utils/throttle";
-
 import PlIcon from "../PlIcon";
 import PlCarouselItem from "../PlCarouselItem";
 import {useCollect} from "../../use/useCollect";
@@ -250,14 +248,14 @@ export const PlCarousel = designComponent({
                             scopeSlots.indicator({val: String(item.itemVal), index, active: index === activeIndex.value}, (
                                 <div
                                     {...{
-                                        [props.indicatorTrigger === 'hover' ? 'onMouseEnter' : 'onClick']: () => handler.onIndicator(index)
+                                        [props.indicatorTrigger === 'hover' ? 'onMouseenter' : 'onClick']: () => handler.onIndicator(index)
                                     }}
-                                    class={([
+                                    class={[
                                         'pl-carousel-indicator-item',
                                         {
                                             'pl-carousel-indicator-item-active': index === activeIndex.value,
                                         }
-                                    ])} key={index}/>
+                                    ]} key={index}/>
                             ))
                         ))}
                     </div>}
