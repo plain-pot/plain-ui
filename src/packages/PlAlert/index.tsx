@@ -1,8 +1,6 @@
-import {computed, designComponent, PropType, reactive, useRefs} from "plain-ui-composition";
+import {computed, designComponent, PropType, reactive, useClasses, useRefs} from "plain-ui-composition";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {STATUS} from "../../utils/constant";
-import {useClasses} from "plain-ui-composition";
-
 import PlIcon from "../PlIcon";
 import './alert.scss'
 import PlCollapseTransition from "../PlCollapseTransition";
@@ -19,6 +17,7 @@ export const PlAlert = designComponent({
         theme: {type: String, default: 'lite'},                     // 主题，lite轻色，deep深色
         noClose: {type: Boolean},                                   // 禁用关闭
         icon: {type: String as PropType<string | null | undefined>, default: undefined},     // 显示的图标
+        message: {type: String},                                    // desc内容消息
     },
     slots: ['desc', 'close', 'default'],
     setup({props, slots, attrs}) {
@@ -47,7 +46,7 @@ export const PlAlert = designComponent({
             `pl-alert-align-${props.align}`,
             {
                 'pl-alert-has-icon': !!icon.value,
-                'pl-alert-has-desc': slots.desc.isExist(),
+                'pl-alert-has-desc': !!props.message || slots.desc.isExist(),
                 'pl-alert-has-close': !props.noClose,
             }
         ])
@@ -63,8 +62,8 @@ export const PlAlert = designComponent({
                 refs,
             },
             render: () => (
-                <PlCollapseTransition show={!state.isClosed}>
-                    <div class="pl-alert-wrapper" {...attrs} ref={onRef.el}>
+                <PlCollapseTransition>
+                    <div class="pl-alert-wrapper" {...attrs} ref={onRef.el} v-show={!state.isClosed}>
                         <div class={classes.value}>
                             {!!icon.value && <div class="pl-alert-icon">
                                 <PlIcon icon={icon.value}/>
@@ -77,9 +76,9 @@ export const PlAlert = designComponent({
                                     {slots.default(props.label)}
                                 </div>
                             )}
-                            {(slots.desc.isExist()) && (
+                            {(props.message || slots.desc.isExist()) && (
                                 <div class="pl-alert-desc">
-                                    {slots.desc()}
+                                    {slots.desc(props.message)}
                                 </div>
                             )}
                         </div>
