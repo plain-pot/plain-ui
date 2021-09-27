@@ -113,7 +113,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Tooltip', title: '文字提示', page: '/normal/DemoTooltip', complete: false},
             {name: 'Dropdown', title: '下拉菜单', page: '/normal/DemoDropdown', complete: false},
             // {name: 'Popover', title: '弹出框', page: '/normal/popover', complete: false},
-            {name: 'Popper', title: '悬浮框', page: '/normal/DemoPopper', complete: false},
+            {name: 'Popper', title: '悬浮框', page: '/normal/DemoPopper', complete: true},
             {name: 'Card', title: '卡片', page: '/normal/DemoCard', complete: false},
             {name: 'Carousel', title: '轮播', page: '/normal/DemoCarousel', complete: false},
             {name: 'Collapse', title: '折叠面板', page: '/normal/DemoCollapse', complete: false},
