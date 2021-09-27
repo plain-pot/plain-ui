@@ -128,7 +128,7 @@ const MenuData: MenuGroup[] = [
             {name: '$message', title: '消息服务', page: '/service/message-service', complete: true},
             // {name: '$popper', title: '浮层服务', page: '/service/popper-service', complete: false},
             // {name: '$select', title: '选择服务', page: '/service/select-service', complete: false},
-            {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: false},
+            {name: '$dialog', title: '对话框服务', page: '/service/dialog-service', complete: true},
             {name: '$notice', title: '通知', page: '/service/notice-service', complete: true},
             {name: '$contextmenu', title: '菜单服务', page: '/service/contextmenu-service', complete: true},
             {name: '$file', title: '文件服务', page: '/service/file-service', complete: true},
