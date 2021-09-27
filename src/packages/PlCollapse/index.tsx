@@ -1,7 +1,6 @@
 import './collapse.scss'
 import {computed, designComponent, useClasses, useModel, useRefs} from "plain-ui-composition"
 import PlCollapseGroup from "../PlCollapseGroup";
-
 import PlIcon from "../PlIcon";
 import {createCounter} from "plain-utils/utils/createCounter";
 

@@ -1,6 +1,5 @@
 import {designComponent, useModel, useRefs} from "plain-ui-composition";
 
-
 export const PlCollapseGroup = designComponent({
     name: 'pl-collapse-group',
     props: {

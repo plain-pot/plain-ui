@@ -116,7 +116,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Popper', title: '悬浮框', page: '/normal/DemoPopper', complete: true},
             {name: 'Card', title: '卡片', page: '/normal/DemoCard', complete: true},
             {name: 'Carousel', title: '轮播', page: '/normal/DemoCarousel', complete: true},
-            {name: 'Collapse', title: '折叠面板', page: '/normal/DemoCollapse', complete: false},
+            {name: 'Collapse', title: '折叠面板', page: '/normal/DemoCollapse', complete: true},
             {name: 'Alert', title: '提示信息', page: '/normal/DemoAlert', complete: false},
             // {name: 'Triangle', title: '三角形元素', page: '/normal/triangle', complete: false},
             // {name: 'FilletCorner', title: '圆角', page: '/normal/fillet-corner', complete: false},
