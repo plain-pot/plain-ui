@@ -188,7 +188,7 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'自动滚动：横向'}>
                 <div class={'demo-scroll-wrapper'} style={{display: 'inline-block', verticalAlign: 'top'}}>
-                    <PlScroll ref={onRef.autoScroll1} scrollX>
+                    <PlScroll ref={onRef.autoScroll2} scrollX>
                         <div style={{display: 'inline-block', whiteSpace: 'nowrap'}}>
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item, index) => (
                                 <div class="demo-scroll-label" key={index} style={{width: '30px', display: 'inline-block', marginRight: '10px'}}>
@@ -200,9 +200,9 @@ export default designPage(() => {
                 </div>
                 <div style={{display: 'inline-block'}}>
                     <PlButtonGroup>
-                        <PlButton label={'向右滚动'} onClick={() => refs.autoScroll1!.methods.autoScrollRight()}/>
-                        <PlButton label={'向左滚动'} onClick={() => refs.autoScroll1!.methods.autoScrollLeft()}/>
-                        <PlButton label={'停止滚动'} onClick={() => refs.autoScroll1!.methods.stopAutoScroll()}/>
+                        <PlButton label={'向右滚动'} onClick={() => refs.autoScroll2!.methods.autoScrollRight()}/>
+                        <PlButton label={'向左滚动'} onClick={() => refs.autoScroll2!.methods.autoScrollLeft()}/>
+                        <PlButton label={'停止滚动'} onClick={() => refs.autoScroll2!.methods.stopAutoScroll()}/>
                     </PlButtonGroup>
                 </div>
             </DemoRow>
