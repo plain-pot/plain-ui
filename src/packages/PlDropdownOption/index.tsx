@@ -1,7 +1,5 @@
-import {designComponent, useRefs} from "plain-ui-composition";
+import {useClasses, designComponent, useRefs} from "plain-ui-composition";
 import PlDropdownMenu from "../PlDropdownMenu";
-import {useClasses} from "plain-ui-composition";
-
 import PlIcon from "../PlIcon";
 
 export const PlDropdownOption = designComponent({

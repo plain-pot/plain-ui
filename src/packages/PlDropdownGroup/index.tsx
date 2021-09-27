@@ -2,7 +2,10 @@ import {designComponent, useClasses, useRefs} from "plain-ui-composition";
 
 export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',
-    slots: ['default', 'title'],
+    props: {
+        title: {type: String}
+    },
+    slots: ['default', 'head'],
     inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
 
@@ -10,7 +13,7 @@ export const PlDropdownGroup = designComponent({
 
         const classes = useClasses(() => [
             'pl-dropdown-group',
-            {'pl-dropdown-no-title': !slots.title.isExist()}
+            {'pl-dropdown-no-title': !slots.head.isExist() && !props.title}
         ])
 
         return {
@@ -19,9 +22,9 @@ export const PlDropdownGroup = designComponent({
             },
             render: () => (
                 <div class={classes.value} ref={onRef.el}>
-                    {slots.title.isExist() && (
+                    {slots.head.isExist() || props.title && (
                         <div class="pl-dropdown-group-title">
-                            <span>{slots.title()}</span>
+                            <span>{slots.head(props.title)}</span>
                         </div>
                     )}
                     <div class="pl-dropdown-group-content">

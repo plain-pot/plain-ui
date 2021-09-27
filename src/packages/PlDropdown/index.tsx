@@ -2,7 +2,6 @@ import './dropdown.scss'
 import {designComponent, reactive, useModel, useRefs} from "plain-ui-composition";
 import {PlPopper} from "../PlPopper";
 
-
 export const PlDropdown = designComponent({
     name: 'pl-dropdown',
     inheritPropsType: PlPopper,
@@ -47,12 +46,10 @@ export const PlDropdown = designComponent({
                     trigger="click"
                     v-model={model.value}
                     noContentPadding
-                    transition="pl-transition-popper-drop">
-                    {{
-                        popper: slots.popper,
-                        default: scopeSlots.reference({open: model.value}, slots.default())
-                    }}
-                </PlPopper>
+                    transition="pl-transition-popper-drop" v-slots={{
+                    popper: () => slots.popper(),
+                    default: () => scopeSlots.reference({open: model.value}, slots.default())
+                }}/>
             )
         }
     },
