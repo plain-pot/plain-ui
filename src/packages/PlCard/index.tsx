@@ -1,8 +1,6 @@
 import './card.scss'
-import {designComponent, useRefs, useStyles} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {designComponent, useClasses, useRefs, useStyles} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
-
 
 export const PlCard = designComponent({
     name: 'pl-card',
@@ -11,9 +9,10 @@ export const PlCard = designComponent({
         noPadding: {type: Boolean},                             // 去掉标题以及内容的内边距
         mini: {type: Boolean},                                  // 小型卡片
         shadow: {type: String},                                 // 阴影, normal,hover
+        title: {type: String},                                  // 卡片标题
     },
     slots: [
-        'title',
+        'head',
         'desc',
         'default',
         'operator',
@@ -45,11 +44,11 @@ export const PlCard = designComponent({
                     {slots.poster.isExist() && <div class="pl-card-poster">
                         {slots.poster()}
                     </div>}
-                    {(slots.title.isExist() || slots.desc.isExist() || slots.operator.isExist()) && (
+                    {(props.title || slots.head.isExist() || slots.desc.isExist() || slots.operator.isExist()) && (
                         <div class="pl-card-head">
                             <div class="pl-card-head-content">
-                                {slots.title.isExist() && <div class="pl-card-title">
-                                    {slots.title()}
+                                {(props.title || slots.head.isExist()) && <div class="pl-card-title">
+                                    {slots.head(props.title)}
                                 </div>}
                                 {(slots.desc.isExist()) && <div class="pl-card-desc">
                                     {slots.desc()}
