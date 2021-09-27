@@ -242,7 +242,7 @@ export default designPage(() => {
                         ),
                         /*todo demo upload*/
                         button: () => (
-                            /*<PlDropdown v-slots={{
+                            <PlDropdown v-slots={{
                                 default: () => <PlButton>
                                     <span>业务类型：{state.customUpload.businessType || '无'}</span>
                                     <PlIcon icon={'el-icon-arrow-down'}/>
@@ -254,8 +254,7 @@ export default designPage(() => {
                                         <PlDropdownOption label={'删除'} onClick={() => state.customUpload.businessType = '删除'} icon={'el-icon-folder-delete'}/>
                                     </PlDropdownMenu>
                                 )
-                            }}/>*/
-                            null
+                            }}/>
                         )
                     }}
                 />
