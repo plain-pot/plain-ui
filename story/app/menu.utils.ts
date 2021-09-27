@@ -62,7 +62,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Toggle', title: '开关切换', page: '/normal/DemoToggle', complete: true},
             {name: 'Slider', title: '滑块', page: '/normal/DemoSlider', complete: true},
             {name: 'Tag', title: '标签', page: '/normal/DemoTag', complete: true},
-            {name: 'Rate', title: '评分', page: '/normal/DemoRate', complete: false},
+            {name: 'Rate', title: '评分', page: '/normal/DemoRate', complete: true},
             {name: 'ColorPicker', title: '颜色选择', page: '/normal/DemoColorPicker', complete: false},
 
             {name: 'Cascade', title: '级联选择', page: '/normal/DemoCascade', complete: false},

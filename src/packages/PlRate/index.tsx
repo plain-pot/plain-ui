@@ -1,10 +1,8 @@
-import {computed, designComponent, reactive, useModel, useMounted, useRefs} from "plain-ui-composition"
+import {useClasses, computed, designComponent, reactive, useModel, useMounted, useRefs} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {useClasses} from "plain-ui-composition";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
-
 import PlIcon from "../PlIcon";
 import './rate.scss'
 
