@@ -153,6 +153,7 @@ export default createDefaultService({
                 /*---------------------------------------content-------------------------------------------*/
                 let content: VueNode;
                 binding = {...binding}
+                delete (binding as any).dialogProps
                 if (!!option.editType) {
                     if (option.editType === 'textarea') {
                         (binding as any).height = binding.height || '300px';
@@ -171,7 +172,7 @@ export default createDefaultService({
                             readonly={option.editReadonly}
                         />
                     ) : <PlInput
-                        ref={(refer: any) => { onRef.input(refer) }}
+                        ref={onRef.input}
                         block
                         minHeight={null as any}
                         maxHeight={null as any}
@@ -215,13 +216,14 @@ export default createDefaultService({
                         {...binding}
                         width={width}
                         shape={binding.shape}
-                    >
-                        {{
-                            default: content,
-                            head,
-                            foot,
-                        }}
-                    </PlDialog>
+                        v-slots={(() => {
+                            const ret = {} as any
+                            !!content && (ret.default = () => content);
+                            !!head && (ret.head = () => head);
+                            !!foot && (ret.foot = () => foot);
+                            return ret
+                        })()}
+                    />
                 )
             }
         }

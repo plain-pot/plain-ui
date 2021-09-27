@@ -102,7 +102,7 @@ export default designPage(() => {
                     confirmButton: true,
                     cancelButton: true,
                 })}/>
-                <PlButton label={'textarea'} onClick={() => $dialog({
+                <PlButton label={'textarea readonly'} onClick={() => $dialog({
                     editType: 'textarea',
                     editValue: inputValue,
                     editReadonly: true,
