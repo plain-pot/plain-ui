@@ -1,7 +1,6 @@
 import './badge.scss'
-import {computed, designComponent, useRefs} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
-
+import {computed, designComponent, useRefs} from "plain-design-composition";
+import {useClasses} from "plain-design-composition";
 
 export const PlBadge = designComponent({
     name: 'pl-badge',
