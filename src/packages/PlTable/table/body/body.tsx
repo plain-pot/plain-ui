@@ -34,7 +34,7 @@ export const PltBody = designComponent({
                     refs.virtual!.refs.scroll!.refs.wrapper!.scrollLeft = refs.virtual!.refs.scroll!.refs.wrapper!.scrollLeft + deltaY / 3
                 }
             },
-            onMounted: () => {
+            onVnodeMounted: () => {
                 props.table.event.emit.onVirtualMounted({scroll: refs.virtual!.refs.scroll as PlainScroll})
             }
         }

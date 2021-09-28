@@ -293,7 +293,7 @@
           table {
             tr:nth-child(odd):not(:hover):not(.plt-row-current) {
               td {
-                background-color: #f2f5ff;
+                background-color: #f2fff9;
               }
             }
           }
@@ -326,14 +326,15 @@
     &, &.pl-table-border {
 
       .plt-cell-last-fixed-left, .plt-cell-first-fixed-right {
-
+        //background-color: black;
+        //color: white;
         &:before {
           position: absolute;
           top: 0;
           bottom: 0;
           width: 3px;
           pointer-events: none;
-          content: '';
+          content: '' !important;
           z-index: 4;
           background-color: transparent;
 
