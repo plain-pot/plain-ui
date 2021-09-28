@@ -59,6 +59,7 @@ module.exports = {
             .set('story', resolve('story'))
             .set('src', resolve('pro'))
             .set('plain-ui', resolve('src'))
+            .set('plain-design-composition', 'plain-ui-composition')
 
         const fontRule = config.module.rule('fonts')
         fontRule.uses.clear()

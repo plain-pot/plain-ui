@@ -1,16 +1,15 @@
 import './pagination.scss'
-import {computed, designComponent, PropType, ref, useNumber, watch} from "plain-ui-composition"
+import {computed, designComponent, PropType, ref, useNumber, watch} from "plain-design-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {delay} from "plain-utils/utils/delay";
 import {PlSelect} from "../PlSelect";
 import {PlSelectOption} from "../PlSelectOption";
-
 import {PlNumber} from "../PlNumber";
 import PlIcon from "../PlIcon";
-import {} from "plain-ui-composition";
 import PlLoading from "../PlLoading";
-import {useClasses} from "plain-ui-composition";
+import {useClasses} from "plain-design-composition";
+import {classnames} from "plain-utils/dom/classnames";
 
 const SizesWidth = {
     large: 120,
@@ -161,7 +160,7 @@ export const PlPagination = designComponent({
              * @date    2020/3/30 12:07
              */
             getPagerButtonClass(page: string | number) {
-                return ([
+                return classnames([
                     'pl-pagination-pager-button',
                     {
                         'pl-pagination-pager-button-active': page === pageInfo.value.currentPage
