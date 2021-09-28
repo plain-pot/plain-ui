@@ -151,7 +151,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Tree', title: '树形表格', page: '/table/DemoTableTree', complete: false},
             {name: 'Row Draggable', title: '行拖拽排序', page: '/table/DemoTableRowDraggable', complete: false},
             {name: 'Col Draggable', title: '列拖拽排序', page: '/table/DemoTableColDraggable', complete: true},
-            {name: 'Table class-style', title: '行列样式', page: '/table/DemoTableClassAndStyle', complete: false},
+            {name: 'Table class-style', title: '行列样式', page: '/table/DemoTableClassAndStyle', complete: true},
         ]
     },
     {
