@@ -10,6 +10,7 @@ import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
 import {PlainObject} from "plain-utils/utils/event";
+import {classnames} from "plain-utils/dom/classnames";
 
 export default designComponent({
     props: {
@@ -93,7 +94,7 @@ export default designComponent({
                     return (!node.isSummary || props.summaryExpand) && (<PlButton{...{
                         icon: 'el-icon-arrow-down',
                         mode: 'text',
-                        class: ([
+                        class: classnames([
                             'plc-expand-icon',
                             {'plc-expand-icon-active': isExpand(node)},
                         ]),

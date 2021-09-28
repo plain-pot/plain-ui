@@ -1,8 +1,7 @@
 import {unit} from "plain-utils/string/unit";
-import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from "plain-design-composition";
+import {designComponent, PropType, useRefs, useStyles} from "plain-design-composition";
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "../PlVirtualList/useVirtualList";
-
 import '../PlTable/table.scss'
 import {PlainObject} from "plain-utils/utils/event";
 
@@ -20,7 +19,7 @@ export const PlVirtualTable = designComponent({
         width: {type: Number},                                      // 宽度
         height: {type: Number},                                     // 高度
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     emits: {
         onScroll: (e: Event) => true
     },

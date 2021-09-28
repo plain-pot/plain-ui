@@ -7,6 +7,7 @@ import {PlainTable} from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import PlIcon from "../../../PlIcon";
 import {toArray} from "plain-utils/utils/toArray";
+import {classnames} from "plain-utils/dom/classnames";
 
 export const PltHeadCell = designComponent({
     name: 'plt-head-cell',
@@ -38,7 +39,7 @@ export const PltHeadCell = designComponent({
                 const content = renderHeadCell(props.tablePlc)
                 return (
                     <td
-                        class={([
+                        class={classnames([
                             props.tablePlc.classes.head,
                             props.tablePlc.props.headCls,
                             !!props.table.props.headCellClassFunc ? props.table.props.headCellClassFunc(props.tablePlc) : null

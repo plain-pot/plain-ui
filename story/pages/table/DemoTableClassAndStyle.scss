@@ -1,0 +1,18 @@
+.custom-row {
+    &.custom-row-status-active {
+        td {
+            background-color: rgba(#3E97EC, 0.1) !important;
+        }
+    }
+}
+
+.custom-cell {
+    &.custom-cell-status-active {
+        background-color: rgba(#3E97EC, 0.1) !important;
+    }
+}
+
+.custom-head-cell-clz {
+    background-color: #3E97EC !important;
+    color: white !important;
+}

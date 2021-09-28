@@ -18,7 +18,7 @@ export default designComponent({
                     if (plc.slots.options.isExist()) {
                         return plc.slots.options()
                     } else {
-                        return plc.slots.default()
+                        return plc.slots.default(undefined)
                     }
                 }
             }
@@ -32,6 +32,7 @@ export default designComponent({
             props, slots, scopeSlots, event, defaultScopeSlots: {
                 summary: () => null,
                 normal: (scope) => {
+                    //todo select display
                     /*if (!props.field) {return null}
                     const val = scope.row[props.field]
 

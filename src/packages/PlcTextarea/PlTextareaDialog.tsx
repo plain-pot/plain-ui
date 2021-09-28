@@ -33,6 +33,6 @@ export const PlTextareDialog = designComponent({
             })
         }
 
-        return () => <PlInput modelValue={model.value} readonly onClickInput={onClick}/>
+        return () => <PlInput modelValue={model.value} readonly onClick={onClick}/>
     },
 })

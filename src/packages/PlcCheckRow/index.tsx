@@ -9,8 +9,8 @@ import PlDropdown from "../PlDropdown";
 import PlDropdownMenu from "../PlDropdownMenu";
 import PlDropdownOption from "../PlDropdownOption";
 
+import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import {TableNode} from "../PlTable/table/use/useTableNode";
-import {PlainObject} from "plain-utils/utils/event";
 
 export const PlcCheckRow = designComponent({
     name: 'plc-check',
@@ -96,14 +96,12 @@ export const PlcCheckRow = designComponent({
                 head: () => (
                     <PlDropdown
                         {...{placement: 'bottom-center'}}
-                        v-slots={{
-                            default: () => <PlCheckbox checkStatus={status.value}/>,
-                            popper: () => <PlDropdownMenu>
-                                <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
-                                <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
-                                <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
-                            </PlDropdownMenu>,
-                        }}
+                        default={() => <PlCheckbox checkStatus={status.value}/>}
+                        popper={() => <PlDropdownMenu>
+                            <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
+                            <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
+                            <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
+                        </PlDropdownMenu>}
                     />
                 )
             }

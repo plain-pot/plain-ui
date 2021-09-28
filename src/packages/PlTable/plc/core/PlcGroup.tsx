@@ -1,10 +1,10 @@
 import {PlcGroupPropsOptions, PlcPublicAttrs} from "../utils/plc.utils";
-import {tPlcGroup} from "../utils/plc.type";
+import {tPlcGroup, tPlcType} from "../utils/plc.type";
 import {computed, designComponent, reactive, useNumber, useRefs} from "plain-design-composition";
 
 import {useCollect} from "../../../../use/useCollect";
 import Plc from "./Plc";
-import {getPropsState, usePropsState} from "../utils/usePropsState";
+import {usePropsState} from "../utils/usePropsState";
 import PlTable from "../../index";
 
 const PlcGroup = designComponent({
@@ -12,8 +12,11 @@ const PlcGroup = designComponent({
     props: {
         ...PlcGroupPropsOptions,
     },
-    slots: ['default', 'head'],
-    setup({props, slots}) {
+    slots: ['default'],
+    scopeSlots: {
+        head: (scope: { plc: tPlcType }) => {},
+    },
+    setup({props, slots, scopeSlots}) {
         const table = PlTable.use.inject()
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         /*collector收集列信息*/
@@ -40,7 +43,7 @@ const PlcGroup = designComponent({
              * @date    2021/6/2 15:57
              */
             props: propsState,
-            slots: slots as any,
+            slots: scopeSlots,
             refer: () => group,
             /*分组表头宽度调整时，将放大/缩小的列宽分配给每一个子列*/
             setDurWidth: (durWidth: number) => {

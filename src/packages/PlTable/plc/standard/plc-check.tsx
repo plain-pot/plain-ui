@@ -1,6 +1,6 @@
 import {TableNode} from "../../table/use/useTableNode";
 import {CheckboxStatus} from "../../../../utils/constant";
-import {computed, designComponent, getCurrentInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
+import {computed, designComponent, getCurrentDesignInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
 import {injectPlainTable} from "../../index";
 
 import {PlCheckbox} from "../../../PlCheckbox";
@@ -31,7 +31,7 @@ export default designComponent({
     setup({props, slots, scopeSlots, event}) {
 
         const table = injectPlainTable()
-        const proxy = getCurrentInstance()!.proxy!
+        const proxy = getCurrentDesignInstance().proxy!
         const state = reactive({
             selected: [] as TableNode[],
         })

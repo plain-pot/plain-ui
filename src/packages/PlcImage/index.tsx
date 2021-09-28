@@ -7,7 +7,7 @@ import {PlcScopeSlotsOptions} from "../PlTable/plc/utils/plc.scope-slots";
 import PlImage from "../PlImage";
 import {injectPlainTable} from "../PlTable";
 import PlImageUploader from "../PlImageUploader";
-import {$$image} from "../useImage";
+import {$$image} from "../../index";
 
 export const PlcImage = designComponent({
     props: {

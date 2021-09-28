@@ -342,6 +342,6 @@ export function useColDraggier(config: ComputedRef<{
     }
 
     return {
-        tdAttrs: {onMousedown: handler.mousedown,}
+        tdAttrs: {onMouseDown: handler.mousedown,}
     }
 }
