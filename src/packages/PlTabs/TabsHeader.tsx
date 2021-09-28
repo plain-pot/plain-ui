@@ -1,5 +1,4 @@
-import { designComponent, onBeforeUnmount, onMounted, PropType, reactive, useRefs, useStyles} from "plain-design-composition"
-
+import {designComponent, onBeforeUnmount, onMounted, PropType, reactive, useRefs, useStyles} from "plain-design-composition"
 import {TabData} from "./tabs.utils";
 
 export const PlTabsHeader = designComponent({

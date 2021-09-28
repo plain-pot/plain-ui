@@ -1,5 +1,4 @@
 import {designComponent, onUpdated, reactive, useClasses, useRefs, useStyles} from "plain-design-composition";
-
 import {TabCommonProps} from "../../tabs.utils";
 import {PlTabsHeaderHorizontalText} from "./TabsHeaderHorizontalText";
 import {PlTabsHeaderHorizontalCard} from "./TabsHeaderHorizontalCard";
@@ -7,6 +6,7 @@ import {PlTabsHeaderHorizontalShadow} from "./TabsHeaderHorizontalShadow";
 import './tabs-header-horizontal.scss'
 import PlButton from "../../../PlButton";
 import {delay} from "plain-utils/utils/delay";
+import {unit} from "plain-utils/string/unit";
 
 export const PlTabsHeaderHorizontal = designComponent({
     name: 'pl-tabs-header-horizontal',
@@ -38,7 +38,7 @@ export const PlTabsHeaderHorizontal = designComponent({
 
         const listStyles = useStyles(style => {
             if (state.showMoreButton) {
-                style.left = state.scrollLeft
+                style.left = unit(state.scrollLeft)
             }
         })
 

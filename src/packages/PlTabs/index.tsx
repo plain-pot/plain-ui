@@ -1,9 +1,8 @@
-import { computed, designComponent, useClasses, useModel, watch} from "plain-design-composition";
+import {computed, designComponent, useClasses, useModel, watch} from "plain-design-composition";
 import './tabs.scss'
 import {useCollect} from "../../use/useCollect";
 import PlTab from "../PlTab";
 import {TabCommonProps, TabData} from "./tabs.utils";
-
 import {PlTabsInner} from "./TabsInner";
 import {PlTabsHeaderHorizontal} from "./header/horizontal/TabsHeaderHorizontal";
 import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";

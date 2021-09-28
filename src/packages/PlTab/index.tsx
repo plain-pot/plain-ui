@@ -1,10 +1,10 @@
 import './tab.scss'
-import {designComponent, useRefs} from "plain-design-composition";
+import {designComponent, InheritHtmlElement, useRefs} from "plain-design-composition";
 import {TabCollector} from "../PlTabs";
-
 
 export const PlTab = designComponent({
     inheritAttrs: false,
+    inheritPropsType: InheritHtmlElement,
     props: {
         title: {type: String},                              // 页签标题
         init: {type: Boolean},                              // 是否立即初始化（默认第一次点击页签的时候才会初始化内容）

@@ -96,7 +96,7 @@ const MenuData: MenuGroup[] = [
             // {name: 'Virtual Tree', title: '虚拟树', page: '/normal/virtual-tree', complete: false},
             {name: 'Pagination', title: '分页', page: '/normal/DemoPagination', complete: true},
             {name: 'Badge', title: '标记', page: '/normal/DemoBadge', complete: true},
-            {name: 'Step', title: '步骤条', page: '/normal/DemoStep', complete: false},
+            {name: 'Step', title: '步骤条', page: '/normal/DemoStep', complete: true},
             {name: 'Tab', title: '页签', page: '/normal/DemoTab', complete: false},
         ]
     },

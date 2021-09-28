@@ -1,5 +1,4 @@
 import {designComponent} from "plain-design-composition";
-
 import {TabCommonProps} from "../../tabs.utils";
 import './tabs-header-card.scss'
 
