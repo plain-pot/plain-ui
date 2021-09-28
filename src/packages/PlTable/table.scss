@@ -382,6 +382,13 @@
   }*/
   /*input*/
   .plt-cell {
+    & > * {
+      vertical-align: middle;
+
+      &.pl-icon {
+        vertical-align: middle;
+      }
+    }
 
     & > .pl-input {
       width: 100%;

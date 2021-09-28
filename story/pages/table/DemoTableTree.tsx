@@ -258,7 +258,7 @@ export default designPage(() => {
             </DemoRow>
 
             <DemoRow title={'懒加载子节点'}>
-                <PlTable v-model-data={lazyDemo.data} keyField="id" childrenField="subs" lazy isLeaf={lazyDemo.isLeaf} getChildren={lazyDemo.getChildren}>
+                <PlTable v-models={[[lazyDemo.data, 'data']]} keyField="id" childrenField="subs" lazy isLeaf={lazyDemo.isLeaf} getChildren={lazyDemo.getChildren}>
                     <PlcIndex/>
                     <PlcTree
                         title={'标题'}
