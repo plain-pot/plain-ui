@@ -298,7 +298,7 @@ export const PlSelect = designComponent({
                                 v-slots={{
                                     default: ({item, index}: { item: SelectOption, index: number }) => (
                                         <Fragment key={index}>
-                                            <span>{item.props.label}</span>,
+                                            <span>{item.props.label}</span>
                                             <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
                                         </Fragment>
                                     )

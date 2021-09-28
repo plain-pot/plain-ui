@@ -103,32 +103,30 @@ export default designPage(() => {
             <DemoRow title={'自定义内容'}>
                 <PlSelect>
                     {groupData.map((group, groupIndex) => (
-                        <PlSelectGroup label={group.name} key={groupIndex}>
-                            {{
-                                label: <>
+                        <PlSelectGroup label={group.name} key={groupIndex} v-slots={{
+                            title: () => <>
                                     <span style={{
                                         fontStyle: 'italic',
                                         fontSize: '1.2em',
                                         marginRight: '6px',
                                         opacity: '0.5',
                                     }}>{groupIndex + 1}、</span>
-                                    <span>{group.name}</span>
-                                </>,
-                                default: <>
-                                    {group.children.map((child, childIndex) => (
-                                        <PlSelectOption label={child.name} key={child.val} val={child.val}>
+                                <span>{group.name}</span>
+                            </>,
+                            default: () => <>
+                                {group.children.map((child, childIndex) => (
+                                    <PlSelectOption label={child.name} key={child.val} val={child.val}>
                                             <span style={{
                                                 fontStyle: 'italic',
                                                 fontSize: '1.2em',
                                                 marginRight: '6px',
                                                 opacity: '0.5',
                                             }}>{childIndex + 1}、</span>
-                                            <span>{child.name}</span>
-                                        </PlSelectOption>
-                                    ))}
-                                </>
-                            }}
-                        </PlSelectGroup>
+                                        <span>{child.name}</span>
+                                    </PlSelectOption>
+                                ))}
+                            </>
+                        }}/>
                     ))}
                 </PlSelect>
             </DemoRow>

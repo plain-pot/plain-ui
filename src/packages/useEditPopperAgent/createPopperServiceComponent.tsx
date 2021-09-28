@@ -164,7 +164,9 @@ export function createPopperServiceComponent(name: string) {
                         reference={state.option.serviceOption.reference}
                         onUpdateOpen={val => isOpen.value = !!val}
                         {...popperAttrs.value}
-                        popper={state.option.defaultOption.render(renderAttrs.value)}
+                        v-slots={{
+                            popper: () => state.option.defaultOption.render(renderAttrs.value)
+                        }}
                     />
                 )
             }
