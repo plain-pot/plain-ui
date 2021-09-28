@@ -5,6 +5,7 @@
  */
 import {ExtractPropTypes, PropType, VueNode} from "plain-ui-composition";
 import {PDate, plainDate} from "../../utils/plainDate";
+import {classnames} from "plain-utils/dom/classnames";
 
 export enum DateView {
     year = 'year',
@@ -208,7 +209,7 @@ export function DatePanelItemWrapper(
         ...Node,
         props: {
             ...Node.props,
-            class: `${Node.props.className} ${([
+            class: `${Node.props.class} ${classnames([
                 'pl-date-base-panel-item',
                 {
                     'pl-date-base-panel-item-active': item.active,

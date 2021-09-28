@@ -5,7 +5,6 @@ import {UseDateJudgementView} from "../useDatePanel";
 import {PDate} from "../../../utils/plainDate";
 import {PlDatePanelMonth} from "./PlDatePanelMonth";
 
-
 export const PlDatePanelQuarter = designComponent({
     name: 'pl-date-panel-quarter',
     props: {

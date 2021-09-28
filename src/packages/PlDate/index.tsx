@@ -7,7 +7,6 @@ import {PDate, plainDate} from "../../utils/plainDate";
 import {delay} from "plain-utils/utils/delay";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useDate} from "./useDate";
-
 import {useDateTime} from "../PlDateTimeInput/useDateTime";
 import {PlDateTimeInput} from "../PlDateTimeInput";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
@@ -15,6 +14,7 @@ import PlIcon from "../PlIcon";
 import {PlInput} from "../PlInput";
 import {unit} from "plain-utils/string/unit";
 import PlPopper from "../PlPopper";
+import {classnames} from "plain-utils/dom/classnames";
 
 export const PlDate = designComponent({
     name: 'pl-date',
@@ -154,7 +154,7 @@ export const PlDate = designComponent({
         const inputAttrs = computed(() => {
             const isDates = props.multiple
             return {
-                class: ([
+                class: classnames([
                     'pl-date',
                     {
                         'pl-input-custom': !isDates,
@@ -227,13 +227,12 @@ export const PlDate = designComponent({
                             {props.multiple && (<PlInputInnerTags
                                 data={formatData.value.vpds || []}
                                 maxTags={props.maxTags}
-                                collapseTags={props.collapseTags}
-                                v-slots={{
-                                    default: ({item, index}: { item: PDate, index: number }) => (<>
-                                        <span>{item.getDisplay()}</span>
-                                        <PlIcon icon="el-icon-close" {...{onClick: (e: any) => customHandler.onClickItemCloseIcon(index, e)}}/>
-                                    </>)
-                                }}
+                                collapseTags={props.collapseTags} v-slots={{
+                                default: ({item, index}: { item: PDate, index: number }) => (<>
+                                    <span>{item.getDisplay()}</span>
+                                    <PlIcon icon="el-icon-close" {...{onClick: (e: any) => customHandler.onClickItemCloseIcon(index, e)}}/>
+                                </>)
+                            }}
                             />)}
 
                             {!props.multiple && (

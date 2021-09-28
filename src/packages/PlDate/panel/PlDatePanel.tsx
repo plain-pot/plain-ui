@@ -7,7 +7,6 @@ import {PlDatePanelDate} from "./PlDatePanelDate";
 import {PlDatePanelWeek} from "./PlDatePanelWeek";
 import {PlDatePanelQuarter} from "./PlDatePanelQuarter";
 
-
 export const PlDatePanel = designComponent({
     name: 'pl-date-panel',
     props: {

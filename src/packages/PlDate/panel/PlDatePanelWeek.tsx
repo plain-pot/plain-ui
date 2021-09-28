@@ -5,7 +5,6 @@ import {UseDateJudgementView} from "../useDatePanel";
 import {PDate} from "../../../utils/plainDate";
 import {PlDatePanelDate} from "./PlDatePanelDate";
 
-
 export const PlDatePanelWeek = designComponent({
     name: 'pl-date-panel-week',
     props: {

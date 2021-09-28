@@ -2,7 +2,6 @@ import {computed, designComponent, PropType} from "plain-ui-composition";
 import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DateView, DefaultDateFormatString} from "../date.utils";
 import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
 import {PDate, plainDate} from "../../../utils/plainDate";
-
 import {PlDatePanelDate} from "./PlDatePanelDate";
 
 const DefaultTime = {
@@ -112,7 +111,7 @@ export const PlDatePanelRange = designComponent({
                 onMouseenter: handler.onMouseenter,
                 onClick: handler.onClick,
                 onSelectTime: (val: string) => externalHandler.onSelectTime(val, DateEmitRangeType.start),
-                onMousedown: (e: MouseEvent) => emit.mousedown(e, DateEmitRangeType.start),
+                onMouseDown: (e: MouseEvent) => emit.mousedown(e, DateEmitRangeType.start),
             }
             const endSelectDate = startSelectDate.useMonthDate(startSelectDate.month + 1, 1)
             const end = {
@@ -125,7 +124,7 @@ export const PlDatePanelRange = designComponent({
                 onMouseenter: handler.onMouseenter,
                 onClick: handler.onClick,
                 onSelectTime: (val: string) => externalHandler.onSelectTime(val, DateEmitRangeType.end),
-                onMousedown: (e: MouseEvent) => emit.mousedown(e, DateEmitRangeType.end),
+                onMouseDown: (e: MouseEvent) => emit.mousedown(e, DateEmitRangeType.end),
             }
             return {start, end}
         })

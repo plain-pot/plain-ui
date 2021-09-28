@@ -5,8 +5,7 @@ import {PlDateTimeInput} from "./index";
 import {PlInput} from "../PlInput";
 import {delay} from "plain-utils/utils/delay";
 import {handleKeyboard} from "../keyboard";
-
-export type ModelType = { value: any }
+import {ModelType} from 'plain-ui-composition/src/use/useModel'
 
 export function useDateTime(
     {
