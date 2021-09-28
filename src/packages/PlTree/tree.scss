@@ -52,6 +52,8 @@
         }
 
         & > * {
+          display: flex;
+          align-items: center;
           margin-right: 8px;
           color: $colorPrimary;
           user-select: none;
