@@ -1,6 +1,5 @@
 import Schema, {RuleItem} from 'async-validator'
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {PlainObject} from "plain-utils/utils/event";
 import {defer} from "plain-utils/utils/defer";
 
 const logError = (msg: string) => {console.error(`PlForm:${msg}`)}
@@ -14,6 +13,13 @@ export enum FormValidateTrigger {
     change = 'change',
     blur = 'blur',
 }
+
+/**
+ * 普通的对象类型
+ * @author  韦胜健
+ * @date    2021/5/30 12:25
+ */
+export type PlainObject = Record<string, any>;
 
 /**
  * 校验器函数validator的类型

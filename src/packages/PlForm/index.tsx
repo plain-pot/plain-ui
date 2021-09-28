@@ -7,7 +7,6 @@ import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
 import {debounce} from "plain-utils/utils/debounce";
-
 import {useCollect} from "../../use/useCollect";
 import {PlFormItem} from "../PlFormItem";
 import {PlLoadingMask} from "../PlLoadingMask";
