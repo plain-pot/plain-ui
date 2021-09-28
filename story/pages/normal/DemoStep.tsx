@@ -217,32 +217,32 @@ export default designPage(() => {
                         >
                             <PlStep>
                                 {{
-                                    title: (<span>获取token</span>),
-                                    content: (<span>1、调用接口，获取token</span>)
+                                    title: () => (<span>获取token</span>),
+                                    content: () => (<span>1、调用接口，获取token</span>)
                                 }}
                             </PlStep>
                             <PlStep>
                                 {{
-                                    title: (<span>上传logo</span>),
-                                    content: (<span>2、使用token上传logo图片</span>)
+                                    title: () => (<span>上传logo</span>),
+                                    content: () => (<span>2、使用token上传logo图片</span>)
                                 }}
                             </PlStep>
                             <PlStep>
                                 {{
-                                    title: (<span>创建卡券</span>),
-                                    content: (<span>3、调用接口创建卡券信息</span>)
+                                    title: () => (<span>创建卡券</span>),
+                                    content: () => (<span>3、调用接口创建卡券信息</span>)
                                 }}
                             </PlStep>
                             <PlStep>
                                 {{
-                                    title: (<span>创建二维码</span>),
-                                    content: (<span>4、调用接口创建二维码</span>)
+                                    title: () => (<span>创建二维码</span>),
+                                    content: () => (<span>4、调用接口创建二维码</span>)
                                 }}
                             </PlStep>
                             <PlStep>
                                 {{
-                                    title: (<span>显示二维码</span>),
-                                    content: (<span>5、在应用中显示二维码</span>)
+                                    title: () => (<span>显示二维码</span>),
+                                    content: () => (<span>5、在应用中显示二维码</span>)
                                 }}
                             </PlStep>
                         </PlStepGroup>

@@ -13,7 +13,7 @@ export const StepUtils = {
         } else {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
-                console.log(item, i)
+                // console.log(item, i)
                 if (item.props.val === current) return i
             }
         }
