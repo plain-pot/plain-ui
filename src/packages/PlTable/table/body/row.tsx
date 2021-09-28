@@ -15,7 +15,7 @@ export const PltRow = designComponent({
 
         const handler = {
             onClick: (e: MouseEvent) => props.table.handler.onClickRow(e, props.node),
-            onDoubleClick: (e: MouseEvent) => props.table.handler.onDblclickRow(e, props.node),
+            onDblclick: (e: MouseEvent) => props.table.handler.onDblclickRow(e, props.node),
             vid: props.vid,
         }
 
