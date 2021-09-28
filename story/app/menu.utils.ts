@@ -89,7 +89,7 @@ const MenuData: MenuGroup[] = [
     },
     {
         name: '视图', children: [
-            {name: 'List', title: '列表', page: '/normal/DemoList', complete: false},
+            {name: 'List', title: '列表', page: '/normal/DemoList', complete: true},
             {name: 'VirtualList', title: '虚拟列表', page: '/normal/DemoVirtualList', complete: false},
             {name: 'Progress', title: '进度条', page: '/normal/DemoProgress', complete: false},
             {name: 'Tree', title: '树形组件', page: '/normal/DemoTree', complete: false},
