@@ -86,7 +86,6 @@ export default designComponent({
             table.event.on.onClickCell(handler.onClickCheckbox)
             onBeforeUnmount(() => table.event.off.onClickRow(handler.onClickCheckbox))
         }
-        Object.assign(proxy, methods)
 
         const {refer, render} = useExternalPlc({
             props, scopeSlots, event, slots, defaultScopeSlots: {
