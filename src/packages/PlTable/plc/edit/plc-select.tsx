@@ -4,6 +4,7 @@ import {createDefaultFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from ".
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
 import {tDefaultFilterConfigParam} from "../../../PlFilter/FilterConfig";
+import {toArray} from "plain-utils/utils/toArray";
 
 export default designComponent({
     name: 'plc-select',
@@ -32,15 +33,14 @@ export default designComponent({
             props, slots, scopeSlots, event, defaultScopeSlots: {
                 summary: () => null,
                 normal: (scope) => {
-                    //todo select display
-                    /*if (!props.field) {return null}
+                    if (!props.field) {return null}
                     const val = scope.row[props.field]
 
-                    let content = scopeSlots.normal.isExist() ? scopeSlots.normal(scope) : slots.default()
-                    const children = (isFragment(content) ? content.props.children : content) as ReactElement[]
-                    const selectedOption = !children ? null : children.find(child => child.props.val === val)
-
-                    return !selectedOption ? val : (selectedOption.props.children || selectedOption.props.label)*/
+                    let content = toArray(scopeSlots.normal.isExist() ? scopeSlots.normal(scope) : slots.default())
+                    // const children = (isFragment(content) ? content.props.children : content) as ReactElement[]
+                    const children = content
+                    const selectedOption: any = !children ? null : children.find((child: any) => !!child && typeof child === "object" && child.props.val === val)
+                    return !selectedOption ? val : (selectedOption.children.default() || selectedOption.props.label)
                 },
                 edit: ({row, plc, node}) => !plc.props.field ? null : (
                     <PlSelect v-model={row[plc.props.field]}>
