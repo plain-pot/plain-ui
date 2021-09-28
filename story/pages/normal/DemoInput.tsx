@@ -6,6 +6,14 @@ import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {delay} from "plain-utils/utils/delay";
 import {StoryStatus} from "../../story.utils";
 import $$message from "../../../src/packages/$$message";
+import PlDropdown from "../../../src/packages/PlDropdown";
+import PlIcon from "../../../src/packages/PlIcon";
+import PlDropdownMenu from "../../../src/packages/PlDropdownMenu";
+import PlDropdownOption from "../../../src/packages/PlDropdownOption";
+import PlInputGroup from "../../../src/packages/PlInputGroup";
+import PlSelect from "../../../src/packages/PlSelect";
+import PlSelectOption from "../../../src/packages/PlSelectOption";
+import PlButton from "../../../src/packages/PlButton";
 
 export default designPage(() => {
 
@@ -130,31 +138,35 @@ export default designPage(() => {
                     <PlInput block textarea/>
                 </DemoRow>
 
-                {/*<DemoRow title="输入框组">
+                <DemoRow title="输入框组">
                     <div>
                         <PlCheckbox label={'show prepend'} v-model={state.show.prepend}/>
                         <PlCheckbox label={'show append'} v-model={state.show.append}/>
                     </div>
-                    <PlInput style={{margin: '8px 0'}}>
-                        {{
-                            prepend: !state.show.prepend ? undefined : <>
+                    <PlInput style={{margin: '8px 0'}} v-slots={(() => {
+                        const slots = {} as any
+                        if (!!state.show.prepend) {
+                            slots.prepend = () => <>
                                 <div style={{width: '75px', textAlign: 'left'}}>
                                     <PlDropdown width={null as any}>
                                         {{
-                                            default: <div>
+                                            default: () => <div>
                                                 {!!state.dropdownValue && <span>{state.dropdownValue}://</span>}
                                                 <PlIcon icon={'el-icon-arrow-down'}/>
                                             </div>,
-                                            popper: <PlDropdownMenu>
+                                            popper: () => <PlDropdownMenu>
                                                 {['http', 'https', 'ftp', 'ssh'].map(item => <PlDropdownOption label={item} key={item} onClick={() => state.dropdownValue = item}/>)}
                                             </PlDropdownMenu>
                                         }}
                                     </PlDropdown>
                                 </div>
-                            </>,
-                            append: !state.show.append ? undefined : <div>append content</div>
-                        }}
-                    </PlInput>
+                            </>
+                        }
+                        if (!!state.show.append) {
+                            slots.append = () => <div>append content</div>
+                        }
+                        return slots
+                    })()}/>
                 </DemoRow>
 
                 <DemoRow title="输入框组">
@@ -187,7 +199,7 @@ export default designPage(() => {
                             <PlButton label="确定"/>
                         </PlInputGroup>
                     </div>
-                </DemoRow>*/}
+                </DemoRow>
 
                 <DemoRow title={'设置宽度'}>
                     <DemoLine title={'300'}><PlInput width={300}/></DemoLine>
