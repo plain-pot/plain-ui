@@ -1,4 +1,3 @@
-
 import {designPage, reactive, useRefs} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlForm from "../../../src/packages/PlForm";
@@ -103,8 +102,8 @@ export default designPage(() => {
                     </PlFormItem>
                     <PlFormItem label={'数字框'} field={'field3'} rules={{required: true, trigger: 'blur'}}>
                         {{
-                            default: <PlNumber v-model={formData.field3} block/>,
-                            suffix: <PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
+                            default: () => <PlNumber v-model={formData.field3} block/>,
+                            suffix: () => <PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
                         }}
                     </PlFormItem>
                     <PlFormItem label={'下拉选项'} field={'field6'} rules={{required: true, trigger: 'blur'}}>
@@ -131,13 +130,13 @@ export default designPage(() => {
                         <PlTime v-model={formData.field15}/>
                     </PlFormItem>
                     <PlFormItem label={'时间范围选择'} field={['field17', 'field18']} rules={{required: true, trigger: 'blur'}}>
-                        <PlTime v-model-start={formData.field17} v-model-end={formData.field18} range/>
+                        <PlTime v-models={[[formData.field17, 'start'], [formData.field18, 'end']]} range/>
                     </PlFormItem>
                     <PlFormItem label={'日期时间选择'} field={'field19'} rules={{required: true, trigger: 'blur'}}>
                         <PlDate v-model={formData.field19} datetime/>
                     </PlFormItem>
                     <PlFormItem label={'日期时间范围选择'} field={['field20', 'field21']} rules={{required: true, trigger: 'blur'}}>
-                        <PlDate v-model-start={formData.field20} v-model-end={formData.field21} range datetime/>
+                        <PlDate v-models={[[formData.field20, 'start'], [formData.field21, 'end']]} range datetime/>
                     </PlFormItem>
                     <PlFormItem>
                         <PlButton label={'校验'} onClick={saveValidate}/>

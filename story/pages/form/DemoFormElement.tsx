@@ -110,8 +110,8 @@ export default designPage(() => {
                     </PlFormItem>
                     <PlFormItem label={'数字框'} field={'field3'} rules={{type: 'number', max: 100, message: '最大值100'}} required>
                         {{
-                            default: <PlNumber v-model={formData.field3} block placeholder={'请输入数字'}/>,
-                            suffix: <PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
+                            default: ()=><PlNumber v-model={formData.field3} block placeholder={'请输入数字'}/>,
+                            suffix: ()=><PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
                         }}
                     </PlFormItem>
                     <PlFormItem label={'复选框'} field={'field5'} rules={{min: 1, max: 3, type: 'array', message: '1-3个元素'}} required>
@@ -169,13 +169,13 @@ export default designPage(() => {
                         <PlTime v-model={formData.field15} placeholder={'请选择'}/>
                     </PlFormItem>
                     <PlFormItem label={'时间范围选择'} field={['field17', 'field18']} required>
-                        <PlTime v-model-start={formData.field17} v-model-end={formData.field18} range placeholder={'请选择'}/>
+                        <PlTime v-models={[[formData.field17, 'start'], [formData.field18, 'end']]} range/>
                     </PlFormItem>
                     <PlFormItem label={'日期时间选择'} field={'field19'} required>
                         <PlDate v-model={formData.field19} datetime placeholder={'请选择'}/>
                     </PlFormItem>
                     <PlFormItem label={'日期时间范围选择'} field={['field20', 'field21']} required>
-                        <PlDate v-model-start={formData.field20} v-model-end={formData.field21} range datetime placeholder={'请选择'}/>
+                        <PlDate v-models={[[formData.field20, 'start'], [formData.field21, 'end']]} range datetime placeholder={'请选择'}/>
                     </PlFormItem>
                     <PlFormItem label="文本域" field="field22" required>
                         <PlInput textarea v-model={formData.field22}/>

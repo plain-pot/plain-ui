@@ -57,8 +57,8 @@ export default designPage(() => {
                         </PlFormItem>
                         <PlFormItem label={'客户员工数量'} field={'type'}>
                             {{
-                                default: <PlNumber v-model={formData.type}/>,
-                                suffix: <PlTooltip title={'整数'}><PlIcon icon={'el-icon-question'}/></PlTooltip>
+                                default: ()=><PlNumber v-model={formData.type}/>,
+                                suffix: ()=><PlTooltip message="整数"><PlIcon icon={'el-icon-question'}/></PlTooltip>
                             }}
                         </PlFormItem>
                         <PlFormItem label={'客户加入时间'} field={'joinTime'} disabled={false}>
@@ -118,8 +118,8 @@ export default designPage(() => {
                     </PlFormItem>
                     <PlFormItem label={'客户员工数量'} field={'type'}>
                         {{
-                            default: <PlNumber v-model={formData.type}/>,
-                            suffix: <PlTooltip title={'整数'}><PlIcon icon={'el-icon-question'}/></PlTooltip>
+                            default: ()=><PlNumber v-model={formData.type}/>,
+                            suffix: ()=><PlTooltip message="整数"><PlIcon icon={'el-icon-question'}/></PlTooltip>
                         }}
                     </PlFormItem>
                     <PlFormItem label={'客户加入时间'} field={'joinTime'} disabled={false}>
