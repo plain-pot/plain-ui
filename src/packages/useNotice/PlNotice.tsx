@@ -1,4 +1,4 @@
-import {designComponent, nextIndex, PropType, useClasses} from "plain-ui-composition"
+import {designComponent, nextIndex, PropType, useClasses} from "plain-design-composition"
 import {NoticeServiceFormatOption} from "./index";
 import {PlIcon} from "../PlIcon";
 import {PlButton} from "../PlButton";

@@ -1,4 +1,4 @@
-import {reactive} from "plain-ui-composition";
+import {reactive} from "plain-design-composition";
 import {CascadeConfig, CascadeMark} from "./CascadMark";
 import {PlainObject} from "plain-utils/utils/event";
 

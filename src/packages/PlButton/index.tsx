@@ -1,11 +1,11 @@
-import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
+import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-design-composition'
 import './button.scss'
-import {PropType} from "plain-ui-composition";
+import {PropType} from "plain-design-composition";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 
-import {useClasses} from "plain-ui-composition";
+import {useClasses} from "plain-design-composition";
 import {PlLoading} from "../PlLoading";
 import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -35,7 +35,7 @@ export const PlButton = designComponent({
         type: {type: String, default: 'button'},
         nativeAttrs: {type: Object},
     },
-    inheritPropsType: {} as HtmlHTMLAttributes,
+    inheritPropsType: InheritHtmlElement,
     emits: {
         onClick: (e: MouseEvent) => true,
     },

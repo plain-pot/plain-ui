@@ -1,5 +1,5 @@
 import {StyleStatus} from "../../use/useStyle";
-import {SimpleFunction, VueNode} from "plain-ui-composition"
+import {SimpleFunction, VueNode} from "plain-design-composition"
 import {STATUS} from "../../utils/constant";
 import {createUseService} from "../PlRoot/registryRootService";
 import {PlNoticeManager} from "./PlNoticeManager";

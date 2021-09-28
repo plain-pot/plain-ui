@@ -1,11 +1,10 @@
 import {EditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useStyle} from "../../use/useStyle";
-import {computed, SimpleFunction, useRefs} from "plain-ui-composition";
+import {computed, ModelType, SimpleFunction, useRefs} from "plain-design-composition";
 import {PlDateTimeInput} from "./index";
 import {PlInput} from "../PlInput";
 import {delay} from "plain-utils/utils/delay";
 import {handleKeyboard} from "../keyboard";
-import {ModelType} from 'plain-ui-composition/src/use/useModel'
 
 export function useDateTime(
     {

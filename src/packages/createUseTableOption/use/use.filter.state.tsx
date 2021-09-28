@@ -1,6 +1,6 @@
 import {tTableOptionHooks} from "./use.hooks";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
-import {reactive, VueNode} from "plain-ui-composition";
+import {reactive, VueNode} from "plain-design-composition";
 import {tTableOptionMethods} from "./use.methods";
 import {tTableOptionCache} from "./use.cache";
 import {iTableOptionApplyCacheParam, iTableOptionGetCacheParam} from "./use.cache.utils";

@@ -1,11 +1,11 @@
-import {computed, reactive, ref} from "plain-ui-composition";
-import {StyleProperties} from "plain-ui-composition"
+import {computed, reactive, ref} from "plain-design-composition";
+import {StyleProperties} from "plain-design-composition"
 import {createDefaultService} from "../../PlRoot/createDefaultService";
 import {LoadingBarFormatOption, LoadingBarStatus} from "./index";
-import {nextIndex} from "plain-ui-composition"
+import {nextIndex} from "plain-design-composition"
 import {delay} from "plain-utils/utils/delay";
 
-import {useClasses} from "plain-ui-composition";
+import {useClasses} from "plain-design-composition";
 import './loading-bar.scss'
 
 export default createDefaultService({

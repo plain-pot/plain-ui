@@ -1,4 +1,4 @@
-import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-ui-composition";
+import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
 import {Fragment} from 'vue'
 import {tTableOption} from "../createUseTableOption";
 import './table-pro.scss'

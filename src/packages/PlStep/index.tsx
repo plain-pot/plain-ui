@@ -1,7 +1,6 @@
-import {computed, designComponent, getCurrentInstance, useRefs} from "plain-ui-composition";
+import {computed, designComponent, InheritHtmlElement, getCurrentInstance, useRefs} from "plain-design-composition";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
-import {useClasses} from "plain-ui-composition";
-
+import {useClasses} from "plain-design-composition";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
 import {StepCollector} from "../PlStepGroup";
@@ -12,12 +11,14 @@ export const PlStep = designComponent({
         icon: {type: String},
         status: {type: String},
         val: {type: String},
+        title: {type: String},
+        message: {type: String},
     },
     emits: {
         onClick: (e: MouseEvent) => true,
     },
-    inheritPropsType: HTMLDivElement,
-    slots: ['title', 'content', 'default'],
+    inheritPropsType: InheritHtmlElement,
+    slots: ['head', 'content', 'default'],
     setup({props, event: {emit}, slots}) {
         const {refs, onRef} = useRefs({
             el: HTMLDivElement
@@ -94,7 +95,7 @@ export const PlStep = designComponent({
                     </span>
                         {!stepGroup.isTitleAlignBottom.value && (
                             <span class="pl-step-title">
-                            {slots.title()}
+                            {slots.head(props.title)}
                         </span>
                         )}
                         {(stepGroup.isTitleAlignBottom.value || !isLast.value) && <span class="pl-step-divider pl-step-divider-next"/>}
@@ -104,11 +105,11 @@ export const PlStep = designComponent({
                             <span class="pl-step-icon"/>
                             :
                             <span class="pl-step-title">
-                            {slots.title()}
+                            {slots.head(props.title)}
                         </span>
                         }
                         <span class="pl-step-content">
-                        {slots.content()}
+                        {slots.content(props.message)}
                     </span>
                     </div>
                 </div>

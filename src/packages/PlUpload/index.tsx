@@ -1,6 +1,6 @@
 import './upload.scss'
 import $$file, {FileServiceDefaultAccept, FileServiceSingleFile, FileServiceValidator} from "../$$file";
-import {computed, useClasses, designComponent, PropType, useModel, useRefs, VueNode} from 'plain-ui-composition';
+import {computed, InheritHtmlElement, useClasses, designComponent, PropType, useModel, useRefs, VueNode} from 'plain-design-composition';
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
@@ -77,7 +77,7 @@ export const PlUpload = designComponent({
         onUploadSuccess: (data: { file: UploadFile | UploadFile[], resp: any }) => true,
         onUploadError: (error: any) => true,
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['button'],
     scopeSlots: {
         default: (scope: { item: UploadFile, index: number }) => {},

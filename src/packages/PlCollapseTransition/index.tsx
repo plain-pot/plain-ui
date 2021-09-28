@@ -1,7 +1,7 @@
 import {Transition} from 'vue'
 import {addClass} from "plain-utils/dom/addClass";
 import {removeClass} from "plain-utils/dom/removeClass";
-import {designComponent} from "plain-ui-composition";
+import {designComponent} from "plain-design-composition";
 
 export const PlCollapseTransition = designComponent({
     name: 'pl-collapse-transition',

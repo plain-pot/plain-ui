@@ -1,9 +1,9 @@
 import {createUseService} from "../PlRoot/registryRootService";
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
-import {computed, reactive} from 'plain-ui-composition';
+import {computed, reactive} from 'plain-design-composition';
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
 import {CreateAgentGetterOption, PopperAgent, PopperServiceComponentOption, SpecificPopperServiceOption} from "./useEditPopperAgent.utils";
-import {PlRoot} from "../PlRoot/PlRoot";
+import {PlRoot} from "../PlRoot";
 
 /**
  * 创建一个获取popper agent的函数

@@ -1,9 +1,8 @@
-import {computed, designComponent, useClasses, useRefs} from "plain-ui-composition";
+import {computed, designComponent, getCurrentInstance, InheritHtmlElement, useRefs} from "plain-design-composition";
 import {ArrowStepCollector} from "../PlArrowStepGroup";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
-
+import {useClasses} from "plain-design-composition";
 import PlTriangle from "../PlTriangle";
-import {getCurrentInstance} from "vue";
 
 export const PlArrowStep = designComponent({
     name: 'pl-arrow-step',
@@ -13,7 +12,7 @@ export const PlArrowStep = designComponent({
         val: {type: String},
         hideIndex: {type: Boolean},
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['default'],
     setup({props, slots}) {
         const ctx = getCurrentInstance()!

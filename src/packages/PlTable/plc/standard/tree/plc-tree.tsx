@@ -5,7 +5,7 @@ import {useTableGetScroll} from "../../../table/use/useTableGetScroll";
 import {usePlcTreeDraggier} from "./plc-tree.draggier";
 import {delay} from "plain-utils/utils/delay";
 import {StyleSize} from "../../../../../use/useStyle";
-import {computed, createEventListener, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-ui-composition";
+import {computed, createEventListener, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
 import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {injectPlainTable} from "../../../index";
 

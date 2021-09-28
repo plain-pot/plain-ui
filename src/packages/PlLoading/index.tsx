@@ -1,16 +1,17 @@
-import {designComponent, useRefs, watch} from "plain-ui-composition";
+import {designComponent, useRefs, watch} from "plain-design-composition";
 import {PlainLoading} from "plain-loading";
 import {delay} from "plain-utils/utils/delay";
 
-import {useClasses} from "plain-ui-composition";
+import {useClasses} from "plain-design-composition";
 import './loading.scss'
+import {InheritHtmlElement} from "plain-design-composition";
 
 export const PlLoading = designComponent({
     props: {
         type: {type: String, default: 'alpha'},
         status: {type: String, default: null},
     },
-    inheritPropsType: HTMLElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props}) {
 
         const {refs, onRef} = useRefs({el: HTMLElement})

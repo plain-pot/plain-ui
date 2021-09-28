@@ -3,7 +3,7 @@ import {getRowEl, getScrollParent} from '../draggier/core/utils';
 import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {PlainScroll} from "../../../../PlScroll";
 import {useAutoScroll} from "../../../../PlScroll/useAutoScroll";
-import {StyleProperties} from "plain-ui-composition"
+import {StyleProperties} from "plain-design-composition"
 
 
 const indicatorSize = 3;

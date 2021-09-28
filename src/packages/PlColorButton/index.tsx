@@ -1,4 +1,4 @@
-import {designComponent, useRefs} from 'plain-ui-composition'
+import {designComponent,InheritHtmlElement, useRefs} from 'plain-design-composition'
 import './color-button.scss'
 // @ts-ignore
 import opacityPng from './opacity.png'
@@ -11,7 +11,7 @@ export const PlColorButton = designComponent({
     emits: {
         onClick: (e: MouseEvent) => true,
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

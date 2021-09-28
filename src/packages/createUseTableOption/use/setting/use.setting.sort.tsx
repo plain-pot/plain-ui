@@ -1,4 +1,4 @@
-import {reactive} from "plain-ui-composition";
+import {reactive} from "plain-design-composition";
 
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {tTableOptionHooks} from "../use.hooks";

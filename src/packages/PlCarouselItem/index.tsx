@@ -1,4 +1,4 @@
-import {computed, designComponent, useClasses, useRefs, useStyles} from "plain-ui-composition";
+import {computed, designComponent, InheritHtmlElement, useClasses, useRefs, useStyles} from "plain-design-composition";
 import {CarouselCollector} from "../PlCarousel";
 import {createCounter} from "plain-utils/utils/createCounter";
 import {reactive} from "vue";
@@ -10,7 +10,7 @@ export const PlCarouselItem = designComponent({
     props: {
         val: {type: [String, Number]},
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['default'],
     setup({props, slots}) {
 

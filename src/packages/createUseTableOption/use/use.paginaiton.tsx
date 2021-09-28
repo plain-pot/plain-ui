@@ -1,4 +1,4 @@
-import {computed, reactive} from "plain-ui-composition";
+import {computed, reactive} from "plain-design-composition";
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import PlPagination from "../../PlPagination";
 

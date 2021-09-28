@@ -1,10 +1,10 @@
 import {iFilterOption, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {PlainObject} from "../../createUseTableOption.utils";
 import PlForm from "../../../PlForm";
 import PlFormItem from "../../../PlFormItem";
 import PlFilter from "../../../PlFilter";
-import {VueNode} from "plain-ui-composition";
+import {VueNode} from "plain-design-composition";
+import {PlainObject} from "plain-utils/utils/event";
 
 export type iFilterStateDataMap = Record<string, iFilterOption>
 export type iFilterCacheData = Omit<iFilterOption, 'filterConfig' | 'plc'>

@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-ui-composition";
+import {designPage, reactive} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlButton from "../../../src/packages/PlButton";
 import $$file, {FileServiceChooseFileConfig, FileServiceSingleFile} from "../../../src/packages/$$file";

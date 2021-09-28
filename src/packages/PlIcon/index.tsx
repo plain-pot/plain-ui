@@ -1,9 +1,10 @@
-import {designComponent, ref, VueNode, watch} from 'plain-ui-composition'
+import {designComponent, ref, VueNode, watch} from 'plain-design-composition'
 import './icon.scss'
-import {useClasses} from 'plain-ui-composition';
+import {useClasses} from 'plain-design-composition';
 import {refreshPopperReference} from "../PlPopper/refershPopperReference";
 import {HtmlHTMLAttributes} from 'vue'
 import {classnames} from 'plain-utils/dom/classnames'
+import {InheritHtmlElement} from "plain-design-composition";
 
 interface IconGetter {
     (icon: string): VueNode | Promise<VueNode>
@@ -47,7 +48,7 @@ export const PlIcon = designComponent({
         icon: {type: String},                       // 图标名称
         status: {type: String},                     // 图标状态
     },
-    inheritPropsType: {} as HtmlHTMLAttributes,
+    inheritPropsType: InheritHtmlElement,
     expose: {registry},
     setup({props}) {
         const icon = ref(null as any)

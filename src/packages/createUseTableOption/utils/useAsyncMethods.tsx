@@ -1,4 +1,4 @@
-import {computed, reactive, ref} from "plain-ui-composition";
+import {computed, reactive, ref} from "plain-design-composition";
 
 export function useAsyncMethods<Methods extends { [k: string]: (...args: any) => any }>(methods: Methods, delayTimer = 200):
     Methods & { isLoading: { [k in keyof Methods]: boolean } & { all: boolean } } {

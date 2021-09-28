@@ -1,6 +1,6 @@
 import {TableNode} from "../../table/use/useTableNode";
 import {CheckboxStatus} from "../../../../utils/constant";
-import {computed, designComponent, getCurrentInstance, onBeforeUnmount, PropType, reactive} from "plain-ui-composition";
+import {computed, designComponent, getCurrentInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
 import {injectPlainTable} from "../../index";
 
 import {PlCheckbox} from "../../../PlCheckbox";

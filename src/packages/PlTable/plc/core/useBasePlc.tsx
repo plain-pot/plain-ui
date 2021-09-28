@@ -1,4 +1,4 @@
-import {computed, ExtractPropTypes, reactive, useNumber, useRefs} from "plain-ui-composition";
+import {computed, ExtractPropTypes, reactive, useNumber, useRefs} from "plain-design-composition";
 import {PlcPropsOptions, PlcPublicAttrs} from "../utils/plc.utils";
 import {tPlcScopeSlots, tPlcSlots} from "../utils/plc.scope-slots";
 import {PlcCollector} from "./PlcGroup";

@@ -2,7 +2,7 @@ import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton";
 import {MessageServiceDirection, useMessage} from "../../../src/packages/useMessage";
 import $$message from "../../../src/packages/$$message";
-import {designComponent} from "plain-ui-composition";
+import {designComponent} from "plain-design-composition";
 import {reactive} from "vue";
 
 const showMessageWithoutContext = () => {

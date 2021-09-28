@@ -1,4 +1,4 @@
-import {designComponent, PropType, reactive, useModel} from "plain-ui-composition";
+import {designComponent, PropType, reactive, useModel} from "plain-design-composition";
 
 import PlInput from "../../PlInput";
 

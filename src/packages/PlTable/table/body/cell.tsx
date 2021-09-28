@@ -2,7 +2,7 @@ import {tPlc} from "../../plc/utils/plc.type";
 import {TableNode} from "../use/useTableNode";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
-import {ComputedRef, designComponent, PropType, useClasses, useStyles} from "plain-ui-composition";
+import {ComputedRef, designComponent, PropType, useClasses, useStyles} from "plain-design-composition";
 import {FormAssociateFields, FormValidateTrigger, tFormRuleData} from "../../../PlForm/form.validate";
 import {PlainTable} from "../../index";
 import {renderBodyCell} from "../../plc/utils/render";

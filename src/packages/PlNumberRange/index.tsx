@@ -1,4 +1,4 @@
-import {computed, designComponent, useModel} from "plain-ui-composition";
+import {computed, designComponent, useModel} from "plain-design-composition";
 
 import PlInputGroup from "../PlInputGroup";
 import PlDate from "../PlDate";

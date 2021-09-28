@@ -1,7 +1,7 @@
 import {useTreeNode} from "./useTreeNode";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {delay} from "plain-utils/utils/delay";
-import {computed, nextTick, PropType, useModel} from "plain-ui-composition";
+import {computed, nextTick, PropType, useModel} from "plain-design-composition";
 import {PlainObject} from "plain-utils/utils/event";
 
 

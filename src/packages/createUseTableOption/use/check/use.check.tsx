@@ -1,5 +1,5 @@
-import {reactive, useRefs} from "plain-ui-composition";
-import {PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils";
+import {reactive, useRefs} from "plain-design-composition";
+import {tTableOptionConfig} from "../../createUseTableOption.utils";
 import {tTableOptionHooks} from "../use.hooks";
 
 import {eTableProStatus, tTableOptionConfirm} from "../use.confirm";
@@ -7,6 +7,7 @@ import useMessage from "../../../useMessage";
 import PlcProCheck from './PlcProCheck'
 import {tTableOptionCommand} from "../use.command";
 import {defer} from "plain-utils/utils/defer";
+import {PlainObject} from "plain-utils/utils/event";
 
 export function useTableOptionCheck({hooks, config, confirm, command}: {
     hooks: tTableOptionHooks,

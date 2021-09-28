@@ -1,4 +1,4 @@
-import {designComponent} from "plain-ui-composition";
+import {designComponent} from "plain-design-composition";
 import PlDropdown from "../PlDropdown";
 
 export const PlDropdownMenu = designComponent({

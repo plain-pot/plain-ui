@@ -1,6 +1,6 @@
-import {designComponent, PropType, useRefs, useStyles} from 'plain-ui-composition'
+import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from 'plain-design-composition'
 import './grid.scss'
-import {useClasses} from "plain-ui-composition";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 
 import {removeUnit} from "plain-utils/string/removeUnit";
@@ -30,7 +30,7 @@ export const PlRow = designComponent({
         justify: {type: String as PropType<keyof typeof GridJustify>},      //内容弹性布局方式,start,end,center,space-around,space-between
         gutter: {type: [Number, String], default: 0},                       //间隔
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['default'],
     provideRefer: true,
     setup({props, slots}) {

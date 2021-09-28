@@ -1,4 +1,4 @@
-import {designComponent, PropType, reactive, useModel, watch} from "plain-ui-composition";
+import {designComponent, PropType, reactive, useModel, watch} from "plain-design-composition";
 
 import PlSelect from "../PlSelect";
 import {iOvData} from "../useOv/useOv.utils";

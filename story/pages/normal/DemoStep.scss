@@ -1,0 +1,18 @@
+.demo-step {
+    width: 1060px;
+
+    .demo-line {
+        display: flex;
+
+        .demo-line-content {
+            flex: 1;
+        }
+    }
+
+    .custom-content-slot {
+        .pl-icon {
+            margin-right: 6px;
+            font-size: 1.2em;
+        }
+    }
+}

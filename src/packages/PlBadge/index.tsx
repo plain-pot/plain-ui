@@ -1,5 +1,5 @@
 import './badge.scss'
-import {computed, designComponent, useRefs} from "plain-design-composition";
+import {computed, designComponent, InheritHtmlElement, useRefs} from "plain-design-composition";
 import {useClasses} from "plain-design-composition";
 
 export const PlBadge = designComponent({
@@ -12,7 +12,7 @@ export const PlBadge = designComponent({
         dot: {type: Boolean,},                          //标记是否只是一个小圆点
         max: {type: Number,},                           //标记显示文本最大值
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['default', 'badge'],
     setup({props, slots}) {
         const contentClass = useClasses(() => [

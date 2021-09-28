@@ -1,4 +1,4 @@
-import {onMounted, reactive} from "plain-ui-composition";
+import {onMounted, reactive} from "plain-design-composition";
 
 import {tTableOptionHooks} from "./use.hooks";
 import PlButton from "../../PlButton";

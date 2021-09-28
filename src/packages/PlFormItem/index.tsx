@@ -1,4 +1,4 @@
-import {computed, ComputedRef, designComponent, PropType, useClasses, useStyles} from "plain-ui-composition";
+import {computed, ComputedRef,InheritHtmlElement, designComponent, PropType, useClasses, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
@@ -33,7 +33,7 @@ export const PlFormItem = designComponent({
     },
     provideRefer: true,
     slots: ['labelContent', 'suffix', 'default'],
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props, slots, event: {emit}}) {
 
         const form = FormCollector.child()

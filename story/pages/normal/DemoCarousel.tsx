@@ -1,4 +1,4 @@
-import {designPage} from "plain-ui-composition";
+import {designPage} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlCarousel from "../../../src/packages/PlCarousel";
 import PlCarouselItem from "../../../src/packages/PlCarouselItem";

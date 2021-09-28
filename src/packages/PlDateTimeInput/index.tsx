@@ -1,4 +1,4 @@
-import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from "plain-ui-composition"
+import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {unit} from "plain-utils/string/unit";
 

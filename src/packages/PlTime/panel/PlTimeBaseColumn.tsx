@@ -1,4 +1,4 @@
-import {computed, designComponent, onMounted, PropType, useModel, useRefList, useRefs} from 'plain-ui-composition';
+import {computed, designComponent, onMounted, PropType, useModel, useRefList, useRefs} from 'plain-design-composition';
 import './time-base-column.scss'
 import {EditProps, useEdit} from "../../../use/useEdit";
 import {PlScroll} from "../../PlScroll";

@@ -5,7 +5,7 @@ import PlTable from "../../../PlTable";
 import {Plc} from "../../../Plc";
 import {PlcIndex} from "../../../PlcIndex";
 import {PlcDraggier} from "../../../PlcDraggier";
-import {reactive} from "plain-ui-composition";
+import {reactive} from "plain-design-composition";
 import {PlcSelect} from "../../../PlcSelect";
 import PlSelectOption from "../../../PlSelectOption";
 import {PlcNumber} from "../../../PlcNumber";

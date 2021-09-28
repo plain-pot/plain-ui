@@ -1,4 +1,4 @@
-import {designComponent, useRefs} from 'plain-ui-composition'
+import {designComponent, useRefs} from 'plain-design-composition'
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "./useVirtualList";
 

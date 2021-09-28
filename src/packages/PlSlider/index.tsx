@@ -1,4 +1,4 @@
-import {computed, useClasses, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-ui-composition"
+import {computed, useClasses, InheritHtmlElement, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {unit} from "plain-utils/string/unit";
@@ -31,7 +31,7 @@ export const PlSlider = designComponent({
         tooltipFormatter: Function as PropType<(val: number) => string | undefined>,//tooltip显示格式化函数
         range: {type: Boolean},                                     //是否为范围选择
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     emits: {
         onUpdateModelValue: (val: number) => true,
         onUpdateStart: (val: number) => true,

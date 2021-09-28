@@ -1,5 +1,5 @@
 import './color-sv-panel.scss'
-import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
+import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
 import {hsv2rgb} from "../utils/ColorUtils";
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
@@ -16,7 +16,7 @@ export const PlColorSvPanel = designComponent({
         height: {type: [String, Number], default: 180},         // 面板高度
         width: {type: [String, Number], default: 240},          // 面板宽度
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     emits: {
         onChange: (val: any) => true,
         onDblclick: (e: MouseEvent) => true,

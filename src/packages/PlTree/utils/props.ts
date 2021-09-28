@@ -1,6 +1,6 @@
 import {TreeNode, TreePropsType} from "./type";
 import {useTree} from "../core/useTree";
-import {PropType} from "plain-ui-composition";
+import {PropType} from "plain-design-composition";
 
 export const TreeProps = {
     ...useTree.createProps<TreeNode>(),

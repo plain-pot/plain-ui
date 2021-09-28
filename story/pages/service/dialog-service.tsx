@@ -3,7 +3,7 @@ import PlButton from "../../../src/packages/PlButton";
 import useDialog from "../../../src/packages/useDialog";
 import {StoryStatus} from "../../story.utils";
 import $$message from "../../../src/packages/$$message";
-import {designPage} from "plain-ui-composition";
+import {designPage} from "plain-design-composition";
 
 export default designPage(() => {
 

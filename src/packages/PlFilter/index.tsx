@@ -1,4 +1,4 @@
-import {designComponent, PropType} from "plain-ui-composition";
+import {designComponent, PropType} from "plain-design-composition";
 import {Fragment} from 'vue'
 
 import {FilterConfig, iFilterTargetOption} from "./FilterConfig";

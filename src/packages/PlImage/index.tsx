@@ -1,4 +1,4 @@
-import {useClasses, reactive, computed, designComponent, PropType, watch, useStyles, useRefs} from 'plain-ui-composition'
+import {useClasses, reactive, computed, designComponent, PropType, watch, useStyles, useRefs} from 'plain-design-composition'
 import './image.scss'
 import {unit} from "plain-utils/string/unit";
 import PlIcon from "../PlIcon";

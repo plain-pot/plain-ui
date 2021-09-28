@@ -1,4 +1,4 @@
-import {computed, designComponent, PropType, ref, useClasses, useModel, useNumber, useRefs, useStyles} from "plain-ui-composition";
+import {computed, designComponent, PropType, ref, useClasses, useModel, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlScroll} from "../PlScroll";
 import {unit} from "plain-utils/string/unit";

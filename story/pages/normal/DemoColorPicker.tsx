@@ -1,4 +1,4 @@
-import {designPage, onMounted, reactive, useRefs} from "plain-ui-composition";
+import {designPage, onMounted, reactive, useRefs} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlColorAlphaSlider from "../../../src/packages/PlColorPicker/sub/PlColorAlphaSlider";
 import PlColorHueSlider from "../../../src/packages/PlColorPicker/sub/PlColorHueSlider";

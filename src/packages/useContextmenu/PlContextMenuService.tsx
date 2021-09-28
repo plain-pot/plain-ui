@@ -1,4 +1,4 @@
-import {nextIndex, onBeforeUnmount, onMounted, provide, reactive, ref, useRefs, useStyles, VueNode} from "plain-ui-composition";
+import {nextIndex, onBeforeUnmount, onMounted, provide, reactive, ref, useRefs, useStyles, VueNode} from "plain-design-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {ClickBodyListener} from "../../utils/ClickBodyListener";
 import {Transition} from "vue";

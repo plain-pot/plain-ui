@@ -2,14 +2,13 @@ import {iTableOptionState, iTableProConfig, iTableProDefaultConfig, tTableOption
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
-import {computed, onBeforeUnmount, reactive} from "plain-ui-composition";
+import {computed, onBeforeUnmount, reactive} from "plain-design-composition";
 import {useTableOptionCheck} from "./use/check/use.check";
 import {eTableProStatus, useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";
 import {useTableOptionButtons} from "./use/use.buttons";
 import {useTableOptionSetting} from "./use/setting/use.setting";
 import {useTableOptionFilter} from "./use/filter/use.filter";
-import {toArray} from "../../utils/toArray";
 
 import {useTableOptionBaseTable} from "./use/use.base-table";
 import {useTableOptionPermit} from "./use/use.permit";
@@ -17,6 +16,7 @@ import {iFilterData} from "../PlFilter/FilterConfig";
 import {useTableOptionSortState} from "./use/use.sort.state";
 import {useTableOptionFilterState} from "./use/use.filter.state";
 import {useTableOptionCache} from "./use/use.cache";
+import {toArray} from "plain-utils/utils/toArray";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {

@@ -1,4 +1,4 @@
-import {designPage} from "plain-ui-composition";
+import {designPage} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton";
 import {NoticeServiceDirection, useNotice} from "../../../src/packages/useNotice";

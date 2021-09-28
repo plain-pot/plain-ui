@@ -6,7 +6,7 @@
 import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {PlMessageManager} from "./PlMessageManager";
 import {STATUS} from "../../utils/constant";
-import {VueNode} from "plain-ui-composition";
+import {VueNode} from "plain-design-composition";
 import {RequireFormat} from "../../utils/type";
 
 export enum MessageServiceDirection {

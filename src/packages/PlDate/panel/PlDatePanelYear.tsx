@@ -1,9 +1,9 @@
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, SlideTransitionDirection} from "../date.utils";
-import {computed, designComponent} from "plain-ui-composition";
+import {computed, designComponent} from "plain-design-composition";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
-import {mergeProps} from "plain-ui-composition"
+import {mergeProps} from "plain-design-composition"
 
 export const PlDatePanelYear = designComponent({
     name: 'pl-date-panel-year',

@@ -1,5 +1,5 @@
 import './progress-bar.scss'
-import {computed, designComponent, useRefs} from "plain-ui-composition";
+import {computed, designComponent, InheritHtmlElement,useRefs} from "plain-design-composition";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import PlIcon from "../PlIcon";
 
@@ -12,7 +12,7 @@ export const PlProgressBar = designComponent({
         height: {type: String, default: '6px'},
         inlineText: {type: Boolean},
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

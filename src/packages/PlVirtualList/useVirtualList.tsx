@@ -1,4 +1,4 @@
-import {useClasses, computed, onMounted, onUpdated, reactive, useStyles, watch} from "plain-ui-composition";
+import {useClasses, computed, onMounted, onUpdated, reactive, useStyles, watch} from "plain-design-composition";
 import {PlScroll} from "../PlScroll";
 import {delay} from "plain-utils/utils/delay";
 import './virtual-list.scss'

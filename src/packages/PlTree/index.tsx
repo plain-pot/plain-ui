@@ -1,4 +1,4 @@
-import {computed, designComponent, useRefs, useStyles} from 'plain-ui-composition'
+import {computed, designComponent, useRefs, useStyles} from 'plain-design-composition'
 import './tree.scss'
 import {TreeProps} from "./utils/props";
 import {useTree} from "./core/useTree";
@@ -9,12 +9,12 @@ import {createKeyHandler} from "../../utils/createKeyHandler";
 import {useTreeDraggier} from "./core/useTreeDraggier";
 import {delay} from "plain-utils/utils/delay";
 import {TreeUtils} from "./utils/tree.utils";
-import {} from "plain-ui-composition";
+import {} from "plain-design-composition";
 
 import {PlCheckbox} from '../PlCheckbox';
 import PlLoading from "../PlLoading";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-ui-composition"
+import {createEventListener} from "plain-design-composition"
 import {PlLoadingMask} from "../PlLoadingMask";
 
 export const PlTree = designComponent({
@@ -170,11 +170,13 @@ export const PlTree = designComponent({
                                     ref={onRef.list}
                                     data={flatList.value}
                                     size={props.nodeHeight}
-                                    content={({data}: { data: { item: TreeNode, index: number }[] }) => (
-                                        <div class="pl-tree-node-list">
-                                            {data.map(({item, index}) => render.node(item, index))}
-                                        </div>
-                                    )}
+                                    v-slots={{
+                                        content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
+                                            <div class="pl-tree-node-list">
+                                                {data.map(({item, index}) => render.node(item, index))}
+                                            </div>
+                                        )
+                                    }}
                                 />) : (
                                     <PlScroll ref={onRef.scroll}>
                                         <div class="pl-tree-node-list">

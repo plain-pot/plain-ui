@@ -1,4 +1,4 @@
-import {designComponent, useClasses, useRefs} from "plain-ui-composition";
+import {designComponent, useClasses,InheritHtmlElement, useRefs} from "plain-design-composition";
 
 export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',
@@ -6,7 +6,7 @@ export const PlDropdownGroup = designComponent({
         title: {type: String}
     },
     slots: ['default', 'head'],
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

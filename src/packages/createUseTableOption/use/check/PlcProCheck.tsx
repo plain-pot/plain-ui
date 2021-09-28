@@ -1,4 +1,4 @@
-import {computed, designComponent, onBeforeUnmount, PropType, reactive} from "plain-ui-composition";
+import {computed, designComponent, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
 import {createPlcPropOptions, PlcEmitsOptions} from "../../../PlTable/plc/utils/plc.utils";
 import {TableNode} from "../../../PlTable/table/use/useTableNode";
 import {PlcScopeSlotsOptions} from "../../../PlTable/plc/utils/plc.scope-slots";

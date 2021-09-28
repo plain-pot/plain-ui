@@ -1,4 +1,4 @@
-import {designComponent, useModel} from "plain-ui-composition";
+import {designComponent, useModel} from "plain-design-composition";
 
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlInput from "../PlInput";

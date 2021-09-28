@@ -1,7 +1,7 @@
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {tTableOptionCache} from "../use.cache";
 
-import {reactive} from "plain-ui-composition";
+import {reactive} from "plain-design-composition";
 import {iTableOptionCacheData, iTableOptionCacheItemData} from "../use.cache.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import PlTable from "../../../PlTable";

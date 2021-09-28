@@ -1,5 +1,5 @@
 import './tab.scss'
-import {designComponent, useRefs} from "plain-ui-composition";
+import {designComponent, useRefs} from "plain-design-composition";
 import {TabCollector} from "../PlTabs";
 
 

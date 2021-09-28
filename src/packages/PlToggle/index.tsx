@@ -1,4 +1,4 @@
-import {computed, useRefs, designComponent, useClasses, reactive, useModel} from "plain-ui-composition"
+import {computed, useRefs, designComponent, InheritHtmlElement, useClasses, reactive, useModel} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {getKey, KEY} from "../keyboard";
@@ -15,7 +15,7 @@ export const PlToggle = designComponent({
         trueValue: {default: true as any},                                           // 选中时绑定的值
         falseValue: {default: false as any},                                         // 未选中时绑定的值
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     emits: {
         onUpdateModelValue: (val: any) => true,
         onMousedown: (e: MouseEvent) => true,

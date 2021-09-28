@@ -1,4 +1,4 @@
-import {computed, reactive, watch} from "plain-ui-composition"
+import {computed, reactive, watch} from "plain-design-composition"
 import {PlcGroupPropsType, PlcPropsType, tPlcType} from "./plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 

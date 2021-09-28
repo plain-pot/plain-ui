@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-ui-composition";
+import {designPage, reactive} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlDatePanelYear} from "../../../src/packages/PlDate/panel/PlDatePanelYear";
 import {DemoLine} from "../../components/DemoLine";

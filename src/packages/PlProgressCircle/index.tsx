@@ -27,7 +27,7 @@ A rx ry x-axis-rotation large-arc-flag sweep-flag x y
 - y：结束点y坐标
 
 */
-import {computed, designComponent, reactive, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
+import {InheritHtmlElement,computed, designComponent, reactive, useModel, useRefs, useStyles, watch} from "plain-design-composition";
 import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
@@ -49,7 +49,7 @@ export const PlProgressCircle = designComponent({
     emits: {
         onUpdateModelValue: (val?: number) => true,
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['default'],
     setup({props, slots, event}) {
 

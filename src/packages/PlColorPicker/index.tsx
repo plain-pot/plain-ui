@@ -1,4 +1,4 @@
-import {designComponent, PropType, reactive, SimpleFunction, useModel, useRefs, watch} from 'plain-ui-composition'
+import {designComponent, PropType, reactive, SimpleFunction, useModel, useRefs, watch} from 'plain-design-composition'
 import './color-picker.scss'
 import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";

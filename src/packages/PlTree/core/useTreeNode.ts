@@ -1,7 +1,7 @@
 import {PlainObject} from "../../../shims";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {throttle} from "plain-utils/utils/throttle";
-import {reactive, computed, onBeforeUnmount, useModel, watchEffect, watch} from "plain-ui-composition";
+import {reactive, computed, onBeforeUnmount, useModel, watchEffect, watch} from "plain-design-composition";
 
 /**
  * 根据childrenField遍历data树形数据

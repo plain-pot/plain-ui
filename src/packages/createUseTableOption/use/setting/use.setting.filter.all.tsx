@@ -2,7 +2,7 @@ import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setti
 import {FilterStateInitialization, tTableOptionFilter} from "../use.filter.state";
 import './use.setting.filter.all.scss'
 import PlButton from "../../../PlButton";
-import {reactive, VueNode} from "plain-ui-composition";
+import {reactive, VueNode} from "plain-design-composition";
 import PlEmpty from "../../../PlEmpty";
 
 export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState}: { useTableOptionSettingInner: iTableOptionSettingInnerUser, filterState: tTableOptionFilter }) {

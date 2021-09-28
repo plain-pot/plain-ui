@@ -1,5 +1,5 @@
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, SlideTransitionDirection} from "../date.utils";
-import {computed, designComponent, mergeProps, PropType, useClasses} from "plain-ui-composition";
+import {computed, designComponent, mergeProps, PropType, useClasses} from "plain-design-composition";
 import {UseDateJudgementView, useDatePanel} from "../useDatePanel";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";

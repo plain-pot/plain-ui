@@ -1,5 +1,5 @@
 import './tooltip.scss'
-import {useClasses, designComponent, onMounted, onUpdated, reactive, useModel, useRefs} from "plain-ui-composition";
+import {useClasses, designComponent, onMounted, onUpdated, reactive, useModel, useRefs} from "plain-design-composition";
 import {debounce} from "plain-utils/utils/debounce";
 import PlPopper from "../PlPopper";
 import {unit} from "plain-utils/string/unit";

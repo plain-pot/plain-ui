@@ -1,4 +1,4 @@
-import {computed, designComponent, PropType, reactive, ref, SimpleFunction, useModel, VueNode} from 'plain-ui-composition'
+import {computed, designComponent, PropType, reactive, ref, SimpleFunction, useModel, VueNode} from 'plain-design-composition'
 import './cascade-panel.scss'
 import {CascadeNode} from "../PlCascade/utils/CascadeNode";
 import {CascadeMark} from '../PlCascade/utils/CascadMark';

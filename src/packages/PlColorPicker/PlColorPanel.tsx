@@ -1,6 +1,6 @@
 import './color-panel.scss'
 import {Color, ColorFormat} from "./utils/Color";
-import {designComponent, PropType, reactive, useRefs, watch} from "plain-ui-composition";
+import {designComponent, InheritHtmlElement, PropType, reactive, useRefs, watch} from "plain-design-composition";
 import {PlInput} from "../PlInput";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import $$notice from "../$$notice";
@@ -35,7 +35,7 @@ export const PlColorPanel = designComponent({
         onUpdateModelValue: (val: any) => true,
         onDblclickSvPanel: (e: MouseEvent) => true,
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

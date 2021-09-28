@@ -1,4 +1,4 @@
-import {useClasses, designComponent, reactive, useRefList} from "plain-ui-composition"
+import {useClasses, designComponent, reactive, useRefList} from "plain-design-composition"
 import {MessageServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
 import PlMessage from "./PlMessage";

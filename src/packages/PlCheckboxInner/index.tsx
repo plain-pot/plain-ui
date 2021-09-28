@@ -1,5 +1,6 @@
-import {designComponent} from "plain-ui-composition"
-import {useClasses} from "plain-ui-composition";
+import {designComponent} from "plain-design-composition"
+import {useClasses} from "plain-design-composition";
+import {SVGAttributes} from 'vue'
 
 import {CheckboxStatus} from "../../utils/constant";
 import './checkbox-inner.scss'
@@ -10,7 +11,7 @@ export const PlCheckboxInner = designComponent({
         disabled: {type: Boolean},
         checkStatus: {type: String},
     },
-    inheritPropsType: SVGElement,
+    inheritPropsType: {} as SVGAttributes,
     setup({props}) {
 
         const classes = useClasses(() => [

@@ -1,4 +1,4 @@
-import {designPage} from "plain-ui-composition";
+import {designPage} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlAlert from "../../../src/packages/PlAlert";
 import {StoryStatus} from "../../story.utils";

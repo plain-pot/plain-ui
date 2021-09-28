@@ -1,4 +1,4 @@
-import {computed, designComponent, useModel, useNumber, useRefs, useStyles, SimpleFunction, useClasses} from "plain-ui-composition";
+import {computed, designComponent, InheritHtmlElement, SimpleFunction, useClasses, useModel, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";
@@ -7,7 +7,6 @@ import PlCheckboxInner from "../PlCheckboxInner";
 import {CheckboxGroupCollector} from "../PlCheckboxGroup";
 import {useClickWave} from "../../directives/ClickWave";
 import './checkbox.scss'
-import {isis} from "../../utils/ifSlotIsString";
 import {Transition} from "vue";
 
 export const PlCheckbox = designComponent({
@@ -31,7 +30,7 @@ export const PlCheckbox = designComponent({
         onClick: (e?: MouseEvent) => true,
     },
     slots: ['labelContent'],
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     scopeSlots: {
         default: (scope: { checked: boolean, status: keyof typeof CheckboxStatus, click: SimpleFunction }) => {},
     },

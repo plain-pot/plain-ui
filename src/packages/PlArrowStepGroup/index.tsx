@@ -1,9 +1,8 @@
 import './arrow-step.scss'
 import {useCollect} from "../../use/useCollect";
 import {PlArrowStep} from "../PlArrowStep";
-import {computed, designComponent, reactive, useRefs} from "plain-ui-composition";
+import {computed, InheritHtmlElement, designComponent, reactive, useRefs} from "plain-design-composition";
 import {StepUtils} from "../PlStepGroup/step.utils";
-
 import PlDialog from "../PlDialog";
 
 export const PlArrowStepGroup = designComponent({
@@ -12,7 +11,7 @@ export const PlArrowStepGroup = designComponent({
         current: {},
         currentStatus: {type: String},
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     slots: ['default'],
     setup({props, slots}) {
         const {refs, onRef} = useRefs({

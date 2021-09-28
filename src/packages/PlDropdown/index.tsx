@@ -1,5 +1,5 @@
 import './dropdown.scss'
-import {designComponent, reactive, useModel, useRefs} from "plain-ui-composition";
+import {designComponent, reactive, useModel, useRefs} from "plain-design-composition";
 import {PlPopper} from "../PlPopper";
 
 export const PlDropdown = designComponent({

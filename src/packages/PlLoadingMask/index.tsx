@@ -1,4 +1,4 @@
-import {useClasses, nextIndex, designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-ui-composition'
+import {useClasses, nextIndex,InheritHtmlElement, designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-design-composition'
 import './loading-mask.scss'
 import {delay} from "plain-utils/utils/delay";
 import PlLoading from "../PlLoading";
@@ -18,7 +18,7 @@ export const PlLoadingMask = designComponent({
     emits: {
         onUpdateModelValue: (val: boolean | undefined) => true,
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     inheritAttrs: false,
     setup({props, event, attrs}) {
 

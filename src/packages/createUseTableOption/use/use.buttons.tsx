@@ -7,7 +7,7 @@ import {tTableOptionCommand} from "./use.command";
 import {tTableOptionSetting} from "./setting/use.setting";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {tTableOptionPermit} from "./use.permit";
-import {computed} from "plain-ui-composition";
+import {computed} from "plain-design-composition";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import PlDropdown from "../../PlDropdown";
 import PlIcon from "../../PlIcon";
@@ -268,7 +268,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                             disabled={disabled}
                             onClick={handler}
                             label={label}
-                            style={{order: String(seq)}}
+                            style={{order: seq}}
                         />
                     ))}
                 {more.length > 0 && <>

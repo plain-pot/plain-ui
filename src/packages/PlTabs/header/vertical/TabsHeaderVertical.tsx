@@ -1,4 +1,4 @@
-import {designComponent, useClasses} from "plain-ui-composition";
+import {designComponent, useClasses} from "plain-design-composition";
 
 import './tabs-header-vertical.scss'
 import {TabCommonProps} from "../../tabs.utils";

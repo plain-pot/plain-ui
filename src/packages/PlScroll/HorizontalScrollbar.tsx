@@ -1,4 +1,4 @@
-import {computed, designComponent, reactive, useStyles} from "plain-ui-composition";
+import {computed, designComponent, reactive, useStyles} from "plain-design-composition";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 

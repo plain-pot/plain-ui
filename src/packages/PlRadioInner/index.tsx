@@ -1,4 +1,4 @@
-import {designComponent, useClasses, useRefs} from "plain-ui-composition"
+import {designComponent, useClasses, useRefs} from "plain-design-composition"
 import './radio-inner.scss'
 
 export const PlRadioInner = designComponent({

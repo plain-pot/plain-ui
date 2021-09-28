@@ -1,9 +1,9 @@
-import {designComponent} from "plain-ui-composition";
+import {designComponent} from "plain-design-composition";
 import {reactive} from 'vue'
 import './DemoRow.scss'
 import {DemoRowCollector} from "./DemoRowController";
 import {DemoRowCache} from "./DemoRow.utils";
-import {useClasses} from "plain-ui-composition";
+import {useClasses} from "plain-design-composition";
 import {Router} from "../app/navigator.utils";
 import PlIcon from "../../src/packages/PlIcon";
 

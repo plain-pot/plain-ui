@@ -1,4 +1,4 @@
-import {computed, createEventListener, designComponent, mergeProps, PropType} from "plain-ui-composition";
+import {computed, createEventListener, designComponent, mergeProps, PropType} from "plain-design-composition";
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, DateViewSeq, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
 import {PDate, plainDate} from "../../../utils/plainDate";
 import {UseDateJudgementView, useDatePanel} from "../useDatePanel";

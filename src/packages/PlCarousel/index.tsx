@@ -1,5 +1,5 @@
 import './carousel.scss'
-import {computed, designComponent, onMounted, reactive, useClasses, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
+import {computed, designComponent, InheritHtmlElement, onMounted, reactive, useClasses, useModel, useRefs, useStyles, watch} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {throttle} from "plain-utils/utils/throttle";
 import PlIcon from "../PlIcon";
@@ -19,7 +19,7 @@ export const PlCarousel = designComponent({
         card: {type: Boolean},                                      // 卡片形式的切换
         cardScale: {type: Number, default: 0.64},                   // 卡片形式轮播的时候，缩小比例
     },
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     scopeSlots: {
         indicator: (scope: { val: string, index: number, active: boolean }) => {},
     },

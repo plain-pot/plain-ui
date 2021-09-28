@@ -1,5 +1,5 @@
 import {TableProConfigEnable} from "../createUseTableOption.utils";
-import {computed, reactive} from "plain-ui-composition";
+import {computed, reactive} from "plain-design-composition";
 
 export interface PermissionState {
     insert: null | boolean,

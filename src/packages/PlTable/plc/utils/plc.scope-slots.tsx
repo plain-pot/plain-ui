@@ -1,5 +1,5 @@
 import {TableRenderScope, tPlcType} from "./plc.type";
-import {VueNode} from "plain-ui-composition";
+import {VueNode} from "plain-design-composition";
 
 export type PlcRenderFunction = (scope: TableRenderScope) => VueNode
 export type PlcPropsHead = (scope: { plc: tPlcType }) => VueNode

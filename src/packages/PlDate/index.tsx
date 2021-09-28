@@ -1,5 +1,5 @@
 import './date.scss'
-import {computed, designComponent, PropType, useModel} from "plain-ui-composition";
+import {computed, designComponent, PropType, useModel} from "plain-design-composition";
 import {StyleProps} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {DateCommonUtils, DateEmitRangeType, DatePanel, DatePublicEmits, DatePublicProps, getDefaultDateFormatter} from "./date.utils";

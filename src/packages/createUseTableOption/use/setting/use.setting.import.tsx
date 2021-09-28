@@ -1,7 +1,7 @@
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {PlUpload, UploadFile} from "../../../PlUpload";
-import {reactive} from "plain-ui-composition";
+import {reactive} from "plain-design-composition";
 import {tTableOptionMethods} from "../use.methods";
 import {delay} from "plain-utils/utils/delay";
 import {getInitialConfigState} from "../../../initialize";

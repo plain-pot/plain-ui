@@ -2,7 +2,7 @@ import useDialog, {DialogServiceFormatOption, DialogServiceOption} from "../../.
 import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {reactive} from "plain-ui-composition";
+import {reactive} from "plain-design-composition";
 import {tTableOptionSort} from "../use.sort.state";
 import {iTableOptionSettingConfig, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {useTableOptionSettingSort} from "./use.setting.sort";

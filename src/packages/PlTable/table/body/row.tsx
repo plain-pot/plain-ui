@@ -1,6 +1,6 @@
 import {PltCell} from "./cell";
 import {TableNode} from "../use/useTableNode";
-import {designComponent, PropType, useClasses} from "plain-ui-composition";
+import {designComponent, PropType, useClasses} from "plain-design-composition";
 import {PlainTable} from "../../index";
 
 

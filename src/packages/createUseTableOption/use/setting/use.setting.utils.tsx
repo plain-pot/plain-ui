@@ -1,4 +1,4 @@
-import {VueNode} from "plain-ui-composition";
+import {VueNode} from "plain-design-composition";
 
 export interface iTableOptionSettingConfig {
     key: eTableOptionSettingView,

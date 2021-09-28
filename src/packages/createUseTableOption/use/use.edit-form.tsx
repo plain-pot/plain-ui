@@ -7,7 +7,7 @@ import PlForm from "../../PlForm";
 import PlFormItem from "../../PlFormItem";
 import {renderBodyCell} from "../../PlTable/plc/utils/render";
 import {tFormPropRules} from "../../PlForm/form.validate";
-import {reactive, useRefs} from "plain-ui-composition";
+import {reactive, useRefs} from "plain-design-composition";
 import {deepcopy} from "plain-utils/object/deepcopy";
 
 export function useTableOptionEditForm() {

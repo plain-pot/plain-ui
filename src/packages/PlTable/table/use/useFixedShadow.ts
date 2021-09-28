@@ -1,4 +1,4 @@
-import {computed, reactive} from "plain-ui-composition";
+import {computed, reactive} from "plain-design-composition";
 import {useTableGetScroll} from "./useTableGetScroll";
 import {PlainScroll} from "../../../PlScroll";
 

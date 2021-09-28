@@ -1,4 +1,4 @@
-import {designComponent, useRefList, markRaw, reactive} from "plain-ui-composition"
+import {designComponent, useRefList, markRaw, reactive} from "plain-design-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {delay} from "plain-utils/utils/delay";
 import {Teleport} from 'vue'

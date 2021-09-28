@@ -1,4 +1,4 @@
-import {designComponent, reactive, useRefList, useClasses} from "plain-ui-composition";
+import {designComponent, reactive, useRefList, useClasses} from "plain-design-composition";
 import {NoticeServiceDirection, NoticeServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
 import PlNotice from "./PlNotice";

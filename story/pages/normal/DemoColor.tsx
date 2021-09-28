@@ -1,4 +1,4 @@
-import {designPage} from "plain-ui-composition";
+import {designPage} from "plain-design-composition";
 import './DemoColor.scss'
 import {DemoRow} from "../../components/DemoRow";
 

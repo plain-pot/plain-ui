@@ -1,6 +1,6 @@
 import {PlcGroupPropsOptions, PlcPublicAttrs} from "../utils/plc.utils";
 import {tPlcGroup} from "../utils/plc.type";
-import {computed, designComponent, reactive, useNumber, useRefs} from "plain-ui-composition";
+import {computed, designComponent, reactive, useNumber, useRefs} from "plain-design-composition";
 
 import {useCollect} from "../../../../use/useCollect";
 import Plc from "./Plc";

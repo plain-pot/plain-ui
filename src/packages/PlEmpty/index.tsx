@@ -1,4 +1,4 @@
-import {designComponent, useStyles} from "plain-ui-composition";
+import {designComponent, useStyles} from "plain-design-composition";
 
 // @ts-ignore
 import NO_DATA_IMG from './assets/no_data.svg'

@@ -4,7 +4,7 @@ import './use.setting.export.scss'
 import {tTableOptionCheck} from "../check/use.check";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import PlRadioGroup from "../../../PlRadioGroup";
-import {reactive, useRefs} from "plain-ui-composition";
+import {reactive, useRefs} from "plain-design-composition";
 import PlRadio from "../../../PlRadio";
 import PlArrowStepGroup from "../../../PlArrowStepGroup";
 import PlArrowStep from "../../../PlArrowStep";

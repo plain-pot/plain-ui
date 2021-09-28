@@ -1,5 +1,5 @@
 
-import {computed, designPage, reactive} from "plain-ui-composition";
+import {computed, designPage, reactive} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";

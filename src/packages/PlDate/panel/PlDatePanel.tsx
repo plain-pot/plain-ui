@@ -1,5 +1,5 @@
 import {DateEmitRangeType, DatePanel, DatePublicEmits, DatePublicProps, DefaultDateFormatString} from "../date.utils";
-import {computed, designComponent, PropType, useModel, VueNode} from "plain-ui-composition";
+import {computed, designComponent, PropType, useModel, VueNode} from "plain-design-composition";
 import {PlDatePanelYear} from "./PlDatePanelYear";
 import {PlDatePanelMonth} from "./PlDatePanelMonth";
 import {PlDatePanelRange} from "./PlDatePanelRange";

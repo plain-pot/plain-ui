@@ -1,5 +1,5 @@
 import './card.scss'
-import {designComponent, useClasses, useRefs, useStyles} from "plain-ui-composition";
+import {designComponent, useClasses,InheritHtmlElement, useRefs, useStyles} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 
 export const PlCard = designComponent({
@@ -19,7 +19,7 @@ export const PlCard = designComponent({
         'poster',
         'foot',
     ],
-    inheritPropsType: HTMLDivElement,
+    inheritPropsType: InheritHtmlElement,
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

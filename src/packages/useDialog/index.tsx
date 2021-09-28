@@ -4,7 +4,7 @@ import {createServiceWithoutContext, createUseService} from "../PlRoot/registryR
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import PlDialogService from "./PlDialogService";
 import './dialog-service.scss'
-import {VueNode} from "plain-ui-composition";
+import {VueNode} from "plain-design-composition";
 import {RequireFormat} from "../../utils/type";
 import {defer} from "plain-utils/utils/defer";
 
