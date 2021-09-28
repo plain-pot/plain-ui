@@ -21,6 +21,7 @@ export default designComponent({
             'top-right',
             'bottom-left',
             'bottom-right',
+            'scale'
         ]
 
         const state = reactive({

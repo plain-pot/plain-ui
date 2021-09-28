@@ -39,8 +39,18 @@
       transform: translateX(map_get($value, x)) translateY(map_get($value, y));
     }
 
-    .pl-list-move-#{$key}-leave-active,.pl-list-move-#{$key}-leave-to {
-      position: absolute;
+    .pl-list-move-#{$key}-leave-active, .pl-list-move-#{$key}-leave-to {
+      position: absolute !important;
     }
+  }
+
+  .pl-list-move-scale-enter-from,
+  .pl-list-move-scale-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .pl-list-move-scale-leave-active, .pl-list-move-scale-leave-to {
+    position: absolute !important;
   }
 }
