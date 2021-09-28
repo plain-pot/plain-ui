@@ -91,7 +91,7 @@ const MenuData: MenuGroup[] = [
         name: '视图', children: [
             {name: 'List', title: '列表', page: '/normal/DemoList', complete: true},
             {name: 'VirtualList', title: '虚拟列表', page: '/normal/DemoVirtualList', complete: true},
-            {name: 'Progress', title: '进度条', page: '/normal/DemoProgress', complete: false},
+            {name: 'Progress', title: '进度条', page: '/normal/DemoProgress', complete: true},
             {name: 'Tree', title: '树形组件', page: '/normal/DemoTree', complete: false},
             // {name: 'Virtual Tree', title: '虚拟树', page: '/normal/virtual-tree', complete: false},
             {name: 'Pagination', title: '分页', page: '/normal/DemoPagination', complete: false},

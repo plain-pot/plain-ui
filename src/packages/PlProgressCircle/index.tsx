@@ -31,7 +31,6 @@ import {computed, designComponent, reactive, useModel, useRefs, useStyles, watch
 import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
-
 import PlIcon from "../PlIcon";
 import './progress-circle.scss'
 

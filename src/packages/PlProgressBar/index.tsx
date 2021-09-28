@@ -1,7 +1,6 @@
 import './progress-bar.scss'
 import {computed, designComponent, useRefs} from "plain-ui-composition";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
-
 import PlIcon from "../PlIcon";
 
 export const PlProgressBar = designComponent({

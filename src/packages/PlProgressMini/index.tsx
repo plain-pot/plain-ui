@@ -3,7 +3,6 @@ import {computed, designComponent, useModel, useRefs, useStyles, watch} from "pl
 import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
-
 import {useClasses} from "plain-ui-composition";
 
 export const PlProgressMini = designComponent({
