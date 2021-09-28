@@ -5,7 +5,6 @@ import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {delay} from "plain-utils/utils/delay";
-
 // @ts-ignore
 import opacityPng from '../../PlColorButton/opacity.png'
 

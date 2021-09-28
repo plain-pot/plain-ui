@@ -63,7 +63,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Slider', title: '滑块', page: '/normal/DemoSlider', complete: true},
             {name: 'Tag', title: '标签', page: '/normal/DemoTag', complete: true},
             {name: 'Rate', title: '评分', page: '/normal/DemoRate', complete: true},
-            {name: 'ColorPicker', title: '颜色选择', page: '/normal/DemoColorPicker', complete: false},
+            {name: 'ColorPicker', title: '颜色选择', page: '/normal/DemoColorPicker', complete: true},
 
             {name: 'Cascade', title: '级联选择', page: '/normal/DemoCascade', complete: false},
             {name: 'Time', title: '时间选择', page: '/normal/DemoTime', complete: false},

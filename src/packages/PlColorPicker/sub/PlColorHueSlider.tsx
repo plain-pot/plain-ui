@@ -5,7 +5,6 @@ import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {delay} from "plain-utils/utils/delay";
 
-
 export const PlColorHueSlider = designComponent({
     name: 'pl-color-hue-slider',
     props: {

@@ -5,7 +5,6 @@ import {PlInput} from "../PlInput";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import $$notice from "../$$notice";
 import {delay} from "plain-utils/utils/delay";
-
 import {PlColorSvPanel} from './sub/PlColorSvPanel';
 import PlColorAlphaSlider from "./sub/PlColorAlphaSlider";
 import PlColorHueSlider from "./sub/PlColorHueSlider";

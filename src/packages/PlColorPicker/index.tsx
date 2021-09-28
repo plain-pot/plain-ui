@@ -1,14 +1,11 @@
-import {designComponent, PropType, useModel, useRefs, watch} from 'plain-ui-composition'
+import {designComponent, PropType, reactive, SimpleFunction, useModel, useRefs, watch} from 'plain-ui-composition'
 import './color-picker.scss'
 import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {PlInput} from "../PlInput";
 import PlColorButton from "../PlColorButton";
-import {SimpleFunction} from "plain-ui-composition"
-import {reactive} from "plain-ui-composition";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import useColorPicker from "../useColorPicker";
-
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import $$notice from "../$$notice";
 import PlPopper from "../PlPopper";

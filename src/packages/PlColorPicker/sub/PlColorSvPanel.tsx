@@ -6,7 +6,6 @@ import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {delay} from "plain-utils/utils/delay";
 
-
 export const PlColorSvPanel = designComponent({
     name: 'pl-color-sv-panel',
     props: {
@@ -90,6 +89,7 @@ export const PlColorSvPanel = designComponent({
                 enableUserSelect()
             },
             dblclick: async (e: MouseEvent) => {
+                // e.persist()
                 delay().then(() => emit.onDblclick(e))
             },
         }
