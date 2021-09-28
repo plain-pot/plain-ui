@@ -2,7 +2,6 @@ import {designComponent, useRefs} from 'plain-ui-composition'
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "./useVirtualList";
 
-
 export const PlVirtualList = designComponent({
     name: 'pl-virtual-list',
     props: {
