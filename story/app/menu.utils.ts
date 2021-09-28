@@ -27,7 +27,7 @@ const MenuData: MenuGroup[] = [
             {name: '传递属性给根节点组件热更新报错', title: '列表拖拽排序', page: '/test/test-pass-attrs-hot-reload/test-pass-attrs-hot-reload', complete: false},*/
         ]
     },
-    {
+    /*{
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/DemoUseSlots', complete: false},
             {name: 'useScopedSlots', page: '/use/DemoUseScopedSlots', complete: false},
@@ -42,7 +42,7 @@ const MenuData: MenuGroup[] = [
             {name: 'PlTransition', page: '/normal/DemoTransition', complete: false},
             {name: 'PlCollapseTransition', page: '/normal/DemoCollapseTransition', complete: false},
         ]
-    },
+    },*/
     {
         name: '基础', children: [
             {name: 'Color', title: '颜色', page: '/normal/DemoColor', complete: true},
