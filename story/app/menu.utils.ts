@@ -145,7 +145,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Slots', title: '列作用域插槽', page: '/table/DemoTableSlots', complete: true},
 
             {name: 'Edit Control', title: '编辑控制', page: '/table/DemoTableEdit', complete: true},
-            {name: 'Plc', title: '列组件', page: '/table/DemoTableColumns', complete: false},
+            {name: 'Plc', title: '列组件', page: '/table/DemoTableColumns', complete: true},
             {name: 'Expand', title: '展开列', page: '/table/DemoTableExpand', complete: true},
             {name: 'Span', title: '合并单元格', page: '/table/DemoTableSpan', complete: true},
             {name: 'Tree', title: '树形表格', page: '/table/DemoTableTree', complete: false},
