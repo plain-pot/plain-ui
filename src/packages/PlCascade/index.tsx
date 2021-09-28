@@ -1,5 +1,5 @@
 import './cascade.scss'
-import {computed, designComponent, PropType, reactive, SimpleFunction, useModel, useRefs, watch} from "plain-ui-composition";
+import {computed, designComponent, PropType, reactive, SimpleFunction, useClasses, useModel, useRefs, watch} from "plain-ui-composition";
 import {CascadePanelProps} from "../PlCascadePanel";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
@@ -8,8 +8,6 @@ import {PlInput} from "../PlInput";
 import {CascadeMark} from "./utils/CascadMark";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useCascade} from "../PlCascadePanel/useCascade";
-
-import {useClasses} from "plain-ui-composition";
 import {ie} from "plain-utils/utils/ie";
 import PlPopper from "../PlPopper";
 import {PlainObject} from "plain-utils/utils/event";

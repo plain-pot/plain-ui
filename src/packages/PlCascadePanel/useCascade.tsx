@@ -1,9 +1,7 @@
 import './cascade-service.scss'
-import {createPopperServiceComponent} from "../useEditPopperAgent/createPopperServiceComponent";
 import {createUseEditPopperAgent} from "../useEditPopperAgent/createAgentGetter";
 import PlCascadePanel from "./index";
 import {delay} from "plain-utils/utils/delay";
-
 
 export const useCascade = createUseEditPopperAgent({
     name: 'cascade',
