@@ -32,16 +32,14 @@
   );
 
   @each $key, $value in $directions {
-    .pl-list-move-#{$key}-enter-from {
+
+    .pl-list-move-#{$key}-enter-from,
+    .pl-list-move-#{$key}-leave-to {
       opacity: 0;
       transform: translateX(map_get($value, x)) translateY(map_get($value, y));
     }
 
-    .pl-list-move-#{$key}-leave-to {
-      opacity: 0 !important;
-    }
-
-    .pl-list-move-#{$key}-leave-active {
+    .pl-list-move-#{$key}-leave-active,.pl-list-move-#{$key}-leave-to {
       position: absolute;
     }
   }

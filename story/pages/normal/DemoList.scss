@@ -1,0 +1,16 @@
+@include theme {
+    .demo-list {
+        .test-item {
+            position: relative;
+            height: 120px;
+            width: 200px;
+            margin-bottom: 12px;
+            margin-right: 12px;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            background-color: $colorPrimary;
+            display: inline-block !important;
+        }
+    }
+}
