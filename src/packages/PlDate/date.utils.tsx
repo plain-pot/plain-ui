@@ -203,9 +203,9 @@ export function DatePanelItemWrapper(
 
     let listener = {} as any;
     item.clickable && (listener.onClick = () => onClick(item));
-    !item.disabled && (listener.onMouseEnter = () => onMouseenter(item));
+    !item.disabled && (listener.onMouseenter = () => onMouseenter(item));
 
-    return {
+    /*return {
         ...Node,
         props: {
             ...Node.props,
@@ -227,7 +227,25 @@ export function DatePanelItemWrapper(
                 </div>
             )
         },
-    }
+    }*/
+    return <Node {...{
+        class: `${Node.props.class} ${classnames([
+            'pl-date-base-panel-item',
+            {
+                'pl-date-base-panel-item-active': item.active,
+                'pl-date-base-panel-item-now': item.now,
+                'pl-date-base-panel-item-disabled': item.disabled,
+                'pl-date-base-panel-item-hover-start': item.start,
+                'pl-date-base-panel-item-hover': item.hover,
+                'pl-date-base-panel-item-hover-end': item.end,
+            }
+        ])}`,
+        ...listener,
+    }}>
+        <div>
+            <span>{item.label}</span>
+        </div>
+    </Node>
 }
 
 export const DateCommonUtils = {

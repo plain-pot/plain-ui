@@ -89,7 +89,8 @@ export const PlDatePanelYear = designComponent({
                         </ul>
                     )
                 })
-                return mergeProps({child: Wrapper, attrs: {class: 'pl-date-base-panel-year', direction: props.direction,}})
+                // return mergeProps({child: Wrapper, attrs: {class: 'pl-date-base-panel-year', direction: props.direction,}})
+                return <Wrapper {...{class: 'pl-date-base-panel-year', direction: props.direction,}}/>
             }
         }
     },

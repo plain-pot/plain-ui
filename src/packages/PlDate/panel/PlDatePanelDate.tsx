@@ -226,7 +226,8 @@ export const PlDatePanelDate = designComponent({
                         </ul>
                     </>),
                 })
-                return mergeProps({child: Wrapper, attrs: {class: 'pl-date-base-panel-date', direction: 'horizontal', key: 'date'}})
+                // return mergeProps({child: Wrapper, attrs: {}})
+                return <Wrapper {...{class: 'pl-date-base-panel-date', direction: 'horizontal', key: 'date'}}/>
             },
             month: () => {
                 return <PlDatePanelMonth {...monthAttrs.value} direction="horizontal" key={viewModel.value}/>
@@ -240,7 +241,8 @@ export const PlDatePanelDate = designComponent({
                     </>),
                     content: <PlTimePanel {...timeAttrs.value}/>,
                 })
-                return mergeProps({child: Wrapper, attrs: {class: 'pl-date-base-panel-time', direction: 'horizontal', key: 'time'}})
+                // return mergeProps({child: Wrapper, attrs: {}})
+                return <Wrapper {...{class: 'pl-date-base-panel-time', direction: 'horizontal', key: 'time'}}/>
             },
         }
 

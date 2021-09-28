@@ -148,7 +148,10 @@ export const PlDatePanelMonth = designComponent({
                         direction: props.direction,
                     }}>
                         {viewModel.value === DateView.month ?
-                            mergeProps({child: Month, attrs: {key: 'month_' + state.selectDate.year, class: 'pl-date-base-panel-month', direction: 'horizontal'}}) :
+                            (() => {
+                                // mergeProps({child: Month, attrs: {key: 'month_' + state.selectDate.year, class: 'pl-date-base-panel-month', direction: 'horizontal'}})
+                                return <Month {...{key: 'month_' + state.selectDate.year, class: 'pl-date-base-panel-month', direction: 'horizontal'}}/>
+                            })() :
                             (<PlDatePanelYear
                                 key={'year_' + state.selectDate.year}
                                 modelValue={String(state.selectDate.year)}
