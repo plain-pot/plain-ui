@@ -1,7 +1,6 @@
 import {computed, designComponent, useModel} from "plain-ui-composition"
 import {TimePublicProps} from "./time-panel.utils";
 import {plainDate} from "../../../utils/plainDate";
-
 import PlTimeBasePanel from "./PlTimeBasePanel";
 
 export enum TimeRangePanelType {
@@ -78,13 +77,13 @@ export const PlTimeRangePanel = designComponent({
                     ...publicBinding,
                     modelValue: start.value,
                     onChange: handler.onStartChange,
-                    onMousedown: emit.onMousedownStartPanel,
+                    onMouseDown: emit.onMousedownStartPanel,
                 },
                 end: {
                     ...publicBinding,
                     modelValue: end.value,
                     onChange: handler.onEndChange,
-                    onMousedown: emit.onMousedownEndPanel,
+                    onMouseDown: emit.onMousedownEndPanel,
                 },
             }
         })

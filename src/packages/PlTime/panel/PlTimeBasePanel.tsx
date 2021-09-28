@@ -2,7 +2,6 @@ import {computed, designComponent} from 'plain-ui-composition'
 import './time-base-panel.scss'
 import {TimePublicProps} from "./time-panel.utils";
 import {plainDate} from "../../../utils/plainDate";
-
 import PlTimeBaseColumn from "./PlTimeBaseColumn";
 
 export enum TimePanelLayout {
