@@ -1,5 +1,6 @@
-import {PlainObject, VNodeChild} from "../../../shims";
 import {TreeDropType, TreeNodeCheckStatus} from "./tree-constant";
+import {PlainObject} from "plain-utils/utils/event";
+import {VueNode} from "plain-design-composition";
 
 export type TreeNode = {
     key: string,
@@ -27,7 +28,7 @@ export type TreeNode = {
 }
 
 export namespace TreePropsType {
-    export interface renderContent {(data: { node: TreeNode, index: number }): VNodeChild}
+    export interface renderContent {(data: { node: TreeNode, index: number }): VueNode}
 
     export interface nodeIcon {(node: TreeNode): string}
 

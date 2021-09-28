@@ -123,7 +123,7 @@ export const PlCheckbox = designComponent({
                                     disabled={editComputed.value.disabled!}/>
                             </Transition>
                         </span>
-                        {slots.labelContent(<span class="pl-checkbox-label">{props.label}</span>)}
+                        {(slots.labelContent.isExist() || props.label) && slots.labelContent(<span class="pl-checkbox-label">{props.label}</span>)}
                     </div>
                 ))
         }

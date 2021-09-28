@@ -5,7 +5,6 @@ import {StyleProperties} from "plain-design-composition"
 import {getRowEl} from "../../../utils/getRowEl";
 import {getScrollParent} from "../../../utils/getScrollParent";
 
-
 const indicatorSize = 3;
 
 export function useTreeDraggier<T extends {

@@ -26,6 +26,7 @@ module.exports = {
         '@typescript-eslint/prefer-as-const': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/no-empty-function': 'off',
+        '@typescript-eslint/no-namespace': 'off',
         'prefer-const': 'off',
     }
 }

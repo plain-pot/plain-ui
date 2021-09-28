@@ -1,4 +1,4 @@
-import {computed, designComponent, useRefs, useStyles} from 'plain-design-composition'
+import {computed, createEventListener, designComponent, useRefs, useStyles} from 'plain-design-composition'
 import './tree.scss'
 import {TreeProps} from "./utils/props";
 import {useTree} from "./core/useTree";
@@ -9,12 +9,9 @@ import {createKeyHandler} from "../../utils/createKeyHandler";
 import {useTreeDraggier} from "./core/useTreeDraggier";
 import {delay} from "plain-utils/utils/delay";
 import {TreeUtils} from "./utils/tree.utils";
-import {} from "plain-design-composition";
-
 import {PlCheckbox} from '../PlCheckbox';
 import PlLoading from "../PlLoading";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-design-composition"
 import {PlLoadingMask} from "../PlLoadingMask";
 
 export const PlTree = designComponent({

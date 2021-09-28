@@ -4,7 +4,6 @@ import {delay} from "plain-utils/utils/delay";
 import {computed, nextTick, PropType, useModel} from "plain-design-composition";
 import {PlainObject} from "plain-utils/utils/event";
 
-
 function use<Node extends {
     key: string,
     data: PlainObject,
