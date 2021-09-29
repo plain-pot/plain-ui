@@ -3,7 +3,6 @@ import {computed, reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
-import {toArray} from 'plain-utils/utils/toArray'
 
 import {tTableOptionMethods} from "../use.methods";
 import PlButton from "../../../PlButton";
@@ -17,6 +16,7 @@ import PlButtonGroup from "../../../PlButtonGroup";
 import {tTableOptionSort} from "../use.sort.state";
 import {tTableOptionFilter} from "../use.filter.state";
 import {iFilterCacheDataMap, iFilterStateDataMap, renderFtoForm} from "./use.filter.utils";
+import {toArray} from "plain-utils/utils/toArray";
 
 export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState, config}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter, config: tTableOptionConfig }) {
 
@@ -138,17 +138,17 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
             return <>
                 <div onClick={e => e.stopPropagation()} class="pro-column-filter-container">
                     <div class="pro-column-filter-sort-container">
-                        <div class={[
+                        <div class={([
                             'pro-column-filter-sort-item',
                             {'pro-column-filter-sort-item-active': desc !== null && !desc}
-                        ]} onClick={() => sortState.toggleSort({field, desc: false, title})}>
+                        ])} onClick={() => sortState.toggleSort({field, desc: false, title})}>
                             <PlIcon icon="el-icon-upload1"/>
                             <span>升序</span>
                         </div>
-                        <div class={[
+                        <div class={([
                             'pro-column-filter-sort-item',
                             {'pro-column-filter-sort-item-active': desc !== null && !!desc}
-                        ]} onClick={() => sortState.toggleSort({field, desc: true, title})}>
+                        ])} onClick={() => sortState.toggleSort({field, desc: true, title})}>
                             <PlIcon icon="el-icon-download"/>
                             <span>降序</span>
                         </div>

@@ -112,7 +112,7 @@ export default designComponent({
                 />,
                 head: () => (
                     <PlDropdown
-                        placement="bottom-center"
+                        {...{placement: 'bottom-center'}}
                         v-slots={{
                             default: () => <PlCheckbox checkStatus={status.value}/>,
                             popper: () => <PlDropdownMenu>

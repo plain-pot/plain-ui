@@ -127,11 +127,8 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
                             </PlSelect>,
                             append: () => (
                                 config!.showFormFilterExpander === false ? null : (
-                                    <PlTooltip>
-                                        {{
-                                            default: () => <PlButton class="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>,
-                                            tooltip: () => '展开/折叠 · 表单查询'
-                                        }}
+                                    <PlTooltip title="展开/折叠 · 表单查询">
+                                        <PlButton class="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
                                     </PlTooltip>
                                 )
                             )

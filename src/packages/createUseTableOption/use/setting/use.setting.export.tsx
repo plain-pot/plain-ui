@@ -1,4 +1,3 @@
-
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import './use.setting.export.scss'
 import {tTableOptionCheck} from "../check/use.check";
@@ -171,7 +170,7 @@ export function useTableOptionSettingExport(
                 if (state.selectPlcList.length === 0) {
                     return $message.error('请选择要导出的字段！')
                 }
-                state.step++
+                state.step++;
                 const exportType = exportOptions.find(i => i.type === state.exportType)!
                 try {
                     await exportType.handler(state.selectPlcList)

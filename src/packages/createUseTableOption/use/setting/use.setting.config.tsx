@@ -1,4 +1,3 @@
-
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import PlTable from "../../../PlTable";
@@ -192,16 +191,12 @@ export function useTableOptionSettingConfig(
                         <PlSelectOption label="右对齐" val="right"/>
                     </PlcSelect>
                     <PlcNumber title="宽度" field="width" width={130}/>
-                    <Plc title="固定" width={60} align="center" field="fixed" addEditPadding>
-                        {{
-                            normal: ({row}) => <PlCheckbox modelValue={row.fixed === 'left'} customReadonly onClick={() => (row.fixed = (row.fixed === 'left' ? undefined : 'left'), handler.onFixed(row as any))}/>
-                        }}
-                    </Plc>
-                    <Plc title="隐藏" width={60} align="center" field="hide" addEditPadding>
-                        {{
-                            normal: ({row}) => <PlCheckbox modelValue={row.hide === true} customReadonly onClick={() => (row.hide = (row.hide === true ? undefined : true))}/>
-                        }}
-                    </Plc>
+                    <Plc title="固定" width={60} align="center" field="fixed" addEditPadding v-slots={{
+                        normal: ({row}) => <PlCheckbox modelValue={row.fixed === 'left'} customReadonly onClick={() => (row.fixed = (row.fixed === 'left' ? undefined : 'left'), handler.onFixed(row as any))}/>
+                    }}/>
+                    <Plc title="隐藏" width={60} align="center" field="hide" addEditPadding v-slots={{
+                        normal: ({row}) => <PlCheckbox modelValue={row.hide === true} customReadonly onClick={() => (row.hide = (row.hide === true ? undefined : true))}/>
+                    }}/>
                     <Plc title={' '} fit width={10}/>
                 </PlTable>
             </div>

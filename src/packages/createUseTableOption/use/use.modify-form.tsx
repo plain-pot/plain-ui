@@ -13,6 +13,7 @@ import PlDropdown from "../../PlDropdown";
 import PlIcon from "../../PlIcon";
 import PlDropdownMenu from "../../PlDropdownMenu";
 import PlDropdownOption from "../../PlDropdownOption";
+import {eTableProEditType} from "../createUseTableOption.utils";
 
 export function useTableOptionModifyForm() {
 
@@ -115,6 +116,7 @@ export function useTableOptionModifyForm() {
                                             ))}
                                         </PlDropdownMenu>
                                     }}/>
+
                                     <PlButton label={'新增编辑字段'} icon="el-icon-plus" onClick={handler.addPlc}/>
                                 </PlButtonGroup>
                             </PlFormItem>}

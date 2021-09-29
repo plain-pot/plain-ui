@@ -25,7 +25,7 @@ export function useTableOptionBaseTable(
         sortState: tTableOptionSort,
         cache: tTableOptionCache,
     }) {
-    const refTable = (table: any) => {
+    const refTable = (table: typeof PlTable.use.class | null | undefined) => {
         hooks.onRefTable.exec(table!)
     }
     const handler = {
@@ -40,7 +40,7 @@ export function useTableOptionBaseTable(
             seq: 10,
             render: () => (
                 <PlTable
-                    ref={refTable}
+                    ref={refTable as any}
                     showRows={config.showRows}
                     class="pl-table-pro-base-table"
                     bodyRowHeight={config.bodyRowHeight}

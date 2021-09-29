@@ -202,9 +202,7 @@ export function useTableOptionSettingSeniorFilter(
                                 ))}
                             </PlDropdownMenu>
                         }}/>
-                        <PlCheckbox v-model={edit.state.isCustomExpression} onChange={utils.resetOperator} v-slots={{
-                            label: () => "自定义查询表达式"
-                        }}/>
+                        <PlCheckbox label="自定义查询表达式" v-model={edit.state.isCustomExpression} onChange={utils.resetOperator}/>
                     </div>
                     <PlButton label="清空" mode="stroke" status="error" onClick={edit.clear}/>
                 </div>

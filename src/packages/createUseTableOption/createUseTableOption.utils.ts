@@ -4,7 +4,10 @@ import {iFilterData} from "../PlFilter/FilterConfig";
 import {tTableOptionConfigHook} from "./use/use.hooks";
 import {TableNode} from "../PlTable/table/use/useTableNode";
 import {iTableOptionCacheData} from "./use/use.cache.utils";
-import {PlainObject} from "plain-utils/utils/event";
+import {VueNode} from "plain-design-composition";
+
+/*普通对象类型*/
+export type PlainObject = Record<string, any>;
 
 /*默认新建行数据类型*/
 export type tDefaultNewRowObject = PlainObject

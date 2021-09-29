@@ -1,9 +1,10 @@
 import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
-import {Fragment} from 'vue'
+
 import {tTableOption} from "../createUseTableOption";
 import './table-pro.scss'
 import {iTableProRenderConfig} from "../createUseTableOption/use/use.hooks";
 import PlLoadingMask from "../PlLoadingMask";
+import {Fragment} from 'vue'
 
 export const PlTablePro = designComponent({
     props: {
@@ -24,7 +25,7 @@ export const PlTablePro = designComponent({
             return props.option.hooks.onLoading.exec(false)
         })
 
-        const onRef = (el: HTMLDivElement | null) => {
+        const onRef = (el: HTMLDivElement) => {
             props.option.hooks.onRefTableProEl.exec(el)
         }
 

@@ -1,4 +1,5 @@
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
+
 import {iTableProConfig, PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils";
 import {computed, designPage, reactive, useRefs} from "plain-design-composition";
 import PlTablePro from "../../../PlTablePro";
@@ -177,8 +178,8 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         const sortData = await hooks.onCollectSortData.exec([])
 
         const tableSlots = freezeState.baseTableRef()!.slots.default()
-        const findVueNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
-        // console.log({tableSlots, findVueNode,})
+        const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
+        // console.log({tableSlots, findReactNode,})
 
         const Content = designPage(() => {
             const tableOption = useObjectOption({
@@ -195,7 +196,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
             return () => <>
                 <PlTablePro option={tableOption}>
                     <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={state.data.get(plc)?.rows}/>
-                    {findVueNode}
+                    {findReactNode}
                 </PlTablePro>
             </>
         })
