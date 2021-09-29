@@ -9,6 +9,7 @@ import {tDefaultFilterConfigParam} from "../PlFilter/FilterConfig";
 import {iAddressService} from "../useAddress/useAddress.utils";
 
 export const PlcAddress = designComponent({
+    name: 'plc-address',
     props: {
         ...PlcPropsOptions,
         filterName: {type: String, default: 'address'},

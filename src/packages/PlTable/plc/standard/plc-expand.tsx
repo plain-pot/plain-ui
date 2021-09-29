@@ -13,6 +13,7 @@ import {PlainObject} from "plain-utils/utils/event";
 import {classnames} from "plain-utils/dom/classnames";
 
 export default designComponent({
+    name: 'plc-expand',
     props: {
         ...createPlcPropOptions({
             autoFixedLeft: true,

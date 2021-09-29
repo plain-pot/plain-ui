@@ -7,6 +7,7 @@ import './loading.scss'
 import {InheritHtmlElement} from "plain-ui-composition";
 
 export const PlLoading = designComponent({
+    name: 'pl-loading',
     props: {
         type: {type: String, default: 'alpha'},
         status: {type: String, default: null},

@@ -2,8 +2,9 @@ import {App} from 'vue'
 import * as all from './entry'
 
 const install = (app: App) => {
-    Object.values(all).forEach(item => {
+    Object.entries(all).forEach(([key, item]) => {
         if ('install' in item) {
+            console.log('install key', key)
             app.use(item as any)
         }
     })

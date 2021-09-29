@@ -7,6 +7,7 @@ import PlLoadingMask from "../PlLoadingMask";
 import {Fragment} from 'vue'
 
 export const PlTablePro = designComponent({
+    name:'pl-table-pro',
     props: {
         option: {type: Object as PropType<tTableOption>, required: true},
         loading: {type: Boolean},

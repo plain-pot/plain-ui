@@ -8,6 +8,7 @@ import useOv from "../useOv";
 import PlSelectOption from "../PlSelectOption";
 
 export const PlOv = designComponent({
+    name: 'pl-ov',
     props: {
         ...EditProps,
         ...StyleProps,
@@ -43,7 +44,7 @@ export const PlOv = designComponent({
         return () => (
             <PlSelect
                 modelValue={editComputed.value.loading ? (props.multiple ? undefined : '加载中...') : model.value}
-                onUpdateModelValue={val => model.value = val as string}
+                onUpdateModelValue={(val: any) => model.value = val as string}
                 multiple={props.multiple}
             >
                 {state.ovList.map((ov, index) => (

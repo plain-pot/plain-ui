@@ -16,6 +16,7 @@ import PlSelectOption from "../PlSelectOption";
 let watchParentChange = false
 
 export const PlAddress = designComponent({
+    name: 'pl-address',
     props: {
         ...EditProps,
         ...StyleProps,
@@ -106,7 +107,7 @@ export const PlAddress = designComponent({
         return () => (
             <PlSelect
                 modelValue={editComputed.value.loading ? '加载中...' : valueModel.value}
-                onUpdateModelValue={val => handler.onSelectChange(val as string)}>
+                onUpdateModelValue={(val: any) => handler.onSelectChange(val as string)}>
                 {state.options.map((addr) => (
                     <PlSelectOption label={addr.name} val={addr.code} key={addr.code}/>
                 ))}

@@ -2,6 +2,7 @@ import {designComponent, useClasses} from "plain-ui-composition";
 import './input-group.scss'
 
 export const PlInputGroup = designComponent({
+    name: 'pl-input-group',
     props: {
         block: {type: Boolean}
     },

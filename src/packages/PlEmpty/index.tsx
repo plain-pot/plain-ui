@@ -5,6 +5,7 @@ import NO_DATA_IMG from './assets/no_data.svg'
 import './empty.scss'
 
 export const PlEmpty = designComponent({
+    name: 'pl-empty',
     props: {
         height: {type: String, default: '200px'},
         fontSize: {type: String, default: '14px'},

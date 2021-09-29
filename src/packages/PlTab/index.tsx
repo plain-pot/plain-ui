@@ -3,6 +3,7 @@ import {designComponent, InheritHtmlElement, useRefs} from "plain-ui-composition
 import {TabCollector} from "../PlTabs";
 
 export const PlTab = designComponent({
+    name: 'pl-tab',
     inheritAttrs: false,
     inheritPropsType: InheritHtmlElement,
     props: {

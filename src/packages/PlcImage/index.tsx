@@ -10,6 +10,7 @@ import PlImageUploader from "../PlImageUploader";
 import {$$image} from "../../index";
 
 export const PlcImage = designComponent({
+    name: 'plc-image',
     props: {
         ...PlcPropsOptions,
         ...PlObjectPropsOption,

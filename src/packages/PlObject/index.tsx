@@ -17,6 +17,7 @@ export const PlObjectPropsOption = {
 }
 
 export const PlObject = designComponent({
+    name: 'pl-object',
     props: {
         ...EditProps,
         ...StyleProps,

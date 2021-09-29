@@ -10,6 +10,7 @@ import {tDefaultFilterConfigParam} from "../PlFilter/FilterConfig";
 import {iOvService} from "../useOv/useOv.utils";
 
 export const PlcOv = designComponent({
+    name: 'plc-ov',
     props: {
         ...PlcPropsOptions,
         ...PlObjectPropsOption,

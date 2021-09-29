@@ -10,6 +10,7 @@ import {useExternalPlc} from "../PlTable/plc/core/useExternalPlc";
  * @date    2021/7/15 21:56
  */
 export const PlcOperator = designComponent({
+    name: 'plc-operator',
     props: {
         ...createPlcPropOptions({
             fixed: 'right',

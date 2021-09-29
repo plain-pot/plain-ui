@@ -44,6 +44,7 @@ registry('el-icon-', async (icon) => {
 })
 
 export const PlIcon = designComponent({
+    name: 'pl-icon',
     props: {
         icon: {type: String},                       // 图标名称
         status: {type: String},                     // 图标状态

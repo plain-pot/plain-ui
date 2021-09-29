@@ -9,6 +9,7 @@ import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";
 import PlIcon from "../PlIcon";
 
 export const PlTabs = designComponent({
+    name:'pl-tabs',
     props: {
         modelValue: {type: [String, Number]},                   // 双向绑定值，控制当前显示的tab
         closeable: {type: Boolean},                             // 是否显示关闭按钮，会派发onClose事件
