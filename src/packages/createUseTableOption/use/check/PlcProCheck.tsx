@@ -129,7 +129,6 @@ export default designComponent({
         return {
             refer: {
                 ...refer,
-                isCheckable,
                 isCheck,
                 toggle,
                 ...methods,
