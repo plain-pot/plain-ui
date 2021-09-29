@@ -1,5 +1,6 @@
 import {createApp} from 'vue'
 import PlainUi from '../src'
+console.log(PlainUi)
 import './init/index'
 import App from './App'
 import {installDemoComponent} from "./components";

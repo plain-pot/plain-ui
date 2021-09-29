@@ -16,16 +16,30 @@
 
     const {createApp, defineComponent, reactive} = Vue
     const {PlButton, PlInput, PlTagInput, PlRoot, $$message} = PlainUi
+    const {designComponent} = PlainUiComposition
 
     const Entry = defineComponent({
         template: `
           <pl-root>
-          <pl-button @click="state.count++">count:{{ state.count }}</pl-button>
+            <pl-collapse title="BUTTON">
+              <pl-button @click="$message('hello world')">this is app</pl-button>
+            </pl-collapse>
+            <pl-collapse title="INPUT">
+              <pl-input status="primary" v-model="state.text"/>
+              {{state.text}}
+            </pl-collapse>
+            <pl-collapse title="TagInput">
+              <pl-tag-input v-model="state.formData.tagList"/>
+              {{JSON.stringify(state.formData.tagList)}}
+            </pl-collapse>
           </pl-root>
         `,
         setup() {
             const state = reactive({
-                count: 10
+                formData: {
+                    tagList: ['hello'],
+                },
+                text: 'hello world',
             })
             return {
                 state,
@@ -34,9 +48,7 @@
     })
 
     const app = createApp(Entry)
-    // app.component('pl-button', PlainUi.PlButton)
-    console.log(PlainUi.install)
-    app.use(PlainUi)
+    app.use(PlainUi.default)
     app.mount(document.querySelector('#app'))
 </script>
 </body>
