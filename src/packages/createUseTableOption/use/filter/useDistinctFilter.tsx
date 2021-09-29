@@ -9,7 +9,7 @@ import {iFilterQuery} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlTable} from "../../../PlTable";
-import {findRreactElement} from "../../../../utils/findReactElement";
+import {findReactElement} from "../../../../utils/findReactElement";
 import {tTableOptionFilter} from "../use.filter.state";
 import PlButton from "../../../PlButton";
 import {TableNode} from "../../../PlTable/table/use/useTableNode";
@@ -178,8 +178,13 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         const sortData = await hooks.onCollectSortData.exec([])
 
         const tableSlots = freezeState.baseTableRef()!.slots.default()
-        // const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
-        // console.log({tableSlots, findReactNode,})
+        const findReactNode = findReactElement(tableSlots, (node: any) => {
+            if (!!node && node.props) {
+                return node.props.title === plc.props.title && node.props.field === plc.props.field
+            }
+            return false
+        })
+        console.log({tableSlots, findReactNode,})
 
         const Content = designPage(() => {
             const tableOption = useObjectOption({
@@ -196,7 +201,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
             return () => <>
                 <PlTablePro option={tableOption}>
                     <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={state.data.get(plc)?.rows}/>
-                    {/*{findReactNode}*/}
+                    {findReactNode}
                 </PlTablePro>
             </>
         })

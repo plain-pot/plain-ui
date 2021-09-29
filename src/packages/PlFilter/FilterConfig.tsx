@@ -234,7 +234,7 @@ FilterConfig.touchFilter('date')
     .setHandler('范围', {
         render: (fto, emitConfirm) => {
             if (!fto.option.value) {fto.option.value = {start: null, end: null}}
-            return <PlDateRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onChange={emitConfirm} datetime={fto.config.datetime}/>
+            return <PlDateRange v-models={[[fto.option.value.start, 'start'], [fto.option.value.end, 'end']]} onChange={emitConfirm} datetime={fto.config.datetime}/>
         },
         transform: ({option: {value, field}}) => {
             if (!value) {return null}
@@ -270,7 +270,7 @@ FilterConfig.touchFilter('number')
     .setHandler('范围', {
         render: (fto, emitConfirm) => {
             if (!fto.option.value) {fto.option.value = {start: null, end: null}}
-            return <PlNumberRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onEnter={emitConfirm} onClear={emitConfirm}/>
+            return <PlNumberRange v-models={[[fto.option.value.start, 'start'], [fto.option.value.end, 'end']]} onEnter={emitConfirm} onClear={emitConfirm}/>
         },
         transform: ({option: {value, field}}) => {
             if (!value) {return null}

@@ -105,7 +105,7 @@ export function useTableOptionSettingCache(
                 <div>
                     <div style={{marginBottom: '16px'}}>
                         <PlButton label="保存当前状态为新的缓存配置" mode="text" icon="el-icon-plus" onClick={newCache}/>
-                        <PlTooltip title="不使用任何筛选、排序以及个性配置，相当于恢复原始状态">
+                        <PlTooltip message="不使用任何筛选、排序以及个性配置，相当于恢复原始状态">
                             <PlButton label="不使用任何缓存配置" mode="text" status="info" icon="el-icon-close" style={{marginLeft: '8px'}} onClick={() => applyCache()}/>
                         </PlTooltip>
                     </div>

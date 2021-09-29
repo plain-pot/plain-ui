@@ -103,7 +103,7 @@ export default designPage(() => {
                     <PlFormItem label={'数字框'} field={'field3'} rules={{required: true, trigger: 'blur'}}>
                         {{
                             default: () => <PlNumber v-model={formData.field3} block/>,
-                            suffix: () => <PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
+                            suffix: () => <PlTooltip message={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
                         }}
                     </PlFormItem>
                     <PlFormItem label={'下拉选项'} field={'field6'} rules={{required: true, trigger: 'blur'}}>

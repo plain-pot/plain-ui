@@ -111,7 +111,7 @@ export default designPage(() => {
                     <PlFormItem label={'数字框'} field={'field3'} rules={{type: 'number', max: 100, message: '最大值100'}} required>
                         {{
                             default: ()=><PlNumber v-model={formData.field3} block placeholder={'请输入数字'}/>,
-                            suffix: ()=><PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
+                            suffix: ()=><PlTooltip message={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
                         }}
                     </PlFormItem>
                     <PlFormItem label={'复选框'} field={'field5'} rules={{min: 1, max: 3, type: 'array', message: '1-3个元素'}} required>

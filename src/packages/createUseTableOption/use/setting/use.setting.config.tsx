@@ -181,7 +181,7 @@ export function useTableOptionSettingConfig(
                     <PlButton label="应用" onClick={handler.apply}/>
                     <PlButton label="重置" mode="stroke" status="error" onClick={handler.reset}/>
                 </div>
-                <PlTable v-model-data={state.data} showRows={Math.max(5, state.data.length)} defaultEditingWhenAddRow editSourceRow>
+                <PlTable v-models={[[state.data, 'data']]} showRows={Math.max(5, state.data.length)} defaultEditingWhenAddRow editSourceRow>
                     <PlcIndex/>
                     <PlcDraggier/>
                     <PlcInput title="标题" field="title"/>

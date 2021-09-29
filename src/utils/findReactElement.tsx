@@ -1,8 +1,9 @@
 import {VueNode} from "plain-design-composition";
+import {isVNode} from 'vue'
 
-export function findRreactElement(node: VueNode, isMatch: (node: VueNode) => boolean): VueNode[] | null {
-    return []
-    /*if (node == null) {return null}
+export function findReactElement(node: VueNode, isMatch: (node: VueNode) => boolean): VueNode[] | null {
+
+    if (node == null) {return null}
     const type = typeof node
     switch (type) {
         case "number":
@@ -14,19 +15,29 @@ export function findRreactElement(node: VueNode, isMatch: (node: VueNode) => boo
     if (Array.isArray(node) && node.length > 0) {
         const ret: VueNode[] = []
         node.forEach(n => {
-            const findList = findRreactElement(n, isMatch)
+            const findList = findReactElement(n, isMatch)
             if (!!findList && findList.length > 0) {
                 ret.push(...findList)
             }
         })
         return ret
-    } else if (isFragment(node)) {
-        return findRreactElement(node.props.children, isMatch)
-    } else if (isElement(node)) {
+    }
+
+    if (isVNode(node)) {
         if (isMatch(node)) {
             return [node]
         }
+        if (node.children && Array.isArray(node.children)) {
+            const ret: VueNode[] = []
+            node.children.forEach(n => {
+                const findList = findReactElement(n, isMatch)
+                if (!!findList && findList.length > 0) {
+                    ret.push(...findList)
+                }
+            })
+            return ret
+        }
     }
 
-    return null*/
+    return null
 }
