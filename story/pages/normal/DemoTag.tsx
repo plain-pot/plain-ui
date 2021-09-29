@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-design-composition";
+import {designPage, reactive} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlTag from "../../../src/packages/PlTag";
 import $$message from "../../../src/packages/$$message";

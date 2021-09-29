@@ -1,4 +1,4 @@
-import {computed, ComputedRef,InheritHtmlElement, designComponent, PropType, useClasses, useStyles} from "plain-design-composition";
+import {computed, ComputedRef,InheritHtmlElement, designComponent, PropType, useClasses, useStyles} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";

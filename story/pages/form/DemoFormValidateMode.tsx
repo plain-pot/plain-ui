@@ -1,5 +1,5 @@
 
-import {designPage, reactive, useRefs} from "plain-design-composition";
+import {designPage, reactive, useRefs} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlAlert from "../../../src/packages/PlAlert";
 import PlForm from "../../../src/packages/PlForm";

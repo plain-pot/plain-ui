@@ -1,5 +1,5 @@
 import './cascade.scss'
-import {computed, designComponent, PropType, reactive, SimpleFunction, useClasses, useModel, useRefs, watch} from "plain-design-composition";
+import {computed, designComponent, PropType, reactive, SimpleFunction, useClasses, useModel, useRefs, watch} from "plain-ui-composition";
 import {CascadePanelProps} from "../PlCascadePanel";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";

@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-design-composition'
+import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './color-alpha-slider.scss'
 import {EditProps} from "../../../use/useEdit";
 import {unit} from "plain-utils/string/unit";

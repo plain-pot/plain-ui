@@ -1,7 +1,7 @@
 import './arrow-step.scss'
 import {useCollect} from "../../use/useCollect";
 import {PlArrowStep} from "../PlArrowStep";
-import {computed, InheritHtmlElement, designComponent, reactive, useRefs} from "plain-design-composition";
+import {computed, InheritHtmlElement, designComponent, reactive, useRefs} from "plain-ui-composition";
 import {StepUtils} from "../PlStepGroup/step.utils";
 import PlDialog from "../PlDialog";
 

@@ -1,5 +1,5 @@
 import './DemoGrid.scss'
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlRow} from "../../../src/packages/PlRow";
 import {PlCol} from "../../../src/packages/PlCol";

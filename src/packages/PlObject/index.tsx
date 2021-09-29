@@ -1,4 +1,4 @@
-import {designComponent, PropType} from "plain-design-composition";
+import {designComponent, PropType} from "plain-ui-composition";
 import {tTableOption} from "../createUseTableOption";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";

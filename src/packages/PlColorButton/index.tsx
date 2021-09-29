@@ -1,4 +1,4 @@
-import {designComponent,InheritHtmlElement, useRefs} from 'plain-design-composition'
+import {designComponent,InheritHtmlElement, useRefs} from 'plain-ui-composition'
 import './color-button.scss'
 // @ts-ignore
 import opacityPng from './opacity.png'

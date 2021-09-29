@@ -1,6 +1,6 @@
 import './upload.scss'
 import $$file, {FileServiceDefaultAccept, FileServiceSingleFile, FileServiceValidator} from "../$$file";
-import {computed, InheritHtmlElement, useClasses, designComponent, PropType, useModel, useRefs, VueNode} from 'plain-design-composition';
+import {computed, InheritHtmlElement, useClasses, designComponent, PropType, useModel, useRefs, VueNode} from 'plain-ui-composition';
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";

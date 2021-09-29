@@ -1,4 +1,4 @@
-import {computed, useRefs, designComponent, InheritHtmlElement, useClasses, reactive, useModel} from "plain-design-composition"
+import {computed, useRefs, designComponent, InheritHtmlElement, useClasses, reactive, useModel} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {getKey, KEY} from "../keyboard";

@@ -1,4 +1,4 @@
-import {designComponent, reactive, watch} from 'plain-design-composition'
+import {designComponent, reactive, watch} from 'plain-ui-composition'
 import {Fragment} from 'vue'
 import {Router} from "./navigator.utils";
 

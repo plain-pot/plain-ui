@@ -1,4 +1,4 @@
-import {computed, reactive} from "plain-design-composition";
+import {computed, reactive} from "plain-ui-composition";
 import {tTableOptionMethods} from "./use.methods";
 import {tTableOptionHooks} from "./use.hooks";
 import {tTableOptionCache} from "./use.cache";

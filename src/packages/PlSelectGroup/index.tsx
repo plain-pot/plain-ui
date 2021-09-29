@@ -1,4 +1,4 @@
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent} from "plain-ui-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlSelectPanel} from "../PlSelect/PlSelectPanel";
 import {useCollect} from "../../use/useCollect";

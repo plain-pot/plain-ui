@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-design-composition"
+import {designPage, reactive} from "plain-ui-composition"
 
 import PlForm from "../../../src/packages/PlForm";
 import PlFormItem from "../../../src/packages/PlFormItem";

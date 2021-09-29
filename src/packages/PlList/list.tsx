@@ -1,5 +1,5 @@
 import './list.scss'
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {TransitionGroup} from 'vue'
 
 export const PlList = designComponent({

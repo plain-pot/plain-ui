@@ -1,6 +1,6 @@
 import {createDefaultService} from "../../PlRoot/createDefaultService";
 import {LoadingMaskServiceFormatOption} from "./index";
-import {reactive, ref} from "plain-design-composition";
+import {reactive, ref} from "plain-ui-composition";
 import {PlLoadingMask} from "../../PlLoadingMask";
 
 

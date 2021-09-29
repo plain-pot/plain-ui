@@ -5,8 +5,8 @@ import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import PlTable from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import {useAutoScroll} from "../../../PlScroll/useAutoScroll";
-import {ComputedRef, StyleProperties} from "plain-design-composition"
-import {nextIndex} from "plain-design-composition"
+import {ComputedRef, StyleProperties} from "plain-ui-composition"
+import {nextIndex} from "plain-ui-composition"
 
 
 interface DragData {

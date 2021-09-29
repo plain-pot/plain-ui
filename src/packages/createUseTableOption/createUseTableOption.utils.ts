@@ -4,7 +4,7 @@ import {iFilterData} from "../PlFilter/FilterConfig";
 import {tTableOptionConfigHook} from "./use/use.hooks";
 import {TableNode} from "../PlTable/table/use/useTableNode";
 import {iTableOptionCacheData} from "./use/use.cache.utils";
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;

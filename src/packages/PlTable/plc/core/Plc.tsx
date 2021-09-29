@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";

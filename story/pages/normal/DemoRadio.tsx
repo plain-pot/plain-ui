@@ -1,4 +1,4 @@
-import {designPage, reactive} from 'plain-design-composition'
+import {designPage, reactive} from 'plain-ui-composition'
 import {DemoRow} from "../../components/DemoRow";
 import {PlRadio} from "../../../src/packages/PlRadio";
 import {StorySizes, StoryStatus} from "../../story.utils";

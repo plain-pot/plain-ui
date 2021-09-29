@@ -1,7 +1,7 @@
-import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from "plain-design-composition"
+import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from "plain-ui-composition"
 import {PlRow} from "../PlRow";
-import {useClasses} from "plain-design-composition";
-import {SingleClass} from "plain-design-composition"
+import {useClasses} from "plain-ui-composition";
+import {SingleClass} from "plain-ui-composition"
 
 
 export type GridColSize = number | {

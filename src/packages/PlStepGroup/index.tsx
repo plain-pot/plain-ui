@@ -1,5 +1,5 @@
-import {computed, designComponent, useRefs,InheritHtmlElement} from "plain-design-composition";
-import {useClasses} from "plain-design-composition";
+import {computed, designComponent, useRefs,InheritHtmlElement} from "plain-ui-composition";
+import {useClasses} from "plain-ui-composition";
 import {StepUtils} from "./step.utils";
 import {useCollect} from "../../use/useCollect";
 import {PlStep} from "../PlStep";

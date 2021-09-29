@@ -2,7 +2,7 @@ import {useListDraggier} from "./core";
 import {ie} from "plain-utils/utils/ie";
 import {useTableGetScroll} from "../../../table/use/useTableGetScroll";
 import {injectPlainTable} from "../../../index";
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent} from "plain-ui-composition";
 import PlButton from "../../../../PlButton";
 
 import {createPlcPropOptions, PlcEmitsOptions} from "../../utils/plc.utils";

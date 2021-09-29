@@ -4,7 +4,7 @@ import {PlainObject} from "../../createUseTableOption.utils";
 import PlForm from "../../../PlForm";
 import PlFormItem from "../../../PlFormItem";
 import PlFilter from "../../../PlFilter";
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 
 export type iFilterStateDataMap = Record<string, iFilterOption>
 export type iFilterCacheData = Omit<iFilterOption, 'filterConfig' | 'plc'>

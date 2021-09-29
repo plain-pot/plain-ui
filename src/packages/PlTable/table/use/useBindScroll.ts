@@ -1,5 +1,5 @@
 import {TableHoverPart} from "../utils/table.utils";
-import {ref} from "plain-design-composition";
+import {ref} from "plain-ui-composition";
 
 /**
  * 绑定表头表体联动滚动

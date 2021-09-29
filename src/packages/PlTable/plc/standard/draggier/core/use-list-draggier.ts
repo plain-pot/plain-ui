@@ -8,7 +8,7 @@ import {getRowEl, getRowElList, getScrollParent} from "./utils";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {useAutoScroll} from "../../../../../PlScroll/useAutoScroll";
-import {nextTick} from "plain-design-composition";
+import {nextTick} from "plain-ui-composition";
 
 
 export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChange, getScroll}) => {

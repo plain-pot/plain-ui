@@ -1,6 +1,6 @@
 import {tPlc, tPlcType, TableRenderScope} from "./plc.type";
 import {TableNode} from "../../table/use/useTableNode";
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 
 export function renderHeadCell(plc: tPlcType) {
     // 如果存在 props.head 渲染函数，则渲染 props.head

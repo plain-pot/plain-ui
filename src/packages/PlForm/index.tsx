@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, designComponent,InheritHtmlElement, PropType, reactive, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent,InheritHtmlElement, PropType, reactive, useClasses, useNumber, useStyles, watch} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormAssociateFields, FormValidateError, FormValidateTrigger, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";

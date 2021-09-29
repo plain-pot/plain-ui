@@ -1,4 +1,4 @@
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 
 import {useTableOption} from "../../../src";
 import PlTablePro from "../../../src/packages/PlTablePro";

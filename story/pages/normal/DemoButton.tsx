@@ -1,4 +1,4 @@
-import {designComponent, reactive} from "plain-design-composition";
+import {designComponent, reactive} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton";
 import {Modes, StoryShapes, StorySizes, StoryStatus} from "../../story.utils";

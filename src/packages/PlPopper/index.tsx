@@ -1,6 +1,6 @@
 import './popper.scss'
 import {createError} from "../../utils/createError";
-import {InheritHtmlElement, useClasses, SimpleFunction, computed, designComponent, getCurrentInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, nextIndex} from "plain-design-composition";
+import {InheritHtmlElement, useClasses, SimpleFunction, computed, designComponent, getCurrentInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, nextIndex} from "plain-ui-composition";
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "./trigger/PopperTrigger";
 import {getElement} from "../../utils/getElement";
 import {delay} from "plain-utils/utils/delay";

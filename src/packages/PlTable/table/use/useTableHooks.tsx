@@ -4,7 +4,7 @@ import {PlainScroll} from "../../../PlScroll";
 import {TableHoverPart} from "../utils/table.utils";
 import {tPlcType} from "../../plc/utils/plc.type";
 import {tPlcCacheStateData} from "../../plc/utils/usePropsState";
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 
 export function useTableHooks() {
     const hooks = {

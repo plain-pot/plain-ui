@@ -1,4 +1,4 @@
-import {useClasses, InheritHtmlElement, designComponent, PropType, reactive, useModel, useRefs, useStyles, watch} from "plain-design-composition"
+import {useClasses, InheritHtmlElement, designComponent, PropType, reactive, useModel, useRefs, useStyles, watch} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlImage, {PlImageProps} from "../PlImage";
 import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$file";

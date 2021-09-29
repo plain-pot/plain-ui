@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-design-composition";
+import {designPage, reactive} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import useObject from "../../../src/packages/useObject";
 import {$$notice, PlButton, Plc, PlcDate, PlcInput, PlcNumber, PlObject, useObjectOption} from "../../../src";

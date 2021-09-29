@@ -1,4 +1,4 @@
-import {computed, onBeforeUnmount, reactive} from "plain-design-composition";
+import {computed, onBeforeUnmount, reactive} from "plain-ui-composition";
 import {useEdit} from "../../use/useEdit";
 import {PopperAgent, SpecificPopperServiceOption} from "./useEditPopperAgent.utils";
 

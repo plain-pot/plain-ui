@@ -1,6 +1,6 @@
 import PlDate from "../../../PlDate";
 
-import {designComponent, PropType} from "plain-design-composition";
+import {designComponent, PropType} from "plain-ui-composition";
 import {createDefaultFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";

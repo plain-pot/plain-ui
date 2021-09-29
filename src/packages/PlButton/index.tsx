@@ -1,11 +1,11 @@
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-design-composition'
+import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './button.scss'
-import {PropType} from "plain-design-composition";
+import {PropType} from "plain-ui-composition";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 
-import {useClasses} from "plain-design-composition";
+import {useClasses} from "plain-ui-composition";
 import {PlLoading} from "../PlLoading";
 import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";

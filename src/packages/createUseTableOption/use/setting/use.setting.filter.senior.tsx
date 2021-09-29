@@ -1,5 +1,5 @@
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
-import {computed, reactive} from "plain-design-composition";
+import {computed, reactive} from "plain-ui-composition";
 import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import PlButton from "../../../PlButton";
 import PlDropdown from "../../../PlDropdown";

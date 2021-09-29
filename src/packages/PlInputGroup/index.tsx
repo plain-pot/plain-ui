@@ -1,4 +1,4 @@
-import {designComponent, useClasses} from "plain-design-composition";
+import {designComponent, useClasses} from "plain-ui-composition";
 import './input-group.scss'
 
 export const PlInputGroup = designComponent({

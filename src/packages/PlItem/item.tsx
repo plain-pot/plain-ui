@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 
 export const PlItem = designComponent({
     name: 'pl-item',

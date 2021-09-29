@@ -1,5 +1,5 @@
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {computed, onBeforeUnmount, reactive, ref, VueNode} from "plain-design-composition";
+import {computed, onBeforeUnmount, reactive, ref, VueNode} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 import PlPopper from "../PlPopper";
 

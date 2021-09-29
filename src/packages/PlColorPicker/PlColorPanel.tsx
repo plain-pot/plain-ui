@@ -1,6 +1,6 @@
 import './color-panel.scss'
 import {Color, ColorFormat} from "./utils/Color";
-import {designComponent, InheritHtmlElement, PropType, reactive, useRefs, watch} from "plain-design-composition";
+import {designComponent, InheritHtmlElement, PropType, reactive, useRefs, watch} from "plain-ui-composition";
 import {PlInput} from "../PlInput";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import $$notice from "../$$notice";

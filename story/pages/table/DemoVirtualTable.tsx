@@ -1,6 +1,6 @@
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 
-import {reactive} from "plain-design-composition";
+import {reactive} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 // @ts-ignore
 import data from '../data/data.json'

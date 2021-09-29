@@ -1,5 +1,5 @@
 import {unit} from "plain-utils/string/unit";
-import {designComponent, PropType, useRefs, useStyles} from "plain-design-composition";
+import {designComponent, PropType, useRefs, useStyles} from "plain-ui-composition";
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "../PlVirtualList/useVirtualList";
 import '../PlTable/table.scss'

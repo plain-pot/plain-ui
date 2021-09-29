@@ -1,4 +1,4 @@
-import {reactive, useRefs} from "plain-design-composition";
+import {reactive, useRefs} from "plain-ui-composition";
 import {PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils";
 import {tTableOptionHooks} from "../use.hooks";
 

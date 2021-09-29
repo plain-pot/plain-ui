@@ -1,6 +1,6 @@
 import {TreeDropType, TreeNodeCheckStatus} from "./tree-constant";
 import {PlainObject} from "plain-utils/utils/event";
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 
 export type TreeNode = {
     key: string,

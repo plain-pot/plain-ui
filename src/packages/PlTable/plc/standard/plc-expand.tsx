@@ -1,5 +1,5 @@
 import {TableNode} from "../../table/use/useTableNode";
-import {computed, designComponent, onBeforeUnmount, reactive} from "plain-design-composition";
+import {computed, designComponent, onBeforeUnmount, reactive} from "plain-ui-composition";
 
 import {injectPlainTable} from "../../index";
 import PlDropdown from "../../../PlDropdown";

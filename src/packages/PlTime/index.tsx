@@ -1,4 +1,4 @@
-import {computed, designComponent, PropType, useModel} from 'plain-design-composition'
+import {computed, designComponent, PropType, useModel} from 'plain-ui-composition'
 import './time.scss'
 import {StyleProps} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";

@@ -1,5 +1,5 @@
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
-import {computed, onBeforeUnmount, reactive, useModel, watchEffect} from "plain-design-composition";
+import {computed, onBeforeUnmount, reactive, useModel, watchEffect} from "plain-ui-composition";
 import {PlainObject} from "plain-utils/utils/event";
 
 /**

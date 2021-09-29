@@ -1,6 +1,6 @@
 import {KeyBoardMap} from "../../keyboard";
 import {tTableOptionHooks} from "./use.hooks";
-import {onBeforeUnmount} from "plain-design-composition";
+import {onBeforeUnmount} from "plain-ui-composition";
 
 export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
 

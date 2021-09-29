@@ -1,4 +1,4 @@
-import {designComponent, onUpdated, reactive, useClasses, useRefs, useStyles} from "plain-design-composition";
+import {designComponent, onUpdated, reactive, useClasses, useRefs, useStyles} from "plain-ui-composition";
 import {TabCommonProps} from "../../tabs.utils";
 import {PlTabsHeaderHorizontalText} from "./TabsHeaderHorizontalText";
 import {PlTabsHeaderHorizontalCard} from "./TabsHeaderHorizontalCard";

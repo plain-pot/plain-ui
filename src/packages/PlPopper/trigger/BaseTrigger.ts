@@ -1,5 +1,5 @@
 import {PopperTrigger, PopperTriggerType} from "./PopperTrigger";
-import {SimpleFunction} from "plain-design-composition"
+import {SimpleFunction} from "plain-ui-composition"
 
 export function getBaseTrigger(
     triggerName: PopperTriggerType,

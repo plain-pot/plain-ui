@@ -1,4 +1,4 @@
-import {useClasses, designComponent,InheritHtmlElement, useRefs} from "plain-design-composition";
+import {useClasses, designComponent,InheritHtmlElement, useRefs} from "plain-ui-composition";
 import PlDropdownMenu from "../PlDropdownMenu";
 import PlIcon from "../PlIcon";
 

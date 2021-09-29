@@ -1,7 +1,7 @@
 import {StyleProps} from "../../../../use/useStyle";
 import {tPlc, tPlcType} from "../../plc/utils/plc.type";
 import {TableNode} from "../use/useTableNode";
-import {MultipleClass, PropType, StyleProperties} from "plain-design-composition"
+import {MultipleClass, PropType, StyleProperties} from "plain-ui-composition"
 import {FormAssociateFields, tFormPropRules} from "../../../PlForm/form.validate";
 import {useTree} from "../../../PlTree/core/useTree";
 import {iTableSortData} from "../../../createUseTableOption/createUseTableOption.utils";

@@ -1,6 +1,6 @@
 
 import {DemoRow} from "../../components/DemoRow";
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 import {DemoLine} from "../../components/DemoLine";
 import PlTable from "../../../src/packages/PlTable";
 import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";

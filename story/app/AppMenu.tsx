@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {Fragment} from 'vue'
 import {Menu} from "./menu.utils";
 import {PlIcon} from "../../src/packages/PlIcon";

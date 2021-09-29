@@ -1,5 +1,5 @@
 import './carousel.scss'
-import {computed, designComponent, InheritHtmlElement, onMounted, reactive, useClasses, useModel, useRefs, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, InheritHtmlElement, onMounted, reactive, useClasses, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 import {throttle} from "plain-utils/utils/throttle";
 import PlIcon from "../PlIcon";

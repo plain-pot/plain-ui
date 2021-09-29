@@ -1,4 +1,4 @@
-import {designComponent, InheritHtmlElement, useRefs} from "plain-design-composition";
+import {designComponent, InheritHtmlElement, useRefs} from "plain-ui-composition";
 
 export const PlInputInnerTags = designComponent({
     name: 'pl-input-inner-tags',

@@ -1,4 +1,4 @@
-import {designComponent, PropType, reactive, useStyles, watch, mergeProps, nextTick} from "plain-design-composition";
+import {designComponent, PropType, reactive, useStyles, watch, mergeProps, nextTick} from "plain-ui-composition";
 import {PlTabComponent} from "../PlTab";
 
 export const PlTabsInner = designComponent({

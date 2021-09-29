@@ -1,4 +1,4 @@
-import {designComponent, onBeforeUnmount, InheritHtmlElement, reactive, useClasses, useModel, useRefs} from 'plain-design-composition'
+import {designComponent, onBeforeUnmount, InheritHtmlElement, reactive, useClasses, useModel, useRefs} from 'plain-ui-composition'
 import './tag-input.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";

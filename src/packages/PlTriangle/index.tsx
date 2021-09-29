@@ -1,8 +1,8 @@
 import './triangle.scss'
-import {designComponent, onMounted, useModel, useRefs, useStyles} from "plain-design-composition";
-import {useClasses} from "plain-design-composition";
+import {designComponent, onMounted, useModel, useRefs, useStyles} from "plain-ui-composition";
+import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
-import {InheritHtmlElement} from "plain-design-composition";
+import {InheritHtmlElement} from "plain-ui-composition";
 
 
 const DirectionMap = {

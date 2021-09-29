@@ -1,4 +1,4 @@
-import {computed, designComponent, onMounted, onUpdated, reactive, useStyles, watchEffect} from "plain-design-composition";
+import {computed, designComponent, onMounted, onUpdated, reactive, useStyles, watchEffect} from "plain-ui-composition";
 import {TabCommonProps} from "../../tabs.utils";
 import './tabs-header-text.scss'
 import {PlTabsHeaderHorizontal} from "./TabsHeaderHorizontal";

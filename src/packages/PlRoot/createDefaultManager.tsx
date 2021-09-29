@@ -1,4 +1,4 @@
-import {designComponent, useRefList, ref} from "plain-design-composition";
+import {designComponent, useRefList, ref} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 
 

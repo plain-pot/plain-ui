@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, useClasses, useRefs, useStyles} from "plain-design-composition";
+import {computed, designComponent, InheritHtmlElement, useClasses, useRefs, useStyles} from "plain-ui-composition";
 import {CarouselCollector} from "../PlCarousel";
 import {createCounter} from "plain-utils/utils/createCounter";
 import {reactive} from "vue";

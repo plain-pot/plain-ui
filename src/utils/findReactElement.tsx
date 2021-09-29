@@ -1,4 +1,4 @@
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 import {isVNode} from 'vue'
 
 export function findReactElement(node: VueNode, isMatch: (node: VueNode) => boolean): VueNode[] | null {

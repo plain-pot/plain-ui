@@ -1,4 +1,4 @@
-import {computed, nextTick, reactive} from "plain-design-composition";
+import {computed, nextTick, reactive} from "plain-ui-composition";
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import PlPagination from "../../PlPagination";
 

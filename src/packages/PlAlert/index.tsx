@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, PropType, reactive, useClasses, useRefs} from "plain-design-composition";
+import {computed, designComponent, InheritHtmlElement, PropType, reactive, useClasses, useRefs} from "plain-ui-composition";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {STATUS} from "../../utils/constant";
 import PlIcon from "../PlIcon";

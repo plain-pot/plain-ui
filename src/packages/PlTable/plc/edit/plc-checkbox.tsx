@@ -1,6 +1,6 @@
 
 import PlCheckbox from "../../../PlCheckbox";
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {useExternalPlc} from "../core/useExternalPlc";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";

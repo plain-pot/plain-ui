@@ -7,7 +7,7 @@ import {tTableOptionCommand} from "./use.command";
 import {tTableOptionSetting} from "./setting/use.setting";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {tTableOptionPermit} from "./use.permit";
-import {computed} from "plain-design-composition";
+import {computed} from "plain-ui-composition";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import PlDropdown from "../../PlDropdown";
 import PlIcon from "../../PlIcon";

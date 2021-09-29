@@ -1,6 +1,6 @@
 import './scroll.scss'
-import {computed, InheritHtmlElement, designComponent, onBeforeUnmount, onMounted, reactive, useMounted, useRefs, useStyles, watch} from "plain-design-composition";
-import {useClasses} from "plain-design-composition";
+import {computed, InheritHtmlElement, designComponent, onBeforeUnmount, onMounted, reactive, useMounted, useRefs, useStyles, watch} from "plain-ui-composition";
+import {useClasses} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 import {debounce} from "plain-utils/utils/debounce";
 import {throttle} from "plain-utils/utils/throttle";

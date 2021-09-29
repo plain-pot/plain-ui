@@ -2,7 +2,7 @@ import {iTableOptionState, iTableProConfig, iTableProDefaultConfig, tTableOption
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
-import {computed, onBeforeUnmount, reactive} from "plain-design-composition";
+import {computed, onBeforeUnmount, reactive} from "plain-ui-composition";
 import {useTableOptionCheck} from "./use/check/use.check";
 import {eTableProStatus, useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";

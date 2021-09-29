@@ -1,5 +1,5 @@
 import PlSelect from "../../../PlSelect";
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {createDefaultFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";

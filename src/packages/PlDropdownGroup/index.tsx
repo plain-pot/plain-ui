@@ -1,4 +1,4 @@
-import {designComponent, useClasses,InheritHtmlElement, useRefs} from "plain-design-composition";
+import {designComponent, useClasses,InheritHtmlElement, useRefs} from "plain-ui-composition";
 
 export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',

@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2020/11/27 9:31
  */
-import {computed, reactive, ref} from "plain-design-composition";
+import {computed, reactive, ref} from "plain-ui-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {delay} from "plain-utils/utils/delay";
 import {PopperServiceComponentOption} from "./useEditPopperAgent.utils";

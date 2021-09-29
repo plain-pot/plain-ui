@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlIcon} from "../../../src/packages/PlIcon";
 

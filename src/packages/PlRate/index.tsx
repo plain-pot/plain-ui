@@ -1,4 +1,4 @@
-import {useClasses, InheritHtmlElement, computed, designComponent, reactive, useModel, useMounted, useRefs} from "plain-design-composition"
+import {useClasses, InheritHtmlElement, computed, designComponent, reactive, useModel, useMounted, useRefs} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";

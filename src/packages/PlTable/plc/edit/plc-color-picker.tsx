@@ -1,7 +1,7 @@
 import PlColorButton from "../../../PlColorButton";
 import PlColorPicker from "../../../PlColorPicker";
 
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";

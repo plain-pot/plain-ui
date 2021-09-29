@@ -1,10 +1,10 @@
-import {designComponent, ref, VueNode, watch} from 'plain-design-composition'
+import {designComponent, ref, VueNode, watch} from 'plain-ui-composition'
 import './icon.scss'
-import {useClasses} from 'plain-design-composition';
+import {useClasses} from 'plain-ui-composition';
 import {refreshPopperReference} from "../PlPopper/refershPopperReference";
 import {HtmlHTMLAttributes} from 'vue'
 import {classnames} from 'plain-utils/dom/classnames'
-import {InheritHtmlElement} from "plain-design-composition";
+import {InheritHtmlElement} from "plain-ui-composition";
 
 interface IconGetter {
     (icon: string): VueNode | Promise<VueNode>

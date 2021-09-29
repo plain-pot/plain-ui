@@ -1,4 +1,4 @@
-import {designComponent,InheritHtmlElement, inject, useModel, useRefs} from "plain-design-composition"
+import {designComponent,InheritHtmlElement, inject, useModel, useRefs} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";

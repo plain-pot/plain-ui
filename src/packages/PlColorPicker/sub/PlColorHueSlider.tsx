@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-design-composition'
+import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './color-hue-slider.scss'
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";

@@ -3,7 +3,7 @@ import {tTableOption} from "../createUseTableOption";
 import useDialog, {DialogServiceFormatOption} from "../useDialog";
 import PlTablePro from "../PlTablePro";
 import PlcPick from "../PlcPick";
-import {designPage, onBeforeUnmount, useRefs} from "plain-design-composition";
+import {designPage, onBeforeUnmount, useRefs} from "plain-ui-composition";
 import PlcCheckRow from "../PlcCheckRow";
 import useMessage from "../useMessage";
 import {PlainObject} from "plain-utils/utils/event";

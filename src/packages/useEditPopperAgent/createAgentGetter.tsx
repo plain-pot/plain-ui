@@ -1,6 +1,6 @@
 import {createUseService} from "../PlRoot/registryRootService";
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
-import {computed, reactive} from 'plain-design-composition';
+import {computed, reactive} from 'plain-ui-composition';
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
 import {CreateAgentGetterOption, PopperAgent, PopperServiceComponentOption, SpecificPopperServiceOption} from "./useEditPopperAgent.utils";
 import {PlRoot} from "../PlRoot";

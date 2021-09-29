@@ -1,7 +1,7 @@
 import {iQueryRequest, iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
-import {reactive, VueNode} from "plain-design-composition";
+import {reactive, VueNode} from "plain-ui-composition";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
 import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";

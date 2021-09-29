@@ -1,4 +1,4 @@
-import {reactive, designPage, useRefs} from "plain-design-composition";
+import {reactive, designPage, useRefs} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlScroll} from "../../../src/packages/PlScroll";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";

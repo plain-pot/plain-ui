@@ -1,4 +1,4 @@
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlBadge from "../../../src/packages/PlBadge";
 import PlButton from "../../../src/packages/PlButton";

@@ -1,4 +1,4 @@
-import {computed, useRefs, reactive, ref, VueNode} from "plain-design-composition";
+import {computed, useRefs, reactive, ref, VueNode} from "plain-ui-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {DialogServiceEditType, DialogServiceFormatOption} from "./index";
 import {PlInput} from "../PlInput";

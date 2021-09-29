@@ -1,4 +1,4 @@
-import {useClasses, computed,InheritHtmlElement, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, createEventListener} from "plain-design-composition";
+import {useClasses, computed,InheritHtmlElement, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, createEventListener} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {unit} from "plain-utils/string/unit";

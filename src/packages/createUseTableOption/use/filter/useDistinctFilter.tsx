@@ -1,7 +1,7 @@
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 
 import {iTableProConfig, PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils";
-import {computed, designPage, reactive, useRefs} from "plain-design-composition";
+import {computed, designPage, reactive, useRefs} from "plain-ui-composition";
 import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
 import PlcCheckRow from "../../../PlcCheckRow";

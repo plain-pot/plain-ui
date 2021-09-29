@@ -1,5 +1,5 @@
 import {createPopperServiceComponent} from "./createPopperServiceComponent";
-import {VueNode} from "plain-design-composition";
+import {VueNode} from "plain-ui-composition";
 import {PlainObject} from "plain-utils/utils/event";
 
 export interface PopperAgent {

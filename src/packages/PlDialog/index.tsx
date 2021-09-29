@@ -1,5 +1,5 @@
 import './dialog.scss'
-import {computed, designComponent, nextIndex, onBeforeUnmount, PropType, reactive, ref, useClasses, useRefs, watch} from "plain-design-composition";
+import {computed, designComponent, nextIndex, onBeforeUnmount, PropType, reactive, ref, useClasses, useRefs, watch} from "plain-ui-composition";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {unit} from "plain-utils/string/unit";

@@ -2,7 +2,7 @@ import {tPlcType} from "../../plc/utils/plc.type";
 import {useHeadCellResize} from "./useHeadCellResize";
 import {renderHeadCell} from "../../plc/utils/render";
 import {useColDraggier} from "./useColDraggier";
-import {computed, designComponent, PropType} from "plain-design-composition";
+import {computed, designComponent, PropType} from "plain-ui-composition";
 import {PlainTable} from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import PlIcon from "../../../PlIcon";

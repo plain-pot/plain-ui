@@ -1,6 +1,6 @@
 import {TablePlcAlign, TablePlcFixedType} from "../../table/utils/table.utils";
 import {TableNode} from "../../table/use/useTableNode";
-import {ExtractPropTypes, MultipleClass, PropType, StyleProperties} from "plain-design-composition";
+import {ExtractPropTypes, MultipleClass, PropType, StyleProperties} from "plain-ui-composition";
 import {tFormRuleItem} from "../../../PlForm/form.validate";
 import {TableRenderScope} from "./plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";

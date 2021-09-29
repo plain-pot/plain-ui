@@ -5,7 +5,7 @@
  */
 import {PDate, plainDate} from "../../utils/plainDate";
 import {DateEmitRangeType, DateItemData, DatePublicPropsType, DateView, DefaultDateFormatString, SlideTransitionDirection} from "./date.utils";
-import {computed, inject, provide, reactive, useModel, watch} from "plain-design-composition";
+import {computed, inject, provide, reactive, useModel, watch} from "plain-ui-composition";
 import {toArray} from "plain-utils/utils/toArray";
 
 export const DATE_PANEL_PROVIDER = '@@DATE_PANEL_PROVIDER'

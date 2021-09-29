@@ -1,6 +1,6 @@
-import {computed, designComponent, InheritHtmlElement, getCurrentInstance, useRefs} from "plain-design-composition";
+import {computed, designComponent, InheritHtmlElement, getCurrentInstance, useRefs} from "plain-ui-composition";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
-import {useClasses} from "plain-design-composition";
+import {useClasses} from "plain-ui-composition";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
 import {StepCollector} from "../PlStepGroup";

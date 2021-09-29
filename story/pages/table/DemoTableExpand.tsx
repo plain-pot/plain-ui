@@ -1,4 +1,4 @@
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 // @ts-ignore
 import data from '../data/data-1.json'
 import {DemoRow} from "../../components/DemoRow";

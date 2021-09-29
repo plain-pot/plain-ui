@@ -1,6 +1,6 @@
 import {iOvConfig, iOvData, iOvService, iUseOv} from "./useOv.utils";
 import {getInitialConfigState} from "../initialize";
-import {reactive} from "plain-design-composition";
+import {reactive} from "plain-ui-composition";
 import {debounce} from "plain-utils/utils/debounce";
 import {defer} from "plain-utils/utils/defer";
 

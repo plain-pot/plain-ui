@@ -1,4 +1,4 @@
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 import PlTablePro from "../../../src/packages/PlTablePro";
 import {PlcSelect} from "../../../src/packages/PlcSelect";
 import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";

@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition"
+import {designComponent} from "plain-ui-composition"
 
 export const DemoLine = designComponent({
     name: 'demo-line',

@@ -1,8 +1,8 @@
-import {designPage, onMounted, useRefs} from "plain-design-composition";
+import {designPage, onMounted, useRefs} from "plain-ui-composition";
 
 import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
-import {SimpleFunction} from "plain-design-composition"
-import {reactive} from "plain-design-composition";
+import {SimpleFunction} from "plain-ui-composition"
+import {reactive} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";

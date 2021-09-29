@@ -1,6 +1,6 @@
 import {CascadeNode} from "./CascadeNode";
 import {createKeyHandler} from "../../../utils/createKeyHandler";
-import {reactive} from "plain-design-composition";
+import {reactive} from "plain-ui-composition";
 import {createFlagManager} from "../../../utils/createFlagManager";
 
 const generator = createKeyHandler('cascade_node')

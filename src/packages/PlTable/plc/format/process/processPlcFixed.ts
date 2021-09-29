@@ -1,6 +1,6 @@
 import {tPlc, tPlcType} from "../../utils/plc.type";
 import {TablePlcFixedType} from "../../../table/utils/table.utils";
-import {StyleProperties} from "plain-design-composition"
+import {StyleProperties} from "plain-ui-composition"
 
 /**
  * 处理plc的fixed定位

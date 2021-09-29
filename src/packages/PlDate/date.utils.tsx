@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2021/1/18 10:43
  */
-import {ExtractPropTypes, PropType, VueNode} from "plain-design-composition";
+import {ExtractPropTypes, PropType, VueNode} from "plain-ui-composition";
 import {PDate, plainDate} from "../../utils/plainDate";
 import {classnames} from "plain-utils/dom/classnames";
 

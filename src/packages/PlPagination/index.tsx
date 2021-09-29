@@ -1,5 +1,5 @@
 import './pagination.scss'
-import {computed, designComponent, PropType, ref, useNumber, watch} from "plain-design-composition"
+import {computed, designComponent, PropType, ref, useNumber, watch} from "plain-ui-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {delay} from "plain-utils/utils/delay";
@@ -8,7 +8,7 @@ import {PlSelectOption} from "../PlSelectOption";
 import {PlNumber} from "../PlNumber";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
-import {useClasses} from "plain-design-composition";
+import {useClasses} from "plain-ui-composition";
 import {classnames} from "plain-utils/dom/classnames";
 
 const SizesWidth = {

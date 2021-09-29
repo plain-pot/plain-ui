@@ -1,6 +1,6 @@
 import './time-range-panel.scss'
 import {TimePublicProps} from "./time-panel.utils";
-import {computed, designComponent, PropType, useModel, VueNode} from "plain-design-composition";
+import {computed, designComponent, PropType, useModel, VueNode} from "plain-ui-composition";
 import PlTimeRangePanel, {TimeRangePanelType} from "./PlTimeRangePanel";
 import {delay} from "plain-utils/utils/delay";
 import PlTimeBasePanel from "./PlTimeBasePanel";

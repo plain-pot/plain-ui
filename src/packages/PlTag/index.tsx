@@ -1,4 +1,4 @@
-import {useClasses, designComponent, useRefs, InheritHtmlElement, createEventListener} from "plain-design-composition";
+import {useClasses, designComponent, useRefs, InheritHtmlElement, createEventListener} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import PlIcon from "../PlIcon";

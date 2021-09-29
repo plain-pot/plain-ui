@@ -1,7 +1,7 @@
 import './select.scss'
 import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {computed, createEventListener, designComponent, PropType, ref, useModel, useRefs} from "plain-design-composition";
+import {computed, createEventListener, designComponent, PropType, ref, useModel, useRefs} from "plain-ui-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlInput} from "../PlInput";
 import {PlSelectPanel} from "./PlSelectPanel";

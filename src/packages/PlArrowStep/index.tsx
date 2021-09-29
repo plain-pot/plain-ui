@@ -1,7 +1,7 @@
-import {computed, designComponent, getCurrentInstance, InheritHtmlElement, useRefs} from "plain-design-composition";
+import {computed, designComponent, getCurrentInstance, InheritHtmlElement, useRefs} from "plain-ui-composition";
 import {ArrowStepCollector} from "../PlArrowStepGroup";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
-import {useClasses} from "plain-design-composition";
+import {useClasses} from "plain-ui-composition";
 import PlTriangle from "../PlTriangle";
 
 export const PlArrowStep = designComponent({

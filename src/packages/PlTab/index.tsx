@@ -1,5 +1,5 @@
 import './tab.scss'
-import {designComponent, InheritHtmlElement, useRefs} from "plain-design-composition";
+import {designComponent, InheritHtmlElement, useRefs} from "plain-ui-composition";
 import {TabCollector} from "../PlTabs";
 
 export const PlTab = designComponent({

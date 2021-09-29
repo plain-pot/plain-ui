@@ -1,4 +1,4 @@
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent} from "plain-ui-composition";
 import {DatePublicEmits, DatePublicProps} from "../date.utils";
 import {useDateWeek} from "../useDateWeek";
 import {UseDateJudgementView} from "../useDatePanel";

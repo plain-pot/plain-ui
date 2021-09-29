@@ -1,5 +1,5 @@
-import {designComponent} from "plain-design-composition"
-import {useClasses} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition"
+import {useClasses} from "plain-ui-composition";
 import {SVGAttributes} from 'vue'
 
 import {CheckboxStatus} from "../../utils/constant";

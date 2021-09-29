@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {TabCommonProps} from "../../tabs.utils";
 import './tabs-header-card.scss'
 

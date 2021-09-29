@@ -1,5 +1,5 @@
 import useDialog from "../../useDialog";
-import {computed, reactive, useRefs} from "plain-design-composition";
+import {computed, reactive, useRefs} from "plain-ui-composition";
 import PlForm from "../../PlForm";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {TableNode} from "../../PlTable/table/use/useTableNode";

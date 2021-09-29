@@ -1,4 +1,4 @@
-import {ComponentEvent, ExtractPropTypes} from "plain-design-composition";
+import {ComponentEvent, ExtractPropTypes} from "plain-ui-composition";
 import {TableNode} from "../../table/use/useTableNode";
 import {PlcEmitsOptions, PlcGroupPropsOptions, PlcPropsOptions, PlcPublicAttrsType} from "./plc.utils";
 import {PlcPropsHead, tPlcScopeSlots, tPlcSlots} from "./plc.scope-slots";

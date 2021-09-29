@@ -1,6 +1,6 @@
-import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from 'plain-design-composition'
+import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from 'plain-ui-composition'
 import './grid.scss'
-import {useClasses} from "plain-design-composition";
+import {useClasses} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 
 import {removeUnit} from "plain-utils/string/removeUnit";

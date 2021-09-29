@@ -1,4 +1,4 @@
-import {computed, designPage, reactive} from "plain-design-composition";
+import {computed, designPage, reactive} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {PlUpload, UploadFile} from "../../../src/packages/PlUpload";
 import $$file, {FileServiceSingleFile} from "../../../src/packages/$$file";

@@ -1,4 +1,4 @@
-import {computed, useClasses, InheritHtmlElement, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-design-composition"
+import {computed, useClasses, InheritHtmlElement, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {unit} from "plain-utils/string/unit";

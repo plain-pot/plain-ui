@@ -1,8 +1,8 @@
-import {computed, designComponent, InheritHtmlElement, inject, provide, useRefs} from 'plain-design-composition'
+import {computed, designComponent, InheritHtmlElement, inject, provide, useRefs} from 'plain-ui-composition'
 import './button-group.scss'
 import {DEFAULT_STATUS, StyleMode, StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {useClasses} from "plain-design-composition";
+import {useClasses} from "plain-ui-composition";
 
 
 interface ButtonModeProviderValue {

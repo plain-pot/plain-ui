@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-design-composition";
+import {designPage, reactive} from "plain-ui-composition";
 
 import {PlcTextarea, $$file, PlButton, useOv, PlDropdown, PlDropdownMenu, PlDropdownOption, PlcImage, PlcOv, PlcInput, PlTablePro, useTableOption, Plc} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";

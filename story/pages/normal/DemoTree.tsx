@@ -1,4 +1,4 @@
-import {designPage, nextTick, reactive, useRefs} from "plain-design-composition";
+import {designPage, nextTick, reactive, useRefs} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 
 // @ts-ignore
@@ -12,7 +12,7 @@ import {DemoLine} from "../../components/DemoLine";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
 import {TreeNode} from "../../../src/packages/PlTree/utils/type";
-import {SimpleFunction} from "plain-design-composition"
+import {SimpleFunction} from "plain-ui-composition"
 import {PlInput} from "../../../src/packages/PlInput";
 import PlCard from "../../../src/packages/PlCard";
 

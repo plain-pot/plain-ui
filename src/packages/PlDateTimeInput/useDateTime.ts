@@ -1,6 +1,6 @@
 import {EditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useStyle} from "../../use/useStyle";
-import {computed, ModelType, SimpleFunction, useRefs} from "plain-design-composition";
+import {computed, ModelType, SimpleFunction, useRefs} from "plain-ui-composition";
 import {PlDateTimeInput} from "./index";
 import {PlInput} from "../PlInput";
 import {delay} from "plain-utils/utils/delay";

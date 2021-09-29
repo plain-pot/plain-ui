@@ -1,7 +1,7 @@
 import {PltRow} from "./row";
 import {TableHoverPart} from "../utils/table.utils";
 import {TableNode} from "../use/useTableNode";
-import {designComponent, useRefs} from "plain-design-composition";
+import {designComponent, useRefs} from "plain-ui-composition";
 
 import {PlainTable} from "../../index";
 import {renderColgroup} from "../../plc/utils/renderColgroup";

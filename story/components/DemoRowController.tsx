@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition"
+import {designComponent} from "plain-ui-composition"
 import {DemoRowCache} from "./DemoRow.utils";
 import {DemoRow} from "./DemoRow";
 import PlIcon from "../../src/packages/PlIcon";

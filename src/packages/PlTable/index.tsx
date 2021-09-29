@@ -1,4 +1,4 @@
-import {computed, designComponent, onMounted, PropType, reactive, useClasses, useRefs, watch} from "plain-design-composition";
+import {computed, designComponent, onMounted, PropType, reactive, useClasses, useRefs, watch} from "plain-ui-composition";
 import {TableDefaultRowHeight, TableHoverPart, TableProps} from "./table/utils/table.utils";
 import {useTree} from "../PlTree/core/useTree";
 import {TableNode, useTableNode} from "./table/use/useTableNode";

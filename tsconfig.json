@@ -14,11 +14,6 @@
     "types": [
       "webpack-env"
     ],
-    "paths": {
-      "plain-design-composition": [
-        "node_modules/plain-ui-composition"
-      ]
-    },
     "lib": [
       "esnext",
       "dom",

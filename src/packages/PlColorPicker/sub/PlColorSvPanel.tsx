@@ -1,5 +1,5 @@
 import './color-sv-panel.scss'
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
 import {hsv2rgb} from "../utils/ColorUtils";
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";

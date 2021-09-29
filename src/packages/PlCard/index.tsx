@@ -1,5 +1,5 @@
 import './card.scss'
-import {designComponent, useClasses,InheritHtmlElement, useRefs, useStyles} from "plain-design-composition";
+import {designComponent, useClasses,InheritHtmlElement, useRefs, useStyles} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
 
 export const PlCard = designComponent({

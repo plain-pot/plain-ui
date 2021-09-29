@@ -1,6 +1,6 @@
 
 import {PlRate} from "../../../PlRate";
-import {designComponent} from "plain-design-composition";
+import {designComponent} from "plain-ui-composition";
 import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";

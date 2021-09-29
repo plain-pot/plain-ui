@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-design-composition";
+import {designPage, reactive} from "plain-ui-composition";
 
 // @ts-ignore
 import data2 from '../data/data-2.json'

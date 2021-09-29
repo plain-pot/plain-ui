@@ -1,4 +1,4 @@
-import {useClasses, nextIndex,InheritHtmlElement, designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-design-composition'
+import {useClasses, nextIndex,InheritHtmlElement, designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './loading-mask.scss'
 import {delay} from "plain-utils/utils/delay";
 import PlLoading from "../PlLoading";

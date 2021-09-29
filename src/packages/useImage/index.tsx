@@ -1,5 +1,5 @@
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {reactive, onMounted, ref, useStyles, computed, onBeforeUnmount} from "plain-design-composition";
+import {reactive, onMounted, ref, useStyles, computed, onBeforeUnmount} from "plain-ui-composition";
 import {PlImage} from "../PlImage";
 import PlTooltip from "../PlTooltip";
 import PlIcon from "../PlIcon";

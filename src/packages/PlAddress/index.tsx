@@ -1,4 +1,4 @@
-import {designComponent, reactive, useModel, watch, watchEffect} from "plain-design-composition";
+import {designComponent, reactive, useModel, watch, watchEffect} from "plain-ui-composition";
 
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps} from "../../use/useStyle";

@@ -1,4 +1,4 @@
-import {computed, reactive} from "plain-design-composition";
+import {computed, reactive} from "plain-ui-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";

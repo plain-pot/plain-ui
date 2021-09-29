@@ -1,7 +1,7 @@
 import {TreeDropType} from "../utils/tree-constant";
 import {PlScroll} from "../../PlScroll";
 import {useAutoScroll} from "../../PlScroll/useAutoScroll";
-import {StyleProperties} from "plain-design-composition"
+import {StyleProperties} from "plain-ui-composition"
 import {getRowEl} from "../../../utils/getRowEl";
 import {getScrollParent} from "../../../utils/getScrollParent";
 

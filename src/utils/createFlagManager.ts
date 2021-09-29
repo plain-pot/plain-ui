@@ -3,8 +3,8 @@
  * @author  韦胜健
  * @date    2020/11/27 11:38
  */
-import {UnwrapRef} from "plain-design-composition";
-import {reactive} from "plain-design-composition";
+import {UnwrapRef} from "plain-ui-composition";
+import {reactive} from "plain-ui-composition";
 
 export function createFlagManager<T = boolean>() {
     return {

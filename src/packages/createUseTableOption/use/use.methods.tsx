@@ -14,7 +14,7 @@ import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
 import {delay} from "plain-utils/utils/delay";
 import {FilterConfig} from "../../PlFilter/FilterConfig";
-import {nextTick} from "plain-design-composition";
+import {nextTick} from "plain-ui-composition";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm, getSortData}: {
     tableState: iTableOptionState,

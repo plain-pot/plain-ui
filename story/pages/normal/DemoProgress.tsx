@@ -1,11 +1,11 @@
-import {designPage} from "plain-design-composition";
+import {designPage} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import PlProgressBar from "../../../src/packages/PlProgressBar";
 import PlProgressCircle from "../../../src/packages/PlProgressCircle";
 import PlIcon from "../../../src/packages/PlIcon";
 import PlSlider from "../../../src/packages/PlSlider";
-import {reactive} from "plain-design-composition";
+import {reactive} from "plain-ui-composition";
 import PlProgressMini from "../../../src/packages/PlProgressMini";
 
 export default designPage(() => {

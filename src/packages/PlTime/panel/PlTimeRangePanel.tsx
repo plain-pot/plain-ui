@@ -1,4 +1,4 @@
-import {computed, designComponent, useModel} from "plain-design-composition"
+import {computed, designComponent, useModel} from "plain-ui-composition"
 import {TimePublicProps} from "./time-panel.utils";
 import {plainDate} from "../../../utils/plainDate";
 import PlTimeBasePanel from "./PlTimeBasePanel";

@@ -1,4 +1,4 @@
-import {computed, createEventListener, designComponent, useRefs, useStyles} from 'plain-design-composition'
+import {computed, createEventListener, designComponent, useRefs, useStyles} from 'plain-ui-composition'
 import './tree.scss'
 import {TreeProps} from "./utils/props";
 import {useTree} from "./core/useTree";
