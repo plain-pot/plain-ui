@@ -156,18 +156,18 @@ const MenuData: MenuGroup[] = [
     },
     {
         name: 'table-pro', children: [
-            {name: '基本示例', title: 'pl-table-pro', page: '/table-pro/basic-usage', complete: false},
-            {name: '分组示例', title: 'pl-table-pro', page: '/table-pro/group-usage', complete: false},
-            {name: '默认搜索', title: 'pl-table-pro', page: '/table-pro/default-filter', complete: false},
+            {name: '基本示例', title: 'pl-table-pro', page: '/table-pro/basic-usage', complete: true},
+            {name: '分组示例', title: 'pl-table-pro', page: '/table-pro/group-usage', complete: true},
+            {name: '默认搜索', title: 'pl-table-pro', page: '/table-pro/default-filter', complete: true},
             {name: '自动高度', title: 'pl-table-pro', page: '/table-pro/table-fill', complete: false},
-            {name: '筛选组件', title: 'pl-filter', page: '/table-pro/pro-filter', complete: false},
-            {name: '对象选择', title: 'pl-object', page: '/table-pro/demo-object', complete: false},
-            {name: '父子表', title: 'table parent', page: '/table-pro/table-parent', complete: false},
-            {name: '地址组件', title: 'table address', page: '/table-pro/demo-address', complete: false},
-            {name: '行数据格式化', title: 'format row', page: '/table-pro/format-row', complete: false},
+            {name: '筛选组件', title: 'pl-filter', page: '/table-pro/pro-filter', complete: true},
+            {name: '对象选择', title: 'pl-object', page: '/table-pro/demo-object', complete: true},
+            {name: '父子表', title: 'table parent', page: '/table-pro/table-parent', complete: true},
+            {name: '地址组件', title: 'table address', page: '/table-pro/demo-address', complete: true},
+            {name: '行数据格式化', title: 'format row', page: '/table-pro/format-row', complete: true},
             {name: '文件列表', title: 'file list', page: '/table-pro/table-files', complete: false},
-            {name: '选项集', title: 'option value', page: '/table-pro/option-value', complete: false},
-            {name: '图片列', title: 'image column', page: '/table-pro/production-list', complete: false},
+            {name: '选项集', title: 'option value', page: '/table-pro/option-value', complete: true},
+            {name: '图片列', title: 'image column', page: '/table-pro/production-list', complete: true},
         ]
     },
     /*{
