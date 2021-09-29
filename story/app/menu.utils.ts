@@ -85,7 +85,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Form', title: '表单校验', page: '/form/DemoFormValidate', complete: true},
             {name: 'Form', title: '关联字段', page: '/form/DemoFormAssociateFields', complete: true},
             {name: 'Form', title: '校验模式', page: '/form/DemoFormValidateMode', complete: true},
-            {name: 'Form', title: '动态表单项', page: '/form/DemoFormDynamicFields', complete: false},
+            {name: 'Form', title: '动态表单项', page: '/form/DemoFormDynamicFields', complete: true},
         ]
     },
     {

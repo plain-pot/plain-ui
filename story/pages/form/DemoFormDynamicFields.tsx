@@ -1,4 +1,3 @@
-
 import {designPage, reactive, useRefs} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import PlForm from "../../../src/packages/PlForm";
@@ -11,7 +10,7 @@ export default designPage(() => {
 
     const {formData} = reactive({
         formData: {
-            email: '',
+            email: '111@aa.com',
             addressList: [
                 {addr: ''}
             ],
