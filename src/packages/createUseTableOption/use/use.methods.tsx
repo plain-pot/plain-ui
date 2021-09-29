@@ -205,6 +205,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
             const editInline = async () => {
                 tableState.editingWhenAddRow = true
+                {/*适配 plain-ui*/}
                 await nextTick()
                 tableState.list.unshift(newRowData)
                 await nextTick()
@@ -272,6 +273,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             newRows = await Promise.all(newRows.map((item) => hooks.onHandleNewRow.exec(item)))
 
             tableState.editingWhenAddRow = true
+            /*适配 plain-ui */
+            await nextTick()
             tableState.list.unshift(...newRows)
             await nextTick()
             const newNodes = freezeState.table.flatNodes.value.slice(0, newRows.length)

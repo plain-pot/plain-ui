@@ -134,6 +134,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*收集config.render中的列信息*/
         hooks.onColumns.use((prev) => {
             return <>
+                {/*适配 plain-ui 本来是放use.base-table里边的*/}
                 <PlcIndex start={pagination.pageState.page * pagination.pageState.size}/>
                 {prev}
                 {!!config.render && config.render()}
