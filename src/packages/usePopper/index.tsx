@@ -79,7 +79,7 @@ const PopperService = createDefaultService({
                         ...(state.option.popperAttrs || {}),
                     }}
                     v-slots={{
-                        popper:state.option.render,
+                        popper: state.option.render,
                     }}
                 />
             )
@@ -89,6 +89,7 @@ const PopperService = createDefaultService({
 
 export const usePopper = createUseService({
     name: 'popper',
+    optionsCallName: '$popper',
     managerComponent: createDefaultManager('pl-popper-manager', PopperService),
     createService: (getManager) => {
         return (option: PopperServiceOption) => {

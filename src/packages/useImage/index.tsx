@@ -259,6 +259,7 @@ const Service = createDefaultService({
 
 const useImage = createUseService({
     name: 'image',
+    optionsCallName: '$image',
     managerComponent: createDefaultManager('pl-image-manager', Service),
     createService: (getManager) => {
         const preview = (urls: string | (string | null | undefined)[], current?: number) => {

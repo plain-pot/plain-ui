@@ -93,6 +93,7 @@ export type MessageService = MessageServiceFunction & {
 
 export const useMessage = createUseService({
     name: 'message-service',
+    optionsCallName: '$message',
     managerComponent: PlMessageManager,
     createService: (getManager) => {
         const service: MessageServiceFunction = (message: string | MessageServiceOption, option?: MessageServiceOption) => {

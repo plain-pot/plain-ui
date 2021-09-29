@@ -4,19 +4,36 @@
  * @date    2020/11/26 9:32
  */
 import {PlRoot, PlRootInstance} from "./PlRoot";
-import {createApp} from 'vue'
+import {App, createApp} from 'vue'
 
 import {addClass} from "plain-utils/dom/addClass";
+
+export const RootMapper = (() => {
+    const get = (appRootInstance: any): PlRootInstance => {
+        return appRootInstance._PL_ROOT
+    }
+    const set = (appRootInstance: any, rootInstance: PlRootInstance) => {
+        if (!!appRootInstance._PL_ROOT) {
+            return console.log('pl-root: 在一个app中只能使用一次', {newRoot: rootInstance, oldRoot: appRootInstance._PL_ROOT})
+        }
+        appRootInstance._PL_ROOT = rootInstance
+    }
+    return {
+        get, set
+    }
+})()
 
 export function createUseService<_,
     ManagerComponent extends { use: { class: { props: { name: any, Component: any } } } },
     CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>) => any>(
     {
         name,
+        optionsCallName,
         managerComponent,
         createService,
     }: {
         name: string,
+        optionsCallName: string,
         managerComponent: ManagerComponent,
         createService: CreateService,
     }
@@ -24,7 +41,7 @@ export function createUseService<_,
     /*不同的root，使用的service可能不一样*/
     let map = new WeakMap<any, ReturnType<CreateService>>()
 
-    return (getRoot?: () => PlRootInstance | Promise<PlRootInstance>): ReturnType<CreateService> => {
+    const use = (getRoot?: () => PlRootInstance | Promise<PlRootInstance>): ReturnType<CreateService> => {
         let root: PlRootInstance;
         if (!getRoot) {
             root = PlRoot.use.inject()
@@ -40,6 +57,18 @@ export function createUseService<_,
             })
         }
     }
+
+    return Object.assign(use, {
+        install(app: App) {
+            app.mixin({
+                computed: {
+                    [optionsCallName]() {
+                        return use(() => RootMapper.get(this.$root))
+                    }
+                }
+            })
+        },
+    })
 }
 
 /**
@@ -55,7 +84,7 @@ export function createServiceWithoutContext<UseService extends (getRoot: () => P
                 const el = document.createElement('div')
                 addClass(el, 'plain-design-root-without-context')
                 document.body.appendChild(el)
-                createApp(()=><PlRoot ref={(refer: any) => root = refer!}/>).mount(el)
+                createApp({render: () => <PlRoot ref={(refer: any) => root = refer!}/>}).mount(el)
             }
             return root!
         }

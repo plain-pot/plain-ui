@@ -50,6 +50,7 @@ function formatOption(o: DialogServiceOption): DialogServiceFormatOption {
 
 const useDialog = createUseService({
     name: 'dialog',
+    optionsCallName: '$dialog',
     managerComponent: createDefaultManager('pl-dialog-manager', PlDialogService),
     createService: (getManager) => {
         const service = (message: string | DialogServiceOption, option?: DialogServiceOption) => {

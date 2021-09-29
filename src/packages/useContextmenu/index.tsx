@@ -5,6 +5,7 @@ import './contextmenu-service.scss'
 
 export const useContextmenu = createUseService({
         name: 'contextmenu',
+        optionsCallName: '$contextmenu',
         managerComponent: createDefaultManager('pl-contextmenu-service-manager', PlContextMenuService, ((items: PlContextMenuServiceComponent[], option: ContextmenuServiceOption) => {
 
             let exist: PlContextMenuServiceComponent | null = null

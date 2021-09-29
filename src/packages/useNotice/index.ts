@@ -63,6 +63,7 @@ export type NoticeService = NoticeServiceFunction & { [k in 'primary' | 'success
 
 export const useNotice = createUseService({
     name: 'notice-service',
+    optionsCallName: '$notice',
     managerComponent: PlNoticeManager,
     createService(getManager) {
         const service: NoticeServiceFunction = (message: string | NoticeServiceOption, option?: NoticeServiceOption): NoticeServiceFormatOption => {

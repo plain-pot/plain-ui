@@ -3,6 +3,7 @@ import {StyleProps, useStyle} from "../../use/useStyle";
 import {delay} from "plain-utils/utils/delay";
 import {Teleport} from 'vue'
 import './PlRoot.scss'
+import {RootMapper} from "./registryRootService";
 
 export const PlRoot = designComponent({
     name: 'pl-root',
@@ -11,7 +12,7 @@ export const PlRoot = designComponent({
     props: {
         ...StyleProps,
     },
-    setup({slots}) {
+    setup({slots, ctx}) {
 
         /*全局样式定义*/
         useStyle()
@@ -59,6 +60,8 @@ export const PlRoot = designComponent({
         const refer = {
             getManagerInstance,
         }
+
+        RootMapper.set(ctx.proxy!.$root, refer)
 
         return {
             refer,

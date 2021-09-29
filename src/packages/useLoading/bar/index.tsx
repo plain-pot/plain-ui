@@ -47,6 +47,7 @@ function formatOption(option: LoadingBarOption): LoadingBarFormatOption {
 
 export const useLoadingBar = createUseService({
         name: 'loading-bar',
+        optionsCallName:'$loadingBar',
         managerComponent: createDefaultManager('pl-loading-bar-manager', Service),
         createService: getManager => {
             return (option?: LoadingBarOption): LoadingBar => {

@@ -15,6 +15,7 @@ export interface LoadingMaskServiceFormatOption extends LoadingMaskServiceOption
 
 export const useLoadingMask = createUseService({
         name: 'loading',
+        optionsCallName:'$loadingMask',
         managerComponent: createDefaultManager('pl-loading-mask-manager', Service),
         createService: (getManager) => {
             return (option: LoadingMaskServiceOption): LoadingMaskServiceFormatOption => {

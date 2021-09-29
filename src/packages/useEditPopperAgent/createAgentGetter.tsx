@@ -16,6 +16,7 @@ export function createUseEditPopperAgent(defaultOption: CreateAgentGetterOption)
         /*---------------------------------------Specific Popper Service-------------------------------------------*/
         return createUseService({
             name,
+            optionsCallName: '$select',
             managerComponent: createDefaultManager(
                 `pl-popper-service-${name}-manager`,
                 createPopperServiceComponent(`pl-popper-service-${name}`)
