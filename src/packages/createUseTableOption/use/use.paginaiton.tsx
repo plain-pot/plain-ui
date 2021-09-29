@@ -1,4 +1,4 @@
-import {computed, reactive} from "plain-design-composition";
+import {computed, nextTick, reactive} from "plain-design-composition";
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import PlPagination from "../../PlPagination";
 
@@ -67,7 +67,8 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
             }),
             new Promise<number>((resolve) => {
                 const eject = hooks.onRefTable.use((baseTable) => {
-                    resolve(baseTable.refs.el!.offsetHeight)
+                    /*nextTick 为适配plain-ui，否则此时 el.offsetHeight 高度为0*/
+                    nextTick().then(() => resolve(baseTable.refs.el!.offsetHeight))
                     eject()
                 })
             })
