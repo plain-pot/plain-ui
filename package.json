@@ -5,19 +5,29 @@
   "scripts": {
     "dev": "cross-env APP_ENV=prod vue-cli-service serve",
     "build": "cross-env APP_ENV=prod vue-cli-service build",
+    "release": "npm run theme && cross-env NODE_ENV=production webpack --config ./build/webpack.release.js --progress",
+    "theme": "ts-node src/styles/data/scan.scss.ts",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.15.0",
     "async-validator": "^3.5.2",
+    "autoprefixer": "^8.6.5",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
+    "fork-ts-checker-webpack-plugin": "^6.3.3",
+    "mini-css-extract-plugin": "^1.6.2",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
     "plain-ui-composition": "0.0.17",
     "plain-utils": "^0.1.27",
-    "vue": "^3.1.5"
+    "postcss": "^8.3.8",
+    "postcss-loader": "^4.3.0",
+    "vue": "^3.1.5",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.2"
   },
   "devDependencies": {
     "@types/node": "^16.10.1",
@@ -35,6 +45,7 @@
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "ts-node": "^10.2.1",
     "typescript": "~4.1.5"
   }
 }
