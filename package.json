@@ -37,7 +37,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.1.5",
     "@vue/eslint-config-typescript": "^7.0.0",
     "axios": "^0.21.4",
     "cross-env": "^7.0.3",

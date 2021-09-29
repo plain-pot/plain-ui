@@ -17,6 +17,7 @@ const MenuData: MenuGroup[] = [
     {
         name: '测试', children: [
             {name: 'Test', title: '测试手动渲染实例', page: '/test/TestGroupTransition', complete: true},
+            {name: 'Test', title: '全局注册的组件', page: '/test/test', complete: true},
             /*{name: 'Drag', title: '测试拖拽节点', page: '/test/test-drag', complete: false},
             {name: 'Svg', title: '测试svg', page: '/test/test-svg', complete: false},
             {name: 'Canvas', title: '测试canvas', page: '/test/test-canvas', complete: false},
