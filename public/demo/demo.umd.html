@@ -13,13 +13,15 @@
 <script src="./plain-ui-composition.min.js"></script>
 <script src="../../dist/plain-ui.min.js"></script>
 <script>
+
     const {createApp, defineComponent, reactive} = Vue
-    const {} = PlainUiComposition
     const {PlButton, PlInput, PlTagInput, PlRoot, $$message} = PlainUi
 
     const Entry = defineComponent({
         template: `
-          <button @click="state.count++">count:{{ state.count }}</button>
+          <pl-root>
+          <pl-button @click="state.count++">count:{{ state.count }}</pl-button>
+          </pl-root>
         `,
         setup() {
             const state = reactive({
@@ -31,7 +33,11 @@
         },
     })
 
-    createApp(Entry).mount(document.querySelector('#app'))
+    const app = createApp(Entry)
+    // app.component('pl-button', PlainUi.PlButton)
+    console.log(PlainUi.install)
+    app.use(PlainUi)
+    app.mount(document.querySelector('#app'))
 </script>
 </body>
 </html>
