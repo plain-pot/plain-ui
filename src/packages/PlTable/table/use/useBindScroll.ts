@@ -21,7 +21,7 @@ export function useBindScroll(
         bindScroll: (part: TableHoverPart, updateLeft: (left: number, part: TableHoverPart) => void) => {
             event.on.onScrollLeft((left, part) => updateLeft(left, part))
             return {
-                onMouseEnter: () => hoverPart.value = part,
+                onMouseenter: () => hoverPart.value = part,
                 onScroll: (e: Event) => hoverPart.value === part && event.emit.onScrollLeft((e as any).target.scrollLeft, part)
             }
         }
