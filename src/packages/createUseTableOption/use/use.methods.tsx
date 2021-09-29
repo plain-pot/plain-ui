@@ -205,6 +205,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
             const editInline = async () => {
                 tableState.editingWhenAddRow = true
+                await nextTick()
                 tableState.list.unshift(newRowData)
                 await nextTick()
                 const newNode = freezeState.table.flatNodes.value[0]
