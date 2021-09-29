@@ -2,8 +2,6 @@ import {tTableOptionHooks} from "./use.hooks";
 import PlTable from "../../PlTable";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {tPlcType} from "../../PlTable/plc/utils/plc.type";
-
-import {PlcIndex} from "../../PlcIndex";
 import {iTableOptionState, tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionSort} from "./use.sort.state";
@@ -56,8 +54,6 @@ export function useTableOptionBaseTable(
                     sort={sortState.sortQueryData.value}
                     onCollectPlcData={hooks.onCollectPlcData.exec}
                 >
-                    {/*todo 这里加上PlcIndex就会出现响应式依赖死循环的问题*/}
-                    {/*<PlcIndex />*/}
                     {hooks.onColumns.exec([])}
                 </PlTable>
             )

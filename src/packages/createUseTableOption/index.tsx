@@ -16,6 +16,7 @@ import {useTableOptionSortState} from "./use/use.sort.state";
 import {useTableOptionFilterState} from "./use/use.filter.state";
 import {useTableOptionCache} from "./use/use.cache";
 import {toArray} from "plain-utils/utils/toArray";
+import {PlcIndex} from "../PlcIndex";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -133,6 +134,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*收集config.render中的列信息*/
         hooks.onColumns.use((prev) => {
             return <>
+                <PlcIndex start={pagination.pageState.page * pagination.pageState.size}/>
                 {prev}
                 {!!config.render && config.render()}
             </>
