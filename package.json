@@ -21,7 +21,7 @@
     "mini-css-extract-plugin": "^1.6.2",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
-    "plain-ui-composition": "0.0.17",
+    "plain-ui-composition": "0.0.20",
     "plain-utils": "^0.1.27",
     "postcss": "^8.3.8",
     "postcss-loader": "^4.3.0",
