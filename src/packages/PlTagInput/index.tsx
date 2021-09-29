@@ -1,4 +1,4 @@
-import {designComponent, onBeforeUnmount, InheritHtmlElement, reactive, useClasses, useModel, useRefs} from 'plain-ui-composition'
+import {designComponent, onBeforeUnmount, reactive, useClasses, useModel, useRefs} from 'plain-ui-composition'
 import './tag-input.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
@@ -21,7 +21,7 @@ export const PlTagInput = designComponent({
         formatValue: Function,                                                  // 格式化输入值，返回一个值，或者对象
         noInput: Function,                                                      // 是否显示输入框
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any[] | undefined) => true
     },

@@ -1,4 +1,4 @@
-import {useClasses, InheritHtmlElement, designComponent, PropType, reactive, useModel, useRefs, useStyles, watch} from "plain-ui-composition"
+import {designComponent, PropType, reactive, useClasses, useModel, useRefs, useStyles, watch} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlImage, {PlImageProps} from "../PlImage";
 import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$file";
@@ -35,7 +35,7 @@ export const PlImageUploader = designComponent({
         handleUpload: {type: Function as PropType<(file: File) => void | Promise<void>>},       // 自定义上传图片逻辑
         handlePreview: {type: Function as PropType<(url?: string) => void>},                    // 自定义预览逻辑
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val?: string) => true,
         onLoadSuccess: (url: string) => true,

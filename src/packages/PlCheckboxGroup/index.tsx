@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, inject, PropType, useModel, useNumber, useRefs} from "plain-ui-composition"
+import {computed, designComponent, inject, PropType, useModel, useNumber, useRefs} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";
@@ -18,7 +18,7 @@ export const PlCheckboxGroup = designComponent({
         max: {type: Number},                                        // 最小勾选个数
         itemWidth: {type: [String, Number]},                        // 文本宽度
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     emits: {
         onUpdateModelValue: (val: (string | number)[] | undefined) => true,

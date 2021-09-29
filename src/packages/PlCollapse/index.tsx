@@ -1,5 +1,5 @@
 import './collapse.scss'
-import {computed,InheritHtmlElement, designComponent, useClasses, useModel, useRefs} from "plain-ui-composition"
+import {computed, designComponent, useClasses, useModel, useRefs} from "plain-ui-composition"
 import PlCollapseGroup from "../PlCollapseGroup";
 import PlIcon from "../PlIcon";
 import {createCounter} from "plain-utils/utils/createCounter";
@@ -18,7 +18,7 @@ export const PlCollapse = designComponent({
     emits: {
         onUpdateModelValue: (val: boolean) => true
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: [
         'default',
         'head',

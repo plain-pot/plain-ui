@@ -1,4 +1,4 @@
-import {designComponent,InheritHtmlElement, inject, useModel, useRefs} from "plain-ui-composition"
+import {designComponent, inject, useModel, useRefs} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";
@@ -16,7 +16,7 @@ export const PlRadioGroup = designComponent({
     emits: {
         onUpdateModelValue: (val: any) => true
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     provideRefer: true,
     setup({props, slots, event: {emit}}) {
 

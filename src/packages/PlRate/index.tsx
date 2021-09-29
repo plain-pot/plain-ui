@@ -1,4 +1,4 @@
-import {useClasses, InheritHtmlElement, computed, designComponent, reactive, useModel, useMounted, useRefs} from "plain-ui-composition"
+import {computed, designComponent, reactive, useClasses, useModel, useMounted, useRefs} from "plain-ui-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
@@ -23,7 +23,7 @@ export const PlRate = designComponent({
     emits: {
         onUpdateModelValue: (val: number) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

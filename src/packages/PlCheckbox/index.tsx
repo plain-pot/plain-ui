@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, SimpleFunction, useClasses, useModel, useRefs, useStyles} from "plain-ui-composition";
+import {computed, designComponent, SimpleFunction, useClasses, useModel, useRefs, useStyles} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";
@@ -30,7 +30,7 @@ export const PlCheckbox = designComponent({
         onClick: (e?: MouseEvent) => true,
     },
     slots: ['labelContent'],
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     scopeSlots: {
         default: (scope: { checked: boolean, status: keyof typeof CheckboxStatus, click: SimpleFunction }) => {},
     },

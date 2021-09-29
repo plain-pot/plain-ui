@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
+import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './color-alpha-slider.scss'
 import {EditProps} from "../../../use/useEdit";
 import {unit} from "plain-utils/string/unit";
@@ -21,7 +21,7 @@ export const PlColorAlphaSlider = designComponent({
     emits: {
         onUpdateModelValue: (val: number) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

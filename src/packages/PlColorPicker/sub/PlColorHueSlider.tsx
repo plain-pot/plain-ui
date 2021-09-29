@@ -1,4 +1,4 @@
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
+import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './color-hue-slider.scss'
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
@@ -15,7 +15,7 @@ export const PlColorHueSlider = designComponent({
     emits: {
         onUpdateModelValue: (val: any) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
         const {refs, onRef} = useRefs({
             el: HTMLDivElement,

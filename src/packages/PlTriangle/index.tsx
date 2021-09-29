@@ -1,8 +1,6 @@
 import './triangle.scss'
-import {designComponent, onMounted, useModel, useRefs, useStyles} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {designComponent, onMounted, useClasses, useModel, useRefs, useStyles} from "plain-ui-composition";
 import {unit} from "plain-utils/string/unit";
-import {InheritHtmlElement} from "plain-ui-composition";
 
 
 const DirectionMap = {
@@ -24,7 +22,7 @@ export const PlTriangle = designComponent({
         half: {type: String},
         size: {type: [Number], default: 20},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props}) {
         const {refs, onRef} = useRefs({
             el: HTMLElement,

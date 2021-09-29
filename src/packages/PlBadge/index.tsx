@@ -1,6 +1,5 @@
 import './badge.scss'
-import {computed, designComponent, InheritHtmlElement, useRefs} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {computed, designComponent, useClasses, useRefs} from "plain-ui-composition";
 
 export const PlBadge = designComponent({
     name: 'pl-badge',
@@ -12,7 +11,7 @@ export const PlBadge = designComponent({
         dot: {type: Boolean,},                          //标记是否只是一个小圆点
         max: {type: Number,},                           //标记显示文本最大值
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default', 'badge'],
     setup({props, slots}) {
         const contentClass = useClasses(() => [

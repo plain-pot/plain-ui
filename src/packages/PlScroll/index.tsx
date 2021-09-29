@@ -1,6 +1,5 @@
 import './scroll.scss'
-import {computed, InheritHtmlElement, designComponent, onBeforeUnmount, onMounted, reactive, useMounted, useRefs, useStyles, watch} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {computed, designComponent, onBeforeUnmount, onMounted, reactive, useClasses, useMounted, useRefs, useStyles, watch} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 import {debounce} from "plain-utils/utils/debounce";
 import {throttle} from "plain-utils/utils/throttle";
@@ -43,7 +42,7 @@ export const PlScroll = designComponent({
         onVerticalScrollBottom: (e: Event) => true,
         onVerticalScrollCenter: (e: Event) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['content', 'default'],
     provideRefer: true,
     setup({props, event: {emit, on, off}, slots}) {

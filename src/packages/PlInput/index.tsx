@@ -1,4 +1,4 @@
-import {useClasses, computed,InheritHtmlElement, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, createEventListener} from "plain-ui-composition";
+import {computed, createEventListener, designComponent, onMounted, PropType, reactive, useClasses, useModel, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {unit} from "plain-utils/string/unit";
@@ -45,7 +45,7 @@ export const PlInput = designComponent({
         placeholder: {type: String},
         nativeAttrs: {type: Object},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any) => true,
         onFocus: (e: FocusEvent) => true,

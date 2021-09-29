@@ -1,6 +1,6 @@
 import './popper.scss'
 import {createError} from "../../utils/createError";
-import {InheritHtmlElement, useClasses, SimpleFunction, computed, designComponent, getCurrentInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch, nextIndex} from "plain-ui-composition";
+import {computed, designComponent, getCurrentInstance, markRaw, nextIndex, onBeforeUnmount, onMounted, PropType, reactive, SimpleFunction, useClasses, useModel, useNumber, useRefs, useStyles, watch} from "plain-ui-composition";
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "./trigger/PopperTrigger";
 import {getElement} from "../../utils/getElement";
 import {delay} from "plain-utils/utils/delay";
@@ -41,7 +41,7 @@ export const PlPopper = designComponent({
         popperAttrs: {type: Object},                                // 给popper dom节点传递的属性
         title: {type: String},                                      // 标题
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     inheritAttrs: false,
     emits: {
         onUpdateModelValue: (val?: boolean) => true,

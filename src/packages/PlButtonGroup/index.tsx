@@ -1,8 +1,7 @@
-import {computed, designComponent, InheritHtmlElement, inject, provide, useRefs} from 'plain-ui-composition'
+import {computed, designComponent, inject, provide, useClasses, useRefs} from 'plain-ui-composition'
 import './button-group.scss'
 import {DEFAULT_STATUS, StyleMode, StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {useClasses} from "plain-ui-composition";
 
 
 interface ButtonModeProviderValue {
@@ -32,7 +31,7 @@ export const PlButtonGroup = designComponent({
         ...StyleProps,
     },
     slots: ['default'],
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})

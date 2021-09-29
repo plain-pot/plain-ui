@@ -1,4 +1,4 @@
-import {computed,InheritHtmlElement, designComponent, PropType, SimpleFunction, useClasses, useModel, useRefs, useStyles} from 'plain-ui-composition'
+import {computed, designComponent, PropType, SimpleFunction, useClasses, useModel, useRefs, useStyles} from 'plain-ui-composition'
 import './radio.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
@@ -28,7 +28,7 @@ export const PlRadio = designComponent({
     scopeSlots: {
         default: (scope: { checked: boolean, status: 'check' | 'uncheck', click: SimpleFunction }) => {},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any) => true,
         onClick: (e?: MouseEvent) => true,

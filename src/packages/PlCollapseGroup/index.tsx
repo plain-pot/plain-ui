@@ -1,4 +1,4 @@
-import {designComponent,InheritHtmlElement, useModel, useRefs} from "plain-ui-composition";
+import {designComponent, useModel, useRefs} from "plain-ui-composition";
 
 export const PlCollapseGroup = designComponent({
     name: 'pl-collapse-group',
@@ -11,7 +11,7 @@ export const PlCollapseGroup = designComponent({
     emits: {
         onUpdateModelValue: (val: string | string[] | undefined) => true
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})

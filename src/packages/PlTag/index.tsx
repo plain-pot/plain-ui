@@ -1,4 +1,4 @@
-import {useClasses, designComponent, useRefs, InheritHtmlElement, createEventListener} from "plain-ui-composition";
+import {createEventListener, designComponent, useClasses, useRefs} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import PlIcon from "../PlIcon";
@@ -17,7 +17,7 @@ export const PlTag = designComponent({
         onClick: (e: MouseEvent) => true,
         onClose: (e: MouseEvent) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})

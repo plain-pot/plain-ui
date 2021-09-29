@@ -1,7 +1,5 @@
-import {designComponent, InheritHtmlElement, PropType, useRefs, useStyles} from "plain-ui-composition"
+import {designComponent, PropType, SingleClass, useClasses, useRefs, useStyles} from "plain-ui-composition"
 import {PlRow} from "../PlRow";
-import {useClasses} from "plain-ui-composition";
-import {SingleClass} from "plain-ui-composition"
 
 
 export type GridColSize = number | {
@@ -23,7 +21,7 @@ export const PlCol = designComponent({
         md: {type: [Number, Object] as PropType<GridColSize>},
         lg: {type: [Number, Object] as PropType<GridColSize>},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots}) {
 

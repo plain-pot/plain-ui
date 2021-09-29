@@ -1,4 +1,4 @@
-import {designComponent, InheritHtmlElement, useRefs} from "plain-ui-composition";
+import {designComponent, useRefs} from "plain-ui-composition";
 
 export const PlInputInnerTags = designComponent({
     name: 'pl-input-inner-tags',
@@ -11,7 +11,7 @@ export const PlInputInnerTags = designComponent({
     scopeSlots: {
         default: (scope: { item: any, index: number }) => {},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props, scopeSlots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         return {

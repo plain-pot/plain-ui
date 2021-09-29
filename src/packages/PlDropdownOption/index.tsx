@@ -1,4 +1,4 @@
-import {useClasses, designComponent,InheritHtmlElement, useRefs} from "plain-ui-composition";
+import {designComponent, useClasses, useRefs} from "plain-ui-composition";
 import PlDropdownMenu from "../PlDropdownMenu";
 import PlIcon from "../PlIcon";
 
@@ -15,7 +15,7 @@ export const PlDropdownOption = designComponent({
     emits: {
         onClick: (e: MouseEvent) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
 

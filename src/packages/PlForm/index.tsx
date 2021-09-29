@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, designComponent,InheritHtmlElement, PropType, reactive, useClasses, useNumber, useStyles, watch} from "plain-ui-composition";
+import {computed, designComponent, PropType, reactive, useClasses, useNumber, useStyles, watch} from "plain-ui-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormAssociateFields, FormValidateError, FormValidateTrigger, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
@@ -45,7 +45,7 @@ export const PlForm = designComponent({
         /*字段值变化事件*/
         onFieldValueChange: (field: string, newVal: any, oldVal: any) => true,
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
 

@@ -1,9 +1,8 @@
 import './progress-mini.scss'
-import {computed,InheritHtmlElement, designComponent, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
+import {computed, designComponent, useClasses, useModel, useRefs, useStyles, watch} from "plain-ui-composition";
 import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
-import {useClasses} from "plain-ui-composition";
 
 export const PlProgressMini = designComponent({
     name: 'pl-progress-mini',
@@ -13,7 +12,7 @@ export const PlProgressMini = designComponent({
         innerColor: {type: String, default: 'rgba(0,0,0,0.25)'},
         round: {type: Boolean},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

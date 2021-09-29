@@ -1,17 +1,13 @@
-import {computed, designComponent, InheritHtmlElement, reactive, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
+import {computed, designComponent, PropType, reactive, useClasses, useNumber, useRefs, useStyles, watch} from 'plain-ui-composition'
 import './button.scss'
-import {PropType} from "plain-ui-composition";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
-
-import {useClasses} from "plain-ui-composition";
 import {PlLoading} from "../PlLoading";
 import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {ButtonModeProvider} from "../PlButtonGroup";
 import {useClickWave} from "../../directives/ClickWave";
-import {HtmlHTMLAttributes} from "vue";
 
 console.log('load button component')
 
@@ -35,7 +31,7 @@ export const PlButton = designComponent({
         type: {type: String, default: 'button'},
         nativeAttrs: {type: Object},
     },
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLButtonElement,
     emits: {
         onClick: (e: MouseEvent) => true,
     },

@@ -1,5 +1,4 @@
-import {computed, designComponent, useRefs,InheritHtmlElement} from "plain-ui-composition";
-import {useClasses} from "plain-ui-composition";
+import {computed, designComponent, useClasses, useRefs} from "plain-ui-composition";
 import {StepUtils} from "./step.utils";
 import {useCollect} from "../../use/useCollect";
 import {PlStep} from "../PlStep";
@@ -17,7 +16,7 @@ export const PlStepGroup = designComponent({
         dotIcon: {type: Boolean},                                       // 图标是否采用小圆点替代
     },
     slots: ['default'],
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

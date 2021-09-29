@@ -1,11 +1,11 @@
 import './tab.scss'
-import {designComponent, InheritHtmlElement, useRefs} from "plain-ui-composition";
+import {designComponent, useRefs} from "plain-ui-composition";
 import {TabCollector} from "../PlTabs";
 
 export const PlTab = designComponent({
     name: 'pl-tab',
     inheritAttrs: false,
-    inheritPropsType: InheritHtmlElement,
+    inheritPropsType: HTMLDivElement,
     props: {
         title: {type: String},                              // 页签标题
         init: {type: Boolean},                              // 是否立即初始化（默认第一次点击页签的时候才会初始化内容）
