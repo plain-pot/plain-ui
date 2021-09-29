@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/plain-design@0.0.61/dist/plain-design.min.css"/>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdn.bootcdn.net/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react/17.0.1/umd/react.production.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react-dom/17.0.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/plain-design-composition@0.0.100/dist/plain-design-composition.min.js"></script>
+<script src="https://unpkg.com/plain-design-composition@0.0.100/plugins/babel-plugin-react-model.browser.js"></script>
+<script src="https://unpkg.com/plain-design@0.0.61/dist/plain-design.min.js"></script>
+
+<script type="text/jsx" data-plugins="JSXModel">
+    console.log({
+        React,
+        ReactDOM,
+        PlainDesignComposition,
+        PlainDesign,
+    })
+    const {PlButton, PlInput, PlTagInput, PlCollapse, PlRoot, $$message} = PlainDesign
+    const {reactive, designPage} = PlainDesignComposition
+    const App = designPage(() => {
+        const state = reactive({
+            formData: {
+                tagList: ['hello'],
+            },
+            text: 'hello world',
+        })
+        return () => {
+            return (
+                <div>
+                    <PlRoot>
+                        <PlCollapse title="BUTTON">
+                            <PlButton onClick={() => $$message('hello world')}>
+                                this is app
+                            </PlButton>
+                        </PlCollapse>
+                        <PlCollapse title="Input">
+                            <PlInput status="priamry" v-model={state.text}/>
+                            {state.text}
+                        </PlCollapse>
+                        <PlCollapse title="TagInput">
+                            <PlTagInput v-model={state.formData.tagList}/>
+                            {JSON.stringify(state.formData.tagList)}
+                        </PlCollapse>
+                    </PlRoot>
+                </div>
+            )
+        }
+    })
+    ReactDOM.render(<App/>, document.querySelector('#app'))
+</script>
+</body>
+</html>

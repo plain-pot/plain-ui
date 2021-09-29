@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../dist/plain-ui.min.css"/>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.1.5/vue.global.min.js"></script>
+<script src="./plain-ui-composition.min.js"></script>
+<script src="../../dist/plain-ui.min.js"></script>
+<script>
+    const {createApp, defineComponent, reactive} = Vue
+    const {} = PlainUiComposition
+    const {PlButton, PlInput, PlTagInput, PlRoot, $$message} = PlainUi
+
+    const Entry = defineComponent({
+        template: `
+          <button @click="state.count++">count:{{ state.count }}</button>
+        `,
+        setup() {
+            const state = reactive({
+                count: 10
+            })
+            return {
+                state,
+            }
+        },
+    })
+
+    createApp(Entry).mount(document.querySelector('#app'))
+</script>
+</body>
+</html>
