@@ -1,11 +1,15 @@
 const path = require('path')
 const resolve = (dir) => path.join(__dirname, './', dir)
+const {DefinePlugin} = require('webpack')
 
-const APP_NAME = 'main-application'
+const config = {
+    title: 'PLAIN UI',                                      // 单页面应用title
+    APP_NAME: 'PLAIN_UI_APPLICATION',                       // 每个应用的唯一标识，没有格式限制，只能用下划线命名，因为最后会输出为一个变量名
+    publicPath: '/plain-ui/',                               // 部署路径
+}
 
 module.exports = {
-    publicPath: '/plain-ui/',                       // plain-ui仓库专用
-    // publicPath: '/plain-ui-pro/',                // plain-ui-pro 仓库专用
+    publicPath: config.publicPath,                       // plain-ui仓库专用
     devServer: {
         port: '3334',
         // 关闭主机检查，使微应用可以被 fetch
@@ -36,12 +40,18 @@ module.exports = {
     configureWebpack: {
         output: {
             // 微应用的包名，这里与主应用中注册的微应用名称一致
-            library: `CustomApplication${APP_NAME}`,
+            library: `CustomApplication${config.APP_NAME}`,
             // 将你的 library 暴露为所有的模块定义下都可运行的方式
             libraryTarget: "umd",
             // 按需加载相关，设置为 webpackJsonp_vue-projec 即可
-            jsonpFunction: `webpackJsonp_${APP_NAME}_project`,
+            jsonpFunction: `webpackJsonp_${config.APP_NAME}_project`,
         },
+        plugins: [
+            new DefinePlugin({
+                ENV: JSON.stringify(config),
+                APP_ENV: JSON.stringify(require(resolve(`story/env/config/${process.env.APP_ENV}.js`)))
+            }),
+        ]
     },
     chainWebpack: config => {
         config.plugins

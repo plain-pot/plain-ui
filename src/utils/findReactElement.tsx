@@ -1,8 +1,8 @@
-import {ReactElement, VueNode} from "react";
-import {isElement, isFragment} from 'react-is'
+import {VueNode} from "plain-design-composition";
 
-export function findRreactElement(node: VueNode, isMatch: (node: ReactElement) => boolean): VueNode[] | null {
-    if (node == null) {return null}
+export function findRreactElement(node: VueNode, isMatch: (node: VueNode) => boolean): VueNode[] | null {
+    return []
+    /*if (node == null) {return null}
     const type = typeof node
     switch (type) {
         case "number":
@@ -28,5 +28,5 @@ export function findRreactElement(node: VueNode, isMatch: (node: ReactElement) =
         }
     }
 
-    return null
+    return null*/
 }

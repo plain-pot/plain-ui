@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "dev": "cross-env APP_ENV=prod vue-cli-service serve",
+    "build": "cross-env APP_ENV=prod vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "async-validator": "^3.5.2",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
     "plain-ui-composition": "0.0.17",
@@ -27,6 +29,8 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "axios": "^0.21.4",
+    "cross-env": "^7.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",

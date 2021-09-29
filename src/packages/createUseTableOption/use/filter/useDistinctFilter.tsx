@@ -178,7 +178,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         const sortData = await hooks.onCollectSortData.exec([])
 
         const tableSlots = freezeState.baseTableRef()!.slots.default()
-        const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
+        // const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
         // console.log({tableSlots, findReactNode,})
 
         const Content = designPage(() => {
@@ -196,7 +196,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
             return () => <>
                 <PlTablePro option={tableOption}>
                     <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={state.data.get(plc)?.rows}/>
-                    {findReactNode}
+                    {/*{findReactNode}*/}
                 </PlTablePro>
             </>
         })

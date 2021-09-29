@@ -1,0 +1,1 @@
+export const env = APP_ENV

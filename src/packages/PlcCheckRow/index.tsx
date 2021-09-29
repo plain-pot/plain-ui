@@ -96,12 +96,14 @@ export const PlcCheckRow = designComponent({
                 head: () => (
                     <PlDropdown
                         {...{placement: 'bottom-center'}}
-                        default={() => <PlCheckbox checkStatus={status.value}/>}
-                        popper={() => <PlDropdownMenu>
-                            <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
-                            <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
-                            <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
-                        </PlDropdownMenu>}
+                        v-slots={{
+                            default: () => <PlCheckbox checkStatus={status.value}/>,
+                            popper: () => <PlDropdownMenu>
+                                <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
+                                <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
+                                <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
+                            </PlDropdownMenu>,
+                        }}
                     />
                 )
             }
