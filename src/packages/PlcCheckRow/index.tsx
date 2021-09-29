@@ -13,7 +13,7 @@ import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import {TableNode} from "../PlTable/table/use/useTableNode";
 
 export const PlcCheckRow = designComponent({
-    name: 'plc-check',
+    name: 'plc-check-row',
     props: {
         ...createPlcPropOptions({
             autoFixedLeft: true,
@@ -112,7 +112,6 @@ export const PlcCheckRow = designComponent({
         return {
             refer: {
                 ...refer,
-                isCheckable,
                 isCheck,
                 toggle,
                 ...methods,
