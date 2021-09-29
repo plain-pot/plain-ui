@@ -93,8 +93,8 @@ export function useTableOptionModifyForm() {
                                     contentAlign="space-between"
                                 >
                                     {{
-                                        default: renderBodyCell({node: state.node, plc, formEdit: true}).body,
-                                        suffix: <PlButton icon="el-icon-minus" mode="stroke" onClick={() => handler.rmPlc(plc, index)}/>
+                                        default:()=> renderBodyCell({node: state.node, plc, formEdit: true}).body,
+                                        suffix: ()=><PlButton icon="el-icon-minus" mode="stroke" onClick={() => handler.rmPlc(plc, index)}/>
                                     }}
                                 </PlFormItem>
                             ))}
