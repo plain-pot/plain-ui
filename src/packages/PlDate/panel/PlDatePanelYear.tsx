@@ -4,6 +4,7 @@ import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
 import {mergeProps} from "plain-ui-composition"
+import {Transition} from "vue";
 
 export const PlDatePanelYear = designComponent({
     name: 'pl-date-panel-year',
@@ -75,18 +76,20 @@ export const PlDatePanelYear = designComponent({
                     center: <span class="pl-date-base-panel-header-static-label">{data.value.title}</span>,
                     right: <PlButton icon="el-icon-d-arrow-right" mode="text" size={StyleSize.mini} onClick={methods.nextYearList}/>,
                     content: (
-                        <ul{...{
-                            class: 'pl-date-base-panel-year-list',
-                            key: data.value.selectYear,
-                            direction: "vertical"
-                        }}>
-                            {data.value.list.map(item => DatePanelItemWrapper({
-                                item,
-                                Node: (<li key={item.label} class="pl-date-base-panel-year-item"/>),
-                                onClick: handler.onClick,
-                                onMouseenter: handler.onMouseenter,
-                            }))}
-                        </ul>
+                        <Transition name={`pl-transition-slide-${state.slide}`}>
+                            <ul{...{
+                                class: 'pl-date-base-panel-year-list',
+                                key: data.value.selectYear,
+                                direction: "vertical"
+                            }}>
+                                {data.value.list.map(item => DatePanelItemWrapper({
+                                    item,
+                                    Node: (<li key={item.label} class="pl-date-base-panel-year-item"/>),
+                                    onClick: handler.onClick,
+                                    onMouseenter: handler.onMouseenter,
+                                }))}
+                            </ul>
+                        </Transition>
                     )
                 })
                 // return mergeProps({child: Wrapper, attrs: {class: 'pl-date-base-panel-year', direction: props.direction,}})

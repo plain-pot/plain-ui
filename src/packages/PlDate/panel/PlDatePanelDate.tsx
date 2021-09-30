@@ -7,6 +7,9 @@ import {StyleSize} from "../../../use/useStyle";
 import {PlDatePanelMonth} from "./PlDatePanelMonth";
 import {zeroize} from "plain-utils/string/zeroize";
 import {PlTimePanel} from "../../PlTime/panel/PlTimePanel";
+import {Transition} from "vue";
+import PlItem from "../../PlItem";
+import PlList from "../../PlList";
 
 export const PlDatePanelDate = designComponent({
     name: 'pl-date-panel-date',
@@ -211,19 +214,22 @@ export const PlDatePanelDate = designComponent({
                                 </li>
                             ))}
                         </ul>
-                        <ul class={'pl-date-base-panel-date-list'} {...createEventListener({onMouseleave: emit.onMouseleaveDateList})}>
+                        <PlList class="pl-date-base-panel-date-list" tag="ul" {...createEventListener({onMouseleave: emit.onMouseleaveDateList})}>
                             {dateList.value.map((item, index) => (
                                 DatePanelItemWrapper({
                                     item,
                                     onClick: externalHandler.onClick,
                                     onMouseenter: externalHandler.onMouseenter,
-                                    Node: <li
-                                        class={(['pl-date-base-panel-date-item', {'pl-date-base-panel-date-item-other-month': !item.externals.isSelectMonth,}])}
-                                        key={item.externals.isSelectMonth ? item.pd.date : `_${index}`}
+                                    Node: <PlItem
+                                        {...{
+                                            tag: 'li',
+                                            class: ['pl-date-base-panel-date-item', {'pl-date-base-panel-date-item-other-month': !item.externals.isSelectMonth,}],
+                                            key: item.externals.isSelectMonth ? item.pd.date : `_${index}`,
+                                        }}
                                     />,
                                 })
                             ))}
-                        </ul>
+                        </PlList>
                     </>),
                 })
                 // return mergeProps({child: Wrapper, attrs: {}})
@@ -249,7 +255,9 @@ export const PlDatePanelDate = designComponent({
         return {
             render: () => (
                 <div class="pl-date-base-panel-date-wrapper pl-date-base-panel">
-                    {render[viewModel.value === DateView.year ? DateView.month : viewModel.value]()}
+                    <Transition name={`pl-transition-slide-${state.slide}`}>
+                        {render[viewModel.value === DateView.year ? DateView.month : viewModel.value]()}
+                    </Transition>
                 </div>
             )
         }
