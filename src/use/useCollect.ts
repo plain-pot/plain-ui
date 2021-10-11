@@ -26,6 +26,7 @@ function useCollectInParentInner() {
                         .filter(
                             (childNode: any) =>
                                 childNode.nodeName !== '#comment' &&
+                                childNode.nodeName !== '#text' &&
                                 (!childNode.style || childNode.style.display !== 'none'),
                         )
                         .indexOf(el);
