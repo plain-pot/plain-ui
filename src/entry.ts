@@ -40,6 +40,7 @@ import PlImage from "./packages/PlImage";
 import PlImageUploader from "./packages/PlImageUploader";
 import PlInput from "./packages/PlInput";
 import PlList from "./packages/PlList";
+import PlItem from "./packages/PlItem";
 import PlLoading from "./packages/PlLoading";
 import PlLoadingMask from "./packages/PlLoadingMask";
 import PlNumber from "./packages/PlNumber";
@@ -165,6 +166,7 @@ export {
     PlImageUploader,
     PlInput,
     PlList,
+    PlItem,
     PlLoading,
     PlLoadingMask,
     PlNumber,
