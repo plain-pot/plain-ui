@@ -27,7 +27,7 @@ export default designComponent({
     props: {
         ...createPlcPropOptions({
             autoFixedLeft: true,
-            order: -9996,
+            order: -9994,
             width: size,
             noPadding: true,
             bodyCls: 'plc-tree-node',
