@@ -1,6 +1,6 @@
 {
   "name": "plain-ui",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "scripts": {
     "dev": "cross-env APP_ENV=prod vue-cli-service serve",
     "build": "cross-env APP_ENV=prod vue-cli-service build",
