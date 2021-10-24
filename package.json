@@ -26,7 +26,7 @@
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
     "plain-ui-composition": "0.0.25",
-    "plain-utils": "^0.1.27"
+    "plain-utils": "^0.1.29"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",

@@ -1,4 +1,4 @@
-import {designPage} from "plain-ui-composition";
+import {designPage, VueNode} from "plain-ui-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import {PlSelect} from "../../../src/packages/PlSelect";
@@ -6,6 +6,202 @@ import {PlSelectOption} from "../../../src/packages/PlSelectOption";
 import {PlSelectGroup} from "../../../src/packages/PlSelectGroup";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {reactive} from "vue";
+// @ts-ignore
+import addressData from '../data/address.json'
+import {defer, DFD} from "plain-utils/utils/defer";
+import {delay} from "plain-utils/utils/delay";
+import {PlLoading} from "../../../src";
+import {debounce} from "plain-utils/utils/debounce";
+
+export const asyncDemo = designPage(() => {
+    const state = reactive({
+        formData: {
+            code: null as any,
+            display: null as null | string,
+        },
+    })
+
+    const data = (addressData as any[]).map(({name, code}) => ({name, code}))
+
+    const selectConfig = reactive({
+        // 保存输入的搜索关键字，用来判断显示的内容
+        filterText: '',
+        // 选项数据
+        options: [] as { label: string, val: string }[],
+        // 任何选项都显示，因为选项都是通过搜索关键字异步加载出来的
+        filterMethod: () => true,
+        // 自定义无数据时显示的内容
+        empty: (defaultEmpty: () => VueNode) => {
+            if (selectConfig.dfd) {
+                return null
+            } else {
+                if (!selectConfig.filterText) {
+                    return (
+                        <div class="pl-background-disabled-text" style={{padding: '12px 0', textAlign: 'center'}}>
+                            请输入搜索关键字！
+                        </div>
+                    )
+                }
+                return defaultEmpty()
+            }
+        },
+        // 只要promise存在，就显示加载状态
+        dfd: null as null | DFD,
+        // 当搜索关键字变化的时候，刷线promise
+        onSearchChange: debounce(async (text: string | null) => {
+            if (!!selectConfig.dfd) {
+                selectConfig.dfd.reject('')
+                selectConfig.dfd = null
+            }
+            selectConfig.filterText = text!
+            if (!text) {
+                selectConfig.options = []
+            } else {
+                // 这里模拟网络异步请求动作，等待1s~2s得到匹配的数据
+                selectConfig.dfd = defer<any[]>()
+                const timer = Math.random() * 1000 + 1000
+                await delay(timer)
+                selectConfig.options = data.filter(i => (i.name + i.code).indexOf(text) > -1).map(({name, code}) => ({label: name, val: code}))
+                selectConfig.dfd = null
+            }
+        }, 300),
+        // 监听选中变化动作
+        onChange: (val?: any) => {
+            if (!val) {
+                state.formData = {
+                    code: null,
+                    display: null,
+                }
+            } else {
+                state.formData = {
+                    code: val,
+                    display: selectConfig.options.find(i => i.val === val)?.label || null
+                }
+            }
+        },
+    })
+
+    return () => <>
+        <DemoRow title="异步数据">
+            <PlSelect
+                modelValue={state.formData.code}
+                filterMethod={selectConfig.filterMethod}
+                empty={selectConfig.empty}
+                displayValue={state.formData.display!}
+
+                onInputChange={selectConfig.onSearchChange}
+                onChange={selectConfig.onChange}
+            >
+                {!!selectConfig.dfd ? (
+                    <div class="pl-background-disabled-text" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 0'}}>
+                        <PlLoading style={{fontSize: '24px'}}/>
+                        <span>数据加载中</span>
+                    </div>
+                ) : (
+                    selectConfig.options.map((opt, index) => (
+                        <PlSelectOption label={opt.label} val={opt.val} key={index}/>
+                    ))
+                )}
+            </PlSelect>
+            {JSON.stringify({optionsLen: selectConfig.options.length, val: state.formData.code, loading: !!selectConfig.dfd})}
+        </DemoRow>
+    </>
+})
+
+export const asyncDemoWithInitialValue = designPage(() => {
+    const state = reactive({
+        formData: {
+            code: '440000' as any,
+            display: '广东省' as any,
+        },
+    })
+
+    const data = (addressData as any[]).map(({name, code}) => ({name, code}))
+
+    const selectConfig = reactive({
+        // 保存输入的搜索关键字，用来判断显示的内容
+        filterText: '',
+        // 选项数据
+        options: [] as { label: string, val: string }[],
+        // 任何选项都显示，因为选项都是通过搜索关键字异步加载出来的
+        filterMethod: () => true,
+        // 自定义无数据时显示的内容
+        empty: (defaultEmpty: () => VueNode) => {
+            if (selectConfig.dfd) {
+                return null
+            } else {
+                if (!selectConfig.filterText) {
+                    return (
+                        <div class="pl-background-disabled-text" style={{padding: '12px 0', textAlign: 'center'}}>
+                            请输入搜索关键字！
+                        </div>
+                    )
+                }
+                return defaultEmpty()
+            }
+        },
+        // 只要promise存在，就显示加载状态
+        dfd: null as null | DFD,
+        // 当搜索关键字变化的时候，刷线promise
+        onSearchChange: debounce(async (text: string | null) => {
+            if (!!selectConfig.dfd) {
+                selectConfig.dfd.reject('')
+                selectConfig.dfd = null
+            }
+            selectConfig.filterText = text!
+            if (!text) {
+                selectConfig.options = []
+            } else {
+                // 这里模拟网络异步请求动作，等待1s~2s得到匹配的数据
+                selectConfig.dfd = defer<any[]>()
+                const timer = Math.random() * 1000 + 1000
+                await delay(timer)
+                selectConfig.options = data.filter(i => (i.name + i.code).indexOf(text) > -1).map(({name, code}) => ({label: name, val: code}))
+                selectConfig.dfd = null
+            }
+        }, 300),
+        // 监听选中变化动作
+        onChange: (val?: any) => {
+            if (!val) {
+                state.formData = {
+                    code: null,
+                    display: null,
+                }
+            } else {
+                state.formData = {
+                    code: val,
+                    display: selectConfig.options.find(i => i.val === val)?.label || null
+                }
+            }
+        },
+    })
+
+    return () => <>
+        <DemoRow title="异步数据:带初始值">
+            <PlSelect
+                modelValue={state.formData.code}
+                filterMethod={selectConfig.filterMethod}
+                empty={selectConfig.empty}
+                displayValue={state.formData.display!}
+
+                onInputChange={selectConfig.onSearchChange}
+                onChange={selectConfig.onChange}
+            >
+                {!!selectConfig.dfd ? (
+                    <div class="pl-background-disabled-text" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 0'}}>
+                        <PlLoading style={{fontSize: '24px'}}/>
+                        <span>数据加载中</span>
+                    </div>
+                ) : (
+                    selectConfig.options.map((opt, index) => (
+                        <PlSelectOption label={opt.label} val={opt.val} key={index}/>
+                    ))
+                )}
+            </PlSelect>
+            {JSON.stringify({optionsLen: selectConfig.options.length, val: state.formData.code, loading: !!selectConfig.dfd})}
+        </DemoRow>
+    </>
+})
 
 export default designPage(() => {
 
