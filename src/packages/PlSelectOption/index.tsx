@@ -7,6 +7,7 @@ import {SelectCollector} from "../PlSelect";
 
 export const PlSelectOption = designComponent({
     name: 'pl-select-option',
+    inheritPropsType: HTMLDivElement,
     props: {
         label: {type: [String, Number], required: true},
         val: {type: [String, Number], required: true},
@@ -15,8 +16,11 @@ export const PlSelectOption = designComponent({
 
         group: {type: Boolean},
     },
+    emits: {
+        onClick: (e: MouseEvent) => true,
+    },
     slots: ['default'],
-    setup({props, slots}) {
+    setup({props, slots, event: {emit}}) {
 
         const {refs, onRef} = useRefs({
             el: HTMLDivElement,
@@ -45,7 +49,8 @@ export const PlSelectOption = designComponent({
         ])
 
         const handler = {
-            click: () => {
+            click: (e: MouseEvent) => {
+                emit.onClick(e)
                 if (props.group) return
                 !!panel && panel.handler.clickOption(refer)
             }
@@ -55,6 +60,7 @@ export const PlSelectOption = designComponent({
             refer,
             render: () => {
                 return (
+                    /*必须要有这个div，不然收集item的时候，没法确定顺序*/
                     <div
                         {...{
                             ref: onRef.el,
