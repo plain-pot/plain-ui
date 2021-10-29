@@ -80,8 +80,8 @@ import PlAddress from "./packages/PlAddress";
 import PlOv from "./packages/PlOv";
 import PlTabs from "./packages/PlTabs";
 import PlTab from "./packages/PlTab";
-
 import PlDateRange from "./packages/PlDateRange";
+import PlAutoComplete from "./packages/PlAutoComplete";
 
 import useColorPicker from "./packages/useColorPicker";
 import useContextmenu from "./packages/useContextmenu";
@@ -206,8 +206,8 @@ export {
     PlOv,
     PlTab,
     PlTabs,
-
     PlDateRange,
+    PlAutoComplete,
 
     useColorPicker,
     useContextmenu,
