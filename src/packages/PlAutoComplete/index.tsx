@@ -8,6 +8,7 @@ import {handleKeyboard} from "../keyboard";
 import PlSelectOption from "../PlSelectOption";
 
 export const PlAutoComplete = designComponent({
+    name: 'pl-auto-complete',
     props: {
         modelValue: {type: [String, Number]},                                           // 双向绑定值
         suggestion: {type: Array as PropType<string[]>},                                // 建议的输入文本
