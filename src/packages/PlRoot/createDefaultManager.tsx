@@ -1,7 +1,6 @@
 import {designComponent, useRefList, ref} from "plain-ui-composition";
 import {delay} from "plain-utils/utils/delay";
 
-
 /**
  * 创建一个默认的 root service manager组件
  * @author  韦胜健
@@ -15,6 +14,7 @@ export function createDefaultManager<Option>(
                 isShow: { value: boolean },
                 isOpen: { value: boolean },
                 service: (option: Option) => any,
+                using?: boolean,
             }
         }
     },
@@ -40,17 +40,23 @@ export function createDefaultManager<Option>(
              * @date    2020/11/26 9:23
              */
             const service = async (option: Option): Promise<void> => {
+                const markItem = (item: any) => {
+                    item.using = true
+                    setTimeout(() => item.using = false)
+                    return item.service(option)
+                }
+
                 if (isItemAvailable) {
                     const item = isItemAvailable(refList, option)
                     if (!!item) {
-                        return item.service(option)
+                        return markItem(item)
                     }
                 } else {
                     for (let i = 0; i < refList.length; i++) {
                         const item = refList[i];
-                        const {isShow, isOpen} = item
-                        if (!isShow.value && !isOpen.value) {
-                            return item.service(option)
+                        const {isShow, isOpen, using} = item
+                        if (!isShow.value && !isOpen.value && !using) {
+                            return markItem(item)
                         }
                     }
                 }
