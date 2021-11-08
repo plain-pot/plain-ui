@@ -25,7 +25,7 @@
     "file-saver": "^2.0.5",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
-    "plain-ui-composition": "0.0.32",
+    "plain-ui-composition": "0.0.34",
     "plain-utils": "^0.1.29"
   },
   "devDependencies": {
