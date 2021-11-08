@@ -16,7 +16,7 @@
   "module": "dist/plain-ui.commonjs.min.js",
   "typings": "src/index.ts",
   "peerDependencies": {
-    "vue": "~3.1.5"
+    "vue": "~3.2.21"
   },
   "dependencies": {
     "async-validator": "^3.5.2",
@@ -25,7 +25,7 @@
     "file-saver": "^2.0.5",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
-    "plain-ui-composition": "0.0.25",
+    "plain-ui-composition": "0.0.32",
     "plain-utils": "^0.1.29"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "~3.1.5",
+    "@vue/compiler-sfc": "^3.2.21",
     "@vue/eslint-config-typescript": "^7.0.0",
     "autoprefixer": "^8.6.5",
     "axios": "^0.21.4",
@@ -53,7 +53,7 @@
     "sass-loader": "^8.0.2",
     "ts-node": "^10.2.1",
     "typescript": "~4.1.5",
-    "vue": "~3.1.5",
+    "vue": "^3.2.21",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2"
   }

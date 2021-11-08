@@ -1,7 +1,8 @@
-import Schema, {RuleItem} from 'async-validator'
+import Schema from 'async-validator'
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {defer} from "plain-utils/utils/defer";
-import { PlainObject } from 'plain-utils/utils/event';
+import {PlainObject} from 'plain-utils/utils/event';
+import {iRuleItem} from "./async.validator.utils";
 
 const logError = (msg: string) => {console.error(`PlForm:${msg}`)}
 
@@ -34,7 +35,7 @@ export type tFormRuleValidatorResult = string | null | undefined | void
  * @author  韦胜健
  * @date    2021/5/30 12:27
  */
-export type tFormRuleItem = Omit<RuleItem, 'required'> & {
+export type tFormRuleItem = Omit<iRuleItem, 'required'> & {
     required?: boolean | tFormRuleValidator,
 
     trigger?: string,
@@ -82,7 +83,7 @@ export const FormValidateUtils = {
     getRuleArray: (rule: tFormRuleItem | tFormRuleItem[]): tFormRuleItem[] => {
         return deepcopy(Array.isArray(rule) ? rule : [rule])
     },
-    getValueByField(field: string, formData: Record<string, any> | undefined | null, transform?: (val: any) => any) {
+    getValueByField(field: string, formData: Record<string, any> | undefined | null, transform?: (val: any, value: any) => any) {
         if (!formData) {
             return null
         }
@@ -99,7 +100,7 @@ export const FormValidateUtils = {
             }
             val = index == len - 1 ? value : null
         }
-        return !transform ? val : transform(val)
+        return !transform ? val : transform(val, formData)
     },
 }
 
@@ -209,7 +210,7 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
 
         const errorMessage = (typeof message === "function" ? message() : message) || requiredMessage
 
-        const requiredValidation: RuleItem["asyncValidator"] = async (rule, value, callback, source) => {
+        const requiredValidation: iRuleItem["asyncValidator"] = async (rule, value, callback, source) => {
             if (typeof required === "function") {return callback(await required(value, source, rule) || undefined)}
             if (value == null) {return callback(errorMessage)}
             if (typeof value === "string" && !value.trim()) {return callback(errorMessage)}
@@ -235,7 +236,7 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
             }
         })
         return prev
-    }, {} as Record<string, (RuleItem & { trigger?: string })[]>)
+    }, {} as Record<string, (iRuleItem & { trigger?: string })[]>)
 
     const methods = {
         getRules({field, trigger, associateFields}: {
@@ -253,8 +254,8 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
                 return fields
             })();
 
-            const fitRuleList = [] as (RuleItem & { trigger?: string })[]
-            const fitRuleMap = {} as Record<string, (RuleItem & { trigger?: string })[]>
+            const fitRuleList = [] as (iRuleItem & { trigger?: string })[]
+            const fitRuleMap = {} as Record<string, (iRuleItem & { trigger?: string })[]>
             Object.entries(rules).forEach(([f, rs]) => {
                 if (fs.indexOf(f) > -1) {
                     if (!fitRuleMap[f]) {fitRuleMap[f] = []}
@@ -274,12 +275,12 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
                 allErrors,
                 formData,
             }: {
-                rules: Record<string, RuleItem[]>,
+                rules: Record<string, iRuleItem[]>,
                 allErrors: FormValidateError[],
                 formData: any,
             }) => {
 
-            const validation = new Schema(rules)
+            const validation = new Schema(rules as any)
             const dfd = defer<FormValidateError[]>()
             // console.log('fitRuleMap', fitRuleMap, rules)
             const ruleKeys = Object.keys(rules)
@@ -294,7 +295,7 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
             return dfd.promise
         },
         validate: (formData: any) => {
-            const validation = new Schema(rules)
+            const validation = new Schema(rules as any)
             const dfd = defer<FormValidateError[]>()
             validation.validate(formData, undefined, (errors) => {
                 dfd.resolve((errors || []).map(i => ({

@@ -47,8 +47,8 @@ export const PlDialog = designComponent({
         cancelButton: {type: Boolean},                                          // 是否显示取消按钮
         closeOnConfirm: {type: Boolean, default: true},                         // 是否点击确认按钮之后自动关闭
         closeOnCancel: {type: Boolean, default: true},                          // 是否点击取消按钮之后自动关闭
-        confirmButtonText: {type: [String, Object], default: '确认'},            // 确认按钮文本
-        cancelButtonText: {type: [String, Object], default: '取消'},             // 取消按钮文本
+        confirmButtonText: {type: String, default: '确认'},                      // 确认按钮文本
+        cancelButtonText: {type: String, default: '取消'},                       // 取消按钮文本
         confirmOnEnter: {type: Boolean, default: true},                         // 是否在点击 enter 按键的时候触发 confirm 事件
         cancelOnEsc: {type: Boolean, default: true},                            // 是否在点击 esc 按键的时候出发 cancel事件
         disabledCancel: {type: Boolean},                                        // 禁用cancel，当任何动作触发cancel时，不做任何处理，适用于开发者完全控制对话框的情况，对话框内置的按钮以及键盘事件不做任何处理
